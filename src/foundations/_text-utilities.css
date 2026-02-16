@@ -1,0 +1,73 @@
+
+/* ============================================
+   Text Utilities
+   ============================================ */
+
+/* Text Alignment */
+.text--left { text-align: left; }
+.text--center { text-align: center; }
+.text--right { text-align: right; }
+.text--justify { text-align: justify; }
+
+/* Text Transform */
+.text--uppercase { text-transform: uppercase; }
+.text--lowercase { text-transform: lowercase; }
+.text--capitalize { text-transform: capitalize; }
+
+/* Font Weight */
+.text--100 { font-weight: 100; }
+.text--200 { font-weight: 200; }
+.text--300 { font-weight: 300; }
+.text--400 { font-weight: 400; }
+.text--500 { font-weight: 500; }
+.text--600 { font-weight: 600; }
+.text--700 { font-weight: 700; }
+.text--800 { font-weight: 800; }
+.text--900 { font-weight: 900; }
+.text--bold { font-weight: bold; }
+
+/* Font Style */
+.text--italic { font-style: italic; }
+.text--oblique { font-style: oblique; }
+
+/* Text Decoration */
+.text--underline { text-decoration: underline; }
+.text--line-through { text-decoration: line-through; }
+.text--overline { text-decoration: overline; }
+.text--decoration-none { text-decoration: none; }
+.text--underline-wavy { text-decoration: underline wavy; }
+.text--underline-dotted { text-decoration: underline dotted; }
+.text--underline-dashed { text-decoration: underline dashed; }
+
+/* Text Wrapping */
+.text--pretty { text-wrap: pretty; }
+.text--balance { text-wrap: balance; }
+.text--nowrap { white-space: nowrap; }
+
+@media (max-width: 1600px) {
+    /* Text Alignment - xl */
+    .text--left-xl { text-align: left; }
+    .text--center-xl { text-align: center; }
+    .text--right-xl { text-align: right; }
+}
+
+@media (max-width: 992px) {
+    /* Text Alignment - l */
+    .text--left-l { text-align: left; }
+    .text--center-l { text-align: center; }
+    .text--right-l { text-align: right; }
+}
+
+@media (max-width: 768px) {
+    /* Text Alignment - m */
+    .text--left-m { text-align: left; }
+    .text--center-m { text-align: center; }
+    .text--right-m { text-align: right; }
+}
+
+@media (max-width: 480px) {
+    /* Text Alignment - s */
+    .text--left-s { text-align: left; }
+    .text--center-s { text-align: center; }
+    .text--right-s { text-align: right; }
+}

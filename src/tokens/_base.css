@@ -1,0 +1,8 @@
+html {
+    font-size: 62.5%;
+}
+:root {
+    --background: var(--neutral-18);
+    --min-screen-width: 480px;
+    --max-screen-width: 1600px;
+}

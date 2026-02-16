@@ -1,0 +1,208 @@
+.color-red {
+    --brand-5: var(--red-5);
+    --brand-10: var(--red-10);
+    --brand-20: var(--red-20);
+    --brand-30: var(--red-30);
+    --brand-40: var(--red-40);
+    --brand-50: var(--red-50);
+    --brand-60: var(--red-60);
+    --brand-70: var(--red-70);
+    --brand-80: var(--red-80);
+    --brand-90: var(--red-90);
+    --brand-100: var(--red-100);
+}
+.color-orange {
+    --brand-5: var(--orange-5);
+    --brand-10: var(--orange-10);
+    --brand-20: var(--orange-20);
+    --brand-30: var(--orange-30);
+    --brand-40: var(--orange-40);
+    --brand-50: var(--orange-50);
+    --brand-60: var(--orange-60);
+    --brand-70: var(--orange-70);
+    --brand-80: var(--orange-80);
+    --brand-90: var(--orange-90);
+    --brand-100: var(--orange-100);
+}
+.color-amber {
+    --brand-5: var(--amber-5);
+    --brand-10: var(--amber-10);
+    --brand-20: var(--amber-20);
+    --brand-30: var(--amber-30);
+    --brand-40: var(--amber-40);
+    --brand-50: var(--amber-50);
+    --brand-60: var(--amber-60);
+    --brand-70: var(--amber-70);
+    --brand-80: var(--amber-80);
+    --brand-90: var(--amber-90);
+    --brand-100: var(--amber-100);
+}
+.color-yellow {
+    --brand-5: var(--yellow-5);
+    --brand-10: var(--yellow-10);
+    --brand-20: var(--yellow-20);
+    --brand-30: var(--yellow-30);
+    --brand-40: var(--yellow-40);
+    --brand-50: var(--yellow-50);
+    --brand-60: var(--yellow-60);
+    --brand-70: var(--yellow-70);
+    --brand-80: var(--yellow-80);
+    --brand-90: var(--yellow-90);
+    --brand-100: var(--yellow-100);
+}
+.color-lime {
+    --brand-5: var(--lime-5);
+    --brand-10: var(--lime-10);
+    --brand-20: var(--lime-20);
+    --brand-30: var(--lime-30);
+    --brand-40: var(--lime-40);
+    --brand-50: var(--lime-50);
+    --brand-60: var(--lime-60);
+    --brand-70: var(--lime-70);
+    --brand-80: var(--lime-80);
+    --brand-90: var(--lime-90);
+    --brand-100: var(--lime-100);
+}
+.color-green {
+    --brand-5: var(--green-5);
+    --brand-10: var(--green-10);
+    --brand-20: var(--green-20);
+    --brand-30: var(--green-30);
+    --brand-40: var(--green-40);
+    --brand-50: var(--green-50);
+    --brand-60: var(--green-60);
+    --brand-70: var(--green-70);
+    --brand-80: var(--green-80);
+    --brand-90: var(--green-90);
+    --brand-100: var(--green-100);
+}
+.color-emerald {
+    --brand-5: var(--emerald-5);
+    --brand-10: var(--emerald-10);
+    --brand-20: var(--emerald-20);
+    --brand-30: var(--emerald-30);
+    --brand-40: var(--emerald-40);
+    --brand-50: var(--emerald-50);
+    --brand-60: var(--emerald-60);
+    --brand-70: var(--emerald-70);
+    --brand-80: var(--emerald-80);
+    --brand-90: var(--emerald-90);
+    --brand-100: var(--emerald-100);
+}
+.color-teal {
+    --brand-5: var(--teal-5);
+    --brand-10: var(--teal-10);
+    --brand-20: var(--teal-20);
+    --brand-30: var(--teal-30);
+    --brand-40: var(--teal-40);
+    --brand-50: var(--teal-50);
+    --brand-60: var(--teal-60);
+    --brand-70: var(--teal-70);
+    --brand-80: var(--teal-80);
+    --brand-90: var(--teal-90);
+    --brand-100: var(--teal-100);
+}
+.color-cyan {
+    --brand-5: var(--cyan-5);
+    --brand-10: var(--cyan-10);
+    --brand-20: var(--cyan-20);
+    --brand-30: var(--cyan-30);
+    --brand-40: var(--cyan-40);
+    --brand-50: var(--cyan-50);
+    --brand-60: var(--cyan-60);
+    --brand-70: var(--cyan-70);
+    --brand-80: var(--cyan-80);
+    --brand-90: var(--cyan-90);
+    --brand-100: var(--cyan-100);
+}
+.color-sky {
+    --brand-5: var(--sky-5);
+    --brand-10: var(--sky-10);
+    --brand-20: var(--sky-20);
+    --brand-30: var(--sky-30);
+    --brand-40: var(--sky-40);
+    --brand-50: var(--sky-50);
+    --brand-60: var(--sky-60);
+    --brand-70: var(--sky-70);
+    --brand-80: var(--sky-80);
+    --brand-90: var(--sky-90);
+    --brand-100: var(--sky-100);
+}
+.color-indigo {
+    --brand-5: var(--indigo-5);
+    --brand-10: var(--indigo-10);
+    --brand-20: var(--indigo-20);
+    --brand-30: var(--indigo-30);
+    --brand-40: var(--indigo-40);
+    --brand-50: var(--indigo-50);
+    --brand-60: var(--indigo-60);
+    --brand-70: var(--indigo-70);
+    --brand-80: var(--indigo-80);
+    --brand-90: var(--indigo-90);
+    --brand-100: var(--indigo-100);
+}
+.color-violet {
+    --brand-5: var(--violet-5);
+    --brand-10: var(--violet-10);
+    --brand-20: var(--violet-20);
+    --brand-30: var(--violet-30);
+    --brand-40: var(--violet-40);
+    --brand-50: var(--violet-50);
+    --brand-60: var(--violet-60);
+    --brand-70: var(--violet-70);
+    --brand-80: var(--violet-80);
+    --brand-90: var(--violet-90);
+    --brand-100: var(--violet-100);
+}
+.color-purple {
+    --brand-5: var(--purple-5);
+    --brand-10: var(--purple-10);
+    --brand-20: var(--purple-20);
+    --brand-30: var(--purple-30);
+    --brand-40: var(--purple-40);
+    --brand-50: var(--purple-50);
+    --brand-60: var(--purple-60);
+    --brand-70: var(--purple-70);
+    --brand-80: var(--purple-80);
+    --brand-90: var(--purple-90);
+    --brand-100: var(--purple-100);
+}
+.color-fuchsia {
+    --brand-5: var(--fuchsia-5);
+    --brand-10: var(--fuchsia-10);
+    --brand-20: var(--fuchsia-20);
+    --brand-30: var(--fuchsia-30);
+    --brand-40: var(--fuchsia-40);
+    --brand-50: var(--fuchsia-50);
+    --brand-60: var(--fuchsia-60);
+    --brand-70: var(--fuchsia-70);
+    --brand-80: var(--fuchsia-80);
+    --brand-90: var(--fuchsia-90);
+    --brand-100: var(--fuchsia-100);
+}
+.color-pink {
+    --brand-5: var(--pink-5);
+    --brand-10: var(--pink-10);
+    --brand-20: var(--pink-20);
+    --brand-30: var(--pink-30);
+    --brand-40: var(--pink-40);
+    --brand-50: var(--pink-50);
+    --brand-60: var(--pink-60);
+    --brand-70: var(--pink-70);
+    --brand-80: var(--pink-80);
+    --brand-90: var(--pink-90);
+    --brand-100: var(--pink-100);
+}
+.color-rose {
+    --brand-5: var(--rose-5);
+    --brand-10: var(--rose-10);
+    --brand-20: var(--rose-20);
+    --brand-30: var(--rose-30);
+    --brand-40: var(--rose-40);
+    --brand-50: var(--rose-50);
+    --brand-60: var(--rose-60);
+    --brand-70: var(--rose-70);
+    --brand-80: var(--rose-80);
+    --brand-90: var(--rose-90);
+    --brand-100: var(--rose-100);
+}

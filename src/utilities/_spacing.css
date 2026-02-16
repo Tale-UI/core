@@ -1,0 +1,8 @@
+/* ============================================
+   Section Padding Utilities
+   ============================================ */
+.padding--xs { padding-block: var(--section-space-xs); }
+.padding--s { padding-block: var(--section-space-s); }
+.padding--m { padding-block: var(--section-space-m); }
+.padding--l { padding-block: var(--section-space-l); }
+.padding--xl { padding-block: var(--section-space-xl); }

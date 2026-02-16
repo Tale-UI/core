@@ -1,0 +1,27 @@
+body.bricks-is-frontend :focus {
+    outline: none;
+    box-shadow: none;
+}
+body.bricks-is-frontend :focus-visible {
+    outline-width: 1px;
+    outline-style: dotted;
+    outline-offset: 1px;
+    outline-color: var(--neutral-80);
+}
+:where(p) {
+    margin: 0 0 calc(var(--text-line-height) * 1em);
+}
+:where(p:last-of-type) {
+    margin-bottom: 0;
+}
+:where(p a) {
+    color: var(--color-60);
+    -webkit-text-decoration: underline;
+    text-decoration: underline;
+}
+:where(p a:hover) {
+    color: var(--color-80);
+}
+body {
+    min-height: 100vh;
+}

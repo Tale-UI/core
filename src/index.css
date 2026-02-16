@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Design System — Main Entry Point
+   Version: 1.0.0
+
+   Import order matters: tokens → foundations → layout → utilities → themes
+   ========================================================================== */
+
+/* 1. TOKENS — Design system variables and constants */
+@import './tokens/_base.css';
+@import './tokens/_spacing.css';
+@import './tokens/_typography.css';
+@import './tokens/_colors.css';
+@import './tokens/_neutrals.css';
+@import './tokens/_effects.css';
+
+/* 2. FOUNDATIONS — Typography and base element styles */
+@import './foundations/_typography.css';
+@import './foundations/_text-utilities.css';
+@import './foundations/_base-elements.css';
+
+/* 3. LAYOUT — Grid, flex, gap, and centering systems */
+@import './layout/_gap.css';
+@import './layout/_grid.css';
+@import './layout/_flex.css';
+@import './layout/_centering.css';
+
+/* 4. UTILITIES — Display, visual, and behavioral utilities */
+@import './utilities/_display.css';
+@import './utilities/_visual.css';
+@import './utilities/_position.css';
+@import './utilities/_sizing.css';
+@import './utilities/_border.css';
+@import './utilities/_spacing.css';
+
+/* 5. THEMES — Color themes, neutral families, and dark mode */
+@import './themes/_neutral-themes.css';
+@import './themes/_color-themes.css';
+@import './themes/_color-modes.css';

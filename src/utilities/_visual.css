@@ -1,0 +1,123 @@
+.radius--xs {
+    border-radius: var(--radius-xs);
+}
+.radius--s {
+    border-radius: var(--radius-s);
+}
+.radius--m {
+    border-radius: var(--radius-m);
+}
+.radius--l {
+    border-radius: var(--radius-l);
+}
+.radius--xl {
+    border-radius: var(--radius-xl);
+}
+.radius--2xl {
+    border-radius: var(--radius-2xl);
+}
+.radius--full {
+    border-radius: var(--radius-full);
+}
+.shadow--xs {
+    box-shadow: var(--shadow-xs);
+}
+.shadow--s {
+    box-shadow: var(--shadow-s);
+}
+.shadow--m {
+    box-shadow: var(--shadow-m);
+}
+.shadow--l {
+    box-shadow: var(--shadow-l);
+}
+.shadow--xl {
+    box-shadow: var(--shadow-xl);
+}
+
+/* ============================================
+   Aspect Ratio Utilities
+   ============================================ */
+[class*="aspect--"] {
+    aspect-ratio: var(--aspect-ratio);
+}
+img[class*="aspect--"],
+video[class*="aspect--"] {
+    object-fit: var(--object-fit, cover);
+    width: 100%;
+    height: 100%;
+}
+.aspect--1-1 { --aspect-ratio: 1 / 1; }
+.aspect--2-1 { --aspect-ratio: 2 / 1; }
+.aspect--1-2 { --aspect-ratio: 1 / 2; }
+.aspect--3-2 { --aspect-ratio: 3 / 2; }
+.aspect--2-3 { --aspect-ratio: 2 / 3; }
+.aspect--4-3 { --aspect-ratio: 4 / 3; }
+.aspect--3-4 { --aspect-ratio: 3 / 4; }
+.aspect--16-9 { --aspect-ratio: 16 / 9; }
+.aspect--9-16 { --aspect-ratio: 9 / 16; }
+.aspect--21-9 { --aspect-ratio: 21 / 9; }
+
+/* ============================================
+   Object-Fit Utilities
+   ============================================ */
+.object-fit--cover { object-fit: cover; }
+.object-fit--contain { object-fit: contain; }
+.object-fit--fill { object-fit: fill; }
+.object-fit--none { object-fit: none; }
+.object-fit--top-left { object-position: top left; }
+.object-fit--top-center { object-position: top center; }
+.object-fit--top-right { object-position: top right; }
+.object-fit--center-left { object-position: center left; }
+.object-fit--center { object-position: center center; }
+.object-fit--center-right { object-position: center right; }
+.object-fit--bottom-left { object-position: bottom left; }
+.object-fit--bottom-center { object-position: bottom center; }
+.object-fit--bottom-right { object-position: bottom right; }
+
+/* ============================================
+   Line Clamp / Text Truncation
+   ============================================ */
+.line-clamp--1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.line-clamp--2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.line-clamp--3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.line-clamp--4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.line-clamp--5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ============================================
+   Opacity Utilities
+   ============================================ */
+.opacity--0 { opacity: 0; }
+.opacity--5 { opacity: 0.05; }
+.opacity--10 { opacity: 0.1; }
+.opacity--25 { opacity: 0.25; }
+.opacity--50 { opacity: 0.5; }
+.opacity--75 { opacity: 0.75; }
+.opacity--90 { opacity: 0.9; }
+.opacity--95 { opacity: 0.95; }
+.opacity--100 { opacity: 1; }

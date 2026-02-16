@@ -1,0 +1,25 @@
+/* ============================================
+   Border Utilities
+   ============================================ */
+.border { border: 1px solid var(--neutral-30); }
+.border-top { border-top: 1px solid var(--neutral-30); }
+.border-right { border-right: 1px solid var(--neutral-30); }
+.border-bottom { border-bottom: 1px solid var(--neutral-30); }
+.border-left { border-left: 1px solid var(--neutral-30); }
+.border-block { border-block: 1px solid var(--neutral-30); }
+.border-inline { border-inline: 1px solid var(--neutral-30); }
+.border--light { border-color: var(--neutral-20); }
+.border--dark { border-color: var(--neutral-50); }
+.border--none { border: none; }
+
+/* ============================================
+   Divider Utilities
+   ============================================ */
+.divider-top {
+    border-top: var(--divider-size, 1px) solid var(--neutral-30);
+    padding-top: var(--divider-gap, var(--space-m));
+}
+.divider-bottom {
+    border-bottom: var(--divider-size, 1px) solid var(--neutral-30);
+    padding-bottom: var(--divider-gap, var(--space-m));
+}

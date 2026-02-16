@@ -1,0 +1,19 @@
+:root {
+    --space-4xs: clamp(0.52rem, calc(-0.03vw + 0.54rem), 0.49rem);
+    --space-3xs: clamp(0.66rem, calc(0.04vw + 0.64rem), 0.7rem);
+    --space-2xs: clamp(0.82rem, calc(0.15vw + 0.75rem), 0.99rem);
+    --space-xs: clamp(1.02rem, calc(0.34vw + 0.86rem), 1.4rem);
+    --space-s: clamp(1.28rem, calc(0.63vw + 0.98rem), 1.98rem);
+    --space-m: clamp(1.6rem, calc(1.07vw + 1.09rem), 2.8rem);
+    --space-l: clamp(2rem, calc(1.75vw + 1.16rem), 3.96rem);
+    --space-xl: clamp(2.5rem, calc(2.77vw + 1.17rem), 5.6rem);
+    --space-2xl: clamp(3.13rem, calc(4.28vw + 1.07rem), 7.92rem);
+    --space-3xl: clamp(3.91rem, calc(6.51vw + 0.78rem), 11.19rem);
+    --space-4xl: clamp(4.88rem, calc(9.77vw + 0.19rem), 15.83rem);
+    /* Section Spacing (larger scale for vertical rhythm between page sections) */
+    --section-space-xs: clamp(2rem, calc(1.75vw + 1.16rem), 3.96rem);
+    --section-space-s: clamp(3.13rem, calc(4.28vw + 1.07rem), 7.92rem);
+    --section-space-m: clamp(3.91rem, calc(6.51vw + 0.78rem), 11.19rem);
+    --section-space-l: clamp(4.88rem, calc(9.77vw + 0.19rem), 15.83rem);
+    --section-space-xl: clamp(6.1rem, calc(14.29vw + -0.74rem), 22.37rem);
+}
