@@ -1,5 +1,7 @@
 # @cloudiverse/design-system
 
+[![Publish design system](https://github.com/CloudiverseHQ/design-system/actions/workflows/publish.yml/badge.svg)](https://github.com/CloudiverseHQ/design-system/actions/workflows/publish.yml)
+
 A modular, token-based CSS design system with fluid responsive scaling, comprehensive colour theming, and dark mode support. Framework-agnostic — works with any stack.
 
 ## Features
@@ -92,6 +94,52 @@ npm install @cloudiverse/design-system
 | Package | Path | Description |
 |---------|------|-------------|
 | `@cloudiverse/design-system` | [packages/css](packages/css) | Modular token-based CSS design system |
+
+## Release Workflow (npm + GitHub in sync)
+
+Use the root release script so package version, git tag, and GitHub release always match.
+
+CI is configured in `.github/workflows/publish.yml` to publish when a semver tag is pushed (`vX.Y.Z`).
+The workflow verifies `packages/css/package.json` version equals the tag version before publishing.
+
+### One-time setup
+
+Add repository secret `NPM_TOKEN` in GitHub settings.
+
+### Standard patch release
+
+```bash
+pnpm release:css:patch
+```
+
+### Minor / major release
+
+```bash
+pnpm release:css:minor
+pnpm release:css:major
+```
+
+### Explicit version release
+
+```bash
+pnpm release:css -- --version 1.0.2
+```
+
+### Preview only (no changes)
+
+```bash
+pnpm release:css:dry-run
+```
+
+### Important for your current state
+
+You already created `v1.0.1` on GitHub while npm is `1.0.0`. Do **not** try to release `1.0.1` again with this script; the tag check will block it. Release the next npm version as `1.0.2`:
+
+```bash
+pnpm release:css -- --version 1.0.2
+```
+
+If using CI directly (without the script), ensure `packages/css/package.json` is updated first, then push a matching tag (`v1.0.2`).
 
 ## License
 

@@ -4,6 +4,11 @@
   "private": true,
   "description": "Design system monorepo",
   "scripts": {
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "release:css": "node tools/release-css.js",
+    "release:css:patch": "node tools/release-css.js --type patch",
+    "release:css:minor": "node tools/release-css.js --type minor",
+    "release:css:major": "node tools/release-css.js --type major",
+    "release:css:dry-run": "node tools/release-css.js --type patch --dry-run"
   }
 }
