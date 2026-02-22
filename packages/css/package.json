@@ -1,6 +1,6 @@
 {
   "name": "@cloudiverse/design-system",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Modular token-based CSS design system",
   "main": "src/index.css",
   "style": "dist/style.css",
@@ -12,6 +12,9 @@
   "scripts": {
     "build": "node ../../tools/build-css.js"
   },
-  "files": ["src", "dist"],
+  "files": [
+    "src",
+    "dist"
+  ],
   "private": false
 }
