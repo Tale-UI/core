@@ -178,6 +178,38 @@ Neutral families use the **irregular 27-shade scale**. They follow the same nami
 
 ---
 
+## 5b. Neutral Contrast Pairing
+
+Neutrals follow a similar switch-point model to named colours, but with one key difference: **neutral-60 falls definitively on the dark side** (not an ambiguous switch point).
+
+### Contrast pairing rule (background dictates text colour)
+
+| Background shade | Text/icon colour |
+|---|---|
+| `neutral-5` → `neutral-50` | `neutral-100` (dark text on light background) |
+| `neutral-60` → `neutral-100` | `neutral-5` (light text on dark background) |
+
+### Comparison with named/semantic colour pairing
+
+| | Named/semantic colours | Neutral colours |
+|---|---|---|
+| BASE shade | `-60` (ambiguous switch — hue-dependent) | `neutral-60` (definitively dark side) |
+| Light group → dark text | `-5` through `-50` | `neutral-5` through `neutral-50` |
+| Dark group → light text | `-70` through `-100` | **`neutral-60`** through `neutral-100` |
+| Edge shade(s) | `-50` and `-70` (both sides) | **`neutral-50` only** (light side edge) |
+
+### Edge shade
+
+- **`neutral-50`** is just below 4.5:1 AA for normal text — use for decoration and large text (18px+) only
+- **`neutral-60`** is the BASE and the switch point — it definitively pairs with `neutral-5` as text (unlike named colour `-60` which is hue-dependent)
+- There is no dark-side edge shade equivalent to `-70` in the neutral system; `neutral-70` passes AA with `neutral-5`
+
+### Dark mode behaviour
+
+In dark mode, the neutral scale inverts (`neutral-5` → effectively near-black, `neutral-100` → near-white). The contrast pairing logic applies consistently to the inverted values since the same shade numbers flip together.
+
+---
+
 ## 6. Token Hierarchy — How Colours Flow
 
 ```
@@ -260,7 +292,7 @@ In dark mode, `--neutral-5` is forced to `black` (not a variable reference), and
 
 ## 8. Contrast Pairing Rules
 
-This applies to all named, brand, and semantic colour families (not neutrals).
+This applies to all named, brand, and semantic colour families. For neutrals, see Section 5b above.
 
 ### The switch-point model
 
@@ -320,6 +352,89 @@ Given a single **BASE hex colour** (treated as the `-60` shade), the generator s
 - The palette must look coherent in both light and dark mode given the inversion pairs (5↔100, 10↔90, 20↔80, 30↔70, 40↔60)
 - All output values must be 6-digit hex codes (e.g. `#f5a623`) — no hsl, oklch, rgb, or 3-digit hex
 
+---
+
+### For a neutral colour family:
+
+```css
+/* 27 shades in :root — use neutral-{name}-* naming */
+--{name}-5:   #??????;   /* near-white — pair with {name}-100 for text */
+--{name}-10:  #??????;
+--{name}-12:  #??????;
+--{name}-14:  #??????;
+--{name}-16:  #??????;
+--{name}-18:  #??????;
+--{name}-20:  #??????;
+--{name}-22:  #??????;
+--{name}-24:  #??????;
+--{name}-26:  #??????;
+--{name}-28:  #??????;
+--{name}-30:  #??????;
+--{name}-40:  #??????;
+--{name}-50:  #??????;   /* edge shade — large text / decoration only (just below 4.5:1) */
+--{name}-60:  #??????;   /* = the input BASE colour, exact — dark side; pair with {name}-5 for text */
+--{name}-70:  #??????;
+--{name}-80:  #??????;
+--{name}-82:  #??????;
+--{name}-84:  #??????;
+--{name}-86:  #??????;
+--{name}-88:  #??????;
+--{name}-90:  #??????;
+--{name}-92:  #??????;
+--{name}-94:  #??????;
+--{name}-96:  #??????;
+--{name}-98:  #??????;
+--{name}-100: #??????;   /* near-black — pair with {name}-5 for text */
+```
+
+**Quality requirements for neutral shades:**
+- Shades `5`–`50`: progressively lighter/less saturated toward white; `-5` should be ≥95% lightness (HSL)
+- Shade `60`: exact input BASE hex, unchanged
+- Shades `70`–`100`: progressively darker; `-100` should be ≤10% lightness
+- Fine steps at `12`–`30` and `82`–`98` are for subtle surface layering — each step is a tiny lightness increment (~2–3%), visually distinct only at close inspection
+- Coarser steps at `40`/`50` and `70`/`80` can have larger perceptual jumps
+- All shades must be **very low chroma** — should read as gray with a hue bias, never as a colour
+- Hue angle must stay **consistent** across all shades — do not let it drift
+- All output values must be 6-digit hex codes — no hsl, oklch, or rgb
+
+### Integration — `.neutral-{name}` theme class:
+
+If adding a new neutral family to the design system, add to `_neutral-themes.css`:
+
+```css
+.neutral-{name} {
+    --neutral-default-5:   var(--{name}-5);
+    --neutral-default-10:  var(--{name}-10);
+    --neutral-default-12:  var(--{name}-12);
+    --neutral-default-14:  var(--{name}-14);
+    --neutral-default-16:  var(--{name}-16);
+    --neutral-default-18:  var(--{name}-18);
+    --neutral-default-20:  var(--{name}-20);
+    --neutral-default-22:  var(--{name}-22);
+    --neutral-default-24:  var(--{name}-24);
+    --neutral-default-26:  var(--{name}-26);
+    --neutral-default-28:  var(--{name}-28);
+    --neutral-default-30:  var(--{name}-30);
+    --neutral-default-40:  var(--{name}-40);
+    --neutral-default-50:  var(--{name}-50);
+    --neutral-default-60:  var(--{name}-60);
+    --neutral-default-70:  var(--{name}-70);
+    --neutral-default-80:  var(--{name}-80);
+    --neutral-default-82:  var(--{name}-82);
+    --neutral-default-84:  var(--{name}-84);
+    --neutral-default-86:  var(--{name}-86);
+    --neutral-default-88:  var(--{name}-88);
+    --neutral-default-90:  var(--{name}-90);
+    --neutral-default-92:  var(--{name}-92);
+    --neutral-default-94:  var(--{name}-94);
+    --neutral-default-96:  var(--{name}-96);
+    --neutral-default-98:  var(--{name}-98);
+    --neutral-default-100: var(--{name}-100);
+}
+```
+
+---
+
 ### Optional — `.color-*` theme class entry:
 
 If the generator is adding a new named family `{name}` to the design system, it also needs:
@@ -373,6 +488,41 @@ Work in a perceptual colour space (OKLCH or HSL) to generate steps, then convert
 3. Generate darker steps by decreasing L and slightly decreasing C toward the dark end
 4. Verify WCAG contrast ratios at each shade against the expected contrast pair
 5. Convert all final values to 6-digit hex
+
+### Neutral palette generation
+
+Neutral palettes differ significantly from named colour palettes — they are desaturated grays with a consistent hue bias, not tinted/shaded saturated colours.
+
+**Character of a neutral:**
+- The BASE (-60) is a mid-gray with a subtle hue lean (e.g. warm = brownish-orange bias, cool = blue bias, slate = blue-gray, onyx = near-achromatic)
+- All shades share the same hue angle — the "personality" of the neutral is its hue direction, not its saturation
+- At no point should any shade look like a coloured swatch — it should always read as gray
+
+**Recommended approach using OKLCH:**
+1. Convert the BASE hex to OKLCH to extract its L (lightness), C (chroma), and H (hue)
+2. Keep H **constant** across all 27 shades — hue drift makes the palette look incoherent
+3. Keep C **very low** (typically 0.003–0.06 in OKLCH) — decrease C slightly toward both extremes
+4. Generate lightness values for each shade number:
+   - `-5`: L ≈ 0.975–0.985 (near-white)
+   - `-10`: L ≈ 0.955–0.965
+   - `-12` through `-30`: L steps of ~0.012–0.018 each (fine-grained surface layers)
+   - `-40`: larger step down
+   - `-50`: L such that contrast with `-5` is just below 4.5:1 (decoration/large text threshold)
+   - `-60`: exact BASE value (L unchanged)
+   - `-70`: first step darker than BASE
+   - `-80`: larger step
+   - `-82` through `-98`: L steps of ~0.012–0.018 each (fine-grained dark UI layers)
+   - `-100`: L ≈ 0.055–0.080 (near-black)
+5. Verify contrast at the critical thresholds:
+   - `-50` on `-5` background: should be **just below** 4.5:1 (confirms edge shade)
+   - `-60` on `-5` background: should **meet or exceed** 4.5:1 (confirms switch point)
+6. Convert all final OKLCH values to 6-digit hex
+
+**Contrast verification targets:**
+- `-5` background + `-100` text: ≥ 15:1 (maximum contrast)
+- `-5` background + `-60` text: ≥ 4.5:1 (AA — just passes)
+- `-5` background + `-50` text: < 4.5:1 (just fails — decoration only)
+- `-100` background + `-5` text: ≥ 15:1 (maximum contrast)
 
 ---
 
