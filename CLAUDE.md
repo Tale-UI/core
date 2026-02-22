@@ -147,6 +147,7 @@ If using Tailwind or shadcn/ui, add `html { font-size: 100%; }` after the import
 Full guide: https://raw.githubusercontent.com/CloudiverseHQ/design-system/main/packages/css/docs/framework-integration.md
 
 **Quick reference — do not guess these values:**
+- **`--brand-*` is for palette definitions ONLY** (`:root` overrides and `.color-{name}` classes) — **NEVER use `--brand-*` in component or UI CSS**. Always use `--color-*` for component styling; it inverts automatically in dark mode. `--brand-*` never inverts.
 - Neutral shades: `5 10 12 14 16 18 20 22 24 26 28 30 40 50 60 70 80 82 84 86 88 90 92 94 96 98 100`
 - Color/brand shades: `5 10 20 30 40 50 60 70 80 90 100`
 - Utility classes use **double-dash**: `.gap--m` `.grid--3` `.display--none` `.radius--m`
