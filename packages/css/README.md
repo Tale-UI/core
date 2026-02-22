@@ -11,6 +11,24 @@ A modular, token-based CSS design system with fluid responsive scaling, comprehe
 - **Responsive** — 4 breakpoints (480, 768, 992, 1600px) with utility variants
 - **No build tools required** — CSS `@import` works natively in modern browsers
 
+## Installation
+
+```bash
+npm install @cloudiverse/design-system
+```
+
+**Bundler (Next.js, Vite, webpack):**
+```css
+@import '@cloudiverse/design-system';
+```
+
+**Plain HTML:**
+```html
+<link rel="stylesheet" href="node_modules/@cloudiverse/design-system/dist/style.css">
+```
+
+> **Framework note:** This design system sets `html { font-size: 62.5% }` (1rem = 10px). If using Tailwind, shadcn/ui, or Bootstrap, add `html { font-size: 100%; }` after the import.
+
 ## Quick Start
 
 ```html
@@ -20,7 +38,7 @@ A modular, token-based CSS design system with fluid responsive scaling, comprehe
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
 <!-- Design System -->
-<link rel="stylesheet" href="path/to/design-system/src/index.css" />
+<link rel="stylesheet" href="node_modules/@cloudiverse/design-system/dist/style.css" />
 ```
 
 ### Dark Mode
@@ -55,8 +73,10 @@ A modular, token-based CSS design system with fluid responsive scaling, comprehe
 
 ## Documentation
 
-- **[CLAUDE.md](./CLAUDE.md)** — Architecture guide for development with Claude Code
-- **[docs/documentation.html](./docs/documentation.html)** — Interactive visual documentation
+- **[AI Reference](https://github.com/CloudiverseHQ/design-system/blob/main/packages/css/docs/ai-reference.md)** — Every valid class, token, and value
+- **[Framework Integration](https://github.com/CloudiverseHQ/design-system/blob/main/packages/css/docs/framework-integration.md)** — Using alongside Tailwind, shadcn/ui, Next.js, Vite, etc.
+- **[Visual Docs](https://github.com/CloudiverseHQ/design-system/blob/main/packages/css/docs/documentation.html)** — Interactive component demos
+- **[Contributor Guide](https://github.com/CloudiverseHQ/design-system/blob/main/packages/css/CLAUDE.md)** — Architecture, conventions, and how to extend the system
 
 ## Project Structure
 
