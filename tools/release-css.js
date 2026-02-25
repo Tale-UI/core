@@ -154,7 +154,7 @@ function main() {
         run(`git tag ${tag}`);
         run('git push');
         run(`git push origin ${tag}`);
-        run(`gh release create ${tag} --title "${tag} - Publish to NPM" --notes "Release ${tag} of ${packageName}." --repo CloudiverseHQ/design-system`);
+        run(`gh release create ${tag} --title "${tag} - Publish to NPM" --notes "Release ${tag} of ${packageName}." --repo Tale-UI/core`);
 
         console.log('\nRelease complete. npm and GitHub are now aligned.');
     } catch (error) {

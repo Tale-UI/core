@@ -144,7 +144,7 @@ npm install @cloudiverse/design-system
 
 **Framework note:** The design system sets `html { font-size: 62.5% }` (1rem = 10px).
 If using Tailwind or shadcn/ui, add `html { font-size: 100%; }` after the import.
-Full guide: https://raw.githubusercontent.com/CloudiverseHQ/design-system/main/packages/css/docs/framework-integration.md
+Full guide: https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/framework-integration.md
 
 **Quick reference — do not guess these values:**
 - **`--brand-*` is for palette definitions ONLY** (`:root` overrides and `.color-{name}` classes) — **NEVER use `--brand-*` in component or UI CSS**. Always use `--color-*` for component styling; it inverts automatically in dark mode. `--brand-*` never inverts.
@@ -164,8 +164,8 @@ Full guide: https://raw.githubusercontent.com/CloudiverseHQ/design-system/main/p
 - **Custom neutral family** — create a `.neutral-{name}` class that maps `--neutral-default-5` through `--neutral-default-100` (25 shades: 5 10 12 14 16 18 20 22 24 26 28 30 40 50 60 70 80 82 84 86 88 90 92 94 96 98 100) to raw values, then add `--display-color`, `--text-color`, and `--mono-color` each set to `var(--neutral-default-90)`. Apply the class to any container.
 - Raw values go directly inside the class — do not create intermediate `--myColor-*` variables.
 
-**Full reference:** https://raw.githubusercontent.com/CloudiverseHQ/design-system/main/packages/css/docs/ai-reference.md
-**Contributor guide:** https://raw.githubusercontent.com/CloudiverseHQ/design-system/main/packages/css/CLAUDE.md
+**Full reference:** https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/ai-reference.md
+**Contributor guide:** https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/CLAUDE.md
 ````
 
 ## Workspace Commands

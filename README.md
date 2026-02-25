@@ -1,6 +1,6 @@
 # @cloudiverse/design-system
 
-[![Publish design system](https://github.com/CloudiverseHQ/design-system/actions/workflows/publish.yml/badge.svg)](https://github.com/CloudiverseHQ/design-system/actions/workflows/publish.yml)
+[![Publish design system](https://github.com/Tale-UI/core/actions/workflows/publish.yml/badge.svg)](https://github.com/Tale-UI/core/actions/workflows/publish.yml)
 
 A modular, token-based CSS design system with fluid responsive scaling, comprehensive colour theming, and dark mode support. Framework-agnostic — works with any stack.
 

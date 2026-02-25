@@ -1,6 +1,6 @@
 # Design System
 
-[![Publish design system](https://github.com/CloudiverseHQ/design-system/actions/workflows/publish.yml/badge.svg)](https://github.com/CloudiverseHQ/design-system/actions/workflows/publish.yml)
+[![Publish design system](https://github.com/Tale-UI/core/actions/workflows/publish.yml/badge.svg)](https://github.com/Tale-UI/core/actions/workflows/publish.yml)
 
 A modular, token-based CSS design system with fluid responsive scaling, comprehensive color theming, and dark mode support. Framework-agnostic — works with any stack.
 
@@ -75,10 +75,10 @@ npm install @cloudiverse/design-system
 
 ## Documentation
 
-- **[AI Reference](https://github.com/CloudiverseHQ/design-system/blob/main/packages/css/docs/ai-reference.md)** — Every valid class, token, and value
-- **[Framework Integration](https://github.com/CloudiverseHQ/design-system/blob/main/packages/css/docs/framework-integration.md)** — Using alongside Tailwind, shadcn/ui, Next.js, Vite, etc.
-- **[Visual Docs](https://github.com/CloudiverseHQ/design-system/blob/main/packages/css/docs/documentation.html)** — Interactive component demos
-- **[Contributor Guide](https://github.com/CloudiverseHQ/design-system/blob/main/packages/css/CLAUDE.md)** — Architecture, conventions, and how to extend the system
+- **[AI Reference](https://github.com/Tale-UI/core/blob/main/packages/css/docs/ai-reference.md)** — Every valid class, token, and value
+- **[Framework Integration](https://github.com/Tale-UI/core/blob/main/packages/css/docs/framework-integration.md)** — Using alongside Tailwind, shadcn/ui, Next.js, Vite, etc.
+- **[Visual Docs](https://github.com/Tale-UI/core/blob/main/packages/css/docs/documentation.html)** — Interactive component demos
+- **[Contributor Guide](https://github.com/Tale-UI/core/blob/main/packages/css/CLAUDE.md)** — Architecture, conventions, and how to extend the system
 
 ## Project Structure
 
