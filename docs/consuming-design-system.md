@@ -58,7 +58,7 @@ Add this to the consumer project's `CLAUDE.md`. Documentation links use GitHub r
 ````markdown
 ## Design System
 
-This project uses `@tale-ui/core` (v1.1.4).
+This project uses `@tale-ui/core` (v1.1.5).
 
 **Install:**
 ```bash

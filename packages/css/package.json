@@ -1,6 +1,6 @@
 {
   "name": "@tale-ui/core",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Modular token-based CSS design system",
   "main": "src/index.css",
   "style": "dist/style.css",

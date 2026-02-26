@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## v1.1.5 - 2026-02-26
+
+### Changed
+- Bumped `@tale-ui/core` package version to `1.1.5`.
+- Updated documentation version references to `v1.1.5` for consumer setup snippets.
+
 ## v1.1.4 - 2026-02-25
 
 ### Changed
