@@ -9,9 +9,9 @@ import {
   isShadowRoot,
   isWebKit,
 } from '@floating-ui/utils/dom';
-import { Timeout, useTimeout } from '@base-ui/utils/useTimeout';
-import { useStableCallback } from '@base-ui/utils/useStableCallback';
-import { ownerDocument } from '@base-ui/utils/owner';
+import { Timeout, useTimeout } from '@tale-ui/utils/useTimeout';
+import { useStableCallback } from '@tale-ui/utils/useStableCallback';
+import { ownerDocument } from '@tale-ui/utils/owner';
 import {
   contains,
   getTarget,
@@ -36,10 +36,6 @@ const bubbleHandlerKeys = {
   intentional: 'onClick',
   sloppy: 'onPointerDown',
 } as const;
-
-function alwaysFalse() {
-  return false;
-}
 
 export function normalizeProp(
   normalizable?: boolean | { escapeKey?: boolean | undefined; outsidePress?: boolean | undefined },
@@ -68,11 +64,9 @@ export interface UseDismissProps {
    * Whether to dismiss the floating element upon pressing the reference
    * element. You likely want to ensure the `move` option in the `useHover()`
    * Hook has been disabled when this is in use.
-   *
-   * A lazy getter invoked when handling reference press events.
    * @default false
    */
-  referencePress?: (() => boolean) | undefined;
+  referencePress?: boolean | undefined;
   /**
    * The type of event to use to determine a "press".
    * - `down` is `pointerdown` on mouse input, but special iOS-like touch handling on touch input.
@@ -146,7 +140,7 @@ export function useDismiss(
     escapeKey = true,
     outsidePress: outsidePressProp = true,
     outsidePressEvent = 'sloppy',
-    referencePress = alwaysFalse,
+    referencePress = false,
     referencePressEvent = 'sloppy',
     bubbles,
     externalTree,
@@ -185,8 +179,6 @@ export function useDismiss(
 
   const isComposingRef = React.useRef(false);
   const currentPointerTypeRef = React.useRef<PointerEvent['pointerType']>('');
-
-  const isReferencePressEnabled = useStableCallback(referencePress);
 
   const closeOnEscapeKeyDown = useStableCallback(
     (event: React.KeyboardEvent<Element> | KeyboardEvent) => {
@@ -245,7 +237,7 @@ export function useDismiss(
     dataRef.current.__outsidePressBubbles = outsidePressBubbles;
 
     const compositionTimeout = new Timeout();
-    const preventedPressSuppressionTimeout = new Timeout();
+    const preventedPressSupressionTimeout = new Timeout();
 
     function handleCompositionStart() {
       compositionTimeout.clear();
@@ -270,7 +262,7 @@ export function useDismiss(
       suppressNextOutsideClickRef.current = true;
       // Firefox can emit the synthetic outside click in a later task after
       // pointer lock exit, so microtask clearing is too early here.
-      preventedPressSuppressionTimeout.start(0, () => {
+      preventedPressSupressionTimeout.start(0, () => {
         suppressNextOutsideClickRef.current = false;
       });
     }
@@ -333,13 +325,13 @@ export function useDismiss(
 
       const target = getTarget(event);
       const inertSelector = `[${createAttribute('inert')}]`;
-      const targetRoot = isElement(target) ? target.getRootNode() : null;
-      const markers = Array.from(
-        (isShadowRoot(targetRoot)
-          ? targetRoot
-          : ownerDocument(store.select('floatingElement'))
-        ).querySelectorAll(inertSelector),
+      let markers = Array.from(
+        ownerDocument(store.select('floatingElement')).querySelectorAll(inertSelector),
       );
+      const targetRoot = isElement(target) ? target.getRootNode() : null;
+      if (isShadowRoot(targetRoot)) {
+        markers = markers.concat(Array.from(targetRoot.querySelectorAll(inertSelector)));
+      }
 
       const triggers = store.context.triggerElements;
 
@@ -419,7 +411,7 @@ export function useDismiss(
       // one suppressed outside click. Run this after inside-target checks so
       // inside clicks don't consume the one-shot suppression.
       if (getOutsidePressEvent() === 'intentional' && suppressNextOutsideClickRef.current) {
-        preventedPressSuppressionTimeout.clear();
+        preventedPressSupressionTimeout.clear();
         suppressNextOutsideClickRef.current = false;
         return;
       }
@@ -568,7 +560,7 @@ export function useDismiss(
         return;
       }
 
-      preventedPressSuppressionTimeout.clear();
+      preventedPressSupressionTimeout.clear();
       suppressNextOutsideClickRef.current = true;
       clearInsideReactTree();
     }
@@ -679,7 +671,7 @@ export function useDismiss(
       }
 
       compositionTimeout.clear();
-      preventedPressSuppressionTimeout.clear();
+      preventedPressSupressionTimeout.clear();
       resetPressStartState();
       suppressNextOutsideClickRef.current = false;
     };
@@ -706,27 +698,21 @@ export function useDismiss(
   const reference: ElementProps['reference'] = React.useMemo(
     () => ({
       onKeyDown: closeOnEscapeKeyDown,
-      [bubbleHandlerKeys[referencePressEvent]]: (event: React.SyntheticEvent) => {
-        if (!isReferencePressEnabled()) {
-          return;
-        }
-
-        store.setOpen(
-          false,
-          createChangeEventDetails(REASONS.triggerPress, event.nativeEvent as any),
-        );
-      },
-      ...(referencePressEvent !== 'intentional' && {
-        onClick(event) {
-          if (!isReferencePressEnabled()) {
-            return;
-          }
-
-          store.setOpen(false, createChangeEventDetails(REASONS.triggerPress, event.nativeEvent));
+      ...(referencePress && {
+        [bubbleHandlerKeys[referencePressEvent]]: (event: React.SyntheticEvent) => {
+          store.setOpen(
+            false,
+            createChangeEventDetails(REASONS.triggerPress, event.nativeEvent as any),
+          );
         },
+        ...(referencePressEvent !== 'intentional' && {
+          onClick(event) {
+            store.setOpen(false, createChangeEventDetails(REASONS.triggerPress, event.nativeEvent));
+          },
+        }),
       }),
     }),
-    [closeOnEscapeKeyDown, store, referencePressEvent, isReferencePressEnabled],
+    [closeOnEscapeKeyDown, store, referencePress, referencePressEvent],
   );
 
   const markPressStartedInsideReactTree = useStableCallback(
