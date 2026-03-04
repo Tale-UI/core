@@ -189,6 +189,7 @@ describe('<Menu.Root />', () => {
         });
       });
 
+
       describe('text navigation', () => {
         it.skipIf(isJSDOM)('changes the highlighted item', async () => {
           const itemElements = [
@@ -311,6 +312,7 @@ describe('<Menu.Root />', () => {
             });
           },
         );
+
 
         it.skipIf(isJSDOM)('skips the non-stringifiable items', async () => {
           const itemElements = [
