@@ -1,23 +1,17 @@
 import { isMouseLikePointerType } from '../utils';
-import type { ExtendedElements, FloatingTreeType, Placement } from '../types';
+import type { FloatingContext, FloatingTreeType } from '../types';
 
 export interface HandleCloseOptions {
+  buffer?: number | undefined;
   blockPointerEvents?: boolean | undefined;
-  getScope?: (() => HTMLElement | SVGSVGElement | null) | undefined;
+  requireIntent?: boolean | undefined;
 }
 
-export interface HandleCloseContext {
-  x: number | null;
-  y: number | null;
-  placement: Placement | null;
-  elements: Pick<ExtendedElements, 'domReference' | 'floating'>;
+export interface HandleCloseContext extends FloatingContext {
   onClose: () => void;
-  nodeId?: string | undefined;
   tree?: FloatingTreeType | null | undefined;
   leave?: boolean | undefined;
 }
-
-export type HandleCloseContextBase = Omit<HandleCloseContext, 'onClose' | 'tree' | 'x' | 'y'>;
 
 export interface HandleClose {
   (context: HandleCloseContext): (event: MouseEvent) => void;
@@ -59,8 +53,4 @@ export function getRestMs(value: number | (() => number)) {
     return value();
   }
   return value;
-}
-
-export function isClickLikeOpenEvent(openEventType: string | undefined, interactedInside: boolean) {
-  return interactedInside || openEventType === 'click' || openEventType === 'mousedown';
 }
