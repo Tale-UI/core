@@ -468,6 +468,7 @@ export const MenuRoot = fastComponent(function MenuRoot<Payload>(props: MenuRoot
 
   const typeahead = useTypeahead(floatingRootContext, {
     listRef: store.context.itemLabels,
+    elementsRef: store.context.itemDomElements,
     activeIndex,
     resetMs: TYPEAHEAD_RESET_MS,
     onMatch: (index) => {
