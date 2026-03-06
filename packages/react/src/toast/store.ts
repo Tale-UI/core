@@ -1,7 +1,7 @@
-import { ReactStore, createSelector, createSelectorMemoized } from '@base-ui/utils/store';
-import { generateId } from '@base-ui/utils/generateId';
-import { ownerDocument } from '@base-ui/utils/owner';
-import { Timeout } from '@base-ui/utils/useTimeout';
+import { ReactStore, createSelector, createSelectorMemoized } from '@tale-ui/utils/store';
+import { generateId } from '@tale-ui/utils/generateId';
+import { ownerDocument } from '@tale-ui/utils/owner';
+import { Timeout } from '@tale-ui/utils/useTimeout';
 import {
   ToastManagerAddOptions,
   ToastManagerPromiseOptions,
@@ -235,21 +235,24 @@ export class ToastStore extends ReactStore<State, {}, typeof selectors> {
 
   closeToast = (toastId?: string) => {
     const closeAll = toastId === undefined;
+    const toast = closeAll ? undefined : selectors.toast(this.state, toastId);
+    if (!closeAll && !toast) {
+      return;
+    }
+
     const { limit, toasts } = this.state;
-    let toastsToClose: ToastObject<any>[];
 
     if (closeAll) {
-      toastsToClose = toasts;
+      toasts.forEach((item) => {
+        item.onClose?.();
+      });
       this.timers.forEach((timer) => {
         timer.timeout?.clear();
       });
       this.timers.clear();
     } else {
-      const toast = selectors.toast(this.state, toastId);
-      if (!toast) {
-        return;
-      }
-      toastsToClose = [toast];
+      toast?.onClose?.();
+
       const timer = this.timers.get(toastId);
       if (timer?.timeout) {
         timer.timeout.clear();
@@ -270,20 +273,14 @@ export class ToastStore extends ReactStore<State, {}, typeof selectors> {
       return item.limited !== isLimited ? { ...item, limited: isLimited } : item;
     });
 
+    this.handleFocusManagement(toastId);
+
     const updates: Partial<State> = { toasts: newToasts };
     if (closeAll || toasts.length === 1) {
       updates.hovering = false;
       updates.focused = false;
     }
     this.update(updates);
-
-    toastsToClose.forEach((toast) => {
-      if (toast.transitionStatus !== 'ending') {
-        toast.onClose?.();
-      }
-    });
-
-    this.handleFocusManagement(toastId);
   };
 
   promiseToast = <Value, Data extends object>(
