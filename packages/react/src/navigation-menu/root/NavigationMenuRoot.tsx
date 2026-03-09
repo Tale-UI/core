@@ -5,7 +5,6 @@ import { useControlled } from '@tale-ui/utils/useControlled';
 import { useStableCallback } from '@tale-ui/utils/useStableCallback';
 import { ownerDocument } from '@tale-ui/utils/owner';
 import {
-  FloatingNode,
   FloatingTree,
   useFloatingNodeId,
   useFloatingParentNodeId,
@@ -21,9 +20,11 @@ import {
 import type { TaleUIComponentProps } from '../../utils/types';
 import { useOpenChangeComplete } from '../../utils/useOpenChangeComplete';
 import { useTransitionStatus } from '../../utils/useTransitionStatus';
-import { setFixedSize } from '../utils/setFixedSize';
-import { type TaleUIChangeEventDetails } from '../../utils/createTaleUIEventDetails';
+import { getCssDimensions } from '../../utils/getCssDimensions';
+import { type BaseUIChangeEventDetails } from '../../utils/createBaseUIEventDetails';
 import { REASONS } from '../../utils/reasons';
+import { NavigationMenuPopupCssVars } from '../popup/NavigationMenuPopupCssVars';
+import { NavigationMenuPositionerCssVars } from '../positioner/NavigationMenuPositionerCssVars';
 
 const blockedReturnFocusReasons = new Set<string>([
   REASONS.triggerHover,
@@ -31,11 +32,30 @@ const blockedReturnFocusReasons = new Set<string>([
   REASONS.focusOut,
 ]);
 
+function setSharedFixedSize(popupElement: HTMLElement, positionerElement: HTMLElement) {
+  const { width, height } = getCssDimensions(popupElement);
+
+  if (width === 0 || height === 0) {
+    return;
+  }
+
+  popupElement.style.setProperty(NavigationMenuPopupCssVars.popupWidth, `${width}px`);
+  popupElement.style.setProperty(NavigationMenuPopupCssVars.popupHeight, `${height}px`);
+  positionerElement.style.setProperty(
+    NavigationMenuPositionerCssVars.positionerWidth,
+    `${width}px`,
+  );
+  positionerElement.style.setProperty(
+    NavigationMenuPositionerCssVars.positionerHeight,
+    `${height}px`,
+  );
+}
+
 /**
  * Groups all parts of the navigation menu.
  * Renders a `<nav>` element at the root, or `<div>` element when nested.
  *
- * Documentation: [Tale UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
+ * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
  */
 export const NavigationMenuRoot = React.forwardRef(function NavigationMenuRoot(
   componentProps: NavigationMenuRoot.Props,
@@ -53,7 +73,6 @@ export const NavigationMenuRoot = React.forwardRef(function NavigationMenuRoot(
   } = componentProps;
 
   const nested = useFloatingParentNodeId() != null;
-  const parentRootContext = useNavigationMenuRootContext(true);
 
   const [value, setValueUnwrapped] = useControlled({
     controlled: valueParam,
@@ -102,8 +121,7 @@ export const NavigationMenuRoot = React.forwardRef(function NavigationMenuRoot(
         setFloatingRootContext(undefined);
 
         if (positionerElement && popupElement) {
-          setFixedSize(popupElement, 'popup');
-          setFixedSize(positionerElement, 'positioner');
+          setSharedFixedSize(popupElement, positionerElement);
         }
       }
 
@@ -116,10 +134,6 @@ export const NavigationMenuRoot = React.forwardRef(function NavigationMenuRoot(
       }
 
       setValueUnwrapped(nextValue);
-
-      if (nested && !nextValue && eventDetails.reason === REASONS.linkPress && parentRootContext) {
-        parentRootContext.setValue(null, eventDetails);
-      }
     },
   );
 
@@ -265,7 +279,7 @@ function TreeContext(props: {
 
   const { open } = useNavigationMenuRootContext();
 
-  const state: NavigationMenuRoot.State = {
+  const state: NavigationMenuRootState = {
     open,
     nested,
   };
@@ -273,12 +287,12 @@ function TreeContext(props: {
   const element = useRenderElement(nested ? 'div' : 'nav', props.componentProps, {
     state,
     ref: [props.forwardedRef, rootRef],
-    props: elementProps,
+    props: [{ 'aria-orientation': orientation }, elementProps],
   });
 
   return (
     <NavigationMenuTreeContext.Provider value={nodeId}>
-      <FloatingNode id={nodeId}>{element}</FloatingNode>
+      {element}
     </NavigationMenuTreeContext.Provider>
   );
 }
@@ -296,7 +310,7 @@ export interface NavigationMenuRootState {
 
 export interface NavigationMenuRootProps extends TaleUIComponentProps<
   'nav',
-  NavigationMenuRoot.State
+  NavigationMenuRootState
 > {
   /**
    * A ref to imperative actions.
@@ -328,12 +342,12 @@ export interface NavigationMenuRootProps extends TaleUIComponentProps<
     | ((value: any, eventDetails: NavigationMenuRoot.ChangeEventDetails) => void)
     | undefined;
   /**
-   * How long to wait before opening the navigation menu. Specified in milliseconds.
+   * How long to wait before opening the navigation popup. Specified in milliseconds.
    * @default 50
    */
   delay?: number | undefined;
   /**
-   * How long to wait before closing the navigation menu. Specified in milliseconds.
+   * How long to wait before closing the navigation popup. Specified in milliseconds.
    * @default 50
    */
   closeDelay?: number | undefined;
@@ -359,7 +373,7 @@ export type NavigationMenuRootChangeEventReason =
   | typeof REASONS.none;
 
 export type NavigationMenuRootChangeEventDetails =
-  TaleUIChangeEventDetails<NavigationMenuRoot.ChangeEventReason>;
+  BaseUIChangeEventDetails<NavigationMenuRoot.ChangeEventReason>;
 
 export namespace NavigationMenuRoot {
   export type State = NavigationMenuRootState;

@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { useIsoLayoutEffect } from '@tale-ui/utils/useIsoLayoutEffect';
 import { inertValue } from '@tale-ui/utils/inertValue';
 import { FloatingNode } from '../../floating-ui-react';
 import { contains, getTarget } from '../../floating-ui-react/utils';
@@ -18,7 +19,7 @@ import { CompositeRoot } from '../../composite/root/CompositeRoot';
 import { popupStateMapping } from '../../utils/popupStateMapping';
 import { EMPTY_OBJECT } from '../../utils/constants';
 
-const stateAttributesMapping: StateAttributesMapping<NavigationMenuContent.State> = {
+const stateAttributesMapping: StateAttributesMapping<NavigationMenuContentState> = {
   ...popupStateMapping,
   ...transitionStatusMapping,
   activationDirection(value) {
@@ -36,7 +37,7 @@ const stateAttributesMapping: StateAttributesMapping<NavigationMenuContent.State
  * when the item is active.
  * Renders a `<div>` element.
  *
- * Documentation: [Tale UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
+ * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
  */
 export const NavigationMenuContent = React.forwardRef(function NavigationMenuContent(
   componentProps: NavigationMenuContent.Props,
@@ -80,7 +81,17 @@ export const NavigationMenuContent = React.forwardRef(function NavigationMenuCon
     },
   });
 
-  const state: NavigationMenuContent.State = {
+  // When a content re-enters while still mounted (e.g. switching top-level triggers
+  // back before the exit animation completes), the DOM element hasn't changed so the
+  // callback ref won't fire again. Ensure the shared ref is updated so the
+  // MutationObserver in the trigger watches the correct content element.
+  useIsoLayoutEffect(() => {
+    if (open && ref.current) {
+      currentContentRef.current = ref.current;
+    }
+  }, [open, currentContentRef]);
+
+  const state: NavigationMenuContentState = {
     open,
     transitionStatus,
     activationDirection,
@@ -98,7 +109,7 @@ export const NavigationMenuContent = React.forwardRef(function NavigationMenuCon
   const commonProps: HTMLProps<HTMLDivElement> = {
     onFocus(event) {
       const target = getTarget(event.nativeEvent) as Element | null;
-      if (target?.hasAttribute('data-tale-ui-focus-guard')) {
+      if (target?.hasAttribute('data-base-ui-focus-guard')) {
         return;
       }
       setFocusInside(true);
@@ -176,7 +187,7 @@ export interface NavigationMenuContentState {
 
 export interface NavigationMenuContentProps extends TaleUIComponentProps<
   'div',
-  NavigationMenuContent.State
+  NavigationMenuContentState
 > {
   /**
    * Whether to keep the content mounted in the DOM while the popup is closed.

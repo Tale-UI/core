@@ -3,12 +3,10 @@ import * as React from 'react';
 import { useIsoLayoutEffect } from '@tale-ui/utils/useIsoLayoutEffect';
 import { useId } from '@tale-ui/utils/useId';
 import { inertValue } from '@tale-ui/utils/inertValue';
-import { useStableCallback } from '@tale-ui/utils/useStableCallback';
 import type { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import { useNavigationMenuRootContext } from '../root/NavigationMenuRootContext';
 import { FocusGuard } from '../../utils/FocusGuard';
-import { usePopupAutoResize } from '../../utils/usePopupAutoResize';
 import {
   getNextTabbable,
   getPreviousTabbable,
@@ -17,7 +15,6 @@ import {
 } from '../../floating-ui-react/utils';
 import { getEmptyRootContext } from '../../floating-ui-react/utils/getEmptyRootContext';
 import { useNavigationMenuPositionerContext } from '../positioner/NavigationMenuPositionerContext';
-import { useDirection } from '../../direction-provider/DirectionContext';
 
 const EMPTY_ROOT_CONTEXT = getEmptyRootContext();
 
@@ -70,7 +67,7 @@ function Guards({ children }: { children: React.ReactNode }) {
  * The clipping viewport of the navigation menu's current content.
  * Renders a `<div>` element.
  *
- * Documentation: [Tale UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
+ * Documentation: [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)
  */
 
 export const NavigationMenuViewport = React.forwardRef(function NavigationMenuViewport(
@@ -82,11 +79,6 @@ export const NavigationMenuViewport = React.forwardRef(function NavigationMenuVi
   const id = useId(idProp);
 
   const {
-    open,
-    mounted,
-    value,
-    popupElement,
-    positionerElement,
     setViewportElement,
     setViewportTargetElement,
     floatingRootContext,
@@ -97,19 +89,6 @@ export const NavigationMenuViewport = React.forwardRef(function NavigationMenuVi
 
   const positioning = useNavigationMenuPositionerContext(true);
   const hasPositioner = Boolean(positioning);
-  const direction = useDirection();
-  const enableAutoResize = useStableCallback(() => open);
-
-  usePopupAutoResize({
-    popupElement,
-    positionerElement,
-    mounted,
-    content: value,
-    enabled: enableAutoResize,
-    side: positioning?.side ?? 'bottom',
-    direction,
-  });
-
   const domReference = (floatingRootContext || EMPTY_ROOT_CONTEXT).useState('domReferenceElement');
 
   useIsoLayoutEffect(() => {
@@ -157,7 +136,7 @@ export interface NavigationMenuViewportState {}
 
 export interface NavigationMenuViewportProps extends TaleUIComponentProps<
   'div',
-  NavigationMenuViewport.State
+  NavigationMenuViewportState
 > {}
 
 export namespace NavigationMenuViewport {
