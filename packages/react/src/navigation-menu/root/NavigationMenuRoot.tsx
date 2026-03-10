@@ -5,6 +5,7 @@ import { useControlled } from '@tale-ui/utils/useControlled';
 import { useStableCallback } from '@tale-ui/utils/useStableCallback';
 import { ownerDocument } from '@tale-ui/utils/owner';
 import {
+  FloatingNode,
   FloatingTree,
   useFloatingNodeId,
   useFloatingParentNodeId,
@@ -277,7 +278,7 @@ function TreeContext(props: {
 
   return (
     <NavigationMenuTreeContext.Provider value={nodeId}>
-      {element}
+      <FloatingNode id={nodeId}>{element}</FloatingNode>
     </NavigationMenuTreeContext.Provider>
   );
 }
