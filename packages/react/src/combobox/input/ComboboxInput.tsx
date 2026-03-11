@@ -25,7 +25,6 @@ import { REASONS } from '../../utils/reasons';
 import type { Side } from '../../utils/useAnchorPositioning';
 import { useDirection } from '../../direction-provider/DirectionContext';
 import { resolveAriaLabelledBy } from '../../utils/resolveAriaLabelledBy';
-import { ComboboxInternalDismissButton } from '../utils/ComboboxInternalDismissButton';
 
 /**
  * A text input to search for items in the list.
@@ -77,7 +76,6 @@ export const ComboboxInput = React.forwardRef(function ComboboxInput(
   const positionerElement = useStore(store, selectors.positionerElement);
   const rootId = useStore(store, selectors.id);
   const inline = useStore(store, selectors.inline);
-  const modal = useStore(store, selectors.modal);
 
   const autoHighlightEnabled = Boolean(autoHighlightMode);
   const popupSide = mounted && positionerElement ? popupSideValue : null;
@@ -85,7 +83,6 @@ export const ComboboxInput = React.forwardRef(function ComboboxInput(
   const listEmpty = filteredItems.length === 0;
 
   const isInsidePopup = hasPositionerParent || inline;
-  const focusManagerModal = !isInsidePopup || modal;
   const id = useBaseUiId(idProp ?? (!isInsidePopup ? rootId : undefined));
   const ariaLabelledBy = resolveAriaLabelledBy(fieldLabelId, undefined);
   const fieldStateForInput = hasPositionerParent ? DEFAULT_FIELD_STATE_ATTRIBUTES : fieldState;
@@ -473,14 +470,7 @@ export const ComboboxInput = React.forwardRef(function ComboboxInput(
     stateAttributesMapping: triggerStateAttributesMapping,
   });
 
-  return (
-    <React.Fragment>
-      {open && focusManagerModal && (
-        <ComboboxInternalDismissButton ref={store.state.startDismissRef} />
-      )}
-      {element}
-    </React.Fragment>
-  );
+  return element;
 });
 
 export interface ComboboxInputState extends FieldRootState {

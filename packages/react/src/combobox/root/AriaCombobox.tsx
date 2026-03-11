@@ -340,6 +340,7 @@ export function AriaCombobox<Value = any, Mode extends SelectionMode = 'none'>(
     () =>
       new Store<StoreState>({
         id,
+        labelId: undefined,
         selectedValue,
         open,
         filter,

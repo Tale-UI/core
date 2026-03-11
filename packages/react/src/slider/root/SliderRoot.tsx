@@ -10,21 +10,22 @@ import type { TaleUIComponentProps, Orientation } from '../../utils/types';
 import {
   createChangeEventDetails,
   createGenericEventDetails,
-  type TaleUIChangeEventDetails,
-  type TaleUIGenericEventDetails,
-} from '../../utils/createTaleUIEventDetails';
+  type BaseUIChangeEventDetails,
+  type BaseUIGenericEventDetails,
+} from '../../utils/createBaseUIEventDetails';
 import { useValueChanged } from '../../utils/useValueChanged';
-import { useTaleUiId } from '../../utils/useTaleUiId';
+import { useBaseUiId } from '../../utils/useBaseUiId';
 import { useRenderElement } from '../../utils/useRenderElement';
 import { clamp } from '../../utils/clamp';
 import { areArraysEqual } from '../../utils/areArraysEqual';
 import { activeElement } from '../../floating-ui-react/utils';
 import { CompositeList, type CompositeMetadata } from '../../composite/list/CompositeList';
-import type { FieldRoot } from '../../field/root/FieldRoot';
+import type { FieldRootState } from '../../field/root/FieldRoot';
 import { useField } from '../../field/useField';
 import { useFieldRootContext } from '../../field/root/FieldRootContext';
 import { useFormContext } from '../../form/FormContext';
 import { useLabelableContext } from '../../labelable-provider/LabelableContext';
+import { resolveAriaLabelledBy, getDefaultLabelId } from '../../utils/resolveAriaLabelledBy';
 import { asc } from '../utils/asc';
 import { getSliderValue } from '../utils/getSliderValue';
 import { validateMinimumDistance } from '../utils/validateMinimumDistance';
@@ -56,7 +57,7 @@ function areValuesEqual(
  * Groups all parts of the slider.
  * Renders a `<div>` element.
  *
- * Documentation: [Tale UI Slider](https://base-ui.com/react/components/slider)
+ * Documentation: [Base UI Slider](https://base-ui.com/react/components/slider)
  */
 export const SliderRoot = React.forwardRef(function SliderRoot<
   Value extends number | readonly number[],
@@ -85,7 +86,8 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
     ...elementProps
   } = componentProps;
 
-  const id = useTaleUiId(idProp);
+  const id = useBaseUiId(idProp);
+  const defaultLabelId = getDefaultLabelId(id);
   const onValueChange = useStableCallback(
     onValueChangeProp as (
       value: number | number[],
@@ -110,9 +112,10 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
     shouldValidateOnChange,
     validation,
   } = useFieldRootContext();
-  const { labelId } = useLabelableContext();
+  const { labelId: fieldLabelId } = useLabelableContext();
+  const [labelId, setLabelId] = React.useState<string | undefined>();
 
-  const ariaLabelledby = ariaLabelledByProp ?? labelId;
+  const ariaLabelledby = ariaLabelledByProp ?? resolveAriaLabelledBy(fieldLabelId, labelId);
   const disabled = fieldDisabled || disabledProp;
   const name = fieldName ?? nameProp;
 
@@ -286,7 +289,7 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
     setActive(-1);
   }
 
-  const state: SliderRoot.State = React.useMemo(
+  const state: SliderRootState = React.useMemo(
     () => ({
       ...fieldState,
       activeThumbIndex: active,
@@ -325,6 +328,7 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
       indicatorPosition,
       inset: thumbAlignment !== 'center',
       labelId: ariaLabelledby,
+      rootLabelId: defaultLabelId,
       largeStep,
       lastUsedThumbIndex,
       lastChangedValueRef,
@@ -345,6 +349,7 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
       setActive,
       setDragging,
       setIndicatorPosition,
+      setLabelId,
       setValue,
       state,
       step,
@@ -357,6 +362,7 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
       active,
       controlRef,
       ariaLabelledby,
+      defaultLabelId,
       disabled,
       dragging,
       validation,
@@ -382,6 +388,7 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
       setActive,
       setDragging,
       setIndicatorPosition,
+      setLabelId,
       setValue,
       state,
       step,
@@ -423,7 +430,7 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
   ): React.JSX.Element;
 };
 
-export interface SliderRootState extends FieldRoot.State {
+export interface SliderRootState extends FieldRootState {
   /**
    * The index of the active thumb.
    */
@@ -436,7 +443,13 @@ export interface SliderRootState extends FieldRoot.State {
    * Whether the thumb is currently being dragged.
    */
   dragging: boolean;
+  /**
+   * The maximum value.
+   */
   max: number;
+  /**
+   * The minimum value.
+   */
   min: number;
   /**
    * The minimum steps between values in a range slider.
@@ -461,7 +474,7 @@ export interface SliderRootState extends FieldRoot.State {
 
 export interface SliderRootProps<
   Value extends number | readonly number[] = number | readonly number[],
-> extends TaleUIComponentProps<'div', SliderRoot.State> {
+> extends TaleUIComponentProps<'div', SliderRootState> {
   /**
    * The uncontrolled value of the slider when it’s initially rendered.
    *
@@ -594,7 +607,7 @@ export type SliderRootChangeEventReason =
   | typeof REASONS.drag
   | typeof REASONS.keyboard
   | typeof REASONS.none;
-export type SliderRootChangeEventDetails = TaleUIChangeEventDetails<
+export type SliderRootChangeEventDetails = BaseUIChangeEventDetails<
   SliderRoot.ChangeEventReason,
   SliderRootChangeEventCustomProperties
 >;
@@ -605,7 +618,7 @@ export type SliderRootCommitEventReason =
   | typeof REASONS.drag
   | typeof REASONS.keyboard
   | typeof REASONS.none;
-export type SliderRootCommitEventDetails = TaleUIGenericEventDetails<SliderRoot.CommitEventReason>;
+export type SliderRootCommitEventDetails = BaseUIGenericEventDetails<SliderRoot.CommitEventReason>;
 
 export namespace SliderRoot {
   export type State = SliderRootState;
