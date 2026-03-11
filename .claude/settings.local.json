@@ -15,7 +15,11 @@
       "Bash(pnpm add -D -w stylelint stylelint-config-standard)",
       "Bash(pnpm lint)",
       "Bash(pnpm add -D -w husky lint-staged)",
-      "Bash(npx husky init)"
+      "Bash(npx husky init)",
+      "Bash(pnpm --filter @tale-ui/utils build)",
+      "Bash(\"c:/Users/ADMIN-USER/Documents/GitHub/tale-ui/core/docs/src/error-codes.json\")",
+      "Bash(pnpm --filter @tale-ui/react build)",
+      "Bash(pnpm why:*)"
     ]
   }
 }

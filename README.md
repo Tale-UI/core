@@ -68,6 +68,16 @@ pnpm eslint                  # lint JS/TS
 pnpm lint:css                # lint CSS design system
 ```
 
+## Publishing
+
+Publishing is automated via [.github/workflows/publish.yml](.github/workflows/publish.yml).
+
+- **CSS design system:** Tag with `css-v*.*.*` (e.g. `css-v1.2.0`) or use `pnpm release:css`
+- **React packages:** Tag with `react-v*.*.*` (e.g. `react-v0.2.0`)
+- **Manual dispatch:** Run the workflow from GitHub Actions with scope (`css` or `react`) and version
+
+Requires repository secret `NPM_TOKEN` with publish permissions for the `@tale-ui` npm scope.
+
 ## License
 
 MIT

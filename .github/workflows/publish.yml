@@ -1,60 +1,254 @@
 name: Publish packages
 
 on:
+  push:
+    tags:
+      - 'css-v*.*.*'
+      - 'react-v*.*.*'
   workflow_dispatch:
     inputs:
-      sha:
-        description: 'Commit SHA to release from'
+      scope:
+        description: 'Which packages to publish'
+        required: true
+        type: choice
+        options:
+          - css
+          - react
+      version:
+        description: 'Version without prefix (e.g. 1.2.3)'
         required: true
         type: string
+      dist-tag:
+        description: 'npm dist-tag to publish under'
+        required: false
+        default: latest
+        type: string
       dry-run:
-        description: 'Run in dry-run mode without actually publishing packages'
+        description: 'Dry run (no actual publish)'
         required: false
         type: boolean
         default: false
-      github-release:
-        description: 'Create a GitHub release after publishing'
-        required: false
-        type: boolean
-        default: true
-      dist-tag:
-        description: 'npm dist tag to publish to'
-        required: false
-        type: string
-        default: 'latest'
 
-permissions: {}
+permissions:
+  contents: write
+  id-token: write
 
 jobs:
-  publish:
+  resolve:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Required for pushing tags and creating releases
-      id-token: write # Required for provenance
-    environment:
-      name: npm-publish
+    outputs:
+      scope: ${{ steps.detect.outputs.scope }}
+      version: ${{ steps.detect.outputs.version }}
+      dist_tag: ${{ steps.detect.outputs.dist_tag }}
+      dry_run: ${{ steps.detect.outputs.dry_run }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          ref: ${{ inputs.sha }}
-          fetch-depth: 0 # Fetch full history for proper git operations
-      - name: Prepare for publishing
-        uses: mui/mui-public/.github/actions/publish-prepare@b788836647750acde70e3f136f3a7f8f8d6c62bf
-      - name: Publish packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Detect scope and version
+        id: detect
+        shell: bash
         run: |
-          # Build common flags
-          ARGS=""
-          if [ "${{ inputs.dry-run }}" = "true" ]; then
-            ARGS="$ARGS --dry-run"
-          fi
-          if [ "${{ inputs.github-release }}" = "true" ]; then
-            ARGS="$ARGS --github-release"
-          fi
-          if [ -n "${{ inputs.dist-tag }}" ]; then
-            ARGS="$ARGS --tag ${{ inputs.dist-tag }}"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            TAG="${GITHUB_REF_NAME}"
+            if [[ "$TAG" == css-v* ]]; then
+              echo "scope=css" >> "$GITHUB_OUTPUT"
+              echo "version=${TAG#css-v}" >> "$GITHUB_OUTPUT"
+            elif [[ "$TAG" == react-v* ]]; then
+              echo "scope=react" >> "$GITHUB_OUTPUT"
+              echo "version=${TAG#react-v}" >> "$GITHUB_OUTPUT"
+            else
+              echo "Unknown tag prefix: $TAG"
+              exit 1
+            fi
+            echo "dist_tag=latest" >> "$GITHUB_OUTPUT"
+            echo "dry_run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "scope=${{ inputs.scope }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+            echo "dist_tag=${{ inputs.dist-tag }}" >> "$GITHUB_OUTPUT"
+            echo "dry_run=${{ inputs.dry-run }}" >> "$GITHUB_OUTPUT"
           fi
 
-          pnpm code-infra publish --ci $ARGS
+      - name: Validate version
+        shell: bash
+        run: |
+          VERSION="${{ steps.detect.outputs.version }}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid semver version: $VERSION"
+            exit 1
+          fi
+
+      - name: Summary
+        run: |
+          echo "### Publish" >> $GITHUB_STEP_SUMMARY
+          echo "- **Scope:** ${{ steps.detect.outputs.scope }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version:** ${{ steps.detect.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Dist tag:** ${{ steps.detect.outputs.dist_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Dry run:** ${{ steps.detect.outputs.dry_run }}" >> $GITHUB_STEP_SUMMARY
+
+  publish-css:
+    needs: resolve
+    if: needs.resolve.outputs.scope == 'css'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify version matches package.json
+        shell: bash
+        run: |
+          EXPECTED="${{ needs.resolve.outputs.version }}"
+          ACTUAL=$(node -p "require('./packages/css/package.json').version")
+          echo "Expected: $EXPECTED"
+          echo "Actual:   $ACTUAL"
+          if [ "$EXPECTED" != "$ACTUAL" ]; then
+            echo "Version mismatch between tag and packages/css/package.json"
+            exit 1
+          fi
+
+      - name: Build @tale-ui/core
+        run: pnpm --filter @tale-ui/core build
+
+      - name: Publish @tale-ui/core
+        if: needs.resolve.outputs.dry_run != 'true'
+        run: pnpm --filter @tale-ui/core publish --access public --no-git-checks --tag ${{ needs.resolve.outputs.dist_tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Dry run notice
+        if: needs.resolve.outputs.dry_run == 'true'
+        run: echo "Dry run — skipped npm publish for @tale-ui/core@${{ needs.resolve.outputs.version }}"
+
+      - name: Build release notes
+        id: release_meta
+        shell: bash
+        run: |
+          VERSION="${{ needs.resolve.outputs.version }}"
+          NOTES_FILE="release-notes.md"
+
+          awk -v version="${VERSION}" '
+            $0 ~ "^## v" version " - " { found=1; next }
+            found && $0 ~ "^## v[0-9]+\\.[0-9]+\\.[0-9]+ - " { exit }
+            found { print }
+          ' packages/css/CHANGELOG.md > "${NOTES_FILE}"
+
+          if [ ! -s "${NOTES_FILE}" ]; then
+            echo "### Changed" > "${NOTES_FILE}"
+            echo "- Release css-v${VERSION} of @tale-ui/core." >> "${NOTES_FILE}"
+          fi
+
+          SUMMARY=$(grep -m1 '^-' "${NOTES_FILE}" | sed 's/^- //')
+          if [ -z "${SUMMARY}" ]; then
+            SUMMARY="@tale-ui/core release"
+          fi
+
+          echo "title=css-v${VERSION} — ${SUMMARY}" >> "$GITHUB_OUTPUT"
+          echo "notes_path=${NOTES_FILE}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub release
+        if: needs.resolve.outputs.dry_run != 'true' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ steps.release_meta.outputs.title }}
+          body_path: ${{ steps.release_meta.outputs.notes_path }}
+
+  publish-react:
+    needs: resolve
+    if: needs.resolve.outputs.scope == 'react'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Synchronize package versions
+        run: node scripts/release/sync-package-versions.mjs ${{ needs.resolve.outputs.version }}
+
+      - name: Ensure error code map exists
+        shell: bash
+        run: |
+          mkdir -p docs/src
+          if [ ! -f docs/src/error-codes.json ]; then
+            echo '{}' > docs/src/error-codes.json
+          fi
+
+      - name: Build publishable packages
+        run: pnpm -r --filter @tale-ui/utils --filter @tale-ui/react build
+
+      - name: Publish @tale-ui/utils
+        if: needs.resolve.outputs.dry_run != 'true'
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION="${{ needs.resolve.outputs.version }}"
+          if npm view @tale-ui/utils@"$VERSION" version >/dev/null 2>&1; then
+            echo "@tale-ui/utils@$VERSION already published; skipping"
+          else
+            pnpm --filter @tale-ui/utils publish --access public --no-git-checks --provenance --tag ${{ needs.resolve.outputs.dist_tag }}
+          fi
+
+      - name: Publish @tale-ui/react
+        if: needs.resolve.outputs.dry_run != 'true'
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION="${{ needs.resolve.outputs.version }}"
+          if npm view @tale-ui/react@"$VERSION" version >/dev/null 2>&1; then
+            echo "@tale-ui/react@$VERSION already published; skipping"
+          else
+            pnpm --filter @tale-ui/react publish --access public --no-git-checks --provenance --tag ${{ needs.resolve.outputs.dist_tag }}
+          fi
+
+      - name: Publish @tale-ui/react-styles
+        if: needs.resolve.outputs.dry_run != 'true'
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION="${{ needs.resolve.outputs.version }}"
+          if npm view @tale-ui/react-styles@"$VERSION" version >/dev/null 2>&1; then
+            echo "@tale-ui/react-styles@$VERSION already published; skipping"
+          else
+            pnpm --filter @tale-ui/react-styles publish --access public --no-git-checks --provenance --tag ${{ needs.resolve.outputs.dist_tag }}
+          fi
+
+      - name: Dry run notice
+        if: needs.resolve.outputs.dry_run == 'true'
+        run: echo "Dry run — skipped npm publish for react packages@${{ needs.resolve.outputs.version }}"
+
+      - name: Create GitHub release
+        if: needs.resolve.outputs.dry_run != 'true' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "react-v${{ needs.resolve.outputs.version }}"
+          body: |
+            Published @tale-ui/react, @tale-ui/react-styles, and @tale-ui/utils v${{ needs.resolve.outputs.version }} to npm.
