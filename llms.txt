@@ -44,6 +44,11 @@ These are the most common AI errors — memorize before generating any HTML/CSS:
 
 Pattern: `.{block}--{breakpoint}-{modifier}` → e.g. `.gap--m-s`, `.grid--l-2`, `.flex--col-m`
 
+## Full Reference
+
+For the complete enumeration of every class, token, and value, see: `packages/css/docs/ai-reference.md`
+GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/ai-reference.md
+
 ## Entry Point
 
 `packages/css/src/index.css` — imports all modules in order:

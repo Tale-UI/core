@@ -48,9 +48,40 @@ for (const filePath of importPaths) {
   output += content.trimEnd() + '\n\n';
 }
 
+// Zero-dependency CSS minification.
+// Preserves spaces around + and - inside calc()/clamp()/min()/max() as required by the CSS spec.
+function minifyCSS(css) {
+  // 1. Strip comments
+  let result = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  // 2. Protect spaces around + and - inside math functions.
+  //    Replace " + " and " - " with placeholders before collapsing whitespace.
+  result = result.replace(/ \+ /g, '<<PLUS>>');
+  result = result.replace(/ - /g, '<<MINUS>>');
+  // 3. Collapse whitespace
+  result = result.replace(/\s+/g, ' ');
+  // 4. Remove space around delimiters
+  result = result.replace(/\s*([{}:;,])\s*/g, '$1');
+  // 5. Remove trailing semicolons before }
+  result = result.replace(/;}/g, '}');
+  // 6. Restore protected spaces
+  result = result.replace(/<<PLUS>>/g, ' + ');
+  result = result.replace(/<<MINUS>>/g, ' - ');
+  return result.trim();
+}
+
 fs.mkdirSync(DIST_DIR, { recursive: true });
 const outPath = path.join(DIST_DIR, 'style.css');
 fs.writeFileSync(outPath, output, 'utf8');
 
+const minified = minifyCSS(output);
+const minPath = path.join(DIST_DIR, 'style.min.css');
+fs.writeFileSync(minPath, minified, 'utf8');
+
+const { gzipSync } = require('zlib');
 const kb = (output.length / 1024).toFixed(1);
-console.log(`✓ Built dist/style.css (${kb} KB, ${importPaths.length} modules)`);
+const gzipKb = (gzipSync(output).length / 1024).toFixed(1);
+console.log(`✓ Built dist/style.css (${kb} KB, ${gzipKb} KB gzipped, ${importPaths.length} modules)`);
+
+const minKb = (minified.length / 1024).toFixed(1);
+const minGzipKb = (gzipSync(minified).length / 1024).toFixed(1);
+console.log(`✓ Built dist/style.min.css (${minKb} KB, ${minGzipKb} KB gzipped)`);

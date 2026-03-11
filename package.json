@@ -9,6 +9,18 @@
     "release:css:patch": "node tools/release-css.js --type patch",
     "release:css:minor": "node tools/release-css.js --type minor",
     "release:css:major": "node tools/release-css.js --type major",
-    "release:css:dry-run": "node tools/release-css.js --type patch --dry-run"
+    "release:css:dry-run": "node tools/release-css.js --type patch --dry-run",
+    "lint": "stylelint \"packages/css/src/**/*.css\"",
+    "lint:fix": "stylelint \"packages/css/src/**/*.css\" --fix",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "packages/css/src/**/*.css": "stylelint"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.0",
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard": "^40.0.0"
   }
 }

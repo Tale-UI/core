@@ -8,7 +8,7 @@ src/
 ├── tokens/                # CSS custom properties (design tokens)
 │   ├── _base.css          # HTML reset (62.5%), screen constraints, --background
 │   ├── _spacing.css       # --space-4xs..4xl, --section-space-xs..xl (fluid clamp)
-│   ├── _typography.css    # --text-xs..8xl, font system tokens, grid-auto tokens
+│   ├── _typography.css    # --text-xs..8xl, font system tokens
 │   ├── _colors.css        # Brand, 16 color families × 11 shades, semantic (error/warning/success)
 │   ├── _neutrals.css      # 6 neutral families × 25+ shades, --neutral-default-* mappings
 │   └── _effects.css       # --radius-*, --shadow-* tokens
@@ -45,6 +45,8 @@ In `src/index.css`, modules are imported in this exact order:
 5. **Themes** — Last, so color overrides cascade correctly
 
 When adding a new module, place its `@import` in the correct layer.
+
+> **Build constraint:** The build script resolves `@import` statements one level deep only — it reads `src/index.css` and concatenates the imported files. Nested `@import` within module files is not supported. All CSS modules must be flat files imported directly from `src/index.css`.
 
 ## Specificity Patterns
 

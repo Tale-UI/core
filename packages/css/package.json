@@ -6,6 +6,7 @@
   "style": "dist/style.css",
   "exports": {
     ".": "./dist/style.css",
+    "./min": "./dist/style.min.css",
     "./src": "./src/index.css",
     "./src/*": "./src/*"
   },

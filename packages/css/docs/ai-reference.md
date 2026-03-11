@@ -691,6 +691,13 @@ Applied to a container; affects all `--neutral-*` usage inside:
 .neutral-mono    (true monochrome neutrals)
 ```
 
+**Choosing a neutral family:**
+- `.neutral-warm` — editorial, lifestyle, warm brand tones (default)
+- `.neutral-cool` or `.neutral-slate` — tech, corporate, professional UIs
+- `.neutral-gray` — minimal, neutral-toned interfaces
+- `.neutral-onyx` — high-contrast, bold dark sections
+- `.neutral-mono` — pure black/white, maximum contrast
+
 **Dark/light mode**
 
 Set `data-color-mode` on the `<html>` element:
@@ -907,3 +914,12 @@ Use these to verify an AI correctly understands this reference.
 
 **Q10:** Does `.gap--none` work at all screen sizes?
 **A:** No. `.gap--none` is defined inside `@media (max-width: 480px)` in the source, so it only applies at ≤480px viewport width.
+
+**Q11:** Does `--brand-60` change value in dark mode?
+**A:** No. `--brand-*` tokens never invert. Only `--color-*` and `--neutral-*` tokens adapt to dark mode. This is why component CSS must use `--color-*`, never `--brand-*`.
+
+**Q12:** Which token should you use in component CSS for colors that adapt to dark mode?
+**A:** `--color-*` (e.g. `var(--color-60)`). Never use `--brand-*` in component CSS — it won't invert in dark mode.
+
+**Q13:** A container has `class="neutral-cool"`. Should its child component use `var(--neutral-cool-14)` or `var(--neutral-14)` for a background?
+**A:** `var(--neutral-14)`. Always use generic `--neutral-*` tokens so the component automatically adapts to whichever neutral family is active. Never reference family-specific tokens like `--neutral-cool-*` in components.

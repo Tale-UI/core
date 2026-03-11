@@ -10,7 +10,12 @@
       "Bash(npm:*)",
       "Bash(pnpm ls:*)",
       "Bash(pnpm list:*)",
-      "Bash(pnpm --recursive list:*)"
+      "Bash(pnpm --recursive list:*)",
+      "Bash(node tools/build-css.js)",
+      "Bash(pnpm add -D -w stylelint stylelint-config-standard)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm add -D -w husky lint-staged)",
+      "Bash(npx husky init)"
     ]
   }
 }
