@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Button } from '@tale-ui/react/button';
 import '@tale-ui/react-styles/index.css';
 

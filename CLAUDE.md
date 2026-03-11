@@ -10,7 +10,6 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [packages/react](packages/react/) | `@tale-ui/react` | Headless React components (forked from Base UI) |
 | [packages/styles](packages/styles/) | `@tale-ui/react-styles` | CSS per component (uses @tale-ui/core tokens) |
 | [packages/utils](packages/utils/) | `@tale-ui/utils` | Shared utilities |
-| [packages/mcp](packages/mcp/) | `@tale-ui/mcp` | MCP server |
 
 ## Documentation
 
