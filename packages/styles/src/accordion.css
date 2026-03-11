@@ -1,0 +1,101 @@
+/*
+ * Accordion — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Accordion exposes:
+ *   Root: [data-disabled] [data-orientation]
+ *   Item: [data-index] [data-disabled] [data-open]
+ *
+ * Usage:
+ *   <Accordion.Root className="tale-accordion">
+ *     <Accordion.Item className="tale-accordion__item">
+ *       <Accordion.Header>
+ *         <Accordion.Trigger className="tale-accordion__trigger">Title</Accordion.Trigger>
+ *       </Accordion.Header>
+ *       <Accordion.Panel className="tale-accordion__panel">Content</Accordion.Panel>
+ *     </Accordion.Item>
+ *   </Accordion.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-accordion {
+  width: 100%;
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-accordion__item {
+  border-bottom: 1px solid var(--neutral-20);
+}
+
+.tale-accordion__item:last-child {
+  border-bottom: none;
+}
+
+/* ─── Trigger ──────────────────────────────────────────────────────────────── */
+
+.tale-accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-s) var(--space-m);
+  background-color: transparent;
+  border: none;
+  color: var(--neutral-90);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  gap: var(--space-xs);
+}
+
+.tale-accordion__trigger:hover {
+  background-color: var(--neutral-12);
+}
+
+.tale-accordion__trigger:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-60);
+}
+
+.tale-accordion__item[data-disabled] .tale-accordion__trigger {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Trigger chevron icon ────────────────────────────────────────────────── */
+
+.tale-accordion__trigger-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  color: var(--neutral-50);
+  transition: transform 0.2s ease;
+}
+
+.tale-accordion__item[data-open] .tale-accordion__trigger-icon {
+  transform: rotate(180deg);
+}
+
+/* ─── Panel ────────────────────────────────────────────────────────────────── */
+
+.tale-accordion__panel {
+  overflow: hidden;
+  padding: 0 var(--space-m) var(--space-s);
+  color: var(--neutral-80);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  line-height: 1.6;
+}
+
+.tale-accordion__panel:not([data-open]) {
+  display: none;
+}

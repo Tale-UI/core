@@ -1,0 +1,148 @@
+/*
+ * Button — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Tale UI Button exposes: [data-disabled]
+ *
+ * Variants:   .tale-button--primary  (default filled)
+ *             .tale-button--neutral  (subtle secondary)
+ *             .tale-button--ghost    (transparent, border only)
+ *             .tale-button--danger   (destructive)
+ *
+ * Sizes:      .tale-button--sm
+ *             .tale-button--md  (default)
+ *             .tale-button--lg
+ *
+ * Usage:
+ *   <Button className="tale-button tale-button--primary">Label</Button>
+ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3xs);
+  border: 1px solid transparent;
+  border-radius: 0.6rem;
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+
+  /* Default size: md */
+  padding: var(--space-3xs) var(--space-xs);
+  min-height: 3.6rem;
+}
+
+.tale-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+/* ─── Disabled state (from data-disabled attr set by tale-ui) ─────────────── */
+
+.tale-button[data-disabled] {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* ─── Primary variant — filled brand colour ───────────────────────────────── */
+
+.tale-button--primary {
+  background-color: var(--color-60);
+  color: var(--neutral-100);
+  border-color: transparent;
+}
+
+.tale-button--primary:hover:not([data-disabled]) {
+  background-color: var(--color-50);
+}
+
+.tale-button--primary:active:not([data-disabled]) {
+  background-color: var(--color-40);
+}
+
+/* ─── Neutral variant — subtle secondary style ────────────────────────────── */
+
+.tale-button--neutral {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+  border-color: var(--neutral-22);
+}
+
+.tale-button--neutral:hover:not([data-disabled]) {
+  background-color: var(--neutral-18);
+  border-color: var(--neutral-28);
+}
+
+.tale-button--neutral:active:not([data-disabled]) {
+  background-color: var(--neutral-22);
+}
+
+/* ─── Ghost variant — transparent, border only ────────────────────────────── */
+
+.tale-button--ghost {
+  background-color: transparent;
+  color: var(--neutral-80);
+  border-color: transparent;
+}
+
+.tale-button--ghost:hover:not([data-disabled]) {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-button--ghost:active:not([data-disabled]) {
+  background-color: var(--neutral-18);
+}
+
+/* ─── Danger variant — destructive actions ────────────────────────────────── */
+
+.tale-button--danger {
+  background-color: var(--red-60);
+  color: #fff;
+  border-color: transparent;
+}
+
+.tale-button--danger:hover:not([data-disabled]) {
+  background-color: var(--red-50);
+}
+
+.tale-button--danger:active:not([data-disabled]) {
+  background-color: var(--red-40);
+}
+
+/* ─── Size modifiers ──────────────────────────────────────────────────────── */
+
+.tale-button--sm {
+  font-size: var(--label-s-font-size);
+  padding: var(--space-4xs) var(--space-3xs);
+  min-height: 2.8rem;
+  gap: var(--space-4xs);
+}
+
+.tale-button--md {
+  /* same as base defaults — explicit for clarity */
+  font-size: var(--label-m-font-size);
+  padding: var(--space-3xs) var(--space-xs);
+  min-height: 3.6rem;
+}
+
+.tale-button--lg {
+  font-size: var(--label-l-font-size);
+  padding: var(--space-2xs) var(--space-s);
+  min-height: 4.4rem;
+  gap: var(--space-2xs);
+}

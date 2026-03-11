@@ -1,0 +1,32 @@
+/*
+ * Separator — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Separator has no data attributes.
+ *
+ * Orientation modifier: .tale-separator--vertical
+ *
+ * Usage:
+ *   <Separator className="tale-separator" />
+ *   <Separator className="tale-separator tale-separator--vertical" />
+ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-separator {
+  display: block;
+  border: none;
+  background-color: var(--neutral-20);
+  width: 100%;
+  height: 1px;
+  flex-shrink: 0;
+}
+
+/* ─── Vertical orientation ────────────────────────────────────────────────── */
+
+.tale-separator--vertical,
+.tale-separator[aria-orientation="vertical"] {
+  width: 1px;
+  height: auto;
+  align-self: stretch;
+}

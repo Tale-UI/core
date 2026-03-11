@@ -1,86 +1,60 @@
-name: Publish design system
+name: Publish packages
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
   workflow_dispatch:
+    inputs:
+      sha:
+        description: 'Commit SHA to release from'
+        required: true
+        type: string
+      dry-run:
+        description: 'Run in dry-run mode without actually publishing packages'
+        required: false
+        type: boolean
+        default: false
+      github-release:
+        description: 'Create a GitHub release after publishing'
+        required: false
+        type: boolean
+        default: true
+      dist-tag:
+        description: 'npm dist tag to publish to'
+        required: false
+        type: string
+        default: 'latest'
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for pushing tags and creating releases
+      id-token: write # Required for provenance
+    environment:
+      name: npm-publish
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Verify tag matches package version
-        shell: bash
-        run: |
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
-          PACKAGE_VERSION=$(node -p "require('./packages/css/package.json').version")
-
-          echo "Tag version: ${TAG_VERSION}"
-          echo "Package version: ${PACKAGE_VERSION}"
-
-          if [ "${TAG_VERSION}" != "${PACKAGE_VERSION}" ]; then
-            echo "Tag and package versions do not match."
-            exit 1
-          fi
-
-      - name: Build package
-        run: pnpm --filter @tale-ui/core build
-
-      - name: Publish @tale-ui/core
-        run: pnpm --filter @tale-ui/core publish --access public --no-git-checks
+          ref: ${{ inputs.sha }}
+          fetch-depth: 0 # Fetch full history for proper git operations
+      - name: Prepare for publishing
+        uses: mui/mui-public/.github/actions/publish-prepare@b788836647750acde70e3f136f3a7f8f8d6c62bf
+      - name: Publish packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Build release metadata from changelog
-        id: release_meta
-        shell: bash
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
-          NOTES_FILE="release-notes.md"
-
-          awk -v version="${TAG_VERSION}" '
-            $0 ~ "^## v" version " - " { found=1; next }
-            found && $0 ~ "^## v[0-9]+\\.[0-9]+\\.[0-9]+ - " { exit }
-            found { print }
-          ' CHANGELOG.md > "${NOTES_FILE}"
-
-          if [ ! -s "${NOTES_FILE}" ]; then
-            echo "### Changed" > "${NOTES_FILE}"
-            echo "- Release ${GITHUB_REF_NAME} of @tale-ui/core." >> "${NOTES_FILE}"
+          # Build common flags
+          ARGS=""
+          if [ "${{ inputs.dry-run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          if [ "${{ inputs.github-release }}" = "true" ]; then
+            ARGS="$ARGS --github-release"
+          fi
+          if [ -n "${{ inputs.dist-tag }}" ]; then
+            ARGS="$ARGS --tag ${{ inputs.dist-tag }}"
           fi
 
-          SUMMARY=$(grep -m1 '^-' "${NOTES_FILE}" | sed 's/^- //')
-          if [ -z "${SUMMARY}" ]; then
-            SUMMARY="@tale-ui/core release"
-          fi
-
-          echo "title=${GITHUB_REF_NAME} - ${SUMMARY}" >> "$GITHUB_OUTPUT"
-          echo "notes_path=${NOTES_FILE}" >> "$GITHUB_OUTPUT"
-
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ steps.release_meta.outputs.title }}
-          body_path: ${{ steps.release_meta.outputs.notes_path }}
+          pnpm code-infra publish --ci $ARGS

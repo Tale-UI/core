@@ -1,0 +1,81 @@
+/*
+ * Progress — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Progress exposes:
+ *   Root:      [data-complete] [data-indeterminate] [data-progressing]
+ *   Indicator: [data-complete] [data-indeterminate] [data-progressing]
+ *   Value:     [data-complete] [data-indeterminate] [data-progressing]
+ *
+ * Usage:
+ *   <Progress.Root className="tale-progress" value={60}>
+ *     <Progress.Track className="tale-progress__track">
+ *       <Progress.Indicator className="tale-progress__indicator" />
+ *     </Progress.Track>
+ *   </Progress.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
+  width: 100%;
+}
+
+/* ─── Label ────────────────────────────────────────────────────────────────── */
+
+.tale-progress__label {
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+}
+
+/* ─── Track ────────────────────────────────────────────────────────────────── */
+
+.tale-progress__track {
+  position: relative;
+  width: 100%;
+  height: 0.8rem;
+  border-radius: 9999px;
+  background-color: var(--neutral-20);
+  overflow: hidden;
+}
+
+/* ─── Indicator — the filled portion ─────────────────────────────────────── */
+
+.tale-progress__indicator {
+  height: 100%;
+  background-color: var(--color-60);
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+/* ─── Complete state ──────────────────────────────────────────────────────── */
+
+.tale-progress[data-complete] .tale-progress__indicator {
+  background-color: var(--green-60, var(--color-60));
+}
+
+/* ─── Indeterminate state ─────────────────────────────────────────────────── */
+
+@keyframes tale-progress-indeterminate {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+.tale-progress[data-indeterminate] .tale-progress__indicator {
+  width: 40% !important;
+  animation: tale-progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+/* ─── Value label ──────────────────────────────────────────────────────────── */
+
+.tale-progress__value {
+  color: var(--neutral-60);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  text-align: right;
+}

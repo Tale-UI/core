@@ -1,0 +1,187 @@
+/*
+ * Select — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Select exposes:
+ *   Trigger: (standard button-like)
+ *   Popup:   [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *            [data-side] [data-align]
+ *   Item:    [data-selected] [data-highlighted] [data-disabled]
+ *
+ * Usage:
+ *   <Select.Root>
+ *     <Select.Trigger className="tale-select__trigger">
+ *       <Select.Value placeholder="Pick one" />
+ *       <Select.Icon className="tale-select__icon">▾</Select.Icon>
+ *     </Select.Trigger>
+ *     <Select.Portal>
+ *       <Select.Positioner>
+ *         <Select.Popup className="tale-select__popup">
+ *           <Select.Item className="tale-select__item" value="a">
+ *             <Select.ItemText className="tale-select__item-text">Option A</Select.ItemText>
+ *             <Select.ItemIndicator className="tale-select__item-indicator">✓</Select.ItemIndicator>
+ *           </Select.Item>
+ *         </Select.Popup>
+ *       </Select.Positioner>
+ *     </Select.Portal>
+ *   </Select.Root>
+ */
+
+/* ─── Trigger ──────────────────────────────────────────────────────────────── */
+
+.tale-select__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  min-width: 16rem;
+  min-height: 3.6rem;
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: 0.6rem;
+  background-color: var(--neutral-10);
+  color: var(--neutral-90);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tale-select__trigger:hover {
+  border-color: var(--neutral-40);
+}
+
+.tale-select__trigger:focus-visible,
+.tale-select__trigger[data-popup-open] {
+  border-color: var(--color-60);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-60) 20%, transparent);
+}
+
+.tale-select__trigger[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Value / placeholder ──────────────────────────────────────────────────── */
+
+.tale-select__value[data-placeholder] {
+  color: var(--neutral-50);
+}
+
+/* ─── Icon ─────────────────────────────────────────────────────────────────── */
+
+.tale-select__icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--neutral-60);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.tale-select__trigger[data-popup-open] .tale-select__icon {
+  transform: rotate(180deg);
+}
+
+/* ─── Popup ────────────────────────────────────────────────────────────────── */
+
+.tale-select__popup {
+  background-color: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  outline: none;
+  overflow: hidden;
+  min-width: var(--available-width, 16rem);
+  max-height: 28rem;
+  overflow-y: auto;
+  padding: var(--space-4xs);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tale-select__popup[data-starting-style],
+.tale-select__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* ─── List ─────────────────────────────────────────────────────────────────── */
+
+.tale-select__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-select__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: 0.5rem;
+  color: var(--neutral-80);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  user-select: none;
+}
+
+.tale-select__item[data-highlighted] {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-select__item[data-selected] {
+  color: var(--color-60);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-select__item[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Item text ────────────────────────────────────────────────────────────── */
+
+.tale-select__item-text {
+  flex: 1;
+}
+
+/* ─── Item indicator (checkmark) ───────────────────────────────────────────── */
+
+.tale-select__item-indicator {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex-shrink: 0;
+  color: var(--color-60);
+  margin-left: auto;
+}
+
+/* ─── Group label ──────────────────────────────────────────────────────────── */
+
+.tale-select__group-label {
+  padding: var(--space-4xs) var(--space-xs);
+  color: var(--neutral-50);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: default;
+}
+
+/* ─── Separator ────────────────────────────────────────────────────────────── */
+
+.tale-select__separator {
+  height: 1px;
+  background-color: var(--neutral-18);
+  margin: var(--space-4xs) 0;
+}

@@ -1,0 +1,119 @@
+name: Publish npm packages from release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version without v prefix (for example 0.0.3)'
+        required: true
+        type: string
+      dist-tag:
+        description: 'npm dist-tag to publish under'
+        required: false
+        default: latest
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-npm-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.29.3
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Resolve version and dist-tag
+        id: release
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            VERSION="${{ github.event.release.tag_name }}"
+            VERSION="${VERSION#v}"
+            if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+              DIST_TAG="next"
+            else
+              DIST_TAG="latest"
+            fi
+          else
+            VERSION="${{ inputs.version }}"
+            DIST_TAG="${{ inputs.dist-tag }}"
+          fi
+
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid release version: $VERSION"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "dist_tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Synchronize package versions
+        run: node scripts/release/sync-package-versions.mjs ${{ steps.release.outputs.version }}
+
+      - name: Ensure error code map exists
+        shell: bash
+        run: |
+          mkdir -p docs/src
+          if [ ! -f docs/src/error-codes.json ]; then
+            echo '{}' > docs/src/error-codes.json
+          fi
+
+      - name: Build publishable packages
+        run: pnpm -r --filter @tale-ui/utils --filter @tale-ui/react build
+
+      - name: Publish @tale-ui/utils
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          if npm view @tale-ui/utils@"$VERSION" version >/dev/null 2>&1; then
+            echo "@tale-ui/utils@$VERSION already published; skipping"
+          else
+            pnpm --filter @tale-ui/utils publish --access public --no-git-checks --provenance --tag ${{ steps.release.outputs.dist_tag }}
+          fi
+
+      - name: Publish @tale-ui/react
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          if npm view @tale-ui/react@"$VERSION" version >/dev/null 2>&1; then
+            echo "@tale-ui/react@$VERSION already published; skipping"
+          else
+            pnpm --filter @tale-ui/react publish --access public --no-git-checks --provenance --tag ${{ steps.release.outputs.dist_tag }}
+          fi
+
+      - name: Publish @tale-ui/react-styles
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          if npm view @tale-ui/react-styles@"$VERSION" version >/dev/null 2>&1; then
+            echo "@tale-ui/react-styles@$VERSION already published; skipping"
+          else
+            pnpm --filter @tale-ui/react-styles publish --access public --no-git-checks --provenance --tag ${{ steps.release.outputs.dist_tag }}
+          fi

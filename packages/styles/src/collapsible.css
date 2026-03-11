@@ -1,0 +1,64 @@
+/*
+ * Collapsible — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Collapsible exposes:
+ *   Root:    [data-open] [data-disabled]
+ *   Panel:   [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *   Trigger: (no data attributes, it's a button)
+ *
+ * Usage:
+ *   <Collapsible.Root className="tale-collapsible">
+ *     <Collapsible.Trigger className="tale-collapsible__trigger">Toggle</Collapsible.Trigger>
+ *     <Collapsible.Panel className="tale-collapsible__panel">Content</Collapsible.Panel>
+ *   </Collapsible.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-collapsible {
+  width: 100%;
+}
+
+/* ─── Trigger ──────────────────────────────────────────────────────────────── */
+
+.tale-collapsible__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid var(--neutral-22);
+  border-radius: 0.6rem;
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.tale-collapsible__trigger:hover {
+  background-color: var(--neutral-18);
+  border-color: var(--neutral-28);
+}
+
+.tale-collapsible__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+/* ─── Panel ────────────────────────────────────────────────────────────────── */
+
+.tale-collapsible__panel {
+  overflow: hidden;
+  color: var(--neutral-80);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  line-height: 1.6;
+  margin-top: var(--space-3xs);
+}
+
+.tale-collapsible__panel[data-closed]:not([data-starting-style]) {
+  display: none;
+}

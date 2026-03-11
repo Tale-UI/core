@@ -1,0 +1,179 @@
+/*
+ * Menu / ContextMenu / Menubar — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Menu exposes:
+ *   Trigger: [data-popup-open]
+ *   Popup:   [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *            [data-side] [data-align] [data-instant]
+ *   Item:    [data-highlighted] [data-disabled]
+ *   CheckboxItem: [data-checked] [data-unchecked] [data-highlighted] [data-disabled]
+ *   RadioItem:    [data-checked] [data-unchecked] [data-highlighted] [data-disabled]
+ *
+ * Usage:
+ *   <Menu.Root>
+ *     <Menu.Trigger className="tale-button tale-button--neutral">Menu</Menu.Trigger>
+ *     <Menu.Portal>
+ *       <Menu.Positioner>
+ *         <Menu.Popup className="tale-menu__popup">
+ *           <Menu.Item className="tale-menu__item">Option</Menu.Item>
+ *           <Menu.Separator className="tale-menu__separator" />
+ *           <Menu.GroupLabel className="tale-menu__group-label">Group</Menu.GroupLabel>
+ *         </Menu.Popup>
+ *       </Menu.Positioner>
+ *     </Menu.Portal>
+ *   </Menu.Root>
+ */
+
+/* ─── Popup ────────────────────────────────────────────────────────────────── */
+
+.tale-menu__popup {
+  background-color: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: var(--space-4xs);
+  outline: none;
+  min-width: 16rem;
+  max-width: 28rem;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tale-menu__popup[data-starting-style],
+.tale-menu__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* ─── Item (base styles shared by Item, CheckboxItem, RadioItem) ────────────── */
+
+.tale-menu__item,
+.tale-menu__checkbox-item,
+.tale-menu__radio-item,
+.tale-menu__link-item,
+.tale-menu__submenu-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: 0.5rem;
+  color: var(--neutral-80);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  user-select: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+}
+
+.tale-menu__item[data-highlighted],
+.tale-menu__checkbox-item[data-highlighted],
+.tale-menu__radio-item[data-highlighted],
+.tale-menu__link-item[data-highlighted],
+.tale-menu__submenu-trigger[data-highlighted] {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-menu__item[data-disabled],
+.tale-menu__checkbox-item[data-disabled],
+.tale-menu__radio-item[data-disabled],
+.tale-menu__link-item[data-disabled],
+.tale-menu__submenu-trigger[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Checkbox/Radio item indicator ────────────────────────────────────────── */
+
+.tale-menu__item-indicator {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex-shrink: 0;
+  color: var(--color-60);
+}
+
+/* ─── Submenu trigger arrow ─────────────────────────────────────────────────── */
+
+.tale-menu__submenu-trigger::after {
+  content: '›';
+  margin-left: auto;
+  color: var(--neutral-50);
+}
+
+/* ─── Group label ──────────────────────────────────────────────────────────── */
+
+.tale-menu__group-label {
+  padding: var(--space-4xs) var(--space-xs);
+  color: var(--neutral-50);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: default;
+}
+
+/* ─── Separator ────────────────────────────────────────────────────────────── */
+
+.tale-menu__separator {
+  height: 1px;
+  background-color: var(--neutral-18);
+  margin: var(--space-4xs) 0;
+}
+
+/* ─── Arrow ────────────────────────────────────────────────────────────────── */
+
+.tale-menu__arrow {
+  width: 1rem;
+  height: 0.5rem;
+  fill: var(--neutral-10);
+  stroke: var(--neutral-20);
+  stroke-width: 1;
+}
+
+/* ─── Menubar — horizontal trigger bar ─────────────────────────────────────── */
+
+.tale-menubar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background-color: var(--neutral-12);
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.6rem;
+  padding: var(--space-4xs);
+}
+
+.tale-menubar__item {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4xs) var(--space-3xs);
+  border-radius: 0.4rem;
+  border: none;
+  background-color: transparent;
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tale-menubar__item:hover,
+.tale-menubar__item[data-popup-open] {
+  background-color: var(--neutral-18);
+  color: var(--neutral-90);
+}
+
+.tale-menubar__item:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-60);
+}

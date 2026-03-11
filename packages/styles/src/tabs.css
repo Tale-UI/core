@@ -1,0 +1,126 @@
+/*
+ * Tabs — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Tabs exposes:
+ *   Root:      [data-orientation] [data-activation-direction]
+ *   Tab:       [data-active] [data-disabled] [data-orientation] [data-activation-direction]
+ *   Panel:     [data-hidden] [data-index] [data-orientation]
+ *   Indicator: (active tab highlight bar)
+ *
+ * Usage:
+ *   <Tabs.Root className="tale-tabs">
+ *     <Tabs.List className="tale-tabs__list">
+ *       <Tabs.Tab className="tale-tabs__tab">Tab 1</Tabs.Tab>
+ *       <Tabs.Indicator className="tale-tabs__indicator" />
+ *     </Tabs.List>
+ *     <Tabs.Panel className="tale-tabs__panel">Content</Tabs.Panel>
+ *   </Tabs.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tale-tabs[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
+/* ─── List ─────────────────────────────────────────────────────────────────── */
+
+.tale-tabs__list {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px solid var(--neutral-18);
+  gap: 0;
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 2px solid var(--neutral-18);
+}
+
+/* ─── Tab ──────────────────────────────────────────────────────────────────── */
+
+.tale-tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs) var(--space-m);
+  border: none;
+  background-color: transparent;
+  color: var(--neutral-60);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  cursor: pointer;
+  outline: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
+  position: relative;
+}
+
+.tale-tabs__tab:hover:not([data-disabled]):not([data-active]) {
+  color: var(--neutral-80);
+  background-color: var(--neutral-12);
+}
+
+.tale-tabs__tab:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-60);
+  border-radius: 0.4rem;
+}
+
+.tale-tabs__tab[data-active] {
+  color: var(--color-60);
+}
+
+.tale-tabs__tab[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Indicator ────────────────────────────────────────────────────────────── */
+
+.tale-tabs__indicator {
+  position: absolute;
+  bottom: -2px;
+  height: 2px;
+  background-color: var(--color-60);
+  border-radius: 9999px 9999px 0 0;
+  transition: left 0.25s ease, width 0.25s ease, top 0.25s ease, height 0.25s ease;
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__indicator {
+  bottom: auto;
+  right: -2px;
+  left: auto;
+  width: 2px;
+  height: auto;
+  border-radius: 0 9999px 9999px 0;
+}
+
+/* ─── Panel ────────────────────────────────────────────────────────────────── */
+
+.tale-tabs__panel {
+  padding: var(--space-m) 0;
+  color: var(--neutral-80);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  line-height: 1.6;
+  outline: none;
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__panel {
+  padding: 0 var(--space-m);
+}
+
+.tale-tabs__panel[data-hidden] {
+  display: none;
+}

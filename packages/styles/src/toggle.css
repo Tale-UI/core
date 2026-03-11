@@ -1,0 +1,118 @@
+/*
+ * Toggle — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Toggle exposes: [data-pressed] [data-disabled]
+ * Toggle.Group has no direct data attributes.
+ *
+ * Sizes:  .tale-toggle--sm
+ *         .tale-toggle--md  (default)
+ *         .tale-toggle--lg
+ *
+ * Usage:
+ *   <Toggle className="tale-toggle tale-toggle--md">B</Toggle>
+ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3xs);
+  border: 1px solid var(--neutral-22);
+  border-radius: 0.6rem;
+  background-color: transparent;
+  color: var(--neutral-70);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+  user-select: none;
+
+  /* Default size: md */
+  padding: var(--space-3xs) var(--space-xs);
+  min-height: 3.6rem;
+}
+
+.tale-toggle:focus-visible {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+/* ─── Hover ───────────────────────────────────────────────────────────────── */
+
+.tale-toggle:hover:not([data-disabled]):not([data-pressed]) {
+  background-color: var(--neutral-14);
+  border-color: var(--neutral-28);
+  color: var(--neutral-90);
+}
+
+/* ─── Pressed (active/on) state ───────────────────────────────────────────── */
+
+.tale-toggle[data-pressed] {
+  background-color: var(--neutral-18);
+  border-color: var(--neutral-30);
+  color: var(--neutral-90);
+}
+
+.tale-toggle[data-pressed]:hover:not([data-disabled]) {
+  background-color: var(--neutral-22);
+}
+
+/* ─── Disabled state ──────────────────────────────────────────────────────── */
+
+.tale-toggle[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Size modifiers ──────────────────────────────────────────────────────── */
+
+.tale-toggle--sm {
+  font-size: var(--label-s-font-size);
+  padding: var(--space-4xs) var(--space-3xs);
+  min-height: 2.8rem;
+  gap: var(--space-4xs);
+}
+
+.tale-toggle--md {
+  font-size: var(--label-m-font-size);
+  padding: var(--space-3xs) var(--space-xs);
+  min-height: 3.6rem;
+}
+
+.tale-toggle--lg {
+  font-size: var(--label-l-font-size);
+  padding: var(--space-2xs) var(--space-s);
+  min-height: 4.4rem;
+  gap: var(--space-2xs);
+}
+
+/* ─── Toggle Group ─────────────────────────────────────────────────────────── */
+
+.tale-toggle-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  border: 1px solid var(--neutral-22);
+}
+
+.tale-toggle-group .tale-toggle {
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid var(--neutral-22);
+}
+
+.tale-toggle-group .tale-toggle:last-child {
+  border-right: none;
+}

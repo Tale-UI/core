@@ -1,0 +1,98 @@
+/*
+ * Drawer — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Drawer exposes:
+ *   Popup:    [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *             [data-expanded] [data-swiping] [data-swipe-direction]
+ *             [data-nested-drawer-open]
+ *   Backdrop: [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *
+ * Usage:
+ *   <Drawer.Root>
+ *     <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+ *     <Drawer.Portal>
+ *       <Drawer.Backdrop className="tale-drawer__backdrop" />
+ *       <Drawer.Popup className="tale-drawer__popup">
+ *         <Drawer.Title className="tale-drawer__title">Drawer</Drawer.Title>
+ *         <Drawer.Description className="tale-drawer__description">…</Drawer.Description>
+ *         <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+ *       </Drawer.Popup>
+ *     </Drawer.Portal>
+ *   </Drawer.Root>
+ */
+
+/* ─── Backdrop ─────────────────────────────────────────────────────────────── */
+
+.tale-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  transition: opacity 0.3s ease;
+}
+
+.tale-drawer__backdrop[data-starting-style],
+.tale-drawer__backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+/* ─── Popup — defaults to bottom sheet ────────────────────────────────────── */
+
+.tale-drawer__popup {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  background-color: var(--neutral-10);
+  border-top: 1px solid var(--neutral-20);
+  border-radius: 1.6rem 1.6rem 0 0;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+  padding: var(--space-xl) var(--space-xl) max(var(--space-xl), env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  outline: none;
+  max-height: 90vh;
+  overflow-y: auto;
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  touch-action: none;
+}
+
+.tale-drawer__popup[data-starting-style],
+.tale-drawer__popup[data-ending-style] {
+  transform: translateY(100%);
+}
+
+/* ─── Handle bar ───────────────────────────────────────────────────────────── */
+
+.tale-drawer__handle {
+  width: 4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background-color: var(--neutral-30);
+  align-self: center;
+  flex-shrink: 0;
+  margin-bottom: var(--space-2xs);
+}
+
+/* ─── Title ────────────────────────────────────────────────────────────────── */
+
+.tale-drawer__title {
+  margin: 0;
+  color: var(--neutral-95);
+  font-family: var(--label-font-family);
+  font-size: var(--label-l-font-size);
+  font-weight: var(--label-font-weight);
+}
+
+/* ─── Description ──────────────────────────────────────────────────────────── */
+
+.tale-drawer__description {
+  margin: 0;
+  color: var(--neutral-70);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  line-height: 1.6;
+}

@@ -1,0 +1,146 @@
+/*
+ * NavigationMenu — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui NavigationMenu is a horizontal nav with hover-activated content panels.
+ *
+ * Usage:
+ *   <NavigationMenu.Root className="tale-navigation-menu">
+ *     <NavigationMenu.List className="tale-navigation-menu__list">
+ *       <NavigationMenu.Item>
+ *         <NavigationMenu.Trigger className="tale-navigation-menu__trigger">Products</NavigationMenu.Trigger>
+ *         <NavigationMenu.Portal>
+ *           <NavigationMenu.Positioner>
+ *             <NavigationMenu.Popup className="tale-navigation-menu__popup">
+ *               <NavigationMenu.Content className="tale-navigation-menu__content">…</NavigationMenu.Content>
+ *             </NavigationMenu.Popup>
+ *           </NavigationMenu.Positioner>
+ *         </NavigationMenu.Portal>
+ *       </NavigationMenu.Item>
+ *       <NavigationMenu.Item>
+ *         <NavigationMenu.Link className="tale-navigation-menu__link" href="/about">About</NavigationMenu.Link>
+ *       </NavigationMenu.Item>
+ *     </NavigationMenu.List>
+ *   </NavigationMenu.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-navigation-menu {
+  position: relative;
+}
+
+/* ─── List ─────────────────────────────────────────────────────────────────── */
+
+.tale-navigation-menu__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4xs);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Trigger ──────────────────────────────────────────────────────────────── */
+
+.tale-navigation-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-4xs) var(--space-3xs);
+  border: none;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tale-navigation-menu__trigger:hover,
+.tale-navigation-menu__trigger[data-popup-open] {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-navigation-menu__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-60);
+}
+
+/* ─── Icon ─────────────────────────────────────────────────────────────────── */
+
+.tale-navigation-menu__icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  color: var(--neutral-50);
+  transition: transform 0.2s ease;
+}
+
+.tale-navigation-menu__trigger[data-popup-open] .tale-navigation-menu__icon {
+  transform: rotate(180deg);
+}
+
+/* ─── Link ─────────────────────────────────────────────────────────────────── */
+
+.tale-navigation-menu__link {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4xs) var(--space-3xs);
+  border-radius: 0.5rem;
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  text-decoration: none;
+  outline: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tale-navigation-menu__link:hover {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-navigation-menu__link:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-60);
+}
+
+/* ─── Popup ────────────────────────────────────────────────────────────────── */
+
+.tale-navigation-menu__popup {
+  background-color: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
+  border-radius: 1rem;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.08);
+  outline: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tale-navigation-menu__popup[data-starting-style],
+.tale-navigation-menu__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* ─── Content ──────────────────────────────────────────────────────────────── */
+
+.tale-navigation-menu__content {
+  padding: var(--space-m);
+  min-width: 20rem;
+}
+
+/* ─── Viewport ─────────────────────────────────────────────────────────────── */
+
+.tale-navigation-menu__viewport {
+  position: absolute;
+  top: calc(100% + var(--space-3xs));
+  left: 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  transition: width 0.3s ease, height 0.3s ease;
+}

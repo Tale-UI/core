@@ -1,0 +1,124 @@
+/*
+ * Toolbar — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Toolbar provides a horizontal row of buttons, inputs, and controls
+ * with keyboard navigation (arrow keys to move between items).
+ *
+ * Usage:
+ *   <Toolbar.Root className="tale-toolbar">
+ *     <Toolbar.Button className="tale-toolbar__button">Bold</Toolbar.Button>
+ *     <Toolbar.Separator className="tale-toolbar__separator" />
+ *     <Toolbar.Button className="tale-toolbar__button">Italic</Toolbar.Button>
+ *     <Toolbar.Link className="tale-toolbar__link" href="/">Link</Toolbar.Link>
+ *     <Toolbar.Input className="tale-toolbar__input tale-input" />
+ *   </Toolbar.Root>
+ */
+
+/* ─── Root — horizontal toolbar container ─────────────────────────────────── */
+
+.tale-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4xs);
+  padding: var(--space-4xs) var(--space-3xs);
+  background-color: var(--neutral-12);
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+}
+
+/* ─── Button ───────────────────────────────────────────────────────────────── */
+
+.tale-toolbar__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4xs);
+  padding: var(--space-4xs) var(--space-3xs);
+  min-height: 3.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  color: var(--neutral-70);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+.tale-toolbar__button:hover:not([disabled]) {
+  background-color: var(--neutral-18);
+  color: var(--neutral-90);
+}
+
+.tale-toolbar__button:active:not([disabled]) {
+  background-color: var(--neutral-22);
+}
+
+.tale-toolbar__button[aria-pressed="true"],
+.tale-toolbar__button[data-pressed] {
+  background-color: var(--neutral-20);
+  color: var(--neutral-90);
+}
+
+.tale-toolbar__button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-60);
+}
+
+.tale-toolbar__button[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Separator ────────────────────────────────────────────────────────────── */
+
+.tale-toolbar__separator {
+  width: 1px;
+  height: 2rem;
+  background-color: var(--neutral-22);
+  flex-shrink: 0;
+  margin: 0 var(--space-4xs);
+}
+
+/* ─── Link ─────────────────────────────────────────────────────────────────── */
+
+.tale-toolbar__link {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4xs) var(--space-3xs);
+  min-height: 3.2rem;
+  border-radius: 0.5rem;
+  color: var(--color-60);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  text-decoration: none;
+  outline: none;
+  transition: background-color 0.15s ease;
+}
+
+.tale-toolbar__link:hover {
+  background-color: var(--neutral-14);
+}
+
+.tale-toolbar__link:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-60);
+}
+
+/* ─── Group ────────────────────────────────────────────────────────────────── */
+
+.tale-toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* ─── Input ────────────────────────────────────────────────────────────────── */
+
+.tale-toolbar__input {
+  height: 3.2rem;
+  min-height: unset;
+}

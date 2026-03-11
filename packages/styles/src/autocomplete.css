@@ -1,0 +1,128 @@
+/*
+ * Autocomplete — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Autocomplete wraps an Input with a listbox popup for suggestions.
+ *
+ * Usage:
+ *   <Autocomplete.Root>
+ *     <Autocomplete.Input className="tale-autocomplete__input" />
+ *     <Autocomplete.Portal>
+ *       <Autocomplete.Positioner>
+ *         <Autocomplete.Popup className="tale-autocomplete__popup">
+ *           <Autocomplete.Item className="tale-autocomplete__item" value="a">Option A</Autocomplete.Item>
+ *           <Autocomplete.Empty className="tale-autocomplete__empty">No results</Autocomplete.Empty>
+ *         </Autocomplete.Popup>
+ *       </Autocomplete.Positioner>
+ *     </Autocomplete.Portal>
+ *   </Autocomplete.Root>
+ */
+
+/* ─── Input ────────────────────────────────────────────────────────────────── */
+
+.tale-autocomplete__input {
+  display: block;
+  width: 100%;
+  min-height: 3.6rem;
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: 0.6rem;
+  background-color: var(--neutral-10);
+  color: var(--neutral-90);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tale-autocomplete__input::placeholder {
+  color: var(--neutral-50);
+}
+
+.tale-autocomplete__input:hover {
+  border-color: var(--neutral-40);
+}
+
+.tale-autocomplete__input:focus {
+  border-color: var(--color-60);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-60) 20%, transparent);
+}
+
+/* ─── Popup ────────────────────────────────────────────────────────────────── */
+
+.tale-autocomplete__popup {
+  background-color: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: var(--space-4xs);
+  outline: none;
+  max-height: 28rem;
+  overflow-y: auto;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tale-autocomplete__popup[data-starting-style],
+.tale-autocomplete__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-autocomplete__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: 0.5rem;
+  color: var(--neutral-80);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  user-select: none;
+}
+
+.tale-autocomplete__item[data-highlighted] {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-autocomplete__item[data-selected] {
+  color: var(--color-60);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-autocomplete__item[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Empty state ──────────────────────────────────────────────────────────── */
+
+.tale-autocomplete__empty {
+  padding: var(--space-m);
+  text-align: center;
+  color: var(--neutral-50);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: default;
+}
+
+/* ─── Group label ──────────────────────────────────────────────────────────── */
+
+.tale-autocomplete__group-label {
+  padding: var(--space-4xs) var(--space-xs);
+  color: var(--neutral-50);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: default;
+}

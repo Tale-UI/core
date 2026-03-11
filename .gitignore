@@ -4,25 +4,67 @@ Thumbs.db
 desktop.ini
 
 # Editors
-.vscode/
-.idea/
+.idea
+*.iml
 *.swp
 *.swo
 *~
 
-# Node (if build tools added later)
-node_modules/
+# Node
+node_modules
 package-lock.json
-yarn.lock
 
 # Build output
+build
+build-tests
 dist/
-
-# Temp
-*.tmp
-.cache/
-old CLAUDE.md
 
 # Environment
 .env
 .env.local
+
+# Caches
+/.eslintcache
+.cache/
+.nx/cache
+.nx/workspace-data
+
+# Testing
+/coverage
+/test/regressions/screenshots
+test-results/
+
+# Docs
+/docs/.env.local
+/docs/.next
+/docs/export
+/docs/src/app/(private)/playground/*
+!/docs/src/app/(private)/playground/\[slug\]
+/docs/public/feed/
+/docs/reference/temp/*
+/docs/public/llms.txt
+/docs/public/llms-full.txt
+/docs/public/react
+
+# Vale
+.github/styles/
+
+# Storybook / Vite / Playground build outputs
+/playground/storybook/storybook-static/
+/playground/vite-app/dist/
+/examples/*/dist/
+
+# Misc
+*.log
+*.tmp
+size-snapshot.json
+.netlify
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Claude
+.claude/settings.local.json

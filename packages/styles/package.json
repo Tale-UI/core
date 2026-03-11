@@ -1,0 +1,58 @@
+{
+  "name": "@tale-ui/react-styles",
+  "version": "0.1.0",
+  "description": "CSS styles for @tale-ui/react components, built on @tale-ui/core design tokens.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tale-UI/core.git",
+    "directory": "packages/styles"
+  },
+  "license": "MIT",
+  "main": "src/index.css",
+  "style": "src/index.css",
+  "exports": {
+    ".": "./src/index.css",
+    "./button": "./src/button.css",
+    "./checkbox": "./src/checkbox.css",
+    "./radio": "./src/radio.css",
+    "./switch": "./src/switch.css",
+    "./toggle": "./src/toggle.css",
+    "./input": "./src/input.css",
+    "./number-field": "./src/number-field.css",
+    "./slider": "./src/slider.css",
+    "./select": "./src/select.css",
+    "./combobox": "./src/combobox.css",
+    "./autocomplete": "./src/autocomplete.css",
+    "./accordion": "./src/accordion.css",
+    "./collapsible": "./src/collapsible.css",
+    "./tabs": "./src/tabs.css",
+    "./scroll-area": "./src/scroll-area.css",
+    "./separator": "./src/separator.css",
+    "./dialog": "./src/dialog.css",
+    "./alert-dialog": "./src/alert-dialog.css",
+    "./popover": "./src/popover.css",
+    "./drawer": "./src/drawer.css",
+    "./tooltip": "./src/tooltip.css",
+    "./preview-card": "./src/preview-card.css",
+    "./menu": "./src/menu.css",
+    "./navigation-menu": "./src/navigation-menu.css",
+    "./progress": "./src/progress.css",
+    "./meter": "./src/meter.css",
+    "./avatar": "./src/avatar.css",
+    "./toast": "./src/toast.css",
+    "./field": "./src/field.css",
+    "./fieldset": "./src/fieldset.css",
+    "./form": "./src/form.css",
+    "./toolbar": "./src/toolbar.css"
+  },
+  "dependencies": {
+    "@tale-ui/core": "workspace:*"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
+}

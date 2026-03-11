@@ -1,0 +1,102 @@
+/*
+ * Avatar — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Avatar exposes:
+ *   Image:    [data-starting-style] [data-ending-style] (for lazy load transition)
+ *   Fallback: (shown when image fails or while loading)
+ *
+ * Sizes:  .tale-avatar--sm   (2.4rem)
+ *         .tale-avatar--md   (3.6rem, default)
+ *         .tale-avatar--lg   (5.6rem)
+ *         .tale-avatar--xl   (8rem)
+ *
+ * Usage:
+ *   <Avatar.Root className="tale-avatar tale-avatar--md">
+ *     <Avatar.Image className="tale-avatar__image" src="..." alt="..." />
+ *     <Avatar.Fallback className="tale-avatar__fallback">AB</Avatar.Fallback>
+ *   </Avatar.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--neutral-22);
+  overflow: hidden;
+  flex-shrink: 0;
+
+  /* Default size: md */
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+/* ─── Image ────────────────────────────────────────────────────────────────── */
+
+.tale-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.tale-avatar__image[data-starting-style] {
+  opacity: 0;
+}
+
+/* ─── Fallback — initials / icon shown when image unavailable ─────────────── */
+
+.tale-avatar__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neutral-70);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+/* ─── Size modifiers ──────────────────────────────────────────────────────── */
+
+.tale-avatar--sm {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.tale-avatar--sm .tale-avatar__fallback {
+  font-size: var(--label-xs-font-size, 1rem);
+}
+
+.tale-avatar--md {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.tale-avatar--lg {
+  width: 5.6rem;
+  height: 5.6rem;
+}
+
+.tale-avatar--lg .tale-avatar__fallback {
+  font-size: var(--label-m-font-size);
+}
+
+.tale-avatar--xl {
+  width: 8rem;
+  height: 8rem;
+}
+
+.tale-avatar--xl .tale-avatar__fallback {
+  font-size: var(--label-l-font-size);
+}

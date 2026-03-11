@@ -125,7 +125,7 @@ function main() {
 
     const currentVersion = pkg.version;
     const nextVersion = explicitVersion || bumpVersion(currentVersion, bumpType);
-    const tag = `v${nextVersion}`;
+    const tag = `css-v${nextVersion}`;
 
     if (tagExistsLocally(tag) || tagExistsRemotely(tag)) {
         fail(`Tag ${tag} already exists. Choose a different version with --version (for example --version 1.0.2).`);

@@ -1,0 +1,110 @@
+/*
+ * Radio — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Radio exposes:
+ *   Root:      [data-checked] [data-unchecked] [data-disabled]
+ *              [data-readonly] [data-required] [data-valid] [data-invalid]
+ *              [data-focused]
+ *   Indicator: [data-checked] [data-unchecked] [data-disabled]
+ *
+ * Usage:
+ *   <Radio.Root className="tale-radio">
+ *     <Radio.Indicator className="tale-radio__indicator" />
+ *   </Radio.Root>
+ */
+
+/* ─── Root — circular hit area ────────────────────────────────────────────── */
+
+.tale-radio {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--neutral-40);
+  background-color: var(--neutral-10);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  flex-shrink: 0;
+}
+
+.tale-radio:focus-visible {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+/* ─── Checked state ───────────────────────────────────────────────────────── */
+
+.tale-radio[data-checked] {
+  border-color: var(--color-60);
+  background-color: var(--neutral-10);
+}
+
+.tale-radio[data-checked]:hover:not([data-disabled]) {
+  border-color: var(--color-50);
+}
+
+/* ─── Hover (unchecked) ───────────────────────────────────────────────────── */
+
+.tale-radio:hover:not([data-disabled]):not([data-checked]) {
+  border-color: var(--neutral-60);
+  background-color: var(--neutral-14);
+}
+
+/* ─── Invalid state ───────────────────────────────────────────────────────── */
+
+.tale-radio[data-invalid] {
+  border-color: var(--red-60);
+}
+
+/* ─── Disabled state ──────────────────────────────────────────────────────── */
+
+.tale-radio[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Size modifiers ──────────────────────────────────────────────────────── */
+
+.tale-radio--sm {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.tale-radio--lg {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+/* ─── Indicator — filled dot shown when checked ───────────────────────────── */
+
+.tale-radio__indicator {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background-color: var(--color-60);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  transform: scale(0);
+  opacity: 0;
+}
+
+.tale-radio--sm .tale-radio__indicator {
+  width: 0.6rem;
+  height: 0.6rem;
+}
+
+.tale-radio--lg .tale-radio__indicator {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tale-radio__indicator[data-checked] {
+  transform: scale(1);
+  opacity: 1;
+}

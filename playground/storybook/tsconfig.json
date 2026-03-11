@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@tale-ui/react/*": ["../../packages/react/src/*"],
+      "@tale-ui/utils/*": ["../../packages/utils/src/*"],
+      "@tale-ui/react-styles/*": ["../../packages/styles/src/*"]
+    }
+  },
+  "include": [".storybook", "src"]
+}

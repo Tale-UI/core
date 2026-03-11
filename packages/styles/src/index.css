@@ -1,0 +1,62 @@
+/*
+ * @tale-ui/react-styles
+ *
+ * Opinionated CSS for @tale-ui/react components.
+ * Built on @tale-ui/core design tokens (--neutral-*, --color-*, --space-*, --text-*).
+ *
+ * Import order:
+ *   1. @tale-ui/core  — tokens, foundations, layout utilities, dark-mode support
+ *   2. Component CSS  — tale-ui specific component styles
+ *
+ * Usage:
+ *   @import '@tale-ui/react-styles';   // all components
+ *   @import '@tale-ui/react-styles/button';  // individual component
+ */
+
+@import '@tale-ui/core';
+
+/* ─── Form controls ─────────────────────────────────────────────────────────── */
+@import './button.css';
+@import './checkbox.css';
+@import './radio.css';
+@import './switch.css';
+@import './toggle.css';
+@import './input.css';
+@import './number-field.css';
+@import './slider.css';
+@import './select.css';
+@import './combobox.css';
+@import './autocomplete.css';
+
+/* ─── Layout / containers ───────────────────────────────────────────────────── */
+@import './accordion.css';
+@import './collapsible.css';
+@import './tabs.css';
+@import './scroll-area.css';
+@import './separator.css';
+
+/* ─── Overlay ───────────────────────────────────────────────────────────────── */
+@import './dialog.css';
+@import './alert-dialog.css';
+@import './popover.css';
+@import './drawer.css';
+@import './tooltip.css';
+@import './preview-card.css';
+
+/* ─── Navigation ────────────────────────────────────────────────────────────── */
+@import './menu.css';
+@import './navigation-menu.css';
+
+/* ─── Feedback / display ────────────────────────────────────────────────────── */
+@import './progress.css';
+@import './meter.css';
+@import './avatar.css';
+@import './toast.css';
+
+/* ─── Form structure ────────────────────────────────────────────────────────── */
+@import './field.css';
+@import './fieldset.css';
+@import './form.css';
+
+/* ─── Utilities ─────────────────────────────────────────────────────────────── */
+@import './toolbar.css';

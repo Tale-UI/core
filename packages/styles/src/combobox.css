@@ -1,0 +1,190 @@
+/*
+ * Combobox — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Combobox exposes:
+ *   Input:  [data-focused] [data-popup-open] (standard text input)
+ *   Popup:  [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *           [data-side] [data-align]
+ *   Item:   [data-highlighted] [data-selected] [data-disabled]
+ *   Chip:   (multi-select selected values)
+ *
+ * Usage:
+ *   <Combobox.Root>
+ *     <Combobox.Input className="tale-combobox__input" />
+ *     <Combobox.Portal>
+ *       <Combobox.Positioner>
+ *         <Combobox.Popup className="tale-combobox__popup">
+ *           <Combobox.List>
+ *             <Combobox.Item className="tale-combobox__item" value="a">Option A</Combobox.Item>
+ *             <Combobox.Empty className="tale-combobox__empty">No results</Combobox.Empty>
+ *           </Combobox.List>
+ *         </Combobox.Popup>
+ *       </Combobox.Positioner>
+ *     </Combobox.Portal>
+ *   </Combobox.Root>
+ */
+
+/* ─── Input ────────────────────────────────────────────────────────────────── */
+
+.tale-combobox__input {
+  display: block;
+  width: 100%;
+  min-height: 3.6rem;
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: 0.6rem;
+  background-color: var(--neutral-10);
+  color: var(--neutral-90);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tale-combobox__input::placeholder {
+  color: var(--neutral-50);
+}
+
+.tale-combobox__input:hover {
+  border-color: var(--neutral-40);
+}
+
+.tale-combobox__input:focus,
+.tale-combobox__input[data-popup-open] {
+  border-color: var(--color-60);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-60) 20%, transparent);
+}
+
+/* ─── Popup ────────────────────────────────────────────────────────────────── */
+
+.tale-combobox__popup {
+  background-color: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: var(--space-4xs);
+  outline: none;
+  max-height: 28rem;
+  overflow-y: auto;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tale-combobox__popup[data-starting-style],
+.tale-combobox__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-combobox__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: 0.5rem;
+  color: var(--neutral-80);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  user-select: none;
+}
+
+.tale-combobox__item[data-highlighted] {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-combobox__item[data-selected] {
+  color: var(--color-60);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-combobox__item[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Item indicator ───────────────────────────────────────────────────────── */
+
+.tale-combobox__item-indicator {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex-shrink: 0;
+  color: var(--color-60);
+  margin-left: auto;
+}
+
+/* ─── Empty state ──────────────────────────────────────────────────────────── */
+
+.tale-combobox__empty {
+  padding: var(--space-m);
+  text-align: center;
+  color: var(--neutral-50);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: default;
+}
+
+/* ─── Group label ──────────────────────────────────────────────────────────── */
+
+.tale-combobox__group-label {
+  padding: var(--space-4xs) var(--space-xs);
+  color: var(--neutral-50);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: default;
+}
+
+/* ─── Chips (multi-select) ─────────────────────────────────────────────────── */
+
+.tale-combobox__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4xs);
+  padding: var(--space-4xs);
+}
+
+.tale-combobox__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4xs);
+  padding: var(--space-4xs) var(--space-3xs);
+  background-color: var(--neutral-18);
+  border: 1px solid var(--neutral-26);
+  border-radius: 0.4rem;
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-combobox__chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: transparent;
+  color: var(--neutral-60);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  padding: 0;
+}
+
+.tale-combobox__chip-remove:hover {
+  background-color: var(--neutral-26);
+  color: var(--neutral-90);
+}

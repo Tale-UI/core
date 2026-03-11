@@ -1,0 +1,162 @@
+/*
+ * Toast — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Toast exposes:
+ *   Root:       [data-expanded] [data-limited] [data-type] [data-swiping]
+ *               [data-swipe-direction] [data-starting-style] [data-ending-style]
+ *   Positioner: [data-side] [data-align] [data-anchor-hidden]
+ *
+ * Usage (via useToastManager hook):
+ *   <Toast.Provider>
+ *     <Toast.Viewport className="tale-toast__viewport" />
+ *   </Toast.Provider>
+ *
+ *   // To show a toast:
+ *   const { add } = useToastManager();
+ *   add({ title: 'Saved!', type: 'success' });
+ */
+
+/* ─── Positioner — fixed stack container ──────────────────────────────────── */
+
+.tale-toast__positioner {
+  position: fixed;
+  z-index: 200;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-2xs);
+  padding: var(--space-m);
+  pointer-events: none;
+
+  /* Default: bottom-right */
+  bottom: 0;
+  right: 0;
+  max-width: 36rem;
+  width: 100%;
+}
+
+/* ─── Root — individual toast card ───────────────────────────────────────── */
+
+.tale-toast__root {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-s) var(--space-m);
+  background-color: var(--neutral-14);
+  border: 1px solid var(--neutral-22);
+  border-radius: 1rem;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 8px 20px rgba(0, 0, 0, 0.1);
+  color: var(--neutral-90);
+  pointer-events: all;
+  user-select: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.tale-toast__root[data-starting-style],
+.tale-toast__root[data-ending-style] {
+  opacity: 0;
+  transform: translateY(0.8rem) scale(0.97);
+}
+
+/* ─── Type variants ───────────────────────────────────────────────────────── */
+
+.tale-toast__root[data-type="success"] {
+  border-color: var(--green-60, #22c55e);
+  border-left: 4px solid var(--green-60, #22c55e);
+}
+
+.tale-toast__root[data-type="error"] {
+  border-color: var(--red-60);
+  border-left: 4px solid var(--red-60);
+}
+
+.tale-toast__root[data-type="warning"] {
+  border-color: var(--yellow-60, #f59e0b);
+  border-left: 4px solid var(--yellow-60, #f59e0b);
+}
+
+/* ─── Title ────────────────────────────────────────────────────────────────── */
+
+.tale-toast__title {
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-90);
+  line-height: 1.3;
+}
+
+/* ─── Description ──────────────────────────────────────────────────────────── */
+
+.tale-toast__description {
+  font-family: var(--body-font-family);
+  font-size: var(--text-s-font-size);
+  color: var(--neutral-70);
+  line-height: 1.5;
+  margin-top: var(--space-4xs);
+}
+
+/* ─── Content — wraps title + description ─────────────────────────────────── */
+
+.tale-toast__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Close button ─────────────────────────────────────────────────────────── */
+
+.tale-toast__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: none;
+  border-radius: 0.4rem;
+  background-color: transparent;
+  color: var(--neutral-60);
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tale-toast__close:hover {
+  background-color: var(--neutral-20);
+  color: var(--neutral-90);
+}
+
+.tale-toast__close:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-60);
+}
+
+/* ─── Action button ────────────────────────────────────────────────────────── */
+
+.tale-toast__action {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4xs) var(--space-3xs);
+  border: 1px solid var(--neutral-30);
+  border-radius: 0.4rem;
+  background-color: transparent;
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  cursor: pointer;
+  outline: none;
+  margin-top: var(--space-3xs);
+  transition: background-color 0.15s ease;
+}
+
+.tale-toast__action:hover {
+  background-color: var(--neutral-18);
+}
+
+.tale-toast__action:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-60);
+}

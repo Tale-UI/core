@@ -1,0 +1,102 @@
+/*
+ * AlertDialog — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Shares the same popup structure as Dialog.
+ * AlertDialog is a Dialog variant that locks focus and requires explicit action.
+ *
+ * Base-ui AlertDialog exposes:
+ *   Popup:    [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *   Backdrop: [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *
+ * Usage:
+ *   <AlertDialog.Root>
+ *     <AlertDialog.Trigger className="tale-button tale-button--danger">Delete</AlertDialog.Trigger>
+ *     <AlertDialog.Portal>
+ *       <AlertDialog.Backdrop className="tale-alert-dialog__backdrop" />
+ *       <AlertDialog.Popup className="tale-alert-dialog__popup">
+ *         <AlertDialog.Title className="tale-alert-dialog__title">Confirm</AlertDialog.Title>
+ *         <AlertDialog.Description className="tale-alert-dialog__description">…</AlertDialog.Description>
+ *         <div className="tale-alert-dialog__actions">
+ *           <AlertDialog.Close className="tale-button tale-button--neutral">Cancel</AlertDialog.Close>
+ *           <AlertDialog.Close className="tale-button tale-button--danger">Delete</AlertDialog.Close>
+ *         </div>
+ *       </AlertDialog.Popup>
+ *     </AlertDialog.Portal>
+ *   </AlertDialog.Root>
+ */
+
+/* ─── Backdrop ─────────────────────────────────────────────────────────────── */
+
+.tale-alert-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  transition: opacity 0.2s ease;
+}
+
+.tale-alert-dialog__backdrop[data-starting-style],
+.tale-alert-dialog__backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+/* ─── Popup ────────────────────────────────────────────────────────────────── */
+
+.tale-alert-dialog__popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  width: min(90vw, 44rem);
+  background-color: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
+  border-radius: 1.2rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 20px 40px -4px rgba(0, 0, 0, 0.15);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  outline: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.tale-alert-dialog__popup[data-starting-style],
+.tale-alert-dialog__popup[data-ending-style] {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% - 0.8rem));
+}
+
+/* ─── Title ────────────────────────────────────────────────────────────────── */
+
+.tale-alert-dialog__title {
+  margin: 0;
+  color: var(--neutral-95);
+  font-family: var(--label-font-family);
+  font-size: var(--label-l-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1.3;
+}
+
+/* ─── Description ──────────────────────────────────────────────────────────── */
+
+.tale-alert-dialog__description {
+  margin: 0;
+  color: var(--neutral-70);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  line-height: 1.6;
+}
+
+/* ─── Actions ──────────────────────────────────────────────────────────────── */
+
+.tale-alert-dialog__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+}

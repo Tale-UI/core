@@ -1,0 +1,90 @@
+/*
+ * Switch — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui Switch exposes:
+ *   Root:  [data-checked] [data-unchecked] [data-disabled]
+ *          [data-readonly] [data-required] [data-valid] [data-invalid]
+ *          [data-focused]
+ *   Thumb: [data-checked] [data-unchecked] [data-disabled]
+ *
+ * Usage:
+ *   <Switch.Root className="tale-switch">
+ *     <Switch.Thumb className="tale-switch__thumb" />
+ *   </Switch.Root>
+ */
+
+/* ─── Root — pill-shaped track ────────────────────────────────────────────── */
+
+.tale-switch {
+  display: inline-flex;
+  align-items: center;
+  width: 4rem;
+  height: 2.2rem;
+  border-radius: 9999px;
+  border: 1.5px solid var(--neutral-30);
+  background-color: var(--neutral-20);
+  padding: 0 0.2rem;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.tale-switch:focus-visible {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+/* ─── Checked (on) state ──────────────────────────────────────────────────── */
+
+.tale-switch[data-checked] {
+  background-color: var(--color-60);
+  border-color: var(--color-60);
+}
+
+.tale-switch[data-checked]:hover:not([data-disabled]) {
+  background-color: var(--color-50);
+  border-color: var(--color-50);
+}
+
+/* ─── Hover (off) ─────────────────────────────────────────────────────────── */
+
+.tale-switch:hover:not([data-disabled]):not([data-checked]) {
+  border-color: var(--neutral-50);
+  background-color: var(--neutral-26);
+}
+
+/* ─── Invalid state ───────────────────────────────────────────────────────── */
+
+.tale-switch[data-invalid] {
+  border-color: var(--red-60);
+}
+
+/* ─── Disabled state ──────────────────────────────────────────────────────── */
+
+.tale-switch[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Thumb — sliding circle ──────────────────────────────────────────────── */
+
+.tale-switch__thumb {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background-color: var(--neutral-80);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  transform: translateX(0);
+  flex-shrink: 0;
+}
+
+.tale-switch__thumb[data-checked] {
+  transform: translateX(1.6rem);
+  background-color: var(--neutral-100);
+}

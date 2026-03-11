@@ -1,0 +1,11 @@
+{
+  "name": "@tale-ui/test-node-resolution",
+  "private": true,
+  "scripts": {
+    "test": "node ./index.mjs"
+  },
+  "dependencies": {
+    "@tale-ui/react": "workspace:*",
+    "@tale-ui/utils": "workspace:*"
+  }
+}

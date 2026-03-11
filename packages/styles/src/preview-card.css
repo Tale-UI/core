@@ -1,0 +1,51 @@
+/*
+ * PreviewCard — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Base-ui PreviewCard exposes:
+ *   Popup: [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ *          [data-side] [data-align]
+ *
+ * Usage:
+ *   <PreviewCard.Root>
+ *     <PreviewCard.Trigger>Hover link</PreviewCard.Trigger>
+ *     <PreviewCard.Portal>
+ *       <PreviewCard.Positioner>
+ *         <PreviewCard.Popup className="tale-preview-card__popup">
+ *           Card content
+ *         </PreviewCard.Popup>
+ *       </PreviewCard.Positioner>
+ *     </PreviewCard.Portal>
+ *   </PreviewCard.Root>
+ */
+
+/* ─── Popup ────────────────────────────────────────────────────────────────── */
+
+.tale-preview-card__popup {
+  background-color: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
+  border-radius: 1rem;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.1);
+  padding: var(--space-m);
+  max-width: 32rem;
+  outline: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.tale-preview-card__popup[data-starting-style],
+.tale-preview-card__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* ─── Arrow ────────────────────────────────────────────────────────────────── */
+
+.tale-preview-card__arrow {
+  width: 1rem;
+  height: 0.5rem;
+  fill: var(--neutral-10);
+  stroke: var(--neutral-20);
+  stroke-width: 1;
+}

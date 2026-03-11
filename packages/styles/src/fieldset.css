@@ -1,0 +1,40 @@
+/*
+ * Fieldset — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Fieldset groups related form controls under a legend.
+ * Base-ui Fieldset exposes: [data-disabled]
+ *
+ * Usage:
+ *   <Fieldset.Root className="tale-fieldset">
+ *     <Fieldset.Legend className="tale-fieldset__legend">Preferences</Fieldset.Legend>
+ *     {children}
+ *   </Fieldset.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+  padding: var(--space-m) var(--space-l);
+  margin: 0;
+}
+
+.tale-fieldset[data-disabled] {
+  opacity: 0.45;
+}
+
+/* ─── Legend ───────────────────────────────────────────────────────────────── */
+
+.tale-fieldset__legend {
+  color: var(--neutral-90);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  padding: 0 var(--space-2xs);
+  float: none;
+}

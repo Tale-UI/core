@@ -1,0 +1,26 @@
+/*
+ * Form — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Form wraps Field components and provides form-level validation context.
+ * Base-ui Form has no direct data attributes on the root element.
+ *
+ * Usage:
+ *   <Form className="tale-form">
+ *     <Field.Root className="tale-field">
+ *       <Field.Label className="tale-field__label">Name</Field.Label>
+ *       <Input className="tale-input" name="name" />
+ *       <Field.Error className="tale-field__error" />
+ *     </Field.Root>
+ *     <button className="tale-button tale-button--primary" type="submit">Submit</button>
+ *   </Form>
+ */
+
+/* ─── Form ─────────────────────────────────────────────────────────────────── */
+
+.tale-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  width: 100%;
+}
