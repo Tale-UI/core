@@ -7,6 +7,9 @@ const config: StorybookConfig = {
   framework: { name: '@storybook/react-vite', options: {} },
   typescript: { reactDocgen: false },
   async viteFinal(config) {
+    const baseUrl = process.env.STORYBOOK_BASE ?? '/';
+
+    config.base = baseUrl;
     config.resolve ??= {};
     config.resolve.alias = {
       ...((config.resolve.alias as Record<string, string>) ?? {}),

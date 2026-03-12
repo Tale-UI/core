@@ -1,0 +1,208 @@
+name: Deploy Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Compute Pages base path
+        id: base
+        shell: bash
+        run: |
+          OWNER="${GITHUB_REPOSITORY%/*}"
+          REPO="${GITHUB_REPOSITORY#*/}"
+
+          if [[ "${REPO,,}" == "${OWNER,,}.github.io" ]]; then
+            BASE=""
+          else
+            BASE="/$REPO"
+          fi
+
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"
+          echo "resolved base path: ${BASE:-/}"
+
+      - name: Build Vite playground
+        run: pnpm -C playground/vite-app build
+        env:
+          PLAYGROUND_BASE: ${{ steps.base.outputs.base }}/playground/
+          PLAYGROUND_OUT_DIR: ${{ github.workspace }}/.pages/playground
+
+      - name: Build Scale playground
+        run: pnpm -C playground/scale build
+        env:
+          PLAYGROUND_BASE: ${{ steps.base.outputs.base }}/scale/
+          PLAYGROUND_OUT_DIR: ${{ github.workspace }}/.pages/scale
+
+      - name: Build Storybook
+        run: pnpm -C playground/storybook build -- --output-dir ../../.pages/storybook
+        env:
+          STORYBOOK_BASE: ${{ steps.base.outputs.base }}/storybook/
+
+      - name: Create docs placeholder page
+        shell: bash
+        run: |
+          mkdir -p .pages/docs
+          cat > .pages/docs/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <title>Tale UI Docs</title>
+              <style>
+                :root {
+                  color-scheme: light;
+                  font-family: "Segoe UI", sans-serif;
+                }
+                body {
+                  margin: 0;
+                  min-height: 100vh;
+                  display: grid;
+                  place-items: center;
+                  background: linear-gradient(135deg, #f6f8fb, #eef3f8);
+                  color: #132133;
+                }
+                main {
+                  width: min(740px, 92vw);
+                  padding: 2rem;
+                  border-radius: 14px;
+                  background: rgba(255, 255, 255, 0.88);
+                  box-shadow: 0 18px 60px rgba(19, 33, 51, 0.12);
+                }
+                h1 {
+                  margin: 0 0 0.75rem;
+                }
+                p {
+                  line-height: 1.55;
+                }
+                a {
+                  color: #0f5cc0;
+                }
+              </style>
+            </head>
+            <body>
+              <main>
+                <h1>Tale UI Docs</h1>
+                <p>
+                  The public docs app is not wired into this Pages workflow yet. This route is reserved as
+                  <strong>/docs</strong> and is ready for a static docs build output.
+                </p>
+                <p>
+                  In the meantime, docs source content lives in the repository under <strong>docs/</strong>.
+                </p>
+              </main>
+            </body>
+          </html>
+          EOF
+
+      - name: Create root index page
+        shell: bash
+        run: |
+          BASE='${{ steps.base.outputs.base }}'
+          mkdir -p .pages
+          cat > .pages/index.html <<EOF
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <title>Tale UI Pages</title>
+              <style>
+                :root {
+                  color-scheme: light;
+                  font-family: "Segoe UI", sans-serif;
+                }
+                body {
+                  margin: 0;
+                  min-height: 100vh;
+                  display: grid;
+                  place-items: center;
+                  background: radial-gradient(circle at top right, #e8f2ff, #f8fbff 55%);
+                  color: #0f2238;
+                }
+                main {
+                  width: min(760px, 92vw);
+                  padding: 2rem;
+                  border-radius: 14px;
+                  background: #ffffff;
+                  box-shadow: 0 18px 56px rgba(15, 34, 56, 0.12);
+                }
+                h1 {
+                  margin: 0;
+                }
+                ul {
+                  margin-top: 1.2rem;
+                  padding-left: 1.2rem;
+                }
+                li {
+                  margin: 0.5rem 0;
+                }
+                a {
+                  color: #0459b6;
+                  text-decoration-thickness: 0.1em;
+                }
+              </style>
+            </head>
+            <body>
+              <main>
+                <h1>Tale UI</h1>
+                <p>Single GitHub Pages site with multiple apps by subpath.</p>
+                <ul>
+                  <li><a href="${BASE}/docs/">Documentation</a></li>
+                  <li><a href="${BASE}/playground/">Playground (Vite)</a></li>
+                  <li><a href="${BASE}/scale/">Scale Playground</a></li>
+                  <li><a href="${BASE}/storybook/">Storybook</a></li>
+                </ul>
+              </main>
+            </body>
+          </html>
+          EOF
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
