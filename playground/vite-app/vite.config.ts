@@ -1,6 +1,5 @@
 import path from 'node:path';
 import { defineConfig } from 'vite';
-import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
@@ -12,7 +11,7 @@ export default defineConfig(() => {
 
   return {
     base: baseUrl,
-    plugins: [tailwindcss(), react()],
+    plugins: [react()],
     build: {
       sourcemap: true,
       outDir: resolvedOutDir,
@@ -23,6 +22,8 @@ export default defineConfig(() => {
         '@tale-ui/react': path.resolve(__dirname, '..', '..', 'packages', 'react', 'src'),
         '@tale-ui/utils': path.resolve(__dirname, '..', '..', 'packages', 'utils', 'src'),
         '@tale-ui/react-styles': path.resolve(__dirname, '..', '..', 'packages', 'styles', 'src'),
+        // Point @tale-ui/core to source so CSS @import resolves without needing a dist build
+        '@tale-ui/core': path.resolve(__dirname, '..', '..', 'packages', 'css', 'src', 'index.css'),
         ...(isProfiling ? { 'react-dom/client': 'react-dom/profiling' } : {}),
       },
     },

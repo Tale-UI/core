@@ -26,6 +26,7 @@
     "./checkbox": "./src/checkbox/index.ts",
     "./checkbox-group": "./src/checkbox-group/index.ts",
     "./collapsible": "./src/collapsible/index.ts",
+    "./container": "./src/container/index.ts",
     "./combobox": "./src/combobox/index.ts",
     "./csp-provider": "./src/csp-provider/index.ts",
     "./context-menu": "./src/context-menu/index.ts",

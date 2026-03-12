@@ -95,14 +95,19 @@ When dark mode is active, the neutral scale inverts automatically:
 ### JavaScript toggle
 
 ```javascript
-// Toggle
-const current = document.documentElement.getAttribute('data-color-mode');
-document.documentElement.setAttribute('data-color-mode', current === 'dark' ? 'light' : 'dark');
-
-// Persist
-localStorage.setItem('color-mode', mode);
-
-// Restore on load
+// Restore on load — always set an explicit value so OS preference doesn't override a user choice.
+// If nothing is saved, fall back to the OS preference.
 const saved = localStorage.getItem('color-mode');
-if (saved) document.documentElement.setAttribute('data-color-mode', saved);
+const mode = saved ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+document.documentElement.setAttribute('data-color-mode', mode);
+
+// Toggle
+function toggleColorMode() {
+  const current = document.documentElement.getAttribute('data-color-mode');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-color-mode', next);
+  localStorage.setItem('color-mode', next);
+}
 ```
+
+> **Note:** Never use `removeAttribute('data-color-mode')` to "reset to light" — removing the attribute causes the OS `prefers-color-scheme: dark` media query to take effect again. Always set `"light"` explicitly to force light mode.

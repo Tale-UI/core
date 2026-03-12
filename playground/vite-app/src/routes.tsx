@@ -1,5 +1,7 @@
 import type * as React from 'react';
+import ComponentAudit from './demos/ComponentAudit';
 import ComponentsDemo from './demos/ComponentsDemo';
+import RandomColorDemo from './demos/RandomColorDemo';
 import ContainedTriggers from './experiments/perf/contained-triggers';
 import DetachedTriggers from './experiments/perf/detached-triggers';
 import RadixTriggers from './experiments/perf/radix-triggers';
@@ -31,6 +33,20 @@ export const routes: RouteEntry[] = [
     path: '/components',
     label: 'Components',
     element: <ComponentsDemo />,
+    showInNav: true,
+  },
+  {
+    type: 'route',
+    path: '/component-audit',
+    label: 'Component audit',
+    element: <ComponentAudit />,
+    showInNav: true,
+  },
+  {
+    type: 'route',
+    path: '/random-color',
+    label: 'Random color demo',
+    element: <RandomColorDemo />,
     showInNav: true,
   },
   { type: 'header', label: 'Performance benchmarks' },

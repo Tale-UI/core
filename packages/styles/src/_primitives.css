@@ -1,0 +1,192 @@
+/*
+ * _primitives.css — Shared style primitives for @tale-ui/react-styles
+ *
+ * Grouped selectors for declarations that are byte-for-byte identical across
+ * multiple components. Component files retain only their differentiating styles.
+ *
+ * Imported first in index.css so component files can override via cascade.
+ *
+ * Groups:
+ *   1. Field control  — Input, Select trigger, Combobox input, Autocomplete input
+ *   2. Dropdown popup — Select, Combobox, Autocomplete, Menu, Popover
+ *   3. Dropdown item  — Select, Combobox, Autocomplete, Menu (all item variants)
+ *   4. Group label    — Select, Combobox, Autocomplete, Menu
+ *   5. Misc           — Separator, Popup arrow, Item indicator
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. FIELD CONTROL
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-input,
+.tale-select__trigger,
+.tale-combobox__input,
+.tale-autocomplete__input {
+  min-height: 3.6rem;
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: 0.6rem;
+  background-color: var(--neutral-10);
+  color: var(--neutral-90);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  outline: none;
+}
+
+/* Focus ring */
+.tale-input:focus,
+.tale-input[data-focused],
+.tale-select__trigger:focus-visible,
+.tale-select__trigger[data-popup-open],
+.tale-combobox__input:focus,
+.tale-combobox__input[data-popup-open],
+.tale-autocomplete__input:focus {
+  border-color: var(--color-60);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-60) 20%, transparent);
+}
+
+/* Placeholder (select uses .tale-select__value[data-placeholder] instead) */
+.tale-input::placeholder,
+.tale-combobox__input::placeholder,
+.tale-autocomplete__input::placeholder {
+  color: var(--neutral-50);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. DROPDOWN POPUP
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-select__popup,
+.tale-combobox__popup,
+.tale-autocomplete__popup,
+.tale-menu__popup,
+.tale-popover__popup {
+  background-color: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  outline: none;
+  overflow: hidden;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Enter/leave animation */
+.tale-select__popup[data-starting-style],
+.tale-select__popup[data-ending-style],
+.tale-combobox__popup[data-starting-style],
+.tale-combobox__popup[data-ending-style],
+.tale-autocomplete__popup[data-starting-style],
+.tale-autocomplete__popup[data-ending-style],
+.tale-menu__popup[data-starting-style],
+.tale-menu__popup[data-ending-style],
+.tale-popover__popup[data-starting-style],
+.tale-popover__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. DROPDOWN ITEM
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-select__item,
+.tale-combobox__item,
+.tale-autocomplete__item,
+.tale-menu__item,
+.tale-menu__checkbox-item,
+.tale-menu__radio-item,
+.tale-menu__link-item,
+.tale-menu__submenu-trigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: 0.5rem;
+  color: var(--neutral-80);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  user-select: none;
+}
+
+/* Highlighted */
+.tale-select__item[data-highlighted],
+.tale-combobox__item[data-highlighted],
+.tale-autocomplete__item[data-highlighted],
+.tale-menu__item[data-highlighted],
+.tale-menu__checkbox-item[data-highlighted],
+.tale-menu__radio-item[data-highlighted],
+.tale-menu__link-item[data-highlighted],
+.tale-menu__submenu-trigger[data-highlighted] {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+/* Disabled */
+.tale-select__item[data-disabled],
+.tale-combobox__item[data-disabled],
+.tale-autocomplete__item[data-disabled],
+.tale-menu__item[data-disabled],
+.tale-menu__checkbox-item[data-disabled],
+.tale-menu__radio-item[data-disabled],
+.tale-menu__link-item[data-disabled],
+.tale-menu__submenu-trigger[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. GROUP LABEL
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-select__group-label,
+.tale-combobox__group-label,
+.tale-autocomplete__group-label,
+.tale-menu__group-label {
+  padding: var(--space-4xs) var(--space-xs);
+  color: var(--neutral-50);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: default;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. MISC
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Separator */
+.tale-select__separator,
+.tale-menu__separator {
+  height: 1px;
+  background-color: var(--neutral-18);
+  margin: var(--space-4xs) 0;
+}
+
+/* Popup arrow */
+.tale-menu__arrow,
+.tale-popover__arrow {
+  width: 1rem;
+  height: 0.5rem;
+  fill: var(--neutral-10);
+  stroke: var(--neutral-20);
+  stroke-width: 1;
+}
+
+/* Item indicator (select + combobox — menu's indicator omits margin-left: auto) */
+.tale-select__item-indicator,
+.tale-combobox__item-indicator {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex-shrink: 0;
+  color: var(--color-60);
+  margin-left: auto;
+}

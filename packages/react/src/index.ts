@@ -7,6 +7,7 @@ export * from './checkbox';
 export * from './checkbox-group';
 export * from './collapsible';
 export * from './combobox';
+export * from './container';
 export * from './context-menu';
 export * from './csp-provider';
 export * from './dialog';

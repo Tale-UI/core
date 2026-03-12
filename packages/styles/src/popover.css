@@ -19,28 +19,16 @@
  *       </Popover.Positioner>
  *     </Popover.Portal>
  *   </Popover.Root>
+ *
+ * Shared popup base, popup animation, and arrow are defined in _primitives.css.
  */
 
 /* ─── Popup ────────────────────────────────────────────────────────────────── */
 
 .tale-popover__popup {
   position: relative;
-  background-color: var(--neutral-10);
-  border: 1px solid var(--neutral-20);
-  border-radius: 0.8rem;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 8px 24px rgba(0, 0, 0, 0.08);
   padding: var(--space-m);
   max-width: 32rem;
-  outline: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-}
-
-.tale-popover__popup[data-starting-style],
-.tale-popover__popup[data-ending-style] {
-  opacity: 0;
-  transform: scale(0.97);
 }
 
 /* ─── Title ────────────────────────────────────────────────────────────────── */
@@ -91,14 +79,4 @@
 
 .tale-popover__close:focus-visible {
   box-shadow: 0 0 0 2px var(--color-60);
-}
-
-/* ─── Arrow ────────────────────────────────────────────────────────────────── */
-
-.tale-popover__arrow {
-  width: 1rem;
-  height: 0.5rem;
-  fill: var(--neutral-10);
-  stroke: var(--neutral-20);
-  stroke-width: 1;
 }

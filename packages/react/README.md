@@ -1,47 +1,78 @@
-<!-- markdownlint-disable MD041 -->
+# @tale-ui/react
 
-<a href="https://base-ui.com" rel="noopener" target="_blank"><img width="150" height="133" src="https://base-ui.com/static/logo.svg" alt="Tale UI logo"></a>
-
-Tale UI is a library of unstyled React components. You gain complete control over your app's CSS and accessibility features.
+A library of headless, accessible React components. You gain complete control over your app's CSS and accessibility features.
 
 ## Installation
 
-Install the package in your project directory with:
-
 ```bash
-npm install @tale-ui/react
+pnpm add @tale-ui/react @tale-ui/react-styles
 ```
+
+`@tale-ui/react-styles` provides the default look for every component — built on `@tale-ui/core` design tokens.
+
+## Quick Start
+
+```tsx
+import '@tale-ui/react-styles';
+import { Button } from '@tale-ui/react/button';
+
+export default function App() {
+  return <Button className="tale-button tale-button--primary">Click me</Button>;
+}
+```
+
+For the full setup guide (colours, typography, dark mode): [docs/react-setup.md](../../docs/react-setup.md)
+
+## Components
+
+### Form Controls
+
+Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Radio · Radio Group · Select · Slider · Switch · Toggle · Toggle Group
+
+### Layout
+
+Accordion · Collapsible · Scroll Area · Separator · Tabs
+
+### Overlay
+
+Alert Dialog · Dialog · Drawer · Popover · Preview Card · Tooltip
+
+### Navigation
+
+Context Menu · Menu · Menubar · Navigation Menu · Toolbar
+
+### Feedback & Display
+
+Avatar · Meter · Progress · Toast
+
+### Form Structure
+
+Autocomplete · Field · Fieldset · Form
+
+### Utilities
+
+Container · CSP Provider · Direction Provider · `mergeProps` · `useRender`
+
+All components are imported from `@tale-ui/react/{name}`:
+
+```ts
+import { Dialog } from '@tale-ui/react/dialog';
+import { Select } from '@tale-ui/react/select';
+import { Container } from '@tale-ui/react/container';
+```
+
+## Styling
+
+Components are **headless** — they render accessible HTML with state exposed via data attributes (`data-disabled`, `data-open`, `data-checked`, etc.) but include no styles of their own.
+
+Default styles live in `@tale-ui/react-styles`. See the [styles README](../styles/README.md) for architecture details and CSS class naming conventions.
 
 ## Documentation
 
-<!-- #default-branch-switch -->
-
-Visit [tale-ui.com](https://base-ui.com) to view the full documentation.
-
-## Questions
-
-For how-to questions that don't involve making changes to the code base, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/base-ui) instead of GitHub issues.
-Use the "tale-ui" tag on Stack Overflow to make it easier for the community to find your question.
-
-## Contributing
-
-Read the [contributing guide](../../CONTRIBUTING.md) to learn about our development process, how to propose bug fixes and improvements, and how to build and test your changes.
-
-Contributing to Tale UI is about more than just issues and pull requests!
-There are many other ways to [support Tale UI](https://mui.com/material-ui/getting-started/faq/#mui-is-awesome-how-can-i-support-the-project) beyond contributing to the code base.
-
-## Changelog
-
-The [changelog](https://github.com/mui/base-ui/releases) is regularly updated to reflect what's changed in each new release.
-
-## Roadmap
-
-Future plans and high-priority features and enhancements can be found in the [roadmap](https://github.com/orgs/mui/projects/1).
+- [React setup guide](../../docs/react-setup.md) — full consumer walkthrough
+- [CSS design tokens](../css/docs/design-tokens.md) — all token values
+- [Contributing](../../CONTRIBUTING.md)
 
 ## License
 
-This project is licensed under the terms of the [MIT license](../../LICENSE).
-
-## Security
-
-For details of supported versions and contact details for reporting security issues, please refer to the [security policy](https://github.com/mui/base-ui/security/policy).
+MIT — see [LICENSE](../../LICENSE).

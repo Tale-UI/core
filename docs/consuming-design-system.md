@@ -1,5 +1,7 @@
 # Consuming the Design System
 
+> **Using Tale UI with React?** See [react-setup.md](react-setup.md) for the full guide covering `@tale-ui/react` + `@tale-ui/react-styles`.
+
 ## Method 1: npm install (recommended)
 
 ```bash

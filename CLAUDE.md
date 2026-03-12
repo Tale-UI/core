@@ -19,12 +19,15 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [docs/managing-packages.md](docs/managing-packages.md) | Creating new packages and importing external projects |
 | [docs/package-dependencies.md](docs/package-dependencies.md) | Cross-package `workspace:*` dependencies |
 | [docs/consuming-design-system.md](docs/consuming-design-system.md) | Installing @tale-ui/core in external projects |
+| [docs/react-setup.md](docs/react-setup.md) | Setting up a React app with Tale UI |
 
 ## CSS Design System (@tale-ui/core)
 
 See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributor guide.
 
 ## React Components (@tale-ui/react)
+
+**Setup guide:** See [docs/react-setup.md](docs/react-setup.md) for the full consumer guide.
 
 **Styling Architecture:** Styling lives in `packages/styles/src/` — NOT in the component source. Components remain headless.
 

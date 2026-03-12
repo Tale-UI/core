@@ -8,6 +8,9 @@
  *
  * Usage:
  *   <Input className="tale-input" />
+ *
+ * Shared field-control base (border, bg, font, focus ring, placeholder)
+ * is defined in _primitives.css.
  */
 
 /* ─── Base ─────────────────────────────────────────────────────────────────── */
@@ -15,32 +18,11 @@
 .tale-input {
   display: block;
   width: 100%;
-  min-height: 3.6rem;
-  padding: var(--space-3xs) var(--space-xs);
-  border: 1px solid var(--neutral-26);
-  border-radius: 0.6rem;
-  background-color: var(--neutral-10);
-  color: var(--neutral-90);
-  font-family: var(--body-font-family);
-  font-size: var(--text-m-font-size);
   line-height: 1.5;
-  outline: none;
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease,
     background-color 0.15s ease;
-}
-
-.tale-input::placeholder {
-  color: var(--neutral-50);
-}
-
-/* ─── Focus ───────────────────────────────────────────────────────────────── */
-
-.tale-input:focus,
-.tale-input[data-focused] {
-  border-color: var(--color-60);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-60) 20%, transparent);
 }
 
 /* ─── Hover ───────────────────────────────────────────────────────────────── */
