@@ -1,0 +1,104 @@
+/*  Foreground tokens
+    ──────────────────────────────────────────────────────────────────
+    Each `*-fg` token resolves to the contrasting shade suitable for
+    text and icons when the corresponding shade is used as a background.
+
+    Pivot at shade 60 — shades 5–50 are light backgrounds and get
+    dark foreground (*-100); shades 60–100 are dark backgrounds and
+    get light foreground (*-5).
+
+    Color / Neutral tokens reference `--color-*` / `--neutral-*` aliases
+    so dark mode inversion is automatic — no overrides needed.
+
+    Semantic tokens (error / warning / success) are static (no inversion):
+      Error pivot at 60  — error-60 (#cc3330) passes 6.2:1 contrast w/ white
+      Warning pivot at 70 — warning-60 (#f79009) needs dark text (2.3:1 w/ white)
+      Success pivot at 70 — success-60 (#3cbe7e) same as warning
+
+    Usage:
+      background: var(--color-60);
+      color: var(--color-60-fg);
+    ────────────────────────────────────────────────────────────────── */
+
+:root {
+    /* ── Color foreground tokens ── */
+    --color-5-fg:   var(--color-100);
+    --color-10-fg:  var(--color-100);
+    --color-20-fg:  var(--color-100);
+    --color-30-fg:  var(--color-100);
+    --color-40-fg:  var(--color-100);
+    --color-50-fg:  var(--color-100);
+    --color-60-fg:  var(--color-5);
+    --color-70-fg:  var(--color-5);
+    --color-80-fg:  var(--color-5);
+    --color-90-fg:  var(--color-5);
+    --color-100-fg: var(--color-5);
+
+    /* ── Neutral foreground tokens ── */
+    --neutral-5-fg:   var(--neutral-100);
+    --neutral-10-fg:  var(--neutral-100);
+    --neutral-12-fg:  var(--neutral-100);
+    --neutral-14-fg:  var(--neutral-100);
+    --neutral-16-fg:  var(--neutral-100);
+    --neutral-18-fg:  var(--neutral-100);
+    --neutral-20-fg:  var(--neutral-100);
+    --neutral-22-fg:  var(--neutral-100);
+    --neutral-24-fg:  var(--neutral-100);
+    --neutral-26-fg:  var(--neutral-100);
+    --neutral-28-fg:  var(--neutral-100);
+    --neutral-30-fg:  var(--neutral-100);
+    --neutral-40-fg:  var(--neutral-100);
+    --neutral-50-fg:  var(--neutral-100);
+    --neutral-60-fg:  var(--neutral-5);
+    --neutral-70-fg:  var(--neutral-5);
+    --neutral-80-fg:  var(--neutral-5);
+    --neutral-82-fg:  var(--neutral-5);
+    --neutral-84-fg:  var(--neutral-5);
+    --neutral-86-fg:  var(--neutral-5);
+    --neutral-88-fg:  var(--neutral-5);
+    --neutral-90-fg:  var(--neutral-5);
+    --neutral-92-fg:  var(--neutral-5);
+    --neutral-94-fg:  var(--neutral-5);
+    --neutral-96-fg:  var(--neutral-5);
+    --neutral-98-fg:  var(--neutral-5);
+    --neutral-100-fg: var(--neutral-5);
+
+    /* ── Error foreground tokens (pivot at 60) ── */
+    --error-5-fg:    var(--error-100);
+    --error-10-fg:   var(--error-100);
+    --error-20-fg:   var(--error-100);
+    --error-30-fg:   var(--error-100);
+    --error-40-fg:   var(--error-100);
+    --error-50-fg:   var(--error-100);
+    --error-60-fg:   var(--error-5);
+    --error-70-fg:   var(--error-5);
+    --error-80-fg:   var(--error-5);
+    --error-90-fg:   var(--error-5);
+    --error-100-fg:  var(--error-5);
+
+    /* ── Warning foreground tokens (pivot at 70) ── */
+    --warning-5-fg:   var(--warning-100);
+    --warning-10-fg:  var(--warning-100);
+    --warning-20-fg:  var(--warning-100);
+    --warning-30-fg:  var(--warning-100);
+    --warning-40-fg:  var(--warning-100);
+    --warning-50-fg:  var(--warning-100);
+    --warning-60-fg:  var(--warning-100);
+    --warning-70-fg:  var(--warning-5);
+    --warning-80-fg:  var(--warning-5);
+    --warning-90-fg:  var(--warning-5);
+    --warning-100-fg: var(--warning-5);
+
+    /* ── Success foreground tokens (pivot at 70) ── */
+    --success-5-fg:   var(--success-100);
+    --success-10-fg:  var(--success-100);
+    --success-20-fg:  var(--success-100);
+    --success-30-fg:  var(--success-100);
+    --success-40-fg:  var(--success-100);
+    --success-50-fg:  var(--success-100);
+    --success-60-fg:  var(--success-100);
+    --success-70-fg:  var(--success-5);
+    --success-80-fg:  var(--success-5);
+    --success-90-fg:  var(--success-5);
+    --success-100-fg: var(--success-5);
+}

@@ -37,7 +37,7 @@
 }
 
 .tale-checkbox:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Checked state ───────────────────────────────────────────────────────── */
@@ -88,7 +88,7 @@
   justify-content: center;
   width: 1.2rem;
   height: 1.2rem;
-  color: var(--neutral-100);
+  color: var(--color-60-fg);
   pointer-events: none;
 }
 

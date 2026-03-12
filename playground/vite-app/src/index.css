@@ -24,6 +24,36 @@ body {
   align-items: center;
   gap: var(--space-m);
   padding-block: var(--space-xs);
+  justify-content: space-between;
+}
+
+/* ─── Dark/light mode toggle ────────────────────────────────────────────────── */
+
+.pg-color-mode-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 1px solid var(--neutral-26);
+  border-radius: 0.6rem;
+  background-color: transparent;
+  color: var(--neutral-70);
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.pg-color-mode-toggle:hover {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+  border-color: var(--neutral-30);
+}
+
+.pg-color-mode-toggle:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-60) 25%, transparent);
+  border-color: var(--color-60);
 }
 
 .pg-main {

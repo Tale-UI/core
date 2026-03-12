@@ -24,7 +24,7 @@
 
 .tale-tooltip__popup {
   background-color: var(--neutral-80);
-  color: var(--neutral-10);
+  color: var(--neutral-80-fg);
   font-family: var(--label-font-family);
   font-size: var(--label-s-font-size);
   font-weight: var(--label-font-weight);

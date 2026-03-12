@@ -62,7 +62,7 @@
 
 .tale-button--primary {
   background-color: var(--color-60);
-  color: var(--neutral-100);
+  color: var(--color-60-fg);
   border-color: transparent;
 }
 
@@ -111,17 +111,17 @@
 /* ─── Danger variant — destructive actions ────────────────────────────────── */
 
 .tale-button--danger {
-  background-color: var(--red-60);
-  color: #fff;
+  background-color: var(--error-60);
+  color: var(--error-60-fg);
   border-color: transparent;
 }
 
 .tale-button--danger:hover:not([data-disabled]) {
-  background-color: var(--red-50);
+  background-color: var(--error-50);
 }
 
 .tale-button--danger:active:not([data-disabled]) {
-  background-color: var(--red-40);
+  background-color: var(--error-40);
 }
 
 /* ─── Size modifiers ──────────────────────────────────────────────────────── */

@@ -35,7 +35,7 @@ const PivotRow = styled.div`
 const TopSection = styled.div`
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 `
 
 const ControlsRow = styled.div`
@@ -252,6 +252,8 @@ const ScaleApp = () => {
           <CssOutput
             paletteName={paletteName}
             palette={palette}
+            mode={mode}
+            pivot={switchPoint ?? autoPivot}
           />
         </ColorsSection>
       </TopSection>

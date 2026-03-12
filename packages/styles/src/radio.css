@@ -35,7 +35,7 @@
 }
 
 .tale-radio:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Checked state ───────────────────────────────────────────────────────── */

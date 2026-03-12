@@ -279,21 +279,19 @@ function ComboboxDemo() {
 function ToastStack() {
   const { toasts } = Toast.useToastManager();
   return (
-    <div className="tale-toast__positioner">
+    <Toast.Viewport className="tale-toast__positioner">
       {toasts.map((toast) => (
-        <Toast.Positioner key={toast.id} toast={toast}>
-          <Toast.Root className="tale-toast__root" toast={toast}>
-            <Toast.Content className="tale-toast__content">
-              <Toast.Title className="tale-toast__title">{toast.title}</Toast.Title>
-              {toast.description && (
-                <Toast.Description className="tale-toast__description">{toast.description}</Toast.Description>
-              )}
-            </Toast.Content>
-            <Toast.Close className="tale-toast__close" aria-label="Close"><XIconSm /></Toast.Close>
-          </Toast.Root>
-        </Toast.Positioner>
+        <Toast.Root key={toast.id} className="tale-toast__root" toast={toast}>
+          <Toast.Content className="tale-toast__content">
+            <Toast.Title className="tale-toast__title">{toast.title}</Toast.Title>
+            {toast.description && (
+              <Toast.Description className="tale-toast__description">{toast.description}</Toast.Description>
+            )}
+          </Toast.Content>
+          <Toast.Close className="tale-toast__close" aria-label="Close"><XIconSm /></Toast.Close>
+        </Toast.Root>
       ))}
-    </div>
+    </Toast.Viewport>
   );
 }
 

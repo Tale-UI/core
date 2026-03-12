@@ -23,6 +23,7 @@
     --brand-80: var(--orange-80);
     --brand-90: var(--orange-90);
     --brand-100: var(--orange-100);
+    --color-60-fg: var(--color-100);
 }
 .color-amber {
     --brand-5: var(--amber-5);
@@ -36,6 +37,8 @@
     --brand-80: var(--amber-80);
     --brand-90: var(--amber-90);
     --brand-100: var(--amber-100);
+    --color-60-fg: var(--color-100);
+    --color-70-fg: var(--color-100);
 }
 .color-yellow {
     --brand-5: var(--yellow-5);
@@ -49,6 +52,8 @@
     --brand-80: var(--yellow-80);
     --brand-90: var(--yellow-90);
     --brand-100: var(--yellow-100);
+    --color-60-fg: var(--color-100);
+    --color-70-fg: var(--color-100);
 }
 .color-lime {
     --brand-5: var(--lime-5);
@@ -62,6 +67,8 @@
     --brand-80: var(--lime-80);
     --brand-90: var(--lime-90);
     --brand-100: var(--lime-100);
+    --color-60-fg: var(--color-100);
+    --color-70-fg: var(--color-100);
 }
 .color-green {
     --brand-5: var(--green-5);
@@ -75,6 +82,8 @@
     --brand-80: var(--green-80);
     --brand-90: var(--green-90);
     --brand-100: var(--green-100);
+    --color-60-fg: var(--color-100);
+    --color-70-fg: var(--color-100);
 }
 .color-emerald {
     --brand-5: var(--emerald-5);
@@ -88,6 +97,8 @@
     --brand-80: var(--emerald-80);
     --brand-90: var(--emerald-90);
     --brand-100: var(--emerald-100);
+    --color-60-fg: var(--color-100);
+    --color-70-fg: var(--color-100);
 }
 .color-teal {
     --brand-5: var(--teal-5);
@@ -101,6 +112,8 @@
     --brand-80: var(--teal-80);
     --brand-90: var(--teal-90);
     --brand-100: var(--teal-100);
+    --color-60-fg: var(--color-100);
+    --color-70-fg: var(--color-100);
 }
 .color-cyan {
     --brand-5: var(--cyan-5);
@@ -114,6 +127,8 @@
     --brand-80: var(--cyan-80);
     --brand-90: var(--cyan-90);
     --brand-100: var(--cyan-100);
+    --color-60-fg: var(--color-100);
+    --color-70-fg: var(--color-100);
 }
 .color-sky {
     --brand-5: var(--sky-5);
@@ -127,6 +142,7 @@
     --brand-80: var(--sky-80);
     --brand-90: var(--sky-90);
     --brand-100: var(--sky-100);
+    --color-60-fg: var(--color-100);
 }
 .color-indigo {
     --brand-5: var(--indigo-5);

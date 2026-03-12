@@ -71,6 +71,52 @@ The `-60` shade is the BASE — the primary shade and the contrast switch point 
 - `*-50` and `*-70` typically **fail 4.5:1 AA** for normal-size text — do not use for body copy
 - `*-50` and `*-70` generally **pass 3:1** — safe for large text (18px+ / 14px bold) and decorative elements
 
+### Foreground tokens (`*-fg`)
+
+Every color and neutral shade has a paired `-fg` token that resolves to the appropriate contrasting shade for text/icons when that shade is used as a background.
+
+**Color:** `--color-5-fg` through `--color-100-fg`
+**Neutral:** `--neutral-5-fg` through `--neutral-100-fg` (all 27 shades)
+**Semantic:** `--error-5-fg` through `--error-100-fg` · `--warning-5-fg` through `--warning-100-fg` · `--success-5-fg` through `--success-100-fg`
+
+| Family | Pivot | Shades → `*-100` (dark text) | Shades → `*-5` (light text) |
+|---|---|---|---|
+| `--color-*` | 60 | 5–50 | 60–100 |
+| `--neutral-*` | 60 | 5–50 | 60–100 |
+| `--error-*` | 60 | 5–50 | 60–100 |
+| `--warning-*` | 70 | 5–60 | 70–100 |
+| `--success-*` | 70 | 5–60 | 70–100 |
+
+**Usage:**
+```css
+.my-badge {
+  background: var(--color-60);
+  color: var(--color-60-fg);    /* resolves to --color-5 */
+}
+.my-surface {
+  background: var(--neutral-14);
+  color: var(--neutral-14-fg);  /* resolves to --neutral-100 */
+}
+.alert {
+  background: var(--warning-10);
+  color: var(--warning-10-fg);  /* resolves to --warning-100 */
+}
+```
+
+**Dark mode:** No overrides needed for `--color-*-fg` / `--neutral-*-fg` — they reference inverting aliases. Semantic (`--error-*`, `--warning-*`, `--success-*`) tokens are static and do not invert — this is intentional: semantic states should stay visually consistent across modes.
+
+**Theme classes:** Works automatically with `.color-{name}` and `.neutral-{family}` — the `-fg` tokens follow whatever palette is active.
+
+**Per-family pivot overrides:** Some lighter color families need dark foreground on shade 60 or 70 (where the default gives light foreground). These overrides are built into the `.color-{name}` theme classes:
+
+| Family | `--color-60-fg` override | `--color-70-fg` override |
+|---|---|---|
+| orange, sky | `var(--color-100)` | — (default) |
+| amber, yellow, lime, green, emerald, teal, cyan | `var(--color-100)` | `var(--color-100)` |
+| red, indigo, violet, purple, fuchsia, pink, rose | — (default) | — (default) |
+
+Consumers don't need to worry about this — applying `.color-yellow` (for example) automatically adjusts `--color-60-fg` and `--color-70-fg` so contrast is correct.
+
 ### Color theming
 
 - `.color-red` remaps ALL `--brand-*` tokens (5–100) to red shades — does NOT affect `--red-*` tokens directly

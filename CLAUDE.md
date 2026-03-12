@@ -45,6 +45,7 @@ See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributo
 
 All component styles use tokens from `@tale-ui/core`:
 - **Colors:** `--neutral-*` and `--color-*` (NEVER `--brand-*` in component CSS)
+- **Foreground:** `--color-*-fg` and `--neutral-*-fg` for auto-contrasting text on any shade background
 - **Spacing:** `--space-4xs` through `--space-4xl`
 - **Typography:** `--label-s-font-size`, `--text-s-font-size`, etc.
 - **Dark mode:** Automatic via `data-color-mode="dark"` on `<html>`

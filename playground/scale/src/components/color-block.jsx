@@ -72,6 +72,19 @@ const ContrastLevelLabel = styled.div`
   pointer-events: none;
 `
 
+const AgLabel = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--title-l-font-size);
+  font-weight: var(--title-font-weight);
+  line-height: 1;
+  letter-spacing: var(--title-letter-spacing);
+  pointer-events: none;
+`
+
 const HexLabel = styled.div`
   position: absolute;
   top: 100%;
@@ -128,6 +141,7 @@ const ColorBlock = ({ shade, hex, isBase, contrastHex, style }) => {
       <Container style={style}>
         <ShadeLabel $lightText={lightText}>{shade}</ShadeLabel>
         {isBase && <BaseIndicator $lightText={lightText} />}
+        {contrastHex && <AgLabel style={{ color: contrastHex }}>Ag</AgLabel>}
 
         {ratio !== null && <RatioLabel $lightText={lightText}>{ratio.toFixed(2)}:1</RatioLabel>}
         {badge !== null && <ContrastLevelLabel $lightText={lightText}>{badge}</ContrastLevelLabel>}

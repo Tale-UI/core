@@ -213,16 +213,40 @@ export const randomBaseColor = (mode) => {
   // Fallback to known-good colours (should never be reached in practice)
   return isNeutral ? '#79716b' : '#dc2626'
 }
-export const generateCssOutput = (name, palette) => {
+export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } = {}) => {
   if (!palette || palette.length === 0) return ''
 
-  const maxShadeWidth = Math.max(...palette.map(p => String(p.shade).length))
+  const maxPropWidth = Math.max(
+    ...palette.map(p => `--${name}-${p.shade}`.length)
+  )
 
-  const lines = palette.map(({ shade, hex }) => {
-    const shadePadded = String(shade).padEnd(maxShadeWidth)
-    const comment     = shade === 60 ? '  /* BASE */' : ''
-    return `  --${name}-${shadePadded}: ${hex};${comment}`
+  // 1. Raw palette tokens
+  const paletteLines = palette.map(({ shade, hex }) => {
+    const prop    = `--${name}-${shade}`
+    const comment = shade === 60 ? '  /* BASE */' : ''
+    return `  ${prop.padEnd(maxPropWidth)}: ${hex};${comment}`
   })
 
-  return `:root {\n${lines.join('\n')}\n}`
+  // fg overrides when pivot differs from the default (60)
+  if (mode === 'named' && pivot > 60) paletteLines.push('  --color-60-fg: var(--color-100);')
+  if (mode === 'named' && pivot > 70) paletteLines.push('  --color-70-fg: var(--color-100);')
+
+  const blocks = [`:root {\n${paletteLines.join('\n')}\n}`]
+
+  // 2. Theme class (named colors only)
+  if (mode === 'named') {
+    const brandWidth  = '--brand-100'.length
+    const themeLines  = palette.map(({ shade }) => {
+      const brandProp = `--brand-${shade}`
+      return `  ${brandProp.padEnd(brandWidth)}: var(--${name}-${shade});`
+    })
+
+    // fg overrides when pivot differs from the default (60)
+    if (pivot > 60) themeLines.push('  --color-60-fg: var(--color-100);')
+    if (pivot > 70) themeLines.push('  --color-70-fg: var(--color-100);')
+
+    blocks.push(`.color-${name} {\n${themeLines.join('\n')}\n}`)
+  }
+
+  return blocks.join('\n\n')
 }

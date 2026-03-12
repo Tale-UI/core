@@ -59,7 +59,6 @@
   height: 0.4rem;
   border-radius: 9999px;
   background-color: var(--neutral-22);
-  overflow: hidden;
 }
 
 .tale-slider[data-orientation="vertical"] .tale-slider__track {
@@ -98,33 +97,21 @@
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 50%;
-  background-color: var(--neutral-100);
+  background-color: var(--neutral-10);
   border: 2px solid var(--color-60);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  top: 50%;
-  transform: translateY(-50%);
   outline: none;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, scale 0.1s ease;
   cursor: grab;
 }
 
 .tale-slider__thumb:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-slider__thumb[data-dragging] {
   cursor: grabbing;
-  transform: translateY(-50%) scale(1.15);
-}
-
-.tale-slider[data-orientation="vertical"] .tale-slider__thumb {
-  left: 50%;
-  top: auto;
-  transform: translateX(-50%);
-}
-
-.tale-slider[data-orientation="vertical"] .tale-slider__thumb[data-dragging] {
-  transform: translateX(-50%) scale(1.15);
+  scale: 1.15;
 }
 
 /* ─── Disabled state ──────────────────────────────────────────────────────── */

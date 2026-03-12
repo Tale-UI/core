@@ -37,12 +37,12 @@ const Pre = styled.pre`
   color: var(--text-color);
 `
 
-const CssOutput = ({ paletteName, palette }) => {
+const CssOutput = ({ paletteName, palette, mode, pivot }) => {
   const [copied, setCopied] = useState(false)
 
   const css = useMemo(
-    () => generateCssOutput(paletteName || 'color', palette),
-    [paletteName, palette]
+    () => generateCssOutput(paletteName || 'color', palette, { mode, pivot }),
+    [paletteName, palette, mode, pivot]
   )
 
   const handleCopy = () => {

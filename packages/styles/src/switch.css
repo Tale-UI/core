@@ -17,14 +17,19 @@
 /* ─── Root — pill-shaped track ────────────────────────────────────────────── */
 
 .tale-switch {
+  --tale-switch-track-width: 4rem;
+  --tale-switch-track-height: 2.2rem;
+  --tale-switch-thumb-size: 1.4rem;
+  --tale-switch-thumb-offset: 0.2rem;
+
+  position: relative;
   display: inline-flex;
-  align-items: center;
-  width: 4rem;
-  height: 2.2rem;
+  width: var(--tale-switch-track-width);
+  height: var(--tale-switch-track-height);
   border-radius: 9999px;
   border: 1.5px solid var(--neutral-30);
   background-color: var(--neutral-20);
-  padding: 0 0.2rem;
+  padding: 0;
   cursor: pointer;
   outline: none;
   transition:
@@ -35,7 +40,7 @@
 }
 
 .tale-switch:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Checked (on) state ──────────────────────────────────────────────────── */
@@ -74,17 +79,26 @@
 /* ─── Thumb — sliding circle ──────────────────────────────────────────────── */
 
 .tale-switch__thumb {
-  width: 1.4rem;
-  height: 1.4rem;
+  position: absolute;
+  inset-inline-start: var(--tale-switch-thumb-offset);
+  inset-block-start: 50%;
+  width: var(--tale-switch-thumb-size);
+  height: var(--tale-switch-thumb-size);
   border-radius: 50%;
   background-color: var(--neutral-80);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, background-color 0.2s ease;
-  transform: translateX(0);
+  transform: translate(0, -50%);
   flex-shrink: 0;
 }
 
 .tale-switch__thumb[data-checked] {
-  transform: translateX(1.6rem);
-  background-color: var(--neutral-100);
+  transform: translate(
+    calc(
+      var(--tale-switch-track-width) - (var(--tale-switch-thumb-offset) * 2) -
+        var(--tale-switch-thumb-size)
+    ),
+    -50%
+  );
+  background-color: var(--color-60-fg);
 }

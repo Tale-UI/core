@@ -27,7 +27,7 @@
 
 .tale-popover__popup {
   position: relative;
-  padding: var(--space-m);
+  padding: var(--space-xs);
   max-width: 32rem;
 }
 

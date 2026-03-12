@@ -11,6 +11,27 @@ Components live in the consuming project, not in this design system. Build them 
 - Use `--neutral-*` (not `--neutral-warm-*` etc.) so components adapt to the active neutral family
 - Keep component CSS minimal — leverage the utility layer
 
+## Using foreground tokens
+
+Pair any shade background with its `-fg` token for automatic contrast:
+
+```css
+.badge {
+    background: var(--color-60);
+    color: var(--color-60-fg);           /* auto-contrasting text */
+}
+.badge:hover {
+    background: var(--color-70);
+    color: var(--color-70-fg);
+}
+.tag {
+    background: var(--color-20);
+    color: var(--color-20-fg);           /* resolves to --color-100 */
+}
+```
+
+The `-fg` tokens work with any `.color-{name}` theme class and invert automatically in dark mode.
+
 ## Example: Card
 
 ```html

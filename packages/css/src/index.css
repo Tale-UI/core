@@ -14,6 +14,7 @@
 @import './tokens/_typography.css';
 @import './tokens/_colors.css';
 @import './tokens/_neutrals.css';
+@import './tokens/_foreground.css';
 @import './tokens/_effects.css';
 
 /* 2. FOUNDATIONS — Typography and base element styles */

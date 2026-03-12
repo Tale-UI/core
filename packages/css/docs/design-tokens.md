@@ -43,6 +43,22 @@ red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, indigo, viole
 - Shades **above 60** are dark — pair with `-5` for text/icons
 - `-50` and `-70` are edge shades: fail WCAG 4.5:1 AA for normal text but pass for large text (18px+) — do not use for body text
 
+### Foreground tokens (`*-fg`)
+
+Every color and neutral shade has a paired `-fg` token for text/icons on that shade as background:
+
+```css
+background: var(--color-60);
+color: var(--color-60-fg);    /* auto-contrasting text */
+```
+
+- `--color-*-fg` (11 shades) and `--neutral-*-fg` (27 shades) — pivot at 60; dark mode inversion automatic
+- `--error-*-fg` (11 shades) — pivot at 60 (error-60 passes 6.2:1 contrast with white)
+- `--warning-*-fg` (11 shades) — pivot at 70 (warning-60 is too light for white text: 2.3:1)
+- `--success-*-fg` (11 shades) — pivot at 70 (same reason as warning)
+- Semantic fg tokens are **static** (do not invert in dark mode) — semantic states stay visually consistent
+- Per-family pivot: `.color-{name}` theme classes override `--color-60-fg` / `--color-70-fg` for lighter families (yellow, lime, etc.) so contrast is always correct
+
 ### `--brand-*` vs `--color-*`
 
 > **Rule: `--brand-*` is palette-only.** It belongs only in `:root` overrides and `.color-{name}` class definitions — **never in component or UI CSS**. `--brand-*` does not invert in dark mode; `--color-*` does.
@@ -91,6 +107,8 @@ When dark mode is active, the neutral scale inverts automatically:
 - `--neutral-90` (darkest in light mode) → maps to `--neutral-default-20` (lightest)
 
 `--color-*` tokens also invert. Any component using `--neutral-*` and `--color-*` tokens automatically works in both modes — no separate dark mode CSS needed.
+
+**Foreground tokens** (`*-fg`) also auto-invert — they reference `--color-*` / `--neutral-*` aliases, so both the background and foreground flip together. No dark mode overrides needed for `-fg` tokens.
 
 ### JavaScript toggle
 

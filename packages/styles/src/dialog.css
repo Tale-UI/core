@@ -53,10 +53,10 @@
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 20px 40px -4px rgba(0, 0, 0, 0.15);
-  padding: var(--space-xl);
+  padding: var(--space-s);
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
+  gap: var(--space-xs);
   outline: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }

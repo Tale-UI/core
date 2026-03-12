@@ -2,7 +2,7 @@ html {
     font-size: 62.5%;
 }
 :root {
-    --background: var(--neutral-18);
+    --background: var(--neutral-5);
     --min-screen-width: 480px;
     --max-screen-width: 1600px;
 }
