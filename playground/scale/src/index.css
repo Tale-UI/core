@@ -1,0 +1,23 @@
+html {
+  font-size: 62.5%; /* 1rem = 10px — required by @tale-ui/core */
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--text-font-family);
+  color: var(--text-color);
+  background-color: var(--bodyBg, var(--bg-body));
+  font-size: var(--text-m-font-size);
+  line-height: var(--text-line-height);
+  height: 100%;
+
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "tnum";
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
