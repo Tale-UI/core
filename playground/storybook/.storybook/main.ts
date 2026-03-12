@@ -16,6 +16,7 @@ const config: StorybookConfig = {
       '@tale-ui/react': path.resolve(__dirname, '../../../packages/react/src'),
       '@tale-ui/utils': path.resolve(__dirname, '../../../packages/utils/src'),
       '@tale-ui/react-styles': path.resolve(__dirname, '../../../packages/styles/src'),
+      '@tale-ui/core': path.resolve(__dirname, '../../../packages/css/src/index.css'),
     };
     return config;
   },
