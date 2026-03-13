@@ -2,18 +2,19 @@ import * as React from 'react';
 import { expect } from 'chai';
 import { spy } from 'sinon';
 import { act, fireEvent, screen, waitFor, flushMicrotasks } from '@mui/internal-test-utils';
-import { Dialog } from '@tale-ui/react/dialog';
+import { Dialog } from '@base-ui/react/dialog';
 import { createRenderer, isJSDOM, popupConformanceTests } from '#test-utils';
-import { Menu } from '@tale-ui/react/menu';
-import { Select } from '@tale-ui/react/select';
-import { NumberField } from '@tale-ui/react/number-field';
+import { Menu } from '@base-ui/react/menu';
+import { Select } from '@base-ui/react/select';
+import { NumberField } from '@base-ui/react/number-field';
+import { ScrollArea } from '@base-ui/react/scroll-area';
 import { REASONS } from '../../utils/reasons';
 
 describe('<Dialog.Root />', () => {
   const { render } = createRenderer();
 
   beforeEach(() => {
-    globalThis.TALE_UI_ANIMATIONS_DISABLED = true;
+    globalThis.BASE_UI_ANIMATIONS_DISABLED = true;
   });
 
   popupConformanceTests({
@@ -300,6 +301,130 @@ describe('<Dialog.Root />', () => {
         });
         expect(handleOpenChange.callCount).to.equal(1);
       });
+
+      it('closing via intentional outside press with user backdrop (modal=true): works when portaled into a shadow DOM', async () => {
+        const handleOpenChange = spy();
+
+        const container = document.body.appendChild(document.createElement('div'));
+        const shadowRoot = container.attachShadow({ mode: 'open' });
+
+        await render(
+          <TestDialog
+            rootProps={{ defaultOpen: true, onOpenChange: handleOpenChange, modal: true }}
+            portalProps={{ container: shadowRoot }}
+            includeBackdrop
+          />,
+        );
+
+        const backdrop = shadowRoot.querySelector('[data-testid="backdrop"]') as HTMLElement;
+
+        fireEvent.click(backdrop);
+        await waitFor(() => {
+          expect(shadowRoot.querySelector('[role="dialog"]')).to.equal(null);
+        });
+        expect(handleOpenChange.callCount).to.equal(1);
+      });
+
+      it('closing via outside press: works when clicking another element inside the same shadow root', async () => {
+        const handleOpenChange = spy();
+
+        const host = document.body.appendChild(document.createElement('div'));
+        const shadowRoot = host.attachShadow({ mode: 'open' });
+        const container = document.createElement('div');
+        shadowRoot.appendChild(container);
+
+        try {
+          await render(
+            <React.Fragment>
+              <button data-testid="outside">Outside</button>
+              <TestDialog
+                rootProps={{ defaultOpen: true, onOpenChange: handleOpenChange, modal: false }}
+                portalProps={{ container: shadowRoot }}
+              />
+            </React.Fragment>,
+            { container },
+          );
+
+          const outsideButton = shadowRoot.querySelector('[data-testid="outside"]') as HTMLElement;
+
+          fireEvent.click(outsideButton);
+
+          await waitFor(() => {
+            expect(shadowRoot.querySelector('[role="dialog"]')).to.equal(null);
+          });
+
+          expect(handleOpenChange.callCount).to.equal(1);
+          expect(handleOpenChange.firstCall.args[1].reason).to.equal(REASONS.outsidePress);
+        } finally {
+          await act(async () => {
+            host.remove();
+          });
+        }
+      });
+
+      it('closing via outside press: works when clicking outside the shadow root', async () => {
+        const handleOpenChange = spy();
+
+        const host = document.body.appendChild(document.createElement('div'));
+        const shadowRoot = host.attachShadow({ mode: 'open' });
+        const container = document.createElement('div');
+        shadowRoot.appendChild(container);
+
+        try {
+          await render(
+            <TestDialog
+              rootProps={{ defaultOpen: true, onOpenChange: handleOpenChange, modal: false }}
+              portalProps={{ container: shadowRoot }}
+            />,
+            { container },
+          );
+
+          fireEvent.click(document.body);
+
+          await waitFor(() => {
+            expect(shadowRoot.querySelector('[role="dialog"]')).to.equal(null);
+          });
+
+          expect(handleOpenChange.callCount).to.equal(1);
+          expect(handleOpenChange.firstCall.args[1].reason).to.equal(REASONS.outsidePress);
+        } finally {
+          await act(async () => {
+            host.remove();
+          });
+        }
+      });
+
+      it('closing via outside press: works for a modal dialog when clicking outside the shadow root', async () => {
+        const handleOpenChange = spy();
+
+        const host = document.body.appendChild(document.createElement('div'));
+        const shadowRoot = host.attachShadow({ mode: 'open' });
+        const container = document.createElement('div');
+        shadowRoot.appendChild(container);
+
+        try {
+          await render(
+            <TestDialog
+              rootProps={{ defaultOpen: true, onOpenChange: handleOpenChange, modal: true }}
+              portalProps={{ container: shadowRoot }}
+            />,
+            { container },
+          );
+
+          fireEvent.click(document.body);
+
+          await waitFor(() => {
+            expect(shadowRoot.querySelector('[role="dialog"]')).to.equal(null);
+          });
+
+          expect(handleOpenChange.callCount).to.equal(1);
+          expect(handleOpenChange.firstCall.args[1].reason).to.equal(REASONS.outsidePress);
+        } finally {
+          await act(async () => {
+            host.remove();
+          });
+        }
+      });
     });
 
     it.skipIf(isJSDOM)('waits for the exit transition to finish before unmounting', async () => {
@@ -313,7 +438,7 @@ describe('<Dialog.Root />', () => {
     }
   `;
 
-      globalThis.TALE_UI_ANIMATIONS_DISABLED = false;
+      globalThis.BASE_UI_ANIMATIONS_DISABLED = false;
 
       const notifyTransitionEnd = spy();
 
@@ -817,7 +942,7 @@ describe('<Dialog.Root />', () => {
       });
 
       it('is called on close when the exit animation finishes', async () => {
-        globalThis.TALE_UI_ANIMATIONS_DISABLED = false;
+        globalThis.BASE_UI_ANIMATIONS_DISABLED = false;
 
         const onOpenChangeComplete = spy();
 
@@ -897,7 +1022,7 @@ describe('<Dialog.Root />', () => {
       });
 
       it('is called on open when the enter animation finishes', async () => {
-        globalThis.TALE_UI_ANIMATIONS_DISABLED = false;
+        globalThis.BASE_UI_ANIMATIONS_DISABLED = false;
 
         const onOpenChangeComplete = spy();
 
@@ -945,7 +1070,7 @@ describe('<Dialog.Root />', () => {
       });
 
       it('waits for a restarted enter animation to finish', async () => {
-        globalThis.TALE_UI_ANIMATIONS_DISABLED = false;
+        globalThis.BASE_UI_ANIMATIONS_DISABLED = false;
 
         const onOpenChangeComplete = spy();
 
@@ -1016,7 +1141,7 @@ describe('<Dialog.Root />', () => {
       });
 
       it('does not get called on open when dismissed during the enter animation', async () => {
-        globalThis.TALE_UI_ANIMATIONS_DISABLED = false;
+        globalThis.BASE_UI_ANIMATIONS_DISABLED = false;
 
         const onOpenChangeComplete = spy();
 
@@ -1092,6 +1217,54 @@ describe('<Dialog.Root />', () => {
       });
     });
   });
+
+  it.skipIf(isJSDOM)(
+    'keeps focus trapped when dialog content contains a non-scrollable scroll area',
+    async () => {
+      const { user } = await render(
+        <div>
+          <button data-testid="outside-before">Outside before</button>
+          <ContainedTriggerDialog
+            rootProps={{ defaultOpen: true, modal: 'trap-focus' }}
+            popupProps={{
+              children: (
+                <ScrollArea.Root style={{ width: 200, height: 200 }}>
+                  <ScrollArea.Viewport
+                    data-testid="viewport"
+                    style={{ width: '100%', height: '100%' }}
+                  >
+                    <div style={{ width: 100, height: 100 }}>Non-scrollable content</div>
+                  </ScrollArea.Viewport>
+                </ScrollArea.Root>
+              ),
+            }}
+            omitTrigger
+          />
+          <button data-testid="outside-after">Outside after</button>
+        </div>,
+      );
+
+      const popup = screen.getByRole('dialog');
+      const outsideBefore = screen.getByTestId('outside-before');
+      const outsideAfter = screen.getByTestId('outside-after');
+
+      await waitFor(() => {
+        expect(popup.contains(document.activeElement)).to.equal(true);
+      });
+
+      await user.keyboard('[Tab]');
+      expect(popup.contains(document.activeElement)).to.equal(true);
+
+      await user.keyboard('[Tab]');
+      expect(popup.contains(document.activeElement)).to.equal(true);
+
+      await user.keyboard('[ShiftLeft>][Tab][/ShiftLeft]');
+      expect(popup.contains(document.activeElement)).to.equal(true);
+
+      expect(outsideBefore).not.toHaveFocus();
+      expect(outsideAfter).not.toHaveFocus();
+    },
+  );
 });
 
 type TestDialogProps = {
