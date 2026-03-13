@@ -5,8 +5,9 @@ import { Button } from '@tale-ui/react/button'
 import { generateCssOutput } from '../utils'
 
 const Root = styled.div`
-  margin-top: var(--space-xl);
-  margin-bottom: var(--space-l);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `
 
 const Header = styled.div`
@@ -32,7 +33,8 @@ const Pre = styled.pre`
   border: 1px solid var(--neutral-20);
   border-radius: var(--radius-m);
   overflow-y: auto;
-  max-height: none;
+  flex: 1;
+  min-height: 0;
   white-space: pre;
   color: var(--text-color);
 `

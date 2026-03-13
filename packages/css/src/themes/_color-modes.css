@@ -54,6 +54,63 @@ html:not([data-color-mode="dark"]),
     --text-color: var(--neutral-default-90);
     --mono-color: var(--neutral-default-90);
     color: var(--text-color);
+    --color-5: var(--brand-5);
+    --color-10: var(--brand-10);
+    --color-20: var(--brand-20);
+    --color-30: var(--brand-30);
+    --color-40: var(--brand-40);
+    --color-50: var(--brand-50);
+    --color-60: var(--brand-60);
+    --color-70: var(--brand-70);
+    --color-80: var(--brand-80);
+    --color-90: var(--brand-90);
+    --color-100: var(--brand-100);
+    --color-5-fg:   var(--color-100);
+    --color-10-fg:  var(--color-100);
+    --color-20-fg:  var(--color-100);
+    --color-30-fg:  var(--color-100);
+    --color-40-fg:  var(--color-100);
+    --color-50-fg:  var(--color-100);
+    --color-60-fg:  var(--color-5);
+    --color-70-fg:  var(--color-5);
+    --color-80-fg:  var(--color-5);
+    --color-90-fg:  var(--color-5);
+    --color-100-fg: var(--color-5);
+}
+
+/*
+    Per-family fg pivot overrides — light mode only.
+    These families have a shade-60 or shade-70 that is too light for white
+    foreground (var(--color-5)) in light mode so they need dark text instead.
+    In dark mode the inverted color scale means shade-60 maps to a lighter
+    brand value, and the default var(--color-5) = brand-100 (dark) is already
+    correct — no override needed there.
+    Placed here (before the OS dark @media) so the OS dark and explicit dark
+    rules override these via cascade order.
+*/
+:where(html:not([data-color-mode="dark"])) .color-orange,
+:where(html:not([data-color-mode="dark"])) .color-sky,
+.light .color-orange,
+.light .color-sky {
+    --color-60-fg: var(--color-100);
+}
+
+:where(html:not([data-color-mode="dark"])) .color-amber,
+:where(html:not([data-color-mode="dark"])) .color-yellow,
+:where(html:not([data-color-mode="dark"])) .color-lime,
+:where(html:not([data-color-mode="dark"])) .color-green,
+:where(html:not([data-color-mode="dark"])) .color-emerald,
+:where(html:not([data-color-mode="dark"])) .color-teal,
+:where(html:not([data-color-mode="dark"])) .color-cyan,
+.light .color-amber,
+.light .color-yellow,
+.light .color-lime,
+.light .color-green,
+.light .color-emerald,
+.light .color-teal,
+.light .color-cyan {
+    --color-60-fg: var(--color-100);
+    --color-70-fg: var(--color-100);
 }
 
 /*
@@ -107,6 +164,17 @@ html:not([data-color-mode="dark"]),
         --color-80: var(--brand-20);
         --color-90: var(--brand-10);
         --color-100: var(--brand-5);
+        --color-5-fg:   var(--color-100);
+        --color-10-fg:  var(--color-100);
+        --color-20-fg:  var(--color-100);
+        --color-30-fg:  var(--color-100);
+        --color-40-fg:  var(--color-100);
+        --color-50-fg:  var(--color-100);
+        --color-60-fg:  var(--color-5);
+        --color-70-fg:  var(--color-5);
+        --color-80-fg:  var(--color-5);
+        --color-90-fg:  var(--color-5);
+        --color-100-fg: var(--color-5);
     }
 }
 
@@ -162,4 +230,15 @@ html[data-color-mode="dark"],
     --color-80: var(--brand-20);
     --color-90: var(--brand-10);
     --color-100: var(--brand-5);
+    --color-5-fg:   var(--color-100);
+    --color-10-fg:  var(--color-100);
+    --color-20-fg:  var(--color-100);
+    --color-30-fg:  var(--color-100);
+    --color-40-fg:  var(--color-100);
+    --color-50-fg:  var(--color-100);
+    --color-60-fg:  var(--color-5);
+    --color-70-fg:  var(--color-5);
+    --color-80-fg:  var(--color-5);
+    --color-90-fg:  var(--color-5);
+    --color-100-fg: var(--color-5);
 }

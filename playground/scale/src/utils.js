@@ -227,13 +227,26 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
     return `  ${prop.padEnd(maxPropWidth)}: ${hex};${comment}`
   })
 
-  // fg overrides when pivot differs from the default (60)
-  if (mode === 'named' && pivot > 60) paletteLines.push('  --color-60-fg: var(--color-100);')
-  if (mode === 'named' && pivot > 70) paletteLines.push('  --color-70-fg: var(--color-100);')
-
   const blocks = [`:root {\n${paletteLines.join('\n')}\n}`]
 
-  // 2. Theme class (named colors only)
+  // 2. Theme class
+  if (mode === 'neutral') {
+    // Mirrors the .neutral-cool / .neutral-slate pattern in _neutral-themes.css:
+    // override --neutral-default-* so the mode rules re-map --neutral-* from this palette.
+    const defaultPropWidth = '--neutral-default-100'.length
+    const themeLines = [
+      `  ${'--neutral-default'.padEnd(defaultPropWidth)}: var(--neutral-default-60);`,
+      ...palette.map(({ shade }) => {
+        const prop = `--neutral-default-${shade}`
+        return `  ${prop.padEnd(defaultPropWidth)}: var(--${name}-${shade});`
+      }),
+      `  ${'--display-color'.padEnd(defaultPropWidth)}: var(--neutral-default-90);`,
+      `  ${'--text-color'.padEnd(defaultPropWidth)}: var(--neutral-default-90);`,
+      `  ${'--mono-color'.padEnd(defaultPropWidth)}: var(--neutral-default-90);`,
+    ]
+    blocks.push(`.neutral-${name} {\n${themeLines.join('\n')}\n}`)
+  }
+
   if (mode === 'named') {
     const brandWidth  = '--brand-100'.length
     const themeLines  = palette.map(({ shade }) => {
@@ -241,11 +254,37 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
       return `  ${brandProp.padEnd(brandWidth)}: var(--${name}-${shade});`
     })
 
-    // fg overrides when pivot differs from the default (60)
-    if (pivot > 60) themeLines.push('  --color-60-fg: var(--color-100);')
-    if (pivot > 70) themeLines.push('  --color-70-fg: var(--color-100);')
-
     blocks.push(`.color-${name} {\n${themeLines.join('\n')}\n}`)
+
+    // 3. Fg pivot overrides for non-default pivots (only when pivot differs from 60).
+    // Emitted as a self-contained pair so the output is safe to drop into any
+    // consumer stylesheet regardless of where @tale-ui/core is loaded:
+    //   - Light-mode rule:  override the default fg to dark text on light shade-60/70
+    //   - OS dark @media reset: undo the override so the dark-mode default (var(--color-5)
+    //     = near-black brand text) wins — without this, a consumer stylesheet loaded after
+    //     the package would beat the package's OS dark rule via cascade order.
+    // (Explicit dark is fine without a reset — its selector is mutually exclusive with
+    //  the light-mode selector, so there is no cascade conflict.)
+    if (pivot > 60) {
+      const overrideLines = []
+      overrideLines.push(`  --color-60-fg: var(--color-100);`)
+      if (pivot > 70) overrideLines.push(`  --color-70-fg: var(--color-100);`)
+
+      const resetLines = []
+      resetLines.push(`    --color-60-fg: var(--color-5);`)
+      if (pivot > 70) resetLines.push(`    --color-70-fg: var(--color-5);`)
+
+      const lightSelector = `:where(html:not([data-color-mode="dark"])) .color-${name},\n.light .color-${name}`
+      const darkSelector  = `    :where(html:not([data-color-mode="light"])) .color-${name}`
+
+      const block3 = [
+        `/* Fg pivot overrides — add to your stylesheet after @tale-ui/core */`,
+        `${lightSelector} {\n${overrideLines.join('\n')}\n}`,
+        `@media (prefers-color-scheme: dark) {\n${darkSelector} {\n${resetLines.join('\n')}\n  }\n}`,
+      ].join('\n\n')
+
+      blocks.push(block3)
+    }
   }
 
   return blocks.join('\n\n')
