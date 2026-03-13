@@ -24,7 +24,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  if (!SLUG_RE.test(slug)) return {};
+  if (!SLUG_RE.test(slug)) {
+    return {};
+  }
   try {
     const content = fs.readFileSync(getMdPath(slug), 'utf8');
     const title = content.match(/^#\s+(.+)/m)?.[1] ?? slug;
@@ -55,5 +57,6 @@ export default async function DocPage({
 
   const html = await marked.parse(content);
 
+  // eslint-disable-next-line react/no-danger -- html is generated from our own repository markdown files, not user input
   return <article dangerouslySetInnerHTML={{ __html: html }} />;
 }
