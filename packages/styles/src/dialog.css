@@ -9,13 +9,17 @@
  *
  * Usage:
  *   <Dialog.Root>
- *     <Dialog.Trigger className="tale-button tale-button--primary">Open</Dialog.Trigger>
+ *     <Dialog.Trigger render={<Button variant="primary">Open</Button>} />
  *     <Dialog.Portal>
- *       <Dialog.Backdrop className="tale-dialog__backdrop" />
- *       <Dialog.Popup className="tale-dialog__popup">
- *         <Dialog.Title className="tale-dialog__title">Title</Dialog.Title>
- *         <Dialog.Description className="tale-dialog__description">…</Dialog.Description>
- *         <Dialog.Close className="tale-button tale-button--neutral">Close</Dialog.Close>
+ *       <Dialog.Backdrop />
+ *       <Dialog.Popup>
+ *         <Dialog.Close className="tale-dialog__close" aria-label="Close"><XIcon /></Dialog.Close>
+ *         <Dialog.Title>Title</Dialog.Title>
+ *         <Dialog.Description>…</Dialog.Description>
+ *         <div className="tale-dialog__actions">
+ *           <Dialog.Close render={<Button variant="neutral">Cancel</Button>} />
+ *           <Dialog.Close render={<Button variant="primary">Confirm</Button>} />
+ *         </div>
  *       </Dialog.Popup>
  *     </Dialog.Portal>
  *   </Dialog.Root>

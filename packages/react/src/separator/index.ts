@@ -1,3 +1,3 @@
-export { Separator } from './Separator';
+export { Separator } from './Separator.styled';
 
-export type * from './Separator';
+export type { SeparatorProps, SeparatorState } from './Separator';

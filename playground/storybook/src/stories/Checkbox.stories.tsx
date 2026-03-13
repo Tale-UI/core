@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Checkbox } from '@tale-ui/react-styled/checkbox';
+import { Checkbox } from '@tale-ui/react/checkbox';
 
 const CheckIcon = () => (
   <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

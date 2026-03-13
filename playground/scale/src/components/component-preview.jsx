@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button } from '@tale-ui/react-styled/button'
-import { Checkbox } from '@tale-ui/react-styled/checkbox'
-import { Switch } from '@tale-ui/react-styled/switch'
-import { Input } from '@tale-ui/react-styled/input'
-import { Slider } from '@tale-ui/react-styled/slider'
+import { Button } from '@tale-ui/react/button'
+import { Checkbox } from '@tale-ui/react/checkbox'
+import { Switch } from '@tale-ui/react/switch'
+import { Input } from '@tale-ui/react/input'
+import { Slider } from '@tale-ui/react/slider'
 
 const PREVIEW_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 

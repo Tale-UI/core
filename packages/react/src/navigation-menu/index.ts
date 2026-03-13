@@ -1,4 +1,4 @@
-export * as NavigationMenu from './index.parts';
+export * as NavigationMenu from './NavigationMenu.styled';
 
 export type * from './root/NavigationMenuRoot';
 export type * from './trigger/NavigationMenuTrigger';

@@ -131,6 +131,50 @@ export const BrandPalette: Story = {
         ))}
       </div>
 
+      {/* Default brand strip */}
+      <div style={s.section}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
+          <span style={s.familyName}>default</span>
+          <span style={{ fontSize: 'var(--text-xs)', fontFamily: 'monospace', color: 'var(--neutral-40)' }}>
+            pivot 60 · no class override
+          </span>
+        </div>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          {shades.map((shade) => {
+            const fgShade = shade >= 60 ? 5 : 100;
+            const isPivot = shade === 60;
+            return (
+              <div key={shade} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div
+                  style={{
+                    height: '56px',
+                    background: `var(--brand-${shade})`,
+                    color: `var(--brand-${fgShade})`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 'var(--text-xs)',
+                    fontFamily: 'monospace',
+                    fontWeight: 'var(--heading-font-weight)',
+                    borderRadius: isPivot ? 'var(--radius-s)' : undefined,
+                    outline: isPivot ? '2px solid var(--neutral-60)' : undefined,
+                    outlineOffset: isPivot ? '3px' : undefined,
+                  }}
+                  title={`--brand-${shade}`}
+                >
+                  {shade}
+                </div>
+                <div style={{ height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {isPivot && (
+                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--neutral-60)', fontFamily: 'monospace', fontWeight: 700 }}>▲</span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-m)' }}>
         {familySpecs.map(({ name, lightTextFrom }) => (
           <SwatchStrip key={name} family={name} lightTextFrom={lightTextFrom} />

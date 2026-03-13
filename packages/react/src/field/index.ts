@@ -1,4 +1,4 @@
-export * as Field from './index.parts';
+export * as Field from './Field.styled';
 
 export type * from './root/FieldRoot';
 export type * from './label/FieldLabel';

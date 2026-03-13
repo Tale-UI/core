@@ -1,4 +1,4 @@
-export * as NumberField from './index.parts';
+export * as NumberField from './NumberField.styled';
 
 export type * from './root/NumberFieldRoot';
 export type * from './group/NumberFieldGroup';

@@ -1,4 +1,4 @@
-export * as ContextMenu from './index.parts';
+export * as ContextMenu from './ContextMenu.styled';
 
 export type * from './root/ContextMenuRoot';
 export type * from './trigger/ContextMenuTrigger';

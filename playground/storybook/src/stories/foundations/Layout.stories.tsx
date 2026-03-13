@@ -174,7 +174,7 @@ export const FlexboxLayouts: Story = {
       ] as const).map(([cls, label]) => (
         <div key={cls} style={{ marginBottom: 'var(--space-m)' }}>
           <div style={s.label}>.{cls} — {label}</div>
-          <div className={`${cls} gap--xs`} style={{ display: 'flex', border: '1px dashed var(--neutral-20)', borderRadius: 'var(--radius-s)', padding: '8px', minHeight: '48px' }}>
+          <div className={`${cls} gap--xs`} style={{ display: 'flex', background: 'var(--neutral-12)', border: '1px dashed var(--neutral-30)', borderRadius: 'var(--radius-l)', padding: '8px', minHeight: '48px' }}>
             {['A', 'B', 'C', 'D'].map((l) => (
               <div key={l} style={{ ...s.box, width: '40px', height: '40px', flexShrink: 0 }}>{l}</div>
             ))}
@@ -186,7 +186,7 @@ export const FlexboxLayouts: Story = {
       <h3 className="text--title-m" style={{ marginBottom: 'var(--space-m)' }}>Wrap & Grow</h3>
       <div style={{ marginBottom: 'var(--space-m)' }}>
         <div style={s.label}>.flex--wrap — wraps items onto multiple lines</div>
-        <div className="flex--wrap gap--xs" style={{ display: 'flex', border: '1px dashed var(--neutral-20)', borderRadius: 'var(--radius-s)', padding: '8px', width: '200px' }}>
+        <div className="flex--wrap gap--xs" style={{ display: 'flex', background: 'var(--neutral-12)', border: '1px dashed var(--neutral-30)', borderRadius: 'var(--radius-l)', padding: '8px', width: '200px' }}>
           {letters.slice(0, 8).map((l) => (
             <div key={l} style={{ ...s.box, width: '40px', height: '40px' }}>{l}</div>
           ))}
@@ -195,7 +195,7 @@ export const FlexboxLayouts: Story = {
 
       <div style={{ marginBottom: 'var(--space-m)' }}>
         <div style={s.label}>.flex--grow — all direct children get flex-grow: 1</div>
-        <div className="flex--grow gap--xs" style={{ display: 'flex', border: '1px dashed var(--neutral-20)', borderRadius: 'var(--radius-s)', padding: '8px' }}>
+        <div className="flex--grow gap--xs" style={{ display: 'flex', background: 'var(--neutral-12)', border: '1px dashed var(--neutral-30)', borderRadius: 'var(--radius-l)', padding: '8px' }}>
           {['A', 'B', 'C'].map((l) => (
             <div key={l} style={{ ...s.box, height: '40px' }}>{l}</div>
           ))}

@@ -14,11 +14,11 @@ import '@tale-ui/react-styles';
 import { Button } from '@tale-ui/react/button';
 
 export default function App() {
-  return <Button className="tale-button tale-button--primary">Click me</Button>;
+  return <Button variant="primary">Click me</Button>;
 }
 ```
 
-That's it. `@tale-ui/react-styles` pulls in `@tale-ui/core` (the design-token layer) automatically.
+That's it. Components automatically apply their BEM base class (`tale-button`). `@tale-ui/react-styles` pulls in `@tale-ui/core` (the design-token layer) automatically.
 
 ---
 
@@ -29,7 +29,7 @@ That's it. `@tale-ui/react-styles` pulls in `@tale-ui/core` (the design-token la
       ↑
 @tale-ui/react-styles    Component CSS (.tale-button, .tale-select__popup, …)
       ↑
-@tale-ui/react           Headless React components (no styles of their own)
+@tale-ui/react           Styled React components (BEM class names applied automatically)
       ↑
 @tale-ui/utils           Shared hooks & helpers (pulled automatically)
 ```
@@ -38,12 +38,14 @@ That's it. `@tale-ui/react-styles` pulls in `@tale-ui/core` (the design-token la
 |---------|-----------------|
 | `@tale-ui/core` | Design tokens (`--color-*`, `--neutral-*`, `--space-*`, `--text-*`), utility classes (`.gap--m`, `.grid--3`), dark mode, typography foundations |
 | `@tale-ui/react-styles` | Opinionated CSS for every `@tale-ui/react` component — built entirely on `@tale-ui/core` tokens |
-| `@tale-ui/react` | Headless, accessible React components — unstyled by default |
+| `@tale-ui/react` | Accessible React components that automatically apply BEM class names. Accepts `variant` and `size` props where applicable. Override via `className`. |
 | `@tale-ui/utils` | Internal utilities (colour generation, React hooks, DOM helpers) |
 
 ---
 
 ## CSS Import Strategies
+
+Components render with the correct BEM class names automatically. You still need to import the stylesheet so those classes have rules applied.
 
 ### All-in-one (recommended)
 
@@ -210,7 +212,14 @@ function useDarkMode() {
 
 ## Component Catalogue
 
-All components are imported from `@tale-ui/react/{name}`:
+All components are imported from `@tale-ui/react/{name}`. BEM base classes are applied automatically — you only need extra `className` when overriding specific modifiers not exposed as props.
+
+Components that accept variant/size props apply the BEM modifier class for you:
+```tsx
+<Button variant="primary" size="sm">Save</Button>  // → class="tale-button tale-button--primary tale-button--sm"
+<Input size="lg" />                                 // → class="tale-input tale-input--lg"
+<Radio size="sm" />                                 // → class="tale-radio tale-radio--sm"
+```
 
 ### Form Controls
 
@@ -323,7 +332,7 @@ Components expose state via data attributes. Use these in CSS selectors:
 ## Troubleshooting
 
 **"Components render but look unstyled"**
-You imported `@tale-ui/react` but forgot `@tale-ui/react-styles`. Add `import '@tale-ui/react-styles'` to your entry file.
+Components apply BEM class names automatically, but the CSS rules live in `@tale-ui/react-styles`. Add `import '@tale-ui/react-styles'` to your app entry file.
 
 **"CSS variables are undefined"**
 You imported a per-component style (e.g. `@tale-ui/react-styles/button`) without importing `@tale-ui/core` first. Either switch to the all-in-one import or add `import '@tale-ui/core'` before component imports.

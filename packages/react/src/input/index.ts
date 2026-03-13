@@ -1,3 +1,2 @@
-export { Input } from './Input';
-
-export type * from './Input';
+export { Input } from './Input.styled';
+export type { InputProps } from './Input.styled';

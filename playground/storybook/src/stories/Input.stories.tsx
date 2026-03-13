@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from '@tale-ui/react-styled/input';
+import { Input } from '@tale-ui/react/input';
 
 type Args = Omit<React.ComponentProps<typeof Input>, 'size'> & {
   size?: 'sm' | 'md' | 'lg';

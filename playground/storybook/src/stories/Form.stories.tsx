@@ -1,9 +1,9 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Form } from '@tale-ui/react-styled/form';
-import { Field } from '@tale-ui/react-styled/field';
-import { Input } from '@tale-ui/react-styled/input';
-import { Button } from '@tale-ui/react-styled/button';
+import { Form } from '@tale-ui/react/form';
+import { Field } from '@tale-ui/react/field';
+import { Input } from '@tale-ui/react/input';
+import { Button } from '@tale-ui/react/button';
 
 type Args = {
   disabled?: boolean;

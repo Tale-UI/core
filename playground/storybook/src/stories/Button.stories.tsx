@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@tale-ui/react-styled/button';
+import { Button } from '@tale-ui/react/button';
 
 type Args = {
   variant?: 'primary' | 'neutral' | 'ghost' | 'danger';

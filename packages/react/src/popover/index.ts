@@ -1,4 +1,4 @@
-export * as Popover from './index.parts';
+export * as Popover from './Popover.styled';
 
 export type * from './root/PopoverRoot';
 export type * from './trigger/PopoverTrigger';

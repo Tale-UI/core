@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Avatar } from '@tale-ui/react-styled/avatar';
+import { Avatar } from '@tale-ui/react/avatar';
 
 type Args = {
   size?: 'sm' | 'md' | 'lg' | 'xl';

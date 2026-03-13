@@ -1,4 +1,4 @@
-export * as Dialog from './index.parts';
+export * as Dialog from './Dialog.styled';
 
 export type * from './root/DialogRoot';
 export type * from './trigger/DialogTrigger';

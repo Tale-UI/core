@@ -1,3 +1,10 @@
-export { Form } from './Form';
+export { Form } from './Form.styled';
 
-export type * from './Form';
+export type {
+  FormProps,
+  FormState,
+  FormActions,
+  FormValidationMode,
+  FormSubmitEventReason,
+  FormSubmitEventDetails,
+} from './Form';

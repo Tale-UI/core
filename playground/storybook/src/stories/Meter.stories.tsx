@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Meter } from '@tale-ui/react-styled/meter';
+import { Meter } from '@tale-ui/react/meter';
 
 type Args = {
   value?: number;

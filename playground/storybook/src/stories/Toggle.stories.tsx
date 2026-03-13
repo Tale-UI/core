@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Toggle } from '@tale-ui/react-styled/toggle';
-import { ToggleGroup } from '@tale-ui/react-styled/toggle';
+import { Toggle } from '@tale-ui/react/toggle';
+import { ToggleGroup } from '@tale-ui/react/toggle';
 
 type Args = {
   size?: 'sm' | 'md' | 'lg';

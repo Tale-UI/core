@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tooltip } from '@tale-ui/react-styled/tooltip';
-import { Button } from '@tale-ui/react-styled/button';
+import { Tooltip } from '@tale-ui/react/tooltip';
+import { Button } from '@tale-ui/react/button';
 
 type Args = {
   side?: 'top' | 'bottom' | 'left' | 'right';

@@ -1,4 +1,4 @@
-export * as Combobox from './index.parts';
+export * as Combobox from './Combobox.styled';
 
 export type * from './root/ComboboxRoot';
 export type * from './trigger/ComboboxTrigger';

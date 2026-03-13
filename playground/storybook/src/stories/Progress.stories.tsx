@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Progress } from '@tale-ui/react-styled/progress';
+import { Progress } from '@tale-ui/react/progress';
 
 type Args = {
   value?: number | null;

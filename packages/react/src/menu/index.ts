@@ -1,4 +1,4 @@
-export * as Menu from './index.parts';
+export * as Menu from './Menu.styled';
 
 export type * from './root/MenuRoot';
 export type * from './arrow/MenuArrow';

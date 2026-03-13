@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ScrollArea } from '@tale-ui/react-styled/scroll-area';
+import { ScrollArea } from '@tale-ui/react/scroll-area';
 
 const meta: Meta = {
   title: 'Layout/ScrollArea',

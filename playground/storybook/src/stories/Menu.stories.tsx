@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Menu } from '@tale-ui/react-styled/menu';
-import { Button } from '@tale-ui/react-styled/button';
+import { Menu } from '@tale-ui/react/menu';
+import { Button } from '@tale-ui/react/button';
 
 type Args = {
   disabled?: boolean;

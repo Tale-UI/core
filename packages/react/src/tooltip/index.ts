@@ -1,4 +1,4 @@
-export * as Tooltip from './index.parts';
+export * as Tooltip from './Tooltip.styled';
 
 export type * from './provider/TooltipProvider';
 export type * from './root/TooltipRoot';

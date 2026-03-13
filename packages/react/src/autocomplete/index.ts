@@ -1,4 +1,4 @@
-export * as Autocomplete from './index.parts';
+export * as Autocomplete from './Autocomplete.styled';
 
 export type * from './root/AutocompleteRoot';
 export type * from './value/AutocompleteValue';

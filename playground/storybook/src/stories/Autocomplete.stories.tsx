@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Autocomplete } from '@tale-ui/react-styled/autocomplete';
+import { Autocomplete } from '@tale-ui/react/autocomplete';
 
 const suggestions = ['React', 'Vue', 'Angular', 'Svelte', 'Solid', 'Preact', 'Qwik', 'Remix', 'Next.js', 'Nuxt'];
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Menubar } from '@tale-ui/react-styled/menubar';
-import { Menu } from '@tale-ui/react-styled/menu';
+import { Menubar } from '@tale-ui/react/menubar';
+import { Menu } from '@tale-ui/react/menu';
 
 const meta: Meta = {
   title: 'Navigation/Menubar',

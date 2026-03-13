@@ -12,8 +12,6 @@
     "paths": {
       "@tale-ui/react": ["../../packages/react/src/index.ts"],
       "@tale-ui/react/*": ["../../packages/react/src/*"],
-      "@tale-ui/react-styled": ["../../packages/styled/src/index.ts"],
-      "@tale-ui/react-styled/*": ["../../packages/styled/src/*"],
       "@tale-ui/utils": ["../../packages/utils/src/index.ts"],
       "@tale-ui/utils/*": ["../../packages/utils/src/*"],
       "docs/*": ["../../docs/*"]

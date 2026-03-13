@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Toast } from '@tale-ui/react-styled/toast';
-import { Button } from '@tale-ui/react-styled/button';
+import { Toast } from '@tale-ui/react/toast';
+import { Button } from '@tale-ui/react/button';
 
 const XIcon = () => (
   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="14" height="14">

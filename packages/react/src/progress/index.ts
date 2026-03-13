@@ -1,4 +1,4 @@
-export * as Progress from './index.parts';
+export * as Progress from './Progress.styled';
 
 export type * from './root/ProgressRoot';
 export type * from './indicator/ProgressIndicator';

@@ -1,3 +1,3 @@
-export * as AlertDialog from './index.parts';
+export * as AlertDialog from './AlertDialog.styled';
 
 export type * from './root/AlertDialogRoot';

@@ -1,4 +1,4 @@
-export * as Meter from './index.parts';
+export * as Meter from './Meter.styled';
 
 export type * from './root/MeterRoot';
 export type * from './indicator/MeterIndicator';

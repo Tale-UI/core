@@ -1,4 +1,4 @@
-export * as Toolbar from './index.parts';
+export * as Toolbar from './Toolbar.styled';
 
 export type { Orientation } from './index.parts';
 export type * from './root/ToolbarRoot';

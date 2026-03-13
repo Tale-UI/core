@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { PreviewCard } from '@tale-ui/react-styled/preview-card';
+import { PreviewCard } from '@tale-ui/react/preview-card';
 
 type Args = {
   side?: 'top' | 'bottom' | 'left' | 'right';

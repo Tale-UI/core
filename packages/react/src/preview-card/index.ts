@@ -1,4 +1,4 @@
-export * as PreviewCard from './index.parts';
+export * as PreviewCard from './PreviewCard.styled';
 
 export type * from './root/PreviewCardRoot';
 export type * from './trigger/PreviewCardTrigger';

@@ -1,4 +1,4 @@
-export * as Slider from './index.parts';
+export * as Slider from './Slider.styled';
 
 export type * from './root/SliderRoot';
 export type * from './value/SliderValue';

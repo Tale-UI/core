@@ -30,6 +30,45 @@ const s: Record<string, React.CSSProperties> = {
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
+export const AllEffects: Story = {
+  name: 'Overview',
+  render: () => (
+    <div style={s.page}>
+      <h2 className="text--heading-s" style={s.sectionTitle}>Effects Overview</h2>
+      <p className="text--body-m" style={s.description}>
+        Radius, shadows, and z-index utilities — all have no responsive variants.
+      </p>
+
+      <h3 className="text--title-l" style={{ marginBottom: 'var(--space-m)' }}>Border Radius</h3>
+      <div style={{ display: 'flex', gap: 'var(--space-l)', flexWrap: 'wrap', marginBottom: 'var(--space-2xl)' }}>
+        {(['xs', 's', 'm', 'l', 'xl', '2xl', 'full'] as const).map((size) => (
+          <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+            <div
+              className={`radius--${size}`}
+              style={{ width: '64px', height: '64px', background: 'var(--color-20)', border: '2px solid var(--color-60)' }}
+            />
+            <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-60)' }}>{size}</code>
+          </div>
+        ))}
+      </div>
+
+      <h3 className="text--title-l" style={{ marginBottom: 'var(--space-m)' }}>Shadows</h3>
+      <div style={{ display: 'flex', gap: 'var(--space-2xl)', flexWrap: 'wrap', padding: 'var(--space-m) var(--space-l)', marginBottom: 'var(--space-2xl)' }}>
+        {(['xs', 's', 'm', 'l', 'xl'] as const).map((size) => (
+          <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+            <div
+              className={`shadow--${size} radius--m`}
+              style={{ width: '80px', height: '80px', background: 'var(--neutral-5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-60)' }}>{size}</code>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ),
+};
+
 export const BorderRadius: Story = {
   name: 'Border Radius',
   render: () => (
@@ -157,45 +196,6 @@ export const ZIndex: Story = {
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  ),
-};
-
-export const AllEffects: Story = {
-  name: 'Overview',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Effects Overview</h2>
-      <p className="text--body-m" style={s.description}>
-        Radius, shadows, and z-index utilities — all have no responsive variants.
-      </p>
-
-      <h3 className="text--title-l" style={{ marginBottom: 'var(--space-m)' }}>Border Radius</h3>
-      <div style={{ display: 'flex', gap: 'var(--space-l)', flexWrap: 'wrap', marginBottom: 'var(--space-2xl)' }}>
-        {(['xs', 's', 'm', 'l', 'xl', '2xl', 'full'] as const).map((size) => (
-          <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-            <div
-              className={`radius--${size}`}
-              style={{ width: '64px', height: '64px', background: 'var(--color-20)', border: '2px solid var(--color-60)' }}
-            />
-            <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-60)' }}>{size}</code>
-          </div>
-        ))}
-      </div>
-
-      <h3 className="text--title-l" style={{ marginBottom: 'var(--space-m)' }}>Shadows</h3>
-      <div style={{ display: 'flex', gap: 'var(--space-2xl)', flexWrap: 'wrap', padding: 'var(--space-m) var(--space-l)', marginBottom: 'var(--space-2xl)' }}>
-        {(['xs', 's', 'm', 'l', 'xl'] as const).map((size) => (
-          <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-            <div
-              className={`shadow--${size} radius--m`}
-              style={{ width: '80px', height: '80px', background: 'var(--neutral-5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-60)' }}>{size}</code>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   ),

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { AlertDialog } from '@tale-ui/react-styled/alert-dialog';
-import { Button } from '@tale-ui/react-styled/button';
+import { AlertDialog } from '@tale-ui/react/alert-dialog';
+import { Button } from '@tale-ui/react/button';
 
 type Args = {
   title?: string;

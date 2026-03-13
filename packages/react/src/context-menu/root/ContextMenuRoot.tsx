@@ -55,7 +55,7 @@ export function ContextMenuRoot(props: ContextMenuRoot.Props) {
 export interface ContextMenuRootState {}
 
 export interface ContextMenuRootProps extends Omit<
-  Menu.Root.Props,
+  MenuRoot.Props,
   'modal' | 'openOnHover' | 'delay' | 'closeDelay' | 'onOpenChange'
 > {
   /**

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ContextMenu } from '@tale-ui/react-styled/context-menu';
+import { ContextMenu } from '@tale-ui/react/context-menu';
 
 const meta: Meta = {
   title: 'Navigation/ContextMenu',

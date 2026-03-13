@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { NavigationMenu } from '@tale-ui/react-styled/navigation-menu';
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
 
 const meta: Meta = {
   title: 'Navigation/NavigationMenu',

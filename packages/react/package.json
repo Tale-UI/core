@@ -7,7 +7,6 @@
     "react-component",
     "design-system",
     "tale-ui",
-    "unstyled",
     "a11y"
   ],
   "repository": {
@@ -106,10 +105,14 @@
   "peerDependencies": {
     "@types/react": "^17 || ^18 || ^19",
     "react": "^17 || ^18 || ^19",
-    "react-dom": "^17 || ^18 || ^19"
+    "react-dom": "^17 || ^18 || ^19",
+    "@tale-ui/react-styles": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@types/react": {
+      "optional": true
+    },
+    "@tale-ui/react-styles": {
       "optional": true
     }
   },

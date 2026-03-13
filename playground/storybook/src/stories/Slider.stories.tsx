@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Slider } from '@tale-ui/react-styled/slider';
+import { Slider } from '@tale-ui/react/slider';
 
 type Args = {
   disabled?: boolean;

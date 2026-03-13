@@ -7,7 +7,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | Path | Package | Description |
 |------|---------|-------------|
 | [packages/css](packages/css/CLAUDE.md) | `@tale-ui/core` | Modular token-based CSS design system |
-| [packages/react](packages/react/) | `@tale-ui/react` | Headless React components (forked from Base UI) |
+| [packages/react](packages/react/) | `@tale-ui/react` | Styled React components — BEM class names applied automatically (forked from Base UI) |
 | [packages/styles](packages/styles/) | `@tale-ui/react-styles` | CSS per component (uses @tale-ui/core tokens) |
 | [packages/utils](packages/utils/) | `@tale-ui/utils` | Shared utilities |
 
@@ -29,7 +29,7 @@ See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributo
 
 **Setup guide:** See [docs/react-setup.md](docs/react-setup.md) for the full consumer guide.
 
-**Styling Architecture:** Styling lives in `packages/styles/src/` — NOT in the component source. Components remain headless.
+**Styling Architecture:** Components in `packages/react/src/{name}/{Component}.styled.tsx` apply BEM class names automatically. The CSS rules themselves live in `packages/styles/src/` — consumers still import `@tale-ui/react-styles` for the stylesheet. Override via additional `className` props.
 
 **Component CSS pattern:**
 ```css
@@ -77,12 +77,15 @@ git cherry-pick <commit>
 
 ```
 packages/react/src/{component}/
-  {Component}.tsx                  — implementation
+  {Component}.tsx                  — headless implementation (Base UI fork)
+  {Component}.styled.tsx           — styled wrapper (applies BEM class names)
   {Component}DataAttributes.tsx   — data-* attribute enum
   {Component}.test.tsx            — unit tests
   {Component}.spec.tsx            — browser tests (optional)
-  index.ts                        — public API re-export
+  index.ts                        — public API re-export (re-exports from .styled.tsx)
 ```
+
+`index.ts` exports the styled version. Import paths like `@tale-ui/react/button` resolve to the styled component.
 
 ### Shared primitives (`_primitives.css`)
 

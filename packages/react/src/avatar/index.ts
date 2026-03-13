@@ -1,4 +1,4 @@
-export * as Avatar from './index.parts';
+export * as Avatar from './Avatar.styled';
 
 export type * from './root/AvatarRoot';
 export type * from './image/AvatarImage';

@@ -1,6 +1,8 @@
 # @tale-ui/react-styles
 
-Opinionated CSS for `@tale-ui/react` components. Built entirely on `@tale-ui/core` design tokens (`--neutral-*`, `--color-*`, `--space-*`, `--text-*`).
+CSS rules for `@tale-ui/react` components. Built entirely on `@tale-ui/core` design tokens (`--neutral-*`, `--color-*`, `--space-*`, `--text-*`).
+
+`@tale-ui/react` components apply BEM class names automatically (e.g. `tale-button`, `tale-select__popup`). This package provides the CSS rules for those classes.
 
 ## Installation
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Switch } from '@tale-ui/react-styled/switch';
+import { Switch } from '@tale-ui/react/switch';
 
 type Args = {
   disabled?: boolean;

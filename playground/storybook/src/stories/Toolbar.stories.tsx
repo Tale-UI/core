@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Toolbar } from '@tale-ui/react-styled/toolbar';
+import { Toolbar } from '@tale-ui/react/toolbar';
 
 type Args = {
   orientation?: 'horizontal' | 'vertical';

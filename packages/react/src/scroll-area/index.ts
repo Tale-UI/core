@@ -1,4 +1,4 @@
-export * as ScrollArea from './index.parts';
+export * as ScrollArea from './ScrollArea.styled';
 
 export type * from './root/ScrollAreaRoot';
 export type * from './viewport/ScrollAreaViewport';

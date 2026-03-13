@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Collapsible } from '@tale-ui/react-styled/collapsible';
+import { Collapsible } from '@tale-ui/react/collapsible';
 
 type Args = {
   disabled?: boolean;

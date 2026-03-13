@@ -1,4 +1,4 @@
-export * as Tabs from './index.parts';
+export * as Tabs from './Tabs.styled';
 
 export type * from './root/TabsRoot';
 export type * from './indicator/TabsIndicator';

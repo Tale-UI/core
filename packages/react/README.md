@@ -1,6 +1,6 @@
 # @tale-ui/react
 
-A library of headless, accessible React components. You gain complete control over your app's CSS and accessibility features.
+An accessible React component library with BEM class names applied automatically. Style via `@tale-ui/react-styles` (built on `@tale-ui/core` design tokens) and override using `className`.
 
 ## Installation
 
@@ -8,7 +8,7 @@ A library of headless, accessible React components. You gain complete control ov
 pnpm add @tale-ui/react @tale-ui/react-styles
 ```
 
-`@tale-ui/react-styles` provides the default look for every component — built on `@tale-ui/core` design tokens.
+`@tale-ui/react-styles` provides the CSS for every component — built on `@tale-ui/core` design tokens.
 
 ## Quick Start
 
@@ -17,7 +17,7 @@ import '@tale-ui/react-styles';
 import { Button } from '@tale-ui/react/button';
 
 export default function App() {
-  return <Button className="tale-button tale-button--primary">Click me</Button>;
+  return <Button variant="primary">Click me</Button>;
 }
 ```
 
@@ -63,9 +63,11 @@ import { Container } from '@tale-ui/react/container';
 
 ## Styling
 
-Components are **headless** — they render accessible HTML with state exposed via data attributes (`data-disabled`, `data-open`, `data-checked`, etc.) but include no styles of their own.
+Components apply BEM base class names automatically (e.g. `tale-button`, `tale-select__popup`). State is exposed via data attributes (`data-disabled`, `data-open`, `data-checked`, etc.) for CSS selectors.
 
-Default styles live in `@tale-ui/react-styles`. See the [styles README](../styles/README.md) for architecture details and CSS class naming conventions.
+Components that support visual variants accept `variant` and/or `size` props — these apply the corresponding BEM modifier class automatically. Pass an extra `className` to add any modifier not exposed as a prop.
+
+CSS rules live in `@tale-ui/react-styles`. See the [styles README](../styles/README.md) for architecture details and CSS class naming conventions.
 
 ## Documentation
 

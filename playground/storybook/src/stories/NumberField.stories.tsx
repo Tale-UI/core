@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { NumberField } from '@tale-ui/react-styled/number-field';
+import { NumberField } from '@tale-ui/react/number-field';
 
 type Args = {
   disabled?: boolean;

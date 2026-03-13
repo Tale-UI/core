@@ -2,83 +2,93 @@ import * as React from 'react';
 import '@tale-ui/react-styles/index.css';
 
 // Simple components
-import { Button } from '@tale-ui/react-styled/button';
-import { Input } from '@tale-ui/react-styled/input';
-import { Toggle } from '@tale-ui/react-styled/toggle';
-import { Separator } from '@tale-ui/react-styled/separator';
+import { Button } from '@tale-ui/react/button';
+import { Input } from '@tale-ui/react/input';
+import { Toggle } from '@tale-ui/react/toggle';
+import { Separator } from '@tale-ui/react/separator';
 
 // Compound components
-import { Checkbox } from '@tale-ui/react-styled/checkbox';
-import { Radio } from '@tale-ui/react-styled/radio';
-import { Switch } from '@tale-ui/react-styled/switch';
-import { Select } from '@tale-ui/react-styled/select';
-import { Combobox } from '@tale-ui/react-styled/combobox';
-import { NumberField } from '@tale-ui/react-styled/number-field';
-import { Slider } from '@tale-ui/react-styled/slider';
+import { Checkbox } from '@tale-ui/react/checkbox';
+import { Radio } from '@tale-ui/react/radio';
+import { Switch } from '@tale-ui/react/switch';
+import { Select } from '@tale-ui/react/select';
+import { Combobox } from '@tale-ui/react/combobox';
+import { NumberField } from '@tale-ui/react/number-field';
+import { Slider } from '@tale-ui/react/slider';
 
 // Overlay
-import { Dialog } from '@tale-ui/react-styled/dialog';
-import { AlertDialog } from '@tale-ui/react-styled/alert-dialog';
-import { Popover } from '@tale-ui/react-styled/popover';
-import { Drawer } from '@tale-ui/react-styled/drawer';
-import { Tooltip } from '@tale-ui/react-styled/tooltip';
+import { Dialog } from '@tale-ui/react/dialog';
+import { AlertDialog } from '@tale-ui/react/alert-dialog';
+import { Popover } from '@tale-ui/react/popover';
+import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
+import { Tooltip } from '@tale-ui/react/tooltip';
 
 // Navigation
-import { Menu } from '@tale-ui/react-styled/menu';
+import { Menu } from '@tale-ui/react/menu';
 
 // Layout
-import { Accordion } from '@tale-ui/react-styled/accordion';
-import { Collapsible } from '@tale-ui/react-styled/collapsible';
-import { Tabs } from '@tale-ui/react-styled/tabs';
-import { ScrollArea } from '@tale-ui/react-styled/scroll-area';
+import { Accordion } from '@tale-ui/react/accordion';
+import { Collapsible } from '@tale-ui/react/collapsible';
+import { Tabs } from '@tale-ui/react/tabs';
+import { ScrollArea } from '@tale-ui/react/scroll-area';
 
 // Feedback
-import { Progress } from '@tale-ui/react-styled/progress';
-import { Meter } from '@tale-ui/react-styled/meter';
-import { Toast } from '@tale-ui/react-styled/toast';
+import { Progress } from '@tale-ui/react/progress';
+import { Meter } from '@tale-ui/react/meter';
+import { Toast } from '@tale-ui/react/toast';
 
 // Display
-import { Avatar } from '@tale-ui/react-styled/avatar';
+import { Avatar } from '@tale-ui/react/avatar';
 
 // Form
-import { Field } from '@tale-ui/react-styled/field';
+import { Field } from '@tale-ui/react/field';
 
 // Other
-import { Toolbar } from '@tale-ui/react-styled/toolbar';
+import { Toolbar } from '@tale-ui/react/toolbar';
 
 // ---------------------------------------------------------------------------
 // Shared icons
 // ---------------------------------------------------------------------------
 
-const CheckIcon = () => (
-  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="2,6 5,9 10,3" />
-  </svg>
-);
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="2,6 5,9 10,3" />
+    </svg>
+  );
+}
 
-const CheckIcon14 = () => (
-  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="14" height="14">
-    <polyline points="2,7 5.5,10.5 12,3.5" />
-  </svg>
-);
+function CheckIcon14() {
+  return (
+    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="14" height="14">
+      <polyline points="2,7 5.5,10.5 12,3.5" />
+    </svg>
+  );
+}
 
-const MinusIcon = () => (
-  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <line x1="2" y1="6" x2="10" y2="6" />
-  </svg>
-);
+function MinusIcon() {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="2" y1="6" x2="10" y2="6" />
+    </svg>
+  );
+}
 
-const XIcon = () => (
-  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="16" height="16">
-    <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
-  </svg>
-);
+function XIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="16" height="16">
+      <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
+    </svg>
+  );
+}
 
-const XIconSm = () => (
-  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="14" height="14">
-    <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
-  </svg>
-);
+function XIconSm() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="14" height="14">
+      <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
+    </svg>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Layout helpers
@@ -292,12 +302,12 @@ function ToastTriggers() {
   const { add } = Toast.useToastManager();
   return (
     <Row>
-      {[
-        { label: 'Default', type: undefined, variant: 'neutral' },
-        { label: 'Success', type: 'success', variant: 'primary' },
-        { label: 'Error', type: 'error', variant: 'danger' },
-        { label: 'Warning', type: 'warning', variant: 'neutral' },
-      ].map(({ label, type, variant }) => (
+      {([
+        { label: 'Default', type: undefined, variant: 'neutral' as const },
+        { label: 'Success', type: 'success', variant: 'primary' as const },
+        { label: 'Error', type: 'error', variant: 'danger' as const },
+        { label: 'Warning', type: 'warning', variant: 'neutral' as const },
+      ]).map(({ label, type, variant }) => (
         <Button
           key={label}
           variant={variant}
@@ -332,11 +342,13 @@ function ToastSection() {
 
 function MenuCheckboxDemo() {
   const [checked, setChecked] = React.useState({ bold: false, italic: true, underline: false });
-  const MenuCheckIcon = () => (
-    <svg className="tale-menu__item-indicator" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-      <polyline points="2,7 5.5,10.5 12,3.5" />
-    </svg>
-  );
+  function MenuCheckIcon() {
+    return (
+      <svg className="tale-menu__item-indicator" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <polyline points="2,7 5.5,10.5 12,3.5" />
+      </svg>
+    );
+  }
   return (
     <Menu.Root>
       <Menu.Trigger render={<Button variant="neutral">Format ▾</Button>} />

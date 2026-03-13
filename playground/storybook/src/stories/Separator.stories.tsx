@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Separator } from '@tale-ui/react-styled/separator';
+import { Separator } from '@tale-ui/react/separator';
 
 type Args = {
   orientation?: 'horizontal' | 'vertical';

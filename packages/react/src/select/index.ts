@@ -1,4 +1,4 @@
-export * as Select from './index.parts';
+export * as Select from './Select.styled';
 
 export type * from './root/SelectRoot';
 export type * from './trigger/SelectTrigger';

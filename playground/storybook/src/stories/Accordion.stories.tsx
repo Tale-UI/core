@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Accordion } from '@tale-ui/react-styled/accordion';
+import { Accordion } from '@tale-ui/react/accordion';
 
 const items = [
   { value: 'a', title: 'What is Tale UI?', content: 'Tale UI is a styled component library forked from MUI Base UI, providing accessible headless components with opinionated CSS via @tale-ui/core design tokens.' },

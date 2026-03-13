@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Dialog } from '@tale-ui/react-styled/dialog';
-import { Button } from '@tale-ui/react-styled/button';
+import { Dialog } from '@tale-ui/react/dialog';
+import { Button } from '@tale-ui/react/button';
 
 const XIcon = () => (
   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="16" height="16">
@@ -40,7 +40,7 @@ export const Default: Story = {
       <Dialog.Portal>
         <Dialog.Backdrop />
         <Dialog.Popup>
-          <Dialog.Close aria-label="Close">
+          <Dialog.Close className="tale-dialog__close" aria-label="Close">
             <XIcon />
           </Dialog.Close>
           <Dialog.Title>{args.title}</Dialog.Title>
@@ -86,7 +86,7 @@ export const LongContent: Story = {
       <Dialog.Portal>
         <Dialog.Backdrop />
         <Dialog.Popup>
-          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Close className="tale-dialog__close" aria-label="Close"><XIcon /></Dialog.Close>
           <Dialog.Title>Terms of Service</Dialog.Title>
           <Dialog.Description>
             {Array.from({ length: 8 }, (_, i) => (

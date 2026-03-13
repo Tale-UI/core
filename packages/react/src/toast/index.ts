@@ -1,4 +1,4 @@
-export * as Toast from './index.parts';
+export * as Toast from './Toast.styled';
 
 export type * from './root/ToastRoot';
 export type * from './provider/ToastProvider';

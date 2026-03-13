@@ -1,4 +1,4 @@
-export * as Accordion from './index.parts';
+export * as Accordion from './Accordion.styled';
 
 export type * from './root/AccordionRoot';
 export type * from './item/AccordionItem';

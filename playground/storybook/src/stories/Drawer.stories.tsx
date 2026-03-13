@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Drawer } from '@tale-ui/react-styled/drawer';
-import { Button } from '@tale-ui/react-styled/button';
+import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
+import { Button } from '@tale-ui/react/button';
 
 type Args = {
   title?: string;
