@@ -67,7 +67,10 @@ jobs:
           PLAYGROUND_OUT_DIR: ${{ github.workspace }}/.pages/scale
 
       - name: Build Storybook
-        run: pnpm -C playground/storybook build -- --output-dir ../../.pages/storybook
+        shell: bash
+        run: |
+          cd playground/storybook
+          pnpm exec storybook build --output-dir ${{ github.workspace }}/.pages/storybook
         env:
           STORYBOOK_BASE: ${{ steps.base.outputs.base }}/storybook/
 
