@@ -57,13 +57,14 @@
 /* ─── Pressed (active/on) state ───────────────────────────────────────────── */
 
 .tale-toggle[data-pressed] {
-  background-color: var(--neutral-18);
-  border-color: var(--neutral-30);
-  color: var(--neutral-90);
+  background-color: var(--neutral-80);
+  border-color: var(--neutral-80);
+  color: var(--neutral-80-fg);
 }
 
 .tale-toggle[data-pressed]:hover:not([data-disabled]) {
-  background-color: var(--neutral-22);
+  background-color: var(--neutral-90);
+  border-color: var(--neutral-90);
 }
 
 /* ─── Disabled state ──────────────────────────────────────────────────────── */

@@ -52,13 +52,17 @@
 
 .tale-collapsible__panel {
   overflow: hidden;
+  height: var(--collapsible-panel-height);
   color: var(--neutral-80);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   line-height: 1.6;
   margin-top: var(--space-3xs);
+  transition: height 0.6s ease, opacity 0.2s ease;
 }
 
-.tale-collapsible__panel[data-closed]:not([data-starting-style]) {
-  display: none;
+.tale-collapsible__panel[data-starting-style],
+.tale-collapsible__panel[data-ending-style] {
+  height: 0;
+  opacity: 0;
 }

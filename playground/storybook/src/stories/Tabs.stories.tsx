@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tabs } from '@tale-ui/react/tabs';
+import { Tabs } from '@tale-ui/react-styled/tabs';
 
 type Args = {
   orientation?: 'horizontal' | 'vertical';
@@ -29,15 +29,15 @@ const tabItems = [
 export const Default: Story = {
   render: (args) => (
     <div style={{ width: '52rem', height: args.orientation === 'vertical' ? '24rem' : undefined }}>
-      <Tabs.Root className="tale-tabs" defaultValue="overview" orientation={args.orientation}>
-        <Tabs.List className="tale-tabs__list">
+      <Tabs.Root defaultValue="overview" orientation={args.orientation}>
+        <Tabs.List>
           {tabItems.map(({ value, label }) => (
-            <Tabs.Tab key={value} className="tale-tabs__tab" value={value}>{label}</Tabs.Tab>
+            <Tabs.Tab key={value} value={value}>{label}</Tabs.Tab>
           ))}
-          <Tabs.Indicator className="tale-tabs__indicator" />
+          <Tabs.Indicator />
         </Tabs.List>
         {tabItems.map(({ value, content }) => (
-          <Tabs.Panel key={value} className="tale-tabs__panel" value={value}>{content}</Tabs.Panel>
+          <Tabs.Panel key={value} value={value}>{content}</Tabs.Panel>
         ))}
       </Tabs.Root>
     </div>
@@ -47,15 +47,15 @@ export const Default: Story = {
 export const Vertical: Story = {
   render: () => (
     <div style={{ width: '52rem', height: '24rem' }}>
-      <Tabs.Root className="tale-tabs" defaultValue="overview" orientation="vertical">
-        <Tabs.List className="tale-tabs__list">
+      <Tabs.Root defaultValue="overview" orientation="vertical">
+        <Tabs.List>
           {tabItems.map(({ value, label }) => (
-            <Tabs.Tab key={value} className="tale-tabs__tab" value={value}>{label}</Tabs.Tab>
+            <Tabs.Tab key={value} value={value}>{label}</Tabs.Tab>
           ))}
-          <Tabs.Indicator className="tale-tabs__indicator" />
+          <Tabs.Indicator />
         </Tabs.List>
         {tabItems.map(({ value, content }) => (
-          <Tabs.Panel key={value} className="tale-tabs__panel" value={value}>{content}</Tabs.Panel>
+          <Tabs.Panel key={value} value={value}>{content}</Tabs.Panel>
         ))}
       </Tabs.Root>
     </div>
@@ -66,16 +66,16 @@ export const WithDisabledTab: Story = {
   name: 'With Disabled Tab',
   render: () => (
     <div style={{ width: '52rem' }}>
-      <Tabs.Root className="tale-tabs" defaultValue="overview">
-        <Tabs.List className="tale-tabs__list">
-          <Tabs.Tab className="tale-tabs__tab" value="overview">Overview</Tabs.Tab>
-          <Tabs.Tab className="tale-tabs__tab" value="features" disabled>Features (disabled)</Tabs.Tab>
-          <Tabs.Tab className="tale-tabs__tab" value="docs">Docs</Tabs.Tab>
-          <Tabs.Indicator className="tale-tabs__indicator" />
+      <Tabs.Root defaultValue="overview">
+        <Tabs.List>
+          <Tabs.Tab value="overview">Overview</Tabs.Tab>
+          <Tabs.Tab value="features" disabled>Features (disabled)</Tabs.Tab>
+          <Tabs.Tab value="docs">Docs</Tabs.Tab>
+          <Tabs.Indicator />
         </Tabs.List>
-        <Tabs.Panel className="tale-tabs__panel" value="overview">Overview content.</Tabs.Panel>
-        <Tabs.Panel className="tale-tabs__panel" value="features">Features content.</Tabs.Panel>
-        <Tabs.Panel className="tale-tabs__panel" value="docs">Docs content.</Tabs.Panel>
+        <Tabs.Panel value="overview">Overview content.</Tabs.Panel>
+        <Tabs.Panel value="features">Features content.</Tabs.Panel>
+        <Tabs.Panel value="docs">Docs content.</Tabs.Panel>
       </Tabs.Root>
     </div>
   ),

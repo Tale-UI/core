@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { AlertDialog } from '@tale-ui/react/alert-dialog';
-import { Button } from '@tale-ui/react/button';
+import { AlertDialog } from '@tale-ui/react-styled/alert-dialog';
+import { Button } from '@tale-ui/react-styled/button';
 
 type Args = {
   title?: string;
@@ -27,17 +27,17 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render: (args) => (
     <AlertDialog.Root>
-      <AlertDialog.Trigger render={<Button className="tale-button tale-button--danger">Delete Item</Button>} />
+      <AlertDialog.Trigger render={<Button variant="danger">Delete Item</Button>} />
       <AlertDialog.Portal>
-        <AlertDialog.Backdrop className="tale-alert-dialog__backdrop" />
-        <AlertDialog.Popup className="tale-alert-dialog__popup">
-          <AlertDialog.Title className="tale-alert-dialog__title">{args.title}</AlertDialog.Title>
-          <AlertDialog.Description className="tale-alert-dialog__description">
+        <AlertDialog.Backdrop />
+        <AlertDialog.Popup>
+          <AlertDialog.Title>{args.title}</AlertDialog.Title>
+          <AlertDialog.Description>
             {args.description}
           </AlertDialog.Description>
           <div className="tale-alert-dialog__actions">
-            <AlertDialog.Close render={<Button className="tale-button tale-button--neutral">Cancel</Button>} />
-            <AlertDialog.Close render={<Button className="tale-button tale-button--danger">Delete</Button>} />
+            <AlertDialog.Close render={<Button variant="neutral">Cancel</Button>} />
+            <AlertDialog.Close render={<Button variant="danger">Delete</Button>} />
           </div>
         </AlertDialog.Popup>
       </AlertDialog.Portal>
@@ -48,17 +48,17 @@ export const Default: Story = {
 export const Warning: Story = {
   render: () => (
     <AlertDialog.Root>
-      <AlertDialog.Trigger render={<Button className="tale-button tale-button--neutral">Discard Changes</Button>} />
+      <AlertDialog.Trigger render={<Button variant="neutral">Discard Changes</Button>} />
       <AlertDialog.Portal>
-        <AlertDialog.Backdrop className="tale-alert-dialog__backdrop" />
-        <AlertDialog.Popup className="tale-alert-dialog__popup">
-          <AlertDialog.Title className="tale-alert-dialog__title">Discard unsaved changes?</AlertDialog.Title>
-          <AlertDialog.Description className="tale-alert-dialog__description">
+        <AlertDialog.Backdrop />
+        <AlertDialog.Popup>
+          <AlertDialog.Title>Discard unsaved changes?</AlertDialog.Title>
+          <AlertDialog.Description>
             You have unsaved changes that will be lost if you navigate away. Do you want to continue?
           </AlertDialog.Description>
           <div className="tale-alert-dialog__actions">
-            <AlertDialog.Close render={<Button className="tale-button tale-button--primary">Keep editing</Button>} />
-            <AlertDialog.Close render={<Button className="tale-button tale-button--neutral">Discard</Button>} />
+            <AlertDialog.Close render={<Button variant="primary">Keep editing</Button>} />
+            <AlertDialog.Close render={<Button variant="neutral">Discard</Button>} />
           </div>
         </AlertDialog.Popup>
       </AlertDialog.Portal>

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ContextMenu } from '@tale-ui/react/context-menu';
-import { Menu } from '@tale-ui/react/menu';
+import { ContextMenu } from '@tale-ui/react-styled/context-menu';
 
 const meta: Meta = {
   title: 'Navigation/ContextMenu',
@@ -24,7 +23,7 @@ export const Default: Story = {
           border: '2px dashed var(--neutral-26)',
           borderRadius: '0.8rem',
           color: 'var(--neutral-60)',
-          fontFamily: 'var(--body-font-family)',
+          fontFamily: 'var(--text-font-family)',
           fontSize: 'var(--text-m-font-size)',
           cursor: 'context-menu',
           userSelect: 'none',
@@ -34,12 +33,12 @@ export const Default: Story = {
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
         <ContextMenu.Positioner>
-          <ContextMenu.Popup className="tale-menu__popup">
-            <Menu.Item className="tale-menu__item">View</Menu.Item>
-            <Menu.Item className="tale-menu__item">Edit</Menu.Item>
-            <Menu.Item className="tale-menu__item">Copy</Menu.Item>
-            <Menu.Separator className="tale-menu__separator" />
-            <Menu.Item className="tale-menu__item">Delete</Menu.Item>
+          <ContextMenu.Popup>
+            <ContextMenu.Item>View</ContextMenu.Item>
+            <ContextMenu.Item>Edit</ContextMenu.Item>
+            <ContextMenu.Item>Copy</ContextMenu.Item>
+            <ContextMenu.Separator className="tale-menu__separator" />
+            <ContextMenu.Item>Delete</ContextMenu.Item>
           </ContextMenu.Popup>
         </ContextMenu.Positioner>
       </ContextMenu.Portal>

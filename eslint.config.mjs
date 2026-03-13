@@ -31,11 +31,67 @@ const NO_RESTRICTED_IMPORTS_PATHS_TOP_LEVEL_PACKAGES = [
   // { name: string, message: string }
 ];
 
+const STYLED_COMPONENT_PATHS = [
+  '@tale-ui/react/accordion',
+  '@tale-ui/react/alert-dialog',
+  '@tale-ui/react/autocomplete',
+  '@tale-ui/react/avatar',
+  '@tale-ui/react/button',
+  '@tale-ui/react/checkbox',
+  '@tale-ui/react/collapsible',
+  '@tale-ui/react/combobox',
+  '@tale-ui/react/context-menu',
+  '@tale-ui/react/dialog',
+  '@tale-ui/react/drawer',
+  '@tale-ui/react/field',
+  '@tale-ui/react/fieldset',
+  '@tale-ui/react/form',
+  '@tale-ui/react/input',
+  '@tale-ui/react/menu',
+  '@tale-ui/react/menubar',
+  '@tale-ui/react/meter',
+  '@tale-ui/react/navigation-menu',
+  '@tale-ui/react/number-field',
+  '@tale-ui/react/popover',
+  '@tale-ui/react/preview-card',
+  '@tale-ui/react/progress',
+  '@tale-ui/react/radio',
+  '@tale-ui/react/radio-group',
+  '@tale-ui/react/scroll-area',
+  '@tale-ui/react/select',
+  '@tale-ui/react/separator',
+  '@tale-ui/react/slider',
+  '@tale-ui/react/switch',
+  '@tale-ui/react/tabs',
+  '@tale-ui/react/toast',
+  '@tale-ui/react/toggle',
+  '@tale-ui/react/toggle-group',
+  '@tale-ui/react/toolbar',
+  '@tale-ui/react/tooltip',
+];
+
 export default defineConfig(
   globalIgnores(['./examples', './playground/vite-app/dist']),
   createBaseConfig({
     baseDirectory: dirname,
   }),
+  {
+    name: 'Enforce styled layer in playgrounds',
+    files: ['playground/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: STYLED_COMPONENT_PATHS,
+              message: 'Import styled components from @tale-ui/react-styled/* instead.',
+            },
+          ],
+        },
+      ],
+    },
+  },
   {
     name: 'Playground Vite app overrides',
     files: ['playground/vite-app/**/*.{ts,tsx}'],

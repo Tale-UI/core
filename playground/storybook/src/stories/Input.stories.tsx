@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from '@tale-ui/react/input';
+import { Input } from '@tale-ui/react-styled/input';
 
 type Args = Omit<React.ComponentProps<typeof Input>, 'size'> & {
   size?: 'sm' | 'md' | 'lg';
@@ -23,7 +23,7 @@ const meta: Meta<Args> = {
   render: ({ size = 'md', ...args }) => (
     <div style={{ width: '28rem' }}>
       <Input
-        className={`tale-input${size !== 'md' ? ` tale-input--${size}` : ''}`}
+        size={size}
         {...args}
       />
     </div>
@@ -53,7 +53,7 @@ export const AllSizes: Story = {
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <Input
           key={size}
-          className={`tale-input tale-input--${size}`}
+          size={size}
           placeholder={`${size.toUpperCase()} input`}
         />
       ))}
@@ -65,9 +65,9 @@ export const AllStates: Story = {
   name: 'All States',
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '28rem' }}>
-      <Input className="tale-input" placeholder="Default" />
-      <Input className="tale-input" defaultValue="With value" />
-      <Input className="tale-input" disabled placeholder="Disabled" />
+      <Input placeholder="Default" />
+      <Input defaultValue="With value" />
+      <Input disabled placeholder="Disabled" />
     </div>
   ),
 };

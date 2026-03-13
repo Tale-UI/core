@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Progress } from '@tale-ui/react/progress';
+import { Progress } from '@tale-ui/react-styled/progress';
 
 type Args = {
   value?: number | null;
@@ -19,19 +19,19 @@ const meta: Meta<Args> = {
   },
   render: ({ value, max }) => (
     <div style={{ width: '36rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>Progress</span>
-        <Progress.Value className="tale-progress__value">
-          {(formattedValue) => (
-            <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>
-              {formattedValue ?? '—'}
-            </span>
-          )}
-        </Progress.Value>
-      </div>
-      <Progress.Root className="tale-progress" value={value ?? null} max={max}>
-        <Progress.Track className="tale-progress__track">
-          <Progress.Indicator className="tale-progress__indicator" />
+      <Progress.Root value={value ?? null} max={max}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>Progress</span>
+          <Progress.Value>
+            {(formattedValue) => (
+              <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>
+                {formattedValue ?? '—'}
+              </span>
+            )}
+          </Progress.Value>
+        </div>
+        <Progress.Track>
+          <Progress.Indicator />
         </Progress.Track>
       </Progress.Root>
     </div>
@@ -49,6 +49,7 @@ export const Complete: Story = { args: { value: 100 } };
 
 export const Indeterminate: Story = {
   args: { value: null },
+  argTypes: { value: { control: false } },
 };
 
 export const AllStates: Story = {
@@ -63,9 +64,9 @@ export const AllStates: Story = {
       ].map(({ label, value }) => (
         <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{label}</span>
-          <Progress.Root className="tale-progress" value={value}>
-            <Progress.Track className="tale-progress__track">
-              <Progress.Indicator className="tale-progress__indicator" />
+          <Progress.Root value={value}>
+            <Progress.Track>
+              <Progress.Indicator />
             </Progress.Track>
           </Progress.Root>
         </div>

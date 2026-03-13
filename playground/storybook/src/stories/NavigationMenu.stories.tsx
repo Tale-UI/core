@@ -1,12 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { NavigationMenu } from '@tale-ui/react/navigation-menu';
-
-const ChevronIcon = () => (
-  <svg className="tale-navigation-menu__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden>
-    <polyline points="4,6 8,10 12,6" />
-  </svg>
-);
+import { NavigationMenu } from '@tale-ui/react-styled/navigation-menu';
 
 const meta: Meta = {
   title: 'Navigation/NavigationMenu',
@@ -18,16 +12,16 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => (
-    <NavigationMenu.Root className="tale-navigation-menu">
-      <NavigationMenu.List className="tale-navigation-menu__list">
+    <NavigationMenu.Root>
+      <NavigationMenu.List>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger className="tale-navigation-menu__trigger">
-            Products <ChevronIcon />
+          <NavigationMenu.Trigger>
+            Products
           </NavigationMenu.Trigger>
           <NavigationMenu.Portal>
             <NavigationMenu.Positioner sideOffset={8}>
-              <NavigationMenu.Popup className="tale-navigation-menu__popup">
-                <NavigationMenu.Content className="tale-navigation-menu__content">
+              <NavigationMenu.Popup>
+                <NavigationMenu.Content>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem' }}>
                     {['Components', 'Tokens', 'Icons', 'Themes'].map((item) => (
                       <div key={item} style={{ padding: '0.8rem', borderRadius: '0.6rem', background: 'var(--neutral-12)', cursor: 'pointer' }}>
@@ -42,10 +36,10 @@ export const Default: Story = {
           </NavigationMenu.Portal>
         </NavigationMenu.Item>
         <NavigationMenu.Item>
-          <NavigationMenu.Link className="tale-navigation-menu__link" href="#">Docs</NavigationMenu.Link>
+          <NavigationMenu.Link href="#">Docs</NavigationMenu.Link>
         </NavigationMenu.Item>
         <NavigationMenu.Item>
-          <NavigationMenu.Link className="tale-navigation-menu__link" href="#">Blog</NavigationMenu.Link>
+          <NavigationMenu.Link href="#">Blog</NavigationMenu.Link>
         </NavigationMenu.Item>
       </NavigationMenu.List>
     </NavigationMenu.Root>

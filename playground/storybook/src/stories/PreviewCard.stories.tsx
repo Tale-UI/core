@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { PreviewCard } from '@tale-ui/react/preview-card';
+import { PreviewCard } from '@tale-ui/react-styled/preview-card';
 
 type Args = {
   side?: 'top' | 'bottom' | 'left' | 'right';
@@ -36,7 +36,7 @@ export const Default: Story = {
       </PreviewCard.Trigger>
       <PreviewCard.Portal>
         <PreviewCard.Positioner side={args.side} align={args.align} sideOffset={args.sideOffset}>
-          <PreviewCard.Popup className="tale-preview-card__popup">
+          <PreviewCard.Popup>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               <div style={{ width: '4rem', height: '4rem', borderRadius: '50%', background: 'var(--neutral-22)' }} />
               <div>

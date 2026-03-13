@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Menubar } from '@tale-ui/react/menubar';
-import { Menu } from '@tale-ui/react/menu';
+import { Menubar } from '@tale-ui/react-styled/menubar';
+import { Menu } from '@tale-ui/react-styled/menu';
 
 const meta: Meta = {
   title: 'Navigation/Menubar',
@@ -13,17 +13,17 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => (
-    <Menubar className="tale-menubar">
+    <Menubar>
       {(['File', 'Edit', 'View', 'Help'] as const).map((label) => (
         <Menu.Root key={label}>
           <Menu.Trigger className="tale-menubar__item">{label}</Menu.Trigger>
           <Menu.Portal>
             <Menu.Positioner sideOffset={4} align="start">
-              <Menu.Popup className="tale-menu__popup">
-                <Menu.Item className="tale-menu__item">{label} → Option 1</Menu.Item>
-                <Menu.Item className="tale-menu__item">{label} → Option 2</Menu.Item>
-                <Menu.Separator className="tale-menu__separator" />
-                <Menu.Item className="tale-menu__item">{label} → Option 3</Menu.Item>
+              <Menu.Popup>
+                <Menu.Item>{label} → Option 1</Menu.Item>
+                <Menu.Item>{label} → Option 2</Menu.Item>
+                <Menu.Separator />
+                <Menu.Item>{label} → Option 3</Menu.Item>
               </Menu.Popup>
             </Menu.Positioner>
           </Menu.Portal>

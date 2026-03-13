@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
-import { Button } from '@tale-ui/react/button';
+import { Drawer } from '@tale-ui/react-styled/drawer';
+import { Button } from '@tale-ui/react-styled/button';
 
 type Args = {
   title?: string;
@@ -27,13 +27,13 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render: (args) => (
     <Drawer.Root>
-      <Drawer.Trigger render={<Button className="tale-button tale-button--neutral">Open Drawer</Button>} />
+      <Drawer.Trigger render={<Button variant="neutral">Open Drawer</Button>} />
       <Drawer.Portal>
-        <Drawer.Backdrop className="tale-drawer__backdrop" />
-        <Drawer.Popup className="tale-drawer__popup">
+        <Drawer.Backdrop />
+        <Drawer.Popup>
           <div className="tale-drawer__handle" />
-          <Drawer.Title className="tale-drawer__title">{args.title}</Drawer.Title>
-          <Drawer.Description className="tale-drawer__description">
+          <Drawer.Title>{args.title}</Drawer.Title>
+          <Drawer.Description>
             {args.description}
           </Drawer.Description>
           <div style={{ marginTop: '1.6rem', display: 'flex', gap: '1.2rem' }}>
@@ -50,12 +50,12 @@ export const WithContent: Story = {
   name: 'With Rich Content',
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger render={<Button className="tale-button tale-button--primary">Share</Button>} />
+      <Drawer.Trigger render={<Button variant="primary">Share</Button>} />
       <Drawer.Portal>
-        <Drawer.Backdrop className="tale-drawer__backdrop" />
-        <Drawer.Popup className="tale-drawer__popup">
+        <Drawer.Backdrop />
+        <Drawer.Popup>
           <div className="tale-drawer__handle" />
-          <Drawer.Title className="tale-drawer__title">Share</Drawer.Title>
+          <Drawer.Title>Share</Drawer.Title>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.2rem', marginTop: '1.6rem' }}>
             {['Twitter', 'LinkedIn', 'Facebook', 'Email'].map((platform) => (
               <div key={platform} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}>

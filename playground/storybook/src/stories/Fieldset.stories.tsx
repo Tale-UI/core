@@ -1,8 +1,8 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Fieldset } from '@tale-ui/react/fieldset';
-import { Field } from '@tale-ui/react/field';
-import { Input } from '@tale-ui/react/input';
+import { Fieldset } from '@tale-ui/react-styled/fieldset';
+import { Field } from '@tale-ui/react-styled/field';
+import { Input } from '@tale-ui/react-styled/input';
 
 type Args = {
   disabled?: boolean;
@@ -28,20 +28,20 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render: (args) => (
     <div style={{ width: '40rem' }}>
-      <Fieldset.Root className="tale-fieldset" disabled={args.disabled}>
-        <Fieldset.Legend className="tale-fieldset__legend">{args.legend}</Fieldset.Legend>
-        <Field.Root className="tale-field">
-          <Field.Label className="tale-field__label">First name</Field.Label>
-          <Input className="tale-input" placeholder="John" />
+      <Fieldset.Root disabled={args.disabled}>
+        <Fieldset.Legend>{args.legend}</Fieldset.Legend>
+        <Field.Root>
+          <Field.Label>First name</Field.Label>
+          <Input placeholder="John" />
         </Field.Root>
-        <Field.Root className="tale-field">
-          <Field.Label className="tale-field__label">Last name</Field.Label>
-          <Input className="tale-input" placeholder="Doe" />
+        <Field.Root>
+          <Field.Label>Last name</Field.Label>
+          <Input placeholder="Doe" />
         </Field.Root>
-        <Field.Root className="tale-field">
-          <Field.Label className="tale-field__label">Email</Field.Label>
-          <Input className="tale-input" type="email" placeholder="john@example.com" />
-          <Field.Description className="tale-field__description">
+        <Field.Root>
+          <Field.Label>Email</Field.Label>
+          <Input type="email" placeholder="john@example.com" />
+          <Field.Description>
             Used for account notifications.
           </Field.Description>
         </Field.Root>
@@ -53,15 +53,15 @@ export const Default: Story = {
 export const Disabled: Story = {
   render: () => (
     <div style={{ width: '40rem' }}>
-      <Fieldset.Root className="tale-fieldset" disabled>
-        <Fieldset.Legend className="tale-fieldset__legend">Locked Settings</Fieldset.Legend>
-        <Field.Root className="tale-field">
-          <Field.Label className="tale-field__label">Username</Field.Label>
-          <Input className="tale-input" defaultValue="john_doe" disabled />
+      <Fieldset.Root disabled>
+        <Fieldset.Legend>Locked Settings</Fieldset.Legend>
+        <Field.Root>
+          <Field.Label>Username</Field.Label>
+          <Input defaultValue="john_doe" disabled />
         </Field.Root>
-        <Field.Root className="tale-field">
-          <Field.Label className="tale-field__label">Account ID</Field.Label>
-          <Input className="tale-input" defaultValue="usr_12345" disabled />
+        <Field.Root>
+          <Field.Label>Account ID</Field.Label>
+          <Input defaultValue="usr_12345" disabled />
         </Field.Root>
       </Fieldset.Root>
     </div>

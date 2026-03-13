@@ -1,7 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Radio } from '@tale-ui/react/radio';
-import { RadioGroup } from '@tale-ui/react/radio-group';
+import { Radio } from '@tale-ui/react-styled/radio';
 
 type Args = {
   disabled?: boolean;
@@ -20,13 +19,13 @@ const meta: Meta<Args> = {
     size: 'md',
   },
   render: ({ disabled, size }) => (
-    <RadioGroup defaultValue="option-a" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+    <Radio.Group defaultValue="option-a" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
       {['Option A', 'Option B', 'Option C'].map((label, i) => {
         const value = `option-${String.fromCharCode(97 + i)}`;
         return (
           <div key={value} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Radio.Root className={`tale-radio${size !== 'md' ? ` tale-radio--${size}` : ''}`} value={value} disabled={disabled}>
-              <Radio.Indicator className="tale-radio__indicator" />
+            <Radio.Root size={size} value={value} disabled={disabled}>
+              <Radio.Indicator />
             </Radio.Root>
             <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
               {label}
@@ -34,7 +33,7 @@ const meta: Meta<Args> = {
           </div>
         );
       })}
-    </RadioGroup>
+    </Radio.Group>
   ),
 };
 
@@ -50,22 +49,22 @@ export const AllStates: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Radio.Root className="tale-radio" value="unchecked">
-          <Radio.Indicator className="tale-radio__indicator" />
+        <Radio.Root value="unchecked">
+          <Radio.Indicator />
         </Radio.Root>
         <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>Unchecked</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <RadioGroup value="checked">
-          <Radio.Root className="tale-radio" value="checked">
-            <Radio.Indicator className="tale-radio__indicator" />
+        <Radio.Group value="checked">
+          <Radio.Root value="checked">
+            <Radio.Indicator />
           </Radio.Root>
-        </RadioGroup>
+        </Radio.Group>
         <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>Checked</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Radio.Root className="tale-radio" value="disabled" disabled>
-          <Radio.Indicator className="tale-radio__indicator" />
+        <Radio.Root value="disabled" disabled>
+          <Radio.Indicator />
         </Radio.Root>
         <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>Disabled</span>
       </div>
@@ -76,13 +75,13 @@ export const AllStates: Story = {
 export const WithGroup: Story = {
   name: 'Radio Group',
   render: () => (
-    <RadioGroup defaultValue="b" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+    <Radio.Group defaultValue="b" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
       {['Small', 'Medium', 'Large'].map((size, i) => {
         const value = ['sm', 'md', 'lg'][i];
         return (
           <div key={value} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Radio.Root className="tale-radio" value={value}>
-              <Radio.Indicator className="tale-radio__indicator" />
+            <Radio.Root value={value}>
+              <Radio.Indicator />
             </Radio.Root>
             <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
               {size}
@@ -90,6 +89,6 @@ export const WithGroup: Story = {
           </div>
         );
       })}
-    </RadioGroup>
+    </Radio.Group>
   ),
 };

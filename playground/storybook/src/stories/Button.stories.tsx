@@ -1,10 +1,12 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@tale-ui/react/button';
+import { Button } from '@tale-ui/react-styled/button';
 
-type Args = React.ComponentProps<typeof Button> & {
+type Args = {
   variant?: 'primary' | 'neutral' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
+  children?: React.ReactNode;
+  disabled?: boolean;
 };
 
 const meta: Meta<Args> = {
@@ -23,10 +25,7 @@ const meta: Meta<Args> = {
     disabled: false,
   },
   render: ({ variant = 'primary', size = 'md', ...args }) => (
-    <Button
-      className={`tale-button tale-button--${variant} tale-button--${size}`}
-      {...args}
-    />
+    <Button variant={variant} size={size} {...args} />
   ),
 };
 
@@ -43,7 +42,7 @@ export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
       {(['primary', 'neutral', 'ghost', 'danger'] as const).map((v) => (
-        <Button key={v} className={`tale-button tale-button--${v}`}>
+        <Button key={v} variant={v}>
           {v.charAt(0).toUpperCase() + v.slice(1)}
         </Button>
       ))}
@@ -56,7 +55,7 @@ export const AllSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
       {(['sm', 'md', 'lg'] as const).map((s) => (
-        <Button key={s} className={`tale-button tale-button--primary tale-button--${s}`}>
+        <Button key={s} variant="primary" size={s}>
           {s.toUpperCase()}
         </Button>
       ))}

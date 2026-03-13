@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Autocomplete } from '@tale-ui/react/autocomplete';
+import { Autocomplete } from '@tale-ui/react-styled/autocomplete';
 
 const suggestions = ['React', 'Vue', 'Angular', 'Svelte', 'Solid', 'Preact', 'Qwik', 'Remix', 'Next.js', 'Nuxt'];
 
@@ -37,14 +37,14 @@ export const Default: Story = {
           value={value}
           onValueChange={setValue}
         >
-          <Autocomplete.Input className="tale-autocomplete__input" placeholder={args.placeholder} />
+          <Autocomplete.Input placeholder={args.placeholder} />
           <Autocomplete.Portal>
             <Autocomplete.Positioner sideOffset={4}>
-              <Autocomplete.Popup className="tale-autocomplete__popup">
+              <Autocomplete.Popup>
                 <Autocomplete.List>
-                  <Autocomplete.Empty className="tale-autocomplete__empty">No results found</Autocomplete.Empty>
+                  <Autocomplete.Empty>No results found</Autocomplete.Empty>
                   {suggestions.map((item) => (
-                    <Autocomplete.Item key={item} className="tale-autocomplete__item" value={item}>
+                    <Autocomplete.Item key={item} value={item}>
                       {item}
                     </Autocomplete.Item>
                   ))}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Switch } from '@tale-ui/react/switch';
+import { Switch } from '@tale-ui/react-styled/switch';
 
 type Args = {
   disabled?: boolean;
@@ -20,8 +20,8 @@ const meta: Meta<Args> = {
   },
   render: ({ disabled, defaultChecked }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-      <Switch.Root className="tale-switch" disabled={disabled} defaultChecked={defaultChecked}>
-        <Switch.Thumb className="tale-switch__thumb" />
+      <Switch.Root disabled={disabled} defaultChecked={defaultChecked}>
+        <Switch.Thumb />
       </Switch.Root>
       <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
         Enable notifications
@@ -58,8 +58,8 @@ export const AllStates: Story = {
         { label: 'Disabled (On)', checked: true, disabled: true },
       ].map(({ label, checked, disabled }) => (
         <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-          <Switch.Root className="tale-switch" defaultChecked={checked} disabled={disabled}>
-            <Switch.Thumb className="tale-switch__thumb" />
+          <Switch.Root defaultChecked={checked} disabled={disabled}>
+            <Switch.Thumb />
           </Switch.Root>
           <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
             {label}

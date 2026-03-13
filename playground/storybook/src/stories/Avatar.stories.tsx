@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Avatar } from '@tale-ui/react/avatar';
+import { Avatar } from '@tale-ui/react-styled/avatar';
 
 type Args = {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -22,9 +22,9 @@ const meta: Meta<Args> = {
     fallback: 'AB',
   },
   render: ({ size = 'md', src, fallback }) => (
-    <Avatar.Root className={`tale-avatar tale-avatar--${size}`}>
-      <Avatar.Image className="tale-avatar__image" src={src} alt="User avatar" />
-      <Avatar.Fallback className="tale-avatar__fallback">{fallback}</Avatar.Fallback>
+    <Avatar.Root size={size}>
+      <Avatar.Image src={src} alt="User avatar" />
+      <Avatar.Fallback>{fallback}</Avatar.Fallback>
     </Avatar.Root>
   ),
 };
@@ -44,9 +44,9 @@ export const AllSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1.6rem' }}>
       {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
-        <Avatar.Root key={size} className={`tale-avatar tale-avatar--${size}`}>
-          <Avatar.Image className="tale-avatar__image" src={undefined} alt="" />
-          <Avatar.Fallback className="tale-avatar__fallback">AB</Avatar.Fallback>
+        <Avatar.Root key={size} size={size}>
+          <Avatar.Image src={undefined} alt="" />
+          <Avatar.Fallback>AB</Avatar.Fallback>
         </Avatar.Root>
       ))}
     </div>
@@ -60,10 +60,10 @@ export const Group: Story = {
       {['AB', 'CD', 'EF', 'GH'].map((initials, i) => (
         <Avatar.Root
           key={initials}
-          className="tale-avatar tale-avatar--md"
+          size="md"
           style={{ marginLeft: i === 0 ? 0 : '-0.8rem', boxShadow: '0 0 0 2px var(--neutral-10)', zIndex: 4 - i }}
         >
-          <Avatar.Fallback className="tale-avatar__fallback">{initials}</Avatar.Fallback>
+          <Avatar.Fallback>{initials}</Avatar.Fallback>
         </Avatar.Root>
       ))}
     </div>

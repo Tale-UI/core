@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Combobox } from '@tale-ui/react/combobox';
+import { Combobox } from '@tale-ui/react-styled/combobox';
 
 const countries = ['Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Denmark', 'Egypt', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'India'];
 
@@ -40,16 +40,16 @@ export const Default: Story = {
           setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
         }}
       >
-        <Combobox.Input className="tale-combobox__input" placeholder={args.placeholder} />
+        <Combobox.Input placeholder={args.placeholder} />
         <Combobox.Portal>
           <Combobox.Positioner sideOffset={4}>
-            <Combobox.Popup className="tale-combobox__popup">
+            <Combobox.Popup>
               <Combobox.List>
                 {items.length === 0 ? (
-                  <Combobox.Empty className="tale-combobox__empty">No results</Combobox.Empty>
+                  <Combobox.Empty>No results</Combobox.Empty>
                 ) : (
                   items.map((country) => (
-                    <Combobox.Item key={country} className="tale-combobox__item" value={country}>
+                    <Combobox.Item key={country} value={country}>
                       {country}
                     </Combobox.Item>
                   ))
@@ -80,24 +80,24 @@ export const Multiple: Story = {
           setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
         }}
       >
-        <Combobox.Chips className="tale-combobox__chips">
+        <Combobox.Chips>
           {values.map((v) => (
-            <Combobox.Chip key={v} className="tale-combobox__chip">
+            <Combobox.Chip key={v}>
               {v}
-              <Combobox.ChipRemove className="tale-combobox__chip-remove" aria-label={`Remove ${v}`}>✕</Combobox.ChipRemove>
+              <Combobox.ChipRemove aria-label={`Remove ${v}`}>✕</Combobox.ChipRemove>
             </Combobox.Chip>
           ))}
         </Combobox.Chips>
-        <Combobox.Input className="tale-combobox__input" placeholder="Search countries…" />
+        <Combobox.Input placeholder="Search countries…" />
         <Combobox.Portal>
           <Combobox.Positioner sideOffset={4}>
-            <Combobox.Popup className="tale-combobox__popup">
+            <Combobox.Popup>
               <Combobox.List>
                 {items.length === 0 ? (
-                  <Combobox.Empty className="tale-combobox__empty">No results</Combobox.Empty>
+                  <Combobox.Empty>No results</Combobox.Empty>
                 ) : (
                   items.map((country) => (
-                    <Combobox.Item key={country} className="tale-combobox__item" value={country}>
+                    <Combobox.Item key={country} value={country}>
                       {country}
                     </Combobox.Item>
                   ))

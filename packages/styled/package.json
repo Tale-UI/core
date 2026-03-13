@@ -1,0 +1,72 @@
+{
+  "name": "@tale-ui/react-styled",
+  "version": "0.1.0",
+  "description": "Pre-styled React components — Tale UI headless components with BEM classNames pre-applied.",
+  "keywords": [
+    "react",
+    "design-system",
+    "tale-ui",
+    "styled"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tale-UI/core.git",
+    "directory": "packages/styled"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./accordion": "./src/accordion/index.ts",
+    "./alert-dialog": "./src/alert-dialog/index.ts",
+    "./autocomplete": "./src/autocomplete/index.ts",
+    "./avatar": "./src/avatar/index.ts",
+    "./button": "./src/button/index.ts",
+    "./checkbox": "./src/checkbox/index.ts",
+    "./collapsible": "./src/collapsible/index.ts",
+    "./combobox": "./src/combobox/index.ts",
+    "./context-menu": "./src/context-menu/index.ts",
+    "./dialog": "./src/dialog/index.ts",
+    "./drawer": "./src/drawer/index.ts",
+    "./field": "./src/field/index.ts",
+    "./fieldset": "./src/fieldset/index.ts",
+    "./form": "./src/form/index.ts",
+    "./input": "./src/input/index.ts",
+    "./menu": "./src/menu/index.ts",
+    "./menubar": "./src/menubar/index.ts",
+    "./meter": "./src/meter/index.ts",
+    "./navigation-menu": "./src/navigation-menu/index.ts",
+    "./number-field": "./src/number-field/index.ts",
+    "./popover": "./src/popover/index.ts",
+    "./preview-card": "./src/preview-card/index.ts",
+    "./progress": "./src/progress/index.ts",
+    "./radio": "./src/radio/index.ts",
+    "./scroll-area": "./src/scroll-area/index.ts",
+    "./select": "./src/select/index.ts",
+    "./separator": "./src/separator/index.ts",
+    "./slider": "./src/slider/index.ts",
+    "./switch": "./src/switch/index.ts",
+    "./tabs": "./src/tabs/index.ts",
+    "./toast": "./src/toast/index.ts",
+    "./toggle": "./src/toggle/index.ts",
+    "./toolbar": "./src/toolbar/index.ts",
+    "./tooltip": "./src/tooltip/index.ts"
+  },
+  "dependencies": {
+    "@tale-ui/react": "workspace:*",
+    "@tale-ui/react-styles": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "react": "19.2.4",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "react": "^17 || ^18 || ^19"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "build"
+  },
+  "sideEffects": false
+}

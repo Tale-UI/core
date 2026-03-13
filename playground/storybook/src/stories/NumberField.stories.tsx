@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { NumberField } from '@tale-ui/react/number-field';
+import { NumberField } from '@tale-ui/react-styled/number-field';
 
 type Args = {
   disabled?: boolean;
@@ -29,17 +29,17 @@ const meta: Meta<Args> = {
   },
   render: ({ disabled, min, max, step, defaultValue }) => (
     <NumberField.Root
-      className="tale-number-field"
+     
       disabled={disabled}
       min={min}
       max={max}
       step={step}
       defaultValue={defaultValue}
     >
-      <NumberField.Group className="tale-number-field__group">
-        <NumberField.Decrement className="tale-number-field__decrement">−</NumberField.Decrement>
-        <NumberField.Input className="tale-number-field__input" />
-        <NumberField.Increment className="tale-number-field__increment">+</NumberField.Increment>
+      <NumberField.Group>
+        <NumberField.Decrement>−</NumberField.Decrement>
+        <NumberField.Input />
+        <NumberField.Increment>+</NumberField.Increment>
       </NumberField.Group>
     </NumberField.Root>
   ),

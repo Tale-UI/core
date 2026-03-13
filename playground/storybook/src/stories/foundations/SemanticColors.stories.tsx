@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta = {
-  title: 'Foundations/Semantic Colors',
+  title: 'Foundations/Colors',
   parameters: { layout: 'fullscreen', backgrounds: { disable: true } },
 };
 export default meta;
@@ -34,39 +34,38 @@ function SemanticStrip({ family }: { family: SemanticFamily }) {
 
   return (
     <div style={{ marginBottom: 'var(--space-m)' }}>
-      <div style={{ display: 'flex', gap: '2px', borderRadius: 'var(--radius-l)', overflow: 'hidden' }}>
-        {shades.map((shade) => (
-          <div
-            key={shade}
-            style={{
-              flex: 1,
-              height: '64px',
-              background: `var(--${family}-${shade})`,
-              color: `var(--${family}-${shade}-fg)`,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '2px',
-            }}
-            title={`--${family}-${shade}`}
-          >
-            <span style={{ fontSize: 'var(--text-xs)', fontFamily: 'monospace', fontWeight: 700 }}>{shade}</span>
-            {shade === pivotShade && (
-              <span style={{ fontSize: 'var(--text-xs)', opacity: 0.8 }}>pivot</span>
-            )}
-          </div>
-        ))}
-      </div>
-      <div style={{ display: 'flex', gap: '2px', marginTop: '4px' }}>
-        {shades.map((shade) => (
-          <span
-            key={shade}
-            style={{ flex: 1, textAlign: 'center', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', fontFamily: 'monospace' }}
-          >
-            {shade}
-          </span>
-        ))}
+      <div style={{ display: 'flex', gap: '4px' }}>
+        {shades.map((shade) => {
+          const isPivot = shade === pivotShade;
+          return (
+            <div key={shade} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <div
+                style={{
+                  height: '56px',
+                  background: `var(--${family}-${shade})`,
+                  color: `var(--${family}-${shade}-fg)`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 'var(--text-xs)',
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  borderRadius: isPivot ? 'var(--radius-s)' : undefined,
+                  outline: isPivot ? '2px solid var(--neutral-60)' : undefined,
+                  outlineOffset: isPivot ? '3px' : undefined,
+                }}
+                title={`--${family}-${shade}`}
+              >
+                {shade}
+              </div>
+              <div style={{ height: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {isPivot && (
+                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--neutral-60)', fontFamily: 'monospace', fontWeight: 700 }}>▲</span>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -85,8 +84,8 @@ function UsageCard({ family, shade, label }: { family: SemanticFamily; shade: nu
         gap: 'var(--space-2xs)',
       }}
     >
-      <span className="text--label-s">{label}</span>
-      <span style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', opacity: 0.75 }}>
+      <span className="text--label-s" style={{ color: 'inherit' }}>{label}</span>
+      <span style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'inherit', opacity: 0.75 }}>
         --{family}-{shade} / --{family}-{shade}-fg
       </span>
     </div>
@@ -95,8 +94,8 @@ function UsageCard({ family, shade, label }: { family: SemanticFamily; shade: nu
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
-export const AllSemantic: Story = {
-  name: 'All Semantic Colors',
+export const SemanticColors: Story = {
+  name: 'Semantic Colors',
   render: () => (
     <div style={s.page}>
       <h2 className="text--heading-s" style={s.sectionTitle}>Semantic Colors</h2>
@@ -111,65 +110,13 @@ export const AllSemantic: Story = {
           <h3 className="text--title-l" style={{ marginBottom: 'var(--space-2xs)' }}>{label}</h3>
           <p className="text--body-s" style={{ color: 'var(--neutral-60)', marginBottom: 'var(--space-m)' }}>{description}</p>
           <SemanticStrip family={name as SemanticFamily} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-s)', marginTop: 'var(--space-m)' }}>
+            <UsageCard family={name as SemanticFamily} shade={10} label="Light background / tinted surface" />
+            <UsageCard family={name as SemanticFamily} shade={name === 'error' ? 60 : 60} label="Primary / badge / button" />
+            <UsageCard family={name as SemanticFamily} shade={90} label="Dark / high contrast" />
+          </div>
         </div>
       ))}
-    </div>
-  ),
-};
-
-export const ErrorPalette: Story = {
-  name: 'Error',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Error</h2>
-      <p className="text--body-m" style={s.description}>
-        Use for destructive actions, form validation errors, and danger states.
-        Pivot at shade 60 — shades 5–50 use dark text, shades 60–100 use light text.
-      </p>
-      <SemanticStrip family="error" />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-s)', marginTop: 'var(--space-l)' }}>
-        <UsageCard family="error" shade={10} label="Light background / tinted surface" />
-        <UsageCard family="error" shade={60} label="Primary / badge / button" />
-        <UsageCard family="error" shade={90} label="Dark / high contrast" />
-      </div>
-    </div>
-  ),
-};
-
-export const WarningPalette: Story = {
-  name: 'Warning',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Warning</h2>
-      <p className="text--body-m" style={s.description}>
-        Use for caution states, non-blocking alerts, and advisory messages.
-        Pivot at shade 70 — shades 5–60 use dark text, shades 70–100 use light text.
-      </p>
-      <SemanticStrip family="warning" />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-s)', marginTop: 'var(--space-l)' }}>
-        <UsageCard family="warning" shade={10} label="Light background / tinted surface" />
-        <UsageCard family="warning" shade={60} label="Primary / badge / icon" />
-        <UsageCard family="warning" shade={90} label="Dark / high contrast" />
-      </div>
-    </div>
-  ),
-};
-
-export const SuccessPalette: Story = {
-  name: 'Success',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Success</h2>
-      <p className="text--body-m" style={s.description}>
-        Use for confirmations, completed states, and positive feedback.
-        Pivot at shade 70 — shades 5–60 use dark text, shades 70–100 use light text.
-      </p>
-      <SemanticStrip family="success" />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-s)', marginTop: 'var(--space-l)' }}>
-        <UsageCard family="success" shade={10} label="Light background / tinted surface" />
-        <UsageCard family="success" shade={60} label="Primary / badge / icon" />
-        <UsageCard family="success" shade={90} label="Dark / high contrast" />
-      </div>
     </div>
   ),
 };

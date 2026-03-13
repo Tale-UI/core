@@ -81,8 +81,8 @@ export const TypeScale: Story = {
           >
             {token}
           </span>
-          <span style={{ fontSize: `var(${token})`, color: 'var(--neutral-80)', lineHeight: 1.3 }}>
-            {sampleText.slice(0, 32)}
+          <span style={{ fontSize: `var(${token})`, color: 'var(--neutral-80)', lineHeight: 1.3, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+            {sampleText}
           </span>
         </div>
       ))}

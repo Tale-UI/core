@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta = {
-  title: 'Foundations/Neutrals',
+  title: 'Foundations/Colors',
   parameters: { layout: 'fullscreen', backgrounds: { disable: true } },
 };
 export default meta;
@@ -35,7 +35,7 @@ const s: Record<string, React.CSSProperties> = {
   shadeNum: { flex: 1, textAlign: 'center', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', fontFamily: 'monospace', lineHeight: '1.2' },
 };
 
-function NeutralStrip({ family, showFg = false }: { family: typeof neutralFamilies[number]; showFg?: boolean }) {
+function NeutralStrip({ family }: { family: typeof neutralFamilies[number] }) {
   return (
     <div className={family.class || undefined} style={s.familyBlock}>
       <div style={s.familyLabel}>{family.label}</div>
@@ -44,21 +44,12 @@ function NeutralStrip({ family, showFg = false }: { family: typeof neutralFamili
           <div
             key={shade}
             style={{
-              height: showFg ? '56px' : '40px',
+              height: '40px',
               flex: 1,
               background: `var(--neutral-${shade})`,
-              color: showFg ? `var(--neutral-${shade}-fg)` : undefined,
-              display: showFg ? 'flex' : 'block',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 'var(--text-xs)',
-              fontFamily: 'monospace',
-              fontWeight: 'var(--heading-font-weight)',
             }}
             title={`--neutral-${shade}`}
-          >
-            {showFg ? shade : null}
-          </div>
+          />
         ))}
       </div>
       <div style={s.shadeNums}>
@@ -72,8 +63,8 @@ function NeutralStrip({ family, showFg = false }: { family: typeof neutralFamili
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
-export const AllFamilies: Story = {
-  name: 'All Families',
+export const NeutralColors: Story = {
+  name: 'Neutral Colors',
   render: () => (
     <div style={s.page}>
       <h2 className="text--heading-s" style={s.sectionTitle}>Neutral Color Families</h2>
@@ -86,119 +77,6 @@ export const AllFamilies: Story = {
       {neutralFamilies.map((family) => (
         <NeutralStrip key={family.name} family={family} />
       ))}
-    </div>
-  ),
-};
-
-export const WarmNeutral: Story = {
-  name: 'Warm (default)',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Warm Neutral (default)</h2>
-      <p className="text--body-m" style={s.description}>
-        The default neutral family. Used when no <code style={{ fontFamily: 'monospace' }}>.neutral-*</code> class is applied.
-      </p>
-      <NeutralStrip family={neutralFamilies[0]} showFg />
-    </div>
-  ),
-};
-
-export const CoolNeutral: Story = {
-  name: 'Cool',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Cool Neutral</h2>
-      <p className="text--body-m" style={s.description}>
-        Apply <code style={{ fontFamily: 'monospace' }}>.neutral-cool</code> to any ancestor.
-      </p>
-      <NeutralStrip family={neutralFamilies[1]} showFg />
-    </div>
-  ),
-};
-
-export const SlateNeutral: Story = {
-  name: 'Slate',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Slate Neutral</h2>
-      <p className="text--body-m" style={s.description}>
-        Apply <code style={{ fontFamily: 'monospace' }}>.neutral-slate</code> to any ancestor.
-      </p>
-      <NeutralStrip family={neutralFamilies[2]} showFg />
-    </div>
-  ),
-};
-
-export const GrayNeutral: Story = {
-  name: 'Gray',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Gray Neutral</h2>
-      <p className="text--body-m" style={s.description}>
-        Apply <code style={{ fontFamily: 'monospace' }}>.neutral-gray</code> to any ancestor.
-      </p>
-      <NeutralStrip family={neutralFamilies[3]} showFg />
-    </div>
-  ),
-};
-
-export const OnyxNeutral: Story = {
-  name: 'Onyx',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Onyx Neutral</h2>
-      <p className="text--body-m" style={s.description}>
-        Apply <code style={{ fontFamily: 'monospace' }}>.neutral-onyx</code> to any ancestor.
-      </p>
-      <NeutralStrip family={neutralFamilies[4]} showFg />
-    </div>
-  ),
-};
-
-export const MonoNeutral: Story = {
-  name: 'Mono',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Mono Neutral</h2>
-      <p className="text--body-m" style={s.description}>
-        Apply <code style={{ fontFamily: 'monospace' }}>.neutral-mono</code> to any ancestor. Pure achromatic scale.
-      </p>
-      <NeutralStrip family={neutralFamilies[5]} showFg />
-    </div>
-  ),
-};
-
-export const DarkModeInversion: Story = {
-  name: 'Dark Mode Inversion',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Dark Mode Inversion</h2>
-      <p className="text--body-m" style={s.description}>
-        In dark mode, <code style={{ fontFamily: 'monospace' }}>--neutral-*</code> tokens invert automatically.
-        Shade 5 becomes near-black and shade 100 becomes near-white. Toggle dark mode using the toolbar above.
-      </p>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-m)' }}>
-        {([5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const).map((shade) => (
-          <div
-            key={shade}
-            style={{
-              background: `var(--neutral-${shade})`,
-              color: `var(--neutral-${shade}-fg)`,
-              padding: 'var(--space-m)',
-              borderRadius: 'var(--radius-l)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <span className="text--label-s">--neutral-{shade}</span>
-            <span className="text--label-xs" style={{ fontFamily: 'monospace', opacity: 0.75 }}>
-              fg: --neutral-{shade}-fg
-            </span>
-          </div>
-        ))}
-      </div>
     </div>
   ),
 };

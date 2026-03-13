@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Slider } from '@tale-ui/react/slider';
+import { Slider } from '@tale-ui/react-styled/slider';
 
 type Args = {
   disabled?: boolean;
@@ -32,7 +32,7 @@ const meta: Meta<Args> = {
   render: ({ disabled, orientation, defaultValue, min, max, step }) => (
     <div style={{ width: orientation === 'horizontal' ? '28rem' : '4rem', height: orientation === 'vertical' ? '20rem' : 'auto' }}>
       <Slider.Root
-        className="tale-slider"
+       
         disabled={disabled}
         orientation={orientation}
         defaultValue={defaultValue}
@@ -40,10 +40,10 @@ const meta: Meta<Args> = {
         max={max}
         step={step}
       >
-        <Slider.Control className="tale-slider__control">
-          <Slider.Track className="tale-slider__track">
-            <Slider.Indicator className="tale-slider__indicator" />
-            <Slider.Thumb className="tale-slider__thumb" />
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb />
           </Slider.Track>
         </Slider.Control>
       </Slider.Root>
@@ -68,7 +68,7 @@ export const Range: Story = {
   render: ({ disabled, orientation, defaultValue, min, max, step }) => (
     <div style={{ width: '28rem' }}>
       <Slider.Root
-        className="tale-slider"
+       
         disabled={disabled}
         orientation={orientation}
         defaultValue={defaultValue}
@@ -76,11 +76,11 @@ export const Range: Story = {
         max={max}
         step={step}
       >
-        <Slider.Control className="tale-slider__control">
-          <Slider.Track className="tale-slider__track">
-            <Slider.Indicator className="tale-slider__indicator" />
-            <Slider.Thumb className="tale-slider__thumb" index={0} />
-            <Slider.Thumb className="tale-slider__thumb" index={1} />
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb index={0} />
+            <Slider.Thumb index={1} />
           </Slider.Track>
         </Slider.Control>
       </Slider.Root>

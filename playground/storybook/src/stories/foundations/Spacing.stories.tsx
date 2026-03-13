@@ -40,7 +40,7 @@ const s: Record<string, React.CSSProperties> = {
   description: { color: 'var(--neutral-60)', marginBottom: 'var(--space-l)' },
   row: { display: 'flex', alignItems: 'center', gap: 'var(--space-m)', marginBottom: 'var(--space-2xs)', minHeight: '32px' },
   bar: { background: 'var(--color-60)', borderRadius: 'var(--radius-s)', flexShrink: 0 },
-  tokenLabel: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-70)', minWidth: '160px', flexShrink: 0 },
+  tokenLabel: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-70)', minWidth: '100px', flexShrink: 0 },
   range: { fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' },
   note: { fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', fontStyle: 'italic', marginLeft: 'var(--space-xs)' },
 };
@@ -57,20 +57,32 @@ export const ComponentSpacing: Story = {
         <code style={{ fontFamily: 'monospace' }}>clamp()</code>. Gap utility classes (<code style={{ fontFamily: 'monospace' }}>.gap--*</code>) are available for tokens up to <code style={{ fontFamily: 'monospace' }}>--space-2xl</code>.
       </p>
 
-      {spaceTokens.map(({ token, min, max, note }) => (
-        <div key={token} style={s.row}>
-          <span style={s.tokenLabel}>{token}</span>
-          <div
-            style={{
-              ...s.bar,
-              width: `var(${token})`,
-              height: '20px',
-            }}
-          />
-          <span style={s.range}>{min} → {max}</span>
-          {'note' in { note } && note && <span style={s.note}>({note})</span>}
+      {spaceTokens.map((entry) => (
+        <div key={entry.token} style={s.row}>
+          <span style={s.tokenLabel}>{entry.token}</span>
+          <div style={{ ...s.bar, width: `var(${entry.token})`, height: '20px' }} />
+          <span style={s.range}>{entry.min} → {entry.max}</span>
+          {'note' in entry && entry.note && <span style={s.note}>({entry.note})</span>}
         </div>
       ))}
+
+      <div style={{ background: 'var(--neutral-12)', borderRadius: 'var(--radius-l)', padding: 'var(--space-m)', marginTop: 'var(--space-l)' }}>
+        <p className="text--label-s" style={{ color: 'var(--neutral-70)', marginBottom: 'var(--space-xs)' }}>Gap utility class availability</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-xs)' }}>
+          {['4xs', '3xs', '2xs', 'xs', 's', 'm', 'l', 'xl', '2xl'].map((size) => (
+            <div key={size} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'var(--neutral-16)', borderRadius: 'var(--radius-s)' }}>
+              <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)' }}>.gap--{size}</code>
+              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--success-60)' }}>✓</span>
+            </div>
+          ))}
+          {['3xl', '4xl'].map((size) => (
+            <div key={size} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'var(--neutral-16)', borderRadius: 'var(--radius-s)', opacity: 0.6 }}>
+              <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' }}>.gap--{size}</code>
+              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' }}>token only</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   ),
 };
@@ -97,48 +109,6 @@ export const SectionSpacing: Story = {
           </div>
         </div>
       ))}
-    </div>
-  ),
-};
-
-export const SpacingScale: Story = {
-  name: 'Full Scale',
-  render: () => (
-    <div style={s.page}>
-      <h2 className="text--heading-s" style={s.sectionTitle}>Full Spacing Scale</h2>
-      <p className="text--body-m" style={s.description}>
-        All component spacing tokens side by side for proportion reference.
-      </p>
-
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px', marginBottom: 'var(--space-xl)' }}>
-        {spaceTokens.map(({ token }) => {
-          const size = token.replace('--space-', '');
-          return (
-            <div key={token} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-              <div style={{ background: 'var(--color-60)', borderRadius: 'var(--radius-s)', width: '28px', height: `var(${token})` }} />
-              <span style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-60)', writingMode: 'vertical-rl' }}>{size}</span>
-            </div>
-          );
-        })}
-      </div>
-
-      <div style={{ background: 'var(--neutral-12)', borderRadius: 'var(--radius-l)', padding: 'var(--space-m)' }}>
-        <p className="text--label-s" style={{ color: 'var(--neutral-70)', marginBottom: 'var(--space-xs)' }}>Gap utility class availability</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-xs)' }}>
-          {['4xs', '3xs', '2xs', 'xs', 's', 'm', 'l', 'xl', '2xl'].map((size) => (
-            <div key={size} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'var(--neutral-16)', borderRadius: 'var(--radius-s)' }}>
-              <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)' }}>.gap--{size}</code>
-              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--success-60)' }}>✓</span>
-            </div>
-          ))}
-          {['3xl', '4xl'].map((size) => (
-            <div key={size} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'var(--neutral-16)', borderRadius: 'var(--radius-s)', opacity: 0.6 }}>
-              <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' }}>.gap--{size}</code>
-              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' }}>token only</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   ),
 };

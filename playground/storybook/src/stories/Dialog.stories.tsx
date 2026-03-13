@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Dialog } from '@tale-ui/react/dialog';
-import { Button } from '@tale-ui/react/button';
+import { Dialog } from '@tale-ui/react-styled/dialog';
+import { Button } from '@tale-ui/react-styled/button';
 
 const XIcon = () => (
   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="16" height="16">
@@ -36,20 +36,20 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render: (args) => (
     <Dialog.Root modal={args.modal}>
-      <Dialog.Trigger render={<Button className="tale-button tale-button--primary">Open Dialog</Button>} />
+      <Dialog.Trigger render={<Button variant="primary">Open Dialog</Button>} />
       <Dialog.Portal>
-        <Dialog.Backdrop className="tale-dialog__backdrop" />
-        <Dialog.Popup className="tale-dialog__popup">
-          <Dialog.Close className="tale-dialog__close" aria-label="Close">
+        <Dialog.Backdrop />
+        <Dialog.Popup>
+          <Dialog.Close aria-label="Close">
             <XIcon />
           </Dialog.Close>
-          <Dialog.Title className="tale-dialog__title">{args.title}</Dialog.Title>
-          <Dialog.Description className="tale-dialog__description">
+          <Dialog.Title>{args.title}</Dialog.Title>
+          <Dialog.Description>
             {args.description}
           </Dialog.Description>
           <div className="tale-dialog__actions">
-            <Dialog.Close render={<Button className="tale-button tale-button--neutral">Cancel</Button>} />
-            <Dialog.Close render={<Button className="tale-button tale-button--primary">Confirm</Button>} />
+            <Dialog.Close render={<Button variant="neutral">Cancel</Button>} />
+            <Dialog.Close render={<Button variant="primary">Confirm</Button>} />
           </div>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -60,17 +60,17 @@ export const Default: Story = {
 export const Destructive: Story = {
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger render={<Button className="tale-button tale-button--danger">Delete Account</Button>} />
+      <Dialog.Trigger render={<Button variant="danger">Delete Account</Button>} />
       <Dialog.Portal>
-        <Dialog.Backdrop className="tale-dialog__backdrop" />
-        <Dialog.Popup className="tale-dialog__popup">
-          <Dialog.Title className="tale-dialog__title">Delete Account?</Dialog.Title>
-          <Dialog.Description className="tale-dialog__description">
+        <Dialog.Backdrop />
+        <Dialog.Popup>
+          <Dialog.Title>Delete Account?</Dialog.Title>
+          <Dialog.Description>
             This action cannot be undone. All your data will be permanently removed from our servers.
           </Dialog.Description>
           <div className="tale-dialog__actions">
-            <Dialog.Close render={<Button className="tale-button tale-button--neutral">Cancel</Button>} />
-            <Dialog.Close render={<Button className="tale-button tale-button--danger">Delete</Button>} />
+            <Dialog.Close render={<Button variant="neutral">Cancel</Button>} />
+            <Dialog.Close render={<Button variant="danger">Delete</Button>} />
           </div>
         </Dialog.Popup>
       </Dialog.Portal>
@@ -82,13 +82,13 @@ export const LongContent: Story = {
   name: 'Scrollable Content',
   render: () => (
     <Dialog.Root>
-      <Dialog.Trigger render={<Button className="tale-button tale-button--neutral">Open Long Dialog</Button>} />
+      <Dialog.Trigger render={<Button variant="neutral">Open Long Dialog</Button>} />
       <Dialog.Portal>
-        <Dialog.Backdrop className="tale-dialog__backdrop" />
-        <Dialog.Popup className="tale-dialog__popup">
-          <Dialog.Close className="tale-dialog__close" aria-label="Close"><XIcon /></Dialog.Close>
-          <Dialog.Title className="tale-dialog__title">Terms of Service</Dialog.Title>
-          <Dialog.Description className="tale-dialog__description">
+        <Dialog.Backdrop />
+        <Dialog.Popup>
+          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Title>Terms of Service</Dialog.Title>
+          <Dialog.Description>
             {Array.from({ length: 8 }, (_, i) => (
               <p key={i} style={{ margin: '0 0 1rem' }}>
                 Section {i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
@@ -96,7 +96,7 @@ export const LongContent: Story = {
             ))}
           </Dialog.Description>
           <div className="tale-dialog__actions">
-            <Dialog.Close render={<Button className="tale-button tale-button--primary">Accept</Button>} />
+            <Dialog.Close render={<Button variant="primary">Accept</Button>} />
           </div>
         </Dialog.Popup>
       </Dialog.Portal>

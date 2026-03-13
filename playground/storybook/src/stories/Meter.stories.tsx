@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Meter } from '@tale-ui/react/meter';
+import { Meter } from '@tale-ui/react-styled/meter';
 
 type Args = {
   value?: number;
@@ -21,19 +21,19 @@ const meta: Meta<Args> = {
   },
   render: ({ value = 65, min, max }) => (
     <div style={{ width: '36rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Meter.Label className="tale-meter__label">Disk Usage</Meter.Label>
-        <Meter.Value className="tale-meter__value">
-          {(formattedValue) => (
-            <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>
-              {formattedValue}
-            </span>
-          )}
-        </Meter.Value>
-      </div>
-      <Meter.Root className="tale-meter" value={value} min={min} max={max}>
-        <Meter.Track className="tale-meter__track">
-          <Meter.Indicator className="tale-meter__indicator" />
+      <Meter.Root value={value} min={min} max={max}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Meter.Label>Disk Usage</Meter.Label>
+          <Meter.Value>
+            {(formattedValue) => (
+              <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>
+                {formattedValue}
+              </span>
+            )}
+          </Meter.Value>
+        </div>
+        <Meter.Track>
+          <Meter.Indicator />
         </Meter.Track>
       </Meter.Root>
     </div>
@@ -56,9 +56,9 @@ export const AllStates: Story = {
       ].map(({ label, value }) => (
         <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{label}</span>
-          <Meter.Root className="tale-meter" value={value}>
-            <Meter.Track className="tale-meter__track">
-              <Meter.Indicator className="tale-meter__indicator" />
+          <Meter.Root value={value}>
+            <Meter.Track>
+              <Meter.Indicator />
             </Meter.Track>
           </Meter.Root>
         </div>

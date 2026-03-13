@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tooltip } from '@tale-ui/react/tooltip';
-import { Button } from '@tale-ui/react/button';
+import { Tooltip } from '@tale-ui/react-styled/tooltip';
+import { Button } from '@tale-ui/react-styled/button';
 
 type Args = {
   side?: 'top' | 'bottom' | 'left' | 'right';
@@ -31,10 +31,10 @@ export const Default: Story = {
   render: (args) => (
     <Tooltip.Provider>
       <Tooltip.Root>
-        <Tooltip.Trigger render={<Button className="tale-button tale-button--neutral">Hover me</Button>} />
+        <Tooltip.Trigger render={<Button variant="neutral">Hover me</Button>} />
         <Tooltip.Portal>
           <Tooltip.Positioner side={args.side} sideOffset={args.sideOffset}>
-            <Tooltip.Popup className="tale-tooltip__popup">
+            <Tooltip.Popup>
               {args.content}
             </Tooltip.Popup>
           </Tooltip.Positioner>
@@ -51,10 +51,10 @@ export const AllSides: Story = {
       <div style={{ display: 'flex', gap: '1.2rem', flexWrap: 'wrap', justifyContent: 'center', padding: '4rem' }}>
         {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
           <Tooltip.Root key={side}>
-            <Tooltip.Trigger render={<Button className="tale-button tale-button--neutral">{side}</Button>} />
+            <Tooltip.Trigger render={<Button variant="neutral">{side}</Button>} />
             <Tooltip.Portal>
               <Tooltip.Positioner side={side} sideOffset={8}>
-                <Tooltip.Popup className="tale-tooltip__popup">
+                <Tooltip.Popup>
                   Appears on the {side}
                 </Tooltip.Popup>
               </Tooltip.Positioner>
@@ -71,10 +71,10 @@ export const LongText: Story = {
   render: () => (
     <Tooltip.Provider>
       <Tooltip.Root>
-        <Tooltip.Trigger render={<Button className="tale-button tale-button--neutral">Info</Button>} />
+        <Tooltip.Trigger render={<Button variant="neutral">Info</Button>} />
         <Tooltip.Portal>
           <Tooltip.Positioner side="right" sideOffset={8}>
-            <Tooltip.Popup className="tale-tooltip__popup">
+            <Tooltip.Popup>
               This tooltip has longer text that wraps to multiple lines to show the max-width behavior.
             </Tooltip.Popup>
           </Tooltip.Positioner>

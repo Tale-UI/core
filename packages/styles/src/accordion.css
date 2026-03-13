@@ -3,13 +3,14 @@
  *
  * Styled with @tale-ui/core design tokens.
  * Base-ui Accordion exposes:
- *   Root: [data-disabled] [data-orientation]
- *   Item: [data-index] [data-disabled] [data-open]
+ *   Root:  [data-disabled] [data-orientation]
+ *   Item:  [data-index] [data-disabled] [data-open]
+ *   Panel: [data-open] [data-closed] [data-starting-style] [data-ending-style]
  *
  * Usage:
  *   <Accordion.Root className="tale-accordion">
  *     <Accordion.Item className="tale-accordion__item">
- *       <Accordion.Header>
+ *       <Accordion.Header className="tale-accordion__header">
  *         <Accordion.Trigger className="tale-accordion__trigger">Title</Accordion.Trigger>
  *       </Accordion.Header>
  *       <Accordion.Panel className="tale-accordion__panel">Content</Accordion.Panel>
@@ -36,6 +37,12 @@
   border-bottom: none;
 }
 
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+
+.tale-accordion__header {
+  margin: 0;
+}
+
 /* ─── Trigger ──────────────────────────────────────────────────────────────── */
 
 .tale-accordion__trigger {
@@ -43,7 +50,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: var(--space-s) var(--space-m);
+  padding: var(--space-xs) var(--space-m);
   background-color: transparent;
   border: none;
   color: var(--neutral-90);
@@ -89,13 +96,22 @@
 
 .tale-accordion__panel {
   overflow: hidden;
-  padding: 0 var(--space-m) var(--space-s);
+  height: var(--accordion-panel-height);
+  padding: 0 var(--space-m);
   color: var(--neutral-80);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   line-height: 1.6;
+  transition: height 0.6s ease;
 }
 
-.tale-accordion__panel:not([data-open]) {
-  display: none;
+.tale-accordion__panel::after {
+  content: '';
+  display: block;
+  height: var(--space-xs);
+}
+
+.tale-accordion__panel[data-starting-style],
+.tale-accordion__panel[data-ending-style] {
+  height: 0;
 }

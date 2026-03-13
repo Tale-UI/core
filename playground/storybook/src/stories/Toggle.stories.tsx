@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Toggle } from '@tale-ui/react/toggle';
-import { ToggleGroup } from '@tale-ui/react/toggle-group';
+import { Toggle } from '@tale-ui/react-styled/toggle';
+import { ToggleGroup } from '@tale-ui/react-styled/toggle';
 
 type Args = {
   size?: 'sm' | 'md' | 'lg';
@@ -24,7 +24,7 @@ const meta: Meta<Args> = {
   },
   render: ({ size = 'md', disabled, defaultPressed }) => (
     <Toggle
-      className={`tale-toggle tale-toggle--${size}`}
+      size={size}
       disabled={disabled}
       defaultPressed={defaultPressed}
     >
@@ -47,7 +47,7 @@ export const AllSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
       {(['sm', 'md', 'lg'] as const).map((size) => (
-        <Toggle key={size} className={`tale-toggle tale-toggle--${size}`}>
+        <Toggle key={size} size={size}>
           {size.toUpperCase()}
         </Toggle>
       ))}
@@ -59,9 +59,9 @@ export const AllStates: Story = {
   name: 'All States',
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-      <Toggle className="tale-toggle tale-toggle--md">Unpressed</Toggle>
-      <Toggle className="tale-toggle tale-toggle--md" defaultPressed>Pressed</Toggle>
-      <Toggle className="tale-toggle tale-toggle--md" disabled>Disabled</Toggle>
+      <Toggle size="md">Unpressed</Toggle>
+      <Toggle size="md" defaultPressed>Pressed</Toggle>
+      <Toggle size="md" disabled>Disabled</Toggle>
     </div>
   ),
 };
@@ -69,10 +69,10 @@ export const AllStates: Story = {
 export const Group: Story = {
   name: 'Toggle Group',
   render: () => (
-    <ToggleGroup className="tale-toggle-group" multiple>
-      <Toggle className="tale-toggle" value="bold">B</Toggle>
-      <Toggle className="tale-toggle" value="italic">I</Toggle>
-      <Toggle className="tale-toggle" value="underline">U</Toggle>
+    <ToggleGroup multiple>
+      <Toggle value="bold">B</Toggle>
+      <Toggle value="italic">I</Toggle>
+      <Toggle value="underline">U</Toggle>
     </ToggleGroup>
   ),
 };

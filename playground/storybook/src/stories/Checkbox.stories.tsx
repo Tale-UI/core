@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Checkbox } from '@tale-ui/react/checkbox';
+import { Checkbox } from '@tale-ui/react-styled/checkbox';
 
 const CheckIcon = () => (
   <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -39,13 +39,12 @@ const meta: Meta<Args> = {
   render: ({ disabled, defaultChecked, indeterminate, readOnly }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <Checkbox.Root
-        className="tale-checkbox"
         disabled={disabled}
         defaultChecked={defaultChecked}
         indeterminate={indeterminate}
         readOnly={readOnly}
       >
-        <Checkbox.Indicator className="tale-checkbox__indicator">
+        <Checkbox.Indicator>
           {indeterminate ? <MinusIcon /> : <CheckIcon />}
         </Checkbox.Indicator>
       </Checkbox.Root>
@@ -73,8 +72,8 @@ export const DisabledChecked: Story = {
 export const Indeterminate: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Checkbox.Root className="tale-checkbox" indeterminate>
-        <Checkbox.Indicator className="tale-checkbox__indicator">
+      <Checkbox.Root indeterminate>
+        <Checkbox.Indicator>
           <MinusIcon />
         </Checkbox.Indicator>
       </Checkbox.Root>
@@ -96,8 +95,8 @@ export const AllStates: Story = {
         { label: 'Disabled + Checked', checked: true, disabled: true },
       ].map(({ label, checked, disabled }) => (
         <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Checkbox.Root className="tale-checkbox" defaultChecked={checked} disabled={disabled}>
-            <Checkbox.Indicator className="tale-checkbox__indicator">
+          <Checkbox.Root defaultChecked={checked} disabled={disabled}>
+            <Checkbox.Indicator>
               <CheckIcon />
             </Checkbox.Indicator>
           </Checkbox.Root>
