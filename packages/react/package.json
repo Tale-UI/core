@@ -1,23 +1,37 @@
 {
   "name": "@tale-ui/react",
-  "version": "0.1.0",
+  "version": "1.3.0",
+  "author": "MUI Team",
   "description": "Opinionated React component library built on tale-ui primitives, styled with @tale-ui/core design tokens.",
   "keywords": [
     "react",
     "react-component",
-    "design-system",
-    "tale-ui",
+    "mui",
+    "unstyled",
     "a11y"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tale-UI/core.git",
+    "url": "git+https://github.com/mui/base-ui.git",
     "directory": "packages/react"
   },
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tale-UI/core/issues"
+  },
+  "homepage": "https://github.com/Tale-UI/core",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/mui-org"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./accordion": "./src/accordion/index.ts",
+    "./calendar": "./src/calendar/index.ts",
+    "./container": "./src/container/index.ts",
+    "./temporal-adapter-provider": "./src/temporal-adapter-provider/index.ts",
+    "./temporal-adapter-date-fns": "./src/temporal-adapter-date-fns/index.ts",
+    "./localization-provider": "./src/localization-provider/index.ts",
     "./alert-dialog": "./src/alert-dialog/index.ts",
     "./autocomplete": "./src/autocomplete/index.ts",
     "./avatar": "./src/avatar/index.ts",
@@ -25,7 +39,6 @@
     "./checkbox": "./src/checkbox/index.ts",
     "./checkbox-group": "./src/checkbox-group/index.ts",
     "./collapsible": "./src/collapsible/index.ts",
-    "./container": "./src/container/index.ts",
     "./combobox": "./src/combobox/index.ts",
     "./csp-provider": "./src/csp-provider/index.ts",
     "./context-menu": "./src/context-menu/index.ts",
@@ -78,41 +91,50 @@
   "dependencies": {
     "@babel/runtime": "^7.28.6",
     "@tale-ui/utils": "workspace:*",
-    "@floating-ui/react-dom": "^2.1.7",
-    "@floating-ui/utils": "^0.2.10",
+    "@tale-ui/core": "workspace:*",
+    "@floating-ui/react-dom": "^2.1.8",
+    "@floating-ui/utils": "^0.2.11",
     "tabbable": "^6.4.0",
     "use-sync-external-store": "^1.6.0"
   },
   "devDependencies": {
-    "@tale-ui/core": "workspace:*",
+    "@date-fns/tz": "^1.4.1",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",
     "@types/chai": "5.2.3",
     "@types/chai-dom": "1.11.3",
+    "@types/luxon": "^3.7.1",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/sinon": "21.0.0",
     "@types/use-sync-external-store": "1.5.0",
     "chai": "6.2.2",
     "clsx": "2.1.1",
+    "date-fns": "^4.1.0",
+    "luxon": "^3.7.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-router": "7.13.0",
-    "sinon": "21.0.1",
+    "react-router": "7.13.1",
+    "sinon": "21.0.2",
     "typescript": "5.9.3",
-    "vitest-browser-react": "2.0.5"
+    "vitest-browser-react": "2.0.5",
+    "@tale-ui/react-styles": "workspace:*"
   },
   "peerDependencies": {
+    "@date-fns/tz": "^1.2.0",
     "@types/react": "^17 || ^18 || ^19",
+    "date-fns": "^4.0.0",
     "react": "^17 || ^18 || ^19",
-    "react-dom": "^17 || ^18 || ^19",
-    "@tale-ui/react-styles": "workspace:*"
+    "react-dom": "^17 || ^18 || ^19"
   },
   "peerDependenciesMeta": {
     "@types/react": {
       "optional": true
     },
-    "@tale-ui/react-styles": {
+    "date-fns": {
+      "optional": true
+    },
+    "@date-fns/tz": {
       "optional": true
     }
   },
