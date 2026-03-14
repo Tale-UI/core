@@ -96,3 +96,16 @@
   font-size: var(--text-m-font-size);
   line-height: 1.6;
 }
+
+/* ─── SwipeArea ─────────────────────────────────────────────────────────────── */
+
+.tale-drawer__swipe-area {
+  position: fixed;
+  touch-action: none;
+  user-select: none;
+  z-index: 100;
+}
+
+.tale-drawer__swipe-area[data-disabled] {
+  pointer-events: none;
+}

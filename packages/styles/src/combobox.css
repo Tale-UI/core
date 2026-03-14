@@ -110,3 +110,56 @@
   background-color: var(--neutral-26);
   color: var(--neutral-90);
 }
+
+/* ─── InputGroup ────────────────────────────────────────────────────────────── */
+
+.tale-combobox__input-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid var(--neutral-20);
+  border-radius: var(--radius-m);
+  background: var(--neutral-5);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tale-combobox__input-group:focus-within {
+  border-color: var(--color-60);
+  box-shadow: 0 0 0 3px var(--color-20);
+}
+
+.tale-combobox__input-group[data-open] {
+  border-color: var(--color-60);
+}
+
+.tale-combobox__input-group[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.tale-combobox__input-group .tale-combobox__input {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Label ─────────────────────────────────────────────────────────────────── */
+
+.tale-combobox__label {
+  display: block;
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-70);
+  margin-bottom: var(--space-3xs);
+}
+
+.tale-combobox__label[data-disabled] { opacity: 0.45; }
+
+.tale-combobox__label[data-required]::after {
+  content: ' *';
+  color: var(--color-60);
+}
+
+.tale-combobox__label[data-invalid] { color: var(--color-60); }

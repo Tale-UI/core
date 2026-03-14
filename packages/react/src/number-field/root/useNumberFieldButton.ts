@@ -11,7 +11,7 @@ import { parseNumber } from '../utils/parse';
 import {
   createChangeEventDetails,
   createGenericEventDetails,
-} from '../../utils/createBaseUIEventDetails';
+} from '../../utils/createTaleUIEventDetails';
 import type {
   EventWithOptionalKeyState,
   Direction,

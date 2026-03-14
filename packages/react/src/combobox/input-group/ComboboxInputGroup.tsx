@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
-import { useStableCallback } from '@base-ui/utils/useStableCallback';
-import { useStore } from '@base-ui/utils/store';
+import { useStableCallback } from '@tale-ui/utils/useStableCallback';
+import { useStore } from '@tale-ui/utils/store';
 import { useRenderElement } from '../../utils/useRenderElement';
-import { BaseUIComponentProps } from '../../utils/types';
+import { TaleUIComponentProps } from '../../utils/types';
 import { useFieldRootContext } from '../../field/root/FieldRootContext';
 import type { FieldRoot } from '../../field/root/FieldRoot';
 import {
@@ -91,7 +91,7 @@ export interface ComboboxInputGroupState extends FieldRoot.State {
   placeholder: boolean;
 }
 
-export interface ComboboxInputGroupProps extends BaseUIComponentProps<
+export interface ComboboxInputGroupProps extends TaleUIComponentProps<
   'div',
   ComboboxInputGroup.State
 > {}

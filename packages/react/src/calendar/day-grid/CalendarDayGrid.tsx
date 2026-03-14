@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { BaseUIComponentProps } from '../../utils/types';
+import { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 
 /**
@@ -25,7 +25,7 @@ export const CalendarDayGrid = React.forwardRef(function CalendarDayGrid(
 
 export interface CalendarDayGridState {}
 
-export interface CalendarDayGridProps extends BaseUIComponentProps<'table', CalendarDayGridState> {}
+export interface CalendarDayGridProps extends TaleUIComponentProps<'table', CalendarDayGridState> {}
 
 export namespace CalendarDayGrid {
   export type State = CalendarDayGridState;

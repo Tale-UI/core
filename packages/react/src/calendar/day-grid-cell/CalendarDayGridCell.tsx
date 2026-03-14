@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { BaseUIComponentProps } from '../../utils/types';
+import { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import {
   useSharedCalendarDayGridCell,
@@ -39,7 +39,7 @@ export interface CalendarDayGridCellState {}
 
 export interface CalendarDayGridCellProps
   extends
-    BaseUIComponentProps<'td', CalendarDayGridCellState>,
+    TaleUIComponentProps<'td', CalendarDayGridCellState>,
     UseSharedCalendarDayGridCellParameters {}
 
 export namespace CalendarDayGridCell {

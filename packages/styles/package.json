@@ -43,7 +43,8 @@
     "./field": "./src/field.css",
     "./fieldset": "./src/fieldset.css",
     "./form": "./src/form.css",
-    "./toolbar": "./src/toolbar.css"
+    "./toolbar": "./src/toolbar.css",
+    "./calendar": "./src/calendar.css"
   },
   "dependencies": {
     "@tale-ui/core": "workspace:*"

@@ -2,13 +2,13 @@ import * as React from 'react';
 import { expect } from 'chai';
 import { fireEvent, flushMicrotasks, screen } from '@mui/internal-test-utils';
 import { vi } from 'vitest';
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
 import { createRenderer } from '#test-utils';
 import { OPEN_DELAY } from '../utils/constants';
 
-vi.mock('@base-ui/utils/detectBrowser', async () => {
-  const actual = await vi.importActual<typeof import('@base-ui/utils/detectBrowser')>(
-    '@base-ui/utils/detectBrowser',
+vi.mock('@tale-ui/utils/detectBrowser', async () => {
+  const actual = await vi.importActual<typeof import('@tale-ui/utils/detectBrowser')>(
+    '@tale-ui/utils/detectBrowser',
   );
 
   return {

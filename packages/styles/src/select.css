@@ -102,3 +102,22 @@
 .tale-select__item-text {
   flex: 1;
 }
+
+/* ─── Label ─────────────────────────────────────────────────────────────────── */
+
+.tale-select__label {
+  display: block;
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-70);
+  margin-bottom: var(--space-3xs);
+}
+
+.tale-select__label[data-disabled] { opacity: 0.45; }
+
+.tale-select__label[data-required]::after {
+  content: ' *';
+  color: var(--color-60);
+}
+
+.tale-select__label[data-invalid] { color: var(--color-60); }

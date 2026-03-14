@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { BaseUIComponentProps } from '../../utils/types';
+import { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import { TemporalSupportedObject } from '../../types/temporal';
 import { useTemporalAdapter } from '../../temporal-adapter-provider/TemporalAdapterContext';
@@ -38,7 +38,7 @@ export const CalendarDayGridHeaderCell = React.memo(InnerCalendarDayGridHeaderCe
 
 export interface CalendarDayGridHeaderCellState {}
 
-export interface CalendarDayGridHeaderCellProps extends BaseUIComponentProps<
+export interface CalendarDayGridHeaderCellProps extends TaleUIComponentProps<
   'th',
   CalendarDayGridHeaderCellState
 > {

@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
-import { error } from '@base-ui/utils/error';
-import { SafeReact } from '@base-ui/utils/safeReact';
-import { useStore } from '@base-ui/utils/store';
-import type { BaseUIComponentProps } from '../../utils/types';
+import { error } from '@tale-ui/utils/error';
+import { SafeReact } from '@tale-ui/utils/safeReact';
+import { useStore } from '@tale-ui/utils/store';
+import type { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import type { FieldRoot } from '../../field/root/FieldRoot';
 import { useFieldRootContext } from '../../field/root/FieldRootContext';
@@ -73,7 +73,7 @@ export const ComboboxLabel = React.forwardRef(function ComboboxLabel(
 export type ComboboxLabelState = FieldRoot.State;
 
 export interface ComboboxLabelProps extends Omit<
-  BaseUIComponentProps<'div', ComboboxLabel.State>,
+  TaleUIComponentProps<'div', ComboboxLabel.State>,
   'id'
 > {}
 

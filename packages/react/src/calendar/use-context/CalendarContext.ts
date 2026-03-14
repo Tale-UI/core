@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui/utils/store';
+import { useStore } from '@tale-ui/utils/store';
 import { useSharedCalendarRootContext } from '../root/SharedCalendarRootContext';
 import { selectors } from '../store';
 

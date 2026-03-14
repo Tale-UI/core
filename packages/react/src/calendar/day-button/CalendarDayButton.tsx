@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui/utils/store';
-import { BaseUIComponentProps, NativeButtonProps } from '../../utils/types';
+import { useStore } from '@tale-ui/utils/store';
+import { TaleUIComponentProps, NativeButtonProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import { CalendarDayButtonDataAttributes } from './CalendarDayButtonDataAttributes';
 import { StateAttributesMapping } from '../../utils/getStateAttributesProps';
@@ -155,7 +155,7 @@ export interface CalendarDayButtonState {
 }
 
 export interface CalendarDayButtonProps
-  extends Omit<BaseUIComponentProps<'button', CalendarDayButtonState>, 'value'>, NativeButtonProps {
+  extends Omit<TaleUIComponentProps<'button', CalendarDayButtonState>, 'value'>, NativeButtonProps {
   /**
    * The format used to display the day.
    * @default adapter.formats.dayOfMonth

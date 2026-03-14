@@ -4,7 +4,7 @@ export * from './autocomplete';
 export * from './avatar';
 export * from './button';
 // TODO Temporal: enable before public release
-// export * from './calendar';
+export * from './calendar';
 export * from './checkbox';
 export * from './checkbox-group';
 export * from './collapsible';

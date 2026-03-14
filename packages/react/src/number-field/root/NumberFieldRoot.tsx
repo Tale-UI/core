@@ -32,10 +32,10 @@ import { EventWithOptionalKeyState } from '../utils/types';
 import type { ChangeEventCustomProperties, IncrementValueParameters } from '../utils/types';
 import {
   createChangeEventDetails,
-  type BaseUIChangeEventDetails,
-  type BaseUIGenericEventDetails,
+  type TaleUIChangeEventDetails,
+  type TaleUIGenericEventDetails,
   type ReasonToEvent,
-} from '../../utils/createBaseUIEventDetails';
+} from '../../utils/createTaleUIEventDetails';
 import { REASONS } from '../../utils/reasons';
 
 /**
@@ -664,7 +664,7 @@ export type NumberFieldRootChangeEventReason =
   | typeof REASONS.wheel
   | typeof REASONS.scrub
   | typeof REASONS.none;
-export type NumberFieldRootChangeEventDetails = BaseUIChangeEventDetails<
+export type NumberFieldRootChangeEventDetails = TaleUIChangeEventDetails<
   NumberFieldRootChangeEventReason,
   ChangeEventCustomProperties
 >;
@@ -679,7 +679,7 @@ export type NumberFieldRootCommitEventReason =
   | typeof REASONS.scrub
   | typeof REASONS.none;
 export type NumberFieldRootCommitEventDetails =
-  BaseUIGenericEventDetails<NumberFieldRoot.CommitEventReason>;
+  TaleUIGenericEventDetails<NumberFieldRoot.CommitEventReason>;
 
 function getControlledInputValue(
   value: number | null,

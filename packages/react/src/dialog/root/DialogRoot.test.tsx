@@ -2,11 +2,11 @@ import * as React from 'react';
 import { expect } from 'chai';
 import { spy } from 'sinon';
 import { act, fireEvent, screen, waitFor, flushMicrotasks } from '@mui/internal-test-utils';
-import { Dialog } from '@base-ui/react/dialog';
+import { Dialog } from '@tale-ui/react/dialog';
 import { createRenderer, isJSDOM, popupConformanceTests } from '#test-utils';
-import { Menu } from '@base-ui/react/menu';
-import { Select } from '@base-ui/react/select';
-import { NumberField } from '@base-ui/react/number-field';
+import { Menu } from '@tale-ui/react/menu';
+import { Select } from '@tale-ui/react/select';
+import { NumberField } from '@tale-ui/react/number-field';
 import { REASONS } from '../../utils/reasons';
 
 describe('<Dialog.Root />', () => {

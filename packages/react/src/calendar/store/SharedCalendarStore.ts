@@ -1,4 +1,4 @@
-import { ReactStore } from '@base-ui/utils/store';
+import { ReactStore } from '@tale-ui/utils/store';
 import {
   TemporalSupportedObject,
   TemporalSupportedValue,
@@ -8,13 +8,13 @@ import { ValidateDateValidationProps } from '../../utils/temporal/validateDate';
 import { getInitialReferenceDate } from '../../utils/temporal/getInitialReferenceDate';
 import { TemporalManager, TemporalTimezoneProps } from '../../utils/temporal/types';
 import {
-  BaseUIChangeEventDetails,
+  TaleUIChangeEventDetails,
   createChangeEventDetails,
-} from '../../utils/createBaseUIEventDetails';
+} from '../../utils/createTaleUIEventDetails';
 import { mergeDateAndTime } from '../../utils/temporal/date-helpers';
 import { CalendarNavigationDirection, SharedCalendarState as State } from './SharedCalendarState';
 import { selectors } from './selectors';
-import { BaseUIEventReasons, REASONS } from '../../utils/reasons';
+import { TaleUIEventReasons, REASONS } from '../../utils/reasons';
 
 export interface SharedCalendarStoreContext<TValue extends TemporalSupportedValue, TError> {
   onValueChange?:
@@ -345,17 +345,17 @@ export interface CalendarValueChangeHandlerContext<TError> {
 }
 
 export type CalendarChangeEventReason =
-  | BaseUIEventReasons['monthChange']
-  | BaseUIEventReasons['valuePropChange']
-  | BaseUIEventReasons['dayPress']
-  | BaseUIEventReasons['keyboard'];
+  | TaleUIEventReasons['monthChange']
+  | TaleUIEventReasons['valuePropChange']
+  | TaleUIEventReasons['dayPress']
+  | TaleUIEventReasons['keyboard'];
 
-export type CalendarValueChangeEventDetails<TError> = BaseUIChangeEventDetails<
+export type CalendarValueChangeEventDetails<TError> = TaleUIChangeEventDetails<
   CalendarChangeEventReason,
   CalendarValueChangeHandlerContext<TError>
 >;
 
-export type CalendarVisibleDateChangeEventDetails = BaseUIChangeEventDetails<
+export type CalendarVisibleDateChangeEventDetails = TaleUIChangeEventDetails<
   CalendarChangeEventReason,
   {}
 >;

@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import { vi, it, describe } from 'vitest';
 import { flushMicrotasks } from '@mui/internal-test-utils';
-import { isJSDOM } from '@base-ui/utils/detectBrowser';
+import { isJSDOM } from '@tale-ui/utils/detectBrowser';
 import { useClick, useDismiss, useFloating, useInteractions, useListNavigation } from '../index';
 import type { UseListNavigationProps } from '../types';
 import { Main as ComplexGrid } from '../../../test/floating-ui-tests/ComplexGrid';

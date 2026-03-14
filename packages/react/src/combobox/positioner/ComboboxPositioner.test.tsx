@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { waitFor } from '@mui/internal-test-utils';
 import { expect } from 'vitest';
-import { Combobox } from '@base-ui/react/combobox';
+import { Combobox } from '@tale-ui/react/combobox';
 import { createRenderer, describeConformance, isJSDOM } from '#test-utils';
 
 describe('<Combobox.Positioner />', () => {

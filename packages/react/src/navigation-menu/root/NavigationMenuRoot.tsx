@@ -21,7 +21,7 @@ import type { TaleUIComponentProps } from '../../utils/types';
 import { useOpenChangeComplete } from '../../utils/useOpenChangeComplete';
 import { useTransitionStatus } from '../../utils/useTransitionStatus';
 import { getCssDimensions } from '../../utils/getCssDimensions';
-import { type BaseUIChangeEventDetails } from '../../utils/createBaseUIEventDetails';
+import { type TaleUIChangeEventDetails } from '../../utils/createTaleUIEventDetails';
 import { REASONS } from '../../utils/reasons';
 import { NavigationMenuPopupCssVars } from '../popup/NavigationMenuPopupCssVars';
 import { NavigationMenuPositionerCssVars } from '../positioner/NavigationMenuPositionerCssVars';
@@ -373,7 +373,7 @@ export type NavigationMenuRootChangeEventReason =
   | typeof REASONS.none;
 
 export type NavigationMenuRootChangeEventDetails =
-  BaseUIChangeEventDetails<NavigationMenuRoot.ChangeEventReason>;
+  TaleUIChangeEventDetails<NavigationMenuRoot.ChangeEventReason>;
 
 export namespace NavigationMenuRoot {
   export type State = NavigationMenuRootState;

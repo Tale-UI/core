@@ -136,3 +136,12 @@ StyledGroupLabel.displayName = 'Select.GroupLabel';
 export const GroupLabel = StyledGroupLabel as typeof H.GroupLabel;
 
 export const Separator = H.Separator;
+
+const StyledLabel = React.forwardRef<
+  React.ComponentRef<typeof H.Label>,
+  React.ComponentPropsWithoutRef<typeof H.Label>
+>(({ className, ...props }, ref) => (
+  <H.Label className={cx('tale-select__label', className)} ref={ref} {...props} />
+));
+StyledLabel.displayName = 'Select.Label';
+export const Label = StyledLabel as typeof H.Label;

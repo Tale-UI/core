@@ -1,4 +1,4 @@
-import { createSelector, createSelectorMemoized } from '@base-ui/utils/store';
+import { createSelector, createSelectorMemoized } from '@tale-ui/utils/store';
 import {
   TemporalSupportedObject,
   TemporalSupportedValue,

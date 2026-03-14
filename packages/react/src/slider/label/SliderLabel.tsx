@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
 import { isHTMLElement } from '@floating-ui/utils/dom';
-import { ownerDocument } from '@base-ui/utils/owner';
+import { ownerDocument } from '@tale-ui/utils/owner';
 import { focusElementWithVisible, useLabel } from '../../labelable-provider/useLabel';
-import type { BaseUIComponentProps } from '../../utils/types';
+import type { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import type { SliderRoot } from '../root/SliderRoot';
 import { useSliderRootContext } from '../root/SliderRootContext';
@@ -59,7 +59,7 @@ export const SliderLabel = React.forwardRef(function SliderLabel(
 export type SliderLabelState = SliderRoot.State;
 
 export interface SliderLabelProps extends Omit<
-  BaseUIComponentProps<'div', SliderLabel.State>,
+  TaleUIComponentProps<'div', SliderLabel.State>,
   'id'
 > {}
 

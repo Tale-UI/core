@@ -1,11 +1,11 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui/utils/store';
-import { useIsoLayoutEffect } from '@base-ui/utils/useIsoLayoutEffect';
+import { useStore } from '@tale-ui/utils/store';
+import { useIsoLayoutEffect } from '@tale-ui/utils/useIsoLayoutEffect';
 import { REASONS } from '../../utils/reasons';
 import { useSharedCalendarRootContext } from '../root/SharedCalendarRootContext';
 import { SharedCalendarDayGridBodyContext } from './SharedCalendarDayGridBodyContext';
-import { BaseUIEvent, HTMLProps } from '../../utils/types';
+import { TaleUIEvent, HTMLProps } from '../../utils/types';
 import { useTemporalAdapter } from '../../temporal-adapter-provider/TemporalAdapterContext';
 import { TemporalSupportedObject } from '../../types/temporal';
 import { useCalendarWeekList } from '../use-week-list/useCalendarWeekList';
@@ -162,7 +162,7 @@ export function useSharedCalendarDayGridBody(
     focusNonDisabledItem(newItems, newDisabledIndices, guessedIndex, decrement, amount);
   };
 
-  const handleKeyboardNavigation = (event: BaseUIEvent<React.KeyboardEvent>) => {
+  const handleKeyboardNavigation = (event: TaleUIEvent<React.KeyboardEvent>) => {
     const eventKey = event.key;
 
     if (!CUSTOM_NAVIGATION_KEYS.has(eventKey)) {
@@ -178,7 +178,7 @@ export function useSharedCalendarDayGridBody(
         }
         // prevent default composite navigation and handle it ourselves
         event.preventDefault();
-        event.preventBaseUIHandler();
+        event.preventTaleUIHandler();
         const currentWeekStartIndex = Math.floor(highlightedIndex / 7) * 7;
         const newHighlightedIndex =
           eventKey === HOME ? currentWeekStartIndex : currentWeekStartIndex + 6;

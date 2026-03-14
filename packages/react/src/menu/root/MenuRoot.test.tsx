@@ -8,11 +8,11 @@ import {
   screen,
   waitFor,
 } from '@mui/internal-test-utils';
-import { DirectionProvider } from '@base-ui/react/direction-provider';
-import { useRefWithInit } from '@base-ui/utils/useRefWithInit';
-import { Menu } from '@base-ui/react/menu';
-import { Dialog } from '@base-ui/react/dialog';
-import { AlertDialog } from '@base-ui/react/alert-dialog';
+import { DirectionProvider } from '@tale-ui/react/direction-provider';
+import { useRefWithInit } from '@tale-ui/utils/useRefWithInit';
+import { Menu } from '@tale-ui/react/menu';
+import { Dialog } from '@tale-ui/react/dialog';
+import { AlertDialog } from '@tale-ui/react/alert-dialog';
 import userEvent from '@testing-library/user-event';
 import { spy } from 'sinon';
 import { createRenderer, isJSDOM, popupConformanceTests, wait } from '#test-utils';
@@ -1785,7 +1785,7 @@ describe('<Menu.Root />', () => {
       });
     });
 
-    describe('BaseUIChangeEventDetails', () => {
+    describe('TaleUIChangeEventDetails', () => {
       it('onOpenChange cancel() prevents opening while uncontrolled', async () => {
         await render(
           <TestMenu

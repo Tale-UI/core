@@ -1,4 +1,4 @@
-export * as Calendar from './index.parts';
+export * as Calendar from './Calendar.styled';
 
 export type * from './root/CalendarRoot';
 export type * from './day-grid/CalendarDayGrid';

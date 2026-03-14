@@ -1,4 +1,4 @@
-import { Slider } from '@base-ui/react/slider';
+import { Slider } from '@tale-ui/react/slider';
 import { createRenderer, describeConformance } from '#test-utils';
 
 describe('<Slider.Label />', () => {

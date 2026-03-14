@@ -1,10 +1,10 @@
 'use client';
 import * as React from 'react';
-import { useMergedRefs } from '@base-ui/utils/useMergedRefs';
-import { useStableCallback } from '@base-ui/utils/useStableCallback';
-import { visuallyHiddenInput } from '@base-ui/utils/visuallyHidden';
+import { useMergedRefs } from '@tale-ui/utils/useMergedRefs';
+import { useStableCallback } from '@tale-ui/utils/useStableCallback';
+import { visuallyHiddenInput } from '@tale-ui/utils/visuallyHidden';
 import { useButton } from '../../use-button';
-import { createChangeEventDetails } from '../../utils/createBaseUIEventDetails';
+import { createChangeEventDetails } from '../../utils/createTaleUIEventDetails';
 import { REASONS } from '../../utils/reasons';
 import { useComboboxRootContext } from '../root/ComboboxRootContext';
 

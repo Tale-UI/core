@@ -78,3 +78,12 @@ StyledDescription.displayName = 'Drawer.Description';
 export const Description = StyledDescription as typeof H.Description;
 
 export const Close = H.Close;
+
+const StyledSwipeArea = React.forwardRef<
+  React.ComponentRef<typeof H.SwipeArea>,
+  React.ComponentPropsWithoutRef<typeof H.SwipeArea>
+>(({ className, ...props }, ref) => (
+  <H.SwipeArea className={cx('tale-drawer__swipe-area', className)} ref={ref} {...props} />
+));
+StyledSwipeArea.displayName = 'Drawer.SwipeArea';
+export const SwipeArea = StyledSwipeArea as typeof H.SwipeArea;

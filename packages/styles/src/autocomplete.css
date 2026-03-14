@@ -59,3 +59,37 @@
   font-size: var(--text-m-font-size);
   cursor: default;
 }
+
+/* ─── InputGroup ────────────────────────────────────────────────────────────── */
+
+.tale-autocomplete__input-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid var(--neutral-20);
+  border-radius: var(--radius-m);
+  background: var(--neutral-5);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tale-autocomplete__input-group:focus-within {
+  border-color: var(--color-60);
+  box-shadow: 0 0 0 3px var(--color-20);
+}
+
+.tale-autocomplete__input-group[data-open] {
+  border-color: var(--color-60);
+}
+
+.tale-autocomplete__input-group[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.tale-autocomplete__input-group .tale-autocomplete__input {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  flex: 1;
+  min-width: 0;
+}

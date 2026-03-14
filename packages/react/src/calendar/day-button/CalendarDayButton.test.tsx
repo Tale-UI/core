@@ -2,7 +2,7 @@ import * as React from 'react';
 import { screen } from '@mui/internal-test-utils';
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { Calendar } from '@base-ui/react/calendar';
+import { Calendar } from '@tale-ui/react/calendar';
 import { createTemporalRenderer, describeConformance } from '#test-utils';
 
 describe('<Calendar.DayButton />', () => {

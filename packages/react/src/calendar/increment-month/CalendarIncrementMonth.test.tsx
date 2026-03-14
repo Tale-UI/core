@@ -2,8 +2,8 @@ import * as React from 'react';
 import { screen, fireEvent } from '@mui/internal-test-utils';
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { Calendar } from '@base-ui/react/calendar';
-import { LocalizationProvider } from '@base-ui/react/localization-provider';
+import { Calendar } from '@tale-ui/react/calendar';
+import { LocalizationProvider } from '@tale-ui/react/localization-provider';
 import { createRenderer, createTemporalRenderer, describeConformance } from '#test-utils';
 
 describe('<Calendar.IncrementMonth />', () => {

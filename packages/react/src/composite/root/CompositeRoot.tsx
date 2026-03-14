@@ -4,7 +4,7 @@ import { CompositeList, type CompositeMetadata } from '../list/CompositeList';
 import { useCompositeRoot } from './useCompositeRoot';
 import { CompositeRootContext } from './CompositeRootContext';
 import { useRenderElement } from '../../utils/useRenderElement';
-import type { TaleUIComponentProps, BaseUIEvent } from '../../utils/types';
+import type { TaleUIComponentProps, TaleUIEvent } from '../../utils/types';
 import type { Dimensions, ModifierKey } from '../composite';
 import { useDirection } from '../../direction-provider/DirectionContext';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/constants';
@@ -128,7 +128,7 @@ export interface CompositeRootProps<Metadata, State extends Record<string, any>>
   dense?: boolean | undefined;
   enableHomeAndEndKeys?: boolean | undefined;
   onMapChange?: ((newMap: Map<Node, CompositeMetadata<Metadata> | null>) => void) | undefined;
-  onKeyDown?: ((event: BaseUIEvent<React.KeyboardEvent>) => void) | undefined;
+  onKeyDown?: ((event: TaleUIEvent<React.KeyboardEvent>) => void) | undefined;
   stopEventPropagation?: boolean | undefined;
   rootRef?: React.RefObject<HTMLElement | null> | undefined;
   disabledIndices?: number[] | undefined;

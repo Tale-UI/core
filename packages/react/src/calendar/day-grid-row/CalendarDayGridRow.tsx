@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { BaseUIComponentProps } from '../../utils/types';
+import { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import { TemporalSupportedObject } from '../../types/temporal';
 import { useCalendarDayList } from '../use-day-list/useCalendarDayList';
@@ -39,7 +39,7 @@ export const CalendarDayGridRow = React.forwardRef(function CalendarDayGridRow(
 export interface CalendarDayGridRowState {}
 
 export interface CalendarDayGridRowProps extends Omit<
-  BaseUIComponentProps<'tr', CalendarDayGridRowState>,
+  TaleUIComponentProps<'tr', CalendarDayGridRowState>,
   'children'
 > {
   /**

@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { BaseUIComponentProps } from '../../utils/types';
+import { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import { SharedCalendarDayGridBodyContext } from './SharedCalendarDayGridBodyContext';
 import {
@@ -43,7 +43,7 @@ export interface CalendarDayGridBodyState {}
 
 export interface CalendarDayGridBodyProps
   extends
-    Omit<BaseUIComponentProps<'tbody', CalendarDayGridBodyState>, 'children'>,
+    Omit<TaleUIComponentProps<'tbody', CalendarDayGridBodyState>, 'children'>,
     UseSharedCalendarDayGridBodyParameters {}
 
 export namespace CalendarDayGridBody {

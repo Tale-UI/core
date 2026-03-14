@@ -15,14 +15,14 @@ import { clamp } from '../../utils/clamp';
 import {
   useSwipeDismiss,
   type SwipeDirection,
-  type UseSwipeDismissProgressDetails,
+  
 } from '../../utils/useSwipeDismiss';
 import { DrawerPopupCssVars } from '../popup/DrawerPopupCssVars';
 import { DrawerPopupDataAttributes } from '../popup/DrawerPopupDataAttributes';
 import { DrawerBackdropCssVars } from '../backdrop/DrawerBackdropCssVars';
 import { DRAWER_CONTENT_ATTRIBUTE } from '../content/DrawerContentDataAttributes';
 import { REASONS } from '../../utils/reasons';
-import { createChangeEventDetails } from '../../utils/createBaseUIEventDetails';
+import { createChangeEventDetails } from '../../utils/createTaleUIEventDetails';
 import { contains } from '../../floating-ui-react/utils';
 import { DrawerViewportContext } from './DrawerViewportContext';
 import { TransitionStatusDataAttributes } from '../../utils/stateAttributesMapping';
@@ -322,7 +322,7 @@ export const DrawerViewport = React.forwardRef(function DrawerViewport(
     return durationScalar;
   }
 
-  function updateNestedSwipeActive(details?: UseSwipeDismissProgressDetails) {
+  function updateNestedSwipeActive(details?: useSwipeDismiss.SwipeProgressDetails) {
     if (nestedSwipeActiveRef.current || !details) {
       return;
     }

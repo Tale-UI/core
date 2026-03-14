@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
-import { useTimeout } from '@base-ui/utils/useTimeout';
-import { useInterval } from '@base-ui/utils/useInterval';
-import { useStableCallback } from '@base-ui/utils/useStableCallback';
-import { ownerWindow } from '@base-ui/utils/owner';
+import { useTimeout } from '@tale-ui/utils/useTimeout';
+import { useInterval } from '@tale-ui/utils/useInterval';
+import { useStableCallback } from '@tale-ui/utils/useStableCallback';
+import { ownerWindow } from '@tale-ui/utils/owner';
 
 const DEFAULT_TICK_DELAY = 60;
 const DEFAULT_START_DELAY = 400;

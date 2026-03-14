@@ -65,3 +65,12 @@ StyledThumb.displayName = 'Slider.Thumb';
 export const Thumb = StyledThumb as typeof H.Thumb;
 
 export { Value } from './index.parts';
+
+const StyledLabel = React.forwardRef<
+  React.ComponentRef<typeof H.Label>,
+  React.ComponentPropsWithoutRef<typeof H.Label>
+>(({ className, ...props }, ref) => (
+  <H.Label className={cx('tale-slider__label', className)} ref={ref} {...props} />
+));
+StyledLabel.displayName = 'Slider.Label';
+export const Label = StyledLabel as typeof H.Label;

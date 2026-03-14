@@ -1,7 +1,7 @@
 import { fireEvent, flushMicrotasks, render, screen } from '@mui/internal-test-utils';
 import * as React from 'react';
 import { vi } from 'vitest';
-import { isJSDOM } from '@base-ui/utils/detectBrowser';
+import { isJSDOM } from '@tale-ui/utils/detectBrowser';
 import { useFloating } from './useFloating';
 import { useHoverReferenceInteraction } from './useHoverReferenceInteraction';
 

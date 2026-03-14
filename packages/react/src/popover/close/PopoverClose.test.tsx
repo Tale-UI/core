@@ -1,4 +1,4 @@
-import { Popover } from '@base-ui/react/popover';
+import { Popover } from '@tale-ui/react/popover';
 import { fireEvent, screen, waitFor } from '@mui/internal-test-utils';
 import { expect } from 'chai';
 import { createRenderer, describeConformance } from '#test-utils';

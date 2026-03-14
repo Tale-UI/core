@@ -10,11 +10,11 @@ import type { TaleUIComponentProps, Orientation } from '../../utils/types';
 import {
   createChangeEventDetails,
   createGenericEventDetails,
-  type BaseUIChangeEventDetails,
-  type BaseUIGenericEventDetails,
-} from '../../utils/createBaseUIEventDetails';
+  type TaleUIChangeEventDetails,
+  type TaleUIGenericEventDetails,
+} from '../../utils/createTaleUIEventDetails';
 import { useValueChanged } from '../../utils/useValueChanged';
-import { useBaseUiId } from '../../utils/useBaseUiId';
+import { useTaleUiId } from '../../utils/useTaleUiId';
 import { useRenderElement } from '../../utils/useRenderElement';
 import { clamp } from '../../utils/clamp';
 import { areArraysEqual } from '../../utils/areArraysEqual';
@@ -86,7 +86,7 @@ export const SliderRoot = React.forwardRef(function SliderRoot<
     ...elementProps
   } = componentProps;
 
-  const id = useBaseUiId(idProp);
+  const id = useTaleUiId(idProp);
   const defaultLabelId = getDefaultLabelId(id);
   const onValueChange = useStableCallback(
     onValueChangeProp as (
@@ -607,7 +607,7 @@ export type SliderRootChangeEventReason =
   | typeof REASONS.drag
   | typeof REASONS.keyboard
   | typeof REASONS.none;
-export type SliderRootChangeEventDetails = BaseUIChangeEventDetails<
+export type SliderRootChangeEventDetails = TaleUIChangeEventDetails<
   SliderRoot.ChangeEventReason,
   SliderRootChangeEventCustomProperties
 >;
@@ -618,7 +618,7 @@ export type SliderRootCommitEventReason =
   | typeof REASONS.drag
   | typeof REASONS.keyboard
   | typeof REASONS.none;
-export type SliderRootCommitEventDetails = BaseUIGenericEventDetails<SliderRoot.CommitEventReason>;
+export type SliderRootCommitEventDetails = TaleUIGenericEventDetails<SliderRoot.CommitEventReason>;
 
 export namespace SliderRoot {
   export type State = SliderRootState;

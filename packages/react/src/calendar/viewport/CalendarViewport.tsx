@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
-import { inertValue } from '@base-ui/utils/inertValue';
-import { useAnimationFrame } from '@base-ui/utils/useAnimationFrame';
-import { useIsoLayoutEffect } from '@base-ui/utils/useIsoLayoutEffect';
-import { useStore } from '@base-ui/utils/store';
+import { inertValue } from '@tale-ui/utils/inertValue';
+import { useAnimationFrame } from '@tale-ui/utils/useAnimationFrame';
+import { useIsoLayoutEffect } from '@tale-ui/utils/useIsoLayoutEffect';
+import { useStore } from '@tale-ui/utils/store';
 import { TemporalSupportedObject } from '../../types/temporal';
 import { useAnimationsFinished } from '../../utils/useAnimationsFinished';
 import { CalendarViewportDataAttributes } from './CalendarViewportDataAttributes';

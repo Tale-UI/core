@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui/utils/store';
-import type { BaseUIComponentProps } from '../../utils/types';
+import { useStore } from '@tale-ui/utils/store';
+import type { TaleUIComponentProps } from '../../utils/types';
 import { useRenderElement } from '../../utils/useRenderElement';
 import type { FieldRoot } from '../../field/root/FieldRoot';
 import { useFieldRootContext } from '../../field/root/FieldRootContext';
@@ -52,7 +52,7 @@ export const SelectLabel = React.forwardRef(function SelectLabel(
 export type SelectLabelState = FieldRoot.State;
 
 export interface SelectLabelProps extends Omit<
-  BaseUIComponentProps<'div', SelectLabel.State>,
+  TaleUIComponentProps<'div', SelectLabel.State>,
   'id'
 > {}
 

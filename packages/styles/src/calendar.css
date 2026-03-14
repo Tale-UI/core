@@ -1,0 +1,164 @@
+/*
+ * calendar.css — @tale-ui/react-styles
+ * BEM classes for the Calendar component
+ */
+
+/* ─── Root ───────────────────────────────────────────────────────────────────── */
+
+.tale-calendar {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-s);
+  background: var(--neutral-5);
+  border: 1px solid var(--neutral-14);
+  border-radius: var(--radius-m);
+  user-select: none;
+  width: max-content;
+}
+
+/* ─── Viewport ───────────────────────────────────────────────────────────────── */
+
+.tale-calendar__viewport {
+  overflow: hidden;
+  position: relative;
+}
+
+.tale-calendar__viewport[data-starting-style] {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.tale-calendar__viewport[data-ending-style] {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* ─── Day grid ───────────────────────────────────────────────────────────────── */
+
+.tale-calendar__day-grid {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tale-calendar__day-grid-header {
+  display: table-header-group;
+}
+
+.tale-calendar__day-grid-header-row {
+  display: table-row;
+}
+
+.tale-calendar__day-grid-header-cell {
+  display: table-cell;
+  text-align: center;
+  padding: var(--space-2xs) var(--space-3xs);
+  font-family: var(--label-font-family);
+  font-size: var(--label-xs-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-50);
+}
+
+.tale-calendar__day-grid-body {
+  display: table-row-group;
+}
+
+.tale-calendar__day-grid-row {
+  display: table-row;
+}
+
+.tale-calendar__day-grid-cell {
+  display: table-cell;
+  text-align: center;
+  padding: var(--space-3xs);
+}
+
+/* ─── Day button ─────────────────────────────────────────────────────────────── */
+
+.tale-calendar__day-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--body-font-family);
+  font-size: var(--text-s-font-size);
+  color: var(--neutral-90);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+
+.tale-calendar__day-button:hover {
+  background: var(--neutral-12);
+}
+
+.tale-calendar__day-button[data-selected] {
+  background: var(--color-60);
+  color: var(--color-60-fg);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-calendar__day-button[data-selected]:hover {
+  background: var(--color-70);
+}
+
+.tale-calendar__day-button[data-today] {
+  font-weight: var(--label-font-weight);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tale-calendar__day-button[data-outside-month] {
+  color: var(--neutral-40);
+}
+
+.tale-calendar__day-button[data-disabled],
+.tale-calendar__day-button[data-unavailable] {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.tale-calendar__day-button[data-focus-visible] {
+  outline: 2px solid var(--color-60);
+  outline-offset: 2px;
+}
+
+/* ─── Month navigation ───────────────────────────────────────────────────────── */
+
+.tale-calendar__increment-month,
+.tale-calendar__decrement-month {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--neutral-14);
+  background: var(--neutral-5);
+  cursor: pointer;
+  color: var(--neutral-70);
+  transition: background 0.1s ease, border-color 0.1s ease;
+}
+
+.tale-calendar__increment-month:hover,
+.tale-calendar__decrement-month:hover {
+  background: var(--neutral-10);
+  border-color: var(--neutral-20);
+}
+
+.tale-calendar__increment-month[data-disabled],
+.tale-calendar__decrement-month[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.tale-calendar__increment-month[data-focus-visible],
+.tale-calendar__decrement-month[data-focus-visible] {
+  outline: 2px solid var(--color-60);
+  outline-offset: 2px;
+}

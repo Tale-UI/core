@@ -1,13 +1,13 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui/utils/store';
-import { useRefWithInit } from '@base-ui/utils/useRefWithInit';
+import { useStore } from '@tale-ui/utils/store';
+import { useRefWithInit } from '@tale-ui/utils/useRefWithInit';
 import { TemporalValue } from '../../types/temporal';
 import { SharedCalendarRootContext } from './SharedCalendarRootContext';
 import { getDateManager } from '../../utils/temporal/getDateManager';
 import { CalendarContext } from '../use-context/CalendarContext';
 import { useRenderElement } from '../../utils/useRenderElement';
-import { BaseUIComponentProps } from '../../utils/types';
+import { TaleUIComponentProps } from '../../utils/types';
 import { formatMonthFullLetterAndYear } from '../../utils/temporal/date-helpers';
 import { useTemporalAdapter } from '../../temporal-adapter-provider/TemporalAdapterContext';
 import { StateAttributesMapping } from '../../utils/getStateAttributesProps';
@@ -170,7 +170,7 @@ export interface CalendarRootState extends CalendarRootElementState {}
 
 export interface CalendarRootProps
   extends
-    Omit<BaseUIComponentProps<'div', CalendarRootState>, 'children'>,
+    Omit<TaleUIComponentProps<'div', CalendarRootState>, 'children'>,
     SharedCalendarStoreParameters<TemporalValue, ValidateDateReturnValue> {
   /**
    * The children of the component.

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { spy } from 'sinon';
-import { Calendar } from '@base-ui/react/calendar';
+import { Calendar } from '@tale-ui/react/calendar';
 import { act, screen } from '@mui/internal-test-utils';
 import { createTemporalRenderer } from '#test-utils';
 

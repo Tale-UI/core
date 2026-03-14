@@ -39,6 +39,24 @@ export const Group = H.Group;
 export const useFilter = H.useFilter;
 export const useFilteredItems = H.useFilteredItems;
 
+const StyledLabel = React.forwardRef<
+  React.ComponentRef<typeof H.Label>,
+  React.ComponentPropsWithoutRef<typeof H.Label>
+>(({ className, ...props }, ref) => (
+  <H.Label className={cx('tale-combobox__label', className)} ref={ref} {...props} />
+));
+StyledLabel.displayName = 'Combobox.Label';
+export const Label = StyledLabel as typeof H.Label;
+
+const StyledInputGroup = React.forwardRef<
+  React.ComponentRef<typeof H.InputGroup>,
+  React.ComponentPropsWithoutRef<typeof H.InputGroup>
+>(({ className, ...props }, ref) => (
+  <H.InputGroup className={cx('tale-combobox__input-group', className)} ref={ref} {...props} />
+));
+StyledInputGroup.displayName = 'Combobox.InputGroup';
+export const InputGroup = StyledInputGroup as typeof H.InputGroup;
+
 const StyledInput = React.forwardRef<
   React.ComponentRef<typeof H.Input>,
   React.ComponentPropsWithoutRef<typeof H.Input>

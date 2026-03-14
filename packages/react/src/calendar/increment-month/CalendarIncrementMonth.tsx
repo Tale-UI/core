@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
-import { useStore } from '@base-ui/utils/store';
+import { useStore } from '@tale-ui/utils/store';
 import { useSharedCalendarRootContext } from '../root/SharedCalendarRootContext';
 import { useRenderElement } from '../../utils/useRenderElement';
-import { BaseUIComponentProps, NativeButtonProps } from '../../utils/types';
+import { TaleUIComponentProps, NativeButtonProps } from '../../utils/types';
 import { useButton } from '../../use-button';
 import { useTemporalAdapter } from '../../temporal-adapter-provider/TemporalAdapterContext';
 import { selectors } from '../store';
@@ -96,7 +96,7 @@ export interface CalendarIncrementMonthState {
 }
 
 export interface CalendarIncrementMonthProps
-  extends BaseUIComponentProps<'button', CalendarIncrementMonthState>, NativeButtonProps {}
+  extends TaleUIComponentProps<'button', CalendarIncrementMonthState>, NativeButtonProps {}
 
 export namespace CalendarIncrementMonth {
   export type State = CalendarIncrementMonthState;

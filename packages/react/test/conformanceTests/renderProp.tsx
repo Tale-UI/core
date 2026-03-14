@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import { randomStringValue, screen } from '@mui/internal-test-utils';
 import type {
   ConformantComponentProps,
-  BaseUiConformanceTestsOptions,
+  TaleUiConformanceTestsOptions,
 } from '../describeConformance';
 import { throwMissingPropError } from './utils';
 
 export function testRenderProp(
   element: React.ReactElement<ConformantComponentProps>,
-  getOptions: () => BaseUiConformanceTestsOptions,
+  getOptions: () => TaleUiConformanceTestsOptions,
 ) {
   const {
     render,

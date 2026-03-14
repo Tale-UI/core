@@ -124,3 +124,22 @@
   cursor: not-allowed;
   border-color: var(--neutral-40);
 }
+
+/* ─── Label ─────────────────────────────────────────────────────────────────── */
+
+.tale-slider__label {
+  display: block;
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-70);
+  margin-bottom: var(--space-3xs);
+}
+
+.tale-slider__label[data-disabled] { opacity: 0.45; }
+
+.tale-slider__label[data-required]::after {
+  content: ' *';
+  color: var(--color-60);
+}
+
+.tale-slider__label[data-invalid] { color: var(--color-60); }

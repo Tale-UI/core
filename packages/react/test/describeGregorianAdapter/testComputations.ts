@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-// TODO Temporal: Replace with `@base-ui/react/types` import when Temporal components will become public.
+// TODO Temporal: Replace with `@tale-ui/react/types` import when Temporal components will become public.
 import {
   TemporalAdapter,
   TemporalSupportedObject,

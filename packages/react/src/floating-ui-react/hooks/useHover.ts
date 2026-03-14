@@ -10,7 +10,7 @@ import { contains, getTarget } from '../utils';
 
 import { useFloatingParentNodeId, useFloatingTree } from '../components/FloatingTree';
 import type { Delay, ElementProps, FloatingContext, FloatingRootContext } from '../types';
-import { createChangeEventDetails } from '../../utils/createBaseUIEventDetails';
+import { createChangeEventDetails } from '../../utils/createTaleUIEventDetails';
 import { REASONS } from '../../utils/reasons';
 import { FloatingUIOpenChangeDetails } from '../../utils/types';
 import { TYPEABLE_SELECTOR } from '../utils/constants';

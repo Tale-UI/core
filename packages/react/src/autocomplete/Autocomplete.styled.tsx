@@ -7,6 +7,15 @@ export const Portal = H.Portal;
 export const Positioner = H.Positioner;
 export const List = H.List;
 
+const StyledInputGroup = React.forwardRef<
+  React.ComponentRef<typeof H.InputGroup>,
+  React.ComponentPropsWithoutRef<typeof H.InputGroup>
+>(({ className, ...props }, ref) => (
+  <H.InputGroup className={cx('tale-autocomplete__input-group', className)} ref={ref} {...props} />
+));
+StyledInputGroup.displayName = 'Autocomplete.InputGroup';
+export const InputGroup = StyledInputGroup as typeof H.InputGroup;
+
 const StyledInput = React.forwardRef<
   React.ComponentRef<typeof H.Input>,
   React.ComponentPropsWithoutRef<typeof H.Input>
