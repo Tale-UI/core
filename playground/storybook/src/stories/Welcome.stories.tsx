@@ -19,22 +19,26 @@ function goTo(storyTitle: string) {
 }
 
 const s: Record<string, React.CSSProperties> = {
+  canvas: {
+    background: 'var(--color-100)',
+    minHeight: '100vh',
+  },
   page: {
     padding: 'var(--space-2xl)',
     maxWidth: '800px',
     margin: '0 auto',
-    color: 'var(--neutral-80)',
+    color: 'var(--color-10)',
   },
   hero: {
     paddingTop: 'var(--space-4xl)',
     paddingBottom: 'var(--space-2xl)',
-    borderBottom: '1px solid var(--neutral-16)',
+    borderBottom: '1px solid var(--color-80)',
     marginBottom: 'var(--space-2xl)',
   },
   badge: {
     display: 'inline-block',
-    background: 'var(--color-12)',
-    color: 'var(--color-70)',
+    background: 'var(--color-90)',
+    color: 'var(--color-20)',
     padding: '4px 12px',
     borderRadius: 'var(--radius-full)',
     fontSize: 'var(--label-xs-font-size)',
@@ -44,7 +48,7 @@ const s: Record<string, React.CSSProperties> = {
     textTransform: 'uppercase',
   },
   tagline: {
-    color: 'var(--neutral-50)',
+    color: 'var(--color-30)',
     marginTop: 'var(--space-s)',
     marginBottom: 0,
   },
@@ -54,9 +58,10 @@ const s: Record<string, React.CSSProperties> = {
   sectionTitle: {
     marginTop: 0,
     marginBottom: 'var(--space-s)',
+    color: 'var(--color-5)',
   },
   body: {
-    color: 'var(--neutral-60)',
+    color: 'var(--color-20)',
     lineHeight: 1.7,
     marginBottom: 'var(--space-m)',
   },
@@ -77,20 +82,20 @@ const s: Record<string, React.CSSProperties> = {
     width: '8px',
     height: '8px',
     borderRadius: '50%',
-    background: 'var(--color-60)',
+    background: 'var(--color-30)',
     marginTop: '7px',
     flexShrink: 0,
   },
   featureLabel: {
     fontWeight: 'var(--label-font-weight)',
-    color: 'var(--neutral-80)',
+    color: 'var(--color-5)',
   },
   featureDesc: {
-    color: 'var(--neutral-55)',
+    color: 'var(--color-30)',
   },
   divider: {
     border: 'none',
-    borderTop: '1px solid var(--neutral-14)',
+    borderTop: '1px solid var(--color-80)',
     margin: 'var(--space-2xl) 0',
   },
   quickLinksGrid: {
@@ -100,8 +105,8 @@ const s: Record<string, React.CSSProperties> = {
     marginTop: 'var(--space-m)',
   },
   quickLinkCard: {
-    background: 'var(--neutral-10)',
-    border: '1px solid var(--neutral-16)',
+    background: 'var(--color-90)',
+    border: '1px solid var(--color-80)',
     borderRadius: 'var(--radius-l)',
     padding: 'var(--space-s) var(--space-m)',
     cursor: 'pointer',
@@ -109,18 +114,18 @@ const s: Record<string, React.CSSProperties> = {
   },
   quickLinkTitle: {
     fontWeight: 'var(--label-font-weight)',
-    color: 'var(--neutral-80)',
+    color: 'var(--color-5)',
     marginBottom: '4px',
   },
   quickLinkDesc: {
-    color: 'var(--neutral-50)',
+    color: 'var(--color-30)',
     fontSize: 'var(--label-xs-font-size)',
   },
   closing: {
     marginTop: 'var(--space-3xl)',
     paddingTop: 'var(--space-l)',
-    borderTop: '1px solid var(--neutral-14)',
-    color: 'var(--neutral-40)',
+    borderTop: '1px solid var(--color-80)',
+    color: 'var(--color-40)',
     fontStyle: 'italic',
   },
 };
@@ -152,11 +157,12 @@ export const WelcomePage: Story = {
     ];
 
     return (
+      <div style={s.canvas}>
       <div style={s.page}>
         {/* Hero */}
         <div style={s.hero}>
-          <h1 className="text--display-m text--expressive" style={{ margin: '0 0 var(--space-s)' }}>
-            Your product has a story to tell.
+          <h1 className="text--display-l text--expressive" style={{ margin: '0 0 var(--space-s)', color: 'var(--color-5)', fontSize: 'calc(var(--display-l-font-size) * 1.2)' }}>
+            Every product has a story to tell.
           </h1>
           <p className="text--body-l" style={s.tagline}>
             Tale gives you the tools to tell it well.
@@ -230,8 +236,8 @@ export const WelcomePage: Story = {
                 key={link.id}
                 style={{
                   ...s.quickLinkCard,
-                  background: hoveredCard === link.id ? 'var(--neutral-14)' : 'var(--neutral-10)',
-                  borderColor: hoveredCard === link.id ? 'var(--neutral-22)' : 'var(--neutral-16)',
+                  background: hoveredCard === link.id ? 'var(--color-80)' : 'var(--color-90)',
+                  borderColor: hoveredCard === link.id ? 'var(--color-70)' : 'var(--color-80)',
                 }}
                 onClick={() => goTo(link.storyTitle)}
                 onMouseEnter={() => setHoveredCard(link.id)}
@@ -251,6 +257,7 @@ export const WelcomePage: Story = {
         <p className="text--body-m" style={s.closing}>
           Tale — write epic experiences.
         </p>
+      </div>
       </div>
     );
   },

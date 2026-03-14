@@ -1,6 +1,7 @@
 import '@tale-ui/react-styles/index.css';
 import './preview.css';
 import type { Preview, Decorator } from '@storybook/react';
+import { buildTheme } from './theme';
 
 const withColorMode: Decorator = (Story, context) => {
   const colorMode = (context.globals['colorMode'] as string) ?? 'light';
@@ -30,6 +31,7 @@ const preview: Preview = {
   parameters: {
     layout: 'centered',
     backgrounds: { disable: true },
+    docs: { theme: buildTheme('light') },
     options: {
       storySort: (a, b) => {
         const colorOrder = [
