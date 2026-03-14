@@ -327,6 +327,16 @@ Components expose state via data attributes. Use these in CSS selectors:
 - **Next.js (App Router):** See [framework-integration.md](../packages/css/docs/framework-integration.md#nextjs-app-router).
 - **Tailwind coexistence:** See [framework-integration.md](../packages/css/docs/framework-integration.md) — note the `html { font-size }` conflict and workaround.
 
+## Component Reference
+
+The Storybook at `playground/storybook/` contains interactive examples for every component. Run it locally:
+
+```bash
+pnpm --filter tale-ui-storybook storybook
+```
+
+Each story shows real usage with `variant`, `size`, and state props. Use the **Foundations** section to explore design tokens, colour families, and typography utilities.
+
 ---
 
 ## Troubleshooting
