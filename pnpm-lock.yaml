@@ -300,6 +300,9 @@ importers:
       '@floating-ui/utils':
         specifier: ^0.2.10
         version: 0.2.11
+      '@tale-ui/react-styles':
+        specifier: workspace:*
+        version: link:../styles
       '@tale-ui/utils':
         specifier: workspace:*
         version: link:../utils/build
