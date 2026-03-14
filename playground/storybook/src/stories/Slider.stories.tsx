@@ -59,9 +59,9 @@ export const Default: Story = {};
 export const WithLabel: Story = {
   name: 'With Label',
   render: () => (
-    <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
-      <Slider.Label>Volume</Slider.Label>
+    <div style={{ width: '28rem' }}>
       <Slider.Root defaultValue={[40]}>
+        <Slider.Label>Volume</Slider.Label>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />

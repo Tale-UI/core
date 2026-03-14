@@ -653,28 +653,26 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>With Label</SubHeading>
           <Row>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+            <Select.Root>
               <Select.Label>Fruit</Select.Label>
-              <Select.Root>
-                <Select.Trigger>
-                  <Select.Value placeholder="Select a fruit…" />
-                </Select.Trigger>
-                <Select.Portal>
-                  <Select.Positioner sideOffset={4}>
-                    <Select.Popup>
-                      <Select.List>
-                        {fruits.map((fruit) => (
-                          <Select.Item key={fruit} value={fruit.toLowerCase()}>
-                            <Select.ItemText>{fruit}</Select.ItemText>
-                            <Select.ItemIndicator><CheckIcon14 /></Select.ItemIndicator>
-                          </Select.Item>
-                        ))}
-                      </Select.List>
-                    </Select.Popup>
-                  </Select.Positioner>
-                </Select.Portal>
-              </Select.Root>
-            </div>
+              <Select.Trigger>
+                <Select.Value placeholder="Select a fruit…" />
+              </Select.Trigger>
+              <Select.Portal>
+                <Select.Positioner sideOffset={4}>
+                  <Select.Popup>
+                    <Select.List>
+                      {fruits.map((fruit) => (
+                        <Select.Item key={fruit} value={fruit.toLowerCase()}>
+                          <Select.ItemText>{fruit}</Select.ItemText>
+                          <Select.ItemIndicator><CheckIcon14 /></Select.ItemIndicator>
+                        </Select.Item>
+                      ))}
+                    </Select.List>
+                  </Select.Popup>
+                </Select.Positioner>
+              </Select.Portal>
+            </Select.Root>
           </Row>
           <SubHeading>With Groups</SubHeading>
           <Row>
@@ -716,10 +714,25 @@ export default function ComponentAudit() {
         <Section id="combobox" title="Combobox" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty']}>
           <SubHeading>Default</SubHeading>
           <ComboboxDemo />
-          <SubHeading>With Label</SubHeading>
-          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', marginBottom: '2rem' }}>
-            <Combobox.Label>Country</Combobox.Label>
-            <ComboboxDemo />
+          <SubHeading>With Label (trigger-style)</SubHeading>
+          <div style={{ width: '28rem', marginBottom: '2rem' }}>
+            <Combobox.Root>
+              <Combobox.Label>Country</Combobox.Label>
+              <Combobox.Trigger>
+                <Combobox.Value placeholder="Select country…" />
+              </Combobox.Trigger>
+              <Combobox.Portal>
+                <Combobox.Positioner sideOffset={4}>
+                  <Combobox.Popup>
+                    <Combobox.List>
+                      {countries.slice(0, 8).map((c) => (
+                        <Combobox.Item key={c} value={c}>{c}</Combobox.Item>
+                      ))}
+                    </Combobox.List>
+                  </Combobox.Popup>
+                </Combobox.Positioner>
+              </Combobox.Portal>
+            </Combobox.Root>
           </div>
         </Section>
 
@@ -748,9 +761,9 @@ export default function ComponentAudit() {
 
         <Section id="slider" title="Slider" classes={['tale-slider', 'tale-slider__control', 'tale-slider__track', 'tale-slider__indicator', 'tale-slider__thumb']}>
           <SubHeading>With Label</SubHeading>
-          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', marginBottom: '2rem' }}>
-            <Slider.Label>Volume</Slider.Label>
+          <div style={{ width: '28rem', marginBottom: '2rem' }}>
             <Slider.Root defaultValue={[40]}>
+              <Slider.Label>Volume</Slider.Label>
               <Slider.Control>
                 <Slider.Track>
                   <Slider.Indicator />

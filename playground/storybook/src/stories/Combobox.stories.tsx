@@ -65,44 +65,32 @@ export const Default: Story = {
 };
 
 export const WithLabel: Story = {
+  // Combobox.Label labels Combobox.Trigger (select-style).
+  // For input-style comboboxes, use a native <label> with htmlFor instead.
   name: 'With Label',
-  render: (args) => {
-    const [value, setValue] = React.useState<string | null>(null);
-    const [items, setItems] = React.useState(countries);
-
-    return (
-      <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+  render: () => (
+    <div style={{ width: '28rem' }}>
+      <Combobox.Root>
         <Combobox.Label>Country</Combobox.Label>
-        <Combobox.Root
-          disabled={args.disabled}
-          value={value}
-          onValueChange={setValue}
-          onInputValueChange={(val) => {
-            setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
-          }}
-        >
-          <Combobox.Input placeholder={args.placeholder} />
-          <Combobox.Portal>
-            <Combobox.Positioner sideOffset={4}>
-              <Combobox.Popup>
-                <Combobox.List>
-                  {items.length === 0 ? (
-                    <Combobox.Empty>No results</Combobox.Empty>
-                  ) : (
-                    items.map((country) => (
-                      <Combobox.Item key={country} value={country}>
-                        {country}
-                      </Combobox.Item>
-                    ))
-                  )}
-                </Combobox.List>
-              </Combobox.Popup>
-            </Combobox.Positioner>
-          </Combobox.Portal>
-        </Combobox.Root>
-      </div>
-    );
-  },
+        <Combobox.Trigger>
+          <Combobox.Value placeholder="Select country…" />
+        </Combobox.Trigger>
+        <Combobox.Portal>
+          <Combobox.Positioner sideOffset={4}>
+            <Combobox.Popup>
+              <Combobox.List>
+                {countries.map((country) => (
+                  <Combobox.Item key={country} value={country}>
+                    {country}
+                  </Combobox.Item>
+                ))}
+              </Combobox.List>
+            </Combobox.Popup>
+          </Combobox.Positioner>
+        </Combobox.Portal>
+      </Combobox.Root>
+    </div>
+  ),
 };
 
 export const WithInputGroup: Story = {
