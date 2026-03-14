@@ -69,3 +69,27 @@ export const WithContent: Story = {
     </Drawer.Root>
   ),
 };
+
+export const WithSwipeArea: Story = {
+  name: 'With Swipe Area',
+  render: () => (
+    <Drawer.Root>
+      <Drawer.Trigger render={<Button variant="neutral">Open Drawer</Button>} />
+      <Drawer.SwipeArea />
+      <Drawer.Portal>
+        <Drawer.Backdrop />
+        <Drawer.Popup>
+          <div className="tale-drawer__handle" />
+          <Drawer.Title>Swipeable Drawer</Drawer.Title>
+          <Drawer.Description>
+            A swipe area is rendered outside the portal so gestures can begin before the drawer is fully open. Swipe down to close.
+          </Drawer.Description>
+          <div style={{ marginTop: '1.6rem', display: 'flex', gap: '1.2rem' }}>
+            <Drawer.Close render={<Button className="tale-button tale-button--neutral" style={{ flex: 1 }}>Cancel</Button>} />
+            <Drawer.Close render={<Button className="tale-button tale-button--primary" style={{ flex: 1 }}>Confirm</Button>} />
+          </div>
+        </Drawer.Popup>
+      </Drawer.Portal>
+    </Drawer.Root>
+  ),
+};

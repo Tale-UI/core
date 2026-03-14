@@ -15,6 +15,9 @@ import { Select } from '@tale-ui/react/select';
 import { Combobox } from '@tale-ui/react/combobox';
 import { NumberField } from '@tale-ui/react/number-field';
 import { Slider } from '@tale-ui/react/slider';
+import { Calendar } from '@tale-ui/react/calendar';
+import { TemporalAdapterProvider } from '@tale-ui/react/temporal-adapter-provider';
+import { TemporalAdapterDateFns } from '@tale-ui/react/temporal-adapter-date-fns';
 
 // Overlay
 import { Dialog } from '@tale-ui/react/dialog';
@@ -183,6 +186,7 @@ const TOC = [
     { id: 'combobox', label: 'Combobox' },
     { id: 'number-field', label: 'NumberField' },
     { id: 'slider', label: 'Slider' },
+    { id: 'calendar', label: 'Calendar' },
   ]},
   { category: 'Overlay', items: [
     { id: 'dialog', label: 'Dialog' },
@@ -235,6 +239,81 @@ const tocLinkStyle: React.CSSProperties = {
   color: 'var(--neutral-70)',
   textDecoration: 'none',
 };
+
+// ---------------------------------------------------------------------------
+// Calendar adapter (singleton)
+// ---------------------------------------------------------------------------
+
+const calendarAdapter = new TemporalAdapterDateFns();
+
+// ---------------------------------------------------------------------------
+// Calendar section (needs TemporalAdapterProvider)
+// ---------------------------------------------------------------------------
+
+function CalendarInner() {
+  const context = Calendar.useContext();
+  const getWeekList = Calendar.useWeekList();
+  const getDayList = Calendar.useDayList();
+
+  const weeks = getWeekList({ date: context.visibleDate, amount: 'end-of-month' });
+  const dayNames = getDayList({ date: context.visibleDate, amount: 7 });
+
+  return (
+    <>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--space-3xs)', marginBottom: 'var(--space-2xs)' }}>
+        <Calendar.DecrementMonth aria-label="Previous month">‹</Calendar.DecrementMonth>
+        <span style={{ fontFamily: 'var(--label-font-family)', fontWeight: 600, fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-80)' }}>
+          {calendarAdapter.formatByString(context.visibleDate, 'MMMM yyyy')}
+        </span>
+        <Calendar.IncrementMonth aria-label="Next month">›</Calendar.IncrementMonth>
+      </div>
+      <Calendar.DayGrid>
+        <Calendar.DayGridHeader>
+          <Calendar.DayGridHeaderRow>
+            {dayNames.map((day, i) => (
+              <Calendar.DayGridHeaderCell key={i} value={day} />
+            ))}
+          </Calendar.DayGridHeaderRow>
+        </Calendar.DayGridHeader>
+        <Calendar.DayGridBody>
+          {weeks.map((week, wi) => (
+            <Calendar.DayGridRow key={wi} value={week}>
+              {(day, di) => (
+                <Calendar.DayGridCell key={di} value={day}>
+                  <Calendar.DayButton />
+                </Calendar.DayGridCell>
+              )}
+            </Calendar.DayGridRow>
+          ))}
+        </Calendar.DayGridBody>
+      </Calendar.DayGrid>
+    </>
+  );
+}
+
+function CalendarBody() {
+  const [value, setValue] = React.useState<Date | null>(null);
+  return (
+    <Calendar.Root value={value} onValueChange={setValue}>
+      <CalendarInner />
+    </Calendar.Root>
+  );
+}
+
+function CalendarSection() {
+  return (
+    <TemporalAdapterProvider adapter={calendarAdapter}>
+      <Section
+        id="calendar"
+        title="Calendar"
+        classes={['tale-calendar', 'tale-calendar__viewport', 'tale-calendar__day-grid', 'tale-calendar__day-button', 'tale-calendar__increment-month', 'tale-calendar__decrement-month']}
+      >
+        <SubHeading>Interactive</SubHeading>
+        <CalendarBody />
+      </Section>
+    </TemporalAdapterProvider>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Combobox section (needs state)
@@ -572,6 +651,31 @@ export default function ComponentAudit() {
               </Select.Trigger>
             </Select.Root>
           </Row>
+          <SubHeading>With Label</SubHeading>
+          <Row>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+              <Select.Label>Fruit</Select.Label>
+              <Select.Root>
+                <Select.Trigger>
+                  <Select.Value placeholder="Select a fruit…" />
+                </Select.Trigger>
+                <Select.Portal>
+                  <Select.Positioner sideOffset={4}>
+                    <Select.Popup>
+                      <Select.List>
+                        {fruits.map((fruit) => (
+                          <Select.Item key={fruit} value={fruit.toLowerCase()}>
+                            <Select.ItemText>{fruit}</Select.ItemText>
+                            <Select.ItemIndicator><CheckIcon14 /></Select.ItemIndicator>
+                          </Select.Item>
+                        ))}
+                      </Select.List>
+                    </Select.Popup>
+                  </Select.Positioner>
+                </Select.Portal>
+              </Select.Root>
+            </div>
+          </Row>
           <SubHeading>With Groups</SubHeading>
           <Row>
             <Select.Root>
@@ -612,6 +716,11 @@ export default function ComponentAudit() {
         <Section id="combobox" title="Combobox" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty']}>
           <SubHeading>Default</SubHeading>
           <ComboboxDemo />
+          <SubHeading>With Label</SubHeading>
+          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', marginBottom: '2rem' }}>
+            <Combobox.Label>Country</Combobox.Label>
+            <ComboboxDemo />
+          </div>
         </Section>
 
         <Section id="number-field" title="NumberField" classes={['tale-number-field', 'tale-number-field__group', 'tale-number-field__input', 'tale-number-field__decrement', 'tale-number-field__increment']}>
@@ -638,6 +747,18 @@ export default function ComponentAudit() {
         </Section>
 
         <Section id="slider" title="Slider" classes={['tale-slider', 'tale-slider__control', 'tale-slider__track', 'tale-slider__indicator', 'tale-slider__thumb']}>
+          <SubHeading>With Label</SubHeading>
+          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', marginBottom: '2rem' }}>
+            <Slider.Label>Volume</Slider.Label>
+            <Slider.Root defaultValue={[40]}>
+              <Slider.Control>
+                <Slider.Track>
+                  <Slider.Indicator />
+                  <Slider.Thumb />
+                </Slider.Track>
+              </Slider.Control>
+            </Slider.Root>
+          </div>
           <SubHeading>Default</SubHeading>
           <div style={{ width: '28rem', marginBottom: '2rem' }}>
             <Slider.Root defaultValue={[40]}>
@@ -673,6 +794,8 @@ export default function ComponentAudit() {
             </Slider.Root>
           </div>
         </Section>
+
+        <CalendarSection />
 
         {/* ============================================================= */}
         {/* OVERLAY */}

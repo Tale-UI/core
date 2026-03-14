@@ -43,6 +43,7 @@ const categories: Category[] = [
       { name: 'Autocomplete', storyTitle: 'Form Controls/Autocomplete' },
       { name: 'Number Field', storyTitle: 'Form Controls/NumberField' },
       { name: 'Slider', storyTitle: 'Form Controls/Slider' },
+      { name: 'Calendar', storyTitle: 'Form Controls/Calendar' },
     ],
   },
   {

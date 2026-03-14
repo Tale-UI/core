@@ -64,6 +64,90 @@ export const Default: Story = {
   },
 };
 
+export const WithLabel: Story = {
+  name: 'With Label',
+  render: (args) => {
+    const [value, setValue] = React.useState<string | null>(null);
+    const [items, setItems] = React.useState(countries);
+
+    return (
+      <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+        <Combobox.Label>Country</Combobox.Label>
+        <Combobox.Root
+          disabled={args.disabled}
+          value={value}
+          onValueChange={setValue}
+          onInputValueChange={(val) => {
+            setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
+          }}
+        >
+          <Combobox.Input placeholder={args.placeholder} />
+          <Combobox.Portal>
+            <Combobox.Positioner sideOffset={4}>
+              <Combobox.Popup>
+                <Combobox.List>
+                  {items.length === 0 ? (
+                    <Combobox.Empty>No results</Combobox.Empty>
+                  ) : (
+                    items.map((country) => (
+                      <Combobox.Item key={country} value={country}>
+                        {country}
+                      </Combobox.Item>
+                    ))
+                  )}
+                </Combobox.List>
+              </Combobox.Popup>
+            </Combobox.Positioner>
+          </Combobox.Portal>
+        </Combobox.Root>
+      </div>
+    );
+  },
+};
+
+export const WithInputGroup: Story = {
+  name: 'With Input Group',
+  render: (args) => {
+    const [value, setValue] = React.useState<string | null>(null);
+    const [items, setItems] = React.useState(countries);
+
+    return (
+      <div style={{ width: '28rem' }}>
+        <Combobox.Root
+          disabled={args.disabled}
+          value={value}
+          onValueChange={setValue}
+          onInputValueChange={(val) => {
+            setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
+          }}
+        >
+          <Combobox.InputGroup>
+            <Combobox.Input placeholder={args.placeholder} />
+            <Combobox.Trigger>▾</Combobox.Trigger>
+          </Combobox.InputGroup>
+          <Combobox.Portal>
+            <Combobox.Positioner sideOffset={4}>
+              <Combobox.Popup>
+                <Combobox.List>
+                  {items.length === 0 ? (
+                    <Combobox.Empty>No results</Combobox.Empty>
+                  ) : (
+                    items.map((country) => (
+                      <Combobox.Item key={country} value={country}>
+                        {country}
+                      </Combobox.Item>
+                    ))
+                  )}
+                </Combobox.List>
+              </Combobox.Popup>
+            </Combobox.Positioner>
+          </Combobox.Portal>
+        </Combobox.Root>
+      </div>
+    );
+  },
+};
+
 export const Multiple: Story = {
   name: 'Multiple Selection',
   render: () => {

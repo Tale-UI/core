@@ -56,6 +56,23 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {};
 
+export const WithLabel: Story = {
+  name: 'With Label',
+  render: () => (
+    <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+      <Slider.Label>Volume</Slider.Label>
+      <Slider.Root defaultValue={[40]}>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb />
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  ),
+};
+
 export const Vertical: Story = {
   args: { orientation: 'vertical', defaultValue: [60] },
 };

@@ -49,6 +49,34 @@ export const Default: Story = {
   ),
 };
 
+export const WithLabel: Story = {
+  name: 'With Label',
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+      <Select.Label>Fruit</Select.Label>
+      <Select.Root disabled={args.disabled}>
+        <Select.Trigger>
+          <Select.Value placeholder={args.placeholder} />
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Positioner sideOffset={4}>
+            <Select.Popup>
+              <Select.List>
+                {fruits.map((fruit) => (
+                  <Select.Item key={fruit} value={fruit.toLowerCase()}>
+                    <Select.ItemText>{fruit}</Select.ItemText>
+                    <Select.ItemIndicator>✓</Select.ItemIndicator>
+                  </Select.Item>
+                ))}
+              </Select.List>
+            </Select.Popup>
+          </Select.Positioner>
+        </Select.Portal>
+      </Select.Root>
+    </div>
+  ),
+};
+
 export const WithGroups: Story = {
   name: 'With Groups',
   render: () => (

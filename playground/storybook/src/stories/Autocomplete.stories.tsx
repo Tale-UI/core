@@ -57,3 +57,39 @@ export const Default: Story = {
     );
   },
 };
+
+export const WithInputGroup: Story = {
+  name: 'With Input Group',
+  render: (args) => {
+    const [value, setValue] = React.useState<string | undefined>(undefined);
+
+    return (
+      <div style={{ width: '28rem' }}>
+        <Autocomplete.Root
+          disabled={args.disabled}
+          items={suggestions}
+          value={value}
+          onValueChange={setValue}
+        >
+          <Autocomplete.InputGroup>
+            <Autocomplete.Input placeholder={args.placeholder} />
+          </Autocomplete.InputGroup>
+          <Autocomplete.Portal>
+            <Autocomplete.Positioner sideOffset={4}>
+              <Autocomplete.Popup>
+                <Autocomplete.List>
+                  <Autocomplete.Empty>No results found</Autocomplete.Empty>
+                  {suggestions.map((item) => (
+                    <Autocomplete.Item key={item} value={item}>
+                      {item}
+                    </Autocomplete.Item>
+                  ))}
+                </Autocomplete.List>
+              </Autocomplete.Popup>
+            </Autocomplete.Positioner>
+          </Autocomplete.Portal>
+        </Autocomplete.Root>
+      </div>
+    );
+  },
+};
