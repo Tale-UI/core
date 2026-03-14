@@ -2,6 +2,12 @@
 
 All notable changes to the CSS design system are documented in this file.
 
+## v1.1.8 - 2026-03-14
+
+### Fixed
+- Fixed `--color-*-fg` tokens not re-evaluating correctly in dark mode on `.color-{name}` scoped elements. Explicitly declaring the full `--color-*` and `--color-*-fg` chains in all three mode blocks (light, OS dark, explicit dark) ensures the var() chain resolves reliably across all browsers.
+- Moved per-family foreground pivot overrides (orange/sky at shade-60; amber/yellow/lime/green/emerald/teal/cyan at shade-60 and shade-70) from `_color-themes.css` into light-mode-only rules in `_color-modes.css`. This fixes those families showing light text on light backgrounds in dark mode.
+
 ## v1.1.6 - 2026-02-26
 
 ### Changed
