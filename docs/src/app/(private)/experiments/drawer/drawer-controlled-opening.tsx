@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { DrawerPreview as Drawer } from '@base-ui/react/drawer';
+import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
 
 export default function ControlledOpening() {
   const [open, setOpen] = React.useState(false);
@@ -33,7 +33,7 @@ export default function ControlledOpening() {
         <Drawer.Viewport className="fixed inset-0 flex items-end justify-center">
           <Drawer.Popup className="-mb-12 w-full max-h-[calc(80vh+3rem)] rounded-t-2xl bg-gray-50 px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px)+3rem)] pt-4 text-gray-900 outline outline-gray-200 overflow-y-auto overscroll-contain touch-auto transform-[translateY(var(--drawer-swipe-movement-y))] transition-transform duration-450 ease-[cubic-bezier(0.32,0.72,0,1)] data-swiping:select-none data-ending-style:transform-[translateY(calc(100%-3rem))] data-starting-style:transform-[translateY(calc(100%-3rem))] data-ending-style:duration-[calc(var(--drawer-swipe-strength)*400ms)] dark:outline-gray-300">
             <div className="w-12 h-1 mx-auto mb-4 rounded-full bg-gray-300" />
-            <Drawer.Content className="mx-auto w-full max-w-lg">
+            <Drawer.Popup className="mx-auto w-full max-w-lg">
               <Drawer.Title className="mb-1 text-lg font-medium text-center">
                 Notifications
               </Drawer.Title>
@@ -53,7 +53,7 @@ export default function ControlledOpening() {
                 />
                 Lock open state
               </label>
-            </Drawer.Content>
+            </Drawer.Popup>
           </Drawer.Popup>
         </Drawer.Viewport>
       </Drawer.Portal>

@@ -1,0 +1,97 @@
+/*
+ * ToggleButton — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria ToggleButton exposes: [data-selected] [data-disabled] [data-pressed]
+ * ToggleButtonGroup has no direct data attributes.
+ *
+ * Sizes:  .tale-toggle-button--sm
+ *         .tale-toggle-button--md  (default)
+ *         .tale-toggle-button--lg
+ *
+ * Usage:
+ *   <ToggleButton className="tale-toggle-button tale-toggle-button--md">B</ToggleButton>
+ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-toggle-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3xs);
+  border: 1px solid var(--neutral-22);
+  border-radius: var(--radius-m);
+  background-color: transparent;
+  color: var(--neutral-70);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+  user-select: none;
+
+  /* Default size: md */
+  padding: var(--space-3xs) var(--space-xs);
+  min-height: 3.6rem;
+}
+
+.tale-toggle-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+/* ─── Hover ───────────────────────────────────────────────────────────────── */
+
+.tale-toggle-button:hover:not([data-disabled], [data-selected]) {
+  background-color: var(--neutral-14);
+  border-color: var(--neutral-28);
+  color: var(--neutral-90);
+}
+
+/* ─── Selected (active/on) state ──────────────────────────────────────────── */
+
+.tale-toggle-button[data-selected] {
+  background-color: var(--neutral-80);
+  border-color: var(--neutral-80);
+  color: var(--neutral-80-fg);
+}
+
+.tale-toggle-button[data-selected]:hover:not([data-disabled]) {
+  background-color: var(--neutral-90);
+  border-color: var(--neutral-90);
+}
+
+/* ─── Disabled state ──────────────────────────────────────────────────────── */
+
+.tale-toggle-button[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Toggle Button Group ─────────────────────────────────────────────────── */
+
+.tale-toggle-button-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  border: 1px solid var(--neutral-22);
+}
+
+.tale-toggle-button-group .tale-toggle-button {
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid var(--neutral-22);
+}
+
+.tale-toggle-button-group .tale-toggle-button:last-child {
+  border-right: none;
+}

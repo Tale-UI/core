@@ -150,7 +150,7 @@ function evaluateRenderProp<T extends React.ElementType, S>(
           [
             'Tale UI: The `render` prop was provided an invalid React element as `React.isValidElement(render)` is `false`.',
             'A valid React element must be provided to the `render` prop because it is cloned with props to replace the default element.',
-            'https://base-ui.com/r/invalid-render-prop',
+            'https://tale-ui.dev/r/invalid-render-prop',
           ].join('\n'),
         );
       }
@@ -184,7 +184,7 @@ function warnIfRenderPropLooksLikeComponent(renderFn: { name: string }) {
     'Tale UI calls `render` as a plain function, which can break the Rules of Hooks during reconciliation.',
     'If this is an intentional render callback, rename it to start with a lowercase letter.',
     'Use `render={<Component />}` or `render={(props) => <Component {...props} />}` instead.',
-    'https://base-ui.com/r/invalid-render-prop',
+    'https://tale-ui.dev/r/invalid-render-prop',
   );
 }
 

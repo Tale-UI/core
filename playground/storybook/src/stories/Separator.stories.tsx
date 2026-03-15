@@ -1,4 +1,3 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Separator } from '@tale-ui/react/separator';
 
@@ -7,39 +6,68 @@ type Args = {
 };
 
 const meta: Meta<Args> = {
-  title: 'Layout/Separator',
+  title: 'Components/Separator',
   parameters: { layout: 'centered' },
   argTypes: {
-    orientation: { control: 'inline-radio', options: ['horizontal', 'vertical'] },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+    },
   },
   args: {
     orientation: 'horizontal',
   },
-  render: (args) =>
-    args.orientation === 'vertical' ? (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.6rem', height: '4rem' }}>
-        <span style={{ color: 'var(--neutral-70)', fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)' }}>Left</span>
-        <Separator orientation="vertical" />
-        <span style={{ color: 'var(--neutral-70)', fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)' }}>Right</span>
-      </div>
-    ) : (
-      <div style={{ width: '32rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-        <p style={{ margin: 0, color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>Content above</p>
-        <Separator  />
-        <p style={{ margin: 0, color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>Content below</p>
-      </div>
-    ),
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
-export const Default: Story = {};
-
-export const Horizontal: Story = {
-  args: { orientation: 'horizontal' },
+export const Default: Story = {
+  render: (args) => (
+    <div
+      style={{
+        width: args.orientation === 'vertical' ? undefined : '300px',
+        height: args.orientation === 'vertical' ? '200px' : undefined,
+        display: args.orientation === 'vertical' ? 'flex' : undefined,
+        alignItems: args.orientation === 'vertical' ? 'center' : undefined,
+        justifyContent: args.orientation === 'vertical' ? 'center' : undefined,
+      }}
+    >
+      <Separator orientation={args.orientation} />
+    </div>
+  ),
 };
 
 export const Vertical: Story = {
-  args: { orientation: 'vertical' },
+  render: () => (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '200px',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', height: '100%', gap: 'var(--space-m)' }}>
+        <span>Left</span>
+        <Separator orientation="vertical" />
+        <span>Right</span>
+      </div>
+    </div>
+  ),
+};
+
+export const InContent: Story = {
+  render: () => (
+    <div style={{ width: '400px' }}>
+      <p style={{ margin: 0, padding: 'var(--space-s) 0' }}>
+        This is the first block of content above the separator.
+      </p>
+      <Separator />
+      <p style={{ margin: 0, padding: 'var(--space-s) 0' }}>
+        This is the second block of content below the separator.
+      </p>
+    </div>
+  ),
 };

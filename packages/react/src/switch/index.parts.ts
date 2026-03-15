@@ -1,2 +1,2 @@
-export { SwitchRoot as Root } from './root/SwitchRoot';
-export { SwitchThumb as Thumb } from './thumb/SwitchThumb';
+export { Root, Thumb } from './Switch.styled';
+export type { SwitchRootProps as RootProps, SwitchThumbProps as ThumbProps } from './Switch.styled';

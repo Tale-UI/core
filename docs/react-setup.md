@@ -232,8 +232,8 @@ Components that accept variant/size props apply the BEM modifier class for you:
 | Radio | `@tale-ui/react/radio` | `.tale-radio` |
 | Radio Group | `@tale-ui/react/radio-group` | — |
 | Switch | `@tale-ui/react/switch` | `.tale-switch` |
-| Toggle | `@tale-ui/react/toggle` | `.tale-toggle`, `--sm`, `--md`, `--lg` |
-| Toggle Group | `@tale-ui/react/toggle-group` | — |
+| Toggle Button | `@tale-ui/react/toggle-button` | `.tale-toggle-button`, `--sm`, `--md`, `--lg` |
+| Toggle Button Group | `@tale-ui/react/toggle-button` | `.tale-toggle-button-group` |
 | Select | `@tale-ui/react/select` | `.tale-select__trigger`, `__popup`, `__item` |
 | Combobox | `@tale-ui/react/combobox` | `.tale-combobox__input`, `__popup`, `__item` |
 | Autocomplete | `@tale-ui/react/autocomplete` | `.tale-autocomplete__input`, `__popup`, `__item` |
@@ -245,7 +245,7 @@ Components that accept variant/size props apply the BEM modifier class for you:
 | Component | Import path |
 |-----------|------------|
 | Accordion | `@tale-ui/react/accordion` |
-| Collapsible | `@tale-ui/react/collapsible` |
+| Disclosure | `@tale-ui/react/disclosure` |
 | Tabs | `@tale-ui/react/tabs` |
 | Scroll Area | `@tale-ui/react/scroll-area` |
 | Separator | `@tale-ui/react/separator` |
@@ -275,10 +275,9 @@ Components that accept variant/size props apply the BEM modifier class for you:
 
 | Component | Import path |
 |-----------|------------|
-| Progress | `@tale-ui/react/progress` |
+| ProgressBar | `@tale-ui/react/progress-bar` |
 | Meter | `@tale-ui/react/meter` |
 | Avatar | `@tale-ui/react/avatar` |
-| Toast | `@tale-ui/react/toast` |
 
 ### Form Structure
 
@@ -294,7 +293,7 @@ Components that accept variant/size props apply the BEM modifier class for you:
 |--------|------------|---------|
 | Container | `@tale-ui/react/container` | Sets `--color-*` vars for a named/random palette |
 | CSP Provider | `@tale-ui/react/csp-provider` | Content Security Policy nonce injection |
-| Direction Provider | `@tale-ui/react/direction-provider` | RTL/LTR context |
+| I18nProvider | `@tale-ui/react/i18n-provider` | Locale and text direction (wraps React Aria's I18nProvider) |
 | `mergeProps` | `@tale-ui/react/merge-props` | Merge multiple prop objects |
 | `useRender` | `@tale-ui/react/use-render` | Custom render hook |
 
@@ -307,8 +306,8 @@ Components expose state via data attributes. Use these in CSS selectors:
 | Attribute | Meaning |
 |-----------|---------|
 | `data-disabled` | Component is disabled |
-| `data-open` | Popup / collapsible is open |
-| `data-closed` | Popup / collapsible is closed |
+| `data-open` | Popup / disclosure is open |
+| `data-closed` | Popup / disclosure is closed |
 | `data-checked` | Checkbox, radio, or switch is checked |
 | `data-unchecked` | Checkbox, radio, or switch is unchecked |
 | `data-selected` | Item is selected (select, combobox) |

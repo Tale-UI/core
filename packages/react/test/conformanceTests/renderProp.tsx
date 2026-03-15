@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { expect } from 'chai';
-import { randomStringValue, screen } from '@mui/internal-test-utils';
+import { randomStringValue, screen } from '@tale-ui/monorepo-tests/test-utils';
 import type {
   ConformantComponentProps,
   TaleUiConformanceTestsOptions,
@@ -27,7 +27,7 @@ export function testRenderProp(
   const Wrapper = React.forwardRef<any, { children?: React.ReactNode }>(
     function Wrapper(props, forwardedRef) {
       return wrappingAllowed ? (
-        <div data-testid="base-ui-wrapper">
+        <div data-testid="tale-ui-wrapper">
           <Element ref={forwardedRef} {...props} data-testid="wrapped" />
         </div>
       ) : (
@@ -52,7 +52,7 @@ export function testRenderProp(
       );
 
       if (wrappingAllowed) {
-        expect(screen.queryByTestId('base-ui-wrapper')).not.to.equal(null);
+        expect(screen.queryByTestId('tale-ui-wrapper')).not.to.equal(null);
       }
       expect(screen.queryByTestId('wrapped')).not.to.equal(null);
       expect(screen.queryByTestId('wrapped')).to.have.attribute('data-test-value', testValue);
@@ -69,7 +69,7 @@ export function testRenderProp(
       );
 
       if (wrappingAllowed) {
-        expect(screen.queryByTestId('base-ui-wrapper')).not.to.equal(null);
+        expect(screen.queryByTestId('tale-ui-wrapper')).not.to.equal(null);
       }
       expect(screen.queryByTestId('wrapped')).not.to.equal(null);
       expect(screen.queryByTestId('wrapped')).to.have.attribute('data-test-value', testValue);
@@ -84,7 +84,7 @@ export function testRenderProp(
       );
 
       if (wrappingAllowed) {
-        expect(screen.queryByTestId('base-ui-wrapper')).not.to.equal(null);
+        expect(screen.queryByTestId('tale-ui-wrapper')).not.to.equal(null);
       } else {
         expect(screen.queryByTestId('wrapped')).not.to.equal(null);
       }

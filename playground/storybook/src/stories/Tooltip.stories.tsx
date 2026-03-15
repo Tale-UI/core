@@ -1,26 +1,22 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tooltip } from '@tale-ui/react/tooltip';
-import { Button } from '@tale-ui/react/button';
 
 type Args = {
-  side?: 'top' | 'bottom' | 'left' | 'right';
-  sideOffset?: number;
-  content?: string;
+  placement?: 'top' | 'bottom' | 'left' | 'right';
+  offset?: number;
 };
 
 const meta: Meta<Args> = {
-  title: 'Overlay/Tooltip',
+  title: 'Components/Tooltip',
   parameters: { layout: 'centered' },
   argTypes: {
-    side: { control: 'select', options: ['top', 'bottom', 'left', 'right'] },
-    sideOffset: { control: { type: 'number', min: 0, max: 20 } },
-    content: { control: 'text' },
+    placement: { control: 'select', options: ['top', 'bottom', 'left', 'right'] },
+    offset: { control: { type: 'number', min: 0, max: 20 } },
   },
   args: {
-    side: 'top',
-    sideOffset: 8,
-    content: 'This is a tooltip',
+    placement: 'top',
+    offset: 8,
   },
 };
 
@@ -29,57 +25,72 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Tooltip.Provider>
+    <div style={{ padding: 'var(--space-4xl)' }}>
       <Tooltip.Root>
-        <Tooltip.Trigger render={<Button variant="neutral">Hover me</Button>} />
-        <Tooltip.Portal>
-          <Tooltip.Positioner side={args.side} sideOffset={args.sideOffset}>
-            <Tooltip.Popup>
-              {args.content}
-            </Tooltip.Popup>
-          </Tooltip.Positioner>
-        </Tooltip.Portal>
+        <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+        <Tooltip.Popup placement={args.placement} offset={args.offset}>
+          <Tooltip.Arrow />
+          This is a tooltip
+        </Tooltip.Popup>
       </Tooltip.Root>
-    </Tooltip.Provider>
+    </div>
   ),
 };
 
-export const AllSides: Story = {
-  name: 'All Sides',
+export const AllPlacements: Story = {
+  name: 'All Placements',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <Tooltip.Provider>
-      <div style={{ display: 'flex', gap: '1.2rem', flexWrap: 'wrap', justifyContent: 'center', padding: '4rem' }}>
-        {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
-          <Tooltip.Root key={side}>
-            <Tooltip.Trigger render={<Button variant="neutral">{side}</Button>} />
-            <Tooltip.Portal>
-              <Tooltip.Positioner side={side} sideOffset={8}>
-                <Tooltip.Popup>
-                  Appears on the {side}
-                </Tooltip.Popup>
-              </Tooltip.Positioner>
-            </Tooltip.Portal>
-          </Tooltip.Root>
-        ))}
-      </div>
-    </Tooltip.Provider>
+    <div style={{ padding: 'var(--space-4xl)', display: 'flex', gap: 'var(--space-l)', flexWrap: 'wrap' }}>
+      {(['top', 'bottom', 'left', 'right'] as const).map((placement) => (
+        <Tooltip.Root key={placement}>
+          <Tooltip.Trigger>{placement}</Tooltip.Trigger>
+          <Tooltip.Popup placement={placement} offset={8}>
+            <Tooltip.Arrow />
+            Tooltip on {placement}
+          </Tooltip.Popup>
+        </Tooltip.Root>
+      ))}
+    </div>
   ),
 };
 
 export const LongText: Story = {
   name: 'Long Text',
-  render: () => (
-    <Tooltip.Provider>
+  render: (args) => (
+    <div style={{ padding: 'var(--space-4xl)' }}>
       <Tooltip.Root>
-        <Tooltip.Trigger render={<Button variant="neutral">Info</Button>} />
-        <Tooltip.Portal>
-          <Tooltip.Positioner side="right" sideOffset={8}>
-            <Tooltip.Popup>
-              This tooltip has longer text that wraps to multiple lines to show the max-width behavior.
-            </Tooltip.Popup>
-          </Tooltip.Positioner>
-        </Tooltip.Portal>
+        <Tooltip.Trigger>Long tooltip</Tooltip.Trigger>
+        <Tooltip.Popup placement={args.placement} offset={args.offset}>
+          <Tooltip.Arrow />
+          This is a tooltip with a longer description that wraps across multiple
+          lines to demonstrate how the tooltip handles extended content gracefully.
+        </Tooltip.Popup>
       </Tooltip.Root>
-    </Tooltip.Provider>
+    </div>
+  ),
+};
+
+export const WithDelay: Story = {
+  name: 'With Delay',
+  render: (args) => (
+    <div style={{ padding: 'var(--space-4xl)', display: 'flex', gap: 'var(--space-m)' }}>
+      <Tooltip.Root delay={500}>
+        <Tooltip.Trigger>500ms delay</Tooltip.Trigger>
+        <Tooltip.Popup placement={args.placement} offset={args.offset}>
+          <Tooltip.Arrow />
+          Appeared after 500ms
+        </Tooltip.Popup>
+      </Tooltip.Root>
+      <Tooltip.Root delay={0}>
+        <Tooltip.Trigger>No delay</Tooltip.Trigger>
+        <Tooltip.Popup placement={args.placement} offset={args.offset}>
+          <Tooltip.Arrow />
+          Instant tooltip
+        </Tooltip.Popup>
+      </Tooltip.Root>
+    </div>
   ),
 };

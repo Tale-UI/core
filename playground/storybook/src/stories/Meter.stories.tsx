@@ -1,67 +1,78 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Meter } from '@tale-ui/react/meter';
 
 type Args = {
   value?: number;
-  min?: number;
-  max?: number;
+  minValue?: number;
+  maxValue?: number;
 };
 
 const meta: Meta<Args> = {
-  title: 'Feedback/Meter',
+  title: 'Components/Meter',
   parameters: { layout: 'centered' },
   argTypes: {
-    value: { control: { type: 'range', min: 0, max: 100, step: 1 } },
+    value: { control: { type: 'number', min: 0, max: 100 } },
+    minValue: { control: 'number' },
+    maxValue: { control: 'number' },
   },
   args: {
-    value: 65,
-    min: 0,
-    max: 100,
+    value: 60,
+    minValue: 0,
+    maxValue: 100,
   },
-  render: ({ value = 65, min, max }) => (
-    <div style={{ width: '36rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-      <Meter.Root value={value} min={min} max={max}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Meter.Label>Disk Usage</Meter.Label>
-          <Meter.Value>
-            {(formattedValue) => (
-              <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>
-                {formattedValue}
-              </span>
-            )}
-          </Meter.Value>
-        </div>
+};
+
+export default meta;
+
+type Story = StoryObj<Args>;
+
+export const Default: Story = {
+  render: (args) => (
+    <div style={{ width: '300px' }}>
+      <Meter.Root value={args.value} minValue={args.minValue} maxValue={args.maxValue}>
         <Meter.Track>
-          <Meter.Indicator />
+          <Meter.Indicator value={args.value} />
         </Meter.Track>
       </Meter.Root>
     </div>
   ),
 };
 
-export default meta;
-type Story = StoryObj<Args>;
-
-export const Default: Story = {};
-
-export const AllStates: Story = {
-  name: 'All Values',
+export const WithLabel: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ width: '36rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {[
-        { label: '25% — Low', value: 25 },
-        { label: '60% — Medium', value: 60 },
-        { label: '90% — High', value: 90 },
-      ].map(({ label, value }) => (
-        <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-          <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{label}</span>
-          <Meter.Root value={value}>
-            <Meter.Track>
-              <Meter.Indicator />
-            </Meter.Track>
-          </Meter.Root>
+    <div style={{ width: '300px' }}>
+      <Meter.Root value={60} minValue={0} maxValue={100}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+          <Meter.Label>Storage</Meter.Label>
+          <Meter.Value>60%</Meter.Value>
         </div>
+        <Meter.Track>
+          <Meter.Indicator value={60} />
+        </Meter.Track>
+      </Meter.Root>
+    </div>
+  ),
+};
+
+export const AllValues: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)', width: '300px' }}>
+      {[10, 40, 70, 90].map((value) => (
+        <Meter.Root key={value} value={value} minValue={0} maxValue={100}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+            <Meter.Label>Usage</Meter.Label>
+            <Meter.Value>{value}%</Meter.Value>
+          </div>
+          <Meter.Track>
+            <Meter.Indicator value={value} />
+          </Meter.Track>
+        </Meter.Root>
       ))}
     </div>
   ),

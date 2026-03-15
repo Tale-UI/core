@@ -3,7 +3,7 @@ import * as React from 'react';
 import { expect } from 'chai';
 import { vi } from 'vitest';
 import { createRenderer } from '#test-utils';
-import { reactMajor } from '@mui/internal-test-utils';
+import { reactMajor } from '@tale-ui/monorepo-tests/test-utils';
 import type { TaleUIComponentProps, ComponentRenderFn, HTMLProps } from '../utils/types';
 import { useRenderElement } from './useRenderElement';
 

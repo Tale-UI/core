@@ -1,168 +1,61 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 import { Button } from '@tale-ui/react/button';
-import { screen } from '@mui/internal-test-utils';
-import { describeConformance, createRenderer } from '#test-utils';
+import { screen } from '@tale-ui/monorepo-tests/test-utils';
+import { createRenderer } from '#test-utils';
 
 describe('<Button />', () => {
   const { render } = createRenderer();
 
-  describeConformance(<Button />, () => ({
-    render,
-    refInstanceof: window.HTMLButtonElement,
-    button: true,
-  }));
-
-  describe('prop: disabled', () => {
-    it('native button: uses the disabled attribute and is not focusable', async () => {
-      const handleClick = spy();
-      const handleMouseDown = spy();
-      const handlePointerDown = spy();
-      const handleKeyDown = spy();
-
-      const { user } = await render(
-        <Button
-          disabled
-          onClick={handleClick}
-          onMouseDown={handleMouseDown}
-          onPointerDown={handlePointerDown}
-          onKeyDown={handleKeyDown}
-        />,
-      );
-
-      const button = screen.getByRole('button');
-
-      expect(button).to.have.attribute('disabled');
-      expect(button).to.have.attribute('data-disabled');
-      expect(button).not.to.have.attribute('aria-disabled');
-
-      await user.keyboard('[Tab]');
-      expect(button).not.toHaveFocus();
-
-      await user.click(button);
-      await user.keyboard('[Space]');
-      await user.keyboard('[Enter]');
-
-      expect(handleClick.callCount).to.equal(0);
-      expect(handleMouseDown.callCount).to.equal(0);
-      expect(handlePointerDown.callCount).to.equal(0);
-      expect(handleKeyDown.callCount).to.equal(0);
-    });
-
-    it('custom element: applies aria-disabled and is not focusable', async () => {
-      const handleClick = spy();
-      const handleMouseDown = spy();
-      const handlePointerDown = spy();
-      const handleKeyDown = spy();
-
-      const { user } = await render(
-        <Button
-          disabled
-          nativeButton={false}
-          render={<span />}
-          onClick={handleClick}
-          onMouseDown={handleMouseDown}
-          onPointerDown={handlePointerDown}
-          onKeyDown={handleKeyDown}
-        />,
-      );
-
-      const button = screen.getByRole('button');
-
-      expect(button).to.not.have.attribute('disabled');
-      expect(button).to.have.attribute('data-disabled');
-      expect(button).to.have.attribute('aria-disabled', 'true');
-      expect(button).to.have.attribute('tabindex', '-1');
-
-      await user.keyboard('[Tab]');
-      expect(button).not.toHaveFocus();
-
-      await user.click(button);
-      await user.keyboard('[Space]');
-      await user.keyboard('[Enter]');
-
-      expect(handleClick.callCount).to.equal(0);
-      expect(handleMouseDown.callCount).to.equal(0);
-      expect(handlePointerDown.callCount).to.equal(0);
-      expect(handleKeyDown.callCount).to.equal(0);
-    });
+  it('renders a native button element', async () => {
+    await render(<Button>Click me</Button>);
+    expect(screen.getByRole('button')).to.exist;
   });
 
-  describe('prop: focusableWhenDisabled', () => {
-    it('native button: prevents interactions but remains focusable', async () => {
-      const handleClick = spy();
-      const handleMouseDown = spy();
-      const handlePointerDown = spy();
-      const handleKeyDown = spy();
+  it('applies BEM class names from variant and size props', async () => {
+    await render(<Button variant="neutral" size="sm">Click me</Button>);
+    const button = screen.getByRole('button');
+    expect(button).to.have.class('tale-button');
+    expect(button).to.have.class('tale-button--neutral');
+    expect(button).to.have.class('tale-button--sm');
+  });
 
-      const { user } = await render(
-        <Button
-          disabled
-          focusableWhenDisabled
-          onClick={handleClick}
-          onMouseDown={handleMouseDown}
-          onPointerDown={handlePointerDown}
-          onKeyDown={handleKeyDown}
-        />,
-      );
+  it('applies default variant and size BEM classes', async () => {
+    await render(<Button>Click me</Button>);
+    const button = screen.getByRole('button');
+    expect(button).to.have.class('tale-button');
+    expect(button).to.have.class('tale-button--primary');
+    expect(button).to.have.class('tale-button--md');
+  });
 
-      const button = screen.getByRole('button');
+  it('merges additional className', async () => {
+    await render(<Button className="custom-class">Click me</Button>);
+    const button = screen.getByRole('button');
+    expect(button).to.have.class('tale-button');
+    expect(button).to.have.class('custom-class');
+  });
 
-      expect(button).to.not.have.attribute('disabled');
+  describe('isDisabled', () => {
+    it('sets disabled attribute and data-disabled when isDisabled', async () => {
+      await render(<Button isDisabled>Click me</Button>);
+      const button = screen.getByRole('button', { hidden: true });
+      expect(button).to.have.attribute('disabled');
       expect(button).to.have.attribute('data-disabled');
-      expect(button).to.have.attribute('aria-disabled', 'true');
-      expect(button).to.have.attribute('tabindex', '0');
-
-      await user.keyboard('[Tab]');
-      expect(button).toHaveFocus();
-
-      await user.click(button);
-      await user.keyboard('[Space]');
-      await user.keyboard('[Enter]');
-
-      expect(handleClick.callCount).to.equal(0);
-      expect(handleMouseDown.callCount).to.equal(0);
-      expect(handlePointerDown.callCount).to.equal(0);
-      expect(handleKeyDown.callCount).to.equal(0);
     });
 
-    it('custom element: prevents interactions but remains focusable', async () => {
-      const handleClick = spy();
-      const handleMouseDown = spy();
-      const handlePointerDown = spy();
-      const handleKeyDown = spy();
-
-      const { user } = await render(
-        <Button
-          disabled
-          focusableWhenDisabled
-          nativeButton={false}
-          render={<span />}
-          onClick={handleClick}
-          onMouseDown={handleMouseDown}
-          onPointerDown={handlePointerDown}
-          onKeyDown={handleKeyDown}
-        />,
-      );
-
-      const button = screen.getByRole('button');
-
-      expect(button).to.not.have.attribute('disabled');
+    it('sets disabled attribute and data-disabled when disabled alias prop is used', async () => {
+      await render(<Button disabled>Click me</Button>);
+      const button = screen.getByRole('button', { hidden: true });
+      expect(button).to.have.attribute('disabled');
       expect(button).to.have.attribute('data-disabled');
-      expect(button).to.have.attribute('aria-disabled', 'true');
-      expect(button).to.have.attribute('tabindex', '0');
+    });
 
-      await user.keyboard('[Tab]');
-      expect(button).toHaveFocus();
-
+    it('does not fire onPress when disabled', async () => {
+      const handlePress = spy();
+      const { user } = await render(<Button isDisabled onPress={handlePress}>Click me</Button>);
+      const button = screen.getByRole('button', { hidden: true });
       await user.click(button);
-      await user.keyboard('[Space]');
-      await user.keyboard('[Enter]');
-
-      expect(handleClick.callCount).to.equal(0);
-      expect(handleMouseDown.callCount).to.equal(0);
-      expect(handlePointerDown.callCount).to.equal(0);
-      expect(handleKeyDown.callCount).to.equal(0);
+      expect(handlePress.callCount).to.equal(0);
     });
   });
 });

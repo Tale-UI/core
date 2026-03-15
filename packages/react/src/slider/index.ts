@@ -1,9 +1,11 @@
 export * as Slider from './Slider.styled';
 
-export type * from './root/SliderRoot';
-export type * from './label/SliderLabel';
-export type * from './value/SliderValue';
-export type * from './control/SliderControl';
-export type * from './track/SliderTrack';
-export type * from './thumb/SliderThumb';
-export type * from './indicator/SliderIndicator';
+export type {
+  RootProps as SliderRootProps,
+  ControlProps as SliderControlProps,
+  TrackProps as SliderTrackProps,
+  IndicatorProps as SliderIndicatorProps,
+  ThumbProps as SliderThumbProps,
+  OutputProps as SliderOutputProps,
+  LabelProps as SliderLabelProps,
+} from './Slider.styled';

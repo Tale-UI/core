@@ -2,7 +2,7 @@
  * Button — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Tale UI Button exposes: [data-disabled]
+ * React Aria Button exposes: [data-disabled] [data-pressed] [data-hovered] [data-focus-visible]
  *
  * Variants:   .tale-button--primary  (default filled)
  *             .tale-button--neutral  (subtle secondary)
@@ -25,7 +25,7 @@
   justify-content: center;
   gap: var(--space-3xs);
   border: 1px solid transparent;
-  border-radius: 0.6rem;
+  border-radius: var(--radius-m);
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
   font-weight: var(--label-font-weight);
@@ -124,25 +124,3 @@
   background-color: var(--error-40);
 }
 
-/* ─── Size modifiers ──────────────────────────────────────────────────────── */
-
-.tale-button--sm {
-  font-size: var(--label-s-font-size);
-  padding: var(--space-4xs) var(--space-3xs);
-  min-height: 2.8rem;
-  gap: var(--space-4xs);
-}
-
-.tale-button--md {
-  /* same as base defaults — explicit for clarity */
-  font-size: var(--label-m-font-size);
-  padding: var(--space-3xs) var(--space-xs);
-  min-height: 3.6rem;
-}
-
-.tale-button--lg {
-  font-size: var(--label-l-font-size);
-  padding: var(--space-2xs) var(--space-s);
-  min-height: 4.4rem;
-  gap: var(--space-2xs);
-}

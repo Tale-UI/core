@@ -89,6 +89,7 @@ Text must never be lighter than `--neutral-50`. Use `--neutral-60` or darker for
 
 - **Radius:** `--radius-none`, `--radius-xs`, `--radius-s`, `--radius-m`, `--radius-l`, `--radius-xl`, `--radius-2xl`, `--radius-full`
 - **Shadows:** `--shadow-xs`, `--shadow-s`, `--shadow-m`, `--shadow-l`, `--shadow-xl`
+- **Scrims:** `--scrim-subtle`, `--scrim`, `--scrim-strong` — semantic backdrop tokens derived from `--neutral-default-100` with transparent mixing so they follow the active neutral family without inverting to a light overlay in dark mode
 
 ## Dark Mode
 

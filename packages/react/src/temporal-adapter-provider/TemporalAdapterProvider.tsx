@@ -4,7 +4,7 @@ import { TemporalAdapter } from '../types/temporal';
 import { TemporalAdapterContext } from './TemporalAdapterContext';
 
 /**
- * Defines the date library adapter for Base UI temporal components.
+ * Defines the date library adapter for Tale UI temporal components.
  */
 export const TemporalAdapterProvider: React.FC<TemporalAdapterProvider.Props> =
   function DateAdapterProvider(props: TemporalAdapterProvider.Props) {

@@ -1,3 +1,1 @@
-export { Menubar } from './Menubar.styled';
-
-export type * from './Menubar';
+export * as Menubar from './Menubar.styled';

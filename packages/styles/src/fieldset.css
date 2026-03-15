@@ -3,7 +3,7 @@
  *
  * Styled with @tale-ui/core design tokens.
  * Fieldset groups related form controls under a legend.
- * Base-ui Fieldset exposes: [data-disabled]
+ * Fieldset is a simple HTML wrapper. Exposes: [data-disabled]
  *
  * Usage:
  *   <Fieldset.Root className="tale-fieldset">
@@ -19,7 +19,7 @@
   flex-direction: column;
   gap: var(--space-m);
   border: 1px solid var(--neutral-20);
-  border-radius: 0.8rem;
+  border-radius: var(--radius-l);
   padding: var(--space-m) var(--space-l);
   margin: 0;
 }

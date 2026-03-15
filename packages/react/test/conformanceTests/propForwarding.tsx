@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { expect } from 'chai';
-import { flushMicrotasks, randomStringValue, screen } from '@mui/internal-test-utils';
+import { flushMicrotasks, randomStringValue, screen } from '@tale-ui/monorepo-tests/test-utils';
 import { throwMissingPropError } from './utils';
 import type {
   ConformantComponentProps,

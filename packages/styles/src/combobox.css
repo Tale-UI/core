@@ -2,29 +2,23 @@
  * Combobox — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Combobox exposes:
- *   Input:  [data-focused] [data-popup-open] (standard text input)
- *   Popup:  [data-open] [data-closed] [data-starting-style] [data-ending-style]
- *           [data-side] [data-align]
- *   Item:   [data-highlighted] [data-selected] [data-disabled]
- *   Chip:   (multi-select selected values)
+ * React Aria ComboBox exposes:
+ *   Input:  [data-focused] [data-open] (standard text input)
+ *   Popup:  [data-entering] [data-exiting] [data-placement]
+ *   Item:   [data-focused] [data-selected] [data-disabled]
  *
  * Usage:
  *   <Combobox.Root>
  *     <Combobox.Input className="tale-combobox__input" />
- *     <Combobox.Portal>
- *       <Combobox.Positioner>
- *         <Combobox.Popup className="tale-combobox__popup">
- *           <Combobox.List>
- *             <Combobox.Item className="tale-combobox__item" value="a">Option A</Combobox.Item>
- *             <Combobox.Empty className="tale-combobox__empty">No results</Combobox.Empty>
- *           </Combobox.List>
- *         </Combobox.Popup>
- *       </Combobox.Positioner>
- *     </Combobox.Portal>
+ *     <Combobox.Popover className="tale-combobox__popover">
+ *       <Combobox.ListBox>
+ *         <Combobox.Item className="tale-combobox__item" value="a">Option A</Combobox.Item>
+ *         <Combobox.Empty className="tale-combobox__empty">No results</Combobox.Empty>
+ *       </Combobox.ListBox>
+ *     </Combobox.Popover>
  *   </Combobox.Root>
  *
- * Shared field-control, popup, item, group-label, item-indicator primitives
+ * Shared field-control, popover, item, header, item-indicator primitives
  * are defined in _primitives.css.
  */
 
@@ -42,7 +36,7 @@
 
 /* ─── Popup ────────────────────────────────────────────────────────────────── */
 
-.tale-combobox__popup {
+.tale-combobox__popover {
   padding: var(--space-4xs);
   min-width: var(--anchor-width);
   max-height: 28rem;
@@ -51,20 +45,19 @@
 
 /* ─── Item ─────────────────────────────────────────────────────────────────── */
 
+/* ─── ListBox ─────────────────────────────────────────────────────────────── */
+
+.tale-combobox__listbox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
 .tale-combobox__item[data-selected] {
   color: var(--color-60);
   font-weight: var(--label-font-weight);
-}
-
-/* ─── Empty state ──────────────────────────────────────────────────────────── */
-
-.tale-combobox__empty {
-  padding: var(--space-m);
-  text-align: center;
-  color: var(--neutral-50);
-  font-family: var(--body-font-family);
-  font-size: var(--text-m-font-size);
-  cursor: default;
 }
 
 /* ─── Chips (multi-select) ─────────────────────────────────────────────────── */
@@ -83,7 +76,7 @@
   padding: var(--space-4xs) var(--space-3xs);
   background-color: var(--neutral-18);
   border: 1px solid var(--neutral-26);
-  border-radius: 0.4rem;
+  border-radius: var(--radius-s);
   color: var(--neutral-80);
   font-family: var(--label-font-family);
   font-size: var(--label-s-font-size);
@@ -97,7 +90,7 @@
   width: 1.6rem;
   height: 1.6rem;
   border: none;
-  border-radius: 0.3rem;
+  border-radius: var(--radius-xs);
   background-color: transparent;
   color: var(--neutral-60);
   cursor: pointer;
@@ -111,55 +104,7 @@
   color: var(--neutral-90);
 }
 
-/* ─── InputGroup ────────────────────────────────────────────────────────────── */
 
-.tale-combobox__input-group {
-  display: flex;
-  align-items: center;
-  position: relative;
-  border: 1px solid var(--neutral-20);
-  border-radius: var(--radius-m);
-  background: var(--neutral-5);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
+/* Trigger arrow styles are shared in _primitives.css */
 
-.tale-combobox__input-group:focus-within {
-  border-color: var(--color-60);
-  box-shadow: 0 0 0 3px var(--color-20);
-}
-
-.tale-combobox__input-group[data-open] {
-  border-color: var(--color-60);
-}
-
-.tale-combobox__input-group[data-disabled] {
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.tale-combobox__input-group .tale-combobox__input {
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  flex: 1;
-  min-width: 0;
-}
-
-/* ─── Label ─────────────────────────────────────────────────────────────────── */
-
-.tale-combobox__label {
-  display: block;
-  font-size: var(--label-s-font-size);
-  font-weight: var(--label-font-weight);
-  color: var(--neutral-70);
-  margin-bottom: var(--space-3xs);
-}
-
-.tale-combobox__label[data-disabled] { opacity: 0.45; }
-
-.tale-combobox__label[data-required]::after {
-  content: ' *';
-  color: var(--color-60);
-}
-
-.tale-combobox__label[data-invalid] { color: var(--color-60); }
+/* Label styles are shared in _primitives.css */

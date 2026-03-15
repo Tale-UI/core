@@ -1,0 +1,87 @@
+/*
+ * Breadcrumbs — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria Breadcrumbs exposes:
+ *   Breadcrumb: [data-current] [data-disabled]
+ *   Link: [data-hovered] [data-pressed] [data-focus-visible] [data-disabled] [data-current]
+ *
+ * Usage:
+ *   <Breadcrumbs.Root className="tale-breadcrumbs">
+ *     <Breadcrumbs.Item className="tale-breadcrumbs__item">
+ *       <Breadcrumbs.Link className="tale-breadcrumbs__link" href="/">Home</Breadcrumbs.Link>
+ *     </Breadcrumbs.Item>
+ *   </Breadcrumbs.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-breadcrumbs {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Separator between items */
+.tale-breadcrumbs__item:not(:last-child)::after {
+  content: '/';
+  display: inline-block;
+  margin: 0 var(--space-3xs);
+  color: var(--neutral-40);
+  font-weight: 400;
+  pointer-events: none;
+}
+
+/* Current item */
+.tale-breadcrumbs__item[data-current] {
+  font-weight: 600;
+  color: var(--neutral-90);
+}
+
+/* ─── Link ─────────────────────────────────────────────────────────────────── */
+
+.tale-breadcrumbs__link {
+  color: var(--neutral-60);
+  text-decoration: none;
+  outline: none;
+  border-radius: var(--radius-xs);
+  transition: color 0.15s ease;
+  cursor: pointer;
+}
+
+.tale-breadcrumbs__link[data-hovered] {
+  color: var(--color-60);
+  text-decoration: underline;
+}
+
+.tale-breadcrumbs__link[data-pressed] {
+  color: var(--color-40);
+}
+
+.tale-breadcrumbs__link[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+.tale-breadcrumbs__link[data-current] {
+  color: var(--neutral-90);
+  font-weight: 600;
+  cursor: default;
+  pointer-events: none;
+}
+
+.tale-breadcrumbs__link[data-disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}

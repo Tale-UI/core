@@ -2,11 +2,9 @@
  * Switch — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Switch exposes:
- *   Root:  [data-checked] [data-unchecked] [data-disabled]
- *          [data-readonly] [data-required] [data-valid] [data-invalid]
- *          [data-focused]
- *   Thumb: [data-checked] [data-unchecked] [data-disabled]
+ * React Aria Switch exposes on the label (Root):
+ *   [data-selected] [data-disabled] [data-readonly] [data-required]
+ *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
  *
  * Usage:
  *   <Switch.Root className="tale-switch">
@@ -20,51 +18,66 @@
   --tale-switch-track-width: 4rem;
   --tale-switch-track-height: 2.2rem;
   --tale-switch-thumb-size: 1.4rem;
-  --tale-switch-thumb-offset: 0.2rem;
+  --tale-switch-thumb-offset: 0.4rem;
 
   position: relative;
   display: inline-flex;
-  width: var(--tale-switch-track-width);
-  height: var(--tale-switch-track-height);
-  border-radius: 9999px;
-  border: 1.5px solid var(--neutral-30);
-  background-color: var(--neutral-20);
-  padding: 0;
+  align-items: center;
+  gap: var(--space-3xs);
+  min-height: var(--tale-switch-track-height);
+  padding-inline-start: calc(var(--tale-switch-track-width) + var(--space-3xs));
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
   cursor: pointer;
   outline: none;
+  flex-shrink: 0;
+}
+
+.tale-switch::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 50%;
+  width: var(--tale-switch-track-width);
+  height: var(--tale-switch-track-height);
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--neutral-30);
+  background-color: var(--neutral-20);
+  transform: translateY(-50%);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
     box-shadow 0.2s ease;
-  flex-shrink: 0;
 }
 
-.tale-switch:focus-visible {
+.tale-switch[data-focus-visible]::before {
   box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
-/* ─── Checked (on) state ──────────────────────────────────────────────────── */
+/* ─── Selected (on) state ─────────────────────────────────────────────────── */
 
-.tale-switch[data-checked] {
+.tale-switch[data-selected]::before {
   background-color: var(--color-60);
   border-color: var(--color-60);
 }
 
-.tale-switch[data-checked]:hover:not([data-disabled]) {
+.tale-switch[data-selected][data-hovered]:not([data-disabled])::before {
   background-color: var(--color-50);
   border-color: var(--color-50);
 }
 
 /* ─── Hover (off) ─────────────────────────────────────────────────────────── */
 
-.tale-switch:hover:not([data-disabled]):not([data-checked]) {
+.tale-switch[data-hovered]:not([data-disabled]):not([data-selected])::before {
   border-color: var(--neutral-50);
   background-color: var(--neutral-26);
 }
 
 /* ─── Invalid state ───────────────────────────────────────────────────────── */
 
-.tale-switch[data-invalid] {
+.tale-switch[data-invalid]::before {
   border-color: var(--red-60);
 }
 
@@ -73,7 +86,6 @@
 .tale-switch[data-disabled] {
   opacity: 0.45;
   cursor: not-allowed;
-  pointer-events: none;
 }
 
 /* ─── Thumb — sliding circle ──────────────────────────────────────────────── */
@@ -86,13 +98,15 @@
   height: var(--tale-switch-thumb-size);
   border-radius: 50%;
   background-color: var(--neutral-80);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-s);
   transition: transform 0.2s ease, background-color 0.2s ease;
   transform: translate(0, -50%);
+  z-index: 1;
   flex-shrink: 0;
+  pointer-events: none;
 }
 
-.tale-switch__thumb[data-checked] {
+.tale-switch[data-selected] .tale-switch__thumb {
   transform: translate(
     calc(
       var(--tale-switch-track-width) - (var(--tale-switch-thumb-offset) * 2) -

@@ -2,21 +2,34 @@
  * Radio — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Radio exposes:
- *   Root:      [data-checked] [data-unchecked] [data-disabled]
- *              [data-readonly] [data-required] [data-valid] [data-invalid]
- *              [data-focused]
- *   Indicator: [data-checked] [data-unchecked] [data-disabled]
+ * React Aria Radio exposes on the label:
+ *   [data-selected] [data-disabled] [data-readonly] [data-required] [data-invalid]
+ *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
  *
  * Usage:
- *   <Radio.Root className="tale-radio">
- *     <Radio.Indicator className="tale-radio__indicator" />
- *   </Radio.Root>
+ *   <Radio.Group className="tale-radio-group">
+ *     <Radio.Root value="..." className="tale-radio">
+ *       <Radio.Indicator className="tale-radio__indicator" />
+ *     </Radio.Root>
+ *   </Radio.Group>
  */
 
-/* ─── Root — circular hit area ────────────────────────────────────────────── */
+/* ─── Root — label wrapper (flex row, cursor) ─────────────────────────────── */
 
 .tale-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+/* ─── Indicator — the visual radio circle ─────────────────────────────────── */
+
+.tale-radio__indicator {
+  --tale-radio-dot-size: 0.8rem;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -25,40 +38,51 @@
   border-radius: 50%;
   border: 1.5px solid var(--neutral-40);
   background-color: var(--neutral-10);
-  cursor: pointer;
   outline: none;
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
     box-shadow 0.15s ease;
   flex-shrink: 0;
+  pointer-events: none;
 }
 
-.tale-radio:focus-visible {
+.tale-radio__indicator::after {
+  content: '';
+  width: var(--tale-radio-dot-size);
+  height: var(--tale-radio-dot-size);
+  border-radius: 50%;
+  background-color: var(--color-60);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  transform: scale(0);
+  opacity: 0;
+}
+
+.tale-radio[data-focus-visible] .tale-radio__indicator {
   box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
-/* ─── Checked state ───────────────────────────────────────────────────────── */
+/* ─── Selected state ──────────────────────────────────────────────────────── */
 
-.tale-radio[data-checked] {
+.tale-radio[data-selected] .tale-radio__indicator {
   border-color: var(--color-60);
   background-color: var(--neutral-10);
 }
 
-.tale-radio[data-checked]:hover:not([data-disabled]) {
+.tale-radio[data-selected][data-hovered]:not([data-disabled]) .tale-radio__indicator {
   border-color: var(--color-50);
 }
 
-/* ─── Hover (unchecked) ───────────────────────────────────────────────────── */
+/* ─── Hover (unselected) ──────────────────────────────────────────────────── */
 
-.tale-radio:hover:not([data-disabled]):not([data-checked]) {
+.tale-radio[data-hovered]:not([data-disabled], [data-selected]) .tale-radio__indicator {
   border-color: var(--neutral-60);
   background-color: var(--neutral-14);
 }
 
 /* ─── Invalid state ───────────────────────────────────────────────────────── */
 
-.tale-radio[data-invalid] {
+.tale-radio[data-invalid] .tale-radio__indicator {
   border-color: var(--red-60);
 }
 
@@ -67,24 +91,25 @@
 .tale-radio[data-disabled] {
   opacity: 0.45;
   cursor: not-allowed;
-  pointer-events: none;
 }
 
 /* ─── Size modifiers ──────────────────────────────────────────────────────── */
 
-.tale-radio--sm {
-  width: 1.4rem;
-  height: 1.4rem;
+.tale-radio--sm .tale-radio__indicator {
+  --tale-radio-dot-size: 0.6rem;
+  width: var(--space-xs);
+  height: var(--space-xs);
 }
 
-.tale-radio--lg {
+.tale-radio--lg .tale-radio__indicator {
+  --tale-radio-dot-size: 1rem;
   width: 2.2rem;
   height: 2.2rem;
 }
 
-/* ─── Indicator — filled dot shown when checked ───────────────────────────── */
+/* ─── Indicator dot — filled circle shown when selected ───────────────────── */
 
-.tale-radio__indicator {
+.tale-radio__dot {
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 50%;
@@ -94,17 +119,22 @@
   opacity: 0;
 }
 
-.tale-radio--sm .tale-radio__indicator {
+.tale-radio--sm .tale-radio__dot {
   width: 0.6rem;
   height: 0.6rem;
 }
 
-.tale-radio--lg .tale-radio__indicator {
+.tale-radio--lg .tale-radio__dot {
   width: 1rem;
   height: 1rem;
 }
 
-.tale-radio__indicator[data-checked] {
+.tale-radio[data-selected] .tale-radio__dot {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.tale-radio[data-selected] .tale-radio__indicator::after {
   transform: scale(1);
   opacity: 1;
 }

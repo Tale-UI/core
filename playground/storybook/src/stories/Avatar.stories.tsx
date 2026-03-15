@@ -1,71 +1,70 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Avatar } from '@tale-ui/react/avatar';
 
 type Args = {
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  src?: string;
-  fallback?: string;
 };
 
 const meta: Meta<Args> = {
-  title: 'Display/Avatar',
+  title: 'Components/Avatar',
   parameters: { layout: 'centered' },
   argTypes: {
-    size: { control: 'radio', options: ['sm', 'md', 'lg', 'xl'] },
-    src: { control: 'text' },
-    fallback: { control: 'text' },
+    size: { control: 'select', options: ['sm', 'md', 'lg', 'xl'] },
   },
   args: {
     size: 'md',
-    src: 'https://avatars.githubusercontent.com/u/1',
-    fallback: 'AB',
   },
-  render: ({ size = 'md', src, fallback }) => (
-    <Avatar.Root size={size}>
-      <Avatar.Image src={src} alt="User avatar" />
-      <Avatar.Fallback>{fallback}</Avatar.Fallback>
+};
+
+export default meta;
+
+type Story = StoryObj<Args>;
+
+export const Default: Story = {
+  render: (args) => (
+    <Avatar.Root size={args.size}>
+      <Avatar.Fallback>JD</Avatar.Fallback>
     </Avatar.Root>
   ),
 };
 
-export default meta;
-type Story = StoryObj<Args>;
-
-export const WithImage: Story = { name: 'With Image' };
-
-export const Fallback: Story = {
-  name: 'Fallback (No Image)',
-  args: { src: undefined },
-};
-
 export const AllSizes: Story = {
-  name: 'All Sizes',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1.6rem' }}>
-      {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
-        <Avatar.Root key={size} size={size}>
-          <Avatar.Image src={undefined} alt="" />
-          <Avatar.Fallback>AB</Avatar.Fallback>
-        </Avatar.Root>
-      ))}
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-m)' }}>
+      <Avatar.Root size="sm">
+        <Avatar.Fallback>SM</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root size="md">
+        <Avatar.Fallback>MD</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root size="lg">
+        <Avatar.Fallback>LG</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root size="xl">
+        <Avatar.Fallback>XL</Avatar.Fallback>
+      </Avatar.Root>
     </div>
   ),
 };
 
-export const Group: Story = {
-  name: 'Avatar Group',
+export const WithImage: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      {['AB', 'CD', 'EF', 'GH'].map((initials, i) => (
-        <Avatar.Root
-          key={initials}
-          size="md"
-          style={{ marginLeft: i === 0 ? 0 : '-0.8rem', boxShadow: '0 0 0 2px var(--neutral-10)', zIndex: 4 - i }}
-        >
-          <Avatar.Fallback>{initials}</Avatar.Fallback>
-        </Avatar.Root>
-      ))}
+    // In practice, set src on Avatar.Image to display a real avatar photo.
+    // The Fallback content is shown when no image src is provided or the image fails to load.
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-m)' }}>
+      <Avatar.Root size="lg">
+        <Avatar.Image src="" alt="User avatar" />
+        <Avatar.Fallback>AB</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root size="lg">
+        <Avatar.Fallback>CD</Avatar.Fallback>
+      </Avatar.Root>
     </div>
   ),
 };

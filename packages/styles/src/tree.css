@@ -1,0 +1,86 @@
+/*
+ * Tree — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria Tree exposes:
+ *   Root: [data-empty] [data-focused] [data-focus-visible]
+ *   Item: [data-expanded] [data-selected] [data-focused] [data-focus-visible]
+ *         [data-disabled] [data-has-child-items]
+ *
+ * Usage:
+ *   <Tree.Root className="tale-tree">
+ *     <Tree.Item className="tale-tree__item">
+ *       <Tree.ItemContent className="tale-tree__item-content">Label</Tree.ItemContent>
+ *     </Tree.Item>
+ *   </Tree.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-tree {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  color: var(--neutral-90);
+  outline: none;
+}
+
+.tale-tree[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
+  border-radius: var(--space-4xs);
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-tree__item {
+  outline: none;
+  cursor: default;
+  transition: background-color 0.1s ease;
+}
+
+.tale-tree__item[data-hovered] {
+  background-color: var(--neutral-12);
+}
+
+.tale-tree__item[data-selected] {
+  background-color: color-mix(in srgb, var(--color-60) 12%, transparent);
+}
+
+.tale-tree__item[data-focus-visible] {
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color);
+  border-radius: var(--space-4xs);
+}
+
+.tale-tree__item[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Indentation via level — uses padding-inline-start */
+.tale-tree__item[data-level="1"] { padding-inline-start: var(--space-2xs); }
+.tale-tree__item[data-level="2"] { padding-inline-start: calc(var(--space-2xs) + 1.25rem); }
+.tale-tree__item[data-level="3"] { padding-inline-start: calc(var(--space-2xs) + 2.5rem); }
+.tale-tree__item[data-level="4"] { padding-inline-start: calc(var(--space-2xs) + 3.75rem); }
+.tale-tree__item[data-level="5"] { padding-inline-start: calc(var(--space-2xs) + 5rem); }
+
+/* ─── Item Content ─────────────────────────────────────────────────────────── */
+
+.tale-tree__item-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4xs);
+  padding: var(--space-4xs) var(--space-2xs);
+}
+
+/* Expand / collapse indicator for items with children */
+.tale-tree__item[data-has-child-items] > .tale-tree__item-content::before {
+  content: '\25B6'; /* right-pointing triangle */
+  display: inline-block;
+  font-size: 0.6em;
+  transition: transform 0.15s ease;
+}
+
+.tale-tree__item[data-expanded] > .tale-tree__item-content::before {
+  transform: rotate(90deg);
+}

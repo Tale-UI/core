@@ -2,9 +2,8 @@
  * NumberField — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui NumberField exposes:
- *   Root:  [data-disabled] [data-scrubbing] [data-valid] [data-invalid]
- *   Thumb: (scrub area cursor)
+ * React Aria NumberField exposes:
+ *   Root:  [data-disabled] [data-invalid]
  *
  * Usage:
  *   <NumberField.Root className="tale-number-field">
@@ -21,7 +20,7 @@
 .tale-number-field {
   display: inline-flex;
   flex-direction: column;
-  gap: var(--space-4xs);
+  gap: var(--space-3xs);
 }
 
 /* ─── Group — wraps input + stepper buttons ───────────────────────────────── */
@@ -30,7 +29,7 @@
   display: inline-flex;
   align-items: stretch;
   border: 1px solid var(--neutral-26);
-  border-radius: 0.6rem;
+  border-radius: var(--radius-m);
   overflow: hidden;
   background-color: var(--neutral-10);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;

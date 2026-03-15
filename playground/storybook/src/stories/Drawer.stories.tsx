@@ -1,95 +1,55 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
-import { Button } from '@tale-ui/react/button';
+import { Drawer } from '@tale-ui/react/drawer';
 
-type Args = {
-  title?: string;
-  description?: string;
-};
+type Args = Record<string, never>;
 
 const meta: Meta<Args> = {
-  title: 'Overlay/Drawer',
+  title: 'Components/Drawer',
   parameters: { layout: 'centered' },
-  argTypes: {
-    title: { control: 'text' },
-    description: { control: 'text' },
-  },
-  args: {
-    title: 'Drawer',
-    description: 'This is a bottom sheet drawer. Swipe down or click outside to close.',
-  },
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
-  render: (args) => (
+  render: () => (
     <Drawer.Root>
-      <Drawer.Trigger render={<Button variant="neutral">Open Drawer</Button>} />
-      <Drawer.Portal>
-        <Drawer.Backdrop />
-        <Drawer.Popup>
-          <div className="tale-drawer__handle" />
-          <Drawer.Title>{args.title}</Drawer.Title>
-          <Drawer.Description>
-            {args.description}
-          </Drawer.Description>
-          <div style={{ marginTop: '1.6rem', display: 'flex', gap: '1.2rem' }}>
-            <Drawer.Close render={<Button className="tale-button tale-button--neutral" style={{ flex: 1 }}>Cancel</Button>} />
-            <Drawer.Close render={<Button className="tale-button tale-button--primary" style={{ flex: 1 }}>Confirm</Button>} />
-          </div>
-        </Drawer.Popup>
-      </Drawer.Portal>
+      <Drawer.Trigger>Open Drawer</Drawer.Trigger>
+      <Drawer.Popup>
+        <p>Drawer content goes here.</p>
+        <Drawer.Close>Close</Drawer.Close>
+      </Drawer.Popup>
     </Drawer.Root>
   ),
 };
 
-export const WithContent: Story = {
-  name: 'With Rich Content',
+export const WithTitle: Story = {
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger render={<Button variant="primary">Share</Button>} />
-      <Drawer.Portal>
-        <Drawer.Backdrop />
-        <Drawer.Popup>
-          <div className="tale-drawer__handle" />
-          <Drawer.Title>Share</Drawer.Title>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.2rem', marginTop: '1.6rem' }}>
-            {['Twitter', 'LinkedIn', 'Facebook', 'Email'].map((platform) => (
-              <div key={platform} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}>
-                <div style={{ width: '4.8rem', height: '4.8rem', borderRadius: '50%', background: 'var(--neutral-14)', border: '1px solid var(--neutral-20)' }} />
-                <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-70)' }}>{platform}</span>
-              </div>
-            ))}
-          </div>
-        </Drawer.Popup>
-      </Drawer.Portal>
+      <Drawer.Trigger>Open Drawer</Drawer.Trigger>
+      <Drawer.Popup>
+        <Drawer.Title>Drawer Title</Drawer.Title>
+        <Drawer.Description>This is a description of the drawer content.</Drawer.Description>
+        <p style={{ marginTop: 'var(--space-s)' }}>
+          Additional content can go here.
+        </p>
+        <Drawer.Close>Close</Drawer.Close>
+      </Drawer.Popup>
     </Drawer.Root>
   ),
 };
 
-export const WithSwipeArea: Story = {
-  name: 'With Swipe Area',
+export const WithBackdrop: Story = {
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger render={<Button variant="neutral">Open Drawer</Button>} />
-      <Drawer.SwipeArea />
-      <Drawer.Portal>
-        <Drawer.Backdrop />
-        <Drawer.Popup>
-          <div className="tale-drawer__handle" />
-          <Drawer.Title>Swipeable Drawer</Drawer.Title>
-          <Drawer.Description>
-            A swipe area is rendered outside the portal so gestures can begin before the drawer is fully open. Swipe down to close.
-          </Drawer.Description>
-          <div style={{ marginTop: '1.6rem', display: 'flex', gap: '1.2rem' }}>
-            <Drawer.Close render={<Button className="tale-button tale-button--neutral" style={{ flex: 1 }}>Cancel</Button>} />
-            <Drawer.Close render={<Button className="tale-button tale-button--primary" style={{ flex: 1 }}>Confirm</Button>} />
-          </div>
-        </Drawer.Popup>
-      </Drawer.Portal>
+      <Drawer.Trigger>Open Drawer</Drawer.Trigger>
+      <Drawer.Backdrop />
+      <Drawer.Popup>
+        <Drawer.Title>Drawer with Backdrop</Drawer.Title>
+        <Drawer.Description>Click the backdrop to close.</Drawer.Description>
+        <Drawer.Close>×</Drawer.Close>
+      </Drawer.Popup>
     </Drawer.Root>
   ),
 };

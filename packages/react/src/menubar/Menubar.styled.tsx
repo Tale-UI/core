@@ -1,18 +1,28 @@
 import * as React from 'react';
-import { Menubar as H } from './Menubar';
 import { cx } from '../_cx';
-import type { MenubarState, MenubarProps } from './Menubar';
 
-const StyledMenubar = React.forwardRef<
-  React.ComponentRef<typeof H>,
-  React.ComponentPropsWithoutRef<typeof H>
->(({ className, ...props }, ref) => (
-  <H className={cx('tale-menubar', className)} ref={ref} {...props} />
-));
-StyledMenubar.displayName = 'Menubar';
-export const Menubar = StyledMenubar as typeof H;
-
-export namespace Menubar {
-  export type State = MenubarState;
-  export type Props = MenubarProps;
+export interface RootProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string | undefined;
 }
+
+export const Root = React.forwardRef<HTMLDivElement, RootProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} role="menubar" className={cx('tale-menubar', className)} {...props} />
+  ),
+);
+Root.displayName = 'Menubar.Root';
+
+export interface ItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string | undefined;
+}
+
+/**
+ * Wraps a Menu.Root inside the menubar, applying the menubar item styling
+ * to the trigger button via CSS.
+ */
+export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-menubar__item', className)} {...props} />
+  ),
+);
+Item.displayName = 'Menubar.Item';

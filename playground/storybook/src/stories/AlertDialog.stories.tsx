@@ -1,67 +1,61 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { AlertDialog } from '@tale-ui/react/alert-dialog';
 import { Button } from '@tale-ui/react/button';
 
-type Args = {
-  title?: string;
-  description?: string;
-};
+type Args = Record<string, never>;
 
 const meta: Meta<Args> = {
-  title: 'Overlay/AlertDialog',
+  title: 'Components/AlertDialog',
   parameters: { layout: 'centered' },
-  argTypes: {
-    title: { control: 'text' },
-    description: { control: 'text' },
-  },
-  args: {
-    title: 'Are you sure?',
-    description: 'This will permanently delete the item. This action cannot be undone.',
-  },
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
-  render: (args) => (
+  render: () => (
     <AlertDialog.Root>
-      <AlertDialog.Trigger render={<Button variant="danger">Delete Item</Button>} />
-      <AlertDialog.Portal>
-        <AlertDialog.Backdrop />
-        <AlertDialog.Popup>
-          <AlertDialog.Title>{args.title}</AlertDialog.Title>
-          <AlertDialog.Description>
-            {args.description}
-          </AlertDialog.Description>
-          <div className="tale-alert-dialog__actions">
-            <AlertDialog.Close render={<Button variant="neutral">Cancel</Button>} />
-            <AlertDialog.Close render={<Button variant="danger">Delete</Button>} />
+      <AlertDialog.Trigger>Open Alert</AlertDialog.Trigger>
+      <AlertDialog.Backdrop />
+      <AlertDialog.Popup>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Are you sure?</AlertDialog.Title>
+          <AlertDialog.Description>This action cannot be undone.</AlertDialog.Description>
+          <div style={{ display: 'flex', gap: 'var(--space-s)', justifyContent: 'flex-end', marginTop: 'var(--space-m)' }}>
+            <AlertDialog.Close>Cancel</AlertDialog.Close>
+            <AlertDialog.Close>Confirm</AlertDialog.Close>
           </div>
-        </AlertDialog.Popup>
-      </AlertDialog.Portal>
+        </AlertDialog.Content>
+      </AlertDialog.Popup>
     </AlertDialog.Root>
   ),
 };
 
-export const Warning: Story = {
+export const Destructive: Story = {
   render: () => (
     <AlertDialog.Root>
-      <AlertDialog.Trigger render={<Button variant="neutral">Discard Changes</Button>} />
-      <AlertDialog.Portal>
-        <AlertDialog.Backdrop />
-        <AlertDialog.Popup>
-          <AlertDialog.Title>Discard unsaved changes?</AlertDialog.Title>
+      <AlertDialog.Trigger>
+        <Button>Delete Account</Button>
+      </AlertDialog.Trigger>
+      <AlertDialog.Backdrop />
+      <AlertDialog.Popup>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Delete Account</AlertDialog.Title>
           <AlertDialog.Description>
-            You have unsaved changes that will be lost if you navigate away. Do you want to continue?
+            Are you sure you want to delete your account? All of your data will be permanently removed.
+            This action cannot be undone.
           </AlertDialog.Description>
-          <div className="tale-alert-dialog__actions">
-            <AlertDialog.Close render={<Button variant="primary">Keep editing</Button>} />
-            <AlertDialog.Close render={<Button variant="neutral">Discard</Button>} />
+          <div style={{ display: 'flex', gap: 'var(--space-s)', justifyContent: 'flex-end', marginTop: 'var(--space-m)' }}>
+            <AlertDialog.Close>Cancel</AlertDialog.Close>
+            <AlertDialog.Close>
+              <Button style={{ backgroundColor: 'var(--color-danger-bg)', color: 'var(--color-danger-fg)' }}>
+                Delete
+              </Button>
+            </AlertDialog.Close>
           </div>
-        </AlertDialog.Popup>
-      </AlertDialog.Portal>
+        </AlertDialog.Content>
+      </AlertDialog.Popup>
     </AlertDialog.Root>
   ),
 };

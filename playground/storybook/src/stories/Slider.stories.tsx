@@ -1,45 +1,58 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Slider } from '@tale-ui/react/slider';
 
 type Args = {
-  disabled?: boolean;
-  orientation?: 'horizontal' | 'vertical';
-  defaultValue?: number[];
-  min?: number;
-  max?: number;
+  value?: number;
+  minValue?: number;
+  maxValue?: number;
   step?: number;
+  orientation?: 'horizontal' | 'vertical';
+  isDisabled?: boolean;
 };
 
 const meta: Meta<Args> = {
-  title: 'Form Controls/Slider',
-  parameters: { layout: 'centered' },
+  title: 'Components/Slider',
   argTypes: {
-    disabled: { control: 'boolean' },
-    orientation: { control: 'radio', options: ['horizontal', 'vertical'] },
-    min: { control: 'number' },
-    max: { control: 'number' },
+    value: { control: 'number' },
+    minValue: { control: 'number' },
+    maxValue: { control: 'number' },
     step: { control: 'number' },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+    },
+    isDisabled: { control: 'boolean' },
   },
   args: {
-    disabled: false,
-    orientation: 'horizontal',
-    defaultValue: [40],
-    min: 0,
-    max: 100,
+    value: 50,
+    minValue: 0,
+    maxValue: 100,
     step: 1,
+    orientation: 'horizontal',
+    isDisabled: false,
   },
-  render: ({ disabled, orientation, defaultValue, min, max, step }) => (
-    <div style={{ width: orientation === 'horizontal' ? '28rem' : '4rem', height: orientation === 'vertical' ? '20rem' : 'auto' }}>
+};
+
+export default meta;
+
+type Story = StoryObj<Args>;
+
+export const Default: Story = {
+  render: (args) => (
+    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
       <Slider.Root
-       
-        disabled={disabled}
-        orientation={orientation}
-        defaultValue={defaultValue}
-        min={min}
-        max={max}
-        step={step}
+        key={`${args.value}-${args.minValue}-${args.maxValue}-${args.step}-${args.orientation}`}
+        defaultValue={args.value}
+        minValue={args.minValue}
+        maxValue={args.maxValue}
+        step={args.step}
+        orientation={args.orientation}
+        isDisabled={args.isDisabled}
       >
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+          <Slider.Label>Volume</Slider.Label>
+          <Slider.Output />
+        </div>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />
@@ -51,17 +64,84 @@ const meta: Meta<Args> = {
   ),
 };
 
-export default meta;
-type Story = StoryObj<Args>;
-
-export const Default: Story = {};
-
 export const WithLabel: Story = {
-  name: 'With Label',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ width: '28rem' }}>
-      <Slider.Root defaultValue={[40]}>
-        <Slider.Label>Volume</Slider.Label>
+    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+      <Slider.Root defaultValue={30}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+          <Slider.Label>Brightness</Slider.Label>
+          <Slider.Output />
+        </div>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb />
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  ),
+};
+
+export const Range: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+      <Slider.Root defaultValue={[20, 80]}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+          <Slider.Label>Price Range</Slider.Label>
+          <Slider.Output />
+        </div>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb />
+            <Slider.Thumb />
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  ),
+};
+
+export const Steps: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+      <Slider.Root defaultValue={50} step={10}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+          <Slider.Label>Quality</Slider.Label>
+          <Slider.Output />
+        </div>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb />
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  ),
+};
+
+export const Disabled: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+      <Slider.Root defaultValue={60} isDisabled>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+          <Slider.Label>Disabled Slider</Slider.Label>
+          <Slider.Output />
+        </div>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />
@@ -74,30 +154,18 @@ export const WithLabel: Story = {
 };
 
 export const Vertical: Story = {
-  args: { orientation: 'vertical', defaultValue: [60] },
-};
-
-export const Disabled: Story = { args: { disabled: true } };
-
-export const Range: Story = {
-  name: 'Range (Two Thumbs)',
-  args: { defaultValue: [20, 80] },
-  render: ({ disabled, orientation, defaultValue, min, max, step }) => (
-    <div style={{ width: '28rem' }}>
-      <Slider.Root
-       
-        disabled={disabled}
-        orientation={orientation}
-        defaultValue={defaultValue}
-        min={min}
-        max={max}
-        step={step}
-      >
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ width: '120px', height: '250px', padding: 'var(--space-m)' }}>
+      <Slider.Root defaultValue={40} orientation="vertical">
+        <Slider.Label>Vertical</Slider.Label>
+        <Slider.Output />
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />
-            <Slider.Thumb index={0} />
-            <Slider.Thumb index={1} />
+            <Slider.Thumb />
           </Slider.Track>
         </Slider.Control>
       </Slider.Root>

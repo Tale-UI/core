@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { HexColorPicker } from 'react-colorful'
 import { Button } from '@tale-ui/react/button'
-import { Toggle } from '@tale-ui/react/toggle'
-import { ToggleGroup } from '@tale-ui/react/toggle-group'
+import { ToggleButton } from '@tale-ui/react/toggle-button'
+import { ToggleButtonGroup } from '@tale-ui/react/toggle-button'
 import { isValidHex, numberToHex } from '../utils'
 
 const Root = styled.div`
@@ -219,28 +219,28 @@ const MainColorSelector = ({
       </Field>
 
       <ControlsRow>
-        <ToggleGroup
-          className="tale-toggle-group"
+        <ToggleButtonGroup
+          className="tale-toggle-button-group"
           value={[mode]}
           onValueChange={(newValue) => {
             if (newValue.length > 0) onModeChange(newValue[0])
           }}
         >
-          <Toggle className="tale-toggle tale-toggle--sm" value="named">
+          <ToggleButton className="tale-toggle-button tale-toggle-button--sm" value="named">
             Named (11)
-          </Toggle>
-          <Toggle className="tale-toggle tale-toggle--sm" value="neutral">
+          </ToggleButton>
+          <ToggleButton className="tale-toggle-button tale-toggle-button--sm" value="neutral">
             Neutral (27)
-          </Toggle>
-        </ToggleGroup>
+          </ToggleButton>
+        </ToggleButtonGroup>
         {mode === 'neutral' && (
-          <Toggle
-            className="tale-toggle tale-toggle--sm"
+          <ToggleButton
+            className="tale-toggle-button tale-toggle-button--sm"
             pressed={whiteAnchor}
             onPressedChange={onWhiteAnchorChange}
           >
             White at 5
-          </Toggle>
+          </ToggleButton>
         )}
         <Button
           className="tale-button tale-button--neutral tale-button--sm"

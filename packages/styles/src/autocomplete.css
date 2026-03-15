@@ -7,17 +7,15 @@
  * Usage:
  *   <Autocomplete.Root>
  *     <Autocomplete.Input className="tale-autocomplete__input" />
- *     <Autocomplete.Portal>
- *       <Autocomplete.Positioner>
- *         <Autocomplete.Popup className="tale-autocomplete__popup">
- *           <Autocomplete.Item className="tale-autocomplete__item" value="a">Option A</Autocomplete.Item>
- *           <Autocomplete.Empty className="tale-autocomplete__empty">No results</Autocomplete.Empty>
- *         </Autocomplete.Popup>
- *       </Autocomplete.Positioner>
- *     </Autocomplete.Portal>
+ *     <Autocomplete.Popover className="tale-autocomplete__popover">
+ *       <Autocomplete.ListBox>
+ *         <Autocomplete.Item className="tale-autocomplete__item" value="a">Option A</Autocomplete.Item>
+ *         <Autocomplete.Empty className="tale-autocomplete__empty">No results</Autocomplete.Empty>
+ *       </Autocomplete.ListBox>
+ *     </Autocomplete.Popover>
  *   </Autocomplete.Root>
  *
- * Shared field-control, popup, item, group-label primitives
+ * Shared field-control, popover, item, header primitives
  * are defined in _primitives.css.
  */
 
@@ -35,11 +33,28 @@
 
 /* ─── Popup ────────────────────────────────────────────────────────────────── */
 
-.tale-autocomplete__popup {
+.tale-autocomplete__popover {
   padding: var(--space-4xs);
   min-width: var(--anchor-width);
   max-height: 28rem;
   overflow-y: auto;
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+/* ─── SearchField ─────────────────────────────────────────────────────────── */
+
+.tale-autocomplete__search-field {
+  display: block;
+  width: 100%;
+}
+
+/* ─── ListBox ─────────────────────────────────────────────────────────────── */
+
+.tale-autocomplete__listbox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
 }
 
 /* ─── Item ─────────────────────────────────────────────────────────────────── */
@@ -49,47 +64,3 @@
   font-weight: var(--label-font-weight);
 }
 
-/* ─── Empty state ──────────────────────────────────────────────────────────── */
-
-.tale-autocomplete__empty {
-  padding: var(--space-m);
-  text-align: center;
-  color: var(--neutral-50);
-  font-family: var(--body-font-family);
-  font-size: var(--text-m-font-size);
-  cursor: default;
-}
-
-/* ─── InputGroup ────────────────────────────────────────────────────────────── */
-
-.tale-autocomplete__input-group {
-  display: flex;
-  align-items: center;
-  position: relative;
-  border: 1px solid var(--neutral-20);
-  border-radius: var(--radius-m);
-  background: var(--neutral-5);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.tale-autocomplete__input-group:focus-within {
-  border-color: var(--color-60);
-  box-shadow: 0 0 0 3px var(--color-20);
-}
-
-.tale-autocomplete__input-group[data-open] {
-  border-color: var(--color-60);
-}
-
-.tale-autocomplete__input-group[data-disabled] {
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.tale-autocomplete__input-group .tale-autocomplete__input {
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  flex: 1;
-  min-width: 0;
-}

@@ -2,11 +2,9 @@
  * Drawer — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Drawer exposes:
- *   Popup:    [data-open] [data-closed] [data-starting-style] [data-ending-style]
- *             [data-expanded] [data-swiping] [data-swipe-direction]
- *             [data-nested-drawer-open]
- *   Backdrop: [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ * Drawer is a custom overlay (no React Aria equivalent).
+ *   Popup:    [data-entering] [data-exiting]
+ *   Backdrop: [data-entering] [data-exiting]
  *
  * Usage:
  *   <Drawer.Root>
@@ -27,13 +25,16 @@
 .tale-drawer__backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--scrim);
+  opacity: 1;
   z-index: 100;
   transition: opacity 0.3s ease;
 }
 
 .tale-drawer__backdrop[data-starting-style],
-.tale-drawer__backdrop[data-ending-style] {
+.tale-drawer__backdrop[data-ending-style],
+.tale-drawer__backdrop[data-entering],
+.tale-drawer__backdrop[data-exiting] {
   opacity: 0;
 }
 
@@ -44,12 +45,15 @@
   bottom: 0;
   left: 0;
   right: 0;
+  transform: translateY(0);
   z-index: 101;
   background-color: var(--neutral-10);
   border-top: 1px solid var(--neutral-20);
-  border-radius: 1.6rem 1.6rem 0 0;
-  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
-  padding: var(--space-xl) var(--space-xl) max(var(--space-xl), env(safe-area-inset-bottom));
+  border-left: 1px solid var(--neutral-20);
+  border-right: 1px solid var(--neutral-20);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  box-shadow: var(--shadow-m);
+  padding: var(--space-m) var(--space-m) max(var(--space-m), env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   gap: var(--space-m);
@@ -60,9 +64,39 @@
   touch-action: none;
 }
 
+@starting-style {
+  .tale-drawer__backdrop {
+    opacity: 0;
+  }
+
+  .tale-drawer__popup {
+    transform: translateY(100%);
+  }
+}
+
 .tale-drawer__popup[data-starting-style],
-.tale-drawer__popup[data-ending-style] {
+.tale-drawer__popup[data-ending-style],
+.tale-drawer__popup[data-entering],
+.tale-drawer__popup[data-exiting] {
   transform: translateY(100%);
+}
+
+@media (min-width: 993px) {
+  .tale-drawer__popup {
+    left: 50%;
+    right: auto;
+    width: min(1200px, calc(100vw - (2 * var(--space-xl))));
+    transform: translateX(-50%) translateY(0);
+    max-height: calc(100vh - (2 * var(--space-xl)));
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  }
+
+  .tale-drawer__popup[data-starting-style],
+  .tale-drawer__popup[data-ending-style],
+  .tale-drawer__popup[data-entering],
+  .tale-drawer__popup[data-exiting] {
+    transform: translateX(-50%) translateY(100%);
+  }
 }
 
 /* ─── Handle bar ───────────────────────────────────────────────────────────── */
@@ -70,31 +104,11 @@
 .tale-drawer__handle {
   width: 4rem;
   height: 0.4rem;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   background-color: var(--neutral-30);
   align-self: center;
   flex-shrink: 0;
   margin-bottom: var(--space-2xs);
-}
-
-/* ─── Title ────────────────────────────────────────────────────────────────── */
-
-.tale-drawer__title {
-  margin: 0;
-  color: var(--neutral-95);
-  font-family: var(--label-font-family);
-  font-size: var(--label-l-font-size);
-  font-weight: var(--label-font-weight);
-}
-
-/* ─── Description ──────────────────────────────────────────────────────────── */
-
-.tale-drawer__description {
-  margin: 0;
-  color: var(--neutral-70);
-  font-family: var(--body-font-family);
-  font-size: var(--text-m-font-size);
-  line-height: 1.6;
 }
 
 /* ─── SwipeArea ─────────────────────────────────────────────────────────────── */

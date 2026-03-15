@@ -1,4 +1,4 @@
-import createDescribe from '@mui/internal-test-utils/createDescribe';
+import { createDescribe } from '@tale-ui/monorepo-tests/test-utils';
 import { testComputations } from './testComputations';
 import { testLocalization } from './testLocalization';
 import { testFormats } from './testFormats';

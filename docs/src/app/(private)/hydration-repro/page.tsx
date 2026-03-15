@@ -1,7 +1,7 @@
 'use client';
 
-import { ScrollArea } from '@base-ui/react/scroll-area';
-import { Tabs } from '@base-ui/react/tabs';
+import { ScrollArea } from '@tale-ui/react/scroll-area';
+import { Tabs } from '@tale-ui/react/tabs';
 
 const VIEWPORT_SIZE = 200;
 const SCROLLABLE_CONTENT_SIZE = 1000;

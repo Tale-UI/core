@@ -1,0 +1,29 @@
+/*
+ * date-range-picker.css — @tale-ui/react-styles
+ * BEM classes for the DateRangePicker component
+ *
+ * React Aria DateRangePicker exposes:
+ *   Root: [data-disabled] [data-invalid] [data-open]
+ *   Segment: [data-type] [data-placeholder] [data-focused] [data-disabled] [data-readonly]
+ *   Popover: [data-entering] [data-exiting] [data-placement]
+ *
+ * Usage:
+ *   <DateRangePicker.Root className="tale-date-range-picker">
+ *     <DateRangePicker.Label>Date range</DateRangePicker.Label>
+ *     <DateRangePicker.StartDate>
+ *       {(segment) => <DateRangePicker.Segment segment={segment} />}
+ *     </DateRangePicker.StartDate>
+ *     <span> – </span>
+ *     <DateRangePicker.EndDate>
+ *       {(segment) => <DateRangePicker.Segment segment={segment} />}
+ *     </DateRangePicker.EndDate>
+ *     <DateRangePicker.Trigger />
+ *     <DateRangePicker.Popover>
+ *       <DateRangePicker.Dialog>
+ *         <!-- RangeCalendar parts here -->
+ *       </DateRangePicker.Dialog>
+ *     </DateRangePicker.Popover>
+ *   </DateRangePicker.Root>
+ *
+ * All styles are shared in _primitives.css (groups 2, 8–13).
+ */

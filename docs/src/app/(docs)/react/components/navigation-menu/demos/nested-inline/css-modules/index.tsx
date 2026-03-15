@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
-import { useMediaQuery } from '@base-ui/react/unstable-use-media-query';
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+import { useMediaQuery } from '@tale-ui/react/unstable-use-media-query';
 import { audienceMenus, guideLinks, guidesPanel } from '../data';
 import styles from './index.module.css';
 
@@ -88,7 +88,7 @@ export default function ExampleNavigationMenu() {
         </NavigationMenu.Item>
 
         <NavigationMenu.Item>
-          <Link className={styles.Trigger} href="https://github.com/mui/base-ui">
+          <Link className={styles.Trigger} href="https://github.com/Tale-UI/core">
             GitHub
           </Link>
         </NavigationMenu.Item>

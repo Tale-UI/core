@@ -1,88 +1,179 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Accordion } from '@tale-ui/react/accordion';
 
-const items = [
-  { value: 'a', title: 'What is Tale UI?', content: 'Tale UI is a styled component library forked from MUI Base UI, providing accessible headless components with opinionated CSS via @tale-ui/core design tokens.' },
-  { value: 'b', title: 'How does styling work?', content: 'Styling lives in @tale-ui/react-styles. Components are headless — you apply CSS classes like .tale-button or .tale-accordion__trigger to your elements.' },
-  { value: 'c', title: 'Can I use dark mode?', content: 'Yes! Set data-color-mode="dark" on the <html> element. The --neutral-* and --color-* tokens automatically invert.' },
-];
-
 type Args = {
-  multiple?: boolean;
-  disabled?: boolean;
+  isDisabled?: boolean;
 };
 
 const meta: Meta<Args> = {
-  title: 'Layout/Accordion',
-  parameters: { layout: 'centered' },
+  title: 'Components/Accordion',
   argTypes: {
-    multiple: { control: 'boolean' },
-    disabled: { control: 'boolean' },
+    isDisabled: { control: 'boolean' },
   },
   args: {
-    multiple: false,
-    disabled: false,
+    isDisabled: false,
   },
+  parameters: { layout: 'fullscreen' },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'grid',
+          placeItems: 'center',
+          padding: 'var(--space-m)',
+        }}
+      >
+        <div style={{ width: '34rem', maxWidth: '100%' }}>
+          <Story />
+        </div>
+      </div>
+    ),
+  ],
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ width: '48rem' }}>
-      <Accordion.Root multiple={args.multiple} disabled={args.disabled}>
-        {items.map(({ value, title, content }) => (
-          <Accordion.Item key={value} value={value}>
-            <Accordion.Header>
-              <Accordion.Trigger>
-                {title}
-              </Accordion.Trigger>
-            </Accordion.Header>
-            <Accordion.Panel>{content}</Accordion.Panel>
-          </Accordion.Item>
-        ))}
+    <div style={{ maxWidth: '500px' }}>
+      <Accordion.Root isDisabled={args.isDisabled}>
+        <Accordion.Item id="a">
+          <Accordion.Header>
+            <Accordion.Trigger>What is Tale UI?</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            Tale UI is a comprehensive design system and component library built
+            with React and CSS custom properties.
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="b">
+          <Accordion.Header>
+            <Accordion.Trigger>How do I install it?</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            Install via npm or pnpm: <code>pnpm add @tale-ui/react @tale-ui/react-styles</code>
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="c">
+          <Accordion.Header>
+            <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            Yes, all components follow WAI-ARIA patterns and are built on top of
+            React Aria Components for robust accessibility support.
+          </Accordion.Panel>
+        </Accordion.Item>
       </Accordion.Root>
     </div>
   ),
 };
 
-export const Multiple: Story = {
-  name: 'Multiple Open',
+export const MultipleOpen: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ width: '48rem' }}>
-      <Accordion.Root multiple>
-        {items.map(({ value, title, content }) => (
-          <Accordion.Item key={value} value={value}>
-            <Accordion.Header>
-              <Accordion.Trigger>
-                {title}
-              </Accordion.Trigger>
-            </Accordion.Header>
-            <Accordion.Panel>{content}</Accordion.Panel>
-          </Accordion.Item>
-        ))}
+    <div style={{ maxWidth: '500px' }}>
+      <Accordion.Root allowsMultiple>
+        <Accordion.Item id="a">
+          <Accordion.Header>
+            <Accordion.Trigger>Section One</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            Multiple items can be open at the same time when the multiple prop is set.
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="b">
+          <Accordion.Header>
+            <Accordion.Trigger>Section Two</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            Try opening this while the first section is still open.
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="c">
+          <Accordion.Header>
+            <Accordion.Trigger>Section Three</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            All three sections can be expanded simultaneously.
+          </Accordion.Panel>
+        </Accordion.Item>
       </Accordion.Root>
     </div>
   ),
 };
 
 export const DefaultOpen: Story = {
-  name: 'Default Open',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ width: '48rem' }}>
-      <Accordion.Root defaultValue={['a']}>
-        {items.map(({ value, title, content }) => (
-          <Accordion.Item key={value} value={value}>
-            <Accordion.Header>
-              <Accordion.Trigger>
-                {title}
-              </Accordion.Trigger>
-            </Accordion.Header>
-            <Accordion.Panel>{content}</Accordion.Panel>
-          </Accordion.Item>
-        ))}
+    <div style={{ maxWidth: '500px' }}>
+      <Accordion.Root defaultExpandedKeys={['a']}>
+        <Accordion.Item id="a">
+          <Accordion.Header>
+            <Accordion.Trigger>Initially Open</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            This section is open by default via the defaultValue prop.
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="b">
+          <Accordion.Header>
+            <Accordion.Trigger>Initially Closed</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            This section starts closed but can be opened by clicking.
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="c">
+          <Accordion.Header>
+            <Accordion.Trigger>Also Closed</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            Another section that starts in the closed state.
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion.Root>
+    </div>
+  ),
+};
+
+export const Disabled: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ maxWidth: '500px' }}>
+      <Accordion.Root isDisabled>
+        <Accordion.Item id="a">
+          <Accordion.Header>
+            <Accordion.Trigger>Disabled Item</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            This content cannot be revealed because the accordion is disabled.
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="b">
+          <Accordion.Header>
+            <Accordion.Trigger>Also Disabled</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            None of the items in a disabled accordion can be toggled.
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="c">
+          <Accordion.Header>
+            <Accordion.Trigger>Still Disabled</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            The entire accordion group is non-interactive.
+          </Accordion.Panel>
+        </Accordion.Item>
       </Accordion.Root>
     </div>
   ),

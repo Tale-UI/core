@@ -1,0 +1,25 @@
+/*
+ * date-picker.css — @tale-ui/react-styles
+ * BEM classes for the DatePicker component
+ *
+ * React Aria DatePicker exposes:
+ *   Root: [data-disabled] [data-invalid] [data-open]
+ *   Segment: [data-type] [data-placeholder] [data-focused] [data-disabled] [data-readonly]
+ *   Popover: [data-entering] [data-exiting] [data-placement]
+ *
+ * Usage:
+ *   <DatePicker.Root className="tale-date-picker">
+ *     <DatePicker.Label className="tale-date-picker__label">Date</DatePicker.Label>
+ *     <DatePicker.DateInput className="tale-date-picker__input">
+ *       {(segment) => <DatePicker.Segment className="tale-date-picker__segment" segment={segment} />}
+ *     </DatePicker.DateInput>
+ *     <DatePicker.Trigger className="tale-date-picker__trigger" />
+ *     <DatePicker.Popover className="tale-date-picker__popover">
+ *       <DatePicker.Dialog className="tale-date-picker__dialog">
+ *         <!-- Calendar parts here -->
+ *       </DatePicker.Dialog>
+ *     </DatePicker.Popover>
+ *   </DatePicker.Root>
+ *
+ * All styles are shared in _primitives.css (groups 2, 8–13).
+ */

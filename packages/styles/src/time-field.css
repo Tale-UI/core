@@ -1,0 +1,20 @@
+/*
+ * time-field.css — @tale-ui/react-styles
+ * BEM classes for the TimeField component
+ *
+ * React Aria TimeField exposes:
+ *   Root: [data-disabled] [data-invalid] [data-readonly]
+ *   Segment: [data-type] [data-placeholder] [data-focused] [data-disabled] [data-readonly]
+ *
+ * Usage:
+ *   <TimeField.Root className="tale-time-field">
+ *     <TimeField.Label className="tale-time-field__label">Time</TimeField.Label>
+ *     <TimeField.DateInput className="tale-time-field__input">
+ *       {(segment) => <TimeField.Segment className="tale-time-field__segment" segment={segment} />}
+ *     </TimeField.DateInput>
+ *     <TimeField.Description className="tale-time-field__description">Pick a time</TimeField.Description>
+ *     <TimeField.ErrorMessage className="tale-time-field__error" />
+ *   </TimeField.Root>
+ *
+ * All styles are shared in _primitives.css (groups 1, 2, 8–11).
+ */

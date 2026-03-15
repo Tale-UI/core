@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
-import { ScrollArea } from '@base-ui/react/scroll-area';
-import { Tabs } from '@base-ui/react/tabs';
+import { ScrollArea } from '@tale-ui/react/scroll-area';
+import { Tabs } from '@tale-ui/react/tabs';
 
 const ITEMS = Array.from({ length: 32 }, (_, i) => `Item ${i + 1}`);
 

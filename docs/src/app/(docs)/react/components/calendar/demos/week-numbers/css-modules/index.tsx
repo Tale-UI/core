@@ -4,7 +4,7 @@ import { format } from 'date-fns/format';
 import { startOfWeek } from 'date-fns/startOfWeek';
 import { startOfMonth } from 'date-fns/startOfMonth';
 import { getWeek } from 'date-fns/getWeek';
-import { Calendar } from '@base-ui/react/calendar';
+import { Calendar } from '@tale-ui/react/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
 import indexStyles from './index.module.css';

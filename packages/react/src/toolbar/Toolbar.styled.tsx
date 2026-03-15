@@ -1,51 +1,56 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import { Toolbar } from 'react-aria-components';
+import type { ToolbarProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
+// Root — wraps RA Toolbar
 export const Root = React.forwardRef<
-  React.ComponentRef<typeof H.Root>,
-  React.ComponentPropsWithoutRef<typeof H.Root>
+  HTMLDivElement,
+  Omit<ToolbarProps, 'className'> & { className?: string }
 >(({ className, ...props }, ref) => (
-  <H.Root className={cx('tale-toolbar', className)} ref={ref} {...props} />
+  <Toolbar ref={ref} className={cx('tale-toolbar', className)} {...props} />
 ));
 Root.displayName = 'Toolbar.Root';
 
-export const Group = React.forwardRef<
-  React.ComponentRef<typeof H.Group>,
-  React.ComponentPropsWithoutRef<typeof H.Group>
->(({ className, ...props }, ref) => (
-  <H.Group className={cx('tale-toolbar__group', className)} ref={ref} {...props} />
-));
+// Group — generic grouping div inside toolbar
+export const Group = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-toolbar__group', className)} {...props} />
+  ),
+);
 Group.displayName = 'Toolbar.Group';
 
+// Button
 export const Button = React.forwardRef<
-  React.ComponentRef<typeof H.Button>,
-  React.ComponentPropsWithoutRef<typeof H.Button>
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ className, ...props }, ref) => (
-  <H.Button className={cx('tale-toolbar__button', className)} ref={ref} {...props} />
+  <button ref={ref} className={cx('tale-toolbar__button', className)} {...props} />
 ));
 Button.displayName = 'Toolbar.Button';
 
+// Link
 export const Link = React.forwardRef<
-  React.ComponentRef<typeof H.Link>,
-  React.ComponentPropsWithoutRef<typeof H.Link>
+  HTMLAnchorElement,
+  React.AnchorHTMLAttributes<HTMLAnchorElement>
 >(({ className, ...props }, ref) => (
-  <H.Link className={cx('tale-toolbar__link', className)} ref={ref} {...props} />
+  <a ref={ref} className={cx('tale-toolbar__link', className)} {...props} />
 ));
 Link.displayName = 'Toolbar.Link';
 
+// Input
 export const Input = React.forwardRef<
-  React.ComponentRef<typeof H.Input>,
-  React.ComponentPropsWithoutRef<typeof H.Input>
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
 >(({ className, ...props }, ref) => (
-  <H.Input className={cx('tale-toolbar__input tale-input', className)} ref={ref} {...props} />
+  <input ref={ref} className={cx('tale-toolbar__input tale-input', className)} {...props} />
 ));
 Input.displayName = 'Toolbar.Input';
 
-export const Separator = React.forwardRef<
-  React.ComponentRef<typeof H.Separator>,
-  React.ComponentPropsWithoutRef<typeof H.Separator>
->(({ className, ...props }, ref) => (
-  <H.Separator className={cx('tale-toolbar__separator', className)} ref={ref} {...props} />
-));
+// Separator
+export const Separator = React.forwardRef<HTMLHRElement, React.HTMLAttributes<HTMLHRElement>>(
+  ({ className, ...props }, ref) => (
+    <hr ref={ref} className={cx('tale-toolbar__separator', className)} {...props} />
+  ),
+);
 Separator.displayName = 'Toolbar.Separator';

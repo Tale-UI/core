@@ -2,7 +2,7 @@
  * ScrollArea — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui ScrollArea has no data attributes on Root.
+ * ScrollArea is a custom component (no React Aria equivalent).
  * Scrollbar: orientation (horizontal/vertical)
  *
  * Usage:
@@ -74,7 +74,7 @@
 
 .tale-scroll-area__thumb {
   flex: 1;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   background-color: var(--neutral-40);
   position: relative;
   transition: background-color 0.15s ease;
@@ -83,6 +83,12 @@
 .tale-scroll-area__thumb:hover,
 .tale-scroll-area__scrollbar:hover .tale-scroll-area__thumb {
   background-color: var(--neutral-55);
+}
+
+/* ─── Content ─────────────────────────────────────────────────────────────── */
+
+.tale-scroll-area__content {
+  /* structural wrapper — no visual styling */
 }
 
 /* ─── Corner ───────────────────────────────────────────────────────────────── */

@@ -275,6 +275,10 @@ Each family has the same 27 shade values listed above.
 
 `--shadow-xs` · `--shadow-s` · `--shadow-m` · `--shadow-l` · `--shadow-xl`
 
+**Scrim tokens**
+
+`--scrim-subtle` (24% `--neutral-default-100`) · `--scrim` (48% `--neutral-default-100`) · `--scrim-strong` (72% `--neutral-default-100`)
+
 ---
 
 ## 2. Class Enumeration by Module

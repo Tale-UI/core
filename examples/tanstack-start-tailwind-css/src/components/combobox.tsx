@@ -61,9 +61,9 @@ export function Positioner({ className, ...props }: Combobox.Positioner.Props) {
   );
 }
 
-export function Popup({ className, ...props }: Combobox.Popup.Props) {
+export function Popover({ className, ...props }: Combobox.Popover.Props) {
   return (
-    <Combobox.Popup
+    <Combobox.Popover
       className={clsx(
         'w-[var(--anchor-width)] max-h-[23rem] max-w-[var(--available-width)] origin-[var(--transform-origin)] rounded-md bg-[canvas] text-gray-900 shadow-lg shadow-gray-200 outline-1 outline-gray-200 transition-[transform,scale,opacity] data-[ending-style]:scale-95 data-[ending-style]:opacity-0 data-[starting-style]:scale-95 data-[starting-style]:opacity-0 dark:shadow-none dark:-outline-offset-1 dark:outline-gray-300 duration-100',
         className,
@@ -82,9 +82,9 @@ export function Empty({ className, ...props }: Combobox.Empty.Props) {
   );
 }
 
-export function List({ className, ...props }: Combobox.List.Props) {
+export function ListBox({ className, ...props }: Combobox.ListBox.Props) {
   return (
-    <Combobox.List
+    <Combobox.ListBox
       className={clsx(
         'outline-0 overflow-y-auto scroll-py-[0.5rem] py-2 overscroll-contain max-h-[min(23rem,var(--available-height))] data-[empty]:p-0',
         className,

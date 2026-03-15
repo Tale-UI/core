@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fireEvent, flushMicrotasks, screen } from '@mui/internal-test-utils';
+import { fireEvent, flushMicrotasks, screen } from '@tale-ui/monorepo-tests/test-utils';
 import { createRenderer, isJSDOM } from '#test-utils';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { useSwipeDismiss } from './useSwipeDismiss';

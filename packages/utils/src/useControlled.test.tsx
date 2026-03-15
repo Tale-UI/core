@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { expect } from 'chai';
-import { act, createRenderer } from '@mui/internal-test-utils';
+import { act, createRenderer } from '@tale-ui/monorepo-tests/test-utils';
 import { useControlled } from './useControlled';
 
 interface TestComponentChildrenArgument {

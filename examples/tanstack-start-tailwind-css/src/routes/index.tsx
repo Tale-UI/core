@@ -3,7 +3,7 @@ import { Bell, Heart, Plus } from 'lucide-react';
 import clsx from 'clsx';
 import { Input } from '@/components/input';
 import { Link } from '@/components/link';
-import { Toggle } from '@/components/toggle';
+import { ToggleButton } from '@/components/toggle';
 import * as Dialog from '@/components/dialog';
 import * as Menu from '@/components/menu';
 import * as NavigationMenu from '@/components/navigation-menu';
@@ -22,7 +22,7 @@ function App() {
             <Link href="https://tanstack.com/start/latest/docs/framework/react/overview">
               TanStack Start
             </Link>{' '}
-            app with <Link href="https://base-ui.com">Tale UI components</Link> and{' '}
+            app with <Link href="https://tale-ui.com">Tale UI components</Link> and{' '}
             <Link href="https://tailwindcss.com/">Tailwind CSS</Link>.
           </p>
         </div>
@@ -44,7 +44,7 @@ function App() {
             </Popover.Root>
 
             <div className="flex gap-px rounded-md border border-gray-200 bg-gray-50 p-0.5">
-              <Toggle
+              <ToggleButton
                 aria-label="Favorite"
                 render={(props, state) => {
                   return (
@@ -74,7 +74,7 @@ function App() {
             <NavigationMenu.Root>
               <NavigationMenu.List className="gap-1">
                 <NavigationMenu.Item>
-                  <NavigationMenu.Link href="https://github.com/mui/base-ui" target="_blank">
+                  <NavigationMenu.Link href="https://github.com/Tale-UI/core" target="_blank">
                     GitHub
                   </NavigationMenu.Link>
                 </NavigationMenu.Item>
@@ -103,7 +103,7 @@ function App() {
                       <li>
                         <NavigationMenu.Link
                           variant="card"
-                          href="https://base-ui.com/react/handbook/forms#tanstack-form"
+                          href="https://tale-ui.com/react/handbook/forms#tanstack-form"
                           target="_blank"
                         >
                           <h3 className="m-0 mb-1 text-base leading-5 font-medium">

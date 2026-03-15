@@ -1,2 +1,2 @@
-export { RadioRoot as Root } from './root/RadioRoot';
-export { RadioIndicator as Indicator } from './indicator/RadioIndicator';
+export { Root, Indicator, Group } from './Radio.styled';
+export type { RadioRootProps as RootProps, RadioIndicatorProps as IndicatorProps, RadioGroupProps as GroupProps } from './Radio.styled';

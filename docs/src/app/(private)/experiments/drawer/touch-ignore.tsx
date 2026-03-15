@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { DrawerPreview as Drawer } from '@base-ui/react/drawer';
+import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
 
 type EventName = 'plain div click' | 'ignored div click' | 'native button click' | 'drawer closed';
 
@@ -19,9 +19,9 @@ export default function DrawerTouchIgnoreExperiment() {
       <div className="space-y-3">
         <h1 className="text-3xl font-semibold tracking-tight">Drawer touch ignore experiment</h1>
         <p className="max-w-2xl text-sm leading-6 text-slate-600">
-          Use this to compare touch behavior inside <code>Drawer.Content</code>. The plain div
+          Use this to compare touch behavior inside <code>Drawer.Popup</code>. The plain div
           should still participate in swipe-to-dismiss, while the explicit{' '}
-          <code>data-base-ui-swipe-ignore</code> div should preserve taps.
+          <code>data-tale-ui-swipe-ignore</code> div should preserve taps.
         </p>
       </div>
 
@@ -31,7 +31,7 @@ export default function DrawerTouchIgnoreExperiment() {
           <ol className="list-inside list-decimal space-y-2">
             <li>Tap the plain div on a touch device. It should still be part of swipe handling.</li>
             <li>
-              Tap the <code>data-base-ui-swipe-ignore</code> div. Its click counter should
+              Tap the <code>data-tale-ui-swipe-ignore</code> div. Its click counter should
               increment.
             </li>
             <li>Tap the native button. It should continue to work as before.</li>
@@ -75,7 +75,7 @@ export default function DrawerTouchIgnoreExperiment() {
           <Drawer.Viewport className="fixed inset-0 flex items-end justify-center">
             <Drawer.Popup className="flex w-full max-w-2xl max-h-[85vh] flex-col rounded-t-3xl bg-white px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] pt-4 text-slate-900 shadow-2xl outline outline-1 outline-slate-200 transition-transform data-swiping:select-none data-starting-style:translate-y-full data-ending-style:translate-y-full">
               <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-slate-300" />
-              <Drawer.Content className="space-y-4 overflow-y-auto overscroll-contain pb-2">
+              <Drawer.Popup className="space-y-4 overflow-y-auto overscroll-contain pb-2">
                 <Drawer.Title className="text-lg font-semibold">Touch behavior test</Drawer.Title>
                 <Drawer.Description className="text-sm leading-6 text-slate-600">
                   The tiles below intentionally use different interaction models so you can verify
@@ -93,7 +93,7 @@ export default function DrawerTouchIgnoreExperiment() {
                     }}
                   >
                     <div className="text-sm font-semibold text-amber-950">
-                      Plain div inside Drawer.Content
+                      Plain div inside Drawer.Popup
                     </div>
                     <div className="mt-1 text-sm text-amber-800">
                       On touch, this area should still participate in swipe-to-dismiss.
@@ -103,7 +103,7 @@ export default function DrawerTouchIgnoreExperiment() {
                   {/* Intentional non-interactive div to reproduce explicit swipe-ignore behavior. */}
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                   <div
-                    data-base-ui-swipe-ignore
+                    data-tale-ui-swipe-ignore
                     className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4 text-left"
                     onClick={() => {
                       setIgnoredDivClicks((value) => value + 1);
@@ -111,7 +111,7 @@ export default function DrawerTouchIgnoreExperiment() {
                     }}
                   >
                     <div className="text-sm font-semibold text-emerald-950">
-                      Div with data-base-ui-swipe-ignore
+                      Div with data-tale-ui-swipe-ignore
                     </div>
                     <div className="mt-1 text-sm text-emerald-800">
                       Tapping here should preserve the click even on touch.
@@ -138,7 +138,7 @@ export default function DrawerTouchIgnoreExperiment() {
                     Close
                   </Drawer.Close>
                 </div>
-              </Drawer.Content>
+              </Drawer.Popup>
             </Drawer.Popup>
           </Drawer.Viewport>
         </Drawer.Portal>

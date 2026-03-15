@@ -1,50 +1,50 @@
 import * as React from 'react';
-import * as H from './index.parts';
 import { cx } from '../_cx';
 
-const StyledRoot = React.forwardRef<
-  React.ComponentRef<typeof H.Root>,
-  React.ComponentPropsWithoutRef<typeof H.Root>
->(({ className, ...props }, ref) => (
-  <H.Root className={cx('tale-scroll-area', className)} ref={ref} {...props} />
-));
-StyledRoot.displayName = 'ScrollArea.Root';
-export const Root = StyledRoot as typeof H.Root;
+export const Root = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-scroll-area', className)} {...props} />
+  ),
+);
+Root.displayName = 'ScrollArea.Root';
 
-const StyledViewport = React.forwardRef<
-  React.ComponentRef<typeof H.Viewport>,
-  React.ComponentPropsWithoutRef<typeof H.Viewport>
->(({ className, ...props }, ref) => (
-  <H.Viewport className={cx('tale-scroll-area__viewport', className)} ref={ref} {...props} />
-));
-StyledViewport.displayName = 'ScrollArea.Viewport';
-export const Viewport = StyledViewport as typeof H.Viewport;
+export const Viewport = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-scroll-area__viewport', className)} {...props} />
+  ),
+);
+Viewport.displayName = 'ScrollArea.Viewport';
 
-const StyledScrollbar = React.forwardRef<
-  React.ComponentRef<typeof H.Scrollbar>,
-  React.ComponentPropsWithoutRef<typeof H.Scrollbar>
->(({ className, ...props }, ref) => (
-  <H.Scrollbar className={cx('tale-scroll-area__scrollbar', className)} ref={ref} {...props} />
+export const Scrollbar = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { orientation?: 'horizontal' | 'vertical' }
+>(({ className, orientation = 'vertical', ...props }, ref) => (
+  <div
+    ref={ref}
+    data-orientation={orientation}
+    className={cx('tale-scroll-area__scrollbar', className)}
+    {...props}
+  />
 ));
-StyledScrollbar.displayName = 'ScrollArea.Scrollbar';
-export const Scrollbar = StyledScrollbar as typeof H.Scrollbar;
+Scrollbar.displayName = 'ScrollArea.Scrollbar';
 
-const StyledThumb = React.forwardRef<
-  React.ComponentRef<typeof H.Thumb>,
-  React.ComponentPropsWithoutRef<typeof H.Thumb>
->(({ className, ...props }, ref) => (
-  <H.Thumb className={cx('tale-scroll-area__thumb', className)} ref={ref} {...props} />
-));
-StyledThumb.displayName = 'ScrollArea.Thumb';
-export const Thumb = StyledThumb as typeof H.Thumb;
+export const Thumb = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-scroll-area__thumb', className)} {...props} />
+  ),
+);
+Thumb.displayName = 'ScrollArea.Thumb';
 
-const StyledCorner = React.forwardRef<
-  React.ComponentRef<typeof H.Corner>,
-  React.ComponentPropsWithoutRef<typeof H.Corner>
->(({ className, ...props }, ref) => (
-  <H.Corner className={cx('tale-scroll-area__corner', className)} ref={ref} {...props} />
-));
-StyledCorner.displayName = 'ScrollArea.Corner';
-export const Corner = StyledCorner as typeof H.Corner;
+export const Corner = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-scroll-area__corner', className)} {...props} />
+  ),
+);
+Corner.displayName = 'ScrollArea.Corner';
 
-export { Content } from './index.parts';
+export const Content = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-scroll-area__content', className)} {...props} />
+  ),
+);
+Content.displayName = 'ScrollArea.Content';

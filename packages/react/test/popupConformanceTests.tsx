@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { spy } from 'sinon';
 import { expect } from 'chai';
-import { randomStringValue, screen, waitFor } from '@mui/internal-test-utils';
+import { randomStringValue, screen, waitFor } from '@tale-ui/monorepo-tests/test-utils';
 import { createRenderer, isJSDOM } from '#test-utils';
 
 export function popupConformanceTests(config: PopupTestConfig) {

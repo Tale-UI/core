@@ -4,7 +4,7 @@ import type { Preview, Decorator } from '@storybook/react';
 import { buildTheme } from './theme';
 
 const withColorMode: Decorator = (Story, context) => {
-  const colorMode = (context.globals['colorMode'] as string) ?? 'light';
+  const colorMode = (context.globals.colorMode as string) ?? 'light';
   document.documentElement.setAttribute('data-color-mode', colorMode);
   return Story(context);
 };
@@ -47,20 +47,38 @@ const preview: Preview = {
         const bIsIntro = b.title.startsWith('Introduction');
         const aIsFoundations = a.title.startsWith('Foundations');
         const bIsFoundations = b.title.startsWith('Foundations');
+        const aIsComponents = a.title.startsWith('Components');
+        const bIsComponents = b.title.startsWith('Components');
 
-        if (aIsIntro !== bIsIntro) return aIsIntro ? -1 : 1;
+        if (aIsIntro !== bIsIntro) {
+          return aIsIntro ? -1 : 1;
+        }
         if (aIsIntro && bIsIntro) {
           const ai = introOrder.indexOf(a.title.split('/')[1] ?? '');
           const bi = introOrder.indexOf(b.title.split('/')[1] ?? '');
           return (ai === -1 ? introOrder.length : ai) - (bi === -1 ? introOrder.length : bi);
         }
-        if (aIsFoundations !== bIsFoundations) return aIsFoundations ? -1 : 1;
+        if (aIsFoundations !== bIsFoundations) {
+          return aIsFoundations ? -1 : 1;
+        }
         if (a.title === 'Foundations/Colors' && b.title === 'Foundations/Colors') {
           const ai = colorOrder.indexOf(a.name);
           const bi = colorOrder.indexOf(b.name);
           return (ai === -1 ? colorOrder.length : ai) - (bi === -1 ? colorOrder.length : bi);
         }
-        return 0;
+
+        if (aIsComponents !== bIsComponents) {
+          return aIsComponents ? -1 : 1;
+        }
+        if (aIsComponents && bIsComponents) {
+          const byTitle = a.title.localeCompare(b.title);
+          if (byTitle !== 0) {
+            return byTitle;
+          }
+          return a.name.localeCompare(b.name);
+        }
+
+        return a.title.localeCompare(b.title) || a.name.localeCompare(b.name);
       },
     },
   },

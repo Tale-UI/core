@@ -10,7 +10,7 @@ export const audienceMenus = [
       {
         href: '/react/overview/quick-start',
         title: 'Quick start',
-        description: 'Install Base UI and get your first interactive primitive on screen fast.',
+        description: 'Install Tale UI and get your first interactive primitive on screen fast.',
       },
       {
         href: '/react/handbook/composition',

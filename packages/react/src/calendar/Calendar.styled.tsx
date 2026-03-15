@@ -1,109 +1,97 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import {
+  Calendar as AriaCalendar,
+  CalendarGrid as AriaCalendarGrid,
+  CalendarGridHeader as AriaCalendarGridHeader,
+  CalendarHeaderCell as AriaCalendarHeaderCell,
+  CalendarGridBody as AriaCalendarGridBody,
+  CalendarCell as AriaCalendarCell,
+  Heading as AriaHeading,
+  Button as AriaButton,
+  type CalendarProps as AriaCalendarProps,
+  type CalendarGridProps as AriaCalendarGridProps,
+  type CalendarGridHeaderProps as AriaCalendarGridHeaderProps,
+  type CalendarHeaderCellProps as AriaCalendarHeaderCellProps,
+  type CalendarGridBodyProps as AriaCalendarGridBodyProps,
+  type CalendarCellProps as AriaCalendarCellProps,
+  type HeadingProps as AriaHeadingProps,
+  type ButtonProps as AriaButtonProps,
+} from 'react-aria-components';
+import type { DateValue } from '@internationalized/date';
 import { cx } from '../_cx';
 
-export const useContext = H.useContext;
-export const useWeekList = H.useWeekList;
-export const useDayList = H.useDayList;
+// Root calendar
+export const Root = React.forwardRef<HTMLDivElement, Omit<AriaCalendarProps<DateValue>, 'className'> & { className?: string }>(
+  ({ className, ...props }, ref) => (
+    <AriaCalendar ref={ref} className={cx('tale-calendar', className)} {...props} />
+  ),
+);
+Root.displayName = 'Calendar.Root';
 
-const StyledRoot = React.forwardRef<
-  React.ComponentRef<typeof H.Root>,
-  React.ComponentPropsWithoutRef<typeof H.Root>
->(({ className, ...props }, ref) => (
-  <H.Root className={cx('tale-calendar', className)} ref={ref} {...props} />
-));
-StyledRoot.displayName = 'Calendar.Root';
-export const Root = StyledRoot as typeof H.Root;
+// Grid (contains header + body)
+export const Grid = React.forwardRef<HTMLTableElement, Omit<AriaCalendarGridProps, 'className'> & { className?: string }>(
+  ({ className, ...props }, ref) => (
+    <AriaCalendarGrid ref={ref} className={cx('tale-calendar__grid', className)} {...props} />
+  ),
+);
+Grid.displayName = 'Calendar.Grid';
 
-// CalendarViewport manages its own internal container — className not forwarded
-export const Viewport = H.Viewport;
+// Grid header (thead — renders a row of weekday names via render prop)
+export const GridHeader = React.forwardRef<HTMLTableSectionElement, Omit<AriaCalendarGridHeaderProps, 'className'> & { className?: string }>(
+  ({ className, ...props }, ref) => (
+    <AriaCalendarGridHeader ref={ref} className={cx('tale-calendar__grid-header', className)} {...props} />
+  ),
+);
+GridHeader.displayName = 'Calendar.GridHeader';
 
-const StyledDayGrid = React.forwardRef<
-  React.ComponentRef<typeof H.DayGrid>,
-  React.ComponentPropsWithoutRef<typeof H.DayGrid>
->(({ className, ...props }, ref) => (
-  <H.DayGrid className={cx('tale-calendar__day-grid', className)} ref={ref} {...props} />
-));
-StyledDayGrid.displayName = 'Calendar.DayGrid';
-export const DayGrid = StyledDayGrid as typeof H.DayGrid;
+// Header cell (th - weekday name)
+export const GridHeaderCell = React.forwardRef<HTMLTableCellElement, Omit<AriaCalendarHeaderCellProps, 'className'> & { className?: string }>(
+  ({ className, ...props }, ref) => (
+    <AriaCalendarHeaderCell ref={ref} className={cx('tale-calendar__grid-header-cell', className)} {...props} />
+  ),
+);
+GridHeaderCell.displayName = 'Calendar.GridHeaderCell';
 
-const StyledDayGridHeader = React.forwardRef<
-  React.ComponentRef<typeof H.DayGridHeader>,
-  React.ComponentPropsWithoutRef<typeof H.DayGridHeader>
->(({ className, ...props }, ref) => (
-  <H.DayGridHeader className={cx('tale-calendar__day-grid-header', className)} ref={ref} {...props} />
-));
-StyledDayGridHeader.displayName = 'Calendar.DayGridHeader';
-export const DayGridHeader = StyledDayGridHeader as typeof H.DayGridHeader;
+// Grid body (tbody — renders rows via render prop: (date) => CalendarCell)
+export const GridBody = React.forwardRef<HTMLTableSectionElement, Omit<AriaCalendarGridBodyProps, 'className'> & { className?: string }>(
+  ({ className, ...props }, ref) => (
+    <AriaCalendarGridBody ref={ref} className={cx('tale-calendar__grid-body', className)} {...props} />
+  ),
+);
+GridBody.displayName = 'Calendar.GridBody';
 
-const StyledDayGridHeaderRow = React.forwardRef<
-  React.ComponentRef<typeof H.DayGridHeaderRow>,
-  React.ComponentPropsWithoutRef<typeof H.DayGridHeaderRow>
->(({ className, ...props }, ref) => (
-  <H.DayGridHeaderRow className={cx('tale-calendar__day-grid-header-row', className)} ref={ref} {...props} />
-));
-StyledDayGridHeaderRow.displayName = 'Calendar.DayGridHeaderRow';
-export const DayGridHeaderRow = StyledDayGridHeaderRow as typeof H.DayGridHeaderRow;
+// Cell (td + button)
+export const Cell = React.forwardRef<HTMLTableCellElement, Omit<AriaCalendarCellProps, 'className'> & { className?: string }>(
+  ({ className, ...props }, ref) => (
+    <AriaCalendarCell ref={ref} className={cx('tale-calendar__cell', className)} {...props} />
+  ),
+);
+Cell.displayName = 'Calendar.Cell';
 
-const StyledDayGridHeaderCell = React.forwardRef<
-  React.ComponentRef<typeof H.DayGridHeaderCell>,
-  React.ComponentPropsWithoutRef<typeof H.DayGridHeaderCell>
->(({ className, ...props }, ref) => (
-  <H.DayGridHeaderCell className={cx('tale-calendar__day-grid-header-cell', className)} ref={ref} {...props} />
-));
-StyledDayGridHeaderCell.displayName = 'Calendar.DayGridHeaderCell';
-export const DayGridHeaderCell = StyledDayGridHeaderCell as typeof H.DayGridHeaderCell;
+// Heading (month/year label)
+export const Heading = React.forwardRef<HTMLHeadingElement, Omit<AriaHeadingProps, 'className'> & { className?: string }>(
+  ({ className, ...props }, ref) => (
+    <AriaHeading ref={ref} className={cx('tale-calendar__heading', className)} {...props} />
+  ),
+);
+Heading.displayName = 'Calendar.Heading';
 
-const StyledDayGridBody = React.forwardRef<
-  React.ComponentRef<typeof H.DayGridBody>,
-  React.ComponentPropsWithoutRef<typeof H.DayGridBody>
->(({ className, ...props }, ref) => (
-  <H.DayGridBody className={cx('tale-calendar__day-grid-body', className)} ref={ref} {...props} />
-));
-StyledDayGridBody.displayName = 'Calendar.DayGridBody';
-export const DayGridBody = StyledDayGridBody as typeof H.DayGridBody;
+// Previous month button
+export const PreviousButton = React.forwardRef<HTMLButtonElement, Omit<AriaButtonProps, 'className' | 'slot'> & { className?: string }>(
+  ({ className, children = '‹', ...props }, ref) => (
+    <AriaButton ref={ref} slot="previous" className={cx('tale-calendar__prev-button', className)} {...props}>
+      {children as React.ReactNode}
+    </AriaButton>
+  ),
+);
+PreviousButton.displayName = 'Calendar.PreviousButton';
 
-const StyledDayGridRow = React.forwardRef<
-  React.ComponentRef<typeof H.DayGridRow>,
-  React.ComponentPropsWithoutRef<typeof H.DayGridRow>
->(({ className, ...props }, ref) => (
-  <H.DayGridRow className={cx('tale-calendar__day-grid-row', className)} ref={ref} {...props} />
-));
-StyledDayGridRow.displayName = 'Calendar.DayGridRow';
-export const DayGridRow = StyledDayGridRow as typeof H.DayGridRow;
-
-const StyledDayGridCell = React.forwardRef<
-  React.ComponentRef<typeof H.DayGridCell>,
-  React.ComponentPropsWithoutRef<typeof H.DayGridCell>
->(({ className, ...props }, ref) => (
-  <H.DayGridCell className={cx('tale-calendar__day-grid-cell', className)} ref={ref} {...props} />
-));
-StyledDayGridCell.displayName = 'Calendar.DayGridCell';
-export const DayGridCell = StyledDayGridCell as typeof H.DayGridCell;
-
-const StyledDayButton = React.forwardRef<
-  React.ComponentRef<typeof H.DayButton>,
-  React.ComponentPropsWithoutRef<typeof H.DayButton>
->(({ className, ...props }, ref) => (
-  <H.DayButton className={cx('tale-calendar__day-button', className)} ref={ref} {...props} />
-));
-StyledDayButton.displayName = 'Calendar.DayButton';
-export const DayButton = StyledDayButton as typeof H.DayButton;
-
-const StyledIncrementMonth = React.forwardRef<
-  React.ComponentRef<typeof H.IncrementMonth>,
-  React.ComponentPropsWithoutRef<typeof H.IncrementMonth>
->(({ className, ...props }, ref) => (
-  <H.IncrementMonth className={cx('tale-calendar__increment-month', className)} ref={ref} {...props} />
-));
-StyledIncrementMonth.displayName = 'Calendar.IncrementMonth';
-export const IncrementMonth = StyledIncrementMonth as typeof H.IncrementMonth;
-
-const StyledDecrementMonth = React.forwardRef<
-  React.ComponentRef<typeof H.DecrementMonth>,
-  React.ComponentPropsWithoutRef<typeof H.DecrementMonth>
->(({ className, ...props }, ref) => (
-  <H.DecrementMonth className={cx('tale-calendar__decrement-month', className)} ref={ref} {...props} />
-));
-StyledDecrementMonth.displayName = 'Calendar.DecrementMonth';
-export const DecrementMonth = StyledDecrementMonth as typeof H.DecrementMonth;
+// Next month button
+export const NextButton = React.forwardRef<HTMLButtonElement, Omit<AriaButtonProps, 'className' | 'slot'> & { className?: string }>(
+  ({ className, children = '›', ...props }, ref) => (
+    <AriaButton ref={ref} slot="next" className={cx('tale-calendar__next-button', className)} {...props}>
+      {children as React.ReactNode}
+    </AriaButton>
+  ),
+);
+NextButton.displayName = 'Calendar.NextButton';

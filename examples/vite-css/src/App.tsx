@@ -17,7 +17,7 @@ function App() {
         <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-        <a href="https://base-ui.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://tale-ui.com" target="_blank" rel="noopener noreferrer">
           <img src={taleUILogo} className="logo tale-ui" alt="Tale UI logo" />
         </a>
       </div>

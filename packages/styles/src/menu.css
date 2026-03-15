@@ -2,13 +2,10 @@
  * Menu / ContextMenu / Menubar — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Menu exposes:
- *   Trigger: [data-popup-open]
- *   Popup:   [data-open] [data-closed] [data-starting-style] [data-ending-style]
- *            [data-side] [data-align] [data-instant]
- *   Item:    [data-highlighted] [data-disabled]
- *   CheckboxItem: [data-checked] [data-unchecked] [data-highlighted] [data-disabled]
- *   RadioItem:    [data-checked] [data-unchecked] [data-highlighted] [data-disabled]
+ * React Aria Menu exposes:
+ *   Trigger: [data-open]
+ *   Popup:   [data-entering] [data-exiting] [data-placement]
+ *   Item:    [data-focused] [data-disabled] [data-selected] [data-has-submenu]
  *
  * Usage:
  *   <Menu.Root>
@@ -18,23 +15,36 @@
  *         <Menu.Popup className="tale-menu__popup">
  *           <Menu.Item className="tale-menu__item">Option</Menu.Item>
  *           <Menu.Separator className="tale-menu__separator" />
- *           <Menu.GroupLabel className="tale-menu__group-label">Group</Menu.GroupLabel>
+ *           <Menu.Header className="tale-menu__header">Group</Menu.Header>
  *         </Menu.Popup>
  *       </Menu.Positioner>
  *     </Menu.Portal>
  *   </Menu.Root>
  *
- * Shared popup, item, group-label, separator, arrow primitives
+ * Shared popup, item, header, separator, arrow primitives
  * are defined in _primitives.css.
  */
 
 /* ─── Popup ────────────────────────────────────────────────────────────────── */
 
-.tale-menu__popup {
+.tale-menu__popup,
+.tale-context-menu__list {
   padding: var(--space-4xs);
   min-width: 16rem;
   max-width: 32rem;
   width: max-content;
+}
+
+/* ─── Popover — wrapper around the popup ──────────────────────────────────── */
+
+.tale-menu__popover {
+  /* structural wrapper — no visual styling (popup styles are on .tale-menu__popup) */
+}
+
+/* ─── Group (MenuSection) ─────────────────────────────────────────────────── */
+
+.tale-context-menu__group {
+  /* structural wrapper — no visual styling */
 }
 
 /* ─── Item (button/anchor resets not shared with select/combobox items) ─────── */
@@ -43,7 +53,8 @@
 .tale-menu__checkbox-item,
 .tale-menu__radio-item,
 .tale-menu__link-item,
-.tale-menu__submenu-trigger {
+.tale-menu__submenu-trigger,
+.tale-context-menu__item {
   border: none;
   background: none;
   width: 100%;
@@ -54,8 +65,8 @@
 /* ─── Checkbox/Radio item indicator ────────────────────────────────────────── */
 
 .tale-menu__item-indicator {
-  width: 1.4rem;
-  height: 1.4rem;
+  width: var(--space-xs);
+  height: var(--space-xs);
   flex-shrink: 0;
   color: var(--color-60);
 }
@@ -76,15 +87,20 @@
   gap: 0;
   background-color: var(--neutral-12);
   border: 1px solid var(--neutral-20);
-  border-radius: 0.6rem;
+  border-radius: var(--radius-m);
   padding: var(--space-4xs);
 }
 
 .tale-menubar__item {
   display: inline-flex;
+}
+
+/* Style the trigger button inside a menubar item */
+.tale-menubar__item .tale-menu__trigger {
+  display: inline-flex;
   align-items: center;
   padding: var(--space-4xs) var(--space-3xs);
-  border-radius: 0.4rem;
+  border-radius: var(--radius-s);
   border: none;
   background-color: transparent;
   color: var(--neutral-80);
@@ -96,12 +112,11 @@
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.tale-menubar__item:hover,
-.tale-menubar__item[data-popup-open] {
+.tale-menubar__item .tale-menu__trigger:hover {
   background-color: var(--neutral-18);
   color: var(--neutral-90);
 }
 
-.tale-menubar__item:focus-visible {
+.tale-menubar__item .tale-menu__trigger:focus-visible {
   box-shadow: 0 0 0 2px var(--color-60);
 }

@@ -1,6 +1,8 @@
 type ClassNameFn = (state: any) => string | undefined;
 type ClassName = string | ClassNameFn | undefined;
 
+export function cx(base: string, extra: string | undefined): string;
+export function cx(base: string, extra?: ClassName): ClassName;
 export function cx(base: string, extra?: ClassName): ClassName {
   if (typeof extra === 'function') {
     return (state: any) => {

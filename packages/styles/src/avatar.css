@@ -2,8 +2,8 @@
  * Avatar — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Avatar exposes:
- *   Image:    [data-starting-style] [data-ending-style] (for lazy load transition)
+ * Avatar is a simple HTML wrapper (no React Aria equivalent).
+ *   Image:    [data-entering] (for lazy load transition)
  *   Fallback: (shown when image fails or while loading)
  *
  * Sizes:  .tale-avatar--sm   (2.4rem)
@@ -45,7 +45,7 @@
   transition: opacity 0.15s ease;
 }
 
-.tale-avatar__image[data-starting-style] {
+.tale-avatar__image[data-entering] {
   opacity: 0;
 }
 
@@ -84,8 +84,8 @@
 }
 
 .tale-avatar--lg {
-  width: 5.6rem;
-  height: 5.6rem;
+  width: var(--space-xl);
+  height: var(--space-xl);
 }
 
 .tale-avatar--lg .tale-avatar__fallback {

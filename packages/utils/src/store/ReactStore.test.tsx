@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { expect } from 'chai';
-import { act, createRenderer, screen } from '@mui/internal-test-utils';
+import { act, createRenderer, screen } from '@tale-ui/monorepo-tests/test-utils';
 import { SinonSpy, spy } from 'sinon';
 import { ReactStore } from './ReactStore';
 import { useRefWithInit } from '../useRefWithInit';

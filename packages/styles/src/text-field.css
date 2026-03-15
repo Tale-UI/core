@@ -1,0 +1,52 @@
+/*
+ * TextField — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria TextField exposes:
+ *   Root: [data-disabled] [data-invalid]
+ *   Input: [data-focused] [data-disabled] [data-invalid]
+ *
+ * Usage:
+ *   <TextField.Root className="tale-text-field">
+ *     <TextField.Label className="tale-text-field__label">Name</TextField.Label>
+ *     <TextField.Input className="tale-text-field__input" />
+ *     <TextField.Description className="tale-text-field__description">Your full name</TextField.Description>
+ *     <TextField.ErrorMessage className="tale-text-field__error" />
+ *   </TextField.Root>
+ */
+
+/* ─── Input ────────────────────────────────────────────────────────────────── */
+
+.tale-text-field__input {
+  display: block;
+  width: 100%;
+  line-height: 1.5;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.tale-text-field__input:hover:not(:focus, [data-disabled], [data-invalid]) {
+  border-color: var(--neutral-40);
+}
+
+.tale-text-field__input[data-invalid] {
+  border-color: var(--red-60);
+}
+
+.tale-text-field__input[data-invalid]:focus,
+.tale-text-field__input[data-invalid][data-focused] {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--red-60) 20%, transparent);
+}
+
+.tale-text-field__input[data-disabled],
+.tale-text-field__input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background-color: var(--neutral-14);
+}
+
+/* Label styles are shared in _primitives.css */
+
+

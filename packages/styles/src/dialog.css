@@ -2,10 +2,9 @@
  * Dialog — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Dialog exposes:
- *   Popup:    [data-open] [data-closed] [data-starting-style] [data-ending-style]
- *             [data-nested] [data-nested-dialog-open]
- *   Backdrop: [data-open] [data-closed] [data-starting-style] [data-ending-style]
+ * React Aria Dialog (Modal + Dialog) exposes:
+ *   Popup:    [data-entering] [data-exiting]
+ *   Backdrop: [data-entering] [data-exiting]
  *
  * Usage:
  *   <Dialog.Root>
@@ -25,21 +24,6 @@
  *   </Dialog.Root>
  */
 
-/* ─── Backdrop ─────────────────────────────────────────────────────────────── */
-
-.tale-dialog__backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 100;
-  transition: opacity 0.2s ease;
-}
-
-.tale-dialog__backdrop[data-starting-style],
-.tale-dialog__backdrop[data-ending-style] {
-  opacity: 0;
-}
-
 /* ─── Popup ────────────────────────────────────────────────────────────────── */
 
 .tale-dialog__popup {
@@ -53,10 +37,8 @@
   overflow-y: auto;
   background-color: var(--neutral-10);
   border: 1px solid var(--neutral-20);
-  border-radius: 1.2rem;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 20px 40px -4px rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-l);
   padding: var(--space-s);
   display: flex;
   flex-direction: column;
@@ -65,31 +47,10 @@
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.tale-dialog__popup[data-starting-style],
-.tale-dialog__popup[data-ending-style] {
+.tale-dialog__popup[data-entering],
+.tale-dialog__popup[data-exiting] {
   opacity: 0;
   transform: translate(-50%, calc(-50% - 0.8rem));
-}
-
-/* ─── Title ────────────────────────────────────────────────────────────────── */
-
-.tale-dialog__title {
-  margin: 0;
-  color: var(--neutral-95);
-  font-family: var(--label-font-family);
-  font-size: var(--label-l-font-size);
-  font-weight: var(--label-font-weight);
-  line-height: 1.3;
-}
-
-/* ─── Description ──────────────────────────────────────────────────────────── */
-
-.tale-dialog__description {
-  margin: 0;
-  color: var(--neutral-70);
-  font-family: var(--body-font-family);
-  font-size: var(--text-m-font-size);
-  line-height: 1.6;
 }
 
 /* ─── Close button ─────────────────────────────────────────────────────────── */
@@ -104,7 +65,7 @@
   width: 3.2rem;
   height: 3.2rem;
   border: none;
-  border-radius: 0.6rem;
+  border-radius: var(--radius-m);
   background-color: transparent;
   color: var(--neutral-60);
   cursor: pointer;
@@ -121,12 +82,3 @@
   box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
 }
 
-/* ─── Actions row ──────────────────────────────────────────────────────────── */
-
-.tale-dialog__actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--space-xs);
-  margin-top: var(--space-xs);
-}

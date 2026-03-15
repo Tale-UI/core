@@ -1,0 +1,20 @@
+/*
+ * date-field.css — @tale-ui/react-styles
+ * BEM classes for the DateField component
+ *
+ * React Aria DateField exposes:
+ *   Root: [data-disabled] [data-invalid] [data-readonly]
+ *   Segment: [data-type] [data-placeholder] [data-focused] [data-disabled] [data-readonly]
+ *
+ * Usage:
+ *   <DateField.Root className="tale-date-field">
+ *     <DateField.Label className="tale-date-field__label">Date</DateField.Label>
+ *     <DateField.DateInput className="tale-date-field__input">
+ *       {(segment) => <DateField.Segment className="tale-date-field__segment" segment={segment} />}
+ *     </DateField.DateInput>
+ *     <DateField.Description className="tale-date-field__description">Pick a date</DateField.Description>
+ *     <DateField.ErrorMessage className="tale-date-field__error" />
+ *   </DateField.Root>
+ *
+ * All styles are shared in _primitives.css (groups 1, 2, 8–11).
+ */

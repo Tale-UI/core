@@ -1,0 +1,112 @@
+import * as React from 'react';
+import {
+  Table as AriaTable,
+  TableHeader as AriaTableHeader,
+  Column as AriaColumn,
+  TableBody as AriaTableBody,
+  Row as AriaRow,
+  Cell as AriaCell,
+  type TableProps as AriaTableProps,
+  type TableHeaderProps as AriaTableHeaderProps,
+  type ColumnProps as AriaColumnProps,
+  type TableBodyProps as AriaTableBodyProps,
+  type RowProps as AriaRowProps,
+  type CellProps as AriaCellProps,
+} from 'react-aria-components';
+import { cx } from '../_cx';
+
+// ── Root ───────────────────────────────────────────────────────────────────
+
+export type RootProps = Omit<AriaTableProps, 'className'> & {
+  className?: string;
+};
+
+export const Root = React.forwardRef<HTMLTableElement, RootProps>(
+  ({ className, ...props }, ref) => (
+    <AriaTable ref={ref} className={cx('tale-table', className)} {...props} />
+  ),
+);
+Root.displayName = 'Table.Root';
+
+// ── Header ─────────────────────────────────────────────────────────────────
+
+export type HeaderProps<T extends object> = Omit<AriaTableHeaderProps<T>, 'className'> & {
+  className?: string;
+};
+
+export const Header: <T extends object>(
+  props: HeaderProps<T> & React.RefAttributes<HTMLTableSectionElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: HeaderProps<object>, ref) => (
+    <AriaTableHeader
+      ref={ref as React.Ref<HTMLTableSectionElement>}
+      className={cx('tale-table__header', className)}
+      {...props}
+    />
+  ),
+) as any;
+(Header as any).displayName = 'Table.Header';
+
+// ── Column ─────────────────────────────────────────────────────────────────
+
+export type ColumnProps = Omit<AriaColumnProps, 'className'> & {
+  className?: string;
+};
+
+export const Column = React.forwardRef<HTMLTableCellElement, ColumnProps>(
+  ({ className, ...props }, ref) => (
+    <AriaColumn ref={ref} className={cx('tale-table__column', className)} {...props} />
+  ),
+);
+Column.displayName = 'Table.Column';
+
+// ── Body ───────────────────────────────────────────────────────────────────
+
+export type BodyProps<T extends object> = Omit<AriaTableBodyProps<T>, 'className'> & {
+  className?: string;
+};
+
+export const Body: <T extends object>(
+  props: BodyProps<T> & React.RefAttributes<HTMLTableSectionElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: BodyProps<object>, ref) => (
+    <AriaTableBody
+      ref={ref as React.Ref<HTMLTableSectionElement>}
+      className={cx('tale-table__body', className)}
+      {...props}
+    />
+  ),
+) as any;
+(Body as any).displayName = 'Table.Body';
+
+// ── Row ────────────────────────────────────────────────────────────────────
+
+export type RowProps<T extends object> = Omit<AriaRowProps<T>, 'className'> & {
+  className?: string;
+};
+
+export const Row: <T extends object>(
+  props: RowProps<T> & React.RefAttributes<HTMLTableRowElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: RowProps<object>, ref) => (
+    <AriaRow
+      ref={ref as React.Ref<HTMLTableRowElement>}
+      className={cx('tale-table__row', className)}
+      {...props}
+    />
+  ),
+) as any;
+(Row as any).displayName = 'Table.Row';
+
+// ── Cell ───────────────────────────────────────────────────────────────────
+
+export type CellProps = Omit<AriaCellProps, 'className'> & {
+  className?: string;
+};
+
+export const Cell = React.forwardRef<HTMLTableCellElement, CellProps>(
+  ({ className, ...props }, ref) => (
+    <AriaCell ref={ref} className={cx('tale-table__cell', className)} {...props} />
+  ),
+);
+Cell.displayName = 'Table.Cell';

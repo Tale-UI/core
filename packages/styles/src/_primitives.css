@@ -7,11 +7,26 @@
  * Imported first in index.css so component files can override via cascade.
  *
  * Groups:
- *   1. Field control  — Input, Select trigger, Combobox input, Autocomplete input
- *   2. Dropdown popup — Select, Combobox, Autocomplete, Menu, Popover
- *   3. Dropdown item  — Select, Combobox, Autocomplete, Menu (all item variants)
- *   4. Group label    — Select, Combobox, Autocomplete, Menu
- *   5. Misc           — Separator, Popup arrow, Item indicator
+ *    1. Field control       — Input, Select trigger, Combobox input, Autocomplete input, SearchField input, TextField input, DateField input, TimeField input
+ *    2. Field label         — Input, Select, Combobox, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, NumberField
+ *    3. Dropdown popup      — Select, Combobox, Autocomplete, Menu, Popover
+ *    4. Dropdown item       — Select, Combobox, Autocomplete, Menu (all item variants)
+ *    5. Group label         — Select, Combobox, Autocomplete, Menu
+ *    6. Misc                — Separator, Popup arrow, Item indicator
+ *    7. Disclosure panel    — Disclosure, Accordion (animation + typography)
+ *    8. Field description   — Field, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, TagGroup
+ *    9. Field error         — same components as 8
+ *   10. Date/time field root — DateField, DatePicker, DateRangePicker, TimeField (root layout + standalone input + picker group + inner input)
+ *   11. Date/time segment   — DateField, DatePicker, DateRangePicker, TimeField
+ *   12. Date picker trigger — DatePicker, DateRangePicker (base + inside-group override)
+ *   13. Date picker popover — DatePicker, DateRangePicker (base + keyframes + dialog)
+ *   14. Calendar            — Calendar, RangeCalendar (root, nav buttons, day/cell, header cells)
+ *   15. Color picker thumb  — ColorArea, ColorSlider, ColorWheel
+ *   16. Modal               — AlertDialog, Dialog, Drawer (title, description, backdrop, actions)
+ *   17. Progress / Meter    — ProgressBar, Meter (root, label, track, indicator, value)
+ *   18. Button sizes        — Button, ToggleButton (sm / md / lg modifiers)
+ *   19. Choice group root   — CheckboxGroup, RadioGroup
+ *   20. Combobox / Autocomplete input group + empty state
  */
 
 /* ─── Focus ring tokens ────────────────────────────────────────────────────── */
@@ -28,11 +43,16 @@
 .tale-input,
 .tale-select__trigger,
 .tale-combobox__input,
-.tale-autocomplete__input {
+.tale-autocomplete__input,
+.tale-search-field__input,
+.tale-text-field__input,
+.tale-date-field__input,
+.tale-time-field__input {
+  box-sizing: border-box;
   min-height: 3.6rem;
   padding: var(--space-3xs) var(--space-xs);
   border: 1px solid var(--neutral-26);
-  border-radius: 0.6rem;
+  border-radius: var(--radius-m);
   background-color: var(--neutral-10);
   color: var(--neutral-90);
   font-family: var(--body-font-family);
@@ -44,10 +64,16 @@
 .tale-input:focus,
 .tale-input[data-focused],
 .tale-select__trigger:focus-visible,
-.tale-select__trigger[data-popup-open],
+.tale-select__trigger[data-open],
 .tale-combobox__input:focus,
-.tale-combobox__input[data-popup-open],
-.tale-autocomplete__input:focus {
+.tale-combobox__input[data-open],
+.tale-autocomplete__input:focus,
+.tale-search-field__input:focus,
+.tale-search-field__input[data-focused],
+.tale-text-field__input:focus,
+.tale-text-field__input[data-focused],
+.tale-date-field__input[data-focused],
+.tale-time-field__input[data-focused] {
   border-color: var(--focus-ring-color);
   box-shadow: 0 0 0 3px var(--focus-ring-glow);
 }
@@ -55,47 +81,212 @@
 /* Placeholder (select uses .tale-select__value[data-placeholder] instead) */
 .tale-input::placeholder,
 .tale-combobox__input::placeholder,
-.tale-autocomplete__input::placeholder {
+.tale-autocomplete__input::placeholder,
+.tale-search-field__input::placeholder,
+.tale-text-field__input::placeholder {
   color: var(--neutral-50);
 }
 
+/* Dropdown arrow triggers (select + combobox) */
+.tale-accordion__trigger-icon,
+.tale-navigation-menu__icon,
+.tale-select__icon,
+.tale-combobox__trigger {
+  transition: transform 0.2s ease;
+}
+
+.tale-select__icon,
+.tale-combobox__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  font-size: var(--text-l-font-size);
+  line-height: 1;
+  color: var(--neutral-60);
+  flex-shrink: 0;
+  transform: rotate(0deg);
+}
+
+.tale-combobox__trigger {
+  margin-inline-end: var(--space-3xs);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.tale-combobox__trigger:focus-visible {
+  outline: none;
+}
+
+.tale-select__trigger[data-open] .tale-select__icon,
+.tale-select__trigger[aria-expanded="true"] .tale-select__icon,
+.tale-combobox__input-group[data-open] .tale-combobox__trigger,
+.tale-combobox__trigger[aria-expanded="true"],
+.tale-accordion__item[data-expanded] .tale-accordion__trigger-icon,
+.tale-navigation-menu__trigger[data-open] .tale-navigation-menu__icon {
+  transform: rotate(180deg);
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   2. DROPDOWN POPUP
+   2. FIELD LABEL
    ══════════════════════════════════════════════════════════════════════════ */
 
-.tale-select__popup,
-.tale-combobox__popup,
-.tale-autocomplete__popup,
+.tale-text-field,
+.tale-combobox,
+.tale-select {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+}
+
+.tale-date-field,
+.tale-date-picker,
+.tale-date-range-picker,
+.tale-time-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: max-content;
+}
+
+.tale-input__label,
+.tale-field__label,
+.tale-select__label,
+.tale-combobox__label,
+.tale-text-field__label,
+.tale-text-area__label,
+.tale-search-field__label,
+.tale-date-field__label,
+.tale-date-picker__label,
+.tale-date-range-picker__label,
+.tale-time-field__label,
+.tale-number-field__label {
+  color: var(--neutral-70);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1.3;
+  cursor: default;
+}
+
+.tale-input__root[data-disabled] .tale-input__label,
+.tale-field[data-disabled] .tale-field__label,
+.tale-select__label[data-disabled],
+.tale-combobox__label[data-disabled],
+.tale-text-field[data-disabled] .tale-text-field__label,
+.tale-text-area[data-disabled] .tale-text-area__label,
+.tale-search-field[data-disabled] .tale-search-field__label,
+.tale-date-field[data-disabled] .tale-date-field__label,
+.tale-date-picker[data-disabled] .tale-date-picker__label,
+.tale-date-range-picker[data-disabled] .tale-date-range-picker__label,
+.tale-time-field[data-disabled] .tale-time-field__label,
+.tale-number-field[data-disabled] .tale-number-field__label {
+  opacity: 0.45;
+}
+
+.tale-input__root[data-invalid] .tale-input__label,
+.tale-field[data-invalid] .tale-field__label,
+.tale-select__label[data-invalid],
+.tale-combobox__label[data-invalid],
+.tale-text-field[data-invalid] .tale-text-field__label,
+.tale-text-area[data-invalid] .tale-text-area__label,
+.tale-search-field[data-invalid] .tale-search-field__label,
+.tale-date-field[data-invalid] .tale-date-field__label,
+.tale-date-picker[data-invalid] .tale-date-picker__label,
+.tale-date-range-picker[data-invalid] .tale-date-range-picker__label,
+.tale-time-field[data-invalid] .tale-time-field__label,
+.tale-number-field[data-invalid] .tale-number-field__label {
+  color: var(--red-60);
+}
+
+.tale-slider__label,
+.tale-color-slider__label {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1.3;
+  color: var(--neutral-70);
+  cursor: default;
+  margin-bottom: 0;
+}
+
+.tale-slider__label[data-disabled],
+.tale-color-slider__label[data-disabled] {
+  opacity: 0.45;
+}
+
+.tale-select__label[data-required]::after,
+.tale-combobox__label[data-required]::after,
+.tale-slider__label[data-required]::after,
+.tale-color-slider__label[data-required]::after {
+  content: ' *';
+  color: var(--color-60);
+}
+
+.tale-slider__label[data-invalid],
+.tale-color-slider__label[data-invalid] {
+  color: var(--red-60);
+}
+
+.tale-slider__output,
+.tale-color-slider__output {
+  color: var(--neutral-60);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  text-align: right;
+}
+
+.tale-color-field__label {
+  display: block;
+  font-family: var(--body-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-70);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. DROPDOWN POPUP
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-select__popover,
+.tale-combobox__popover,
+.tale-autocomplete__popover,
 .tale-menu__popup,
+.tale-context-menu,
 .tale-popover__popup {
   background-color: var(--neutral-10);
   border: 1px solid var(--neutral-20);
-  border-radius: 0.8rem;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 8px 24px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-m);
   outline: none;
   overflow: hidden;
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 /* Enter/leave animation */
-.tale-select__popup[data-starting-style],
-.tale-select__popup[data-ending-style],
-.tale-combobox__popup[data-starting-style],
-.tale-combobox__popup[data-ending-style],
-.tale-autocomplete__popup[data-starting-style],
-.tale-autocomplete__popup[data-ending-style],
-.tale-menu__popup[data-starting-style],
-.tale-menu__popup[data-ending-style],
-.tale-popover__popup[data-starting-style],
-.tale-popover__popup[data-ending-style] {
+.tale-select__popover[data-entering],
+.tale-select__popover[data-exiting],
+.tale-combobox__popover[data-entering],
+.tale-combobox__popover[data-exiting],
+.tale-autocomplete__popover[data-entering],
+.tale-autocomplete__popover[data-exiting],
+.tale-menu__popup[data-entering],
+.tale-menu__popup[data-exiting],
+.tale-context-menu[data-entering],
+.tale-context-menu[data-exiting],
+.tale-popover__popup[data-entering],
+.tale-popover__popup[data-exiting] {
   opacity: 0;
   transform: scale(0.97);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   3. DROPDOWN ITEM
+  4. DROPDOWN ITEM
    ══════════════════════════════════════════════════════════════════════════ */
 
 .tale-select__item,
@@ -105,13 +296,14 @@
 .tale-menu__checkbox-item,
 .tale-menu__radio-item,
 .tale-menu__link-item,
-.tale-menu__submenu-trigger {
+.tale-menu__submenu-trigger,
+.tale-context-menu__item {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: var(--space-2xs);
   padding: var(--space-2xs) var(--space-xs);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-m);
   color: var(--neutral-80);
   font-family: var(--body-font-family);
   font-size: var(--text-m-font-size);
@@ -121,15 +313,16 @@
   user-select: none;
 }
 
-/* Highlighted */
-.tale-select__item[data-highlighted],
-.tale-combobox__item[data-highlighted],
-.tale-autocomplete__item[data-highlighted],
-.tale-menu__item[data-highlighted],
-.tale-menu__checkbox-item[data-highlighted],
-.tale-menu__radio-item[data-highlighted],
-.tale-menu__link-item[data-highlighted],
-.tale-menu__submenu-trigger[data-highlighted] {
+/* Focused (keyboard highlight) */
+.tale-select__item[data-focused],
+.tale-combobox__item[data-focused],
+.tale-autocomplete__item[data-focused],
+.tale-menu__item[data-focused],
+.tale-menu__checkbox-item[data-focused],
+.tale-menu__radio-item[data-focused],
+.tale-menu__link-item[data-focused],
+.tale-menu__submenu-trigger[data-focused],
+.tale-context-menu__item[data-focused] {
   background-color: var(--neutral-14);
   color: var(--neutral-90);
 }
@@ -142,20 +335,21 @@
 .tale-menu__checkbox-item[data-disabled],
 .tale-menu__radio-item[data-disabled],
 .tale-menu__link-item[data-disabled],
-.tale-menu__submenu-trigger[data-disabled] {
+.tale-menu__submenu-trigger[data-disabled],
+.tale-context-menu__item[data-disabled] {
   opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   4. GROUP LABEL
+  5. GROUP LABEL
    ══════════════════════════════════════════════════════════════════════════ */
 
-.tale-select__group-label,
-.tale-combobox__group-label,
-.tale-autocomplete__group-label,
-.tale-menu__group-label {
+.tale-select__header,
+.tale-combobox__header,
+.tale-autocomplete__header,
+.tale-menu__header {
   padding: var(--space-4xs) var(--space-xs);
   color: var(--neutral-50);
   font-family: var(--label-font-family);
@@ -167,33 +361,733 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   5. MISC
+  6. MISC
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* Separator */
 .tale-select__separator,
-.tale-menu__separator {
+.tale-combobox__separator,
+.tale-autocomplete__separator,
+.tale-menu__separator,
+.tale-context-menu__separator {
   height: 1px;
   background-color: var(--neutral-18);
   margin: var(--space-4xs) 0;
 }
 
-/* Popup arrow */
+/* Popup arrow — OverlayArrow wrapper gets [data-placement]; SVG is inside.
+   Arrow overlaps the popup edge so the fill covers the border seam. */
 .tale-menu__arrow,
 .tale-popover__arrow {
-  width: 1rem;
-  height: 0.5rem;
+  position: absolute;
+  z-index: 1;
+}
+
+.tale-menu__arrow svg,
+.tale-popover__arrow svg {
+  display: block;
+  width: 0.8rem;
+  height: 0.8rem;
   fill: var(--neutral-10);
   stroke: var(--neutral-20);
   stroke-width: 1;
 }
 
+.tale-menu__arrow[data-placement="bottom"] svg,
+.tale-popover__arrow[data-placement="bottom"] svg {
+  transform: rotate(180deg);
+}
+
+.tale-menu__arrow[data-placement="left"] svg,
+.tale-popover__arrow[data-placement="left"] svg {
+  transform: rotate(-90deg);
+}
+
+.tale-menu__arrow[data-placement="right"] svg,
+.tale-popover__arrow[data-placement="right"] svg {
+  transform: rotate(90deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+  7. DISCLOSURE PANEL ANIMATION
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Shared typography and height + opacity transition for Disclosure and Accordion panels */
+.tale-disclosure__panel,
+.tale-accordion__panel {
+  color: var(--neutral-80);
+  font-family: var(--text-font-family);
+  font-size: var(--text-m-font-size);
+  line-height: 1.6;
+  transition: height 0.6s ease, opacity 0.2s ease;
+}
+
+.tale-disclosure__panel[data-entering],
+.tale-disclosure__panel[data-exiting],
+.tale-accordion__panel[data-entering],
+.tale-accordion__panel[data-exiting] {
+  height: 0;
+  opacity: 0;
+}
+
 /* Item indicator (select + combobox — menu's indicator omits margin-left: auto) */
 .tale-select__item-indicator,
 .tale-combobox__item-indicator {
-  width: 1.4rem;
-  height: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  line-height: 1;
   flex-shrink: 0;
   color: var(--color-60);
   margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. FIELD DESCRIPTION
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-field__description,
+.tale-input__description,
+.tale-text-field__description,
+.tale-text-area__description,
+.tale-search-field__description,
+.tale-date-field__description,
+.tale-date-picker__description,
+.tale-date-range-picker__description,
+.tale-time-field__description,
+.tale-number-field__description,
+.tale-tag-group__description {
+  color: var(--neutral-60);
+  font-family: var(--body-font-family);
+  font-size: var(--text-s-font-size);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. FIELD ERROR
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-field__error,
+.tale-input__error,
+.tale-text-field__error,
+.tale-text-area__error,
+.tale-search-field__error,
+.tale-date-field__error,
+.tale-date-picker__error,
+.tale-date-range-picker__error,
+.tale-time-field__error,
+.tale-number-field__error,
+.tale-tag-group__error {
+  color: var(--red-60);
+  font-family: var(--body-font-family);
+  font-size: var(--text-s-font-size);
+  line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. DATE / TIME FIELD ROOT
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Standalone date/time input — inline-flex for segment layout (base sizing from group 1) */
+.tale-date-field__input,
+.tale-time-field__input {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+.tale-date-field__input[data-invalid],
+.tale-time-field__input[data-invalid] {
+  border-color: var(--red-60);
+}
+
+.tale-date-field__input[data-disabled],
+.tale-time-field__input[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Picker group container — wraps date input + trigger button */
+.tale-date-picker__group,
+.tale-date-range-picker__group {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 3.6rem;
+  border: 1px solid var(--neutral-26);
+  border-radius: var(--radius-m);
+  background-color: var(--neutral-10);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tale-date-picker__group:focus-within,
+.tale-date-range-picker__group:focus-within {
+  border-color: var(--focus-ring-color);
+  box-shadow: 0 0 0 3px var(--focus-ring-glow);
+}
+
+.tale-date-picker[data-invalid] .tale-date-picker__group,
+.tale-date-range-picker[data-invalid] .tale-date-range-picker__group {
+  border-color: var(--red-60);
+}
+
+.tale-date-picker[data-disabled] .tale-date-picker__group,
+.tale-date-range-picker[data-disabled] .tale-date-range-picker__group {
+  opacity: 0.45;
+  pointer-events: none;
+  background: var(--neutral-14);
+}
+
+/* Date input inside picker group — transparent bg, no border (group provides them) */
+.tale-date-picker__input,
+.tale-date-range-picker__start,
+.tale-date-range-picker__end {
+  display: inline-flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 0;
+  padding: var(--space-3xs) var(--space-xs);
+  background-color: transparent;
+  color: var(--neutral-90);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  outline: none;
+}
+
+.tale-date-picker__input[data-disabled],
+.tale-date-range-picker__start[data-disabled],
+.tale-date-range-picker__end[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   11. DATE / TIME SEGMENT
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-date-field__segment,
+.tale-date-picker__segment,
+.tale-date-range-picker__segment,
+.tale-time-field__segment {
+  display: inline;
+  padding: 0.1rem 0.15rem;
+  border-radius: var(--radius-xs);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  caret-color: transparent;
+  outline: none;
+}
+
+.tale-date-field__segment[data-focused],
+.tale-date-picker__segment[data-focused],
+.tale-date-range-picker__segment[data-focused],
+.tale-time-field__segment[data-focused] {
+  background: var(--color-60);
+  color: var(--color-60-fg);
+}
+
+.tale-date-field__segment[data-placeholder],
+.tale-date-picker__segment[data-placeholder],
+.tale-date-range-picker__segment[data-placeholder],
+.tale-time-field__segment[data-placeholder] {
+  color: var(--neutral-40);
+  font-style: italic;
+}
+
+.tale-date-field__segment[data-disabled],
+.tale-date-picker__segment[data-disabled],
+.tale-date-range-picker__segment[data-disabled],
+.tale-time-field__segment[data-disabled] {
+  opacity: 0.45;
+}
+
+.tale-date-field__segment[data-readonly],
+.tale-date-picker__segment[data-readonly],
+.tale-date-range-picker__segment[data-readonly],
+.tale-time-field__segment[data-readonly] {
+  color: var(--neutral-60);
+}
+
+.tale-date-field__segment[data-type="literal"],
+.tale-date-picker__segment[data-type="literal"],
+.tale-date-range-picker__segment[data-type="literal"],
+.tale-time-field__segment[data-type="literal"] {
+  padding: 0 0.05rem;
+  color: var(--neutral-50);
+}
+
+/* Keep focus styling dominant when a segment has multiple state attributes. */
+.tale-date-field__segment[data-focused],
+.tale-date-picker__segment[data-focused],
+.tale-date-range-picker__segment[data-focused],
+.tale-time-field__segment[data-focused] {
+  background: var(--color-60);
+  color: var(--color-60-fg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   12. DATE PICKER CALENDAR TRIGGER
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-date-picker__trigger,
+.tale-date-range-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.6rem;
+  width: 3.6rem;
+  border: 1px solid var(--neutral-26);
+  border-left: none;
+  border-radius: 0 var(--radius-m) var(--radius-m) 0;
+  background-color: var(--neutral-10);
+  color: var(--neutral-70);
+  cursor: pointer;
+  font-size: var(--text-m-font-size);
+  outline: none;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.tale-date-picker__trigger:hover,
+.tale-date-range-picker__trigger:hover {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-date-picker__trigger[data-focus-visible],
+.tale-date-range-picker__trigger[data-focus-visible] {
+  border-color: var(--focus-ring-color);
+  box-shadow: 0 0 0 3px var(--focus-ring-glow);
+  z-index: 1;
+  position: relative;
+}
+
+.tale-date-picker__trigger[data-disabled],
+.tale-date-range-picker__trigger[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Inside group — collapse outer border, keep only left separator */
+.tale-date-picker__group .tale-date-picker__trigger,
+.tale-date-range-picker__group .tale-date-range-picker__trigger {
+  min-height: calc(3.6rem - 2px);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-left: 1px solid var(--neutral-26);
+  border-radius: 0 calc(var(--radius-m) - 1px) calc(var(--radius-m) - 1px) 0;
+  background-color: transparent;
+}
+
+.tale-date-picker__group .tale-date-picker__trigger:hover,
+.tale-date-range-picker__group .tale-date-range-picker__trigger:hover {
+  background-color: var(--neutral-14);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   13. DATE PICKER POPOVER + DIALOG
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-date-picker__popover,
+.tale-date-range-picker__popover {
+  background: var(--neutral-10);
+  border: 1px solid var(--neutral-14);
+  border-radius: var(--radius-m);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--neutral-100) 10%, transparent);
+  outline: none;
+}
+
+.tale-date-picker__popover[data-entering],
+.tale-date-range-picker__popover[data-entering] {
+  animation: tale-date-popover-fade-in 0.15s ease;
+}
+
+.tale-date-picker__popover[data-exiting],
+.tale-date-range-picker__popover[data-exiting] {
+  animation: tale-date-popover-fade-out 0.1s ease;
+}
+
+@keyframes tale-date-popover-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tale-date-popover-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.tale-date-picker__dialog,
+.tale-date-range-picker__dialog {
+  outline: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   14. CALENDAR COMPONENTS
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Root container */
+.tale-calendar,
+.tale-range-calendar {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-s);
+  background: var(--neutral-5);
+  border: 1px solid var(--neutral-14);
+  border-radius: var(--radius-m);
+  user-select: none;
+  width: max-content;
+}
+
+/* Header cells */
+.tale-calendar__grid-header-cell,
+.tale-range-calendar__header-cell {
+  text-align: center;
+  padding: var(--space-2xs) var(--space-3xs);
+  font-family: var(--label-font-family);
+  font-size: var(--label-xs-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-50);
+}
+
+/* Day / cell base */
+.tale-calendar__cell,
+.tale-range-calendar__cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-m);
+  height: var(--space-m);
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--body-font-family);
+  font-size: var(--text-s-font-size);
+  color: var(--neutral-90);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+
+.tale-calendar__cell:hover,
+.tale-range-calendar__cell:hover {
+  background: var(--neutral-12);
+}
+
+.tale-calendar__cell[data-today],
+.tale-range-calendar__cell[data-today] {
+  font-weight: var(--label-font-weight);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tale-calendar__cell[data-outside-month],
+.tale-range-calendar__cell[data-outside-month] {
+  color: var(--neutral-40);
+}
+
+.tale-calendar__cell[data-disabled],
+.tale-calendar__cell[data-unavailable],
+.tale-range-calendar__cell[data-disabled],
+.tale-range-calendar__cell[data-unavailable] {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.tale-calendar__cell[data-focus-visible],
+.tale-range-calendar__cell[data-focus-visible] {
+  outline: 2px solid var(--color-60);
+  outline-offset: 2px;
+}
+
+/* Month navigation buttons */
+.tale-calendar__prev-button,
+.tale-calendar__next-button,
+.tale-range-calendar__prev-button,
+.tale-range-calendar__next-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-m);
+  height: var(--space-m);
+  border-radius: var(--radius-s);
+  border: 1px solid var(--neutral-14);
+  background: var(--neutral-5);
+  cursor: pointer;
+  color: var(--neutral-70);
+  transition: background 0.1s ease, border-color 0.1s ease;
+}
+
+.tale-calendar__prev-button:hover,
+.tale-calendar__next-button:hover,
+.tale-range-calendar__prev-button:hover,
+.tale-range-calendar__next-button:hover {
+  background: var(--neutral-10);
+  border-color: var(--neutral-20);
+}
+
+.tale-calendar__prev-button[data-disabled],
+.tale-calendar__next-button[data-disabled],
+.tale-range-calendar__prev-button[data-disabled],
+.tale-range-calendar__next-button[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.tale-calendar__prev-button[data-focus-visible],
+.tale-calendar__next-button[data-focus-visible],
+.tale-range-calendar__prev-button[data-focus-visible],
+.tale-range-calendar__next-button[data-focus-visible] {
+  outline: 2px solid var(--color-60);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   15. COLOR PICKER THUMB
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-color-area__thumb,
+.tale-color-slider__thumb,
+.tale-color-wheel__thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  border: 2px solid var(--neutral-100);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+  outline: none;
+  transition: box-shadow 0.15s ease;
+}
+
+.tale-color-area__thumb[data-focus-visible],
+.tale-color-slider__thumb[data-focus-visible],
+.tale-color-wheel__thumb[data-focus-visible] {
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
+}
+
+.tale-color-slider__thumb[data-dragging],
+.tale-color-wheel__thumb[data-dragging] {
+  cursor: grabbing;
+}
+
+.tale-color-area[data-disabled],
+.tale-color-slider[data-disabled],
+.tale-color-wheel[data-disabled] {
+  opacity: 0.45;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   16. MODAL (TITLE, DESCRIPTION, BACKDROP, ACTIONS)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Modal title */
+.tale-alert-dialog__title,
+.tale-dialog__title,
+.tale-drawer__title {
+  margin: 0;
+  color: var(--neutral-95);
+  font-family: var(--label-font-family);
+  font-size: var(--label-l-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1.3;
+}
+
+/* Modal description */
+.tale-alert-dialog__description,
+.tale-dialog__description,
+.tale-drawer__description {
+  margin: 0;
+  color: var(--neutral-70);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  line-height: 1.6;
+}
+
+/* Modal backdrop — alert-dialog + dialog only (drawer uses different values) */
+.tale-alert-dialog__backdrop,
+.tale-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--scrim);
+  z-index: 100;
+  transition: opacity 0.2s ease;
+}
+
+.tale-alert-dialog__backdrop[data-entering],
+.tale-alert-dialog__backdrop[data-exiting],
+.tale-dialog__backdrop[data-entering],
+.tale-dialog__backdrop[data-exiting] {
+  opacity: 0;
+}
+
+/* Modal actions row */
+.tale-alert-dialog__actions,
+.tale-dialog__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   17. PROGRESS BAR + METER
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-progress-bar,
+.tale-meter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
+  width: 100%;
+}
+
+.tale-progress-bar__label,
+.tale-meter__label {
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-progress-bar__track,
+.tale-meter__track {
+  position: relative;
+  width: 100%;
+  height: 0.8rem;
+  border-radius: var(--radius-full);
+  background-color: var(--neutral-20);
+  overflow: hidden;
+}
+
+.tale-progress-bar__indicator,
+.tale-meter__indicator {
+  height: 100%;
+  background-color: var(--color-60);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.tale-progress-bar__value,
+.tale-meter__value {
+  color: var(--neutral-60);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   18. BUTTON SIZE MODIFIERS
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-button.tale-button--sm,
+.tale-toggle-button.tale-toggle-button--sm {
+  font-size: var(--label-s-font-size);
+  padding: var(--space-4xs) var(--space-3xs);
+  min-height: var(--space-m);
+  gap: var(--space-4xs);
+}
+
+.tale-button.tale-button--md,
+.tale-toggle-button.tale-toggle-button--md {
+  font-size: var(--label-m-font-size);
+  padding: var(--space-3xs) var(--space-xs);
+  min-height: 3.6rem;
+}
+
+.tale-button.tale-button--lg,
+.tale-toggle-button.tale-toggle-button--lg {
+  font-size: var(--label-l-font-size);
+  padding: var(--space-2xs) var(--space-s);
+  min-height: 4.4rem;
+  gap: var(--space-2xs);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   19. CHOICE GROUP ROOT
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-checkbox-group,
+.tale-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   20. COMBOBOX + AUTOCOMPLETE INPUT GROUP + EMPTY STATE
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tale-combobox__input-group,
+.tale-autocomplete__input-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid var(--neutral-20);
+  border-radius: var(--radius-m);
+  background: var(--neutral-5);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tale-combobox__input-group:focus-within,
+.tale-autocomplete__input-group:focus-within {
+  border-color: var(--focus-ring-color);
+  box-shadow: 0 0 0 3px var(--focus-ring-glow);
+}
+
+.tale-combobox__input-group[data-open],
+.tale-autocomplete__input-group[data-open] {
+  border-color: var(--focus-ring-color);
+}
+
+.tale-combobox__input-group[data-disabled],
+.tale-autocomplete__input-group[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.tale-combobox[data-disabled] .tale-combobox__input-group {
+  opacity: 0.45;
+  pointer-events: none;
+  background: var(--neutral-14);
+}
+
+.tale-combobox__input-group .tale-combobox__input,
+.tale-autocomplete__input-group .tale-autocomplete__input {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.tale-combobox__empty,
+.tale-autocomplete__empty {
+  padding: var(--space-m);
+  text-align: center;
+  color: var(--neutral-50);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  cursor: default;
 }

@@ -1,4 +1,4 @@
-import { createRenderer, screen, waitFor } from '@mui/internal-test-utils';
+import { createRenderer, screen, waitFor } from '@tale-ui/monorepo-tests/test-utils';
 import { Fieldset } from '@tale-ui/react/fieldset';
 import { expect } from 'chai';
 import { describeConformance, isJSDOM } from '#test-utils';

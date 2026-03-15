@@ -1,82 +1,169 @@
-import * as React from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tabs } from '@tale-ui/react/tabs';
 
 type Args = {
   orientation?: 'horizontal' | 'vertical';
+  selectedKey?: string;
+  isDisabled?: boolean;
 };
 
 const meta: Meta<Args> = {
-  title: 'Layout/Tabs',
-  parameters: { layout: 'centered' },
+  title: 'Components/Tabs',
   argTypes: {
-    orientation: { control: 'inline-radio', options: ['horizontal', 'vertical'] },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+    },
+    selectedKey: {
+      control: 'select',
+      options: ['tab1', 'tab2', 'tab3'],
+    },
+    isDisabled: { control: 'boolean' },
   },
   args: {
     orientation: 'horizontal',
+    selectedKey: 'tab1',
+    isDisabled: false,
   },
 };
 
 export default meta;
-type Story = StoryObj<Args>;
 
-const tabItems = [
-  { value: 'overview', label: 'Overview', content: 'Overview content goes here. This tab is active by default.' },
-  { value: 'features', label: 'Features', content: 'A list of all available features in Tale UI.' },
-  { value: 'docs', label: 'Docs', content: 'Full documentation, API reference, and usage examples.' },
-];
+type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ width: '52rem', height: args.orientation === 'vertical' ? '24rem' : undefined }}>
-      <Tabs.Root defaultValue="overview" orientation={args.orientation}>
-        <Tabs.List>
-          {tabItems.map(({ value, label }) => (
-            <Tabs.Tab key={value} value={value}>{label}</Tabs.Tab>
-          ))}
-          <Tabs.Indicator />
-        </Tabs.List>
-        {tabItems.map(({ value, content }) => (
-          <Tabs.Panel key={value} value={value}>{content}</Tabs.Panel>
-        ))}
-      </Tabs.Root>
-    </div>
+    <Tabs.Root selectedKey={args.selectedKey} orientation={args.orientation} isDisabled={args.isDisabled}>
+      <Tabs.List>
+        <Tabs.Tab id="tab1">Account</Tabs.Tab>
+        <Tabs.Tab id="tab2">Settings</Tabs.Tab>
+        <Tabs.Tab id="tab3">Notifications</Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel id="tab1">
+        <div style={{ padding: 'var(--space-m)' }}>
+          <p>Manage your account details and preferences.</p>
+        </div>
+      </Tabs.Panel>
+      <Tabs.Panel id="tab2">
+        <div style={{ padding: 'var(--space-m)' }}>
+          <p>Configure application settings and behavior.</p>
+        </div>
+      </Tabs.Panel>
+      <Tabs.Panel id="tab3">
+        <div style={{ padding: 'var(--space-m)' }}>
+          <p>Control how and when you receive notifications.</p>
+        </div>
+      </Tabs.Panel>
+    </Tabs.Root>
   ),
 };
 
 export const Vertical: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ width: '52rem', height: '24rem' }}>
-      <Tabs.Root defaultValue="overview" orientation="vertical">
+    <Tabs.Root defaultSelectedKey="tab1" orientation="vertical">
+      <div style={{ display: 'flex', gap: 'var(--space-m)' }}>
         <Tabs.List>
-          {tabItems.map(({ value, label }) => (
-            <Tabs.Tab key={value} value={value}>{label}</Tabs.Tab>
-          ))}
+          <Tabs.Tab id="tab1">General</Tabs.Tab>
+          <Tabs.Tab id="tab2">Security</Tabs.Tab>
+          <Tabs.Tab id="tab3">Privacy</Tabs.Tab>
           <Tabs.Indicator />
         </Tabs.List>
-        {tabItems.map(({ value, content }) => (
-          <Tabs.Panel key={value} value={value}>{content}</Tabs.Panel>
-        ))}
-      </Tabs.Root>
-    </div>
+        <div>
+          <Tabs.Panel id="tab1">
+            <div style={{ padding: 'var(--space-m)' }}>
+              <p>General settings for your application.</p>
+            </div>
+          </Tabs.Panel>
+          <Tabs.Panel id="tab2">
+            <div style={{ padding: 'var(--space-m)' }}>
+              <p>Security and authentication options.</p>
+            </div>
+          </Tabs.Panel>
+          <Tabs.Panel id="tab3">
+            <div style={{ padding: 'var(--space-m)' }}>
+              <p>Privacy and data management preferences.</p>
+            </div>
+          </Tabs.Panel>
+        </div>
+      </div>
+    </Tabs.Root>
   ),
 };
 
 export const WithDisabledTab: Story = {
-  name: 'With Disabled Tab',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ width: '52rem' }}>
-      <Tabs.Root defaultValue="overview">
-        <Tabs.List>
-          <Tabs.Tab value="overview">Overview</Tabs.Tab>
-          <Tabs.Tab value="features" disabled>Features (disabled)</Tabs.Tab>
-          <Tabs.Tab value="docs">Docs</Tabs.Tab>
-          <Tabs.Indicator />
-        </Tabs.List>
-        <Tabs.Panel value="overview">Overview content.</Tabs.Panel>
-        <Tabs.Panel value="features">Features content.</Tabs.Panel>
-        <Tabs.Panel value="docs">Docs content.</Tabs.Panel>
-      </Tabs.Root>
-    </div>
+    <Tabs.Root defaultSelectedKey="tab1">
+      <Tabs.List>
+        <Tabs.Tab id="tab1">Active</Tabs.Tab>
+        <Tabs.Tab id="tab2" isDisabled>
+          Disabled
+        </Tabs.Tab>
+        <Tabs.Tab id="tab3">Also Active</Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel id="tab1">
+        <div style={{ padding: 'var(--space-m)' }}>
+          <p>This tab is active and can be selected.</p>
+        </div>
+      </Tabs.Panel>
+      <Tabs.Panel id="tab2">
+        <div style={{ padding: 'var(--space-m)' }}>
+          <p>You should not see this content because the tab is disabled.</p>
+        </div>
+      </Tabs.Panel>
+      <Tabs.Panel id="tab3">
+        <div style={{ padding: 'var(--space-m)' }}>
+          <p>This tab is also active and selectable.</p>
+        </div>
+      </Tabs.Panel>
+    </Tabs.Root>
   ),
+};
+
+export const Controlled: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: function ControlledTabs() {
+    const [selectedKey, setSelectedKey] = useState<string>('tab1');
+
+    return (
+      <div>
+        <div style={{ marginBottom: 'var(--space-m)', color: 'var(--neutral-80)' }}>
+          Current tab: <strong>{selectedKey}</strong>
+        </div>
+        <Tabs.Root selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(String(key))}>
+          <Tabs.List>
+            <Tabs.Tab id="tab1">First</Tabs.Tab>
+            <Tabs.Tab id="tab2">Second</Tabs.Tab>
+            <Tabs.Tab id="tab3">Third</Tabs.Tab>
+            <Tabs.Indicator />
+          </Tabs.List>
+          <Tabs.Panel id="tab1">
+            <div style={{ padding: 'var(--space-m)' }}>
+              <p>First tab content — controlled externally.</p>
+            </div>
+          </Tabs.Panel>
+          <Tabs.Panel id="tab2">
+            <div style={{ padding: 'var(--space-m)' }}>
+              <p>Second tab content — controlled externally.</p>
+            </div>
+          </Tabs.Panel>
+          <Tabs.Panel id="tab3">
+            <div style={{ padding: 'var(--space-m)' }}>
+              <p>Third tab content — controlled externally.</p>
+            </div>
+          </Tabs.Panel>
+        </Tabs.Root>
+      </div>
+    );
+  },
 };

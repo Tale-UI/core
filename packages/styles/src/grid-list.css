@@ -1,0 +1,74 @@
+/*
+ * GridList — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria GridList exposes:
+ *   Root: [data-empty] [data-focused] [data-focus-visible]
+ *   Item: [data-selected] [data-focused] [data-focus-visible]
+ *         [data-disabled] [data-hovered] [data-dragging] [data-drop-target]
+ *
+ * Usage:
+ *   <GridList.Root className="tale-grid-list">
+ *     <GridList.Item className="tale-grid-list__item">Item 1</GridList.Item>
+ *   </GridList.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-grid-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid var(--neutral-22);
+  border-radius: var(--space-4xs);
+  overflow: hidden;
+  outline: none;
+}
+
+.tale-grid-list[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-grid-list__item {
+  display: flex;
+  align-items: center;
+  padding: var(--space-3xs) var(--space-2xs);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  color: var(--neutral-90);
+  background-color: var(--neutral-5);
+  outline: none;
+  cursor: default;
+  transition: background-color 0.1s ease;
+}
+
+.tale-grid-list__item[data-hovered] {
+  background-color: var(--neutral-12);
+}
+
+.tale-grid-list__item[data-selected] {
+  background-color: var(--color-60);
+  color: var(--color-60-fg);
+}
+
+.tale-grid-list__item[data-focus-visible] {
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color);
+}
+
+.tale-grid-list__item[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tale-grid-list__item[data-dragging] {
+  opacity: 0.6;
+}
+
+.tale-grid-list__item[data-drop-target] {
+  background-color: var(--color-60);
+  color: var(--color-60-fg);
+  outline: 2px solid var(--color-60);
+  outline-offset: -2px;
+}

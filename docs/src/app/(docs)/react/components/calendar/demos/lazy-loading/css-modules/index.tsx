@@ -2,8 +2,8 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { format } from 'date-fns/format';
-import { Calendar } from '@base-ui/react/calendar';
-import { useTimeout } from '@base-ui/utils/useTimeout';
+import { Calendar } from '@tale-ui/react/calendar';
+import { useTimeout } from '@tale-ui/utils/useTimeout';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
 import indexStyles from './index.module.css';

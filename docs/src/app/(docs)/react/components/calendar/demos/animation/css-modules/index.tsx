@@ -2,7 +2,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { format } from 'date-fns/format';
-import { Calendar } from '@base-ui/react/calendar';
+import { Calendar } from '@tale-ui/react/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
 import indexStyles from './index.module.css';

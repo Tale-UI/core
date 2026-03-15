@@ -1,108 +1,165 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import {
+  DialogTrigger,
+  Popover,
+  Dialog,
+  Heading,
+  Button,
+  OverlayArrow,
+  type DialogTriggerProps,
+  type PopoverProps,
+  type DialogProps,
+  type HeadingProps,
+  type ButtonProps,
+  type OverlayArrowProps,
+} from 'react-aria-components';
 import { cx } from '../_cx';
-import type {
-  PopoverRootState,
-  PopoverRootProps,
-  PopoverRootActions,
-  PopoverRootChangeEventReason,
-  PopoverRootChangeEventDetails,
-} from './root/PopoverRoot';
-import type {
-  PopoverTriggerState,
-  PopoverTriggerProps,
-} from './trigger/PopoverTrigger';
-import type { PopoverPortalProps } from './portal/PopoverPortal';
-import type {
-  PopoverPositionerState,
-  PopoverPositionerProps,
-} from './positioner/PopoverPositioner';
-import type {
-  PopoverPopupState,
-  PopoverPopupProps,
-} from './popup/PopoverPopup';
 
-export const Root = H.Root;
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
 
-export namespace Root {
-  export type State = PopoverRootState;
-    export type Props<Payload = unknown> = PopoverRootProps<Payload>;
-  export type Actions = PopoverRootActions;
-  export type ChangeEventReason = PopoverRootChangeEventReason;
-  export type ChangeEventDetails = PopoverRootChangeEventDetails;
-}
+/** Manages the open/close state for the popover. Wrap a Trigger + Popup inside. */
+export const Root = DialogTrigger;
 
-export const Trigger = H.Trigger;
+/* ─── Trigger ───────────────────────────────────────────────────────────────── */
 
-export namespace Trigger {
-  export type State = PopoverTriggerState;
-    export type Props<Payload = unknown> = PopoverTriggerProps<Payload>;
-}
+export type TriggerProps = Omit<ButtonProps, 'className'> & { className?: string };
 
-export const Portal = H.Portal;
+const StyledTrigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
+  ({ className, ...props }, ref) => (
+    <Button ref={ref} className={className as string | undefined} {...props} />
+  ),
+);
+StyledTrigger.displayName = 'Popover.Trigger';
+export const Trigger = StyledTrigger;
 
-export namespace Portal {
-  export type Props = PopoverPortalProps;
-}
+/* ─── Arrow ──────────────────────────────────────────────────────────────────── */
 
-export const Positioner = H.Positioner;
+export type ArrowProps = Omit<OverlayArrowProps, 'className'> & { className?: string };
 
-export namespace Positioner {
-  export type State = PopoverPositionerState;
-  export type Props = PopoverPositionerProps;
-}
-
-export const Backdrop = H.Backdrop;
-export const Viewport = H.Viewport;
-export const createHandle = H.createHandle;
-export const Handle = H.Handle;
-
-const StyledArrow = React.forwardRef<
-  React.ComponentRef<typeof H.Arrow>,
-  React.ComponentPropsWithoutRef<typeof H.Arrow>
->(({ className, ...props }, ref) => (
-  <H.Arrow className={cx('tale-popover__arrow', className)} ref={ref} {...props} />
-));
+const StyledArrow = React.forwardRef<HTMLDivElement, ArrowProps>(
+  ({ className, children, ...props }, ref) => (
+    <OverlayArrow
+      ref={ref}
+      className={cx('tale-popover__arrow', className as string | undefined)}
+      {...props}
+    >
+      {children ?? (
+        <svg viewBox="0 0 8 8" aria-hidden="true">
+          <path d="M0 0 L4 4 L8 0 Z" />
+        </svg>
+      )}
+    </OverlayArrow>
+  ),
+);
 StyledArrow.displayName = 'Popover.Arrow';
-export const Arrow = StyledArrow as typeof H.Arrow;
+export const Arrow = StyledArrow;
 
-const StyledPopup = React.forwardRef<
-  React.ComponentRef<typeof H.Popup>,
-  React.ComponentPropsWithoutRef<typeof H.Popup>
->(({ className, ...props }, ref) => (
-  <H.Popup className={cx('tale-popover__popup', className)} ref={ref} {...props} />
-));
+/* ─── Popup ──────────────────────────────────────────────────────────────────── */
+
+/**
+ * Renders a RA Popover (positioned overlay) containing a RA Dialog.
+ * Supports all RA Popover placement props (placement, offset, crossOffset, etc.).
+ *
+ * Any `Popover.Arrow` children are automatically hoisted out of the Dialog
+ * so they render as direct children of the RA Popover (required by React Aria).
+ */
+export type PopupProps = Omit<PopoverProps, 'className'> &
+  Pick<DialogProps, 'aria-label' | 'aria-labelledby' | 'aria-describedby'> & {
+    className?: string;
+  };
+
+const StyledPopup = React.forwardRef<HTMLElement, PopupProps>(
+  (
+    {
+      className,
+      children,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledby,
+      'aria-describedby': ariaDescribedby,
+      ...popoverProps
+    },
+    ref,
+  ) => {
+    // Hoist OverlayArrow out of Dialog — it must be a direct child of Popover.
+    const arrowChildren: React.ReactNode[] = [];
+    const dialogChildren: React.ReactNode[] = [];
+
+    React.Children.forEach(children as React.ReactNode, (child) => {
+      if (React.isValidElement(child) && child.type === StyledArrow) {
+        arrowChildren.push(child);
+      } else {
+        dialogChildren.push(child);
+      }
+    });
+
+    return (
+      <Popover ref={ref} {...popoverProps}>
+        {arrowChildren}
+        <Dialog
+          className={cx('tale-popover__popup', className as string | undefined)}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+          aria-describedby={ariaDescribedby}
+        >
+          {dialogChildren}
+        </Dialog>
+      </Popover>
+    );
+  },
+);
 StyledPopup.displayName = 'Popover.Popup';
-export const Popup = StyledPopup as typeof H.Popup;
+export const Popup = StyledPopup;
 
-export namespace Popup {
-  export type State = PopoverPopupState;
-  export type Props = PopoverPopupProps;
-}
+/* ─── Title ──────────────────────────────────────────────────────────────────── */
 
-const StyledTitle = React.forwardRef<
-  React.ComponentRef<typeof H.Title>,
-  React.ComponentPropsWithoutRef<typeof H.Title>
->(({ className, ...props }, ref) => (
-  <H.Title className={cx('tale-popover__title', className)} ref={ref} {...props} />
-));
+export type TitleProps = Omit<HeadingProps, 'className'> & { className?: string };
+
+const StyledTitle = React.forwardRef<HTMLHeadingElement, TitleProps>(
+  ({ className, slot = 'title', ...props }, ref) => (
+    <Heading
+      ref={ref}
+      slot={slot}
+      className={cx('tale-popover__title', className as string | undefined)}
+      {...props}
+    />
+  ),
+);
 StyledTitle.displayName = 'Popover.Title';
-export const Title = StyledTitle as typeof H.Title;
+export const Title = StyledTitle;
 
-const StyledDescription = React.forwardRef<
-  React.ComponentRef<typeof H.Description>,
-  React.ComponentPropsWithoutRef<typeof H.Description>
->(({ className, ...props }, ref) => (
-  <H.Description className={cx('tale-popover__description', className)} ref={ref} {...props} />
-));
+/* ─── Description ────────────────────────────────────────────────────────────── */
+
+export type DescriptionProps = React.HTMLAttributes<HTMLParagraphElement> & { className?: string };
+
+const StyledDescription = React.forwardRef<HTMLParagraphElement, DescriptionProps>(
+  ({ className, ...props }, ref) => (
+    <p
+      ref={ref}
+      className={cx('tale-popover__description', className as string | undefined)}
+      {...props}
+    />
+  ),
+);
 StyledDescription.displayName = 'Popover.Description';
-export const Description = StyledDescription as typeof H.Description;
+export const Description = StyledDescription;
 
-const StyledClose = React.forwardRef<
-  React.ComponentRef<typeof H.Close>,
-  React.ComponentPropsWithoutRef<typeof H.Close>
->(({ className, ...props }, ref) => (
-  <H.Close className={cx('tale-popover__close', className)} ref={ref} {...props} />
-));
+/* ─── Close ──────────────────────────────────────────────────────────────────── */
+
+/** A button that closes the popover. Must be rendered inside a Popup (Dialog). */
+export type CloseProps = Omit<ButtonProps, 'className'> & { className?: string };
+
+const StyledClose = React.forwardRef<HTMLButtonElement, CloseProps>(
+  ({ className, slot = 'close', ...props }, ref) => (
+    <Button
+      ref={ref}
+      slot={slot}
+      className={cx('tale-popover__close', className as string | undefined)}
+      {...props}
+    />
+  ),
+);
 StyledClose.displayName = 'Popover.Close';
-export const Close = StyledClose as typeof H.Close;
+export const Close = StyledClose;
+
+/* ─── Re-export prop types ───────────────────────────────────────────────────── */
+export type { DialogTriggerProps as RootProps };

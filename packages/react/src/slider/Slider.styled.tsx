@@ -1,76 +1,99 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import {
+  Slider as AriaSlider,
+  SliderTrack as AriaSliderTrack,
+  SliderThumb as AriaSliderThumb,
+  SliderOutput as AriaSliderOutput,
+  Label as AriaLabel,
+  type SliderProps as AriaSliderProps,
+  type SliderTrackProps as AriaSliderTrackProps,
+  type SliderThumbProps as AriaSliderThumbProps,
+  type SliderOutputProps as AriaSliderOutputProps,
+  type LabelProps as AriaLabelProps,
+} from 'react-aria-components';
 import { cx } from '../_cx';
-import type {
-  SliderRootState,
-  SliderRootProps,
-  SliderRootChangeEventReason,
-  SliderRootChangeEventDetails,
-  SliderRootCommitEventReason,
-  SliderRootCommitEventDetails,
-} from './root/SliderRoot';
 
-const StyledRoot = React.forwardRef<
-  React.ComponentRef<typeof H.Root>,
-  React.ComponentPropsWithoutRef<typeof H.Root>
->(({ className, ...props }, ref) => (
-  <H.Root className={cx('tale-slider', className)} ref={ref} {...props} />
-));
-StyledRoot.displayName = 'Slider.Root';
-export const Root = StyledRoot as typeof H.Root;
+/* ─── Root ────────────────────────────────────────────────────────────────── */
 
-export namespace Root {
-  export type State = SliderRootState;
-    export type Props<Value extends number | readonly number[] = number | readonly number[]> = SliderRootProps<Value>;
-  export type ChangeEventReason = SliderRootChangeEventReason;
-  export type ChangeEventDetails = SliderRootChangeEventDetails;
-  export type CommitEventReason = SliderRootCommitEventReason;
-  export type CommitEventDetails = SliderRootCommitEventDetails;
-}
+export type RootProps<T extends number | number[] = number> = Omit<AriaSliderProps<T>, 'className'> & {
+  className?: string;
+};
 
-const StyledControl = React.forwardRef<
-  React.ComponentRef<typeof H.Control>,
-  React.ComponentPropsWithoutRef<typeof H.Control>
->(({ className, ...props }, ref) => (
-  <H.Control className={cx('tale-slider__control', className)} ref={ref} {...props} />
-));
-StyledControl.displayName = 'Slider.Control';
-export const Control = StyledControl as typeof H.Control;
+export const Root: <T extends number | number[] = number>(
+  props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: RootProps, ref) => (
+    <AriaSlider
+      ref={ref as React.Ref<HTMLDivElement>}
+      className={cx('tale-slider', className)}
+      {...props}
+    />
+  ),
+) as any;
+(Root as any).displayName = 'Slider.Root';
 
-const StyledTrack = React.forwardRef<
-  React.ComponentRef<typeof H.Track>,
-  React.ComponentPropsWithoutRef<typeof H.Track>
->(({ className, ...props }, ref) => (
-  <H.Track className={cx('tale-slider__track', className)} ref={ref} {...props} />
-));
-StyledTrack.displayName = 'Slider.Track';
-export const Track = StyledTrack as typeof H.Track;
+/* ─── Control — touch-active container around the track ──────────────────── */
 
-const StyledIndicator = React.forwardRef<
-  React.ComponentRef<typeof H.Indicator>,
-  React.ComponentPropsWithoutRef<typeof H.Indicator>
->(({ className, ...props }, ref) => (
-  <H.Indicator className={cx('tale-slider__indicator', className)} ref={ref} {...props} />
-));
-StyledIndicator.displayName = 'Slider.Indicator';
-export const Indicator = StyledIndicator as typeof H.Indicator;
+export type ControlProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
 
-const StyledThumb = React.forwardRef<
-  React.ComponentRef<typeof H.Thumb>,
-  React.ComponentPropsWithoutRef<typeof H.Thumb>
->(({ className, ...props }, ref) => (
-  <H.Thumb className={cx('tale-slider__thumb', className)} ref={ref} {...props} />
-));
-StyledThumb.displayName = 'Slider.Thumb';
-export const Thumb = StyledThumb as typeof H.Thumb;
+export const Control = React.forwardRef<HTMLDivElement, ControlProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-slider__control', className)} {...props} />
+  ),
+);
+Control.displayName = 'Slider.Control';
 
-export { Value } from './index.parts';
+/* ─── Track ───────────────────────────────────────────────────────────────── */
 
-const StyledLabel = React.forwardRef<
-  React.ComponentRef<typeof H.Label>,
-  React.ComponentPropsWithoutRef<typeof H.Label>
->(({ className, ...props }, ref) => (
-  <H.Label className={cx('tale-slider__label', className)} ref={ref} {...props} />
-));
-StyledLabel.displayName = 'Slider.Label';
-export const Label = StyledLabel as typeof H.Label;
+export type TrackProps = Omit<AriaSliderTrackProps, 'className'> & { className?: string };
+
+export const Track = React.forwardRef<HTMLDivElement, TrackProps>(
+  ({ className, ...props }, ref) => (
+    <AriaSliderTrack ref={ref} className={cx('tale-slider__track', className)} {...props} />
+  ),
+);
+Track.displayName = 'Slider.Track';
+
+/* ─── Indicator — filled portion of the track ────────────────────────────── */
+
+export type IndicatorProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
+
+export const Indicator = React.forwardRef<HTMLDivElement, IndicatorProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-slider__indicator', className)} {...props} />
+  ),
+);
+Indicator.displayName = 'Slider.Indicator';
+
+/* ─── Thumb ───────────────────────────────────────────────────────────────── */
+
+export type ThumbProps = Omit<AriaSliderThumbProps, 'className'> & { className?: string };
+
+export const Thumb = React.forwardRef<HTMLDivElement, ThumbProps>(
+  ({ className, ...props }, ref) => (
+    <AriaSliderThumb ref={ref} className={cx('tale-slider__thumb', className)} {...props} />
+  ),
+);
+Thumb.displayName = 'Slider.Thumb';
+
+/* ─── Output (current value display) ─────────────────────────────────────── */
+
+export type OutputProps = Omit<AriaSliderOutputProps, 'className'> & { className?: string };
+
+export const Output = React.forwardRef<HTMLOutputElement, OutputProps>(
+  ({ className, ...props }, ref) => (
+    <AriaSliderOutput ref={ref} className={cx('tale-slider__output', className)} {...props} />
+  ),
+);
+Output.displayName = 'Slider.Output';
+
+/* ─── Label ───────────────────────────────────────────────────────────────── */
+
+export type LabelProps = Omit<AriaLabelProps, 'className'> & { className?: string };
+
+export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
+  ({ className, ...props }, ref) => (
+    <AriaLabel ref={ref} className={cx('tale-slider__label', className)} {...props} />
+  ),
+);
+Label.displayName = 'Slider.Label';

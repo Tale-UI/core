@@ -1,132 +1,207 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import {
+  ComboBox as AriaComboBox,
+  Input as AriaInput,
+  Button as AriaButton,
+  ListBox as AriaListBox,
+  ListBoxItem as AriaListBoxItem,
+  ListBoxSection as AriaListBoxSection,
+  Popover as AriaPopover,
+  Label as AriaLabel,
+  Header as AriaHeader,
+  Separator as AriaSeparator,
+  type ComboBoxProps as AriaComboBoxProps,
+  type InputProps as AriaInputProps,
+  type ButtonProps as AriaButtonProps,
+  type ListBoxProps as AriaListBoxProps,
+  type ListBoxItemProps as AriaListBoxItemProps,
+  type ListBoxSectionProps as AriaListBoxSectionProps,
+  type PopoverProps as AriaPopoverProps,
+  type LabelProps as AriaLabelProps,
+  type SeparatorProps as AriaSeparatorProps,
+} from 'react-aria-components';
 import { cx } from '../_cx';
-import type {
-  ComboboxRootState,
-  ComboboxRootProps,
-  ComboboxRootActions,
-  ComboboxRootChangeEventReason,
-  ComboboxRootChangeEventDetails,
-  ComboboxRootHighlightEventReason,
-  ComboboxRootHighlightEventDetails,
-} from './root/ComboboxRoot';
 
-export const Root = H.Root;
+/* ─── Root (ComboBox) ─────────────────────────────────────────────────────── */
 
-export namespace Root {
-    export type Props<Value = any, Multiple extends boolean | undefined = false> = ComboboxRootProps<Value, Multiple>;
-  export type State = ComboboxRootState;
-  export type Actions = ComboboxRootActions;
-  export type ChangeEventReason = ComboboxRootChangeEventReason;
-  export type ChangeEventDetails = ComboboxRootChangeEventDetails;
-  export type HighlightEventReason = ComboboxRootHighlightEventReason;
-  export type HighlightEventDetails = ComboboxRootHighlightEventDetails;
-}
-export const Portal = H.Portal;
-export const Backdrop = H.Backdrop;
-export const Positioner = H.Positioner;
-export const Arrow = H.Arrow;
-export const Icon = H.Icon;
-export const Value = H.Value;
-export const Status = H.Status;
-export const Trigger = H.Trigger;
-export const List = H.List;
-export const Row = H.Row;
-export const Collection = H.Collection;
-export const Clear = H.Clear;
-export const ItemIndicator = H.ItemIndicator;
-export const Group = H.Group;
-export const useFilter = H.useFilter;
-export const useFilteredItems = H.useFilteredItems;
+export type RootProps<T extends object = object> = Omit<AriaComboBoxProps<T>, 'className'> & {
+  className?: string;
+};
 
-const StyledLabel = React.forwardRef<
-  React.ComponentRef<typeof H.Label>,
-  React.ComponentPropsWithoutRef<typeof H.Label>
->(({ className, ...props }, ref) => (
-  <H.Label className={cx('tale-combobox__label', className)} ref={ref} {...props} />
-));
-StyledLabel.displayName = 'Combobox.Label';
-export const Label = StyledLabel as typeof H.Label;
+export const Root: <T extends object = object>(
+  props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: RootProps, ref) => (
+    <AriaComboBox
+      ref={ref as React.Ref<HTMLDivElement>}
+      className={cx('tale-combobox', className)}
+      {...props}
+    />
+  ),
+) as any;
+(Root as any).displayName = 'Combobox.Root';
 
-const StyledInputGroup = React.forwardRef<
-  React.ComponentRef<typeof H.InputGroup>,
-  React.ComponentPropsWithoutRef<typeof H.InputGroup>
->(({ className, ...props }, ref) => (
-  <H.InputGroup className={cx('tale-combobox__input-group', className)} ref={ref} {...props} />
-));
-StyledInputGroup.displayName = 'Combobox.InputGroup';
-export const InputGroup = StyledInputGroup as typeof H.InputGroup;
+/* ─── Label ───────────────────────────────────────────────────────────────── */
 
-const StyledInput = React.forwardRef<
-  React.ComponentRef<typeof H.Input>,
-  React.ComponentPropsWithoutRef<typeof H.Input>
->(({ className, ...props }, ref) => (
-  <H.Input className={cx('tale-combobox__input', className)} ref={ref} {...props} />
-));
-StyledInput.displayName = 'Combobox.Input';
-export const Input = StyledInput as typeof H.Input;
+export type LabelProps = Omit<AriaLabelProps, 'className'> & { className?: string };
 
-const StyledPopup = React.forwardRef<
-  React.ComponentRef<typeof H.Popup>,
-  React.ComponentPropsWithoutRef<typeof H.Popup>
->(({ className, ...props }, ref) => (
-  <H.Popup className={cx('tale-combobox__popup', className)} ref={ref} {...props} />
-));
-StyledPopup.displayName = 'Combobox.Popup';
-export const Popup = StyledPopup as typeof H.Popup;
+export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
+  ({ className, ...props }, ref) => (
+    <AriaLabel ref={ref} className={cx('tale-combobox__label', className)} {...props} />
+  ),
+);
+Label.displayName = 'Combobox.Label';
 
-const StyledItem = React.forwardRef<
-  React.ComponentRef<typeof H.Item>,
-  React.ComponentPropsWithoutRef<typeof H.Item>
->(({ className, ...props }, ref) => (
-  <H.Item className={cx('tale-combobox__item', className)} ref={ref} {...props} />
-));
-StyledItem.displayName = 'Combobox.Item';
-export const Item = StyledItem as typeof H.Item;
+/* ─── Input ───────────────────────────────────────────────────────────────── */
 
-const StyledGroupLabel = React.forwardRef<
-  React.ComponentRef<typeof H.GroupLabel>,
-  React.ComponentPropsWithoutRef<typeof H.GroupLabel>
->(({ className, ...props }, ref) => (
-  <H.GroupLabel className={cx('tale-combobox__group-label', className)} ref={ref} {...props} />
-));
-StyledGroupLabel.displayName = 'Combobox.GroupLabel';
-export const GroupLabel = StyledGroupLabel as typeof H.GroupLabel;
+export type InputProps = Omit<AriaInputProps, 'className'> & { className?: string };
 
-const StyledEmpty = React.forwardRef<
-  React.ComponentRef<typeof H.Empty>,
-  React.ComponentPropsWithoutRef<typeof H.Empty>
->(({ className, ...props }, ref) => (
-  <H.Empty className={cx('tale-combobox__empty', className)} ref={ref} {...props} />
-));
-StyledEmpty.displayName = 'Combobox.Empty';
-export const Empty = StyledEmpty as typeof H.Empty;
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, ...props }, ref) => (
+    <AriaInput ref={ref} className={cx('tale-combobox__input', className)} {...props} />
+  ),
+);
+Input.displayName = 'Combobox.Input';
 
-const StyledChips = React.forwardRef<
-  React.ComponentRef<typeof H.Chips>,
-  React.ComponentPropsWithoutRef<typeof H.Chips>
->(({ className, ...props }, ref) => (
-  <H.Chips className={cx('tale-combobox__chips', className)} ref={ref} {...props} />
-));
-StyledChips.displayName = 'Combobox.Chips';
-export const Chips = StyledChips as typeof H.Chips;
+/* ─── Trigger (open-listbox button) ──────────────────────────────────────── */
 
-const StyledChip = React.forwardRef<
-  React.ComponentRef<typeof H.Chip>,
-  React.ComponentPropsWithoutRef<typeof H.Chip>
->(({ className, ...props }, ref) => (
-  <H.Chip className={cx('tale-combobox__chip', className)} ref={ref} {...props} />
-));
-StyledChip.displayName = 'Combobox.Chip';
-export const Chip = StyledChip as typeof H.Chip;
+export type TriggerProps = Omit<AriaButtonProps, 'className'> & { className?: string };
 
-const StyledChipRemove = React.forwardRef<
-  React.ComponentRef<typeof H.ChipRemove>,
-  React.ComponentPropsWithoutRef<typeof H.ChipRemove>
->(({ className, ...props }, ref) => (
-  <H.ChipRemove className={cx('tale-combobox__chip-remove', className)} ref={ref} {...props} />
-));
-StyledChipRemove.displayName = 'Combobox.ChipRemove';
-export const ChipRemove = StyledChipRemove as typeof H.ChipRemove;
+export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
+  ({ className, ...props }, ref) => (
+    <AriaButton ref={ref} className={cx('tale-combobox__trigger', className)} {...props} />
+  ),
+);
+Trigger.displayName = 'Combobox.Trigger';
 
-export { Separator } from './index.parts';
+/* ─── Popover ─────────────────────────────────────────────────────────────── */
+
+export type PopoverProps = Omit<AriaPopoverProps, 'className'> & { className?: string };
+
+export const Popover = React.forwardRef<HTMLElement, PopoverProps>(
+  ({ className, ...props }, ref) => (
+    <AriaPopover ref={ref} className={cx('tale-combobox__popover', className)} {...props} />
+  ),
+);
+Popover.displayName = 'Combobox.Popover';
+
+/* ─── ListBox ─────────────────────────────────────────────────────────────── */
+
+export type ListBoxProps<T extends object = object> = Omit<AriaListBoxProps<T>, 'className'> & {
+  className?: string;
+};
+
+export const ListBox: <T extends object = object>(
+  props: ListBoxProps<T> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: ListBoxProps, ref) => (
+    <AriaListBox
+      ref={ref as React.Ref<HTMLDivElement>}
+      className={cx('tale-combobox__listbox', className)}
+      {...props}
+    />
+  ),
+) as any;
+(ListBox as any).displayName = 'Combobox.ListBox';
+
+/* ─── Item (ListBoxItem) ──────────────────────────────────────────────────── */
+
+export type ItemProps<T = object> = Omit<AriaListBoxItemProps<T>, 'className'> & { className?: string };
+
+export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
+  ({ className, ...props }, ref) => (
+    <AriaListBoxItem ref={ref} className={cx('tale-combobox__item', className)} {...props} />
+  ),
+);
+Item.displayName = 'Combobox.Item';
+
+/* ─── Section (ListBoxSection) ────────────────────────────────────────────── */
+
+export type SectionProps<T = object> = AriaListBoxSectionProps<T>;
+
+export const Section: <T extends object>(
+  props: SectionProps<T> & React.RefAttributes<HTMLElement>,
+) => React.ReactElement | null = AriaListBoxSection as any;
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+
+export type HeaderProps = Omit<React.HTMLAttributes<HTMLElement>, 'className'> & { className?: string };
+
+export const Header = React.forwardRef<HTMLElement, HeaderProps>(
+  ({ className, ...props }, ref) => (
+    <AriaHeader
+      ref={ref as React.Ref<HTMLElement>}
+      className={cx('tale-combobox__header', className)}
+      {...props}
+    />
+  ),
+);
+Header.displayName = 'Combobox.Header';
+
+/* ─── Empty state ─────────────────────────────────────────────────────────── */
+
+export type EmptyProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
+
+export const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-combobox__empty', className)} {...props} />
+  ),
+);
+Empty.displayName = 'Combobox.Empty';
+
+/* ─── InputGroup ──────────────────────────────────────────────────────────── */
+
+export type InputGroupProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
+
+export const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-combobox__input-group', className)} {...props} />
+  ),
+);
+InputGroup.displayName = 'Combobox.InputGroup';
+
+/* ─── Chips container ─────────────────────────────────────────────────────── */
+
+export type ChipsProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
+
+export const Chips = React.forwardRef<HTMLDivElement, ChipsProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-combobox__chips', className)} {...props} />
+  ),
+);
+Chips.displayName = 'Combobox.Chips';
+
+/* ─── Chip ────────────────────────────────────────────────────────────────── */
+
+export type ChipProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
+
+export const Chip = React.forwardRef<HTMLSpanElement, ChipProps>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-combobox__chip', className)} {...props} />
+  ),
+);
+Chip.displayName = 'Combobox.Chip';
+
+/* ─── ChipRemove ──────────────────────────────────────────────────────────── */
+
+export type ChipRemoveProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & {
+  className?: string;
+};
+
+export const ChipRemove = React.forwardRef<HTMLButtonElement, ChipRemoveProps>(
+  ({ className, ...props }, ref) => (
+    <button ref={ref} type="button" className={cx('tale-combobox__chip-remove', className)} {...props} />
+  ),
+);
+ChipRemove.displayName = 'Combobox.ChipRemove';
+
+/* ─── Separator ───────────────────────────────────────────────────────────── */
+
+export type SeparatorProps = Omit<AriaSeparatorProps, 'className'> & { className?: string };
+
+export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
+  ({ className, ...props }, ref) => (
+    <AriaSeparator ref={ref} className={cx('tale-combobox__separator', className)} {...props} />
+  ),
+);
+Separator.displayName = 'Combobox.Separator';

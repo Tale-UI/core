@@ -1,13 +1,15 @@
 # Contributing to Tale UI
 
-## Tale UI vs. MUI organization
+## Overview
 
-Tale UI is a fork of Base UI, an open-source project of the MUI organization. The repositories are part of the same codebase.
-`mui/base-ui` imports the code infrastructure from [`mui/material-ui`](https://github.com/mui/material-ui).
-You can find the "contributing" guide for the main repository in [mui/material-ui/CONTRIBUTING.md](https://github.com/mui/material-ui/blob/HEAD/CONTRIBUTING.md).
+Tale UI is a styled React component library built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/). Components are thin styled wrappers that apply BEM class names to React Aria primitives.
 
-Most of the content in the main repository "contributing" guide applies to this repository.
-There are, however, a few differences:
+## Getting Started
 
-- The default GitHub branch might be different.
-- The local documentation site opens on a different port: 3005 instead of 3000.
+```bash
+pnpm install
+pnpm playground:dev    # launch the development playground
+pnpm test:jsdom        # run unit tests
+```
+
+See [CLAUDE.md](CLAUDE.md) for full development workflow and conventions.

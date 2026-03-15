@@ -1,110 +1,196 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Checkbox } from '@tale-ui/react/checkbox';
 
+type Args = {
+  isSelected: boolean;
+  isDisabled: boolean;
+  isIndeterminate: boolean;
+};
+
+const meta: Meta<Args> = {
+  title: 'Components/Checkbox',
+  args: {
+    isSelected: false,
+    isDisabled: false,
+    isIndeterminate: false,
+  },
+  argTypes: {
+    isSelected: { control: 'boolean' },
+    isDisabled: { control: 'boolean' },
+    isIndeterminate: { control: 'boolean' },
+  },
+};
+
+export default meta;
+
+type Story = StoryObj<Args>;
+
 const CheckIcon = () => (
-  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="2,6 5,9 10,3" />
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const MinusIcon = () => (
-  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <line x1="2" y1="6" x2="10" y2="6" />
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <path d="M2 6h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
-type Args = {
-  disabled?: boolean;
-  defaultChecked?: boolean;
-  indeterminate?: boolean;
-  readOnly?: boolean;
-};
-
-const meta: Meta<Args> = {
-  title: 'Form Controls/Checkbox',
-  parameters: { layout: 'centered' },
-  argTypes: {
-    disabled: { control: 'boolean' },
-    defaultChecked: { control: 'boolean' },
-    indeterminate: { control: 'boolean' },
-    readOnly: { control: 'boolean' },
-  },
-  args: {
-    disabled: false,
-    defaultChecked: false,
-    indeterminate: false,
-    readOnly: false,
-  },
-  render: ({ disabled, defaultChecked, indeterminate, readOnly }) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Checkbox.Root
-        disabled={disabled}
-        defaultChecked={defaultChecked}
-        indeterminate={indeterminate}
-        readOnly={readOnly}
-      >
-        <Checkbox.Indicator>
-          {indeterminate ? <MinusIcon /> : <CheckIcon />}
-        </Checkbox.Indicator>
-      </Checkbox.Root>
-      <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
-        Accept terms and conditions
-      </span>
-    </div>
+export const Default: Story = {
+  render: (args) => (
+    <Checkbox.Root
+      key={`${args.isSelected}-${args.isIndeterminate}`}
+      defaultSelected={args.isSelected}
+      isDisabled={args.isDisabled}
+      isIndeterminate={args.isIndeterminate}
+    >
+      <Checkbox.Indicator>
+        <CheckIcon />
+      </Checkbox.Indicator>
+      Accept terms and conditions
+    </Checkbox.Root>
   ),
 };
 
-export default meta;
-type Story = StoryObj<Args>;
+export const Checked: Story = {
+  args: {
+    isSelected: true,
+    isDisabled: false,
+    isIndeterminate: false,
+  },
+  render: (args) => (
+    <Checkbox.Root
+      key={`${args.isSelected}-${args.isIndeterminate}`}
+      defaultSelected={args.isSelected}
+      isDisabled={args.isDisabled}
+      isIndeterminate={args.isIndeterminate}
+    >
+      <Checkbox.Indicator>
+        <CheckIcon />
+      </Checkbox.Indicator>
+      Checked by default
+    </Checkbox.Root>
+  ),
+};
 
-export const Default: Story = {};
-
-export const Checked: Story = { args: { defaultChecked: true } };
-
-export const Disabled: Story = { args: { disabled: true } };
+export const Disabled: Story = {
+  args: {
+    isSelected: false,
+    isDisabled: true,
+    isIndeterminate: false,
+  },
+  render: (args) => (
+    <Checkbox.Root
+      key={`${args.isSelected}-${args.isIndeterminate}`}
+      defaultSelected={args.isSelected}
+      isDisabled={args.isDisabled}
+      isIndeterminate={args.isIndeterminate}
+    >
+      <Checkbox.Indicator>
+        <CheckIcon />
+      </Checkbox.Indicator>
+      Disabled checkbox
+    </Checkbox.Root>
+  ),
+};
 
 export const DisabledChecked: Story = {
-  name: 'Disabled + Checked',
-  args: { disabled: true, defaultChecked: true },
+  args: {
+    isSelected: true,
+    isDisabled: true,
+    isIndeterminate: false,
+  },
+  render: (args) => (
+    <Checkbox.Root
+      key={`${args.isSelected}-${args.isIndeterminate}`}
+      defaultSelected={args.isSelected}
+      isDisabled={args.isDisabled}
+      isIndeterminate={args.isIndeterminate}
+    >
+      <Checkbox.Indicator>
+        <CheckIcon />
+      </Checkbox.Indicator>
+      Disabled and checked
+    </Checkbox.Root>
+  ),
 };
 
 export const Indeterminate: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Checkbox.Root indeterminate>
-        <Checkbox.Indicator>
-          <MinusIcon />
-        </Checkbox.Indicator>
-      </Checkbox.Root>
-      <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
-        Indeterminate
-      </span>
-    </div>
+  args: {
+    isSelected: false,
+    isDisabled: false,
+    isIndeterminate: true,
+  },
+  render: (args) => (
+    <Checkbox.Root
+      key={`${args.isSelected}-${args.isIndeterminate}`}
+      defaultSelected={args.isSelected}
+      isDisabled={args.isDisabled}
+      isIndeterminate={args.isIndeterminate}
+    >
+      <Checkbox.Indicator>
+        <MinusIcon />
+      </Checkbox.Indicator>
+      Indeterminate state
+    </Checkbox.Root>
   ),
 };
 
 export const AllStates: Story = {
-  name: 'All States',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-      {[
-        { label: 'Unchecked', checked: false },
-        { label: 'Checked', checked: true },
-        { label: 'Disabled', checked: false, disabled: true },
-        { label: 'Disabled + Checked', checked: true, disabled: true },
-      ].map(({ label, checked, disabled }) => (
-        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Checkbox.Root defaultChecked={checked} disabled={disabled}>
-            <Checkbox.Indicator>
-              <CheckIcon />
-            </Checkbox.Indicator>
-          </Checkbox.Root>
-          <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
-            {label}
-          </span>
-        </div>
-      ))}
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, auto)',
+        gap: 'var(--space-m)',
+        alignItems: 'start',
+      }}
+    >
+      <Checkbox.Root>
+        <Checkbox.Indicator>
+          <CheckIcon />
+        </Checkbox.Indicator>
+        Unchecked
+      </Checkbox.Root>
+
+      <Checkbox.Root defaultSelected>
+        <Checkbox.Indicator>
+          <CheckIcon />
+        </Checkbox.Indicator>
+        Checked
+      </Checkbox.Root>
+
+      <Checkbox.Root isIndeterminate>
+        <Checkbox.Indicator>
+          <MinusIcon />
+        </Checkbox.Indicator>
+        Indeterminate
+      </Checkbox.Root>
+
+      <Checkbox.Root isDisabled>
+        <Checkbox.Indicator>
+          <CheckIcon />
+        </Checkbox.Indicator>
+        Disabled
+      </Checkbox.Root>
+
+      <Checkbox.Root isDisabled defaultSelected>
+        <Checkbox.Indicator>
+          <CheckIcon />
+        </Checkbox.Indicator>
+        Disabled + Checked
+      </Checkbox.Root>
+
+      <Checkbox.Root isDisabled isIndeterminate>
+        <Checkbox.Indicator>
+          <MinusIcon />
+        </Checkbox.Indicator>
+        Disabled + Indeterminate
+      </Checkbox.Root>
     </div>
   ),
 };

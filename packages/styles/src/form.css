@@ -3,7 +3,7 @@
  *
  * Styled with @tale-ui/core design tokens.
  * Form wraps Field components and provides form-level validation context.
- * Base-ui Form has no direct data attributes on the root element.
+ * Form is a simple HTML wrapper with no data attributes.
  *
  * Usage:
  *   <Form className="tale-form">
@@ -21,6 +21,6 @@
 .tale-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
+  gap: var(--space-3xs);
   width: 100%;
 }

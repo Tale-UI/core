@@ -1,25 +1,23 @@
 import * as React from 'react';
-import { Separator as H } from './Separator';
-import type { SeparatorProps, SeparatorState } from './Separator';
+import { Separator as AriaSeparator } from 'react-aria-components';
+import type { SeparatorProps as AriaSeparatorProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
-export const Separator = React.forwardRef<
-  React.ComponentRef<typeof H>,
-  React.ComponentPropsWithoutRef<typeof H>
->(({ orientation = 'horizontal', className, ...props }, ref) => (
-  <H
-    orientation={orientation}
-    className={cx(
-      orientation === 'vertical' ? 'tale-separator tale-separator--vertical' : 'tale-separator',
-      className,
-    )}
-    ref={ref}
-    {...props}
-  />
-));
-Separator.displayName = 'Separator';
-
-export namespace Separator {
-  export type Props = SeparatorProps;
-  export type State = SeparatorState;
+export interface SeparatorProps extends Omit<AriaSeparatorProps, 'className'> {
+  className?: string | undefined;
 }
+
+export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
+  ({ orientation = 'horizontal', className, ...props }, ref) => (
+    <AriaSeparator
+      ref={ref}
+      orientation={orientation}
+      className={cx(
+        orientation === 'vertical' ? 'tale-separator tale-separator--vertical' : 'tale-separator',
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
+Separator.displayName = 'Separator';

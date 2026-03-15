@@ -1,0 +1,6 @@
+/*
+ * FileTrigger — @tale-ui/react
+ *
+ * FileTrigger does not render its own visible DOM — it renders its children
+ * as the trigger element plus a hidden file input. No CSS is needed.
+ */

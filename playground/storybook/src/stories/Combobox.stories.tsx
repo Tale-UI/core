@@ -1,185 +1,135 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Combobox } from '@tale-ui/react/combobox';
 
-const countries = ['Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Denmark', 'Egypt', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'India'];
-
 type Args = {
-  disabled?: boolean;
-  placeholder?: string;
+  isDisabled?: boolean;
 };
 
 const meta: Meta<Args> = {
-  title: 'Form Controls/Combobox',
-  parameters: { layout: 'centered' },
+  title: 'Components/Combobox',
+  decorators: [
+    (Story) => (
+      <div style={{ display: 'flex', flexDirection: 'column', width: '320px' }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
-    disabled: { control: 'boolean' },
-    placeholder: { control: 'text' },
+    isDisabled: { control: 'boolean' },
   },
   args: {
-    disabled: false,
-    placeholder: 'Search country…',
+    isDisabled: false,
   },
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
-  render: (args) => {
-    const [value, setValue] = React.useState<string | null>(null);
-    const [items, setItems] = React.useState(countries);
-
-    return (
-      <div style={{ width: '28rem' }}>
-      <Combobox.Root
-        disabled={args.disabled}
-        value={value}
-        onValueChange={setValue}
-        onInputValueChange={(val) => {
-          setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
-        }}
-      >
-        <Combobox.Input placeholder={args.placeholder} />
-        <Combobox.Portal>
-          <Combobox.Positioner sideOffset={4}>
-            <Combobox.Popup>
-              <Combobox.List>
-                {items.length === 0 ? (
-                  <Combobox.Empty>No results</Combobox.Empty>
-                ) : (
-                  items.map((country) => (
-                    <Combobox.Item key={country} value={country}>
-                      {country}
-                    </Combobox.Item>
-                  ))
-                )}
-              </Combobox.List>
-            </Combobox.Popup>
-          </Combobox.Positioner>
-        </Combobox.Portal>
-      </Combobox.Root>
-      </div>
-    );
-  },
+  render: (args) => (
+    <Combobox.Root isDisabled={args.isDisabled}>
+      <Combobox.InputGroup>
+        <Combobox.Input />
+        <Combobox.Trigger>▾</Combobox.Trigger>
+      </Combobox.InputGroup>
+      <Combobox.Popover>
+        <Combobox.ListBox>
+          <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+          <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+          <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+          <Combobox.Item id="grape" textValue="Grape">Grape</Combobox.Item>
+          <Combobox.Item id="orange" textValue="Orange">Orange</Combobox.Item>
+        </Combobox.ListBox>
+      </Combobox.Popover>
+    </Combobox.Root>
+  ),
 };
 
 export const WithLabel: Story = {
-  // Combobox.Label labels Combobox.Trigger (select-style).
-  // For input-style comboboxes, use a native <label> with htmlFor instead.
-  name: 'With Label',
-  render: () => (
-    <div style={{ width: '28rem' }}>
-      <Combobox.Root>
-        <Combobox.Label>Country</Combobox.Label>
-        <Combobox.Trigger>
-          <Combobox.Value placeholder="Select country…" />
-        </Combobox.Trigger>
-        <Combobox.Portal>
-          <Combobox.Positioner sideOffset={4}>
-            <Combobox.Popup>
-              <Combobox.List>
-                {countries.map((country) => (
-                  <Combobox.Item key={country} value={country}>
-                    {country}
-                  </Combobox.Item>
-                ))}
-              </Combobox.List>
-            </Combobox.Popup>
-          </Combobox.Positioner>
-        </Combobox.Portal>
-      </Combobox.Root>
-    </div>
+  render: (args) => (
+    <Combobox.Root isDisabled={args.isDisabled}>
+      <Combobox.Label>Favorite fruit</Combobox.Label>
+      <Combobox.InputGroup>
+        <Combobox.Input />
+        <Combobox.Trigger>▾</Combobox.Trigger>
+      </Combobox.InputGroup>
+      <Combobox.Popover>
+        <Combobox.ListBox>
+          <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+          <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+          <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+        </Combobox.ListBox>
+      </Combobox.Popover>
+    </Combobox.Root>
   ),
 };
 
 export const WithInputGroup: Story = {
-  name: 'With Input Group',
-  render: (args) => {
-    const [value, setValue] = React.useState<string | null>(null);
-    const [items, setItems] = React.useState(countries);
-
-    return (
-      <div style={{ width: '28rem' }}>
-        <Combobox.Root
-          disabled={args.disabled}
-          value={value}
-          onValueChange={setValue}
-          onInputValueChange={(val) => {
-            setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
-          }}
-        >
-          <Combobox.InputGroup>
-            <Combobox.Input placeholder={args.placeholder} />
-            <Combobox.Trigger>▾</Combobox.Trigger>
-          </Combobox.InputGroup>
-          <Combobox.Portal>
-            <Combobox.Positioner sideOffset={4}>
-              <Combobox.Popup>
-                <Combobox.List>
-                  {items.length === 0 ? (
-                    <Combobox.Empty>No results</Combobox.Empty>
-                  ) : (
-                    items.map((country) => (
-                      <Combobox.Item key={country} value={country}>
-                        {country}
-                      </Combobox.Item>
-                    ))
-                  )}
-                </Combobox.List>
-              </Combobox.Popup>
-            </Combobox.Positioner>
-          </Combobox.Portal>
-        </Combobox.Root>
-      </div>
-    );
-  },
+  render: (args) => (
+    <Combobox.Root isDisabled={args.isDisabled}>
+      <Combobox.Label>Search countries</Combobox.Label>
+      <Combobox.InputGroup>
+        <Combobox.Input placeholder="Type to search…" />
+        <Combobox.Trigger>▾</Combobox.Trigger>
+      </Combobox.InputGroup>
+      <Combobox.Popover>
+        <Combobox.ListBox>
+          <Combobox.Item id="us" textValue="United States">United States</Combobox.Item>
+          <Combobox.Item id="ca" textValue="Canada">Canada</Combobox.Item>
+          <Combobox.Item id="mx" textValue="Mexico">Mexico</Combobox.Item>
+          <Combobox.Item id="br" textValue="Brazil">Brazil</Combobox.Item>
+          <Combobox.Item id="uk" textValue="United Kingdom">United Kingdom</Combobox.Item>
+        </Combobox.ListBox>
+      </Combobox.Popover>
+    </Combobox.Root>
+  ),
 };
 
-export const Multiple: Story = {
-  name: 'Multiple Selection',
-  render: () => {
-    const [values, setValues] = React.useState<string[]>([]);
-    const [items, setItems] = React.useState(countries);
+export const WithSections: Story = {
+  render: (args) => (
+    <Combobox.Root isDisabled={args.isDisabled}>
+      <Combobox.Label>Food</Combobox.Label>
+      <Combobox.InputGroup>
+        <Combobox.Input placeholder="Search food…" />
+        <Combobox.Trigger>▾</Combobox.Trigger>
+      </Combobox.InputGroup>
+      <Combobox.Popover>
+        <Combobox.ListBox>
+          <Combobox.Section>
+            <Combobox.Header>Fruits</Combobox.Header>
+            <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+            <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+            <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+          </Combobox.Section>
+          <Combobox.Section>
+            <Combobox.Header>Vegetables</Combobox.Header>
+            <Combobox.Item id="carrot" textValue="Carrot">Carrot</Combobox.Item>
+            <Combobox.Item id="broccoli" textValue="Broccoli">Broccoli</Combobox.Item>
+            <Combobox.Item id="spinach" textValue="Spinach">Spinach</Combobox.Item>
+          </Combobox.Section>
+        </Combobox.ListBox>
+      </Combobox.Popover>
+    </Combobox.Root>
+  ),
+};
 
-    return (
-      <div style={{ width: '28rem' }}>
-      <Combobox.Root
-        multiple
-        value={values}
-        onValueChange={setValues}
-        onInputValueChange={(val) => {
-          setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
-        }}
-      >
-        <Combobox.Chips>
-          {values.map((v) => (
-            <Combobox.Chip key={v}>
-              {v}
-              <Combobox.ChipRemove aria-label={`Remove ${v}`}>✕</Combobox.ChipRemove>
-            </Combobox.Chip>
-          ))}
-        </Combobox.Chips>
-        <Combobox.Input placeholder="Search countries…" />
-        <Combobox.Portal>
-          <Combobox.Positioner sideOffset={4}>
-            <Combobox.Popup>
-              <Combobox.List>
-                {items.length === 0 ? (
-                  <Combobox.Empty>No results</Combobox.Empty>
-                ) : (
-                  items.map((country) => (
-                    <Combobox.Item key={country} value={country}>
-                      {country}
-                    </Combobox.Item>
-                  ))
-                )}
-              </Combobox.List>
-            </Combobox.Popup>
-          </Combobox.Positioner>
-        </Combobox.Portal>
-      </Combobox.Root>
-      </div>
-    );
-  },
+export const Empty: Story = {
+  render: (args) => (
+    <Combobox.Root isDisabled={args.isDisabled}>
+      <Combobox.Label>Search (try typing something not in list)</Combobox.Label>
+      <Combobox.InputGroup>
+        <Combobox.Input placeholder="Type to filter…" />
+        <Combobox.Trigger>▾</Combobox.Trigger>
+      </Combobox.InputGroup>
+      <Combobox.Popover>
+        <Combobox.ListBox>
+          <Combobox.Empty>No results found.</Combobox.Empty>
+          <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+          <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+          <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+        </Combobox.ListBox>
+      </Combobox.Popover>
+    </Combobox.Root>
+  ),
 };

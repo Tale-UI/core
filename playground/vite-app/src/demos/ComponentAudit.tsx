@@ -1,50 +1,56 @@
 import * as React from 'react';
+import { useFilter } from 'react-aria-components';
 import '@tale-ui/react-styles/index.css';
 
 // Simple components
 import { Button } from '@tale-ui/react/button';
 import { Input } from '@tale-ui/react/input';
-import { Toggle } from '@tale-ui/react/toggle';
+import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';
 import { Separator } from '@tale-ui/react/separator';
 
 // Compound components
 import { Checkbox } from '@tale-ui/react/checkbox';
+import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
 import { Radio } from '@tale-ui/react/radio';
 import { Switch } from '@tale-ui/react/switch';
 import { Select } from '@tale-ui/react/select';
+import { Autocomplete } from '@tale-ui/react/autocomplete';
 import { Combobox } from '@tale-ui/react/combobox';
 import { NumberField } from '@tale-ui/react/number-field';
 import { Slider } from '@tale-ui/react/slider';
 import { Calendar } from '@tale-ui/react/calendar';
-import { TemporalAdapterProvider } from '@tale-ui/react/temporal-adapter-provider';
-import { TemporalAdapterDateFns } from '@tale-ui/react/temporal-adapter-date-fns';
 
 // Overlay
 import { Dialog } from '@tale-ui/react/dialog';
 import { AlertDialog } from '@tale-ui/react/alert-dialog';
 import { Popover } from '@tale-ui/react/popover';
-import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
+import { PreviewCard } from '@tale-ui/react/preview-card';
+import { Drawer } from '@tale-ui/react/drawer';
 import { Tooltip } from '@tale-ui/react/tooltip';
 
 // Navigation
 import { Menu } from '@tale-ui/react/menu';
+import { ContextMenu } from '@tale-ui/react/context-menu';
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+import { Menubar } from '@tale-ui/react/menubar';
 
 // Layout
 import { Accordion } from '@tale-ui/react/accordion';
-import { Collapsible } from '@tale-ui/react/collapsible';
+import { Disclosure } from '@tale-ui/react/disclosure';
 import { Tabs } from '@tale-ui/react/tabs';
 import { ScrollArea } from '@tale-ui/react/scroll-area';
+import { Container } from '@tale-ui/react/container';
 
 // Feedback
-import { Progress } from '@tale-ui/react/progress';
+import { ProgressBar } from '@tale-ui/react/progress-bar';
 import { Meter } from '@tale-ui/react/meter';
-import { Toast } from '@tale-ui/react/toast';
-
 // Display
 import { Avatar } from '@tale-ui/react/avatar';
 
-// Form
+// Form Structure
 import { Field } from '@tale-ui/react/field';
+import { Fieldset } from '@tale-ui/react/fieldset';
+import { Form } from '@tale-ui/react/form';
 
 // Other
 import { Toolbar } from '@tale-ui/react/toolbar';
@@ -57,14 +63,6 @@ function CheckIcon() {
   return (
     <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="2,6 5,9 10,3" />
-    </svg>
-  );
-}
-
-function CheckIcon14() {
-  return (
-    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="14" height="14">
-      <polyline points="2,7 5.5,10.5 12,3.5" />
     </svg>
   );
 }
@@ -179,10 +177,13 @@ const TOC = [
     { id: 'button', label: 'Button' },
     { id: 'input', label: 'Input' },
     { id: 'checkbox', label: 'Checkbox' },
+    { id: 'checkbox-group', label: 'CheckboxGroup' },
     { id: 'radio', label: 'Radio' },
     { id: 'switch', label: 'Switch' },
-    { id: 'toggle', label: 'Toggle' },
+    { id: 'toggle-button', label: 'ToggleButton' },
+    { id: 'toggle-button-group', label: 'ToggleButtonGroup' },
     { id: 'select', label: 'Select' },
+    { id: 'autocomplete', label: 'Autocomplete' },
     { id: 'combobox', label: 'Combobox' },
     { id: 'number-field', label: 'NumberField' },
     { id: 'slider', label: 'Slider' },
@@ -192,29 +193,35 @@ const TOC = [
     { id: 'dialog', label: 'Dialog' },
     { id: 'alert-dialog', label: 'AlertDialog' },
     { id: 'popover', label: 'Popover' },
+    { id: 'preview-card', label: 'PreviewCard' },
     { id: 'drawer', label: 'Drawer' },
     { id: 'tooltip', label: 'Tooltip' },
   ]},
   { category: 'Navigation', items: [
     { id: 'menu', label: 'Menu' },
+    { id: 'context-menu', label: 'ContextMenu' },
+    { id: 'navigation-menu', label: 'NavigationMenu' },
+    { id: 'menubar', label: 'Menubar' },
   ]},
   { category: 'Layout', items: [
     { id: 'accordion', label: 'Accordion' },
-    { id: 'collapsible', label: 'Collapsible' },
+    { id: 'disclosure', label: 'Disclosure' },
+    { id: 'container', label: 'Container' },
     { id: 'tabs', label: 'Tabs' },
     { id: 'scroll-area', label: 'ScrollArea' },
     { id: 'separator', label: 'Separator' },
   ]},
   { category: 'Feedback', items: [
-    { id: 'progress', label: 'Progress' },
+    { id: 'progress-bar', label: 'ProgressBar' },
     { id: 'meter', label: 'Meter' },
-    { id: 'toast', label: 'Toast' },
   ]},
   { category: 'Display', items: [
     { id: 'avatar', label: 'Avatar' },
   ]},
   { category: 'Form Structure', items: [
     { id: 'field', label: 'Field' },
+    { id: 'fieldset', label: 'Fieldset' },
+    { id: 'form', label: 'Form' },
   ]},
   { category: 'Other', items: [
     { id: 'toolbar', label: 'Toolbar' },
@@ -241,77 +248,33 @@ const tocLinkStyle: React.CSSProperties = {
 };
 
 // ---------------------------------------------------------------------------
-// Calendar adapter (singleton)
+// Calendar section (react-aria-components)
 // ---------------------------------------------------------------------------
-
-const calendarAdapter = new TemporalAdapterDateFns();
-
-// ---------------------------------------------------------------------------
-// Calendar section (needs TemporalAdapterProvider)
-// ---------------------------------------------------------------------------
-
-function CalendarInner() {
-  const context = Calendar.useContext();
-  const getWeekList = Calendar.useWeekList();
-  const getDayList = Calendar.useDayList();
-
-  const weeks = getWeekList({ date: context.visibleDate, amount: 'end-of-month' });
-  const dayNames = getDayList({ date: context.visibleDate, amount: 7 });
-
-  return (
-    <>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--space-3xs)', marginBottom: 'var(--space-2xs)' }}>
-        <Calendar.DecrementMonth aria-label="Previous month">‹</Calendar.DecrementMonth>
-        <span style={{ fontFamily: 'var(--label-font-family)', fontWeight: 600, fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-80)' }}>
-          {calendarAdapter.formatByString(context.visibleDate, 'MMMM yyyy')}
-        </span>
-        <Calendar.IncrementMonth aria-label="Next month">›</Calendar.IncrementMonth>
-      </div>
-      <Calendar.DayGrid>
-        <Calendar.DayGridHeader>
-          <Calendar.DayGridHeaderRow>
-            {dayNames.map((day, i) => (
-              <Calendar.DayGridHeaderCell key={i} value={day} />
-            ))}
-          </Calendar.DayGridHeaderRow>
-        </Calendar.DayGridHeader>
-        <Calendar.DayGridBody>
-          {weeks.map((week, wi) => (
-            <Calendar.DayGridRow key={wi} value={week}>
-              {(day, di) => (
-                <Calendar.DayGridCell key={di} value={day}>
-                  <Calendar.DayButton />
-                </Calendar.DayGridCell>
-              )}
-            </Calendar.DayGridRow>
-          ))}
-        </Calendar.DayGridBody>
-      </Calendar.DayGrid>
-    </>
-  );
-}
-
-function CalendarBody() {
-  const [value, setValue] = React.useState<Date | null>(null);
-  return (
-    <Calendar.Root value={value} onValueChange={setValue}>
-      <CalendarInner />
-    </Calendar.Root>
-  );
-}
 
 function CalendarSection() {
   return (
-    <TemporalAdapterProvider adapter={calendarAdapter}>
-      <Section
-        id="calendar"
-        title="Calendar"
-        classes={['tale-calendar', 'tale-calendar__viewport', 'tale-calendar__day-grid', 'tale-calendar__day-button', 'tale-calendar__increment-month', 'tale-calendar__decrement-month']}
-      >
-        <SubHeading>Interactive</SubHeading>
-        <CalendarBody />
-      </Section>
-    </TemporalAdapterProvider>
+    <Section
+      id="calendar"
+      title="Calendar"
+      classes={['tale-calendar', 'tale-calendar__grid', 'tale-calendar__grid-header', 'tale-calendar__grid-body', 'tale-calendar__cell', 'tale-calendar__heading', 'tale-calendar__prev-button', 'tale-calendar__next-button']}
+    >
+      <SubHeading>Interactive</SubHeading>
+      <Calendar.Root>
+        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--space-3xs)', marginBottom: 'var(--space-2xs)' }}>
+          <Calendar.PreviousButton />
+          <Calendar.Heading />
+          <Calendar.NextButton />
+        </header>
+        <Calendar.Grid>
+          <Calendar.GridHeader>
+            {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+          </Calendar.GridHeader>
+          <Calendar.GridBody>
+            {(date) => <Calendar.Cell date={date} />}
+          </Calendar.GridBody>
+        </Calendar.Grid>
+      </Calendar.Root>
+    </Section>
   );
 }
 
@@ -322,96 +285,43 @@ function CalendarSection() {
 const countries = ['Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Denmark', 'Egypt', 'Finland', 'France', 'Germany', 'Greece'];
 
 function ComboboxDemo() {
-  const [value, setValue] = React.useState<string | null>(null);
-  const [items, setItems] = React.useState(countries);
   return (
     <div style={{ width: '28rem' }}>
-      <Combobox.Root
-        value={value}
-        onValueChange={setValue}
-        onInputValueChange={(val) => {
-          setItems(countries.filter((c) => c.toLowerCase().includes(val.toLowerCase())));
-        }}
-      >
+      <Combobox.Root>
         <Combobox.Input placeholder="Search country…" />
-        <Combobox.Portal>
-          <Combobox.Positioner sideOffset={4}>
-            <Combobox.Popup>
-              <Combobox.List>
-                {items.length === 0 ? (
-                  <Combobox.Empty>No results</Combobox.Empty>
-                ) : (
-                  items.map((c) => (
-                    <Combobox.Item key={c} value={c}>{c}</Combobox.Item>
-                  ))
-                )}
-              </Combobox.List>
-            </Combobox.Popup>
-          </Combobox.Positioner>
-        </Combobox.Portal>
+        <Combobox.Popover offset={4}>
+          <Combobox.ListBox>
+            {countries.map((c) => (
+              <Combobox.Item key={c} id={c}>{c}</Combobox.Item>
+            ))}
+          </Combobox.ListBox>
+        </Combobox.Popover>
       </Combobox.Root>
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Toast section (needs provider)
+// Autocomplete section (needs state)
 // ---------------------------------------------------------------------------
 
-function ToastStack() {
-  const { toasts } = Toast.useToastManager();
-  return (
-    <Toast.Viewport>
-      {toasts.map((toast) => (
-        <Toast.Root key={toast.id} toast={toast}>
-          <Toast.Content>
-            <Toast.Title>{toast.title}</Toast.Title>
-            {toast.description && (
-              <Toast.Description>{toast.description}</Toast.Description>
-            )}
-          </Toast.Content>
-          <Toast.Close aria-label="Close"><XIconSm /></Toast.Close>
-        </Toast.Root>
-      ))}
-    </Toast.Viewport>
-  );
-}
+const cities = ['Amsterdam', 'Berlin', 'Chicago', 'Dublin', 'Edinburgh', 'Florence', 'Geneva', 'Helsinki'];
 
-function ToastTriggers() {
-  const { add } = Toast.useToastManager();
+function AutocompleteDemo() {
+  let { contains } = useFilter({ sensitivity: 'base' });
   return (
-    <Row>
-      {([
-        { label: 'Default', type: undefined, variant: 'neutral' as const },
-        { label: 'Success', type: 'success', variant: 'primary' as const },
-        { label: 'Error', type: 'error', variant: 'danger' as const },
-        { label: 'Warning', type: 'warning', variant: 'neutral' as const },
-      ]).map(({ label, type, variant }) => (
-        <Button
-          key={label}
-          variant={variant}
-          onClick={() => add({ title: `${label} toast`, description: 'This is a toast notification.', type })}
-        >
-          {label}
-        </Button>
-      ))}
-    </Row>
-  );
-}
-
-function ToastSection() {
-  return (
-    <Toast.Provider timeout={4000} limit={3}>
-      <Section
-        id="toast"
-        title="Toast"
-        classes={['tale-toast__positioner', 'tale-toast__root', 'tale-toast__content', 'tale-toast__title', 'tale-toast__description', 'tale-toast__close']}
-      >
-        <SubHeading>Trigger toasts</SubHeading>
-        <ToastTriggers />
-        <ToastStack />
-      </Section>
-    </Toast.Provider>
+    <div style={{ width: '28rem' }}>
+      <Autocomplete.Root filter={contains}>
+        <Autocomplete.SearchField aria-label="Search city">
+          <Autocomplete.Input placeholder="Search city…" />
+        </Autocomplete.SearchField>
+        <Autocomplete.ListBox aria-label="Cities">
+          {cities.map((c) => (
+            <Autocomplete.Item key={c} id={c}>{c}</Autocomplete.Item>
+          ))}
+        </Autocomplete.ListBox>
+      </Autocomplete.Root>
+    </div>
   );
 }
 
@@ -420,33 +330,16 @@ function ToastSection() {
 // ---------------------------------------------------------------------------
 
 function MenuCheckboxDemo() {
-  const [checked, setChecked] = React.useState({ bold: false, italic: true, underline: false });
-  function MenuCheckIcon() {
-    return (
-      <svg className="tale-menu__item-indicator" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-        <polyline points="2,7 5.5,10.5 12,3.5" />
-      </svg>
-    );
-  }
   return (
     <Menu.Root>
-      <Menu.Trigger render={<Button variant="neutral">Format ▾</Button>} />
-      <Menu.Portal>
-        <Menu.Positioner sideOffset={4}>
-          <Menu.Popup>
-            {(Object.keys(checked) as (keyof typeof checked)[]).map((key) => (
-              <Menu.CheckboxItem
-                key={key}
-                checked={checked[key]}
-                onCheckedChange={(val) => setChecked((prev) => ({ ...prev, [key]: val }))}
-              >
-                {checked[key] && <MenuCheckIcon />}
-                {key.charAt(0).toUpperCase() + key.slice(1)}
-              </Menu.CheckboxItem>
-            ))}
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
+      <Menu.Trigger>Format ▾</Menu.Trigger>
+      <Menu.Popover offset={4}>
+        <Menu.MenuList>
+          <Menu.Item>Bold</Menu.Item>
+          <Menu.Item>Italic</Menu.Item>
+          <Menu.Item>Underline</Menu.Item>
+        </Menu.MenuList>
+      </Menu.Popover>
     </Menu.Root>
   );
 }
@@ -509,15 +402,15 @@ export default function ComponentAudit() {
         <Section id="input" title="Input" classes={['tale-input', 'tale-input--sm', 'tale-input--lg']}>
           <SubHeading>Sizes</SubHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '28rem', marginBottom: '2rem' }}>
-            <Input size="sm" placeholder="Small input" />
-            <Input placeholder="Medium input (default)" />
-            <Input size="lg" placeholder="Large input" />
+            <Input.Input size="sm" placeholder="Small input" />
+            <Input.Input placeholder="Medium input (default)" />
+            <Input.Input size="lg" placeholder="Large input" />
           </div>
           <SubHeading>States</SubHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '28rem' }}>
-            <Input placeholder="Default" />
-            <Input defaultValue="With value" />
-            <Input disabled placeholder="Disabled" />
+            <Input.Input placeholder="Default" />
+            <Input.Input defaultValue="With value" />
+            <Input.Input disabled placeholder="Disabled" />
           </div>
         </Section>
 
@@ -546,29 +439,62 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
+        <Section id="checkbox-group" title="CheckboxGroup" classes={['tale-checkbox-group']}>
+          <SubHeading>Default</SubHeading>
+          <CheckboxGroup aria-label="Interests">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+              {['Reading', 'Gaming', 'Cooking'].map((label) => (
+                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <Checkbox.Root>
+                    <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                  </Checkbox.Root>
+                  <span style={labelStyle}>{label}</span>
+                </div>
+              ))}
+            </div>
+          </CheckboxGroup>
+          <SubHeading>Disabled</SubHeading>
+          <CheckboxGroup aria-label="Disabled group" isDisabled>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+              {['Option A', 'Option B'].map((label) => (
+                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <Checkbox.Root disabled>
+                    <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                  </Checkbox.Root>
+                  <span style={labelStyle}>{label}</span>
+                </div>
+              ))}
+            </div>
+          </CheckboxGroup>
+        </Section>
+
         <Section id="radio" title="Radio" classes={['tale-radio', 'tale-radio__indicator', 'tale-radio--sm', 'tale-radio--lg']}>
           <SubHeading>States</SubHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <Radio.Root value="unchecked">
-                <Radio.Indicator />
-              </Radio.Root>
-              <span style={labelStyle}>Unchecked</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <Radio.Group value="checked">
+            <Radio.Group aria-label="Radio states">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.2rem' }}>
+                <Radio.Root value="unchecked">
+                  <Radio.Indicator />
+                </Radio.Root>
+                <span style={labelStyle}>Unchecked</span>
+              </div>
+            </Radio.Group>
+            <Radio.Group value="checked" aria-label="Checked demo">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <Radio.Root value="checked">
                   <Radio.Indicator />
                 </Radio.Root>
-              </Radio.Group>
-              <span style={labelStyle}>Checked</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <Radio.Root value="disabled" disabled>
-                <Radio.Indicator />
-              </Radio.Root>
-              <span style={labelStyle}>Disabled</span>
-            </div>
+                <span style={labelStyle}>Checked</span>
+              </div>
+            </Radio.Group>
+            <Radio.Group aria-label="Disabled demo" isDisabled>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <Radio.Root value="disabled">
+                  <Radio.Indicator />
+                </Radio.Root>
+                <span style={labelStyle}>Disabled</span>
+              </div>
+            </Radio.Group>
           </div>
           <SubHeading>Radio Group</SubHeading>
           <Radio.Group defaultValue="option-a" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
@@ -605,47 +531,51 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="toggle" title="Toggle" classes={['tale-toggle', 'tale-toggle--sm', 'tale-toggle--md', 'tale-toggle--lg']}>
+        <Section id="toggle-button" title="ToggleButton" classes={['tale-toggle-button', 'tale-toggle-button--sm', 'tale-toggle-button--md', 'tale-toggle-button--lg']}>
           <SubHeading>Sizes</SubHeading>
           <Row>
             {(['sm', 'md', 'lg'] as const).map((size) => (
-              <Toggle key={size} size={size}>{size.toUpperCase()}</Toggle>
+              <ToggleButton key={size} size={size}>{size.toUpperCase()}</ToggleButton>
             ))}
           </Row>
           <SubHeading>States</SubHeading>
           <Row>
-            <Toggle size="md">Unpressed</Toggle>
-            <Toggle size="md" defaultPressed>Pressed</Toggle>
-            <Toggle size="md" disabled>Disabled</Toggle>
+            <ToggleButton size="md">Unpressed</ToggleButton>
+            <ToggleButton size="md" defaultSelected>Pressed</ToggleButton>
+            <ToggleButton size="md" isDisabled>Disabled</ToggleButton>
           </Row>
         </Section>
 
-        <Section id="select" title="Select" classes={['tale-select__trigger', 'tale-select__value', 'tale-select__icon', 'tale-select__popup', 'tale-select__list', 'tale-select__item', 'tale-select__item-text', 'tale-select__item-indicator', 'tale-select__group-label', 'tale-select__separator']}>
+        <Section id="toggle-button-group" title="ToggleButtonGroup" classes={['tale-toggle-button-group']}>
+          <SubHeading>Default</SubHeading>
+          <Row>
+            <ToggleButtonGroup aria-label="Text alignment">
+              <ToggleButton size="md">Left</ToggleButton>
+              <ToggleButton size="md" defaultSelected>Center</ToggleButton>
+              <ToggleButton size="md">Right</ToggleButton>
+            </ToggleButtonGroup>
+          </Row>
+        </Section>
+
+        <Section id="select" title="Select" classes={['tale-select__trigger', 'tale-select__value', 'tale-select__icon', 'tale-select__popup', 'tale-select__list', 'tale-select__item', 'tale-select__group-label', 'tale-select__separator']}>
           <SubHeading>Default</SubHeading>
           <Row>
             <Select.Root>
               <Select.Trigger>
                 <Select.Value placeholder="Select a fruit…" />
               </Select.Trigger>
-              <Select.Portal>
-                <Select.Positioner sideOffset={4}>
-                  <Select.Popup>
-                    <Select.List>
-                      {fruits.map((fruit) => (
-                        <Select.Item key={fruit} value={fruit.toLowerCase()}>
-                          <Select.ItemText>{fruit}</Select.ItemText>
-                          <Select.ItemIndicator><CheckIcon14 /></Select.ItemIndicator>
-                        </Select.Item>
-                      ))}
-                    </Select.List>
-                  </Select.Popup>
-                </Select.Positioner>
-              </Select.Portal>
+              <Select.Popover offset={4}>
+                <Select.ListBox>
+                  {fruits.map((fruit) => (
+                    <Select.Item key={fruit} id={fruit.toLowerCase()}>{fruit}</Select.Item>
+                  ))}
+                </Select.ListBox>
+              </Select.Popover>
             </Select.Root>
           </Row>
           <SubHeading>Disabled</SubHeading>
           <Row>
-            <Select.Root disabled>
+            <Select.Root isDisabled>
               <Select.Trigger>
                 <Select.Value placeholder="Disabled select" />
               </Select.Trigger>
@@ -658,20 +588,13 @@ export default function ComponentAudit() {
               <Select.Trigger>
                 <Select.Value placeholder="Select a fruit…" />
               </Select.Trigger>
-              <Select.Portal>
-                <Select.Positioner sideOffset={4}>
-                  <Select.Popup>
-                    <Select.List>
-                      {fruits.map((fruit) => (
-                        <Select.Item key={fruit} value={fruit.toLowerCase()}>
-                          <Select.ItemText>{fruit}</Select.ItemText>
-                          <Select.ItemIndicator><CheckIcon14 /></Select.ItemIndicator>
-                        </Select.Item>
-                      ))}
-                    </Select.List>
-                  </Select.Popup>
-                </Select.Positioner>
-              </Select.Portal>
+              <Select.Popover offset={4}>
+                <Select.ListBox>
+                  {fruits.map((fruit) => (
+                    <Select.Item key={fruit} id={fruit.toLowerCase()}>{fruit}</Select.Item>
+                  ))}
+                </Select.ListBox>
+              </Select.Popover>
             </Select.Root>
           </Row>
           <SubHeading>With Groups</SubHeading>
@@ -680,58 +603,47 @@ export default function ComponentAudit() {
               <Select.Trigger>
                 <Select.Value placeholder="Select a country…" />
               </Select.Trigger>
-              <Select.Portal>
-                <Select.Positioner sideOffset={4}>
-                  <Select.Popup>
-                    <Select.List>
-                      <Select.Group>
-                        <Select.GroupLabel>Europe</Select.GroupLabel>
-                        {['France', 'Germany', 'Spain'].map((c) => (
-                          <Select.Item key={c} value={c.toLowerCase()}>
-                            <Select.ItemText>{c}</Select.ItemText>
-                            <Select.ItemIndicator><CheckIcon14 /></Select.ItemIndicator>
-                          </Select.Item>
-                        ))}
-                      </Select.Group>
-                      <Select.Separator />
-                      <Select.Group>
-                        <Select.GroupLabel>Americas</Select.GroupLabel>
-                        {['Brazil', 'Canada', 'Mexico'].map((c) => (
-                          <Select.Item key={c} value={c.toLowerCase()}>
-                            <Select.ItemText>{c}</Select.ItemText>
-                            <Select.ItemIndicator><CheckIcon14 /></Select.ItemIndicator>
-                          </Select.Item>
-                        ))}
-                      </Select.Group>
-                    </Select.List>
-                  </Select.Popup>
-                </Select.Positioner>
-              </Select.Portal>
+              <Select.Popover offset={4}>
+                <Select.ListBox>
+                  <Select.Section>
+                    <Select.Header>Europe</Select.Header>
+                    {['France', 'Germany', 'Spain'].map((c) => (
+                      <Select.Item key={c} id={c.toLowerCase()}>{c}</Select.Item>
+                    ))}
+                  </Select.Section>
+                  <Select.Separator />
+                  <Select.Section>
+                    <Select.Header>Americas</Select.Header>
+                    {['Brazil', 'Canada', 'Mexico'].map((c) => (
+                      <Select.Item key={c} id={c.toLowerCase()}>{c}</Select.Item>
+                    ))}
+                  </Select.Section>
+                </Select.ListBox>
+              </Select.Popover>
             </Select.Root>
           </Row>
+        </Section>
+
+        <Section id="autocomplete" title="Autocomplete" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty']}>
+          <SubHeading>Default</SubHeading>
+          <AutocompleteDemo />
         </Section>
 
         <Section id="combobox" title="Combobox" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty']}>
           <SubHeading>Default</SubHeading>
           <ComboboxDemo />
-          <SubHeading>With Label (trigger-style)</SubHeading>
+          <SubHeading>With Label</SubHeading>
           <div style={{ width: '28rem', marginBottom: '2rem' }}>
             <Combobox.Root>
               <Combobox.Label>Country</Combobox.Label>
-              <Combobox.Trigger>
-                <Combobox.Value placeholder="Select country…" />
-              </Combobox.Trigger>
-              <Combobox.Portal>
-                <Combobox.Positioner sideOffset={4}>
-                  <Combobox.Popup>
-                    <Combobox.List>
-                      {countries.slice(0, 8).map((c) => (
-                        <Combobox.Item key={c} value={c}>{c}</Combobox.Item>
-                      ))}
-                    </Combobox.List>
-                  </Combobox.Popup>
-                </Combobox.Positioner>
-              </Combobox.Portal>
+              <Combobox.Input placeholder="Search country…" />
+              <Combobox.Popover offset={4}>
+                <Combobox.ListBox>
+                  {countries.slice(0, 8).map((c) => (
+                    <Combobox.Item key={c} id={c}>{c}</Combobox.Item>
+                  ))}
+                </Combobox.ListBox>
+              </Combobox.Popover>
             </Combobox.Root>
           </div>
         </Section>
@@ -817,21 +729,19 @@ export default function ComponentAudit() {
         <Section id="dialog" title="Dialog" classes={['tale-dialog__backdrop', 'tale-dialog__popup', 'tale-dialog__title', 'tale-dialog__description', 'tale-dialog__close', 'tale-dialog__actions']}>
           <Row>
             <Dialog.Root>
-              <Dialog.Trigger render={<Button variant="primary">Open Dialog</Button>} />
-              <Dialog.Portal>
-                <Dialog.Backdrop />
-                <Dialog.Popup>
-                  <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
-                  <Dialog.Title>Dialog Title</Dialog.Title>
-                  <Dialog.Description>
-                    This is a modal dialog. It traps focus and requires the user to take action.
-                  </Dialog.Description>
-                  <div className="tale-dialog__actions">
-                    <Dialog.Close render={<Button variant="neutral">Cancel</Button>} />
-                    <Dialog.Close render={<Button variant="primary">Confirm</Button>} />
-                  </div>
-                </Dialog.Popup>
-              </Dialog.Portal>
+              <Dialog.Trigger>Open Dialog</Dialog.Trigger>
+              <Dialog.Backdrop />
+              <Dialog.Popup>
+                <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+                <Dialog.Title>Dialog Title</Dialog.Title>
+                <Dialog.Description>
+                  This is a modal dialog. It traps focus and requires the user to take action.
+                </Dialog.Description>
+                <div className="tale-dialog__actions">
+                  <Dialog.Close>Cancel</Dialog.Close>
+                  <Dialog.Close>Confirm</Dialog.Close>
+                </div>
+              </Dialog.Popup>
             </Dialog.Root>
           </Row>
         </Section>
@@ -839,20 +749,20 @@ export default function ComponentAudit() {
         <Section id="alert-dialog" title="AlertDialog" classes={['tale-alert-dialog__backdrop', 'tale-alert-dialog__popup', 'tale-alert-dialog__title', 'tale-alert-dialog__description', 'tale-alert-dialog__actions']}>
           <Row>
             <AlertDialog.Root>
-              <AlertDialog.Trigger render={<Button variant="danger">Delete Item</Button>} />
-              <AlertDialog.Portal>
-                <AlertDialog.Backdrop />
-                <AlertDialog.Popup>
+              <AlertDialog.Trigger>Delete Item</AlertDialog.Trigger>
+              <AlertDialog.Backdrop />
+              <AlertDialog.Popup>
+                <AlertDialog.Content>
                   <AlertDialog.Title>Are you sure?</AlertDialog.Title>
                   <AlertDialog.Description>
                     This will permanently delete the item. This action cannot be undone.
                   </AlertDialog.Description>
                   <div className="tale-alert-dialog__actions">
-                    <AlertDialog.Close render={<Button variant="neutral">Cancel</Button>} />
-                    <AlertDialog.Close render={<Button variant="danger">Delete</Button>} />
+                    <AlertDialog.Close>Cancel</AlertDialog.Close>
+                    <AlertDialog.Close>Delete</AlertDialog.Close>
                   </div>
-                </AlertDialog.Popup>
-              </AlertDialog.Portal>
+                </AlertDialog.Content>
+              </AlertDialog.Popup>
             </AlertDialog.Root>
           </Row>
         </Section>
@@ -862,138 +772,194 @@ export default function ComponentAudit() {
           <Row style={{ gap: '1.2rem', padding: '4rem 0' }}>
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Popover.Root key={side}>
-                <Popover.Trigger render={<Button variant="neutral">{side}</Button>} />
-                <Popover.Portal>
-                  <Popover.Positioner side={side} align="center" sideOffset={8}>
-                    <Popover.Popup>
-                      <Popover.Close aria-label="Close"><XIconSm /></Popover.Close>
-                      <Popover.Title>Popover ({side})</Popover.Title>
-                      <Popover.Description>
-                        Appears on the {side}.
-                      </Popover.Description>
-                    </Popover.Popup>
-                  </Popover.Positioner>
-                </Popover.Portal>
+                <Popover.Trigger>{side}</Popover.Trigger>
+                <Popover.Popup placement={side} offset={8}>
+                  <Popover.Close aria-label="Close"><XIconSm /></Popover.Close>
+                  <Popover.Title>Popover ({side})</Popover.Title>
+                  <Popover.Description>
+                    Appears on the {side}.
+                  </Popover.Description>
+                </Popover.Popup>
               </Popover.Root>
             ))}
           </Row>
         </Section>
 
-        <Section id="drawer" title="Drawer" classes={['tale-drawer__backdrop', 'tale-drawer__popup', 'tale-drawer__handle', 'tale-drawer__title', 'tale-drawer__description']}>
+        <Section id="preview-card" title="PreviewCard" classes={['tale-preview-card', 'tale-preview-card__trigger', 'tale-preview-card__popup']}>
+          <SubHeading>Default</SubHeading>
           <Row>
-            <Drawer.Root>
-              <Drawer.Trigger render={<Button variant="neutral">Open Drawer</Button>} />
-              <Drawer.Portal>
-                <Drawer.Backdrop />
-                <Drawer.Popup>
-                  <div className="tale-drawer__handle" />
-                  <Drawer.Title>Drawer</Drawer.Title>
-                  <Drawer.Description>
-                    This is a bottom sheet drawer. Swipe down or click outside to close.
-                  </Drawer.Description>
-                  <div style={{ marginTop: '1.6rem', display: 'flex', gap: '1.2rem' }}>
-                    <Drawer.Close render={<Button variant="neutral" style={{ flex: 1 }}>Cancel</Button>} />
-                    <Drawer.Close render={<Button variant="primary" style={{ flex: 1 }}>Confirm</Button>} />
+            <PreviewCard.Root>
+              <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
+              <PreviewCard.Popup>
+                <PreviewCard.Content>
+                  <div style={{ padding: '1.6rem', maxWidth: '28rem' }}>
+                    <strong style={{ display: 'block', marginBottom: '0.4rem', fontFamily: 'var(--label-font-family)' }}>Preview Card</strong>
+                    <p style={{ margin: 0, color: 'var(--neutral-60)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-s-font-size)' }}>
+                      A card that appears on hover to show a preview of linked content.
+                    </p>
                   </div>
-                </Drawer.Popup>
-              </Drawer.Portal>
+                </PreviewCard.Content>
+              </PreviewCard.Popup>
+            </PreviewCard.Root>
+          </Row>
+        </Section>
+
+        <Section id="drawer" title="Drawer" classes={['tale-drawer', 'tale-drawer__trigger', 'tale-drawer__popup', 'tale-drawer__backdrop', 'tale-drawer__title', 'tale-drawer__description', 'tale-drawer__close']}>
+          <Row>
+            <Drawer.Root style={{ position: 'relative', border: '1px solid var(--neutral-20)', borderRadius: '0.8rem', overflow: 'hidden', height: '20rem' }}>
+              <Drawer.Popup style={{ padding: '2rem' }}>
+                <Drawer.Title>Drawer</Drawer.Title>
+                <Drawer.Description>
+                  A drawer panel for side or bottom content.
+                </Drawer.Description>
+                <div style={{ marginTop: '1.6rem', display: 'flex', gap: '1.2rem' }}>
+                  <Drawer.Close style={{ flex: 1 }}>Cancel</Drawer.Close>
+                  <Drawer.Close style={{ flex: 1 }}>Confirm</Drawer.Close>
+                </div>
+              </Drawer.Popup>
             </Drawer.Root>
           </Row>
         </Section>
 
         <Section id="tooltip" title="Tooltip" classes={['tale-tooltip__popup']}>
           <SubHeading>All sides</SubHeading>
-          <Tooltip.Provider delay={300} closeDelay={150}>
-            <Row style={{ padding: '4rem 0' }}>
-              {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
-                <Tooltip.Root key={side}>
-                  <Tooltip.Trigger render={<Button variant="neutral">Hover ({side})</Button>} />
-                  <Tooltip.Portal>
-                    <Tooltip.Positioner side={side} sideOffset={8}>
-                      <Tooltip.Popup>Appears on the {side}</Tooltip.Popup>
-                    </Tooltip.Positioner>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
-              ))}
-            </Row>
-          </Tooltip.Provider>
+          <Row style={{ padding: '4rem 0' }}>
+            {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
+              <Tooltip.Root key={side} delay={300} closeDelay={150}>
+                <Tooltip.Trigger>Hover ({side})</Tooltip.Trigger>
+                <Tooltip.Popup placement={side} offset={8}>Appears on the {side}</Tooltip.Popup>
+              </Tooltip.Root>
+            ))}
+          </Row>
         </Section>
 
         {/* ============================================================= */}
         {/* NAVIGATION */}
         {/* ============================================================= */}
 
-        <Section id="menu" title="Menu" classes={['tale-menu__popup', 'tale-menu__item', 'tale-menu__separator', 'tale-menu__group-label', 'tale-menu__checkbox-item', 'tale-menu__submenu-trigger']}>
+        <Section id="menu" title="Menu" classes={['tale-menu__popup', 'tale-menu__item', 'tale-menu__separator', 'tale-menu__group-label', 'tale-menu__trigger', 'tale-menu__popover']}>
           <SubHeading>Basic</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger render={<Button variant="neutral">Options ▾</Button>} />
-              <Menu.Portal>
-                <Menu.Positioner sideOffset={4}>
-                  <Menu.Popup>
-                    <Menu.Item>Edit</Menu.Item>
-                    <Menu.Item>Duplicate</Menu.Item>
-                    <Menu.Separator />
-                    <Menu.Item>Share</Menu.Item>
-                    <Menu.Separator />
-                    <Menu.Item>Delete</Menu.Item>
-                  </Menu.Popup>
-                </Menu.Positioner>
-              </Menu.Portal>
+              <Menu.Trigger>Options ▾</Menu.Trigger>
+              <Menu.Popover offset={4}>
+                <Menu.MenuList>
+                  <Menu.Item>Edit</Menu.Item>
+                  <Menu.Item>Duplicate</Menu.Item>
+                  <Menu.Separator />
+                  <Menu.Item>Share</Menu.Item>
+                  <Menu.Separator />
+                  <Menu.Item>Delete</Menu.Item>
+                </Menu.MenuList>
+              </Menu.Popover>
             </Menu.Root>
           </Row>
           <SubHeading>With Group Labels</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger render={<Button variant="neutral">Account ▾</Button>} />
-              <Menu.Portal>
-                <Menu.Positioner sideOffset={4}>
-                  <Menu.Popup>
-                    <Menu.Group>
-                      <Menu.GroupLabel>Account</Menu.GroupLabel>
-                      <Menu.Item>Profile</Menu.Item>
-                      <Menu.Item>Settings</Menu.Item>
-                    </Menu.Group>
-                    <Menu.Separator />
-                    <Menu.Group>
-                      <Menu.GroupLabel>Danger Zone</Menu.GroupLabel>
-                      <Menu.Item>Sign out</Menu.Item>
-                    </Menu.Group>
-                  </Menu.Popup>
-                </Menu.Positioner>
-              </Menu.Portal>
+              <Menu.Trigger>Account ▾</Menu.Trigger>
+              <Menu.Popover offset={4}>
+                <Menu.MenuList>
+                  <Menu.Group>
+                    <Menu.Header>Account</Menu.Header>
+                    <Menu.Item>Profile</Menu.Item>
+                    <Menu.Item>Settings</Menu.Item>
+                  </Menu.Group>
+                  <Menu.Separator />
+                  <Menu.Group>
+                    <Menu.Header>Danger Zone</Menu.Header>
+                    <Menu.Item>Sign out</Menu.Item>
+                  </Menu.Group>
+                </Menu.MenuList>
+              </Menu.Popover>
             </Menu.Root>
           </Row>
-          <SubHeading>Checkbox Items</SubHeading>
+          <SubHeading>Format Menu</SubHeading>
           <Row>
             <MenuCheckboxDemo />
           </Row>
-          <SubHeading>With Submenu</SubHeading>
+        </Section>
+
+        <Section id="context-menu" title="ContextMenu" classes={['tale-context-menu', 'tale-context-menu__trigger', 'tale-context-menu__item', 'tale-context-menu__separator']}>
+          <SubHeading>Default</SubHeading>
           <Row>
-            <Menu.Root>
-              <Menu.Trigger render={<Button variant="neutral">More ▾</Button>} />
-              <Menu.Portal>
-                <Menu.Positioner sideOffset={4}>
-                  <Menu.Popup>
-                    <Menu.Item>Edit</Menu.Item>
-                    <Menu.SubmenuRoot>
-                      <Menu.SubmenuTrigger>Export</Menu.SubmenuTrigger>
-                      <Menu.Portal>
-                        <Menu.Positioner side="right" sideOffset={4}>
-                          <Menu.Popup>
-                            <Menu.Item>PNG</Menu.Item>
-                            <Menu.Item>SVG</Menu.Item>
-                            <Menu.Item>PDF</Menu.Item>
-                          </Menu.Popup>
-                        </Menu.Positioner>
-                      </Menu.Portal>
-                    </Menu.SubmenuRoot>
+            <ContextMenu.Root>
+              <ContextMenu.Trigger>
+                Actions ▾
+              </ContextMenu.Trigger>
+              <ContextMenu.Popup>
+                <ContextMenu.MenuList>
+                  <ContextMenu.Item>Cut</ContextMenu.Item>
+                  <ContextMenu.Item>Copy</ContextMenu.Item>
+                  <ContextMenu.Item>Paste</ContextMenu.Item>
+                  <ContextMenu.Separator />
+                  <ContextMenu.Item>Delete</ContextMenu.Item>
+                </ContextMenu.MenuList>
+              </ContextMenu.Popup>
+            </ContextMenu.Root>
+          </Row>
+        </Section>
+
+        <Section id="navigation-menu" title="NavigationMenu" classes={['tale-navigation-menu', 'tale-navigation-menu__list', 'tale-navigation-menu__item', 'tale-navigation-menu__trigger', 'tale-navigation-menu__link']}>
+          <SubHeading>Default</SubHeading>
+          <NavigationMenu.Root>
+            <NavigationMenu.List>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+              </NavigationMenu.Item>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="#">Products</NavigationMenu.Link>
+              </NavigationMenu.Item>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="#">About</NavigationMenu.Link>
+              </NavigationMenu.Item>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="#">Contact</NavigationMenu.Link>
+              </NavigationMenu.Item>
+            </NavigationMenu.List>
+          </NavigationMenu.Root>
+        </Section>
+
+        <Section id="menubar" title="Menubar" classes={['tale-menubar']}>
+          <SubHeading>Default</SubHeading>
+          <Row>
+            <Menubar.Root>
+              <Menu.Root>
+                <Menu.Trigger>File</Menu.Trigger>
+                <Menu.Popover offset={4}>
+                  <Menu.MenuList>
+                    <Menu.Item>New</Menu.Item>
+                    <Menu.Item>Open</Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item>Delete</Menu.Item>
-                  </Menu.Popup>
-                </Menu.Positioner>
-              </Menu.Portal>
-            </Menu.Root>
+                    <Menu.Item>Save</Menu.Item>
+                  </Menu.MenuList>
+                </Menu.Popover>
+              </Menu.Root>
+              <Menu.Root>
+                <Menu.Trigger>Edit</Menu.Trigger>
+                <Menu.Popover offset={4}>
+                  <Menu.MenuList>
+                    <Menu.Item>Undo</Menu.Item>
+                    <Menu.Item>Redo</Menu.Item>
+                    <Menu.Separator />
+                    <Menu.Item>Cut</Menu.Item>
+                    <Menu.Item>Copy</Menu.Item>
+                    <Menu.Item>Paste</Menu.Item>
+                  </Menu.MenuList>
+                </Menu.Popover>
+              </Menu.Root>
+              <Menu.Root>
+                <Menu.Trigger>View</Menu.Trigger>
+                <Menu.Popover offset={4}>
+                  <Menu.MenuList>
+                    <Menu.Item>Zoom In</Menu.Item>
+                    <Menu.Item>Zoom Out</Menu.Item>
+                    <Menu.Separator />
+                    <Menu.Item>Full Screen</Menu.Item>
+                  </Menu.MenuList>
+                </Menu.Popover>
+              </Menu.Root>
+            </Menubar.Root>
           </Row>
         </Section>
 
@@ -1003,13 +969,13 @@ export default function ComponentAudit() {
 
         <Section id="accordion" title="Accordion" classes={['tale-accordion', 'tale-accordion__item', 'tale-accordion__trigger', 'tale-accordion__trigger-icon', 'tale-accordion__panel']}>
           <div style={{ width: '48rem' }}>
-            <Accordion.Root defaultValue={['a']}>
+            <Accordion.Root defaultExpandedKeys={['a']}>
               {[
-                { value: 'a', title: 'What is Tale UI?', content: 'Tale UI is a styled component library forked from MUI Base UI, providing accessible headless components with opinionated CSS.' },
-                { value: 'b', title: 'How does styling work?', content: 'Styling lives in @tale-ui/react-styles. Components are headless — you apply CSS classes like .tale-button.' },
-                { value: 'c', title: 'Can I use dark mode?', content: 'Yes! Set data-color-mode="dark" on the <html> element. Tokens auto-invert.' },
-              ].map(({ value, title, content }) => (
-                <Accordion.Item key={value} value={value}>
+                { id: 'a', title: 'What is Tale UI?', content: 'Tale UI is a styled component library providing accessible headless components with opinionated CSS via @tale-ui/core design tokens.' },
+                { id: 'b', title: 'How does styling work?', content: 'Styling lives in @tale-ui/react-styles. Components are headless — you apply CSS classes like .tale-button.' },
+                { id: 'c', title: 'Can I use dark mode?', content: 'Yes! Set data-color-mode="dark" on the <html> element. Tokens auto-invert.' },
+              ].map(({ id, title, content }) => (
+                <Accordion.Item key={id} id={id}>
                   <Accordion.Header>
                     <Accordion.Trigger>
                       {title}
@@ -1022,62 +988,73 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="collapsible" title="Collapsible" classes={['tale-collapsible', 'tale-collapsible__trigger', 'tale-collapsible__panel']}>
+        <Section id="disclosure" title="Disclosure" classes={['tale-disclosure', 'tale-disclosure__trigger', 'tale-disclosure__panel']}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem', width: '36rem' }}>
-            <Collapsible.Root defaultOpen>
-              <Collapsible.Trigger>Open by default</Collapsible.Trigger>
-              <Collapsible.Panel>
+            <Disclosure.Root defaultExpanded>
+              <Disclosure.Trigger>Open by default</Disclosure.Trigger>
+              <Disclosure.Panel>
                 <div style={{ padding: '1.2rem 0', color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>
                   This content is visible by default.
                 </div>
-              </Collapsible.Panel>
-            </Collapsible.Root>
-            <Collapsible.Root>
-              <Collapsible.Trigger>Click to expand</Collapsible.Trigger>
-              <Collapsible.Panel>
+              </Disclosure.Panel>
+            </Disclosure.Root>
+            <Disclosure.Root>
+              <Disclosure.Trigger>Click to expand</Disclosure.Trigger>
+              <Disclosure.Panel>
                 <div style={{ padding: '1.2rem 0', color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>
                   This content is hidden by default.
                 </div>
-              </Collapsible.Panel>
-            </Collapsible.Root>
-            <Collapsible.Root disabled>
-              <Collapsible.Trigger>Disabled</Collapsible.Trigger>
-              <Collapsible.Panel>
+              </Disclosure.Panel>
+            </Disclosure.Root>
+            <Disclosure.Root isDisabled>
+              <Disclosure.Trigger>Disabled</Disclosure.Trigger>
+              <Disclosure.Panel>
                 <div style={{ padding: '1.2rem 0' }}>Content</div>
-              </Collapsible.Panel>
-            </Collapsible.Root>
+              </Disclosure.Panel>
+            </Disclosure.Root>
           </div>
+        </Section>
+
+        <Section id="container" title="Container" classes={[]}>
+          <SubHeading>Color overrides</SubHeading>
+          <Row>
+            {(['brand', 'red', 'indigo', 'green', 'random'] as const).map((color) => (
+              <Container key={color} color={color} style={{ padding: '1.6rem 2.4rem', borderRadius: '0.8rem', background: 'var(--color-10)', border: '1px solid var(--color-20)' }}>
+                <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--color-70)' }}>{color}</span>
+              </Container>
+            ))}
+          </Row>
         </Section>
 
         <Section id="tabs" title="Tabs" classes={['tale-tabs', 'tale-tabs__list', 'tale-tabs__tab', 'tale-tabs__panel', 'tale-tabs__indicator']}>
           <SubHeading>Horizontal</SubHeading>
           <div style={{ width: '48rem', marginBottom: '2rem' }}>
-            <Tabs.Root defaultValue="overview">
+            <Tabs.Root defaultSelectedKey="overview">
               <Tabs.List>
-                <Tabs.Tab value="overview">Overview</Tabs.Tab>
-                <Tabs.Tab value="features">Features</Tabs.Tab>
-                <Tabs.Tab value="disabled" disabled>Disabled</Tabs.Tab>
-                <Tabs.Tab value="docs">Docs</Tabs.Tab>
+                <Tabs.Tab id="overview">Overview</Tabs.Tab>
+                <Tabs.Tab id="features">Features</Tabs.Tab>
+                <Tabs.Tab id="disabled-tab" isDisabled>Disabled</Tabs.Tab>
+                <Tabs.Tab id="docs">Docs</Tabs.Tab>
                 <Tabs.Indicator />
               </Tabs.List>
-              <Tabs.Panel value="overview">Overview content goes here.</Tabs.Panel>
-              <Tabs.Panel value="features">Features list.</Tabs.Panel>
-              <Tabs.Panel value="disabled">Disabled tab content.</Tabs.Panel>
-              <Tabs.Panel value="docs">Documentation.</Tabs.Panel>
+              <Tabs.Panel id="overview">Overview content goes here.</Tabs.Panel>
+              <Tabs.Panel id="features">Features list.</Tabs.Panel>
+              <Tabs.Panel id="disabled-tab">Disabled tab content.</Tabs.Panel>
+              <Tabs.Panel id="docs">Documentation.</Tabs.Panel>
             </Tabs.Root>
           </div>
           <SubHeading>Vertical</SubHeading>
           <div style={{ width: '48rem', height: '20rem' }}>
-            <Tabs.Root defaultValue="overview" orientation="vertical">
+            <Tabs.Root defaultSelectedKey="overview2" orientation="vertical">
               <Tabs.List>
-                <Tabs.Tab value="overview">Overview</Tabs.Tab>
-                <Tabs.Tab value="features">Features</Tabs.Tab>
-                <Tabs.Tab value="docs">Docs</Tabs.Tab>
+                <Tabs.Tab id="overview2">Overview</Tabs.Tab>
+                <Tabs.Tab id="features2">Features</Tabs.Tab>
+                <Tabs.Tab id="docs2">Docs</Tabs.Tab>
                 <Tabs.Indicator />
               </Tabs.List>
-              <Tabs.Panel value="overview">Overview content.</Tabs.Panel>
-              <Tabs.Panel value="features">Features.</Tabs.Panel>
-              <Tabs.Panel value="docs">Docs.</Tabs.Panel>
+              <Tabs.Panel id="overview2">Overview content.</Tabs.Panel>
+              <Tabs.Panel id="features2">Features.</Tabs.Panel>
+              <Tabs.Panel id="docs2">Docs.</Tabs.Panel>
             </Tabs.Root>
           </div>
         </Section>
@@ -1119,7 +1096,7 @@ export default function ComponentAudit() {
         {/* FEEDBACK */}
         {/* ============================================================= */}
 
-        <Section id="progress" title="Progress" classes={['tale-progress', 'tale-progress__track', 'tale-progress__indicator', 'tale-progress__value']}>
+        <Section id="progress-bar" title="ProgressBar" classes={['tale-progress-bar', 'tale-progress-bar__track', 'tale-progress-bar__indicator', 'tale-progress-bar__value']}>
           <div style={{ width: '36rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {[
               { label: '20%', value: 20 },
@@ -1129,11 +1106,11 @@ export default function ComponentAudit() {
             ].map(({ label, value }) => (
               <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{label}</span>
-                <Progress.Root value={value}>
-                  <Progress.Track>
-                    <Progress.Indicator />
-                  </Progress.Track>
-                </Progress.Root>
+                <ProgressBar.Root value={value}>
+                  <ProgressBar.Track>
+                    <ProgressBar.Indicator />
+                  </ProgressBar.Track>
+                </ProgressBar.Root>
               </div>
             ))}
           </div>
@@ -1158,7 +1135,6 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <ToastSection />
 
         {/* ============================================================= */}
         {/* DISPLAY */}
@@ -1190,20 +1166,52 @@ export default function ComponentAudit() {
           <div style={{ width: '32rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <Field.Root>
               <Field.Label>Default</Field.Label>
-              <Input placeholder="Type here…" />
+              <Input.Input placeholder="Type here…" />
               <Field.Description>Helper text goes here.</Field.Description>
             </Field.Root>
             <Field.Root disabled>
               <Field.Label>Disabled</Field.Label>
-              <Input disabled placeholder="Cannot edit" />
+              <Input.Input disabled placeholder="Cannot edit" />
               <Field.Description>This field is disabled.</Field.Description>
             </Field.Root>
-            <Field.Root invalid>
+            <Field.Root data-invalid>
               <Field.Label>Invalid</Field.Label>
-              <Input defaultValue="bad value" />
+              <Input.Input defaultValue="bad value" />
               <Field.Error>This field has an error.</Field.Error>
             </Field.Root>
           </div>
+        </Section>
+
+        <Section id="fieldset" title="Fieldset" classes={['tale-fieldset', 'tale-fieldset__legend']}>
+          <SubHeading>Default</SubHeading>
+          <Fieldset.Root>
+            <Fieldset.Legend>Personal Information</Fieldset.Legend>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', paddingTop: '1.2rem' }}>
+              <Field.Root>
+                <Field.Label>First name</Field.Label>
+                <Input.Input placeholder="John" />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>Last name</Field.Label>
+                <Input.Input placeholder="Doe" />
+              </Field.Root>
+            </div>
+          </Fieldset.Root>
+        </Section>
+
+        <Section id="form" title="Form" classes={['tale-form']}>
+          <SubHeading>Default</SubHeading>
+          <Form style={{ width: '32rem', display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
+            <Field.Root>
+              <Field.Label>Email</Field.Label>
+              <Input.Input type="email" placeholder="you@example.com" />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Password</Field.Label>
+              <Input.Input type="password" placeholder="Enter password" />
+            </Field.Root>
+            <Button variant="primary" type="submit">Submit</Button>
+          </Form>
         </Section>
 
         {/* ============================================================= */}

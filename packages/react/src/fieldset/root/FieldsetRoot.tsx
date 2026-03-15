@@ -8,7 +8,7 @@ import { useRenderElement } from '../../utils/useRenderElement';
  * Groups a shared legend with related controls.
  * Renders a `<fieldset>` element.
  *
- * Documentation: [Tale UI Fieldset](https://base-ui.com/react/components/fieldset)
+ * Documentation: [Tale UI Fieldset](https://tale-ui.dev/react/components/fieldset)
  */
 export const FieldsetRoot = React.forwardRef(function FieldsetRoot(
   componentProps: FieldsetRoot.Props,

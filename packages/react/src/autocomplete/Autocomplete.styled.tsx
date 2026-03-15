@@ -1,55 +1,124 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import {
+  Autocomplete as AriaAutocomplete,
+  SearchField as AriaSearchField,
+  Input as AriaInput,
+  ListBox as AriaListBox,
+  ListBoxItem as AriaListBoxItem,
+  ListBoxSection as AriaListBoxSection,
+  Header as AriaHeader,
+  Separator as AriaSeparator,
+  type AutocompleteProps as AriaAutocompleteProps,
+  type SearchFieldProps as AriaSearchFieldProps,
+  type InputProps as AriaInputProps,
+  type ListBoxProps as AriaListBoxProps,
+  type ListBoxItemProps as AriaListBoxItemProps,
+  type ListBoxSectionProps as AriaListBoxSectionProps,
+  type SeparatorProps as AriaSeparatorProps,
+} from 'react-aria-components';
 import { cx } from '../_cx';
 
-export const Root = H.Root;
-export const Portal = H.Portal;
-export const Positioner = H.Positioner;
-export const List = H.List;
+/* ─── Root (Autocomplete filtering context) ──────────────────────────────── */
 
-const StyledInputGroup = React.forwardRef<
-  React.ComponentRef<typeof H.InputGroup>,
-  React.ComponentPropsWithoutRef<typeof H.InputGroup>
->(({ className, ...props }, ref) => (
-  <H.InputGroup className={cx('tale-autocomplete__input-group', className)} ref={ref} {...props} />
-));
-StyledInputGroup.displayName = 'Autocomplete.InputGroup';
-export const InputGroup = StyledInputGroup as typeof H.InputGroup;
+export type RootProps<T extends object = object> = AriaAutocompleteProps<T>;
 
-const StyledInput = React.forwardRef<
-  React.ComponentRef<typeof H.Input>,
-  React.ComponentPropsWithoutRef<typeof H.Input>
->(({ className, ...props }, ref) => (
-  <H.Input className={cx('tale-autocomplete__input', className)} ref={ref} {...props} />
-));
-StyledInput.displayName = 'Autocomplete.Input';
-export const Input = StyledInput as typeof H.Input;
+export function Root<T extends object>(props: RootProps<T>) {
+  return <AriaAutocomplete {...props} />;
+}
 
-const StyledPopup = React.forwardRef<
-  React.ComponentRef<typeof H.Popup>,
-  React.ComponentPropsWithoutRef<typeof H.Popup>
->(({ className, ...props }, ref) => (
-  <H.Popup className={cx('tale-autocomplete__popup', className)} ref={ref} {...props} />
-));
-StyledPopup.displayName = 'Autocomplete.Popup';
-export const Popup = StyledPopup as typeof H.Popup;
+/* ─── SearchField ────────────────────────────────────────────────────────── */
 
-const StyledEmpty = React.forwardRef<
-  React.ComponentRef<typeof H.Empty>,
-  React.ComponentPropsWithoutRef<typeof H.Empty>
->(({ className, ...props }, ref) => (
-  <H.Empty className={cx('tale-autocomplete__empty', className)} ref={ref} {...props} />
-));
-StyledEmpty.displayName = 'Autocomplete.Empty';
-export const Empty = StyledEmpty as typeof H.Empty;
+export type SearchFieldProps = Omit<AriaSearchFieldProps, 'className'> & { className?: string };
 
-const StyledItem = React.forwardRef<
-  React.ComponentRef<typeof H.Item>,
-  React.ComponentPropsWithoutRef<typeof H.Item>
->(({ className, ...props }, ref) => (
-  <H.Item className={cx('tale-autocomplete__item', className)} ref={ref} {...props} />
-));
-StyledItem.displayName = 'Autocomplete.Item';
-export const Item = StyledItem as typeof H.Item;
+export const SearchField = React.forwardRef<HTMLDivElement, SearchFieldProps>(
+  ({ className, ...props }, ref) => (
+    <AriaSearchField ref={ref} className={cx('tale-autocomplete__search-field', className)} {...props} />
+  ),
+);
+SearchField.displayName = 'Autocomplete.SearchField';
 
-export { Value, Trigger, Icon, Clear, Backdrop, Arrow, Group, GroupLabel, Row, Collection, Separator, useFilter, useFilteredItems } from './index.parts';
+/* ─── Input ──────────────────────────────────────────────────────────────── */
+
+export type InputProps = Omit<AriaInputProps, 'className'> & { className?: string };
+
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, ...props }, ref) => (
+    <AriaInput ref={ref} className={cx('tale-autocomplete__input', className)} {...props} />
+  ),
+);
+Input.displayName = 'Autocomplete.Input';
+
+/* ─── ListBox ────────────────────────────────────────────────────────────── */
+
+export type ListBoxProps<T extends object = object> = Omit<AriaListBoxProps<T>, 'className'> & {
+  className?: string;
+};
+
+export const ListBox: <T extends object = object>(
+  props: ListBoxProps<T> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: ListBoxProps, ref) => (
+    <AriaListBox
+      ref={ref as React.Ref<HTMLDivElement>}
+      className={cx('tale-autocomplete__listbox', className)}
+      {...props}
+    />
+  ),
+) as any;
+(ListBox as any).displayName = 'Autocomplete.ListBox';
+
+/* ─── Item (ListBoxItem) ─────────────────────────────────────────────────── */
+
+export type ItemProps<T = object> = Omit<AriaListBoxItemProps<T>, 'className'> & { className?: string };
+
+export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
+  ({ className, ...props }, ref) => (
+    <AriaListBoxItem ref={ref} className={cx('tale-autocomplete__item', className)} {...props} />
+  ),
+);
+Item.displayName = 'Autocomplete.Item';
+
+/* ─── Section (ListBoxSection) ───────────────────────────────────────────── */
+
+export type SectionProps<T = object> = AriaListBoxSectionProps<T>;
+
+export const Section: <T extends object>(
+  props: SectionProps<T> & React.RefAttributes<HTMLElement>,
+) => React.ReactElement | null = AriaListBoxSection as any;
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+
+export type HeaderProps = Omit<React.HTMLAttributes<HTMLElement>, 'className'> & { className?: string };
+
+export const Header = React.forwardRef<HTMLElement, HeaderProps>(
+  ({ className, ...props }, ref) => (
+    <AriaHeader
+      ref={ref as React.Ref<HTMLElement>}
+      className={cx('tale-autocomplete__header', className)}
+      {...props}
+    />
+  ),
+);
+Header.displayName = 'Autocomplete.Header';
+
+/* ─── Empty state ────────────────────────────────────────────────────────── */
+
+export type EmptyProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
+
+export const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-autocomplete__empty', className)} {...props} />
+  ),
+);
+Empty.displayName = 'Autocomplete.Empty';
+
+/* ─── Separator ──────────────────────────────────────────────────────────── */
+
+export type SeparatorProps = Omit<AriaSeparatorProps, 'className'> & { className?: string };
+
+export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
+  ({ className, ...props }, ref) => (
+    <AriaSeparator ref={ref} className={cx('tale-autocomplete__separator', className)} {...props} />
+  ),
+);
+Separator.displayName = 'Autocomplete.Separator';

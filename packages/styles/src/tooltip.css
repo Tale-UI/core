@@ -2,10 +2,9 @@
  * Tooltip — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Tooltip exposes:
- *   Popup:   [data-open] [data-closed] [data-starting-style] [data-ending-style]
- *            [data-side] [data-align] [data-instant]
- *   Trigger: [data-popup-open] [data-trigger-disabled]
+ * React Aria Tooltip exposes:
+ *   Popup:   [data-entering] [data-exiting] [data-placement]
+ *   Trigger: (no specific data attributes)
  *
  * Usage:
  *   <Tooltip.Provider>
@@ -30,24 +29,39 @@
   font-weight: var(--label-font-weight);
   line-height: 1.4;
   padding: var(--space-4xs) var(--space-3xs);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-m);
   max-width: 24rem;
   word-break: break-word;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-s);
   transition: opacity 0.1s ease, transform 0.1s ease;
   pointer-events: none;
 }
 
-.tale-tooltip__popup[data-starting-style],
-.tale-tooltip__popup[data-ending-style] {
+.tale-tooltip__popup[data-entering],
+.tale-tooltip__popup[data-exiting] {
   opacity: 0;
   transform: scale(0.96);
 }
 
 /* ─── Arrow ────────────────────────────────────────────────────────────────── */
 
-.tale-tooltip__arrow {
+/* Arrow — square SVG (8×8 viewBox), rotated per placement.
+   OverlayArrow positions the container; we just rotate the SVG. */
+.tale-tooltip__arrow svg {
+  display: block;
   width: 0.8rem;
-  height: 0.4rem;
+  height: 0.8rem;
   fill: var(--neutral-80);
+}
+
+[data-placement="bottom"] .tale-tooltip__arrow svg {
+  transform: rotate(180deg);
+}
+
+[data-placement="left"] .tale-tooltip__arrow svg {
+  transform: rotate(-90deg);
+}
+
+[data-placement="right"] .tale-tooltip__arrow svg {
+  transform: rotate(90deg);
 }

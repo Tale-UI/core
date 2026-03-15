@@ -1,71 +1,83 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import {
+  NumberField as AriaNumberField,
+  Group as AriaGroup,
+  Input as AriaInput,
+  Button as AriaButton,
+  Label as AriaLabel,
+  Text as AriaText,
+  FieldError as AriaFieldError,
+  type NumberFieldProps as AriaNumberFieldProps,
+  type GroupProps as AriaGroupProps,
+  type InputProps as AriaInputProps,
+  type ButtonProps as AriaButtonProps,
+} from 'react-aria-components';
 import { cx } from '../_cx';
-import type {
-  NumberFieldRootState,
-  NumberFieldRootProps,
-  NumberFieldRootChangeEventReason,
-  NumberFieldRootChangeEventDetails,
-  NumberFieldRootCommitEventReason,
-  NumberFieldRootCommitEventDetails,
-} from './root/NumberFieldRoot';
 
-const StyledRoot = React.forwardRef<
-  React.ComponentRef<typeof H.Root>,
-  React.ComponentPropsWithoutRef<typeof H.Root>
+export const Root = React.forwardRef<
+  HTMLDivElement,
+  Omit<AriaNumberFieldProps, 'className'> & { className?: string }
 >(({ className, ...props }, ref) => (
-  <H.Root className={cx('tale-number-field', className)} ref={ref} {...props} />
+  <AriaNumberField ref={ref} className={cx('tale-number-field', className)} {...props} />
 ));
-StyledRoot.displayName = 'NumberField.Root';
-export const Root = StyledRoot as typeof H.Root;
+Root.displayName = 'NumberField.Root';
 
-export namespace Root {
-  export type State = NumberFieldRootState;
-  export type Props = NumberFieldRootProps;
-  export type ChangeEventReason = NumberFieldRootChangeEventReason;
-  export type ChangeEventDetails = NumberFieldRootChangeEventDetails;
-  export type CommitEventReason = NumberFieldRootCommitEventReason;
-  export type CommitEventDetails = NumberFieldRootCommitEventDetails;
-}
-
-const StyledGroup = React.forwardRef<
-  React.ComponentRef<typeof H.Group>,
-  React.ComponentPropsWithoutRef<typeof H.Group>
+export const Group = React.forwardRef<
+  HTMLDivElement,
+  Omit<AriaGroupProps, 'className'> & { className?: string }
 >(({ className, ...props }, ref) => (
-  <H.Group className={cx('tale-number-field__group', className)} ref={ref} {...props} />
+  <AriaGroup ref={ref} className={cx('tale-number-field__group', className)} {...props} />
 ));
-StyledGroup.displayName = 'NumberField.Group';
-export const Group = StyledGroup as typeof H.Group;
+Group.displayName = 'NumberField.Group';
 
-const StyledDecrement = React.forwardRef<
-  React.ComponentRef<typeof H.Decrement>,
-  React.ComponentPropsWithoutRef<typeof H.Decrement>
->(({ className, children = '−', ...props }, ref) => (
-  <H.Decrement className={cx('tale-number-field__decrement', className)} ref={ref} {...props}>
-    {children}
-  </H.Decrement>
-));
-StyledDecrement.displayName = 'NumberField.Decrement';
-export const Decrement = StyledDecrement as typeof H.Decrement;
-
-const StyledInput = React.forwardRef<
-  React.ComponentRef<typeof H.Input>,
-  React.ComponentPropsWithoutRef<typeof H.Input>
+export const Input = React.forwardRef<
+  HTMLInputElement,
+  Omit<AriaInputProps, 'className'> & { className?: string }
 >(({ className, ...props }, ref) => (
-  <H.Input className={cx('tale-number-field__input', className)} ref={ref} {...props} />
+  <AriaInput ref={ref} className={cx('tale-number-field__input', className)} {...props} />
 ));
-StyledInput.displayName = 'NumberField.Input';
-export const Input = StyledInput as typeof H.Input;
+Input.displayName = 'NumberField.Input';
 
-const StyledIncrement = React.forwardRef<
-  React.ComponentRef<typeof H.Increment>,
-  React.ComponentPropsWithoutRef<typeof H.Increment>
+export const Increment = React.forwardRef<
+  HTMLButtonElement,
+  Omit<AriaButtonProps, 'className' | 'slot' | 'children'> & { className?: string; children?: React.ReactNode }
 >(({ className, children = '+', ...props }, ref) => (
-  <H.Increment className={cx('tale-number-field__increment', className)} ref={ref} {...props}>
+  <AriaButton ref={ref} slot="increment" className={cx('tale-number-field__increment', className)} {...props}>
     {children}
-  </H.Increment>
+  </AriaButton>
 ));
-StyledIncrement.displayName = 'NumberField.Increment';
-export const Increment = StyledIncrement as typeof H.Increment;
+Increment.displayName = 'NumberField.Increment';
 
-export { ScrubArea, ScrubAreaCursor } from './index.parts';
+export const Decrement = React.forwardRef<
+  HTMLButtonElement,
+  Omit<AriaButtonProps, 'className' | 'slot' | 'children'> & { className?: string; children?: React.ReactNode }
+>(({ className, children = '−', ...props }, ref) => (
+  <AriaButton ref={ref} slot="decrement" className={cx('tale-number-field__decrement', className)} {...props}>
+    {children}
+  </AriaButton>
+));
+Decrement.displayName = 'NumberField.Decrement';
+
+export const Label = React.forwardRef<
+  HTMLLabelElement,
+  React.ComponentPropsWithoutRef<typeof AriaLabel> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaLabel ref={ref} className={cx('tale-number-field__label', className)} {...props} />
+));
+Label.displayName = 'NumberField.Label';
+
+export const Description = React.forwardRef<
+  HTMLElement,
+  React.ComponentPropsWithoutRef<typeof AriaText> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaText ref={ref} slot="description" className={cx('tale-number-field__description', className)} {...props} />
+));
+Description.displayName = 'NumberField.Description';
+
+export const ErrorMessage = React.forwardRef<
+  HTMLElement,
+  React.ComponentPropsWithoutRef<typeof AriaFieldError> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaFieldError ref={ref} className={cx('tale-number-field__error', className)} {...props} />
+));
+ErrorMessage.displayName = 'NumberField.ErrorMessage';

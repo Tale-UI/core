@@ -1,19 +1,26 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import { Switch as AriaSwitch } from 'react-aria-components';
+import type { SwitchProps as AriaSwitchProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
-export const Root = React.forwardRef<
-  React.ComponentRef<typeof H.Root>,
-  React.ComponentPropsWithoutRef<typeof H.Root>
->(({ className, ...props }, ref) => (
-  <H.Root className={cx('tale-switch', className)} ref={ref} {...props} />
-));
+export interface SwitchRootProps extends Omit<AriaSwitchProps, 'className'> {
+  className?: string | undefined;
+}
+
+export const Root = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
+  ({ className, ...props }, ref) => (
+    <AriaSwitch ref={ref} className={cx('tale-switch', className)} {...props} />
+  ),
+);
 Root.displayName = 'Switch.Root';
 
-export const Thumb = React.forwardRef<
-  React.ComponentRef<typeof H.Thumb>,
-  React.ComponentPropsWithoutRef<typeof H.Thumb>
->(({ className, ...props }, ref) => (
-  <H.Thumb className={cx('tale-switch__thumb', className)} ref={ref} {...props} />
-));
+export interface SwitchThumbProps extends React.HTMLAttributes<HTMLSpanElement> {
+  className?: string | undefined;
+}
+
+export const Thumb = React.forwardRef<HTMLSpanElement, SwitchThumbProps>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-switch__thumb', className)} {...props} />
+  ),
+);
 Thumb.displayName = 'Switch.Thumb';

@@ -7,7 +7,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | Path | Package | Description |
 |------|---------|-------------|
 | [packages/css](packages/css/CLAUDE.md) | `@tale-ui/core` | Modular token-based CSS design system |
-| [packages/react](packages/react/) | `@tale-ui/react` | Styled React components — BEM class names applied automatically (forked from Base UI) |
+| [packages/react](packages/react/) | `@tale-ui/react` | Styled React components — BEM class names applied automatically (built on React Aria Components) |
 | [packages/styles](packages/styles/) | `@tale-ui/react-styles` | CSS per component (uses @tale-ui/core tokens) |
 | [packages/utils](packages/utils/) | `@tale-ui/utils` | Shared utilities |
 
@@ -39,7 +39,7 @@ See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributo
 .tale-button[data-disabled] { opacity: 0.45; pointer-events: none; }
 ```
 
-**State data attributes:** `data-disabled`, `data-open`, `data-checked`, `data-selected`, `data-highlighted`, `data-focus-visible`, `data-side="top|bottom|left|right"`
+**State data attributes:** `data-disabled`, `data-open`, `data-selected`, `data-pressed`, `data-focus-visible`, `data-focused`, `data-hovered`, `data-entering`, `data-exiting`, `data-placement="top|bottom|left|right"`
 
 ### Design Tokens
 
@@ -65,21 +65,11 @@ pnpm eslint                     # lint JS/TS
 pnpm lint:css                   # lint CSS design system
 ```
 
-### Syncing upstream Base UI changes
-
-```bash
-git fetch upstream-mui
-git log upstream-mui/main --oneline | head -20
-git cherry-pick <commit>
-```
-
 ### Component source conventions
 
 ```
 packages/react/src/{component}/
-  {Component}.tsx                  — headless implementation (Base UI fork)
-  {Component}.styled.tsx           — styled wrapper (applies BEM class names)
-  {Component}DataAttributes.tsx   — data-* attribute enum
+  {Component}.styled.tsx           — styled wrapper (applies BEM class names, wraps React Aria Components)
   {Component}.test.tsx            — unit tests
   {Component}.spec.tsx            — browser tests (optional)
   index.ts                        — public API re-export (re-exports from .styled.tsx)

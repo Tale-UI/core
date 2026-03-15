@@ -1,6 +1,6 @@
 {
   "name": "TemporalAdapterProvider",
-  "description": "Defines the date library adapter for Base UI temporal components.",
+  "description": "Defines the date library adapter for Tale UI temporal components.",
   "props": {
     "adapter": {
       "type": "TemporalAdapter",

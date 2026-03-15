@@ -7,7 +7,7 @@ Unified monorepo for the Tale UI design system and React component library.
 | Package | Description | npm |
 |---------|-------------|-----|
 | [`@tale-ui/core`](packages/css/) | Modular token-based CSS design system | [![npm](https://img.shields.io/npm/v/@tale-ui/core)](https://www.npmjs.com/package/@tale-ui/core) |
-| [`@tale-ui/react`](packages/react/) | Headless React components (forked from [Base UI](https://github.com/mui/base-ui)) | [![npm](https://img.shields.io/npm/v/@tale-ui/react)](https://www.npmjs.com/package/@tale-ui/react) |
+| [`@tale-ui/react`](packages/react/) | Styled React components built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/) | [![npm](https://img.shields.io/npm/v/@tale-ui/react)](https://www.npmjs.com/package/@tale-ui/react) |
 | [`@tale-ui/react-styles`](packages/styles/) | Component CSS using @tale-ui/core design tokens | [![npm](https://img.shields.io/npm/v/@tale-ui/react-styles)](https://www.npmjs.com/package/@tale-ui/react-styles) |
 | [`@tale-ui/utils`](packages/utils/) | Shared utilities | [![npm](https://img.shields.io/npm/v/@tale-ui/utils)](https://www.npmjs.com/package/@tale-ui/utils) |
 
@@ -50,7 +50,7 @@ import '@tale-ui/react-styles';
 
 ## Components
 
-Accordion, Alert Dialog, Autocomplete, Avatar, Button, Checkbox, Checkbox Group, Collapsible, Combobox, Context Menu, Dialog, Drawer, Field, Fieldset, Form, Input, Menu, Menubar, Meter, Navigation Menu, Number Field, Popover, Preview Card, Progress, Radio, Radio Group, Scroll Area, Select, Separator, Slider, Switch, Tabs, Toast, Toggle, Toggle Group, Toolbar, Tooltip
+Accordion, Alert Dialog, Autocomplete, Avatar, Breadcrumbs, Button, Calendar, Checkbox, Checkbox Group, Color Area, Color Field, Color Picker, Color Slider, Color Swatch, Color Swatch Picker, Color Wheel, Combobox, Context Menu, Date Field, Date Picker, Date Range Picker, Dialog, Disclosure, Drawer, Drop Zone, Field, Fieldset, File Trigger, Form, Grid List, Input, Link, Menu, Menubar, Meter, Navigation Menu, Number Field, Popover, Preview Card, ProgressBar, Radio, Radio Group, Range Calendar, Scroll Area, Search Field, Select, Separator, Slider, Switch, Table, Tabs, Tag Group, Text Area, Text Field, Time Field, Toggle Button, Toggle Button Group, Toolbar, Tooltip, Tree
 
 ## Development
 

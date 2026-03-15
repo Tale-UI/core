@@ -2,7 +2,7 @@
  * Separator — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Separator has no data attributes.
+ * React Aria Separator exposes: [data-orientation]
  *
  * Orientation modifier: .tale-separator--vertical
  *

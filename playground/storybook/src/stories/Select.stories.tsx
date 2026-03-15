@@ -1,143 +1,135 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Select } from '@tale-ui/react/select';
 
-const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape'];
-
 type Args = {
-  disabled?: boolean;
-  placeholder?: string;
+  isDisabled?: boolean;
 };
 
 const meta: Meta<Args> = {
-  title: 'Form Controls/Select',
-  parameters: { layout: 'centered' },
+  title: 'Components/Select',
+  decorators: [
+    (Story) => (
+      <div style={{ display: 'flex', flexDirection: 'column', width: '320px' }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
-    disabled: { control: 'boolean' },
-    placeholder: { control: 'text' },
+    isDisabled: { control: 'boolean' },
   },
   args: {
-    disabled: false,
-    placeholder: 'Select a fruit…',
+    isDisabled: false,
   },
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Select.Root disabled={args.disabled}>
+    <Select.Root isDisabled={args.isDisabled}>
       <Select.Trigger>
-        <Select.Value placeholder={args.placeholder} />
+        <Select.Value placeholder="Select a fruit…" />
+        <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
-      <Select.Portal>
-        <Select.Positioner sideOffset={4}>
-          <Select.Popup>
-            <Select.List>
-              {fruits.map((fruit) => (
-                <Select.Item key={fruit} value={fruit.toLowerCase()}>
-                  <Select.ItemText>{fruit}</Select.ItemText>
-                  <Select.ItemIndicator>✓</Select.ItemIndicator>
-                </Select.Item>
-              ))}
-            </Select.List>
-          </Select.Popup>
-        </Select.Positioner>
-      </Select.Portal>
+      <Select.Popover>
+        <Select.ListBox>
+          <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+          <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
+          <Select.Item id="cherry" textValue="Cherry">Cherry</Select.Item>
+          <Select.Item id="grape" textValue="Grape">Grape</Select.Item>
+          <Select.Item id="orange" textValue="Orange">Orange</Select.Item>
+        </Select.ListBox>
+      </Select.Popover>
     </Select.Root>
   ),
 };
 
 export const WithLabel: Story = {
-  name: 'With Label',
   render: (args) => (
-    <Select.Root disabled={args.disabled}>
-      <Select.Label>Fruit</Select.Label>
+    <Select.Root isDisabled={args.isDisabled}>
+      <Select.Label>Favorite fruit</Select.Label>
       <Select.Trigger>
-        <Select.Value placeholder={args.placeholder} />
+        <Select.Value placeholder="Choose one…" />
+        <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
-      <Select.Portal>
-        <Select.Positioner sideOffset={4}>
-          <Select.Popup>
-            <Select.List>
-              {fruits.map((fruit) => (
-                <Select.Item key={fruit} value={fruit.toLowerCase()}>
-                  <Select.ItemText>{fruit}</Select.ItemText>
-                  <Select.ItemIndicator>✓</Select.ItemIndicator>
-                </Select.Item>
-              ))}
-            </Select.List>
-          </Select.Popup>
-        </Select.Positioner>
-      </Select.Portal>
+      <Select.Popover>
+        <Select.ListBox>
+          <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+          <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
+          <Select.Item id="cherry" textValue="Cherry">Cherry</Select.Item>
+        </Select.ListBox>
+      </Select.Popover>
     </Select.Root>
   ),
 };
 
 export const WithGroups: Story = {
-  name: 'With Groups',
-  render: () => (
-    <Select.Root>
+  render: (args) => (
+    <Select.Root isDisabled={args.isDisabled}>
+      <Select.Label>Food</Select.Label>
       <Select.Trigger>
-        <Select.Value placeholder="Select a country…" />
+        <Select.Value placeholder="Select a food…" />
+        <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
-      <Select.Portal>
-        <Select.Positioner sideOffset={4}>
-          <Select.Popup>
-            <Select.List>
-              <Select.Group>
-                <Select.GroupLabel>Europe</Select.GroupLabel>
-                {['France', 'Germany', 'Spain'].map((c) => (
-                  <Select.Item key={c} value={c.toLowerCase()}>
-                    <Select.ItemText>{c}</Select.ItemText>
-                    <Select.ItemIndicator>✓</Select.ItemIndicator>
-                  </Select.Item>
-                ))}
-              </Select.Group>
-              <Select.Separator />
-              <Select.Group>
-                <Select.GroupLabel>Americas</Select.GroupLabel>
-                {['Brazil', 'Canada', 'Mexico'].map((c) => (
-                  <Select.Item key={c} value={c.toLowerCase()}>
-                    <Select.ItemText>{c}</Select.ItemText>
-                    <Select.ItemIndicator>✓</Select.ItemIndicator>
-                  </Select.Item>
-                ))}
-              </Select.Group>
-            </Select.List>
-          </Select.Popup>
-        </Select.Positioner>
-      </Select.Portal>
+      <Select.Popover>
+        <Select.ListBox>
+          <Select.Section>
+            <Select.Header>Fruits</Select.Header>
+            <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+            <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
+            <Select.Item id="cherry" textValue="Cherry">Cherry</Select.Item>
+          </Select.Section>
+          <Select.Section>
+            <Select.Header>Vegetables</Select.Header>
+            <Select.Item id="carrot" textValue="Carrot">Carrot</Select.Item>
+            <Select.Item id="broccoli" textValue="Broccoli">Broccoli</Select.Item>
+            <Select.Item id="spinach" textValue="Spinach">Spinach</Select.Item>
+          </Select.Section>
+        </Select.ListBox>
+      </Select.Popover>
     </Select.Root>
   ),
 };
 
 export const WithDisabledItems: Story = {
-  name: 'With Disabled Items',
-  render: () => (
-    <Select.Root>
+  render: (args) => (
+    <Select.Root isDisabled={args.isDisabled}>
+      <Select.Label>Available options</Select.Label>
       <Select.Trigger>
-        <Select.Value placeholder="Select a plan…" />
+        <Select.Value placeholder="Select…" />
+        <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
-      <Select.Portal>
-        <Select.Positioner sideOffset={4}>
-          <Select.Popup>
-            <Select.List>
-              {[
-                { value: 'free', label: 'Free' },
-                { value: 'pro', label: 'Pro' },
-                { value: 'enterprise', label: 'Enterprise (coming soon)', disabled: true },
-              ].map(({ value, label, disabled }) => (
-                <Select.Item key={value} value={value} disabled={disabled}>
-                  <Select.ItemText>{label}</Select.ItemText>
-                  <Select.ItemIndicator>✓</Select.ItemIndicator>
-                </Select.Item>
-              ))}
-            </Select.List>
-          </Select.Popup>
-        </Select.Positioner>
-      </Select.Portal>
+      <Select.Popover>
+        <Select.ListBox>
+          <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+          <Select.Item id="banana" textValue="Banana" isDisabled>Banana (sold out)</Select.Item>
+          <Select.Item id="cherry" textValue="Cherry">Cherry</Select.Item>
+          <Select.Item id="grape" textValue="Grape" isDisabled>Grape (sold out)</Select.Item>
+          <Select.Item id="orange" textValue="Orange">Orange</Select.Item>
+        </Select.ListBox>
+      </Select.Popover>
+    </Select.Root>
+  ),
+};
+
+export const Disabled: Story = {
+  args: {
+    isDisabled: true,
+  },
+  render: (args) => (
+    <Select.Root isDisabled={args.isDisabled}>
+      <Select.Label>Disabled select</Select.Label>
+      <Select.Trigger>
+        <Select.Value placeholder="Cannot select…" />
+        <Select.Icon>▾</Select.Icon>
+      </Select.Trigger>
+      <Select.Popover>
+        <Select.ListBox>
+          <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+        </Select.ListBox>
+      </Select.Popover>
     </Select.Root>
   ),
 };

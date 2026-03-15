@@ -1,3 +1,2 @@
-export { RadioGroup } from './RadioGroup';
-
-export type * from './RadioGroup';
+export { Group as RadioGroup } from '../radio/Radio.styled';
+export type { RadioGroupProps } from '../radio/Radio.styled';

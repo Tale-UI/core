@@ -212,8 +212,8 @@ pnpm add @tale-ui/core`}</CodeBlock>
         </div>
         <p className="text--body-m" style={s.body}>
           <InlineCode>@tale-ui/react</InlineCode> provides accessible, styled components with BEM
-          class names applied automatically. Built on a fork of Base UI — headless primitives with
-          Tale&apos;s styling layer on top.
+          class names applied automatically. Headless primitives with Tale&apos;s styling layer on
+          top.
         </p>
 
         <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Install</h3>

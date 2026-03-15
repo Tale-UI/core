@@ -66,9 +66,9 @@ function RouteComponent() {
           </div>
           <Combobox.Portal>
             <Combobox.Positioner>
-              <Combobox.Popup>
+              <Combobox.Popover>
                 <Combobox.Empty>No matches</Combobox.Empty>
-                <Combobox.List>
+                <Combobox.ListBox>
                   {(lang) => {
                     return (
                       <Combobox.Item key={lang.value} value={lang}>
@@ -77,8 +77,8 @@ function RouteComponent() {
                       </Combobox.Item>
                     );
                   }}
-                </Combobox.List>
-              </Combobox.Popup>
+                </Combobox.ListBox>
+              </Combobox.Popover>
             </Combobox.Positioner>
           </Combobox.Portal>
         </Combobox.Root>

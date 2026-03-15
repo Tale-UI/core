@@ -1,64 +1,80 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { PreviewCard } from '@tale-ui/react/preview-card';
 
 type Args = {
-  side?: 'top' | 'bottom' | 'left' | 'right';
-  align?: 'start' | 'center' | 'end';
-  sideOffset?: number;
+  placement?: 'top' | 'bottom' | 'left' | 'right';
+  offset?: number;
 };
 
 const meta: Meta<Args> = {
-  title: 'Overlay/PreviewCard',
+  title: 'Components/PreviewCard',
   parameters: { layout: 'centered' },
   argTypes: {
-    side: { control: 'select', options: ['top', 'bottom', 'left', 'right'] },
-    align: { control: 'select', options: ['start', 'center', 'end'] },
-    sideOffset: { control: { type: 'number', min: 0, max: 20 } },
+    placement: {
+      control: 'select',
+      options: ['top', 'bottom', 'left', 'right'],
+    },
+    offset: { control: 'number' },
   },
   args: {
-    side: 'bottom',
-    align: 'start',
-    sideOffset: 8,
+    placement: 'bottom',
+    offset: 8,
   },
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
     <PreviewCard.Root>
-      <PreviewCard.Trigger
-        style={{ color: 'var(--color-60)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)', textDecoration: 'underline', cursor: 'pointer', background: 'none', border: 'none' }}
-      >
-        @tale-ui/react
-      </PreviewCard.Trigger>
-      <PreviewCard.Portal>
-        <PreviewCard.Positioner side={args.side} align={args.align} sideOffset={args.sideOffset}>
-          <PreviewCard.Popup>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-              <div style={{ width: '4rem', height: '4rem', borderRadius: '50%', background: 'var(--neutral-22)' }} />
-              <div>
-                <div style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', fontWeight: 'var(--label-font-weight)', color: 'var(--neutral-90)' }}>
-                  @tale-ui/react
-                </div>
-                <div style={{ fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-60)', marginTop: '0.4rem' }}>
-                  A styled React component library forked from MUI Base UI.
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: '1.6rem', marginTop: '0.4rem' }}>
-                <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-70)' }}>
-                  <strong style={{ color: 'var(--neutral-90)' }}>240</strong> stars
-                </span>
-                <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-70)' }}>
-                  <strong style={{ color: 'var(--neutral-90)' }}>18</strong> forks
-                </span>
-              </div>
+      <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
+      <PreviewCard.Popup placement={args.placement} offset={args.offset}>
+        <PreviewCard.Content aria-label="Preview">
+          <div style={{ padding: 'var(--space-m)', maxWidth: '280px' }}>
+            <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Preview Title</h4>
+            <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>
+              This is a preview card with some descriptive text content that appears on hover.
+            </p>
+          </div>
+        </PreviewCard.Content>
+      </PreviewCard.Popup>
+    </PreviewCard.Root>
+  ),
+};
+
+export const WithImage: Story = {
+  render: () => (
+    <PreviewCard.Root>
+      <PreviewCard.Trigger>Preview with image</PreviewCard.Trigger>
+      <PreviewCard.Popup placement="bottom" offset={8}>
+        <PreviewCard.Content aria-label="Image preview">
+          <div style={{ maxWidth: '300px' }}>
+            <div
+              style={{
+                width: '100%',
+                height: '120px',
+                background: 'var(--neutral-20)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 'var(--text-s-font-size)',
+                color: 'var(--neutral-60-fg)',
+                borderRadius: 'var(--space-2xs) var(--space-2xs) 0 0',
+              }}
+            >
+              Image placeholder
             </div>
-          </PreviewCard.Popup>
-        </PreviewCard.Positioner>
-      </PreviewCard.Portal>
+            <div style={{ padding: 'var(--space-m)' }}>
+              <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Card with Image</h4>
+              <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>
+                A preview card that includes an image area above the text content.
+              </p>
+            </div>
+          </div>
+        </PreviewCard.Content>
+      </PreviewCard.Popup>
     </PreviewCard.Root>
   ),
 };

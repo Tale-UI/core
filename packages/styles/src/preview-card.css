@@ -2,9 +2,8 @@
  * PreviewCard — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui PreviewCard exposes:
- *   Popup: [data-open] [data-closed] [data-starting-style] [data-ending-style]
- *          [data-side] [data-align]
+ * PreviewCard is a custom hover-card (similar to Popover).
+ *   Popup: [data-entering] [data-exiting] [data-placement]
  *
  * Usage:
  *   <PreviewCard.Root>
@@ -24,18 +23,16 @@
 .tale-preview-card__popup {
   background-color: var(--neutral-10);
   border: 1px solid var(--neutral-20);
-  border-radius: 1rem;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 12px 32px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-m);
   padding: var(--space-m);
   max-width: 32rem;
   outline: none;
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.tale-preview-card__popup[data-starting-style],
-.tale-preview-card__popup[data-ending-style] {
+.tale-preview-card__popup[data-entering],
+.tale-preview-card__popup[data-exiting] {
   opacity: 0;
   transform: scale(0.97);
 }

@@ -2,9 +2,8 @@
  * Input — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Input exposes:
- *   [data-disabled] [data-valid] [data-invalid]
- *   [data-touched] [data-dirty] [data-filled] [data-focused]
+ * React Aria Input exposes:
+ *   [data-disabled] [data-invalid] [data-focused] [data-focus-visible]
  *
  * Usage:
  *   <Input className="tale-input" />
@@ -14,6 +13,13 @@
  */
 
 /* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-input__root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+}
 
 .tale-input {
   display: block;
@@ -54,7 +60,7 @@
 /* ─── Size modifiers ──────────────────────────────────────────────────────── */
 
 .tale-input--sm {
-  min-height: 2.8rem;
+  min-height: var(--space-m);
   padding: var(--space-4xs) var(--space-3xs);
   font-size: var(--text-s-font-size);
 }

@@ -1,0 +1,15 @@
+/*
+ * ColorPicker — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * ColorPicker is a context provider and does not render its own DOM element.
+ * Styling is applied to its child color controls (ColorArea, ColorSlider, etc.).
+ *
+ * Usage:
+ *   <ColorPicker.Root>
+ *     <ColorArea.Root> ... </ColorArea.Root>
+ *     <ColorSlider.Root> ... </ColorSlider.Root>
+ *   </ColorPicker.Root>
+ */
+
+/* No styles needed — ColorPicker is a headless context provider. */

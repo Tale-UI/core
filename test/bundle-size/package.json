@@ -1,6 +1,6 @@
 {
   "private": true,
-  "description": "Bundle size measurement workspace for MUI packages",
+  "description": "Bundle size measurement workspace for Tale UI packages",
   "scripts": {
     "check": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" bundle-size-checker --output ../size-snapshot.json"
   },

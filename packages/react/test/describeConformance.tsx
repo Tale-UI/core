@@ -1,10 +1,9 @@
 import * as React from 'react';
 import {
-  ConformanceOptions,
-  MuiRenderResult,
-  RenderOptions,
+  type ConformanceOptions,
+  type RenderOptions,
   createDescribe,
-} from '@mui/internal-test-utils';
+} from '@tale-ui/monorepo-tests/test-utils';
 import { testPropForwarding } from './conformanceTests/propForwarding';
 import { testRefForwarding } from './conformanceTests/refForwarding';
 import { testRenderProp } from './conformanceTests/renderProp';
@@ -30,7 +29,7 @@ export interface TaleUiConformanceTestsOptions extends Omit<
       string | React.JSXElementConstructor<any>
     >,
     options?: RenderOptions | undefined,
-  ) => Promise<TaleUIRenderResult> | MuiRenderResult;
+  ) => Promise<TaleUIRenderResult>;
   skip?: (keyof typeof fullSuite)[];
   testRenderPropWith?: keyof React.JSX.IntrinsicElements;
   button?: boolean;

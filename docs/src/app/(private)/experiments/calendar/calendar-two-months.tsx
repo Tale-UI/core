@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { format } from 'date-fns/format';
 import { addMonths } from 'date-fns/addMonths';
-import { Calendar } from '@base-ui/react/calendar';
-import { Separator } from '@base-ui/react/separator';
+import { Calendar } from '@tale-ui/react/calendar';
+import { Separator } from '@tale-ui/react/separator';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './calendar.module.css';
 

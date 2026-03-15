@@ -10,7 +10,7 @@ import type { TaleUIComponentProps } from '../../utils/types';
  * An accessible label that is automatically associated with the fieldset.
  * Renders a `<div>` element.
  *
- * Documentation: [Tale UI Fieldset](https://base-ui.com/react/components/fieldset)
+ * Documentation: [Tale UI Fieldset](https://tale-ui.dev/react/components/fieldset)
  */
 export const FieldsetLegend = React.forwardRef(function FieldsetLegend(
   componentProps: FieldsetLegend.Props,

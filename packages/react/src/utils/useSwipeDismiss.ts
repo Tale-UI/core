@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useStableCallback } from '@tale-ui/utils/useStableCallback';
 import { ownerDocument } from '@tale-ui/utils/owner';
-import { contains, getTarget } from '../floating-ui-react/utils';
+import { contains, getTarget } from '@tale-ui/utils/owner';
 import { findScrollableTouchTarget, hasScrollableAncestor, type ScrollAxis } from './scrollable';
 import { clamp } from './clamp';
 import { getElementAtPoint } from './getElementAtPoint';

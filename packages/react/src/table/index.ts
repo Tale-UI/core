@@ -1,0 +1,10 @@
+export * as Table from './Table.styled';
+
+export type {
+  RootProps as TableRootProps,
+  HeaderProps as TableHeaderProps,
+  ColumnProps as TableColumnProps,
+  BodyProps as TableBodyProps,
+  RowProps as TableRowProps,
+  CellProps as TableCellProps,
+} from './Table.styled';

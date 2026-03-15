@@ -1,2 +1,2 @@
 export { CheckboxGroup } from './CheckboxGroup';
-export type * from './CheckboxGroup';
+export type { CheckboxGroupProps } from './CheckboxGroup';

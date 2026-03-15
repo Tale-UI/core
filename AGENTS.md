@@ -2,7 +2,7 @@
 
 # Repository Guidelines
 
-This repository contains the source code and documentation for Tale UI: a headless, unstyled React component library.
+This repository contains the source code and documentation for Tale UI: a styled React component library built on React Aria Components.
 
 ## Project structure
 
@@ -57,7 +57,7 @@ Format:
 
 - Prefix with `Tale UI: `
 - Use string concatenation for readability
-- Include a documentation link when applicable (`https://base-ui.com/...`)
+- Include a documentation link when applicable (`https://tale-ui.com/...`)
 
 ### Error Minifier
 

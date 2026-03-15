@@ -1,0 +1,82 @@
+/*
+ * TextArea — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria TextField (used as root for TextArea) exposes:
+ *   Root: [data-disabled] [data-invalid]
+ *   TextArea: [data-focused] [data-disabled] [data-invalid]
+ *
+ * Usage:
+ *   <TextArea.Root className="tale-text-area">
+ *     <TextArea.Label className="tale-text-area__label">Message</TextArea.Label>
+ *     <TextArea.TextArea className="tale-text-area__textarea" />
+ *     <TextArea.Description className="tale-text-area__description">Write your message</TextArea.Description>
+ *     <TextArea.ErrorMessage className="tale-text-area__error" />
+ *   </TextArea.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-text-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+}
+
+/* ─── TextArea ─────────────────────────────────────────────────────────────── */
+
+.tale-text-area__textarea {
+  display: block;
+  width: 100%;
+  min-height: 8rem;
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: var(--radius-m);
+  background-color: var(--neutral-10);
+  color: var(--neutral-90);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  line-height: 1.5;
+  outline: none;
+  resize: vertical;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.tale-text-area__textarea::placeholder {
+  color: var(--neutral-50);
+}
+
+.tale-text-area__textarea:focus,
+.tale-text-area__textarea[data-focused] {
+  border-color: var(--focus-ring-color);
+  box-shadow: 0 0 0 3px var(--focus-ring-glow);
+}
+
+.tale-text-area__textarea:hover:not(:focus, [data-disabled], [data-invalid]) {
+  border-color: var(--neutral-40);
+}
+
+.tale-text-area__textarea[data-invalid] {
+  border-color: var(--red-60);
+}
+
+.tale-text-area__textarea[data-invalid]:focus,
+.tale-text-area__textarea[data-invalid][data-focused] {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--red-60) 20%, transparent);
+}
+
+.tale-text-area__textarea[data-disabled],
+.tale-text-area__textarea:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background-color: var(--neutral-14);
+  resize: none;
+}
+
+/* Label styles are shared in _primitives.css */
+
+

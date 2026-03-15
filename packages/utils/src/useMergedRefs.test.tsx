@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { expect } from 'chai';
-import { createRenderer, MuiRenderResult, screen } from '@mui/internal-test-utils';
+import { createRenderer, type TaleUIRenderResult, screen } from '@tale-ui/monorepo-tests/test-utils';
 import { spy } from 'sinon';
 import { getReactElementRef } from './getReactElementRef';
 import { useMergedRefs } from './useMergedRefs';
@@ -90,7 +90,7 @@ describe('useMergedRefs', () => {
     }
 
     it('handles changing from no ref to some ref', () => {
-      let view: MuiRenderResult;
+      let view: TaleUIRenderResult;
 
       expect(() => {
         view = render(<Div id="test" />);
@@ -107,7 +107,7 @@ describe('useMergedRefs', () => {
       const firstLeftRef = React.createRef<HTMLDivElement>();
       const firstRightRef = React.createRef<HTMLDivElement>();
       const secondRightRef = React.createRef<HTMLDivElement>();
-      let view: MuiRenderResult;
+      let view: TaleUIRenderResult;
 
       expect(() => {
         view = render(<Div leftRef={firstLeftRef} rightRef={firstRightRef} id="test" />);

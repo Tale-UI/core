@@ -1,94 +1,122 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Radio } from '@tale-ui/react/radio';
 
 type Args = {
-  disabled?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  isDisabled?: boolean;
 };
 
 const meta: Meta<Args> = {
-  title: 'Form Controls/Radio',
-  parameters: { layout: 'centered' },
+  title: 'Components/Radio',
   argTypes: {
-    disabled: { control: 'boolean' },
-    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    isDisabled: { control: 'boolean' },
   },
   args: {
-    disabled: false,
-    size: 'md',
+    isDisabled: false,
   },
-  render: ({ disabled, size }) => (
-    <Radio.Group defaultValue="option-a" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-      {['Option A', 'Option B', 'Option C'].map((label, i) => {
-        const value = `option-${String.fromCharCode(97 + i)}`;
-        return (
-          <div key={value} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Radio.Root size={size} value={value} disabled={disabled}>
-              <Radio.Indicator />
-            </Radio.Root>
-            <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
-              {label}
-            </span>
-          </div>
-        );
-      })}
-    </Radio.Group>
-  ),
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
-export const Default: Story = {};
-
-export const Disabled: Story = { args: { disabled: true } };
-
-export const AllStates: Story = {
-  name: 'All States',
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Radio.Root value="unchecked">
-          <Radio.Indicator />
-        </Radio.Root>
-        <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>Unchecked</span>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Radio.Group value="checked">
-          <Radio.Root value="checked">
-            <Radio.Indicator />
-          </Radio.Root>
-        </Radio.Group>
-        <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>Checked</span>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Radio.Root value="disabled" disabled>
-          <Radio.Indicator />
-        </Radio.Root>
-        <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>Disabled</span>
-      </div>
-    </div>
+export const Default: Story = {
+  render: (args) => (
+    <Radio.Group label="Favorite color" isDisabled={args.isDisabled}>
+      <Radio.Root value="red">
+        <Radio.Indicator />
+        Red
+      </Radio.Root>
+      <Radio.Root value="green">
+        <Radio.Indicator />
+        Green
+      </Radio.Root>
+      <Radio.Root value="blue">
+        <Radio.Indicator />
+        Blue
+      </Radio.Root>
+    </Radio.Group>
   ),
 };
 
-export const WithGroup: Story = {
-  name: 'Radio Group',
-  render: () => (
-    <Radio.Group defaultValue="b" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-      {['Small', 'Medium', 'Large'].map((size, i) => {
-        const value = ['sm', 'md', 'lg'][i];
-        return (
-          <div key={value} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Radio.Root value={value}>
-              <Radio.Indicator />
-            </Radio.Root>
-            <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
-              {size}
-            </span>
-          </div>
-        );
-      })}
+export const Disabled: Story = {
+  args: {
+    isDisabled: true,
+  },
+  render: (args) => (
+    <Radio.Group label="Disabled group" isDisabled={args.isDisabled}>
+      <Radio.Root value="red">
+        <Radio.Indicator />
+        Red
+      </Radio.Root>
+      <Radio.Root value="green">
+        <Radio.Indicator />
+        Green
+      </Radio.Root>
+      <Radio.Root value="blue">
+        <Radio.Indicator />
+        Blue
+      </Radio.Root>
     </Radio.Group>
+  ),
+};
+
+export const Horizontal: Story = {
+  render: (args) => (
+    <Radio.Group label="Plan" orientation="horizontal" isDisabled={args.isDisabled}>
+      <Radio.Root value="free">
+        <Radio.Indicator />
+        Free
+      </Radio.Root>
+      <Radio.Root value="pro">
+        <Radio.Indicator />
+        Pro
+      </Radio.Root>
+      <Radio.Root value="enterprise">
+        <Radio.Indicator />
+        Enterprise
+      </Radio.Root>
+    </Radio.Group>
+  ),
+};
+
+export const AllSizes: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-l)' }}>
+      <Radio.Group label="Small radios">
+        <Radio.Root value="a" size="sm">
+          <Radio.Indicator />
+          Small option A
+        </Radio.Root>
+        <Radio.Root value="b" size="sm">
+          <Radio.Indicator />
+          Small option B
+        </Radio.Root>
+      </Radio.Group>
+
+      <Radio.Group label="Medium radios">
+        <Radio.Root value="a" size="md">
+          <Radio.Indicator />
+          Medium option A
+        </Radio.Root>
+        <Radio.Root value="b" size="md">
+          <Radio.Indicator />
+          Medium option B
+        </Radio.Root>
+      </Radio.Group>
+
+      <Radio.Group label="Large radios">
+        <Radio.Root value="a" size="lg">
+          <Radio.Indicator />
+          Large option A
+        </Radio.Root>
+        <Radio.Root value="b" size="lg">
+          <Radio.Indicator />
+          Large option B
+        </Radio.Root>
+      </Radio.Group>
+    </div>
   ),
 };

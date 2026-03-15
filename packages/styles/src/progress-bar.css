@@ -1,0 +1,37 @@
+/*
+ * ProgressBar — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria ProgressBar exposes:
+ *   Root:      [data-indeterminate]
+ *
+ * Usage:
+ *   <ProgressBar.Root className="tale-progress-bar" value={60}>
+ *     <ProgressBar.Track className="tale-progress-bar__track">
+ *       <ProgressBar.Indicator className="tale-progress-bar__indicator" />
+ *     </ProgressBar.Track>
+ *   </ProgressBar.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+/* ─── Complete state ──────────────────────────────────────────────────────── */
+
+.tale-progress-bar[data-complete] .tale-progress-bar__indicator {
+  background-color: var(--green-60, var(--color-60));
+}
+
+/* ─── Indeterminate state ─────────────────────────────────────────────────── */
+
+@keyframes tale-progress-bar-indeterminate {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+.tale-progress-bar[data-indeterminate] .tale-progress-bar__indicator {
+  width: 40% !important;
+  animation: tale-progress-bar-indeterminate 1.5s ease-in-out infinite;
+}
+
+/* ─── Value label ──────────────────────────────────────────────────────────── */
+

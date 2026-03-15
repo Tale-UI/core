@@ -1,0 +1,92 @@
+/*
+ * range-calendar.css — @tale-ui/react-styles
+ * BEM classes for the RangeCalendar component
+ *
+ * Mirrors calendar.css with additional range selection states.
+ *
+ * React Aria RangeCalendar exposes:
+ *   Root: [data-disabled] [data-readonly] [data-invalid]
+ *   Cell: [data-selected] [data-selection-start] [data-selection-end]
+ *         [data-today] [data-outside-month] [data-disabled] [data-unavailable]
+ *         [data-focus-visible] [data-hovered] [data-pressed]
+ *
+ * Usage:
+ *   <RangeCalendar.Root className="tale-range-calendar">
+ *     <RangeCalendar.PreviousButton />
+ *     <RangeCalendar.Heading />
+ *     <RangeCalendar.NextButton />
+ *     <RangeCalendar.Grid>
+ *       <RangeCalendar.GridHeader>
+ *         {(day) => <RangeCalendar.GridHeaderCell />}
+ *       </RangeCalendar.GridHeader>
+ *       <RangeCalendar.GridBody>
+ *         {(date) => <RangeCalendar.Cell date={date} />}
+ *       </RangeCalendar.GridBody>
+ *     </RangeCalendar.Grid>
+ *   </RangeCalendar.Root>
+ */
+
+/* ─── Heading ──────────────────────────────────────────────────────────────── */
+
+.tale-range-calendar__heading {
+  margin: 0;
+  text-align: center;
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-90);
+}
+
+/* ─── Grid ─────────────────────────────────────────────────────────────────── */
+
+.tale-range-calendar__grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* ─── Grid header (thead) ─────────────────────────────────────────────────── */
+
+.tale-range-calendar__grid-header {
+}
+
+/* ─── Grid body (tbody) ───────────────────────────────────────────────────── */
+
+.tale-range-calendar__grid-body {
+}
+
+/* ─── Cell ─────────────────────────────────────────────────────────────────── */
+
+/* Range selection: middle cells */
+.tale-range-calendar__cell[data-selected] {
+  background: color-mix(in srgb, var(--color-60) 20%, transparent);
+  color: var(--neutral-90);
+  border-radius: 0;
+}
+
+/* Range selection: start and end cells */
+.tale-range-calendar__cell[data-selection-start] {
+  background: var(--color-60);
+  color: var(--color-60-fg);
+  font-weight: var(--label-font-weight);
+  border-radius: var(--radius-full) 0 0 var(--radius-full);
+}
+
+.tale-range-calendar__cell[data-selection-end] {
+  background: var(--color-60);
+  color: var(--color-60-fg);
+  font-weight: var(--label-font-weight);
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+}
+
+/* When start and end are the same cell */
+.tale-range-calendar__cell[data-selection-start][data-selection-end] {
+  border-radius: var(--radius-full);
+}
+
+.tale-range-calendar__cell[data-selection-start]:hover,
+.tale-range-calendar__cell[data-selection-end]:hover {
+  background: var(--color-70);
+}
+
+/* ─── Navigation buttons ───────────────────────────────────────────────────── */
+

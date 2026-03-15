@@ -1,4 +1,4 @@
-import { DrawerPreview as Drawer } from '@base-ui/react/drawer';
+import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
 import clsx from 'clsx';
 import heroStyles from 'docs/src/app/(docs)/react/components/drawer/demos/hero/css-modules/index.module.css';
 import positionStyles from 'docs/src/app/(docs)/react/components/drawer/demos/position/css-modules/index.module.css';
@@ -115,7 +115,7 @@ function DrawerCaseCard(props: { testCase: DrawerCase }) {
                 verticalDrawer && styles.PopupVerticalContent,
               )}
             >
-              <Drawer.Content className={heroStyles.Content}>
+              <Drawer.Popup className={heroStyles.Content}>
                 <Drawer.Title className={heroStyles.Title}>{testCase.label}</Drawer.Title>
                 <Drawer.Description className={heroStyles.Description}>
                   Try scrolling in the panel first, then swipe to dismiss from the drawer edge.
@@ -124,7 +124,7 @@ function DrawerCaseCard(props: { testCase: DrawerCase }) {
                 <div className={heroStyles.Actions}>
                   <Drawer.Close className={heroStyles.Button}>Close</Drawer.Close>
                 </div>
-              </Drawer.Content>
+              </Drawer.Popup>
             </Drawer.Popup>
           </Drawer.Viewport>
         </Drawer.Portal>

@@ -32,6 +32,7 @@
     "use-sync-external-store": "^1.6.0"
   },
   "devDependencies": {
+    "@tale-ui/monorepo-tests": "workspace:*",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",
     "@types/chai": "5.2.3",

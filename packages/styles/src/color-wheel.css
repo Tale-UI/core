@@ -1,0 +1,31 @@
+/*
+ * ColorWheel — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria ColorWheel exposes:
+ *   Root:  [data-disabled]
+ *   Track: (circular hue ring rendered by RAC)
+ *   Thumb: [data-focused] [data-focus-visible] [data-dragging] [data-disabled]
+ *
+ * Usage:
+ *   <ColorWheel.Root className="tale-color-wheel" outerRadius={100} innerRadius={74}>
+ *     <ColorWheel.Track className="tale-color-wheel__track">
+ *       <ColorWheel.Thumb className="tale-color-wheel__thumb" />
+ *     </ColorWheel.Track>
+ *   </ColorWheel.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-color-wheel {
+  position: relative;
+}
+
+/* ─── Track ────────────────────────────────────────────────────────────────── */
+
+.tale-color-wheel__track {
+  /* Track dimensions are set by RAC via outerRadius/innerRadius props */
+}
+
+/* ─── Thumb ────────────────────────────────────────────────────────────────── */
+

@@ -27,11 +27,11 @@ For the full setup guide (colours, typography, dark mode): [docs/react-setup.md]
 
 ### Form Controls
 
-Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Radio · Radio Group · Select · Slider · Switch · Toggle · Toggle Group
+Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Radio · Radio Group · Select · Slider · Switch · Toggle Button · Toggle Button Group
 
 ### Layout
 
-Accordion · Collapsible · Scroll Area · Separator · Tabs
+Accordion · Disclosure · Scroll Area · Separator · Tabs
 
 ### Overlay
 
@@ -43,7 +43,7 @@ Context Menu · Menu · Menubar · Navigation Menu · Toolbar
 
 ### Feedback & Display
 
-Avatar · Meter · Progress · Toast
+Avatar · Meter · ProgressBar · Toast
 
 ### Form Structure
 

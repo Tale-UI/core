@@ -42,7 +42,7 @@ A typical release goes like this:
    > - **--dry-run** Used for debugging. Or directly run `pnpm release:publish:dry-run`.
    > - **--dist-tag** Use to publish legacy or canary versions.
 
-5. This command invokes the [Publish](https://github.com/mui/base-ui/actions/workflows/publish.yml) GitHub action. It'll log the url which can be opened to see the latest workflow run.
+5. This command invokes the [Publish](https://github.com/Tale-UI/core/actions/workflows/publish.yml) GitHub action. It'll log the url which can be opened to see the latest workflow run.
 6. The next screen shows "@username requested your review to deploy to npm-publish", click "Review deployments" and authorize your workflow run. **Never approve workflow runs you didn't initiaite.**
 
 ### Publish the documentation
@@ -55,10 +55,10 @@ Push the working branch to the documentation release branch to deploy the docume
 pnpm docs:deploy
 ```
 
-You can follow the deployment process [on the Netlify Dashboard](https://app.netlify.com/sites/base-ui/deploys?filter=docs-v1)
-Once deployed, it will be accessible at https://base-ui.netlify.app/ for the `docs-v1` deployment.
+You can follow the deployment process [on the Netlify Dashboard](https://app.netlify.com/sites/tale-ui/deploys?filter=docs-v1)
+Once deployed, it will be accessible at https://tale-ui.netlify.app/ for the `docs-v1` deployment.
 
 ### GitHub release
 
-After the documentation deployment is done, review, and then publish the release that was created in draft mode during the release step [GitHub releases page](https://github.com/mui/base-ui/releases)
+After the documentation deployment is done, review, and then publish the release that was created in draft mode during the release step [GitHub releases page](https://github.com/Tale-UI/core/releases)
 Make sure to check the **Set as a pre-release** checkbox if publishing an unstable version.

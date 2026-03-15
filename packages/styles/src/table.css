@@ -1,0 +1,120 @@
+/*
+ * Table — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria Table exposes:
+ *   Row:    [data-selected] [data-focused] [data-focus-visible]
+ *           [data-disabled] [data-hovered]
+ *   Column: [data-sort-direction] [data-resizable]
+ *
+ * Usage:
+ *   <Table.Root className="tale-table">
+ *     <Table.Header className="tale-table__header">
+ *       <Table.Column className="tale-table__column">Name</Table.Column>
+ *     </Table.Header>
+ *     <Table.Body className="tale-table__body">
+ *       <Table.Row className="tale-table__row">
+ *         <Table.Cell className="tale-table__cell">Value</Table.Cell>
+ *       </Table.Row>
+ *     </Table.Body>
+ *   </Table.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  color: var(--neutral-90);
+  outline: none;
+}
+
+.tale-table[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
+}
+
+/* ─── Header ───────────────────────────────────────────────────────────────── */
+
+.tale-table__header {
+  border-bottom: 2px solid var(--neutral-22);
+}
+
+/* ─── Column ───────────────────────────────────────────────────────────────── */
+
+.tale-table__column {
+  padding: var(--space-3xs) var(--space-2xs);
+  text-align: start;
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-60);
+  outline: none;
+  cursor: default;
+}
+
+.tale-table__column[data-sort-direction]::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-inline-start: var(--space-4xs);
+  vertical-align: middle;
+}
+
+.tale-table__column[data-sort-direction="ascending"]::after {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 5px solid currentColor;
+}
+
+.tale-table__column[data-sort-direction="descending"]::after {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+}
+
+.tale-table__column[data-focus-visible] {
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color);
+}
+
+/* ─── Body ─────────────────────────────────────────────────────────────────── */
+
+.tale-table__body {
+  /* Structure only — no visual styles needed */
+}
+
+/* ─── Row ──────────────────────────────────────────────────────────────────── */
+
+.tale-table__row {
+  border-bottom: 1px solid var(--neutral-14);
+  outline: none;
+  transition: background-color 0.1s ease;
+}
+
+.tale-table__row[data-hovered] {
+  background-color: var(--neutral-12);
+}
+
+.tale-table__row[data-selected] {
+  background-color: color-mix(in srgb, var(--color-60) 12%, transparent);
+}
+
+.tale-table__row[data-focus-visible] {
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color);
+}
+
+.tale-table__row[data-disabled] {
+  opacity: 0.45;
+}
+
+/* ─── Cell ─────────────────────────────────────────────────────────────────── */
+
+.tale-table__cell {
+  padding: var(--space-3xs) var(--space-2xs);
+  outline: none;
+}
+
+.tale-table__cell[data-focus-visible] {
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color);
+}

@@ -30,7 +30,7 @@ import '@tale-ui/react-styles/dialog';
 
 ### Available per-component exports
 
-`accordion` · `alert-dialog` · `autocomplete` · `avatar` · `button` · `checkbox` · `collapsible` · `combobox` · `dialog` · `drawer` · `field` · `fieldset` · `form` · `input` · `menu` · `meter` · `navigation-menu` · `number-field` · `popover` · `preview-card` · `progress` · `radio` · `scroll-area` · `select` · `separator` · `slider` · `switch` · `tabs` · `toast` · `toggle` · `toolbar` · `tooltip`
+`accordion` · `alert-dialog` · `autocomplete` · `avatar` · `button` · `checkbox` · `combobox` · `dialog` · `disclosure` · `drawer` · `field` · `fieldset` · `form` · `input` · `menu` · `meter` · `navigation-menu` · `number-field` · `popover` · `preview-card` · `progress` · `radio` · `scroll-area` · `select` · `separator` · `slider` · `switch` · `tabs` · `toast` · `toggle` · `toolbar` · `tooltip`
 
 ## Architecture
 

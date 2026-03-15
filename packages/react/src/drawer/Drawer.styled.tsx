@@ -1,89 +1,186 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import { useMergedRefs } from '@tale-ui/utils/useMergedRefs';
 import { cx } from '../_cx';
-import type {
-  DrawerRootProps,
-  DrawerRootActions,
-  DrawerRootChangeEventReason,
-  DrawerRootChangeEventDetails,
-  DrawerRootSnapPointChangeEventReason,
-  DrawerRootSnapPointChangeEventDetails,
-} from './root/DrawerRoot';
-import type { DrawerSnapPoint } from './root/DrawerRootContext';
+import { getStateAttributesProps } from '../utils/getStateAttributesProps';
+import { transitionStatusMapping } from '../utils/stateAttributesMapping';
+import { useOpenChangeComplete } from '../utils/useOpenChangeComplete';
+import { useTransitionStatus, type TransitionStatus } from '../utils/useTransitionStatus';
 
-export const Root = H.Root;
-
-export namespace Root {
-    export type Props<Payload = unknown> = DrawerRootProps<Payload>;
-  export type Actions = DrawerRootActions;
-  export type ChangeEventReason = DrawerRootChangeEventReason;
-  export type ChangeEventDetails = DrawerRootChangeEventDetails;
-  export type SnapPointChangeEventReason = DrawerRootSnapPointChangeEventReason;
-  export type SnapPointChangeEventDetails = DrawerRootSnapPointChangeEventDetails;
-  export type SnapPoint = DrawerSnapPoint;
+interface DrawerContextValue {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  mounted: boolean;
+  setMounted: React.Dispatch<React.SetStateAction<boolean>>;
+  transitionStatus: TransitionStatus;
 }
 
-export const Portal = H.Portal;
-export const Viewport = H.Viewport;
-export const Trigger = H.Trigger;
-export const Provider = H.Provider;
-export const Indent = H.Indent;
-export const IndentBackground = H.IndentBackground;
-export const createHandle = H.createHandle;
-export const Handle = H.Handle;
+const DrawerContext = React.createContext<DrawerContextValue | null>(null);
 
-const StyledBackdrop = React.forwardRef<
-  React.ComponentRef<typeof H.Backdrop>,
-  React.ComponentPropsWithoutRef<typeof H.Backdrop>
->(({ className, ...props }, ref) => (
-  <H.Backdrop className={cx('tale-drawer__backdrop', className)} ref={ref} {...props} />
-));
-StyledBackdrop.displayName = 'Drawer.Backdrop';
-export const Backdrop = StyledBackdrop as typeof H.Backdrop;
+export interface RootProps extends React.HTMLAttributes<HTMLDivElement> {
+  open?: boolean | undefined;
+  defaultOpen?: boolean | undefined;
+  onOpenChange?: ((open: boolean) => void) | undefined;
+}
 
-const StyledPopup = React.forwardRef<
-  React.ComponentRef<typeof H.Popup>,
-  React.ComponentPropsWithoutRef<typeof H.Popup>
->(({ className, ...props }, ref) => (
-  <H.Popup className={cx('tale-drawer__popup', className)} ref={ref} {...props} />
-));
-StyledPopup.displayName = 'Drawer.Popup';
-export const Popup = StyledPopup as typeof H.Popup;
+export const Root = React.forwardRef<HTMLDivElement, RootProps>(
+  ({ className, open: openProp, defaultOpen = false, onOpenChange, ...props }, ref) => {
+    const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
+    const open = openProp ?? uncontrolledOpen;
+    const { mounted, setMounted, transitionStatus } = useTransitionStatus(open);
 
-const StyledContent = React.forwardRef<
-  React.ComponentRef<typeof H.Content>,
-  React.ComponentPropsWithoutRef<typeof H.Content>
->(({ className, ...props }, ref) => (
-  <H.Content className={cx('tale-drawer__content', className)} ref={ref} {...props} />
-));
-StyledContent.displayName = 'Drawer.Content';
-export const Content = StyledContent as typeof H.Content;
+    const setOpen = React.useCallback(
+      (nextOpen: boolean) => {
+        if (openProp === undefined) {
+          setUncontrolledOpen(nextOpen);
+        }
 
-const StyledTitle = React.forwardRef<
-  React.ComponentRef<typeof H.Title>,
-  React.ComponentPropsWithoutRef<typeof H.Title>
->(({ className, ...props }, ref) => (
-  <H.Title className={cx('tale-drawer__title', className)} ref={ref} {...props} />
-));
-StyledTitle.displayName = 'Drawer.Title';
-export const Title = StyledTitle as typeof H.Title;
+        onOpenChange?.(nextOpen);
+      },
+      [onOpenChange, openProp],
+    );
 
-const StyledDescription = React.forwardRef<
-  React.ComponentRef<typeof H.Description>,
-  React.ComponentPropsWithoutRef<typeof H.Description>
->(({ className, ...props }, ref) => (
-  <H.Description className={cx('tale-drawer__description', className)} ref={ref} {...props} />
-));
-StyledDescription.displayName = 'Drawer.Description';
-export const Description = StyledDescription as typeof H.Description;
+    const contextValue = React.useMemo(
+      () => ({
+        open,
+        setOpen,
+        mounted,
+        setMounted,
+        transitionStatus,
+      }),
+      [mounted, open, setMounted, setOpen, transitionStatus],
+    );
 
-export const Close = H.Close;
+    return (
+      <DrawerContext.Provider value={contextValue}>
+        <div ref={ref} className={cx('tale-drawer', className)} {...props} />
+      </DrawerContext.Provider>
+    );
+  },
+);
+Root.displayName = 'Drawer.Root';
 
-const StyledSwipeArea = React.forwardRef<
-  React.ComponentRef<typeof H.SwipeArea>,
-  React.ComponentPropsWithoutRef<typeof H.SwipeArea>
->(({ className, ...props }, ref) => (
-  <H.SwipeArea className={cx('tale-drawer__swipe-area', className)} ref={ref} {...props} />
-));
-StyledSwipeArea.displayName = 'Drawer.SwipeArea';
-export const SwipeArea = StyledSwipeArea as typeof H.SwipeArea;
+export const Trigger = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>(({ className, onClick, ...props }, ref) => {
+  const context = React.useContext(DrawerContext);
+
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(event);
+
+      if (!event.defaultPrevented) {
+        context?.setOpen(true);
+      }
+    },
+    [context, onClick],
+  );
+
+  return <button ref={ref} className={cx('tale-drawer__trigger', className)} onClick={handleClick} {...props} />;
+});
+Trigger.displayName = 'Drawer.Trigger';
+
+export const Popup = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => {
+    const context = React.useContext(DrawerContext);
+    const popupRef = React.useRef<HTMLDivElement | null>(null);
+    const mergedRef = useMergedRefs(popupRef, ref);
+
+    useOpenChangeComplete({
+      enabled: context?.transitionStatus === 'ending',
+      open: context?.open,
+      ref: popupRef,
+      onComplete: () => context?.setMounted(false),
+    });
+
+    if (context && !context.mounted) {
+      return null;
+    }
+
+    const stateProps = context
+      ? getStateAttributesProps({ transitionStatus: context.transitionStatus }, transitionStatusMapping)
+      : undefined;
+
+    return (
+      <div
+        ref={mergedRef}
+        role="dialog"
+        className={cx('tale-drawer__popup', className)}
+        {...stateProps}
+        {...props}
+      />
+    );
+  },
+);
+Popup.displayName = 'Drawer.Popup';
+
+export const Close = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>(({ className, onClick, ...props }, ref) => {
+  const context = React.useContext(DrawerContext);
+
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(event);
+
+      if (!event.defaultPrevented) {
+        context?.setOpen(false);
+      }
+    },
+    [context, onClick],
+  );
+
+  return <button ref={ref} className={cx('tale-drawer__close', className)} onClick={handleClick} {...props} />;
+});
+Close.displayName = 'Drawer.Close';
+
+export const Title = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-drawer__title', className)} {...props} />
+  ),
+);
+Title.displayName = 'Drawer.Title';
+
+export const Description = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-drawer__description', className)} {...props} />
+  ),
+);
+Description.displayName = 'Drawer.Description';
+
+export const Backdrop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, onClick, ...props }, ref) => {
+    const context = React.useContext(DrawerContext);
+
+    if (context && !context.mounted) {
+      return null;
+    }
+
+    const stateProps = context
+      ? getStateAttributesProps({ transitionStatus: context.transitionStatus }, transitionStatusMapping)
+      : undefined;
+
+    const handleClick = React.useCallback(
+      (event: React.MouseEvent<HTMLDivElement>) => {
+        onClick?.(event);
+
+        if (!event.defaultPrevented) {
+          context?.setOpen(false);
+        }
+      },
+      [context, onClick],
+    );
+
+    return (
+      <div
+        ref={ref}
+        className={cx('tale-drawer__backdrop', className)}
+        onClick={handleClick}
+        {...stateProps}
+        {...props}
+      />
+    );
+  },
+);
+Backdrop.displayName = 'Drawer.Backdrop';

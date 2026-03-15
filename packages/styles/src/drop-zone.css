@@ -1,0 +1,54 @@
+/*
+ * DropZone — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria DropZone exposes:
+ *   [data-drop-target] [data-focused] [data-focus-visible] [data-disabled]
+ *
+ * Usage:
+ *   <DropZone className="tale-drop-zone">
+ *     Drop files here
+ *   </DropZone>
+ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  padding: var(--space-s);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+  color: var(--neutral-50);
+  background-color: var(--neutral-5);
+  border: 2px dashed var(--neutral-26);
+  border-radius: var(--space-3xs);
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* ─── Focus ────────────────────────────────────────────────────────────────── */
+
+.tale-drop-zone[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
+}
+
+/* ─── Drop target — active drag-over ──────────────────────────────────────── */
+
+.tale-drop-zone[data-drop-target] {
+  border-color: var(--color-60);
+  background-color: color-mix(in srgb, var(--color-60) 8%, transparent);
+  color: var(--color-60);
+}
+
+/* ─── Disabled ─────────────────────────────────────────────────────────────── */
+
+.tale-drop-zone[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

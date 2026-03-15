@@ -1,68 +1,106 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@tale-ui/react/button';
 
 type Args = {
-  variant?: 'primary' | 'neutral' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
-  children?: React.ReactNode;
-  disabled?: boolean;
+  variant: 'primary' | 'neutral' | 'ghost' | 'danger';
+  size: 'sm' | 'md' | 'lg';
+  disabled: boolean;
+  children: string;
 };
 
 const meta: Meta<Args> = {
   title: 'Components/Button',
-  component: Button,
-  parameters: { layout: 'centered' },
   argTypes: {
-    variant: { control: 'radio', options: ['primary', 'neutral', 'ghost', 'danger'] },
-    size: { control: 'radio', options: ['sm', 'md', 'lg'] },
+    variant: {
+      control: 'select',
+      options: ['primary', 'neutral', 'ghost', 'danger'],
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+    },
     disabled: { control: 'boolean' },
+    children: { control: 'text' },
   },
   args: {
-    children: 'Button',
     variant: 'primary',
     size: 'md',
     disabled: false,
+    children: 'Button',
   },
-  render: ({ variant = 'primary', size = 'md', ...args }) => (
-    <Button variant={variant} size={size} {...args} />
-  ),
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
-export const Primary: Story = { args: { variant: 'primary' } };
-export const Neutral: Story = { args: { variant: 'neutral' } };
-export const Ghost: Story = { args: { variant: 'ghost' } };
-export const Danger: Story = { args: { variant: 'danger' } };
+export const Default: Story = {
+  render: (args) => (
+    <Button variant={args.variant} size={args.size} isDisabled={args.disabled}>
+      {args.children}
+    </Button>
+  ),
+};
 
 export const AllVariants: Story = {
-  name: 'All Variants',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
-      {(['primary', 'neutral', 'ghost', 'danger'] as const).map((v) => (
-        <Button key={v} variant={v}>
-          {v.charAt(0).toUpperCase() + v.slice(1)}
-        </Button>
-      ))}
+    <div style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'center' }}>
+      <Button variant="primary">Primary</Button>
+      <Button variant="neutral">Neutral</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="danger">Danger</Button>
     </div>
   ),
 };
 
 export const AllSizes: Story = {
-  name: 'All Sizes',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
-      {(['sm', 'md', 'lg'] as const).map((s) => (
-        <Button key={s} variant="primary" size={s}>
-          {s.toUpperCase()}
-        </Button>
-      ))}
+    <div style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'center' }}>
+      <Button variant="primary" size="sm">Small</Button>
+      <Button variant="primary" size="md">Medium</Button>
+      <Button variant="primary" size="lg">Large</Button>
     </div>
   ),
 };
 
 export const Disabled: Story = {
-  args: { variant: 'primary', disabled: true },
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'center' }}>
+      <Button variant="primary" isDisabled>Primary</Button>
+      <Button variant="neutral" isDisabled>Neutral</Button>
+      <Button variant="ghost" isDisabled>Ghost</Button>
+      <Button variant="danger" isDisabled>Danger</Button>
+    </div>
+  ),
+};
+
+export const WithIcon: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'center' }}>
+      <Button variant="primary">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginRight: 'var(--space-3xs)' }}>
+          <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+        Add Item
+      </Button>
+      <Button variant="neutral">
+        Next
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginLeft: 'var(--space-3xs)' }}>
+          <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </Button>
+    </div>
+  ),
 };

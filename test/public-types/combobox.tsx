@@ -57,13 +57,13 @@ export const ComboboxHarness = React.forwardRef<HTMLInputElement, SimpleCombobox
         <Combobox.Input ref={ref} />
         <Combobox.Trigger />
         <Combobox.Positioner>
-          <Combobox.Popup>
+          <Combobox.Popover>
             {props.items.map((item) => (
               <Combobox.Item key={item} value={item}>
                 {item}
               </Combobox.Item>
             ))}
-          </Combobox.Popup>
+          </Combobox.Popover>
         </Combobox.Positioner>
       </Combobox.Root>
     );

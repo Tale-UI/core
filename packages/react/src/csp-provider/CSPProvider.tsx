@@ -6,7 +6,7 @@ import { CSPContext, type CSPContextValue } from './CSPContext';
  * Provides a default Content Security Policy (CSP) configuration for Tale UI components that
  * require inline `<style>` or `<script>` tags.
  *
- * Documentation: [Tale UI CSP Provider](https://base-ui.com/react/utils/csp-provider)
+ * Documentation: [Tale UI CSP Provider](https://tale-ui.dev/react/utils/csp-provider)
  */
 export function CSPProvider(props: CSPProvider.Props) {
   const { children, nonce, disableStyleElements } = props;

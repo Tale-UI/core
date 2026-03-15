@@ -1,0 +1,25 @@
+/*
+ * ColorArea — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria ColorArea exposes:
+ *   Root:  [data-disabled]
+ *   Thumb: [data-focused] [data-focus-visible] [data-dragging] [data-disabled]
+ *
+ * Usage:
+ *   <ColorArea.Root className="tale-color-area">
+ *     <ColorArea.Thumb className="tale-color-area__thumb" />
+ *   </ColorArea.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-color-area {
+  width: 12rem;
+  height: 12rem;
+  border-radius: var(--space-4xs);
+  flex-shrink: 0;
+}
+
+/* ─── Thumb ────────────────────────────────────────────────────────────────── */
+

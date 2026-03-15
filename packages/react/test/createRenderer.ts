@@ -1,30 +1,18 @@
 import * as React from 'react';
 import {
-  CreateRendererOptions,
-  RenderOptions,
+  type CreateRendererOptions,
+  type RenderOptions,
   createRenderer as sharedCreateRenderer,
-  Renderer,
-  MuiRenderResult,
   act,
-} from '@mui/internal-test-utils';
-
-export type TaleUIRenderResult = Omit<MuiRenderResult, 'rerender' | 'setProps'> & {
-  rerender: (newElement: React.ReactElement<DataAttributes>) => Promise<void>;
-  setProps: (newProps: object) => Promise<void>;
-};
-
-type TaleUITestRenderer = Omit<Renderer, 'render'> & {
-  render: (
-    element: React.ReactElement<DataAttributes>,
-    options?: RenderOptions,
-  ) => Promise<TaleUIRenderResult>;
-};
+} from '@tale-ui/monorepo-tests/test-utils';
 
 interface DataAttributes {
   [key: `data-${string}`]: string;
 }
 
-export function createRenderer(globalOptions?: CreateRendererOptions): TaleUITestRenderer {
+export type TaleUIRenderResult = Awaited<ReturnType<ReturnType<typeof createRenderer>['render']>>;
+
+export function createRenderer(globalOptions?: CreateRendererOptions) {
   const createRendererResult = sharedCreateRenderer(globalOptions);
   const { render: originalRender } = createRendererResult;
 

@@ -1,0 +1,60 @@
+/*
+ * Link — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria Link exposes:
+ *   [data-hovered] [data-pressed] [data-focus-visible] [data-disabled] [data-current]
+ *
+ * Usage:
+ *   <Link className="tale-link" href="/about">About</Link>
+ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-link {
+  color: var(--color-60);
+  font-family: var(--body-font-family);
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  outline: none;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+/* ─── Hovered ──────────────────────────────────────────────────────────────── */
+
+.tale-link[data-hovered] {
+  color: var(--color-50);
+}
+
+/* ─── Pressed ──────────────────────────────────────────────────────────────── */
+
+.tale-link[data-pressed] {
+  color: var(--color-40);
+}
+
+/* ─── Focus visible ────────────────────────────────────────────────────────── */
+
+.tale-link[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+  text-decoration: none;
+}
+
+/* ─── Current ──────────────────────────────────────────────────────────────── */
+
+.tale-link[data-current] {
+  color: var(--neutral-90);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: default;
+}
+
+/* ─── Disabled ─────────────────────────────────────────────────────────────── */
+
+.tale-link[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}

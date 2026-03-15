@@ -1,4 +1,6 @@
-import { getComputedStyle, isHTMLElement } from '@floating-ui/utils/dom';
+function isHTMLElement(value: unknown): value is HTMLElement {
+  return value instanceof HTMLElement;
+}
 
 export type ScrollAxis = 'horizontal' | 'vertical';
 

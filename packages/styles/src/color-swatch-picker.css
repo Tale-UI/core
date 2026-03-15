@@ -1,0 +1,58 @@
+/*
+ * ColorSwatchPicker — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria ColorSwatchPicker exposes:
+ *   Root: (listbox container)
+ *   Item: [data-selected] [data-focused] [data-focus-visible] [data-disabled] [data-hovered]
+ *
+ * Usage:
+ *   <ColorSwatchPicker.Root className="tale-color-swatch-picker">
+ *     <ColorSwatchPicker.Item className="tale-color-swatch-picker__item" color="#f00">
+ *       <ColorSwatch />
+ *     </ColorSwatchPicker.Item>
+ *   </ColorSwatchPicker.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-color-swatch-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs);
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-color-swatch-picker__item {
+  position: relative;
+  border-radius: var(--space-4xs);
+  outline: none;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease;
+}
+
+.tale-color-swatch-picker__item[data-focus-visible] {
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
+}
+
+.tale-color-swatch-picker__item[data-selected] {
+  box-shadow: 0 0 0 2px var(--color-60);
+}
+
+.tale-color-swatch-picker__item[data-selected][data-focus-visible] {
+  box-shadow:
+    0 0 0 2px var(--color-60),
+    0 0 0 4px var(--focus-ring-color);
+}
+
+.tale-color-swatch-picker__item[data-hovered]:not([data-selected]) {
+  box-shadow: 0 0 0 2px var(--neutral-40);
+}
+
+.tale-color-swatch-picker__item[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

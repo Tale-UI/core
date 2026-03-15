@@ -1,71 +1,100 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Switch } from '@tale-ui/react/switch';
 
 type Args = {
-  disabled?: boolean;
-  defaultChecked?: boolean;
+  isSelected?: boolean;
+  isDisabled?: boolean;
 };
 
 const meta: Meta<Args> = {
-  title: 'Form Controls/Switch',
-  parameters: { layout: 'centered' },
+  title: 'Components/Switch',
   argTypes: {
-    disabled: { control: 'boolean' },
-    defaultChecked: { control: 'boolean' },
+    isSelected: { control: 'boolean' },
+    isDisabled: { control: 'boolean' },
   },
   args: {
-    disabled: false,
-    defaultChecked: false,
+    isSelected: false,
+    isDisabled: false,
   },
-  render: ({ disabled, defaultChecked }) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-      <Switch.Root disabled={disabled} defaultChecked={defaultChecked}>
-        <Switch.Thumb />
-      </Switch.Root>
-      <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
-        Enable notifications
-      </span>
-    </div>
-  ),
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
-export const Off: Story = { name: 'Off (Default)' };
-
-export const On: Story = {
-  name: 'On',
-  args: { defaultChecked: true },
+export const Default: Story = {
+  render: (args) => (
+    <Switch.Root key={String(args.isSelected)} defaultSelected={args.isSelected} isDisabled={args.isDisabled}>
+      <Switch.Thumb />
+      Enable notifications
+    </Switch.Root>
+  ),
 };
 
-export const Disabled: Story = { args: { disabled: true } };
+export const Selected: Story = {
+  args: {
+    isSelected: true,
+    isDisabled: false,
+  },
+  render: (args) => (
+    <Switch.Root key={String(args.isSelected)} defaultSelected={args.isSelected} isDisabled={args.isDisabled}>
+      <Switch.Thumb />
+      Dark mode
+    </Switch.Root>
+  ),
+};
 
-export const DisabledOn: Story = {
-  name: 'Disabled + On',
-  args: { disabled: true, defaultChecked: true },
+export const Disabled: Story = {
+  args: {
+    isSelected: false,
+    isDisabled: true,
+  },
+  render: (args) => (
+    <Switch.Root key={String(args.isSelected)} defaultSelected={args.isSelected} isDisabled={args.isDisabled}>
+      <Switch.Thumb />
+      Disabled switch
+    </Switch.Root>
+  ),
+};
+
+export const DisabledSelected: Story = {
+  args: {
+    isSelected: true,
+    isDisabled: true,
+  },
+  render: (args) => (
+    <Switch.Root key={String(args.isSelected)} defaultSelected={args.isSelected} isDisabled={args.isDisabled}>
+      <Switch.Thumb />
+      Disabled and on
+    </Switch.Root>
+  ),
 };
 
 export const AllStates: Story = {
-  name: 'All States',
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
-      {[
-        { label: 'Off', checked: false },
-        { label: 'On', checked: true },
-        { label: 'Disabled (Off)', checked: false, disabled: true },
-        { label: 'Disabled (On)', checked: true, disabled: true },
-      ].map(({ label, checked, disabled }) => (
-        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-          <Switch.Root defaultChecked={checked} disabled={disabled}>
-            <Switch.Thumb />
-          </Switch.Root>
-          <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-80)' }}>
-            {label}
-          </span>
-        </div>
-      ))}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+      <Switch.Root>
+        <Switch.Thumb />
+        Default (off)
+      </Switch.Root>
+
+      <Switch.Root defaultSelected>
+        <Switch.Thumb />
+        Default (on)
+      </Switch.Root>
+
+      <Switch.Root isDisabled>
+        <Switch.Thumb />
+        Disabled (off)
+      </Switch.Root>
+
+      <Switch.Root isDisabled defaultSelected>
+        <Switch.Thumb />
+        Disabled (on)
+      </Switch.Root>
     </div>
   ),
 };

@@ -1,50 +1,43 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Fieldset } from '@tale-ui/react/fieldset';
-import { Field } from '@tale-ui/react/field';
-import { Input } from '@tale-ui/react/input';
 
 type Args = {
   disabled?: boolean;
-  legend?: string;
 };
 
 const meta: Meta<Args> = {
-  title: 'Form/Fieldset',
-  parameters: { layout: 'centered' },
+  title: 'Components/Fieldset',
   argTypes: {
     disabled: { control: 'boolean' },
-    legend: { control: 'text' },
   },
   args: {
     disabled: false,
-    legend: 'Personal Information',
   },
 };
 
 export default meta;
+
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ width: '40rem' }}>
+    <div style={{ maxWidth: '500px', padding: 'var(--space-m)' }}>
       <Fieldset.Root disabled={args.disabled}>
-        <Fieldset.Legend>{args.legend}</Fieldset.Legend>
-        <Field.Root>
-          <Field.Label>First name</Field.Label>
-          <Input placeholder="John" />
-        </Field.Root>
-        <Field.Root>
-          <Field.Label>Last name</Field.Label>
-          <Input placeholder="Doe" />
-        </Field.Root>
-        <Field.Root>
-          <Field.Label>Email</Field.Label>
-          <Input type="email" placeholder="john@example.com" />
-          <Field.Description>
-            Used for account notifications.
-          </Field.Description>
-        </Field.Root>
+        <Fieldset.Legend>Personal Information</Fieldset.Legend>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>First Name</label>
+            <input className="tale-input" placeholder="John" />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>Last Name</label>
+            <input className="tale-input" placeholder="Doe" />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>Email</label>
+            <input className="tale-input" type="email" placeholder="john@example.com" />
+          </div>
+        </div>
       </Fieldset.Root>
     </div>
   ),
@@ -52,17 +45,23 @@ export const Default: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <div style={{ width: '40rem' }}>
+    <div style={{ maxWidth: '500px', padding: 'var(--space-m)' }}>
       <Fieldset.Root disabled>
-        <Fieldset.Legend>Locked Settings</Fieldset.Legend>
-        <Field.Root>
-          <Field.Label>Username</Field.Label>
-          <Input defaultValue="john_doe" disabled />
-        </Field.Root>
-        <Field.Root>
-          <Field.Label>Account ID</Field.Label>
-          <Input defaultValue="usr_12345" disabled />
-        </Field.Root>
+        <Fieldset.Legend>Billing Address (disabled)</Fieldset.Legend>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>Street</label>
+            <input className="tale-input" placeholder="123 Main St" />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>City</label>
+            <input className="tale-input" placeholder="Anytown" />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>Zip Code</label>
+            <input className="tale-input" placeholder="12345" />
+          </div>
+        </div>
       </Fieldset.Root>
     </div>
   ),

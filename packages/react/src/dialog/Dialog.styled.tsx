@@ -1,84 +1,129 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import {
+  DialogTrigger,
+  Modal,
+  ModalOverlay,
+  Dialog,
+  Heading,
+  Button,
+  type DialogTriggerProps,
+  type ModalOverlayProps,
+  type DialogProps,
+  type HeadingProps,
+  type ButtonProps,
+} from 'react-aria-components';
 import { cx } from '../_cx';
-import type {
-  DialogRootProps,
-  DialogRootActions,
-  DialogRootChangeEventReason,
-  DialogRootChangeEventDetails,
-} from './root/DialogRoot';
-import type { DialogPopupProps, DialogPopupState } from './popup/DialogPopup';
-import type { DialogPortalProps } from './portal/DialogPortal';
-import type {
-  DialogTriggerProps,
-  DialogTriggerState,
-} from './trigger/DialogTrigger';
 
-export const Root = H.Root;
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
 
-export namespace Root {
-    export type Props<Payload = unknown> = DialogRootProps<Payload>;
-  export type Actions = DialogRootActions;
-  export type ChangeEventReason = DialogRootChangeEventReason;
-  export type ChangeEventDetails = DialogRootChangeEventDetails;
-}
+/** Manages the open/close state for a dialog. Wrap a Trigger + Popup inside. */
+export const Root = DialogTrigger;
 
-export const Portal = H.Portal;
+/* ─── Trigger ───────────────────────────────────────────────────────────────── */
 
-export namespace Portal {
-  export type Props = DialogPortalProps;
-}
+export type TriggerProps = Omit<ButtonProps, 'className'> & { className?: string };
 
-export const Viewport = H.Viewport;
-export const Trigger = H.Trigger;
+const StyledTrigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
+  ({ className, ...props }, ref) => (
+    <Button ref={ref} className={cx('tale-button', className as string | undefined)} {...props} />
+  ),
+);
+StyledTrigger.displayName = 'Dialog.Trigger';
+export const Trigger = StyledTrigger;
 
-export namespace Trigger {
-    export type Props<Payload = unknown> = DialogTriggerProps<Payload>;
-  export type State = DialogTriggerState;
-}
+/* ─── Backdrop ───────────────────────────────────────────────────────────────── */
 
-export const createHandle = H.createHandle;
-export const Handle = H.Handle;
+export type BackdropProps = Omit<ModalOverlayProps, 'className'> & { className?: string };
 
-const StyledBackdrop = React.forwardRef<
-  React.ComponentRef<typeof H.Backdrop>,
-  React.ComponentPropsWithoutRef<typeof H.Backdrop>
->(({ className, ...props }, ref) => (
-  <H.Backdrop className={cx('tale-dialog__backdrop', className)} ref={ref} {...props} />
-));
+const StyledBackdrop = React.forwardRef<HTMLDivElement, BackdropProps>(
+  ({ className, ...props }, ref) => (
+    <ModalOverlay ref={ref} className={cx('tale-dialog__backdrop', className as string | undefined)} {...props} />
+  ),
+);
 StyledBackdrop.displayName = 'Dialog.Backdrop';
-export const Backdrop = StyledBackdrop as typeof H.Backdrop;
+export const Backdrop = StyledBackdrop;
 
-const StyledPopup = React.forwardRef<
-  React.ComponentRef<typeof H.Popup>,
-  React.ComponentPropsWithoutRef<typeof H.Popup>
->(({ className, ...props }, ref) => (
-  <H.Popup className={cx('tale-dialog__popup', className)} ref={ref} {...props} />
-));
+/* ─── Popup ──────────────────────────────────────────────────────────────────── */
+
+/** Renders a Modal containing a RA Dialog element. Wrap Title, Description, Close, etc. inside. */
+export type PopupProps = Omit<DialogProps, 'className'> & {
+  className?: string;
+  /**
+   * Additional props forwarded to the wrapping Modal element.
+   * Note: the modal itself is unstyled – style the dialog content via className.
+   */
+  modalProps?: Omit<ModalOverlayProps, 'children'>;
+};
+
+const StyledPopup = React.forwardRef<HTMLElement, PopupProps>(
+  ({ className, modalProps, children, ...props }, ref) => (
+    <Modal {...modalProps}>
+      <Dialog
+        ref={ref}
+        className={cx('tale-dialog__popup', className as string | undefined)}
+        {...props}
+      >
+        {children}
+      </Dialog>
+    </Modal>
+  ),
+);
 StyledPopup.displayName = 'Dialog.Popup';
-export const Popup = StyledPopup as typeof H.Popup;
+export const Popup = StyledPopup;
 
-export namespace Popup {
-  export type Props = DialogPopupProps;
-  export type State = DialogPopupState;
-}
+/* ─── Title ──────────────────────────────────────────────────────────────────── */
 
-const StyledTitle = React.forwardRef<
-  React.ComponentRef<typeof H.Title>,
-  React.ComponentPropsWithoutRef<typeof H.Title>
->(({ className, ...props }, ref) => (
-  <H.Title className={cx('tale-dialog__title', className)} ref={ref} {...props} />
-));
+export type TitleProps = Omit<HeadingProps, 'className'> & { className?: string };
+
+const StyledTitle = React.forwardRef<HTMLHeadingElement, TitleProps>(
+  ({ className, slot = 'title', ...props }, ref) => (
+    <Heading
+      ref={ref}
+      slot={slot}
+      className={cx('tale-dialog__title', className as string | undefined)}
+      {...props}
+    />
+  ),
+);
 StyledTitle.displayName = 'Dialog.Title';
-export const Title = StyledTitle as typeof H.Title;
+export const Title = StyledTitle;
 
-const StyledDescription = React.forwardRef<
-  React.ComponentRef<typeof H.Description>,
-  React.ComponentPropsWithoutRef<typeof H.Description>
->(({ className, ...props }, ref) => (
-  <H.Description className={cx('tale-dialog__description', className)} ref={ref} {...props} />
-));
+/* ─── Description ────────────────────────────────────────────────────────────── */
+
+export type DescriptionProps = React.HTMLAttributes<HTMLParagraphElement> & { className?: string };
+
+const StyledDescription = React.forwardRef<HTMLParagraphElement, DescriptionProps>(
+  ({ className, ...props }, ref) => (
+    <p
+      ref={ref}
+      className={cx('tale-dialog__description', className as string | undefined)}
+      {...props}
+    />
+  ),
+);
 StyledDescription.displayName = 'Dialog.Description';
-export const Description = StyledDescription as typeof H.Description;
+export const Description = StyledDescription;
 
-export const Close = H.Close;
+/* ─── Close ──────────────────────────────────────────────────────────────────── */
+
+/**
+ * A button that closes the dialog. Must be rendered inside a `Dialog` (or `Popup`).
+ * RA's `<Button slot="close">` automatically closes the enclosing dialog.
+ */
+export type CloseProps = Omit<ButtonProps, 'className'> & { className?: string };
+
+const StyledClose = React.forwardRef<HTMLButtonElement, CloseProps>(
+  ({ className, slot = 'close', ...props }, ref) => (
+    <Button
+      ref={ref}
+      slot={slot}
+      className={cx('tale-dialog__close', className as string | undefined)}
+      {...props}
+    />
+  ),
+);
+StyledClose.displayName = 'Dialog.Close';
+export const Close = StyledClose;
+
+/* ─── Re-export prop types ───────────────────────────────────────────────────── */
+export type { DialogTriggerProps as RootProps };

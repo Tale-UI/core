@@ -1,8 +1,8 @@
 'use client';
 import * as React from 'react';
 import { format } from 'date-fns/format';
-import { Calendar } from '@base-ui/react/calendar';
-import { Select } from '@base-ui/react';
+import { Calendar } from '@tale-ui/react/calendar';
+import { Select } from '@tale-ui/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
 import indexStyles from './index.module.css';
@@ -75,8 +75,8 @@ function TimezoneSelect(props: Omit<Select.Root.Props<string, false>, 'children'
       </Select.Trigger>
       <Select.Portal>
         <Select.Positioner className={indexStyles.Positioner} sideOffset={8}>
-          <Select.Popup className={indexStyles.Popup}>
-            <Select.List className={indexStyles.List}>
+          <Select.Popover className={indexStyles.Popup}>
+            <Select.ListBox className={indexStyles.List}>
               {timezones.map((timezone) => (
                 <Select.Item key={timezone} value={timezone} className={indexStyles.Item}>
                   <Select.ItemIndicator className={indexStyles.ItemIndicator}>
@@ -85,8 +85,8 @@ function TimezoneSelect(props: Omit<Select.Root.Props<string, false>, 'children'
                   <Select.ItemText className={indexStyles.ItemText}>{timezone}</Select.ItemText>
                 </Select.Item>
               ))}
-            </Select.List>
-          </Select.Popup>
+            </Select.ListBox>
+          </Select.Popover>
         </Select.Positioner>
       </Select.Portal>
     </Select.Root>

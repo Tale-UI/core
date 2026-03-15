@@ -1,31 +1,15 @@
 import * as React from 'react';
-import { Form as H } from './Form';
-import type {
-  FormProps,
-  FormState,
-  FormActions,
-  FormValidationMode,
-  FormSubmitEventReason,
-  FormSubmitEventDetails,
-} from './Form';
+import { Form as AriaForm } from 'react-aria-components';
+import type { FormProps as AriaFormProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
-const StyledForm = React.forwardRef<
-  React.ComponentRef<typeof H>,
-  React.ComponentPropsWithoutRef<typeof H>
->(({ className, ...props }, ref) => (
-  <H className={cx('tale-form', className)} ref={ref} {...props} />
-));
-StyledForm.displayName = 'Form';
-export const Form = StyledForm as typeof H;
-
-export namespace Form {
-  export type Props<FormValues extends Record<string, any> = Record<string, any>> =
-    FormProps<FormValues>;
-  export type State = FormState;
-  export type Actions = FormActions;
-  export type ValidationMode = FormValidationMode;
-  export type SubmitEventReason = FormSubmitEventReason;
-  export type SubmitEventDetails = FormSubmitEventDetails;
-    export type Values<FormValues extends Record<string, any> = Record<string, any>> = FormValues;
+export interface FormProps extends Omit<AriaFormProps, 'className'> {
+  className?: string | undefined;
 }
+
+export const Form = React.forwardRef<HTMLFormElement, FormProps>(
+  ({ className, ...props }, ref) => (
+    <AriaForm ref={ref} className={cx('tale-form', className)} {...props} />
+  ),
+);
+Form.displayName = 'Form';

@@ -1,0 +1,19 @@
+/*
+ * ColorSwatch — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Renders a colored square representing a color value.
+ *
+ * Usage:
+ *   <ColorSwatch className="tale-color-swatch" color="#ff0000" />
+ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-color-swatch {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--space-4xs);
+  border: 1px solid var(--neutral-22);
+  flex-shrink: 0;
+}

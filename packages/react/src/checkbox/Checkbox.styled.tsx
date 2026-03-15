@@ -1,19 +1,26 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import { Checkbox as AriaCheckbox } from 'react-aria-components';
+import type { CheckboxProps as AriaCheckboxProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
-export const Root = React.forwardRef<
-  React.ComponentRef<typeof H.Root>,
-  React.ComponentPropsWithoutRef<typeof H.Root>
->(({ className, ...props }, ref) => (
-  <H.Root className={cx('tale-checkbox', className)} ref={ref} {...props} />
-));
+export interface CheckboxRootProps extends Omit<AriaCheckboxProps, 'className'> {
+  className?: string | undefined;
+}
+
+export const Root = React.forwardRef<HTMLLabelElement, CheckboxRootProps>(
+  ({ className, ...props }, ref) => (
+    <AriaCheckbox ref={ref} className={cx('tale-checkbox', className)} {...props} />
+  ),
+);
 Root.displayName = 'Checkbox.Root';
 
-export const Indicator = React.forwardRef<
-  React.ComponentRef<typeof H.Indicator>,
-  React.ComponentPropsWithoutRef<typeof H.Indicator>
->(({ className, ...props }, ref) => (
-  <H.Indicator className={cx('tale-checkbox__indicator', className)} ref={ref} {...props} />
-));
+export interface CheckboxIndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
+  className?: string | undefined;
+}
+
+export const Indicator = React.forwardRef<HTMLSpanElement, CheckboxIndicatorProps>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-checkbox__indicator', className)} {...props} />
+  ),
+);
 Indicator.displayName = 'Checkbox.Indicator';

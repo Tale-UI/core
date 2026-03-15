@@ -1,50 +1,53 @@
 import * as React from 'react';
-import * as H from './index.parts';
+import {
+  Label as AriaLabel,
+  Text as AriaText,
+  FieldError as AriaFieldError,
+  type LabelProps as AriaLabelProps,
+} from 'react-aria-components';
 import { cx } from '../_cx';
-import type {
-  FieldRootState,
-  FieldRootProps,
-  FieldRootActions,
-} from './root/FieldRoot';
 
-const StyledRoot = React.forwardRef<
-  React.ComponentRef<typeof H.Root>,
-  React.ComponentPropsWithoutRef<typeof H.Root>
->(({ className, ...props }, ref) => (
-  <H.Root className={cx('tale-field', className)} ref={ref} {...props} />
-));
-StyledRoot.displayName = 'Field.Root';
-export const Root = StyledRoot as typeof H.Root;
-
-export namespace Root {
-  export type State = FieldRootState;
-  export type Props = FieldRootProps;
-  export type Actions = FieldRootActions;
-}
+export const Root = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-field', className)} {...props} />
+  ),
+);
+Root.displayName = 'Field.Root';
 
 export const Label = React.forwardRef<
-  React.ComponentRef<typeof H.Label>,
-  React.ComponentPropsWithoutRef<typeof H.Label>
+  HTMLLabelElement,
+  Omit<AriaLabelProps, 'className'> & { className?: string }
 >(({ className, ...props }, ref) => (
-  <H.Label className={cx('tale-field__label', className)} ref={ref} {...props} />
+  <AriaLabel ref={ref} className={cx('tale-field__label', className)} {...props} />
 ));
 Label.displayName = 'Field.Label';
 
 export const Description = React.forwardRef<
-  React.ComponentRef<typeof H.Description>,
-  React.ComponentPropsWithoutRef<typeof H.Description>
+  HTMLElement,
+  React.ComponentPropsWithoutRef<typeof AriaText> & { className?: string }
 >(({ className, ...props }, ref) => (
-  <H.Description className={cx('tale-field__description', className)} ref={ref} {...props} />
+  <AriaText ref={ref} slot="description" className={cx('tale-field__description', className)} {...props} />
 ));
 Description.displayName = 'Field.Description';
 
 export const Error = React.forwardRef<
-  React.ComponentRef<typeof H.Error>,
-  React.ComponentPropsWithoutRef<typeof H.Error>
+  HTMLElement,
+  React.ComponentPropsWithoutRef<typeof AriaFieldError> & { className?: string }
 >(({ className, ...props }, ref) => (
-  <H.Error className={cx('tale-field__error', className)} ref={ref} {...props} />
+  <AriaFieldError ref={ref} className={cx('tale-field__error', className)} {...props} />
 ));
 Error.displayName = 'Field.Error';
 
-export { Control, Validity, Item } from './index.parts';
-export type { ValidityData } from './index.parts';
+export const Control = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-field__control', className)} {...props} />
+  ),
+);
+Control.displayName = 'Field.Control';
+
+export const Item = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-field__item', className)} {...props} />
+  ),
+);
+Item.displayName = 'Field.Item';

@@ -2,11 +2,11 @@
  * Tabs — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Base-ui Tabs exposes:
- *   Root:      [data-orientation] [data-activation-direction]
- *   Tab:       [data-active] [data-disabled] [data-orientation] [data-activation-direction]
- *   Panel:     [data-hidden] [data-index] [data-orientation]
- *   Indicator: (active tab highlight bar)
+ * React Aria Tabs exposes:
+ *   Root:      [data-orientation]
+ *   Tab:       [data-selected] [data-disabled] [data-orientation]
+ *   Panel:     [data-inert]
+ *   Indicator: (custom decorative bar)
  *
  * Usage:
  *   <Tabs.Root className="tale-tabs">
@@ -66,17 +66,17 @@
   position: relative;
 }
 
-.tale-tabs__tab:hover:not([data-disabled]):not([data-active]) {
+.tale-tabs__tab:hover:not([data-disabled]):not([data-selected]) {
   color: var(--neutral-80);
   background-color: var(--neutral-12);
 }
 
 .tale-tabs__tab:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-60);
-  border-radius: 0.4rem;
+  border-radius: var(--radius-s);
 }
 
-.tale-tabs__tab[data-active] {
+.tale-tabs__tab[data-selected] {
   color: var(--color-60);
 }
 
@@ -93,7 +93,7 @@
   bottom: -2px;
   height: 2px;
   background-color: var(--color-60);
-  border-radius: 9999px 9999px 0 0;
+  border-radius: var(--radius-full) var(--radius-full) 0 0;
   transition: left 0.25s ease, width 0.25s ease, top 0.25s ease, height 0.25s ease;
 }
 
@@ -103,7 +103,7 @@
   left: auto;
   width: 2px;
   height: auto;
-  border-radius: 0 9999px 9999px 0;
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
 }
 
 /* ─── Panel ────────────────────────────────────────────────────────────────── */

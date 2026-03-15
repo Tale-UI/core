@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { format } from 'date-fns/format';
 import { fr, zhCN } from 'date-fns/locale';
-import { LocalizationProvider, useTemporalLocale } from '@base-ui/react/localization-provider';
-import { Calendar } from '@base-ui/react/calendar';
+import { LocalizationProvider, useTemporalLocale } from '@tale-ui/react/localization-provider';
+import { Calendar } from '@tale-ui/react/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../../calendar.module.css';
 import indexStyles from './index.module.css';

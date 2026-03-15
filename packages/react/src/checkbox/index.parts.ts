@@ -1,2 +1,2 @@
-export { CheckboxRoot as Root } from './root/CheckboxRoot';
-export { CheckboxIndicator as Indicator } from './indicator/CheckboxIndicator';
+export { Root, Indicator } from './Checkbox.styled';
+export type { CheckboxRootProps as RootProps, CheckboxIndicatorProps as IndicatorProps } from './Checkbox.styled';

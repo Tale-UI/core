@@ -12,8 +12,8 @@ export default defineConfig({
       ...(shouldDisableWorkspaceAliases
         ? // TODO Temporal: Remove and revert to `undefined` when calendar is publicly exported
           {
-            '@base-ui/react/calendar': path.join(process.cwd(), 'packages/react/src/calendar'),
-            '@base-ui/react/localization-provider': path.join(
+            '@tale-ui/react/calendar': path.join(process.cwd(), 'packages/react/src/calendar'),
+            '@tale-ui/react/localization-provider': path.join(
               process.cwd(),
               'packages/react/src/localization-provider',
             ),
