@@ -3,8 +3,8 @@ import path from 'node:path';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
-  stories: ['../src/stories/**/*.stories.@(ts|tsx)'],
-  addons: ['@storybook/addon-essentials', '@storybook/addon-a11y'],
+  stories: ['../src/stories/**/*.mdx', '../src/stories/**/*.stories.@(ts|tsx)'],
+  addons: ['@storybook/addon-essentials', '@storybook/addon-docs', '@storybook/addon-a11y'],
   managerHead: (head) => {
     const cssDir = path.resolve(__dirname, '../../../packages/css/src');
     const files = [

@@ -320,6 +320,217 @@ Components expose state via data attributes. Use these in CSS selectors:
 
 ---
 
+## Component Composition Patterns
+
+Tale UI components use two composition patterns. Choose based on whether the component has built-in label/description parts.
+
+### Pattern A: Compound components with built-in parts
+
+Most form controls (Input, TextField, Select, Combobox) have their own Label, Description, and ErrorMessage parts:
+
+```tsx
+import { Input } from '@tale-ui/react/input';
+
+<Input.Root>
+  <Input.Label>Email address</Input.Label>
+  <Input.Input placeholder="you@example.com" />
+  <Input.Description>We'll never share your email.</Input.Description>
+</Input.Root>
+```
+
+React Aria automatically links the label to the input via `aria-labelledby` and the description via `aria-describedby`.
+
+### Pattern B: Field wrapper for custom or plain controls
+
+When using a plain `<input>` or a component that doesn't have built-in label parts, wrap it with Field:
+
+```tsx
+import { Field } from '@tale-ui/react/field';
+
+<Field.Root>
+  <Field.Label>Password</Field.Label>
+  <Field.Control>
+    <input className="tale-input" type="password" />
+  </Field.Control>
+  <Field.Description>Must be at least 8 characters.</Field.Description>
+  <Field.Error>This field is required.</Field.Error>
+</Field.Root>
+```
+
+### When to use which
+
+| Situation | Use |
+|-----------|-----|
+| Using a Tale UI form control (Input, Select, etc.) | Pattern A — use the component's built-in `.Label`, `.Description` parts |
+| Wrapping a plain `<input>`, `<textarea>`, or custom control | Pattern B — wrap with `Field.Root` |
+| Grouping related controls (checkboxes, radios) | Use CheckboxGroup/RadioGroup with a `label` prop |
+
+### Example: Login form
+
+```tsx
+import { Input } from '@tale-ui/react/input';
+import { Button } from '@tale-ui/react/button';
+import { Checkbox } from '@tale-ui/react/checkbox';
+import { Form } from '@tale-ui/react/form';
+
+function LoginForm() {
+  return (
+    <Form onSubmit={(e) => { e.preventDefault(); /* handle login */ }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+        <Input.Root>
+          <Input.Label>Email</Input.Label>
+          <Input.Input type="email" name="email" isRequired />
+        </Input.Root>
+
+        <Input.Root>
+          <Input.Label>Password</Input.Label>
+          <Input.Input type="password" name="password" isRequired />
+        </Input.Root>
+
+        <Checkbox.Root>
+          <Checkbox.Indicator />
+          Remember me
+        </Checkbox.Root>
+
+        <Button type="submit" variant="primary">Sign in</Button>
+      </div>
+    </Form>
+  );
+}
+```
+
+---
+
+## Form Patterns
+
+### Form with native validation
+
+```tsx
+import { Form } from '@tale-ui/react/form';
+
+<Form validationBehavior="native" onSubmit={(e) => { e.preventDefault(); }}>
+  <input className="tale-input" name="fullName" required />
+  <Button type="submit">Submit</Button>
+</Form>
+```
+
+Tale UI integrates with native HTML validation. React Aria handles displaying validation messages and setting `aria-invalid`.
+
+### Fieldset for grouped controls
+
+```tsx
+import { Fieldset } from '@tale-ui/react/fieldset';
+import { Input } from '@tale-ui/react/input';
+
+<Fieldset.Root>
+  <Fieldset.Legend>Shipping Address</Fieldset.Legend>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+    <Input.Root>
+      <Input.Label>Street</Input.Label>
+      <Input.Input name="street" />
+    </Input.Root>
+    <Input.Root>
+      <Input.Label>City</Input.Label>
+      <Input.Input name="city" />
+    </Input.Root>
+  </div>
+</Fieldset.Root>
+```
+
+Fieldset automatically links its legend to the fieldset via `aria-labelledby`. The `disabled` prop propagates to all children.
+
+### CheckboxGroup / RadioGroup
+
+```tsx
+import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
+import { Checkbox } from '@tale-ui/react/checkbox';
+import { Field } from '@tale-ui/react/field';
+
+<CheckboxGroup label="Notifications">
+  <Field.Description>Choose how you'd like to be notified.</Field.Description>
+  <Checkbox.Root value="email">
+    <Checkbox.Indicator />
+    Email
+  </Checkbox.Root>
+  <Checkbox.Root value="sms">
+    <Checkbox.Indicator />
+    SMS
+  </Checkbox.Root>
+</CheckboxGroup>
+```
+
+---
+
+## Accessibility
+
+### What's built-in (no action needed)
+
+Tale UI components are built on React Aria Components, which handle:
+
+- **ARIA relationships** — Labels are linked to inputs via `aria-labelledby`, descriptions via `aria-describedby`, errors announced in live regions
+- **Keyboard navigation** — Arrow keys in menus/selects/tabs, Enter/Space for activation, Escape to close overlays, Tab for focus order
+- **Focus management** — Focus moves to first focusable element in dialogs, returns to trigger on close, focus trapping in modals
+- **Screen reader announcements** — Selection changes, validation errors, and state changes are announced automatically
+
+### What consumers must ensure
+
+1. **Every input needs a label** — Use the component's built-in `.Label` part or wrap with `Field.Label`. Inputs without visible labels should use `aria-label`.
+
+2. **Show validation errors** — Use `.ErrorMessage` (component-level) or `Field.Error` to display errors. React Aria sets `aria-invalid` and announces errors automatically.
+
+3. **Use semantic grouping** — Wrap related form controls in `Fieldset` with a `Legend`, or use `CheckboxGroup`/`RadioGroup` with a `label` prop.
+
+4. **Test both colour modes** — Verify your app is readable in both light and dark mode. Components using `--color-*` and `--neutral-*` tokens adapt automatically, but custom CSS may need attention.
+
+5. **Don't suppress focus styles** — The `data-focus-visible` attribute only appears on keyboard focus (not mouse clicks). The default focus ring is designed for WCAG compliance.
+
+### Reduced motion
+
+The design system respects `@media (prefers-reduced-motion: reduce)`. Animations on overlays and transitions are automatically reduced when the user's OS preference is set.
+
+---
+
+## Providers
+
+### I18nProvider — Locale and text direction
+
+```tsx
+import { I18nProvider } from '@tale-ui/react/i18n-provider';
+
+<I18nProvider locale="ar-AE">
+  <App />
+</I18nProvider>
+```
+
+Sets locale for RTL/LTR text direction and number/date formatting. Wraps React Aria's I18nProvider. Use the `useLocale()` hook to read the current locale.
+
+### CSPProvider — Content Security Policy
+
+```tsx
+import { CSPProvider } from '@tale-ui/react/csp-provider';
+
+<CSPProvider nonce="server-generated-nonce">
+  <App />
+</CSPProvider>
+```
+
+Injects a nonce into inline `<style>` elements for Content Security Policy compliance. Only needed if your CSP forbids inline styles.
+
+### Container — Scoped colour themes
+
+```tsx
+import { Container } from '@tale-ui/react/container';
+
+<Container color="red">
+  {/* All --color-* tokens inside resolve to the red palette */}
+  <Button variant="primary">Red Button</Button>
+</Container>
+```
+
+Equivalent to adding a `.color-red` class. Pass `color="random"` for a random palette.
+
+---
+
 ## Framework Notes
 
 - **Vite:** Works out of the box. See `playground/vite-app/` for a working example.

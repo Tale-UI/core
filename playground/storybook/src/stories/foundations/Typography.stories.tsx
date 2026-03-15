@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Foundations/Typography',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true } },
+  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
 };
 export default meta;
 type Story = StoryObj;

@@ -1,12 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Introduction/Welcome',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
 
 /** Navigate the Storybook manager to a story by its title. */
 function goTo(storyTitle: string) {
@@ -21,7 +13,6 @@ function goTo(storyTitle: string) {
 const s: Record<string, React.CSSProperties> = {
   canvas: {
     background: 'var(--color-100)',
-    minHeight: '100vh',
   },
   page: {
     padding: 'var(--space-2xl)',
@@ -34,18 +25,6 @@ const s: Record<string, React.CSSProperties> = {
     paddingBottom: 'var(--space-2xl)',
     borderBottom: '1px solid var(--color-80)',
     marginBottom: 'var(--space-2xl)',
-  },
-  badge: {
-    display: 'inline-block',
-    background: 'var(--color-90)',
-    color: 'var(--color-20)',
-    padding: '4px 12px',
-    borderRadius: 'var(--radius-full)',
-    fontSize: 'var(--label-xs-font-size)',
-    fontWeight: 'var(--label-font-weight)',
-    marginBottom: 'var(--space-m)',
-    letterSpacing: '0.05em',
-    textTransform: 'uppercase',
   },
   tagline: {
     color: 'var(--color-30)',
@@ -130,38 +109,44 @@ const s: Record<string, React.CSSProperties> = {
   },
 };
 
-export const WelcomePage: Story = {
-  name: 'Welcome',
-  render: () => {
-    const [hoveredCard, setHoveredCard] = React.useState<string | null>(null);
+export function WelcomePage() {
+  const [hoveredCard, setHoveredCard] = React.useState<string | null>(null);
 
-    const quickLinks = [
-      {
-        id: 'getting-started',
-        title: 'Getting Started',
-        desc: 'Install and set up Tale in your project',
-        storyTitle: 'Introduction/Getting Started',
-      },
-      {
-        id: 'foundations',
-        title: 'Foundations',
-        desc: 'Tokens, typography, color, and spacing',
-        storyTitle: 'Foundations/Colors',
-      },
-      {
-        id: 'components',
-        title: 'Components',
-        desc: 'The full library, documented and interactive',
-        storyTitle: 'Components/Button',
-      },
-    ];
+  const quickLinks = [
+    {
+      id: 'getting-started',
+      title: 'Getting Started',
+      desc: 'Install and set up Tale in your project',
+      storyTitle: 'Introduction/Getting Started',
+    },
+    {
+      id: 'foundations',
+      title: 'Foundations',
+      desc: 'Tokens, typography, color, and spacing',
+      storyTitle: 'Foundations/Colors',
+    },
+    {
+      id: 'components',
+      title: 'Components',
+      desc: 'The full library, documented and interactive',
+      storyTitle: 'Components/Button',
+    },
+  ];
 
-    return (
-      <div style={s.canvas}>
+  return (
+    <div className="tale-welcome" style={s.canvas}>
       <div style={s.page}>
         {/* Hero */}
         <div style={s.hero}>
-          <h1 className="text--display-l text--expressive" style={{ margin: '0 0 var(--space-s)', color: 'var(--color-5)', fontSize: 'calc(var(--display-l-font-size) * 1.2)' }}>
+          <h1
+            className="text--display-l text--expressive"
+            style={{
+              margin: '0 0 var(--space-s)',
+              color: 'var(--color-5)',
+              fontSize: 'calc(var(--display-l-font-size) * 1.2)',
+              fontFamily: 'var(--expressive-font-family)',
+            }}
+          >
             Every product has a story to tell.
           </h1>
           <p className="text--body-l" style={s.tagline}>
@@ -171,7 +156,9 @@ export const WelcomePage: Story = {
 
         {/* What is Tale */}
         <div style={s.section}>
-          <h2 className="text--heading-s" style={s.sectionTitle}>What is Tale?</h2>
+          <h2 className="text--heading-s" style={s.sectionTitle}>
+            What is Tale?
+          </h2>
           <p className="text--body-m" style={s.body}>
             Tale (@tale-ui) is an agentic, themeable design system built for crafting exceptional
             digital experiences — from first interaction to final screen.
@@ -186,34 +173,45 @@ export const WelcomePage: Story = {
 
         {/* What makes Tale different */}
         <div style={s.section}>
-          <h2 className="text--heading-s" style={s.sectionTitle}>What makes Tale different?</h2>
+          <h2 className="text--heading-s" style={s.sectionTitle}>
+            What makes Tale different?
+          </h2>
           <ul style={s.featureList}>
             <li style={s.featureItem}>
               <div style={s.featureDot} />
               <div>
-                <span className="text--label-m" style={s.featureLabel}>Agentic</span>
+                <span className="text--label-m" style={s.featureLabel}>
+                  Agentic
+                </span>
                 <span className="text--body-m" style={s.featureDesc}>
-                  {' '}— Tale is designed to work within modern, automated workflows. Components
-                  are built to be composable and integration-friendly from the ground up.
+                  {' '}
+                  — Tale is designed to work within modern, automated workflows. Components are
+                  built to be composable and integration-friendly from the ground up.
                 </span>
               </div>
             </li>
             <li style={s.featureItem}>
               <div style={s.featureDot} />
               <div>
-                <span className="text--label-m" style={s.featureLabel}>Themeable to the core</span>
+                <span className="text--label-m" style={s.featureLabel}>
+                  Themeable to the core
+                </span>
                 <span className="text--body-m" style={s.featureDesc}>
-                  {' '}— Deep token-based theming means your brand lives in every layer. Swap a
-                  theme, change the story.
+                  {' '}
+                  — Deep token-based theming means your brand lives in every layer. Swap a theme,
+                  change the story.
                 </span>
               </div>
             </li>
             <li style={s.featureItem}>
               <div style={s.featureDot} />
               <div>
-                <span className="text--label-m" style={s.featureLabel}>Crafted for journeys</span>
+                <span className="text--label-m" style={s.featureLabel}>
+                  Crafted for journeys
+                </span>
                 <span className="text--body-m" style={s.featureDesc}>
-                  {' '}— Every component is considered as part of a larger experience. Good design
+                  {' '}
+                  — Every component is considered as part of a larger experience. Good design
                   systems don&apos;t just ship buttons — they help you build flows that users
                   remember.
                 </span>
@@ -226,7 +224,9 @@ export const WelcomePage: Story = {
 
         {/* Getting started quick links */}
         <div style={s.section}>
-          <h2 className="text--heading-s" style={s.sectionTitle}>Getting Started</h2>
+          <h2 className="text--heading-s" style={s.sectionTitle}>
+            Getting Started
+          </h2>
           <p className="text--body-m" style={s.body}>
             Browse components using the sidebar, or jump straight into:
           </p>
@@ -244,9 +244,13 @@ export const WelcomePage: Story = {
                 onMouseLeave={() => setHoveredCard(null)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter') goTo(link.storyTitle); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') goTo(link.storyTitle);
+                }}
               >
-                <div className="text--label-m" style={s.quickLinkTitle}>{link.title} →</div>
+                <div className="text--label-m" style={s.quickLinkTitle}>
+                  {link.title} →
+                </div>
                 <div style={s.quickLinkDesc}>{link.desc}</div>
               </div>
             ))}
@@ -258,7 +262,6 @@ export const WelcomePage: Story = {
           Tale — write epic experiences.
         </p>
       </div>
-      </div>
-    );
-  },
-};
+    </div>
+  );
+}

@@ -5,3 +5,10 @@ body {
   min-height: 100vh;
   background-color: var(--background);
 }
+
+/* Welcome page: remove docs container padding so the page background bleeds edge-to-edge */
+#storybook-docs:has(.tale-welcome),
+.sbdocs.sbdocs-wrapper:has(.tale-welcome) {
+  padding: 0;
+  background: var(--color-100);
+}

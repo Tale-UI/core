@@ -1,39 +1,173 @@
-# Design System
+# Tale UI Design System
 
-A modular, token-based CSS design system. Framework-agnostic, no build tools required.
+A modular, token-based design system with an accessible React component library. CSS-first, zero-runtime styling built on React Aria Components.
+
+## System Overview
+
+```
+@tale-ui/core            CSS design tokens, foundations, layout utilities, themes (framework-agnostic)
+      ↑
+@tale-ui/react-styles    Component CSS — BEM rules for every component (built on @tale-ui/core tokens)
+      ↑
+@tale-ui/react           Styled React components — BEM class names applied automatically (wraps React Aria Components)
+      ↑
+@tale-ui/utils           Shared hooks & helpers (pulled automatically)
+```
+
+| Package | npm | Purpose |
+|---------|-----|---------|
+| `@tale-ui/core` | `packages/css/` | Design tokens (`--color-*`, `--neutral-*`, `--space-*`), utility classes (`.gap--m`, `.grid--3`), dark mode, typography |
+| `@tale-ui/react-styles` | `packages/styles/` | CSS rules for every `@tale-ui/react` component — built entirely on `@tale-ui/core` tokens |
+| `@tale-ui/react` | `packages/react/` | Accessible React components that auto-apply BEM class names. Accepts `variant`/`size` props. Override via `className`. |
+| `@tale-ui/utils` | `packages/utils/` | Internal utilities (colour generation, React hooks, DOM helpers) |
 
 ## Documentation
 
-- [packages/css/docs/ai-reference.md](packages/css/docs/ai-reference.md) — Complete enumeration of all classes, tokens, and valid values. READ THIS before generating any code.
-- [packages/css/CLAUDE.md](packages/css/CLAUDE.md) — Architecture, naming conventions, how to add utilities (contributor guide)
-- [packages/css/docs/README.md](packages/css/docs/README.md) — Usage guide with dark mode, font setup examples
+| File | What it covers |
+|------|----------------|
+| [docs/design-philosophy.md](docs/design-philosophy.md) | Why React Aria, why BEM, why 4 packages, why CSS-first — read this to understand architectural decisions |
+| [docs/react-setup.md](docs/react-setup.md) | Full React app setup guide: install, colours, typography, dark mode, forms, accessibility |
+| [docs/authoring-components.md](docs/authoring-components.md) | Contributor guide: adding new `@tale-ui/react` components step-by-step |
+| [packages/css/docs/ai-reference.md](packages/css/docs/ai-reference.md) | Complete enumeration of all CSS classes, tokens, and valid values — READ THIS before generating CSS |
+| [packages/css/CLAUDE.md](packages/css/CLAUDE.md) | CSS design system architecture, naming conventions, how to add utilities |
+| [packages/css/docs/framework-integration.md](packages/css/docs/framework-integration.md) | Tailwind, shadcn/ui, Next.js, Vite coexistence |
 
-## Quick Start
+---
 
-```html
-<link rel="stylesheet" href="path/to/core/packages/css/src/index.css" />
+## React Quick Start
+
+```bash
+pnpm add @tale-ui/react @tale-ui/react-styles
 ```
 
-Required fonts:
-```html
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+```tsx
+import '@tale-ui/react-styles';                // tokens + all component CSS (import once)
+import { Button } from '@tale-ui/react/button';
+
+export default function App() {
+  return <Button variant="primary" size="md">Click me</Button>;
+}
+// Renders: <button class="tale-button tale-button--primary tale-button--md">Click me</button>
 ```
 
-## Critical Rules for Code Generation
+Components auto-apply BEM class names. `@tale-ui/react-styles` provides the CSS rules. Variant/size props map to BEM modifiers automatically.
 
-These are the most common AI errors — memorize before generating any HTML/CSS:
+### Component imports
+
+All components import from `@tale-ui/react/{name}`:
+
+```ts
+import { Button } from '@tale-ui/react/button';
+import { Select } from '@tale-ui/react/select';       // namespace: Select.Root, Select.Trigger, ...
+import { Dialog } from '@tale-ui/react/dialog';        // namespace: Dialog.Root, Dialog.Trigger, ...
+import { Checkbox } from '@tale-ui/react/checkbox';    // namespace: Checkbox.Root, Checkbox.Indicator
+import { Input } from '@tale-ui/react/input';          // namespace: Input.Root, Input.Label, Input.Input
+import { Field } from '@tale-ui/react/field';          // namespace: Field.Root, Field.Label, Field.Error
+```
+
+### Available components
+
+**Form Controls:** Button, Input, Checkbox, Checkbox Group, Radio, Radio Group, Select, Combobox, Autocomplete, Number Field, Slider, Switch, Toggle Button, Toggle Button Group
+**Layout:** Accordion, Disclosure, Tabs, Scroll Area, Separator
+**Overlay:** Dialog, Alert Dialog, Popover, Drawer, Tooltip, Preview Card
+**Navigation:** Menu, Context Menu, Menubar, Navigation Menu, Toolbar
+**Feedback:** ProgressBar, Meter, Avatar, Toast
+**Form Structure:** Field, Fieldset, Form
+**Utilities:** Container, CSP Provider, I18nProvider, `mergeProps`, `useRender`
+
+---
+
+## Colour Tokens & Dark Mode
+
+### The `--brand-*` vs `--color-*` rule
+
+> **Critical rule: `--brand-*` is palette-only.** It belongs ONLY in `:root` overrides and `.color-{name}` class definitions — **NEVER in component or UI CSS**. Use `--color-*` for all UI styling.
+
+| Token layer | Purpose | Dark mode |
+|-------------|---------|-----------|
+| `--brand-*` | Palette definitions (`:root` overrides, `.color-{name}` classes) | **Does NOT invert** |
+| `--color-*` | All UI styling (buttons, borders, focus rings, backgrounds) | **Auto-inverts** |
+| `--neutral-*` | Backgrounds, text, borders | **Auto-inverts** |
+
+**Why?** Dark mode works by inverting `--color-*` and `--neutral-*` tokens. `--brand-*` is the stable source palette that feeds into `--color-*`. If you use `--brand-*` directly in component CSS, it won't invert and your UI will break in dark mode.
+
+### Foreground tokens for automatic contrast
+
+Every shade has a paired `-fg` token for text/icons on that shade as background:
+
+```css
+.badge {
+  background: var(--color-60);
+  color: var(--color-60-fg);    /* auto-contrasting text — works in both light and dark mode */
+}
+```
+
+### Dark mode setup
+
+Three-layer priority system:
+
+| Priority | Trigger | How |
+|----------|---------|-----|
+| 1 (lowest) | Default | Light mode when no `data-color-mode` attribute set |
+| 2 | OS preference | `@media (prefers-color-scheme: dark)` — auto-dark unless explicitly overridden to light |
+| 3 (highest) | Explicit attribute | `html[data-color-mode="dark"]` — always dark regardless of OS |
+
+```html
+<html data-color-mode="dark">  <!-- or "light" -->
+```
+
+**What inverts:** `--neutral-*` shades flip (5 ↔ 100), `--color-*` shades flip (5 ↔ 100, 10 ↔ 90, etc.)
+**What does NOT invert:** `--brand-*` — this is why `--brand-*` must never be used in component CSS.
+
+**JS toggle:**
+```js
+const saved = localStorage.getItem('color-mode');
+const mode = saved ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+document.documentElement.setAttribute('data-color-mode', mode);
+```
+
+> Never use `removeAttribute('data-color-mode')` — the OS `prefers-color-scheme: dark` media query takes over. Always set `"light"` explicitly.
+
+---
+
+## Component Styling (BEM + Data Attributes)
+
+### BEM class naming
+
+```
+.tale-{component}                    — root element
+.tale-{component}--{variant}         — variant modifier (e.g. --primary, --ghost)
+.tale-{component}--{size}            — size modifier (e.g. --sm, --md, --lg)
+.tale-{component}__{element}         — child element (e.g. __trigger, __popup, __item)
+.tale-{component}[data-disabled]     — state via data attribute
+```
+
+### State data attributes (set by React Aria, styled in CSS)
+
+`data-disabled` · `data-open` · `data-closed` · `data-checked` · `data-unchecked` · `data-selected` · `data-highlighted` · `data-pressed` · `data-focus-visible` · `data-focused` · `data-hovered` · `data-invalid` · `data-starting-style` · `data-ending-style` · `data-side="top|bottom|left|right"` · `data-popup-open`
+
+### Shared primitives (`_primitives.css`)
+
+`packages/styles/src/_primitives.css` holds grouped selectors for declarations identical across multiple components (field controls, dropdown popups, dropdown items, group labels). When adding a new field-like input or dropdown — check `_primitives.css` first and add the new selector to the relevant group.
+
+---
+
+## CSS Design System (`@tale-ui/core`)
+
+### Critical Rules for Code Generation
 
 1. **Utility classes use DOUBLE dash:** `.gap--m`, `.grid--3`, `.display--none`, `.radius--m`
 2. **Theme classes use SINGLE dash:** `.color-red`, `.neutral-cool` — NOT `.color--red`
-3. **Only `.gap--*` and `.center--*` use double-selector specificity** (`.class.class` in source) — no other class does this
-4. **Neutral shades are irregular** — valid values: `5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 40, 50, 60, 70, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100` — `--neutral-15` DOES NOT EXIST
+3. **Only `.gap--*` and `.center--*` use double-selector specificity** (`.class.class` in source)
+4. **Neutral shades are irregular:** `5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 40, 50, 60, 70, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100` — `--neutral-15` DOES NOT EXIST
 5. **Color/brand shades are regular 10s:** `5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100` — `--brand-55` DOES NOT EXIST
 6. **`.color-red` remaps `--brand-*` tokens** — it does NOT set `--red-*` tokens directly
 7. **Always use `--neutral-*` tokens** (not `--neutral-warm-*` etc.) so components adapt to the active neutral family
-8. **Dark mode via HTML attribute:** `<html data-color-mode="dark">` — neutral scale inverts automatically
-9. **NO responsive variants for:** `opacity--`, `aspect--`, `object-fit--`, `line-clamp--`, `radius--`, `shadow--`, `border`, `divider`, `padding--`, `z--`, `width--`, `height--`, `relative`, `sticky`
+8. **Dark mode via HTML attribute:** `<html data-color-mode="dark">` — neutral and color scales invert automatically
+9. **NEVER use `--brand-*` in component or UI CSS** — always use `--color-*` so dark mode inversion works
+10. **NO responsive variants for:** `opacity--`, `aspect--`, `object-fit--`, `line-clamp--`, `radius--`, `shadow--`, `border`, `divider`, `padding--`, `z--`, `width--`, `height--`, `relative`, `sticky`
 
-## Responsive Breakpoints
+### Responsive Breakpoints
 
 | Suffix | Max-width | Use |
 |--------|-----------|-----|
@@ -42,14 +176,9 @@ These are the most common AI errors — memorize before generating any HTML/CSS:
 | `-m`   | 768px     | Tablet portrait |
 | `-s`   | 480px     | Mobile |
 
-Pattern: `.{block}--{breakpoint}-{modifier}` → e.g. `.gap--m-s`, `.grid--l-2`, `.flex--col-m`
+Pattern: `.{block}--{breakpoint}-{modifier}` (e.g. `.gap--m-s`, `.grid--l-2`, `.flex--col-m`)
 
-## Full Reference
-
-For the complete enumeration of every class, token, and value, see: `packages/css/docs/ai-reference.md`
-GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/ai-reference.md
-
-## Entry Point
+### Entry Point
 
 `packages/css/src/index.css` — imports all modules in order:
 1. Tokens (variables defined first)
@@ -57,3 +186,14 @@ GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/core/main/packages/css
 3. Layout (gap, grid, flex, centering)
 4. Utilities (display, visual, position, sizing, border, spacing)
 5. Themes (color/neutral overrides, dark mode — last so they cascade correctly)
+
+### Full CSS Reference
+
+For the complete enumeration of every class, token, and value: `packages/css/docs/ai-reference.md`
+GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/ai-reference.md
+
+### Required fonts
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+```
