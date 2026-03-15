@@ -63,6 +63,7 @@ export const Indicator = React.forwardRef<HTMLDivElement, IndicatorProps>(
       <div
         ref={ref}
         className={cx('tale-progress-bar__indicator', className)}
+        data-indeterminate={percentage == null ? '' : undefined}
         style={indicatorStyle}
         {...props}
       />

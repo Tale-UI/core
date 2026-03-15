@@ -28,7 +28,8 @@
   100% { transform: translateX(300%); }
 }
 
-.tale-progress-bar[data-indeterminate] .tale-progress-bar__indicator {
+.tale-progress-bar[data-indeterminate] .tale-progress-bar__indicator,
+.tale-progress-bar__indicator[data-indeterminate] {
   width: 40% !important;
   animation: tale-progress-bar-indeterminate 1.5s ease-in-out infinite;
 }

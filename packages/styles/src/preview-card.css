@@ -25,7 +25,7 @@
   border: 1px solid var(--neutral-20);
   border-radius: var(--radius-l);
   box-shadow: var(--shadow-m);
-  padding: var(--space-m);
+  padding: var(--space-xs);
   max-width: 32rem;
   outline: none;
   transition: opacity 0.15s ease, transform 0.15s ease;

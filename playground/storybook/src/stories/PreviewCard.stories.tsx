@@ -32,7 +32,7 @@ export const Default: Story = {
       <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
       <PreviewCard.Popup placement={args.placement} offset={args.offset}>
         <PreviewCard.Content aria-label="Preview">
-          <div style={{ padding: 'var(--space-m)', maxWidth: '280px' }}>
+          <div style={{ maxWidth: '280px' }}>
             <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Preview Title</h4>
             <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>
               This is a preview card with some descriptive text content that appears on hover.
@@ -66,7 +66,7 @@ export const WithImage: Story = {
             >
               Image placeholder
             </div>
-            <div style={{ padding: 'var(--space-m)' }}>
+            <div style={{ padding: 'var(--space-xs)' }}>
               <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Card with Image</h4>
               <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>
                 A preview card that includes an image area above the text content.

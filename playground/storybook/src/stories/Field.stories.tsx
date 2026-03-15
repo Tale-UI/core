@@ -53,32 +53,3 @@ export const WithError: Story = {
   ),
 };
 
-export const WithMultipleItems: Story = {
-  render: () => (
-    <div style={{ maxWidth: '400px', padding: 'var(--space-m)' }}>
-      <Field.Root>
-        <Field.Label>Notification preferences</Field.Label>
-        <Field.Description>Select how you would like to be notified.</Field.Description>
-        <Field.Control>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-            <Field.Item>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                <input type="checkbox" /> Email
-              </label>
-            </Field.Item>
-            <Field.Item>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                <input type="checkbox" /> SMS
-              </label>
-            </Field.Item>
-            <Field.Item>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                <input type="checkbox" /> Push notification
-              </label>
-            </Field.Item>
-          </div>
-        </Field.Control>
-      </Field.Root>
-    </div>
-  ),
-};

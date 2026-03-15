@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
 import { Checkbox } from '@tale-ui/react/checkbox';
+import { Field } from '@tale-ui/react/field';
 
 type Args = {
   isDisabled?: boolean;
@@ -74,6 +75,35 @@ export const Disabled: Story = {
           <CheckIcon />
         </Checkbox.Indicator>
         Cherry
+      </Checkbox.Root>
+    </CheckboxGroup>
+  ),
+};
+
+export const WithDescription: Story = {
+  render: (args) => (
+    <CheckboxGroup
+      label="Notification preferences"
+      isDisabled={args.isDisabled}
+    >
+      <Field.Description>Select how you would like to be notified.</Field.Description>
+      <Checkbox.Root value="email">
+        <Checkbox.Indicator>
+          <CheckIcon />
+        </Checkbox.Indicator>
+        Email
+      </Checkbox.Root>
+      <Checkbox.Root value="sms">
+        <Checkbox.Indicator>
+          <CheckIcon />
+        </Checkbox.Indicator>
+        SMS
+      </Checkbox.Root>
+      <Checkbox.Root value="push">
+        <Checkbox.Indicator>
+          <CheckIcon />
+        </Checkbox.Indicator>
+        Push notification
       </Checkbox.Root>
     </CheckboxGroup>
   ),

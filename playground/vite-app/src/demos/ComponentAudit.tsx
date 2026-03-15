@@ -228,6 +228,13 @@ const TOC = [
   ]},
 ];
 
+const SORTED_TOC = [...TOC]
+  .map(({ category, items }) => ({
+    category,
+    items: [...items].sort((a, b) => a.label.localeCompare(b.label)),
+  }))
+  .sort((a, b) => a.category.localeCompare(b.category));
+
 const tocCategoryStyle: React.CSSProperties = {
   margin: '1.2rem 0 0.4rem',
   fontSize: '1rem',
@@ -308,7 +315,7 @@ function ComboboxDemo() {
 const cities = ['Amsterdam', 'Berlin', 'Chicago', 'Dublin', 'Edinburgh', 'Florence', 'Geneva', 'Helsinki'];
 
 function AutocompleteDemo() {
-  let { contains } = useFilter({ sensitivity: 'base' });
+  const { contains } = useFilter({ sensitivity: 'base' });
   return (
     <div style={{ width: '28rem' }}>
       <Autocomplete.Root filter={contains}>
@@ -360,7 +367,7 @@ export default function ComponentAudit() {
             Component Audit
           </span>
         </div>
-        {TOC.map(({ category, items }) => (
+        {SORTED_TOC.map(({ category, items }) => (
           <div key={category}>
             <div style={tocCategoryStyle}>{category}</div>
             {items.map(({ id, label }) => (
@@ -1106,9 +1113,9 @@ export default function ComponentAudit() {
             ].map(({ label, value }) => (
               <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{label}</span>
-                <ProgressBar.Root value={value}>
+                <ProgressBar.Root {...(value == null ? { isIndeterminate: true } : { value })}>
                   <ProgressBar.Track>
-                    <ProgressBar.Indicator />
+                    <ProgressBar.Indicator {...(value == null ? {} : { value })} />
                   </ProgressBar.Track>
                 </ProgressBar.Root>
               </div>
