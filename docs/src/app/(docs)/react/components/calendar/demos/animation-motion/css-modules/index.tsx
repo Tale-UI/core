@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Calendar } from '@tale-ui/react/calendar';
 import { CalendarStateContext } from 'react-aria-components';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
 

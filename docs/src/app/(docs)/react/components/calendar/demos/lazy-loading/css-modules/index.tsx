@@ -2,7 +2,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { CalendarStateContext } from 'react-aria-components';
-import type { CalendarDate } from '@internationalized/date';
 import { Calendar } from '@tale-ui/react/calendar';
 import { useTimeout } from '@tale-ui/utils/useTimeout';
 import { ChevronLeft, ChevronRight } from 'lucide-react';

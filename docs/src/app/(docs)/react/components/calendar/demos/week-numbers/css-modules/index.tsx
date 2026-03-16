@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Calendar } from '@tale-ui/react/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
-import indexStyles from './index.module.css';
 
 export default function CalendarWithWeekNumbers() {
   return (
