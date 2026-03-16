@@ -285,6 +285,60 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
 
       blocks.push(block3)
     }
+
+    // 4. Dark-mode fg overrides — shades whose inverted dark-mode background
+    //    doesn't meet 4.5:1 against the default fg token.
+    //    In dark mode the scale mirrors: --color-N resolves to --brand-{mirror(N)}.
+    //    Default fg for shades <60 is var(--color-100) = brand-5 (lightest);
+    //    for shades >=60 it's var(--color-5) = brand-100 (darkest).
+    //    When a light base pushes mid-shades into the light range, the mirrored
+    //    dark bg can be too close to the default fg — flip those to the opposite end.
+    const getHex = (shade) => palette.find(p => p.shade === shade)?.hex
+    const s5Hex = getHex(5)
+    const s100Hex = getHex(100)
+
+    if (s5Hex && s100Hex) {
+      const reversed = [...NAMED_SHADES].reverse()
+      const darkOverrideShades = []
+
+      for (let i = 0; i < NAMED_SHADES.length; i++) {
+        const shade = NAMED_SHADES[i]
+        const darkBgHex = getHex(reversed[i])
+        if (!darkBgHex) continue
+
+        // Default dark fg: shades <60 get brand-5 (s5Hex), >=60 get brand-100 (s100Hex)
+        const defaultFgHex = shade < 60 ? s5Hex : s100Hex
+        const altFgHex     = shade < 60 ? s100Hex : s5Hex
+
+        if (getContrastRatio(darkBgHex, defaultFgHex) < 4.5 &&
+            getContrastRatio(darkBgHex, altFgHex) >= 4.5) {
+          darkOverrideShades.push(shade)
+        }
+      }
+
+      if (darkOverrideShades.length > 0) {
+        const overrideLines = darkOverrideShades.map(shade => {
+          const token = shade < 60 ? 'var(--color-5)' : 'var(--color-100)'
+          return `  --color-${shade}-fg: ${token};`
+        })
+
+        const osDarkLines = darkOverrideShades.map(shade => {
+          const token = shade < 60 ? 'var(--color-5)' : 'var(--color-100)'
+          return `    --color-${shade}-fg: ${token};`
+        })
+
+        const explicitDarkSelector = `html[data-color-mode="dark"] .color-${name},\n.dark .color-${name}`
+        const osDarkSelector       = `    :where(html:not([data-color-mode="light"])) .color-${name}`
+
+        const block4 = [
+          `/* Dark-mode fg overrides — shades needing flipped text for 4.5:1 contrast */`,
+          `${explicitDarkSelector} {\n${overrideLines.join('\n')}\n}`,
+          `@media (prefers-color-scheme: dark) {\n${osDarkSelector} {\n${osDarkLines.join('\n')}\n  }\n}`,
+        ].join('\n\n')
+
+        blocks.push(block4)
+      }
+    }
   }
 
   return blocks.join('\n\n')

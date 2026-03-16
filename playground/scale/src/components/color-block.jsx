@@ -31,7 +31,7 @@ const ShadeLabel = styled.div`
   font-size: var(--label-xs-font-size);
   font-weight: var(--display-font-weight);
   line-height: 1;
-  color: ${props => props.$lightText ? 'var(--neutral-5)' : 'var(--neutral-100)'};
+  color: ${props => props.$fgVar};
   opacity: ${props => props.$lightText ? 0.8 : 0.65};
   pointer-events: none;
 `
@@ -43,7 +43,7 @@ const BaseIndicator = styled.div`
   width: var(--space-4xs);
   height: var(--space-4xs);
   border-radius: var(--radius-full);
-  background: ${props => props.$lightText ? 'var(--neutral-5)' : 'var(--neutral-100)'};
+  background: ${props => props.$fgVar};
   opacity: ${props => props.$lightText ? 0.8 : 0.65};
   pointer-events: none;
 `
@@ -57,7 +57,7 @@ const RatioLabel = styled.div`
   font-weight: var(--display-font-weight);
   line-height: 1;
   letter-spacing: 0.02em;
-  color: ${props => props.$lightText ? 'var(--neutral-5)' : 'var(--neutral-100)'};
+  color: ${props => props.$fgVar};
   opacity: ${props => props.$lightText ? 0.85 : 0.7};
   pointer-events: none;
 
@@ -75,7 +75,7 @@ const ContrastLevelLabel = styled.div`
   font-weight: var(--display-font-weight);
   line-height: 1;
   letter-spacing: 0.02em;
-  color: ${props => props.$lightText ? 'var(--neutral-5)' : 'var(--neutral-100)'};
+  color: ${props => props.$fgVar};
   opacity: ${props => props.$lightText ? 0.85 : 0.7};
   pointer-events: none;
 
@@ -140,11 +140,12 @@ const wcagBadge = (ratio) => {
   return '✕'
 }
 
-const ColorBlock = ({ shade, hex, isBase, contrastHex, style }) => {
+const ColorBlock = ({ shade, hex, resolvedBgHex, isBase, contrastHex, bgVar, fgVar }) => {
   const [copied, setCopied] = useState(false)
-  const lightText = contrastHex ? isLightColor(contrastHex) : !isLightColor(hex)
+  const bgHex = resolvedBgHex || hex
+  const lightText = contrastHex ? isLightColor(contrastHex) : !isLightColor(bgHex)
 
-  const ratio = contrastHex ? getContrastRatio(hex, contrastHex) : null
+  const ratio = contrastHex ? getContrastRatio(bgHex, contrastHex) : null
   const badge = ratio !== null ? wcagBadge(ratio) : null
 
   const handleCopy = () => {
@@ -154,13 +155,13 @@ const ColorBlock = ({ shade, hex, isBase, contrastHex, style }) => {
 
   return (
     <CopyToClipboard text={hex} onCopy={handleCopy}>
-      <Container className="light" style={style}>
-        <ShadeLabel $lightText={lightText}>{shade}</ShadeLabel>
-        {isBase && <BaseIndicator $lightText={lightText} />}
-        {contrastHex && <AgLabel style={{ color: contrastHex }}>Ag</AgLabel>}
+      <Container style={{ background: bgVar }}>
+        <ShadeLabel $lightText={lightText} $fgVar={fgVar}>{shade}</ShadeLabel>
+        {isBase && <BaseIndicator $lightText={lightText} $fgVar={fgVar} />}
+        {contrastHex && <AgLabel style={{ color: fgVar }}>Ag</AgLabel>}
 
-        {ratio !== null && <RatioLabel $lightText={lightText}>{ratio.toFixed(2)}:1</RatioLabel>}
-        {badge !== null && <ContrastLevelLabel $lightText={lightText}>{badge}</ContrastLevelLabel>}
+        {ratio !== null && <RatioLabel $lightText={lightText} $fgVar={fgVar}>{ratio.toFixed(2)}:1</RatioLabel>}
+        {badge !== null && <ContrastLevelLabel $lightText={lightText} $fgVar={fgVar}>{badge}</ContrastLevelLabel>}
 
         <HexLabel className="hex-label">
           {hex}

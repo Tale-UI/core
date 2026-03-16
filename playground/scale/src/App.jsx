@@ -501,7 +501,7 @@ const ScaleApp = () => {
             />
           </PivotRow>
 
-          <ColorsRow palette={palette} pivot={switchPoint ?? autoPivot} />
+          <ColorsRow palette={palette} pivot={switchPoint ?? autoPivot} varPrefix={mode === 'named' ? 'color' : 'neutral'} bgIsLight={bgIsLight} />
 
           <OutputRow>
             <CssColumn>
