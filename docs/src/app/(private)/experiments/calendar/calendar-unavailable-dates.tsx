@@ -1,65 +1,42 @@
 'use client';
 import * as React from 'react';
-import { format } from 'date-fns/format';
-import { addDays } from 'date-fns/addDays';
+import { today, getLocalTimeZone, getDayOfWeek } from '@internationalized/date';
+import type { DateValue } from '@internationalized/date';
 import { Calendar } from '@tale-ui/react/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './calendar.module.css';
 
-function isDateUnavailable(date: Date) {
-  return date.getDay() === 6 || date.getDay() === 0; // Unavailable on weekends
+function isDateUnavailable(date: DateValue) {
+  const dow = getDayOfWeek(date, 'en-US');
+  return dow === 0 || dow === 6; // Unavailable on weekends
 }
 
 export default function CalendarUnavailableDates() {
-  const minDate = React.useMemo(() => addDays(new Date(), -8), []);
+  const minValue = React.useMemo(() => today(getLocalTimeZone()).subtract({ days: 8 }), []);
 
   return (
-    <Calendar.Root className={styles.Root} minDate={minDate} isDateUnavailable={isDateUnavailable}>
-      {({ visibleDate }) => (
-        <React.Fragment>
-          <header className={styles.Header}>
-            <Calendar.DecrementMonth className={styles.DecrementMonth}>
-              <ChevronLeft />
-            </Calendar.DecrementMonth>
-            <span className={styles.HeaderLabel}>{format(visibleDate, 'MMMM yyyy')}</span>
-            <Calendar.IncrementMonth className={styles.IncrementMonth}>
-              <ChevronRight />
-            </Calendar.IncrementMonth>
-          </header>
-          <Calendar.DayGrid className={styles.DayGrid}>
-            <Calendar.DayGridHeader className={styles.DayGridHeader}>
-              <Calendar.DayGridHeaderRow className={styles.DayGridHeaderRow}>
-                {(day) => (
-                  <Calendar.DayGridHeaderCell
-                    value={day}
-                    key={day.getTime()}
-                    className={styles.DayGridHeaderCell}
-                  />
-                )}
-              </Calendar.DayGridHeaderRow>
-            </Calendar.DayGridHeader>
-            <Calendar.DayGridBody className={styles.DayGridBody}>
-              {(week) => (
-                <Calendar.DayGridRow
-                  value={week}
-                  key={week.getTime()}
-                  className={styles.DayGridRow}
-                >
-                  {(day) => (
-                    <Calendar.DayGridCell
-                      value={day}
-                      key={day.getTime()}
-                      className={styles.DayGridCell}
-                    >
-                      <Calendar.DayButton className={styles.DayButton} />
-                    </Calendar.DayGridCell>
-                  )}
-                </Calendar.DayGridRow>
-              )}
-            </Calendar.DayGridBody>
-          </Calendar.DayGrid>
-        </React.Fragment>
-      )}
+    <Calendar.Root className={styles.Root} minValue={minValue} isDateUnavailable={isDateUnavailable}>
+      <header className={styles.Header}>
+        <Calendar.PreviousButton className={styles.DecrementMonth}>
+          <ChevronLeft />
+        </Calendar.PreviousButton>
+        <Calendar.Heading className={styles.HeaderLabel} />
+        <Calendar.NextButton className={styles.IncrementMonth}>
+          <ChevronRight />
+        </Calendar.NextButton>
+      </header>
+      <Calendar.Grid className={styles.DayGrid}>
+        <Calendar.GridHeader className={styles.DayGridHeaderRow}>
+          {(day) => (
+            <Calendar.GridHeaderCell className={styles.DayGridHeaderCell}>
+              {day}
+            </Calendar.GridHeaderCell>
+          )}
+        </Calendar.GridHeader>
+        <Calendar.GridBody className={styles.DayGridBody}>
+          {(date) => <Calendar.Cell date={date} className={styles.DayButton} />}
+        </Calendar.GridBody>
+      </Calendar.Grid>
     </Calendar.Root>
   );
 }

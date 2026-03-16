@@ -10,6 +10,7 @@
   "dependencies": {
     "@date-fns/tz": "^1.2.0",
     "@internationalized/date": "^3.8.0",
+    "react-aria-components": "^1.16.0",
     "@tale-ui/react": "workspace:*",
     "@tale-ui/react-styles": "workspace:*",
     "@tale-ui/utils": "workspace:*",

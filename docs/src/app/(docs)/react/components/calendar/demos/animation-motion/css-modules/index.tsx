@@ -1,75 +1,52 @@
 'use client';
 import * as React from 'react';
-import { format } from 'date-fns/format';
 import { Calendar } from '@tale-ui/react/calendar';
+import { CalendarStateContext } from 'react-aria-components';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
 
+function AnimatedGridBody() {
+  const state = React.useContext(CalendarStateContext)!;
+  const { start } = state.visibleRange;
+  const key = `${start.year}-${start.month}`;
+
+  return (
+    <AnimatePresence initial={false} mode="popLayout">
+      <Calendar.GridBody
+        key={key}
+        className={styles.DayGridBody}
+      >
+        {(date) => <Calendar.Cell date={date} className={styles.DayButton} />}
+      </Calendar.GridBody>
+    </AnimatePresence>
+  );
+}
+
 export default function AnimatedCalendarWithMotion() {
   return (
     <Calendar.Root className={styles.Root}>
-      {({ visibleDate }) => (
-        <React.Fragment>
-          <header className={styles.Header}>
-            <Calendar.DecrementMonth className={styles.DecrementMonth}>
-              <ChevronLeft />
-            </Calendar.DecrementMonth>
-            <AnimatePresence initial={false} mode="popLayout">
-              <motion.span layout className={styles.HeaderLabel}>
-                {format(visibleDate, 'MMMM yyyy')}
-              </motion.span>
-            </AnimatePresence>
-            <Calendar.IncrementMonth className={styles.IncrementMonth}>
-              <ChevronRight />
-            </Calendar.IncrementMonth>
-          </header>
-          <Calendar.DayGrid className={styles.DayGrid}>
-            <Calendar.DayGridHeader className={styles.DayGridHeader}>
-              <Calendar.DayGridHeaderRow className={styles.DayGridHeaderRow}>
-                {(day) => (
-                  <Calendar.DayGridHeaderCell
-                    value={day}
-                    key={day.getTime()}
-                    className={styles.DayGridHeaderCell}
-                  />
-                )}
-              </Calendar.DayGridHeaderRow>
-            </Calendar.DayGridHeader>
-            <AnimatePresence initial={false} mode="popLayout">
-              <Calendar.DayGridBody
-                key={`${visibleDate.getUTCFullYear()}-${visibleDate.getMonth()}`}
-                className={styles.DayGridBody}
-                render={
-                  <motion.tbody
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0 }}
-                  />
-                }
-              >
-                {(week) => (
-                  <Calendar.DayGridRow
-                    value={week}
-                    key={week.getTime()}
-                    className={styles.DayGridRow}
-                  >
-                    {(day) => (
-                      <Calendar.DayGridCell
-                        value={day}
-                        key={day.getTime()}
-                        className={styles.DayGridCell}
-                      >
-                        <Calendar.DayButton className={styles.DayButton} />
-                      </Calendar.DayGridCell>
-                    )}
-                  </Calendar.DayGridRow>
-                )}
-              </Calendar.DayGridBody>
-            </AnimatePresence>
-          </Calendar.DayGrid>
-        </React.Fragment>
-      )}
+      <header className={styles.Header}>
+        <Calendar.PreviousButton className={styles.DecrementMonth}>
+          <ChevronLeft />
+        </Calendar.PreviousButton>
+        <AnimatePresence initial={false} mode="popLayout">
+          <Calendar.Heading className={styles.HeaderLabel} />
+        </AnimatePresence>
+        <Calendar.NextButton className={styles.IncrementMonth}>
+          <ChevronRight />
+        </Calendar.NextButton>
+      </header>
+      <Calendar.Grid className={styles.DayGrid}>
+        <Calendar.GridHeader className={styles.DayGridHeaderRow}>
+          {(day) => (
+            <Calendar.GridHeaderCell className={styles.DayGridHeaderCell}>
+              {day}
+            </Calendar.GridHeaderCell>
+          )}
+        </Calendar.GridHeader>
+        <AnimatedGridBody />
+      </Calendar.Grid>
     </Calendar.Root>
   );
 }

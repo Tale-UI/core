@@ -1,8 +1,7 @@
 'use client';
 import * as React from 'react';
-import { format } from 'date-fns/format';
-import { getMonth } from 'date-fns/getMonth';
-import { getYear } from 'date-fns/getYear';
+import { CalendarDate } from '@internationalized/date';
+import { CalendarStateContext } from 'react-aria-components';
 import { Calendar } from '@tale-ui/react/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
@@ -10,13 +9,17 @@ import indexStyles from './index.module.css';
 
 const YEAR_PAST = 40;
 const YEAR_FUTURE = 10;
-const MONTHS = Array.from({ length: 12 }, (_, i) => format(new Date(2000, i, 1), 'MMMM'));
+const MONTHS = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
 
 function CalendarContent() {
-  const { visibleDate, setVisibleDate } = Calendar.useContext();
-  const currentMonth = getMonth(visibleDate);
-  const currentYear = getYear(visibleDate);
-  const todayYear = getYear(new Date());
+  const state = React.useContext(CalendarStateContext)!;
+  const { start } = state.visibleRange;
+  const currentMonth = start.month;
+  const currentYear = start.year;
+  const todayYear = new Date().getFullYear();
   const years = Array.from(
     { length: YEAR_PAST + YEAR_FUTURE + 1 },
     (_, i) => todayYear - YEAR_PAST + i,
@@ -25,23 +28,20 @@ function CalendarContent() {
   return (
     <React.Fragment>
       <header className={styles.Header}>
-        <Calendar.DecrementMonth className={styles.DecrementMonth}>
+        <Calendar.PreviousButton className={styles.DecrementMonth}>
           <ChevronLeft />
-        </Calendar.DecrementMonth>
+        </Calendar.PreviousButton>
         <select
           className={indexStyles.Select}
           value={currentMonth}
           onChange={(event) =>
-            setVisibleDate(
-              new Date(currentYear, Number(event.target.value), 1),
-              event.nativeEvent,
-              event.target,
-              'month-change',
+            state.setFocusedDate(
+              new CalendarDate(currentYear, Number(event.target.value), 1),
             )
           }
         >
           {MONTHS.map((name, index) => (
-            <option key={name} value={index}>
+            <option key={name} value={index + 1}>
               {name}
             </option>
           ))}
@@ -50,11 +50,8 @@ function CalendarContent() {
           className={indexStyles.Select}
           value={currentYear}
           onChange={(event) =>
-            setVisibleDate(
-              new Date(Number(event.target.value), currentMonth, 1),
-              event.nativeEvent,
-              event.target,
-              'month-change',
+            state.setFocusedDate(
+              new CalendarDate(Number(event.target.value), currentMonth, 1),
             )
           }
         >
@@ -64,38 +61,22 @@ function CalendarContent() {
             </option>
           ))}
         </select>
-        <Calendar.IncrementMonth className={styles.IncrementMonth}>
+        <Calendar.NextButton className={styles.IncrementMonth}>
           <ChevronRight />
-        </Calendar.IncrementMonth>
+        </Calendar.NextButton>
       </header>
-      <Calendar.DayGrid className={styles.DayGrid}>
-        <Calendar.DayGridHeader className={styles.DayGridHeader}>
-          <Calendar.DayGridHeaderRow className={styles.DayGridHeaderRow}>
-            {(day) => (
-              <Calendar.DayGridHeaderCell
-                value={day}
-                key={day.getTime()}
-                className={styles.DayGridHeaderCell}
-              />
-            )}
-          </Calendar.DayGridHeaderRow>
-        </Calendar.DayGridHeader>
-        <Calendar.DayGridBody className={styles.DayGridBody}>
-          {(week) => (
-            <Calendar.DayGridRow value={week} key={week.getTime()} className={styles.DayGridRow}>
-              {(day) => (
-                <Calendar.DayGridCell
-                  value={day}
-                  key={day.getTime()}
-                  className={styles.DayGridCell}
-                >
-                  <Calendar.DayButton className={styles.DayButton} />
-                </Calendar.DayGridCell>
-              )}
-            </Calendar.DayGridRow>
+      <Calendar.Grid className={styles.DayGrid}>
+        <Calendar.GridHeader className={styles.DayGridHeaderRow}>
+          {(day) => (
+            <Calendar.GridHeaderCell className={styles.DayGridHeaderCell}>
+              {day}
+            </Calendar.GridHeaderCell>
           )}
-        </Calendar.DayGridBody>
-      </Calendar.DayGrid>
+        </Calendar.GridHeader>
+        <Calendar.GridBody className={styles.DayGridBody}>
+          {(date) => <Calendar.Cell date={date} className={styles.DayButton} />}
+        </Calendar.GridBody>
+      </Calendar.Grid>
     </React.Fragment>
   );
 }

@@ -32,7 +32,7 @@ export default function ScrollAreaTabsScrollArea() {
       </p>
 
       <Tabs.Root
-        defaultValue="scrollable"
+        defaultSelectedKey="scrollable"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -41,13 +41,13 @@ export default function ScrollAreaTabsScrollArea() {
         }}
       >
         <Tabs.List style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
-          <Tabs.Tab value="scrollable">Scrollable</Tabs.Tab>
-          <Tabs.Tab value="other">Other</Tabs.Tab>
+          <Tabs.Tab id="scrollable">Scrollable</Tabs.Tab>
+          <Tabs.Tab id="other">Other</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel
-          value="scrollable"
-          keepMounted={keepMounted}
+          id="scrollable"
+          shouldForceMount={keepMounted}
           style={{ display: 'flex', flex: 1, minHeight: 0 }}
         >
           <ScrollArea.Root
@@ -100,7 +100,7 @@ export default function ScrollAreaTabsScrollArea() {
           </ScrollArea.Root>
         </Tabs.Panel>
 
-        <Tabs.Panel value="other" style={{ padding: 16 }}>
+        <Tabs.Panel id="other" style={{ padding: 16 }}>
           <p style={{ margin: 0 }}>Now switch back to Scrollable.</p>
         </Tabs.Panel>
       </Tabs.Root>

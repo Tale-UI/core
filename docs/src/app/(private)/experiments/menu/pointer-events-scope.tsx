@@ -2,11 +2,11 @@
 
 import * as React from 'react';
 import { Menu } from '@tale-ui/react/menu';
+import { SubmenuTrigger } from 'react-aria-components';
 import styles from './pointer-events-scope.module.css';
 
 const menuItemCount = 240;
 const popupItemCount = 60;
-const nestedPopupItemCount = 12;
 const outsideTileCount = 14000;
 const outsideMeshNodeCount = 6000;
 const outsideMeshColumns = 30;
@@ -19,11 +19,6 @@ const menuItems = Array.from({ length: menuItemCount }, (_, index) => ({
 const popupItems = Array.from({ length: popupItemCount }, (_, index) => ({
   id: index,
   label: `Item ${index + 1}`,
-}));
-
-const nestedPopupItems = Array.from({ length: nestedPopupItemCount }, (_, index) => ({
-  id: index,
-  label: `Leaf item ${index + 1}`,
 }));
 
 const outsideTiles = Array.from({ length: outsideTileCount }, (_, index) => ({
@@ -51,8 +46,6 @@ const outsideMeshNodes = Array.from({ length: outsideMeshNodeCount }, (_, index)
 
 export default function PointerEventsScopeExperiment() {
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [modal, setModal] = React.useState(true);
-  const [submenuItemsAreSubmenuTriggers, setSubmenuItemsAreSubmenuTriggers] = React.useState(false);
   const [mainMenuEntryCount, setMainMenuEntryCount] = React.useState(menuItemCount);
 
   const mainMenuEntries = Math.max(1, Math.min(menuItemCount, Math.trunc(mainMenuEntryCount) || 1));
@@ -63,50 +56,6 @@ export default function PointerEventsScopeExperiment() {
       <h1>Pointer events scope benchmark (real Menu)</h1>
 
       <div className={styles.controls}>
-        <div className={styles.field}>
-          <span className={styles.fieldLabel}>Submenu items</span>
-          <div className={styles.modeGroup}>
-            <button
-              className={styles.modeButton}
-              data-active={!submenuItemsAreSubmenuTriggers}
-              type="button"
-              onClick={() => setSubmenuItemsAreSubmenuTriggers(false)}
-            >
-              items
-            </button>
-            <button
-              className={styles.modeButton}
-              data-active={submenuItemsAreSubmenuTriggers}
-              type="button"
-              onClick={() => setSubmenuItemsAreSubmenuTriggers(true)}
-            >
-              triggers
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.field}>
-          <span className={styles.fieldLabel}>Modal</span>
-          <div className={styles.modeGroup}>
-            <button
-              className={styles.modeButton}
-              data-active={modal}
-              type="button"
-              onClick={() => setModal(true)}
-            >
-              true
-            </button>
-            <button
-              className={styles.modeButton}
-              data-active={!modal}
-              type="button"
-              onClick={() => setModal(false)}
-            >
-              false
-            </button>
-          </div>
-        </div>
-
         <label className={styles.field}>
           <span className={styles.fieldLabel}>Main menu entries</span>
           <input
@@ -129,10 +78,6 @@ export default function PointerEventsScopeExperiment() {
         <div className={styles.stat}>Outside nodes: {outsideTileCount + outsideMeshNodeCount}</div>
         <div className={styles.stat}>Main menu entries: {mainMenuEntries}</div>
         <div className={styles.stat}>
-          Submenu items as triggers: {submenuItemsAreSubmenuTriggers ? 'yes' : 'no'}
-        </div>
-        <div className={styles.stat}>Modal: {modal ? 'true' : 'false'}</div>
-        <div className={styles.stat}>
           Root menu: <span className={styles.statusValue}>{menuOpen ? 'open' : 'closed'}</span>
         </div>
       </div>
@@ -141,75 +86,33 @@ export default function PointerEventsScopeExperiment() {
         <section className={styles.menuWrap}>
           <div className={styles.menuHeader}>Menu region (real Menu primitives)</div>
           <div className={styles.menuBody}>
-            <Menu.Root modal={modal} open={menuOpen} onOpenChange={setMenuOpen}>
+            <Menu.Root isOpen={menuOpen} onOpenChange={setMenuOpen}>
               <Menu.Trigger className={styles.rootTrigger}>Open Menu</Menu.Trigger>
 
-              <Menu.Portal keepMounted>
-                <Menu.Positioner sideOffset={6} className={styles.positioner}>
-                  <Menu.Popup className={styles.popup}>
-                    {visibleMenuItems.map((menuItem) => (
-                      <Menu.SubmenuRoot key={menuItem.id}>
-                        <Menu.SubmenuTrigger
-                          className={styles.menuRow}
-                          data-bench-submenu-trigger
-                          delay={0}
-                        >
-                          <span>{menuItem.label}</span>
-                          <span>▶</span>
-                        </Menu.SubmenuTrigger>
-                        <Menu.Portal>
-                          <Menu.Positioner
-                            className={styles.positioner}
-                            alignOffset={-4}
-                            sideOffset={-4}
-                          >
-                            <Menu.Popup className={styles.submenuPopup}>
-                              <div className={styles.popupTitle}>Nested items</div>
-                              <div className={styles.popupList}>
-                                {submenuItemsAreSubmenuTriggers
-                                  ? popupItems.map((popupItem) => (
-                                      <Menu.SubmenuRoot key={popupItem.id}>
-                                        <Menu.SubmenuTrigger className={styles.popupItem} delay={0}>
-                                          <span>{popupItem.label}</span>
-                                          <span>▶</span>
-                                        </Menu.SubmenuTrigger>
-                                        <Menu.Portal>
-                                          <Menu.Positioner
-                                            className={styles.positioner}
-                                            alignOffset={-4}
-                                            sideOffset={-4}
-                                          >
-                                            <Menu.Popup className={styles.submenuPopup}>
-                                              <div className={styles.popupTitle}>Leaf items</div>
-                                              <div className={styles.popupList}>
-                                                {nestedPopupItems.map((nestedPopupItem) => (
-                                                  <Menu.Item
-                                                    key={`${popupItem.id}-${nestedPopupItem.id}`}
-                                                    className={styles.popupItem}
-                                                  >
-                                                    {nestedPopupItem.label}
-                                                  </Menu.Item>
-                                                ))}
-                                              </div>
-                                            </Menu.Popup>
-                                          </Menu.Positioner>
-                                        </Menu.Portal>
-                                      </Menu.SubmenuRoot>
-                                    ))
-                                  : popupItems.map((popupItem) => (
-                                      <Menu.Item key={popupItem.id} className={styles.popupItem}>
-                                        {popupItem.label}
-                                      </Menu.Item>
-                                    ))}
-                              </div>
-                            </Menu.Popup>
-                          </Menu.Positioner>
-                        </Menu.Portal>
-                      </Menu.SubmenuRoot>
-                    ))}
-                  </Menu.Popup>
-                </Menu.Positioner>
-              </Menu.Portal>
+              <Menu.Popover className={styles.positioner}>
+                <Menu.MenuList className={styles.popup}>
+                  {visibleMenuItems.map((menuItem) => (
+                    <SubmenuTrigger key={menuItem.id} delay={0}>
+                      <Menu.Item
+                        className={styles.menuRow}
+                        data-bench-submenu-trigger
+                      >
+                        <span>{menuItem.label}</span>
+                        <span>&#9654;</span>
+                      </Menu.Item>
+                      <Menu.Popover className={styles.positioner}>
+                        <Menu.MenuList className={styles.submenuPopup}>
+                          {popupItems.map((popupItem) => (
+                            <Menu.Item key={popupItem.id} className={styles.popupItem}>
+                              {popupItem.label}
+                            </Menu.Item>
+                          ))}
+                        </Menu.MenuList>
+                      </Menu.Popover>
+                    </SubmenuTrigger>
+                  ))}
+                </Menu.MenuList>
+              </Menu.Popover>
             </Menu.Root>
           </div>
         </section>

@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
+import { Drawer } from '@tale-ui/react/drawer';
 
 type EventName = 'plain div click' | 'ignored div click' | 'native button click' | 'drawer closed';
 
@@ -61,7 +61,7 @@ export default function DrawerTouchIgnoreExperiment() {
       </div>
 
       <Drawer.Root
-        onOpenChange={(open) => {
+        onOpenChange={(open: boolean) => {
           if (!open) {
             recordEvent('drawer closed');
           }
@@ -70,78 +70,70 @@ export default function DrawerTouchIgnoreExperiment() {
         <Drawer.Trigger className="inline-flex h-11 w-fit items-center justify-center rounded-xl bg-slate-900 px-4 text-sm font-medium text-white transition hover:bg-slate-700">
           Open touch test drawer
         </Drawer.Trigger>
-        <Drawer.Portal>
-          <Drawer.Backdrop className="fixed inset-0 bg-slate-950/30 transition-opacity data-starting-style:opacity-0 data-ending-style:opacity-0" />
-          <Drawer.Viewport className="fixed inset-0 flex items-end justify-center">
-            <Drawer.Popup className="flex w-full max-w-2xl max-h-[85vh] flex-col rounded-t-3xl bg-white px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] pt-4 text-slate-900 shadow-2xl outline outline-1 outline-slate-200 transition-transform data-swiping:select-none data-starting-style:translate-y-full data-ending-style:translate-y-full">
-              <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-slate-300" />
-              <Drawer.Popup className="space-y-4 overflow-y-auto overscroll-contain pb-2">
-                <Drawer.Title className="text-lg font-semibold">Touch behavior test</Drawer.Title>
-                <Drawer.Description className="text-sm leading-6 text-slate-600">
-                  The tiles below intentionally use different interaction models so you can verify
-                  the drawer bugfix on a real touch device or emulator.
-                </Drawer.Description>
+        <Drawer.Backdrop className="fixed inset-0 bg-slate-950/30" />
+        <Drawer.Popup className="fixed inset-x-0 bottom-0 flex w-full max-w-2xl mx-auto max-h-[85vh] flex-col rounded-t-3xl bg-white px-6 pb-6 pt-4 text-slate-900 shadow-2xl">
+          <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-slate-300" />
+          <Drawer.Title className="text-lg font-semibold">Touch behavior test</Drawer.Title>
+          <Drawer.Description className="text-sm leading-6 text-slate-600">
+            The tiles below intentionally use different interaction models so you can verify
+            the drawer bugfix on a real touch device or emulator.
+          </Drawer.Description>
 
-                <div className="grid gap-3">
-                  {/* Intentional non-interactive div to reproduce the touch click behavior. */}
-                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-                  <div
-                    className="rounded-2xl border border-amber-300 bg-amber-50 p-4 text-left"
-                    onClick={() => {
-                      setPlainDivClicks((value) => value + 1);
-                      recordEvent('plain div click');
-                    }}
-                  >
-                    <div className="text-sm font-semibold text-amber-950">
-                      Plain div inside Drawer.Popup
-                    </div>
-                    <div className="mt-1 text-sm text-amber-800">
-                      On touch, this area should still participate in swipe-to-dismiss.
-                    </div>
-                  </div>
+          <div className="grid gap-3 mt-4">
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+            <div
+              className="rounded-2xl border border-amber-300 bg-amber-50 p-4 text-left"
+              onClick={() => {
+                setPlainDivClicks((value) => value + 1);
+                recordEvent('plain div click');
+              }}
+            >
+              <div className="text-sm font-semibold text-amber-950">
+                Plain div inside Drawer.Popup
+              </div>
+              <div className="mt-1 text-sm text-amber-800">
+                On touch, this area should still participate in swipe-to-dismiss.
+              </div>
+            </div>
 
-                  {/* Intentional non-interactive div to reproduce explicit swipe-ignore behavior. */}
-                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-                  <div
-                    data-tale-ui-swipe-ignore
-                    className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4 text-left"
-                    onClick={() => {
-                      setIgnoredDivClicks((value) => value + 1);
-                      recordEvent('ignored div click');
-                    }}
-                  >
-                    <div className="text-sm font-semibold text-emerald-950">
-                      Div with data-tale-ui-swipe-ignore
-                    </div>
-                    <div className="mt-1 text-sm text-emerald-800">
-                      Tapping here should preserve the click even on touch.
-                    </div>
-                  </div>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+            <div
+              data-tale-ui-swipe-ignore
+              className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4 text-left"
+              onClick={() => {
+                setIgnoredDivClicks((value) => value + 1);
+                recordEvent('ignored div click');
+              }}
+            >
+              <div className="text-sm font-semibold text-emerald-950">
+                Div with data-tale-ui-swipe-ignore
+              </div>
+              <div className="mt-1 text-sm text-emerald-800">
+                Tapping here should preserve the click even on touch.
+              </div>
+            </div>
 
-                  <button
-                    type="button"
-                    className="rounded-2xl border border-sky-300 bg-sky-50 p-4 text-left"
-                    onClick={() => {
-                      setButtonClicks((value) => value + 1);
-                      recordEvent('native button click');
-                    }}
-                  >
-                    <div className="text-sm font-semibold text-sky-950">Native button</div>
-                    <div className="mt-1 text-sm text-sky-800">
-                      Control case to compare against the custom div targets.
-                    </div>
-                  </button>
-                </div>
+            <button
+              type="button"
+              className="rounded-2xl border border-sky-300 bg-sky-50 p-4 text-left"
+              onClick={() => {
+                setButtonClicks((value) => value + 1);
+                recordEvent('native button click');
+              }}
+            >
+              <div className="text-sm font-semibold text-sky-950">Native button</div>
+              <div className="mt-1 text-sm text-sky-800">
+                Control case to compare against the custom div targets.
+              </div>
+            </button>
+          </div>
 
-                <div className="flex gap-3 pt-2">
-                  <Drawer.Close className="inline-flex h-10 items-center justify-center rounded-lg border border-slate-200 px-3.5 text-sm font-medium text-slate-900 transition hover:bg-slate-50">
-                    Close
-                  </Drawer.Close>
-                </div>
-              </Drawer.Popup>
-            </Drawer.Popup>
-          </Drawer.Viewport>
-        </Drawer.Portal>
+          <div className="flex gap-3 pt-4">
+            <Drawer.Close className="inline-flex h-10 items-center justify-center rounded-lg border border-slate-200 px-3.5 text-sm font-medium text-slate-900 transition hover:bg-slate-50">
+              Close
+            </Drawer.Close>
+          </div>
+        </Drawer.Popup>
       </Drawer.Root>
     </div>
   );

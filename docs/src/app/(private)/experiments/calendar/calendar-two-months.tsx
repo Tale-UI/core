@@ -1,74 +1,69 @@
 'use client';
 import * as React from 'react';
-import { format } from 'date-fns/format';
-import { addMonths } from 'date-fns/addMonths';
+import { CalendarStateContext } from 'react-aria-components';
 import { Calendar } from '@tale-ui/react/calendar';
 import { Separator } from '@tale-ui/react/separator';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './calendar.module.css';
 
 function Header() {
-  const { visibleDate } = Calendar.useContext();
+  const state = React.useContext(CalendarStateContext)!;
+  const { start } = state.visibleRange;
+  const startLabel = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(
+    start.toDate('UTC'),
+  );
+  const nextMonth = start.add({ months: 1 });
+  const nextLabel = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(
+    nextMonth.toDate('UTC'),
+  );
 
   return (
     <header className={styles.Header}>
       <div className={styles.HeaderPanel}>
-        <Calendar.DecrementMonth className={styles.DecrementMonth}>
+        <Calendar.PreviousButton className={styles.DecrementMonth}>
           <ChevronLeft />
-        </Calendar.DecrementMonth>
-        <span className={styles.HeaderLabel}>{format(visibleDate, 'MMMM yyyy')}</span>
+        </Calendar.PreviousButton>
+        <span className={styles.HeaderLabel}>{startLabel}</span>
         <span />
       </div>
       <div className={styles.HeaderPanel}>
         <span />
-        <span className={styles.HeaderLabel}>{format(addMonths(visibleDate, 1), 'MMMM yyyy')}</span>
-        <Calendar.IncrementMonth className={styles.IncrementMonth}>
+        <span className={styles.HeaderLabel}>{nextLabel}</span>
+        <Calendar.NextButton className={styles.IncrementMonth}>
           <ChevronRight />
-        </Calendar.IncrementMonth>
+        </Calendar.NextButton>
       </div>
     </header>
   );
 }
 
-function DayGrid(props: { offset: 0 | 1 }) {
+function DayGrid(props: { offset?: { months: number } }) {
   const { offset } = props;
 
   return (
-    <Calendar.DayGrid className={styles.DayGrid}>
-      <Calendar.DayGridHeader className={styles.DayGridHeader}>
-        <Calendar.DayGridHeaderRow className={styles.DayGridHeaderRow}>
-          {(day) => (
-            <Calendar.DayGridHeaderCell
-              value={day}
-              key={day.getTime()}
-              className={styles.DayGridHeaderCell}
-            />
-          )}
-        </Calendar.DayGridHeaderRow>
-      </Calendar.DayGridHeader>
-      <Calendar.DayGridBody className={styles.DayGridBody} offset={offset}>
-        {(week) => (
-          <Calendar.DayGridRow value={week} key={week.getTime()} className={styles.DayGridRow}>
-            {(day) => (
-              <Calendar.DayGridCell value={day} key={day.getTime()} className={styles.DayGridCell}>
-                <Calendar.DayButton className={styles.DayButton} />
-              </Calendar.DayGridCell>
-            )}
-          </Calendar.DayGridRow>
+    <Calendar.Grid className={styles.DayGrid} offset={offset}>
+      <Calendar.GridHeader className={styles.DayGridHeaderRow}>
+        {(day) => (
+          <Calendar.GridHeaderCell className={styles.DayGridHeaderCell}>
+            {day}
+          </Calendar.GridHeaderCell>
         )}
-      </Calendar.DayGridBody>
-    </Calendar.DayGrid>
+      </Calendar.GridHeader>
+      <Calendar.GridBody className={styles.DayGridBody}>
+        {(date) => <Calendar.Cell date={date} className={styles.DayButton} />}
+      </Calendar.GridBody>
+    </Calendar.Grid>
   );
 }
 
 export default function CalendarTwoMonths() {
   return (
-    <Calendar.Root monthPageSize={2} className={styles.Root}>
+    <Calendar.Root visibleDuration={{ months: 2 }} className={styles.Root}>
       <Header />
       <div className={styles.RootWithTwoPanelsContent}>
-        <DayGrid offset={0} />
+        <DayGrid />
         <Separator className={styles.DayGridSeparator} />
-        <DayGrid offset={1} />
+        <DayGrid offset={{ months: 1 }} />
       </div>
     </Calendar.Root>
   );

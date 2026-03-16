@@ -1,68 +1,17 @@
-import { DrawerPreview as Drawer } from '@tale-ui/react/drawer';
-import clsx from 'clsx';
-import heroStyles from 'docs/src/app/(docs)/react/components/drawer/demos/hero/css-modules/index.module.css';
-import positionStyles from 'docs/src/app/(docs)/react/components/drawer/demos/position/css-modules/index.module.css';
+import { Drawer } from '@tale-ui/react/drawer';
 import styles from './cross-axis-scroll.module.css';
 
-type SwipeDirection = 'left' | 'right' | 'up' | 'down';
 type OverflowAxis = 'x' | 'y';
 
 interface DrawerCase {
   id: string;
   label: string;
-  swipeDirection: SwipeDirection;
   overflowAxis: OverflowAxis;
 }
 
 const drawerCases: DrawerCase[] = [
-  {
-    id: 'right-x',
-    label: 'Right drawer - X overflow',
-    swipeDirection: 'right',
-    overflowAxis: 'x',
-  },
-  {
-    id: 'right-y',
-    label: 'Right drawer - Y overflow',
-    swipeDirection: 'right',
-    overflowAxis: 'y',
-  },
-  {
-    id: 'left-x',
-    label: 'Left drawer - X overflow',
-    swipeDirection: 'left',
-    overflowAxis: 'x',
-  },
-  {
-    id: 'left-y',
-    label: 'Left drawer - Y overflow',
-    swipeDirection: 'left',
-    overflowAxis: 'y',
-  },
-  {
-    id: 'down-y',
-    label: 'Down drawer - Y overflow',
-    swipeDirection: 'down',
-    overflowAxis: 'y',
-  },
-  {
-    id: 'down-x',
-    label: 'Down drawer - X overflow',
-    swipeDirection: 'down',
-    overflowAxis: 'x',
-  },
-  {
-    id: 'up-y',
-    label: 'Up drawer - Y overflow',
-    swipeDirection: 'up',
-    overflowAxis: 'y',
-  },
-  {
-    id: 'up-x',
-    label: 'Up drawer - X overflow',
-    swipeDirection: 'up',
-    overflowAxis: 'x',
-  },
+  { id: 'scroll-x', label: 'Drawer - X overflow', overflowAxis: 'x' },
+  { id: 'scroll-y', label: 'Drawer - Y overflow', overflowAxis: 'y' },
 ];
 
 export default function DrawerCrossAxisScrollExperiment() {
@@ -70,8 +19,7 @@ export default function DrawerCrossAxisScrollExperiment() {
     <div className={styles.Root}>
       <h1 className={styles.Title}>Drawer cross-axis scroll matrix</h1>
       <p className={styles.Description}>
-        Open each case and test swipe-dismiss on the drawer axis and native scrolling on the
-        overflow axis.
+        Open each case and test scrolling on the overflow axis.
       </p>
 
       <div className={styles.Grid}>
@@ -85,49 +33,27 @@ export default function DrawerCrossAxisScrollExperiment() {
 
 function DrawerCaseCard(props: { testCase: DrawerCase }) {
   const { testCase } = props;
-  const sideDrawer = testCase.swipeDirection === 'left' || testCase.swipeDirection === 'right';
-  const verticalDrawer = !sideDrawer;
 
   return (
     <section className={styles.Card}>
       <h2 className={styles.CardTitle}>{testCase.label}</h2>
       <p className={styles.CardDescription}>
-        Swipe direction: <strong>{testCase.swipeDirection}</strong>. Scroll overflow axis:{' '}
-        <strong>{testCase.overflowAxis.toUpperCase()}</strong>.
+        Scroll overflow axis: <strong>{testCase.overflowAxis.toUpperCase()}</strong>.
       </p>
 
-      <Drawer.Root swipeDirection={testCase.swipeDirection}>
-        <Drawer.Trigger className={heroStyles.Button}>Open case</Drawer.Trigger>
-        <Drawer.Portal>
-          <Drawer.Backdrop className={heroStyles.Backdrop} />
-          <Drawer.Viewport
-            className={clsx(
-              sideDrawer ? heroStyles.Viewport : positionStyles.Viewport,
-              testCase.swipeDirection === 'left' && styles.ViewportLeft,
-              testCase.swipeDirection === 'up' && styles.ViewportUp,
-            )}
-          >
-            <Drawer.Popup
-              className={clsx(
-                sideDrawer ? heroStyles.Popup : positionStyles.Popup,
-                testCase.swipeDirection === 'left' && styles.PopupLeft,
-                testCase.swipeDirection === 'up' && styles.PopupUp,
-                verticalDrawer && styles.PopupVerticalContent,
-              )}
-            >
-              <Drawer.Popup className={heroStyles.Content}>
-                <Drawer.Title className={heroStyles.Title}>{testCase.label}</Drawer.Title>
-                <Drawer.Description className={heroStyles.Description}>
-                  Try scrolling in the panel first, then swipe to dismiss from the drawer edge.
-                </Drawer.Description>
-                <OverflowRegion axis={testCase.overflowAxis} />
-                <div className={heroStyles.Actions}>
-                  <Drawer.Close className={heroStyles.Button}>Close</Drawer.Close>
-                </div>
-              </Drawer.Popup>
-            </Drawer.Popup>
-          </Drawer.Viewport>
-        </Drawer.Portal>
+      <Drawer.Root>
+        <Drawer.Trigger>Open case</Drawer.Trigger>
+        <Drawer.Backdrop />
+        <Drawer.Popup>
+          <Drawer.Title>{testCase.label}</Drawer.Title>
+          <Drawer.Description>
+            Try scrolling in the panel.
+          </Drawer.Description>
+          <OverflowRegion axis={testCase.overflowAxis} />
+          <div>
+            <Drawer.Close>Close</Drawer.Close>
+          </div>
+        </Drawer.Popup>
       </Drawer.Root>
     </section>
   );

@@ -1,34 +1,35 @@
 'use client';
 import * as React from 'react';
-import { format } from 'date-fns/format';
+import { getDayOfWeek } from '@internationalized/date';
+import type { DateValue } from '@internationalized/date';
 import { Calendar } from '@tale-ui/react/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../calendar.module.css';
 
 const holidays: Array<[number, number]> = [
-  [0, 1], // New Year's Day
-  [6, 4], // Independence Day
-  [10, 11], // Veterans Day
-  [11, 25], // Christmas Day
+  [1, 1], // New Year's Day
+  [7, 4], // Independence Day
+  [11, 11], // Veterans Day
+  [12, 25], // Christmas Day
 ];
 
-function isDateUnavailable(date: Date) {
-  const day = date.getDay();
-  const month = date.getMonth();
-  const dayOfMonth = date.getDate();
+function isDateUnavailable(date: DateValue) {
+  const dow = getDayOfWeek(date, 'en-US');
+  const month = date.month;
+  const day = date.day;
 
-  // Weekends
-  if (day === 0 || day === 6) {
+  // Weekends (0 = Sunday, 6 = Saturday)
+  if (dow === 0 || dow === 6) {
     return true;
   }
 
   // US holidays
-  if (holidays.some(([m, d]) => month === m && dayOfMonth === d)) {
+  if (holidays.some(([m, d]) => month === m && day === d)) {
     return true;
   }
 
   // First Monday of every month (maintenance day)
-  if (day === 1 && dayOfMonth <= 7) {
+  if (dow === 1 && day <= 7) {
     return true;
   }
 
@@ -42,51 +43,27 @@ export default function UnavailableDatesCalendar() {
       isDateUnavailable={isDateUnavailable}
       aria-label="Appointment date"
     >
-      {({ visibleDate }) => (
-        <React.Fragment>
-          <header className={styles.Header}>
-            <Calendar.DecrementMonth className={styles.DecrementMonth}>
-              <ChevronLeft />
-            </Calendar.DecrementMonth>
-            <span className={styles.HeaderLabel}>{format(visibleDate, 'MMMM yyyy')}</span>
-            <Calendar.IncrementMonth className={styles.IncrementMonth}>
-              <ChevronRight />
-            </Calendar.IncrementMonth>
-          </header>
-          <Calendar.DayGrid className={styles.DayGrid}>
-            <Calendar.DayGridHeader className={styles.DayGridHeader}>
-              <Calendar.DayGridHeaderRow className={styles.DayGridHeaderRow}>
-                {(day) => (
-                  <Calendar.DayGridHeaderCell
-                    value={day}
-                    key={day.getTime()}
-                    className={styles.DayGridHeaderCell}
-                  />
-                )}
-              </Calendar.DayGridHeaderRow>
-            </Calendar.DayGridHeader>
-            <Calendar.DayGridBody className={styles.DayGridBody}>
-              {(week) => (
-                <Calendar.DayGridRow
-                  value={week}
-                  key={week.getTime()}
-                  className={styles.DayGridRow}
-                >
-                  {(day) => (
-                    <Calendar.DayGridCell
-                      value={day}
-                      key={day.getTime()}
-                      className={styles.DayGridCell}
-                    >
-                      <Calendar.DayButton className={styles.DayButton} />
-                    </Calendar.DayGridCell>
-                  )}
-                </Calendar.DayGridRow>
-              )}
-            </Calendar.DayGridBody>
-          </Calendar.DayGrid>
-        </React.Fragment>
-      )}
+      <header className={styles.Header}>
+        <Calendar.PreviousButton className={styles.DecrementMonth}>
+          <ChevronLeft />
+        </Calendar.PreviousButton>
+        <Calendar.Heading className={styles.HeaderLabel} />
+        <Calendar.NextButton className={styles.IncrementMonth}>
+          <ChevronRight />
+        </Calendar.NextButton>
+      </header>
+      <Calendar.Grid className={styles.DayGrid}>
+        <Calendar.GridHeader className={styles.DayGridHeaderRow}>
+          {(day) => (
+            <Calendar.GridHeaderCell className={styles.DayGridHeaderCell}>
+              {day}
+            </Calendar.GridHeaderCell>
+          )}
+        </Calendar.GridHeader>
+        <Calendar.GridBody className={styles.DayGridBody}>
+          {(date) => <Calendar.Cell date={date} className={styles.DayButton} />}
+        </Calendar.GridBody>
+      </Calendar.Grid>
     </Calendar.Root>
   );
 }

@@ -1,22 +1,16 @@
 'use client';
 import * as React from 'react';
-import { format } from 'date-fns/format';
-import { enUS } from 'date-fns/locale/en-US';
-import type { Day } from 'date-fns';
-import { LocalizationProvider } from '@tale-ui/react/localization-provider';
 import { Calendar } from '@tale-ui/react/calendar';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '../../../calendar.module.css';
 import indexStyles from './index.module.css';
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const dayKeys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
+type FirstDay = (typeof dayKeys)[number];
 
 export default function StartOfWeekCalendar() {
-  const [weekStartsOn, setWeekStartsOn] = React.useState<Day>(1);
-  const locale = React.useMemo(
-    () => ({ ...enUS, options: { ...enUS.options, weekStartsOn } }),
-    [weekStartsOn],
-  );
+  const [weekStartsOn, setWeekStartsOn] = React.useState<FirstDay>('mon');
 
   return (
     <div className={indexStyles.Wrapper}>
@@ -25,64 +19,38 @@ export default function StartOfWeekCalendar() {
         <select
           className={indexStyles.Select}
           value={weekStartsOn}
-          onChange={(event) => setWeekStartsOn(Number(event.target.value) as Day)}
+          onChange={(event) => setWeekStartsOn(event.target.value as FirstDay)}
         >
           {dayNames.map((day, index) => (
-            <option key={day} value={index}>
+            <option key={day} value={dayKeys[index]}>
               {day}
             </option>
           ))}
         </select>
       </label>
-      <LocalizationProvider temporalLocale={locale}>
-        <Calendar.Root className={styles.Root}>
-          {({ visibleDate }) => (
-            <React.Fragment>
-              <header className={styles.Header}>
-                <Calendar.DecrementMonth className={styles.DecrementMonth}>
-                  <ChevronLeft />
-                </Calendar.DecrementMonth>
-                <span className={styles.HeaderLabel}>{format(visibleDate, 'MMMM yyyy')}</span>
-                <Calendar.IncrementMonth className={styles.IncrementMonth}>
-                  <ChevronRight />
-                </Calendar.IncrementMonth>
-              </header>
-              <Calendar.DayGrid className={styles.DayGrid}>
-                <Calendar.DayGridHeader className={styles.DayGridHeader}>
-                  <Calendar.DayGridHeaderRow className={styles.DayGridHeaderRow}>
-                    {(day) => (
-                      <Calendar.DayGridHeaderCell
-                        value={day}
-                        key={day.getTime()}
-                        className={styles.DayGridHeaderCell}
-                      />
-                    )}
-                  </Calendar.DayGridHeaderRow>
-                </Calendar.DayGridHeader>
-                <Calendar.DayGridBody className={styles.DayGridBody}>
-                  {(week) => (
-                    <Calendar.DayGridRow
-                      value={week}
-                      key={week.getTime()}
-                      className={styles.DayGridRow}
-                    >
-                      {(day) => (
-                        <Calendar.DayGridCell
-                          value={day}
-                          key={day.getTime()}
-                          className={styles.DayGridCell}
-                        >
-                          <Calendar.DayButton className={styles.DayButton} />
-                        </Calendar.DayGridCell>
-                      )}
-                    </Calendar.DayGridRow>
-                  )}
-                </Calendar.DayGridBody>
-              </Calendar.DayGrid>
-            </React.Fragment>
-          )}
-        </Calendar.Root>
-      </LocalizationProvider>
+      <Calendar.Root className={styles.Root} firstDayOfWeek={weekStartsOn}>
+        <header className={styles.Header}>
+          <Calendar.PreviousButton className={styles.DecrementMonth}>
+            <ChevronLeft />
+          </Calendar.PreviousButton>
+          <Calendar.Heading className={styles.HeaderLabel} />
+          <Calendar.NextButton className={styles.IncrementMonth}>
+            <ChevronRight />
+          </Calendar.NextButton>
+        </header>
+        <Calendar.Grid className={styles.DayGrid}>
+          <Calendar.GridHeader className={styles.DayGridHeaderRow}>
+            {(day) => (
+              <Calendar.GridHeaderCell className={styles.DayGridHeaderCell}>
+                {day}
+              </Calendar.GridHeaderCell>
+            )}
+          </Calendar.GridHeader>
+          <Calendar.GridBody className={styles.DayGridBody}>
+            {(date) => <Calendar.Cell date={date} className={styles.DayButton} />}
+          </Calendar.GridBody>
+        </Calendar.Grid>
+      </Calendar.Root>
     </div>
   );
 }
