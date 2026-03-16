@@ -4,7 +4,11 @@ import { ToggleButton } from '@tale-ui/react/toggle-button'
 import { ToggleButtonGroup } from '@tale-ui/react/toggle-button'
 import { NAMED_SHADES } from '../utils'
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  .tale-toggle-button-group {
+    flex-wrap: wrap;
+  }
+`
 
 const Label = styled.div`
   font-size: var(--label-s-font-size);
@@ -17,22 +21,23 @@ const ContrastPivotSelector = ({ value, autoPivot, onChange }) => (
   <Wrapper>
     <Label>Light text from</Label>
     <ToggleButtonGroup
-      className="tale-toggle-button-group"
-      value={[value === null ? 'auto' : String(value)]}
-      onValueChange={(newValue) => {
-        if (newValue.length === 0) return
-        const val = newValue[0]
+      selectionMode="single"
+      disallowEmptySelection
+      selectedKeys={[value === null ? 'auto' : String(value)]}
+      onSelectionChange={(keys) => {
+        const val = [...keys][0]
+        if (!val) return
         onChange(val === 'auto' ? null : Number(val))
       }}
     >
-      <ToggleButton className="tale-toggle-button tale-toggle-button--sm" value="auto">
+      <ToggleButton id="auto" size="sm">
         Auto ({autoPivot})
       </ToggleButton>
       {NAMED_SHADES.map(shade => (
         <ToggleButton
           key={shade}
-          className="tale-toggle-button tale-toggle-button--sm"
-          value={String(shade)}
+          id={String(shade)}
+          size="sm"
         >
           {shade}
         </ToggleButton>

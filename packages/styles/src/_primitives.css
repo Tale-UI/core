@@ -906,7 +906,7 @@
 .tale-dialog__title,
 .tale-drawer__title {
   margin: 0;
-  color: var(--neutral-95);
+  color: var(--neutral-94);
   font-family: var(--label-font-family);
   font-size: var(--label-l-font-size);
   font-weight: var(--label-font-weight);

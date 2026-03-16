@@ -83,6 +83,13 @@ const preview: Preview = {
           return a.name.localeCompare(b.name);
         }
 
+        const aIsPlayground = a.title.startsWith('Playground');
+        const bIsPlayground = b.title.startsWith('Playground');
+
+        if (aIsPlayground !== bIsPlayground) {
+          return aIsPlayground ? -1 : 1;
+        }
+
         return a.title.localeCompare(b.title) || a.name.localeCompare(b.name);
       },
     },

@@ -11,16 +11,25 @@ const Root = styled.div`
 `
 
 const Header = styled.div`
-  display: flex;
-  align-items: center;
-  gap: var(--space-m);
-  margin-bottom: var(--space-xs);
-`
-
-const Title = styled.div`
   font-size: var(--label-s-font-size);
   font-weight: var(--label-font-weight);
   line-height: var(--label-line-height);
+  margin-bottom: var(--space-xs);
+`
+
+const PreWrapper = styled.div`
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+`
+
+const CopyButton = styled.div`
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-s);
+  z-index: 1;
 `
 
 const Pre = styled.pre`
@@ -29,9 +38,9 @@ const Pre = styled.pre`
   line-height: var(--mono-line-height);
   margin: 0;
   padding: var(--space-m);
-  background: var(--neutral-10);
-  border: 1px solid var(--neutral-20);
-  border-radius: var(--radius-m);
+  background: var(--bodyXDimmed, var(--neutral-10));
+  border: 1px solid var(--border, var(--neutral-20));
+  border-radius: var(--radius-l);
   overflow-y: auto;
   flex: 1;
   min-height: 0;
@@ -54,15 +63,17 @@ const CssOutput = ({ paletteName, palette, mode, pivot }) => {
 
   return (
     <Root>
-      <Header>
-        <Title>CSS tokens</Title>
-        <CopyToClipboard text={css} onCopy={handleCopy}>
-          <Button className="tale-button tale-button--neutral tale-button--sm">
-            {copied ? 'Copied!' : 'Copy CSS'}
-          </Button>
-        </CopyToClipboard>
-      </Header>
-      <Pre>{css}</Pre>
+      <Header>CSS tokens</Header>
+      <PreWrapper>
+        <CopyButton>
+          <CopyToClipboard text={css} onCopy={handleCopy}>
+            <Button variant="neutral" size="sm">
+              {copied ? 'Copied!' : 'Copy CSS'}
+            </Button>
+          </CopyToClipboard>
+        </CopyButton>
+        <Pre>{css}</Pre>
+      </PreWrapper>
     </Root>
   )
 }

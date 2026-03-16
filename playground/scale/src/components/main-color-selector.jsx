@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { HexColorPicker } from 'react-colorful'
-import { Button } from '@tale-ui/react/button'
-import { ToggleButton } from '@tale-ui/react/toggle-button'
-import { ToggleButtonGroup } from '@tale-ui/react/toggle-button'
 import { isValidHex, numberToHex } from '../utils'
 
 const Root = styled.div`
@@ -73,8 +70,8 @@ const PickerAnchor = styled.div`
 `
 
 const PickerTrigger = styled.button`
-  width: 24px;
-  height: 24px;
+  width: var(--space-s);
+  height: var(--space-s);
   border-radius: var(--radius-full);
   background-color: ${props => props.$hex};
   border: 1px solid var(--neutral-30);
@@ -90,7 +87,7 @@ const PickerTrigger = styled.button`
 
 const PickerPopover = styled.div`
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + var(--space-2xs));
   left: 0;
   z-index: 100;
   border-radius: var(--radius-l);
@@ -106,8 +103,20 @@ const PickerPopover = styled.div`
     border-radius: 0;
   }
   .react-colorful__hue {
-    height: 24px;
+    height: var(--space-s);
     border-radius: 0;
+  }
+
+  @media (max-width: 480px) {
+    position: fixed;
+    top: auto;
+    bottom: var(--space-m);
+    left: var(--space-s);
+    right: var(--space-s);
+
+    .react-colorful {
+      width: 100%;
+    }
   }
 `
 
@@ -131,25 +140,12 @@ const NameInput = styled.input`
   }
 `
 
-const ControlsRow = styled.div`
-  display: flex;
-  gap: var(--space-xs);
-  align-self: flex-end;
-  align-items: center;
-  padding-bottom: var(--space-4xs);
-`
-
 const MainColorSelector = ({
   mainColor,
   paletteName,
-  mode,
   onColorChange,
   onColorBlur,
   onNameChange,
-  onModeChange,
-  onRandomize,
-  whiteAnchor,
-  onWhiteAnchorChange,
 }) => {
   const hex = numberToHex(mainColor)
   const valid = isValidHex(hex)
@@ -217,39 +213,6 @@ const MainColorSelector = ({
           spellCheck={false}
         />
       </Field>
-
-      <ControlsRow>
-        <ToggleButtonGroup
-          className="tale-toggle-button-group"
-          value={[mode]}
-          onValueChange={(newValue) => {
-            if (newValue.length > 0) onModeChange(newValue[0])
-          }}
-        >
-          <ToggleButton className="tale-toggle-button tale-toggle-button--sm" value="named">
-            Named (11)
-          </ToggleButton>
-          <ToggleButton className="tale-toggle-button tale-toggle-button--sm" value="neutral">
-            Neutral (27)
-          </ToggleButton>
-        </ToggleButtonGroup>
-        {mode === 'neutral' && (
-          <ToggleButton
-            className="tale-toggle-button tale-toggle-button--sm"
-            pressed={whiteAnchor}
-            onPressedChange={onWhiteAnchorChange}
-          >
-            White at 5
-          </ToggleButton>
-        )}
-        <Button
-          className="tale-button tale-button--neutral tale-button--sm"
-          onClick={onRandomize}
-          title="Pick a random BASE colour"
-        >
-          Randomize
-        </Button>
-      </ControlsRow>
     </Root>
   )
 }

@@ -59,6 +59,7 @@ const config: StorybookConfig = {
       '@tale-ui/utils': path.resolve(__dirname, '../../../packages/utils/src'),
       '@tale-ui/react-styles': path.resolve(__dirname, '../../../packages/styles/src'),
       '@tale-ui/core': path.resolve(__dirname, '../../../packages/css/src/index.css'),
+      '@tale-ui/playground-scale': path.resolve(__dirname, '../../scale/src'),
     };
     // Allow Vite's dev server to read files from the monorepo root so that
     // CSS @import chains (e.g. @import '@tale-ui/core' inside packages/styles)

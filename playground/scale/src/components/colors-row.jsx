@@ -7,6 +7,16 @@ const Row = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   width: 100%;
   margin-bottom: var(--space-2xl);
+
+  @media (max-width: 720px) {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    margin-bottom: var(--space-xl);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    margin-bottom: var(--space-l);
+  }
 `
 
 const ColorsRow = ({ palette = [], pivot = 60 }) => {

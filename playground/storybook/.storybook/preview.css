@@ -6,9 +6,47 @@ body {
   background-color: var(--background);
 }
 
+/* Docs pages: ensure headings and text are visible.
+   The design system sets heading/text color via --display-color / --text-color which
+   depend on a neutral theme class. In the Storybook docs iframe no theme class is
+   present, so we provide concrete fallbacks scoped to the docs container. */
+.sbdocs :not([data-scale-app], [data-scale-app] *):is(h1, h2, h3, h4, h5, h6) {
+  color: var(--display-color, var(--neutral-90, #1a1a1a));
+}
+.sbdocs :not([data-scale-app], [data-scale-app] *):is(p, span, li, td, th) {
+  color: var(--text-color, var(--neutral-80, #333));
+}
+
 /* Welcome page: remove docs container padding so the page background bleeds edge-to-edge */
 #storybook-docs:has(.tale-welcome),
 .sbdocs.sbdocs-wrapper:has(.tale-welcome) {
   padding: 0;
   background: var(--color-100);
+}
+
+/* Playground/Scale: strip ALL Storybook styling so the Scale app renders
+   identically to the standalone Vite playground. */
+html:has([data-scale-app]) body,
+html:has([data-scale-app]) #storybook-docs,
+html:has([data-scale-app]) .sbdocs.sbdocs-wrapper,
+html:has([data-scale-app]) .sbdocs .sbdocs-content {
+  all: unset !important;
+  display: block !important;
+}
+html:has([data-scale-app]) body {
+  margin: 0 !important;
+  min-height: 100vh !important;
+  background-color: var(--bodyBg, var(--bg-body)) !important;
+  font-family: var(--text-font-family) !important;
+  font-size: var(--text-m-font-size) !important;
+  line-height: var(--text-line-height) !important;
+  color: var(--text-color) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+.css-1colwag :where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)) code {
+	color: var(--color-20-fg) !important;
+	border: var(--color-90) !important;
+	background-color: var(--color-20) !important;
 }

@@ -93,7 +93,7 @@
 /* ─── Label ────────────────────────────────────────────────────────────────── */
 
 .tale-tag-group__label {
-  color: var(--neutral-85);
+  color: var(--neutral-84);
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
   font-weight: var(--label-font-weight);

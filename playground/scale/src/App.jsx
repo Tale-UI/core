@@ -2,8 +2,10 @@ import React, { useState, useEffect, useMemo, useRef } from 'react'
 import './App.css'
 import { formatHex, converter } from 'culori'
 import styled from 'styled-components'
-import Footer from './components/footer'
-import { isValidHex, numberToHex, errorColor, generatePalette, randomBaseColor, getContrastRatio, generateCssOutput } from './utils'
+import { Button } from '@tale-ui/react/button'
+import { ToggleButton } from '@tale-ui/react/toggle-button'
+import { ToggleButtonGroup } from '@tale-ui/react/toggle-button'
+import { isValidHex, numberToHex, errorColor, generatePalette, randomBaseColor, getContrastRatio, generateCssOutput, NAMED_SHADES, NEUTRAL_SHADES } from './utils'
 import ColorsRow from './components/colors-row'
 import MainColorSelector from './components/main-color-selector'
 import BackgroundSelector from './components/background-selector'
@@ -20,8 +22,61 @@ const MainWrapper = styled.div`
   flex-direction: column;
 
   @media (max-width: 720px) {
-    padding: var(--space-l);
-    min-height: calc(100vh - 40px);
+    padding: var(--space-m) var(--space-l);
+  }
+
+  @media (max-width: 480px) {
+    padding: var(--space-s);
+  }
+`
+
+const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  margin-bottom: var(--space-l);
+  flex-wrap: wrap;
+
+  @media (max-width: 720px) {
+    margin-bottom: var(--space-m);
+  }
+`
+
+const HeaderLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+`
+
+const PageTitle = styled.h1`
+  font-size: var(--display-s-font-size);
+  font-weight: var(--display-font-weight);
+  line-height: var(--display-line-height);
+  margin: 0;
+`
+
+const PageDescription = styled.p`
+  font-size: var(--text-s-font-size);
+  line-height: var(--text-line-height);
+  margin: 0;
+  opacity: 0.7;
+`
+
+const ToolbarRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+
+  @media (max-width: 720px) {
+    margin-bottom: var(--space-l);
+    gap: var(--space-s);
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: var(--space-m);
   }
 `
 
@@ -48,6 +103,12 @@ const ControlsRow = styled.div`
 
   @media (max-width: 720px) {
     gap: var(--space-l);
+    margin-bottom: var(--space-l);
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: var(--space-m);
   }
 `
 
@@ -57,8 +118,13 @@ const OutputRow = styled.div`
   margin-top: var(--space-xl);
   align-items: stretch;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1560px) {
     flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  @media (max-width: 480px) {
+    margin-top: var(--space-l);
   }
 `
 
@@ -68,9 +134,13 @@ const CssColumn = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1560px) {
     width: 100%;
     height: 400px;
+  }
+
+  @media (max-width: 480px) {
+    height: 300px;
   }
 `
 
@@ -79,25 +149,21 @@ const PreviewColumn = styled.div`
   min-width: 0;
 `
 
-const BackgroundSelectorSection = styled.div`
-  border-left: 1px solid var(--neutral-30);
-  padding-left: var(--space-xl);
 
-  @media (max-width: 720px) {
-    padding-left: 0;
-    border-left: none;
-    border-top: 1px solid var(--neutral-30);
-    padding-top: var(--space-l);
-    width: 100%;
-  }
-`
+const randomName = () => {
+  const len = 3 + Math.floor(Math.random() * 5)
+  const chars = 'abcdefghijklmnopqrstuvwxyz'
+  let name = ''
+  for (let i = 0; i < len; i++) name += chars[Math.floor(Math.random() * 26)]
+  return name
+}
 
 const DEFAULT_NAMED_COLOR   = 'dc2626'
-const DEFAULT_NAMED_NAME    = 'color'
+const DEFAULT_NAMED_NAME    = randomName()
 const DEFAULT_NEUTRAL_COLOR = '79716b'
-const DEFAULT_NEUTRAL_NAME  = 'neutral'
+const DEFAULT_NEUTRAL_NAME  = randomName()
 const DEFAULT_MODE          = 'named'
-const DEFAULT_BG            = 'white'
+const DEFAULT_BG            = 'light'
 
 // Hash format: #namedHex/namedName/neutralHex/neutralName/mode
 // Falls back to legacy 3-part: #hex/name/mode (named only)
@@ -211,11 +277,35 @@ const ScaleApp = () => {
 
   // --- Effects ---
 
+  // The style root is [data-scale-app] when embedded (Storybook) or <html> standalone
+  const getStyleRoot = () => document.querySelector('[data-scale-app]') || document.documentElement
+
   // Update background and toggle dark/light mode on the design system
   useEffect(() => {
-    const root = document.documentElement
-    root.style.setProperty('--bodyBg', resolvedBg)
-    root.setAttribute('data-color-mode', bgIsLight ? 'light' : 'dark')
+    const embedded = document.querySelector('[data-scale-app]')
+    if (embedded) {
+      embedded.style.setProperty('--bodyBg', resolvedBg)
+      embedded.style.backgroundColor = resolvedBg
+      embedded.classList.toggle('dark', !bgIsLight)
+      embedded.classList.toggle('light', bgIsLight)
+
+      // Re-define fg tokens on the embedded element so var(--neutral-5) / var(--neutral-100)
+      // resolve in this element's context (where .dark/.light is set) rather than at :root
+      const neutralFgPivot = 60
+      for (const shade of NEUTRAL_SHADES) {
+        const fg = shade < neutralFgPivot ? 'var(--neutral-100)' : 'var(--neutral-5)'
+        embedded.style.setProperty(`--neutral-${shade}-fg`, fg)
+      }
+      const colorFgPivot = 60
+      for (const shade of NAMED_SHADES) {
+        const fg = shade < colorFgPivot ? 'var(--color-100)' : 'var(--color-5)'
+        embedded.style.setProperty(`--color-${shade}-fg`, fg)
+      }
+    } else {
+      const root = document.documentElement
+      root.style.setProperty('--bodyBg', resolvedBg)
+      root.setAttribute('data-color-mode', bgIsLight ? 'light' : 'dark')
+    }
   }, [resolvedBg, bgIsLight])
 
   // Update palette-tinted text colour tokens
@@ -223,7 +313,7 @@ const ScaleApp = () => {
     const hex = isValidHex(numberToHex(mainColor)) ? numberToHex(mainColor) : errorColor
     const mixTarget = bgIsLight ? '#000000' : '#ffffff'
     const bodyColor = mixColors(hex, mixTarget, 0.5)
-    const root = document.documentElement
+    const root = getStyleRoot()
 
     root.style.setProperty('--text-color',    bodyColor)
     root.style.setProperty('--display-color', bodyColor)
@@ -260,7 +350,14 @@ const ScaleApp = () => {
     el.id = 'scale-preview-theme'
     document.getElementById('scale-preview-theme')?.remove()
     document.head.appendChild(el)
-    el.textContent = parts.join('\n\n')
+    // Scope :root rules to [data-scale-app] when embedded (e.g. Storybook)
+    // so they don't leak into other pages
+    const isEmbedded = !!document.querySelector('[data-scale-app]')
+    let css = parts.join('\n\n')
+    if (isEmbedded) {
+      css = css.replace(/:root\b/g, '[data-scale-app]')
+    }
+    el.textContent = css
     return () => el.remove()
   }, [namedPalette, namedName, neutralPalette, neutralName, mode, switchPoint, namedAutoPivot])
 
@@ -292,30 +389,81 @@ const ScaleApp = () => {
     setMainColor(randomBaseColor(mode).replace('#', ''))
   }
 
+  const handleRandomizeBoth = () => {
+    setNamedColor(randomBaseColor('named').replace('#', ''))
+    setNeutralColor(randomBaseColor('neutral').replace('#', ''))
+    setNamedName(randomName())
+    setNeutralName(randomName())
+  }
+
   return (
-    <MainWrapper>
+    <MainWrapper className={`neutral-${neutralName || 'neutral'} color-${namedName || 'color'}`}>
+      <HeaderRow>
+        <HeaderLeft>
+          <PageTitle>Theme Playground</PageTitle>
+          <PageDescription>Generate named and neutral colour scales from a base colour. Preview how they look across components, copy the CSS tokens, and fine-tune contrast pivot points.</PageDescription>
+        </HeaderLeft>
+        <BackgroundSelector
+          setBgColor={setBgColor}
+          bgColor={bgColor}
+          palette={palette}
+        />
+      </HeaderRow>
+
+      <ToolbarRow>
+        <ToggleButtonGroup
+          selectionMode="single"
+          disallowEmptySelection
+          selectedKeys={[mode]}
+          onSelectionChange={(keys) => {
+            const selected = [...keys][0]
+            if (selected) setMode(selected)
+          }}
+        >
+          <ToggleButton id="named" size="sm">
+            Named
+          </ToggleButton>
+          <ToggleButton id="neutral" size="sm">
+            Neutral
+          </ToggleButton>
+        </ToggleButtonGroup>
+        <Button
+          variant="neutral"
+          size="sm"
+          onPress={handleRandomize}
+          title="Pick a random BASE colour"
+        >
+          Randomize
+        </Button>
+        <Button
+          variant="neutral"
+          size="sm"
+          onPress={handleRandomizeBoth}
+          title="Randomize both named and neutral colours"
+        >
+          Randomize both
+        </Button>
+        {mode === 'neutral' && (
+          <ToggleButton
+            size="sm"
+            isSelected={whiteAnchor}
+            onChange={setWhiteAnchor}
+          >
+            White at neutral-5
+          </ToggleButton>
+        )}
+      </ToolbarRow>
+
       <TopSection>
         <ColorsSection>
           <ControlsRow>
             <MainColorSelector
               mainColor={mainColor}
               paletteName={paletteName}
-              mode={mode}
               onColorChange={handleMainColorChange}
               onColorBlur={(e) => { if (!e.target.value) setMainColor(mode === 'named' ? DEFAULT_NAMED_COLOR : DEFAULT_NEUTRAL_COLOR) }}
               onNameChange={(e) => setPaletteName(e.target.value)}
-              onModeChange={setMode}
-              onRandomize={handleRandomize}
-              whiteAnchor={whiteAnchor}
-              onWhiteAnchorChange={setWhiteAnchor}
             />
-            <BackgroundSelectorSection>
-              <BackgroundSelector
-                setBgColor={setBgColor}
-                bgColor={bgColor}
-                palette={palette}
-              />
-            </BackgroundSelectorSection>
           </ControlsRow>
 
           <PivotRow>
@@ -347,7 +495,6 @@ const ScaleApp = () => {
         </ColorsSection>
       </TopSection>
 
-      <Footer />
     </MainWrapper>
   )
 }

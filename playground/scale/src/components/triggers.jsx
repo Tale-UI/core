@@ -6,24 +6,17 @@ import Color from 'color'
 import { numberToHex } from '../utils'
 
 const Title = styled.div`
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-  margin-bottom: 16px;
-  min-height: 32px;
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: var(--label-line-height);
+  margin-bottom: var(--space-s);
+  min-height: var(--space-m);
 `
 
 const ButtonsRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  
-  & > * {
-    margin-right: 4px;
-    
-    @media (max-width: 720px) {
-      margin-top: 4px;
-    }
-  }
+  gap: var(--space-4xs);
 `
 
 const getSvg = (darkColors, mainColor, lightColors) => {
@@ -35,7 +28,7 @@ const getSvg = (darkColors, mainColor, lightColors) => {
   const lightRects = lightColors.map((color, index) => (
     `<rect x="${72 * index + 192 + darkColors.length * 72}" width="72" height="72" fill="${color}"/>`
   ))
-  
+
   return `<svg width="${svgWidth}" height="72" viewBox="0 0 ${svgWidth} 72" fill="none" xmlns="http://www.w3.org/2000/svg">
     ${darkRects.join(``)}
     ${mainRect}
@@ -53,7 +46,7 @@ const getColorsListText = (darkColors, mainColor, lightColors) => {
   }
   const darks = darkColors.map((color) => toHexSafe(color))
   const lights = lightColors.map((color) => toHexSafe(color))
-  
+
   return `${darks.join(`
 `)}
 ${numberToHex(mainColor)}
@@ -61,7 +54,7 @@ ${lights.join(`
 `)}`
 }
 
-const randomNumber = (min, max) => {  
+const randomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min)
 }
 
@@ -89,18 +82,18 @@ const Triggers = ({
 
     setDarkColorsAmount(randomNumber(2, 8))
     setLightColorsAmount(randomNumber(2, 8))
-    
+
     setDarkestAmount(randomNumber(40, 80))
     setLightestAmount(randomNumber(40, 80))
-    
+
     setLightSaturation(randomNumber(0, 25))
     setDarkSaturation(randomNumber(0, 55))
-    
+
     setDarkColorsMixRotate(randomNumber(0, 70))
     setLightColorsMixRotate(randomNumber(0, 70))
     rgbToMainColor()
   }
-  
+
   const randomColor = () => {
     setR(randomNumber(0, 255))
     setG(randomNumber(0, 255))
@@ -116,17 +109,17 @@ const Triggers = ({
         <CopyToClipboard
           text={getSvg(darkColors, mainColor, lightColors)}
         >
-          <Button className="tale-button tale-button--neutral tale-button--sm">Copy SVG</Button>
+          <Button variant="neutral" size="sm">Copy SVG</Button>
         </CopyToClipboard>
-        
+
         <CopyToClipboard
           text={getColorsListText(darkColors, mainColor, lightColors)}
         >
-          <Button className="tale-button tale-button--neutral tale-button--sm">Copy colors</Button>
+          <Button variant="neutral" size="sm">Copy colors</Button>
         </CopyToClipboard>
 
-        <Button className="tale-button tale-button--neutral tale-button--sm" onClick={() => randomState()}>Randomize all</Button>
-        <Button className="tale-button tale-button--neutral tale-button--sm" onClick={() => randomColor()}>Randomize color</Button>
+        <Button variant="neutral" size="sm" onPress={() => randomState()}>Randomize all</Button>
+        <Button variant="neutral" size="sm" onPress={() => randomColor()}>Randomize color</Button>
       </ButtonsRow>
     </React.Fragment>
   )

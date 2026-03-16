@@ -17,15 +17,15 @@ const DotsRow = styled.div`
 `
 
 const Dot = styled.button`
-  width: 32px;
-  height: 32px;
+  width: var(--space-m);
+  height: var(--space-m);
   border-radius: var(--radius-full);
   background-color: ${props => props.$hex};
   box-shadow: ${props => props.$active
-    ? 'inset 0 0 0 2px rgba(0,0,0,0.65), inset 0 0 0 3px rgba(255,255,255,0.65)'
-    : 'inset 0 0 0 1px rgba(0,0,0,0.2), inset 0 0 0 2px rgba(255,255,255,0.2)'};
+    ? 'inset 0 0 0 2px var(--neutral-90), inset 0 0 0 3px var(--neutral-5)'
+    : 'inset 0 0 0 1px var(--neutral-40)'};
   cursor: pointer;
-  border: 1px solid rgba(128,128,128,0.25);
+  border: 1px solid var(--neutral-30);
   padding: 0;
   outline: none;
   transition: box-shadow 0.15s;
@@ -40,7 +40,6 @@ const BackgroundSelector = ({ setBgColor, bgColor, palette }) => {
   const shade100 = palette.find(p => p.shade === 100)?.hex ?? '#000000'
 
   const options = [
-    { key: 'white', hex: '#ffffff',  label: 'White' },
     { key: 'light', hex: shade5,     label: 'Shade 5' },
     { key: 'dark',  hex: shade100,   label: 'Shade 100' },
     { key: 'black', hex: '#000000',  label: 'Black' },
@@ -48,7 +47,6 @@ const BackgroundSelector = ({ setBgColor, bgColor, palette }) => {
 
   return (
     <Root>
-      <Title>Background</Title>
       <DotsRow>
         {options.map(({ key, hex, label }) => (
           <Dot

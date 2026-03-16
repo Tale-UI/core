@@ -82,7 +82,7 @@
 
 .tale-scroll-area__thumb:hover,
 .tale-scroll-area__scrollbar:hover .tale-scroll-area__thumb {
-  background-color: var(--neutral-55);
+  background-color: var(--neutral-50);
 }
 
 /* ─── Content ─────────────────────────────────────────────────────────────── */

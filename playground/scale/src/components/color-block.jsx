@@ -5,7 +5,7 @@ import { getRelativeLuminance, getContrastRatio } from '../utils'
 
 const Container = styled.div`
   position: relative;
-  height: 80px;
+  height: var(--space-2xl);
   cursor: pointer;
   min-width: 0;
 
@@ -18,58 +18,70 @@ const Container = styled.div`
     opacity: 1;
     transition: opacity 0.2s;
   }
+
+  @media (max-width: 480px) {
+    height: var(--space-xl);
+  }
 `
 
 const ShadeLabel = styled.div`
   position: absolute;
-  top: 6px;
-  left: 6px;
+  top: var(--space-4xs);
+  left: var(--space-4xs);
   font-size: var(--label-xs-font-size);
   font-weight: var(--display-font-weight);
   line-height: 1;
-  color: ${props => props.$lightText ? '#fff' : '#000'};
+  color: ${props => props.$lightText ? 'var(--neutral-5)' : 'var(--neutral-100)'};
   opacity: ${props => props.$lightText ? 0.8 : 0.65};
   pointer-events: none;
 `
 
 const BaseIndicator = styled.div`
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 4px;
-  height: 4px;
+  top: var(--space-4xs);
+  right: var(--space-4xs);
+  width: var(--space-4xs);
+  height: var(--space-4xs);
   border-radius: var(--radius-full);
-  background: ${props => props.$lightText ? '#fff' : '#000'};
+  background: ${props => props.$lightText ? 'var(--neutral-5)' : 'var(--neutral-100)'};
   opacity: ${props => props.$lightText ? 0.8 : 0.65};
   pointer-events: none;
 `
 
 const RatioLabel = styled.div`
   position: absolute;
-  bottom: 6px;
-  left: 6px;
+  bottom: var(--space-4xs);
+  left: var(--space-4xs);
   text-align: left;
   font-size: var(--label-xs-font-size);
   font-weight: var(--display-font-weight);
   line-height: 1;
   letter-spacing: 0.02em;
-  color: ${props => props.$lightText ? '#fff' : '#000'};
+  color: ${props => props.$lightText ? 'var(--neutral-5)' : 'var(--neutral-100)'};
   opacity: ${props => props.$lightText ? 0.85 : 0.7};
   pointer-events: none;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 `
 
 const ContrastLevelLabel = styled.div`
   position: absolute;
-  bottom: 6px;
-  right: 6px;
+  bottom: var(--space-4xs);
+  right: var(--space-4xs);
   text-align: right;
   font-size: var(--label-xs-font-size);
   font-weight: var(--display-font-weight);
   line-height: 1;
   letter-spacing: 0.02em;
-  color: ${props => props.$lightText ? '#fff' : '#000'};
+  color: ${props => props.$lightText ? 'var(--neutral-5)' : 'var(--neutral-100)'};
   opacity: ${props => props.$lightText ? 0.85 : 0.7};
   pointer-events: none;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 `
 
 const AgLabel = styled.div`
@@ -83,6 +95,10 @@ const AgLabel = styled.div`
   line-height: 1;
   letter-spacing: var(--title-letter-spacing);
   pointer-events: none;
+
+  @media (max-width: 480px) {
+    font-size: var(--title-s-font-size);
+  }
 `
 
 const HexLabel = styled.div`
@@ -91,15 +107,15 @@ const HexLabel = styled.div`
   left: 0;
   right: 0;
   text-align: center;
-  padding-top: 6px;
+  padding-top: var(--space-4xs);
   font-size: var(--text-xs-font-size);
   font-weight: var(--display-font-weight);
-  line-height: 1.4;
+  line-height: var(--text-line-height);
   word-break: break-all;
 `
 
 const copyAnimation = keyframes`
-  0%   { opacity: 0; transform: translateY(-8px); }
+  0%   { opacity: 0; transform: translateY(calc(-1 * var(--space-3xs))); }
   20%  { opacity: 0.6; }
   80%  { opacity: 0.4; transform: translateY(0); }
   100% { opacity: 0; }
@@ -138,7 +154,7 @@ const ColorBlock = ({ shade, hex, isBase, contrastHex, style }) => {
 
   return (
     <CopyToClipboard text={hex} onCopy={handleCopy}>
-      <Container style={style}>
+      <Container className="light" style={style}>
         <ShadeLabel $lightText={lightText}>{shade}</ShadeLabel>
         {isBase && <BaseIndicator $lightText={lightText} />}
         {contrastHex && <AgLabel style={{ color: contrastHex }}>Ag</AgLabel>}
