@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Menu } from '@tale-ui/react/menu';
 import { Tooltip } from '@tale-ui/react/tooltip';
 import { Popover } from '@tale-ui/react/popover';

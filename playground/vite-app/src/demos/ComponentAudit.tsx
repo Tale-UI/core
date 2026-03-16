@@ -431,14 +431,14 @@ export default function ComponentAudit() {
               { label: 'Disabled + Checked', checked: true, disabled: true },
             ].map(({ label, checked, disabled }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <Checkbox.Root defaultChecked={checked} disabled={disabled}>
+                <Checkbox.Root defaultSelected={checked} isDisabled={disabled}>
                   <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
                 </Checkbox.Root>
                 <span style={labelStyle}>{label}</span>
               </div>
             ))}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <Checkbox.Root indeterminate>
+              <Checkbox.Root isIndeterminate>
                 <Checkbox.Indicator><MinusIcon /></Checkbox.Indicator>
               </Checkbox.Root>
               <span style={labelStyle}>Indeterminate</span>
@@ -465,7 +465,7 @@ export default function ComponentAudit() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               {['Option A', 'Option B'].map((label) => (
                 <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <Checkbox.Root disabled>
+                  <Checkbox.Root isDisabled>
                     <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
                   </Checkbox.Root>
                   <span style={labelStyle}>{label}</span>
@@ -529,7 +529,7 @@ export default function ComponentAudit() {
               { label: 'Disabled (On)', checked: true, disabled: true },
             ].map(({ label, checked, disabled }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-                <Switch.Root defaultChecked={checked} disabled={disabled}>
+                <Switch.Root defaultSelected={checked} isDisabled={disabled}>
                   <Switch.Thumb />
                 </Switch.Root>
                 <span style={labelStyle}>{label}</span>
@@ -567,9 +567,9 @@ export default function ComponentAudit() {
         <Section id="select" title="Select" classes={['tale-select__trigger', 'tale-select__value', 'tale-select__icon', 'tale-select__popup', 'tale-select__list', 'tale-select__item', 'tale-select__group-label', 'tale-select__separator']}>
           <SubHeading>Default</SubHeading>
           <Row>
-            <Select.Root>
+            <Select.Root placeholder="Select a fruit…">
               <Select.Trigger>
-                <Select.Value placeholder="Select a fruit…" />
+                <Select.Value />
               </Select.Trigger>
               <Select.Popover offset={4}>
                 <Select.ListBox>
@@ -582,18 +582,18 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Disabled</SubHeading>
           <Row>
-            <Select.Root isDisabled>
+            <Select.Root isDisabled placeholder="Disabled select">
               <Select.Trigger>
-                <Select.Value placeholder="Disabled select" />
+                <Select.Value />
               </Select.Trigger>
             </Select.Root>
           </Row>
           <SubHeading>With Label</SubHeading>
           <Row>
-            <Select.Root>
+            <Select.Root placeholder="Select a fruit…">
               <Select.Label>Fruit</Select.Label>
               <Select.Trigger>
-                <Select.Value placeholder="Select a fruit…" />
+                <Select.Value />
               </Select.Trigger>
               <Select.Popover offset={4}>
                 <Select.ListBox>
@@ -606,9 +606,9 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>With Groups</SubHeading>
           <Row>
-            <Select.Root>
+            <Select.Root placeholder="Select a country…">
               <Select.Trigger>
-                <Select.Value placeholder="Select a country…" />
+                <Select.Value />
               </Select.Trigger>
               <Select.Popover offset={4}>
                 <Select.ListBox>
@@ -658,7 +658,7 @@ export default function ComponentAudit() {
         <Section id="number-field" title="NumberField" classes={['tale-number-field', 'tale-number-field__group', 'tale-number-field__input', 'tale-number-field__decrement', 'tale-number-field__increment']}>
           <SubHeading>Default</SubHeading>
           <Row>
-            <NumberField.Root defaultValue={0} min={0} max={100}>
+            <NumberField.Root defaultValue={0} minValue={0} maxValue={100}>
               <NumberField.Group>
                 <NumberField.Decrement />
                 <NumberField.Input />
@@ -668,7 +668,7 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Disabled</SubHeading>
           <Row>
-            <NumberField.Root disabled defaultValue={42}>
+            <NumberField.Root isDisabled defaultValue={42}>
               <NumberField.Group>
                 <NumberField.Decrement />
                 <NumberField.Input />
@@ -716,7 +716,7 @@ export default function ComponentAudit() {
           </div>
           <SubHeading>Disabled</SubHeading>
           <div style={{ width: '28rem' }}>
-            <Slider.Root disabled defaultValue={[60]}>
+            <Slider.Root isDisabled defaultValue={[60]}>
               <Slider.Control>
                 <Slider.Track>
                   <Slider.Indicator />
@@ -1176,7 +1176,7 @@ export default function ComponentAudit() {
               <Input.Input placeholder="Type here…" />
               <Field.Description>Helper text goes here.</Field.Description>
             </Field.Root>
-            <Field.Root disabled>
+            <Field.Root data-disabled>
               <Field.Label>Disabled</Field.Label>
               <Input.Input disabled placeholder="Cannot edit" />
               <Field.Description>This field is disabled.</Field.Description>

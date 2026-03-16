@@ -30,7 +30,7 @@ Root.displayName = 'Input.Root';
 
 // ── Input ──────────────────────────────────────────────────────────────────
 
-export type InputProps = Omit<AriaInputProps, 'className'> & {
+export type InputProps = Omit<AriaInputProps, 'className' | 'size'> & {
   size?: Size | undefined;
   className?: string | undefined;
 };
