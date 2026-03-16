@@ -50,7 +50,7 @@ export function useAnimationsFinished(
 
       if (
         typeof resolvedElement.getAnimations !== 'function' ||
-        globalThis.TALE_UI_ANIMATIONS_DISABLED
+        (globalThis as Record<string, unknown>).TALE_UI_ANIMATIONS_DISABLED
       ) {
         fnToExecute();
       } else {
