@@ -283,7 +283,7 @@ const ScaleApp = () => {
 
       // In accent mode, tint neutral-5 with the darkest generated palette tone
       if (isAccent && namedName) {
-        embedded.style.setProperty('--neutral-5', `var(--${namedName}-100)`)
+        embedded.style.setProperty('--neutral-5', `color-mix(in srgb, var(--${namedName}-100) 50%, black)`)
       } else {
         embedded.style.removeProperty('--neutral-5')
       }
@@ -312,7 +312,7 @@ const ScaleApp = () => {
       if (neutralName) root.classList.add(`neutral-${neutralName}`)
 
       if (isAccent && namedName) {
-        root.style.setProperty('--neutral-5', `var(--${namedName}-100)`)
+        root.style.setProperty('--neutral-5', `color-mix(in srgb, var(--${namedName}-100) 50%, black)`)
       } else {
         root.style.removeProperty('--neutral-5')
       }
