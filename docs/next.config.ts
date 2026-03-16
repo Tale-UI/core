@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   basePath: process.env.DOCS_BASE_PATH ?? '',
   trailingSlash: true,
   images: { unoptimized: true },
+  transpilePackages: ['@tale-ui/react', '@tale-ui/react-styles', '@tale-ui/utils'],
 };
 
 export default nextConfig;
