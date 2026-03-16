@@ -1,14 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Foundations/Colors',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const shades = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
 
@@ -17,8 +7,6 @@ const semanticFamilies = [
   { name: 'warning', label: 'Warning', description: 'Caution states, non-blocking alerts, advisory messages.' },
   { name: 'success', label: 'Success', description: 'Confirmations, completed states, positive feedback.' },
 ] as const;
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '960px', margin: '0 auto', color: 'var(--neutral-80)' },
@@ -29,7 +17,6 @@ const s: Record<string, React.CSSProperties> = {
 type SemanticFamily = 'error' | 'warning' | 'success';
 
 function SemanticStrip({ family }: { family: SemanticFamily }) {
-  // warning and success pivot at 70; error pivots at 60
   const pivotShade = family === 'error' ? 60 : 70;
 
   return (
@@ -92,11 +79,8 @@ function UsageCard({ family, shade, label }: { family: SemanticFamily; shade: nu
   );
 }
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const SemanticColors: Story = {
-  name: 'Semantic Colors',
-  render: () => (
+export function SemanticColorsPage() {
+  return (
     <div style={s.page}>
       <h2 className="text--heading-s" style={s.sectionTitle}>Semantic Colors</h2>
       <p className="text--body-m" style={s.description}>
@@ -118,5 +102,5 @@ export const SemanticColors: Story = {
         </div>
       ))}
     </div>
-  ),
-};
+  );
+}

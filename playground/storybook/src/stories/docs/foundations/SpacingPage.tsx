@@ -1,14 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Foundations/Spacing',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const spaceTokens = [
   { token: '--space-4xs', min: '0.49rem', max: '0.52rem' },
@@ -32,8 +22,6 @@ const sectionTokens = [
   { token: '--section-space-xl', min: '6.10rem', max: '22.37rem' },
 ] as const;
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '960px', margin: '0 auto', color: 'var(--neutral-80)' },
   sectionTitle: { marginBottom: 'var(--space-xs)', marginTop: 'var(--space-2xl)' },
@@ -43,14 +31,13 @@ const s: Record<string, React.CSSProperties> = {
   tokenLabel: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-70)', minWidth: '100px', flexShrink: 0 },
   range: { fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' },
   note: { fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', fontStyle: 'italic', marginLeft: 'var(--space-xs)' },
+  divider: { border: 'none', borderTop: '1px solid var(--neutral-16)', margin: 'var(--space-2xl) 0' },
 };
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const ComponentSpacing: Story = {
-  name: 'Component Spacing',
-  render: () => (
+export function SpacingPage() {
+  return (
     <div style={s.page}>
+      {/* Component Spacing */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Component Spacing</h2>
       <p className="text--body-m" style={s.description}>
         11 fluid tokens for component-level spacing. All values scale between 480px and 1600px viewport using{' '}
@@ -83,14 +70,10 @@ export const ComponentSpacing: Story = {
           ))}
         </div>
       </div>
-    </div>
-  ),
-};
 
-export const SectionSpacing: Story = {
-  name: 'Section Spacing',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Section Spacing */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Section Spacing</h2>
       <p className="text--body-m" style={s.description}>
         5 larger-scale tokens for vertical page rhythm. Used by the{' '}
@@ -110,5 +93,5 @@ export const SectionSpacing: Story = {
         </div>
       ))}
     </div>
-  ),
-};
+  );
+}

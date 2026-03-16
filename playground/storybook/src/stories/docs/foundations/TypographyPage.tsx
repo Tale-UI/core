@@ -1,14 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Foundations/Typography',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const fontSizeTokens = [
   { token: '--text-xs',  label: 'xs' },
@@ -34,8 +24,6 @@ const typeClasses = [
   { category: 'Mono',     sizes: ['mono-l', 'mono-m', 'mono-s', 'mono-xs'] },
 ] as const;
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '960px', margin: '0 auto', color: 'var(--neutral-80)' },
   sectionTitle: { marginBottom: 'var(--space-xs)', marginTop: 'var(--space-2xl)' },
@@ -46,19 +34,17 @@ const s: Record<string, React.CSSProperties> = {
 const sampleText = 'The quick brown fox jumps over the lazy dog';
 const sampleLong = 'Typography is the art of arranging type to make written language legible, readable, and appealing.';
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const TypeScale: Story = {
-  name: 'Type Scale',
-  render: () => (
+export function TypographyPage() {
+  return (
     <div style={s.page}>
+      {/* Type Scale */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Font Size Scale</h2>
       <p className="text--body-m" style={s.description}>
         12 fluid font-size tokens. All scale with viewport via <code style={{ fontFamily: 'monospace' }}>clamp()</code>.
         Use these tokens in component CSS: <code style={{ fontFamily: 'monospace' }}>font-size: var(--text-m)</code>.
       </p>
 
-      {fontSizeTokens.map(({ token, label }) => (
+      {fontSizeTokens.map(({ token }) => (
         <div
           key={token}
           style={{
@@ -86,14 +72,10 @@ export const TypeScale: Story = {
           </span>
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const TypeClasses: Story = {
-  name: 'Type Classes',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Type Classes */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Type Classes</h2>
       <p className="text--body-m" style={s.description}>
         Apply semantic typography with <code style={{ fontFamily: 'monospace' }}>.text--&#123;category&#125;-&#123;size&#125;</code> classes.
@@ -115,14 +97,10 @@ export const TypeClasses: Story = {
           ))}
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const Expressive: Story = {
-  name: 'Expressive Modifier',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Expressive */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Expressive Modifier</h2>
       <p className="text--body-m" style={s.description}>
         The <code style={{ fontFamily: 'monospace' }}>.text--expressive</code> modifier applies a serif font to display, heading, and title classes.
@@ -137,14 +115,10 @@ export const Expressive: Story = {
           <span className={`text--${cls} text--expressive`}>{sampleText}</span>
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const TextUtilitiesAlignment: Story = {
-  name: 'Alignment',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Alignment */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Text Alignment</h2>
       <p className="text--body-m" style={s.description}>
         Alignment utilities have responsive variants: append <code style={{ fontFamily: 'monospace' }}>-xl</code>, <code style={{ fontFamily: 'monospace' }}>-l</code>, <code style={{ fontFamily: 'monospace' }}>-m</code>, or <code style={{ fontFamily: 'monospace' }}>-s</code>.
@@ -157,14 +131,10 @@ export const TextUtilitiesAlignment: Story = {
           <p className={`text--body-m text--${align}`}>{sampleLong}</p>
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const TextUtilitiesWeight: Story = {
-  name: 'Weight',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Weight */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Font Weight</h2>
       <p className="text--body-m" style={s.description}>
         No responsive variants. Use <code style={{ fontFamily: 'monospace' }}>.text--bold</code> for semantic bold.
@@ -183,14 +153,10 @@ export const TextUtilitiesWeight: Story = {
         </code>
         <span className="text--body-m text--bold">{sampleText}</span>
       </div>
-    </div>
-  ),
-};
 
-export const TextUtilitiesDecoration: Story = {
-  name: 'Transform & Decoration',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Transform & Decoration */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Transform & Decoration</h2>
       <p className="text--body-m" style={{ ...s.description, marginBottom: 'var(--space-xl)' }}>
         No responsive variants for transform, style, or decoration utilities.
@@ -222,5 +188,5 @@ export const TextUtilitiesDecoration: Story = {
         </div>
       ))}
     </div>
-  ),
-};
+  );
+}

@@ -1,14 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Foundations/Layout',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '1100px', margin: '0 auto', color: 'var(--neutral-80)' },
@@ -38,7 +28,6 @@ const s: Record<string, React.CSSProperties> = {
     fontFamily: 'monospace',
     fontWeight: 'var(--heading-font-weight)',
   },
-  row: { display: 'flex', gap: 'var(--space-s)', alignItems: 'center', marginBottom: 'var(--space-m)', flexWrap: 'wrap' },
   label: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-60)', marginBottom: '6px' },
   divider: { border: 'none', borderTop: '1px solid var(--neutral-16)', margin: 'var(--space-2xl) 0' },
 };
@@ -49,12 +38,10 @@ function Cell({ label = 'cell', style }: { label?: string; style?: React.CSSProp
   return <div style={{ ...s.cell, ...style }}>{label}</div>;
 }
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const GapScale: Story = {
-  name: 'Gap',
-  render: () => (
+export function LayoutPage() {
+  return (
     <div style={s.page}>
+      {/* Gap */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Gap</h2>
       <p className="text--body-m" style={s.description}>
         <code style={{ fontFamily: 'monospace' }}>.gap--*</code> sets both row and column gap.{' '}
@@ -74,14 +61,10 @@ export const GapScale: Story = {
           </div>
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const FixedGrids: Story = {
-  name: 'Fixed Grids',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Fixed Grids */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Fixed Column Grids</h2>
       <p className="text--body-m" style={s.description}>
         <code style={{ fontFamily: 'monospace' }}>.grid--&#123;1–12&#125;</code> creates equal-width column grids.
@@ -98,14 +81,10 @@ export const FixedGrids: Story = {
           </div>
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const RatioGrids: Story = {
-  name: 'Ratio Grids',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Ratio Grids */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Ratio Grids</h2>
       <p className="text--body-m" style={s.description}>
         Two-column grids with proportional widths. All have responsive variants.
@@ -127,14 +106,10 @@ export const RatioGrids: Story = {
           </div>
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const AutoFitGrids: Story = {
-  name: 'Auto-Fit Grids',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Auto-Fit Grids */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Auto-Fit Grids</h2>
       <p className="text--body-m" style={s.description}>
         Responsive grids that wrap items. <code style={{ fontFamily: 'monospace' }}>.grid--auto-&#123;2–12&#125;</code> sets the minimum column count.
@@ -151,14 +126,10 @@ export const AutoFitGrids: Story = {
           </div>
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const FlexboxLayouts: Story = {
-  name: 'Flexbox',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Flexbox */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Flexbox</h2>
       <p className="text--body-m" style={s.description}>
         Direction classes have responsive variants. <code style={{ fontFamily: 'monospace' }}>.flex--wrap</code> and{' '}
@@ -182,8 +153,7 @@ export const FlexboxLayouts: Story = {
         </div>
       ))}
 
-      <hr style={s.divider} />
-      <h3 className="text--title-m" style={{ marginBottom: 'var(--space-m)' }}>Wrap & Grow</h3>
+      <h3 className="text--title-m" style={{ marginTop: 'var(--space-xl)', marginBottom: 'var(--space-m)' }}>Wrap & Grow</h3>
       <div style={{ marginBottom: 'var(--space-m)' }}>
         <div style={s.label}>.flex--wrap — wraps items onto multiple lines</div>
         <div className="flex--wrap gap--xs" style={{ display: 'flex', background: 'var(--neutral-12)', border: '1px dashed var(--neutral-30)', borderRadius: 'var(--radius-l)', padding: '8px', width: '200px' }}>
@@ -201,14 +171,10 @@ export const FlexboxLayouts: Story = {
           ))}
         </div>
       </div>
-    </div>
-  ),
-};
 
-export const CenteringUtilities: Story = {
-  name: 'Centering',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Centering */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Centering</h2>
       <p className="text--body-m" style={s.description}>
         7 centering directions. All have responsive variants (<code style={{ fontFamily: 'monospace' }}>-xl -l -m -s</code>).
@@ -242,14 +208,10 @@ export const CenteringUtilities: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const GridPositioning: Story = {
-  name: 'Grid Positioning',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Grid Positioning */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Grid Positioning</h2>
       <p className="text--body-m" style={s.description}>
         Column/row span, start, end, and order utilities for precise grid placement. All have responsive variants.
@@ -302,5 +264,5 @@ export const GridPositioning: Story = {
         </div>
       </div>
     </div>
-  ),
-};
+  );
+}

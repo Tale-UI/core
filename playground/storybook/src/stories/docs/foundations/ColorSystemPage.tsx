@@ -1,22 +1,10 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Foundations/Colors',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const colorFamilies = [
   'red', 'orange', 'amber', 'yellow', 'lime', 'green',
   'emerald', 'teal', 'cyan', 'sky', 'indigo', 'violet',
   'purple', 'fuchsia', 'pink', 'rose',
 ] as const;
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '960px', margin: '0 auto', color: 'var(--neutral-80)' },
@@ -25,12 +13,10 @@ const s: Record<string, React.CSSProperties> = {
   divider: { border: 'none', borderTop: '1px solid var(--neutral-16)', margin: 'var(--space-2xl) 0' },
 };
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const ColorFamilies: Story = {
-  name: 'Color Families',
-  render: () => (
+export function ColorSystemPage() {
+  return (
     <div style={s.page}>
+      {/* Color Families */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Color Override Classes</h2>
       <p className="text--body-m" style={s.description}>
         Apply <code style={{ fontFamily: 'monospace' }}>.color-&#123;name&#125;</code> to any ancestor to remap all{' '}
@@ -59,14 +45,10 @@ export const ColorFamilies: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const DarkLightMode: Story = {
-  name: 'Dark & Light Mode',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Dark & Light Mode */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Dark & Light Mode</h2>
       <p className="text--body-m" style={s.description}>
         Toggle dark mode using the toolbar above. Dark mode is controlled by{' '}
@@ -131,5 +113,5 @@ export const DarkLightMode: Story = {
         </div>
       </div>
     </div>
-  ),
-};
+  );
+}

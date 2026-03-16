@@ -35,6 +35,14 @@ const config: StorybookConfig = {
      brand background on hover keeps white text readable. Both rules are !important so
      specificity decides: attribute selector (0,1,0) beats universal (0,0,0). */
   --tree-node-background-hover: var(--color-60) !important;
+}
+.sidebar-item svg[type] {
+  display: none;
+}
+.sidebar-item button {
+  align-items: center;
+  padding-bottom: 5px;
+}
 }`;
     return `${head}<style id="tale-ui-tokens">${css}${overrides}</style>`;
   },

@@ -1,16 +1,5 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta = {
-  title: 'Foundations/Colors',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-// Irregular neutral shade scale — do not add or remove values
 const neutralShades = [5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 40, 50, 60, 70, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100] as const;
 
 const neutralFamilies = [
@@ -21,8 +10,6 @@ const neutralFamilies = [
   { name: 'onyx', label: 'Onyx', class: 'neutral-onyx' },
   { name: 'mono', label: 'Mono', class: 'neutral-mono' },
 ] as const;
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '1100px', margin: '0 auto', color: 'var(--neutral-80)' },
@@ -61,11 +48,8 @@ function NeutralStrip({ family }: { family: typeof neutralFamilies[number] }) {
   );
 }
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const NeutralColors: Story = {
-  name: 'Neutral Colors',
-  render: () => (
+export function NeutralsPage() {
+  return (
     <div style={s.page}>
       <h2 className="text--heading-s" style={s.sectionTitle}>Neutral Color Families</h2>
       <p className="text--body-m" style={s.description}>
@@ -78,5 +62,5 @@ export const NeutralColors: Story = {
         <NeutralStrip key={family.name} family={family} />
       ))}
     </div>
-  ),
-};
+  );
+}

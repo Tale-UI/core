@@ -1,14 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Foundations/Effects',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '960px', margin: '0 auto', color: 'var(--neutral-80)' },
@@ -28,12 +18,10 @@ const s: Record<string, React.CSSProperties> = {
   divider: { border: 'none', borderTop: '1px solid var(--neutral-16)', margin: 'var(--space-2xl) 0' },
 };
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const AllEffects: Story = {
-  name: 'Overview',
-  render: () => (
+export function EffectsPage() {
+  return (
     <div style={s.page}>
+      {/* Overview */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Effects Overview</h2>
       <p className="text--body-m" style={s.description}>
         Radius, shadows, and z-index utilities — all have no responsive variants.
@@ -65,14 +53,10 @@ export const AllEffects: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const BorderRadius: Story = {
-  name: 'Border Radius',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Border Radius Detail */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Border Radius</h2>
       <p className="text--body-m" style={s.description}>
         7 radius utility classes. No responsive variants. Apply as{' '}
@@ -91,14 +75,10 @@ export const BorderRadius: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const Shadows: Story = {
-  name: 'Shadows',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Shadows Detail */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Shadows</h2>
       <p className="text--body-m" style={s.description}>
         5 shadow elevation levels. No responsive variants. Apply as{' '}
@@ -117,14 +97,10 @@ export const Shadows: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const ZIndex: Story = {
-  name: 'Z-Index Scale',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Z-Index */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Z-Index Scale</h2>
       <p className="text--body-m" style={s.description}>
         Structured z-index utilities. No responsive variants.
@@ -198,5 +174,5 @@ export const ZIndex: Story = {
         </div>
       </div>
     </div>
-  ),
-};
+  );
+}

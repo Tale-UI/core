@@ -1,14 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Foundations/Utilities',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '960px', margin: '0 auto', color: 'var(--neutral-80)' },
@@ -22,12 +12,10 @@ const s: Record<string, React.CSSProperties> = {
 
 const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const DisplayVisibility: Story = {
-  name: 'Display & Visibility',
-  render: () => (
+export function UtilitiesPage() {
+  return (
     <div style={s.page}>
+      {/* Display & Visibility */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Display & Visibility</h2>
       <p className="text--body-m" style={s.description}>
         Display utilities have responsive variants (except <code style={{ fontFamily: 'monospace' }}>.display--inline</code>).
@@ -56,14 +44,10 @@ export const DisplayVisibility: Story = {
               : null}
         </div>
       ))}
-    </div>
-  ),
-};
 
-export const Dimensions: Story = {
-  name: 'Width & Height',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Width & Height */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Width & Height</h2>
       <p className="text--body-m" style={s.description}>
         Width classes set <code style={{ fontFamily: 'monospace' }}>width</code> as a percentage.
@@ -104,14 +88,10 @@ export const Dimensions: Story = {
           <span style={{ fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' }}>auto</span>
         </div>
       </div>
-    </div>
-  ),
-};
 
-export const AspectRatios: Story = {
-  name: 'Aspect Ratios',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Aspect Ratios */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Aspect Ratios</h2>
       <p className="text--body-m" style={s.description}>
         <code style={{ fontFamily: 'monospace' }}>.aspect--*</code> utilities set <code style={{ fontFamily: 'monospace' }}>aspect-ratio</code>.
@@ -143,14 +123,10 @@ export const AspectRatios: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const Opacity: Story = {
-  name: 'Opacity',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Opacity */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Opacity</h2>
       <p className="text--body-m" style={s.description}>
         Valid opacity values only — do not use other numbers.
@@ -167,14 +143,10 @@ export const Opacity: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const Borders: Story = {
-  name: 'Borders & Dividers',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Borders */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Borders</h2>
       <p className="text--body-m" style={s.description}>
         Border utilities add a 1px solid border using <code style={{ fontFamily: 'monospace' }}>--neutral-30</code> by default.
@@ -218,14 +190,10 @@ export const Borders: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const LineClamp: Story = {
-  name: 'Line Clamp',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Line Clamp */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Line Clamp</h2>
       <p className="text--body-m" style={s.description}>
         Truncates text to N lines with an ellipsis. Values 1–5 only. No responsive variants.
@@ -238,14 +206,10 @@ export const LineClamp: Story = {
           </div>
         ))}
       </div>
-    </div>
-  ),
-};
 
-export const SectionPadding: Story = {
-  name: 'Section Padding',
-  render: () => (
-    <div style={s.page}>
+      <hr style={s.divider} />
+
+      {/* Section Padding */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Section Padding</h2>
       <p className="text--body-m" style={s.description}>
         <code style={{ fontFamily: 'monospace' }}>.padding--*</code> applies <code style={{ fontFamily: 'monospace' }}>padding-block</code> using section-space tokens.
@@ -263,5 +227,5 @@ export const SectionPadding: Story = {
         </div>
       ))}
     </div>
-  ),
-};
+  );
+}

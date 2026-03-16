@@ -34,37 +34,42 @@ const preview: Preview = {
     docs: { theme: buildTheme('light') },
     options: {
       storySort: (a, b) => {
-        const colorOrder = [
-          'Named Colors',
-          'Neutral Colors',
-          'Semantic Colors',
-          'Dark & Light Mode',
-          'Color Families',
-        ];
-        const introOrder = ['Welcome', 'Getting Started', 'Catalog'];
+        const topLevel = ['Welcome', 'Getting Started', 'Catalog'];
 
-        const aIsIntro = a.title.startsWith('Introduction');
-        const bIsIntro = b.title.startsWith('Introduction');
+        const aTop = topLevel.indexOf(a.title);
+        const bTop = topLevel.indexOf(b.title);
+        const aIsTop = aTop !== -1;
+        const bIsTop = bTop !== -1;
+
+        if (aIsTop || bIsTop) {
+          if (aIsTop && bIsTop) return aTop - bTop;
+          return aIsTop ? -1 : 1;
+        }
+
         const aIsFoundations = a.title.startsWith('Foundations');
         const bIsFoundations = b.title.startsWith('Foundations');
         const aIsComponents = a.title.startsWith('Components');
         const bIsComponents = b.title.startsWith('Components');
 
-        if (aIsIntro !== bIsIntro) {
-          return aIsIntro ? -1 : 1;
-        }
-        if (aIsIntro && bIsIntro) {
-          const ai = introOrder.indexOf(a.title.split('/')[1] ?? '');
-          const bi = introOrder.indexOf(b.title.split('/')[1] ?? '');
-          return (ai === -1 ? introOrder.length : ai) - (bi === -1 ? introOrder.length : bi);
-        }
         if (aIsFoundations !== bIsFoundations) {
           return aIsFoundations ? -1 : 1;
         }
-        if (a.title === 'Foundations/Colors' && b.title === 'Foundations/Colors') {
-          const ai = colorOrder.indexOf(a.name);
-          const bi = colorOrder.indexOf(b.name);
-          return (ai === -1 ? colorOrder.length : ai) - (bi === -1 ? colorOrder.length : bi);
+        if (aIsFoundations && bIsFoundations) {
+          const foundationsOrder = [
+            'Foundations/Color System',
+            'Foundations/Named Colors',
+            'Foundations/Neutral Colors',
+            'Foundations/Semantic Colors',
+          ];
+          const ai = foundationsOrder.indexOf(a.title);
+          const bi = foundationsOrder.indexOf(b.title);
+          // Both in the ordered list
+          if (ai !== -1 && bi !== -1) return ai - bi;
+          // Only one in the list — it comes first
+          if (ai !== -1) return -1;
+          if (bi !== -1) return 1;
+          // Neither — alphabetical
+          return a.title.localeCompare(b.title) || a.name.localeCompare(b.name);
         }
 
         if (aIsComponents !== bIsComponents) {

@@ -1,12 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Introduction/Getting Started',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
 
 const s: Record<string, React.CSSProperties> = {
   page: {
@@ -140,9 +132,8 @@ function InlineCode({ children }: { children: string }) {
   return <code style={s.inlineCode}>{children}</code>;
 }
 
-export const GettingStartedPage: Story = {
-  name: 'Getting Started',
-  render: () => (
+export function GettingStartedPage() {
+  return (
     <div style={s.page}>
       <h1 className="text--heading-m" style={s.pageTitle}>Getting Started</h1>
       <p className="text--body-m" style={s.intro}>
@@ -318,5 +309,5 @@ document.documentElement.setAttribute('data-color-mode', prefersDark ? 'dark' : 
         </div>
       </div>
     </div>
-  ),
-};
+  );
+}

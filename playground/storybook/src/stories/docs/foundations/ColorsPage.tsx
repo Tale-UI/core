@@ -1,14 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Foundations/Colors',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-
-// ─── Shared helpers ───────────────────────────────────────────────────────────
 
 const shades = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
 
@@ -18,16 +8,12 @@ const colorFamilies = [
   'purple', 'fuchsia', 'pink', 'rose',
 ] as const;
 
-// Per-family fg pivot — derived directly from _color-themes.css.
-// lightTextFrom = first shade whose --color-*-fg resolves to the light value (shade 5).
-// All shades before this use dark text (shade 100).
 type FamilySpec = {
   name: typeof colorFamilies[number];
   lightTextFrom: 60 | 70 | 80;
 };
 
 const familySpecs: FamilySpec[] = [
-  // No fg override — default pivot at 60
   { name: 'red',     lightTextFrom: 60 },
   { name: 'indigo',  lightTextFrom: 60 },
   { name: 'violet',  lightTextFrom: 60 },
@@ -35,10 +21,8 @@ const familySpecs: FamilySpec[] = [
   { name: 'fuchsia', lightTextFrom: 60 },
   { name: 'pink',    lightTextFrom: 60 },
   { name: 'rose',    lightTextFrom: 60 },
-  // --color-60-fg: var(--color-100) override — pivot shifts to 70
   { name: 'orange',  lightTextFrom: 70 },
   { name: 'sky',     lightTextFrom: 70 },
-  // --color-60-fg + --color-70-fg: var(--color-100) overrides — pivot shifts to 80
   { name: 'amber',   lightTextFrom: 80 },
   { name: 'yellow',  lightTextFrom: 80 },
   { name: 'lime',    lightTextFrom: 80 },
@@ -103,11 +87,8 @@ function SwatchStrip({ family, lightTextFrom }: { family: string; lightTextFrom:
   );
 }
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
-export const BrandPalette: Story = {
-  name: 'Named Colors',
-  render: () => (
+export function ColorsPage() {
+  return (
     <div style={s.page}>
       <h2 className="text--heading-s" style={s.sectionTitle}>Color Palette</h2>
       <p className="text--body-m" style={s.description}>
@@ -193,5 +174,5 @@ export const BrandPalette: Story = {
         </ul>
       </div>
     </div>
-  ),
-};
+  );
+}

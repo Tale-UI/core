@@ -1,12 +1,4 @@
 import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta: Meta = {
-  title: 'Introduction/Catalog',
-  parameters: { layout: 'fullscreen', backgrounds: { disable: true }, controls: { disable: true }, actions: { disable: true }, a11y: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
 
 /** Navigate the Storybook manager to a story by its title. */
 function goTo(storyTitle: string) {
@@ -162,9 +154,8 @@ function ComponentCard({ name, storyTitle }: ComponentEntry) {
   );
 }
 
-export const CatalogPage: Story = {
-  name: 'Catalog',
-  render: () => (
+export function CatalogPage() {
+  return (
     <div
       style={{
         padding: 'var(--space-2xl)',
@@ -219,5 +210,5 @@ export const CatalogPage: Story = {
         ))}
       </div>
     </div>
-  ),
-};
+  );
+}
