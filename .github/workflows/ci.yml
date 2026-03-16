@@ -56,6 +56,13 @@ jobs:
           node-version: '22.18'
           cache: 'pnpm'
       - run: pnpm install
+      - name: Ensure error code map exists
+        shell: bash
+        run: |
+          mkdir -p docs/src
+          if [ ! -f docs/src/error-codes.json ]; then
+            echo '{}' > docs/src/error-codes.json
+          fi
       - run: pnpm release:build
       - name: Publish packages
         if: matrix.os == 'ubuntu-latest'
