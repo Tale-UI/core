@@ -16,6 +16,8 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
+      "docs/*": ["./*"],
+      "docs/src/*": ["./src/*"],
       "@tale-ui/react": ["../packages/react/src/index.ts"],
       "@tale-ui/react/*": ["../packages/react/src/*"],
       "@tale-ui/utils": ["../packages/utils/src/index.ts"],
