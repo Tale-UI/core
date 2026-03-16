@@ -317,6 +317,21 @@ const ScaleApp = () => {
         root.style.removeProperty('--neutral-5')
       }
       root.setAttribute('data-color-mode', bgIsLight ? 'light' : 'dark')
+      root.classList.toggle('dark', !bgIsLight)
+      root.classList.toggle('light', bgIsLight)
+
+      // Re-define fg tokens so var(--neutral-5) / var(--neutral-100)
+      // resolve correctly for the active color mode
+      const neutralFgPivot = 60
+      for (const shade of NEUTRAL_SHADES) {
+        const fg = shade < neutralFgPivot ? 'var(--neutral-100)' : 'var(--neutral-5)'
+        root.style.setProperty(`--neutral-${shade}-fg`, fg)
+      }
+      const colorFgPivot = 60
+      for (const shade of NAMED_SHADES) {
+        const fg = shade < colorFgPivot ? 'var(--color-100)' : 'var(--color-5)'
+        root.style.setProperty(`--color-${shade}-fg`, fg)
+      }
     }
   }, [bgIsLight, bgColor, namedName, neutralName])
 
