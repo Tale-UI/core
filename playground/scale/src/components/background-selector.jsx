@@ -35,14 +35,13 @@ const Dot = styled.button`
   }
 `
 
-const BackgroundSelector = ({ setBgColor, bgColor, palette }) => {
-  const shade5   = palette.find(p => p.shade === 5)?.hex   ?? '#ffffff'
-  const shade100 = palette.find(p => p.shade === 100)?.hex ?? '#000000'
+const BackgroundSelector = ({ setBgColor, bgColor, paletteName }) => {
+  const accentHex = paletteName ? `var(--${paletteName}-100)` : 'var(--neutral-default-100)'
 
   const options = [
-    { key: 'light', hex: shade5,     label: 'Shade 5' },
-    { key: 'dark',  hex: shade100,   label: 'Shade 100' },
-    { key: 'black', hex: '#000000',  label: 'Black' },
+    { key: 'light',  hex: 'var(--neutral-default-5)',   label: 'Light mode' },
+    { key: 'dark',   hex: 'var(--neutral-default-100)', label: 'Dark mode' },
+    { key: 'accent', hex: accentHex,                    label: 'Accent dark' },
   ]
 
   return (

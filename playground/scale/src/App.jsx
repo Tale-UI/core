@@ -259,19 +259,10 @@ const ScaleApp = () => {
   // Active pivot for the controls display (neutral mode shows 60 by default)
   const autoPivot = mode === 'named' ? namedAutoPivot : 60
 
-  // Resolve bgColor to a hex string for CSS variable
-  const resolvedBg = useMemo(() => {
-    if (bgColor === 'white') return '#ffffff'
-    if (bgColor === 'black') return '#000000'
-    if (bgColor === 'light') return palette.find(p => p.shade === 5)?.hex  ?? '#ffffff'
-    if (bgColor === 'dark')  return palette.find(p => p.shade === 100)?.hex ?? '#000000'
-    return '#ffffff'
-  }, [bgColor, palette])
-
   // Determine if background is light or dark for text colour
   const bgIsLight = useMemo(() => {
     if (bgColor === 'white' || bgColor === 'light') return true
-    if (bgColor === 'black' || bgColor === 'dark')  return false
+    if (bgColor === 'dark' || bgColor === 'accent') return false
     return true
   }, [bgColor])
 
@@ -283,11 +274,24 @@ const ScaleApp = () => {
   // Update background and toggle dark/light mode on the design system
   useEffect(() => {
     const embedded = document.querySelector('[data-scale-app]')
+    var isAccent = bgColor === 'accent'
     if (embedded) {
-      embedded.style.setProperty('--bodyBg', resolvedBg)
-      embedded.style.backgroundColor = resolvedBg
+      // Apply the generated neutral theme class so --neutral-default-* resolves
+      // from the generated palette, making --neutral-5 use the generated values
+      embedded.className = embedded.className.replace(/\bneutral-\S+/g, '')
+      if (neutralName) embedded.classList.add(`neutral-${neutralName}`)
+
+      // In accent mode, tint neutral-5 with the darkest generated palette tone
+      if (isAccent && namedName) {
+        embedded.style.setProperty('--neutral-5', `var(--${namedName}-100)`)
+      } else {
+        embedded.style.removeProperty('--neutral-5')
+      }
+      embedded.style.backgroundColor = 'var(--neutral-5)'
       embedded.classList.toggle('dark', !bgIsLight)
       embedded.classList.toggle('light', bgIsLight)
+      // Also set data-color-mode on <html> to silence the OS dark media query
+      document.documentElement.setAttribute('data-color-mode', bgIsLight ? 'light' : 'dark')
 
       // Re-define fg tokens on the embedded element so var(--neutral-5) / var(--neutral-100)
       // resolve in this element's context (where .dark/.light is set) rather than at :root
@@ -303,10 +307,18 @@ const ScaleApp = () => {
       }
     } else {
       const root = document.documentElement
-      root.style.setProperty('--bodyBg', resolvedBg)
+      // Apply the generated neutral theme class
+      root.className = root.className.replace(/\bneutral-\S+/g, '')
+      if (neutralName) root.classList.add(`neutral-${neutralName}`)
+
+      if (isAccent && namedName) {
+        root.style.setProperty('--neutral-5', `var(--${namedName}-100)`)
+      } else {
+        root.style.removeProperty('--neutral-5')
+      }
       root.setAttribute('data-color-mode', bgIsLight ? 'light' : 'dark')
     }
-  }, [resolvedBg, bgIsLight])
+  }, [bgIsLight, bgColor, namedName, neutralName])
 
   // Update palette-tinted text colour tokens
   useEffect(() => {
@@ -406,7 +418,7 @@ const ScaleApp = () => {
         <BackgroundSelector
           setBgColor={setBgColor}
           bgColor={bgColor}
-          palette={palette}
+          paletteName={namedName}
         />
       </HeaderRow>
 
@@ -479,10 +491,12 @@ const ScaleApp = () => {
           <OutputRow>
             <CssColumn>
               <CssOutput
-                paletteName={paletteName}
-                palette={palette}
-                mode={mode}
-                pivot={switchPoint ?? autoPivot}
+                namedName={namedName}
+                namedPalette={namedPalette}
+                namedPivot={switchPoint ?? namedAutoPivot}
+                neutralName={neutralName}
+                neutralPalette={neutralPalette}
+                bgColor={bgColor}
               />
             </CssColumn>
             <PreviewColumn>

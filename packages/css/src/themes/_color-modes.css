@@ -122,7 +122,7 @@ html:not([data-color-mode="dark"]),
     html:not([data-color-mode="light"]),
     :where(html:not([data-color-mode="light"])) :is([class*='color-'], [class*='neutral-']) {
         --neutral: var(--neutral-60);
-        --neutral-5: color-mix(in srgb, var(--neutral-default-100) 50%, black);
+        --neutral-5: color-mix(in srgb, var(--neutral-10) 60%, black);
         --neutral-10: var(--neutral-default-100);
         --neutral-12: var(--neutral-default-98);
         --neutral-14: var(--neutral-default-96);
@@ -188,7 +188,7 @@ html[data-color-mode="dark"],
 .dark,
 .dark :is([class*='color-'], [class*='neutral-']) {
     --neutral: var(--neutral-60);
-    --neutral-5: color-mix(in srgb, var(--neutral-default-100) 50%, black);
+    --neutral-5: color-mix(in srgb, var(--neutral-10) 60%, black);
     --neutral-10: var(--neutral-default-100);
     --neutral-12: var(--neutral-default-98);
     --neutral-14: var(--neutral-default-96);

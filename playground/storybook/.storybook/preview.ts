@@ -51,9 +51,17 @@ const preview: Preview = {
         const aIsComponents = a.title.startsWith('Components');
         const bIsComponents = b.title.startsWith('Components');
 
-        if (aIsFoundations !== bIsFoundations) {
-          return aIsFoundations ? -1 : 1;
-        }
+        // Section order: Foundations → Playground → Components → rest
+        var sectionOf = function(t) {
+          if (t.startsWith('Foundations')) return 0;
+          if (t.startsWith('Playground')) return 1;
+          if (t.startsWith('Components')) return 2;
+          return 3;
+        };
+        var aRank = sectionOf(a.title);
+        var bRank = sectionOf(b.title);
+        if (aRank !== bRank) return aRank - bRank;
+
         if (aIsFoundations && bIsFoundations) {
           const foundationsOrder = [
             'Foundations/Color System',
@@ -63,31 +71,16 @@ const preview: Preview = {
           ];
           const ai = foundationsOrder.indexOf(a.title);
           const bi = foundationsOrder.indexOf(b.title);
-          // Both in the ordered list
           if (ai !== -1 && bi !== -1) return ai - bi;
-          // Only one in the list — it comes first
           if (ai !== -1) return -1;
           if (bi !== -1) return 1;
-          // Neither — alphabetical
           return a.title.localeCompare(b.title) || a.name.localeCompare(b.name);
         }
 
-        if (aIsComponents !== bIsComponents) {
-          return aIsComponents ? -1 : 1;
-        }
         if (aIsComponents && bIsComponents) {
           const byTitle = a.title.localeCompare(b.title);
-          if (byTitle !== 0) {
-            return byTitle;
-          }
+          if (byTitle !== 0) return byTitle;
           return a.name.localeCompare(b.name);
-        }
-
-        const aIsPlayground = a.title.startsWith('Playground');
-        const bIsPlayground = b.title.startsWith('Playground');
-
-        if (aIsPlayground !== bIsPlayground) {
-          return aIsPlayground ? -1 : 1;
         }
 
         return a.title.localeCompare(b.title) || a.name.localeCompare(b.name);

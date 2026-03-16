@@ -34,7 +34,7 @@ export const ScalePage = () => {
     body.style.padding = '0';
     body.style.fontFamily = 'var(--text-font-family)';
     body.style.color = 'var(--text-color)';
-    body.style.backgroundColor = 'var(--bodyBg, var(--bg-body))';
+    body.style.backgroundColor = 'var(--neutral-5)';
     body.style.fontSize = 'var(--text-m-font-size)';
     body.style.lineHeight = 'var(--text-line-height)';
     body.style.height = '100%';
