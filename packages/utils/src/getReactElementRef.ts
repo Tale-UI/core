@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { isReactVersionAtLeast } from './reactVersion';
 
 /**
- * Extracts the `ref` from a React element, handling different React versions.
+ * Extracts the `ref` from a React element.
+ * In React 19+, ref is on props. In earlier versions, it's a top-level field.
  */
 export function getReactElementRef(element: unknown): React.Ref<unknown> | null {
   if (!React.isValidElement(element)) {
@@ -12,5 +12,6 @@ export function getReactElementRef(element: unknown): React.Ref<unknown> | null 
   const reactElement = element as React.ReactElement & { ref?: React.Ref<unknown> | undefined };
   const propsWithRef = reactElement.props as { ref?: React.Ref<unknown> | undefined } | undefined;
 
-  return (isReactVersionAtLeast(19) ? propsWithRef?.ref : reactElement.ref) ?? null;
+  // React 19+ moved ref to props; fall back to element.ref for older versions
+  return propsWithRef?.ref ?? reactElement.ref ?? null;
 }

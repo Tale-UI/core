@@ -32,7 +32,7 @@ importers:
         specifier: ^7.29.0
         version: 7.29.0(@babel/core@7.29.0)
       '@babel/preset-env':
-        specifier: ^7.29.2
+        specifier: ^7.29.0
         version: 7.29.2(@babel/core@7.29.0)
       '@babel/preset-react':
         specifier: ^7.28.5
@@ -476,12 +476,6 @@ importers:
       culori:
         specifier: ^4.0.2
         version: 4.0.2
-      reselect:
-        specifier: ^5.1.1
-        version: 5.1.1
-      use-sync-external-store:
-        specifier: ^1.6.0
-        version: 1.6.0(react@19.2.4)
     devDependencies:
       '@tale-ui/monorepo-tests':
         specifier: workspace:*
@@ -507,9 +501,6 @@ importers:
       '@types/sinon':
         specifier: 21.0.0
         version: 21.0.0
-      '@types/use-sync-external-store':
-        specifier: 1.5.0
-        version: 1.5.0
       chai:
         specifier: 6.2.2
         version: 6.2.2
@@ -8876,9 +8867,6 @@ packages:
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
-
-  reselect@5.1.1:
-    resolution: {integrity: sha512-K/BG6eIky/SBpzfHZv/dd+9JBFiS4SWV7FIujVyJRux6e45+73RaUHXLmIR1f7WOMaQ0U1km6qwklRQxpJJY0w==}
 
   resolve-cwd@3.0.0:
     resolution: {integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==}
@@ -19904,8 +19892,6 @@ snapshots:
   require-directory@2.1.1: {}
 
   require-from-string@2.0.2: {}
-
-  reselect@5.1.1: {}
 
   resolve-cwd@3.0.0:
     dependencies:
