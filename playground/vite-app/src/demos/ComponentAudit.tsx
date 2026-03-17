@@ -428,7 +428,7 @@ function MenuCheckboxDemo() {
 function DialogDemo() {
   const [open, setOpen] = React.useState(false);
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Root isOpen={open} onOpenChange={setOpen}>
       <Dialog.Trigger className="tale-button--primary">Open Dialog</Dialog.Trigger>
       <Dialog.Backdrop>
         <Dialog.Popup>
@@ -454,7 +454,7 @@ function DialogDemo() {
 function AlertDialogDemo() {
   const [open, setOpen] = React.useState(false);
   return (
-    <AlertDialog.Root open={open} onOpenChange={setOpen}>
+    <AlertDialog.Root isOpen={open} onOpenChange={setOpen}>
       <AlertDialog.Trigger className="tale-button tale-button--danger">Delete Item</AlertDialog.Trigger>
       <AlertDialog.Backdrop>
         <AlertDialog.Popup>
@@ -1815,10 +1815,8 @@ export default function ComponentAudit() {
 
         <Section id="color-wheel" title="ColorWheel" classes={['tale-color-wheel', 'tale-color-wheel__track']}>
           <SubHeading>Default</SubHeading>
-          <ColorWheel.Root defaultValue="hsl(0, 100%, 50%)">
-            <ColorWheel.Track>
-              <ColorWheel.Thumb />
-            </ColorWheel.Track>
+          <ColorWheel.Root defaultValue="hsl(0, 100%, 50%)" outerRadius={100} innerRadius={70}>
+            <ColorWheel.Track />
           </ColorWheel.Root>
         </Section>
 
