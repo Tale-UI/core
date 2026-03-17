@@ -17,10 +17,10 @@
 .tale-fieldset {
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
+  gap: var(--space-s);
   border: 1px solid var(--neutral-20);
   border-radius: var(--radius-l);
-  padding: var(--space-m) var(--space-l);
+  padding: var(--space-s);
   margin: 0;
 }
 
@@ -35,6 +35,6 @@
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
   font-weight: var(--label-font-weight);
-  padding: 0 var(--space-2xs);
+  padding: 0;
   float: none;
 }

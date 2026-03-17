@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Form } from '@tale-ui/react/form';
+import { TextField } from '@tale-ui/react/text-field';
+import { NumberField } from '@tale-ui/react/number-field';
 import { Button } from '@tale-ui/react/button';
 
 type Args = Record<string, never>;
@@ -22,24 +24,14 @@ export const Default: Story = {
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>
-              Username
-            </label>
-            <input className="tale-input" name="username" required placeholder="Enter username" />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>
-              Email
-            </label>
-            <input
-              className="tale-input"
-              name="email"
-              type="email"
-              required
-              placeholder="you@example.com"
-            />
-          </div>
+          <TextField.Root name="username" isRequired>
+            <TextField.Label>Username</TextField.Label>
+            <TextField.Input placeholder="Enter username" />
+          </TextField.Root>
+          <TextField.Root name="email" type="email" isRequired>
+            <TextField.Label>Email</TextField.Label>
+            <TextField.Input placeholder="you@example.com" />
+          </TextField.Root>
           <Button type="submit">Submit</Button>
         </div>
       </Form>
@@ -58,43 +50,18 @@ export const WithValidation: Story = {
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>
-              Full Name
-            </label>
-            <input
-              className="tale-input"
-              name="fullName"
-              required
-              placeholder="Enter your full name"
-            />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>
-              Password
-            </label>
-            <input
-              className="tale-input"
-              name="password"
-              type="password"
-              required
-              minLength={8}
-              placeholder="At least 8 characters"
-            />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>
-              Age
-            </label>
-            <input
-              className="tale-input"
-              name="age"
-              type="number"
-              min={18}
-              max={120}
-              placeholder="Must be 18+"
-            />
-          </div>
+          <TextField.Root name="fullName" isRequired>
+            <TextField.Label>Full Name</TextField.Label>
+            <TextField.Input placeholder="Enter your full name" />
+          </TextField.Root>
+          <TextField.Root name="password" type="password" isRequired minLength={8}>
+            <TextField.Label>Password</TextField.Label>
+            <TextField.Input placeholder="At least 8 characters" />
+          </TextField.Root>
+          <NumberField.Root name="age" minValue={18} maxValue={120}>
+            <NumberField.Label>Age</NumberField.Label>
+            <NumberField.Input placeholder="Must be 18+" />
+          </NumberField.Root>
           <Button type="submit">Submit</Button>
         </div>
       </Form>

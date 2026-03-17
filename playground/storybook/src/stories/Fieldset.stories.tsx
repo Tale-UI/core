@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Fieldset } from '@tale-ui/react/fieldset';
+import { TextField } from '@tale-ui/react/text-field';
 
 type Args = {
   disabled?: boolean;
@@ -25,18 +26,18 @@ export const Default: Story = {
       <Fieldset.Root disabled={args.disabled}>
         <Fieldset.Legend>Personal Information</Fieldset.Legend>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>First Name</label>
-            <input className="tale-input" placeholder="John" />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>Last Name</label>
-            <input className="tale-input" placeholder="Doe" />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>Email</label>
-            <input className="tale-input" type="email" placeholder="john@example.com" />
-          </div>
+          <TextField.Root>
+            <TextField.Label>First Name</TextField.Label>
+            <TextField.Input placeholder="John" />
+          </TextField.Root>
+          <TextField.Root>
+            <TextField.Label>Last Name</TextField.Label>
+            <TextField.Input placeholder="Doe" />
+          </TextField.Root>
+          <TextField.Root type="email">
+            <TextField.Label>Email</TextField.Label>
+            <TextField.Input placeholder="john@example.com" />
+          </TextField.Root>
         </div>
       </Fieldset.Root>
     </div>
@@ -49,18 +50,18 @@ export const Disabled: Story = {
       <Fieldset.Root disabled>
         <Fieldset.Legend>Billing Address (disabled)</Fieldset.Legend>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>Street</label>
-            <input className="tale-input" placeholder="123 Main St" />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>City</label>
-            <input className="tale-input" placeholder="Anytown" />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: 'var(--space-2xs)' }}>Zip Code</label>
-            <input className="tale-input" placeholder="12345" />
-          </div>
+          <TextField.Root>
+            <TextField.Label>Street</TextField.Label>
+            <TextField.Input placeholder="123 Main St" />
+          </TextField.Root>
+          <TextField.Root>
+            <TextField.Label>City</TextField.Label>
+            <TextField.Input placeholder="Anytown" />
+          </TextField.Root>
+          <TextField.Root>
+            <TextField.Label>Zip Code</TextField.Label>
+            <TextField.Input placeholder="12345" />
+          </TextField.Root>
         </div>
       </Fieldset.Root>
     </div>
