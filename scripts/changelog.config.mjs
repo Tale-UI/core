@@ -17,9 +17,7 @@ export default {
     excludeCommitWithLabels: [
       'internal',
       'dependencies',
-      'scope: code-infra',
-      'scope: docs-infra',
-      'scope: support-infra',
+      'scope: infra',
       'test',
       'release',
       'docs',

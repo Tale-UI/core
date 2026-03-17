@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /**
  * Build script for @tale-ui/react and @tale-ui/utils.
- * Replaces `code-infra build` — produces CJS + ESM bundles, type declarations,
+ * Produces CJS + ESM bundles, type declarations,
  * a publish-ready package.json, and copies static files.
  *
  * Usage (from package dir): node ../../tools/build-package.mjs [--ignore "glob"]... [--copy file]...
