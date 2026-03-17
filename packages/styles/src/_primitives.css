@@ -1121,3 +1121,29 @@
   font-size: var(--text-m-font-size);
   cursor: default;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* 15. Color picker thumb — ColorArea, ColorSlider, ColorWheel               */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.tale-color-area__thumb,
+.tale-color-slider__thumb,
+.tale-color-wheel__thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid white;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.tale-color-area__thumb[data-focus-visible],
+.tale-color-slider__thumb[data-focus-visible],
+.tale-color-wheel__thumb[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--color-50);
+}
+
+.tale-color-area__thumb[data-disabled],
+.tale-color-slider__thumb[data-disabled],
+.tale-color-wheel__thumb[data-disabled] {
+  opacity: 0.45;
+}
