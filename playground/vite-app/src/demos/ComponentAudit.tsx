@@ -211,6 +211,7 @@ function Row({ children, style }: { children: React.ReactNode; style?: React.CSS
 // TOC data
 // ---------------------------------------------------------------------------
 
+// TOC — order matches the content sections below
 const TOC = [
   { category: 'Form Controls', items: [
     { id: 'button', label: 'Button' },
@@ -228,7 +229,6 @@ const TOC = [
     { id: 'combobox', label: 'Combobox' },
     { id: 'number-field', label: 'NumberField' },
     { id: 'slider', label: 'Slider' },
-    { id: 'calendar', label: 'Calendar' },
     { id: 'search-field', label: 'SearchField' },
     { id: 'text-field', label: 'TextField' },
     { id: 'text-area', label: 'TextArea' },
@@ -262,48 +262,39 @@ const TOC = [
   { category: 'Display', items: [
     { id: 'avatar', label: 'Avatar' },
     { id: 'breadcrumbs', label: 'Breadcrumbs' },
-    { id: 'grid-list', label: 'GridList' },
     { id: 'link', label: 'Link' },
+    { id: 'grid-list', label: 'GridList' },
     { id: 'table', label: 'Table' },
     { id: 'tag-group', label: 'TagGroup' },
     { id: 'tree', label: 'Tree' },
-  ]},
-  { category: 'Date & Time', items: [
-    { id: 'date-field', label: 'DateField' },
-    { id: 'date-picker', label: 'DatePicker' },
-    { id: 'date-range-picker', label: 'DateRangePicker' },
-    { id: 'time-field', label: 'TimeField' },
-    { id: 'range-calendar', label: 'RangeCalendar' },
-  ]},
-  { category: 'Color', items: [
-    { id: 'color-area', label: 'ColorArea' },
-    { id: 'color-field', label: 'ColorField' },
-    { id: 'color-picker', label: 'ColorPicker' },
-    { id: 'color-slider', label: 'ColorSlider' },
-    { id: 'color-swatch', label: 'ColorSwatch' },
-    { id: 'color-swatch-picker', label: 'ColorSwatchPicker' },
-    { id: 'color-wheel', label: 'ColorWheel' },
-  ]},
-  { category: 'Interaction', items: [
-    { id: 'drop-zone', label: 'DropZone' },
-    { id: 'file-trigger', label: 'FileTrigger' },
   ]},
   { category: 'Form Structure', items: [
     { id: 'field', label: 'Field' },
     { id: 'fieldset', label: 'Fieldset' },
     { id: 'form', label: 'Form' },
-  ]},
-  { category: 'Other', items: [
     { id: 'toolbar', label: 'Toolbar' },
   ]},
+  { category: 'Date & Time', items: [
+    { id: 'date-field', label: 'DateField' },
+    { id: 'time-field', label: 'TimeField' },
+    { id: 'date-picker', label: 'DatePicker' },
+    { id: 'date-range-picker', label: 'DateRangePicker' },
+    { id: 'range-calendar', label: 'RangeCalendar' },
+  ]},
+  { category: 'Color', items: [
+    { id: 'color-area', label: 'ColorArea' },
+    { id: 'color-slider', label: 'ColorSlider' },
+    { id: 'color-wheel', label: 'ColorWheel' },
+    { id: 'color-swatch', label: 'ColorSwatch' },
+    { id: 'color-swatch-picker', label: 'ColorSwatchPicker' },
+    { id: 'color-field', label: 'ColorField' },
+    { id: 'color-picker', label: 'ColorPicker' },
+  ]},
+  { category: 'Interaction', items: [
+    { id: 'drop-zone', label: 'DropZone' },
+    { id: 'file-trigger', label: 'FileTrigger' },
+  ]},
 ];
-
-const SORTED_TOC = [...TOC]
-  .map(({ category, items }) => ({
-    category,
-    items: [...items].sort((a, b) => a.label.localeCompare(b.label)),
-  }))
-  .sort((a, b) => a.category.localeCompare(b.category));
 
 const tocCategoryStyle: React.CSSProperties = {
   margin: '1.2rem 0 0.4rem',
@@ -606,7 +597,7 @@ export default function ComponentAudit() {
             Component Audit
           </span>
         </div>
-        {SORTED_TOC.map(({ category, items }) => (
+        {TOC.map(({ category, items }) => (
           <div key={category}>
             <div style={tocCategoryStyle}>{category}</div>
             {items.map(({ id, label }) => (
