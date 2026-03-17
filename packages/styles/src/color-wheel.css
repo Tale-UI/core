@@ -9,9 +9,8 @@
  *
  * Usage:
  *   <ColorWheel.Root className="tale-color-wheel" outerRadius={100} innerRadius={74}>
- *     <ColorWheel.Track className="tale-color-wheel__track">
- *       <ColorWheel.Thumb className="tale-color-wheel__thumb" />
- *     </ColorWheel.Track>
+ *     <ColorWheel.Track className="tale-color-wheel__track" />
+ *     <ColorWheel.Thumb className="tale-color-wheel__thumb" />
  *   </ColorWheel.Root>
  */
 

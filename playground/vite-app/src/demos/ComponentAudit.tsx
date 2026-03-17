@@ -1817,6 +1817,7 @@ export default function ComponentAudit() {
           <SubHeading>Default</SubHeading>
           <ColorWheel.Root defaultValue="hsl(0, 100%, 50%)" outerRadius={100} innerRadius={70}>
             <ColorWheel.Track />
+            <ColorWheel.Thumb />
           </ColorWheel.Root>
         </Section>
 
