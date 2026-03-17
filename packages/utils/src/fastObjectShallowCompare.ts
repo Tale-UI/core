@@ -1,4 +1,3 @@
-// https://github.com/mui/mui-x/blob/master/packages/x-internals/src/fastObjectShallowCompare/fastObjectShallowCompare.ts
 const is = Object.is;
 
 export function fastObjectShallowCompare<T extends Record<string, any> | null>(a: T, b: T) {
