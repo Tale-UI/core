@@ -10,7 +10,8 @@ import * as tae from 'typescript-api-extractor';
 import { kebabCase } from 'es-toolkit/string';
 import ts from 'typescript';
 import { globby } from 'globby';
-import { syncPageIndex } from '@mui/internal-docs-infra/pipeline/syncPageIndex';
+// syncPageIndex was previously imported from @mui/internal-docs-infra.
+// The component index is now written directly as JSON.
 import { isPublicComponent, formatComponentData, extractComponentGroup } from './componentHandler';
 import { isPublicHook, formatHookData } from './hookHandler';
 import { isPublicUtility, formatUtilityData } from './utilityHandler';
@@ -239,18 +240,10 @@ async function run(options: RunOptions) {
 
   // Update the components page index with metadata all at once
   if (componentsMetadata.size > 0) {
-    const componentsPagePath = path.resolve(
+    const docsBasePath = path.resolve(
       path.dirname(path.dirname(path.dirname(options.configPath))),
-      'docs/src/app/(docs)/react/components/page.mdx',
+      'docs/src/app/(docs)/react/components',
     );
-
-    // Base directory for docs (matches baseDir in next.config.mjs transformMarkdownMetadata)
-    const docsPath = path.resolve(
-      path.dirname(path.dirname(path.dirname(options.configPath))),
-      'docs',
-    );
-
-    const docsBasePath = path.dirname(componentsPagePath);
 
     // Build metadata for all components, but only include those with existing pages
     const skippedComponents: string[] = [];
@@ -276,12 +269,9 @@ async function run(options: RunOptions) {
       )
     ).filter((metadata): metadata is NonNullable<typeof metadata> => metadata !== null);
 
-    // Update the index once with all components in a single operation
-    await syncPageIndex({
-      pagePath: componentsPagePath,
-      metadataList: allComponentsMetadata,
-      baseDir: docsPath,
-    });
+    // Write components index as JSON
+    const indexPath = path.join(options.out, '_components-index.json');
+    fs.writeFileSync(indexPath, JSON.stringify(allComponentsMetadata, null, 2) + '\n');
 
     console.log(
       `\nUpdated components index with metadata for ${allComponentsMetadata.length} component(s).`,

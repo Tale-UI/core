@@ -190,14 +190,6 @@ jobs:
       - name: Synchronize package versions
         run: node scripts/release/sync-package-versions.mjs ${{ needs.resolve.outputs.version }}
 
-      - name: Ensure error code map exists
-        shell: bash
-        run: |
-          mkdir -p docs/src
-          if [ ! -f docs/src/error-codes.json ]; then
-            echo '{}' > docs/src/error-codes.json
-          fi
-
       - name: Build publishable packages
         run: pnpm -r --filter @tale-ui/utils --filter @tale-ui/react build
 

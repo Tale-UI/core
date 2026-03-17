@@ -1,38 +1,32 @@
-import getBaseConfig from '@mui/internal-code-infra/babel-config';
-import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const errorCodesPath = path.join(dirname, 'docs/src/error-codes.json');
-
 export default function getBabelConfig(api) {
-  const baseConfig = getBaseConfig(api);
+  const isESM = api.env('esm');
+
+  const presets = [
+    [
+      '@babel/preset-env',
+      {
+        bugfixes: true,
+        browserslistEnv: isESM ? 'stable' : undefined,
+        modules: isESM ? false : 'commonjs',
+      },
+    ],
+    ['@babel/preset-react', { runtime: 'automatic' }],
+    '@babel/preset-typescript',
+  ];
 
   const plugins = [
     [
-      '@mui/internal-babel-plugin-minify-errors',
-      {
-        missingError: 'annotate',
-        runtimeModule: '#formatErrorMessage',
-        detection: 'opt-out',
-        errorCodesPath,
-      },
+      '@babel/plugin-transform-runtime',
+      { useESModules: isESM },
     ],
   ];
 
-  const displayNamePlugin = baseConfig.plugins.find(
-    (p) => p[2] === '@mui/internal-babel-plugin-display-name',
-  );
-  displayNamePlugin[1].allowedCallees ??= {};
-  displayNamePlugin[1].allowedCallees['@tale-ui/utils/fastHooks'] = [
-    'fastComponent',
-    'fastComponentRef',
-  ];
-
   return {
-    ...baseConfig,
-    plugins: [...baseConfig.plugins, ...plugins],
+    assumptions: {
+      noDocumentAll: true,
+    },
+    presets,
+    plugins,
     overrides: [
       {
         exclude: /\.test\.(js|ts|tsx)$/,
@@ -44,5 +38,6 @@ export default function getBabelConfig(api) {
         sourceMaps: 'both',
       },
     },
+    ignore: [/@babel[/\\]runtime/],
   };
 }

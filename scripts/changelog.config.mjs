@@ -1,6 +1,4 @@
-/**
- * @type {import('@mui/internal-code-infra/changelog').ChangelogConfig}
- */
+/** @type {Record<string, any>} */
 export default {
   format: {
     version: 'v{{version}}',
