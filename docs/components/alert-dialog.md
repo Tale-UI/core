@@ -27,7 +27,7 @@ import { Button } from '@tale-ui/react/button';
 function Example() {
   const [open, setOpen] = useState(false);
   return (
-    <AlertDialog.Root open={open} onOpenChange={setOpen}>
+    <AlertDialog.Root isOpen={open} onOpenChange={setOpen}>
       <AlertDialog.Trigger className="tale-button tale-button--danger">
         Delete Item
       </AlertDialog.Trigger>
@@ -63,6 +63,7 @@ function Example() {
 
 ## Notes
 
+- **Controlled state uses `isOpen`, not `open`.** Pass `isOpen={open} onOpenChange={setOpen}` to `AlertDialog.Root`. This follows the React Aria Components convention.
 - **Backdrop must wrap Popup.** `<AlertDialog.Backdrop>` must contain `<AlertDialog.Popup>` as a child — not a sibling. Using them as siblings leaves the backdrop stuck after closing.
 - **Trigger needs explicit `tale-button`.** Unlike `Dialog.Trigger`, `AlertDialog.Trigger` applies `tale-alert-dialog__trigger` as its base class, not `tale-button`. Add both classes for button styling: `className="tale-button tale-button--danger"`.
 - **Popup and Content are separate.** `Popup` is the Modal container, `Content` is the alertdialog element inside it. Always nest `Content` inside `Popup`.

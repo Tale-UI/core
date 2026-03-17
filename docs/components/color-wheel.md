@@ -22,8 +22,9 @@ import { parseColor } from 'react-aria-components';
   outerRadius={100}
   innerRadius={70}
 >
-  <ColorWheel.Track />
-  <ColorWheel.Thumb />
+  <ColorWheel.Track>
+    <ColorWheel.Thumb />
+  </ColorWheel.Track>
 </ColorWheel.Root>
 ```
 

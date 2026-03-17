@@ -26,7 +26,7 @@ import { Button } from '@tale-ui/react/button';
 function Example() {
   const [open, setOpen] = useState(false);
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Root isOpen={open} onOpenChange={setOpen}>
       <Dialog.Trigger className="tale-button--primary">Open Dialog</Dialog.Trigger>
       <Dialog.Backdrop>
         <Dialog.Popup>
@@ -53,7 +53,7 @@ function Example() {
 ```tsx
 const [open, setOpen] = useState(false);
 
-<Dialog.Root open={open} onOpenChange={setOpen}>
+<Dialog.Root isOpen={open} onOpenChange={setOpen}>
   <Dialog.Trigger className="tale-button--danger">Delete Account</Dialog.Trigger>
   <Dialog.Backdrop>
     <Dialog.Popup>
@@ -76,7 +76,7 @@ const [open, setOpen] = useState(false);
 ```tsx
 const [open, setOpen] = useState(false);
 
-<Dialog.Root open={open} onOpenChange={setOpen}>
+<Dialog.Root isOpen={open} onOpenChange={setOpen}>
   <Dialog.Trigger className="tale-button--neutral">Open Non-Modal</Dialog.Trigger>
   <Dialog.Popup modalProps={{ isDismissable: true }}>
     <Dialog.Title>Notification</Dialog.Title>
@@ -102,6 +102,7 @@ const [open, setOpen] = useState(false);
 
 ## Notes
 
+- **Controlled state uses `isOpen`, not `open`.** Pass `isOpen={open} onOpenChange={setOpen}` to `Dialog.Root`. This follows the React Aria Components convention.
 - **Backdrop must wrap Popup.** `<Dialog.Backdrop>` must contain `<Dialog.Popup>` as a child — not a sibling. This produces the correct React Aria structure (`ModalOverlay > Modal > Dialog`). Using them as siblings creates two independent overlay portals and the backdrop will not be cleaned up on close.
 - **Trigger variant class.** `Dialog.Trigger` auto-applies `tale-button` — add the variant yourself: `className="tale-button--primary"`.
 - **Use `<Button>` for actions.** `Dialog.Close` applies `tale-dialog__close` CSS (absolutely positioned in the corner) — reserve it for the icon-only X button. For Cancel/Confirm, use `<Button variant="..." onPress={() => setOpen(false)}>`.
