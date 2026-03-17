@@ -1,24 +1,21 @@
 /**
- * @file Configuration file for bundle-size-checker
+ * @file Configuration file for bundle-size tracking.
  *
  * This file determines which packages and components will have their bundle sizes measured.
+ * Note: The bundle-size-checker dependency has been removed. This config is kept for reference.
  */
 import path from 'path';
 import fs from 'fs/promises';
-import { defineConfig } from '@mui/internal-bundle-size-checker';
 
 const rootDir = path.resolve(import.meta.dirname, '../..');
 
 async function getTaleUiExports() {
-  // Read the package.json to get exports
   const packageJsonPath = path.join(rootDir, 'packages/react/package.json');
   const packageJsonContent = await fs.readFile(packageJsonPath, 'utf8');
   const packageJson = JSON.parse(packageJsonContent);
 
-  // Get all export paths from @tale-ui/react package.json
   const exports = packageJson.exports;
   const entrypoints = Object.keys(exports).map((exportKey) => {
-    // Convert from "./accordion" to "@tale-ui/react/accordion"
     const entrypoint = exportKey === '.' ? '@tale-ui/react' : `@tale-ui/react${exportKey.slice(1)}`;
     return entrypoint;
   });
@@ -27,11 +24,9 @@ async function getTaleUiExports() {
 }
 
 async function getUtilsExports() {
-  // Read top-level files to get utils exports
   const utilsDir = path.join(rootDir, 'packages/utils/src');
   const files = await fs.readdir(utilsDir);
 
-  // Get file stats concurrently
   const fileStats = await Promise.all(
     files.map(async (file) => {
       const filePath = path.join(utilsDir, file);
@@ -42,11 +37,9 @@ async function getUtilsExports() {
 
   const entrypoints = fileStats
     .filter(({ file, stat }) => {
-      // For files, only include .ts and .tsx files
       if (stat.isFile() && !(file.endsWith('.ts') || file.endsWith('.tsx'))) {
         return false;
       }
-      // Exclude test files
       if (file.includes('.test.')) {
         return false;
       }
@@ -57,13 +50,10 @@ async function getUtilsExports() {
   return entrypoints;
 }
 
-/**
- * Generates the entrypoints configuration by scanning the exports field in package.json.
- */
-export default defineConfig(async () => {
+export default async function getConfig() {
   return {
     entrypoints: [...(await getTaleUiExports()), ...(await getUtilsExports())],
     upload: !!process.env.CI,
     comment: true,
   };
-});
+}

@@ -10,8 +10,6 @@ import * as tae from 'typescript-api-extractor';
 import { kebabCase } from 'es-toolkit/string';
 import ts from 'typescript';
 import { globby } from 'globby';
-// syncPageIndex was previously imported from @mui/internal-docs-infra.
-// The component index is now written directly as JSON.
 import { isPublicComponent, formatComponentData, extractComponentGroup } from './componentHandler';
 import { isPublicHook, formatHookData } from './hookHandler';
 import { isPublicUtility, formatUtilityData } from './utilityHandler';

@@ -1,6 +1,5 @@
 /**
  * Stub for createDemo utilities.
- * The upstream @mui/internal-docs-infra dependency is not used in this project.
  * These functions are imported by demo barrel files (index.ts) but the actual
  * demo rendering is handled directly by the css-modules/index.tsx components.
  */

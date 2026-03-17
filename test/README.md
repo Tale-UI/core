@@ -184,7 +184,7 @@ Alternatively, you might want to open `http://localhost:5173` (while `pnpm test:
 
 ### Testing multiple versions of React
 
-You can check integration of different versions of React (for example different [release channels](https://react.dev/community/versioning-policy) or PRs to React) by running `pnpm dlx @mui/internal-code-infra@canary set-version-overrides --pkg react@<version>`.
+You can check integration of different versions of React (for example different [release channels](https://react.dev/community/versioning-policy) or PRs to React) by setting version overrides in the root `package.json` resolutions field.
 
 Possible values for `version`:
 

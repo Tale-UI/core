@@ -10,7 +10,6 @@ packages:
   - playground/*
 
 onlyBuiltDependencies:
-  - '@mui/internal-babel-plugin-display-name'
   - '@vvago/vale'
   - core-js
   - esbuild

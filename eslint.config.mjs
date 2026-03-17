@@ -33,7 +33,6 @@ function includeIgnoreIfExists(filePath, description) {
 
 const OneLevelImportMessage = [
   'Prefer one level nested imports to avoid bundling everything in dev mode or breaking CJS/ESM split.',
-  'See https://github.com/mui/material-ui/pull/24147 for the kind of win it can unlock.',
 ].join('\n');
 
 const NO_RESTRICTED_IMPORTS_PATTERNS_DEEPLY_NESTED = [
@@ -52,7 +51,7 @@ const restrictedSyntaxRules = restrictedMethods.map((method) => ({
   selector: `MemberExpression[object.name='window'][property.name='${method}']`,
 }));
 
-// ── Core rules (replaces Airbnb + MUI core config) ────────────────────────
+// ── Core rules (Airbnb-derived) ───────────────────────────────────────────
 const coreRules = {
   // Security & Best Practices
   'no-eval': 'error',

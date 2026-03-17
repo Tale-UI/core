@@ -2,7 +2,7 @@ import * as path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const shouldDisableWorkspaceAliases = Boolean(process.env.MUI_DISABLE_WORKSPACE_ALIASES);
+const shouldDisableWorkspaceAliases = Boolean(process.env.TALE_UI_DISABLE_WORKSPACE_ALIASES);
 
 export default defineConfig({
   mode: process.env.NODE_ENV || 'development',

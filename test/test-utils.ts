@@ -23,7 +23,7 @@ export function act(callback: () => void | Promise<void>) {
   return rtlAct(callback);
 }
 
-// flushMicrotasks - equivalent to MUI's version
+// flushMicrotasks
 export async function flushMicrotasks() {
   await act(async () => {});
 }
@@ -143,7 +143,7 @@ function createClock(defaultMode: string, config?: number | Date, options?: obje
   };
 }
 
-// createRenderer - replacement for MUI's createRenderer
+// createRenderer
 export function createRenderer(globalOptions: CreateRendererOptions = {}) {
   const {
     clock: clockMode = 'real',
