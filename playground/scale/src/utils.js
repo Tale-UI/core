@@ -220,24 +220,23 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
     ...palette.map(p => `--${name}-${p.shade}`.length)
   )
 
-  // 1. Raw palette tokens + fg overrides on :root for standalone use
+  // 1. Raw palette tokens
   const paletteLines = palette.map(({ shade, hex }) => {
     const prop    = `--${name}-${shade}`
     const comment = shade === 60 ? '  /* BASE */' : ''
     return `  ${prop.padEnd(maxPropWidth)}: ${hex};${comment}`
   })
 
-  // Add fg pivot overrides directly to :root for standalone use.
-  // The design system's dark mode rules (on html selectors inside @media)
-  // will still win over :root via cascade position.
-  if (mode === 'named' && pivot > 60) {
-    paletteLines.push('')
-    paletteLines.push(`  /* fg overrides for light base (pivot at shade ${pivot}) */`)
-    paletteLines.push(`  --color-60-fg: var(--color-100);`)
-    if (pivot > 70) paletteLines.push(`  --color-70-fg: var(--color-100);`)
-  }
-
   const blocks = [`:root {\n${paletteLines.join('\n')}\n}`]
+
+  // Fg pivot overrides for standalone use (no .color-{name} wrapper).
+  // Must use html:not([data-color-mode="dark"]) to beat the design system's
+  // light-mode rule at the same specificity (0,1,1) via later cascade position.
+  if (mode === 'named' && pivot > 60) {
+    const fgLines = [`  --color-60-fg: var(--color-100);`]
+    if (pivot > 70) fgLines.push(`  --color-70-fg: var(--color-100);`)
+    blocks.push(`/* Light-mode fg override — load after @tale-ui/core */\nhtml:not([data-color-mode="dark"]) {\n${fgLines.join('\n')}\n}`)
+  }
 
   // 2. Theme class
   if (mode === 'neutral') {
