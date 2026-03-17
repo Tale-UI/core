@@ -39,7 +39,7 @@ export const reactMajor = parseInt(React.version, 10);
 // RenderOptions type — extends TLRenderOptions with `strict` flag
 export type RenderOptions = TLRenderOptions & { strict?: boolean };
 
-// MuiRenderResult replacement - the render result type
+// Render result type
 export type TaleUIRenderResult = ReturnType<typeof testingLibraryRender> & {
   user: ReturnType<typeof userEvent.setup>;
   forceUpdate: () => void;
