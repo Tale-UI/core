@@ -22,6 +22,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [docs/react-setup.md](docs/react-setup.md) | Setting up a React app with Tale UI |
 | [docs/design-philosophy.md](docs/design-philosophy.md) | Why React Aria, why BEM, why CSS-first, colour token system, dark mode |
 | [docs/authoring-components.md](docs/authoring-components.md) | Contributor guide: adding new `@tale-ui/react` components |
+| [docs/components/](docs/components/index.md) | Per-component usage guide: imports, parts, examples, CSS classes |
 
 ## CSS Design System (@tale-ui/core)
 

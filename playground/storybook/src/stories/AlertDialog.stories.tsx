@@ -16,18 +16,19 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render: () => (
     <AlertDialog.Root>
-      <AlertDialog.Trigger>Open Alert</AlertDialog.Trigger>
-      <AlertDialog.Backdrop />
-      <AlertDialog.Popup>
-        <AlertDialog.Content>
-          <AlertDialog.Title>Are you sure?</AlertDialog.Title>
-          <AlertDialog.Description>This action cannot be undone.</AlertDialog.Description>
-          <div style={{ display: 'flex', gap: 'var(--space-s)', justifyContent: 'flex-end', marginTop: 'var(--space-m)' }}>
-            <AlertDialog.Close>Cancel</AlertDialog.Close>
-            <AlertDialog.Close>Confirm</AlertDialog.Close>
-          </div>
-        </AlertDialog.Content>
-      </AlertDialog.Popup>
+      <AlertDialog.Trigger className="tale-button tale-button--neutral">Open Alert</AlertDialog.Trigger>
+      <AlertDialog.Backdrop>
+        <AlertDialog.Popup>
+          <AlertDialog.Content>
+            <AlertDialog.Title>Are you sure?</AlertDialog.Title>
+            <AlertDialog.Description>This action cannot be undone.</AlertDialog.Description>
+            <div className="tale-alert-dialog__actions">
+              <Button slot="close" variant="neutral">Cancel</Button>
+              <Button slot="close" variant="primary">Confirm</Button>
+            </div>
+          </AlertDialog.Content>
+        </AlertDialog.Popup>
+      </AlertDialog.Backdrop>
     </AlertDialog.Root>
   ),
 };
@@ -35,27 +36,24 @@ export const Default: Story = {
 export const Destructive: Story = {
   render: () => (
     <AlertDialog.Root>
-      <AlertDialog.Trigger>
-        <Button>Delete Account</Button>
+      <AlertDialog.Trigger className="tale-button tale-button--danger">
+        Delete Account
       </AlertDialog.Trigger>
-      <AlertDialog.Backdrop />
-      <AlertDialog.Popup>
-        <AlertDialog.Content>
-          <AlertDialog.Title>Delete Account</AlertDialog.Title>
-          <AlertDialog.Description>
-            Are you sure you want to delete your account? All of your data will be permanently removed.
-            This action cannot be undone.
-          </AlertDialog.Description>
-          <div style={{ display: 'flex', gap: 'var(--space-s)', justifyContent: 'flex-end', marginTop: 'var(--space-m)' }}>
-            <AlertDialog.Close>Cancel</AlertDialog.Close>
-            <AlertDialog.Close>
-              <Button style={{ backgroundColor: 'var(--color-danger-bg)', color: 'var(--color-danger-fg)' }}>
-                Delete
-              </Button>
-            </AlertDialog.Close>
-          </div>
-        </AlertDialog.Content>
-      </AlertDialog.Popup>
+      <AlertDialog.Backdrop>
+        <AlertDialog.Popup>
+          <AlertDialog.Content>
+            <AlertDialog.Title>Delete Account</AlertDialog.Title>
+            <AlertDialog.Description>
+              Are you sure you want to delete your account? All of your data will be permanently removed.
+              This action cannot be undone.
+            </AlertDialog.Description>
+            <div className="tale-alert-dialog__actions">
+              <Button slot="close" variant="neutral">Cancel</Button>
+              <Button slot="close" variant="danger">Delete</Button>
+            </div>
+          </AlertDialog.Content>
+        </AlertDialog.Popup>
+      </AlertDialog.Backdrop>
     </AlertDialog.Root>
   ),
 };

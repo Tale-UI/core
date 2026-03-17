@@ -30,18 +30,19 @@ function DialogDemo({ triggerLabel, triggerVariant = 'primary', title, descripti
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger className={`tale-button--${triggerVariant}`}>{triggerLabel}</Dialog.Trigger>
-      <Dialog.Backdrop />
-      <Dialog.Popup>
-        <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
-        <Dialog.Title>{title}</Dialog.Title>
-        <Dialog.Description>{description}</Dialog.Description>
-        {children ?? (
-          <div className="tale-dialog__actions">
-            <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
-            <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
-          </div>
-        )}
-      </Dialog.Popup>
+      <Dialog.Backdrop>
+        <Dialog.Popup>
+          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Title>{title}</Dialog.Title>
+          <Dialog.Description>{description}</Dialog.Description>
+          {children ?? (
+            <div className="tale-dialog__actions">
+              <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
+              <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
+            </div>
+          )}
+        </Dialog.Popup>
+      </Dialog.Backdrop>
     </Dialog.Root>
   );
 }
@@ -62,18 +63,19 @@ export const Destructive: Story = {
     return (
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger className="tale-button--danger">Delete Account</Dialog.Trigger>
-        <Dialog.Backdrop />
-        <Dialog.Popup>
-          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
-          <Dialog.Title>Delete account</Dialog.Title>
-          <Dialog.Description>
-            This action is permanent and cannot be undone. All your data will be lost.
-          </Dialog.Description>
-          <div className="tale-dialog__actions">
-            <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
-            <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
-          </div>
-        </Dialog.Popup>
+        <Dialog.Backdrop>
+          <Dialog.Popup>
+            <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+            <Dialog.Title>Delete account</Dialog.Title>
+            <Dialog.Description>
+              This action is permanent and cannot be undone. All your data will be lost.
+            </Dialog.Description>
+            <div className="tale-dialog__actions">
+              <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
+              <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
+            </div>
+          </Dialog.Popup>
+        </Dialog.Backdrop>
       </Dialog.Root>
     );
   },
@@ -86,34 +88,35 @@ export const ScrollableContent: Story = {
     return (
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger className="tale-button--primary">Terms &amp; Conditions</Dialog.Trigger>
-        <Dialog.Backdrop />
-        <Dialog.Popup>
-          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
-          <Dialog.Title>Terms of Service</Dialog.Title>
-          <Dialog.Description>Please read the following terms carefully.</Dialog.Description>
-          <div
-            style={{
-              maxHeight: '300px',
-              overflow: 'auto',
-              marginTop: 'var(--space-m)',
-              padding: 'var(--space-s)',
-              border: '1px solid var(--neutral-20)',
-              borderRadius: 'var(--radius-m)',
-            }}
-          >
-            {Array.from({ length: 20 }, (_, i) => (
-              <p key={i} style={{ marginBottom: 'var(--space-s)' }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </p>
-            ))}
-          </div>
-          <div className="tale-dialog__actions">
-            <Button variant="neutral" onPress={() => setOpen(false)}>Decline</Button>
-            <Button variant="primary" onPress={() => setOpen(false)}>Accept</Button>
-          </div>
-        </Dialog.Popup>
+        <Dialog.Backdrop>
+          <Dialog.Popup>
+            <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+            <Dialog.Title>Terms of Service</Dialog.Title>
+            <Dialog.Description>Please read the following terms carefully.</Dialog.Description>
+            <div
+              style={{
+                maxHeight: '300px',
+                overflow: 'auto',
+                marginTop: 'var(--space-m)',
+                padding: 'var(--space-s)',
+                border: '1px solid var(--neutral-20)',
+                borderRadius: 'var(--radius-m)',
+              }}
+            >
+              {Array.from({ length: 20 }, (_, i) => (
+                <p key={i} style={{ marginBottom: 'var(--space-s)' }}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+              ))}
+            </div>
+            <div className="tale-dialog__actions">
+              <Button variant="neutral" onPress={() => setOpen(false)}>Decline</Button>
+              <Button variant="primary" onPress={() => setOpen(false)}>Accept</Button>
+            </div>
+          </Dialog.Popup>
+        </Dialog.Backdrop>
       </Dialog.Root>
     );
   },

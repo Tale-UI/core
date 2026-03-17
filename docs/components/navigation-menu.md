@@ -1,0 +1,93 @@
+# NavigationMenu
+
+`import { NavigationMenu } from '@tale-ui/react/navigation-menu';`
+
+A horizontal navigation bar with links and optional dropdown submenus.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `NavigationMenu.Root` | The `<nav>` wrapper element. |
+| `NavigationMenu.List` | The `<ul>` list of navigation items. |
+| `NavigationMenu.Item` | An `<li>` list item. |
+| `NavigationMenu.Link` | An `<a>` navigation link. |
+| `NavigationMenu.Trigger` | A `<button>` that toggles a dropdown submenu. |
+| `NavigationMenu.Popup` | Dropdown container for submenu content. |
+| `NavigationMenu.Content` | Content wrapper inside the dropdown popup. |
+
+## Basic Usage
+
+```tsx
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+
+<NavigationMenu.Root>
+  <NavigationMenu.List>
+    <NavigationMenu.Item>
+      <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+    </NavigationMenu.Item>
+    <NavigationMenu.Item>
+      <NavigationMenu.Link href="#">About</NavigationMenu.Link>
+    </NavigationMenu.Item>
+    <NavigationMenu.Item>
+      <NavigationMenu.Link href="#">Contact</NavigationMenu.Link>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+</NavigationMenu.Root>
+```
+
+## Examples
+
+### With Dropdown
+
+```tsx
+import { useState } from 'react';
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+
+function NavWithDropdown() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <NavigationMenu.Root>
+      <NavigationMenu.List>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Trigger onClick={() => setOpen(!open)}>
+            Products
+          </NavigationMenu.Trigger>
+          {open && (
+            <NavigationMenu.Popup>
+              <NavigationMenu.Content>
+                <NavigationMenu.Link href="#">Widget Pro</NavigationMenu.Link>
+                <NavigationMenu.Link href="#">Gadget Plus</NavigationMenu.Link>
+                <NavigationMenu.Link href="#">Tool Suite</NavigationMenu.Link>
+              </NavigationMenu.Content>
+            </NavigationMenu.Popup>
+          )}
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link href="#">Contact</NavigationMenu.Link>
+        </NavigationMenu.Item>
+      </NavigationMenu.List>
+    </NavigationMenu.Root>
+  );
+}
+```
+
+## CSS Classes
+
+- `.tale-navigation-menu` — Root `<nav>` element
+- `.tale-navigation-menu__list` — `<ul>` list
+- `.tale-navigation-menu__item` — `<li>` item
+- `.tale-navigation-menu__link` — `<a>` link
+- `.tale-navigation-menu__trigger` — Dropdown toggle button
+- `.tale-navigation-menu__popup` — Dropdown container
+- `.tale-navigation-menu__content` — Content inside dropdown
+
+## Notes
+
+- This is a plain HTML implementation (not built on React Aria). Manage dropdown open/close state yourself.
+- All parts are simple semantic HTML elements (`nav`, `ul`, `li`, `a`, `button`, `div`).
+- Dropdown visibility is controlled by conditionally rendering `NavigationMenu.Popup`.

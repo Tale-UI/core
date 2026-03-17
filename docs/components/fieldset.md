@@ -1,0 +1,56 @@
+# Fieldset
+
+`import { Fieldset } from '@tale-ui/react/fieldset';`
+
+A native `<fieldset>` wrapper for grouping related form fields with a legend.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `Fieldset.Root` | The `<fieldset>` element. Accepts `disabled` to disable all children. |
+| `Fieldset.Legend` | The `<legend>` element for the group title. |
+
+## Basic Usage
+
+```tsx
+<Fieldset.Root>
+  <Fieldset.Legend>Personal Information</Fieldset.Legend>
+  <TextField.Root>
+    <TextField.Label>First Name</TextField.Label>
+    <TextField.Input placeholder="John" />
+  </TextField.Root>
+  <TextField.Root>
+    <TextField.Label>Last Name</TextField.Label>
+    <TextField.Input placeholder="Doe" />
+  </TextField.Root>
+</Fieldset.Root>
+```
+
+## Examples
+
+### Disabled Fieldset
+
+```tsx
+<Fieldset.Root disabled>
+  <Fieldset.Legend>Billing Address (disabled)</Fieldset.Legend>
+  <TextField.Root>
+    <TextField.Label>Street</TextField.Label>
+    <TextField.Input placeholder="123 Main St" />
+  </TextField.Root>
+  <TextField.Root>
+    <TextField.Label>City</TextField.Label>
+    <TextField.Input placeholder="Anytown" />
+  </TextField.Root>
+</Fieldset.Root>
+```
+
+## CSS Classes
+
+- `.tale-fieldset` — Base
+- `.tale-fieldset__legend` — Legend
+
+## Notes
+
+- Setting `disabled` on `Fieldset.Root` natively disables all form controls inside it.
+- Typically used with `TextField`, `NumberField`, or other field components as children.

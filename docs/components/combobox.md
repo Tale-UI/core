@@ -1,0 +1,152 @@
+# Combobox
+
+`import { Combobox } from '@tale-ui/react/combobox';`
+
+A compound combobox (autocomplete select) with a text input, trigger button, and popover listbox, built on React Aria's ComboBox.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `Combobox.Root` | Top-level combobox wrapper |
+| `Combobox.Label` | Accessible label |
+| `Combobox.InputGroup` | Groups the input and trigger button together |
+| `Combobox.Input` | The text input for filtering |
+| `Combobox.Trigger` | Button to open/close the dropdown |
+| `Combobox.Popover` | Floating popover container |
+| `Combobox.ListBox` | Scrollable list of options |
+| `Combobox.Item` | An individual option |
+| `Combobox.Section` | A group of related items |
+| `Combobox.Header` | Section header label |
+| `Combobox.Empty` | Shown when no items match the filter |
+| `Combobox.Chips` | Container for multi-select chip tags |
+| `Combobox.Chip` | A single chip tag |
+| `Combobox.ChipRemove` | Remove button inside a chip |
+| `Combobox.Separator` | Visual divider |
+
+## Basic Usage
+
+```tsx
+<Combobox.Root>
+  <Combobox.InputGroup>
+    <Combobox.Input />
+    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+  </Combobox.InputGroup>
+  <Combobox.Popover>
+    <Combobox.ListBox>
+      <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+      <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+      <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+    </Combobox.ListBox>
+  </Combobox.Popover>
+</Combobox.Root>
+```
+
+## Examples
+
+### With Label
+
+```tsx
+<Combobox.Root>
+  <Combobox.Label>Favorite fruit</Combobox.Label>
+  <Combobox.InputGroup>
+    <Combobox.Input />
+    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+  </Combobox.InputGroup>
+  <Combobox.Popover>
+    <Combobox.ListBox>
+      <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+      <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+      <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+    </Combobox.ListBox>
+  </Combobox.Popover>
+</Combobox.Root>
+```
+
+### With Placeholder
+
+```tsx
+<Combobox.Root>
+  <Combobox.Label>Search countries</Combobox.Label>
+  <Combobox.InputGroup>
+    <Combobox.Input placeholder="Type to search..." />
+    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+  </Combobox.InputGroup>
+  <Combobox.Popover>
+    <Combobox.ListBox>
+      <Combobox.Item id="us" textValue="United States">United States</Combobox.Item>
+      <Combobox.Item id="ca" textValue="Canada">Canada</Combobox.Item>
+      <Combobox.Item id="mx" textValue="Mexico">Mexico</Combobox.Item>
+    </Combobox.ListBox>
+  </Combobox.Popover>
+</Combobox.Root>
+```
+
+### With Sections
+
+```tsx
+<Combobox.Root>
+  <Combobox.Label>Food</Combobox.Label>
+  <Combobox.InputGroup>
+    <Combobox.Input placeholder="Search food..." />
+    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+  </Combobox.InputGroup>
+  <Combobox.Popover>
+    <Combobox.ListBox>
+      <Combobox.Section>
+        <Combobox.Header>Fruits</Combobox.Header>
+        <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+        <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+      </Combobox.Section>
+      <Combobox.Section>
+        <Combobox.Header>Vegetables</Combobox.Header>
+        <Combobox.Item id="carrot" textValue="Carrot">Carrot</Combobox.Item>
+        <Combobox.Item id="broccoli" textValue="Broccoli">Broccoli</Combobox.Item>
+      </Combobox.Section>
+    </Combobox.ListBox>
+  </Combobox.Popover>
+</Combobox.Root>
+```
+
+### Empty State
+
+```tsx
+<Combobox.Root>
+  <Combobox.Label>Search</Combobox.Label>
+  <Combobox.InputGroup>
+    <Combobox.Input placeholder="Type to filter..." />
+    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+  </Combobox.InputGroup>
+  <Combobox.Popover>
+    <Combobox.ListBox>
+      <Combobox.Empty>No results found.</Combobox.Empty>
+      <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+      <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+    </Combobox.ListBox>
+  </Combobox.Popover>
+</Combobox.Root>
+```
+
+## CSS Classes
+
+- `.tale-combobox` -- Base (root)
+- `.tale-combobox__label` -- Label
+- `.tale-combobox__input-group` -- Input + trigger wrapper
+- `.tale-combobox__input` -- Text input
+- `.tale-combobox__trigger` -- Dropdown trigger button
+- `.tale-combobox__popover` -- Floating popover
+- `.tale-combobox__listbox` -- List of options
+- `.tale-combobox__item` -- Individual option
+- `.tale-combobox__header` -- Section header
+- `.tale-combobox__empty` -- Empty state message
+- `.tale-combobox__chips` -- Multi-select chips container
+- `.tale-combobox__chip` -- Individual chip
+- `.tale-combobox__chip-remove` -- Chip remove button
+- `.tale-combobox__separator` -- Divider
+
+## Notes
+
+- Each `Combobox.Item` should have both an `id` and a `textValue` prop for accessibility and filtering.
+- `Combobox.InputGroup` wraps both the input and trigger to form a single visual control.
+- `Combobox.Empty` is displayed when filtering yields no matches.
+- For multi-select, use `Combobox.Chips`, `Combobox.Chip`, and `Combobox.ChipRemove` to display selected values as tags.

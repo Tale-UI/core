@@ -40,8 +40,18 @@
   gap: 0;
 }
 
-.tale-tabs[data-orientation="vertical"] .tale-tabs__list {
+.tale-tabs__list-inner {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__list,
+.tale-tabs[data-orientation="vertical"] .tale-tabs__list-inner {
   flex-direction: column;
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__list {
   border-bottom: none;
   border-right: 2px solid var(--neutral-18);
 }
@@ -77,7 +87,7 @@
 }
 
 .tale-tabs__tab[data-selected] {
-  color: var(--color-60);
+  color: var(--neutral-90);
 }
 
 .tale-tabs__tab[data-disabled] {
@@ -92,7 +102,7 @@
   position: absolute;
   bottom: -2px;
   height: 2px;
-  background-color: var(--color-60);
+  background-color: var(--neutral-90);
   border-radius: var(--radius-full) var(--radius-full) 0 0;
   transition: left 0.25s ease, width 0.25s ease, top 0.25s ease, height 0.25s ease;
 }
