@@ -169,7 +169,15 @@ buildPkg.type = buildPkg.type || 'commonjs';
 if (buildPkg.exports) {
   const newExports = {};
   for (const [key, value] of Object.entries(buildPkg.exports)) {
-    if (typeof value === 'string' && value.startsWith('./src/')) {
+    if (typeof value === 'string' && value.startsWith('./src/') && value.endsWith('.css')) {
+      // CSS exports: copy file to build dir and keep as a plain string export
+      const stripped = value.replace(/^\.\/src\//, './');
+      const srcFile = path.join(cwd, value);
+      const destFile = path.join(buildDir, stripped);
+      await fs.mkdir(path.dirname(destFile), { recursive: true });
+      await fs.cp(srcFile, destFile);
+      newExports[key] = stripped;
+    } else if (typeof value === 'string' && value.startsWith('./src/')) {
       const stripped = value.replace(/^\.\/src\//, './').replace(/\.tsx?$/, '.js');
       const esmPath = stripped.replace(/^\.\//, './esm/');
       const typesPath = stripped.replace(/\.js$/, '.d.ts');
@@ -199,11 +207,12 @@ const filesToCopy = [
   { src: path.join(cwd, 'README.md'), fallback: path.join(repoRoot, 'README.md') },
   { src: path.join(cwd, 'LICENSE'), fallback: path.join(repoRoot, 'LICENSE') },
   { src: path.join(cwd, 'CHANGELOG.md'), fallback: path.join(repoRoot, 'CHANGELOG.md') },
+  { src: path.join(cwd, 'CLAUDE.md') },
 ];
 
 let copied = 0;
 for (const { src, fallback } of filesToCopy) {
-  const source = (await fileExists(src)) ? src : (await fileExists(fallback)) ? fallback : null;
+  const source = (await fileExists(src)) ? src : (fallback && await fileExists(fallback)) ? fallback : null;
   if (source) {
     await fs.cp(source, path.join(buildDir, path.basename(source)));
     copied++;
