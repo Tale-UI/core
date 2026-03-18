@@ -231,6 +231,14 @@ if (await fileExists(binDir)) {
   copied++;
 }
 
+// Copy component docs (docs/components/*.md) into build/docs/ for local agent access
+const componentDocsDir = path.join(repoRoot, 'docs', 'components');
+if (await fileExists(componentDocsDir)) {
+  const destDocsDir = path.join(buildDir, 'docs');
+  await fs.cp(componentDocsDir, destDocsDir, { recursive: true });
+  copied++;
+}
+
 // Copy extra files (e.g., .npmignore)
 for (const file of extraCopy) {
   const source = path.resolve(cwd, file);
