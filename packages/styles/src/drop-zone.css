@@ -35,7 +35,7 @@
 /* ─── Focus ────────────────────────────────────────────────────────────────── */
 
 .tale-drop-zone[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--focus-ring-color);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Drop target — active drag-over ──────────────────────────────────────── */

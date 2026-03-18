@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   MenuTrigger as AriaMenuTrigger,
+  Button as AriaButton,
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
   MenuSection as AriaMenuSection,
@@ -8,6 +9,7 @@ import {
   Separator as AriaSeparator,
   Header as AriaHeader,
   type MenuTriggerProps as AriaMenuTriggerProps,
+  type ButtonProps as AriaButtonProps,
   type MenuProps as AriaMenuProps,
   type MenuItemProps as AriaMenuItemProps,
   type MenuSectionProps as AriaMenuSectionProps,
@@ -23,11 +25,11 @@ export const Root = AriaMenuTrigger;
 
 /* ─── Trigger ─────────────────────────────────────────────────────────────── */
 
-export type TriggerProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & { className?: string };
+export type TriggerProps = Omit<AriaButtonProps, 'className'> & { className?: string };
 
 export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
   ({ className, ...props }, ref) => (
-    <button ref={ref} className={cx('tale-menu__trigger', className)} {...props} />
+    <AriaButton ref={ref} className={cx('tale-menu__trigger', className)} {...props} />
   ),
 );
 Trigger.displayName = 'Menu.Trigger';

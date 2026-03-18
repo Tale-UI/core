@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Menu } from '@tale-ui/react/menu';
-import { Button } from '@tale-ui/react/button';
 
 type Args = {
   placement?: 'top' | 'bottom' | 'left' | 'right';
@@ -30,9 +29,7 @@ export const Default: Story = {
   render: (args) => (
     <div style={{ padding: 'var(--space-4xl)' }}>
       <Menu.Root>
-        <Menu.Trigger>
-          <Button>Options ▾</Button>
-        </Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList>
             <Menu.Item id="new">New File</Menu.Item>
@@ -53,9 +50,7 @@ export const WithGroups: Story = {
   render: (args) => (
     <div style={{ padding: 'var(--space-4xl)' }}>
       <Menu.Root>
-        <Menu.Trigger>
-          <Button>Actions ▾</Button>
-        </Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList>
             <Menu.Group>
@@ -82,9 +77,7 @@ export const WithDisabledItems: Story = {
   render: (args) => (
     <div style={{ padding: 'var(--space-4xl)' }}>
       <Menu.Root>
-        <Menu.Trigger>
-          <Button>Edit ▾</Button>
-        </Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Edit ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList>
             <Menu.Item id="undo">Undo</Menu.Item>
@@ -108,9 +101,7 @@ export const Disabled: Story = {
   render: (args) => (
     <div style={{ padding: 'var(--space-4xl)' }}>
       <Menu.Root isDisabled>
-        <Menu.Trigger>
-          <Button>Disabled Menu ▾</Button>
-        </Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Disabled Menu ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList>
             <Menu.Item id="a">Item A</Menu.Item>

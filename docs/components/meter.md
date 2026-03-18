@@ -69,5 +69,5 @@ A horizontal bar representing a scalar measurement within a known range (e.g. st
 ## Notes
 
 - Built on React Aria `Meter`.
-- The `Indicator` computes its width as a percentage from `value` (default 0), `min` (default 0), and `max` (default 100).
+- **`Meter.Indicator` requires its own `value` prop** — it does not inherit from `Meter.Root`. React Aria's Meter exposes `percentage` via render props, not context, so the indicator computes its width independently from `value` (default 0), `min` (default 0), and `max` (default 100). Always pass matching values to both Root and Indicator.
 - Meter differs from ProgressBar semantically: use Meter for measurements within a known range (disk usage, battery level), and ProgressBar for task completion.

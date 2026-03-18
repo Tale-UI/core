@@ -110,8 +110,7 @@
 }
 
 .tale-calendar__cell[data-focus-visible] {
-  outline: 2px solid var(--color-60);
-  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Navigation buttons ───────────────────────────────────────────────────── */
@@ -145,6 +144,5 @@
 
 .tale-calendar__prev-button[data-focus-visible],
 .tale-calendar__next-button[data-focus-visible] {
-  outline: 2px solid var(--color-60);
-  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }

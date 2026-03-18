@@ -52,7 +52,7 @@
   width: var(--tale-radio-dot-size);
   height: var(--tale-radio-dot-size);
   border-radius: 50%;
-  background-color: var(--color-60);
+  background-color: var(--color-80);
   transition: transform 0.15s ease, opacity 0.15s ease;
   transform: scale(0);
   opacity: 0;

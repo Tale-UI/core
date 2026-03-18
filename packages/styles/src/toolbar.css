@@ -65,7 +65,7 @@
 }
 
 .tale-toolbar__button:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-60);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-toolbar__button[disabled] {
@@ -92,7 +92,7 @@
   padding: var(--space-4xs) var(--space-3xs);
   min-height: 3.2rem;
   border-radius: var(--radius-m);
-  color: var(--color-60);
+  color: var(--color-80);
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
   font-weight: var(--label-font-weight);
@@ -102,11 +102,11 @@
 }
 
 .tale-toolbar__link:hover {
-  background-color: var(--neutral-14);
+  background-color: var(--neutral-18);
 }
 
 .tale-toolbar__link:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-60);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Group ────────────────────────────────────────────────────────────────── */

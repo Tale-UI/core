@@ -61,16 +61,16 @@
 }
 
 .tale-breadcrumbs__link[data-hovered] {
-  color: var(--color-60);
+  color: var(--color-80);
   text-decoration: underline;
 }
 
 .tale-breadcrumbs__link[data-pressed] {
-  color: var(--color-40);
+  color: var(--color-100);
 }
 
 .tale-breadcrumbs__link[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-breadcrumbs__link[data-current] {

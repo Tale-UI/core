@@ -12,7 +12,7 @@
 /* ─── Base ─────────────────────────────────────────────────────────────────── */
 
 .tale-link {
-  color: var(--color-60);
+  color: var(--color-70);
   font-family: var(--body-font-family);
   font-size: inherit;
   text-decoration: underline;
@@ -26,19 +26,19 @@
 /* ─── Hovered ──────────────────────────────────────────────────────────────── */
 
 .tale-link[data-hovered] {
-  color: var(--color-50);
+  color: var(--color-100);
 }
 
 /* ─── Pressed ──────────────────────────────────────────────────────────────── */
 
 .tale-link[data-pressed] {
-  color: var(--color-40);
+  color: var(--color-90);
 }
 
 /* ─── Focus visible ────────────────────────────────────────────────────────── */
 
 .tale-link[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
   text-decoration: none;
 }
 

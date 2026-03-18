@@ -400,7 +400,7 @@ function AutocompleteDemo() {
 function MenuCheckboxDemo() {
   return (
     <Menu.Root>
-      <Menu.Trigger><Button variant="neutral">Format ▾</Button></Menu.Trigger>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format ▾</Menu.Trigger>
       <Menu.Popover offset={4}>
         <Menu.MenuList>
           <Menu.Item>Bold</Menu.Item>
@@ -1063,7 +1063,7 @@ export default function ComponentAudit() {
           <SubHeading>Basic</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger><Button variant="neutral">Options ▾</Button></Menu.Trigger>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList>
                   <Menu.Item>Edit</Menu.Item>
@@ -1079,7 +1079,7 @@ export default function ComponentAudit() {
           <SubHeading>With Group Labels</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger><Button variant="neutral">Account ▾</Button></Menu.Trigger>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Account ▾</Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList>
                   <Menu.Group>
@@ -1355,7 +1355,7 @@ export default function ComponentAudit() {
                 <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{label}</span>
                 <Meter.Root value={value}>
                   <Meter.Track>
-                    <Meter.Indicator />
+                    <Meter.Indicator value={value} />
                   </Meter.Track>
                 </Meter.Root>
               </div>

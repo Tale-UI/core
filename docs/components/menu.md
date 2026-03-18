@@ -9,7 +9,7 @@ A dropdown menu triggered by a button, with items, groups, headers, and separato
 | Part | Description |
 |------|-------------|
 | `Menu.Root` | Manages open/close state. Accepts `isDisabled`. |
-| `Menu.Trigger` | Button that opens the menu. |
+| `Menu.Trigger` | Button that opens the menu. Style with `className="tale-button tale-button--{variant} tale-button--{size}"`. |
 | `Menu.Popover` | Positioned popover container. Accepts `placement` and `offset`. |
 | `Menu.MenuList` | The menu list (`role="menu"`). |
 | `Menu.Item` | A menu item. Accepts `id`, `isDisabled`, `onAction`. |
@@ -21,12 +21,9 @@ A dropdown menu triggered by a button, with items, groups, headers, and separato
 
 ```tsx
 import { Menu } from '@tale-ui/react/menu';
-import { Button } from '@tale-ui/react/button';
 
 <Menu.Root>
-  <Menu.Trigger>
-    <Button>Options</Button>
-  </Menu.Trigger>
+  <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
   <Menu.Popover placement="bottom" offset={4}>
     <Menu.MenuList>
       <Menu.Item id="new">New File</Menu.Item>
@@ -47,9 +44,7 @@ import { Button } from '@tale-ui/react/button';
 
 ```tsx
 <Menu.Root>
-  <Menu.Trigger>
-    <Button>Actions</Button>
-  </Menu.Trigger>
+  <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions ▾</Menu.Trigger>
   <Menu.Popover placement="bottom" offset={4}>
     <Menu.MenuList>
       <Menu.Group>
@@ -74,9 +69,7 @@ import { Button } from '@tale-ui/react/button';
 
 ```tsx
 <Menu.Root>
-  <Menu.Trigger>
-    <Button>Edit</Button>
-  </Menu.Trigger>
+  <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Edit ▾</Menu.Trigger>
   <Menu.Popover placement="bottom" offset={4}>
     <Menu.MenuList>
       <Menu.Item id="undo">Undo</Menu.Item>
@@ -94,9 +87,7 @@ import { Button } from '@tale-ui/react/button';
 
 ```tsx
 <Menu.Root isDisabled>
-  <Menu.Trigger>
-    <Button>Disabled Menu</Button>
-  </Menu.Trigger>
+  <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Disabled Menu ▾</Menu.Trigger>
   <Menu.Popover placement="bottom" offset={4}>
     <Menu.MenuList>
       <Menu.Item id="a">Item A</Menu.Item>
@@ -119,4 +110,4 @@ import { Button } from '@tale-ui/react/button';
 
 - Each `Menu.Item` requires a unique `id` prop.
 - Use `isDisabled` on individual items or on `Menu.Root` to disable the entire menu.
-- **Wrap `<Button>` inside `<Menu.Trigger>`.** `Menu.Trigger` renders a plain `<button>` with `tale-menu__trigger` — it has no button styling. Place a `<Button variant="...">` component as its child for proper styling. This is required for React Aria's keyboard and focus handling to work correctly.
+- **Do not nest `<Button>` inside `<Menu.Trigger>`.** `Menu.Trigger` is a React Aria `Button` — nesting another `<Button>` creates invalid `<button><button>` HTML. Instead, apply button styling via `className="tale-button tale-button--{variant} tale-button--{size}"` directly on `Menu.Trigger`.
