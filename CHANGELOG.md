@@ -2,6 +2,18 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## react-v1.3.7 — 2026-03-19
+
+### Added
+- **Dev-mode misuse warnings**: `Drawer.Backdrop` warns when children are passed (wrapping Popup inside Backdrop causes a hooks-order crash). `Meter.Value` and `ProgressBar.Value` warn when rendered without children (self-closing renders an empty span).
+- **Drawer.Backdrop**: typed as `Omit<..., 'children'>` for compile-time safety. Exported `BackdropProps` type.
+- **TROUBLESHOOTING.MD**: new guide documenting 8 real-world errors and fixes encountered during Tale UI app development.
+
+### Improved
+- **Consumer guide**: added common pitfalls checklist to `consumer-claude-md-snippet.md` (namespace objects, Drawer.Backdrop pattern, Value children, dark mode toggle).
+- **Dark mode docs**: documented the `data-color-mode` removal gotcha in `react-setup.md` — removing the attribute falls back to OS preference, not light mode.
+- **Component docs**: added pitfall notes for Drawer, Meter, ProgressBar, NumberField, Table, and ToggleButton.
+
 ## react-v1.3.6 — 2026-03-18
 
 ### Added
