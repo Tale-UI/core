@@ -157,7 +157,12 @@ if (await fileExists(tsconfigBuild)) {
 
 // ── Generate build/package.json ────────────────────────────────────────────
 const buildPkg = { ...pkg };
+// Preserve postinstall hook for consumers, remove everything else
+const postinstall = buildPkg.scripts?.postinstall;
 delete buildPkg.scripts;
+if (postinstall) {
+  buildPkg.scripts = { postinstall };
+}
 delete buildPkg.devDependencies;
 delete buildPkg.imports;
 if (buildPkg.publishConfig) {
