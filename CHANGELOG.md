@@ -2,6 +2,20 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## react-v1.3.6 — 2026-03-18
+
+### Added
+- **Tree ItemContent wrapper**: `Tree.ItemContent` now wraps children in `div.tale-tree__item-content` for styling hooks. CSS selectors updated from child (`>`) to descendant combinator to match the new DOM structure.
+
+### Fixed
+- **Popover.Trigger**: fixed nested `<Button>` creating invalid `<button><button>` HTML (same pattern as Menu.Trigger). Apply button styling via `className` directly.
+- **Dialog stories**: fixed controlled prop from `open` to `isOpen` (correct React Aria API).
+- **Drawer stories**: added `tale-button` classes to Trigger and Close elements.
+
+### Improved
+- **Accessibility**: added `aria-label` to all `MenuList` elements and `textValue` to all `Menu.Item`, `ContextMenu.Item`, `Combobox.Item`, and `Select.Item` across stories and playground for screen reader and type-ahead support.
+- **Component docs**: added accessibility notes (ARIA labelling, data attributes), API clarifications, and missing CSS class references across 26 component guides.
+
 ## react-v1.3.5 — 2026-03-18
 
 ### Fixed
