@@ -219,6 +219,13 @@ for (const { src, fallback } of filesToCopy) {
   }
 }
 
+// Copy bin/ directory if present
+const binDir = path.join(cwd, 'bin');
+if (await fileExists(binDir)) {
+  await fs.cp(binDir, path.join(buildDir, 'bin'), { recursive: true });
+  copied++;
+}
+
 // Copy extra files (e.g., .npmignore)
 for (const file of extraCopy) {
   const source = path.resolve(cwd, file);

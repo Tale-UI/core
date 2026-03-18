@@ -12,6 +12,16 @@ This single install pulls in `@tale-ui/react-styles` (component CSS) and `@tale-
 
 Peer dependencies: `react` and `react-dom` (^17, ^18, or ^19).
 
+### AI agent setup (optional)
+
+If you use Claude Code or other AI coding agents, run this once to add component documentation instructions to your project:
+
+```bash
+npx tale-ui-setup
+```
+
+This creates or updates your `CLAUDE.md` with instructions that tell the agent how to use Tale UI components correctly.
+
 ## Quick Start
 
 ```css
@@ -146,6 +156,16 @@ For the complete guides on typography, colour system, dark mode, component compo
 - [Design tokens reference](https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/ai-reference.md) — every CSS class, token, and valid value
 - [Design philosophy](https://raw.githubusercontent.com/Tale-UI/core/main/docs/design-philosophy.md) — architectural decisions
 - [Component authoring](https://raw.githubusercontent.com/Tale-UI/core/main/docs/authoring-components.md) — contributor guide
+
+### Per-component documentation
+
+Each component has a detailed usage guide with imports, sub-parts, props, and examples. Fetch the doc for any component by name:
+
+```
+https://raw.githubusercontent.com/Tale-UI/core/main/docs/components/{name}.md
+```
+
+For example: `button.md`, `dialog.md`, `select.md`, `checkbox.md`, `tabs.md`, `table.md`, `date-picker.md`.
 
 ## License
 

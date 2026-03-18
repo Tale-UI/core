@@ -80,6 +80,15 @@ packages/react/src/{component}/
 
 `index.ts` exports the styled version. Import paths like `@tale-ui/react/button` resolve to the styled component.
 
+### Component documentation
+
+Every component has a usage guide at `docs/components/{name}.md` with imports, sub-parts, props, and examples. When adding a new component, you must also:
+- Create `docs/components/{name}.md`
+- Add the component name to `docs/consumer-claude-md-snippet.md` (the available components list)
+- Add the component to the catalogue and per-component docs sections in `packages/react/README.md`
+
+See [docs/authoring-components.md](docs/authoring-components.md) for the full checklist.
+
 ### Shared primitives (`_primitives.css`)
 
 `packages/styles/src/_primitives.css` holds grouped selectors for declarations that are byte-for-byte identical across multiple components. When adding a new field-like input, dropdown popup, or list item — check `_primitives.css` first and add the new selector to the relevant group.

@@ -435,6 +435,9 @@ When adding a new component, complete every step:
 7. [ ] Add `@import './{component}.css'` to `packages/styles/src/index.css`
 8. [ ] Add `"./{component}": "./src/{component}.css"` to `packages/styles/package.json` exports
 9. [ ] Add `"./{component}": "./src/{component}/index.ts"` to `packages/react/package.json` exports
-10. [ ] Run `pnpm test:jsdom` — verify tests pass
-11. [ ] Run `pnpm typescript` — verify types compile
-12. [ ] Run `pnpm build` — verify build succeeds
+10. [ ] Create `docs/components/{component}.md` — usage guide with imports, sub-parts, props, and examples (see existing docs for format)
+11. [ ] Add the component name to the list in `docs/consumer-claude-md-snippet.md`
+12. [ ] Add the component name to the list in `packages/react/README.md` (Component Catalogue and per-component docs sections)
+13. [ ] Run `pnpm test:jsdom` — verify tests pass
+14. [ ] Run `pnpm typescript` — verify types compile
+15. [ ] Run `pnpm build` — verify build succeeds
