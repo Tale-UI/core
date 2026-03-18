@@ -2,6 +2,11 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## react-v1.3.5 — 2026-03-18
+
+### Fixed
+- **SearchField**: fix clear button positioning — overlay inside input field instead of stacking below it. Adds `padding-inline-end` to prevent text overlapping the button.
+
 ## react-v1.3.4 — 2026-03-18
 
 ### Fixed
