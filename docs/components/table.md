@@ -122,3 +122,5 @@ function SortableTable() {
 - Set `allowsSorting` on individual columns and provide `sortDescriptor` / `onSortChange` on `Root` to enable sorting.
 - `selectionMode` can be `"none"`, `"single"`, or `"multiple"`.
 - Built on React Aria `Table`, `TableHeader`, `Column`, `TableBody`, `Row`, and `Cell`.
+- Columns support `data-sort-direction` (`ascending`/`descending`) when `allowsSorting` is used.
+- Columns support `data-resizable` when column resizing is enabled.

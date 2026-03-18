@@ -149,4 +149,5 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
 - Each `Combobox.Item` should have both an `id` and a `textValue` prop for accessibility and filtering.
 - `Combobox.InputGroup` wraps both the input and trigger to form a single visual control.
 - `Combobox.Empty` is displayed when filtering yields no matches.
-- For multi-select, use `Combobox.Chips`, `Combobox.Chip`, and `Combobox.ChipRemove` to display selected values as tags.
+- For multi-select, use `selectionMode="multiple"` on `Combobox.Root` with `Combobox.Chips`, `Combobox.Chip`, and `Combobox.ChipRemove` to display selected values as tags.
+- Use `inputValue` and `onInputChange` on `Combobox.Root` for controlled text input.

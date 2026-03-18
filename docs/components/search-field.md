@@ -58,4 +58,6 @@ A search input field with built-in clear button support.
 ## Notes
 
 - `ClearButton` clears the field value on press; pass custom children for the button content.
+- The clear button is absolutely positioned inside the input (overlays the right side). The input has `padding-inline-end` reserved for it.
+- The clear button automatically hides when the field is empty (via `data-empty` on the Root: `.tale-search-field[data-empty] .tale-search-field__clear { display: none }`).
 - Supports `isDisabled` prop on the Root.

@@ -136,6 +136,6 @@ A compound dropdown select component with popover listbox, built on React Aria's
 
 ## Notes
 
-- Each `Select.Item` should have both an `id` and a `textValue` prop for accessibility.
+- Each `Select.Item` should have an `id` and a `textValue` prop. `textValue` is inferred from text children but should be explicit for complex item content (icons, badges, etc.).
 - `isDisabled` on `Select.Root` disables the entire select. Use `isDisabled` on individual `Select.Item` elements to disable specific options.
 - The `placeholder` prop on `Select.Value` is shown when no item is selected.

@@ -49,9 +49,17 @@ export const Item: <T extends object>(
 
 // ── ItemContent ────────────────────────────────────────────────────────────
 
-export type ItemContentProps = AriaTreeItemContentProps;
+export type ItemContentProps = AriaTreeItemContentProps & { className?: string };
 
-export function ItemContent(props: ItemContentProps) {
-  return <AriaTreeItemContent {...props} />;
+export function ItemContent({ className, ...props }: ItemContentProps) {
+  return (
+    <AriaTreeItemContent {...props}>
+      {(values) => (
+        <div className={cx('tale-tree__item-content', className)}>
+          {typeof props.children === 'function' ? props.children(values) : props.children}
+        </div>
+      )}
+    </AriaTreeItemContent>
+  );
 }
 ItemContent.displayName = 'Tree.ItemContent';

@@ -106,3 +106,4 @@ A compound radio button component with group support, built on React Aria's Radi
 - The `label` prop on `Radio.Group` sets the accessible group label.
 - Use `orientation="horizontal"` on `Radio.Group` for inline layout.
 - `isDisabled` on the group disables all child radios.
+- Supports `data-readonly` and `data-required` attributes for corresponding states.

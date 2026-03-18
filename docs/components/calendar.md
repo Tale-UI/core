@@ -99,3 +99,4 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 - Built on React Aria `Calendar` and related components.
 - Uses `@internationalized/date` for date values. Import helpers like `today()` and `getLocalTimeZone()` from that package.
 - `GridHeader` and `GridBody` use render props to iterate weekday names and date objects respectively.
+- Calendar supports single-date selection only. Use RangeCalendar for selecting date ranges.

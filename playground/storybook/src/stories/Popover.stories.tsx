@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Popover } from '@tale-ui/react/popover';
-import { Button } from '@tale-ui/react/button';
 
 const XIcon = () => (
   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="16" height="16">
@@ -37,9 +36,7 @@ export const Default: Story = {
   render: (args) => (
     <div style={{ padding: 'var(--space-4xl)', display: 'flex', justifyContent: 'center' }}>
       <Popover.Root>
-        <Popover.Trigger>
-          <Button>Open Popover</Button>
-        </Popover.Trigger>
+        <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
         <Popover.Popup placement={args.placement} offset={args.offset}>
           <Popover.Title>Popover Title</Popover.Title>
           <Popover.Description>
@@ -55,9 +52,7 @@ export const WithArrow: Story = {
   render: (args) => (
     <div style={{ padding: 'var(--space-4xl)', display: 'flex', justifyContent: 'center' }}>
       <Popover.Root>
-        <Popover.Trigger>
-          <Button>With Arrow</Button>
-        </Popover.Trigger>
+        <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">With Arrow</Popover.Trigger>
         <Popover.Popup placement={args.placement} offset={args.offset}>
           <Popover.Arrow />
           <Popover.Title>Arrow Popover</Popover.Title>
@@ -86,9 +81,7 @@ export const AllPlacements: Story = {
     >
       {(['top', 'bottom', 'left', 'right'] as const).map((placement) => (
         <Popover.Root key={placement}>
-          <Popover.Trigger>
-            <Button variant="neutral">{placement}</Button>
-          </Popover.Trigger>
+          <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">{placement}</Popover.Trigger>
           <Popover.Popup placement={placement} offset={8}>
             <Popover.Arrow />
             <Popover.Title>Placement: {placement}</Popover.Title>
@@ -107,9 +100,7 @@ export const WithCloseButton: Story = {
   render: (args) => (
     <div style={{ padding: 'var(--space-4xl)', display: 'flex', justifyContent: 'center' }}>
       <Popover.Root>
-        <Popover.Trigger>
-          <Button>Open Popover</Button>
-        </Popover.Trigger>
+        <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
         <Popover.Popup placement={args.placement} offset={args.offset}>
           <Popover.Close aria-label="Close"><XIcon /></Popover.Close>
           <Popover.Title>Dismissible Popover</Popover.Title>

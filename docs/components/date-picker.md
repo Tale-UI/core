@@ -93,3 +93,4 @@ import { Calendar } from '@tale-ui/react/calendar';
 - Requires `Calendar` from `@tale-ui/react/calendar` for the popover content.
 - The `Trigger` renders a down-pointing triangle by default; pass children to customize.
 - Supports `isRequired` and `isDisabled` props on the Root.
+- The popover renders a Calendar component — import both `DatePicker` and `Calendar` parts.

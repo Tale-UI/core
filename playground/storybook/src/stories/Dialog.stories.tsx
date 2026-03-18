@@ -28,7 +28,7 @@ function DialogDemo({ triggerLabel, triggerVariant = 'primary', title, descripti
 }) {
   const [open, setOpen] = React.useState(false);
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Root isOpen={open} onOpenChange={setOpen}>
       <Dialog.Trigger className={`tale-button--${triggerVariant}`}>{triggerLabel}</Dialog.Trigger>
       <Dialog.Backdrop>
         <Dialog.Popup>
@@ -61,7 +61,7 @@ export const Destructive: Story = {
   render: () => {
     const [open, setOpen] = React.useState(false);
     return (
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Root isOpen={open} onOpenChange={setOpen}>
         <Dialog.Trigger className="tale-button--danger">Delete Account</Dialog.Trigger>
         <Dialog.Backdrop>
           <Dialog.Popup>
@@ -86,7 +86,7 @@ export const ScrollableContent: Story = {
   render: () => {
     const [open, setOpen] = React.useState(false);
     return (
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Root isOpen={open} onOpenChange={setOpen}>
         <Dialog.Trigger className="tale-button--primary">Terms &amp; Conditions</Dialog.Trigger>
         <Dialog.Backdrop>
           <Dialog.Popup>
@@ -127,7 +127,7 @@ export const NonModal: Story = {
   render: () => {
     const [open, setOpen] = React.useState(false);
     return (
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Root isOpen={open} onOpenChange={setOpen}>
         <Dialog.Trigger className="tale-button--neutral">Open Non-Modal</Dialog.Trigger>
         <Dialog.Popup modalProps={{ isDismissable: true }}>
           <Dialog.Title>Notification</Dialog.Title>

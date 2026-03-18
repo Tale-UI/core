@@ -70,4 +70,5 @@ const [isExpanded, setIsExpanded] = useState(false);
 
 - Built on React Aria `Disclosure` and `DisclosurePanel`.
 - Supports both uncontrolled (`defaultExpanded`) and controlled (`isExpanded` + `onExpandedChange`) modes.
+- The panel's expand/collapse animation uses the `--disclosure-panel-height` CSS variable (set in `_primitives.css`).
 - For multiple collapsible sections, use the Accordion component instead.

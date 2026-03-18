@@ -82,3 +82,4 @@ A toggle switch component with a sliding thumb, built on React Aria's Switch.
 
 - Use `defaultSelected` for uncontrolled or `isSelected`/`onChange` for controlled state.
 - The label text is placed as a child of `Switch.Root`, alongside `Switch.Thumb`.
+- Supports `data-readonly`, `data-required`, and `data-invalid` attributes for corresponding states.

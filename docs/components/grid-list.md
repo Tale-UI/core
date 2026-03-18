@@ -43,3 +43,4 @@ An accessible grid-based list supporting keyboard navigation and selection.
 - `selectionMode` can be `"none"`, `"single"`, or `"multiple"`.
 - Each `GridList.Item` needs a `textValue` for accessibility (screen reader label).
 - Built on React Aria `GridList` and `GridListItem`.
+- Items support `data-dragging` and `data-drop-target` attributes when drag-and-drop is enabled.

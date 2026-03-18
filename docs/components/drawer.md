@@ -60,6 +60,8 @@ import { Drawer } from '@tale-ui/react/drawer';
 - `.tale-drawer__title` — Title
 - `.tale-drawer__description` — Description
 - `.tale-drawer__close` — Close button (not `tale-button`)
+- `.tale-drawer__handle` — Optional drag handle element
+- `.tale-drawer__swipe-area` — Optional swipe-to-dismiss area
 
 ## Notes
 

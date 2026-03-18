@@ -108,3 +108,4 @@ const [open, setOpen] = useState(false);
 - **Use `<Button>` for actions.** `Dialog.Close` applies `tale-dialog__close` CSS (absolutely positioned in the corner) — reserve it for the icon-only X button. For Cancel/Confirm, use `<Button variant="..." onPress={() => setOpen(false)}>`.
 - **Wrap actions in `tale-dialog__actions`.** This applies the correct flexbox layout for the button row.
 - **Non-modal:** Pass `modalProps={{ isDismissable: true }}` to `Dialog.Popup` and omit the Backdrop.
+- **ARIA labelling:** Dialog automatically associates `Dialog.Title` with `aria-labelledby` and `Dialog.Description` with `aria-describedby`. Always include at least a Title for accessibility. The dialog receives `role="dialog"` automatically.

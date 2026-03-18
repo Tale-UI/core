@@ -31,14 +31,14 @@ export const Default: Story = {
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
-          <Menu.MenuList>
-            <Menu.Item id="new">New File</Menu.Item>
-            <Menu.Item id="open">Open</Menu.Item>
+          <Menu.MenuList aria-label="File actions">
+            <Menu.Item id="new" textValue="New File">New File</Menu.Item>
+            <Menu.Item id="open" textValue="Open">Open</Menu.Item>
             <Menu.Separator />
-            <Menu.Item id="save">Save</Menu.Item>
-            <Menu.Item id="save-as">Save As…</Menu.Item>
+            <Menu.Item id="save" textValue="Save">Save</Menu.Item>
+            <Menu.Item id="save-as" textValue="Save As…">Save As…</Menu.Item>
             <Menu.Separator />
-            <Menu.Item id="close">Close</Menu.Item>
+            <Menu.Item id="close" textValue="Close">Close</Menu.Item>
           </Menu.MenuList>
         </Menu.Popover>
       </Menu.Root>
@@ -52,19 +52,19 @@ export const WithGroups: Story = {
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
-          <Menu.MenuList>
+          <Menu.MenuList aria-label="Actions">
             <Menu.Group>
               <Menu.Header>Edit</Menu.Header>
-              <Menu.Item id="cut">Cut</Menu.Item>
-              <Menu.Item id="copy">Copy</Menu.Item>
-              <Menu.Item id="paste">Paste</Menu.Item>
+              <Menu.Item id="cut" textValue="Cut">Cut</Menu.Item>
+              <Menu.Item id="copy" textValue="Copy">Copy</Menu.Item>
+              <Menu.Item id="paste" textValue="Paste">Paste</Menu.Item>
             </Menu.Group>
             <Menu.Separator />
             <Menu.Group>
               <Menu.Header>View</Menu.Header>
-              <Menu.Item id="zoom-in">Zoom In</Menu.Item>
-              <Menu.Item id="zoom-out">Zoom Out</Menu.Item>
-              <Menu.Item id="reset-zoom">Reset Zoom</Menu.Item>
+              <Menu.Item id="zoom-in" textValue="Zoom In">Zoom In</Menu.Item>
+              <Menu.Item id="zoom-out" textValue="Zoom Out">Zoom Out</Menu.Item>
+              <Menu.Item id="reset-zoom" textValue="Reset Zoom">Reset Zoom</Menu.Item>
             </Menu.Group>
           </Menu.MenuList>
         </Menu.Popover>
@@ -79,15 +79,15 @@ export const WithDisabledItems: Story = {
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Edit ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
-          <Menu.MenuList>
-            <Menu.Item id="undo">Undo</Menu.Item>
-            <Menu.Item id="redo" isDisabled>
+          <Menu.MenuList aria-label="Edit actions">
+            <Menu.Item id="undo" textValue="Undo">Undo</Menu.Item>
+            <Menu.Item id="redo" textValue="Redo" isDisabled>
               Redo
             </Menu.Item>
             <Menu.Separator />
-            <Menu.Item id="cut">Cut</Menu.Item>
-            <Menu.Item id="copy">Copy</Menu.Item>
-            <Menu.Item id="paste" isDisabled>
+            <Menu.Item id="cut" textValue="Cut">Cut</Menu.Item>
+            <Menu.Item id="copy" textValue="Copy">Copy</Menu.Item>
+            <Menu.Item id="paste" textValue="Paste" isDisabled>
               Paste
             </Menu.Item>
           </Menu.MenuList>
@@ -103,10 +103,10 @@ export const Disabled: Story = {
       <Menu.Root isDisabled>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Disabled Menu ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
-          <Menu.MenuList>
-            <Menu.Item id="a">Item A</Menu.Item>
-            <Menu.Item id="b">Item B</Menu.Item>
-            <Menu.Item id="c">Item C</Menu.Item>
+          <Menu.MenuList aria-label="Menu">
+            <Menu.Item id="a" textValue="Item A">Item A</Menu.Item>
+            <Menu.Item id="b" textValue="Item B">Item B</Menu.Item>
+            <Menu.Item id="c" textValue="Item C">Item C</Menu.Item>
           </Menu.MenuList>
         </Menu.Popover>
       </Menu.Root>

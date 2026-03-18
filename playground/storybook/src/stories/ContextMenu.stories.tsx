@@ -17,11 +17,11 @@ export const Default: Story = {
     <ContextMenu.Root>
       <ContextMenu.Trigger>Right-click here</ContextMenu.Trigger>
       <ContextMenu.Popup>
-        <ContextMenu.MenuList>
-          <ContextMenu.Item id="cut" onAction={() => console.log('Cut')}>Cut</ContextMenu.Item>
-          <ContextMenu.Item id="copy" onAction={() => console.log('Copy')}>Copy</ContextMenu.Item>
+        <ContextMenu.MenuList aria-label="Context actions">
+          <ContextMenu.Item id="cut" textValue="Cut" onAction={() => console.log('Cut')}>Cut</ContextMenu.Item>
+          <ContextMenu.Item id="copy" textValue="Copy" onAction={() => console.log('Copy')}>Copy</ContextMenu.Item>
           <ContextMenu.Separator />
-          <ContextMenu.Item id="paste" onAction={() => console.log('Paste')}>Paste</ContextMenu.Item>
+          <ContextMenu.Item id="paste" textValue="Paste" onAction={() => console.log('Paste')}>Paste</ContextMenu.Item>
         </ContextMenu.MenuList>
       </ContextMenu.Popup>
     </ContextMenu.Root>
@@ -45,20 +45,20 @@ export const WithGroups: Story = {
         </div>
       </ContextMenu.Trigger>
       <ContextMenu.Popup>
-        <ContextMenu.MenuList>
+        <ContextMenu.MenuList aria-label="Context actions">
           <ContextMenu.Group>
-            <ContextMenu.Item id="cut">Cut</ContextMenu.Item>
-            <ContextMenu.Item id="copy">Copy</ContextMenu.Item>
-            <ContextMenu.Item id="paste">Paste</ContextMenu.Item>
+            <ContextMenu.Item id="cut" textValue="Cut">Cut</ContextMenu.Item>
+            <ContextMenu.Item id="copy" textValue="Copy">Copy</ContextMenu.Item>
+            <ContextMenu.Item id="paste" textValue="Paste">Paste</ContextMenu.Item>
           </ContextMenu.Group>
           <ContextMenu.Separator />
           <ContextMenu.Group>
-            <ContextMenu.Item id="select-all">Select All</ContextMenu.Item>
-            <ContextMenu.Item id="find">Find...</ContextMenu.Item>
+            <ContextMenu.Item id="select-all" textValue="Select All">Select All</ContextMenu.Item>
+            <ContextMenu.Item id="find" textValue="Find...">Find...</ContextMenu.Item>
           </ContextMenu.Group>
           <ContextMenu.Separator />
           <ContextMenu.Group>
-            <ContextMenu.Item id="inspect">Inspect Element</ContextMenu.Item>
+            <ContextMenu.Item id="inspect" textValue="Inspect Element">Inspect Element</ContextMenu.Item>
           </ContextMenu.Group>
         </ContextMenu.MenuList>
       </ContextMenu.Popup>

@@ -360,7 +360,7 @@ function ComboboxDemo() {
         <Combobox.Popover offset={4}>
           <Combobox.ListBox>
             {countries.map((c) => (
-              <Combobox.Item key={c} id={c}>{c}</Combobox.Item>
+              <Combobox.Item key={c} id={c} textValue={c}>{c}</Combobox.Item>
             ))}
           </Combobox.ListBox>
         </Combobox.Popover>
@@ -385,7 +385,7 @@ function AutocompleteDemo() {
         </Autocomplete.SearchField>
         <Autocomplete.ListBox aria-label="Cities">
           {cities.map((c) => (
-            <Autocomplete.Item key={c} id={c}>{c}</Autocomplete.Item>
+            <Autocomplete.Item key={c} id={c} textValue={c}>{c}</Autocomplete.Item>
           ))}
         </Autocomplete.ListBox>
       </Autocomplete.Root>
@@ -402,10 +402,10 @@ function MenuCheckboxDemo() {
     <Menu.Root>
       <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format ▾</Menu.Trigger>
       <Menu.Popover offset={4}>
-        <Menu.MenuList>
-          <Menu.Item>Bold</Menu.Item>
-          <Menu.Item>Italic</Menu.Item>
-          <Menu.Item>Underline</Menu.Item>
+        <Menu.MenuList aria-label="Format">
+          <Menu.Item textValue="Bold">Bold</Menu.Item>
+          <Menu.Item textValue="Italic">Italic</Menu.Item>
+          <Menu.Item textValue="Underline">Underline</Menu.Item>
         </Menu.MenuList>
       </Menu.Popover>
     </Menu.Root>
@@ -804,7 +804,7 @@ export default function ComponentAudit() {
               <Select.Popover offset={4}>
                 <Select.ListBox>
                   {fruits.map((fruit) => (
-                    <Select.Item key={fruit} id={fruit.toLowerCase()}>{fruit}</Select.Item>
+                    <Select.Item key={fruit} id={fruit.toLowerCase()} textValue={fruit}>{fruit}</Select.Item>
                   ))}
                 </Select.ListBox>
               </Select.Popover>
@@ -828,7 +828,7 @@ export default function ComponentAudit() {
               <Select.Popover offset={4}>
                 <Select.ListBox>
                   {fruits.map((fruit) => (
-                    <Select.Item key={fruit} id={fruit.toLowerCase()}>{fruit}</Select.Item>
+                    <Select.Item key={fruit} id={fruit.toLowerCase()} textValue={fruit}>{fruit}</Select.Item>
                   ))}
                 </Select.ListBox>
               </Select.Popover>
@@ -845,14 +845,14 @@ export default function ComponentAudit() {
                   <Select.Section>
                     <Select.Header>Europe</Select.Header>
                     {['France', 'Germany', 'Spain'].map((c) => (
-                      <Select.Item key={c} id={c.toLowerCase()}>{c}</Select.Item>
+                      <Select.Item key={c} id={c.toLowerCase()} textValue={c}>{c}</Select.Item>
                     ))}
                   </Select.Section>
                   <Select.Separator />
                   <Select.Section>
                     <Select.Header>Americas</Select.Header>
                     {['Brazil', 'Canada', 'Mexico'].map((c) => (
-                      <Select.Item key={c} id={c.toLowerCase()}>{c}</Select.Item>
+                      <Select.Item key={c} id={c.toLowerCase()} textValue={c}>{c}</Select.Item>
                     ))}
                   </Select.Section>
                 </Select.ListBox>
@@ -877,7 +877,7 @@ export default function ComponentAudit() {
               <Combobox.Popover offset={4}>
                 <Combobox.ListBox>
                   {countries.slice(0, 8).map((c) => (
-                    <Combobox.Item key={c} id={c}>{c}</Combobox.Item>
+                    <Combobox.Item key={c} id={c} textValue={c}>{c}</Combobox.Item>
                   ))}
                 </Combobox.ListBox>
               </Combobox.Popover>
@@ -1065,13 +1065,13 @@ export default function ComponentAudit() {
             <Menu.Root>
               <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
               <Menu.Popover offset={4}>
-                <Menu.MenuList>
-                  <Menu.Item>Edit</Menu.Item>
-                  <Menu.Item>Duplicate</Menu.Item>
+                <Menu.MenuList aria-label="Options">
+                  <Menu.Item textValue="Edit">Edit</Menu.Item>
+                  <Menu.Item textValue="Duplicate">Duplicate</Menu.Item>
                   <Menu.Separator />
-                  <Menu.Item>Share</Menu.Item>
+                  <Menu.Item textValue="Share">Share</Menu.Item>
                   <Menu.Separator />
-                  <Menu.Item>Delete</Menu.Item>
+                  <Menu.Item textValue="Delete">Delete</Menu.Item>
                 </Menu.MenuList>
               </Menu.Popover>
             </Menu.Root>
@@ -1081,16 +1081,16 @@ export default function ComponentAudit() {
             <Menu.Root>
               <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Account ▾</Menu.Trigger>
               <Menu.Popover offset={4}>
-                <Menu.MenuList>
+                <Menu.MenuList aria-label="Account">
                   <Menu.Group>
                     <Menu.Header>Account</Menu.Header>
-                    <Menu.Item>Profile</Menu.Item>
-                    <Menu.Item>Settings</Menu.Item>
+                    <Menu.Item textValue="Profile">Profile</Menu.Item>
+                    <Menu.Item textValue="Settings">Settings</Menu.Item>
                   </Menu.Group>
                   <Menu.Separator />
                   <Menu.Group>
                     <Menu.Header>Danger Zone</Menu.Header>
-                    <Menu.Item>Sign out</Menu.Item>
+                    <Menu.Item textValue="Sign out">Sign out</Menu.Item>
                   </Menu.Group>
                 </Menu.MenuList>
               </Menu.Popover>
@@ -1111,13 +1111,13 @@ export default function ComponentAudit() {
                   Right-click this area
                 </div>
               </ContextMenu.Trigger>
-              <ContextMenu.Popup>
-                <ContextMenu.MenuList>
-                  <ContextMenu.Item>Cut</ContextMenu.Item>
-                  <ContextMenu.Item>Copy</ContextMenu.Item>
-                  <ContextMenu.Item>Paste</ContextMenu.Item>
+              <ContextMenu.Popup aria-label="Context menu">
+                <ContextMenu.MenuList aria-label="Context menu">
+                  <ContextMenu.Item textValue="Cut">Cut</ContextMenu.Item>
+                  <ContextMenu.Item textValue="Copy">Copy</ContextMenu.Item>
+                  <ContextMenu.Item textValue="Paste">Paste</ContextMenu.Item>
                   <ContextMenu.Separator />
-                  <ContextMenu.Item>Delete</ContextMenu.Item>
+                  <ContextMenu.Item textValue="Delete">Delete</ContextMenu.Item>
                 </ContextMenu.MenuList>
               </ContextMenu.Popup>
             </ContextMenu.Root>
@@ -1151,11 +1151,11 @@ export default function ComponentAudit() {
               <Menu.Root>
                 <Menu.Trigger>File</Menu.Trigger>
                 <Menu.Popover offset={4}>
-                  <Menu.MenuList>
-                    <Menu.Item>New</Menu.Item>
-                    <Menu.Item>Open</Menu.Item>
+                  <Menu.MenuList aria-label="File">
+                    <Menu.Item textValue="New">New</Menu.Item>
+                    <Menu.Item textValue="Open">Open</Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item>Save</Menu.Item>
+                    <Menu.Item textValue="Save">Save</Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>
@@ -1164,13 +1164,13 @@ export default function ComponentAudit() {
               <Menu.Root>
                 <Menu.Trigger>Edit</Menu.Trigger>
                 <Menu.Popover offset={4}>
-                  <Menu.MenuList>
-                    <Menu.Item>Undo</Menu.Item>
-                    <Menu.Item>Redo</Menu.Item>
+                  <Menu.MenuList aria-label="Edit">
+                    <Menu.Item textValue="Undo">Undo</Menu.Item>
+                    <Menu.Item textValue="Redo">Redo</Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item>Cut</Menu.Item>
-                    <Menu.Item>Copy</Menu.Item>
-                    <Menu.Item>Paste</Menu.Item>
+                    <Menu.Item textValue="Cut">Cut</Menu.Item>
+                    <Menu.Item textValue="Copy">Copy</Menu.Item>
+                    <Menu.Item textValue="Paste">Paste</Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>
@@ -1179,11 +1179,11 @@ export default function ComponentAudit() {
               <Menu.Root>
                 <Menu.Trigger>View</Menu.Trigger>
                 <Menu.Popover offset={4}>
-                  <Menu.MenuList>
-                    <Menu.Item>Zoom In</Menu.Item>
-                    <Menu.Item>Zoom Out</Menu.Item>
+                  <Menu.MenuList aria-label="View">
+                    <Menu.Item textValue="Zoom In">Zoom In</Menu.Item>
+                    <Menu.Item textValue="Zoom Out">Zoom Out</Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item>Full Screen</Menu.Item>
+                    <Menu.Item textValue="Full Screen">Full Screen</Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>

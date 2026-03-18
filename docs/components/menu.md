@@ -108,6 +108,9 @@ import { Menu } from '@tale-ui/react/menu';
 
 ## Notes
 
-- Each `Menu.Item` requires a unique `id` prop.
+- Each `Menu.Item` requires a unique `id` prop. Add `textValue` for accessibility (screen reader announcements and keyboard type-ahead).
 - Use `isDisabled` on individual items or on `Menu.Root` to disable the entire menu.
+- Use `onAction` on `Menu.Item` to handle item selection.
 - **Do not nest `<Button>` inside `<Menu.Trigger>`.** `Menu.Trigger` is a React Aria `Button` — nesting another `<Button>` creates invalid `<button><button>` HTML. Instead, apply button styling via `className="tale-button tale-button--{variant} tale-button--{size}"` directly on `Menu.Trigger`.
+- Add `aria-label` to `Menu.MenuList` to describe the menu's purpose to screen readers.
+- Menu automatically provides `role="menu"` and each Item gets `role="menuitem"`.

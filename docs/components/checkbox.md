@@ -97,3 +97,4 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 - Use `defaultSelected` for uncontrolled or `isSelected`/`onChange` for controlled state.
 - `isIndeterminate` renders a third visual state (typically a minus icon instead of a checkmark).
 - When used inside a `CheckboxGroup`, add a `value` prop to each `Checkbox.Root`.
+- Supports `data-readonly` and `data-required` attributes for corresponding states.

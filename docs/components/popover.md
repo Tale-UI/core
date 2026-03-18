@@ -20,12 +20,9 @@ A positioned overlay anchored to a trigger button, with optional arrow and close
 
 ```tsx
 import { Popover } from '@tale-ui/react/popover';
-import { Button } from '@tale-ui/react/button';
 
 <Popover.Root>
-  <Popover.Trigger>
-    <Button>Open Popover</Button>
-  </Popover.Trigger>
+  <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
   <Popover.Popup placement="bottom" offset={8}>
     <Popover.Title>Popover Title</Popover.Title>
     <Popover.Description>
@@ -41,9 +38,7 @@ import { Button } from '@tale-ui/react/button';
 
 ```tsx
 <Popover.Root>
-  <Popover.Trigger>
-    <Button>With Arrow</Button>
-  </Popover.Trigger>
+  <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">With Arrow</Popover.Trigger>
   <Popover.Popup placement="bottom" offset={8}>
     <Popover.Arrow />
     <Popover.Title>Arrow Popover</Popover.Title>
@@ -58,9 +53,7 @@ import { Button } from '@tale-ui/react/button';
 
 ```tsx
 <Popover.Root>
-  <Popover.Trigger>
-    <Button>Open Popover</Button>
-  </Popover.Trigger>
+  <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
   <Popover.Popup placement="bottom" offset={8}>
     <Popover.Close aria-label="Close">X</Popover.Close>
     <Popover.Title>Dismissible Popover</Popover.Title>
@@ -73,6 +66,7 @@ import { Button } from '@tale-ui/react/button';
 
 ## CSS Classes
 
+- `.tale-popover__trigger` — Trigger element (no styling by default)
 - `.tale-popover__popup` — Popover content container
 - `.tale-popover__arrow` — Arrow element
 - `.tale-popover__title` — Title heading
@@ -81,8 +75,9 @@ import { Button } from '@tale-ui/react/button';
 
 ## Notes
 
-- **Trigger needs explicit `tale-button` classes.** `Popover.Trigger` applies no base class. Add `className="tale-button tale-button--{variant}"` for button styling.
+- **Do not nest `<Button>` inside `<Popover.Trigger>`.** `Popover.Trigger` is a React Aria `Button` — nesting another `<Button>` creates invalid `<button><button>` HTML. Instead, apply button styling via `className="tale-button tale-button--{variant} tale-button--{size}"` directly on `Popover.Trigger`.
 - **`Popover.Close` is for the icon-only X button** (positioned top-right via `tale-popover__close`). For styled action buttons inside the popover, use `<Button>` instead.
 - `Popover.Arrow` can be placed anywhere inside `Popup` -- it is automatically hoisted to be a direct child of the RA Popover (required by React Aria).
-- Supported `placement` values: `"top"`, `"bottom"`, `"left"`, `"right"`.
-- The popover is dismissable by default (clicking outside closes it).
+- Supported `placement` values: `"top"`, `"bottom"`, `"left"`, `"right"`. Also supports `shouldFlip` (default true) and `crossOffset` for fine-tuned positioning.
+- The popover is dismissible by default — closes on Escape key or clicking outside.
+- The popup receives a `data-placement` attribute reflecting the actual rendered position (may differ from requested if flipped).

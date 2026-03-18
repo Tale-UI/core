@@ -10,7 +10,7 @@ A hierarchical tree view with expandable/collapsible nodes and optional selectio
 |------|-------------|
 | `Tree.Root` | Container. Accepts `aria-label`, `selectionMode`, and `defaultExpandedKeys`. |
 | `Tree.Item` | A tree node. Requires `id` and `textValue`. Nest items for sub-trees. |
-| `Tree.ItemContent` | Renders the visible label content of a tree item. |
+| `Tree.ItemContent` | Renders the visible label content of a tree item. Wraps children in a `div.tale-tree__item-content`. |
 
 ## Basic Usage
 
@@ -54,12 +54,16 @@ A hierarchical tree view with expandable/collapsible nodes and optional selectio
 
 ## CSS Classes
 
-- `.tale-tree` — Base
-- `.tale-tree__item` — Tree node
+- `.tale-tree` — Root container
+- `.tale-tree__item` — Tree node (receives `data-level`, `data-has-child-items`, `data-expanded`, `data-selected`)
+- `.tale-tree__item-content` — Content wrapper inside each item (rendered by `Tree.ItemContent`)
 
 ## Notes
 
 - Nest `Tree.Item` elements inside a parent `Tree.Item` to create a hierarchy.
 - Every `Tree.Item` must contain a `Tree.ItemContent` to render its label.
+- Items with children automatically show a `▶` chevron that rotates to `▼` when expanded (via CSS `::before` on `.tale-tree__item-content`).
+- Indentation is handled by CSS using the `data-level` attribute (levels 1–5).
 - Use `defaultExpandedKeys` (a `Set`) to control which nodes start expanded.
 - Built on React Aria `Tree`, `TreeItem`, and `TreeItemContent`.
+- Items receive `data-hovered` on mouse hover (styled with `--neutral-12` background).

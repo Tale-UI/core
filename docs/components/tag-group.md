@@ -90,3 +90,4 @@ function RemovableTags() {
 
 - Pass `onRemove` to `Root` to make tags removable. The callback receives the set of removed keys.
 - `selectionMode` can be `"none"`, `"single"`, or `"multiple"`.
+- Tags support these data attributes for styling: `data-selected`, `data-focused`, `data-focus-visible`, `data-hovered`, `data-pressed`, `data-disabled`.

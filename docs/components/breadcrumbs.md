@@ -62,3 +62,4 @@ A navigation trail showing the current page location within a hierarchy.
 
 - Omit the `href` prop on the last `Breadcrumbs.Link` to mark it as the current page.
 - Built on React Aria `Breadcrumbs`, `Breadcrumb`, and `Link` components.
+- The last item in the breadcrumb trail automatically receives `data-current`, which styles it as non-interactive text.

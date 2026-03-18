@@ -20,3 +20,4 @@ import { parseColor } from 'react-aria-components';
 
 - This is a simple (non-compound) component exported directly as `ColorSwatch`.
 - Accepts a `color` prop as a parsed color value.
+- The `color` prop accepts a parsed Color object from `react-aria-components` (e.g. `parseColor('#ff0000')`), not a plain string.

@@ -75,3 +75,4 @@ import { Tooltip } from '@tale-ui/react/tooltip';
 - Pass `delay={ms}` to `Tooltip.Root` to control how long before the tooltip appears (default is React Aria's built-in delay).
 - Tooltip content is plain text or inline elements -- not interactive. Use `Popover` for interactive overlays.
 - The `Tooltip.Arrow` renders an SVG arrow that automatically rotates based on placement.
+- The popup receives a `data-placement` attribute (`top`, `bottom`, `left`, `right`) reflecting the actual rendered position (may differ from the requested placement if flipped by React Aria).

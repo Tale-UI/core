@@ -55,3 +55,4 @@ A calendar component for selecting a date range with start and end dates.
 - `PreviousButton` defaults to a left-pointing arrow; `NextButton` defaults to a right-pointing arrow. Pass children to customize.
 - Supports `isDisabled` and `isReadOnly` props on the Root.
 - Often used inside `DateRangePicker.Dialog` for range picker popover content.
+- Use `isDisabled` on Root to disable the entire calendar and prevent date selection.

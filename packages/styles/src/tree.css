@@ -74,13 +74,13 @@
 }
 
 /* Expand / collapse indicator for items with children */
-.tale-tree__item[data-has-child-items] > .tale-tree__item-content::before {
+.tale-tree__item[data-has-child-items] .tale-tree__item-content::before {
   content: '\25B6'; /* right-pointing triangle */
   display: inline-block;
   font-size: 0.6em;
   transition: transform 0.15s ease;
 }
 
-.tale-tree__item[data-expanded] > .tale-tree__item-content::before {
+.tale-tree__item[data-expanded] .tale-tree__item-content::before {
   transform: rotate(90deg);
 }

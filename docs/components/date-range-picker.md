@@ -79,3 +79,4 @@ import { RangeCalendar } from '@tale-ui/react/range-calendar';
 - Requires `RangeCalendar` from `@tale-ui/react/range-calendar` for the popover content.
 - `StartDate` and `EndDate` each accept a render function child for segments.
 - Supports `isRequired` and `isDisabled` props on the Root.
+- The popover renders a RangeCalendar component — import both `DateRangePicker` and `RangeCalendar` parts.

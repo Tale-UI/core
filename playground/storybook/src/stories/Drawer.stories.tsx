@@ -15,10 +15,10 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger>Open Drawer</Drawer.Trigger>
+      <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
       <Drawer.Popup>
         <p>Drawer content goes here.</p>
-        <Drawer.Close>Close</Drawer.Close>
+        <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
       </Drawer.Popup>
     </Drawer.Root>
   ),
@@ -27,14 +27,14 @@ export const Default: Story = {
 export const WithTitle: Story = {
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger>Open Drawer</Drawer.Trigger>
+      <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
       <Drawer.Popup>
         <Drawer.Title>Drawer Title</Drawer.Title>
         <Drawer.Description>This is a description of the drawer content.</Drawer.Description>
         <p style={{ marginTop: 'var(--space-s)' }}>
           Additional content can go here.
         </p>
-        <Drawer.Close>Close</Drawer.Close>
+        <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
       </Drawer.Popup>
     </Drawer.Root>
   ),
@@ -43,12 +43,12 @@ export const WithTitle: Story = {
 export const WithBackdrop: Story = {
   render: () => (
     <Drawer.Root>
-      <Drawer.Trigger>Open Drawer</Drawer.Trigger>
+      <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
       <Drawer.Backdrop />
       <Drawer.Popup>
         <Drawer.Title>Drawer with Backdrop</Drawer.Title>
         <Drawer.Description>Click the backdrop to close.</Drawer.Description>
-        <Drawer.Close>×</Drawer.Close>
+        <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
       </Drawer.Popup>
     </Drawer.Root>
   ),
