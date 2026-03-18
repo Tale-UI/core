@@ -37,3 +37,23 @@ Before generating or modifying component code, you MUST:
    - `ToggleButtonGroup` requires `aria-label` or `aria-labelledby` for accessibility.
    - Dark mode: always set `data-color-mode` to `"dark"` or `"light"` — never remove the attribute to switch to light mode.
    - `Calendar.GridHeader` passes day name strings, not dates — use `Calendar.GridHeaderCell` inside it, not `Calendar.Cell`. Reserve `Calendar.Cell` for `Calendar.GridBody`.
+
+5. **Dark mode must persist between refreshes.** Every new app must include this inline script in `<head>` before any CSS or JS to avoid a flash of wrong theme:
+
+   ```html
+   <script>
+     (function() {
+       var mode = localStorage.getItem('color-mode')
+         || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+       document.documentElement.setAttribute('data-color-mode', mode);
+     })();
+   </script>
+   ```
+
+   When toggling dark mode at runtime, always persist the choice:
+   ```js
+   function setColorMode(mode) {
+     document.documentElement.setAttribute('data-color-mode', mode);
+     localStorage.setItem('color-mode', mode);
+   }
+   ```
