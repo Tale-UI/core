@@ -40,16 +40,17 @@ Before generating or modifying component code, you MUST:
 `;
 
 // ── Find project root ────────────────────────────────────────────────────────
-// Walk up from cwd looking for package.json (the consuming project's root).
+// Walk up from cwd looking for the consuming project's root.
+// Look for package.json OR node_modules (npm may auto-create package.json
+// after postinstall runs, so node_modules is a more reliable marker).
 
 function findProjectRoot(startDir) {
   let dir = startDir;
   while (true) {
-    if (fs.existsSync(path.join(dir, 'package.json'))) {
-      // Skip node_modules — keep walking up
-      if (!dir.includes('node_modules')) {
-        return dir;
-      }
+    const hasPackageJson = fs.existsSync(path.join(dir, 'package.json'));
+    const hasNodeModules = fs.existsSync(path.join(dir, 'node_modules'));
+    if ((hasPackageJson || hasNodeModules) && !dir.includes('node_modules')) {
+      return dir;
     }
     const parent = path.dirname(dir);
     if (parent === dir) break; // filesystem root
