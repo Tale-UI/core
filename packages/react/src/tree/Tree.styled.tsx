@@ -15,6 +15,26 @@ export type RootProps<T extends object> = Omit<AriaTreeProps<T>, 'className'> & 
   className?: string;
 };
 
+/**
+ * A hierarchical tree view with expandable items.
+ *
+ * @example
+ * ```tsx
+ * import { Tree } from '@tale-ui/react/tree';
+ *
+ * <Tree.Root aria-label="Files">
+ *   <Tree.Item id="src" textValue="src">
+ *     <Tree.ItemContent>src/</Tree.ItemContent>
+ *     <Tree.Item id="app" textValue="App.tsx">
+ *       <Tree.ItemContent>App.tsx</Tree.ItemContent>
+ *     </Tree.Item>
+ *   </Tree.Item>
+ *   <Tree.Item id="pkg" textValue="package.json">
+ *     <Tree.ItemContent>package.json</Tree.ItemContent>
+ *   </Tree.Item>
+ * </Tree.Root>
+ * ```
+ */
 export const Root: <T extends object>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(

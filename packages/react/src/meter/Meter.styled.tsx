@@ -9,6 +9,22 @@ export interface RootProps extends Omit<AriaMeterProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A meter displaying a value within a known range (e.g. storage used).
+ *
+ * @example
+ * ```tsx
+ * import { Meter } from '@tale-ui/react/meter';
+ *
+ * <Meter.Root value={60} minValue={0} maxValue={100}>
+ *   <Meter.Label>Storage</Meter.Label>
+ *   <Meter.Value>60%</Meter.Value>
+ *   <Meter.Track>
+ *     <Meter.Indicator value={60} />
+ *   </Meter.Track>
+ * </Meter.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <Meter ref={ref} className={cx('tale-meter', className)} {...props} />

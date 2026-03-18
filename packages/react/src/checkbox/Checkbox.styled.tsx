@@ -7,6 +7,19 @@ export interface CheckboxRootProps extends Omit<AriaCheckboxProps, 'className'> 
   className?: string | undefined;
 }
 
+/**
+ * A checkbox input with indicator and label.
+ *
+ * @example
+ * ```tsx
+ * import { Checkbox } from '@tale-ui/react/checkbox';
+ *
+ * <Checkbox.Root>
+ *   <Checkbox.Indicator />
+ *   Accept terms and conditions
+ * </Checkbox.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLLabelElement, CheckboxRootProps>(
   ({ className, ...props }, ref) => (
     <AriaCheckbox ref={ref} className={cx('tale-checkbox', className)} {...props} />

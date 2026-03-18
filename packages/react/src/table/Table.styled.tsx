@@ -21,6 +21,27 @@ export type RootProps = Omit<AriaTableProps, 'className'> & {
   className?: string;
 };
 
+/**
+ * A data table with sortable columns and selectable rows.
+ *
+ * @example
+ * ```tsx
+ * import { Table } from '@tale-ui/react/table';
+ *
+ * <Table.Root aria-label="People">
+ *   <Table.Header>
+ *     <Table.Column isRowHeader>Name</Table.Column>
+ *     <Table.Column>Email</Table.Column>
+ *   </Table.Header>
+ *   <Table.Body>
+ *     <Table.Row id="1">
+ *       <Table.Cell>Alice</Table.Cell>
+ *       <Table.Cell>alice@example.com</Table.Cell>
+ *     </Table.Row>
+ *   </Table.Body>
+ * </Table.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLTableElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaTable ref={ref} className={cx('tale-table', className)} {...props} />

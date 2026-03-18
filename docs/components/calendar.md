@@ -14,9 +14,9 @@ A date picker calendar for selecting a single date, with month navigation.
 | `Calendar.Heading` | Displays the current month and year |
 | `Calendar.Grid` | `<table>` containing the header and body |
 | `Calendar.GridHeader` | `<thead>` row of weekday names (render prop: `(day) => ...`) |
-| `Calendar.GridHeaderCell` | `<th>` weekday label |
+| `Calendar.GridHeaderCell` | `<th>` weekday label — **use inside `GridHeader` only** |
 | `Calendar.GridBody` | `<tbody>` rows of date cells (render prop: `(date) => ...`) |
-| `Calendar.Cell` | Individual date cell; accepts a `date` prop |
+| `Calendar.Cell` | Individual date cell — **use inside `GridBody` only**; accepts a `date` prop |
 
 ## Basic Usage
 
@@ -99,4 +99,5 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 - Built on React Aria `Calendar` and related components.
 - Uses `@internationalized/date` for date values. Import helpers like `today()` and `getLocalTimeZone()` from that package.
 - `GridHeader` and `GridBody` use render props to iterate weekday names and date objects respectively.
+- **Use `Calendar.GridHeaderCell` in `GridHeader`, not `Calendar.Cell`.** `GridHeader`'s render prop passes day name strings (e.g. `"Mon"`), not date objects. Using `Calendar.Cell` there crashes with `TypeError: can't access property "calendar", date is undefined` because `Cell` expects a `date` prop. Reserve `Calendar.Cell` for `GridBody` where actual date objects are provided.
 - Calendar supports single-date selection only. Use RangeCalendar for selecting date ranges.

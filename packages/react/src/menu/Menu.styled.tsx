@@ -21,6 +21,26 @@ import { cx } from '../_cx';
 /* ─── Root (MenuTrigger) ──────────────────────────────────────────────────── */
 
 export type RootProps = AriaMenuTriggerProps;
+/**
+ * A dropdown menu triggered by a button.
+ *
+ * @example
+ * ```tsx
+ * import { Menu } from '@tale-ui/react/menu';
+ *
+ * <Menu.Root>
+ *   <Menu.Trigger>Options</Menu.Trigger>
+ *   <Menu.Popover>
+ *     <Menu.MenuList>
+ *       <Menu.Item id="edit">Edit</Menu.Item>
+ *       <Menu.Item id="duplicate">Duplicate</Menu.Item>
+ *       <Menu.Separator />
+ *       <Menu.Item id="delete">Delete</Menu.Item>
+ *     </Menu.MenuList>
+ *   </Menu.Popover>
+ * </Menu.Root>
+ * ```
+ */
 export const Root = AriaMenuTrigger;
 
 /* ─── Trigger ─────────────────────────────────────────────────────────────── */

@@ -26,6 +26,28 @@ import { cx } from '../_cx';
 
 export type RootProps<T extends object = {}> = Omit<AriaSelectProps<T>, 'className'> & { className?: string };
 
+/**
+ * A dropdown select input for choosing from a list of options.
+ *
+ * @example
+ * ```tsx
+ * import { Select } from '@tale-ui/react/select';
+ *
+ * <Select.Root>
+ *   <Select.Label>Fruit</Select.Label>
+ *   <Select.Trigger>
+ *     <Select.Value placeholder="Select..." />
+ *     <Select.Icon />
+ *   </Select.Trigger>
+ *   <Select.Popover>
+ *     <Select.ListBox>
+ *       <Select.Item id="apple">Apple</Select.Item>
+ *       <Select.Item id="banana">Banana</Select.Item>
+ *     </Select.ListBox>
+ *   </Select.Popover>
+ * </Select.Root>
+ * ```
+ */
 export const Root: <T extends object = {}>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(

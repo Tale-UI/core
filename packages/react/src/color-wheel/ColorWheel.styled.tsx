@@ -15,6 +15,20 @@ export type RootProps = Omit<AriaColorWheelProps, 'className'> & {
   className?: string;
 };
 
+/**
+ * A circular hue selector.
+ *
+ * @example
+ * ```tsx
+ * import { ColorWheel } from '@tale-ui/react/color-wheel';
+ * import { parseColor } from 'react-aria-components';
+ *
+ * <ColorWheel.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} outerRadius={100} innerRadius={70}>
+ *   <ColorWheel.Track />
+ *   <ColorWheel.Thumb />
+ * </ColorWheel.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaColorWheel ref={ref} className={cx('tale-color-wheel', className)} {...props} />

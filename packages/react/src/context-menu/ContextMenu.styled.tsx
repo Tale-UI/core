@@ -28,9 +28,24 @@ interface ContextMenuState {
 }
 
 /**
- * Provides context menu state (open/position) to children.
- * The Trigger child captures `contextmenu` events;
- * the Popup child renders the menu at the cursor position.
+ * A menu that appears on right-click (context menu event).
+ *
+ * @example
+ * ```tsx
+ * import { ContextMenu } from '@tale-ui/react/context-menu';
+ *
+ * <ContextMenu.Root>
+ *   <ContextMenu.Trigger>Right-click here</ContextMenu.Trigger>
+ *   <ContextMenu.Popup>
+ *     <ContextMenu.MenuList>
+ *       <ContextMenu.Item id="cut">Cut</ContextMenu.Item>
+ *       <ContextMenu.Item id="copy">Copy</ContextMenu.Item>
+ *       <ContextMenu.Separator />
+ *       <ContextMenu.Item id="paste">Paste</ContextMenu.Item>
+ *     </ContextMenu.MenuList>
+ *   </ContextMenu.Popup>
+ * </ContextMenu.Root>
+ * ```
  */
 export function Root({ children }: RootProps) {
   const [state, setState] = React.useState<ContextMenuState>({

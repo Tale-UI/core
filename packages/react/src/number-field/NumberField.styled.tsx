@@ -14,6 +14,23 @@ import {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
+/**
+ * A numeric input with increment and decrement buttons.
+ *
+ * @example
+ * ```tsx
+ * import { NumberField } from '@tale-ui/react/number-field';
+ *
+ * <NumberField.Root defaultValue={0}>
+ *   <NumberField.Label>Quantity</NumberField.Label>
+ *   <NumberField.Group>
+ *     <NumberField.Decrement />
+ *     <NumberField.Input />
+ *     <NumberField.Increment />
+ *   </NumberField.Group>
+ * </NumberField.Root>
+ * ```
+ */
 export const Root = React.forwardRef<
   HTMLDivElement,
   Omit<AriaNumberFieldProps, 'className'> & { className?: string }

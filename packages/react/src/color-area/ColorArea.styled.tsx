@@ -13,6 +13,19 @@ export type RootProps = Omit<AriaColorAreaProps, 'className'> & {
   className?: string;
 };
 
+/**
+ * A 2D colour picker surface for selecting saturation and lightness.
+ *
+ * @example
+ * ```tsx
+ * import { ColorArea } from '@tale-ui/react/color-area';
+ * import { parseColor } from 'react-aria-components';
+ *
+ * <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+ *   <ColorArea.Thumb />
+ * </ColorArea.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaColorArea ref={ref} className={cx('tale-color-area', className)} {...props} />

@@ -1,6 +1,25 @@
 import * as React from 'react';
 import { cx } from '../_cx';
 
+/**
+ * A site navigation menu with links and optional dropdowns.
+ *
+ * @example
+ * ```tsx
+ * import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+ *
+ * <NavigationMenu.Root>
+ *   <NavigationMenu.List>
+ *     <NavigationMenu.Item>
+ *       <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+ *     </NavigationMenu.Item>
+ *     <NavigationMenu.Item>
+ *       <NavigationMenu.Link href="#">About</NavigationMenu.Link>
+ *     </NavigationMenu.Item>
+ *   </NavigationMenu.List>
+ * </NavigationMenu.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
   ({ className, ...props }, ref) => (
     <nav ref={ref} className={cx('tale-navigation-menu', className)} {...props} />

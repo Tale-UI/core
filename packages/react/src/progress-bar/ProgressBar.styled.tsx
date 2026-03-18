@@ -9,6 +9,22 @@ export interface RootProps extends Omit<AriaProgressBarProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A progress bar showing completion of a task.
+ *
+ * @example
+ * ```tsx
+ * import { ProgressBar } from '@tale-ui/react/progress-bar';
+ *
+ * <ProgressBar.Root value={60} minValue={0} maxValue={100}>
+ *   <ProgressBar.Label>Upload progress</ProgressBar.Label>
+ *   <ProgressBar.Value>60%</ProgressBar.Value>
+ *   <ProgressBar.Track>
+ *     <ProgressBar.Indicator value={60} />
+ *   </ProgressBar.Track>
+ * </ProgressBar.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <ProgressBar ref={ref} className={cx('tale-progress-bar', className)} {...props} />

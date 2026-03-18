@@ -19,6 +19,21 @@ export type RootProps = Omit<AriaColorSliderProps, 'className'> & {
   className?: string;
 };
 
+/**
+ * A slider for adjusting a single colour channel (hue, saturation, etc.).
+ *
+ * @example
+ * ```tsx
+ * import { ColorSlider } from '@tale-ui/react/color-slider';
+ * import { parseColor } from 'react-aria-components';
+ *
+ * <ColorSlider.Root channel="hue" defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+ *   <ColorSlider.Label>Hue</ColorSlider.Label>
+ *   <ColorSlider.Output />
+ *   <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>
+ * </ColorSlider.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaColorSlider ref={ref} className={cx('tale-color-slider', className)} {...props} />

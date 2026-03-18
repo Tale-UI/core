@@ -20,6 +20,22 @@ export interface RootProps extends Omit<AriaTagGroupProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A group of removable or selectable tags.
+ *
+ * @example
+ * ```tsx
+ * import { TagGroup } from '@tale-ui/react/tag-group';
+ *
+ * <TagGroup.Root>
+ *   <TagGroup.Label>Categories</TagGroup.Label>
+ *   <TagGroup.List>
+ *     <TagGroup.Tag id="react">React</TagGroup.Tag>
+ *     <TagGroup.Tag id="vue">Vue</TagGroup.Tag>
+ *   </TagGroup.List>
+ * </TagGroup.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaTagGroup

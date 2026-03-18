@@ -25,6 +25,21 @@ const RootInner = <T extends TimeValue>(
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => <AriaTimeField ref={ref} className={cx('tale-time-field', className)} {...props} />;
 
+/**
+ * A segmented time input field (hour/minute/second).
+ *
+ * @example
+ * ```tsx
+ * import { TimeField } from '@tale-ui/react/time-field';
+ *
+ * <TimeField.Root>
+ *   <TimeField.Label>Time</TimeField.Label>
+ *   <TimeField.DateInput>
+ *     {(segment) => <TimeField.Segment segment={segment} />}
+ *   </TimeField.DateInput>
+ * </TimeField.Root>
+ * ```
+ */
 export const Root = React.forwardRef(RootInner) as <T extends TimeValue = TimeValue>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null;

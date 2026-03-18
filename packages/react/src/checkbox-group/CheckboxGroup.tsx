@@ -11,6 +11,23 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
 /**
  * Groups a set of checkboxes with form validation and accessibility support.
  * Wraps React Aria's CheckboxGroup.
+ *
+ * @example
+ * ```tsx
+ * import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
+ * import { Checkbox } from '@tale-ui/react/checkbox';
+ *
+ * <CheckboxGroup label="Favorite fruits">
+ *   <Checkbox.Root value="apple">
+ *     <Checkbox.Indicator />
+ *     Apple
+ *   </Checkbox.Root>
+ *   <Checkbox.Root value="banana">
+ *     <Checkbox.Indicator />
+ *     Banana
+ *   </Checkbox.Root>
+ * </CheckboxGroup>
+ * ```
  */
 export const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
   ({ className, ...props }, ref) => (

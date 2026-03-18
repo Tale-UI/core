@@ -33,6 +33,42 @@ const RootInner = <T extends DateValue>(
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => <AriaDatePicker ref={ref} className={cx('tale-date-picker', className)} {...props} />;
 
+/**
+ * A date input with a calendar popover for date selection.
+ *
+ * @example
+ * ```tsx
+ * import { DatePicker } from '@tale-ui/react/date-picker';
+ * import { Calendar } from '@tale-ui/react/calendar';
+ *
+ * <DatePicker.Root>
+ *   <DatePicker.Label>Date</DatePicker.Label>
+ *   <DatePicker.Group>
+ *     <DatePicker.DateInput>
+ *       {(segment) => <DatePicker.Segment segment={segment} />}
+ *     </DatePicker.DateInput>
+ *     <DatePicker.Trigger />
+ *   </DatePicker.Group>
+ *   <DatePicker.Popover>
+ *     <DatePicker.Dialog>
+ *       <Calendar.Root>
+ *         <Calendar.PreviousButton />
+ *         <Calendar.Heading />
+ *         <Calendar.NextButton />
+ *         <Calendar.Grid>
+ *           <Calendar.GridHeader>
+ *             {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+ *           </Calendar.GridHeader>
+ *           <Calendar.GridBody>
+ *             {(date) => <Calendar.Cell date={date} />}
+ *           </Calendar.GridBody>
+ *         </Calendar.Grid>
+ *       </Calendar.Root>
+ *     </DatePicker.Dialog>
+ *   </DatePicker.Popover>
+ * </DatePicker.Root>
+ * ```
+ */
 export const Root = React.forwardRef(RootInner) as <T extends DateValue = DateValue>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null;

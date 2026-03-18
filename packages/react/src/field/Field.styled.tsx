@@ -7,6 +7,22 @@ import {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
+/**
+ * A wrapper that links a label, description, and error message to a form control.
+ *
+ * @example
+ * ```tsx
+ * import { Field } from '@tale-ui/react/field';
+ *
+ * <Field.Root>
+ *   <Field.Label>Email</Field.Label>
+ *   <Field.Control>
+ *     <input className="tale-input" placeholder="you@example.com" />
+ *   </Field.Control>
+ *   <Field.Description>We'll never share your email.</Field.Description>
+ * </Field.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cx('tale-field', className)} {...props} />

@@ -13,6 +13,20 @@ export type RootProps<T extends object> = Omit<AriaGridListProps<T>, 'className'
   className?: string;
 };
 
+/**
+ * A list of interactive items with keyboard navigation and selection.
+ *
+ * @example
+ * ```tsx
+ * import { GridList } from '@tale-ui/react/grid-list';
+ *
+ * <GridList.Root aria-label="Items" selectionMode="multiple">
+ *   <GridList.Item id="1" textValue="Item 1">Item 1</GridList.Item>
+ *   <GridList.Item id="2" textValue="Item 2">Item 2</GridList.Item>
+ *   <GridList.Item id="3" textValue="Item 3">Item 3</GridList.Item>
+ * </GridList.Root>
+ * ```
+ */
 export const Root: <T extends object>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(

@@ -7,6 +7,17 @@ export interface SeparatorProps extends Omit<AriaSeparatorProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A visual divider between content sections.
+ *
+ * @example
+ * ```tsx
+ * import { Separator } from '@tale-ui/react/separator';
+ *
+ * <Separator />
+ * <Separator orientation="vertical" />
+ * ```
+ */
 export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
   ({ orientation = 'horizontal', className, ...props }, ref) => (
     <AriaSeparator

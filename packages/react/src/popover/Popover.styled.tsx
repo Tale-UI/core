@@ -17,7 +17,23 @@ import { cx } from '../_cx';
 
 /* ─── Root ─────────────────────────────────────────────────────────────────── */
 
-/** Manages the open/close state for the popover. Wrap a Trigger + Popup inside. */
+/**
+ * A floating panel anchored to a trigger element.
+ *
+ * @example
+ * ```tsx
+ * import { Popover } from '@tale-ui/react/popover';
+ *
+ * <Popover.Root>
+ *   <Popover.Trigger>Open Popover</Popover.Trigger>
+ *   <Popover.Popup placement="bottom" offset={8}>
+ *     <Popover.Arrow />
+ *     <Popover.Title>Popover Title</Popover.Title>
+ *     <Popover.Description>Some helpful info.</Popover.Description>
+ *   </Popover.Popup>
+ * </Popover.Root>
+ * ```
+ */
 export const Root = DialogTrigger;
 
 /* ─── Trigger ───────────────────────────────────────────────────────────────── */

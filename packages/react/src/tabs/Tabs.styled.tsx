@@ -19,6 +19,24 @@ export interface RootProps extends Omit<AriaTabsProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * Tabbed navigation with tab list, tab buttons, and panels.
+ *
+ * @example
+ * ```tsx
+ * import { Tabs } from '@tale-ui/react/tabs';
+ *
+ * <Tabs.Root defaultSelectedKey="tab1">
+ *   <Tabs.List>
+ *     <Tabs.Tab id="tab1">Account</Tabs.Tab>
+ *     <Tabs.Tab id="tab2">Settings</Tabs.Tab>
+ *     <Tabs.Indicator />
+ *   </Tabs.List>
+ *   <Tabs.Panel id="tab1">Account settings here.</Tabs.Panel>
+ *   <Tabs.Panel id="tab2">App settings here.</Tabs.Panel>
+ * </Tabs.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <Tabs ref={ref} className={cx('tale-tabs', className)} {...props} />

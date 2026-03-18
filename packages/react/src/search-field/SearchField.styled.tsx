@@ -20,6 +20,20 @@ export interface RootProps extends Omit<AriaSearchFieldProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A search input with a clear button.
+ *
+ * @example
+ * ```tsx
+ * import { SearchField } from '@tale-ui/react/search-field';
+ *
+ * <SearchField.Root>
+ *   <SearchField.Label>Search</SearchField.Label>
+ *   <SearchField.Input placeholder="Search..." />
+ *   <SearchField.ClearButton />
+ * </SearchField.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaSearchField

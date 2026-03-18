@@ -22,6 +22,24 @@ import { cx } from '../_cx';
 
 export type RootProps<T extends object = object> = AriaAutocompleteProps<T>;
 
+/**
+ * A search field with a live-filtered list of suggestions.
+ *
+ * @example
+ * ```tsx
+ * import { Autocomplete } from '@tale-ui/react/autocomplete';
+ *
+ * <Autocomplete.Root>
+ *   <Autocomplete.SearchField>
+ *     <Autocomplete.Input placeholder="Search..." />
+ *   </Autocomplete.SearchField>
+ *   <Autocomplete.ListBox>
+ *     <Autocomplete.Item id="apple">Apple</Autocomplete.Item>
+ *     <Autocomplete.Item id="banana">Banana</Autocomplete.Item>
+ *   </Autocomplete.ListBox>
+ * </Autocomplete.Root>
+ * ```
+ */
 export function Root<T extends object>(props: RootProps<T>) {
   return <AriaAutocomplete {...props} />;
 }

@@ -21,6 +21,20 @@ export interface RootProps extends Omit<AriaTextFieldProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A text input field with label, description, and error message.
+ *
+ * @example
+ * ```tsx
+ * import { Input } from '@tale-ui/react/input';
+ *
+ * <Input.Root>
+ *   <Input.Label>Email</Input.Label>
+ *   <Input.Input placeholder="you@example.com" />
+ *   <Input.Description>We'll never share your email.</Input.Description>
+ * </Input.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <TextField ref={ref} className={cx('tale-input__root', className)} {...props} />

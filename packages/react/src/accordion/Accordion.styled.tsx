@@ -34,6 +34,23 @@ export interface AccordionRootProps extends Omit<DisclosureGroupProps, 'classNam
   className?: string | undefined;
 }
 
+/**
+ * A vertically stacked set of collapsible sections.
+ *
+ * @example
+ * ```tsx
+ * import { Accordion } from '@tale-ui/react/accordion';
+ *
+ * <Accordion.Root>
+ *   <Accordion.Item id="a">
+ *     <Accordion.Header>
+ *       <Accordion.Trigger>Question</Accordion.Trigger>
+ *     </Accordion.Header>
+ *     <Accordion.Panel>Answer</Accordion.Panel>
+ *   </Accordion.Item>
+ * </Accordion.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, AccordionRootProps>(
   ({ className, ...props }, ref) => (
     <DisclosureGroup ref={ref} className={cx('tale-accordion', className)} {...props} />

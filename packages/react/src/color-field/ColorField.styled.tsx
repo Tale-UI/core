@@ -19,6 +19,19 @@ export type RootProps = Omit<AriaColorFieldProps, 'className'> & {
   className?: string;
 };
 
+/**
+ * A text field for entering colour values (hex, rgb, hsl).
+ *
+ * @example
+ * ```tsx
+ * import { ColorField } from '@tale-ui/react/color-field';
+ *
+ * <ColorField.Root>
+ *   <ColorField.Label>Color</ColorField.Label>
+ *   <ColorField.Input />
+ * </ColorField.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaColorField ref={ref} className={cx('tale-color-field', className)} {...props} />

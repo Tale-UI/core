@@ -16,7 +16,26 @@ import { cx } from '../_cx';
 
 /* ─── Root ─────────────────────────────────────────────────────────────────── */
 
-/** Manages the open/close state for a dialog. Wrap a Trigger + Popup inside. */
+/**
+ * A modal dialog overlay with backdrop, title, description, and close button.
+ *
+ * @example
+ * ```tsx
+ * import { Dialog } from '@tale-ui/react/dialog';
+ * import { Button } from '@tale-ui/react/button';
+ *
+ * <Dialog.Root>
+ *   <Dialog.Trigger>Open Dialog</Dialog.Trigger>
+ *   <Dialog.Backdrop>
+ *     <Dialog.Popup>
+ *       <Dialog.Title>Confirm action</Dialog.Title>
+ *       <Dialog.Description>Are you sure?</Dialog.Description>
+ *       <Dialog.Close>Close</Dialog.Close>
+ *     </Dialog.Popup>
+ *   </Dialog.Backdrop>
+ * </Dialog.Root>
+ * ```
+ */
 export const Root = DialogTrigger;
 
 /* ─── Trigger ───────────────────────────────────────────────────────────────── */

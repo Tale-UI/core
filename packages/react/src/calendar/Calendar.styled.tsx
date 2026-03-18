@@ -20,7 +20,28 @@ import {
 import type { DateValue } from '@internationalized/date';
 import { cx } from '../_cx';
 
-// Root calendar
+/**
+ * A date calendar for selecting a single date.
+ *
+ * @example
+ * ```tsx
+ * import { Calendar } from '@tale-ui/react/calendar';
+ *
+ * <Calendar.Root>
+ *   <Calendar.PreviousButton />
+ *   <Calendar.Heading />
+ *   <Calendar.NextButton />
+ *   <Calendar.Grid>
+ *     <Calendar.GridHeader>
+ *       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+ *     </Calendar.GridHeader>
+ *     <Calendar.GridBody>
+ *       {(date) => <Calendar.Cell date={date} />}
+ *     </Calendar.GridBody>
+ *   </Calendar.Grid>
+ * </Calendar.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, Omit<AriaCalendarProps<DateValue>, 'className'> & { className?: string }>(
   ({ className, ...props }, ref) => (
     <AriaCalendar ref={ref} className={cx('tale-calendar', className)} {...props} />

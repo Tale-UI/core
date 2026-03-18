@@ -176,9 +176,46 @@ The initial state also reads the browser preference via `matchMedia` so the togg
 
 ---
 
+## 9. Calendar: `TypeError: can't access property "calendar", date is undefined`
+
+**Error:**
+```
+Uncaught TypeError: can't access property "calendar", date is undefined
+    $11d87f3f76e88657$export$b4a036af3fc0b032 conversion.mjs:189
+    $14e0f24ef4ac5c92$export$a18c89cbd24170ff queries.mjs:21
+    CalendarCell Calendar.mjs:282
+```
+
+**Cause:** `Calendar.Cell` was used inside `Calendar.GridHeader` instead of `Calendar.GridHeaderCell`.
+
+`Calendar.GridHeader` uses a render prop whose argument is a **day name string** (e.g. `"Mon"`), not a date object. `Calendar.Cell` expects a `date` prop containing a `CalendarDate` object from `@internationalized/date`. When `Calendar.Cell` is used in the header, `date` is `undefined`, so the internal code crashes trying to read `.calendar` on it.
+
+**Incorrect:**
+```jsx
+<Calendar.GridHeader>
+  {(day) => <Calendar.Cell>{day}</Calendar.Cell>}
+</Calendar.GridHeader>
+```
+
+**Fix:** Use `Calendar.GridHeaderCell` for weekday labels in the header:
+```jsx
+<Calendar.GridHeader>
+  {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+</Calendar.GridHeader>
+```
+
+`Calendar.Cell` should only be used inside `Calendar.GridBody`, where the render prop provides actual date objects:
+```jsx
+<Calendar.GridBody>
+  {(date) => <Calendar.Cell date={date} />}
+</Calendar.GridBody>
+```
+
+---
+
 ## Summary of files changed
 
 | File | Changes |
 |------|---------|
-| `src/App.jsx` | Fixed Table.Root, Drawer.Backdrop, ToggleButtonGroup aria-label, NumberField buttons, Meter/ProgressBar values, dark mode toggle |
+| `src/App.jsx` | Fixed Table.Root, Drawer.Backdrop, ToggleButtonGroup aria-label, NumberField buttons, Meter/ProgressBar values, dark mode toggle, Calendar GridHeaderCell |
 | `index.html` | Added empty favicon |

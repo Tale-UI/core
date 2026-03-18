@@ -7,6 +7,19 @@ export interface SwitchRootProps extends Omit<AriaSwitchProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A toggle switch with thumb and label.
+ *
+ * @example
+ * ```tsx
+ * import { Switch } from '@tale-ui/react/switch';
+ *
+ * <Switch.Root>
+ *   <Switch.Thumb />
+ *   Enable notifications
+ * </Switch.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
   ({ className, ...props }, ref) => (
     <AriaSwitch ref={ref} className={cx('tale-switch', className)} {...props} />

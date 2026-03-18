@@ -3,7 +3,26 @@ import { Toolbar } from 'react-aria-components';
 import type { ToolbarProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
-// Root — wraps RA Toolbar
+/**
+ * A horizontal bar of grouped actions (buttons, toggles, links).
+ *
+ * @example
+ * ```tsx
+ * import { Toolbar } from '@tale-ui/react/toolbar';
+ *
+ * <Toolbar.Root aria-label="Formatting">
+ *   <Toolbar.Group>
+ *     <Toolbar.Button>Bold</Toolbar.Button>
+ *     <Toolbar.Button>Italic</Toolbar.Button>
+ *   </Toolbar.Group>
+ *   <Toolbar.Separator />
+ *   <Toolbar.Group>
+ *     <Toolbar.Button>Left</Toolbar.Button>
+ *     <Toolbar.Button>Center</Toolbar.Button>
+ *   </Toolbar.Group>
+ * </Toolbar.Root>
+ * ```
+ */
 export const Root = React.forwardRef<
   HTMLDivElement,
   Omit<ToolbarProps, 'className'> & { className?: string }

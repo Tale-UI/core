@@ -33,6 +33,46 @@ const RootInner = <T extends DateValue>(
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => <AriaDateRangePicker ref={ref} className={cx('tale-date-range-picker', className)} {...props} />;
 
+/**
+ * A date range input with start/end fields and a calendar popover.
+ *
+ * @example
+ * ```tsx
+ * import { DateRangePicker } from '@tale-ui/react/date-range-picker';
+ * import { RangeCalendar } from '@tale-ui/react/range-calendar';
+ *
+ * <DateRangePicker.Root>
+ *   <DateRangePicker.Label>Date range</DateRangePicker.Label>
+ *   <DateRangePicker.Group>
+ *     <DateRangePicker.StartDate>
+ *       {(segment) => <DateRangePicker.Segment segment={segment} />}
+ *     </DateRangePicker.StartDate>
+ *     <span>–</span>
+ *     <DateRangePicker.EndDate>
+ *       {(segment) => <DateRangePicker.Segment segment={segment} />}
+ *     </DateRangePicker.EndDate>
+ *     <DateRangePicker.Trigger />
+ *   </DateRangePicker.Group>
+ *   <DateRangePicker.Popover>
+ *     <DateRangePicker.Dialog>
+ *       <RangeCalendar.Root>
+ *         <RangeCalendar.PreviousButton />
+ *         <RangeCalendar.Heading />
+ *         <RangeCalendar.NextButton />
+ *         <RangeCalendar.Grid>
+ *           <RangeCalendar.GridHeader>
+ *             {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
+ *           </RangeCalendar.GridHeader>
+ *           <RangeCalendar.GridBody>
+ *             {(date) => <RangeCalendar.Cell date={date} />}
+ *           </RangeCalendar.GridBody>
+ *         </RangeCalendar.Grid>
+ *       </RangeCalendar.Root>
+ *     </DateRangePicker.Dialog>
+ *   </DateRangePicker.Popover>
+ * </DateRangePicker.Root>
+ * ```
+ */
 export const Root = React.forwardRef(RootInner) as <T extends DateValue = DateValue>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null;

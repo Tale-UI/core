@@ -16,6 +16,20 @@ export interface RadioRootProps extends Omit<AriaRadioProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A radio button with indicator and label. Use inside Radio.Group.
+ *
+ * @example
+ * ```tsx
+ * import { Radio } from '@tale-ui/react/radio';
+ *
+ * <Radio.Group label="Favorite color">
+ *   <Radio.Root value="red"><Radio.Indicator /> Red</Radio.Root>
+ *   <Radio.Root value="green"><Radio.Indicator /> Green</Radio.Root>
+ *   <Radio.Root value="blue"><Radio.Indicator /> Blue</Radio.Root>
+ * </Radio.Group>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLLabelElement, RadioRootProps>(
   ({ size, className, ...props }, ref) => (
     <AriaRadio

@@ -11,6 +11,19 @@ export interface DisclosureRootProps extends Omit<RACDisclosureProps, 'className
   className?: string | undefined;
 }
 
+/**
+ * A collapsible section with a trigger and panel.
+ *
+ * @example
+ * ```tsx
+ * import { Disclosure } from '@tale-ui/react/disclosure';
+ *
+ * <Disclosure.Root>
+ *   <Disclosure.Trigger>Show more</Disclosure.Trigger>
+ *   <Disclosure.Panel>Hidden content revealed on expand.</Disclosure.Panel>
+ * </Disclosure.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, DisclosureRootProps>(
   ({ className, ...props }, ref) => (
     <Disclosure ref={ref} className={cx('tale-disclosure', className)} {...props} />

@@ -28,6 +28,28 @@ export type RootProps<T extends object = object> = Omit<AriaComboBoxProps<T>, 'c
   className?: string;
 };
 
+/**
+ * A text input with a filterable dropdown list.
+ *
+ * @example
+ * ```tsx
+ * import { Combobox } from '@tale-ui/react/combobox';
+ *
+ * <Combobox.Root>
+ *   <Combobox.Label>Country</Combobox.Label>
+ *   <Combobox.InputGroup>
+ *     <Combobox.Input placeholder="Search..." />
+ *     <Combobox.Trigger />
+ *   </Combobox.InputGroup>
+ *   <Combobox.Popover>
+ *     <Combobox.ListBox>
+ *       <Combobox.Item id="us" textValue="United States">United States</Combobox.Item>
+ *       <Combobox.Item id="uk" textValue="United Kingdom">United Kingdom</Combobox.Item>
+ *     </Combobox.ListBox>
+ *   </Combobox.Popover>
+ * </Combobox.Root>
+ * ```
+ */
 export const Root: <T extends object = object>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(

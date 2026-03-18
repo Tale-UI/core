@@ -9,7 +9,22 @@ import {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
-// Root = TooltipTrigger (wraps trigger + tooltip, no DOM element)
+/**
+ * A small popup label that appears on hover or focus.
+ *
+ * @example
+ * ```tsx
+ * import { Tooltip } from '@tale-ui/react/tooltip';
+ *
+ * <Tooltip.Root>
+ *   <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+ *   <Tooltip.Popup placement="top" offset={8}>
+ *     <Tooltip.Arrow />
+ *     Tooltip text
+ *   </Tooltip.Popup>
+ * </Tooltip.Root>
+ * ```
+ */
 export const Root = TooltipTrigger;
 export type RootProps = TooltipTriggerComponentProps;
 

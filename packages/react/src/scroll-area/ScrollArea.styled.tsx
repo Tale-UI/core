@@ -1,6 +1,25 @@
 import * as React from 'react';
 import { cx } from '../_cx';
 
+/**
+ * A scrollable container with custom scrollbars.
+ *
+ * @example
+ * ```tsx
+ * import { ScrollArea } from '@tale-ui/react/scroll-area';
+ *
+ * <ScrollArea.Root style={{ height: 200 }}>
+ *   <ScrollArea.Viewport>
+ *     <ScrollArea.Content>
+ *       <p>Scrollable content here...</p>
+ *     </ScrollArea.Content>
+ *   </ScrollArea.Viewport>
+ *   <ScrollArea.Scrollbar orientation="vertical">
+ *     <ScrollArea.Thumb />
+ *   </ScrollArea.Scrollbar>
+ * </ScrollArea.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cx('tale-scroll-area', className)} {...props} />

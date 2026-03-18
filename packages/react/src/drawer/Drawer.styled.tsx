@@ -22,6 +22,24 @@ export interface RootProps extends React.HTMLAttributes<HTMLDivElement> {
   onOpenChange?: ((open: boolean) => void) | undefined;
 }
 
+/**
+ * A slide-in panel from the edge of the screen.
+ *
+ * @example
+ * ```tsx
+ * import { Drawer } from '@tale-ui/react/drawer';
+ *
+ * <Drawer.Root>
+ *   <Drawer.Trigger>Open Drawer</Drawer.Trigger>
+ *   <Drawer.Backdrop />
+ *   <Drawer.Popup>
+ *     <Drawer.Title>Drawer Title</Drawer.Title>
+ *     <Drawer.Description>Drawer content here.</Drawer.Description>
+ *     <Drawer.Close>Close</Drawer.Close>
+ *   </Drawer.Popup>
+ * </Drawer.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, open: openProp, defaultOpen = false, onOpenChange, ...props }, ref) => {
     const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);

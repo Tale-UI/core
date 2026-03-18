@@ -13,6 +13,21 @@ export type RootProps = Omit<AriaColorSwatchPickerProps, 'className'> & {
   className?: string;
 };
 
+/**
+ * A grid of colour swatches for picking from predefined colours.
+ *
+ * @example
+ * ```tsx
+ * import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';
+ * import { ColorSwatch } from '@tale-ui/react/color-swatch';
+ *
+ * <ColorSwatchPicker.Root>
+ *   <ColorSwatchPicker.Item color="#ff0000"><ColorSwatch /></ColorSwatchPicker.Item>
+ *   <ColorSwatchPicker.Item color="#00ff00"><ColorSwatch /></ColorSwatchPicker.Item>
+ *   <ColorSwatchPicker.Item color="#0000ff"><ColorSwatch /></ColorSwatchPicker.Item>
+ * </ColorSwatchPicker.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaColorSwatchPicker

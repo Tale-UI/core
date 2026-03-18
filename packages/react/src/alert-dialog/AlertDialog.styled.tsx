@@ -16,7 +16,29 @@ import type {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
-// Root / Trigger controller
+/**
+ * A confirmation dialog for destructive or important actions.
+ *
+ * @example
+ * ```tsx
+ * import { AlertDialog } from '@tale-ui/react/alert-dialog';
+ * import { Button } from '@tale-ui/react/button';
+ *
+ * <AlertDialog.Root>
+ *   <AlertDialog.Trigger>Delete</AlertDialog.Trigger>
+ *   <AlertDialog.Backdrop>
+ *     <AlertDialog.Popup>
+ *       <AlertDialog.Content>
+ *         <AlertDialog.Title>Are you sure?</AlertDialog.Title>
+ *         <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
+ *         <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+ *         <AlertDialog.Action>Delete</AlertDialog.Action>
+ *       </AlertDialog.Content>
+ *     </AlertDialog.Popup>
+ *   </AlertDialog.Backdrop>
+ * </AlertDialog.Root>
+ * ```
+ */
 export const Root = DialogTrigger;
 export type RootProps = DialogTriggerProps;
 

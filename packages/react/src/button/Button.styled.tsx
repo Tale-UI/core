@@ -14,6 +14,19 @@ export interface ButtonProps extends Omit<AriaButtonProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A styled button with variant and size props.
+ *
+ * @example
+ * ```tsx
+ * import { Button } from '@tale-ui/react/button';
+ *
+ * <Button variant="primary" size="md">Click me</Button>
+ * <Button variant="neutral">Neutral</Button>
+ * <Button variant="ghost">Ghost</Button>
+ * <Button variant="danger">Danger</Button>
+ * ```
+ */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', size = 'md', className, disabled, isDisabled, ...props }, ref) => (
     <AriaButton

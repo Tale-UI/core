@@ -25,6 +25,21 @@ const RootInner = <T extends DateValue>(
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => <AriaDateField ref={ref} className={cx('tale-date-field', className)} {...props} />;
 
+/**
+ * A segmented date input field (year/month/day).
+ *
+ * @example
+ * ```tsx
+ * import { DateField } from '@tale-ui/react/date-field';
+ *
+ * <DateField.Root>
+ *   <DateField.Label>Date</DateField.Label>
+ *   <DateField.DateInput>
+ *     {(segment) => <DateField.Segment segment={segment} />}
+ *   </DateField.DateInput>
+ * </DateField.Root>
+ * ```
+ */
 export const Root = React.forwardRef(RootInner) as <T extends DateValue = DateValue>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null;

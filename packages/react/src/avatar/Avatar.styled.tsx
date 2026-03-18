@@ -7,6 +7,19 @@ export interface RootProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: Size | undefined;
 }
 
+/**
+ * A user avatar with image and fallback.
+ *
+ * @example
+ * ```tsx
+ * import { Avatar } from '@tale-ui/react/avatar';
+ *
+ * <Avatar.Root size="md">
+ *   <Avatar.Image src="/photo.jpg" alt="User" />
+ *   <Avatar.Fallback>JD</Avatar.Fallback>
+ * </Avatar.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLSpanElement, RootProps>(
   ({ size = 'md', className, ...props }, ref) => (
     <span ref={ref} className={cx(`tale-avatar tale-avatar--${size}`, className)} {...props} />

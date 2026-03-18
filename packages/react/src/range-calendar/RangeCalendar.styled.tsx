@@ -29,6 +29,28 @@ const RootInner = <T extends DateValue>(
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => <AriaRangeCalendar ref={ref} className={cx('tale-range-calendar', className)} {...props} />;
 
+/**
+ * A calendar for selecting a date range.
+ *
+ * @example
+ * ```tsx
+ * import { RangeCalendar } from '@tale-ui/react/range-calendar';
+ *
+ * <RangeCalendar.Root>
+ *   <RangeCalendar.PreviousButton />
+ *   <RangeCalendar.Heading />
+ *   <RangeCalendar.NextButton />
+ *   <RangeCalendar.Grid>
+ *     <RangeCalendar.GridHeader>
+ *       {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
+ *     </RangeCalendar.GridHeader>
+ *     <RangeCalendar.GridBody>
+ *       {(date) => <RangeCalendar.Cell date={date} />}
+ *     </RangeCalendar.GridBody>
+ *   </RangeCalendar.Grid>
+ * </RangeCalendar.Root>
+ * ```
+ */
 export const Root = React.forwardRef(RootInner) as <T extends DateValue = DateValue>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null;

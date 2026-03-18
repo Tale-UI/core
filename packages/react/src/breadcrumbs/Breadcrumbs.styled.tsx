@@ -15,6 +15,20 @@ export type RootProps<T extends object = {}> = Omit<AriaBreadcrumbsProps<T>, 'cl
   className?: string | undefined;
 };
 
+/**
+ * A navigation trail showing the current page's location in a hierarchy.
+ *
+ * @example
+ * ```tsx
+ * import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';
+ *
+ * <Breadcrumbs.Root>
+ *   <Breadcrumbs.Item><Breadcrumbs.Link href="#">Home</Breadcrumbs.Link></Breadcrumbs.Item>
+ *   <Breadcrumbs.Item><Breadcrumbs.Link href="#">Products</Breadcrumbs.Link></Breadcrumbs.Item>
+ *   <Breadcrumbs.Item><Breadcrumbs.Link>Current Page</Breadcrumbs.Link></Breadcrumbs.Item>
+ * </Breadcrumbs.Root>
+ * ```
+ */
 export const Root: <T extends object = {}>(
   props: RootProps<T> & React.RefAttributes<HTMLOListElement>,
 ) => React.ReactElement | null = React.forwardRef(

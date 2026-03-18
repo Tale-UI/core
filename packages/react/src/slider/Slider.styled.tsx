@@ -19,6 +19,25 @@ export type RootProps<T extends number | number[] = number> = Omit<AriaSliderPro
   className?: string;
 };
 
+/**
+ * A slider for selecting a numeric value within a range.
+ *
+ * @example
+ * ```tsx
+ * import { Slider } from '@tale-ui/react/slider';
+ *
+ * <Slider.Root defaultValue={50}>
+ *   <Slider.Label>Volume</Slider.Label>
+ *   <Slider.Output />
+ *   <Slider.Control>
+ *     <Slider.Track>
+ *       <Slider.Indicator />
+ *       <Slider.Thumb />
+ *     </Slider.Track>
+ *   </Slider.Control>
+ * </Slider.Root>
+ * ```
+ */
 export const Root: <T extends number | number[] = number>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(

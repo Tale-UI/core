@@ -7,6 +7,16 @@ export interface LinkProps extends Omit<AriaLinkProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A styled anchor link.
+ *
+ * @example
+ * ```tsx
+ * import { Link } from '@tale-ui/react/link';
+ *
+ * <Link href="/about">About us</Link>
+ * ```
+ */
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ({ className, ...props }, ref) => (
     <AriaLink

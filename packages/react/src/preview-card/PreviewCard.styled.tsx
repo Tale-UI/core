@@ -13,7 +13,23 @@ import type {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
-// Root / Trigger controller
+/**
+ * A hover-triggered card that shows a preview of linked content.
+ *
+ * @example
+ * ```tsx
+ * import { PreviewCard } from '@tale-ui/react/preview-card';
+ *
+ * <PreviewCard.Root>
+ *   <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
+ *   <PreviewCard.Popup placement="bottom" offset={8}>
+ *     <PreviewCard.Content>
+ *       <p>Preview content here</p>
+ *     </PreviewCard.Content>
+ *   </PreviewCard.Popup>
+ * </PreviewCard.Root>
+ * ```
+ */
 export const Root = DialogTrigger;
 export type RootProps = DialogTriggerProps;
 

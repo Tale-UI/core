@@ -18,6 +18,19 @@ export interface RootProps extends Omit<AriaTextFieldProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A multi-line text input with label and description.
+ *
+ * @example
+ * ```tsx
+ * import { TextArea } from '@tale-ui/react/text-area';
+ *
+ * <TextArea.Root>
+ *   <TextArea.Label>Bio</TextArea.Label>
+ *   <TextArea.TextArea placeholder="Tell us about yourself..." />
+ * </TextArea.Root>
+ * ```
+ */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ className, ...props }, ref) => (
     <AriaTextField

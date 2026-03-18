@@ -11,6 +11,17 @@ export type ColorSwatchProps = Omit<AriaColorSwatchProps, 'className'> & {
   className?: string;
 };
 
+/**
+ * Displays a preview of a colour value.
+ *
+ * @example
+ * ```tsx
+ * import { ColorSwatch } from '@tale-ui/react/color-swatch';
+ * import { parseColor } from 'react-aria-components';
+ *
+ * <ColorSwatch color={parseColor('#ff0000')} />
+ * ```
+ */
 export const ColorSwatch = React.forwardRef<HTMLDivElement, ColorSwatchProps>(
   ({ className, ...props }, ref) => (
     <AriaColorSwatch ref={ref} className={cx('tale-color-swatch', className)} {...props} />
