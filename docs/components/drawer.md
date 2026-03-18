@@ -69,4 +69,5 @@ import { Drawer } from '@tale-ui/react/drawer';
 - `Drawer.Root` supports controlled (`open` / `onOpenChange`) and uncontrolled (`defaultOpen`) modes.
 - The Popup and Backdrop use transition status data attributes (`data-entering`, `data-exiting`) for CSS animations.
 - Clicking the `Backdrop` closes the drawer automatically.
+- **`Drawer.Backdrop` must be a self-closing sibling, not a wrapper.** Use `<Drawer.Backdrop />` as a sibling of `<Drawer.Popup>`, never wrap Popup inside Backdrop. Wrapping changes the React hook execution order and causes a "Rendered more hooks than during the previous render" crash.
 - Unlike Dialog, this is a custom implementation (not built on React Aria's Modal).

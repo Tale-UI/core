@@ -115,3 +115,4 @@ A numeric input with increment/decrement buttons, supporting min/max bounds, ste
 - Built on React Aria `NumberField`, `Group`, `Input`, `Button`, `Label`, `Text`, and `FieldError`.
 - Pass `formatOptions` (Intl.NumberFormat options) for locale-aware formatting such as currency or percentages.
 - Stepper buttons are automatically disabled at min/max bounds.
+- **`Increment` and `Decrement` render their own icons by default** (`+` and `−`). Use them self-closing: `<NumberField.Increment />`. Only pass children if you need a custom icon.

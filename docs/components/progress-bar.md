@@ -81,4 +81,5 @@ A horizontal bar indicating progress toward completion, with support for determi
 
 - Built on React Aria `ProgressBar`.
 - The `Indicator` computes its width as a percentage from `value`, `min` (default 0), and `max` (default 100).
+- **`ProgressBar.Value` requires children to display text.** It is a plain `<span>` (`aria-hidden`) that renders whatever you pass as children. Using it self-closing (`<ProgressBar.Value />`) renders an empty span. Always provide display text: `<ProgressBar.Value>60%</ProgressBar.Value>`.
 - For indeterminate state, pass `isIndeterminate` on `Root` and omit `value` on `Indicator`. The indicator receives a `data-indeterminate` attribute for CSS animation targeting.

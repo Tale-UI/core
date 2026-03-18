@@ -124,3 +124,4 @@ function SortableTable() {
 - Built on React Aria `Table`, `TableHeader`, `Column`, `TableBody`, `Row`, and `Cell`.
 - Columns support `data-sort-direction` (`ascending`/`descending`) when `allowsSorting` is used.
 - Columns support `data-resizable` when column resizing is enabled.
+- **`Table` is a namespace object, not a component.** Always use `<Table.Root>`, never `<Table>` directly. Writing `<Table aria-label="...">` passes the namespace object to React, which crashes with "Element type is invalid". TypeScript catches this at compile time; plain JSX does not.

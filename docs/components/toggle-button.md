@@ -27,7 +27,7 @@ A pressable toggle button that maintains selected/unselected state, built on Rea
 ### Group
 
 ```tsx
-<ToggleButtonGroup>
+<ToggleButtonGroup aria-label="Text formatting">
   <ToggleButton>Bold</ToggleButton>
   <ToggleButton>Italic</ToggleButton>
   <ToggleButton>Underline</ToggleButton>
@@ -55,3 +55,4 @@ A pressable toggle button that maintains selected/unselected state, built on Rea
 - `size` defaults to `"md"`.
 - Use `defaultSelected` for uncontrolled or `isSelected`/`onChange` for controlled state.
 - `ToggleButtonGroup` wraps multiple toggle buttons for toolbar-style layouts.
+- **`ToggleButtonGroup` requires `aria-label` or `aria-labelledby`.** React Aria logs a console warning at runtime if neither is provided. Always supply one for accessibility.

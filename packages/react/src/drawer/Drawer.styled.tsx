@@ -149,8 +149,20 @@ export const Description = React.forwardRef<HTMLDivElement, React.HTMLAttributes
 );
 Description.displayName = 'Drawer.Description';
 
-export const Backdrop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+export interface BackdropProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+  className?: string | undefined;
+}
+
+export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(
   ({ className, onClick, ...props }, ref) => {
+    if (process.env.NODE_ENV !== 'production' && 'children' in props) {
+      console.warn(
+        'Drawer.Backdrop does not accept children. Use it as a self-closing sibling of Drawer.Popup: ' +
+          '<Drawer.Backdrop /> <Drawer.Popup>…</Drawer.Popup>. ' +
+          'Wrapping Popup inside Backdrop causes a hooks-order crash.',
+      );
+    }
+
     const context = React.useContext(DrawerContext);
 
     if (context && !context.mounted) {

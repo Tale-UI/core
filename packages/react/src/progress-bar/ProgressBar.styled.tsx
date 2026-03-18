@@ -92,9 +92,20 @@ export interface ValueProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Value = React.forwardRef<HTMLSpanElement, ValueProps>(
-  ({ className, ...props }, ref) => (
-    <span ref={ref} aria-hidden className={cx('tale-progress-bar__value', className)} {...props} />
-  ),
+  ({ className, children, ...props }, ref) => {
+    if (process.env.NODE_ENV !== 'production' && children == null) {
+      console.warn(
+        'ProgressBar.Value was rendered without children. It is a display-only <span> that renders ' +
+          'whatever text you pass as children. Use <ProgressBar.Value>60%</ProgressBar.Value>.',
+      );
+    }
+
+    return (
+      <span ref={ref} aria-hidden className={cx('tale-progress-bar__value', className)} {...props}>
+        {children}
+      </span>
+    );
+  },
 );
 Value.displayName = 'ProgressBar.Value';
 

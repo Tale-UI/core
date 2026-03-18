@@ -158,6 +158,8 @@ The design system sets `html { font-size: 62.5% }` so that **1rem = 10px**. If y
 | 2 | OS preference | `@media (prefers-color-scheme: dark)` + `html:not([data-color-mode="light"])` — auto-dark unless explicitly overridden to light |
 | 3 (highest) | Explicit attribute | `html[data-color-mode="dark"]` — always dark regardless of OS |
 
+> **Common mistake:** Do not toggle dark mode by *removing* the `data-color-mode` attribute. Removing the attribute does not mean "light mode" — it means "no explicit preference", which falls back to OS preference via `prefers-color-scheme`. If the user's OS is set to dark mode, removing the attribute keeps the page dark. Always set the attribute to either `"dark"` or `"light"` explicitly.
+
 ### What happens in dark mode
 
 - All `--neutral-*` shades **invert** (light ↔ dark)
