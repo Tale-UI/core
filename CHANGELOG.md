@@ -2,7 +2,7 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
-## react-v1.3.7 — 2026-03-19
+## react-v1.3.15 — 2026-03-19
 
 ### Added
 - **Dev-mode misuse warnings**: `Drawer.Backdrop` warns when children are passed (wrapping Popup inside Backdrop causes a hooks-order crash). `Meter.Value` and `ProgressBar.Value` warn when rendered without children (self-closing renders an empty span).
