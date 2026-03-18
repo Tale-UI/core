@@ -1,0 +1,7 @@
+/*
+ * Re-export all @tale-ui/react-styles (tokens + component CSS).
+ *
+ * Usage:
+ *   import '@tale-ui/react/styles';
+ */
+@import '@tale-ui/react-styles';

@@ -1,6 +1,6 @@
 {
   "name": "@tale-ui/react",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "author": "Tale UI",
   "description": "Styled React component library built on React Aria Components, themed with @tale-ui/core design tokens.",
   "keywords": [
@@ -90,6 +90,7 @@
     "./toolbar": "./src/toolbar/index.ts",
     "./tooltip": "./src/tooltip/index.ts",
     "./tree": "./src/tree/index.ts",
+    "./styles": "./src/styles.css",
     "./types": "./src/types/index.ts",
     "./unstable-use-media-query": "./src/unstable-use-media-query/index.ts"
   },
@@ -110,6 +111,7 @@
     "@babel/runtime": "^7.28.6",
     "@internationalized/date": "^3.8.0",
     "@tale-ui/core": "workspace:*",
+    "@tale-ui/react-styles": "workspace:*",
     "@tale-ui/utils": "workspace:*",
     "react-aria-components": "^1.16.0"
   },
@@ -155,7 +157,9 @@
       "optional": true
     }
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "publishConfig": {
     "access": "public",
     "directory": "build"

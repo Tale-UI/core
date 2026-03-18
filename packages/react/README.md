@@ -1,33 +1,71 @@
 # @tale-ui/react
 
-An accessible React component library with BEM class names applied automatically. Style via `@tale-ui/react-styles` (built on `@tale-ui/core` design tokens) and override using `className`.
+An accessible React component library built on React Aria Components, with BEM class names applied automatically. Styles and design tokens are included — one package, one style import.
 
 ## Installation
 
 ```bash
-pnpm add @tale-ui/react @tale-ui/react-styles
+npm install @tale-ui/react
 ```
 
-`@tale-ui/react-styles` provides the CSS for every component — built on `@tale-ui/core` design tokens.
+This single install pulls in `@tale-ui/react-styles` (component CSS) and `@tale-ui/core` (design tokens) automatically.
+
+Peer dependencies: `react` and `react-dom` (^17, ^18, or ^19).
 
 ## Quick Start
 
-```tsx
-import '@tale-ui/react-styles';
-import { Button } from '@tale-ui/react/button';
-
-export default function App() {
-  return <Button variant="primary">Click me</Button>;
+```css
+/* app root CSS */
+html {
+  font-size: 62.5%; /* Required — design tokens assume 1rem = 10px */
 }
 ```
 
-For the full setup guide (colours, typography, dark mode): [docs/react-setup.md](../../docs/react-setup.md)
+```tsx
+import '@tale-ui/react/styles';           // tokens + all component CSS — import once
+import { Button } from '@tale-ui/react/button';
+
+export default function App() {
+  return <Button variant="primary" size="md">Click me</Button>;
+}
+// Renders: <button class="tale-button tale-button--primary tale-button--md">Click me</button>
+```
+
+## Critical Setup Details
+
+**Base font size** — The design system requires `html { font-size: 62.5%; }` so that `1rem = 10px`. Without this, all spacing and sizing will be wrong.
+
+**Dark mode** — Set `data-color-mode="dark"` on `<html>`. All `--neutral-*` and `--color-*` tokens invert automatically.
+
+```html
+<html data-color-mode="dark">
+```
+
+**Token rule** — Always use `--color-*` (not `--brand-*`) in component and app CSS. `--brand-*` is palette-only and does NOT invert in dark mode.
+
+```css
+/* Correct */
+.my-card { background: var(--color-60); color: var(--color-60-fg); }
+
+/* Wrong — will break in dark mode */
+.my-card { background: var(--brand-60); }
+```
 
 ## Components
 
+All components are imported from `@tale-ui/react/{name}`:
+
+```ts
+import { Button } from '@tale-ui/react/button';
+import { Input } from '@tale-ui/react/input';
+import { Dialog } from '@tale-ui/react/dialog';
+import { Select } from '@tale-ui/react/select';
+import { Checkbox } from '@tale-ui/react/checkbox';
+```
+
 ### Form Controls
 
-Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Radio · Radio Group · Select · Slider · Switch · Toggle Button · Toggle Button Group
+Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Radio · Radio Group · Search Field · Select · Slider · Switch · Text Area · Text Field · Toggle Button · Toggle Button Group · Date Field · Date Picker · Date Range Picker · Time Field · Color Picker
 
 ### Layout
 
@@ -39,11 +77,15 @@ Alert Dialog · Dialog · Drawer · Popover · Preview Card · Tooltip
 
 ### Navigation
 
-Context Menu · Menu · Menubar · Navigation Menu · Toolbar
+Breadcrumbs · Context Menu · Link · Menu · Menubar · Navigation Menu · Toolbar
+
+### Data Display
+
+Calendar · Grid List · Range Calendar · Table · Tag Group · Tree
 
 ### Feedback & Display
 
-Avatar · Meter · ProgressBar · Toast
+Avatar · Meter · ProgressBar
 
 ### Form Structure
 
@@ -51,30 +93,60 @@ Autocomplete · Field · Fieldset · Form
 
 ### Utilities
 
-Container · CSP Provider · Direction Provider · `mergeProps` · `useRender`
-
-All components are imported from `@tale-ui/react/{name}`:
-
-```ts
-import { Dialog } from '@tale-ui/react/dialog';
-import { Select } from '@tale-ui/react/select';
-import { Container } from '@tale-ui/react/container';
-```
+Container · CSP Provider · I18nProvider · `mergeProps`
 
 ## Styling
 
-Components apply BEM base class names automatically (e.g. `tale-button`, `tale-select__popup`). State is exposed via data attributes (`data-disabled`, `data-open`, `data-checked`, etc.) for CSS selectors.
+Components apply BEM base class names automatically. Variant and size props map to BEM modifiers:
 
-Components that support visual variants accept `variant` and/or `size` props — these apply the corresponding BEM modifier class automatically. Pass an extra `className` to add any modifier not exposed as a prop.
+```tsx
+<Button variant="primary" size="sm">Save</Button>
+// → class="tale-button tale-button--primary tale-button--sm"
+```
 
-CSS rules live in `@tale-ui/react-styles`. See the [styles README](../styles/README.md) for architecture details and CSS class naming conventions.
+State is exposed via data attributes (`data-disabled`, `data-open`, `data-checked`, `data-focus-visible`, `data-selected`, `data-highlighted`, etc.) for CSS selectors.
+
+## Custom Theme
+
+Create a `tale-ui-overrides.css` file in your project (next to your app entry):
+
+```css
+/* tale-ui-overrides.css
+ *
+ * Paste your generated theme from https://tale-ui.github.io/core/scale
+ * This file overrides the default --brand-* palette tokens.
+ * Import AFTER @tale-ui/react/styles so overrides take effect.
+ */
+```
+
+Import it after the Tale UI styles:
+
+```tsx
+import '@tale-ui/react/styles';
+import './tale-ui-overrides.css';        // your custom theme — must come after
+```
+
+To generate a theme, visit https://tale-ui.github.io/core/scale, configure your colour scale, and paste the generated `:root` block into `tale-ui-overrides.css`. Dark mode inversion works automatically — you only define the light-mode palette.
+
+## Per-component CSS Imports
+
+For smaller bundles, import individual component styles instead of the all-in-one:
+
+```ts
+import '@tale-ui/core';                  // tokens — required when using per-component imports
+import '@tale-ui/react-styles/button';
+import '@tale-ui/react-styles/dialog';
+```
 
 ## Documentation
 
-- [React setup guide](../../docs/react-setup.md) — full consumer walkthrough
-- [CSS design tokens](../css/docs/design-tokens.md) — all token values
-- [Contributing](../../CONTRIBUTING.md)
+For the complete guides on typography, colour system, dark mode, component composition patterns, accessibility, and framework integration:
+
+- [React setup guide](https://raw.githubusercontent.com/Tale-UI/core/main/docs/react-setup.md) — full consumer walkthrough
+- [Design tokens reference](https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/ai-reference.md) — every CSS class, token, and valid value
+- [Design philosophy](https://raw.githubusercontent.com/Tale-UI/core/main/docs/design-philosophy.md) — architectural decisions
+- [Component authoring](https://raw.githubusercontent.com/Tale-UI/core/main/docs/authoring-components.md) — contributor guide
 
 ## License
 
-MIT — see [LICENSE](../../LICENSE).
+MIT
