@@ -32,6 +32,8 @@ export interface RootProps extends Omit<AriaTextFieldProps, 'className'> {
  *   <Input.Label>Email</Input.Label>
  *   <Input.Input placeholder="you@example.com" />
  *   <Input.Description>We'll never share your email.</Input.Description>
+ *   // For validation errors, use isInvalid on Root:
+ *   // <Input.ErrorMessage>Please enter a valid email.</Input.ErrorMessage>
  * </Input.Root>
  * ```
  */

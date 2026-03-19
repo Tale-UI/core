@@ -28,6 +28,9 @@ export interface RootProps extends Omit<AriaTextFieldProps, 'className'> {
  * <TextField.Root>
  *   <TextField.Label>Name</TextField.Label>
  *   <TextField.Input placeholder="Enter your name" />
+ *   <TextField.Description>Your full legal name.</TextField.Description>
+ *   // For validation errors, use isInvalid on Root:
+ *   // <TextField.ErrorMessage>Name is required.</TextField.ErrorMessage>
  * </TextField.Root>
  * ```
  */

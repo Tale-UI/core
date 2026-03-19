@@ -28,6 +28,9 @@ export interface RootProps extends Omit<AriaTextFieldProps, 'className'> {
  * <TextArea.Root>
  *   <TextArea.Label>Bio</TextArea.Label>
  *   <TextArea.TextArea placeholder="Tell us about yourself..." />
+ *   <TextArea.Description>Max 500 characters.</TextArea.Description>
+ *   // For validation errors, use isInvalid on Root:
+ *   // <TextArea.ErrorMessage>Bio is required.</TextArea.ErrorMessage>
  * </TextArea.Root>
  * ```
  */

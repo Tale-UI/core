@@ -20,6 +20,17 @@ import { cx } from '../_cx';
  *     <input className="tale-input" placeholder="you@example.com" />
  *   </Field.Control>
  *   <Field.Description>We'll never share your email.</Field.Description>
+ *   // For validation errors:
+ *   // <Field.Error>Please enter a valid email.</Field.Error>
+ * </Field.Root>
+ *
+ * // Field.Item wraps multiple controls in a row:
+ * <Field.Root>
+ *   <Field.Label>Phone</Field.Label>
+ *   <Field.Item>
+ *     <select className="tale-select__trigger">...</select>
+ *     <input className="tale-input" placeholder="555-0000" />
+ *   </Field.Item>
  * </Field.Root>
  * ```
  */

@@ -31,6 +31,9 @@ export interface RootProps extends Omit<AriaSearchFieldProps, 'className'> {
  *   <SearchField.Label>Search</SearchField.Label>
  *   <SearchField.Input placeholder="Search..." />
  *   <SearchField.ClearButton />
+ *   <SearchField.Description>Search by name or keyword.</SearchField.Description>
+ *   // For validation errors, use isInvalid on Root:
+ *   // <SearchField.ErrorMessage>No results found.</SearchField.ErrorMessage>
  * </SearchField.Root>
  * ```
  */
