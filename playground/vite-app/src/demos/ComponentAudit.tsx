@@ -90,6 +90,7 @@ import { Tree } from '@tale-ui/react/tree';
 // Interaction
 import { DropZone } from '@tale-ui/react/drop-zone';
 import { FileTrigger } from '@tale-ui/react/file-trigger';
+import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 
 // Re-export (ToggleGroup = ToggleButtonGroup)
 import { ToggleButtonGroup as ToggleGroup } from '@tale-ui/react/toggle-group';
@@ -293,6 +294,7 @@ const TOC = [
   { category: 'Interaction', items: [
     { id: 'drop-zone', label: 'DropZone' },
     { id: 'file-trigger', label: 'FileTrigger' },
+    { id: 'color-mode-toggle', label: 'ColorModeToggle' },
   ]},
 ];
 
@@ -1887,6 +1889,17 @@ export default function ComponentAudit() {
             <FileTrigger onSelect={() => {}}>
               <Button variant="neutral">Choose file…</Button>
             </FileTrigger>
+          </Row>
+        </Section>
+
+        <Section id="color-mode-toggle" title="ColorModeToggle" classes={['tale-color-mode-toggle']}>
+          <SubHeading>Default</SubHeading>
+          <Row>
+            <ColorModeToggle />
+          </Row>
+          <SubHeading>Disabled</SubHeading>
+          <Row>
+            <ColorModeToggle isDisabled />
           </Row>
         </Section>
       </div>
