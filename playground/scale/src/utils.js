@@ -274,11 +274,11 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
       resetLines.push(`    --color-60-fg: var(--color-5);`)
       if (pivot > 70) resetLines.push(`    --color-70-fg: var(--color-5);`)
 
-      const lightSelector = `:where(html:not([data-color-mode="dark"])) .color-${name},\n.light .color-${name}`
-      const darkSelector  = `    :where(html:not([data-color-mode="light"])) .color-${name}`
+      const lightSelector = `:where(html:not([data-color-mode="dark"])) .tale-ui,\n.light .tale-ui`
+      const darkSelector  = `    :where(html:not([data-color-mode="light"])) .tale-ui`
 
       const block3 = [
-        `/* Fg pivot overrides — add to your stylesheet after @tale-ui/core */`,
+        `/* Fg pivot overrides — requires class="tale-ui" on <html> */`,
         `${lightSelector} {\n${overrideLines.join('\n')}\n}`,
         `@media (prefers-color-scheme: dark) {\n${darkSelector} {\n${resetLines.join('\n')}\n  }\n}`,
       ].join('\n\n')
@@ -327,11 +327,11 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
           return `    --color-${shade}-fg: ${token};`
         })
 
-        const explicitDarkSelector = `html[data-color-mode="dark"] .color-${name},\n.dark .color-${name}`
-        const osDarkSelector       = `    :where(html:not([data-color-mode="light"])) .color-${name}`
+        const explicitDarkSelector = `html[data-color-mode="dark"] .tale-ui,\n.dark .tale-ui`
+        const osDarkSelector       = `    :where(html:not([data-color-mode="light"])) .tale-ui`
 
         const block4 = [
-          `/* Dark-mode fg overrides — shades needing flipped text for 4.5:1 contrast */`,
+          `/* Dark-mode fg overrides — requires class="tale-ui" on <html> */`,
           `${explicitDarkSelector} {\n${overrideLines.join('\n')}\n}`,
           `@media (prefers-color-scheme: dark) {\n${osDarkSelector} {\n${osDarkLines.join('\n')}\n  }\n}`,
         ].join('\n\n')

@@ -49,7 +49,12 @@ Before generating or modifying component code, you MUST:
 
 6. **Dark mode must persist between refreshes.** Every new app must:
 
-   a. Include this inline script in \`<head>\` before any CSS or JS to avoid a flash of wrong theme:
+   a. Add \`class="tale-ui"\` and \`data-color-mode\` to \`<html>\`:
+   \`\`\`html
+   <html class="tale-ui" data-color-mode="light">
+   \`\`\`
+
+   b. Include this inline script in \`<head>\` before any CSS or JS to avoid a flash of wrong theme:
    \`\`\`html
    <script>
      (function() {
@@ -60,7 +65,7 @@ Before generating or modifying component code, you MUST:
    </script>
    \`\`\`
 
-   b. Use \`ColorModeToggle\` for the toggle UI — it handles \`localStorage\` and \`data-color-mode\` automatically:
+   c. Use \`ColorModeToggle\` for the toggle UI — it handles \`localStorage\` and \`data-color-mode\` automatically:
    \`\`\`tsx
    import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 

@@ -424,7 +424,7 @@ const ScaleApp = () => {
   }
 
   return (
-    <MainWrapper className={`neutral-${neutralName || 'neutral'} color-${namedName || 'color'}`}>
+    <MainWrapper className={`neutral-${neutralName || 'neutral'} tale-ui`}>
       <HeaderRow>
         <HeaderLeft>
           <PageTitle>Theme Playground</PageTitle>

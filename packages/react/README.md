@@ -54,7 +54,7 @@ export default function App() {
 **Dark mode** — Set `data-color-mode="dark"` on `<html>`. All `--neutral-*` and `--color-*` tokens invert automatically. Always toggle between `"dark"` and `"light"` — never remove the attribute. Removing it falls back to OS preference via `prefers-color-scheme`, which may not be what the user chose.
 
 ```html
-<html data-color-mode="dark">
+<html class="tale-ui" data-color-mode="dark">
 ```
 
 **Token rule** — Always use `--color-*` (not `--brand-*`) in component and app CSS. `--brand-*` is palette-only and does NOT invert in dark mode.
@@ -142,7 +142,13 @@ import '@tale-ui/react/styles';
 import './tale-ui-overrides.css';        // your custom theme — must come after
 ```
 
-To generate a theme, visit https://tale-ui.github.io/core/scale, configure your colour scale, and paste the generated `:root` block into `tale-ui-overrides.css`. Dark mode inversion works automatically — you only define the light-mode palette.
+To generate a theme, visit https://tale-ui.github.io/core/scale, configure your colour scale, and paste the generated CSS into `tale-ui-overrides.css`. Dark mode inversion works automatically — you only define the light-mode palette.
+
+If the generated CSS includes foreground pivot overrides (`.tale-ui` selectors), add `class="tale-ui"` to your `<html>` element:
+
+```html
+<html class="tale-ui" data-color-mode="light">
+```
 
 ## Per-component CSS Imports
 
