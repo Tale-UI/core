@@ -50,6 +50,8 @@ function Example() {
 }
 ```
 
+> **Note:** `AlertDialog.Trigger` does NOT auto-apply `tale-button` — add both base class and variant. For action buttons, use standalone `Button` components.
+
 ## CSS Classes
 
 - `.tale-alert-dialog__trigger` — Trigger button (not `tale-button`)

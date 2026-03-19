@@ -19,20 +19,30 @@ import { cx } from '../_cx';
 /**
  * A confirmation dialog for destructive or important actions.
  *
+ * Note: `AlertDialog.Trigger` does NOT auto-apply `tale-button` — add both base and variant classes.
+ * For action buttons, use standalone `Button` components.
+ *
  * @example
  * ```tsx
+ * import { useState } from 'react';
  * import { AlertDialog } from '@tale-ui/react/alert-dialog';
  * import { Button } from '@tale-ui/react/button';
  *
- * <AlertDialog.Root>
- *   <AlertDialog.Trigger>Delete</AlertDialog.Trigger>
+ * const [open, setOpen] = useState(false);
+ *
+ * <AlertDialog.Root isOpen={open} onOpenChange={setOpen}>
+ *   <AlertDialog.Trigger className="tale-button tale-button--danger">
+ *     Delete Item
+ *   </AlertDialog.Trigger>
  *   <AlertDialog.Backdrop>
  *     <AlertDialog.Popup>
  *       <AlertDialog.Content>
  *         <AlertDialog.Title>Are you sure?</AlertDialog.Title>
  *         <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
- *         <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
- *         <AlertDialog.Action>Delete</AlertDialog.Action>
+ *         <div className="tale-alert-dialog__actions">
+ *           <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
+ *           <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
+ *         </div>
  *       </AlertDialog.Content>
  *     </AlertDialog.Popup>
  *   </AlertDialog.Backdrop>

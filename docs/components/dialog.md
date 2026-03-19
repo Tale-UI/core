@@ -46,6 +46,8 @@ function Example() {
 }
 ```
 
+> **Note:** `Dialog.Trigger` auto-applies `tale-button` but needs a variant className. Use `Dialog.Close` only for the corner ✕ icon — for action buttons, use standalone `Button` components.
+
 ## Examples
 
 ### Destructive

@@ -38,6 +38,8 @@ A date picker calendar for selecting a single date, with month navigation.
 </Calendar.Root>
 ```
 
+> **Note:** Navigation buttons and heading need a flex wrapper — they render as siblings without built-in layout.
+
 ## Examples
 
 ### Disabled

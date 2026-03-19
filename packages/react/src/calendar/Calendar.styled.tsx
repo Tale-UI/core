@@ -23,14 +23,19 @@ import { cx } from '../_cx';
 /**
  * A date calendar for selecting a single date.
  *
+ * Note: Navigation buttons and heading need a flex wrapper — they don't layout automatically.
+ * Use `GridHeaderCell` in GridHeader (not `Cell` — that's for GridBody dates only).
+ *
  * @example
  * ```tsx
  * import { Calendar } from '@tale-ui/react/calendar';
  *
  * <Calendar.Root>
- *   <Calendar.PreviousButton />
- *   <Calendar.Heading />
- *   <Calendar.NextButton />
+ *   <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+ *     <Calendar.PreviousButton />
+ *     <Calendar.Heading />
+ *     <Calendar.NextButton />
+ *   </header>
  *   <Calendar.Grid>
  *     <Calendar.GridHeader>
  *       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}

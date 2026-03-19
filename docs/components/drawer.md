@@ -37,6 +37,8 @@ import { Drawer } from '@tale-ui/react/drawer';
 </Drawer.Root>
 ```
 
+> **Note:** `Drawer.Trigger` and `Drawer.Close` do NOT auto-apply `tale-button` — add both base class and variant to style them as buttons.
+
 ## Examples
 
 ### Without Backdrop

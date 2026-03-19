@@ -32,14 +32,19 @@ const RootInner = <T extends DateValue>(
 /**
  * A calendar for selecting a date range.
  *
+ * Note: Navigation buttons and heading need a flex wrapper — they don't layout automatically.
+ * Use `GridHeaderCell` in GridHeader (not `Cell` — that's for GridBody dates only).
+ *
  * @example
  * ```tsx
  * import { RangeCalendar } from '@tale-ui/react/range-calendar';
  *
  * <RangeCalendar.Root>
- *   <RangeCalendar.PreviousButton />
- *   <RangeCalendar.Heading />
- *   <RangeCalendar.NextButton />
+ *   <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+ *     <RangeCalendar.PreviousButton />
+ *     <RangeCalendar.Heading />
+ *     <RangeCalendar.NextButton />
+ *   </header>
  *   <RangeCalendar.Grid>
  *     <RangeCalendar.GridHeader>
  *       {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}

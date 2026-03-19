@@ -19,18 +19,28 @@ import { cx } from '../_cx';
 /**
  * A modal dialog overlay with backdrop, title, description, and close button.
  *
+ * Note: `Dialog.Trigger` auto-applies `tale-button` but needs a variant className.
+ * Use `Dialog.Close` only for the corner ✕ icon. For action buttons, use standalone `Button`.
+ *
  * @example
  * ```tsx
+ * import { useState } from 'react';
  * import { Dialog } from '@tale-ui/react/dialog';
  * import { Button } from '@tale-ui/react/button';
  *
- * <Dialog.Root>
- *   <Dialog.Trigger>Open Dialog</Dialog.Trigger>
+ * const [open, setOpen] = useState(false);
+ *
+ * <Dialog.Root isOpen={open} onOpenChange={setOpen}>
+ *   <Dialog.Trigger className="tale-button--primary">Open Dialog</Dialog.Trigger>
  *   <Dialog.Backdrop>
  *     <Dialog.Popup>
+ *       <Dialog.Close aria-label="Close">✕</Dialog.Close>
  *       <Dialog.Title>Confirm action</Dialog.Title>
  *       <Dialog.Description>Are you sure?</Dialog.Description>
- *       <Dialog.Close>Close</Dialog.Close>
+ *       <div className="tale-dialog__actions">
+ *         <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
+ *         <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
+ *       </div>
  *     </Dialog.Popup>
  *   </Dialog.Backdrop>
  * </Dialog.Root>

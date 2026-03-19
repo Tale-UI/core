@@ -25,17 +25,21 @@ export interface RootProps extends React.HTMLAttributes<HTMLDivElement> {
 /**
  * A slide-in panel from the edge of the screen.
  *
+ * Note: `Drawer.Trigger` and `Drawer.Close` do NOT auto-apply `tale-button` —
+ * add both base and variant classes to style them as buttons.
+ *
  * @example
  * ```tsx
  * import { Drawer } from '@tale-ui/react/drawer';
  *
  * <Drawer.Root>
- *   <Drawer.Trigger>Open Drawer</Drawer.Trigger>
+ *   <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
  *   <Drawer.Backdrop />
  *   <Drawer.Popup>
  *     <Drawer.Title>Drawer Title</Drawer.Title>
  *     <Drawer.Description>Drawer content here.</Drawer.Description>
- *     <Drawer.Close>Close</Drawer.Close>
+ *     <Drawer.Close className="tale-button tale-button--neutral">Cancel</Drawer.Close>
+ *     <Drawer.Close className="tale-button tale-button--primary">Confirm</Drawer.Close>
  *   </Drawer.Popup>
  * </Drawer.Root>
  * ```
