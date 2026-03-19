@@ -51,7 +51,7 @@ export default function App() {
 
 **Page background** — Set `body { background-color: var(--neutral-5); }`. This is the standard base surface colour and inverts automatically in dark mode.
 
-**Dark mode** — Set `data-color-mode="dark"` on `<html>`. All `--neutral-*` and `--color-*` tokens invert automatically.
+**Dark mode** — Set `data-color-mode="dark"` on `<html>`. All `--neutral-*` and `--color-*` tokens invert automatically. Always toggle between `"dark"` and `"light"` — never remove the attribute. Removing it falls back to OS preference via `prefers-color-scheme`, which may not be what the user chose.
 
 ```html
 <html data-color-mode="dark">

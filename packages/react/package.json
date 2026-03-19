@@ -1,6 +1,6 @@
 {
   "name": "@tale-ui/react",
-  "version": "1.3.21",
+  "version": "1.3.22",
   "author": "Tale UI",
   "description": "Styled React component library built on React Aria Components, themed with @tale-ui/core design tokens.",
   "keywords": [
@@ -36,6 +36,7 @@
     "./checkbox": "./src/checkbox/index.ts",
     "./checkbox-group": "./src/checkbox-group/index.ts",
     "./color-area": "./src/color-area/index.ts",
+    "./color-mode-toggle": "./src/color-mode-toggle/index.ts",
     "./color-field": "./src/color-field/index.ts",
     "./color-picker": "./src/color-picker/index.ts",
     "./color-slider": "./src/color-slider/index.ts",

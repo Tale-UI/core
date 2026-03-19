@@ -66,6 +66,7 @@
 /* ─── Color ─────────────────────────────────────────────────────────────────── */
 @import './color-picker.css';
 @import './color-area.css';
+@import './color-mode-toggle.css';
 @import './color-slider.css';
 @import './color-wheel.css';
 @import './color-field.css';

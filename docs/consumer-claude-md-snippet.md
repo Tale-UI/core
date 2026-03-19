@@ -37,8 +37,9 @@ Before generating or modifying component code, you MUST:
    - Dark mode: always set `data-color-mode` to `"dark"` or `"light"` — never remove the attribute to switch to light mode.
    - `Calendar.GridHeader` passes day name strings, not dates — use `Calendar.GridHeaderCell` inside it, not `Calendar.Cell`. Reserve `Calendar.Cell` for `Calendar.GridBody`.
 
-6. **Dark mode must persist between refreshes.** Every new app must include this inline script in `<head>` before any CSS or JS to avoid a flash of wrong theme:
+6. **Dark mode must persist between refreshes.** Every new app must:
 
+   a. Include this inline script in `<head>` before any CSS or JS to avoid a flash of wrong theme:
    ```html
    <script>
      (function() {
@@ -49,10 +50,9 @@ Before generating or modifying component code, you MUST:
    </script>
    ```
 
-   When toggling dark mode at runtime, always persist the choice:
-   ```js
-   function setColorMode(mode) {
-     document.documentElement.setAttribute('data-color-mode', mode);
-     localStorage.setItem('color-mode', mode);
-   }
+   b. Use `ColorModeToggle` for the toggle UI — it handles `localStorage` and `data-color-mode` automatically:
+   ```tsx
+   import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
+
+   <ColorModeToggle />
    ```
