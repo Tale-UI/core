@@ -3,7 +3,6 @@ import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router';
 import { Home } from './Home';
 import { routes } from './routes';
-import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 import '@tale-ui/react-styles/index.css';
 import './index.css';
 
@@ -27,7 +26,6 @@ export function App() {
             <img src={`${baseUrl}tale-ui-logo.svg`} alt="Tale UI logo" />
             Tale UI playground
           </Link>
-          <ColorModeToggle className="pg-color-mode-toggle" />
         </div>
       </header>
       <main className="pg-container pg-main">
