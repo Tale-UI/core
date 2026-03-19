@@ -214,6 +214,9 @@ function Row({ children, style }: { children: React.ReactNode; style?: React.CSS
 
 // TOC — order matches the content sections below
 const TOC = [
+  { category: 'Utility', items: [
+    { id: 'color-mode-toggle', label: 'ColorModeToggle' },
+  ]},
   { category: 'Form Controls', items: [
     { id: 'button', label: 'Button' },
     { id: 'input', label: 'Input' },
@@ -294,7 +297,6 @@ const TOC = [
   { category: 'Interaction', items: [
     { id: 'drop-zone', label: 'DropZone' },
     { id: 'file-trigger', label: 'FileTrigger' },
-    { id: 'color-mode-toggle', label: 'ColorModeToggle' },
   ]},
 ];
 
@@ -612,6 +614,20 @@ export default function ComponentAudit() {
       {/* Content */}
       <div>
         {/* ============================================================= */}
+        {/* UTILITY */}
+        {/* ============================================================= */}
+
+        <Section id="color-mode-toggle" title="ColorModeToggle" classes={['tale-color-mode-toggle']}>
+          <SubHeading>Default</SubHeading>
+          <Row>
+            <ColorModeToggle />
+          </Row>
+          <SubHeading>Disabled</SubHeading>
+          <Row>
+            <ColorModeToggle isDisabled />
+          </Row>
+        </Section>
+
         {/* FORM CONTROLS */}
         {/* ============================================================= */}
 
@@ -1892,16 +1908,6 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="color-mode-toggle" title="ColorModeToggle" classes={['tale-color-mode-toggle']}>
-          <SubHeading>Default</SubHeading>
-          <Row>
-            <ColorModeToggle />
-          </Row>
-          <SubHeading>Disabled</SubHeading>
-          <Row>
-            <ColorModeToggle isDisabled />
-          </Row>
-        </Section>
       </div>
     </div>
     </>
