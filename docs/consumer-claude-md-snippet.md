@@ -36,6 +36,7 @@ Before generating or modifying component code, you MUST:
    - `ToggleButtonGroup` requires `aria-label` or `aria-labelledby` for accessibility.
    - Dark mode: always set `data-color-mode` to `"dark"` or `"light"` — never remove the attribute to switch to light mode.
    - `Calendar.GridHeader` passes day name strings, not dates — use `Calendar.GridHeaderCell` inside it, not `Calendar.Cell`. Reserve `Calendar.Cell` for `Calendar.GridBody`.
+   - `Calendar.Heading` must have no vertical margin or padding — do not add spacing to it or wrap it in an element that adds margins (e.g. `<h2>`).
 
 6. **Dark mode must persist between refreshes.** Every new app must:
 

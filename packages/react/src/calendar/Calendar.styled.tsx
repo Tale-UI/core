@@ -24,6 +24,8 @@ import { cx } from '../_cx';
  * A date calendar for selecting a single date.
  *
  * Note: Navigation buttons and heading need a flex wrapper — they don't layout automatically.
+ * `Calendar.Heading` must have no vertical margin or padding (`margin: 0; padding: 0;`) — the
+ * CSS already sets this, but do not add extra spacing to it or wrap it in an element that does.
  * Use `GridHeaderCell` in GridHeader (not `Cell` — that's for GridBody dates only).
  *
  * @example
