@@ -60,7 +60,7 @@ const CssOutput = ({ namedName, namedPalette, namedPivot, neutralName, neutralPa
       parts.push(generateCssOutput(neutralName || 'neutral', neutralPalette, { mode: 'neutral' }))
     }
     if (bgColor === 'accent' && namedName) {
-      parts.push(`/* Dark-mode accent background */\n[data-color-mode="dark"] {\n  --neutral-5: color-mix(in srgb, var(--${namedName}-100) 50%, black);\n}`)
+      parts.push(`/* Dark-mode accent background */\nhtml[data-color-mode="dark"] {\n  --neutral-5: color-mix(in srgb, var(--brand-100) 50%, black);\n}`)
     }
     return parts.join('\n\n')
   }, [namedName, namedPalette, namedPivot, neutralName, neutralPalette, bgColor])

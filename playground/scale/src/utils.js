@@ -216,18 +216,17 @@ export const randomBaseColor = (mode) => {
 export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } = {}) => {
   if (!palette || palette.length === 0) return ''
 
-  const maxPropWidth = Math.max(
-    ...palette.map(p => `--${name}-${p.shade}`.length)
-  )
-
-  // 1. Raw palette tokens
-  const paletteLines = palette.map(({ shade, hex }) => {
-    const prop    = `--${name}-${shade}`
-    const comment = shade === 60 ? '  /* BASE */' : ''
-    return `  ${prop.padEnd(maxPropWidth)}: ${hex};${comment}`
-  })
-
-  const blocks = [`:root {\n${paletteLines.join('\n')}\n}`]
+  // 1. Brand tokens on :root (named mode only — neutral handled in block 2)
+  const blocks = []
+  if (mode === 'named') {
+    const brandWidth = '--brand-100'.length
+    const brandLines = palette.map(({ shade, hex }) => {
+      const prop    = `--brand-${shade}`
+      const comment = shade === 60 ? '  /* BASE */' : ''
+      return `  ${prop.padEnd(brandWidth)}: ${hex};${comment}`
+    })
+    blocks.push(`:root {\n${brandLines.join('\n')}\n}`)
+  }
 
   // Fg pivot overrides for standalone use (no .color-{name} wrapper).
   // Must use html:not([data-color-mode="dark"]) to beat the design system's
@@ -238,32 +237,24 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
     blocks.push(`/* Light-mode fg override — load after @tale-ui/core */\nhtml:not([data-color-mode="dark"]) {\n${fgLines.join('\n')}\n}`)
   }
 
-  // 2. Theme class
+  // 2. Neutral theme on :root with inline hex
   if (mode === 'neutral') {
-    // Mirrors the .neutral-cool / .neutral-slate pattern in _neutral-themes.css:
-    // override --neutral-default-* so the mode rules re-map --neutral-* from this palette.
     const defaultPropWidth = '--neutral-default-100'.length
     const themeLines = [
       `  ${'--neutral-default'.padEnd(defaultPropWidth)}: var(--neutral-default-60);`,
-      ...palette.map(({ shade }) => {
+      ...palette.map(({ shade, hex }) => {
         const prop = `--neutral-default-${shade}`
-        return `  ${prop.padEnd(defaultPropWidth)}: var(--${name}-${shade});`
+        return `  ${prop.padEnd(defaultPropWidth)}: ${hex};`
       }),
       `  ${'--display-color'.padEnd(defaultPropWidth)}: var(--neutral-default-90);`,
       `  ${'--text-color'.padEnd(defaultPropWidth)}: var(--neutral-default-90);`,
       `  ${'--mono-color'.padEnd(defaultPropWidth)}: var(--neutral-default-90);`,
     ]
-    blocks.push(`.neutral-${name} {\n${themeLines.join('\n')}\n}`)
+    blocks.push(`:root {\n${themeLines.join('\n')}\n}`)
   }
 
   if (mode === 'named') {
-    const brandWidth  = '--brand-100'.length
-    const themeLines  = palette.map(({ shade }) => {
-      const brandProp = `--brand-${shade}`
-      return `  ${brandProp.padEnd(brandWidth)}: var(--${name}-${shade});`
-    })
-
-    blocks.push(`.color-${name} {\n${themeLines.join('\n')}\n}`)
+    // --brand-* already on :root from block 1
 
     // 3. Fg pivot overrides for non-default pivots (only when pivot differs from 60).
     // Emitted as a self-contained pair so the output is safe to drop into any

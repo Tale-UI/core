@@ -36,7 +36,7 @@ const Dot = styled.button`
 `
 
 const BackgroundSelector = ({ setBgColor, bgColor, paletteName }) => {
-  const accentHex = paletteName ? `var(--${paletteName}-100)` : 'var(--neutral-default-100)'
+  const accentHex = 'color-mix(in srgb, var(--brand-100) 50%, black)'
 
   const options = [
     { key: 'light',  hex: 'var(--neutral-default-5)',   label: 'Light mode' },
