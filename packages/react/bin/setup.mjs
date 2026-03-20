@@ -46,6 +46,10 @@ Before generating or modifying component code, you MUST:
    - Dark mode: always set \`data-color-mode\` to \`"dark"\` or \`"light"\` — never remove the attribute to switch to light mode.
    - \`Calendar.GridHeader\` passes day name strings, not dates — use \`Calendar.GridHeaderCell\` inside it, not \`Calendar.Cell\`. Reserve \`Calendar.Cell\` for \`Calendar.GridBody\`.
    - \`Calendar.Heading\` must have no vertical margin or padding — do not add spacing to it or wrap it in an element that adds margins (e.g. \`<h2>\`).
+   - Do NOT nest \`ColorSlider\` inside \`ColorPicker.Root\` — the context does not propagate and causes "Unknown color channel: hue" at runtime. Use \`ColorArea\` and \`ColorSlider\` as standalone components with shared \`useState\`.
+   - \`Checkbox.Indicator\` does NOT render a checkmark on its own — you must provide a child SVG icon.
+   - \`AlertDialog.Trigger\`, \`Drawer.Trigger\`, and \`Drawer.Close\` do NOT auto-apply \`tale-button\` — you must add both \`tale-button\` and the variant class explicitly.
+   - \`Dialog.Backdrop\` must **wrap** \`Dialog.Popup\` (opposite of Drawer).
 
 6. **Dark mode must persist between refreshes.** Every new app must:
 
