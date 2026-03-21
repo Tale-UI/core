@@ -113,3 +113,55 @@ export const Disabled: Story = {
     </div>
   ),
 };
+
+export const CheckboxItems: Story = {
+  render: (args) => (
+    <div style={{ padding: 'var(--space-4xl)' }}>
+      <Menu.Root>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format ▾</Menu.Trigger>
+        <Menu.Popover placement={args.placement} offset={args.offset}>
+          <Menu.MenuList aria-label="Format" selectionMode="multiple">
+            <Menu.CheckboxItem id="bold" textValue="Bold">Bold</Menu.CheckboxItem>
+            <Menu.CheckboxItem id="italic" textValue="Italic">Italic</Menu.CheckboxItem>
+            <Menu.CheckboxItem id="underline" textValue="Underline">Underline</Menu.CheckboxItem>
+          </Menu.MenuList>
+        </Menu.Popover>
+      </Menu.Root>
+    </div>
+  ),
+};
+
+export const RadioItems: Story = {
+  render: (args) => (
+    <div style={{ padding: 'var(--space-4xl)' }}>
+      <Menu.Root>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View ▾</Menu.Trigger>
+        <Menu.Popover placement={args.placement} offset={args.offset}>
+          <Menu.MenuList aria-label="View" selectionMode="single">
+            <Menu.RadioItem id="list" textValue="List">List</Menu.RadioItem>
+            <Menu.RadioItem id="grid" textValue="Grid">Grid</Menu.RadioItem>
+            <Menu.RadioItem id="board" textValue="Board">Board</Menu.RadioItem>
+          </Menu.MenuList>
+        </Menu.Popover>
+      </Menu.Root>
+    </div>
+  ),
+};
+
+export const LinkItems: Story = {
+  render: (args) => (
+    <div style={{ padding: 'var(--space-4xl)' }}>
+      <Menu.Root>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links ▾</Menu.Trigger>
+        <Menu.Popover placement={args.placement} offset={args.offset}>
+          <Menu.MenuList aria-label="Links">
+            <Menu.LinkItem id="docs" textValue="Documentation" href="#">Documentation</Menu.LinkItem>
+            <Menu.LinkItem id="github" textValue="GitHub" href="#">GitHub</Menu.LinkItem>
+            <Menu.Separator />
+            <Menu.LinkItem id="report" textValue="Report Issue" href="#">Report Issue</Menu.LinkItem>
+          </Menu.MenuList>
+        </Menu.Popover>
+      </Menu.Root>
+    </div>
+  ),
+};

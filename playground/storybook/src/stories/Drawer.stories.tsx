@@ -53,3 +53,18 @@ export const WithBackdrop: Story = {
     </Drawer.Root>
   ),
 };
+
+export const WithHandle: Story = {
+  render: () => (
+    <Drawer.Root>
+      <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+      <Drawer.Backdrop />
+      <Drawer.Popup>
+        <Drawer.Handle />
+        <Drawer.Title>Drawer with Handle</Drawer.Title>
+        <Drawer.Description>The handle bar indicates this drawer is draggable.</Drawer.Description>
+        <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+      </Drawer.Popup>
+    </Drawer.Root>
+  ),
+};

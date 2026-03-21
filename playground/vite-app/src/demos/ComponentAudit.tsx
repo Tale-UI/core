@@ -407,9 +407,40 @@ function MenuCheckboxDemo() {
       <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format ▾</Menu.Trigger>
       <Menu.Popover offset={4}>
         <Menu.MenuList aria-label="Format">
-          <Menu.Item textValue="Bold">Bold</Menu.Item>
-          <Menu.Item textValue="Italic">Italic</Menu.Item>
-          <Menu.Item textValue="Underline">Underline</Menu.Item>
+          <Menu.CheckboxItem textValue="Bold">Bold</Menu.CheckboxItem>
+          <Menu.CheckboxItem textValue="Italic">Italic</Menu.CheckboxItem>
+          <Menu.CheckboxItem textValue="Underline">Underline</Menu.CheckboxItem>
+        </Menu.MenuList>
+      </Menu.Popover>
+    </Menu.Root>
+  );
+}
+
+function MenuRadioDemo() {
+  return (
+    <Menu.Root>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View ▾</Menu.Trigger>
+      <Menu.Popover offset={4}>
+        <Menu.MenuList aria-label="View">
+          <Menu.RadioItem textValue="List">List</Menu.RadioItem>
+          <Menu.RadioItem textValue="Grid">Grid</Menu.RadioItem>
+          <Menu.RadioItem textValue="Board">Board</Menu.RadioItem>
+        </Menu.MenuList>
+      </Menu.Popover>
+    </Menu.Root>
+  );
+}
+
+function MenuLinkDemo() {
+  return (
+    <Menu.Root>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links ▾</Menu.Trigger>
+      <Menu.Popover offset={4}>
+        <Menu.MenuList aria-label="Links">
+          <Menu.LinkItem textValue="Documentation" href="#">Documentation</Menu.LinkItem>
+          <Menu.LinkItem textValue="GitHub" href="#">GitHub</Menu.LinkItem>
+          <Menu.Separator />
+          <Menu.LinkItem textValue="Report Issue" href="#">Report Issue</Menu.LinkItem>
         </Menu.MenuList>
       </Menu.Popover>
     </Menu.Root>
@@ -432,10 +463,10 @@ function DialogDemo() {
           <Dialog.Description>
             This is a modal dialog. It traps focus and requires the user to take action.
           </Dialog.Description>
-          <div className="tale-dialog__actions">
+          <Dialog.Actions>
             <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
             <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
-          </div>
+          </Dialog.Actions>
         </Dialog.Popup>
       </Dialog.Backdrop>
     </Dialog.Root>
@@ -458,10 +489,10 @@ function AlertDialogDemo() {
             <AlertDialog.Description>
               This will permanently delete the item. This action cannot be undone.
             </AlertDialog.Description>
-            <div className="tale-alert-dialog__actions">
+            <AlertDialog.Actions>
               <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
               <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
-            </div>
+            </AlertDialog.Actions>
           </AlertDialog.Content>
         </AlertDialog.Popup>
       </AlertDialog.Backdrop>
@@ -723,7 +754,7 @@ export default function ComponentAudit() {
           </CheckboxGroup>
         </Section>
 
-        <Section id="radio" title="Radio" classes={['tale-radio', 'tale-radio__indicator', 'tale-radio--sm', 'tale-radio--lg']}>
+        <Section id="radio" title="Radio" classes={['tale-radio', 'tale-radio__indicator', 'tale-radio__dot', 'tale-radio--sm', 'tale-radio--lg']}>
           <SubHeading>States</SubHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: '2rem' }}>
             <Radio.Group aria-label="Radio states">
@@ -1011,12 +1042,13 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="preview-card" title="PreviewCard" classes={['tale-preview-card', 'tale-preview-card__trigger', 'tale-preview-card__popup']}>
+        <Section id="preview-card" title="PreviewCard" classes={['tale-preview-card', 'tale-preview-card__trigger', 'tale-preview-card__popup', 'tale-preview-card__arrow']}>
           <SubHeading>Default</SubHeading>
           <Row>
             <PreviewCard.Root>
               <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
               <PreviewCard.Popup>
+                <PreviewCard.Arrow />
                 <PreviewCard.Content>
                   <div style={{ padding: '1.6rem', maxWidth: '28rem' }}>
                     <strong style={{ display: 'block', marginBottom: '0.4rem', fontFamily: 'var(--label-font-family)' }}>Preview Card</strong>
@@ -1030,12 +1062,14 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="drawer" title="Drawer" classes={['tale-drawer', 'tale-drawer__trigger', 'tale-drawer__popup', 'tale-drawer__backdrop', 'tale-drawer__title', 'tale-drawer__description', 'tale-drawer__close']}>
+        <Section id="drawer" title="Drawer" classes={['tale-drawer', 'tale-drawer__trigger', 'tale-drawer__popup', 'tale-drawer__backdrop', 'tale-drawer__title', 'tale-drawer__description', 'tale-drawer__close', 'tale-drawer__handle', 'tale-drawer__swipe-area']}>
+          <SubHeading>Default</SubHeading>
           <Row>
             <Drawer.Root>
               <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
               <Drawer.Backdrop />
               <Drawer.Popup>
+                <Drawer.Handle />
                 <Drawer.Title>Drawer Title</Drawer.Title>
                 <Drawer.Description>
                   A drawer panel for side or bottom content.
@@ -1077,7 +1111,7 @@ export default function ComponentAudit() {
         {/* NAVIGATION */}
         {/* ============================================================= */}
 
-        <Section id="menu" title="Menu" classes={['tale-menu__popup', 'tale-menu__item', 'tale-menu__separator', 'tale-menu__group-label', 'tale-menu__trigger', 'tale-menu__popover']}>
+        <Section id="menu" title="Menu" classes={['tale-menu__popup', 'tale-menu__item', 'tale-menu__separator', 'tale-menu__group-label', 'tale-menu__trigger', 'tale-menu__popover', 'tale-menu__arrow', 'tale-menu__checkbox-item', 'tale-menu__radio-item', 'tale-menu__link-item', 'tale-menu__submenu-trigger']}>
           <SubHeading>Basic</SubHeading>
           <Row>
             <Menu.Root>
@@ -1114,9 +1148,17 @@ export default function ComponentAudit() {
               </Menu.Popover>
             </Menu.Root>
           </Row>
-          <SubHeading>Format Menu</SubHeading>
+          <SubHeading>Checkbox Items</SubHeading>
           <Row>
             <MenuCheckboxDemo />
+          </Row>
+          <SubHeading>Radio Items</SubHeading>
+          <Row>
+            <MenuRadioDemo />
+          </Row>
+          <SubHeading>Link Items</SubHeading>
+          <Row>
+            <MenuLinkDemo />
           </Row>
         </Section>
 
@@ -1142,7 +1184,7 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="navigation-menu" title="NavigationMenu" classes={['tale-navigation-menu', 'tale-navigation-menu__list', 'tale-navigation-menu__item', 'tale-navigation-menu__trigger', 'tale-navigation-menu__link']}>
+        <Section id="navigation-menu" title="NavigationMenu" classes={['tale-navigation-menu', 'tale-navigation-menu__list', 'tale-navigation-menu__item', 'tale-navigation-menu__trigger', 'tale-navigation-menu__link', 'tale-navigation-menu__icon']}>
           <SubHeading>Default</SubHeading>
           <NavigationMenu.Root>
             <NavigationMenu.List>
@@ -1157,6 +1199,25 @@ export default function ComponentAudit() {
               </NavigationMenu.Item>
               <NavigationMenu.Item>
                 <NavigationMenu.Link href="#">Contact</NavigationMenu.Link>
+              </NavigationMenu.Item>
+            </NavigationMenu.List>
+          </NavigationMenu.Root>
+          <SubHeading>With Dropdown &amp; Icon</SubHeading>
+          <NavigationMenu.Root>
+            <NavigationMenu.List>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+              </NavigationMenu.Item>
+              <NavigationMenu.Item>
+                <NavigationMenu.Trigger>
+                  Products <NavigationMenu.Icon>▾</NavigationMenu.Icon>
+                </NavigationMenu.Trigger>
+                <NavigationMenu.Popup>
+                  <NavigationMenu.Content>
+                    <NavigationMenu.Link href="#">Widget</NavigationMenu.Link>
+                    <NavigationMenu.Link href="#">Gadget</NavigationMenu.Link>
+                  </NavigationMenu.Content>
+                </NavigationMenu.Popup>
               </NavigationMenu.Item>
             </NavigationMenu.List>
           </NavigationMenu.Root>

@@ -22,10 +22,10 @@ export const Default: Story = {
           <AlertDialog.Content>
             <AlertDialog.Title>Are you sure?</AlertDialog.Title>
             <AlertDialog.Description>This action cannot be undone.</AlertDialog.Description>
-            <div className="tale-alert-dialog__actions">
+            <AlertDialog.Actions>
               <Button slot="close" variant="neutral">Cancel</Button>
               <Button slot="close" variant="primary">Confirm</Button>
-            </div>
+            </AlertDialog.Actions>
           </AlertDialog.Content>
         </AlertDialog.Popup>
       </AlertDialog.Backdrop>
@@ -47,10 +47,10 @@ export const Destructive: Story = {
               Are you sure you want to delete your account? All of your data will be permanently removed.
               This action cannot be undone.
             </AlertDialog.Description>
-            <div className="tale-alert-dialog__actions">
+            <AlertDialog.Actions>
               <Button slot="close" variant="neutral">Cancel</Button>
               <Button slot="close" variant="danger">Delete</Button>
-            </div>
+            </AlertDialog.Actions>
           </AlertDialog.Content>
         </AlertDialog.Popup>
       </AlertDialog.Backdrop>

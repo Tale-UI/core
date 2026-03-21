@@ -36,10 +36,10 @@ function DialogDemo({ triggerLabel, triggerVariant = 'primary', title, descripti
           <Dialog.Title>{title}</Dialog.Title>
           <Dialog.Description>{description}</Dialog.Description>
           {children ?? (
-            <div className="tale-dialog__actions">
+            <Dialog.Actions>
               <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
               <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
-            </div>
+            </Dialog.Actions>
           )}
         </Dialog.Popup>
       </Dialog.Backdrop>
@@ -70,10 +70,10 @@ export const Destructive: Story = {
             <Dialog.Description>
               This action is permanent and cannot be undone. All your data will be lost.
             </Dialog.Description>
-            <div className="tale-dialog__actions">
+            <Dialog.Actions>
               <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
               <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
-            </div>
+            </Dialog.Actions>
           </Dialog.Popup>
         </Dialog.Backdrop>
       </Dialog.Root>
@@ -111,10 +111,10 @@ export const ScrollableContent: Story = {
                 </p>
               ))}
             </div>
-            <div className="tale-dialog__actions">
+            <Dialog.Actions>
               <Button variant="neutral" onPress={() => setOpen(false)}>Decline</Button>
               <Button variant="primary" onPress={() => setOpen(false)}>Accept</Button>
-            </div>
+            </Dialog.Actions>
           </Dialog.Popup>
         </Dialog.Backdrop>
       </Dialog.Root>
@@ -134,9 +134,9 @@ export const NonModal: Story = {
           <Dialog.Description>
             This is a non-modal dialog. You can still interact with the page behind it.
           </Dialog.Description>
-          <div className="tale-dialog__actions">
+          <Dialog.Actions>
             <Button variant="neutral" onPress={() => setOpen(false)}>Dismiss</Button>
-          </div>
+          </Dialog.Actions>
         </Dialog.Popup>
       </Dialog.Root>
     );
