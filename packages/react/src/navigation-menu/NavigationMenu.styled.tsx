@@ -70,3 +70,10 @@ export const Link = React.forwardRef<
   <a ref={ref} className={cx('tale-navigation-menu__link', className)} {...props} />
 ));
 Link.displayName = 'NavigationMenu.Link';
+
+export const Icon = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-navigation-menu__icon', className)} aria-hidden="true" {...props} />
+  ),
+);
+Icon.displayName = 'NavigationMenu.Icon';

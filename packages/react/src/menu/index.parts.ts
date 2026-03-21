@@ -7,6 +7,11 @@ export {
   Group,
   Header,
   Separator,
+  Arrow,
+  CheckboxItem,
+  RadioItem,
+  LinkItem,
+  SubmenuTrigger,
 } from './Menu.styled';
 
 export type {
@@ -18,4 +23,9 @@ export type {
   GroupProps,
   HeaderProps,
   SeparatorProps,
+  ArrowProps,
+  CheckboxItemProps,
+  RadioItemProps,
+  LinkItemProps,
+  SubmenuTriggerProps,
 } from './Menu.styled';

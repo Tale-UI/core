@@ -218,3 +218,27 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(
   },
 );
 Backdrop.displayName = 'Drawer.Backdrop';
+
+export const Handle = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-drawer__handle', className)} {...props} />
+  ),
+);
+Handle.displayName = 'Drawer.Handle';
+
+export interface SwipeAreaProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string | undefined;
+  disabled?: boolean | undefined;
+}
+
+export const SwipeArea = React.forwardRef<HTMLDivElement, SwipeAreaProps>(
+  ({ className, disabled, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cx('tale-drawer__swipe-area', className)}
+      {...(disabled ? { 'data-disabled': '' } : undefined)}
+      {...props}
+    />
+  ),
+);
+SwipeArea.displayName = 'Drawer.SwipeArea';

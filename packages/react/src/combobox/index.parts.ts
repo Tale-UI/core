@@ -14,6 +14,7 @@ export {
   Chip,
   ChipRemove,
   Separator,
+  ItemIndicator,
 } from './Combobox.styled';
 
 export type {
@@ -32,4 +33,5 @@ export type {
   ChipProps,
   ChipRemoveProps,
   SeparatorProps,
+  ItemIndicatorProps,
 } from './Combobox.styled';

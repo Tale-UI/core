@@ -10,6 +10,8 @@ export {
   Header,
   Label,
   Separator,
+  ItemText,
+  ItemIndicator,
 } from './Select.styled';
 
 export type {
@@ -24,4 +26,6 @@ export type {
   HeaderProps,
   LabelProps,
   SeparatorProps,
+  ItemTextProps,
+  ItemIndicatorProps,
 } from './Select.styled';

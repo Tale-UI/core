@@ -6,6 +6,7 @@ export {
   Title,
   Description,
   Close,
+  Actions,
 } from './Dialog.styled';
 export type {
   RootProps,
@@ -15,4 +16,5 @@ export type {
   TitleProps,
   DescriptionProps,
   CloseProps,
+  ActionsProps,
 } from './Dialog.styled';

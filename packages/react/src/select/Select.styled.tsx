@@ -183,3 +183,25 @@ export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
   ),
 );
 Separator.displayName = 'Select.Separator';
+
+/* ─── ItemText ───────────────────────────────────────────────────────────── */
+
+export type ItemTextProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
+
+export const ItemText = React.forwardRef<HTMLSpanElement, ItemTextProps>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-select__item-text', className)} {...props} />
+  ),
+);
+ItemText.displayName = 'Select.ItemText';
+
+/* ─── ItemIndicator ──────────────────────────────────────────────────────── */
+
+export type ItemIndicatorProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
+
+export const ItemIndicator = React.forwardRef<HTMLSpanElement, ItemIndicatorProps>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-select__item-indicator', className)} {...props} />
+  ),
+);
+ItemIndicator.displayName = 'Select.ItemIndicator';

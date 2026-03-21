@@ -62,3 +62,10 @@ export const Group = React.forwardRef<HTMLDivElement, RadioGroupProps>(
   ),
 );
 Group.displayName = 'Radio.Group';
+
+export const Dot = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-radio__dot', className)} {...props} />
+  ),
+);
+Dot.displayName = 'Radio.Dot';

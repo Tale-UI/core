@@ -39,10 +39,10 @@ import { cx } from '../_cx';
  *       <AlertDialog.Content>
  *         <AlertDialog.Title>Are you sure?</AlertDialog.Title>
  *         <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
- *         <div className="tale-alert-dialog__actions">
+ *         <AlertDialog.Actions>
  *           <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
  *           <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
- *         </div>
+ *         </AlertDialog.Actions>
  *       </AlertDialog.Content>
  *     </AlertDialog.Popup>
  *   </AlertDialog.Backdrop>
@@ -127,6 +127,16 @@ export const Trigger = React.forwardRef<
   <Button ref={ref} className={cx('tale-alert-dialog__trigger', className)} {...props} />
 ));
 Trigger.displayName = 'AlertDialog.Trigger';
+
+// Actions
+export type ActionsProps = React.HTMLAttributes<HTMLDivElement> & { className?: string };
+
+export const Actions = React.forwardRef<HTMLDivElement, ActionsProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-alert-dialog__actions', className)} {...props} />
+  ),
+);
+Actions.displayName = 'AlertDialog.Actions';
 
 // Close button
 export const Close = React.forwardRef<

@@ -116,3 +116,58 @@ export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
   ),
 );
 Separator.displayName = 'Menu.Separator';
+
+/* ─── Arrow ──────────────────────────────────────────────────────────────── */
+
+export type ArrowProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
+
+export const Arrow = React.forwardRef<HTMLDivElement, ArrowProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-menu__arrow', className)} {...props} />
+  ),
+);
+Arrow.displayName = 'Menu.Arrow';
+
+/* ─── CheckboxItem ───────────────────────────────────────────────────────── */
+
+export type CheckboxItemProps<T = object> = Omit<AriaMenuItemProps<T>, 'className'> & { className?: string };
+
+export const CheckboxItem = React.forwardRef<HTMLDivElement, CheckboxItemProps>(
+  ({ className, ...props }, ref) => (
+    <AriaMenuItem ref={ref} className={cx('tale-menu__checkbox-item', className)} {...props} />
+  ),
+);
+CheckboxItem.displayName = 'Menu.CheckboxItem';
+
+/* ─── RadioItem ──────────────────────────────────────────────────────────── */
+
+export type RadioItemProps<T = object> = Omit<AriaMenuItemProps<T>, 'className'> & { className?: string };
+
+export const RadioItem = React.forwardRef<HTMLDivElement, RadioItemProps>(
+  ({ className, ...props }, ref) => (
+    <AriaMenuItem ref={ref} className={cx('tale-menu__radio-item', className)} {...props} />
+  ),
+);
+RadioItem.displayName = 'Menu.RadioItem';
+
+/* ─── LinkItem ───────────────────────────────────────────────────────────── */
+
+export type LinkItemProps<T = object> = Omit<AriaMenuItemProps<T>, 'className'> & { className?: string };
+
+export const LinkItem = React.forwardRef<HTMLDivElement, LinkItemProps>(
+  ({ className, ...props }, ref) => (
+    <AriaMenuItem ref={ref} className={cx('tale-menu__link-item', className)} {...props} />
+  ),
+);
+LinkItem.displayName = 'Menu.LinkItem';
+
+/* ─── SubmenuTrigger ─────────────────────────────────────────────────────── */
+
+export type SubmenuTriggerProps<T = object> = Omit<AriaMenuItemProps<T>, 'className'> & { className?: string };
+
+export const SubmenuTrigger = React.forwardRef<HTMLDivElement, SubmenuTriggerProps>(
+  ({ className, ...props }, ref) => (
+    <AriaMenuItem ref={ref} className={cx('tale-menu__submenu-trigger', className)} {...props} />
+  ),
+);
+SubmenuTrigger.displayName = 'Menu.SubmenuTrigger';

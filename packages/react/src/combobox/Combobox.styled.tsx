@@ -227,3 +227,14 @@ export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
   ),
 );
 Separator.displayName = 'Combobox.Separator';
+
+/* ─── ItemIndicator ──────────────────────────────────────────────────────── */
+
+export type ItemIndicatorProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
+
+export const ItemIndicator = React.forwardRef<HTMLSpanElement, ItemIndicatorProps>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-combobox__item-indicator', className)} {...props} />
+  ),
+);
+ItemIndicator.displayName = 'Combobox.ItemIndicator';

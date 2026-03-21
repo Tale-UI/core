@@ -59,3 +59,12 @@ export const Content = React.forwardRef<
   <Dialog ref={ref} className={cx('tale-preview-card', className)} {...props} />
 ));
 Content.displayName = 'PreviewCard.Content';
+
+// Arrow
+export const Arrow = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cx('tale-preview-card__arrow', className)} {...props} />
+));
+Arrow.displayName = 'PreviewCard.Arrow';

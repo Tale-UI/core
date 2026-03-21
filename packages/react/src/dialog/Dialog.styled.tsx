@@ -37,10 +37,10 @@ import { cx } from '../_cx';
  *       <Dialog.Close aria-label="Close">✕</Dialog.Close>
  *       <Dialog.Title>Confirm action</Dialog.Title>
  *       <Dialog.Description>Are you sure?</Dialog.Description>
- *       <div className="tale-dialog__actions">
+ *       <Dialog.Actions>
  *         <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
  *         <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
- *       </div>
+ *       </Dialog.Actions>
  *     </Dialog.Popup>
  *   </Dialog.Backdrop>
  * </Dialog.Root>
@@ -153,6 +153,18 @@ const StyledClose = React.forwardRef<HTMLButtonElement, CloseProps>(
 );
 StyledClose.displayName = 'Dialog.Close';
 export const Close = StyledClose;
+
+/* ─── Actions ─────────────────────────────────────────────────────────────── */
+
+export type ActionsProps = React.HTMLAttributes<HTMLDivElement> & { className?: string };
+
+const StyledActions = React.forwardRef<HTMLDivElement, ActionsProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-dialog__actions', className as string | undefined)} {...props} />
+  ),
+);
+StyledActions.displayName = 'Dialog.Actions';
+export const Actions = StyledActions;
 
 /* ─── Re-export prop types ───────────────────────────────────────────────────── */
 export type { DialogTriggerProps as RootProps };
