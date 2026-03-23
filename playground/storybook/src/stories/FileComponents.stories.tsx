@@ -23,16 +23,7 @@ export const DropZoneStory: Story = {
     return (
       <DropZone
         onDrop={() => setDropped(true)}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 300,
-          height: 150,
-          border: '2px dashed var(--neutral-30)',
-          borderRadius: 'var(--space-2xs)',
-          padding: 'var(--space-m)',
-        }}
+        className="story-dropzone-basic"
       >
         <p>{dropped ? 'File dropped!' : 'Drop files here'}</p>
       </DropZone>
@@ -46,7 +37,7 @@ export const FileTriggerStory: Story = {
     const [fileName, setFileName] = useState<string | null>(null);
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-s)', alignItems: 'center' }}>
+      <div className="story-file-trigger">
         <FileTrigger
           onSelect={(fileList) => {
             if (fileList) {
@@ -75,18 +66,7 @@ export const Combined: Story = {
             .map((item) => ('name' in item ? item.name : 'unknown'));
           setFiles((prev) => [...prev, ...names]);
         }}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 'var(--space-s)',
-          width: 300,
-          height: 200,
-          border: '2px dashed var(--neutral-30)',
-          borderRadius: 'var(--space-2xs)',
-          padding: 'var(--space-m)',
-        }}
+        className="story-dropzone-combined"
       >
         <p>Drop files here or</p>
         <FileTrigger
@@ -102,7 +82,7 @@ export const Combined: Story = {
           <Button>Browse files</Button>
         </FileTrigger>
         {files.length > 0 && (
-          <p style={{ fontSize: 'var(--text-s-font-size)' }}>
+          <p className="story-dropzone-files">
             Files: {files.join(', ')}
           </p>
         )}

@@ -25,7 +25,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Tooltip.Root>
         <Tooltip.Trigger>Hover me</Tooltip.Trigger>
         <Tooltip.Popup placement={args.placement} offset={args.offset}>
@@ -43,7 +43,7 @@ export const AllPlacements: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ padding: 'var(--space-4xl)', display: 'flex', gap: 'var(--space-l)', flexWrap: 'wrap' }}>
+    <div className="story-padded story-tooltip-row">
       {(['top', 'bottom', 'left', 'right'] as const).map((placement) => (
         <Tooltip.Root key={placement}>
           <Tooltip.Trigger>{placement}</Tooltip.Trigger>
@@ -60,7 +60,7 @@ export const AllPlacements: Story = {
 export const LongText: Story = {
   name: 'Long Text',
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Tooltip.Root>
         <Tooltip.Trigger>Long tooltip</Tooltip.Trigger>
         <Tooltip.Popup placement={args.placement} offset={args.offset}>
@@ -76,7 +76,7 @@ export const LongText: Story = {
 export const WithDelay: Story = {
   name: 'With Delay',
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)', display: 'flex', gap: 'var(--space-m)' }}>
+    <div className="story-padded story-tooltip-delay-row">
       <Tooltip.Root delay={500}>
         <Tooltip.Trigger>500ms delay</Tooltip.Trigger>
         <Tooltip.Popup placement={args.placement} offset={args.offset}>

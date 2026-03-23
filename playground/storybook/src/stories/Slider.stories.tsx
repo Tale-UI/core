@@ -39,7 +39,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+    <div className="story-slider-wide">
       <Slider.Root
         key={`${args.value}-${args.minValue}-${args.maxValue}-${args.step}-${args.orientation}`}
         defaultValue={args.value}
@@ -49,10 +49,10 @@ export const Default: Story = {
         orientation={args.orientation}
         isDisabled={args.isDisabled}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+        <Slider.Header>
           <Slider.Label>Volume</Slider.Label>
           <Slider.Output />
-        </div>
+        </Slider.Header>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />
@@ -69,12 +69,12 @@ export const WithLabel: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+    <div className="story-slider-wide">
       <Slider.Root defaultValue={30}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+        <Slider.Header>
           <Slider.Label>Brightness</Slider.Label>
           <Slider.Output />
-        </div>
+        </Slider.Header>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />
@@ -91,12 +91,12 @@ export const Range: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+    <div className="story-slider-wide">
       <Slider.Root defaultValue={[20, 80]}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+        <Slider.Header>
           <Slider.Label>Price Range</Slider.Label>
           <Slider.Output />
-        </div>
+        </Slider.Header>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />
@@ -114,12 +114,12 @@ export const Steps: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+    <div className="story-slider-wide">
       <Slider.Root defaultValue={50} step={10}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+        <Slider.Header>
           <Slider.Label>Quality</Slider.Label>
           <Slider.Output />
-        </div>
+        </Slider.Header>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />
@@ -136,12 +136,12 @@ export const Disabled: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ width: '560px', maxWidth: '100%', padding: 'var(--space-m)' }}>
+    <div className="story-slider-wide">
       <Slider.Root defaultValue={60} isDisabled>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+        <Slider.Header>
           <Slider.Label>Disabled Slider</Slider.Label>
           <Slider.Output />
-        </div>
+        </Slider.Header>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />
@@ -158,10 +158,12 @@ export const Vertical: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ width: '120px', height: '250px', padding: 'var(--space-m)' }}>
+    <div className="story-slider-vertical">
       <Slider.Root defaultValue={40} orientation="vertical">
-        <Slider.Label>Vertical</Slider.Label>
-        <Slider.Output />
+        <Slider.Header>
+          <Slider.Label>Vertical</Slider.Label>
+          <Slider.Output />
+        </Slider.Header>
         <Slider.Control>
           <Slider.Track>
             <Slider.Indicator />

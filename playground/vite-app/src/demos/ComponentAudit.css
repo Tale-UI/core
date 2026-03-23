@@ -1,0 +1,363 @@
+/* ComponentAudit.css — Audit page layout classes */
+
+/* ─── Page layout ─────────────────────────────────────────────────────────── */
+
+.audit {
+  display: grid;
+  grid-template-columns: 20rem 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.audit__sidebar {
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding-right: 1.6rem;
+}
+
+.audit__sidebar-header {
+  margin-bottom: 0.8rem;
+}
+
+.audit__sidebar-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: var(--label-font-family);
+  color: var(--neutral-90);
+}
+
+.audit__toc-category {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--label-font-family);
+  color: var(--neutral-50);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.audit__toc-link {
+  display: block;
+  padding: 0.2rem 0;
+  font-size: 1.2rem;
+  font-family: var(--label-font-family);
+  color: var(--neutral-70);
+  text-decoration: none;
+}
+
+/* ─── Sections ────────────────────────────────────────────────────────────── */
+
+.audit__section {
+  padding: 3.2rem 0;
+  border-bottom: 1px solid var(--neutral-20);
+}
+
+.audit__heading {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  font-family: var(--label-font-family);
+  color: var(--neutral-90);
+}
+
+.audit__subheading {
+  margin: 0 0 1.2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: var(--label-font-family);
+  color: var(--neutral-60);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.audit__class-list {
+  margin: 0.8rem 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.audit__class-tag {
+  padding: 0.2rem 0.6rem;
+  background: var(--neutral-14);
+  border-radius: 0.4rem;
+  font-family: var(--mono-font-family);
+  font-size: 1.1rem;
+  color: var(--neutral-70);
+}
+
+.audit__label {
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  color: var(--neutral-80);
+}
+
+/* ─── Demo layout ─────────────────────────────────────────────────────────── */
+
+.audit__demo-row {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.audit__demo-row--padded {
+  padding: 4rem 0;
+}
+
+.audit__demo-spaced {
+  margin-bottom: 2rem;
+}
+
+.audit__demo-narrow {
+  width: 28rem;
+}
+
+.audit__demo-medium {
+  width: 32rem;
+}
+
+.audit__demo-wide {
+  width: 36rem;
+}
+
+.audit__demo-extra-wide {
+  width: 48rem;
+}
+
+/* ─── CSS Override panel ──────────────────────────────────────────────────── */
+
+.audit__override-panel {
+  margin: 1.6rem 0;
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.6rem;
+  background: var(--neutral-10);
+  overflow: hidden;
+}
+
+.audit__override-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  color: var(--neutral-80);
+  text-align: left;
+}
+
+.audit__override-chevron {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+.audit__override-chevron--open {
+  transform: rotate(90deg);
+}
+
+.audit__override-label {
+  font-size: 1rem;
+  color: var(--neutral-50);
+  font-weight: 400;
+}
+
+.audit__override-body {
+  padding: 0 1.2rem 1.2rem;
+}
+
+.audit__override-textarea {
+  width: 100%;
+  min-height: 12rem;
+  padding: 1rem;
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.4rem;
+  background: var(--neutral-5);
+  color: var(--neutral-90);
+  font-family: var(--mono-font-family);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.audit__override-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.audit__override-button {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.4rem;
+  background: var(--neutral-14);
+  color: var(--neutral-70);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  cursor: pointer;
+}
+
+/* ─── Component-specific demo ─────────────────────────────────────────────── */
+
+.audit__context-trigger {
+  padding: var(--space-l);
+  border: 2px dashed var(--neutral-30);
+  border-radius: var(--space-2xs);
+  text-align: center;
+  color: var(--neutral-60);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+}
+
+.audit__disclosure-content {
+  padding: 1.2rem 0;
+  color: var(--neutral-70);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+}
+
+.audit__preview-content {
+  padding: 1.6rem;
+  max-width: 28rem;
+}
+
+.audit__preview-title {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--label-font-family);
+}
+
+.audit__preview-description {
+  margin: 0;
+  color: var(--neutral-60);
+  font-family: var(--body-font-family);
+  font-size: var(--text-s-font-size);
+}
+
+.audit__separator-text {
+  color: var(--neutral-70);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+}
+
+.audit__scroll-content {
+  padding: 1.6rem;
+}
+
+.audit__scroll-text {
+  margin: 0 0 0.8rem;
+  color: var(--neutral-70);
+  font-family: var(--body-font-family);
+  font-size: var(--text-m-font-size);
+}
+
+.audit__color-demo {
+  padding: 1.6rem 2.4rem;
+  border-radius: 0.8rem;
+  background: var(--color-10);
+  border: 1px solid var(--color-20);
+}
+
+.audit__color-label {
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  color: var(--color-70);
+}
+
+.audit__date-separator {
+  padding: 0 0.4rem;
+}
+
+.audit__dropzone-content {
+  padding: 3.2rem 4.8rem;
+  text-align: center;
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  color: var(--neutral-50);
+}
+
+.audit__progress-label,
+.audit__meter-label {
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  color: var(--neutral-60);
+}
+
+.audit__scroll-area {
+  width: 32rem;
+  height: 20rem;
+  border: 1px solid var(--neutral-20);
+  border-radius: 0.8rem;
+}
+
+.audit__color-area {
+  width: 20rem;
+  height: 20rem;
+}
+
+.audit__color-area-wrap {
+  width: 20rem;
+}
+
+.audit__separator-above {
+  margin: 0 0 1.2rem;
+}
+
+.audit__separator-below {
+  margin: 1.2rem 0 0;
+}
+
+.audit__separator-vertical {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  height: 2.4rem;
+}
+
+.audit__tabs-vertical {
+  height: 20rem;
+}
+
+.audit__drawer-actions {
+  margin-top: var(--space-m);
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.audit__drawer-action {
+  flex: 1;
+}
+
+.audit__fieldset-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding-top: 1.2rem;
+}
+
+.audit__icon-left {
+  margin-right: var(--space-3xs);
+}
+
+.audit__icon-right {
+  margin-left: var(--space-3xs);
+}
+
+.audit__slider-vertical {
+  height: 16rem;
+}
+
+.audit__controlled-tab-label {
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  color: var(--neutral-60);
+  margin-top: var(--space-2xs);
+}

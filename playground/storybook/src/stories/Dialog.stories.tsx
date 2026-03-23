@@ -93,18 +93,9 @@ export const ScrollableContent: Story = {
             <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
             <Dialog.Title>Terms of Service</Dialog.Title>
             <Dialog.Description>Please read the following terms carefully.</Dialog.Description>
-            <div
-              style={{
-                maxHeight: '300px',
-                overflow: 'auto',
-                marginTop: 'var(--space-m)',
-                padding: 'var(--space-s)',
-                border: '1px solid var(--neutral-20)',
-                borderRadius: 'var(--radius-m)',
-              }}
-            >
+            <div className="story-dialog-scroll">
               {Array.from({ length: 20 }, (_, i) => (
-                <p key={i} style={{ marginBottom: 'var(--space-s)' }}>
+                <p key={i} className="story-dialog-scroll-paragraph">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
                   incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

@@ -11,7 +11,7 @@ const meta: Meta<Args> = {
   parameters: { layout: 'centered' },
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '320px' }}>
+      <div className="story-field">
         <Story />
       </div>
     ),
@@ -32,8 +32,8 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <TimeField.Root {...args} style={{ width: '100%' }}>
-      <TimeField.DateInput style={{ display: 'flex' }}>
+    <TimeField.Root {...args} className="story-field-full">
+      <TimeField.DateInput className="story-date-input">
         {(segment) => <TimeField.Segment segment={segment} />}
       </TimeField.DateInput>
     </TimeField.Root>
@@ -42,9 +42,9 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
   render: (args) => (
-    <TimeField.Root {...args} style={{ width: '100%' }}>
+    <TimeField.Root {...args} className="story-field-full">
       <TimeField.Label>Time</TimeField.Label>
-      <TimeField.DateInput style={{ display: 'flex' }}>
+      <TimeField.DateInput className="story-date-input">
         {(segment) => <TimeField.Segment segment={segment} />}
       </TimeField.DateInput>
     </TimeField.Root>

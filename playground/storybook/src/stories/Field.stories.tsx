@@ -13,7 +13,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: () => (
-    <div style={{ maxWidth: '400px', padding: 'var(--space-m)' }}>
+    <div className="story-narrow">
       <Field.Root>
         <Field.Label>Name</Field.Label>
         <Field.Control>
@@ -26,7 +26,7 @@ export const Default: Story = {
 
 export const WithDescription: Story = {
   render: () => (
-    <div style={{ maxWidth: '400px', padding: 'var(--space-m)' }}>
+    <div className="story-narrow">
       <Field.Root>
         <Field.Label>Email</Field.Label>
         <Field.Control>
@@ -40,7 +40,7 @@ export const WithDescription: Story = {
 
 export const WithError: Story = {
   render: () => (
-    <div style={{ maxWidth: '400px', padding: 'var(--space-m)' }}>
+    <div className="story-narrow">
       <Field.Root>
         <Field.Label>Password</Field.Label>
         <Field.Control>

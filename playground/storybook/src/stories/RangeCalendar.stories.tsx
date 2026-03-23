@@ -22,17 +22,11 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render: (args) => (
     <RangeCalendar.Root {...args}>
-      <header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+      <RangeCalendar.Header>
         <RangeCalendar.PreviousButton />
         <RangeCalendar.Heading />
         <RangeCalendar.NextButton />
-      </header>
+      </RangeCalendar.Header>
       <RangeCalendar.Grid>
         <RangeCalendar.GridHeader>
           {(day) => (

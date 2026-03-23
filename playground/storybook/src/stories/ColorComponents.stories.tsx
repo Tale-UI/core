@@ -64,7 +64,7 @@ export const CombinedPicker: Story = {
   name: 'Combined Picker',
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+      <div className="story-col story-col--m">
         <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>
           <ColorArea.Thumb />
         </ColorArea.Root>

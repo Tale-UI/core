@@ -27,7 +27,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
@@ -48,7 +48,7 @@ export const Default: Story = {
 
 export const WithGroups: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
@@ -75,7 +75,7 @@ export const WithGroups: Story = {
 
 export const WithDisabledItems: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Edit ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
@@ -99,7 +99,7 @@ export const WithDisabledItems: Story = {
 
 export const Disabled: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Menu.Root isDisabled>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Disabled Menu ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
@@ -116,7 +116,7 @@ export const Disabled: Story = {
 
 export const CheckboxItems: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
@@ -133,7 +133,7 @@ export const CheckboxItems: Story = {
 
 export const RadioItems: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
@@ -150,7 +150,7 @@ export const RadioItems: Story = {
 
 export const LinkItems: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)' }}>
+    <div className="story-padded">
       <Menu.Root>
         <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links ▾</Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
@@ -159,6 +159,43 @@ export const LinkItems: Story = {
             <Menu.LinkItem id="github" textValue="GitHub" href="#">GitHub</Menu.LinkItem>
             <Menu.Separator />
             <Menu.LinkItem id="report" textValue="Report Issue" href="#">Report Issue</Menu.LinkItem>
+          </Menu.MenuList>
+        </Menu.Popover>
+      </Menu.Root>
+    </div>
+  ),
+};
+
+export const AllItemTypes: Story = {
+  render: (args) => (
+    <div className="story-padded">
+      <Menu.Root>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">All Types ▾</Menu.Trigger>
+        <Menu.Popover placement={args.placement} offset={args.offset}>
+          <Menu.MenuList aria-label="All item types">
+            <Menu.Group>
+              <Menu.Header>Actions</Menu.Header>
+              <Menu.Item id="new" textValue="New File">New File</Menu.Item>
+              <Menu.Item id="open" textValue="Open">Open</Menu.Item>
+            </Menu.Group>
+            <Menu.Separator />
+            <Menu.Group>
+              <Menu.Header>Format</Menu.Header>
+              <Menu.CheckboxItem id="bold" textValue="Bold">Bold</Menu.CheckboxItem>
+              <Menu.CheckboxItem id="italic" textValue="Italic">Italic</Menu.CheckboxItem>
+            </Menu.Group>
+            <Menu.Separator />
+            <Menu.Group>
+              <Menu.Header>View</Menu.Header>
+              <Menu.RadioItem id="list" textValue="List">List</Menu.RadioItem>
+              <Menu.RadioItem id="grid" textValue="Grid">Grid</Menu.RadioItem>
+            </Menu.Group>
+            <Menu.Separator />
+            <Menu.Group>
+              <Menu.Header>Links</Menu.Header>
+              <Menu.LinkItem id="docs" textValue="Documentation" href="#">Documentation</Menu.LinkItem>
+              <Menu.LinkItem id="github" textValue="GitHub" href="#">GitHub</Menu.LinkItem>
+            </Menu.Group>
           </Menu.MenuList>
         </Menu.Popover>
       </Menu.Root>

@@ -22,17 +22,11 @@ type Story = StoryObj<Args>;
 
 const CalendarTemplate = (args: Args) => (
   <Calendar.Root {...args}>
-    <header
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
+    <Calendar.Header>
       <Calendar.PreviousButton />
       <Calendar.Heading />
       <Calendar.NextButton />
-    </header>
+    </Calendar.Header>
     <Calendar.Grid>
       <Calendar.GridHeader>
         {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
@@ -61,17 +55,11 @@ export const ReadOnly: Story = {
   },
   render: (args) => (
     <Calendar.Root defaultValue={today(getLocalTimeZone())} {...args}>
-      <header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+      <Calendar.Header>
         <Calendar.PreviousButton />
         <Calendar.Heading />
         <Calendar.NextButton />
-      </header>
+      </Calendar.Header>
       <Calendar.Grid>
         <Calendar.GridHeader>
           {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}

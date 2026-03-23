@@ -34,7 +34,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)', display: 'flex', justifyContent: 'center' }}>
+    <div className="story-padded-center">
       <Popover.Root>
         <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
         <Popover.Popup placement={args.placement} offset={args.offset}>
@@ -50,7 +50,7 @@ export const Default: Story = {
 
 export const WithArrow: Story = {
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)', display: 'flex', justifyContent: 'center' }}>
+    <div className="story-padded-center">
       <Popover.Root>
         <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">With Arrow</Popover.Trigger>
         <Popover.Popup placement={args.placement} offset={args.offset}>
@@ -70,15 +70,7 @@ export const AllPlacements: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div
-      style={{
-        padding: 'var(--space-4xl)',
-        display: 'flex',
-        gap: 'var(--space-m)',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-      }}
-    >
+    <div className="story-padded-center story-popover-placements">
       {(['top', 'bottom', 'left', 'right'] as const).map((placement) => (
         <Popover.Root key={placement}>
           <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">{placement}</Popover.Trigger>
@@ -98,7 +90,7 @@ export const AllPlacements: Story = {
 export const WithCloseButton: Story = {
   name: 'With Close Button',
   render: (args) => (
-    <div style={{ padding: 'var(--space-4xl)', display: 'flex', justifyContent: 'center' }}>
+    <div className="story-padded-center">
       <Popover.Root>
         <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
         <Popover.Popup placement={args.placement} offset={args.offset}>

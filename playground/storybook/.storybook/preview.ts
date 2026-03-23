@@ -1,5 +1,6 @@
 import '@tale-ui/react-styles/index.css';
 import './preview.css';
+import '../src/stories/stories.css';
 import type { Preview, Decorator } from '@storybook/react';
 import { buildTheme } from './theme';
 

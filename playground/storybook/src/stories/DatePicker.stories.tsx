@@ -12,7 +12,7 @@ const meta: Meta<Args> = {
   parameters: { layout: 'centered' },
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '320px' }}>
+      <div className="story-field">
         <Story />
       </div>
     ),
@@ -28,7 +28,7 @@ export default meta;
 type Story = StoryObj<Args>;
 
 const DatePickerTemplate = (args: Args & { showLabel?: boolean }) => (
-  <DatePicker.Root {...args} style={{ width: '100%' }}>
+  <DatePicker.Root {...args} className="story-field-full">
     {args.showLabel && <DatePicker.Label>Date</DatePicker.Label>}
     <DatePicker.Group>
       <DatePicker.DateInput>
@@ -39,17 +39,11 @@ const DatePickerTemplate = (args: Args & { showLabel?: boolean }) => (
     <DatePicker.Popover>
       <DatePicker.Dialog>
         <Calendar.Root>
-          <header
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
+          <Calendar.Header>
             <Calendar.PreviousButton />
             <Calendar.Heading />
             <Calendar.NextButton />
-          </header>
+          </Calendar.Header>
           <Calendar.Grid>
             <Calendar.GridHeader>
               {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}

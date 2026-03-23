@@ -13,7 +13,7 @@ const meta: Meta<Args> = {
   title: 'Components/NumberField',
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '320px' }}>
+      <div className="story-field">
         <Story />
       </div>
     ),

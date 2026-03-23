@@ -32,15 +32,7 @@ export const WithGroups: Story = {
   render: () => (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <div
-          style={{
-            padding: 'var(--space-xl)',
-            border: '2px dashed var(--neutral-30)',
-            borderRadius: 'var(--space-2xs)',
-            textAlign: 'center',
-            color: 'var(--neutral-60)',
-          }}
-        >
+        <div className="story-context-trigger">
           Right-click this area
         </div>
       </ContextMenu.Trigger>

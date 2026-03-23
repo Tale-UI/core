@@ -12,7 +12,7 @@ const meta: Meta<Args> = {
   parameters: { layout: 'centered' },
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '320px' }}>
+      <div className="story-field">
         <Story />
       </div>
     ),
@@ -29,13 +29,13 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <DateRangePicker.Root {...args} style={{ width: '100%' }}>
+    <DateRangePicker.Root {...args} className="story-field-full">
       <DateRangePicker.Label>Date range</DateRangePicker.Label>
       <DateRangePicker.Group>
         <DateRangePicker.StartDate>
           {(segment) => <DateRangePicker.Segment segment={segment} />}
         </DateRangePicker.StartDate>
-        <span style={{ color: 'var(--neutral-50)' }}>&ndash;</span>
+        <span className="story-separator-dash">&ndash;</span>
         <DateRangePicker.EndDate>
           {(segment) => <DateRangePicker.Segment segment={segment} />}
         </DateRangePicker.EndDate>
@@ -44,17 +44,11 @@ export const Default: Story = {
       <DateRangePicker.Popover>
         <DateRangePicker.Dialog>
           <RangeCalendar.Root>
-            <header
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
+            <RangeCalendar.Header>
               <RangeCalendar.PreviousButton />
               <RangeCalendar.Heading />
               <RangeCalendar.NextButton />
-            </header>
+            </RangeCalendar.Header>
             <RangeCalendar.Grid>
               <RangeCalendar.GridHeader>
                 {(day) => (

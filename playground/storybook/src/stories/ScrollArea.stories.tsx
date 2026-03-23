@@ -24,7 +24,7 @@ export default meta;
 type Story = StoryObj<Args>;
 
 const paragraphs = Array.from({ length: 20 }, (_, i) => (
-  <p key={i} style={{ margin: 0, padding: 'var(--space-2xs) 0' }}>
+  <p key={i} className="story-scroll-line">
     Line {i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </p>
 ));
@@ -70,7 +70,7 @@ export const Horizontal: Story = {
         <ScrollArea.Content>
           <div style={{ width: 800, padding: 'var(--space-s)', whiteSpace: 'nowrap' }}>
             {Array.from({ length: 5 }, (_, i) => (
-              <p key={i} style={{ margin: 0, padding: 'var(--space-2xs) 0' }}>
+              <p key={i} className="story-scroll-line">
                 This is a very long line of text that extends beyond the visible area to demonstrate horizontal scrolling behavior in the ScrollArea component.
               </p>
             ))}
@@ -91,7 +91,7 @@ export const Both: Story = {
         <ScrollArea.Content>
           <div style={{ width: 600, padding: 'var(--space-s)' }}>
             {Array.from({ length: 30 }, (_, i) => (
-              <p key={i} style={{ margin: 0, padding: 'var(--space-2xs) 0', whiteSpace: 'nowrap' }}>
+              <p key={i} className="story-scroll-line" style={{ whiteSpace: 'nowrap' }}>
                 Row {i + 1}: This content is wide and tall enough to require both vertical and horizontal scrollbars.
               </p>
             ))}

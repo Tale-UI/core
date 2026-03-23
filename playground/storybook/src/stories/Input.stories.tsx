@@ -11,7 +11,7 @@ const meta: Meta<Args> = {
   title: 'Components/Input',
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '320px' }}>
+      <div className="story-field">
         <Story />
       </div>
     ),
@@ -100,7 +100,7 @@ export const AllSizes: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+    <div className="story-col story-col--m">
       <Input.Root>
         <Input.Label>Small</Input.Label>
         <Input.Input size="sm" placeholder="Small input" />

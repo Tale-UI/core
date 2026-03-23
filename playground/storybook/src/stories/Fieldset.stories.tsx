@@ -22,10 +22,10 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ maxWidth: '500px', padding: 'var(--space-m)' }}>
+    <div className="story-medium">
       <Fieldset.Root disabled={args.disabled}>
         <Fieldset.Legend>Personal Information</Fieldset.Legend>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+        <div className="story-col story-col--m">
           <TextField.Root>
             <TextField.Label>First Name</TextField.Label>
             <TextField.Input placeholder="John" />
@@ -46,10 +46,10 @@ export const Default: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <div style={{ maxWidth: '500px', padding: 'var(--space-m)' }}>
+    <div className="story-medium">
       <Fieldset.Root disabled>
         <Fieldset.Legend>Billing Address (disabled)</Fieldset.Legend>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+        <div className="story-col story-col--m">
           <TextField.Root>
             <TextField.Label>Street</TextField.Label>
             <TextField.Input placeholder="123 Main St" />

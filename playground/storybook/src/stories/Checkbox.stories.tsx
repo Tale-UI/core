@@ -142,14 +142,7 @@ export const AllStates: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, auto)',
-        gap: 'var(--space-m)',
-        alignItems: 'start',
-      }}
-    >
+    <div className="story-checkbox-grid">
       <Checkbox.Root>
         <Checkbox.Indicator>
           <CheckIcon />

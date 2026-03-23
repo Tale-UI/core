@@ -32,9 +32,9 @@ export const Default: Story = {
       <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
       <PreviewCard.Popup placement={args.placement} offset={args.offset}>
         <PreviewCard.Content aria-label="Preview">
-          <div style={{ maxWidth: '280px' }}>
-            <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Preview Title</h4>
-            <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>
+          <div className="story-preview-content">
+            <h4 className="story-preview-title">Preview Title</h4>
+            <p className="story-preview-text">
               This is a preview card with some descriptive text content that appears on hover.
             </p>
           </div>
@@ -50,25 +50,13 @@ export const WithImage: Story = {
       <PreviewCard.Trigger>Preview with image</PreviewCard.Trigger>
       <PreviewCard.Popup placement="bottom" offset={8}>
         <PreviewCard.Content aria-label="Image preview">
-          <div style={{ maxWidth: '300px' }}>
-            <div
-              style={{
-                width: '100%',
-                height: '120px',
-                background: 'var(--neutral-20)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 'var(--text-s-font-size)',
-                color: 'var(--neutral-60-fg)',
-                borderRadius: 'var(--space-2xs) var(--space-2xs) 0 0',
-              }}
-            >
+          <div className="story-preview-image-wrap">
+            <div className="story-image-placeholder">
               Image placeholder
             </div>
-            <div style={{ padding: 'var(--space-xs)' }}>
-              <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Card with Image</h4>
-              <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>
+            <div className="story-preview-body">
+              <h4 className="story-preview-title">Card with Image</h4>
+              <p className="story-preview-text">
                 A preview card that includes an image area above the text content.
               </p>
             </div>

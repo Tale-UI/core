@@ -31,7 +31,7 @@ export const WithTitle: Story = {
       <Drawer.Popup>
         <Drawer.Title>Drawer Title</Drawer.Title>
         <Drawer.Description>This is a description of the drawer content.</Drawer.Description>
-        <p style={{ marginTop: 'var(--space-s)' }}>
+        <p className="story-drawer-content">
           Additional content can go here.
         </p>
         <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>

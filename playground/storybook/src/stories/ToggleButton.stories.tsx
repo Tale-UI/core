@@ -73,7 +73,7 @@ export const Group: Story = {
 
 export const AllSizes: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-s)' }}>
+    <div className="story-row story-row--s">
       <ToggleButton key={`sm-${args.isSelected}`} size="sm" isDisabled={args.isDisabled} defaultSelected={args.isSelected}>
         Small
       </ToggleButton>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useFilter } from 'react-aria-components';
 import '@tale-ui/react-styles/index.css';
+import './ComponentAudit.css';
 
 // Simple components
 import { Button } from '@tale-ui/react/button';
@@ -135,65 +136,12 @@ function XIconSm() {
 // Layout helpers
 // ---------------------------------------------------------------------------
 
-const sectionStyle: React.CSSProperties = {
-  padding: '3.2rem 0',
-  borderBottom: '1px solid var(--neutral-20)',
-};
-
-const headingStyle: React.CSSProperties = {
-  margin: 0,
-  fontSize: '1.8rem',
-  fontWeight: 600,
-  fontFamily: 'var(--label-font-family)',
-  color: 'var(--neutral-90)',
-};
-
-const classListStyle: React.CSSProperties = {
-  margin: '0.8rem 0 2rem',
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '0.4rem',
-};
-
-const classTagStyle: React.CSSProperties = {
-  padding: '0.2rem 0.6rem',
-  background: 'var(--neutral-14)',
-  borderRadius: '0.4rem',
-  fontFamily: 'var(--mono-font-family)',
-  fontSize: '1.1rem',
-  color: 'var(--neutral-70)',
-};
-
-const subHeadingStyle: React.CSSProperties = {
-  margin: '0 0 1.2rem',
-  fontSize: '1.2rem',
-  fontWeight: 500,
-  fontFamily: 'var(--label-font-family)',
-  color: 'var(--neutral-60)',
-  textTransform: 'uppercase' as const,
-  letterSpacing: '0.05em',
-};
-
-const rowStyle: React.CSSProperties = {
-  display: 'flex',
-  gap: '1.2rem',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  marginBottom: '2rem',
-};
-
-const labelStyle: React.CSSProperties = {
-  fontFamily: 'var(--label-font-family)',
-  fontSize: 'var(--label-m-font-size)',
-  color: 'var(--neutral-80)',
-};
-
 function Section({ id, title, classes, children }: { id: string; title: string; classes: string[]; children: React.ReactNode }) {
   return (
-    <section id={id} style={sectionStyle}>
-      <h2 style={headingStyle}>{title}</h2>
-      <div style={classListStyle}>
-        {classes.map((c) => <code key={c} style={classTagStyle}>.{c}</code>)}
+    <section id={id} className="audit__section">
+      <h2 className="audit__heading">{title}</h2>
+      <div className="audit__class-list">
+        {classes.map((c) => <code key={c} className="audit__class-tag">.{c}</code>)}
       </div>
       {children}
     </section>
@@ -201,11 +149,11 @@ function Section({ id, title, classes, children }: { id: string; title: string; 
 }
 
 function SubHeading({ children }: { children: React.ReactNode }) {
-  return <h3 style={subHeadingStyle}>{children}</h3>;
+  return <h3 className="audit__subheading">{children}</h3>;
 }
 
-function Row({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
-  return <div style={{ ...rowStyle, ...style }}>{children}</div>;
+function Row({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={`audit__demo-row${className ? ` ${className}` : ''}`}>{children}</div>;
 }
 
 // ---------------------------------------------------------------------------
@@ -300,25 +248,6 @@ const TOC = [
   ]},
 ];
 
-const tocCategoryStyle: React.CSSProperties = {
-  margin: '1.2rem 0 0.4rem',
-  fontSize: '1rem',
-  fontWeight: 600,
-  fontFamily: 'var(--label-font-family)',
-  color: 'var(--neutral-50)',
-  textTransform: 'uppercase',
-  letterSpacing: '0.06em',
-};
-
-const tocLinkStyle: React.CSSProperties = {
-  display: 'block',
-  padding: '0.2rem 0',
-  fontSize: '1.2rem',
-  fontFamily: 'var(--label-font-family)',
-  color: 'var(--neutral-70)',
-  textDecoration: 'none',
-};
-
 // ---------------------------------------------------------------------------
 // Calendar section (react-aria-components)
 // ---------------------------------------------------------------------------
@@ -328,15 +257,47 @@ function CalendarSection() {
     <Section
       id="calendar"
       title="Calendar"
-      classes={['tale-calendar', 'tale-calendar__grid', 'tale-calendar__grid-header', 'tale-calendar__grid-body', 'tale-calendar__cell', 'tale-calendar__heading', 'tale-calendar__prev-button', 'tale-calendar__next-button']}
+      classes={['tale-calendar', 'tale-calendar__header', 'tale-calendar__grid', 'tale-calendar__grid-header', 'tale-calendar__grid-body', 'tale-calendar__cell', 'tale-calendar__heading', 'tale-calendar__prev-button', 'tale-calendar__next-button']}
     >
       <SubHeading>Interactive</SubHeading>
       <Calendar.Root>
-        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--space-3xs)', marginBottom: 'var(--space-2xs)' }}>
+        <Calendar.Header>
           <Calendar.PreviousButton />
           <Calendar.Heading />
           <Calendar.NextButton />
-        </header>
+        </Calendar.Header>
+        <Calendar.Grid>
+          <Calendar.GridHeader>
+            {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+          </Calendar.GridHeader>
+          <Calendar.GridBody>
+            {(date) => <Calendar.Cell date={date} />}
+          </Calendar.GridBody>
+        </Calendar.Grid>
+      </Calendar.Root>
+      <SubHeading>Disabled</SubHeading>
+      <Calendar.Root isDisabled>
+        <Calendar.Header>
+          <Calendar.PreviousButton />
+          <Calendar.Heading />
+          <Calendar.NextButton />
+        </Calendar.Header>
+        <Calendar.Grid>
+          <Calendar.GridHeader>
+            {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+          </Calendar.GridHeader>
+          <Calendar.GridBody>
+            {(date) => <Calendar.Cell date={date} />}
+          </Calendar.GridBody>
+        </Calendar.Grid>
+      </Calendar.Root>
+      <SubHeading>Read Only</SubHeading>
+      <Calendar.Root isReadOnly>
+        <Calendar.Header>
+          <Calendar.PreviousButton />
+          <Calendar.Heading />
+          <Calendar.NextButton />
+        </Calendar.Header>
         <Calendar.Grid>
           <Calendar.GridHeader>
             {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
@@ -358,7 +319,7 @@ const countries = ['Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia'
 
 function ComboboxDemo() {
   return (
-    <div style={{ width: '28rem' }}>
+    <div className="audit__demo-narrow">
       <Combobox.Root>
         <Combobox.Input placeholder="Search country…" />
         <Combobox.Popover offset={4}>
@@ -382,7 +343,7 @@ const cities = ['Amsterdam', 'Berlin', 'Chicago', 'Dublin', 'Edinburgh', 'Floren
 function AutocompleteDemo() {
   const { contains } = useFilter({ sensitivity: 'base' });
   return (
-    <div style={{ width: '28rem' }}>
+    <div className="audit__demo-narrow">
       <Autocomplete.Root filter={contains}>
         <Autocomplete.SearchField aria-label="Search city">
           <Autocomplete.Input placeholder="Search city…" />
@@ -473,6 +434,49 @@ function DialogDemo() {
   );
 }
 
+function DestructiveDialogDemo() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <Dialog.Root isOpen={open} onOpenChange={setOpen}>
+      <Dialog.Trigger className="tale-button--danger">Delete Account</Dialog.Trigger>
+      <Dialog.Backdrop>
+        <Dialog.Popup>
+          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Title>Delete your account?</Dialog.Title>
+          <Dialog.Description>
+            This action is permanent and cannot be undone. All your data will be lost.
+          </Dialog.Description>
+          <Dialog.Actions>
+            <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
+            <Button variant="danger" onPress={() => setOpen(false)}>Delete Account</Button>
+          </Dialog.Actions>
+        </Dialog.Popup>
+      </Dialog.Backdrop>
+    </Dialog.Root>
+  );
+}
+
+function NonModalDialogDemo() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <Dialog.Root isOpen={open} onOpenChange={setOpen}>
+      <Dialog.Trigger className="tale-button--neutral">Open Non-Modal</Dialog.Trigger>
+      <Dialog.Backdrop isDismissable>
+        <Dialog.Popup>
+          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Title>Non-Modal Dialog</Dialog.Title>
+          <Dialog.Description>
+            Click the backdrop to dismiss this dialog.
+          </Dialog.Description>
+          <Dialog.Actions>
+            <Button variant="primary" onPress={() => setOpen(false)}>Got it</Button>
+          </Dialog.Actions>
+        </Dialog.Popup>
+      </Dialog.Backdrop>
+    </Dialog.Root>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // AlertDialog demo (controlled, matches Storybook patterns)
 // ---------------------------------------------------------------------------
@@ -503,6 +507,26 @@ function AlertDialogDemo() {
 // ---------------------------------------------------------------------------
 // Main audit page
 // ---------------------------------------------------------------------------
+
+function ControlledTabsDemo() {
+  const [selected, setSelected] = React.useState<React.Key>('tab-home');
+  return (
+    <div className="audit__demo-extra-wide">
+      <Tabs.Root selectedKey={selected} onSelectionChange={setSelected}>
+        <Tabs.List>
+          <Tabs.Tab id="tab-home">Home</Tabs.Tab>
+          <Tabs.Tab id="tab-profile">Profile</Tabs.Tab>
+          <Tabs.Tab id="tab-settings">Settings</Tabs.Tab>
+          <Tabs.Indicator />
+        </Tabs.List>
+        <Tabs.Panel id="tab-home">Home content.</Tabs.Panel>
+        <Tabs.Panel id="tab-profile">Profile content.</Tabs.Panel>
+        <Tabs.Panel id="tab-settings">Settings content.</Tabs.Panel>
+      </Tabs.Root>
+      <span className="audit__controlled-tab-label">Selected: {String(selected)}</span>
+    </div>
+  );
+}
 
 const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape'];
 
@@ -549,73 +573,31 @@ export default function ComponentAudit() {
   return (
     <>
     {/* CSS Override Panel */}
-    <div style={{
-      marginBottom: '1.6rem',
-      border: '1px solid var(--neutral-20)',
-      borderRadius: '0.6rem',
-      background: 'var(--neutral-10)',
-      overflow: 'hidden',
-    }}>
+    <div className="audit__override-panel">
       <button
         onClick={() => setPanelOpen(p => !p)}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.6rem',
-          width: '100%',
-          padding: '0.8rem 1.2rem',
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-          fontFamily: 'var(--label-font-family)',
-          fontSize: '1.2rem',
-          fontWeight: 600,
-          color: 'var(--neutral-70)',
-          textAlign: 'left' as const,
-        }}
+        className="audit__override-toggle"
       >
-        <span style={{ transform: panelOpen ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.15s', display: 'inline-block' }}>
+        <span className={`audit__override-chevron${panelOpen ? ' audit__override-chevron--open' : ''}`}>
           &#9654;
         </span>
         CSS Override
-        {cssOverride.trim() && <span style={{ fontSize: '1rem', color: 'var(--neutral-50)', fontWeight: 400 }}>(active)</span>}
+        {cssOverride.trim() && <span className="audit__override-label">(active)</span>}
       </button>
 
       {panelOpen && (
-        <div style={{ padding: '0 1.2rem 1.2rem' }}>
+        <div className="audit__override-body">
           <textarea
             value={cssOverride}
             onChange={e => setCssOverride(e.target.value)}
             placeholder={'Paste CSS from Scale app here…\ne.g. :root { --red-60: #e53e3e; }\n     .color-red { --brand-60: var(--red-60); }'}
             spellCheck={false}
-            style={{
-              width: '100%',
-              minHeight: '12rem',
-              padding: '1rem',
-              border: '1px solid var(--neutral-20)',
-              borderRadius: '0.4rem',
-              background: 'var(--neutral-5)',
-              color: 'var(--neutral-90)',
-              fontFamily: 'var(--mono-font-family)',
-              fontSize: '1.1rem',
-              lineHeight: 1.5,
-              resize: 'vertical',
-              outline: 'none',
-            }}
+            className="audit__override-textarea"
           />
-          <div style={{ display: 'flex', gap: '0.8rem', marginTop: '0.8rem' }}>
+          <div className="audit__override-actions">
             <button
               onClick={() => setCssOverride('')}
-              style={{
-                padding: '0.4rem 1rem',
-                border: '1px solid var(--neutral-20)',
-                borderRadius: '0.4rem',
-                background: 'var(--neutral-14)',
-                color: 'var(--neutral-70)',
-                fontFamily: 'var(--label-font-family)',
-                fontSize: '1.1rem',
-                cursor: 'pointer',
-              }}
+              className="audit__override-button"
             >
               Clear
             </button>
@@ -624,26 +606,26 @@ export default function ComponentAudit() {
       )}
     </div>
 
-    <div style={{ display: 'grid', gridTemplateColumns: '20rem 1fr', gap: '4rem', alignItems: 'start' }}>
+    <div className="audit">
       {/* TOC */}
-      <nav style={{ position: 'sticky', top: '2rem', maxHeight: 'calc(100vh - 4rem)', overflowY: 'auto', paddingRight: '1.6rem' }}>
-        <div style={{ marginBottom: '0.8rem' }}>
-          <span style={{ fontSize: '1.4rem', fontWeight: 600, fontFamily: 'var(--label-font-family)', color: 'var(--neutral-90)' }}>
+      <nav className="audit__sidebar">
+        <div className="audit__sidebar-header">
+          <span className="audit__sidebar-title">
             Component Audit
           </span>
         </div>
         {TOC.map(({ category, items }) => (
           <div key={category}>
-            <div style={tocCategoryStyle}>{category}</div>
+            <div className="audit__toc-category">{category}</div>
             {items.map(({ id, label }) => (
-              <a key={id} href={`#${id}`} style={tocLinkStyle}>{label}</a>
+              <a key={id} href={`#${id}`} className="audit__toc-link">{label}</a>
             ))}
           </div>
         ))}
       </nav>
 
       {/* Content */}
-      <div>
+      <main>
         {/* ============================================================= */}
         {/* UTILITY */}
         {/* ============================================================= */}
@@ -683,44 +665,78 @@ export default function ComponentAudit() {
             <Button disabled variant="ghost">Ghost</Button>
             <Button disabled variant="danger">Danger</Button>
           </Row>
+          <SubHeading>With Icons</SubHeading>
+          <Row>
+            <Button variant="primary" size="md">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="audit__icon-left"><path d="M8 2v12M2 8h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              Add Item
+            </Button>
+            <Button variant="neutral" size="md">
+              Settings
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="audit__icon-right"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </Button>
+          </Row>
         </Section>
 
         <Section id="input" title="Input" classes={['tale-input', 'tale-input--sm', 'tale-input--lg']}>
           <SubHeading>Sizes</SubHeading>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '28rem', marginBottom: '2rem' }}>
+          <div className="audit__demo-narrow audit__demo-spaced display--flex flex--col gap--2xs">
             <Input.Input size="sm" placeholder="Small input" />
             <Input.Input placeholder="Medium input (default)" />
             <Input.Input size="lg" placeholder="Large input" />
           </div>
           <SubHeading>States</SubHeading>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '28rem' }}>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <Input.Input placeholder="Default" />
             <Input.Input defaultValue="With value" />
             <Input.Input disabled placeholder="Disabled" />
+          </div>
+          <SubHeading>With Label &amp; Description</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Input.Root>
+              <Input.Label>Username</Input.Label>
+              <Input.Input placeholder="Enter username…" />
+              <Input.Description>Your unique display name.</Input.Description>
+            </Input.Root>
+          </div>
+          <SubHeading>Error State</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Input.Root isInvalid>
+              <Input.Label>Email</Input.Label>
+              <Input.Input defaultValue="not-an-email" />
+              <Input.ErrorMessage>Please enter a valid email address.</Input.ErrorMessage>
+            </Input.Root>
+          </div>
+          <SubHeading>Read Only</SubHeading>
+          <div className="audit__demo-narrow">
+            <Input.Root isReadOnly>
+              <Input.Label>Account ID</Input.Label>
+              <Input.Input defaultValue="acct_12345" />
+            </Input.Root>
           </div>
         </Section>
 
         <Section id="checkbox" title="Checkbox" classes={['tale-checkbox', 'tale-checkbox__indicator']}>
           <SubHeading>States</SubHeading>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <div className="display--flex flex--col gap--2xs">
             {[
               { label: 'Unchecked', checked: false },
               { label: 'Checked', checked: true },
               { label: 'Disabled', checked: false, disabled: true },
               { label: 'Disabled + Checked', checked: true, disabled: true },
             ].map(({ label, checked, disabled }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div key={label} className="display--flex gap--3xs center--y">
                 <Checkbox.Root defaultSelected={checked} isDisabled={disabled}>
                   <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
                 </Checkbox.Root>
-                <span style={labelStyle}>{label}</span>
+                <span className="audit__label">{label}</span>
               </div>
             ))}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div className="display--flex gap--3xs center--y">
               <Checkbox.Root isIndeterminate>
                 <Checkbox.Indicator><MinusIcon /></Checkbox.Indicator>
               </Checkbox.Root>
-              <span style={labelStyle}>Indeterminate</span>
+              <span className="audit__label">Indeterminate</span>
             </div>
           </div>
         </Section>
@@ -728,26 +744,26 @@ export default function ComponentAudit() {
         <Section id="checkbox-group" title="CheckboxGroup" classes={['tale-checkbox-group']}>
           <SubHeading>Default</SubHeading>
           <CheckboxGroup aria-label="Interests">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            <div className="display--flex flex--col gap--3xs">
               {['Reading', 'Gaming', 'Cooking'].map((label) => (
-                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div key={label} className="display--flex gap--3xs center--y">
                   <Checkbox.Root>
                     <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
                   </Checkbox.Root>
-                  <span style={labelStyle}>{label}</span>
+                  <span className="audit__label">{label}</span>
                 </div>
               ))}
             </div>
           </CheckboxGroup>
           <SubHeading>Disabled</SubHeading>
           <CheckboxGroup aria-label="Disabled group" isDisabled>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            <div className="display--flex flex--col gap--3xs">
               {['Option A', 'Option B'].map((label) => (
-                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div key={label} className="display--flex gap--3xs center--y">
                   <Checkbox.Root isDisabled>
                     <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
                   </Checkbox.Root>
-                  <span style={labelStyle}>{label}</span>
+                  <span className="audit__label">{label}</span>
                 </div>
               ))}
             </div>
@@ -756,42 +772,42 @@ export default function ComponentAudit() {
 
         <Section id="radio" title="Radio" classes={['tale-radio', 'tale-radio__indicator', 'tale-radio__dot', 'tale-radio--sm', 'tale-radio--lg']}>
           <SubHeading>States</SubHeading>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: '2rem' }}>
+          <div className="audit__demo-spaced display--flex flex--col gap--2xs">
             <Radio.Group aria-label="Radio states">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.2rem' }}>
+              <div className="display--flex gap--3xs center--y audit__demo-spaced">
                 <Radio.Root value="unchecked">
                   <Radio.Indicator />
                 </Radio.Root>
-                <span style={labelStyle}>Unchecked</span>
+                <span className="audit__label">Unchecked</span>
               </div>
             </Radio.Group>
             <Radio.Group value="checked" aria-label="Checked demo">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div className="display--flex gap--3xs center--y">
                 <Radio.Root value="checked">
                   <Radio.Indicator />
                 </Radio.Root>
-                <span style={labelStyle}>Checked</span>
+                <span className="audit__label">Checked</span>
               </div>
             </Radio.Group>
             <Radio.Group aria-label="Disabled demo" isDisabled>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div className="display--flex gap--3xs center--y">
                 <Radio.Root value="disabled">
                   <Radio.Indicator />
                 </Radio.Root>
-                <span style={labelStyle}>Disabled</span>
+                <span className="audit__label">Disabled</span>
               </div>
             </Radio.Group>
           </div>
           <SubHeading>Radio Group</SubHeading>
-          <Radio.Group defaultValue="option-a" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <Radio.Group defaultValue="option-a" className="display--flex flex--col gap--3xs">
             {['Option A', 'Option B', 'Option C'].map((label, i) => {
               const value = `option-${String.fromCharCode(97 + i)}`;
               return (
-                <div key={value} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div key={value} className="display--flex gap--3xs center--y">
                   <Radio.Root value={value}>
                     <Radio.Indicator />
                   </Radio.Root>
-                  <span style={labelStyle}>{label}</span>
+                  <span className="audit__label">{label}</span>
                 </div>
               );
             })}
@@ -800,18 +816,18 @@ export default function ComponentAudit() {
 
         <Section id="switch" title="Switch" classes={['tale-switch', 'tale-switch__thumb']}>
           <SubHeading>States</SubHeading>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
+          <div className="display--flex flex--col gap--xs">
             {[
               { label: 'Off', checked: false },
               { label: 'On', checked: true },
               { label: 'Disabled (Off)', checked: false, disabled: true },
               { label: 'Disabled (On)', checked: true, disabled: true },
             ].map(({ label, checked, disabled }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+              <div key={label} className="display--flex gap--2xs center--y">
                 <Switch.Root defaultSelected={checked} isDisabled={disabled}>
                   <Switch.Thumb />
                 </Switch.Root>
-                <span style={labelStyle}>{label}</span>
+                <span className="audit__label">{label}</span>
               </div>
             ))}
           </div>
@@ -908,6 +924,23 @@ export default function ComponentAudit() {
               </Select.Popover>
             </Select.Root>
           </Row>
+          <SubHeading>With Disabled Items</SubHeading>
+          <Row>
+            <Select.Root placeholder="Select a fruit…">
+              <Select.Trigger>
+                <Select.Value />
+              </Select.Trigger>
+              <Select.Popover offset={4}>
+                <Select.ListBox>
+                  <Select.Item id="apple-d" textValue="Apple">Apple</Select.Item>
+                  <Select.Item id="banana-d" textValue="Banana" isDisabled>Banana</Select.Item>
+                  <Select.Item id="cherry-d" textValue="Cherry">Cherry</Select.Item>
+                  <Select.Item id="date-d" textValue="Date" isDisabled>Date</Select.Item>
+                  <Select.Item id="elderberry-d" textValue="Elderberry">Elderberry</Select.Item>
+                </Select.ListBox>
+              </Select.Popover>
+            </Select.Root>
+          </Row>
         </Section>
 
         <Section id="autocomplete" title="Autocomplete" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty']}>
@@ -919,7 +952,7 @@ export default function ComponentAudit() {
           <SubHeading>Default</SubHeading>
           <ComboboxDemo />
           <SubHeading>With Label</SubHeading>
-          <div style={{ width: '28rem', marginBottom: '2rem' }}>
+          <div className="audit__demo-narrow audit__demo-spaced">
             <Combobox.Root>
               <Combobox.Label>Country</Combobox.Label>
               <Combobox.Input placeholder="Search country…" />
@@ -957,11 +990,14 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="slider" title="Slider" classes={['tale-slider', 'tale-slider__control', 'tale-slider__track', 'tale-slider__indicator', 'tale-slider__thumb']}>
-          <SubHeading>With Label</SubHeading>
-          <div style={{ width: '28rem', marginBottom: '2rem' }}>
-            <Slider.Root defaultValue={[40]}>
-              <Slider.Label>Volume</Slider.Label>
+        <Section id="slider" title="Slider" classes={['tale-slider', 'tale-slider__header', 'tale-slider__label', 'tale-slider__output', 'tale-slider__control', 'tale-slider__track', 'tale-slider__indicator', 'tale-slider__thumb']}>
+          <SubHeading>With Header &amp; Output</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Slider.Root defaultValue={50}>
+              <Slider.Header>
+                <Slider.Label>Volume</Slider.Label>
+                <Slider.Output />
+              </Slider.Header>
               <Slider.Control>
                 <Slider.Track>
                   <Slider.Indicator />
@@ -971,8 +1007,8 @@ export default function ComponentAudit() {
             </Slider.Root>
           </div>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '28rem', marginBottom: '2rem' }}>
-            <Slider.Root defaultValue={[40]}>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Slider.Root defaultValue={40}>
               <Slider.Control>
                 <Slider.Track>
                   <Slider.Indicator />
@@ -982,7 +1018,7 @@ export default function ComponentAudit() {
             </Slider.Root>
           </div>
           <SubHeading>Range (two thumbs)</SubHeading>
-          <div style={{ width: '28rem', marginBottom: '2rem' }}>
+          <div className="audit__demo-narrow audit__demo-spaced">
             <Slider.Root defaultValue={[20, 80]}>
               <Slider.Control>
                 <Slider.Track>
@@ -993,9 +1029,39 @@ export default function ComponentAudit() {
               </Slider.Control>
             </Slider.Root>
           </div>
+          <SubHeading>Steps</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Slider.Root defaultValue={50} step={10}>
+              <Slider.Header>
+                <Slider.Label>Brightness</Slider.Label>
+                <Slider.Output />
+              </Slider.Header>
+              <Slider.Control>
+                <Slider.Track>
+                  <Slider.Indicator />
+                  <Slider.Thumb />
+                </Slider.Track>
+              </Slider.Control>
+            </Slider.Root>
+          </div>
+          <SubHeading>Vertical</SubHeading>
+          <div className="audit__slider-vertical audit__demo-spaced">
+            <Slider.Root defaultValue={60} orientation="vertical">
+              <Slider.Header>
+                <Slider.Label>Level</Slider.Label>
+                <Slider.Output />
+              </Slider.Header>
+              <Slider.Control>
+                <Slider.Track>
+                  <Slider.Indicator />
+                  <Slider.Thumb />
+                </Slider.Track>
+              </Slider.Control>
+            </Slider.Root>
+          </div>
           <SubHeading>Disabled</SubHeading>
-          <div style={{ width: '28rem' }}>
-            <Slider.Root isDisabled defaultValue={[60]}>
+          <div className="audit__demo-narrow">
+            <Slider.Root isDisabled defaultValue={60}>
               <Slider.Control>
                 <Slider.Track>
                   <Slider.Indicator />
@@ -1013,8 +1079,17 @@ export default function ComponentAudit() {
         {/* ============================================================= */}
 
         <Section id="dialog" title="Dialog" classes={['tale-dialog__backdrop', 'tale-dialog__popup', 'tale-dialog__title', 'tale-dialog__description', 'tale-dialog__close', 'tale-dialog__actions']}>
+          <SubHeading>Default</SubHeading>
           <Row>
             <DialogDemo />
+          </Row>
+          <SubHeading>Destructive</SubHeading>
+          <Row>
+            <DestructiveDialogDemo />
+          </Row>
+          <SubHeading>Non-Modal</SubHeading>
+          <Row>
+            <NonModalDialogDemo />
           </Row>
         </Section>
 
@@ -1026,7 +1101,7 @@ export default function ComponentAudit() {
 
         <Section id="popover" title="Popover" classes={['tale-popover__popup', 'tale-popover__title', 'tale-popover__description', 'tale-popover__close']}>
           <SubHeading>All sides</SubHeading>
-          <Row style={{ gap: '1.2rem', padding: '4rem 0' }}>
+          <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Popover.Root key={side}>
                 <Popover.Trigger>{side}</Popover.Trigger>
@@ -1050,9 +1125,9 @@ export default function ComponentAudit() {
               <PreviewCard.Popup>
                 <PreviewCard.Arrow />
                 <PreviewCard.Content>
-                  <div style={{ padding: '1.6rem', maxWidth: '28rem' }}>
-                    <strong style={{ display: 'block', marginBottom: '0.4rem', fontFamily: 'var(--label-font-family)' }}>Preview Card</strong>
-                    <p style={{ margin: 0, color: 'var(--neutral-60)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-s-font-size)' }}>
+                  <div className="audit__preview-content">
+                    <strong className="audit__preview-title">Preview Card</strong>
+                    <p className="audit__preview-description">
                       A card that appears on hover to show a preview of linked content.
                     </p>
                   </div>
@@ -1074,9 +1149,9 @@ export default function ComponentAudit() {
                 <Drawer.Description>
                   A drawer panel for side or bottom content.
                 </Drawer.Description>
-                <div style={{ marginTop: 'var(--space-m)', display: 'flex', gap: 'var(--space-xs)' }}>
-                  <Drawer.Close className="tale-button tale-button--neutral" style={{ flex: 1 }}>Cancel</Drawer.Close>
-                  <Drawer.Close className="tale-button tale-button--primary" style={{ flex: 1 }}>Confirm</Drawer.Close>
+                <div className="audit__drawer-actions">
+                  <Drawer.Close className="tale-button tale-button--neutral audit__drawer-action">Cancel</Drawer.Close>
+                  <Drawer.Close className="tale-button tale-button--primary audit__drawer-action">Confirm</Drawer.Close>
                 </div>
               </Drawer.Popup>
             </Drawer.Root>
@@ -1085,7 +1160,7 @@ export default function ComponentAudit() {
 
         <Section id="tooltip" title="Tooltip" classes={['tale-tooltip__popup', 'tale-tooltip__arrow']}>
           <SubHeading>All sides</SubHeading>
-          <Row style={{ padding: '4rem 0' }}>
+          <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
                 <Tooltip.Trigger>Hover ({side})</Tooltip.Trigger>
@@ -1094,7 +1169,8 @@ export default function ComponentAudit() {
             ))}
           </Row>
           <SubHeading>With arrows</SubHeading>
-          <Row style={{ padding: '4rem 0' }}>
+          <Row className="audit__demo-row--padded">
+
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
                 <Tooltip.Trigger>Arrow ({side})</Tooltip.Trigger>
@@ -1160,6 +1236,21 @@ export default function ComponentAudit() {
           <Row>
             <MenuLinkDemo />
           </Row>
+          <SubHeading>With Disabled Items</SubHeading>
+          <Row>
+            <Menu.Root>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions ▾</Menu.Trigger>
+              <Menu.Popover offset={4}>
+                <Menu.MenuList aria-label="Actions">
+                  <Menu.Item textValue="Edit">Edit</Menu.Item>
+                  <Menu.Item textValue="Duplicate" isDisabled>Duplicate</Menu.Item>
+                  <Menu.Separator />
+                  <Menu.Item textValue="Archive">Archive</Menu.Item>
+                  <Menu.Item textValue="Delete" isDisabled>Delete</Menu.Item>
+                </Menu.MenuList>
+              </Menu.Popover>
+            </Menu.Root>
+          </Row>
         </Section>
 
         <Section id="context-menu" title="ContextMenu" classes={['tale-context-menu', 'tale-context-menu__trigger', 'tale-context-menu__item', 'tale-context-menu__separator']}>
@@ -1167,7 +1258,7 @@ export default function ComponentAudit() {
           <Row>
             <ContextMenu.Root>
               <ContextMenu.Trigger>
-                <div style={{ padding: 'var(--space-l)', border: '2px dashed var(--neutral-30)', borderRadius: 'var(--space-2xs)', textAlign: 'center', color: 'var(--neutral-60)', fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)' }}>
+                <div className="audit__context-trigger">
                   Right-click this area
                 </div>
               </ContextMenu.Trigger>
@@ -1275,7 +1366,7 @@ export default function ComponentAudit() {
         {/* ============================================================= */}
 
         <Section id="accordion" title="Accordion" classes={['tale-accordion', 'tale-accordion__item', 'tale-accordion__trigger', 'tale-accordion__trigger-icon', 'tale-accordion__panel']}>
-          <div style={{ width: '48rem' }}>
+          <div className="audit__demo-extra-wide">
             <Accordion.Root defaultExpandedKeys={['a']}>
               {[
                 { id: 'a', title: 'What is Tale UI?', content: 'Tale UI is a styled component library providing accessible headless components with opinionated CSS via @tale-ui/core design tokens.' },
@@ -1293,14 +1384,51 @@ export default function ComponentAudit() {
               ))}
             </Accordion.Root>
           </div>
+          <SubHeading>Multiple Open</SubHeading>
+          <div className="audit__demo-extra-wide audit__demo-spaced">
+            <Accordion.Root allowsMultiple defaultExpandedKeys={['m-a', 'm-b']}>
+              {[
+                { id: 'm-a', title: 'First Section', content: 'This section starts open. Multiple sections can be expanded simultaneously.' },
+                { id: 'm-b', title: 'Second Section', content: 'This section also starts open.' },
+                { id: 'm-c', title: 'Third Section', content: 'Click to expand alongside the others.' },
+              ].map(({ id, title, content }) => (
+                <Accordion.Item key={id} id={id}>
+                  <Accordion.Header>
+                    <Accordion.Trigger>
+                      {title}
+                    </Accordion.Trigger>
+                  </Accordion.Header>
+                  <Accordion.Panel>{content}</Accordion.Panel>
+                </Accordion.Item>
+              ))}
+            </Accordion.Root>
+          </div>
+          <SubHeading>Disabled</SubHeading>
+          <div className="audit__demo-extra-wide">
+            <Accordion.Root isDisabled>
+              {[
+                { id: 'd-a', title: 'Disabled Item A', content: 'Cannot be expanded.' },
+                { id: 'd-b', title: 'Disabled Item B', content: 'Cannot be expanded.' },
+              ].map(({ id, title, content }) => (
+                <Accordion.Item key={id} id={id}>
+                  <Accordion.Header>
+                    <Accordion.Trigger>
+                      {title}
+                    </Accordion.Trigger>
+                  </Accordion.Header>
+                  <Accordion.Panel>{content}</Accordion.Panel>
+                </Accordion.Item>
+              ))}
+            </Accordion.Root>
+          </div>
         </Section>
 
         <Section id="disclosure" title="Disclosure" classes={['tale-disclosure', 'tale-disclosure__trigger', 'tale-disclosure__panel']}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem', width: '36rem' }}>
+          <div className="audit__demo-wide display--flex flex--col gap--xs">
             <Disclosure.Root defaultExpanded>
               <Disclosure.Trigger>Open by default</Disclosure.Trigger>
               <Disclosure.Panel>
-                <div style={{ padding: '1.2rem 0', color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>
+                <div className="audit__disclosure-content">
                   This content is visible by default.
                 </div>
               </Disclosure.Panel>
@@ -1308,7 +1436,7 @@ export default function ComponentAudit() {
             <Disclosure.Root>
               <Disclosure.Trigger>Click to expand</Disclosure.Trigger>
               <Disclosure.Panel>
-                <div style={{ padding: '1.2rem 0', color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>
+                <div className="audit__disclosure-content">
                   This content is hidden by default.
                 </div>
               </Disclosure.Panel>
@@ -1316,7 +1444,7 @@ export default function ComponentAudit() {
             <Disclosure.Root isDisabled>
               <Disclosure.Trigger>Disabled</Disclosure.Trigger>
               <Disclosure.Panel>
-                <div style={{ padding: '1.2rem 0' }}>Content</div>
+                <div className="audit__disclosure-content">Content</div>
               </Disclosure.Panel>
             </Disclosure.Root>
           </div>
@@ -1326,8 +1454,8 @@ export default function ComponentAudit() {
           <SubHeading>Color overrides</SubHeading>
           <Row>
             {(['brand', 'red', 'indigo', 'green', 'random'] as const).map((color) => (
-              <Container key={color} color={color} style={{ padding: '1.6rem 2.4rem', borderRadius: '0.8rem', background: 'var(--color-10)', border: '1px solid var(--color-20)' }}>
-                <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--color-70)' }}>{color}</span>
+              <Container key={color} color={color} className="audit__color-demo">
+                <span className="audit__color-label">{color}</span>
               </Container>
             ))}
           </Row>
@@ -1335,7 +1463,7 @@ export default function ComponentAudit() {
 
         <Section id="tabs" title="Tabs" classes={['tale-tabs', 'tale-tabs__list', 'tale-tabs__tab', 'tale-tabs__panel', 'tale-tabs__indicator']}>
           <SubHeading>Horizontal</SubHeading>
-          <div style={{ width: '48rem', marginBottom: '2rem' }}>
+          <div className="audit__demo-extra-wide audit__demo-spaced">
             <Tabs.Root defaultSelectedKey="overview">
               <Tabs.List>
                 <Tabs.Tab id="overview">Overview</Tabs.Tab>
@@ -1351,7 +1479,7 @@ export default function ComponentAudit() {
             </Tabs.Root>
           </div>
           <SubHeading>Vertical</SubHeading>
-          <div style={{ width: '48rem', height: '20rem' }}>
+          <div className="audit__demo-extra-wide audit__tabs-vertical">
             <Tabs.Root defaultSelectedKey="overview2" orientation="vertical">
               <Tabs.List>
                 <Tabs.Tab id="overview2">Overview</Tabs.Tab>
@@ -1364,14 +1492,16 @@ export default function ComponentAudit() {
               <Tabs.Panel id="docs2">Docs.</Tabs.Panel>
             </Tabs.Root>
           </div>
+          <SubHeading>Controlled</SubHeading>
+          <ControlledTabsDemo />
         </Section>
 
         <Section id="scroll-area" title="ScrollArea" classes={['tale-scroll-area', 'tale-scroll-area__viewport', 'tale-scroll-area__scrollbar', 'tale-scroll-area__thumb', 'tale-scroll-area__corner']}>
-          <ScrollArea.Root style={{ width: '32rem', height: '20rem', border: '1px solid var(--neutral-20)', borderRadius: '0.8rem' }}>
+          <ScrollArea.Root className="audit__scroll-area">
             <ScrollArea.Viewport>
-              <div style={{ padding: '1.6rem' }}>
+              <div className="audit__scroll-content">
                 {Array.from({ length: 20 }, (_, i) => (
-                  <p key={i} style={{ margin: '0 0 0.8rem', color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>
+                  <p key={i} className="audit__scroll-text">
                     Line {i + 1}: Scrollable content with custom styled scrollbars.
                   </p>
                 ))}
@@ -1386,16 +1516,16 @@ export default function ComponentAudit() {
 
         <Section id="separator" title="Separator" classes={['tale-separator']}>
           <SubHeading>Horizontal</SubHeading>
-          <div style={{ width: '32rem', marginBottom: '2rem' }}>
-            <p style={{ margin: '0 0 1.2rem', color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>Content above</p>
+          <div className="audit__demo-medium audit__demo-spaced">
+            <p className="audit__separator-text audit__separator-above">Content above</p>
             <Separator />
-            <p style={{ margin: '1.2rem 0 0', color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>Content below</p>
+            <p className="audit__separator-text audit__separator-below">Content below</p>
           </div>
           <SubHeading>Vertical</SubHeading>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', height: '2.4rem' }}>
-            <span style={{ color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>Left</span>
+          <div className="audit__separator-vertical">
+            <span className="audit__separator-text">Left</span>
             <Separator orientation="vertical" />
-            <span style={{ color: 'var(--neutral-70)', fontFamily: 'var(--body-font-family)', fontSize: 'var(--text-m-font-size)' }}>Right</span>
+            <span className="audit__separator-text">Right</span>
           </div>
         </Section>
 
@@ -1403,42 +1533,86 @@ export default function ComponentAudit() {
         {/* FEEDBACK */}
         {/* ============================================================= */}
 
-        <Section id="progress-bar" title="ProgressBar" classes={['tale-progress-bar', 'tale-progress-bar__track', 'tale-progress-bar__indicator', 'tale-progress-bar__value']}>
-          <div style={{ width: '36rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {[
-              { label: '20%', value: 20 },
-              { label: '60%', value: 60 },
-              { label: '100% (Complete)', value: 100 },
-              { label: 'Indeterminate', value: null },
-            ].map(({ label, value }) => (
-              <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{label}</span>
-                <ProgressBar.Root {...(value == null ? { isIndeterminate: true } : { value })}>
-                  <ProgressBar.Track>
-                    <ProgressBar.Indicator {...(value == null ? {} : { value })} />
-                  </ProgressBar.Track>
-                </ProgressBar.Root>
-              </div>
-            ))}
+        <Section id="progress-bar" title="ProgressBar" classes={['tale-progress-bar', 'tale-progress-bar__header', 'tale-progress-bar__label', 'tale-progress-bar__value', 'tale-progress-bar__track', 'tale-progress-bar__indicator']}>
+          <SubHeading>With Header, Label &amp; Value</SubHeading>
+          <div className="audit__demo-wide display--flex flex--col gap--s">
+            <ProgressBar.Root value={20}>
+              <ProgressBar.Header>
+                <ProgressBar.Label>Downloading</ProgressBar.Label>
+                <ProgressBar.Value />
+              </ProgressBar.Header>
+              <ProgressBar.Track>
+                <ProgressBar.Indicator value={20} />
+              </ProgressBar.Track>
+            </ProgressBar.Root>
+            <ProgressBar.Root value={60}>
+              <ProgressBar.Header>
+                <ProgressBar.Label>Upload</ProgressBar.Label>
+                <ProgressBar.Value />
+              </ProgressBar.Header>
+              <ProgressBar.Track>
+                <ProgressBar.Indicator value={60} />
+              </ProgressBar.Track>
+            </ProgressBar.Root>
+            <ProgressBar.Root value={100}>
+              <ProgressBar.Header>
+                <ProgressBar.Label>Complete</ProgressBar.Label>
+                <ProgressBar.Value />
+              </ProgressBar.Header>
+              <ProgressBar.Track>
+                <ProgressBar.Indicator value={100} />
+              </ProgressBar.Track>
+            </ProgressBar.Root>
+            <ProgressBar.Root isIndeterminate>
+              <ProgressBar.Header>
+                <ProgressBar.Label>Processing</ProgressBar.Label>
+              </ProgressBar.Header>
+              <ProgressBar.Track>
+                <ProgressBar.Indicator />
+              </ProgressBar.Track>
+            </ProgressBar.Root>
           </div>
         </Section>
 
-        <Section id="meter" title="Meter" classes={['tale-meter', 'tale-meter__track', 'tale-meter__indicator', 'tale-meter__label', 'tale-meter__value']}>
-          <div style={{ width: '36rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {[
-              { label: '25%', value: 25 },
-              { label: '60%', value: 60 },
-              { label: '90%', value: 90 },
-            ].map(({ label, value }) => (
-              <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                <span style={{ fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{label}</span>
-                <Meter.Root value={value}>
-                  <Meter.Track>
-                    <Meter.Indicator value={value} />
-                  </Meter.Track>
-                </Meter.Root>
-              </div>
-            ))}
+        <Section id="meter" title="Meter" classes={['tale-meter', 'tale-meter__header', 'tale-meter__label', 'tale-meter__value', 'tale-meter__track', 'tale-meter__indicator']}>
+          <SubHeading>With Header, Label &amp; Value</SubHeading>
+          <div className="audit__demo-wide display--flex flex--col gap--s">
+            <Meter.Root value={25}>
+              <Meter.Header>
+                <Meter.Label>Battery</Meter.Label>
+                <Meter.Value />
+              </Meter.Header>
+              <Meter.Track>
+                <Meter.Indicator value={25} />
+              </Meter.Track>
+            </Meter.Root>
+            <Meter.Root value={60}>
+              <Meter.Header>
+                <Meter.Label>Memory</Meter.Label>
+                <Meter.Value />
+              </Meter.Header>
+              <Meter.Track>
+                <Meter.Indicator value={60} />
+              </Meter.Track>
+            </Meter.Root>
+            <Meter.Root value={72}>
+              <Meter.Header>
+                <Meter.Label>Storage</Meter.Label>
+                <Meter.Value />
+              </Meter.Header>
+              <Meter.Track>
+                <Meter.Indicator value={72} />
+              </Meter.Track>
+            </Meter.Root>
+            <Meter.Root value={90}>
+              <Meter.Header>
+                <Meter.Label>CPU</Meter.Label>
+                <Meter.Value />
+              </Meter.Header>
+              <Meter.Track>
+                <Meter.Indicator value={90} />
+              </Meter.Track>
+            </Meter.Root>
           </div>
         </Section>
 
@@ -1470,7 +1644,7 @@ export default function ComponentAudit() {
         {/* ============================================================= */}
 
         <Section id="field" title="Field" classes={['tale-field', 'tale-field__label', 'tale-field__description', 'tale-field__error']}>
-          <div style={{ width: '32rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div className="audit__demo-medium display--flex flex--col gap--s">
             <Field.Root>
               <Field.Label>Default</Field.Label>
               <Input.Input placeholder="Type here…" />
@@ -1493,7 +1667,7 @@ export default function ComponentAudit() {
           <SubHeading>Default</SubHeading>
           <Fieldset.Root>
             <Fieldset.Legend>Personal Information</Fieldset.Legend>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', paddingTop: '1.2rem' }}>
+            <div className="audit__fieldset-content">
               <Field.Root>
                 <Field.Label>First name</Field.Label>
                 <Input.Input placeholder="John" />
@@ -1508,7 +1682,7 @@ export default function ComponentAudit() {
 
         <Section id="form" title="Form" classes={['tale-form']}>
           <SubHeading>Default</SubHeading>
-          <Form style={{ width: '32rem', display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
+          <Form className="audit__demo-medium display--flex flex--col gap--xs">
             <Field.Root>
               <Field.Label>Email</Field.Label>
               <Input.Input type="email" placeholder="you@example.com" />
@@ -1538,7 +1712,7 @@ export default function ComponentAudit() {
             <Toolbar.Link href="#">Help</Toolbar.Link>
           </Toolbar.Root>
           <SubHeading>With Input</SubHeading>
-          <Toolbar.Root aria-label="Search toolbar" style={{ marginTop: '1.2rem' }}>
+          <Toolbar.Root aria-label="Search toolbar" className="audit__demo-spaced">
             <Toolbar.Button>Filter</Toolbar.Button>
             <Toolbar.Button>Sort</Toolbar.Button>
             <Toolbar.Separator />
@@ -1552,13 +1726,13 @@ export default function ComponentAudit() {
 
         <Section id="radio-group" title="RadioGroup" classes={['tale-radio']}>
           <SubHeading>Standalone RadioGroup</SubHeading>
-          <RadioGroup aria-label="Favourite colour" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <RadioGroup aria-label="Favourite colour" className="display--flex flex--col gap--3xs">
             {['Red', 'Green', 'Blue'].map((c) => (
-              <div key={c} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div key={c} className="display--flex gap--3xs center--y">
                 <Radio.Root value={c.toLowerCase()}>
                   <Radio.Indicator />
                 </Radio.Root>
-                <span style={labelStyle}>{c}</span>
+                <span className="audit__label">{c}</span>
               </div>
             ))}
           </RadioGroup>
@@ -1577,7 +1751,7 @@ export default function ComponentAudit() {
 
         <Section id="search-field" title="SearchField" classes={['tale-search-field', 'tale-search-field__input', 'tale-search-field__clear']}>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <SearchField.Root>
               <SearchField.Label>Search</SearchField.Label>
               <SearchField.Input placeholder="Search…" />
@@ -1587,7 +1761,7 @@ export default function ComponentAudit() {
             </SearchField.Root>
           </div>
           <SubHeading>Disabled</SubHeading>
-          <div style={{ width: '28rem' }}>
+          <div className="audit__demo-narrow">
             <SearchField.Root isDisabled>
               <SearchField.Input placeholder="Disabled search" />
             </SearchField.Root>
@@ -1596,7 +1770,7 @@ export default function ComponentAudit() {
 
         <Section id="text-field" title="TextField" classes={['tale-text-field__input']}>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <TextField.Root>
               <TextField.Label>Name</TextField.Label>
               <TextField.Input placeholder="Enter name…" />
@@ -1611,7 +1785,7 @@ export default function ComponentAudit() {
 
         <Section id="text-area" title="TextArea" classes={['tale-text-area', 'tale-text-area__textarea']}>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <TextArea.Root>
               <TextArea.Label>Bio</TextArea.Label>
               <TextArea.TextArea placeholder="Tell us about yourself…" />
@@ -1647,7 +1821,7 @@ export default function ComponentAudit() {
 
         <Section id="grid-list" title="GridList" classes={['tale-grid-list', 'tale-grid-list__item']}>
           <SubHeading>Default</SubHeading>
-          <GridList.Root aria-label="Items" selectionMode="multiple" style={{ width: '32rem' }}>
+          <GridList.Root aria-label="Items" selectionMode="multiple" className="audit__demo-medium">
             {['Item One', 'Item Two', 'Item Three', 'Item Four'].map((item) => (
               <GridList.Item key={item} id={item}>{item}</GridList.Item>
             ))}
@@ -1656,7 +1830,7 @@ export default function ComponentAudit() {
 
         <Section id="table" title="Table" classes={['tale-table', 'tale-table__header', 'tale-table__column', 'tale-table__body', 'tale-table__row', 'tale-table__cell']}>
           <SubHeading>Default</SubHeading>
-          <Table.Root aria-label="People" style={{ width: '48rem' }}>
+          <Table.Root aria-label="People" className="audit__demo-extra-wide">
             <Table.Header>
               <Table.Column isRowHeader>Name</Table.Column>
               <Table.Column>Role</Table.Column>
@@ -1706,7 +1880,7 @@ export default function ComponentAudit() {
 
         <Section id="tree" title="Tree" classes={['tale-tree', 'tale-tree__item', 'tale-tree__item-content']}>
           <SubHeading>Default</SubHeading>
-          <Tree.Root aria-label="File browser" style={{ width: '32rem' }}>
+          <Tree.Root aria-label="File browser" className="audit__demo-medium">
             <Tree.Item id="src" textValue="src">
               <Tree.ItemContent>src/</Tree.ItemContent>
               <Tree.Item id="components" textValue="components">
@@ -1734,7 +1908,7 @@ export default function ComponentAudit() {
 
         <Section id="date-field" title="DateField" classes={['tale-date-field']}>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <DateField.Root>
               <DateField.Label>Date</DateField.Label>
               <DateField.DateInput>
@@ -1752,7 +1926,7 @@ export default function ComponentAudit() {
 
         <Section id="time-field" title="TimeField" classes={['tale-time-field']}>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <TimeField.Root>
               <TimeField.Label>Time</TimeField.Label>
               <TimeField.DateInput>
@@ -1770,7 +1944,7 @@ export default function ComponentAudit() {
 
         <Section id="date-picker" title="DatePicker" classes={['tale-date-picker']}>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '28rem' }}>
+          <div className="audit__demo-narrow">
             <DatePicker.Root>
               <DatePicker.Label>Date</DatePicker.Label>
               <DatePicker.Group>
@@ -1782,11 +1956,11 @@ export default function ComponentAudit() {
               <DatePicker.Popover>
                 <DatePicker.Dialog>
                   <Calendar.Root>
-                    <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--space-3xs)', marginBottom: 'var(--space-2xs)' }}>
+                    <Calendar.Header>
                       <Calendar.PreviousButton />
                       <Calendar.Heading />
                       <Calendar.NextButton />
-                    </header>
+                    </Calendar.Header>
                     <Calendar.Grid>
                       <Calendar.GridHeader>
                         {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
@@ -1804,14 +1978,14 @@ export default function ComponentAudit() {
 
         <Section id="date-range-picker" title="DateRangePicker" classes={['tale-date-range-picker']}>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '36rem' }}>
+          <div className="audit__demo-wide">
             <DateRangePicker.Root>
               <DateRangePicker.Label>Trip dates</DateRangePicker.Label>
               <DateRangePicker.Group>
                 <DateRangePicker.StartDate>
                   {(segment) => <DateRangePicker.Segment segment={segment} />}
                 </DateRangePicker.StartDate>
-                <span aria-hidden="true" style={{ padding: '0 0.4rem' }}>–</span>
+                <span aria-hidden="true" className="audit__date-separator">–</span>
                 <DateRangePicker.EndDate>
                   {(segment) => <DateRangePicker.Segment segment={segment} />}
                 </DateRangePicker.EndDate>
@@ -1820,11 +1994,11 @@ export default function ComponentAudit() {
               <DateRangePicker.Popover>
                 <DateRangePicker.Dialog>
                   <RangeCalendar.Root>
-                    <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--space-3xs)', marginBottom: 'var(--space-2xs)' }}>
+                    <Calendar.Header>
                       <RangeCalendar.PreviousButton />
                       <RangeCalendar.Heading />
                       <RangeCalendar.NextButton />
-                    </header>
+                    </Calendar.Header>
                     <RangeCalendar.Grid>
                       <RangeCalendar.GridHeader>
                         {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
@@ -1843,11 +2017,11 @@ export default function ComponentAudit() {
         <Section id="range-calendar" title="RangeCalendar" classes={['tale-range-calendar__heading', 'tale-range-calendar__grid', 'tale-range-calendar__grid-header', 'tale-range-calendar__grid-body', 'tale-range-calendar__cell']}>
           <SubHeading>Interactive</SubHeading>
           <RangeCalendar.Root>
-            <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--space-3xs)', marginBottom: 'var(--space-2xs)' }}>
+            <Calendar.Header>
               <RangeCalendar.PreviousButton />
               <RangeCalendar.Heading />
               <RangeCalendar.NextButton />
-            </header>
+            </Calendar.Header>
             <RangeCalendar.Grid>
               <RangeCalendar.GridHeader>
                 {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
@@ -1865,14 +2039,14 @@ export default function ComponentAudit() {
 
         <Section id="color-area" title="ColorArea" classes={['tale-color-area']}>
           <SubHeading>Default</SubHeading>
-          <ColorArea.Root defaultValue="hsl(0, 100%, 50%)" style={{ width: '20rem', height: '20rem' }}>
+          <ColorArea.Root defaultValue="hsl(0, 100%, 50%)" className="audit__color-area">
             <ColorArea.Thumb />
           </ColorArea.Root>
         </Section>
 
         <Section id="color-slider" title="ColorSlider" classes={['tale-color-slider', 'tale-color-slider__label', 'tale-color-slider__output', 'tale-color-slider__track', 'tale-color-slider__thumb']}>
           <SubHeading>Hue</SubHeading>
-          <div style={{ width: '28rem' }}>
+          <div className="audit__demo-narrow">
             <ColorSlider.Root channel="hue" defaultValue="hsl(0, 100%, 50%)">
               <ColorSlider.Label />
               <ColorSlider.Track>
@@ -1913,7 +2087,7 @@ export default function ComponentAudit() {
 
         <Section id="color-field" title="ColorField" classes={['tale-color-field', 'tale-color-field__input', 'tale-color-field__description', 'tale-color-field__error']}>
           <SubHeading>Default</SubHeading>
-          <div style={{ width: '28rem', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <ColorField.Root defaultValue="#ff0000">
               <ColorField.Label>Color</ColorField.Label>
               <ColorField.Input />
@@ -1929,8 +2103,8 @@ export default function ComponentAudit() {
         <Section id="color-picker" title="ColorPicker" classes={[]}>
           <SubHeading>Default (headless provider)</SubHeading>
           <ColorPicker.Root defaultValue="hsl(200, 100%, 50%)">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '20rem' }}>
-              <ColorArea.Root style={{ width: '20rem', height: '20rem' }}>
+            <div className="display--flex flex--col gap--2xs audit__color-area-wrap">
+              <ColorArea.Root className="audit__color-area">
                 <ColorArea.Thumb />
               </ColorArea.Root>
               <ColorSlider.Root channel="hue">
@@ -1954,7 +2128,7 @@ export default function ComponentAudit() {
         <Section id="drop-zone" title="DropZone" classes={['tale-drop-zone']}>
           <SubHeading>Default</SubHeading>
           <DropZone onDrop={() => {}}>
-            <div style={{ padding: '3.2rem 4.8rem', textAlign: 'center', fontFamily: 'var(--label-font-family)', fontSize: 'var(--label-m-font-size)', color: 'var(--neutral-50)' }}>
+            <div className="audit__dropzone-content">
               Drop files here
             </div>
           </DropZone>
@@ -1969,7 +2143,7 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-      </div>
+      </main>
     </div>
     </>
   );

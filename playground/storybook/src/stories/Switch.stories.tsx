@@ -75,7 +75,7 @@ export const AllStates: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+    <div className="story-col story-col--m">
       <Switch.Root>
         <Switch.Thumb />
         Default (off)

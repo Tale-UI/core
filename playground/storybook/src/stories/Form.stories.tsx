@@ -16,14 +16,14 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: () => (
-    <div style={{ maxWidth: '400px', padding: 'var(--space-m)' }}>
+    <div className="story-narrow">
       <Form
         onSubmit={(e) => {
           e.preventDefault();
           alert('Form submitted!');
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+        <div className="story-col story-col--m">
           <TextField.Root name="username" isRequired>
             <TextField.Label>Username</TextField.Label>
             <TextField.Input placeholder="Enter username" />
@@ -41,7 +41,7 @@ export const Default: Story = {
 
 export const WithValidation: Story = {
   render: () => (
-    <div style={{ maxWidth: '400px', padding: 'var(--space-m)' }}>
+    <div className="story-narrow">
       <Form
         validationBehavior="native"
         onSubmit={(e) => {
@@ -49,7 +49,7 @@ export const WithValidation: Story = {
           alert('Validation passed — form submitted!');
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+        <div className="story-col story-col--m">
           <TextField.Root name="fullName" isRequired>
             <TextField.Label>Full Name</TextField.Label>
             <TextField.Input placeholder="Enter your full name" />

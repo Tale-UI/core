@@ -84,7 +84,7 @@ export const AllSizes: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-l)' }}>
+    <div className="story-col story-col--l">
       <Radio.Group label="Small radios">
         <Radio.Root value="a" size="sm">
           <Radio.Indicator />

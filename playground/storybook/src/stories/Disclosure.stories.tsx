@@ -20,15 +20,8 @@ const meta: Meta<Args> = {
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
-      <div
-        style={{
-          minHeight: '100vh',
-          display: 'grid',
-          placeItems: 'center',
-          padding: 'var(--space-m)',
-        }}
-      >
-        <div style={{ width: '34rem', maxWidth: '100%' }}>
+      <div className="story-center">
+        <div className="story-inner">
           <Story />
         </div>
       </div>
@@ -45,7 +38,7 @@ export const Default: Story = {
     <Disclosure.Root defaultExpanded={args.defaultExpanded} isDisabled={args.isDisabled}>
       <Disclosure.Trigger>Show more</Disclosure.Trigger>
       <Disclosure.Panel>
-        <p style={{ padding: 'var(--space-s)' }}>
+        <p className="story-disclosure-content">
           This is the hidden content that is revealed when the disclosure is expanded.
         </p>
       </Disclosure.Panel>
@@ -77,13 +70,13 @@ export const Controlled: Story = {
     const [isExpanded, setIsExpanded] = useState(false);
     return (
       <div>
-        <p style={{ marginBottom: 'var(--space-s)', color: 'var(--neutral-60)' }}>
+        <p className="story-disclosure-status">
           Expanded: {String(isExpanded)}
         </p>
         <Disclosure.Root isExpanded={isExpanded} onExpandedChange={setIsExpanded}>
           <Disclosure.Trigger>{isExpanded ? 'Collapse' : 'Expand'}</Disclosure.Trigger>
           <Disclosure.Panel>
-            <p style={{ padding: 'var(--space-s)' }}>
+            <p className="story-disclosure-content">
               This disclosure is controlled externally via useState.
             </p>
           </Disclosure.Panel>

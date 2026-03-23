@@ -47,7 +47,7 @@ export const AllVariants: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'center' }}>
+    <div className="story-row story-row--s">
       <Button variant="primary">Primary</Button>
       <Button variant="neutral">Neutral</Button>
       <Button variant="ghost">Ghost</Button>
@@ -61,7 +61,7 @@ export const AllSizes: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'center' }}>
+    <div className="story-row story-row--s">
       <Button variant="primary" size="sm">Small</Button>
       <Button variant="primary" size="md">Medium</Button>
       <Button variant="primary" size="lg">Large</Button>
@@ -74,7 +74,7 @@ export const Disabled: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'center' }}>
+    <div className="story-row story-row--s">
       <Button variant="primary" isDisabled>Primary</Button>
       <Button variant="neutral" isDisabled>Neutral</Button>
       <Button variant="ghost" isDisabled>Ghost</Button>
@@ -88,16 +88,16 @@ export const WithIcon: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'center' }}>
+    <div className="story-row story-row--s">
       <Button variant="primary">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginRight: 'var(--space-3xs)' }}>
+        <svg className="story-icon-left" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
         Add Item
       </Button>
       <Button variant="neutral">
         Next
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginLeft: 'var(--space-3xs)' }}>
+        <svg className="story-icon-right" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </Button>

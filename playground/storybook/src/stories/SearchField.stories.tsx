@@ -11,7 +11,7 @@ const meta: Meta<Args> = {
   parameters: { layout: 'centered' },
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '320px' }}>
+      <div className="story-field">
         <Story />
       </div>
     ),
@@ -51,7 +51,7 @@ export const WithClearButton: Story = {
   render: (args) => (
     <SearchField.Root defaultValue="React" {...args}>
       <SearchField.Label>Search</SearchField.Label>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2xs)' }}>
+      <div className="story-row story-row--2xs">
         <SearchField.Input placeholder={args.placeholder} />
         <SearchField.ClearButton>&times;</SearchField.ClearButton>
       </div>

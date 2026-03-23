@@ -16,15 +16,8 @@ const meta: Meta<Args> = {
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
-      <div
-        style={{
-          minHeight: '100vh',
-          display: 'grid',
-          placeItems: 'center',
-          padding: 'var(--space-m)',
-        }}
-      >
-        <div style={{ width: '34rem', maxWidth: '100%' }}>
+      <div className="story-center">
+        <div className="story-inner">
           <Story />
         </div>
       </div>
@@ -38,7 +31,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ maxWidth: '500px' }}>
+    <div className="story-medium">
       <Accordion.Root isDisabled={args.isDisabled}>
         <Accordion.Item id="a">
           <Accordion.Header>
@@ -76,7 +69,7 @@ export const MultipleOpen: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ maxWidth: '500px' }}>
+    <div className="story-medium">
       <Accordion.Root allowsMultiple>
         <Accordion.Item id="a">
           <Accordion.Header>
@@ -112,7 +105,7 @@ export const DefaultOpen: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ maxWidth: '500px' }}>
+    <div className="story-medium">
       <Accordion.Root defaultExpandedKeys={['a']}>
         <Accordion.Item id="a">
           <Accordion.Header>
@@ -148,7 +141,7 @@ export const Disabled: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ maxWidth: '500px' }}>
+    <div className="story-medium">
       <Accordion.Root isDisabled>
         <Accordion.Item id="a">
           <Accordion.Header>

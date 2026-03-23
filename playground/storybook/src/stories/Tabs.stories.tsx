@@ -42,17 +42,17 @@ export const Default: Story = {
         <Tabs.Indicator />
       </Tabs.List>
       <Tabs.Panel id="tab1">
-        <div style={{ padding: 'var(--space-m)' }}>
+        <div className="story-tab-panel">
           <p>Manage your account details and preferences.</p>
         </div>
       </Tabs.Panel>
       <Tabs.Panel id="tab2">
-        <div style={{ padding: 'var(--space-m)' }}>
+        <div className="story-tab-panel">
           <p>Configure application settings and behavior.</p>
         </div>
       </Tabs.Panel>
       <Tabs.Panel id="tab3">
-        <div style={{ padding: 'var(--space-m)' }}>
+        <div className="story-tab-panel">
           <p>Control how and when you receive notifications.</p>
         </div>
       </Tabs.Panel>
@@ -66,7 +66,7 @@ export const Vertical: Story = {
   },
   render: () => (
     <Tabs.Root defaultSelectedKey="tab1" orientation="vertical">
-      <div style={{ display: 'flex', gap: 'var(--space-m)' }}>
+      <div className="story-tabs-vertical">
         <Tabs.List>
           <Tabs.Tab id="tab1">General</Tabs.Tab>
           <Tabs.Tab id="tab2">Security</Tabs.Tab>
@@ -75,17 +75,17 @@ export const Vertical: Story = {
         </Tabs.List>
         <div>
           <Tabs.Panel id="tab1">
-            <div style={{ padding: 'var(--space-m)' }}>
+            <div className="story-tab-panel">
               <p>General settings for your application.</p>
             </div>
           </Tabs.Panel>
           <Tabs.Panel id="tab2">
-            <div style={{ padding: 'var(--space-m)' }}>
+            <div className="story-tab-panel">
               <p>Security and authentication options.</p>
             </div>
           </Tabs.Panel>
           <Tabs.Panel id="tab3">
-            <div style={{ padding: 'var(--space-m)' }}>
+            <div className="story-tab-panel">
               <p>Privacy and data management preferences.</p>
             </div>
           </Tabs.Panel>
@@ -110,17 +110,17 @@ export const WithDisabledTab: Story = {
         <Tabs.Indicator />
       </Tabs.List>
       <Tabs.Panel id="tab1">
-        <div style={{ padding: 'var(--space-m)' }}>
+        <div className="story-tab-panel">
           <p>This tab is active and can be selected.</p>
         </div>
       </Tabs.Panel>
       <Tabs.Panel id="tab2">
-        <div style={{ padding: 'var(--space-m)' }}>
+        <div className="story-tab-panel">
           <p>You should not see this content because the tab is disabled.</p>
         </div>
       </Tabs.Panel>
       <Tabs.Panel id="tab3">
-        <div style={{ padding: 'var(--space-m)' }}>
+        <div className="story-tab-panel">
           <p>This tab is also active and selectable.</p>
         </div>
       </Tabs.Panel>
@@ -137,7 +137,7 @@ export const Controlled: Story = {
 
     return (
       <div>
-        <div style={{ marginBottom: 'var(--space-m)', color: 'var(--neutral-80)' }}>
+        <div className="story-tabs-status">
           Current tab: <strong>{selectedKey}</strong>
         </div>
         <Tabs.Root selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(String(key))}>
@@ -148,17 +148,17 @@ export const Controlled: Story = {
             <Tabs.Indicator />
           </Tabs.List>
           <Tabs.Panel id="tab1">
-            <div style={{ padding: 'var(--space-m)' }}>
+            <div className="story-tab-panel">
               <p>First tab content — controlled externally.</p>
             </div>
           </Tabs.Panel>
           <Tabs.Panel id="tab2">
-            <div style={{ padding: 'var(--space-m)' }}>
+            <div className="story-tab-panel">
               <p>Second tab content — controlled externally.</p>
             </div>
           </Tabs.Panel>
           <Tabs.Panel id="tab3">
-            <div style={{ padding: 'var(--space-m)' }}>
+            <div className="story-tab-panel">
               <p>Third tab content — controlled externally.</p>
             </div>
           </Tabs.Panel>

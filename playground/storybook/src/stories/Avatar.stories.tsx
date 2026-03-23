@@ -33,7 +33,7 @@ export const AllSizes: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-m)' }}>
+    <div className="story-row story-row--m">
       <Avatar.Root size="sm">
         <Avatar.Fallback>SM</Avatar.Fallback>
       </Avatar.Root>
@@ -57,7 +57,7 @@ export const WithImage: Story = {
   render: () => (
     // In practice, set src on Avatar.Image to display a real avatar photo.
     // The Fallback content is shown when no image src is provided or the image fails to load.
-    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-m)' }}>
+    <div className="story-row story-row--m">
       <Avatar.Root size="lg">
         <Avatar.Image src="" alt="User avatar" />
         <Avatar.Fallback>AB</Avatar.Fallback>

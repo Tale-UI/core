@@ -27,7 +27,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ width: '300px' }}>
+    <div className="story-progress">
       <ProgressBar.Root
         {...(args.isIndeterminate ? { isIndeterminate: true } : { value: args.value })}
         minValue={0}
@@ -46,7 +46,7 @@ export const Indeterminate: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ width: '300px' }}>
+    <div className="story-progress">
       <ProgressBar.Root isIndeterminate minValue={0} maxValue={100}>
         <ProgressBar.Label>Loading...</ProgressBar.Label>
         <ProgressBar.Track>
@@ -62,12 +62,12 @@ export const WithLabel: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ width: '300px' }}>
+    <div className="story-progress">
       <ProgressBar.Root value={60} minValue={0} maxValue={100}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+        <ProgressBar.Header>
           <ProgressBar.Label>Uploading...</ProgressBar.Label>
           <ProgressBar.Value>60%</ProgressBar.Value>
-        </div>
+        </ProgressBar.Header>
         <ProgressBar.Track>
           <ProgressBar.Indicator value={60} />
         </ProgressBar.Track>
@@ -81,13 +81,13 @@ export const AllValues: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)', width: '300px' }}>
+    <div className="story-progress story-col story-col--m">
       {[0, 25, 50, 75, 100].map((value) => (
         <ProgressBar.Root key={value} value={value} minValue={0} maxValue={100}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
+          <ProgressBar.Header>
             <ProgressBar.Label>Progress</ProgressBar.Label>
             <ProgressBar.Value>{value}%</ProgressBar.Value>
-          </div>
+          </ProgressBar.Header>
           <ProgressBar.Track>
             <ProgressBar.Indicator value={value} />
           </ProgressBar.Track>

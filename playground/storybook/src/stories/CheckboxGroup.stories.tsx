@@ -114,7 +114,7 @@ export const Horizontal: Story = {
     <CheckboxGroup
       label="Pick toppings"
       isDisabled={args.isDisabled}
-      style={{ flexDirection: 'row', display: 'flex', gap: 'var(--space-m)' }}
+      className="story-checkbox-horizontal"
     >
       <Checkbox.Root value="cheese">
         <Checkbox.Indicator>
