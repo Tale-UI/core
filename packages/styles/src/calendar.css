@@ -35,6 +35,16 @@
   color: var(--neutral-90);
 }
 
+/* ─── Header (flex wrapper for nav buttons + heading) ─────────────────────── */
+
+.tale-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-3xs);
+  margin-bottom: 0;
+}
+
 /* ─── Grid ─────────────────────────────────────────────────────────────────── */
 
 .tale-calendar__grid {

@@ -33,11 +33,11 @@ import { cx } from '../_cx';
  * import { Calendar } from '@tale-ui/react/calendar';
  *
  * <Calendar.Root>
- *   <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+ *   <Calendar.Header>
  *     <Calendar.PreviousButton />
  *     <Calendar.Heading />
  *     <Calendar.NextButton />
- *   </header>
+ *   </Calendar.Header>
  *   <Calendar.Grid>
  *     <Calendar.GridHeader>
  *       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
@@ -55,6 +55,14 @@ export const Root = React.forwardRef<HTMLDivElement, Omit<AriaCalendarProps<Date
   ),
 );
 Root.displayName = 'Calendar.Root';
+
+// Header (flex wrapper for navigation buttons + heading)
+export const Header = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-calendar__header', className)} {...props} />
+  ),
+);
+Header.displayName = 'Calendar.Header';
 
 // Grid (contains header + body)
 export const Grid = React.forwardRef<HTMLTableElement, Omit<AriaCalendarGridProps, 'className'> & { className?: string }>(

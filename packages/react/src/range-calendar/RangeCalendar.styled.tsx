@@ -42,11 +42,11 @@ const RootInner = <T extends DateValue>(
  * import { RangeCalendar } from '@tale-ui/react/range-calendar';
  *
  * <RangeCalendar.Root>
- *   <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+ *   <RangeCalendar.Header>
  *     <RangeCalendar.PreviousButton />
  *     <RangeCalendar.Heading />
  *     <RangeCalendar.NextButton />
- *   </header>
+ *   </RangeCalendar.Header>
  *   <RangeCalendar.Grid>
  *     <RangeCalendar.GridHeader>
  *       {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
@@ -62,6 +62,15 @@ export const Root = React.forwardRef(RootInner) as <T extends DateValue = DateVa
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null;
 (Root as any).displayName = 'RangeCalendar.Root';
+
+/* ─── Header (flex wrapper for navigation buttons + heading) ───────────────── */
+
+export const Header = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-range-calendar__header', className)} {...props} />
+  ),
+);
+Header.displayName = 'RangeCalendar.Header';
 
 /* ─── Grid ─────────────────────────────────────────────────────────────────── */
 

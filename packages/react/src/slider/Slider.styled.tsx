@@ -51,6 +51,15 @@ export const Root: <T extends number | number[] = number>(
 ) as any;
 (Root as any).displayName = 'Slider.Root';
 
+/* ─── Header (label + output row) ────────────────────────────────────────── */
+
+export const Header = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-slider__header', className)} {...props} />
+  ),
+);
+Header.displayName = 'Slider.Header';
+
 /* ─── Control — touch-active container around the track ──────────────────── */
 
 export type ControlProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };

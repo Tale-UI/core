@@ -32,6 +32,15 @@ export const Root = React.forwardRef<HTMLDivElement, RootProps>(
 );
 Root.displayName = 'Meter.Root';
 
+// ── Header (label + value row) ─────────────────────────────────────────────
+
+export const Header = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cx('tale-meter__header', className)} {...props} />
+  ),
+);
+Header.displayName = 'Meter.Header';
+
 // ── Track ──────────────────────────────────────────────────────────────────
 
 export interface TrackProps extends React.HTMLAttributes<HTMLDivElement> {

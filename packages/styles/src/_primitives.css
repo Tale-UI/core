@@ -971,7 +971,8 @@
 
 /* Modal actions row */
 .tale-alert-dialog__actions,
-.tale-dialog__actions {
+.tale-dialog__actions,
+.tale-drawer__actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -982,6 +983,16 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    17. PROGRESS BAR + METER
    ══════════════════════════════════════════════════════════════════════════ */
+
+/* Feedback header row (label + value) */
+.tale-slider__header,
+.tale-meter__header,
+.tale-progress-bar__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-xs);
+}
 
 .tale-progress-bar,
 .tale-meter {
