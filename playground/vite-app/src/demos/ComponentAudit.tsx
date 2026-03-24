@@ -588,7 +588,7 @@ function SortableTableDemo() {
 // ---------------------------------------------------------------------------
 
 function ControlledTabsDemo() {
-  const [selected, setSelected] = React.useState<React.Key>('tab-home');
+  const [selected, setSelected] = React.useState<string>('tab-home');
   return (
     <div className="audit__demo-extra-wide">
       <Tabs.Root selectedKey={selected} onSelectionChange={(key) => setSelected(key as string)}>
