@@ -2,6 +2,12 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.30 — 2026-03-25
+
+### Fixed
+
+- Postinstall setup script (`setup.mjs`) now includes the trigger component pitfall — trigger components render their own `<button>`, never nest a `<Button>` inside them.
+
 ## v1.3.29 — 2026-03-25
 
 ### Docs
