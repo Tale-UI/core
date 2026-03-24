@@ -73,6 +73,20 @@ export const LongText: Story = {
   ),
 };
 
+export const WithoutArrow: Story = {
+  name: 'Without Arrow',
+  render: (args) => (
+    <div className="story-padded">
+      <Tooltip.Root>
+        <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+        <Tooltip.Popup placement={args.placement} offset={args.offset}>
+          This tooltip has no arrow
+        </Tooltip.Popup>
+      </Tooltip.Root>
+    </div>
+  ),
+};
+
 export const WithDelay: Story = {
   name: 'With Delay',
   render: (args) => (

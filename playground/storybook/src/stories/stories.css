@@ -332,3 +332,21 @@
 .story-dialog-scroll-paragraph {
   margin-bottom: var(--space-s);
 }
+
+/* ─── Container ───────────────────────────────────────────────────────────── */
+
+.story-container-demo {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--space-2xs);
+  background: var(--color-60);
+}
+
+.story-container-label {
+  color: var(--color-60-fg);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+}

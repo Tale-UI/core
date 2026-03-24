@@ -109,3 +109,10 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 |-----------|-------------|
 | [DropZone](drop-zone.md) | Drag-and-drop target |
 | [FileTrigger](file-trigger.md) | Native file picker trigger |
+
+## Utility
+
+| Component | Description |
+|-----------|-------------|
+| [ColorModeToggle](color-mode-toggle.md) | Light/dark mode toggle with persistence |
+| [Container](container.md) | Colour palette override wrapper |

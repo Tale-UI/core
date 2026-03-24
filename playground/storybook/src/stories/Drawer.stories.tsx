@@ -68,3 +68,23 @@ export const WithHandle: Story = {
     </Drawer.Root>
   ),
 };
+
+export const WithActions: Story = {
+  render: () => (
+    <Drawer.Root>
+      <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+      <Drawer.Backdrop />
+      <Drawer.Popup>
+        <Drawer.Handle />
+        <Drawer.Title>Confirm Action</Drawer.Title>
+        <Drawer.Description>
+          Are you sure you want to proceed?
+        </Drawer.Description>
+        <div className="story-row story-row--s" style={{ marginTop: 'var(--space-m)' }}>
+          <Drawer.Close className="tale-button tale-button--neutral">Cancel</Drawer.Close>
+          <Drawer.Close className="tale-button tale-button--primary">Confirm</Drawer.Close>
+        </div>
+      </Drawer.Popup>
+    </Drawer.Root>
+  ),
+};

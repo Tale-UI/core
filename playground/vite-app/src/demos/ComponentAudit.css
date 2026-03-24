@@ -355,3 +355,15 @@
   color: var(--neutral-60);
   margin-top: var(--space-2xs);
 }
+
+.audit__dialog-scroll {
+  max-height: 300px;
+  overflow: auto;
+  border-top: 1px solid var(--neutral-20);
+  border-bottom: 1px solid var(--neutral-20);
+  padding: var(--space-m);
+}
+
+.audit__dialog-scroll-paragraph {
+  margin-bottom: var(--space-s);
+}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useFilter } from 'react-aria-components';
+import type { SortDescriptor } from 'react-aria-components';
 import '@tale-ui/react-styles/index.css';
 import './ComponentAudit.css';
 
@@ -477,6 +478,35 @@ function NonModalDialogDemo() {
   );
 }
 
+function ScrollableDialogDemo() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <Dialog.Root isOpen={open} onOpenChange={setOpen}>
+      <Dialog.Trigger className="tale-button--primary">Terms &amp; Conditions</Dialog.Trigger>
+      <Dialog.Backdrop>
+        <Dialog.Popup>
+          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Title>Terms of Service</Dialog.Title>
+          <Dialog.Description>Please read the following terms carefully.</Dialog.Description>
+          <div className="audit__dialog-scroll">
+            {Array.from({ length: 12 }, (_, i) => (
+              <p key={i} className="audit__dialog-scroll-paragraph">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            ))}
+          </div>
+          <Dialog.Actions>
+            <Button variant="neutral" onPress={() => setOpen(false)}>Decline</Button>
+            <Button variant="primary" onPress={() => setOpen(false)}>Accept</Button>
+          </Dialog.Actions>
+        </Dialog.Popup>
+      </Dialog.Backdrop>
+    </Dialog.Root>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // AlertDialog demo (controlled, matches Storybook patterns)
 // ---------------------------------------------------------------------------
@@ -501,6 +531,55 @@ function AlertDialogDemo() {
         </AlertDialog.Popup>
       </AlertDialog.Backdrop>
     </AlertDialog.Root>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Sortable Table demo
+// ---------------------------------------------------------------------------
+
+const tableRows = [
+  { id: '1', name: 'Alice', role: 'Engineer', status: 'Active' },
+  { id: '2', name: 'Bob', role: 'Designer', status: 'Away' },
+  { id: '3', name: 'Charlie', role: 'Manager', status: 'Active' },
+  { id: '4', name: 'Dave', role: 'Editor', status: 'Active' },
+  { id: '5', name: 'Eve', role: 'Admin', status: 'Away' },
+];
+
+function SortableTableDemo() {
+  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
+    column: 'name',
+    direction: 'ascending',
+  });
+
+  const sorted = [...tableRows].sort((a, b) => {
+    const col = sortDescriptor.column as keyof typeof a;
+    const cmp = a[col].localeCompare(b[col]);
+    return sortDescriptor.direction === 'descending' ? -cmp : cmp;
+  });
+
+  return (
+    <Table.Root
+      aria-label="Sortable people"
+      className="audit__demo-extra-wide"
+      sortDescriptor={sortDescriptor}
+      onSortChange={setSortDescriptor}
+    >
+      <Table.Header>
+        <Table.Column id="name" isRowHeader allowsSorting>Name</Table.Column>
+        <Table.Column id="role" allowsSorting>Role</Table.Column>
+        <Table.Column id="status" allowsSorting>Status</Table.Column>
+      </Table.Header>
+      <Table.Body>
+        {sorted.map((row) => (
+          <Table.Row key={row.id} id={row.id}>
+            <Table.Cell>{row.name}</Table.Cell>
+            <Table.Cell>{row.role}</Table.Cell>
+            <Table.Cell>{row.status}</Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table.Root>
   );
 }
 
@@ -760,6 +839,25 @@ export default function ComponentAudit() {
               ))}
             </div>
           </CheckboxGroup>
+          <SubHeading>With Description</SubHeading>
+          <CheckboxGroup aria-label="Notification preferences">
+            <Field.Description>Select how you would like to be notified.</Field.Description>
+            {['Email', 'SMS', 'Push notification'].map((label) => (
+              <Checkbox.Root key={label} value={label.toLowerCase().replace(/\s+/g, '-')}>
+                <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                {label}
+              </Checkbox.Root>
+            ))}
+          </CheckboxGroup>
+          <SubHeading>Horizontal</SubHeading>
+          <CheckboxGroup aria-label="Pick toppings" className="display--flex flex--row gap--m">
+            {['Cheese', 'Pepperoni', 'Mushrooms'].map((label) => (
+              <Checkbox.Root key={label} value={label.toLowerCase()}>
+                <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                {label}
+              </Checkbox.Root>
+            ))}
+          </CheckboxGroup>
         </Section>
 
         <Section id="radio" title="Radio" classes={['tale-radio', 'tale-radio__indicator', 'tale-radio__dot', 'tale-radio--sm', 'tale-radio--lg']}>
@@ -935,7 +1033,7 @@ export default function ComponentAudit() {
           <AutocompleteDemo />
         </Section>
 
-        <Section id="combobox" title="Combobox" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty']}>
+        <Section id="combobox" title="Combobox" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty', 'tale-combobox__section', 'tale-combobox__header']}>
           <SubHeading>Default</SubHeading>
           <ComboboxDemo />
           <SubHeading>With Label</SubHeading>
@@ -948,6 +1046,44 @@ export default function ComponentAudit() {
                   {countries.slice(0, 8).map((c) => (
                     <Combobox.Item key={c} id={c} textValue={c}>{c}</Combobox.Item>
                   ))}
+                </Combobox.ListBox>
+              </Combobox.Popover>
+            </Combobox.Root>
+          </div>
+          <SubHeading>With Sections</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Combobox.Root>
+              <Combobox.Label>Food</Combobox.Label>
+              <Combobox.Input placeholder="Search food…" />
+              <Combobox.Popover offset={4}>
+                <Combobox.ListBox>
+                  <Combobox.Section>
+                    <Combobox.Header>Fruits</Combobox.Header>
+                    <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
+                    <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+                    <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+                  </Combobox.Section>
+                  <Combobox.Section>
+                    <Combobox.Header>Vegetables</Combobox.Header>
+                    <Combobox.Item id="carrot" textValue="Carrot">Carrot</Combobox.Item>
+                    <Combobox.Item id="broccoli" textValue="Broccoli">Broccoli</Combobox.Item>
+                    <Combobox.Item id="spinach" textValue="Spinach">Spinach</Combobox.Item>
+                  </Combobox.Section>
+                </Combobox.ListBox>
+              </Combobox.Popover>
+            </Combobox.Root>
+          </div>
+          <SubHeading>Empty</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Combobox.Root>
+              <Combobox.Label>Search (try typing something not in list)</Combobox.Label>
+              <Combobox.Input placeholder="Type to filter…" />
+              <Combobox.Popover offset={4}>
+                <Combobox.ListBox>
+                  <Combobox.Empty>No results found.</Combobox.Empty>
+                  <Combobox.Item id="apple-e" textValue="Apple">Apple</Combobox.Item>
+                  <Combobox.Item id="banana-e" textValue="Banana">Banana</Combobox.Item>
+                  <Combobox.Item id="cherry-e" textValue="Cherry">Cherry</Combobox.Item>
                 </Combobox.ListBox>
               </Combobox.Popover>
             </Combobox.Root>
@@ -965,9 +1101,31 @@ export default function ComponentAudit() {
               </NumberField.Group>
             </NumberField.Root>
           </Row>
+          <SubHeading>With Label</SubHeading>
+          <Row>
+            <NumberField.Root defaultValue={1}>
+              <NumberField.Label>Quantity</NumberField.Label>
+              <NumberField.Group>
+                <NumberField.Decrement />
+                <NumberField.Input />
+                <NumberField.Increment />
+              </NumberField.Group>
+            </NumberField.Root>
+          </Row>
           <SubHeading>Disabled</SubHeading>
           <Row>
             <NumberField.Root isDisabled defaultValue={42}>
+              <NumberField.Group>
+                <NumberField.Decrement />
+                <NumberField.Input />
+                <NumberField.Increment />
+              </NumberField.Group>
+            </NumberField.Root>
+          </Row>
+          <SubHeading>Currency Format</SubHeading>
+          <Row>
+            <NumberField.Root defaultValue={99.99} formatOptions={{ style: 'currency', currency: 'USD' }}>
+              <NumberField.Label>Price</NumberField.Label>
               <NumberField.Group>
                 <NumberField.Decrement />
                 <NumberField.Input />
@@ -1078,6 +1236,10 @@ export default function ComponentAudit() {
           <Row>
             <NonModalDialogDemo />
           </Row>
+          <SubHeading>Scrollable Content</SubHeading>
+          <Row>
+            <ScrollableDialogDemo />
+          </Row>
         </Section>
 
         <Section id="alert-dialog" title="AlertDialog" classes={['tale-alert-dialog__backdrop', 'tale-alert-dialog__popup', 'tale-alert-dialog__title', 'tale-alert-dialog__description', 'tale-alert-dialog__actions']}>
@@ -1086,7 +1248,7 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="popover" title="Popover" classes={['tale-popover__popup', 'tale-popover__title', 'tale-popover__description', 'tale-popover__close']}>
+        <Section id="popover" title="Popover" classes={['tale-popover__popup', 'tale-popover__title', 'tale-popover__description', 'tale-popover__close', 'tale-popover__arrow']}>
           <SubHeading>All sides</SubHeading>
           <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
@@ -1101,6 +1263,19 @@ export default function ComponentAudit() {
                 </Popover.Popup>
               </Popover.Root>
             ))}
+          </Row>
+          <SubHeading>With Arrow</SubHeading>
+          <Row className="audit__demo-row--padded">
+            <Popover.Root>
+              <Popover.Trigger>With Arrow</Popover.Trigger>
+              <Popover.Popup placement="bottom" offset={8}>
+                <Popover.Arrow />
+                <Popover.Title>Arrow Popover</Popover.Title>
+                <Popover.Description>
+                  This popover includes an arrow pointing to the trigger.
+                </Popover.Description>
+              </Popover.Popup>
+            </Popover.Root>
           </Row>
         </Section>
 
@@ -1146,19 +1321,18 @@ export default function ComponentAudit() {
         </Section>
 
         <Section id="tooltip" title="Tooltip" classes={['tale-tooltip__popup', 'tale-tooltip__arrow']}>
-          <SubHeading>All sides</SubHeading>
+          <SubHeading>Without arrow</SubHeading>
           <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
                 <Tooltip.Trigger>Hover ({side})</Tooltip.Trigger>
                 <Tooltip.Popup placement={side} offset={8}>
-                  <Tooltip.Arrow />
                   Appears on the {side}
                 </Tooltip.Popup>
               </Tooltip.Root>
             ))}
           </Row>
-          <SubHeading>With arrows</SubHeading>
+          <SubHeading>With arrow</SubHeading>
           <Row className="audit__demo-row--padded">
 
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
@@ -1170,6 +1344,34 @@ export default function ComponentAudit() {
                 </Tooltip.Popup>
               </Tooltip.Root>
             ))}
+          </Row>
+          <SubHeading>Long Text</SubHeading>
+          <Row className="audit__demo-row--padded">
+            <Tooltip.Root>
+              <Tooltip.Trigger>Long tooltip</Tooltip.Trigger>
+              <Tooltip.Popup placement="top" offset={8}>
+                <Tooltip.Arrow />
+                This is a tooltip with a longer description that wraps across multiple
+                lines to demonstrate how the tooltip handles extended content gracefully.
+              </Tooltip.Popup>
+            </Tooltip.Root>
+          </Row>
+          <SubHeading>With Delay</SubHeading>
+          <Row className="audit__demo-row--padded">
+            <Tooltip.Root delay={500}>
+              <Tooltip.Trigger>500ms delay</Tooltip.Trigger>
+              <Tooltip.Popup placement="top" offset={8}>
+                <Tooltip.Arrow />
+                Appeared after 500ms
+              </Tooltip.Popup>
+            </Tooltip.Root>
+            <Tooltip.Root delay={0}>
+              <Tooltip.Trigger>No delay</Tooltip.Trigger>
+              <Tooltip.Popup placement="top" offset={8}>
+                <Tooltip.Arrow />
+                Instant tooltip
+              </Tooltip.Popup>
+            </Tooltip.Root>
           </Row>
         </Section>
 
@@ -1842,6 +2044,8 @@ export default function ComponentAudit() {
               </Table.Row>
             </Table.Body>
           </Table.Root>
+          <SubHeading>With Sorting</SubHeading>
+          <SortableTableDemo />
         </Section>
 
         <Section id="tag-group" title="TagGroup" classes={['tale-tag-group', 'tale-tag-group__list', 'tale-tag-group__tag', 'tale-tag-group__label']}>
