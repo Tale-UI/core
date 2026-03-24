@@ -48,22 +48,22 @@ const Pre = styled.pre`
   color: var(--text-color);
 `
 
-const CssOutput = ({ namedName, namedPalette, namedPivot, neutralName, neutralPalette, bgColor }) => {
+const CssOutput = ({ namedPalette, namedPivot, neutralPalette, bgColor }) => {
   const [copied, setCopied] = useState(false)
 
   const css = useMemo(() => {
     const parts = []
     if (namedPalette.length) {
-      parts.push(generateCssOutput(namedName || 'color', namedPalette, { mode: 'named', pivot: namedPivot }))
+      parts.push(generateCssOutput('color', namedPalette, { mode: 'named', pivot: namedPivot }))
     }
     if (neutralPalette.length) {
-      parts.push(generateCssOutput(neutralName || 'neutral', neutralPalette, { mode: 'neutral' }))
+      parts.push(generateCssOutput('neutral', neutralPalette, { mode: 'neutral' }))
     }
-    if (bgColor === 'accent' && namedName) {
+    if (bgColor === 'accent') {
       parts.push(`/* Dark-mode accent background */\nhtml[data-color-mode="dark"] {\n  --neutral-5: color-mix(in srgb, var(--brand-100) 50%, black);\n}`)
     }
     return parts.join('\n\n')
-  }, [namedName, namedPalette, namedPivot, neutralName, neutralPalette, bgColor])
+  }, [namedPalette, namedPivot, neutralPalette, bgColor])
 
   const handleCopy = () => {
     setCopied(true)

@@ -150,41 +150,37 @@ const PreviewColumn = styled.div`
 `
 
 
-const randomName = () => {
-  const len = 3 + Math.floor(Math.random() * 5)
-  const chars = 'abcdefghijklmnopqrstuvwxyz'
-  let name = ''
-  for (let i = 0; i < len; i++) name += chars[Math.floor(Math.random() * 26)]
-  return name
-}
-
 const DEFAULT_NAMED_COLOR   = 'dc2626'
-const DEFAULT_NAMED_NAME    = randomName()
 const DEFAULT_NEUTRAL_COLOR = '79716b'
-const DEFAULT_NEUTRAL_NAME  = randomName()
 const DEFAULT_MODE          = 'named'
 const DEFAULT_BG            = 'light'
 
-// Hash format: #namedHex/namedName/neutralHex/neutralName/mode
-// Falls back to legacy 3-part: #hex/name/mode (named only)
+// Hash format: #namedHex/neutralHex/mode
+// Falls back to legacy formats:
+//   5-part: #namedHex/namedName/neutralHex/neutralName/mode (ignores names)
+//   3-part: #hex/name/mode (ignores name)
 const parseHash = () => {
   try {
     const hash = decodeURI(window.location.hash)
     if (!hash || hash === '#') return null
     const parts = hash.slice(1).split('/')
+    if (parts.length === 3 && isValidHex(parts[0]) && isValidHex(parts[1]) && ['named', 'neutral'].includes(parts[2])) {
+      return { namedColor: parts[0], neutralColor: parts[1], mode: parts[2] }
+    }
+    // Legacy 5-part (with names)
     if (parts.length === 5) {
-      const [namedColor, namedName, neutralColor, neutralName, mode] = parts
+      const [namedColor, , neutralColor, , mode] = parts
       if (!isValidHex(namedColor) || !isValidHex(neutralColor)) return null
       if (!['named', 'neutral'].includes(mode)) return null
-      return { namedColor, namedName, neutralColor, neutralName, mode }
+      return { namedColor, neutralColor, mode }
     }
-    // Legacy 3-part
+    // Legacy 3-part (single colour)
     if (parts.length >= 3) {
-      const [color, name, mode] = parts
+      const [color, , mode] = parts
       if (!isValidHex(color)) return null
       if (!['named', 'neutral'].includes(mode)) return null
-      if (mode === 'named') return { namedColor: color, namedName: name, neutralColor: DEFAULT_NEUTRAL_COLOR, neutralName: DEFAULT_NEUTRAL_NAME, mode }
-      return { namedColor: DEFAULT_NAMED_COLOR, namedName: DEFAULT_NAMED_NAME, neutralColor: color, neutralName: name, mode }
+      if (mode === 'named') return { namedColor: color, neutralColor: DEFAULT_NEUTRAL_COLOR, mode }
+      return { namedColor: DEFAULT_NAMED_COLOR, neutralColor: color, mode }
     }
     return null
   } catch {
@@ -208,17 +204,13 @@ const mixColors = (hexA, hexB, t) => {
 const ScaleApp = () => {
   const initial = useMemo(() => parseHash() ?? {
     namedColor:   DEFAULT_NAMED_COLOR,
-    namedName:    DEFAULT_NAMED_NAME,
     neutralColor: DEFAULT_NEUTRAL_COLOR,
-    neutralName:  DEFAULT_NEUTRAL_NAME,
     mode:         DEFAULT_MODE,
   }, [])
 
   // Independent named + neutral state
   const [namedColor,   setNamedColor]   = useState(initial.namedColor)
-  const [namedName,    setNamedName]    = useState(initial.namedName)
   const [neutralColor, setNeutralColor] = useState(initial.neutralColor)
-  const [neutralName,  setNeutralName]  = useState(initial.neutralName)
   const [mode,         setMode]         = useState(initial.mode)
   const [bgColor,      setBgColor]      = useState(DEFAULT_BG)
   const [switchPoint,  setSwitchPoint]  = useState(null)  // null = auto
@@ -227,8 +219,6 @@ const ScaleApp = () => {
   // Active-mode aliases — the rest of the UI (controls, ColorsRow, CssOutput) operates on these
   const mainColor    = mode === 'named' ? namedColor   : neutralColor
   const setMainColor = mode === 'named' ? setNamedColor : setNeutralColor
-  const paletteName    = mode === 'named' ? namedName    : neutralName
-  const setPaletteName = mode === 'named' ? setNamedName  : setNeutralName
 
   const hashUpdateTimeoutRef = useRef(null)
   const latestHashRef        = useRef('')
@@ -276,13 +266,8 @@ const ScaleApp = () => {
     const embedded = document.querySelector('[data-scale-app]')
     var isAccent = bgColor === 'accent'
     if (embedded) {
-      // Apply the generated neutral theme class so --neutral-default-* resolves
-      // from the generated palette, making --neutral-5 use the generated values
-      embedded.className = embedded.className.replace(/\bneutral-\S+/g, '')
-      if (neutralName) embedded.classList.add(`neutral-${neutralName}`)
-
       // In accent mode, tint neutral-5 with the darkest generated palette tone
-      if (isAccent && namedName) {
+      if (isAccent) {
         embedded.style.setProperty('--neutral-5', `color-mix(in srgb, var(--brand-100) 50%, black)`)
       } else {
         embedded.style.removeProperty('--neutral-5')
@@ -315,11 +300,8 @@ const ScaleApp = () => {
       }
     } else {
       const root = document.documentElement
-      // Apply the generated neutral theme class
-      root.className = root.className.replace(/\bneutral-\S+/g, '')
-      if (neutralName) root.classList.add(`neutral-${neutralName}`)
 
-      if (isAccent && namedName) {
+      if (isAccent) {
         root.style.setProperty('--neutral-5', `color-mix(in srgb, var(--brand-100) 50%, black)`)
       } else {
         root.style.removeProperty('--neutral-5')
@@ -348,7 +330,7 @@ const ScaleApp = () => {
         root.style.setProperty(`--color-${shade}-fg`, fg)
       }
     }
-  }, [bgIsLight, bgColor, namedName, neutralName, namedPalette])
+  }, [bgIsLight, bgColor, namedPalette])
 
   // Update palette-tinted text colour tokens
   useEffect(() => {
@@ -382,10 +364,10 @@ const ScaleApp = () => {
     const parts = []
     if (namedPalette.length) {
       const pivot = mode === 'named' ? (switchPoint ?? namedAutoPivot) : namedAutoPivot
-      parts.push(generateCssOutput(namedName || 'color', namedPalette, { mode: 'named', pivot }))
+      parts.push(generateCssOutput('color', namedPalette, { mode: 'named', pivot }))
     }
     if (neutralPalette.length) {
-      parts.push(generateCssOutput(neutralName || 'neutral', neutralPalette, { mode: 'neutral' }))
+      parts.push(generateCssOutput('neutral', neutralPalette, { mode: 'neutral' }))
     }
     if (!parts.length) return
     const el = document.createElement('style')
@@ -401,11 +383,11 @@ const ScaleApp = () => {
     }
     el.textContent = css
     return () => el.remove()
-  }, [namedPalette, namedName, neutralPalette, neutralName, mode, switchPoint, namedAutoPivot])
+  }, [namedPalette, neutralPalette, mode, switchPoint, namedAutoPivot])
 
   // Debounced URL hash update (5-part format)
   useEffect(() => {
-    const nextHash = `#${encodeURIComponent(namedColor)}/${encodeURIComponent(namedName)}/${encodeURIComponent(neutralColor)}/${encodeURIComponent(neutralName)}/${mode}`
+    const nextHash = `#${encodeURIComponent(namedColor)}/${encodeURIComponent(neutralColor)}/${mode}`
 
     if (hashUpdateTimeoutRef.current) clearTimeout(hashUpdateTimeoutRef.current)
 
@@ -420,7 +402,7 @@ const ScaleApp = () => {
     }, 120)
 
     return () => { if (hashUpdateTimeoutRef.current) clearTimeout(hashUpdateTimeoutRef.current) }
-  }, [namedColor, namedName, neutralColor, neutralName, mode])
+  }, [namedColor, neutralColor, mode])
 
   const handleMainColorChange = (e) => {
     const raw = e.target.value.replace(/#/g, '').replace(/[^0-9a-fA-F]/g, '').slice(0, 6)
@@ -434,12 +416,10 @@ const ScaleApp = () => {
   const handleRandomizeBoth = () => {
     setNamedColor(randomBaseColor('named').replace('#', ''))
     setNeutralColor(randomBaseColor('neutral').replace('#', ''))
-    setNamedName(randomName())
-    setNeutralName(randomName())
   }
 
   return (
-    <MainWrapper className={`neutral-${neutralName || 'neutral'} tale-ui`}>
+    <MainWrapper className="tale-ui">
       <HeaderRow>
         <HeaderLeft>
           <PageTitle>Theme Playground</PageTitle>
@@ -448,7 +428,6 @@ const ScaleApp = () => {
         <BackgroundSelector
           setBgColor={setBgColor}
           bgColor={bgColor}
-          paletteName={namedName}
         />
       </HeaderRow>
 
@@ -501,10 +480,8 @@ const ScaleApp = () => {
           <ControlsRow>
             <MainColorSelector
               mainColor={mainColor}
-              paletteName={paletteName}
               onColorChange={handleMainColorChange}
               onColorBlur={(e) => { if (!e.target.value) setMainColor(mode === 'named' ? DEFAULT_NAMED_COLOR : DEFAULT_NEUTRAL_COLOR) }}
-              onNameChange={(e) => setPaletteName(e.target.value)}
             />
           </ControlsRow>
 
@@ -521,19 +498,14 @@ const ScaleApp = () => {
           <OutputRow>
             <CssColumn>
               <CssOutput
-                namedName={namedName}
                 namedPalette={namedPalette}
                 namedPivot={switchPoint ?? namedAutoPivot}
-                neutralName={neutralName}
                 neutralPalette={neutralPalette}
                 bgColor={bgColor}
               />
             </CssColumn>
             <PreviewColumn>
-              <ComponentPreview
-                namedName={namedName}
-                neutralName={neutralName}
-              />
+              <ComponentPreview />
             </PreviewColumn>
           </OutputRow>
         </ColorsSection>

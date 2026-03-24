@@ -16,6 +16,11 @@ import { Separator } from '@tale-ui/react/separator'
 import { Avatar } from '@tale-ui/react/avatar'
 import { TagGroup } from '@tale-ui/react/tag-group'
 import { Breadcrumbs } from '@tale-ui/react/breadcrumbs'
+import { Accordion } from '@tale-ui/react/accordion'
+import { Tooltip } from '@tale-ui/react/tooltip'
+import { NumberField } from '@tale-ui/react/number-field'
+import { SearchField } from '@tale-ui/react/search-field'
+import { GridList } from '@tale-ui/react/grid-list'
 
 const PREVIEW_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
@@ -93,11 +98,7 @@ const ScaleStrip = ({ prefix, label }) => (
   </section>
 )
 
-const ComponentPreview = ({ namedName, neutralName }) => {
-  // No special classes or inline overrides — let --color-* and --color-*-fg
-  // tokens cascade from the root, exactly like the main swatch tiles (ColorsRow).
-  // The App.jsx useEffect sets --brand-* via injected <style>, applies the
-  // neutral class, and sets --color-*-fg with the correct pivot on the root.
+const ComponentPreview = () => {
   return (
     <Root>
       <Header>Component Preview</Header>
@@ -208,6 +209,27 @@ const ComponentPreview = ({ namedName, neutralName }) => {
           </section>
         </Grid>
 
+        {/* Search + Number field side by side */}
+        <Grid>
+          <section>
+            <SectionLabel>Search field</SectionLabel>
+            <SearchField.Root>
+              <SearchField.Input placeholder="Search…" />
+              <SearchField.ClearButton />
+            </SearchField.Root>
+          </section>
+          <section>
+            <SectionLabel>Number field</SectionLabel>
+            <NumberField.Root defaultValue={5} minValue={0} maxValue={100}>
+              <NumberField.Group>
+                <NumberField.Decrement />
+                <NumberField.Input />
+                <NumberField.Increment />
+              </NumberField.Group>
+            </NumberField.Root>
+          </section>
+        </Grid>
+
         {/* Tabs full width */}
         <section>
           <SectionLabel>Tabs</SectionLabel>
@@ -227,6 +249,33 @@ const ComponentPreview = ({ namedName, neutralName }) => {
               <p style={{ fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-70)', margin: 'var(--space-xs) 0 0' }}>Settings panel content</p>
             </Tabs.Panel>
           </Tabs.Root>
+        </section>
+
+        {/* Accordion full width */}
+        <section>
+          <SectionLabel>Accordion</SectionLabel>
+          <Accordion.Root defaultExpandedKeys={['faq1']}>
+            <Accordion.Item id="faq1">
+              <Accordion.Header>
+                <Accordion.Trigger>What is this tool?</Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Panel>
+                <p style={{ fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-70)', margin: 0 }}>
+                  A colour scale generator for the Tale UI design system.
+                </p>
+              </Accordion.Panel>
+            </Accordion.Item>
+            <Accordion.Item id="faq2">
+              <Accordion.Header>
+                <Accordion.Trigger>How does dark mode work?</Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Panel>
+                <p style={{ fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-70)', margin: 0 }}>
+                  The scale mirrors automatically — shade 60 in dark mode shows the palette's shade 40.
+                </p>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion.Root>
         </section>
 
         {/* Progress / Meter + Tags / Avatars */}
@@ -275,6 +324,37 @@ const ComponentPreview = ({ namedName, neutralName }) => {
               </div>
             </section>
           </div>
+        </Grid>
+
+        {/* Grid list + Tooltips */}
+        <Grid>
+          <section>
+            <SectionLabel>Grid list</SectionLabel>
+            <GridList.Root aria-label="Items" selectionMode="multiple" defaultSelectedKeys={['item-2']}>
+              <GridList.Item id="item-1">Design tokens</GridList.Item>
+              <GridList.Item id="item-2">Components</GridList.Item>
+              <GridList.Item id="item-3">Documentation</GridList.Item>
+            </GridList.Root>
+          </section>
+          <section>
+            <SectionLabel>Tooltips</SectionLabel>
+            <div style={{ display: 'flex', gap: 'var(--space-s)', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Tooltip.Root>
+                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--sm">Hover me</Tooltip.Trigger>
+                <Tooltip.Popup placement="top" offset={6}>
+                  <Tooltip.Arrow />
+                  Tooltip content
+                </Tooltip.Popup>
+              </Tooltip.Root>
+              <Tooltip.Root>
+                <Tooltip.Trigger className="tale-button tale-button--ghost tale-button--sm">Another</Tooltip.Trigger>
+                <Tooltip.Popup placement="bottom" offset={6}>
+                  <Tooltip.Arrow />
+                  Bottom tooltip
+                </Tooltip.Popup>
+              </Tooltip.Root>
+            </div>
+          </section>
         </Grid>
 
         {/* Breadcrumbs + Links + Separator — compact bottom row */}

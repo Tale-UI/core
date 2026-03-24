@@ -120,32 +120,10 @@ const PickerPopover = styled.div`
   }
 `
 
-const NameInput = styled.input`
-  font-size: var(--display-s-font-size);
-  font-family: inherit;
-  font-weight: inherit;
-  line-height: 1;
-  border: none;
-  background: transparent;
-  color: inherit;
-  width: 12ch;
-  padding: 0;
-
-  &:focus {
-    outline: none;
-  }
-
-  &::placeholder {
-    opacity: 0.3;
-  }
-`
-
 const MainColorSelector = ({
   mainColor,
-  paletteName,
   onColorChange,
   onColorBlur,
-  onNameChange,
 }) => {
   const hex = numberToHex(mainColor)
   const valid = isValidHex(hex)
@@ -201,17 +179,6 @@ const MainColorSelector = ({
             </PickerAnchor>
           )}
         </HexInputWrapper>
-      </Field>
-
-      <Field>
-        <Label>Family name</Label>
-        <NameInput
-          type="text"
-          value={paletteName}
-          onChange={onNameChange}
-          placeholder="color"
-          spellCheck={false}
-        />
       </Field>
     </Root>
   )

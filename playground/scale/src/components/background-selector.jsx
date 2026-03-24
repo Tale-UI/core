@@ -35,7 +35,7 @@ const Dot = styled.button`
   }
 `
 
-const BackgroundSelector = ({ setBgColor, bgColor, paletteName }) => {
+const BackgroundSelector = ({ setBgColor, bgColor }) => {
   const accentHex = 'color-mix(in srgb, var(--brand-100) 50%, black)'
 
   const options = [
