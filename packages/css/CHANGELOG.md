@@ -2,6 +2,12 @@
 
 All notable changes to the CSS design system are documented in this file.
 
+## v1.1.16 — 2026-03-25
+
+### Docs
+
+- Updated consumer CLAUDE.md snippet: added pitfall about trigger components rendering their own `<button>` — never nest a `<Button>` inside them.
+
 ## v1.1.15 — 2026-03-25
 
 ### Fixed
