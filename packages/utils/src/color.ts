@@ -68,7 +68,7 @@ export const generatePalette = (baseHex: string, mode: 'named' | 'neutral' = 'na
 /**
  * WCAG relative luminance for a hex colour.
  */
-const getRelativeLuminance = (hex: string): number => {
+export const getRelativeLuminance = (hex: string): number => {
   const h = hex.replace('#', '')
   const r = parseInt(h.slice(0, 2), 16) / 255
   const g = parseInt(h.slice(2, 4), 16) / 255
@@ -80,7 +80,7 @@ const getRelativeLuminance = (hex: string): number => {
 /**
  * WCAG contrast ratio between two hex colours (always ≥ 1).
  */
-const getContrastRatio = (hex1: string, hex2: string): number => {
+export const getContrastRatio = (hex1: string, hex2: string): number => {
   const L1 = getRelativeLuminance(hex1)
   const L2 = getRelativeLuminance(hex2)
   const lighter = Math.max(L1, L2)
