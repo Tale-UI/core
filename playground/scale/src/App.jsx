@@ -300,9 +300,9 @@ const ScaleApp = () => {
         const fg = shade < neutralFgPivot ? 'var(--neutral-100)' : 'var(--neutral-5)'
         embedded.style.setProperty(`--neutral-${shade}-fg`, fg)
       }
-      const colorFgPivot = 60
+      const colorPivot = switchPoint ?? namedAutoPivot
       for (const shade of NAMED_SHADES) {
-        const fg = shade < colorFgPivot ? 'var(--color-100)' : 'var(--color-5)'
+        const fg = shade < colorPivot ? 'var(--color-100)' : 'var(--color-5)'
         embedded.style.setProperty(`--color-${shade}-fg`, fg)
       }
     } else {
@@ -327,13 +327,13 @@ const ScaleApp = () => {
         const fg = shade < neutralFgPivot ? 'var(--neutral-100)' : 'var(--neutral-5)'
         root.style.setProperty(`--neutral-${shade}-fg`, fg)
       }
-      const colorFgPivot = 60
+      const colorPivot = switchPoint ?? namedAutoPivot
       for (const shade of NAMED_SHADES) {
-        const fg = shade < colorFgPivot ? 'var(--color-100)' : 'var(--color-5)'
+        const fg = shade < colorPivot ? 'var(--color-100)' : 'var(--color-5)'
         root.style.setProperty(`--color-${shade}-fg`, fg)
       }
     }
-  }, [bgIsLight, bgColor, namedName, neutralName])
+  }, [bgIsLight, bgColor, namedName, neutralName, switchPoint, namedAutoPivot])
 
   // Update palette-tinted text colour tokens
   useEffect(() => {
@@ -408,7 +408,7 @@ const ScaleApp = () => {
   }, [namedColor, namedName, neutralColor, neutralName, mode])
 
   const handleMainColorChange = (e) => {
-    const raw = e.target.value.replace(/^#/, '')
+    const raw = e.target.value.replace(/#/g, '').replace(/[^0-9a-fA-F]/g, '').slice(0, 6)
     setMainColor(raw)
   }
 

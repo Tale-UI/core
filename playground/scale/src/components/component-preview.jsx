@@ -94,10 +94,14 @@ const ScaleStrip = ({ prefix, label }) => (
 )
 
 const ComponentPreview = ({ namedName, neutralName }) => {
+  // No special classes or inline overrides — let --color-* and --color-*-fg
+  // tokens cascade from the root, exactly like the main swatch tiles (ColorsRow).
+  // The App.jsx useEffect sets --brand-* via injected <style>, applies the
+  // neutral class, and sets --color-*-fg with the correct pivot on the root.
   return (
     <Root>
       <Header>Component Preview</Header>
-      <PreviewBox className={`neutral-${neutralName || 'neutral'} color-${namedName || 'color'}`}>
+      <PreviewBox>
 
         {/* Color scales side by side */}
         <Grid>
