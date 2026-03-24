@@ -59,12 +59,13 @@ test-results/
 *.tmp
 size-snapshot.json
 .netlify
-.cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
 
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
-# Claude
+# AI tooling (local config — project docs like CLAUDE.md stay tracked)
 .claude/
+.cursor/
+.copilot/
