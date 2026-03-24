@@ -10,57 +10,29 @@ export const CONTAINER_COLORS = [
 export type ContainerColor = typeof CONTAINER_COLORS[number];
 
 /**
- * Fg pivot overrides for named colors — matches _color-modes.css lines 91-114.
- * Colors whose shade-60 (or shade-70) is too light for white foreground text
- * need --color-{shade}-fg flipped to var(--color-100) (dark text).
+ * Per-shade fg overrides for a palette — compare each shade's contrast against
+ * both endpoints (shade-5 and shade-100) and override when the non-default
+ * endpoint has better contrast.
  *
- * 60 = only --color-60-fg overridden
- * 70 = both --color-60-fg and --color-70-fg overridden
+ * Design system defaults: shades <60 get var(--color-100) (dark text),
+ * shades >=60 get var(--color-5) (light text). We override individual shades
+ * where the opposite endpoint wins.
  */
-const FG_PIVOT: Partial<Record<ContainerColor, 60 | 70>> = {
-  orange: 60,
-  sky: 60,
-  amber: 70,
-  yellow: 70,
-  lime: 70,
-  green: 70,
-  emerald: 70,
-  teal: 70,
-  cyan: 70,
-};
-
-function getFgOverrides(pivot: 60 | 70): Record<string, string> {
-  const overrides: Record<string, string> = {
-    '--color-60-fg': 'var(--color-100)',
-  };
-  if (pivot >= 70) {
-    overrides['--color-70-fg'] = 'var(--color-100)';
-  }
-  return overrides;
-}
-
-/**
- * Compute fg pivot overrides for a random palette by measuring WCAG contrast.
- * Returns the same override map as getFgOverrides, or {} if no override needed.
- */
-function computeRandomFgOverrides(palette: Array<{ shade: number; hex: string }>): Record<string, string> {
+function computeFgOverrides(palette: Array<{ shade: number; hex: string }>): Record<string, string> {
   const get = (shade: number) => palette.find(p => p.shade === shade)?.hex;
   const s5 = get(5);
-  const s60 = get(60);
-  const s70 = get(70);
   const s100 = get(100);
-  if (!s5 || !s60 || !s100) return {};
+  if (!s5 || !s100) return {};
 
   const overrides: Record<string, string> = {};
 
-  // shade-60: if white text (--color-5) doesn't meet 4.5:1 contrast, flip to dark text
-  if (getContrastRatio(s60, s5) < 4.5) {
-    overrides['--color-60-fg'] = 'var(--color-100)';
-  }
-
-  // shade-70: same check
-  if (s70 && getContrastRatio(s70, s5) < 4.5) {
-    overrides['--color-70-fg'] = 'var(--color-100)';
+  for (const { shade, hex } of palette) {
+    const defaultFg = shade < 60 ? s100 : s5;
+    const altFg     = shade < 60 ? s5   : s100;
+    const altToken  = shade < 60 ? 'var(--color-5)' : 'var(--color-100)';
+    if (getContrastRatio(hex, altFg) > getContrastRatio(hex, defaultFg)) {
+      overrides[`--color-${shade}-fg`] = altToken;
+    }
   }
 
   return overrides;
@@ -71,17 +43,41 @@ const randomBase = randomBaseColor('named');
 const randomPalette = generatePalette(randomBase, 'named');
 const randomColorVars = Object.fromEntries([
   ...randomPalette.map(({ shade, hex }) => [`--color-${shade}`, hex]),
-  ...Object.entries(computeRandomFgOverrides(randomPalette)),
+  ...Object.entries(computeFgOverrides(randomPalette)),
 ]) as React.CSSProperties;
+
+/**
+ * Named-colour palettes: we can't compute contrast at runtime because the
+ * hex values live in CSS variables (var(--green-50) etc.). Instead, generate
+ * the palette from the design system's known base-60 hex for each colour
+ * and pre-compute the fg overrides once at module load.
+ */
+const NAMED_BASE_HEX: Partial<Record<ContainerColor, string>> = {
+  red:     '#dc2626', orange:  '#f97316', amber:   '#f59e0b',
+  yellow:  '#eab308', lime:    '#84cc16', green:   '#22c55e',
+  emerald: '#10b981', teal:    '#14b8a6', cyan:    '#06b6d4',
+  sky:     '#0ea5e9', indigo:  '#6366f1', violet:  '#8b5cf6',
+  purple:  '#a855f7', fuchsia: '#d946ef', pink:    '#ec4899',
+  rose:    '#f43f5e',
+};
+
+const NAMED_FG_OVERRIDES: Partial<Record<ContainerColor, Record<string, string>>> = {};
+for (const [color, baseHex] of Object.entries(NAMED_BASE_HEX) as [ContainerColor, string][]) {
+  const palette = generatePalette(baseHex, 'named');
+  const overrides = computeFgOverrides(palette);
+  if (Object.keys(overrides).length > 0) {
+    NAMED_FG_OVERRIDES[color] = overrides;
+  }
+}
 
 function getColorVars(color: ContainerColor): React.CSSProperties | undefined {
   if (color === 'brand') return undefined;
   if (color === 'random') return randomColorVars;
 
-  const pivot = FG_PIVOT[color];
   const entries: [string, string][] = NAMED_SHADES.map((shade) => [`--color-${shade}`, `var(--${color}-${shade})`]);
-  if (pivot) {
-    Object.entries(getFgOverrides(pivot)).forEach(([k, v]) => entries.push([k, v]));
+  const fgOverrides = NAMED_FG_OVERRIDES[color];
+  if (fgOverrides) {
+    Object.entries(fgOverrides).forEach(([k, v]) => entries.push([k, v]));
   }
   return Object.fromEntries(entries) as React.CSSProperties;
 }

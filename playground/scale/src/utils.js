@@ -228,15 +228,6 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
     blocks.push(`:root {\n${brandLines.join('\n')}\n}`)
   }
 
-  // Fg pivot overrides for standalone use (no .color-{name} wrapper).
-  // Must use html:not([data-color-mode="dark"]) to beat the design system's
-  // light-mode rule at the same specificity (0,1,1) via later cascade position.
-  if (mode === 'named' && pivot > 60) {
-    const fgLines = [`  --color-60-fg: var(--color-100);`]
-    if (pivot > 70) fgLines.push(`  --color-70-fg: var(--color-100);`)
-    blocks.push(`/* Light-mode fg override — load after @tale-ui/core */\nhtml:not([data-color-mode="dark"]) {\n${fgLines.join('\n')}\n}`)
-  }
-
   // 2. Neutral theme on :root with inline hex
   if (mode === 'neutral') {
     const defaultPropWidth = '--neutral-default-100'.length
@@ -256,87 +247,80 @@ export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } 
   if (mode === 'named') {
     // --brand-* already on :root from block 1
 
-    // 3. Fg pivot overrides for non-default pivots (only when pivot differs from 60).
-    // Emitted as a self-contained pair so the output is safe to drop into any
-    // consumer stylesheet regardless of where @tale-ui/core is loaded:
-    //   - Light-mode rule:  override the default fg to dark text on light shade-60/70
-    //   - OS dark @media reset: undo the override so the dark-mode default (var(--color-5)
-    //     = near-black brand text) wins — without this, a consumer stylesheet loaded after
-    //     the package would beat the package's OS dark rule via cascade order.
-    // (Explicit dark is fine without a reset — its selector is mutually exclusive with
-    //  the light-mode selector, so there is no cascade conflict.)
-    if (pivot > 60) {
-      const overrideLines = []
-      overrideLines.push(`  --color-60-fg: var(--color-100);`)
-      if (pivot > 70) overrideLines.push(`  --color-70-fg: var(--color-100);`)
-
-      const resetLines = []
-      resetLines.push(`    --color-60-fg: var(--color-5);`)
-      if (pivot > 70) resetLines.push(`    --color-70-fg: var(--color-5);`)
-
-      const lightSelector = `:where(html:not([data-color-mode="dark"])) .tale-ui,\n.light .tale-ui`
-      const darkSelector  = `    :where(html:not([data-color-mode="light"])) .tale-ui`
-
-      const block3 = [
-        `/* Fg pivot overrides — requires class="tale-ui" on <html> */`,
-        `${lightSelector} {\n${overrideLines.join('\n')}\n}`,
-        `@media (prefers-color-scheme: dark) {\n${darkSelector} {\n${resetLines.join('\n')}\n  }\n}`,
-      ].join('\n\n')
-
-      blocks.push(block3)
-    }
-
-    // 4. Dark-mode fg overrides — shades whose inverted dark-mode background
-    //    doesn't meet 4.5:1 against the default fg token.
-    //    In dark mode the scale mirrors: --color-N resolves to --brand-{mirror(N)}.
-    //    Default fg for shades <60 is var(--color-100) = brand-5 (lightest);
-    //    for shades >=60 it's var(--color-5) = brand-100 (darkest).
-    //    When a light base pushes mid-shades into the light range, the mirrored
-    //    dark bg can be too close to the default fg — flip those to the opposite end.
+    // 3. Per-shade fg overrides — compare contrast against both endpoints for
+    //    each shade and override when the non-default endpoint has better contrast.
+    //
+    //    Design system defaults (from _foreground.css):
+    //      Light mode: shades <60 → var(--color-100) (dark text), >=60 → var(--color-5) (light text)
+    //      Dark mode:  the --color-* tokens invert, so the fg references auto-adapt.
+    //
+    //    Light-mode block: override shades where the palette hex has better contrast
+    //    against the opposite endpoint than the default.
+    //    Dark-mode block: same check but against the mirrored (inverted) palette hex.
+    //
+    //    Scoped to .tale-ui so overrides only apply inside the design system root.
+    //    OS dark @media resets are paired with light-mode overrides to prevent
+    //    cascade-order conflicts when the consumer stylesheet loads after @tale-ui/core.
     const getHex = (shade) => palette.find(p => p.shade === shade)?.hex
-    const s5Hex = getHex(5)
+    const s5Hex   = getHex(5)
     const s100Hex = getHex(100)
 
     if (s5Hex && s100Hex) {
-      const reversed = [...NAMED_SHADES].reverse()
-      const darkOverrideShades = []
+      // --- Light-mode fg overrides ---
+      const lightOverrides = []
+      const lightResets = []
+      for (const { shade, hex } of palette) {
+        const defaultFg = shade < 60 ? s100Hex : s5Hex
+        const altFg     = shade < 60 ? s5Hex   : s100Hex
+        const altToken  = shade < 60 ? 'var(--color-5)' : 'var(--color-100)'
+        // Reset token: the design system default for this shade
+        const defaultToken = shade < 60 ? 'var(--color-100)' : 'var(--color-5)'
+        if (getContrastRatio(hex, altFg) > getContrastRatio(hex, defaultFg)) {
+          lightOverrides.push(`  --color-${shade}-fg: ${altToken};`)
+          lightResets.push(`    --color-${shade}-fg: ${defaultToken};`)
+        }
+      }
 
+      if (lightOverrides.length > 0) {
+        const lightSelector = `:where(html:not([data-color-mode="dark"])) .tale-ui,\n.light .tale-ui`
+        const osDarkResetSelector = `    :where(html:not([data-color-mode="light"])) .tale-ui`
+
+        blocks.push([
+          `/* Light-mode fg overrides — requires class="tale-ui" on <html> */`,
+          `${lightSelector} {\n${lightOverrides.join('\n')}\n}`,
+          `@media (prefers-color-scheme: dark) {\n${osDarkResetSelector} {\n${lightResets.join('\n')}\n  }\n}`,
+        ].join('\n\n'))
+      }
+
+      // --- Dark-mode fg overrides ---
+      // In dark mode the scale mirrors: --color-N resolves to --brand-{mirror(N)}.
+      // Check each shade's mirrored background against both endpoints.
+      const reversed = [...NAMED_SHADES].reverse()
+      const darkOverrides = []
       for (let i = 0; i < NAMED_SHADES.length; i++) {
         const shade = NAMED_SHADES[i]
         const darkBgHex = getHex(reversed[i])
         if (!darkBgHex) continue
 
-        // Default dark fg: shades <60 get brand-5 (s5Hex), >=60 get brand-100 (s100Hex)
-        const defaultFgHex = shade < 60 ? s5Hex : s100Hex
-        const altFgHex     = shade < 60 ? s100Hex : s5Hex
-
-        if (getContrastRatio(darkBgHex, defaultFgHex) < 4.5 &&
-            getContrastRatio(darkBgHex, altFgHex) >= 4.5) {
-          darkOverrideShades.push(shade)
+        // In dark mode: shades <60 default fg is var(--color-100) = brand-5 (lightest),
+        //               shades >=60 default fg is var(--color-5) = brand-100 (darkest).
+        const defaultFg = shade < 60 ? s5Hex   : s100Hex
+        const altFg     = shade < 60 ? s100Hex : s5Hex
+        const altToken  = shade < 60 ? 'var(--color-5)' : 'var(--color-100)'
+        if (getContrastRatio(darkBgHex, altFg) > getContrastRatio(darkBgHex, defaultFg)) {
+          darkOverrides.push(`  --color-${shade}-fg: ${altToken};`)
         }
       }
 
-      if (darkOverrideShades.length > 0) {
-        const overrideLines = darkOverrideShades.map(shade => {
-          const token = shade < 60 ? 'var(--color-5)' : 'var(--color-100)'
-          return `  --color-${shade}-fg: ${token};`
-        })
-
-        const osDarkLines = darkOverrideShades.map(shade => {
-          const token = shade < 60 ? 'var(--color-5)' : 'var(--color-100)'
-          return `    --color-${shade}-fg: ${token};`
-        })
-
+      if (darkOverrides.length > 0) {
         const explicitDarkSelector = `html[data-color-mode="dark"] .tale-ui,\n.dark .tale-ui`
         const osDarkSelector       = `    :where(html:not([data-color-mode="light"])) .tale-ui`
 
-        const block4 = [
+        blocks.push([
           `/* Dark-mode fg overrides — requires class="tale-ui" on <html> */`,
-          `${explicitDarkSelector} {\n${overrideLines.join('\n')}\n}`,
-          `@media (prefers-color-scheme: dark) {\n${osDarkSelector} {\n${osDarkLines.join('\n')}\n  }\n}`,
-        ].join('\n\n')
-
-        blocks.push(block4)
+          `${explicitDarkSelector} {\n${darkOverrides.join('\n')}\n}`,
+          `@media (prefers-color-scheme: dark) {\n${osDarkSelector} {\n${darkOverrides.map(l => '  ' + l).join('\n')}\n  }\n}`,
+        ].join('\n\n'))
       }
     }
   }

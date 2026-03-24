@@ -300,9 +300,17 @@ const ScaleApp = () => {
         const fg = shade < neutralFgPivot ? 'var(--neutral-100)' : 'var(--neutral-5)'
         embedded.style.setProperty(`--neutral-${shade}-fg`, fg)
       }
-      const colorPivot = switchPoint ?? namedAutoPivot
+      // Per-shade contrast: pick whichever endpoint (--color-5 or --color-100)
+      // has better contrast against the shade's actual hex value.
+      const s5  = namedPalette.find(p => p.shade === 5)?.hex
+      const s100 = namedPalette.find(p => p.shade === 100)?.hex
       for (const shade of NAMED_SHADES) {
-        const fg = shade < colorPivot ? 'var(--color-100)' : 'var(--color-5)'
+        const shadeHex = namedPalette.find(p => p.shade === shade)?.hex
+        let fg = shade < 60 ? 'var(--color-100)' : 'var(--color-5)' // fallback: default pivot
+        if (shadeHex && s5 && s100) {
+          fg = getContrastRatio(shadeHex, s5) >= getContrastRatio(shadeHex, s100)
+            ? 'var(--color-5)' : 'var(--color-100)'
+        }
         embedded.style.setProperty(`--color-${shade}-fg`, fg)
       }
     } else {
@@ -327,13 +335,20 @@ const ScaleApp = () => {
         const fg = shade < neutralFgPivot ? 'var(--neutral-100)' : 'var(--neutral-5)'
         root.style.setProperty(`--neutral-${shade}-fg`, fg)
       }
-      const colorPivot = switchPoint ?? namedAutoPivot
+      // Per-shade contrast: same logic as embedded branch
+      const s5  = namedPalette.find(p => p.shade === 5)?.hex
+      const s100 = namedPalette.find(p => p.shade === 100)?.hex
       for (const shade of NAMED_SHADES) {
-        const fg = shade < colorPivot ? 'var(--color-100)' : 'var(--color-5)'
+        const shadeHex = namedPalette.find(p => p.shade === shade)?.hex
+        let fg = shade < 60 ? 'var(--color-100)' : 'var(--color-5)'
+        if (shadeHex && s5 && s100) {
+          fg = getContrastRatio(shadeHex, s5) >= getContrastRatio(shadeHex, s100)
+            ? 'var(--color-5)' : 'var(--color-100)'
+        }
         root.style.setProperty(`--color-${shade}-fg`, fg)
       }
     }
-  }, [bgIsLight, bgColor, namedName, neutralName, switchPoint, namedAutoPivot])
+  }, [bgIsLight, bgColor, namedName, neutralName, namedPalette])
 
   // Update palette-tinted text colour tokens
   useEffect(() => {
