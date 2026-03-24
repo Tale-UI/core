@@ -2,6 +2,12 @@
 
 All notable changes to the CSS design system are documented in this file.
 
+## v1.1.15 — 2026-03-25
+
+### Fixed
+
+- Reset default margins on heading elements (`h1`–`h6`) to `0` in the typography foundation, preventing browser-default margins from leaking into component layouts.
+
 ## v1.1.11 — 2026-03-17
 
 ### Fixed
