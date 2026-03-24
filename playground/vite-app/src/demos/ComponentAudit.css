@@ -63,7 +63,7 @@
 }
 
 .audit__subheading {
-  margin: 0 0 1.2rem;
+  margin: 1.6rem 0 1.2rem;
   font-size: 1.2rem;
   font-weight: 500;
   font-family: var(--label-font-family);
@@ -86,12 +86,6 @@
   font-family: var(--mono-font-family);
   font-size: 1.1rem;
   color: var(--neutral-70);
-}
-
-.audit__label {
-  font-family: var(--label-font-family);
-  font-size: var(--label-m-font-size);
-  color: var(--neutral-80);
 }
 
 /* ─── Demo layout ─────────────────────────────────────────────────────────── */

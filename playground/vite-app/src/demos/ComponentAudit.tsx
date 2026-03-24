@@ -512,7 +512,7 @@ function ControlledTabsDemo() {
   const [selected, setSelected] = React.useState<React.Key>('tab-home');
   return (
     <div className="audit__demo-extra-wide">
-      <Tabs.Root selectedKey={selected} onSelectionChange={setSelected}>
+      <Tabs.Root selectedKey={selected} onSelectionChange={(key) => setSelected(key as string)}>
         <Tabs.List>
           <Tabs.Tab id="tab-home">Home</Tabs.Tab>
           <Tabs.Tab id="tab-profile">Profile</Tabs.Tab>
@@ -725,19 +725,15 @@ export default function ComponentAudit() {
               { label: 'Disabled', checked: false, disabled: true },
               { label: 'Disabled + Checked', checked: true, disabled: true },
             ].map(({ label, checked, disabled }) => (
-              <div key={label} className="display--flex gap--3xs center--y">
-                <Checkbox.Root defaultSelected={checked} isDisabled={disabled}>
-                  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
-                </Checkbox.Root>
-                <span className="audit__label">{label}</span>
-              </div>
-            ))}
-            <div className="display--flex gap--3xs center--y">
-              <Checkbox.Root isIndeterminate>
-                <Checkbox.Indicator><MinusIcon /></Checkbox.Indicator>
+              <Checkbox.Root key={label} defaultSelected={checked} isDisabled={disabled}>
+                <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                {label}
               </Checkbox.Root>
-              <span className="audit__label">Indeterminate</span>
-            </div>
+            ))}
+            <Checkbox.Root isIndeterminate>
+              <Checkbox.Indicator><MinusIcon /></Checkbox.Indicator>
+              Indeterminate
+            </Checkbox.Root>
           </div>
         </Section>
 
@@ -746,12 +742,10 @@ export default function ComponentAudit() {
           <CheckboxGroup aria-label="Interests">
             <div className="display--flex flex--col gap--3xs">
               {['Reading', 'Gaming', 'Cooking'].map((label) => (
-                <div key={label} className="display--flex gap--3xs center--y">
-                  <Checkbox.Root>
-                    <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
-                  </Checkbox.Root>
-                  <span className="audit__label">{label}</span>
-                </div>
+                <Checkbox.Root key={label} value={label.toLowerCase()}>
+                  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                  {label}
+                </Checkbox.Root>
               ))}
             </div>
           </CheckboxGroup>
@@ -759,12 +753,10 @@ export default function ComponentAudit() {
           <CheckboxGroup aria-label="Disabled group" isDisabled>
             <div className="display--flex flex--col gap--3xs">
               {['Option A', 'Option B'].map((label) => (
-                <div key={label} className="display--flex gap--3xs center--y">
-                  <Checkbox.Root isDisabled>
-                    <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
-                  </Checkbox.Root>
-                  <span className="audit__label">{label}</span>
-                </div>
+                <Checkbox.Root key={label} value={label.toLowerCase().replace(' ', '-')} isDisabled>
+                  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                  {label}
+                </Checkbox.Root>
               ))}
             </div>
           </CheckboxGroup>
@@ -774,28 +766,22 @@ export default function ComponentAudit() {
           <SubHeading>States</SubHeading>
           <div className="audit__demo-spaced display--flex flex--col gap--2xs">
             <Radio.Group aria-label="Radio states">
-              <div className="display--flex gap--3xs center--y audit__demo-spaced">
-                <Radio.Root value="unchecked">
-                  <Radio.Indicator />
-                </Radio.Root>
-                <span className="audit__label">Unchecked</span>
-              </div>
+              <Radio.Root value="unchecked">
+                <Radio.Indicator />
+                Unchecked
+              </Radio.Root>
             </Radio.Group>
             <Radio.Group value="checked" aria-label="Checked demo">
-              <div className="display--flex gap--3xs center--y">
-                <Radio.Root value="checked">
-                  <Radio.Indicator />
-                </Radio.Root>
-                <span className="audit__label">Checked</span>
-              </div>
+              <Radio.Root value="checked">
+                <Radio.Indicator />
+                Checked
+              </Radio.Root>
             </Radio.Group>
             <Radio.Group aria-label="Disabled demo" isDisabled>
-              <div className="display--flex gap--3xs center--y">
-                <Radio.Root value="disabled">
-                  <Radio.Indicator />
-                </Radio.Root>
-                <span className="audit__label">Disabled</span>
-              </div>
+              <Radio.Root value="disabled">
+                <Radio.Indicator />
+                Disabled
+              </Radio.Root>
             </Radio.Group>
           </div>
           <SubHeading>Radio Group</SubHeading>
@@ -803,12 +789,10 @@ export default function ComponentAudit() {
             {['Option A', 'Option B', 'Option C'].map((label, i) => {
               const value = `option-${String.fromCharCode(97 + i)}`;
               return (
-                <div key={value} className="display--flex gap--3xs center--y">
-                  <Radio.Root value={value}>
-                    <Radio.Indicator />
-                  </Radio.Root>
-                  <span className="audit__label">{label}</span>
-                </div>
+                <Radio.Root key={value} value={value}>
+                  <Radio.Indicator />
+                  {label}
+                </Radio.Root>
               );
             })}
           </Radio.Group>
@@ -823,12 +807,10 @@ export default function ComponentAudit() {
               { label: 'Disabled (Off)', checked: false, disabled: true },
               { label: 'Disabled (On)', checked: true, disabled: true },
             ].map(({ label, checked, disabled }) => (
-              <div key={label} className="display--flex gap--2xs center--y">
-                <Switch.Root defaultSelected={checked} isDisabled={disabled}>
-                  <Switch.Thumb />
-                </Switch.Root>
-                <span className="audit__label">{label}</span>
-              </div>
+              <Switch.Root key={label} defaultSelected={checked} isDisabled={disabled}>
+                <Switch.Thumb />
+                {label}
+              </Switch.Root>
             ))}
           </div>
         </Section>
@@ -865,6 +847,7 @@ export default function ComponentAudit() {
             <Select.Root placeholder="Select a fruit…">
               <Select.Trigger>
                 <Select.Value />
+                <Select.Icon />
               </Select.Trigger>
               <Select.Popover offset={4}>
                 <Select.ListBox>
@@ -880,6 +863,7 @@ export default function ComponentAudit() {
             <Select.Root isDisabled placeholder="Disabled select">
               <Select.Trigger>
                 <Select.Value />
+                <Select.Icon />
               </Select.Trigger>
             </Select.Root>
           </Row>
@@ -889,6 +873,7 @@ export default function ComponentAudit() {
               <Select.Label>Fruit</Select.Label>
               <Select.Trigger>
                 <Select.Value />
+                <Select.Icon />
               </Select.Trigger>
               <Select.Popover offset={4}>
                 <Select.ListBox>
@@ -904,6 +889,7 @@ export default function ComponentAudit() {
             <Select.Root placeholder="Select a country…">
               <Select.Trigger>
                 <Select.Value />
+                <Select.Icon />
               </Select.Trigger>
               <Select.Popover offset={4}>
                 <Select.ListBox>
@@ -929,6 +915,7 @@ export default function ComponentAudit() {
             <Select.Root placeholder="Select a fruit…">
               <Select.Trigger>
                 <Select.Value />
+                <Select.Icon />
               </Select.Trigger>
               <Select.Popover offset={4}>
                 <Select.ListBox>
@@ -1164,7 +1151,10 @@ export default function ComponentAudit() {
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
                 <Tooltip.Trigger>Hover ({side})</Tooltip.Trigger>
-                <Tooltip.Popup placement={side} offset={8}>Appears on the {side}</Tooltip.Popup>
+                <Tooltip.Popup placement={side} offset={8}>
+                  <Tooltip.Arrow />
+                  Appears on the {side}
+                </Tooltip.Popup>
               </Tooltip.Root>
             ))}
           </Row>
@@ -1386,7 +1376,7 @@ export default function ComponentAudit() {
           </div>
           <SubHeading>Multiple Open</SubHeading>
           <div className="audit__demo-extra-wide audit__demo-spaced">
-            <Accordion.Root allowsMultiple defaultExpandedKeys={['m-a', 'm-b']}>
+            <Accordion.Root defaultExpandedKeys={['m-a', 'm-b']}>
               {[
                 { id: 'm-a', title: 'First Section', content: 'This section starts open. Multiple sections can be expanded simultaneously.' },
                 { id: 'm-b', title: 'Second Section', content: 'This section also starts open.' },
@@ -1539,7 +1529,7 @@ export default function ComponentAudit() {
             <ProgressBar.Root value={20}>
               <ProgressBar.Header>
                 <ProgressBar.Label>Downloading</ProgressBar.Label>
-                <ProgressBar.Value />
+                <ProgressBar.Value>20%</ProgressBar.Value>
               </ProgressBar.Header>
               <ProgressBar.Track>
                 <ProgressBar.Indicator value={20} />
@@ -1548,7 +1538,7 @@ export default function ComponentAudit() {
             <ProgressBar.Root value={60}>
               <ProgressBar.Header>
                 <ProgressBar.Label>Upload</ProgressBar.Label>
-                <ProgressBar.Value />
+                <ProgressBar.Value>60%</ProgressBar.Value>
               </ProgressBar.Header>
               <ProgressBar.Track>
                 <ProgressBar.Indicator value={60} />
@@ -1557,7 +1547,7 @@ export default function ComponentAudit() {
             <ProgressBar.Root value={100}>
               <ProgressBar.Header>
                 <ProgressBar.Label>Complete</ProgressBar.Label>
-                <ProgressBar.Value />
+                <ProgressBar.Value>100%</ProgressBar.Value>
               </ProgressBar.Header>
               <ProgressBar.Track>
                 <ProgressBar.Indicator value={100} />
@@ -1580,7 +1570,7 @@ export default function ComponentAudit() {
             <Meter.Root value={25}>
               <Meter.Header>
                 <Meter.Label>Battery</Meter.Label>
-                <Meter.Value />
+                <Meter.Value>25%</Meter.Value>
               </Meter.Header>
               <Meter.Track>
                 <Meter.Indicator value={25} />
@@ -1589,7 +1579,7 @@ export default function ComponentAudit() {
             <Meter.Root value={60}>
               <Meter.Header>
                 <Meter.Label>Memory</Meter.Label>
-                <Meter.Value />
+                <Meter.Value>60%</Meter.Value>
               </Meter.Header>
               <Meter.Track>
                 <Meter.Indicator value={60} />
@@ -1598,7 +1588,7 @@ export default function ComponentAudit() {
             <Meter.Root value={72}>
               <Meter.Header>
                 <Meter.Label>Storage</Meter.Label>
-                <Meter.Value />
+                <Meter.Value>72%</Meter.Value>
               </Meter.Header>
               <Meter.Track>
                 <Meter.Indicator value={72} />
@@ -1607,7 +1597,7 @@ export default function ComponentAudit() {
             <Meter.Root value={90}>
               <Meter.Header>
                 <Meter.Label>CPU</Meter.Label>
-                <Meter.Value />
+                <Meter.Value>90%</Meter.Value>
               </Meter.Header>
               <Meter.Track>
                 <Meter.Indicator value={90} />
@@ -1728,12 +1718,10 @@ export default function ComponentAudit() {
           <SubHeading>Standalone RadioGroup</SubHeading>
           <RadioGroup aria-label="Favourite colour" className="display--flex flex--col gap--3xs">
             {['Red', 'Green', 'Blue'].map((c) => (
-              <div key={c} className="display--flex gap--3xs center--y">
-                <Radio.Root value={c.toLowerCase()}>
-                  <Radio.Indicator />
-                </Radio.Root>
-                <span className="audit__label">{c}</span>
-              </div>
+              <Radio.Root key={c} value={c.toLowerCase()}>
+                <Radio.Indicator />
+                {c}
+              </Radio.Root>
             ))}
           </RadioGroup>
         </Section>
