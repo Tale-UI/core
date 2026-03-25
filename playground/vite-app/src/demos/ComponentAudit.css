@@ -321,8 +321,10 @@
 
 .audit__drawer-actions {
   margin-top: var(--space-m);
+  margin-left: auto;
   display: flex;
   gap: var(--space-xs);
+  width: max-content;
 }
 
 .audit__drawer-action {
