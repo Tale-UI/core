@@ -24,17 +24,6 @@
  *   </Calendar.Root>
  */
 
-/* ─── Heading ──────────────────────────────────────────────────────────────── */
-
-.tale-calendar__heading {
-  margin: 0;
-  text-align: center;
-  font-family: var(--label-font-family);
-  font-size: var(--label-m-font-size);
-  font-weight: var(--label-font-weight);
-  color: var(--neutral-90);
-}
-
 /* ─── Header (flex wrapper for nav buttons + heading) ─────────────────────── */
 
 .tale-calendar__header {

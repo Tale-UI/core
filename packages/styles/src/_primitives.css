@@ -21,12 +21,13 @@
  *   12. Date picker trigger — DatePicker, DateRangePicker (base + inside-group override)
  *   13. Date picker popover — DatePicker, DateRangePicker (base + keyframes + dialog)
  *   14. Calendar            — Calendar, RangeCalendar (root, nav buttons, day/cell, header cells)
- *   15. Color picker thumb  — ColorArea, ColorSlider, ColorWheel
- *   16. Modal               — AlertDialog, Dialog, Drawer (title, description, backdrop, actions, close button)
- *   17. Progress / Meter    — ProgressBar, Meter (root, label, track, indicator, value)
- *   18. Button sizes        — Button, ToggleButton (sm / md / lg modifiers)
- *   19. Choice group root   — CheckboxGroup, RadioGroup
- *   20. Combobox / Autocomplete input group + empty state
+ *   15. Heading reset       — Calendar, RangeCalendar (shields AriaHeading <h1>–<h6> from external styles)
+ *   16. Color picker thumb  — ColorArea, ColorSlider, ColorWheel
+ *   17. Modal               — AlertDialog, Dialog, Drawer (title, description, backdrop, actions, close button)
+ *   18. Progress / Meter    — ProgressBar, Meter (root, label, track, indicator, value)
+ *   19. Button sizes        — Button, ToggleButton (sm / md / lg modifiers)
+ *   20. Choice group root   — CheckboxGroup, RadioGroup
+ *   21. Combobox / Autocomplete input group + empty state
  */
 
 /* ─── Focus ring tokens ────────────────────────────────────────────────────── */
@@ -859,7 +860,27 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   15. COLOR PICKER THUMB
+   15. COMPONENT HEADING RESET
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* AriaHeading renders <h1>–<h6>; double-class specificity shields these
+   from global typography foundations AND consumer descendant selectors
+   (e.g. .section h3). Add new component __heading selectors here. */
+.tale-calendar__heading.tale-calendar__heading,
+.tale-range-calendar__heading.tale-range-calendar__heading {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: var(--neutral-90);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   16. COLOR PICKER THUMB
    ══════════════════════════════════════════════════════════════════════════ */
 
 .tale-color-area__thumb,
@@ -896,7 +917,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   16. MODAL (TITLE, DESCRIPTION, BACKDROP, ACTIONS)
+   17. MODAL (TITLE, DESCRIPTION, BACKDROP, ACTIONS)
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* Modal title */
@@ -981,7 +1002,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   17. PROGRESS BAR + METER
+   18. PROGRESS BAR + METER
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* Feedback header row (label + value) */
@@ -1037,7 +1058,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   18. BUTTON SIZE MODIFIERS
+   19. BUTTON SIZE MODIFIERS
    ══════════════════════════════════════════════════════════════════════════ */
 
 .tale-button.tale-button--sm,
@@ -1064,7 +1085,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   19. CHOICE GROUP ROOT
+   20. CHOICE GROUP ROOT
    ══════════════════════════════════════════════════════════════════════════ */
 
 .tale-checkbox-group,
@@ -1075,7 +1096,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   20. COMBOBOX + AUTOCOMPLETE INPUT GROUP + EMPTY STATE
+   21. COMBOBOX + AUTOCOMPLETE INPUT GROUP + EMPTY STATE
    ══════════════════════════════════════════════════════════════════════════ */
 
 .tale-combobox__input-group,
