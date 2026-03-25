@@ -35,7 +35,7 @@ const preview: Preview = {
     docs: { theme: buildTheme('light') },
     options: {
       storySort: (a, b) => {
-        const topLevel = ['Welcome', 'Getting Started', 'Catalog'];
+        const topLevel = ['Welcome', 'Getting Started'];
 
         const aTop = topLevel.indexOf(a.title);
         const bTop = topLevel.indexOf(b.title);

@@ -1,14 +1,5 @@
 import * as React from 'react';
-
-/** Navigate the Storybook manager to a story by its title. */
-function goTo(storyTitle: string) {
-  const id = storyTitle
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/\//g, '-')
-    .replace(/[^a-z0-9-]/g, '');
-  window.parent.location.href = `?path=/story/${id}`;
-}
+import { goToDocs } from './goToStory';
 
 const s: Record<string, React.CSSProperties> = {
   canvas: {
@@ -117,13 +108,13 @@ export function WelcomePage() {
       id: 'getting-started',
       title: 'Getting Started',
       desc: 'Install and set up Tale in your project',
-      storyTitle: 'Introduction/Getting Started',
+      storyTitle: 'Getting Started',
     },
     {
       id: 'foundations',
       title: 'Foundations',
       desc: 'Tokens, typography, color, and spacing',
-      storyTitle: 'Foundations/Colors',
+      storyTitle: 'Foundations/Named Colors',
     },
     {
       id: 'components',
@@ -239,13 +230,13 @@ export function WelcomePage() {
                   background: hoveredCard === link.id ? 'var(--color-80)' : 'var(--color-90)',
                   borderColor: hoveredCard === link.id ? 'var(--color-70)' : 'var(--color-80)',
                 }}
-                onClick={() => goTo(link.storyTitle)}
+                onClick={() => goToDocs(link.storyTitle)}
                 onMouseEnter={() => setHoveredCard(link.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') goTo(link.storyTitle);
+                  if (e.key === 'Enter') goToDocs(link.storyTitle);
                 }}
               >
                 <div className="text--label-m" style={s.quickLinkTitle}>
