@@ -174,14 +174,26 @@ buildPkg.type = buildPkg.type || 'commonjs';
 if (buildPkg.exports) {
   const newExports = {};
   for (const [key, value] of Object.entries(buildPkg.exports)) {
-    if (typeof value === 'string' && value.startsWith('./src/') && value.endsWith('.css')) {
-      // CSS exports: copy file to build dir and keep as a plain string export
-      const stripped = value.replace(/^\.\/src\//, './');
-      const srcFile = path.join(cwd, value);
+    // CSS exports: value is a string ("./src/foo.css") or object ({ types, default })
+    const cssPath = typeof value === 'string' ? value
+      : (typeof value === 'object' && value !== null && typeof value.default === 'string') ? value.default
+      : null;
+    if (cssPath && cssPath.startsWith('./src/') && cssPath.endsWith('.css')) {
+      const stripped = cssPath.replace(/^\.\/src\//, './');
+      const srcFile = path.join(cwd, cssPath);
       const destFile = path.join(buildDir, stripped);
       await fs.mkdir(path.dirname(destFile), { recursive: true });
       await fs.cp(srcFile, destFile);
-      newExports[key] = stripped;
+      // Copy types declaration if present in object form
+      if (typeof value === 'object' && typeof value.types === 'string') {
+        const typesStripped = value.types.replace(/^\.\/src\//, './');
+        const typesSrc = path.join(cwd, value.types);
+        const typesDest = path.join(buildDir, typesStripped);
+        await fs.cp(typesSrc, typesDest);
+        newExports[key] = { types: typesStripped, default: stripped };
+      } else {
+        newExports[key] = stripped;
+      }
     } else if (typeof value === 'string' && value.startsWith('./src/')) {
       const stripped = value.replace(/^\.\/src\//, './').replace(/\.tsx?$/, '.js');
       const esmPath = stripped.replace(/^\.\//, './esm/');
