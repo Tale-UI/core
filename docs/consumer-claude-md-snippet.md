@@ -29,7 +29,7 @@ Before generating or modifying component code, you MUST:
 4. **Do not guess component APIs.** Always check the `@example` block first. Incorrect usage (wrong sub-part names, missing wrapper components, wrong import paths) causes build failures.
 
 5. **Common pitfalls to avoid:**
-   - `Table`, `Drawer`, `Meter`, `ProgressBar`, `NumberField`, etc. are namespace objects — always use `<Component.Root>`, never `<Component>` directly.
+   - `Table`, `Drawer`, `Meter`, `ProgressBar`, `NumberField`, etc. are namespace objects — always use `<Component.Root>`, never `<Component>` directly. Simple (non-namespace) components include: `Button`, `Link`, `Icon`, `IconButton`, `ColorModeToggle`, `Separator`, `ToggleButton`, `FileTrigger`, `DropZone`.
    - `Drawer.Backdrop` must be a self-closing sibling of `Drawer.Popup` (`<Drawer.Backdrop />`), never a wrapper around it.
    - `Meter.Value` and `ProgressBar.Value` need children text (e.g. `<Meter.Value>60%</Meter.Value>`), not self-closing.
    - `NumberField.Increment` and `NumberField.Decrement` render their own lucide-react icons — use them self-closing.
@@ -38,11 +38,24 @@ Before generating or modifying component code, you MUST:
    - `Calendar.GridHeader` passes day name strings, not dates — use `Calendar.GridHeaderCell` inside it, not `Calendar.Cell`. Reserve `Calendar.Cell` for `Calendar.GridBody`.
    - `Calendar.Heading` must have no vertical margin or padding — do not add spacing to it or wrap it in an element that adds margins (e.g. `<h2>`).
    - Do NOT nest `ColorSlider` inside `ColorPicker.Root` — the context does not propagate and causes "Unknown color channel: hue" at runtime. Use `ColorArea` and `ColorSlider` as standalone components with shared `useState`.
-   - `Checkbox.Indicator` does NOT render a checkmark on its own — you must provide a child SVG icon.
-   - `AlertDialog.Trigger`, `Drawer.Trigger`, and `Drawer.Close` do NOT auto-apply `tale-button` — you must add both `tale-button` and the variant class explicitly.
+   - `Checkbox.Indicator` does NOT render a checkmark on its own — you must provide a child `<Icon icon={Check} size="sm" />` from `@tale-ui/react/icon` and `lucide-react`.
+   - `Dialog.Close` and `Popover.Close` auto-render an X icon — use them self-closing (`<Dialog.Close aria-label="Close" />`). Pass children only to override the default icon.
    - `Dialog.Backdrop` must **wrap** `Dialog.Popup` (opposite of Drawer).
-   - Trigger components (`Tooltip.Trigger`, `Menu.Trigger`, `Popover.Trigger`, `AlertDialog.Trigger`, `Drawer.Trigger`, `Dialog.Trigger`, etc.) render their own `<button>` — never nest a `<Button>` inside them. Apply button styling via `className="tale-button tale-button--{variant}"` directly on the trigger.
    - `Select.Root` owns the `placeholder` prop — do NOT put `placeholder` on `Select.Value`.
+   - `Combobox.Trigger` auto-renders a chevron icon — use it self-closing inside `Combobox.InputGroup`.
+   - `SearchField.ClearButton` does NOT render an icon — but it works self-closing (the CSS draws an `×` via `::after`).
+   - **Trigger button styling** — Triggers render their own `<button>`, so never nest `<Button>` inside them. But they differ in how BEM classes are applied:
+
+     | Trigger                                                | Auto-applies `tale-button`? | className you provide                                                                   |
+     | ------------------------------------------------------ | --------------------------- | --------------------------------------------------------------------------------------- |
+     | `Dialog.Trigger`                                       | Yes                         | `className="tale-button--primary"` (variant only)                                       |
+     | `AlertDialog.Trigger`                                  | No                          | `className="tale-button tale-button--danger"` (base + variant)                          |
+     | `Drawer.Trigger`, `Drawer.Close`                       | No                          | `className="tale-button tale-button--neutral"` (base + variant)                         |
+     | `Popover.Trigger`, `Tooltip.Trigger`, `Menu.Trigger`   | No                          | `className="tale-button tale-button--neutral tale-button--md"` (base + variant + size)  |
+
+   - **Icon and IconButton:**
+     - `Icon` takes a component ref, not an instance: `<Icon icon={Heart} />` (correct) vs `<Icon icon={<Heart />} />` (wrong). Import icons from `lucide-react`.
+     - `IconButton` requires `aria-label` for accessibility: `<IconButton aria-label="Delete" icon={Trash2} />`.
    - **Token size suffixes:** Tale UI uses `-s`, `-m`, `-l` (NOT Bootstrap-style `-sm`, `-md`, `-lg`). Full scale: `4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl`. Example: `--space-m` not `--space-md`.
    - **Layout utilities:** Tale UI provides layout utility classes (`.flex--row`, `.flex--col`, `.gap--m`, `.grid--3`, `.center--hv`, etc.) — use these instead of writing manual `display: flex` / `gap` declarations.
 

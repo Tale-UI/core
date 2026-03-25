@@ -169,20 +169,23 @@ The design system sets `html { font-size: 62.5% }` so that **1rem = 10px**. If y
 
 ### Setting it up
 
-**Option A — OS preference only (no toggle)**
+**Inline `<head>` script (required)**
 
-Add an inline script in `<head>` before any CSS to avoid a flash of wrong theme:
+Add this script in `<head>` before any CSS to avoid a flash of wrong theme. It reads from `localStorage` first (for `ColorModeToggle` persistence), then falls back to OS preference:
 
 ```html
 <script>
-  document.documentElement.setAttribute(
-    'data-color-mode',
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  );
+  (function() {
+    var mode = localStorage.getItem('color-mode')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-color-mode', mode);
+  })();
 </script>
 ```
 
-**Option B — with a toggle**
+**Optional: custom toggle hook**
+
+If you need a custom toggle instead of `ColorModeToggle`, use this hook:
 
 ```tsx
 function useDarkMode() {

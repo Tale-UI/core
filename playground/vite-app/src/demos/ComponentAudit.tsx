@@ -1298,6 +1298,7 @@ export default function ComponentAudit() {
         </Section>
 
         <Section id="alert-dialog" title="AlertDialog" classes={['tale-alert-dialog__backdrop', 'tale-alert-dialog__popup', 'tale-alert-dialog__title', 'tale-alert-dialog__description', 'tale-alert-dialog__actions']}>
+          <SubHeading>Default</SubHeading>
           <Row>
             <AlertDialogDemo />
           </Row>
@@ -1359,13 +1360,57 @@ export default function ComponentAudit() {
           <Row>
             <Drawer.Root>
               <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Popup>
+                <p>Drawer content goes here.</p>
+                <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+              </Drawer.Popup>
+            </Drawer.Root>
+          </Row>
+          <SubHeading>With Title</SubHeading>
+          <Row>
+            <Drawer.Root>
+              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Popup>
+                <Drawer.Title>Drawer Title</Drawer.Title>
+                <Drawer.Description>This is a description of the drawer content.</Drawer.Description>
+                <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+              </Drawer.Popup>
+            </Drawer.Root>
+          </Row>
+          <SubHeading>With Backdrop</SubHeading>
+          <Row>
+            <Drawer.Root>
+              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Backdrop />
+              <Drawer.Popup>
+                <Drawer.Title>Drawer with Backdrop</Drawer.Title>
+                <Drawer.Description>Click the backdrop to close.</Drawer.Description>
+                <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+              </Drawer.Popup>
+            </Drawer.Root>
+          </Row>
+          <SubHeading>With Handle</SubHeading>
+          <Row>
+            <Drawer.Root>
+              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
               <Drawer.Backdrop />
               <Drawer.Popup>
                 <Drawer.Handle />
-                <Drawer.Title>Drawer Title</Drawer.Title>
-                <Drawer.Description>
-                  A drawer panel for side or bottom content.
-                </Drawer.Description>
+                <Drawer.Title>Drawer with Handle</Drawer.Title>
+                <Drawer.Description>The handle bar indicates this drawer is draggable.</Drawer.Description>
+                <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+              </Drawer.Popup>
+            </Drawer.Root>
+          </Row>
+          <SubHeading>With Actions</SubHeading>
+          <Row>
+            <Drawer.Root>
+              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Backdrop />
+              <Drawer.Popup>
+                <Drawer.Handle />
+                <Drawer.Title>Confirm Action</Drawer.Title>
+                <Drawer.Description>Are you sure you want to proceed?</Drawer.Description>
                 <div className="audit__drawer-actions">
                   <Drawer.Close className="tale-button tale-button--neutral audit__drawer-action">Cancel</Drawer.Close>
                   <Drawer.Close className="tale-button tale-button--primary audit__drawer-action">Confirm</Drawer.Close>
@@ -1613,6 +1658,7 @@ export default function ComponentAudit() {
         {/* ============================================================= */}
 
         <Section id="accordion" title="Accordion" classes={['tale-accordion', 'tale-accordion__item', 'tale-accordion__trigger', 'tale-accordion__trigger-icon', 'tale-accordion__panel']}>
+          <SubHeading>Default Open</SubHeading>
           <div className="audit__demo-extra-wide">
             <Accordion.Root defaultExpandedKeys={['a']}>
               {[
@@ -1671,7 +1717,8 @@ export default function ComponentAudit() {
         </Section>
 
         <Section id="disclosure" title="Disclosure" classes={['tale-disclosure', 'tale-disclosure__trigger', 'tale-disclosure__panel']}>
-          <div className="audit__demo-wide display--flex flex--col gap--xs">
+          <SubHeading>Default Expanded</SubHeading>
+          <div className="audit__demo-wide">
             <Disclosure.Root defaultExpanded>
               <Disclosure.Trigger>Open by default</Disclosure.Trigger>
               <Disclosure.Panel>
@@ -1680,6 +1727,9 @@ export default function ComponentAudit() {
                 </div>
               </Disclosure.Panel>
             </Disclosure.Root>
+          </div>
+          <SubHeading>Collapsed</SubHeading>
+          <div className="audit__demo-wide">
             <Disclosure.Root>
               <Disclosure.Trigger>Click to expand</Disclosure.Trigger>
               <Disclosure.Panel>
@@ -1688,6 +1738,9 @@ export default function ComponentAudit() {
                 </div>
               </Disclosure.Panel>
             </Disclosure.Root>
+          </div>
+          <SubHeading>Disabled</SubHeading>
+          <div className="audit__demo-wide">
             <Disclosure.Root isDisabled>
               <Disclosure.Trigger>Disabled</Disclosure.Trigger>
               <Disclosure.Panel>
@@ -1741,6 +1794,20 @@ export default function ComponentAudit() {
           </div>
           <SubHeading>Controlled</SubHeading>
           <ControlledTabsDemo />
+          <SubHeading>With Disabled Tab</SubHeading>
+          <div className="audit__demo-extra-wide audit__demo-spaced">
+            <Tabs.Root defaultSelectedKey="active">
+              <Tabs.List>
+                <Tabs.Tab id="active">Active</Tabs.Tab>
+                <Tabs.Tab id="disabled-only" isDisabled>Disabled</Tabs.Tab>
+                <Tabs.Tab id="another">Another</Tabs.Tab>
+                <Tabs.Indicator />
+              </Tabs.List>
+              <Tabs.Panel id="active">This tab is active.</Tabs.Panel>
+              <Tabs.Panel id="disabled-only">This tab is disabled and cannot be selected.</Tabs.Panel>
+              <Tabs.Panel id="another">Another tab panel.</Tabs.Panel>
+            </Tabs.Root>
+          </div>
         </Section>
 
         <Section id="scroll-area" title="ScrollArea" classes={['tale-scroll-area', 'tale-scroll-area__viewport', 'tale-scroll-area__scrollbar', 'tale-scroll-area__thumb', 'tale-scroll-area__corner']}>
@@ -1810,6 +1877,9 @@ export default function ComponentAudit() {
                 <ProgressBar.Indicator value={100} />
               </ProgressBar.Track>
             </ProgressBar.Root>
+          </div>
+          <SubHeading>Indeterminate</SubHeading>
+          <div className="audit__demo-wide">
             <ProgressBar.Root isIndeterminate>
               <ProgressBar.Header>
                 <ProgressBar.Label>Processing</ProgressBar.Label>
@@ -1891,21 +1961,35 @@ export default function ComponentAudit() {
         {/* ============================================================= */}
 
         <Section id="field" title="Field" classes={['tale-field', 'tale-field__label', 'tale-field__description', 'tale-field__error']}>
-          <div className="audit__demo-medium display--flex flex--col gap--s">
+          <SubHeading>Default</SubHeading>
+          <div className="audit__demo-medium">
             <Field.Root>
-              <Field.Label>Default</Field.Label>
+              <Field.Label>Label</Field.Label>
               <Input.Input placeholder="Type here…" />
-              <Field.Description>Helper text goes here.</Field.Description>
             </Field.Root>
+          </div>
+          <SubHeading>With Description</SubHeading>
+          <div className="audit__demo-medium">
+            <Field.Root>
+              <Field.Label>Email</Field.Label>
+              <Input.Input placeholder="you@example.com" />
+              <Field.Description>We will never share your email.</Field.Description>
+            </Field.Root>
+          </div>
+          <SubHeading>With Error</SubHeading>
+          <div className="audit__demo-medium">
+            <Field.Root data-invalid>
+              <Field.Label>Password</Field.Label>
+              <Input.Input type="password" defaultValue="123" />
+              <Field.Error>Password must be at least 8 characters.</Field.Error>
+            </Field.Root>
+          </div>
+          <SubHeading>Disabled</SubHeading>
+          <div className="audit__demo-medium">
             <Field.Root data-disabled>
               <Field.Label>Disabled</Field.Label>
               <Input.Input disabled placeholder="Cannot edit" />
               <Field.Description>This field is disabled.</Field.Description>
-            </Field.Root>
-            <Field.Root data-invalid>
-              <Field.Label>Invalid</Field.Label>
-              <Input.Input defaultValue="bad value" />
-              <Field.Error>This field has an error.</Field.Error>
             </Field.Root>
           </div>
         </Section>
@@ -1925,6 +2009,20 @@ export default function ComponentAudit() {
               </Field.Root>
             </div>
           </Fieldset.Root>
+          <SubHeading>Disabled</SubHeading>
+          <Fieldset.Root data-disabled>
+            <Fieldset.Legend>Billing Address</Fieldset.Legend>
+            <div className="audit__fieldset-content">
+              <Field.Root data-disabled>
+                <Field.Label>Street</Field.Label>
+                <Input.Input placeholder="123 Main St" disabled />
+              </Field.Root>
+              <Field.Root data-disabled>
+                <Field.Label>City</Field.Label>
+                <Input.Input placeholder="Springfield" disabled />
+              </Field.Root>
+            </div>
+          </Fieldset.Root>
         </Section>
 
         <Section id="form" title="Form" classes={['tale-form']}>
@@ -1939,6 +2037,19 @@ export default function ComponentAudit() {
               <Input.Input type="password" placeholder="Enter password" />
             </Field.Root>
             <Button variant="primary" type="submit">Submit</Button>
+          </Form>
+          <SubHeading>With Validation</SubHeading>
+          <Form className="audit__demo-medium display--flex flex--col gap--xs">
+            <Field.Root>
+              <Field.Label>Full name</Field.Label>
+              <Input.Input placeholder="Jane Doe" required />
+              <Field.Description>Required field.</Field.Description>
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Password</Field.Label>
+              <Input.Input type="password" placeholder="Min 8 characters" minLength={8} required />
+            </Field.Root>
+            <Button variant="primary" type="submit">Create Account</Button>
           </Form>
         </Section>
 
@@ -2060,12 +2171,22 @@ export default function ComponentAudit() {
             <Link href="#">Default link</Link>
             <Link href="#" isDisabled>Disabled link</Link>
           </Row>
+          <SubHeading>External</SubHeading>
+          <Row>
+            <Link href="https://example.com" target="_blank">Opens in new tab</Link>
+          </Row>
         </Section>
 
         <Section id="grid-list" title="GridList" classes={['tale-grid-list', 'tale-grid-list__item']}>
           <SubHeading>Default</SubHeading>
-          <GridList.Root aria-label="Items" selectionMode="multiple" className="audit__demo-medium">
+          <GridList.Root aria-label="Items" className="audit__demo-medium">
             {['Item One', 'Item Two', 'Item Three', 'Item Four'].map((item) => (
+              <GridList.Item key={item} id={item}>{item}</GridList.Item>
+            ))}
+          </GridList.Root>
+          <SubHeading>With Selection</SubHeading>
+          <GridList.Root aria-label="Selectable items" selectionMode="multiple" className="audit__demo-medium">
+            {['Design tokens', 'Components', 'Documentation', 'Testing'].map((item) => (
               <GridList.Item key={item} id={item}>{item}</GridList.Item>
             ))}
           </GridList.Root>
@@ -2097,6 +2218,31 @@ export default function ComponentAudit() {
               </Table.Row>
             </Table.Body>
           </Table.Root>
+          <SubHeading>With Selection</SubHeading>
+          <Table.Root aria-label="Selectable people" selectionMode="multiple" className="audit__demo-extra-wide">
+            <Table.Header>
+              <Table.Column isRowHeader>Name</Table.Column>
+              <Table.Column>Role</Table.Column>
+              <Table.Column>Status</Table.Column>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row id="alice">
+                <Table.Cell>Alice</Table.Cell>
+                <Table.Cell>Engineer</Table.Cell>
+                <Table.Cell>Active</Table.Cell>
+              </Table.Row>
+              <Table.Row id="bob">
+                <Table.Cell>Bob</Table.Cell>
+                <Table.Cell>Designer</Table.Cell>
+                <Table.Cell>Away</Table.Cell>
+              </Table.Row>
+              <Table.Row id="charlie">
+                <Table.Cell>Charlie</Table.Cell>
+                <Table.Cell>Manager</Table.Cell>
+                <Table.Cell>Active</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table.Root>
           <SubHeading>With Sorting</SubHeading>
           <SortableTableDemo />
         </Section>
@@ -2121,6 +2267,16 @@ export default function ComponentAudit() {
               <TagGroup.Tag id="gql">GraphQL</TagGroup.Tag>
             </TagGroup.List>
           </TagGroup.Root>
+          <SubHeading>With Selection</SubHeading>
+          <TagGroup.Root selectionMode="multiple" defaultSelectedKeys={['rust']}>
+            <TagGroup.Label>Languages</TagGroup.Label>
+            <TagGroup.List>
+              <TagGroup.Tag id="ts2">TypeScript</TagGroup.Tag>
+              <TagGroup.Tag id="rust">Rust</TagGroup.Tag>
+              <TagGroup.Tag id="python">Python</TagGroup.Tag>
+              <TagGroup.Tag id="go">Go</TagGroup.Tag>
+            </TagGroup.List>
+          </TagGroup.Root>
         </Section>
 
         <Section id="tree" title="Tree" classes={['tale-tree', 'tale-tree__item', 'tale-tree__item-content']}>
@@ -2141,6 +2297,27 @@ export default function ComponentAudit() {
                 <Tree.ItemContent>utils/</Tree.ItemContent>
                 <Tree.Item id="helpers" textValue="helpers.ts">
                   <Tree.ItemContent>helpers.ts</Tree.ItemContent>
+                </Tree.Item>
+              </Tree.Item>
+            </Tree.Item>
+          </Tree.Root>
+          <SubHeading>With Expanded</SubHeading>
+          <Tree.Root aria-label="Documents" defaultExpandedKeys={['docs', 'guides']} className="audit__demo-medium">
+            <Tree.Item id="docs" textValue="docs">
+              <Tree.ItemContent>docs/</Tree.ItemContent>
+              <Tree.Item id="guides" textValue="guides">
+                <Tree.ItemContent>guides/</Tree.ItemContent>
+                <Tree.Item id="getting-started" textValue="getting-started.md">
+                  <Tree.ItemContent>getting-started.md</Tree.ItemContent>
+                </Tree.Item>
+                <Tree.Item id="advanced" textValue="advanced.md">
+                  <Tree.ItemContent>advanced.md</Tree.ItemContent>
+                </Tree.Item>
+              </Tree.Item>
+              <Tree.Item id="api" textValue="api">
+                <Tree.ItemContent>api/</Tree.ItemContent>
+                <Tree.Item id="ref" textValue="reference.md">
+                  <Tree.ItemContent>reference.md</Tree.ItemContent>
                 </Tree.Item>
               </Tree.Item>
             </Tree.Item>
