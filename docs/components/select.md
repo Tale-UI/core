@@ -23,9 +23,9 @@ A compound dropdown select component with popover listbox, built on React Aria's
 ## Basic Usage
 
 ```tsx
-<Select.Root>
+<Select.Root placeholder="Select a fruit...">
   <Select.Trigger>
-    <Select.Value placeholder="Select a fruit..." />
+    <Select.Value />
     <Select.Icon>&#x25BE;</Select.Icon>
   </Select.Trigger>
   <Select.Popover>
@@ -43,10 +43,10 @@ A compound dropdown select component with popover listbox, built on React Aria's
 ### With Label
 
 ```tsx
-<Select.Root>
+<Select.Root placeholder="Choose one...">
   <Select.Label>Favorite fruit</Select.Label>
   <Select.Trigger>
-    <Select.Value placeholder="Choose one..." />
+    <Select.Value />
     <Select.Icon>&#x25BE;</Select.Icon>
   </Select.Trigger>
   <Select.Popover>
@@ -62,10 +62,10 @@ A compound dropdown select component with popover listbox, built on React Aria's
 ### With Sections
 
 ```tsx
-<Select.Root>
+<Select.Root placeholder="Select a food...">
   <Select.Label>Food</Select.Label>
   <Select.Trigger>
-    <Select.Value placeholder="Select a food..." />
+    <Select.Value />
     <Select.Icon>&#x25BE;</Select.Icon>
   </Select.Trigger>
   <Select.Popover>
@@ -88,10 +88,10 @@ A compound dropdown select component with popover listbox, built on React Aria's
 ### With Disabled Items
 
 ```tsx
-<Select.Root>
+<Select.Root placeholder="Select...">
   <Select.Label>Available options</Select.Label>
   <Select.Trigger>
-    <Select.Value placeholder="Select..." />
+    <Select.Value />
     <Select.Icon>&#x25BE;</Select.Icon>
   </Select.Trigger>
   <Select.Popover>
@@ -107,10 +107,10 @@ A compound dropdown select component with popover listbox, built on React Aria's
 ### Disabled
 
 ```tsx
-<Select.Root isDisabled>
+<Select.Root isDisabled placeholder="Cannot select...">
   <Select.Label>Disabled select</Select.Label>
   <Select.Trigger>
-    <Select.Value placeholder="Cannot select..." />
+    <Select.Value />
     <Select.Icon>&#x25BE;</Select.Icon>
   </Select.Trigger>
   <Select.Popover>
@@ -138,4 +138,4 @@ A compound dropdown select component with popover listbox, built on React Aria's
 
 - Each `Select.Item` should have an `id` and a `textValue` prop. `textValue` is inferred from text children but should be explicit for complex item content (icons, badges, etc.).
 - `isDisabled` on `Select.Root` disables the entire select. Use `isDisabled` on individual `Select.Item` elements to disable specific options.
-- The `placeholder` prop on `Select.Value` is shown when no item is selected.
+- The `placeholder` prop belongs on `Select.Root`, not `Select.Value`. It is shown when no item is selected.

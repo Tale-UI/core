@@ -6,6 +6,10 @@ import { cx } from '../_cx';
 
 export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'className'> {
   className?: string | undefined;
+  /** An accessible label for the checkbox group. */
+  label?: string;
+  /** A description for the checkbox group. Displays below the group. */
+  description?: string;
 }
 
 /**

@@ -28,9 +28,9 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled}>
+    <Select.Root isDisabled={args.isDisabled} placeholder="Select a fruit…">
       <Select.Trigger>
-        <Select.Value placeholder="Select a fruit…" />
+        <Select.Value />
         <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
       <Select.Popover>
@@ -48,10 +48,10 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled}>
+    <Select.Root isDisabled={args.isDisabled} placeholder="Choose one…">
       <Select.Label>Favorite fruit</Select.Label>
       <Select.Trigger>
-        <Select.Value placeholder="Choose one…" />
+        <Select.Value />
         <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
       <Select.Popover>
@@ -67,10 +67,10 @@ export const WithLabel: Story = {
 
 export const WithGroups: Story = {
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled}>
+    <Select.Root isDisabled={args.isDisabled} placeholder="Select a food…">
       <Select.Label>Food</Select.Label>
       <Select.Trigger>
-        <Select.Value placeholder="Select a food…" />
+        <Select.Value />
         <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
       <Select.Popover>
@@ -95,10 +95,10 @@ export const WithGroups: Story = {
 
 export const WithDisabledItems: Story = {
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled}>
+    <Select.Root isDisabled={args.isDisabled} placeholder="Select…">
       <Select.Label>Available options</Select.Label>
       <Select.Trigger>
-        <Select.Value placeholder="Select…" />
+        <Select.Value />
         <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
       <Select.Popover>
@@ -119,10 +119,10 @@ export const Disabled: Story = {
     isDisabled: true,
   },
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled}>
+    <Select.Root isDisabled={args.isDisabled} placeholder="Cannot select…">
       <Select.Label>Disabled select</Select.Label>
       <Select.Trigger>
-        <Select.Value placeholder="Cannot select…" />
+        <Select.Value />
         <Select.Icon>▾</Select.Icon>
       </Select.Trigger>
       <Select.Popover>

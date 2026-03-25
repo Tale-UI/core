@@ -54,6 +54,10 @@ Indicator.displayName = 'Radio.Indicator';
 
 export interface RadioGroupProps extends Omit<AriaRadioGroupProps, 'className'> {
   className?: string | undefined;
+  /** An accessible label for the radio group. */
+  label?: string;
+  /** A description for the radio group. Displays below the group. */
+  description?: string;
 }
 
 export const Group = React.forwardRef<HTMLDivElement, RadioGroupProps>(

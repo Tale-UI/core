@@ -42,6 +42,9 @@ Before generating or modifying component code, you MUST:
    - `AlertDialog.Trigger`, `Drawer.Trigger`, and `Drawer.Close` do NOT auto-apply `tale-button` — you must add both `tale-button` and the variant class explicitly.
    - `Dialog.Backdrop` must **wrap** `Dialog.Popup` (opposite of Drawer).
    - Trigger components (`Tooltip.Trigger`, `Menu.Trigger`, `Popover.Trigger`, `AlertDialog.Trigger`, `Drawer.Trigger`, `Dialog.Trigger`, etc.) render their own `<button>` — never nest a `<Button>` inside them. Apply button styling via `className="tale-button tale-button--{variant}"` directly on the trigger.
+   - `Select.Root` owns the `placeholder` prop — do NOT put `placeholder` on `Select.Value`.
+   - **Token size suffixes:** Tale UI uses `-s`, `-m`, `-l` (NOT Bootstrap-style `-sm`, `-md`, `-lg`). Full scale: `4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl`. Example: `--space-m` not `--space-md`.
+   - **Layout utilities:** Tale UI provides layout utility classes (`.flex--row`, `.flex--col`, `.gap--m`, `.grid--3`, `.center--hv`, etc.) — use these instead of writing manual `display: flex` / `gap` declarations.
 
 6. **Dark mode must persist between refreshes.** Every new app must:
 

@@ -33,10 +33,10 @@ export type RootProps<T extends object = {}> = Omit<AriaSelectProps<T>, 'classNa
  * ```tsx
  * import { Select } from '@tale-ui/react/select';
  *
- * <Select.Root>
+ * <Select.Root placeholder="Select...">
  *   <Select.Label>Fruit</Select.Label>
  *   <Select.Trigger>
- *     <Select.Value placeholder="Select..." />
+ *     <Select.Value />
  *     <Select.Icon />
  *   </Select.Trigger>
  *   <Select.Popover>

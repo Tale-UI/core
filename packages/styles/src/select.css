@@ -8,9 +8,9 @@
  *   Item:    [data-selected] [data-focused] [data-disabled]
  *
  * Usage:
- *   <Select.Root>
+ *   <Select.Root placeholder="Pick one">
  *     <Select.Trigger className="tale-select__trigger">
- *       <Select.Value placeholder="Pick one" />
+ *       <Select.Value />
  *       <Select.Icon className="tale-select__icon">▾</Select.Icon>
  *     </Select.Trigger>
  *     <Select.Popover className="tale-select__popover">

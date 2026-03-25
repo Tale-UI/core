@@ -11,6 +11,8 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 | `Checkbox.Root` | The checkbox label and input wrapper |
 | `Checkbox.Indicator` | The visual box that contains the check/minus icon |
 
+> **Important:** `Checkbox.Indicator` is a plain `<span>` — it does NOT include a built-in checkmark icon. You must always provide an SVG child (e.g. `<CheckIcon />`).
+
 ## Basic Usage
 
 ```tsx

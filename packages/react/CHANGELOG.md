@@ -2,6 +2,19 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.31 — 2026-03-25
+
+### Changed
+
+- **Select:** Moved `placeholder` prop from `Select.Value` to `Select.Root` for cleaner API.
+- **CheckboxGroup / RadioGroup:** Added `label` and `description` props.
+- **Styles export:** Added TypeScript declaration for `@tale-ui/react/styles` CSS import.
+
+### Docs
+
+- Consumer CLAUDE.md snippet: added Select placeholder, token size suffix, and layout utility pitfalls.
+- Updated Select component docs and stories to use new placeholder location.
+
 ## v1.3.30 — 2026-03-25
 
 ### Fixed
