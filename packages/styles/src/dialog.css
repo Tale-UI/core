@@ -56,7 +56,7 @@
 /* ─── Close button (position only — base styles in _primitives.css) ──────── */
 
 .tale-dialog__close {
-  top: var(--space-s);
-  right: var(--space-s);
+  top: var(--space-2xs);
+  right: var(--space-xs);
 }
 
