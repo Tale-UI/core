@@ -431,7 +431,7 @@ When adding a new component, complete every step:
 3. [ ] Create `index.ts` — re-export (direct for simple, namespace for multi-part)
 4. [ ] Create `{Component}.test.tsx` — BEM classes, className merging, data attributes, ref, events
 5. [ ] Create `packages/styles/src/{component}.css` — use `--color-*`/`--neutral-*` tokens (NEVER `--brand-*`), style states via data attributes
-6. [ ] Check `packages/styles/src/_primitives.css` — add to existing groups if applicable
+6. [ ] Check `packages/styles/src/_primitives.css` — add to existing groups if applicable. **If the component uses `<AriaHeading>`,** add its `__heading` selector to the heading reset group (group 15) so global `h1`–`h6` styles cannot leak in.
 7. [ ] Add `@import './{component}.css'` to `packages/styles/src/index.css`
 8. [ ] Add `"./{component}": "./src/{component}.css"` to `packages/styles/package.json` exports
 9. [ ] Add `"./{component}": "./src/{component}/index.ts"` to `packages/react/package.json` exports
