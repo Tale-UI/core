@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Icon } from '../icon';
 import {
   RangeCalendar as AriaRangeCalendar,
   CalendarGrid as AriaCalendarGrid,
@@ -129,9 +131,9 @@ Heading.displayName = 'RangeCalendar.Heading';
 /* ─── PreviousButton ───────────────────────────────────────────────────────── */
 
 export const PreviousButton = React.forwardRef<HTMLButtonElement, Omit<AriaButtonProps, 'className' | 'slot'> & { className?: string }>(
-  ({ className, children = '\u2039', ...props }, ref) => (
-    <AriaButton ref={ref} slot="previous" className={cx('tale-range-calendar__prev-button', className)} {...props}>
-      {children as React.ReactNode}
+  ({ className, children, ...props }, ref) => (
+    <AriaButton ref={ref} slot="previous" className={cx('tale-icon-button tale-button tale-button--ghost tale-range-calendar__prev-button', className)} {...props}>
+      {children ?? <Icon icon={ChevronLeft} size="sm" />}
     </AriaButton>
   ),
 );
@@ -140,9 +142,9 @@ PreviousButton.displayName = 'RangeCalendar.PreviousButton';
 /* ─── NextButton ───────────────────────────────────────────────────────────── */
 
 export const NextButton = React.forwardRef<HTMLButtonElement, Omit<AriaButtonProps, 'className' | 'slot'> & { className?: string }>(
-  ({ className, children = '\u203A', ...props }, ref) => (
-    <AriaButton ref={ref} slot="next" className={cx('tale-range-calendar__next-button', className)} {...props}>
-      {children as React.ReactNode}
+  ({ className, children, ...props }, ref) => (
+    <AriaButton ref={ref} slot="next" className={cx('tale-icon-button tale-button tale-button--ghost tale-range-calendar__next-button', className)} {...props}>
+      {children ?? <Icon icon={ChevronRight} size="sm" />}
     </AriaButton>
   ),
 );

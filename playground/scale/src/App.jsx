@@ -332,20 +332,7 @@ const ScaleApp = () => {
     }
   }, [bgIsLight, bgColor, namedPalette])
 
-  // Update palette-tinted text colour tokens
-  useEffect(() => {
-    const hex = isValidHex(numberToHex(mainColor)) ? numberToHex(mainColor) : errorColor
-    const mixTarget = bgIsLight ? '#000000' : '#ffffff'
-    const bodyColor = mixColors(hex, mixTarget, 0.5)
-    const root = getStyleRoot()
 
-    root.style.setProperty('--text-color',    bodyColor)
-    root.style.setProperty('--display-color', bodyColor)
-    root.style.setProperty('--mono-color',    bodyColor)
-    root.style.setProperty('--bodyDimmed',  bodyColor + '4d')
-    root.style.setProperty('--bodyXDimmed', bodyColor + '1a')
-    root.style.setProperty('--border',      bodyColor + '26')
-  }, [mainColor, bgIsLight])
 
   // Update theme-color meta tag
   useEffect(() => {

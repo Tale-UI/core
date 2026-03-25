@@ -41,6 +41,8 @@
     "./file-trigger": "./src/file-trigger.css",
     "./form": "./src/form.css",
     "./grid-list": "./src/grid-list.css",
+    "./icon": "./src/icon.css",
+    "./icon-button": "./src/icon-button.css",
     "./input": "./src/input.css",
     "./link": "./src/link.css",
     "./menu": "./src/menu.css",

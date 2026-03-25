@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { ChevronDown } from 'lucide-react';
+import { Icon as TaleIcon } from '../icon';
 import {
   Select as AriaSelect,
   SelectValue as AriaSelectValue,
@@ -94,8 +96,10 @@ export const Value: <T extends object = object>(
 export type IconProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
 
 export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
-  ({ className, ...props }, ref) => (
-    <span ref={ref} className={cx('tale-select__icon', className)} aria-hidden="true" {...props} />
+  ({ className, children, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-select__icon', className)} aria-hidden="true" {...props}>
+      {children ?? <TaleIcon icon={ChevronDown} size="sm" />}
+    </span>
   ),
 );
 Icon.displayName = 'Select.Icon';

@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { ChevronDown } from 'lucide-react';
+import { Icon } from '../icon';
 import {
   ComboBox as AriaComboBox,
   Input as AriaInput,
@@ -90,8 +92,10 @@ Input.displayName = 'Combobox.Input';
 export type TriggerProps = Omit<AriaButtonProps, 'className'> & { className?: string };
 
 export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
-  ({ className, ...props }, ref) => (
-    <AriaButton ref={ref} className={cx('tale-combobox__trigger', className)} {...props} />
+  ({ className, children, ...props }, ref) => (
+    <AriaButton ref={ref} className={cx('tale-combobox__trigger', className)} {...props}>
+      {children ?? <Icon icon={ChevronDown} size="sm" />}
+    </AriaButton>
   ),
 );
 Trigger.displayName = 'Combobox.Trigger';

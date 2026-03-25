@@ -1,0 +1,21 @@
+/*
+ * IconButton — @tale-ui/react
+ *
+ * Square button for icon-only use. Inherits variant styles from .tale-button.
+ *
+ * Sizes: .tale-icon-button--sm / --md (default) / --lg
+ */
+
+.tale-icon-button {
+  aspect-ratio: 1;
+}
+
+.tale-icon-button--sm { padding: var(--space-4xs); }
+.tale-icon-button--md { padding: var(--space-3xs); }
+.tale-icon-button--lg { padding: var(--space-2xs); }
+
+/* Small IconButton → shrink child icons to sm size */
+.tale-icon-button--sm > .tale-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}

@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Calendar } from 'lucide-react';
+import { Icon } from '../icon';
 import {
   DatePicker as AriaDatePicker,
   DateInput as AriaDateInput,
@@ -112,9 +114,9 @@ Group.displayName = 'DatePicker.Group';
 export type TriggerProps = Omit<AriaButtonProps, 'className'> & { className?: string };
 
 export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
-  ({ className, children = '\u25BE', ...props }, ref) => (
-    <AriaButton ref={ref} className={cx('tale-date-picker__trigger', className)} {...props}>
-      {children as React.ReactNode}
+  ({ className, children, ...props }, ref) => (
+    <AriaButton ref={ref} className={cx('tale-icon-button tale-button tale-button--ghost tale-date-picker__trigger', className)} {...props}>
+      {children ?? <Icon icon={Calendar} size="sm" />}
     </AriaButton>
   ),
 );

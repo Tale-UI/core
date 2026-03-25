@@ -59,6 +59,8 @@
     "./file-trigger": "./src/file-trigger/index.ts",
     "./form": "./src/form/index.ts",
     "./grid-list": "./src/grid-list/index.ts",
+    "./icon": "./src/icon/index.ts",
+    "./icon-button": "./src/icon-button/index.ts",
     "./i18n-provider": "./src/i18n-provider/index.ts",
     "./input": "./src/input/index.ts",
     "./link": "./src/link/index.ts",
@@ -138,6 +140,7 @@
     "chai": "6.2.2",
     "clsx": "2.1.1",
     "date-fns": "^4.1.0",
+    "lucide-react": "^1.6.0",
     "luxon": "^3.7.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -150,6 +153,7 @@
     "@date-fns/tz": "^1.2.0",
     "@types/react": "^17 || ^18 || ^19",
     "date-fns": "^4.0.0",
+    "lucide-react": ">=0.400.0",
     "react": "^17 || ^18 || ^19",
     "react-dom": "^17 || ^18 || ^19"
   },
@@ -161,6 +165,9 @@
       "optional": true
     },
     "@date-fns/tz": {
+      "optional": true
+    },
+    "lucide-react": {
       "optional": true
     }
   },

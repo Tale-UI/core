@@ -46,3 +46,12 @@
   stroke: var(--neutral-20);
   stroke-width: 1;
 }
+
+/* ─── Heading ──────────────────────────────────────────────────────────────── */
+
+.tale-preview-card :where(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-family: var(--text-font-family);
+  font-weight: var(--label-font-weight);
+  font-size: var(--text-m-font-size);
+}

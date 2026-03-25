@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@tale-ui/react/button';
+import { Icon } from '@tale-ui/react/icon';
+import { Plus, ChevronRight } from 'lucide-react';
 
 type Args = {
   variant: 'primary' | 'neutral' | 'ghost' | 'danger';
@@ -90,16 +92,12 @@ export const WithIcon: Story = {
   render: () => (
     <div className="story-row story-row--s">
       <Button variant="primary">
-        <svg className="story-icon-left" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        </svg>
+        <Icon icon={Plus} size="sm" />
         Add Item
       </Button>
       <Button variant="neutral">
         Next
-        <svg className="story-icon-right" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <Icon icon={ChevronRight} size="sm" />
       </Button>
     </div>
   ),

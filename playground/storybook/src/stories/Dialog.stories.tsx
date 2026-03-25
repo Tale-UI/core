@@ -13,11 +13,6 @@ const meta: Meta<Args> = {
 export default meta;
 type Story = StoryObj<Args>;
 
-const XIcon = () => (
-  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="16" height="16">
-    <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
-  </svg>
-);
 
 function DialogDemo({ triggerLabel, triggerVariant = 'primary', title, description, children }: {
   triggerLabel: string;
@@ -32,7 +27,7 @@ function DialogDemo({ triggerLabel, triggerVariant = 'primary', title, descripti
       <Dialog.Trigger className={`tale-button--${triggerVariant}`}>{triggerLabel}</Dialog.Trigger>
       <Dialog.Backdrop>
         <Dialog.Popup>
-          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Close aria-label="Close" />
           <Dialog.Title>{title}</Dialog.Title>
           <Dialog.Description>{description}</Dialog.Description>
           {children ?? (
@@ -65,7 +60,7 @@ export const Destructive: Story = {
         <Dialog.Trigger className="tale-button--danger">Delete Account</Dialog.Trigger>
         <Dialog.Backdrop>
           <Dialog.Popup>
-            <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+            <Dialog.Close aria-label="Close" />
             <Dialog.Title>Delete account</Dialog.Title>
             <Dialog.Description>
               This action is permanent and cannot be undone. All your data will be lost.
@@ -90,7 +85,7 @@ export const ScrollableContent: Story = {
         <Dialog.Trigger className="tale-button--primary">Terms &amp; Conditions</Dialog.Trigger>
         <Dialog.Backdrop>
           <Dialog.Popup>
-            <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+            <Dialog.Close aria-label="Close" />
             <Dialog.Title>Terms of Service</Dialog.Title>
             <Dialog.Description>Please read the following terms carefully.</Dialog.Description>
             <div className="story-dialog-scroll">

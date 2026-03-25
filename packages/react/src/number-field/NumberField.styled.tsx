@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Plus, Minus } from 'lucide-react';
+import { Icon } from '../icon';
 import {
   NumberField as AriaNumberField,
   Group as AriaGroup,
@@ -58,9 +60,9 @@ Input.displayName = 'NumberField.Input';
 export const Increment = React.forwardRef<
   HTMLButtonElement,
   Omit<AriaButtonProps, 'className' | 'slot' | 'children'> & { className?: string; children?: React.ReactNode }
->(({ className, children = '+', ...props }, ref) => (
-  <AriaButton ref={ref} slot="increment" className={cx('tale-number-field__increment', className)} {...props}>
-    {children}
+>(({ className, children, ...props }, ref) => (
+  <AriaButton ref={ref} slot="increment" className={cx('tale-icon-button tale-button tale-button--ghost tale-number-field__increment', className)} {...props}>
+    {children ?? <Icon icon={Plus} size="sm" />}
   </AriaButton>
 ));
 Increment.displayName = 'NumberField.Increment';
@@ -68,9 +70,9 @@ Increment.displayName = 'NumberField.Increment';
 export const Decrement = React.forwardRef<
   HTMLButtonElement,
   Omit<AriaButtonProps, 'className' | 'slot' | 'children'> & { className?: string; children?: React.ReactNode }
->(({ className, children = '−', ...props }, ref) => (
-  <AriaButton ref={ref} slot="decrement" className={cx('tale-number-field__decrement', className)} {...props}>
-    {children}
+>(({ className, children, ...props }, ref) => (
+  <AriaButton ref={ref} slot="decrement" className={cx('tale-icon-button tale-button tale-button--ghost tale-number-field__decrement', className)} {...props}>
+    {children ?? <Icon icon={Minus} size="sm" />}
   </AriaButton>
 ));
 Decrement.displayName = 'NumberField.Decrement';

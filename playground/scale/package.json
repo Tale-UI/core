@@ -12,6 +12,7 @@
     "@tale-ui/react-styles": "workspace:*",
     "color": "^5.0.3",
     "culori": "^4.0.2",
+    "lucide-react": "^1.6.0",
     "react": "*",
     "react-colorful": "^5.6.1",
     "react-copy-to-clipboard": "^5.0.2",

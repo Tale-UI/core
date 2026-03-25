@@ -34,6 +34,8 @@ export * from './fieldset';
 export * from './file-trigger';
 export * from './form';
 export * from './grid-list';
+export * from './icon';
+export * from './icon-button';
 export * from './input';
 export * from './link';
 export * from './menu';

@@ -31,7 +31,7 @@ export const Default: Story = {
     <Select.Root isDisabled={args.isDisabled} placeholder="Select a fruit…">
       <Select.Trigger>
         <Select.Value />
-        <Select.Icon>▾</Select.Icon>
+        <Select.Icon />
       </Select.Trigger>
       <Select.Popover>
         <Select.ListBox>
@@ -52,7 +52,7 @@ export const WithLabel: Story = {
       <Select.Label>Favorite fruit</Select.Label>
       <Select.Trigger>
         <Select.Value />
-        <Select.Icon>▾</Select.Icon>
+        <Select.Icon />
       </Select.Trigger>
       <Select.Popover>
         <Select.ListBox>
@@ -71,7 +71,7 @@ export const WithGroups: Story = {
       <Select.Label>Food</Select.Label>
       <Select.Trigger>
         <Select.Value />
-        <Select.Icon>▾</Select.Icon>
+        <Select.Icon />
       </Select.Trigger>
       <Select.Popover>
         <Select.ListBox>
@@ -99,7 +99,7 @@ export const WithDisabledItems: Story = {
       <Select.Label>Available options</Select.Label>
       <Select.Trigger>
         <Select.Value />
-        <Select.Icon>▾</Select.Icon>
+        <Select.Icon />
       </Select.Trigger>
       <Select.Popover>
         <Select.ListBox>
@@ -123,7 +123,7 @@ export const Disabled: Story = {
       <Select.Label>Disabled select</Select.Label>
       <Select.Trigger>
         <Select.Value />
-        <Select.Icon>▾</Select.Icon>
+        <Select.Icon />
       </Select.Trigger>
       <Select.Popover>
         <Select.ListBox>

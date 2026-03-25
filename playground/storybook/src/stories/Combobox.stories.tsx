@@ -31,7 +31,7 @@ export const Default: Story = {
     <Combobox.Root isDisabled={args.isDisabled}>
       <Combobox.InputGroup>
         <Combobox.Input />
-        <Combobox.Trigger>▾</Combobox.Trigger>
+        <Combobox.Trigger />
       </Combobox.InputGroup>
       <Combobox.Popover>
         <Combobox.ListBox>
@@ -52,7 +52,7 @@ export const WithLabel: Story = {
       <Combobox.Label>Favorite fruit</Combobox.Label>
       <Combobox.InputGroup>
         <Combobox.Input />
-        <Combobox.Trigger>▾</Combobox.Trigger>
+        <Combobox.Trigger />
       </Combobox.InputGroup>
       <Combobox.Popover>
         <Combobox.ListBox>
@@ -71,7 +71,7 @@ export const WithInputGroup: Story = {
       <Combobox.Label>Search countries</Combobox.Label>
       <Combobox.InputGroup>
         <Combobox.Input placeholder="Type to search…" />
-        <Combobox.Trigger>▾</Combobox.Trigger>
+        <Combobox.Trigger />
       </Combobox.InputGroup>
       <Combobox.Popover>
         <Combobox.ListBox>
@@ -92,7 +92,7 @@ export const WithSections: Story = {
       <Combobox.Label>Food</Combobox.Label>
       <Combobox.InputGroup>
         <Combobox.Input placeholder="Search food…" />
-        <Combobox.Trigger>▾</Combobox.Trigger>
+        <Combobox.Trigger />
       </Combobox.InputGroup>
       <Combobox.Popover>
         <Combobox.ListBox>
@@ -120,7 +120,7 @@ export const Empty: Story = {
       <Combobox.Label>Search (try typing something not in list)</Combobox.Label>
       <Combobox.InputGroup>
         <Combobox.Input placeholder="Type to filter…" />
-        <Combobox.Trigger>▾</Combobox.Trigger>
+        <Combobox.Trigger />
       </Combobox.InputGroup>
       <Combobox.Popover>
         <Combobox.ListBox>

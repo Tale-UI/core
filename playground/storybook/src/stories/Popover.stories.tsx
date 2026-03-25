@@ -1,11 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Popover } from '@tale-ui/react/popover';
 
-const XIcon = () => (
-  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="16" height="16">
-    <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
-  </svg>
-);
 
 type Args = {
   placement?: 'top' | 'bottom' | 'left' | 'right';
@@ -94,7 +89,7 @@ export const WithCloseButton: Story = {
       <Popover.Root>
         <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
         <Popover.Popup placement={args.placement} offset={args.offset}>
-          <Popover.Close aria-label="Close"><XIcon /></Popover.Close>
+          <Popover.Close aria-label="Close" />
           <Popover.Title>Dismissible Popover</Popover.Title>
           <Popover.Description>
             Click the close button to dismiss this popover.

@@ -439,6 +439,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      lucide-react:
+        specifier: ^1.6.0
+        version: 1.6.0(react@19.2.4)
       luxon:
         specifier: ^3.7.2
         version: 3.7.2
@@ -535,6 +538,9 @@ importers:
       culori:
         specifier: ^4.0.2
         version: 4.0.2
+      lucide-react:
+        specifier: ^1.6.0
+        version: 1.6.0(react@19.2.4)
       react:
         specifier: '*'
         version: 19.2.4
@@ -559,6 +565,10 @@ importers:
         version: 7.3.1(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
 
   playground/storybook:
+    dependencies:
+      lucide-react:
+        specifier: ^1.6.0
+        version: 1.6.0(react@19.2.4)
     devDependencies:
       '@internationalized/date':
         specifier: ^3.8.0
@@ -620,6 +630,9 @@ importers:
 
   playground/vite-app:
     dependencies:
+      lucide-react:
+        specifier: ^1.6.0
+        version: 1.6.0(react@19.2.4)
       radix-ui:
         specifier: ^1.4.3
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -7693,6 +7706,11 @@ packages:
 
   lucide-react@0.577.0:
     resolution: {integrity: sha512-4LjoFv2eEPwYDPg/CUdBJQSDfPyzXCRrVW1X7jrx/trgxnxkHFjnVZINbzvzxjN70dxychOfg+FTYwBiS3pQ5A==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  lucide-react@1.6.0:
+    resolution: {integrity: sha512-YxLKVCOF5ZDI1AhKQE5IBYMY9y/Nr4NT15+7QEWpsTSVCdn4vmZhww+6BP76jWYjQx8rSz1Z+gGme1f+UycWEw==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -18227,6 +18245,10 @@ snapshots:
       react: 19.2.4
 
   lucide-react@0.577.0(react@19.2.4):
+    dependencies:
+      react: 19.2.4
+
+  lucide-react@1.6.0(react@19.2.4):
     dependencies:
       react: 19.2.4
 

@@ -38,8 +38,8 @@ const Pre = styled.pre`
   line-height: var(--mono-line-height);
   margin: 0;
   padding: var(--space-m);
-  background: var(--bodyXDimmed, var(--neutral-10));
-  border: 1px solid var(--border, var(--neutral-20));
+  background: var(--neutral-10);
+  border: 1px solid var(--neutral-20);
   border-radius: var(--radius-l);
   overflow-y: auto;
   flex: 1;

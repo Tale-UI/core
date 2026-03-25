@@ -34,7 +34,7 @@
 
 .tale-popover__title {
   margin: 0 0 var(--space-2xs);
-  padding-right: var(--space-m);
+  padding-right: var(--space-xl);
   color: var(--neutral-90);
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
@@ -55,6 +55,6 @@
 /* ─── Close button (position only — base styles in _primitives.css) ──────── */
 
 .tale-popover__close {
-  top: var(--space-2xs);
-  right: var(--space-2xs);
+  top: var(--space-3xs);
+  right: var(--space-3xs);
 }

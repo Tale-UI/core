@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SearchField } from '@tale-ui/react/search-field';
+import { Icon } from '@tale-ui/react/icon';
+import { X } from 'lucide-react';
 
 type Args = {
   isDisabled?: boolean;
@@ -53,7 +55,7 @@ export const WithClearButton: Story = {
       <SearchField.Label>Search</SearchField.Label>
       <div className="story-row story-row--2xs">
         <SearchField.Input placeholder={args.placeholder} />
-        <SearchField.ClearButton>&times;</SearchField.ClearButton>
+        <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
       </div>
     </SearchField.Root>
   ),

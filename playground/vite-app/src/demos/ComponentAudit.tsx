@@ -6,6 +6,7 @@ import './ComponentAudit.css';
 
 // Simple components
 import { Button } from '@tale-ui/react/button';
+import { IconButton } from '@tale-ui/react/icon-button';
 import { Input } from '@tale-ui/react/input';
 import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';
 import { Separator } from '@tale-ui/react/separator';
@@ -56,6 +57,29 @@ import { Form } from '@tale-ui/react/form';
 
 // Other
 import { Toolbar } from '@tale-ui/react/toolbar';
+import { Icon } from '@tale-ui/react/icon';
+import {
+  Heart,
+  Star,
+  Bell,
+  Settings,
+  Search,
+  Plus,
+  Trash2,
+  Download,
+  AlertCircle,
+  CheckCircle,
+  Info,
+  Mail,
+  User,
+  Home,
+  ChevronRight,
+  ChevronDown,
+  ArrowRight,
+  Check,
+  Minus as MinusLucide,
+  X as XLucide,
+} from 'lucide-react';
 
 // --- Missing components ---
 
@@ -98,42 +122,6 @@ import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 import { ToggleButtonGroup as ToggleGroup } from '@tale-ui/react/toggle-group';
 
 // ---------------------------------------------------------------------------
-// Shared icons
-// ---------------------------------------------------------------------------
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="2,6 5,9 10,3" />
-    </svg>
-  );
-}
-
-function MinusIcon() {
-  return (
-    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <line x1="2" y1="6" x2="10" y2="6" />
-    </svg>
-  );
-}
-
-function XIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="16" height="16">
-      <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
-    </svg>
-  );
-}
-
-function XIconSm() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" width="14" height="14">
-      <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
-    </svg>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Layout helpers
 // ---------------------------------------------------------------------------
 
@@ -165,9 +153,11 @@ function Row({ children, className }: { children: React.ReactNode; className?: s
 const TOC = [
   { category: 'Utility', items: [
     { id: 'color-mode-toggle', label: 'ColorModeToggle' },
+    { id: 'icon', label: 'Icon' },
   ]},
   { category: 'Form Controls', items: [
     { id: 'button', label: 'Button' },
+    { id: 'icon-button', label: 'IconButton' },
     { id: 'input', label: 'Input' },
     { id: 'checkbox', label: 'Checkbox' },
     { id: 'checkbox-group', label: 'CheckboxGroup' },
@@ -366,7 +356,7 @@ function AutocompleteDemo() {
 function MenuCheckboxDemo() {
   return (
     <Menu.Root>
-      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format ▾</Menu.Trigger>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
       <Menu.Popover offset={4}>
         <Menu.MenuList aria-label="Format">
           <Menu.CheckboxItem textValue="Bold">Bold</Menu.CheckboxItem>
@@ -381,7 +371,7 @@ function MenuCheckboxDemo() {
 function MenuRadioDemo() {
   return (
     <Menu.Root>
-      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View ▾</Menu.Trigger>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
       <Menu.Popover offset={4}>
         <Menu.MenuList aria-label="View">
           <Menu.RadioItem textValue="List">List</Menu.RadioItem>
@@ -396,7 +386,7 @@ function MenuRadioDemo() {
 function MenuLinkDemo() {
   return (
     <Menu.Root>
-      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links ▾</Menu.Trigger>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
       <Menu.Popover offset={4}>
         <Menu.MenuList aria-label="Links">
           <Menu.LinkItem textValue="Documentation" href="#">Documentation</Menu.LinkItem>
@@ -420,7 +410,7 @@ function DialogDemo() {
       <Dialog.Trigger className="tale-button--primary">Open Dialog</Dialog.Trigger>
       <Dialog.Backdrop>
         <Dialog.Popup>
-          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Close aria-label="Close" />
           <Dialog.Title>Dialog Title</Dialog.Title>
           <Dialog.Description>
             This is a modal dialog. It traps focus and requires the user to take action.
@@ -442,7 +432,7 @@ function DestructiveDialogDemo() {
       <Dialog.Trigger className="tale-button--danger">Delete Account</Dialog.Trigger>
       <Dialog.Backdrop>
         <Dialog.Popup>
-          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Close aria-label="Close" />
           <Dialog.Title>Delete your account?</Dialog.Title>
           <Dialog.Description>
             This action is permanent and cannot be undone. All your data will be lost.
@@ -464,7 +454,7 @@ function NonModalDialogDemo() {
       <Dialog.Trigger className="tale-button--neutral">Open Non-Modal</Dialog.Trigger>
       <Dialog.Backdrop isDismissable>
         <Dialog.Popup>
-          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Close aria-label="Close" />
           <Dialog.Title>Non-Modal Dialog</Dialog.Title>
           <Dialog.Description>
             Click the backdrop to dismiss this dialog.
@@ -485,7 +475,7 @@ function ScrollableDialogDemo() {
       <Dialog.Trigger className="tale-button--primary">Terms &amp; Conditions</Dialog.Trigger>
       <Dialog.Backdrop>
         <Dialog.Popup>
-          <Dialog.Close aria-label="Close"><XIcon /></Dialog.Close>
+          <Dialog.Close aria-label="Close" />
           <Dialog.Title>Terms of Service</Dialog.Title>
           <Dialog.Description>Please read the following terms carefully.</Dialog.Description>
           <div className="audit__dialog-scroll">
@@ -720,6 +710,48 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
+        <Section id="icon" title="Icon" classes={['tale-icon', 'tale-icon--sm', 'tale-icon--lg', 'tale-icon--xl']}>
+          <SubHeading>All Sizes</SubHeading>
+          <Row>
+            <Icon icon={Star} size="sm" />
+            <Icon icon={Star} />
+            <Icon icon={Star} size="lg" />
+            <Icon icon={Star} size="xl" />
+          </Row>
+          <SubHeading>Icon Gallery</SubHeading>
+          <Row>
+            <Icon icon={Heart} />
+            <Icon icon={Star} />
+            <Icon icon={Bell} />
+            <Icon icon={Settings} />
+            <Icon icon={Search} />
+            <Icon icon={Plus} />
+            <Icon icon={Trash2} />
+            <Icon icon={Download} />
+            <Icon icon={AlertCircle} />
+            <Icon icon={CheckCircle} />
+            <Icon icon={Info} />
+            <Icon icon={Mail} />
+            <Icon icon={User} />
+            <Icon icon={Home} />
+            <Icon icon={ChevronRight} />
+            <Icon icon={ArrowRight} />
+          </Row>
+          <SubHeading>Color Inheritance</SubHeading>
+          <Row>
+            <span style={{ color: 'var(--color-60)' }}><Icon icon={Heart} /></span>
+            <span style={{ color: 'var(--neutral-50)' }}><Icon icon={Heart} /></span>
+            <span style={{ color: 'var(--neutral-80)' }}><Icon icon={Heart} /></span>
+          </Row>
+          <SubHeading>With Button</SubHeading>
+          <Row>
+            <Button variant="primary"><Icon icon={Plus} size="sm" /> Add</Button>
+            <Button variant="neutral"><Icon icon={Download} size="sm" /> Download</Button>
+            <Button variant="ghost"><Icon icon={Settings} size="sm" /> Settings</Button>
+            <Button variant="danger"><Icon icon={Trash2} size="sm" /> Delete</Button>
+          </Row>
+        </Section>
+
         {/* FORM CONTROLS */}
         {/* ============================================================= */}
 
@@ -747,13 +779,36 @@ export default function ComponentAudit() {
           <SubHeading>With Icons</SubHeading>
           <Row>
             <Button variant="primary" size="md">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="audit__icon-left"><path d="M8 2v12M2 8h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              <Icon icon={Plus} size="sm" />
               Add Item
             </Button>
             <Button variant="neutral" size="md">
               Settings
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="audit__icon-right"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <Icon icon={ChevronDown} size="sm" />
             </Button>
+          </Row>
+        </Section>
+
+        <Section id="icon-button" title="IconButton" classes={['tale-icon-button', 'tale-icon-button--sm', 'tale-icon-button--md', 'tale-icon-button--lg']}>
+          <SubHeading>Variants</SubHeading>
+          <Row>
+            <IconButton variant="primary" aria-label="Add"><Icon icon={Plus} /></IconButton>
+            <IconButton variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
+            <IconButton variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
+            <IconButton variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <IconButton variant="primary" size="sm" aria-label="Small"><Icon icon={Heart} /></IconButton>
+            <IconButton variant="primary" size="md" aria-label="Medium"><Icon icon={Heart} /></IconButton>
+            <IconButton variant="primary" size="lg" aria-label="Large"><Icon icon={Heart} /></IconButton>
+          </Row>
+          <SubHeading>Disabled</SubHeading>
+          <Row>
+            <IconButton disabled variant="primary" aria-label="Add"><Icon icon={Plus} /></IconButton>
+            <IconButton disabled variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
+            <IconButton disabled variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
+            <IconButton disabled variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
           </Row>
         </Section>
 
@@ -805,12 +860,12 @@ export default function ComponentAudit() {
               { label: 'Disabled + Checked', checked: true, disabled: true },
             ].map(({ label, checked, disabled }) => (
               <Checkbox.Root key={label} defaultSelected={checked} isDisabled={disabled}>
-                <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
                 {label}
               </Checkbox.Root>
             ))}
             <Checkbox.Root isIndeterminate>
-              <Checkbox.Indicator><MinusIcon /></Checkbox.Indicator>
+              <Checkbox.Indicator><Icon icon={MinusLucide} size="sm" /></Checkbox.Indicator>
               Indeterminate
             </Checkbox.Root>
           </div>
@@ -822,7 +877,7 @@ export default function ComponentAudit() {
             <div className="display--flex flex--col gap--3xs">
               {['Reading', 'Gaming', 'Cooking'].map((label) => (
                 <Checkbox.Root key={label} value={label.toLowerCase()}>
-                  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
                   {label}
                 </Checkbox.Root>
               ))}
@@ -833,7 +888,7 @@ export default function ComponentAudit() {
             <div className="display--flex flex--col gap--3xs">
               {['Option A', 'Option B'].map((label) => (
                 <Checkbox.Root key={label} value={label.toLowerCase().replace(' ', '-')} isDisabled>
-                  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
                   {label}
                 </Checkbox.Root>
               ))}
@@ -844,7 +899,7 @@ export default function ComponentAudit() {
             <Field.Description>Select how you would like to be notified.</Field.Description>
             {['Email', 'SMS', 'Push notification'].map((label) => (
               <Checkbox.Root key={label} value={label.toLowerCase().replace(/\s+/g, '-')}>
-                <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
                 {label}
               </Checkbox.Root>
             ))}
@@ -853,7 +908,7 @@ export default function ComponentAudit() {
           <CheckboxGroup aria-label="Pick toppings" className="display--flex flex--row gap--m">
             {['Cheese', 'Pepperoni', 'Mushrooms'].map((label) => (
               <Checkbox.Root key={label} value={label.toLowerCase()}>
-                <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+                <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
                 {label}
               </Checkbox.Root>
             ))}
@@ -1255,7 +1310,7 @@ export default function ComponentAudit() {
               <Popover.Root key={side}>
                 <Popover.Trigger>{side}</Popover.Trigger>
                 <Popover.Popup placement={side} offset={8}>
-                  <Popover.Close aria-label="Close"><XIconSm /></Popover.Close>
+                  <Popover.Close aria-label="Close" />
                   <Popover.Title>Popover ({side})</Popover.Title>
                   <Popover.Description>
                     Appears on the {side}.
@@ -1383,7 +1438,7 @@ export default function ComponentAudit() {
           <SubHeading>Basic</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList aria-label="Options">
                   <Menu.Item textValue="Edit">Edit</Menu.Item>
@@ -1399,7 +1454,7 @@ export default function ComponentAudit() {
           <SubHeading>With Group Labels</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Account ▾</Menu.Trigger>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Account <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList aria-label="Account">
                   <Menu.Group>
@@ -1431,7 +1486,7 @@ export default function ComponentAudit() {
           <SubHeading>With Disabled Items</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions ▾</Menu.Trigger>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList aria-label="Actions">
                   <Menu.Item textValue="Edit">Edit</Menu.Item>
@@ -1493,7 +1548,7 @@ export default function ComponentAudit() {
               </NavigationMenu.Item>
               <NavigationMenu.Item>
                 <NavigationMenu.Trigger>
-                  Products <NavigationMenu.Icon>▾</NavigationMenu.Icon>
+                  Products <NavigationMenu.Icon />
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Popup>
                   <NavigationMenu.Content>
@@ -1945,9 +2000,7 @@ export default function ComponentAudit() {
             <SearchField.Root>
               <SearchField.Label>Search</SearchField.Label>
               <SearchField.Input placeholder="Search…" />
-              <SearchField.ClearButton>
-                <XIconSm />
-              </SearchField.ClearButton>
+              <SearchField.ClearButton><Icon icon={XLucide} size="sm" /></SearchField.ClearButton>
             </SearchField.Root>
           </div>
           <SubHeading>Disabled</SubHeading>
@@ -2143,7 +2196,7 @@ export default function ComponentAudit() {
                 <DatePicker.DateInput>
                   {(segment) => <DatePicker.Segment segment={segment} />}
                 </DatePicker.DateInput>
-                <DatePicker.Trigger>📅</DatePicker.Trigger>
+                <DatePicker.Trigger />
               </DatePicker.Group>
               <DatePicker.Popover>
                 <DatePicker.Dialog>
@@ -2181,7 +2234,7 @@ export default function ComponentAudit() {
                 <DateRangePicker.EndDate>
                   {(segment) => <DateRangePicker.Segment segment={segment} />}
                 </DateRangePicker.EndDate>
-                <DateRangePicker.Trigger>📅</DateRangePicker.Trigger>
+                <DateRangePicker.Trigger />
               </DateRangePicker.Group>
               <DateRangePicker.Popover>
                 <DateRangePicker.Dialog>

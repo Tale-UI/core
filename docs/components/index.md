@@ -116,3 +116,5 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 |-----------|-------------|
 | [ColorModeToggle](color-mode-toggle.md) | Light/dark mode toggle with persistence |
 | [Container](container.md) | Colour palette override wrapper |
+| [Icon](icon.md) | Lucide-react icon wrapper with BEM sizing |
+| [IconButton](icon-button.md) | Square button for icon-only use |

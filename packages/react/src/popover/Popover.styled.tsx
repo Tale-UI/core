@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { X } from 'lucide-react';
+import { Icon } from '../icon';
 import {
   DialogTrigger,
   Popover,
@@ -165,13 +167,15 @@ export const Description = StyledDescription;
 export type CloseProps = Omit<ButtonProps, 'className'> & { className?: string };
 
 const StyledClose = React.forwardRef<HTMLButtonElement, CloseProps>(
-  ({ className, slot = 'close', ...props }, ref) => (
+  ({ className, slot = 'close', children, ...props }, ref) => (
     <Button
       ref={ref}
       slot={slot}
-      className={cx('tale-popover__close', className as string | undefined)}
+      className={cx('tale-icon-button tale-icon-button--sm tale-button tale-button--ghost tale-popover__close', className as string | undefined)}
       {...props}
-    />
+    >
+      {children ?? <Icon icon={X} size="sm" />}
+    </Button>
   ),
 );
 StyledClose.displayName = 'Popover.Close';

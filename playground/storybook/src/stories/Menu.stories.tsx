@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Menu } from '@tale-ui/react/menu';
+import { Icon } from '@tale-ui/react/icon';
+import { ChevronDown } from 'lucide-react';
 
 type Args = {
   placement?: 'top' | 'bottom' | 'left' | 'right';
@@ -29,7 +31,7 @@ export const Default: Story = {
   render: (args) => (
     <div className="story-padded">
       <Menu.Root>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="File actions">
             <Menu.Item id="new" textValue="New File">New File</Menu.Item>
@@ -50,7 +52,7 @@ export const WithGroups: Story = {
   render: (args) => (
     <div className="story-padded">
       <Menu.Root>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions ▾</Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="Actions">
             <Menu.Group>
@@ -77,7 +79,7 @@ export const WithDisabledItems: Story = {
   render: (args) => (
     <div className="story-padded">
       <Menu.Root>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Edit ▾</Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Edit <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="Edit actions">
             <Menu.Item id="undo" textValue="Undo">Undo</Menu.Item>
@@ -101,7 +103,7 @@ export const Disabled: Story = {
   render: (args) => (
     <div className="story-padded">
       <Menu.Root isDisabled>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Disabled Menu ▾</Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Disabled Menu <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="Menu">
             <Menu.Item id="a" textValue="Item A">Item A</Menu.Item>
@@ -118,7 +120,7 @@ export const CheckboxItems: Story = {
   render: (args) => (
     <div className="story-padded">
       <Menu.Root>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format ▾</Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="Format" selectionMode="multiple">
             <Menu.CheckboxItem id="bold" textValue="Bold">Bold</Menu.CheckboxItem>
@@ -135,7 +137,7 @@ export const RadioItems: Story = {
   render: (args) => (
     <div className="story-padded">
       <Menu.Root>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View ▾</Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="View" selectionMode="single">
             <Menu.RadioItem id="list" textValue="List">List</Menu.RadioItem>
@@ -152,7 +154,7 @@ export const LinkItems: Story = {
   render: (args) => (
     <div className="story-padded">
       <Menu.Root>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links ▾</Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="Links">
             <Menu.LinkItem id="docs" textValue="Documentation" href="#">Documentation</Menu.LinkItem>
@@ -170,7 +172,7 @@ export const AllItemTypes: Story = {
   render: (args) => (
     <div className="story-padded">
       <Menu.Root>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">All Types ▾</Menu.Trigger>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">All Types <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="All item types">
             <Menu.Group>

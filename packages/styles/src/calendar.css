@@ -112,36 +112,4 @@
   box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
-/* ─── Navigation buttons ───────────────────────────────────────────────────── */
-
-.tale-calendar__prev-button,
-.tale-calendar__next-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--space-m);
-  height: var(--space-m);
-  border-radius: var(--radius-s);
-  border: 1px solid var(--neutral-14);
-  background: var(--neutral-5);
-  cursor: pointer;
-  color: var(--neutral-70);
-  transition: background 0.1s ease, border-color 0.1s ease;
-}
-
-.tale-calendar__prev-button:hover,
-.tale-calendar__next-button:hover {
-  background: var(--neutral-10);
-  border-color: var(--neutral-20);
-}
-
-.tale-calendar__prev-button[data-disabled],
-.tale-calendar__next-button[data-disabled] {
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.tale-calendar__prev-button[data-focus-visible],
-.tale-calendar__next-button[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
-}
+/* Navigation button styles are in _primitives.css (overrides on .tale-icon-button base) */

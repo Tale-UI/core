@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Checkbox } from '@tale-ui/react/checkbox';
+import { Icon } from '@tale-ui/react/icon';
+import { Check, Minus } from 'lucide-react';
 
 type Args = {
   isSelected: boolean;
@@ -25,17 +27,6 @@ export default meta;
 
 type Story = StoryObj<Args>;
 
-const CheckIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-    <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const MinusIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-    <path d="M2 6h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-  </svg>
-);
 
 export const Default: Story = {
   render: (args) => (
@@ -46,7 +37,7 @@ export const Default: Story = {
       isIndeterminate={args.isIndeterminate}
     >
       <Checkbox.Indicator>
-        <CheckIcon />
+        <Icon icon={Check} size="sm" />
       </Checkbox.Indicator>
       Accept terms and conditions
     </Checkbox.Root>
@@ -67,7 +58,7 @@ export const Checked: Story = {
       isIndeterminate={args.isIndeterminate}
     >
       <Checkbox.Indicator>
-        <CheckIcon />
+        <Icon icon={Check} size="sm" />
       </Checkbox.Indicator>
       Checked by default
     </Checkbox.Root>
@@ -88,7 +79,7 @@ export const Disabled: Story = {
       isIndeterminate={args.isIndeterminate}
     >
       <Checkbox.Indicator>
-        <CheckIcon />
+        <Icon icon={Check} size="sm" />
       </Checkbox.Indicator>
       Disabled checkbox
     </Checkbox.Root>
@@ -109,7 +100,7 @@ export const DisabledChecked: Story = {
       isIndeterminate={args.isIndeterminate}
     >
       <Checkbox.Indicator>
-        <CheckIcon />
+        <Icon icon={Check} size="sm" />
       </Checkbox.Indicator>
       Disabled and checked
     </Checkbox.Root>
@@ -130,7 +121,7 @@ export const Indeterminate: Story = {
       isIndeterminate={args.isIndeterminate}
     >
       <Checkbox.Indicator>
-        <MinusIcon />
+        <Icon icon={Minus} size="sm" />
       </Checkbox.Indicator>
       Indeterminate state
     </Checkbox.Root>
@@ -145,42 +136,42 @@ export const AllStates: Story = {
     <div className="story-checkbox-grid">
       <Checkbox.Root>
         <Checkbox.Indicator>
-          <CheckIcon />
+          <Icon icon={Check} size="sm" />
         </Checkbox.Indicator>
         Unchecked
       </Checkbox.Root>
 
       <Checkbox.Root defaultSelected>
         <Checkbox.Indicator>
-          <CheckIcon />
+          <Icon icon={Check} size="sm" />
         </Checkbox.Indicator>
         Checked
       </Checkbox.Root>
 
       <Checkbox.Root isIndeterminate>
         <Checkbox.Indicator>
-          <MinusIcon />
+          <Icon icon={Minus} size="sm" />
         </Checkbox.Indicator>
         Indeterminate
       </Checkbox.Root>
 
       <Checkbox.Root isDisabled>
         <Checkbox.Indicator>
-          <CheckIcon />
+          <Icon icon={Check} size="sm" />
         </Checkbox.Indicator>
         Disabled
       </Checkbox.Root>
 
       <Checkbox.Root isDisabled defaultSelected>
         <Checkbox.Indicator>
-          <CheckIcon />
+          <Icon icon={Check} size="sm" />
         </Checkbox.Indicator>
         Disabled + Checked
       </Checkbox.Root>
 
       <Checkbox.Root isDisabled isIndeterminate>
         <Checkbox.Indicator>
-          <MinusIcon />
+          <Icon icon={Minus} size="sm" />
         </Checkbox.Indicator>
         Disabled + Indeterminate
       </Checkbox.Root>

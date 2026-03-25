@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { X } from 'lucide-react';
+import { Icon } from '../icon';
 import {
   DialogTrigger,
   Modal,
@@ -142,7 +144,9 @@ Actions.displayName = 'AlertDialog.Actions';
 export const Close = React.forwardRef<
   HTMLButtonElement,
   Omit<ButtonProps, 'className'> & { className?: string }
->(({ className, ...props }, ref) => (
-  <Button ref={ref} slot="close" className={cx('tale-alert-dialog__close', className)} {...props} />
+>(({ className, children, ...props }, ref) => (
+  <Button ref={ref} slot="close" className={cx('tale-icon-button tale-icon-button--sm tale-button tale-button--ghost tale-alert-dialog__close', className)} {...props}>
+    {children ?? <Icon icon={X} size="sm" />}
+  </Button>
 ));
 Close.displayName = 'AlertDialog.Close';

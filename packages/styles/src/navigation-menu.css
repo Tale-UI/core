@@ -73,9 +73,8 @@
 /* ─── Icon ─────────────────────────────────────────────────────────────────── */
 
 .tale-navigation-menu__icon {
-  width: var(--space-xs);
-  height: var(--space-xs);
   color: var(--neutral-50);
+  display: flex;
 }
 
 /* ─── Link ─────────────────────────────────────────────────────────────────── */

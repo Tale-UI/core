@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { ChevronDown } from 'lucide-react';
+import { Icon as TaleIcon } from '../icon';
 import { cx } from '../_cx';
 
 /**
@@ -72,8 +74,10 @@ export const Link = React.forwardRef<
 Link.displayName = 'NavigationMenu.Link';
 
 export const Icon = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
-  ({ className, ...props }, ref) => (
-    <span ref={ref} className={cx('tale-navigation-menu__icon', className)} aria-hidden="true" {...props} />
+  ({ className, children, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-navigation-menu__icon', className)} aria-hidden="true" {...props}>
+      {children ?? <TaleIcon icon={ChevronDown} size="sm" />}
+    </span>
   ),
 );
 Icon.displayName = 'NavigationMenu.Icon';

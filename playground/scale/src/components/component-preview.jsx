@@ -21,14 +21,12 @@ import { Tooltip } from '@tale-ui/react/tooltip'
 import { NumberField } from '@tale-ui/react/number-field'
 import { SearchField } from '@tale-ui/react/search-field'
 import { GridList } from '@tale-ui/react/grid-list'
+import { Icon } from '@tale-ui/react/icon'
+import { Check, Heart, Star, Bell, Plus, Download, Settings, Trash2 } from 'lucide-react'
 
 const PREVIEW_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
-const CheckIcon = () => (
-  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="2,6 5,9 10,3" />
-  </svg>
-)
+const CheckIcon = () => <Check width={12} height={12} />
 
 const Root = styled.div`
   height: 100%;
@@ -131,6 +129,30 @@ const ComponentPreview = () => {
                 <ToggleButton id="right" size="sm">Right</ToggleButton>
               </ToggleButtonGroup>
               <ToggleButton size="sm" defaultSelected>Solo</ToggleButton>
+            </div>
+          </section>
+        </Grid>
+
+        {/* Icons */}
+        <Grid>
+          <section>
+            <SectionLabel>Icons</SectionLabel>
+            <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Icon icon={Heart} size="sm" />
+              <Icon icon={Star} size="sm" />
+              <Icon icon={Bell} size="sm" />
+              <Icon icon={Settings} size="sm" />
+              <Icon icon={Plus} size="sm" />
+              <Icon icon={Download} size="sm" />
+              <Icon icon={Trash2} size="sm" />
+            </div>
+          </section>
+          <section>
+            <SectionLabel>Icons in buttons</SectionLabel>
+            <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Button variant="primary" size="sm"><Icon icon={Plus} size="sm" /> Add</Button>
+              <Button variant="neutral" size="sm"><Icon icon={Download} size="sm" /> Save</Button>
+              <Button variant="danger" size="sm"><Icon icon={Trash2} size="sm" /> Delete</Button>
             </div>
           </section>
         </Grid>

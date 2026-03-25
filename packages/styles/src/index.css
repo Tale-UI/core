@@ -83,6 +83,10 @@
 @import './drop-zone.css';
 @import './file-trigger.css';
 
+/* ─── Icons ─────────────────────────────────────────────────────────────────── */
+@import './icon.css';
+@import './icon-button.css';
+
 /* ─── Utilities ─────────────────────────────────────────────────────────────── */
 @import './toolbar.css';
 @import './calendar.css';

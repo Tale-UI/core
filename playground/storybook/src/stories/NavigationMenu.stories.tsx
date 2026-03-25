@@ -42,7 +42,7 @@ function WithDropdownExample() {
         </NavigationMenu.Item>
         <NavigationMenu.Item>
           <NavigationMenu.Trigger onClick={() => setOpen(!open)}>
-            Products ▾
+            Products <NavigationMenu.Icon />
           </NavigationMenu.Trigger>
           {open && (
             <NavigationMenu.Popup>

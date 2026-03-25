@@ -219,7 +219,6 @@
 }
 
 .audit__preview-content {
-  padding: 1.6rem;
   max-width: 28rem;
 }
 
@@ -337,13 +336,6 @@
   padding-top: 1.2rem;
 }
 
-.audit__icon-left {
-  margin-right: var(--space-3xs);
-}
-
-.audit__icon-right {
-  margin-left: var(--space-3xs);
-}
 
 .audit__slider-vertical {
   height: 16rem;

@@ -32,7 +32,7 @@ Before generating or modifying component code, you MUST:
    - `Table`, `Drawer`, `Meter`, `ProgressBar`, `NumberField`, etc. are namespace objects — always use `<Component.Root>`, never `<Component>` directly.
    - `Drawer.Backdrop` must be a self-closing sibling of `Drawer.Popup` (`<Drawer.Backdrop />`), never a wrapper around it.
    - `Meter.Value` and `ProgressBar.Value` need children text (e.g. `<Meter.Value>60%</Meter.Value>`), not self-closing.
-   - `NumberField.Increment` and `NumberField.Decrement` render their own `+`/`−` icons — use them self-closing.
+   - `NumberField.Increment` and `NumberField.Decrement` render their own lucide-react icons — use them self-closing.
    - `ToggleButtonGroup` requires `aria-label` or `aria-labelledby` for accessibility.
    - Dark mode: always set `data-color-mode` to `"dark"` or `"light"` — never remove the attribute to switch to light mode.
    - `Calendar.GridHeader` passes day name strings, not dates — use `Calendar.GridHeaderCell` inside it, not `Calendar.Cell`. Reserve `Calendar.Cell` for `Calendar.GridBody`.

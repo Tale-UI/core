@@ -109,7 +109,7 @@ Autocomplete · Field · Fieldset · Form
 
 ### Utilities
 
-Container · CSP Provider · I18nProvider · `mergeProps`
+Container · CSP Provider · I18nProvider · Icon · IconButton · `mergeProps`
 
 ## Styling
 

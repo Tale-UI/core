@@ -64,32 +64,27 @@
   color: var(--neutral-50);
 }
 
-/* ─── Stepper buttons ─────────────────────────────────────────────────────── */
+/* ─── Stepper buttons — override tale-button--ghost for field-integrated look */
 
 .tale-number-field__decrement,
 .tale-number-field__increment {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 3.2rem;
   min-height: 3.6rem;
-  border: none;
+  border-radius: 0;
   background-color: var(--neutral-14);
   color: var(--neutral-70);
   font-size: var(--label-m-font-size);
   font-family: var(--label-font-family);
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
-  user-select: none;
 }
 
 .tale-number-field__decrement {
   border-right: 1px solid var(--neutral-22);
+  border-radius: var(--radius-m) 0 0 var(--radius-m);
 }
 
 .tale-number-field__increment {
   border-left: 1px solid var(--neutral-22);
+  border-radius: 0 var(--radius-m) var(--radius-m) 0;
 }
 
 .tale-number-field__decrement:hover:not(:disabled),
@@ -101,11 +96,6 @@
 .tale-number-field__decrement:active:not(:disabled),
 .tale-number-field__increment:active:not(:disabled) {
   background-color: var(--neutral-26);
-}
-
-.tale-number-field__decrement:focus-visible,
-.tale-number-field__increment:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Disabled state ──────────────────────────────────────────────────────── */

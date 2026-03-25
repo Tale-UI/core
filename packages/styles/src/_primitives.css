@@ -634,11 +634,9 @@
    12. DATE PICKER CALENDAR TRIGGER
    ══════════════════════════════════════════════════════════════════════════ */
 
+/* Override tale-button--ghost defaults for field-integrated triggers */
 .tale-date-picker__trigger,
 .tale-date-range-picker__trigger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   min-height: 3.6rem;
   width: 3.6rem;
   border: 1px solid var(--neutral-26);
@@ -646,14 +644,11 @@
   border-radius: 0 var(--radius-m) var(--radius-m) 0;
   background-color: var(--neutral-10);
   color: var(--neutral-70);
-  cursor: pointer;
   font-size: var(--text-m-font-size);
-  outline: none;
-  transition: background-color 0.1s ease, color 0.1s ease;
 }
 
-.tale-date-picker__trigger:hover,
-.tale-date-range-picker__trigger:hover {
+.tale-date-picker__trigger:hover:not([data-disabled]),
+.tale-date-range-picker__trigger:hover:not([data-disabled]) {
   background-color: var(--neutral-14);
   color: var(--neutral-90);
 }
@@ -664,12 +659,6 @@
   box-shadow: 0 0 0 3px var(--focus-ring-glow);
   z-index: 1;
   position: relative;
-}
-
-.tale-date-picker__trigger[data-disabled],
-.tale-date-range-picker__trigger[data-disabled] {
-  opacity: 0.45;
-  pointer-events: none;
 }
 
 /* Inside group — collapse outer border, keep only left separator */
@@ -818,45 +807,25 @@
   box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
-/* Month navigation buttons */
+/* Month navigation buttons — override tale-button--ghost for calendar look */
 .tale-calendar__prev-button,
 .tale-calendar__next-button,
 .tale-range-calendar__prev-button,
 .tale-range-calendar__next-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: var(--space-m);
   height: var(--space-m);
   border-radius: var(--radius-s);
   border: 1px solid var(--neutral-14);
   background: var(--neutral-5);
-  cursor: pointer;
   color: var(--neutral-70);
-  transition: background 0.1s ease, border-color 0.1s ease;
 }
 
-.tale-calendar__prev-button:hover,
-.tale-calendar__next-button:hover,
-.tale-range-calendar__prev-button:hover,
-.tale-range-calendar__next-button:hover {
+.tale-calendar__prev-button:hover:not([data-disabled]),
+.tale-calendar__next-button:hover:not([data-disabled]),
+.tale-range-calendar__prev-button:hover:not([data-disabled]),
+.tale-range-calendar__next-button:hover:not([data-disabled]) {
   background: var(--neutral-10);
   border-color: var(--neutral-20);
-}
-
-.tale-calendar__prev-button[data-disabled],
-.tale-calendar__next-button[data-disabled],
-.tale-range-calendar__prev-button[data-disabled],
-.tale-range-calendar__next-button[data-disabled] {
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.tale-calendar__prev-button[data-focus-visible],
-.tale-calendar__next-button[data-focus-visible],
-.tale-range-calendar__prev-button[data-focus-visible],
-.tale-range-calendar__next-button[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -961,33 +930,11 @@
   opacity: 0;
 }
 
-/* Modal / Popover close button — shared base (position offsets differ per component) */
+/* Modal / Popover close button — position only (button base from .tale-icon-button + .tale-button--ghost) */
 .tale-dialog__close,
 .tale-popover__close {
   position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.2rem;
-  height: 3.2rem;
-  border: none;
-  border-radius: var(--radius-m);
-  background-color: transparent;
   color: var(--neutral-60);
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.tale-dialog__close:hover,
-.tale-popover__close:hover {
-  background-color: var(--neutral-14);
-  color: var(--neutral-90);
-}
-
-.tale-dialog__close:focus-visible,
-.tale-popover__close:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
 /* Modal actions row */
@@ -1069,10 +1016,11 @@
   gap: var(--space-4xs);
 }
 
+
 .tale-button.tale-button--md,
 .tale-toggle-button.tale-toggle-button--md {
   font-size: var(--label-m-font-size);
-  padding: var(--space-3xs) var(--space-xs);
+  padding: var(--space-3xs) var(--space-2xs);
   min-height: 3.6rem;
 }
 
@@ -1083,6 +1031,7 @@
   min-height: 4.4rem;
   gap: var(--space-2xs);
 }
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    20. CHOICE GROUP ROOT

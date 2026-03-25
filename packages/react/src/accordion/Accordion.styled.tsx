@@ -11,24 +11,8 @@ import type {
   DisclosurePanelProps,
   ButtonProps,
 } from 'react-aria-components';
+import { ChevronDown } from 'lucide-react';
 import { cx } from '../_cx';
-
-function ChevronIcon() {
-  return (
-    <svg
-      className="tale-accordion__trigger-icon"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <polyline points="4,6 8,10 12,6" />
-    </svg>
-  );
-}
 
 export interface AccordionRootProps extends Omit<DisclosureGroupProps, 'className'> {
   className?: string | undefined;
@@ -88,7 +72,7 @@ export const Trigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps
   ({ className, children, ...props }, ref) => (
     <AriaButton ref={ref} slot="trigger" className={cx('tale-accordion__trigger', className)} {...props}>
       {children as React.ReactNode}
-      <ChevronIcon />
+      <ChevronDown className="tale-accordion__trigger-icon" aria-hidden="true" />
     </AriaButton>
   ),
 );

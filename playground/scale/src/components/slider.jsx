@@ -16,7 +16,7 @@ const sliderTrackStyles = css`
   width: 100%;
   height: 2px;
   cursor: pointer;
-  background: var(--bodyDimmed);
+  background: var(--neutral-20);
   border-radius: 2px;
 `
 

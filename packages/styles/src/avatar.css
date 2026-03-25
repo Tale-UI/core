@@ -49,6 +49,10 @@
   opacity: 0;
 }
 
+.tale-avatar__image ~ .tale-avatar__fallback {
+  display: none;
+}
+
 /* ─── Fallback — initials / icon shown when image unavailable ─────────────── */
 
 .tale-avatar__fallback {
