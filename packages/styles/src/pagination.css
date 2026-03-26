@@ -1,0 +1,105 @@
+/*
+ * Pagination — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component (not React Aria). Uses native HTML + ARIA.
+ *
+ * Usage:
+ *   <Pagination.Root className="tale-pagination" aria-label="Pagination">
+ *     <Pagination.PreviousTrigger className="tale-pagination__previous" />
+ *     <Pagination.Item className="tale-pagination__item" page={1} />
+ *     <Pagination.Ellipsis className="tale-pagination__ellipsis" />
+ *     <Pagination.NextTrigger className="tale-pagination__next" />
+ *   </Pagination.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4xs);
+  font-family: var(--text-font-family);
+  font-size: var(--text-s-font-size);
+}
+
+/* ─── Shared button base ──────────────────────────────────────────────────── */
+
+.tale-pagination__item,
+.tale-pagination__previous,
+.tale-pagination__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.2rem;
+  height: 3.2rem;
+  padding: 0 var(--space-3xs);
+  border: 1px solid transparent;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--neutral-70);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+}
+
+.tale-pagination__item:hover,
+.tale-pagination__previous:hover,
+.tale-pagination__next:hover {
+  background-color: var(--neutral-12);
+  color: var(--neutral-90);
+}
+
+.tale-pagination__item:focus-visible,
+.tale-pagination__previous:focus-visible,
+.tale-pagination__next:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+}
+
+.tale-pagination__item:disabled,
+.tale-pagination__previous:disabled,
+.tale-pagination__next:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.tale-pagination__item--current {
+  background-color: var(--color-60);
+  color: var(--color-60-fg);
+  border-color: var(--color-60);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+/* ─── Ellipsis ─────────────────────────────────────────────────────────────── */
+
+.tale-pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--space-xl);
+  height: var(--space-xl);
+  color: var(--neutral-50);
+  font-size: inherit;
+  line-height: 1;
+  user-select: none;
+  letter-spacing: 0.1em;
+}
+
+/* ─── Previous / Next triggers ─────────────────────────────────────────────── */
+
+.tale-pagination__previous {
+  padding: 0 var(--space-2xs) 0 var(--space-3xs);
+}
+
+.tale-pagination__next {
+  padding: 0 var(--space-3xs) 0 var(--space-2xs);
+}

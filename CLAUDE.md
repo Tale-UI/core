@@ -23,7 +23,9 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [docs/design-philosophy.md](docs/design-philosophy.md) | Why React Aria, why BEM, why CSS-first, colour token system, dark mode |
 | [docs/authoring-components.md](docs/authoring-components.md) | Contributor guide: adding new `@tale-ui/react` components |
 | [docs/react-aria-deviations.md](docs/react-aria-deviations.md) | Every difference between Tale UI and vanilla React Aria Components |
+| [docs/component-index.md](docs/component-index.md) | All 69 components at a glance: description, import path, sub-parts |
 | [docs/components/](docs/components/index.md) | Per-component usage guide: imports, parts, examples, CSS classes |
+| [docs/recipes/](docs/recipes/index.md) | Copy-paste multi-component patterns (forms, tables, navigation, search, settings) |
 
 ## CSS Design System (@tale-ui/core)
 
@@ -53,6 +55,24 @@ All component styles use tokens from `@tale-ui/core`:
 - **Spacing:** `--space-4xs` through `--space-4xl`
 - **Typography:** `--label-s-font-size`, `--text-s-font-size`, etc.
 - **Dark mode:** Automatic via `data-color-mode="dark"` on `<html>`
+
+**Available `--neutral-*` shades (27 values — irregular scale):**
+
+```
+5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 40, 50, 60, 70, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100
+```
+
+`--neutral-15` DOES NOT EXIST. `--neutral-25` DOES NOT EXIST. `--neutral-35` DOES NOT EXIST.
+
+**Available `--color-*` shades (11 values — regular scale):**
+
+```
+5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+```
+
+`--color-9` DOES NOT EXIST. `--color-55` DOES NOT EXIST. Same scale applies to `--brand-*`, `--red-*`, `--error-*`, etc.
+
+**Foreground tokens:** Append `-fg` to any shade for auto-contrasting text: `--color-60-fg`, `--neutral-20-fg`
 
 Full token reference: [packages/css/docs/ai-reference.md](packages/css/docs/ai-reference.md)
 
@@ -101,3 +121,141 @@ See [docs/authoring-components.md](docs/authoring-components.md) for the full ch
 ### Shared primitives (`_primitives.css`)
 
 `packages/styles/src/_primitives.css` holds grouped selectors for declarations that are byte-for-byte identical across multiple components. When adding a new field-like input, dropdown popup, or list item — check `_primitives.css` first and add the new selector to the relevant group.
+
+## Component Artifact Audit
+
+Status of required artifacts for all 67 components. When adding or updating a component, update the relevant row below.
+
+**Legend:** styled = `{Component}.styled.tsx` | index = `index.ts` | test = `{Component}.test.tsx` (non-trivial logic only) | css = `{component}.css` in styles/src | prim = `_primitives.css` entry (if shared declarations apply) | doc = `docs/components/{name}.md` | snip = consumer-claude-md-snippet.md | rdme = react/README.md | idx = `docs/component-index.md` entry | story = Storybook story | audit = ComponentAudit.tsx entry
+
+**✓** = present | **✗** = missing | **n/a** = not applicable
+
+**Non-trivial components requiring tests:** Drawer (custom state/swipe), Meter (percentage calc), ProgressBar (percentage calc + indeterminate), ColorModeToggle (localStorage/OS preference), Tabs (MutationObserver/ResizeObserver indicator)
+
+**Total:** 69 components | **Fully complete:** 69 | **Missing artifacts:** 0
+
+### Form Controls
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Button | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Input | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Checkbox | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| CheckboxGroup | n/a | ✓ | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Radio | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| RadioGroup | n/a | ✓ | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Switch | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ToggleButton | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ToggleButtonGroup | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Select | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Combobox | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Autocomplete | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| NumberField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Slider | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| SearchField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| TextField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| TextArea | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Date & Time
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Calendar | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| RangeCalendar | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| DateField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| DatePicker | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| DateRangePicker | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| TimeField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Color
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ColorArea | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ColorSlider | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ColorWheel | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ColorSwatch | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ColorSwatchPicker | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ColorField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ColorPicker | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Overlay
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Dialog | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| AlertDialog | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Popover | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| PreviewCard | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Drawer | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Tooltip | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Navigation
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Menu | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ContextMenu | ✓ | ✓ | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| NavigationMenu | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Menubar | ✓ | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Breadcrumbs | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Link | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Pagination | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Layout
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Accordion | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Disclosure | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Tabs | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ScrollArea | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Separator | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Toolbar | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Feedback
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ProgressBar | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Meter | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Display
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Avatar | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| EmptyState | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GridList | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Table | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| TagGroup | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Tree | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Form Structure
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Field | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Fieldset | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Form | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Interaction
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DropZone | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| FileTrigger | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Utility
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ColorModeToggle | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Container | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| CSPProvider | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | n/a | n/a |
+| I18nProvider | ✓ | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | n/a | n/a |
+| Icon | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| IconButton | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| mergeProps | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | n/a | n/a |
+
+<!-- Last generated: 2026-03-26 -->
