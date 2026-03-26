@@ -54,6 +54,9 @@ test-results/
 /playground/vite-app/dist/
 /examples/*/dist/
 
+# Analysis (local research notes)
+analysis/
+
 # Misc
 *.log
 *.tmp
