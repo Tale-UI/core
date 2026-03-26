@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useFilter } from 'react-aria-components';
+import { useFilter, parseColor } from 'react-aria-components';
 import type { SortDescriptor } from 'react-aria-components';
 import '@tale-ui/react-styles/index.css';
 import './ComponentAudit.css';
@@ -81,8 +81,6 @@ import {
   X as XLucide,
 } from 'lucide-react';
 
-// --- Missing components ---
-
 // Additional form controls
 import { RadioGroup } from '@tale-ui/react/radio-group';
 import { SearchField } from '@tale-ui/react/search-field';
@@ -99,7 +97,6 @@ import { RangeCalendar } from '@tale-ui/react/range-calendar';
 // Color
 import { ColorArea } from '@tale-ui/react/color-area';
 import { ColorField } from '@tale-ui/react/color-field';
-import { ColorPicker } from '@tale-ui/react/color-picker';
 import { ColorSlider } from '@tale-ui/react/color-slider';
 import { ColorSwatch } from '@tale-ui/react/color-swatch';
 import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';
@@ -118,8 +115,6 @@ import { DropZone } from '@tale-ui/react/drop-zone';
 import { FileTrigger } from '@tale-ui/react/file-trigger';
 import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 
-// Re-export (ToggleGroup = ToggleButtonGroup)
-import { ToggleButtonGroup as ToggleGroup } from '@tale-ui/react/toggle-group';
 
 // ---------------------------------------------------------------------------
 // Layout helpers
@@ -151,10 +146,6 @@ function Row({ children, className }: { children: React.ReactNode; className?: s
 
 // TOC — order matches the content sections below
 const TOC = [
-  { category: 'Utility', items: [
-    { id: 'color-mode-toggle', label: 'ColorModeToggle' },
-    { id: 'icon', label: 'Icon' },
-  ]},
   { category: 'Form Controls', items: [
     { id: 'button', label: 'Button' },
     { id: 'icon-button', label: 'IconButton' },
@@ -166,7 +157,6 @@ const TOC = [
     { id: 'switch', label: 'Switch' },
     { id: 'toggle-button', label: 'ToggleButton' },
     { id: 'toggle-button-group', label: 'ToggleButtonGroup' },
-    { id: 'toggle-group', label: 'ToggleGroup' },
     { id: 'select', label: 'Select' },
     { id: 'autocomplete', label: 'Autocomplete' },
     { id: 'combobox', label: 'Combobox' },
@@ -176,48 +166,8 @@ const TOC = [
     { id: 'text-field', label: 'TextField' },
     { id: 'text-area', label: 'TextArea' },
   ]},
-  { category: 'Overlay', items: [
-    { id: 'dialog', label: 'Dialog' },
-    { id: 'alert-dialog', label: 'AlertDialog' },
-    { id: 'popover', label: 'Popover' },
-    { id: 'preview-card', label: 'PreviewCard' },
-    { id: 'drawer', label: 'Drawer' },
-    { id: 'tooltip', label: 'Tooltip' },
-  ]},
-  { category: 'Navigation', items: [
-    { id: 'menu', label: 'Menu' },
-    { id: 'context-menu', label: 'ContextMenu' },
-    { id: 'navigation-menu', label: 'NavigationMenu' },
-    { id: 'menubar', label: 'Menubar' },
-  ]},
-  { category: 'Layout', items: [
-    { id: 'accordion', label: 'Accordion' },
-    { id: 'disclosure', label: 'Disclosure' },
-    { id: 'container', label: 'Container' },
-    { id: 'tabs', label: 'Tabs' },
-    { id: 'scroll-area', label: 'ScrollArea' },
-    { id: 'separator', label: 'Separator' },
-  ]},
-  { category: 'Feedback', items: [
-    { id: 'progress-bar', label: 'ProgressBar' },
-    { id: 'meter', label: 'Meter' },
-  ]},
-  { category: 'Display', items: [
-    { id: 'avatar', label: 'Avatar' },
-    { id: 'breadcrumbs', label: 'Breadcrumbs' },
-    { id: 'link', label: 'Link' },
-    { id: 'grid-list', label: 'GridList' },
-    { id: 'table', label: 'Table' },
-    { id: 'tag-group', label: 'TagGroup' },
-    { id: 'tree', label: 'Tree' },
-  ]},
-  { category: 'Form Structure', items: [
-    { id: 'field', label: 'Field' },
-    { id: 'fieldset', label: 'Fieldset' },
-    { id: 'form', label: 'Form' },
-    { id: 'toolbar', label: 'Toolbar' },
-  ]},
   { category: 'Date & Time', items: [
+    { id: 'calendar', label: 'Calendar' },
     { id: 'date-field', label: 'DateField' },
     { id: 'time-field', label: 'TimeField' },
     { id: 'date-picker', label: 'DatePicker' },
@@ -233,9 +183,54 @@ const TOC = [
     { id: 'color-field', label: 'ColorField' },
     { id: 'color-picker', label: 'ColorPicker' },
   ]},
+  { category: 'Overlay', items: [
+    { id: 'dialog', label: 'Dialog' },
+    { id: 'alert-dialog', label: 'AlertDialog' },
+    { id: 'popover', label: 'Popover' },
+    { id: 'preview-card', label: 'PreviewCard' },
+    { id: 'drawer', label: 'Drawer' },
+    { id: 'tooltip', label: 'Tooltip' },
+  ]},
+  { category: 'Navigation', items: [
+    { id: 'menu', label: 'Menu' },
+    { id: 'context-menu', label: 'ContextMenu' },
+    { id: 'navigation-menu', label: 'NavigationMenu' },
+    { id: 'menubar', label: 'Menubar' },
+    { id: 'breadcrumbs', label: 'Breadcrumbs' },
+    { id: 'link', label: 'Link' },
+  ]},
+  { category: 'Layout', items: [
+    { id: 'accordion', label: 'Accordion' },
+    { id: 'disclosure', label: 'Disclosure' },
+    { id: 'tabs', label: 'Tabs' },
+    { id: 'scroll-area', label: 'ScrollArea' },
+    { id: 'separator', label: 'Separator' },
+    { id: 'toolbar', label: 'Toolbar' },
+  ]},
+  { category: 'Feedback', items: [
+    { id: 'progress-bar', label: 'ProgressBar' },
+    { id: 'meter', label: 'Meter' },
+  ]},
+  { category: 'Display', items: [
+    { id: 'avatar', label: 'Avatar' },
+    { id: 'grid-list', label: 'GridList' },
+    { id: 'table', label: 'Table' },
+    { id: 'tag-group', label: 'TagGroup' },
+    { id: 'tree', label: 'Tree' },
+  ]},
+  { category: 'Form Structure', items: [
+    { id: 'field', label: 'Field' },
+    { id: 'fieldset', label: 'Fieldset' },
+    { id: 'form', label: 'Form' },
+  ]},
   { category: 'Interaction', items: [
     { id: 'drop-zone', label: 'DropZone' },
     { id: 'file-trigger', label: 'FileTrigger' },
+  ]},
+  { category: 'Utility', items: [
+    { id: 'color-mode-toggle', label: 'ColorModeToggle' },
+    { id: 'icon', label: 'Icon' },
+    { id: 'container', label: 'Container' },
   ]},
 ];
 
@@ -303,6 +298,32 @@ function CalendarSection() {
 }
 
 // ---------------------------------------------------------------------------
+// ColorPicker section (needs shared state — ColorSlider must NOT nest inside
+// ColorPicker.Root, so we use standalone components with useState)
+// ---------------------------------------------------------------------------
+
+function ColorPickerDemo() {
+  const [color, setColor] = React.useState(parseColor('hsb(200, 100%, 100%)'));
+  return (
+    <div className="display--flex flex--col gap--2xs audit__color-area-wrap">
+      <ColorArea.Root value={color} onChange={setColor} className="audit__color-area">
+        <ColorArea.Thumb />
+      </ColorArea.Root>
+      <ColorSlider.Root channel="hue" value={color} onChange={setColor}>
+        <ColorSlider.Track>
+          <ColorSlider.Thumb />
+        </ColorSlider.Track>
+      </ColorSlider.Root>
+      <ColorSlider.Root channel="alpha" value={color} onChange={setColor}>
+        <ColorSlider.Track>
+          <ColorSlider.Thumb />
+        </ColorSlider.Track>
+      </ColorSlider.Root>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Combobox section (needs state)
 // ---------------------------------------------------------------------------
 
@@ -312,7 +333,10 @@ function ComboboxDemo() {
   return (
     <div className="audit__demo-narrow">
       <Combobox.Root>
-        <Combobox.Input placeholder="Search country…" />
+        <Combobox.InputGroup>
+          <Combobox.Input placeholder="Search country…" />
+          <Combobox.Trigger />
+        </Combobox.InputGroup>
         <Combobox.Popover offset={4}>
           <Combobox.ListBox>
             {countries.map((c) => (
@@ -447,20 +471,20 @@ function DestructiveDialogDemo() {
   );
 }
 
-function NonModalDialogDemo() {
+function DismissableDialogDemo() {
   const [open, setOpen] = React.useState(false);
   return (
     <Dialog.Root isOpen={open} onOpenChange={setOpen}>
-      <Dialog.Trigger className="tale-button--neutral">Open Non-Modal</Dialog.Trigger>
+      <Dialog.Trigger className="tale-button--neutral">Open Dismissable</Dialog.Trigger>
       <Dialog.Backdrop isDismissable>
         <Dialog.Popup>
           <Dialog.Close aria-label="Close" />
-          <Dialog.Title>Non-Modal Dialog</Dialog.Title>
+          <Dialog.Title>Dismissable Dialog</Dialog.Title>
           <Dialog.Description>
-            Click the backdrop to dismiss this dialog.
+            Click the backdrop or press Escape to dismiss this dialog.
           </Dialog.Description>
           <Dialog.Actions>
-            <Button variant="primary" onPress={() => setOpen(false)}>Got it</Button>
+            <Button variant="neutral" onPress={() => setOpen(false)}>Dismiss</Button>
           </Dialog.Actions>
         </Dialog.Popup>
       </Dialog.Backdrop>
@@ -752,6 +776,17 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
+        <Section id="container" title="Container" classes={[]}>
+          <SubHeading>Color overrides</SubHeading>
+          <Row>
+            {(['brand', 'red', 'indigo', 'green', 'random'] as const).map((color) => (
+              <Container key={color} color={color} className="audit__color-demo">
+                <span className="audit__color-label">{color}</span>
+              </Container>
+            ))}
+          </Row>
+        </Section>
+
         {/* FORM CONTROLS */}
         {/* ============================================================= */}
 
@@ -905,7 +940,7 @@ export default function ComponentAudit() {
             ))}
           </CheckboxGroup>
           <SubHeading>Horizontal</SubHeading>
-          <CheckboxGroup aria-label="Pick toppings" className="display--flex flex--row gap--m">
+          <CheckboxGroup aria-label="Pick toppings" orientation="horizontal">
             {['Cheese', 'Pepperoni', 'Mushrooms'].map((label) => (
               <Checkbox.Root key={label} value={label.toLowerCase()}>
                 <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
@@ -938,7 +973,7 @@ export default function ComponentAudit() {
             </Radio.Group>
           </div>
           <SubHeading>Radio Group</SubHeading>
-          <Radio.Group defaultValue="option-a" className="display--flex flex--col gap--3xs">
+          <Radio.Group defaultValue="option-a">
             {['Option A', 'Option B', 'Option C'].map((label, i) => {
               const value = `option-${String.fromCharCode(97 + i)}`;
               return (
@@ -948,6 +983,15 @@ export default function ComponentAudit() {
                 </Radio.Root>
               );
             })}
+          </Radio.Group>
+          <SubHeading>Horizontal</SubHeading>
+          <Radio.Group aria-label="Pick a plan" orientation="horizontal">
+            {['Free', 'Pro', 'Enterprise'].map((label) => (
+              <Radio.Root key={label} value={label.toLowerCase()}>
+                <Radio.Indicator />
+                {label}
+              </Radio.Root>
+            ))}
           </Radio.Group>
         </Section>
 
@@ -1088,14 +1132,17 @@ export default function ComponentAudit() {
           <AutocompleteDemo />
         </Section>
 
-        <Section id="combobox" title="Combobox" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty', 'tale-combobox__section', 'tale-combobox__header']}>
+        <Section id="combobox" title="Combobox" classes={['tale-combobox__input', 'tale-combobox__input-group', 'tale-combobox__trigger', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty', 'tale-combobox__section', 'tale-combobox__header', 'tale-combobox__chips', 'tale-combobox__chip', 'tale-combobox__chip-remove']}>
           <SubHeading>Default</SubHeading>
           <ComboboxDemo />
           <SubHeading>With Label</SubHeading>
           <div className="audit__demo-narrow audit__demo-spaced">
             <Combobox.Root>
               <Combobox.Label>Country</Combobox.Label>
-              <Combobox.Input placeholder="Search country…" />
+              <Combobox.InputGroup>
+                <Combobox.Input placeholder="Search country…" />
+                <Combobox.Trigger />
+              </Combobox.InputGroup>
               <Combobox.Popover offset={4}>
                 <Combobox.ListBox>
                   {countries.slice(0, 8).map((c) => (
@@ -1109,7 +1156,10 @@ export default function ComponentAudit() {
           <div className="audit__demo-narrow audit__demo-spaced">
             <Combobox.Root>
               <Combobox.Label>Food</Combobox.Label>
-              <Combobox.Input placeholder="Search food…" />
+              <Combobox.InputGroup>
+                <Combobox.Input placeholder="Search food…" />
+                <Combobox.Trigger />
+              </Combobox.InputGroup>
               <Combobox.Popover offset={4}>
                 <Combobox.ListBox>
                   <Combobox.Section>
@@ -1132,13 +1182,45 @@ export default function ComponentAudit() {
           <div className="audit__demo-narrow audit__demo-spaced">
             <Combobox.Root>
               <Combobox.Label>Search (try typing something not in list)</Combobox.Label>
-              <Combobox.Input placeholder="Type to filter…" />
+              <Combobox.InputGroup>
+                <Combobox.Input placeholder="Type to filter…" />
+                <Combobox.Trigger />
+              </Combobox.InputGroup>
               <Combobox.Popover offset={4}>
                 <Combobox.ListBox>
                   <Combobox.Empty>No results found.</Combobox.Empty>
                   <Combobox.Item id="apple-e" textValue="Apple">Apple</Combobox.Item>
                   <Combobox.Item id="banana-e" textValue="Banana">Banana</Combobox.Item>
                   <Combobox.Item id="cherry-e" textValue="Cherry">Cherry</Combobox.Item>
+                </Combobox.ListBox>
+              </Combobox.Popover>
+            </Combobox.Root>
+          </div>
+          <SubHeading>Multi-select Chips</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Combobox.Root>
+              <Combobox.Label>Frameworks</Combobox.Label>
+              <Combobox.Chips>
+                <Combobox.Chip>
+                  React <Combobox.ChipRemove aria-label="Remove React" />
+                </Combobox.Chip>
+                <Combobox.Chip>
+                  Vue <Combobox.ChipRemove aria-label="Remove Vue" />
+                </Combobox.Chip>
+                <Combobox.Chip>
+                  Angular <Combobox.ChipRemove aria-label="Remove Angular" />
+                </Combobox.Chip>
+              </Combobox.Chips>
+              <Combobox.InputGroup>
+                <Combobox.Input placeholder="Add framework…" />
+                <Combobox.Trigger />
+              </Combobox.InputGroup>
+              <Combobox.Popover offset={4}>
+                <Combobox.ListBox>
+                  <Combobox.Item id="react-ms" textValue="React">React</Combobox.Item>
+                  <Combobox.Item id="vue-ms" textValue="Vue">Vue</Combobox.Item>
+                  <Combobox.Item id="angular-ms" textValue="Angular">Angular</Combobox.Item>
+                  <Combobox.Item id="svelte-ms" textValue="Svelte">Svelte</Combobox.Item>
                 </Combobox.ListBox>
               </Combobox.Popover>
             </Combobox.Root>
@@ -1287,9 +1369,9 @@ export default function ComponentAudit() {
           <Row>
             <DestructiveDialogDemo />
           </Row>
-          <SubHeading>Non-Modal</SubHeading>
+          <SubHeading>Dismissable</SubHeading>
           <Row>
-            <NonModalDialogDemo />
+            <DismissableDialogDemo />
           </Row>
           <SubHeading>Scrollable Content</SubHeading>
           <Row>
@@ -1309,7 +1391,7 @@ export default function ComponentAudit() {
           <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Popover.Root key={side}>
-                <Popover.Trigger>{side}</Popover.Trigger>
+                <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">{side}</Popover.Trigger>
                 <Popover.Popup placement={side} offset={8}>
                   <Popover.Close aria-label="Close" />
                   <Popover.Title>Popover ({side})</Popover.Title>
@@ -1323,7 +1405,7 @@ export default function ComponentAudit() {
           <SubHeading>With Arrow</SubHeading>
           <Row className="audit__demo-row--padded">
             <Popover.Root>
-              <Popover.Trigger>With Arrow</Popover.Trigger>
+              <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">With Arrow</Popover.Trigger>
               <Popover.Popup placement="bottom" offset={8}>
                 <Popover.Arrow />
                 <Popover.Title>Arrow Popover</Popover.Title>
@@ -1341,12 +1423,28 @@ export default function ComponentAudit() {
             <PreviewCard.Root>
               <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
               <PreviewCard.Popup>
-                <PreviewCard.Arrow />
-                <PreviewCard.Content>
+                <PreviewCard.Content aria-label="Preview">
                   <div className="audit__preview-content">
                     <strong className="audit__preview-title">Preview Card</strong>
                     <p className="audit__preview-description">
                       A card that appears on hover to show a preview of linked content.
+                    </p>
+                  </div>
+                </PreviewCard.Content>
+              </PreviewCard.Popup>
+            </PreviewCard.Root>
+          </Row>
+          <SubHeading>With Arrow</SubHeading>
+          <Row>
+            <PreviewCard.Root>
+              <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
+              <PreviewCard.Popup>
+                <PreviewCard.Arrow />
+                <PreviewCard.Content aria-label="Preview">
+                  <div className="audit__preview-content">
+                    <strong className="audit__preview-title">Arrow Preview</strong>
+                    <p className="audit__preview-description">
+                      This preview card includes an arrow pointing to the trigger.
                     </p>
                   </div>
                 </PreviewCard.Content>
@@ -1425,7 +1523,7 @@ export default function ComponentAudit() {
           <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
-                <Tooltip.Trigger>Hover ({side})</Tooltip.Trigger>
+                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Hover ({side})</Tooltip.Trigger>
                 <Tooltip.Popup placement={side} offset={8}>
                   Appears on the {side}
                 </Tooltip.Popup>
@@ -1437,7 +1535,7 @@ export default function ComponentAudit() {
 
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
-                <Tooltip.Trigger>Arrow ({side})</Tooltip.Trigger>
+                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Arrow ({side})</Tooltip.Trigger>
                 <Tooltip.Popup placement={side} offset={4}>
                   <Tooltip.Arrow />
                   Appears on the {side}
@@ -1448,7 +1546,7 @@ export default function ComponentAudit() {
           <SubHeading>Long Text</SubHeading>
           <Row className="audit__demo-row--padded">
             <Tooltip.Root>
-              <Tooltip.Trigger>Long tooltip</Tooltip.Trigger>
+              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Long tooltip</Tooltip.Trigger>
               <Tooltip.Popup placement="top" offset={8}>
                 <Tooltip.Arrow />
                 This is a tooltip with a longer description that wraps across multiple
@@ -1459,14 +1557,14 @@ export default function ComponentAudit() {
           <SubHeading>With Delay</SubHeading>
           <Row className="audit__demo-row--padded">
             <Tooltip.Root delay={500}>
-              <Tooltip.Trigger>500ms delay</Tooltip.Trigger>
+              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">500ms delay</Tooltip.Trigger>
               <Tooltip.Popup placement="top" offset={8}>
                 <Tooltip.Arrow />
                 Appeared after 500ms
               </Tooltip.Popup>
             </Tooltip.Root>
             <Tooltip.Root delay={0}>
-              <Tooltip.Trigger>No delay</Tooltip.Trigger>
+              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">No delay</Tooltip.Trigger>
               <Tooltip.Popup placement="top" offset={8}>
                 <Tooltip.Arrow />
                 Instant tooltip
@@ -1486,12 +1584,12 @@ export default function ComponentAudit() {
               <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList aria-label="Options">
-                  <Menu.Item textValue="Edit">Edit</Menu.Item>
-                  <Menu.Item textValue="Duplicate">Duplicate</Menu.Item>
+                  <Menu.Item id="edit" textValue="Edit">Edit</Menu.Item>
+                  <Menu.Item id="duplicate" textValue="Duplicate">Duplicate</Menu.Item>
                   <Menu.Separator />
-                  <Menu.Item textValue="Share">Share</Menu.Item>
+                  <Menu.Item id="share" textValue="Share">Share</Menu.Item>
                   <Menu.Separator />
-                  <Menu.Item textValue="Delete">Delete</Menu.Item>
+                  <Menu.Item id="delete" textValue="Delete">Delete</Menu.Item>
                 </Menu.MenuList>
               </Menu.Popover>
             </Menu.Root>
@@ -1504,13 +1602,13 @@ export default function ComponentAudit() {
                 <Menu.MenuList aria-label="Account">
                   <Menu.Group>
                     <Menu.Header>Account</Menu.Header>
-                    <Menu.Item textValue="Profile">Profile</Menu.Item>
-                    <Menu.Item textValue="Settings">Settings</Menu.Item>
+                    <Menu.Item id="profile" textValue="Profile">Profile</Menu.Item>
+                    <Menu.Item id="settings" textValue="Settings">Settings</Menu.Item>
                   </Menu.Group>
                   <Menu.Separator />
                   <Menu.Group>
                     <Menu.Header>Danger Zone</Menu.Header>
-                    <Menu.Item textValue="Sign out">Sign out</Menu.Item>
+                    <Menu.Item id="sign-out" textValue="Sign out">Sign out</Menu.Item>
                   </Menu.Group>
                 </Menu.MenuList>
               </Menu.Popover>
@@ -1534,18 +1632,18 @@ export default function ComponentAudit() {
               <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList aria-label="Actions">
-                  <Menu.Item textValue="Edit">Edit</Menu.Item>
-                  <Menu.Item textValue="Duplicate" isDisabled>Duplicate</Menu.Item>
+                  <Menu.Item id="edit" textValue="Edit">Edit</Menu.Item>
+                  <Menu.Item id="duplicate" textValue="Duplicate" isDisabled>Duplicate</Menu.Item>
                   <Menu.Separator />
-                  <Menu.Item textValue="Archive">Archive</Menu.Item>
-                  <Menu.Item textValue="Delete" isDisabled>Delete</Menu.Item>
+                  <Menu.Item id="archive" textValue="Archive">Archive</Menu.Item>
+                  <Menu.Item id="delete" textValue="Delete" isDisabled>Delete</Menu.Item>
                 </Menu.MenuList>
               </Menu.Popover>
             </Menu.Root>
           </Row>
         </Section>
 
-        <Section id="context-menu" title="ContextMenu" classes={['tale-context-menu', 'tale-context-menu__trigger', 'tale-context-menu__item', 'tale-context-menu__separator']}>
+        <Section id="context-menu" title="ContextMenu" classes={['tale-context-menu', 'tale-context-menu__trigger', 'tale-context-menu__list', 'tale-context-menu__item', 'tale-context-menu__separator', 'tale-context-menu__group']}>
           <SubHeading>Default</SubHeading>
           <Row>
             <ContextMenu.Root>
@@ -1561,6 +1659,34 @@ export default function ComponentAudit() {
                   <ContextMenu.Item textValue="Paste">Paste</ContextMenu.Item>
                   <ContextMenu.Separator />
                   <ContextMenu.Item textValue="Delete">Delete</ContextMenu.Item>
+                </ContextMenu.MenuList>
+              </ContextMenu.Popup>
+            </ContextMenu.Root>
+          </Row>
+          <SubHeading>With Groups</SubHeading>
+          <Row>
+            <ContextMenu.Root>
+              <ContextMenu.Trigger>
+                <div className="audit__context-trigger">
+                  Right-click for grouped menu
+                </div>
+              </ContextMenu.Trigger>
+              <ContextMenu.Popup aria-label="Grouped context menu">
+                <ContextMenu.MenuList aria-label="Grouped context menu">
+                  <ContextMenu.Group>
+                    <ContextMenu.Item textValue="Cut">Cut</ContextMenu.Item>
+                    <ContextMenu.Item textValue="Copy">Copy</ContextMenu.Item>
+                    <ContextMenu.Item textValue="Paste">Paste</ContextMenu.Item>
+                  </ContextMenu.Group>
+                  <ContextMenu.Separator />
+                  <ContextMenu.Group>
+                    <ContextMenu.Item textValue="Find">Find</ContextMenu.Item>
+                    <ContextMenu.Item textValue="Replace">Replace</ContextMenu.Item>
+                  </ContextMenu.Group>
+                  <ContextMenu.Separator />
+                  <ContextMenu.Group>
+                    <ContextMenu.Item textValue="Inspect">Inspect</ContextMenu.Item>
+                  </ContextMenu.Group>
                 </ContextMenu.MenuList>
               </ContextMenu.Popup>
             </ContextMenu.Root>
@@ -1606,7 +1732,7 @@ export default function ComponentAudit() {
           </NavigationMenu.Root>
         </Section>
 
-        <Section id="menubar" title="Menubar" classes={['tale-menubar']}>
+        <Section id="menubar" title="Menubar" classes={['tale-menubar', 'tale-menubar__item']}>
           <SubHeading>Default</SubHeading>
           <Menubar.Root>
             <Menubar.Item>
@@ -1614,10 +1740,10 @@ export default function ComponentAudit() {
                 <Menu.Trigger>File</Menu.Trigger>
                 <Menu.Popover offset={4}>
                   <Menu.MenuList aria-label="File">
-                    <Menu.Item textValue="New">New</Menu.Item>
-                    <Menu.Item textValue="Open">Open</Menu.Item>
+                    <Menu.Item id="new" textValue="New">New</Menu.Item>
+                    <Menu.Item id="open" textValue="Open">Open</Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item textValue="Save">Save</Menu.Item>
+                    <Menu.Item id="save" textValue="Save">Save</Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>
@@ -1627,12 +1753,12 @@ export default function ComponentAudit() {
                 <Menu.Trigger>Edit</Menu.Trigger>
                 <Menu.Popover offset={4}>
                   <Menu.MenuList aria-label="Edit">
-                    <Menu.Item textValue="Undo">Undo</Menu.Item>
-                    <Menu.Item textValue="Redo">Redo</Menu.Item>
+                    <Menu.Item id="undo" textValue="Undo">Undo</Menu.Item>
+                    <Menu.Item id="redo" textValue="Redo">Redo</Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item textValue="Cut">Cut</Menu.Item>
-                    <Menu.Item textValue="Copy">Copy</Menu.Item>
-                    <Menu.Item textValue="Paste">Paste</Menu.Item>
+                    <Menu.Item id="cut" textValue="Cut">Cut</Menu.Item>
+                    <Menu.Item id="copy" textValue="Copy">Copy</Menu.Item>
+                    <Menu.Item id="paste" textValue="Paste">Paste</Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>
@@ -1642,15 +1768,36 @@ export default function ComponentAudit() {
                 <Menu.Trigger>View</Menu.Trigger>
                 <Menu.Popover offset={4}>
                   <Menu.MenuList aria-label="View">
-                    <Menu.Item textValue="Zoom In">Zoom In</Menu.Item>
-                    <Menu.Item textValue="Zoom Out">Zoom Out</Menu.Item>
+                    <Menu.Item id="zoom-in" textValue="Zoom In">Zoom In</Menu.Item>
+                    <Menu.Item id="zoom-out" textValue="Zoom Out">Zoom Out</Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item textValue="Full Screen">Full Screen</Menu.Item>
+                    <Menu.Item id="full-screen" textValue="Full Screen">Full Screen</Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>
             </Menubar.Item>
           </Menubar.Root>
+        </Section>
+
+        <Section id="breadcrumbs" title="Breadcrumbs" classes={['tale-breadcrumbs', 'tale-breadcrumbs__item', 'tale-breadcrumbs__link']}>
+          <SubHeading>Default</SubHeading>
+          <Breadcrumbs.Root>
+            <Breadcrumbs.Item><Breadcrumbs.Link href="#">Home</Breadcrumbs.Link></Breadcrumbs.Item>
+            <Breadcrumbs.Item><Breadcrumbs.Link href="#">Products</Breadcrumbs.Link></Breadcrumbs.Item>
+            <Breadcrumbs.Item><Breadcrumbs.Link>Current Page</Breadcrumbs.Link></Breadcrumbs.Item>
+          </Breadcrumbs.Root>
+        </Section>
+
+        <Section id="link" title="Link" classes={['tale-link']}>
+          <SubHeading>Default</SubHeading>
+          <Row>
+            <Link href="#">Default link</Link>
+            <Link href="#" isDisabled>Disabled link</Link>
+          </Row>
+          <SubHeading>External</SubHeading>
+          <Row>
+            <Link href="https://example.com" target="_blank">Opens in new tab</Link>
+          </Row>
         </Section>
 
         {/* ============================================================= */}
@@ -1679,7 +1826,7 @@ export default function ComponentAudit() {
           </div>
           <SubHeading>Multiple Open</SubHeading>
           <div className="audit__demo-extra-wide audit__demo-spaced">
-            <Accordion.Root defaultExpandedKeys={['m-a', 'm-b']}>
+            <Accordion.Root allowsMultipleExpanded defaultExpandedKeys={['m-a', 'm-b']}>
               {[
                 { id: 'm-a', title: 'First Section', content: 'This section starts open. Multiple sections can be expanded simultaneously.' },
                 { id: 'm-b', title: 'Second Section', content: 'This section also starts open.' },
@@ -1750,17 +1897,6 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="container" title="Container" classes={[]}>
-          <SubHeading>Color overrides</SubHeading>
-          <Row>
-            {(['brand', 'red', 'indigo', 'green', 'random'] as const).map((color) => (
-              <Container key={color} color={color} className="audit__color-demo">
-                <span className="audit__color-label">{color}</span>
-              </Container>
-            ))}
-          </Row>
-        </Section>
-
         <Section id="tabs" title="Tabs" classes={['tale-tabs', 'tale-tabs__list', 'tale-tabs__tab', 'tale-tabs__panel', 'tale-tabs__indicator']}>
           <SubHeading>Horizontal</SubHeading>
           <div className="audit__demo-extra-wide audit__demo-spaced">
@@ -1810,16 +1946,16 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="scroll-area" title="ScrollArea" classes={['tale-scroll-area', 'tale-scroll-area__viewport', 'tale-scroll-area__scrollbar', 'tale-scroll-area__thumb', 'tale-scroll-area__corner']}>
+        <Section id="scroll-area" title="ScrollArea" classes={['tale-scroll-area', 'tale-scroll-area__viewport', 'tale-scroll-area__content', 'tale-scroll-area__scrollbar', 'tale-scroll-area__thumb', 'tale-scroll-area__corner']}>
           <ScrollArea.Root className="audit__scroll-area">
             <ScrollArea.Viewport>
-              <div className="audit__scroll-content">
+              <ScrollArea.Content>
                 {Array.from({ length: 20 }, (_, i) => (
                   <p key={i} className="audit__scroll-text">
                     Line {i + 1}: Scrollable content with custom styled scrollbars.
                   </p>
                 ))}
-              </div>
+              </ScrollArea.Content>
             </ScrollArea.Viewport>
             <ScrollArea.Scrollbar orientation="vertical">
               <ScrollArea.Thumb />
@@ -1841,6 +1977,33 @@ export default function ComponentAudit() {
             <Separator orientation="vertical" />
             <span className="audit__separator-text">Right</span>
           </div>
+        </Section>
+
+        <Section id="toolbar" title="Toolbar" classes={['tale-toolbar', 'tale-toolbar__group', 'tale-toolbar__button', 'tale-toolbar__separator', 'tale-toolbar__link', 'tale-toolbar__input']}>
+          <SubHeading>Default</SubHeading>
+          <Toolbar.Root aria-label="Text formatting">
+            <Toolbar.Group>
+              <Toolbar.Button aria-label="Bold"><strong>B</strong></Toolbar.Button>
+              <Toolbar.Button aria-label="Italic"><em>I</em></Toolbar.Button>
+              <Toolbar.Button aria-label="Underline"><u>U</u></Toolbar.Button>
+            </Toolbar.Group>
+            <Toolbar.Separator />
+            <Toolbar.Group>
+              <Toolbar.Button disabled>Undo</Toolbar.Button>
+              <Toolbar.Button disabled>Redo</Toolbar.Button>
+            </Toolbar.Group>
+            <Toolbar.Separator />
+            <Toolbar.Link href="#">Help</Toolbar.Link>
+          </Toolbar.Root>
+          <SubHeading>With Input</SubHeading>
+          <Toolbar.Root aria-label="Search toolbar" className="audit__demo-spaced">
+            <Toolbar.Group>
+              <Toolbar.Button>Filter</Toolbar.Button>
+              <Toolbar.Button>Sort</Toolbar.Button>
+            </Toolbar.Group>
+            <Toolbar.Separator />
+            <Toolbar.Input placeholder="Search…" aria-label="Search" />
+          </Toolbar.Root>
         </Section>
 
         {/* ============================================================= */}
@@ -1960,19 +2123,23 @@ export default function ComponentAudit() {
         {/* FORM STRUCTURE */}
         {/* ============================================================= */}
 
-        <Section id="field" title="Field" classes={['tale-field', 'tale-field__label', 'tale-field__description', 'tale-field__error']}>
+        <Section id="field" title="Field" classes={['tale-field', 'tale-field__label', 'tale-field__control', 'tale-field__description', 'tale-field__error']}>
           <SubHeading>Default</SubHeading>
           <div className="audit__demo-medium">
             <Field.Root>
               <Field.Label>Label</Field.Label>
-              <Input.Input placeholder="Type here…" />
+              <Field.Control>
+                <Input.Input placeholder="Type here…" />
+              </Field.Control>
             </Field.Root>
           </div>
           <SubHeading>With Description</SubHeading>
           <div className="audit__demo-medium">
             <Field.Root>
               <Field.Label>Email</Field.Label>
-              <Input.Input placeholder="you@example.com" />
+              <Field.Control>
+                <Input.Input placeholder="you@example.com" />
+              </Field.Control>
               <Field.Description>We will never share your email.</Field.Description>
             </Field.Root>
           </div>
@@ -1980,7 +2147,9 @@ export default function ComponentAudit() {
           <div className="audit__demo-medium">
             <Field.Root data-invalid>
               <Field.Label>Password</Field.Label>
-              <Input.Input type="password" defaultValue="123" />
+              <Field.Control>
+                <Input.Input type="password" defaultValue="123" />
+              </Field.Control>
               <Field.Error>Password must be at least 8 characters.</Field.Error>
             </Field.Root>
           </div>
@@ -1988,7 +2157,9 @@ export default function ComponentAudit() {
           <div className="audit__demo-medium">
             <Field.Root data-disabled>
               <Field.Label>Disabled</Field.Label>
-              <Input.Input disabled placeholder="Cannot edit" />
+              <Field.Control>
+                <Input.Input disabled placeholder="Cannot edit" />
+              </Field.Control>
               <Field.Description>This field is disabled.</Field.Description>
             </Field.Root>
           </div>
@@ -2054,31 +2225,6 @@ export default function ComponentAudit() {
         </Section>
 
         {/* ============================================================= */}
-        {/* OTHER */}
-        {/* ============================================================= */}
-
-        <Section id="toolbar" title="Toolbar" classes={['tale-toolbar', 'tale-toolbar__button', 'tale-toolbar__separator', 'tale-toolbar__link', 'tale-toolbar__input']}>
-          <SubHeading>Default</SubHeading>
-          <Toolbar.Root aria-label="Text formatting">
-            <Toolbar.Button aria-label="Bold"><strong>B</strong></Toolbar.Button>
-            <Toolbar.Button aria-label="Italic"><em>I</em></Toolbar.Button>
-            <Toolbar.Button aria-label="Underline"><u>U</u></Toolbar.Button>
-            <Toolbar.Separator />
-            <Toolbar.Button disabled>Undo</Toolbar.Button>
-            <Toolbar.Button disabled>Redo</Toolbar.Button>
-            <Toolbar.Separator />
-            <Toolbar.Link href="#">Help</Toolbar.Link>
-          </Toolbar.Root>
-          <SubHeading>With Input</SubHeading>
-          <Toolbar.Root aria-label="Search toolbar" className="audit__demo-spaced">
-            <Toolbar.Button>Filter</Toolbar.Button>
-            <Toolbar.Button>Sort</Toolbar.Button>
-            <Toolbar.Separator />
-            <Toolbar.Input placeholder="Search…" aria-label="Search" />
-          </Toolbar.Root>
-        </Section>
-
-        {/* ============================================================= */}
         {/* ADDITIONAL FORM CONTROLS                                       */}
         {/* ============================================================= */}
 
@@ -2092,17 +2238,6 @@ export default function ComponentAudit() {
               </Radio.Root>
             ))}
           </RadioGroup>
-        </Section>
-
-        <Section id="toggle-group" title="ToggleGroup" classes={['tale-toggle-button-group']}>
-          <SubHeading>Default (re‑export of ToggleButtonGroup)</SubHeading>
-          <Row>
-            <ToggleGroup aria-label="Text style">
-              <ToggleButton size="md">Bold</ToggleButton>
-              <ToggleButton size="md">Italic</ToggleButton>
-              <ToggleButton size="md">Underline</ToggleButton>
-            </ToggleGroup>
-          </Row>
         </Section>
 
         <Section id="search-field" title="SearchField" classes={['tale-search-field', 'tale-search-field__input', 'tale-search-field__clear']}>
@@ -2152,42 +2287,17 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        {/* ============================================================= */}
-        {/* DISPLAY (additional)                                           */}
-        {/* ============================================================= */}
-
-        <Section id="breadcrumbs" title="Breadcrumbs" classes={['tale-breadcrumbs', 'tale-breadcrumbs__item', 'tale-breadcrumbs__link']}>
-          <SubHeading>Default</SubHeading>
-          <Breadcrumbs.Root>
-            <Breadcrumbs.Item><Breadcrumbs.Link href="#">Home</Breadcrumbs.Link></Breadcrumbs.Item>
-            <Breadcrumbs.Item><Breadcrumbs.Link href="#">Products</Breadcrumbs.Link></Breadcrumbs.Item>
-            <Breadcrumbs.Item><Breadcrumbs.Link>Current Page</Breadcrumbs.Link></Breadcrumbs.Item>
-          </Breadcrumbs.Root>
-        </Section>
-
-        <Section id="link" title="Link" classes={['tale-link']}>
-          <SubHeading>Default</SubHeading>
-          <Row>
-            <Link href="#">Default link</Link>
-            <Link href="#" isDisabled>Disabled link</Link>
-          </Row>
-          <SubHeading>External</SubHeading>
-          <Row>
-            <Link href="https://example.com" target="_blank">Opens in new tab</Link>
-          </Row>
-        </Section>
-
         <Section id="grid-list" title="GridList" classes={['tale-grid-list', 'tale-grid-list__item']}>
           <SubHeading>Default</SubHeading>
           <GridList.Root aria-label="Items" className="audit__demo-medium">
             {['Item One', 'Item Two', 'Item Three', 'Item Four'].map((item) => (
-              <GridList.Item key={item} id={item}>{item}</GridList.Item>
+              <GridList.Item key={item} id={item} textValue={item}>{item}</GridList.Item>
             ))}
           </GridList.Root>
           <SubHeading>With Selection</SubHeading>
           <GridList.Root aria-label="Selectable items" selectionMode="multiple" className="audit__demo-medium">
             {['Design tokens', 'Components', 'Documentation', 'Testing'].map((item) => (
-              <GridList.Item key={item} id={item}>{item}</GridList.Item>
+              <GridList.Item key={item} id={item} textValue={item}>{item}</GridList.Item>
             ))}
           </GridList.Root>
         </Section>
@@ -2201,17 +2311,17 @@ export default function ComponentAudit() {
               <Table.Column>Status</Table.Column>
             </Table.Header>
             <Table.Body>
-              <Table.Row>
+              <Table.Row id="alice-default">
                 <Table.Cell>Alice</Table.Cell>
                 <Table.Cell>Engineer</Table.Cell>
                 <Table.Cell>Active</Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row id="bob-default">
                 <Table.Cell>Bob</Table.Cell>
                 <Table.Cell>Designer</Table.Cell>
                 <Table.Cell>Away</Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row id="charlie-default">
                 <Table.Cell>Charlie</Table.Cell>
                 <Table.Cell>Manager</Table.Cell>
                 <Table.Cell>Active</Table.Cell>
@@ -2247,7 +2357,7 @@ export default function ComponentAudit() {
           <SortableTableDemo />
         </Section>
 
-        <Section id="tag-group" title="TagGroup" classes={['tale-tag-group', 'tale-tag-group__list', 'tale-tag-group__tag', 'tale-tag-group__label']}>
+        <Section id="tag-group" title="TagGroup" classes={['tale-tag-group', 'tale-tag-group__list', 'tale-tag-group__tag', 'tale-tag-group__label', 'tale-tag-group__description']}>
           <SubHeading>Default</SubHeading>
           <TagGroup.Root>
             <TagGroup.Label>Categories</TagGroup.Label>
@@ -2256,6 +2366,16 @@ export default function ComponentAudit() {
               <TagGroup.Tag id="css">CSS</TagGroup.Tag>
               <TagGroup.Tag id="design">Design</TagGroup.Tag>
               <TagGroup.Tag id="a11y">Accessibility</TagGroup.Tag>
+            </TagGroup.List>
+          </TagGroup.Root>
+          <SubHeading>With Description</SubHeading>
+          <TagGroup.Root>
+            <TagGroup.Label>Interests</TagGroup.Label>
+            <TagGroup.Description>Select your areas of interest.</TagGroup.Description>
+            <TagGroup.List>
+              <TagGroup.Tag id="frontend">Frontend</TagGroup.Tag>
+              <TagGroup.Tag id="backend">Backend</TagGroup.Tag>
+              <TagGroup.Tag id="devops">DevOps</TagGroup.Tag>
             </TagGroup.List>
           </TagGroup.Root>
           <SubHeading>Removable</SubHeading>
@@ -2416,11 +2536,11 @@ export default function ComponentAudit() {
               <DateRangePicker.Popover>
                 <DateRangePicker.Dialog>
                   <RangeCalendar.Root>
-                    <Calendar.Header>
+                    <RangeCalendar.Header>
                       <RangeCalendar.PreviousButton />
                       <RangeCalendar.Heading />
                       <RangeCalendar.NextButton />
-                    </Calendar.Header>
+                    </RangeCalendar.Header>
                     <RangeCalendar.Grid>
                       <RangeCalendar.GridHeader>
                         {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
@@ -2436,14 +2556,14 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="range-calendar" title="RangeCalendar" classes={['tale-range-calendar__heading', 'tale-range-calendar__grid', 'tale-range-calendar__grid-header', 'tale-range-calendar__grid-body', 'tale-range-calendar__cell']}>
+        <Section id="range-calendar" title="RangeCalendar" classes={['tale-range-calendar__header', 'tale-range-calendar__heading', 'tale-range-calendar__grid', 'tale-range-calendar__grid-header', 'tale-range-calendar__grid-body', 'tale-range-calendar__cell']}>
           <SubHeading>Interactive</SubHeading>
           <RangeCalendar.Root>
-            <Calendar.Header>
+            <RangeCalendar.Header>
               <RangeCalendar.PreviousButton />
               <RangeCalendar.Heading />
               <RangeCalendar.NextButton />
-            </Calendar.Header>
+            </RangeCalendar.Header>
             <RangeCalendar.Grid>
               <RangeCalendar.GridHeader>
                 {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
@@ -2523,24 +2643,8 @@ export default function ComponentAudit() {
         </Section>
 
         <Section id="color-picker" title="ColorPicker" classes={[]}>
-          <SubHeading>Default (headless provider)</SubHeading>
-          <ColorPicker.Root defaultValue="hsl(200, 100%, 50%)">
-            <div className="display--flex flex--col gap--2xs audit__color-area-wrap">
-              <ColorArea.Root className="audit__color-area">
-                <ColorArea.Thumb />
-              </ColorArea.Root>
-              <ColorSlider.Root channel="hue">
-                <ColorSlider.Track>
-                  <ColorSlider.Thumb />
-                </ColorSlider.Track>
-              </ColorSlider.Root>
-              <ColorSlider.Root channel="alpha">
-                <ColorSlider.Track>
-                  <ColorSlider.Thumb />
-                </ColorSlider.Track>
-              </ColorSlider.Root>
-            </div>
-          </ColorPicker.Root>
+          <SubHeading>Standalone components with shared state</SubHeading>
+          <ColorPickerDemo />
         </Section>
 
         {/* ============================================================= */}

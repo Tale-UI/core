@@ -18,6 +18,18 @@ export interface IconProps extends React.SVGAttributes<SVGSVGElement> {
   label?: string;
 }
 
+/**
+ * Renders a Lucide icon with Tale UI BEM sizing.
+ *
+ * @example
+ * ```tsx
+ * import { Icon } from '@tale-ui/react/icon';
+ * import { Heart } from 'lucide-react';
+ *
+ * <Icon icon={Heart} size="md" />
+ * <Icon icon={Heart} size="lg" label="Favorite" />
+ * ```
+ */
 export const Icon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ icon: IconComp, size = 'md', className, label, ...props }, ref) => (
     <IconComp

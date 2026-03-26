@@ -11,6 +11,7 @@ A compound radio button component with group support, built on React Aria's Radi
 | `Radio.Group` | Groups radio buttons with a label and manages selection |
 | `Radio.Root` | An individual radio option |
 | `Radio.Indicator` | The visual circle indicator |
+| `Radio.Dot` | Inner dot inside the indicator (optional; for custom rendering) |
 
 ## Basic Usage
 
@@ -98,6 +99,7 @@ A compound radio button component with group support, built on React Aria's Radi
 - `.tale-radio--sm` -- Small size modifier
 - `.tale-radio--lg` -- Large size modifier
 - `.tale-radio__indicator` -- The visual circle indicator
+- `.tale-radio__dot` -- Inner dot inside the indicator
 - `.tale-radio-group` -- The group wrapper
 
 ## Notes
@@ -107,3 +109,4 @@ A compound radio button component with group support, built on React Aria's Radi
 - Use `orientation="horizontal"` on `Radio.Group` for inline layout.
 - `isDisabled` on the group disables all child radios.
 - Supports `data-readonly` and `data-required` attributes for corresponding states.
+- **Standalone import:** `Radio.Group` is also available as `import { RadioGroup } from '@tale-ui/react/radio-group';`. This is functionally identical to `Radio.Group`.

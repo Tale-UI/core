@@ -11,8 +11,10 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 | [Checkbox](checkbox.md) | Checkbox with indicator slot |
 | [CheckboxGroup](checkbox-group.md) | Groups multiple checkboxes |
 | [Radio](radio.md) | Radio button with group |
+| [RadioGroup](radio-group.md) | Convenience re-export of `Radio.Group` |
 | [Switch](switch.md) | Toggle switch |
 | [ToggleButton](toggle-button.md) | Pressable toggle with group support |
+| [ToggleButtonGroup](toggle-group.md) | Convenience re-export of `ToggleButtonGroup` |
 | [Select](select.md) | Dropdown select with sections and groups |
 | [Combobox](combobox.md) | Filterable select with multi-select support |
 | [Autocomplete](autocomplete.md) | Inline search with listbox |
@@ -116,5 +118,8 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 |-----------|-------------|
 | [ColorModeToggle](color-mode-toggle.md) | Light/dark mode toggle with persistence |
 | [Container](container.md) | Colour palette override wrapper |
+| [CSPProvider](csp-provider.md) | Content Security Policy nonce provider |
+| [I18nProvider](i18n-provider.md) | Locale and text direction provider |
 | [Icon](icon.md) | Lucide-react icon wrapper with BEM sizing |
 | [IconButton](icon-button.md) | Square button for icon-only use |
+| [mergeProps](merge-props.md) | Smart React props merging utility |

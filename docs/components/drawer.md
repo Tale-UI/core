@@ -15,6 +15,8 @@ A slide-in panel with optional backdrop, title, and description.
 | `Drawer.Title` | Drawer heading. |
 | `Drawer.Description` | Drawer description text. |
 | `Drawer.Close` | Button that closes the drawer. Applies `tale-drawer__close` (not `tale-button`). |
+| `Drawer.Handle` | Drag handle for swipe-to-dismiss interaction. |
+| `Drawer.SwipeArea` | Invisible touch target area for swipe gestures. |
 
 ## Basic Usage
 
@@ -73,3 +75,5 @@ import { Drawer } from '@tale-ui/react/drawer';
 - Clicking the `Backdrop` closes the drawer automatically.
 - **`Drawer.Backdrop` must be a self-closing sibling, not a wrapper.** Use `<Drawer.Backdrop />` as a sibling of `<Drawer.Popup>`, never wrap Popup inside Backdrop. Wrapping changes the React hook execution order and causes a "Rendered more hooks than during the previous render" crash.
 - Unlike Dialog, this is a custom implementation (not built on React Aria's Modal).
+- **Controlled state uses `open`, not `isOpen`.** Pass `open={open} onOpenChange={setOpen}` to `Drawer.Root`. This differs from Dialog and AlertDialog which use `isOpen`.
+- **There is no `Drawer.Actions` part** (unlike `Dialog.Actions`). Wrap action buttons in a plain `<div>` with flex layout instead.

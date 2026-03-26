@@ -22,6 +22,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [docs/react-setup.md](docs/react-setup.md) | Setting up a React app with Tale UI |
 | [docs/design-philosophy.md](docs/design-philosophy.md) | Why React Aria, why BEM, why CSS-first, colour token system, dark mode |
 | [docs/authoring-components.md](docs/authoring-components.md) | Contributor guide: adding new `@tale-ui/react` components |
+| [docs/react-aria-deviations.md](docs/react-aria-deviations.md) | Every difference between Tale UI and vanilla React Aria Components |
 | [docs/components/](docs/components/index.md) | Per-component usage guide: imports, parts, examples, CSS classes |
 
 ## CSS Design System (@tale-ui/core)
@@ -88,6 +89,14 @@ Every component has a usage guide at `docs/components/{name}.md` with imports, s
 - Add the component to the catalogue and per-component docs sections in `packages/react/README.md`
 
 See [docs/authoring-components.md](docs/authoring-components.md) for the full checklist.
+
+**When updating an existing component**, ensure all of the following are kept in sync:
+
+- **Markdown docs** — update `docs/components/{name}.md` (props, parts, examples, CSS classes)
+- **JSDoc** — update JSDoc comments on exported props/components in `{Component}.styled.tsx`
+- **Code examples** — update any inline examples in docs and README to reflect the new API
+- **Component Audit** — update `playground/vite-app/src/demos/ComponentAudit.tsx` to exercise the change
+- **Storybook** — update or add stories in `playground/storybook/src/stories/{Component}.stories.tsx`
 
 ### Shared primitives (`_primitives.css`)
 

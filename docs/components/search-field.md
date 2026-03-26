@@ -37,12 +37,13 @@ A search input field with built-in clear button support.
 ### With Clear Button
 
 ```tsx
+import { Icon } from '@tale-ui/react/icon';
+import { X } from 'lucide-react';
+
 <SearchField.Root defaultValue="React">
   <SearchField.Label>Search</SearchField.Label>
-  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2xs)' }}>
-    <SearchField.Input placeholder="Search..." />
-    <SearchField.ClearButton>&times;</SearchField.ClearButton>
-  </div>
+  <SearchField.Input placeholder="Search..." />
+  <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
 </SearchField.Root>
 ```
 

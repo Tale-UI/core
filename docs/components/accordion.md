@@ -43,7 +43,7 @@ A vertically stacked set of collapsible sections, allowing one or multiple panel
 ### Multiple Open
 
 ```tsx
-<Accordion.Root allowsMultiple>
+<Accordion.Root allowsMultipleExpanded>
   <Accordion.Item id="a">
     <Accordion.Header>
       <Accordion.Trigger>Section One</Accordion.Trigger>
@@ -113,6 +113,6 @@ A vertically stacked set of collapsible sections, allowing one or multiple panel
 ## Notes
 
 - Built on React Aria `DisclosureGroup` and `Disclosure` components.
-- By default only one item can be open at a time. Pass `allowsMultiple` to allow multiple.
+- By default only one item can be open at a time. Pass `allowsMultipleExpanded` to allow multiple.
 - Use `defaultExpandedKeys` to set initially expanded items (pass an array of item `id` values).
 - The `isDisabled` prop can be set on `Root` to disable the entire group.

@@ -10,28 +10,44 @@ interface DataAttributes {
   [key: `data-${string}`]: string;
 }
 
-export type TaleUIRenderResult = Awaited<ReturnType<ReturnType<typeof createRenderer>['render']>>;
+type SharedRenderer = ReturnType<typeof sharedCreateRenderer>;
+type SharedRenderResult = ReturnType<SharedRenderer['render']>;
 
-export function createRenderer(globalOptions?: CreateRendererOptions) {
+interface TaleUIRenderer extends Omit<SharedRenderer, 'render'> {
+  render: (
+    element: React.ReactElement<DataAttributes>,
+    options?: RenderOptions,
+  ) => Promise<SharedRenderResult & {
+    rerender: (newElement: React.ReactElement<DataAttributes>) => Promise<void>;
+    setProps: (newProps: object) => Promise<void>;
+  }>;
+}
+
+export type TaleUIRenderResult = Awaited<ReturnType<TaleUIRenderer['render']>>;
+
+export function createRenderer(globalOptions?: CreateRendererOptions): TaleUIRenderer {
   const createRendererResult = sharedCreateRenderer(globalOptions);
   const { render: originalRender } = createRendererResult;
 
-  const render = async (element: React.ReactElement<DataAttributes>, options?: RenderOptions) => {
-    const result = await act(async () => originalRender(element, options));
+  const render: TaleUIRenderer['render'] = async (element, options) => {
+    let result!: SharedRenderResult;
+    await act(async () => {
+      result = originalRender(element, options);
+    });
 
     async function rerender(newElement: React.ReactElement<DataAttributes>) {
-      await act(async () => result.rerender(newElement));
+      await act(async () => { result.rerender(newElement); });
     }
 
     async function setProps(newProps: object) {
       await rerender(React.cloneElement(element, newProps));
     }
 
-    return { ...result, rerender, setProps };
+    return Object.assign(result, { rerender, setProps });
   };
 
   return {
     ...createRendererResult,
     render,
-  };
+  } as TaleUIRenderer;
 }

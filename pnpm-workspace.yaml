@@ -6,7 +6,7 @@ packages:
   - test
   - test/*
   - scripts/*
-  - examples/*
+
   - playground/*
 
 onlyBuiltDependencies:

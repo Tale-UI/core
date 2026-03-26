@@ -86,6 +86,18 @@ export type ContainerProps = React.HTMLAttributes<HTMLDivElement> & {
   color?: ContainerColor;
 };
 
+/**
+ * A wrapper that overrides `--color-*` design tokens for its descendants.
+ *
+ * @example
+ * ```tsx
+ * import { Container } from '@tale-ui/react/container';
+ *
+ * <Container color="indigo">
+ *   <Button variant="primary">Indigo Button</Button>
+ * </Container>
+ * ```
+ */
 export function Container({ color = 'brand', children, style, ...props }: ContainerProps) {
   const colorVars = getColorVars(color);
   return (

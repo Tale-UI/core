@@ -70,7 +70,7 @@ export const MultipleOpen: Story = {
   },
   render: () => (
     <div className="story-medium">
-      <Accordion.Root allowsMultiple>
+      <Accordion.Root allowsMultipleExpanded>
         <Accordion.Item id="a">
           <Accordion.Header>
             <Accordion.Trigger>Section One</Accordion.Trigger>

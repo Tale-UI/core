@@ -61,6 +61,32 @@ chai.use((_chai, utils) => {
   });
 });
 
+// toBeInaccessible — chai assertion for elements hidden from the accessibility tree
+chai.use((_chai, utils) => {
+  _chai.Assertion.addMethod('toBeInaccessible', function toBeInaccessible() {
+    const el = utils.flag(this, 'object') as Element;
+
+    function isInaccessible(node: Element | null): boolean {
+      if (!node || node === document.documentElement) return false;
+      if (node.getAttribute('aria-hidden') === 'true') return true;
+      const role = node.getAttribute('role');
+      if (role === 'presentation' || role === 'none') return true;
+      if ((node as HTMLElement).hidden) return true;
+      if (typeof getComputedStyle === 'function') {
+        const style = getComputedStyle(node);
+        if (style.display === 'none' || style.visibility === 'hidden') return true;
+      }
+      return isInaccessible(node.parentElement);
+    }
+
+    this.assert(
+      isInaccessible(el),
+      'expected element to be inaccessible (aria-hidden, display:none, etc.)',
+      'expected element not to be inaccessible',
+    );
+  });
+});
+
 // Setup chai plugins
 if (typeof window !== 'undefined') {
   chai.use(chaiDom);

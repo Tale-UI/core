@@ -54,9 +54,11 @@ const RootInner = <T extends DateValue>(
  *   <DatePicker.Popover>
  *     <DatePicker.Dialog>
  *       <Calendar.Root>
- *         <Calendar.PreviousButton />
- *         <Calendar.Heading />
- *         <Calendar.NextButton />
+ *         <Calendar.Header>
+ *           <Calendar.PreviousButton />
+ *           <Calendar.Heading />
+ *           <Calendar.NextButton />
+ *         </Calendar.Header>
  *         <Calendar.Grid>
  *           <Calendar.GridHeader>
  *             {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}

@@ -27,7 +27,7 @@ import { cx } from '../_cx';
  * import { Popover } from '@tale-ui/react/popover';
  *
  * <Popover.Root>
- *   <Popover.Trigger>Open Popover</Popover.Trigger>
+ *   <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
  *   <Popover.Popup placement="bottom" offset={8}>
  *     <Popover.Arrow />
  *     <Popover.Title>Popover Title</Popover.Title>

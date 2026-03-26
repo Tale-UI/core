@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 import { Icon } from '../icon';
 import {
   ComboBox as AriaComboBox,
@@ -215,8 +215,10 @@ export type ChipRemoveProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
 };
 
 export const ChipRemove = React.forwardRef<HTMLButtonElement, ChipRemoveProps>(
-  ({ className, ...props }, ref) => (
-    <button ref={ref} type="button" className={cx('tale-combobox__chip-remove', className)} {...props} />
+  ({ className, children, ...props }, ref) => (
+    <button ref={ref} type="button" className={cx('tale-combobox__chip-remove', className)} {...props}>
+      {children ?? <Icon icon={X} size="sm" />}
+    </button>
   ),
 );
 ChipRemove.displayName = 'Combobox.ChipRemove';

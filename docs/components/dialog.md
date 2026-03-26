@@ -15,6 +15,7 @@ A modal dialog overlay with backdrop, title, description, and close button.
 | `Dialog.Title` | Heading rendered with `slot="title"`. |
 | `Dialog.Description` | Paragraph describing the dialog content. |
 | `Dialog.Close` | Icon button that closes the dialog via `slot="close"`. Positioned top-right. |
+| `Dialog.Actions` | Flex row container for action buttons (Cancel/Confirm). |
 
 ## Basic Usage
 
@@ -30,15 +31,15 @@ function Example() {
       <Dialog.Trigger className="tale-button--primary">Open Dialog</Dialog.Trigger>
       <Dialog.Backdrop>
         <Dialog.Popup>
-          <Dialog.Close aria-label="Close">✕</Dialog.Close>
+          <Dialog.Close aria-label="Close" />
           <Dialog.Title>Confirm action</Dialog.Title>
           <Dialog.Description>
             Are you sure you want to proceed? This action can be undone later.
           </Dialog.Description>
-          <div className="tale-dialog__actions">
+          <Dialog.Actions>
             <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
             <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
-          </div>
+          </Dialog.Actions>
         </Dialog.Popup>
       </Dialog.Backdrop>
     </Dialog.Root>
@@ -59,36 +60,39 @@ const [open, setOpen] = useState(false);
   <Dialog.Trigger className="tale-button--danger">Delete Account</Dialog.Trigger>
   <Dialog.Backdrop>
     <Dialog.Popup>
-      <Dialog.Close aria-label="Close">✕</Dialog.Close>
+      <Dialog.Close aria-label="Close" />
       <Dialog.Title>Delete account</Dialog.Title>
       <Dialog.Description>
         This action is permanent and cannot be undone. All your data will be lost.
       </Dialog.Description>
-      <div className="tale-dialog__actions">
+      <Dialog.Actions>
         <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
         <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
-      </div>
+      </Dialog.Actions>
     </Dialog.Popup>
   </Dialog.Backdrop>
 </Dialog.Root>
 ```
 
-### Non-Modal
+### Dismissable
 
 ```tsx
 const [open, setOpen] = useState(false);
 
 <Dialog.Root isOpen={open} onOpenChange={setOpen}>
-  <Dialog.Trigger className="tale-button--neutral">Open Non-Modal</Dialog.Trigger>
-  <Dialog.Popup modalProps={{ isDismissable: true }}>
-    <Dialog.Title>Notification</Dialog.Title>
-    <Dialog.Description>
-      This is a non-modal dialog. You can still interact with the page behind it.
-    </Dialog.Description>
-    <div className="tale-dialog__actions">
-      <Button variant="neutral" onPress={() => setOpen(false)}>Dismiss</Button>
-    </div>
-  </Dialog.Popup>
+  <Dialog.Trigger className="tale-button--neutral">Open Dismissable</Dialog.Trigger>
+  <Dialog.Backdrop isDismissable>
+    <Dialog.Popup>
+      <Dialog.Close aria-label="Close" />
+      <Dialog.Title>Dismissable Dialog</Dialog.Title>
+      <Dialog.Description>
+        Click the backdrop or press Escape to dismiss this dialog.
+      </Dialog.Description>
+      <Dialog.Actions>
+        <Button variant="neutral" onPress={() => setOpen(false)}>Dismiss</Button>
+      </Dialog.Actions>
+    </Dialog.Popup>
+  </Dialog.Backdrop>
 </Dialog.Root>
 ```
 
@@ -108,6 +112,6 @@ const [open, setOpen] = useState(false);
 - **Backdrop must wrap Popup.** `<Dialog.Backdrop>` must contain `<Dialog.Popup>` as a child — not a sibling. This produces the correct React Aria structure (`ModalOverlay > Modal > Dialog`). Using them as siblings creates two independent overlay portals and the backdrop will not be cleaned up on close.
 - **Trigger variant class.** `Dialog.Trigger` auto-applies `tale-button` — add the variant yourself: `className="tale-button--primary"`.
 - **Use `<Button>` for actions.** `Dialog.Close` applies `tale-dialog__close` CSS (absolutely positioned in the corner) — reserve it for the icon-only X button. For Cancel/Confirm, use `<Button variant="..." onPress={() => setOpen(false)}>`.
-- **Wrap actions in `tale-dialog__actions`.** This applies the correct flexbox layout for the button row.
-- **Non-modal:** Pass `modalProps={{ isDismissable: true }}` to `Dialog.Popup` and omit the Backdrop.
+- **Wrap actions in `Dialog.Actions`.** This applies the correct flexbox layout for the button row.
+- **Dismissable:** Pass `isDismissable` to `Dialog.Backdrop` to allow closing by clicking the backdrop or pressing Escape.
 - **ARIA labelling:** Dialog automatically associates `Dialog.Title` with `aria-labelledby` and `Dialog.Description` with `aria-describedby`. Always include at least a Title for accessibility. The dialog receives `role="dialog"` automatically.

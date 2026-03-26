@@ -13,11 +13,13 @@ A compound dropdown select component with popover listbox, built on React Aria's
 | `Select.Trigger` | The button that opens the dropdown |
 | `Select.Value` | Displays the selected value (or placeholder) |
 | `Select.Icon` | Decorative dropdown arrow icon |
-| `Select.Popover` | The floating popover container |
+| `Select.Popover` | The floating popover container. Accepts `placement` and `offset`. |
 | `Select.ListBox` | The scrollable list of options |
 | `Select.Item` | An individual option |
 | `Select.Section` | A group of related items |
 | `Select.Header` | A header label for a section |
+| `Select.ItemText` | Text label inside an item (for custom item layouts) |
+| `Select.ItemIndicator` | Selection indicator inside an item (e.g. checkmark) |
 | `Select.Separator` | A visual divider between items or sections |
 
 ## Basic Usage
@@ -26,7 +28,7 @@ A compound dropdown select component with popover listbox, built on React Aria's
 <Select.Root placeholder="Select a fruit...">
   <Select.Trigger>
     <Select.Value />
-    <Select.Icon>&#x25BE;</Select.Icon>
+    <Select.Icon />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -47,7 +49,7 @@ A compound dropdown select component with popover listbox, built on React Aria's
   <Select.Label>Favorite fruit</Select.Label>
   <Select.Trigger>
     <Select.Value />
-    <Select.Icon>&#x25BE;</Select.Icon>
+    <Select.Icon />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -66,7 +68,7 @@ A compound dropdown select component with popover listbox, built on React Aria's
   <Select.Label>Food</Select.Label>
   <Select.Trigger>
     <Select.Value />
-    <Select.Icon>&#x25BE;</Select.Icon>
+    <Select.Icon />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -92,7 +94,7 @@ A compound dropdown select component with popover listbox, built on React Aria's
   <Select.Label>Available options</Select.Label>
   <Select.Trigger>
     <Select.Value />
-    <Select.Icon>&#x25BE;</Select.Icon>
+    <Select.Icon />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -111,7 +113,7 @@ A compound dropdown select component with popover listbox, built on React Aria's
   <Select.Label>Disabled select</Select.Label>
   <Select.Trigger>
     <Select.Value />
-    <Select.Icon>&#x25BE;</Select.Icon>
+    <Select.Icon />
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
@@ -132,6 +134,8 @@ A compound dropdown select component with popover listbox, built on React Aria's
 - `.tale-select__item` -- Individual option
 - `.tale-select__header` -- Section header
 - `.tale-select__label` -- Label element
+- `.tale-select__item-text` -- Text label inside an item
+- `.tale-select__item-indicator` -- Selection indicator inside an item
 - `.tale-select__separator` -- Divider
 
 ## Notes

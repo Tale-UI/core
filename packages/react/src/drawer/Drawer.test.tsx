@@ -23,6 +23,10 @@ describe('<Drawer />', () => {
   });
 
   it('keeps the popup mounted until the close animation finishes', async () => {
+    // Temporarily enable animations so the getAnimations mock is consulted
+    // (setupVitest.ts sets TALE_UI_ANIMATIONS_DISABLED = true globally).
+    globalThis.TALE_UI_ANIMATIONS_DISABLED = false;
+
     let resolveAnimation: (() => void) | undefined;
     const finished = new Promise<void>((resolve) => {
       resolveAnimation = resolve;
@@ -37,16 +41,10 @@ describe('<Drawer />', () => {
       </Drawer.Root>,
     );
 
-    const popup = screen.getByRole('dialog') as HTMLDivElement & {
-      getAnimations?: () => Array<{ finished: Promise<void>; pending: boolean; playState: string }>;
-    };
+    const popup = screen.getByRole('dialog');
 
-    popup.getAnimations = () => [
-      {
-        finished,
-        pending: true,
-        playState: 'running',
-      },
+    (popup as any).getAnimations = () => [
+      { finished, pending: true, playState: 'running' },
     ];
 
     await user.click(screen.getByRole('button', { name: 'Close' }));
@@ -58,5 +56,7 @@ describe('<Drawer />', () => {
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).to.equal(null);
     });
+
+    globalThis.TALE_UI_ANIMATIONS_DISABLED = true;
   });
 });

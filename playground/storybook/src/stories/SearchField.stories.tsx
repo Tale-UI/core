@@ -53,10 +53,8 @@ export const WithClearButton: Story = {
   render: (args) => (
     <SearchField.Root defaultValue="React" {...args}>
       <SearchField.Label>Search</SearchField.Label>
-      <div className="story-row story-row--2xs">
-        <SearchField.Input placeholder={args.placeholder} />
-        <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
-      </div>
+      <SearchField.Input placeholder={args.placeholder} />
+      <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
     </SearchField.Root>
   ),
 };

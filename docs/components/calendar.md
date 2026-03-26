@@ -9,24 +9,25 @@ A date picker calendar for selecting a single date, with month navigation.
 | Part | Description |
 |------|-------------|
 | `Calendar.Root` | Wrapper managing date state and locale |
-| `Calendar.PreviousButton` | Navigate to the previous month (renders `‹` by default) |
-| `Calendar.NextButton` | Navigate to the next month (renders `›` by default) |
+| `Calendar.PreviousButton` | Navigate to the previous month (renders a ChevronLeft icon by default) |
+| `Calendar.NextButton` | Navigate to the next month (renders a ChevronRight icon by default) |
 | `Calendar.Heading` | Displays the current month and year |
 | `Calendar.Grid` | `<table>` containing the header and body |
 | `Calendar.GridHeader` | `<thead>` row of weekday names (render prop: `(day) => ...`) |
 | `Calendar.GridHeaderCell` | `<th>` weekday label — **use inside `GridHeader` only** |
 | `Calendar.GridBody` | `<tbody>` rows of date cells (render prop: `(date) => ...`) |
 | `Calendar.Cell` | Individual date cell — **use inside `GridBody` only**; accepts a `date` prop |
+| `Calendar.Header` | Flex row wrapper for navigation buttons and heading |
 
 ## Basic Usage
 
 ```tsx
 <Calendar.Root>
-  <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+  <Calendar.Header>
     <Calendar.PreviousButton />
     <Calendar.Heading />
     <Calendar.NextButton />
-  </header>
+  </Calendar.Header>
   <Calendar.Grid>
     <Calendar.GridHeader>
       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
@@ -38,7 +39,7 @@ A date picker calendar for selecting a single date, with month navigation.
 </Calendar.Root>
 ```
 
-> **Note:** Navigation buttons and heading need a flex wrapper — they render as siblings without built-in layout.
+> **Note:** Wrap navigation buttons and heading in `Calendar.Header` — it provides the flex layout automatically.
 
 ## Examples
 
@@ -46,11 +47,11 @@ A date picker calendar for selecting a single date, with month navigation.
 
 ```tsx
 <Calendar.Root isDisabled>
-  <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+  <Calendar.Header>
     <Calendar.PreviousButton />
     <Calendar.Heading />
     <Calendar.NextButton />
-  </header>
+  </Calendar.Header>
   <Calendar.Grid>
     <Calendar.GridHeader>
       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
@@ -68,11 +69,11 @@ A date picker calendar for selecting a single date, with month navigation.
 import { today, getLocalTimeZone } from '@internationalized/date';
 
 <Calendar.Root defaultValue={today(getLocalTimeZone())} isReadOnly>
-  <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+  <Calendar.Header>
     <Calendar.PreviousButton />
     <Calendar.Heading />
     <Calendar.NextButton />
-  </header>
+  </Calendar.Header>
   <Calendar.Grid>
     <Calendar.GridHeader>
       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
@@ -87,6 +88,7 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 ## CSS Classes
 
 - `.tale-calendar` — Root container
+- `.tale-calendar__header` — Navigation header row
 - `.tale-calendar__heading` — Month/year heading
 - `.tale-calendar__prev-button` — Previous month button
 - `.tale-calendar__next-button` — Next month button

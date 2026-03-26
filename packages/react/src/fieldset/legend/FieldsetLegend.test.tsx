@@ -1,15 +1,16 @@
-import { createRenderer, screen, waitFor } from '@tale-ui/monorepo-tests/test-utils';
+import { createRenderer as createSharedRenderer, screen, waitFor } from '@tale-ui/monorepo-tests/test-utils';
 import { Fieldset } from '@tale-ui/react/fieldset';
 import { expect } from 'chai';
-import { describeConformance, isJSDOM } from '#test-utils';
+import { createRenderer, describeConformance, isJSDOM } from '#test-utils';
 
 describe('<Fieldset.Legend />', () => {
-  const { render, renderToString } = createRenderer();
+  const { render: asyncRender } = createRenderer();
+  const { render, renderToString } = createSharedRenderer();
 
   describeConformance(<Fieldset.Legend />, () => ({
     refInstanceof: window.HTMLDivElement,
     render(node) {
-      return render(<Fieldset.Root>{node}</Fieldset.Root>);
+      return asyncRender(<Fieldset.Root>{node}</Fieldset.Root>);
     },
   }));
 

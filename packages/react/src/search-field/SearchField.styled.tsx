@@ -26,11 +26,13 @@ export interface RootProps extends Omit<AriaSearchFieldProps, 'className'> {
  * @example
  * ```tsx
  * import { SearchField } from '@tale-ui/react/search-field';
+ * import { Icon } from '@tale-ui/react/icon';
+ * import { X } from 'lucide-react';
  *
  * <SearchField.Root>
  *   <SearchField.Label>Search</SearchField.Label>
  *   <SearchField.Input placeholder="Search..." />
- *   <SearchField.ClearButton />
+ *   <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
  *   <SearchField.Description>Search by name or keyword.</SearchField.Description>
  *   // For validation errors, use isInvalid on Root:
  *   // <SearchField.ErrorMessage>No results found.</SearchField.ErrorMessage>

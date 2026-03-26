@@ -9,24 +9,25 @@ A calendar component for selecting a date range with start and end dates.
 | Part | Description |
 |------|-------------|
 | `RangeCalendar.Root` | Wrapper that manages range calendar state |
+| `RangeCalendar.Header` | Flex row for navigation buttons and heading |
 | `RangeCalendar.Grid` | Table-based calendar grid |
 | `RangeCalendar.GridHeader` | Header row with day-of-week labels |
 | `RangeCalendar.GridHeaderCell` | Individual day-of-week header cell |
 | `RangeCalendar.GridBody` | Body containing date cells |
 | `RangeCalendar.Cell` | Individual date cell |
 | `RangeCalendar.Heading` | Month/year heading |
-| `RangeCalendar.PreviousButton` | Navigate to previous month |
-| `RangeCalendar.NextButton` | Navigate to next month |
+| `RangeCalendar.PreviousButton` | Navigate to previous month (renders a ChevronLeft icon by default) |
+| `RangeCalendar.NextButton` | Navigate to next month (renders a ChevronRight icon by default) |
 
 ## Basic Usage
 
 ```tsx
 <RangeCalendar.Root>
-  <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+  <RangeCalendar.Header>
     <RangeCalendar.PreviousButton />
     <RangeCalendar.Heading />
     <RangeCalendar.NextButton />
-  </header>
+  </RangeCalendar.Header>
   <RangeCalendar.Grid>
     <RangeCalendar.GridHeader>
       {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
@@ -41,6 +42,7 @@ A calendar component for selecting a date range with start and end dates.
 ## CSS Classes
 
 - `.tale-range-calendar` — Root
+- `.tale-range-calendar__header` — Navigation header row
 - `.tale-range-calendar__grid` — Calendar grid table
 - `.tale-range-calendar__grid-header` — Grid header section
 - `.tale-range-calendar__header-cell` — Day-of-week header cell
@@ -56,3 +58,4 @@ A calendar component for selecting a date range with start and end dates.
 - Supports `isDisabled` and `isReadOnly` props on the Root.
 - Often used inside `DateRangePicker.Dialog` for range picker popover content.
 - Use `isDisabled` on Root to disable the entire calendar and prevent date selection.
+- **CSS class naming note:** The header cell class is `.tale-range-calendar__header-cell` (not `__grid-header-cell` like Calendar). This naming difference is intentional — keep it in mind when writing custom CSS overrides.

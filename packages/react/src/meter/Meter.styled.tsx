@@ -17,8 +17,10 @@ export interface RootProps extends Omit<AriaMeterProps, 'className'> {
  * import { Meter } from '@tale-ui/react/meter';
  *
  * <Meter.Root value={60} minValue={0} maxValue={100}>
- *   <Meter.Label>Storage</Meter.Label>
- *   <Meter.Value>60%</Meter.Value>
+ *   <Meter.Header>
+ *     <Meter.Label>Storage</Meter.Label>
+ *     <Meter.Value>60%</Meter.Value>
+ *   </Meter.Header>
  *   <Meter.Track>
  *     <Meter.Indicator value={60} />
  *   </Meter.Track>

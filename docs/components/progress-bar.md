@@ -9,6 +9,7 @@ A horizontal bar indicating progress toward completion, with support for determi
 | Part | Description |
 |------|-------------|
 | `ProgressBar.Root` | Wrapper managing value and ARIA semantics |
+| `ProgressBar.Header` | Flex row wrapper for Label + Value |
 | `ProgressBar.Label` | Accessible text label |
 | `ProgressBar.Value` | Displays the current value (e.g. "60%"); `aria-hidden` |
 | `ProgressBar.Track` | Background rail |
@@ -30,10 +31,10 @@ A horizontal bar indicating progress toward completion, with support for determi
 
 ```tsx
 <ProgressBar.Root value={60} minValue={0} maxValue={100}>
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <ProgressBar.Header>
     <ProgressBar.Label>Uploading...</ProgressBar.Label>
     <ProgressBar.Value>60%</ProgressBar.Value>
-  </div>
+  </ProgressBar.Header>
   <ProgressBar.Track>
     <ProgressBar.Indicator value={60} />
   </ProgressBar.Track>
@@ -57,10 +58,10 @@ A horizontal bar indicating progress toward completion, with support for determi
 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
   {[0, 25, 50, 75, 100].map((value) => (
     <ProgressBar.Root key={value} value={value} minValue={0} maxValue={100}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <ProgressBar.Header>
         <ProgressBar.Label>Progress</ProgressBar.Label>
         <ProgressBar.Value>{value}%</ProgressBar.Value>
-      </div>
+      </ProgressBar.Header>
       <ProgressBar.Track>
         <ProgressBar.Indicator value={value} />
       </ProgressBar.Track>
@@ -72,6 +73,7 @@ A horizontal bar indicating progress toward completion, with support for determi
 ## CSS Classes
 
 - `.tale-progress-bar` — Root container
+- `.tale-progress-bar__header` — Header row (Label + Value)
 - `.tale-progress-bar__label` — Label text
 - `.tale-progress-bar__value` — Value display
 - `.tale-progress-bar__track` — Background rail

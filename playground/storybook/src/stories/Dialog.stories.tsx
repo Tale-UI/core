@@ -108,22 +108,25 @@ export const ScrollableContent: Story = {
   },
 };
 
-export const NonModal: Story = {
-  name: 'Non-Modal',
+export const Dismissable: Story = {
+  name: 'Dismissable',
   render: () => {
     const [open, setOpen] = React.useState(false);
     return (
       <Dialog.Root isOpen={open} onOpenChange={setOpen}>
-        <Dialog.Trigger className="tale-button--neutral">Open Non-Modal</Dialog.Trigger>
-        <Dialog.Popup modalProps={{ isDismissable: true }}>
-          <Dialog.Title>Notification</Dialog.Title>
-          <Dialog.Description>
-            This is a non-modal dialog. You can still interact with the page behind it.
-          </Dialog.Description>
-          <Dialog.Actions>
-            <Button variant="neutral" onPress={() => setOpen(false)}>Dismiss</Button>
-          </Dialog.Actions>
-        </Dialog.Popup>
+        <Dialog.Trigger className="tale-button--neutral">Open Dismissable</Dialog.Trigger>
+        <Dialog.Backdrop isDismissable>
+          <Dialog.Popup>
+            <Dialog.Close aria-label="Close" />
+            <Dialog.Title>Dismissable Dialog</Dialog.Title>
+            <Dialog.Description>
+              Click the backdrop or press Escape to dismiss this dialog.
+            </Dialog.Description>
+            <Dialog.Actions>
+              <Button variant="neutral" onPress={() => setOpen(false)}>Dismiss</Button>
+            </Dialog.Actions>
+          </Dialog.Popup>
+        </Dialog.Backdrop>
       </Dialog.Root>
     );
   },

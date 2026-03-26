@@ -11,14 +11,18 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 | `Checkbox.Root` | The checkbox label and input wrapper |
 | `Checkbox.Indicator` | The visual box that contains the check/minus icon |
 
-> **Important:** `Checkbox.Indicator` is a plain `<span>` — it does NOT include a built-in checkmark icon. You must always provide an SVG child (e.g. `<CheckIcon />`).
+> **Important:** `Checkbox.Indicator` is a plain `<span>` — it does NOT include a built-in checkmark icon. You must provide a child icon using `<Icon icon={Check} size="sm" />` from `@tale-ui/react/icon` and `lucide-react`.
 
 ## Basic Usage
 
 ```tsx
+import { Checkbox } from '@tale-ui/react/checkbox';
+import { Icon } from '@tale-ui/react/icon';
+import { Check } from 'lucide-react';
+
 <Checkbox.Root>
   <Checkbox.Indicator>
-    <CheckIcon />
+    <Icon icon={Check} size="sm" />
   </Checkbox.Indicator>
   Accept terms and conditions
 </Checkbox.Root>
@@ -31,7 +35,7 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 ```tsx
 <Checkbox.Root defaultSelected>
   <Checkbox.Indicator>
-    <CheckIcon />
+    <Icon icon={Check} size="sm" />
   </Checkbox.Indicator>
   Checked by default
 </Checkbox.Root>
@@ -42,7 +46,7 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 ```tsx
 <Checkbox.Root isDisabled>
   <Checkbox.Indicator>
-    <CheckIcon />
+    <Icon icon={Check} size="sm" />
   </Checkbox.Indicator>
   Disabled checkbox
 </Checkbox.Root>
@@ -51,9 +55,11 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 ### Indeterminate
 
 ```tsx
+import { Minus } from 'lucide-react';
+
 <Checkbox.Root isIndeterminate>
   <Checkbox.Indicator>
-    <MinusIcon />
+    <Icon icon={Minus} size="sm" />
   </Checkbox.Indicator>
   Indeterminate state
 </Checkbox.Root>
@@ -62,28 +68,30 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 ### All States
 
 ```tsx
+import { Check, Minus } from 'lucide-react';
+
 <Checkbox.Root>
-  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
   Unchecked
 </Checkbox.Root>
 
 <Checkbox.Root defaultSelected>
-  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
   Checked
 </Checkbox.Root>
 
 <Checkbox.Root isIndeterminate>
-  <Checkbox.Indicator><MinusIcon /></Checkbox.Indicator>
+  <Checkbox.Indicator><Icon icon={Minus} size="sm" /></Checkbox.Indicator>
   Indeterminate
 </Checkbox.Root>
 
 <Checkbox.Root isDisabled>
-  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
   Disabled
 </Checkbox.Root>
 
 <Checkbox.Root isDisabled defaultSelected>
-  <Checkbox.Indicator><CheckIcon /></Checkbox.Indicator>
+  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
   Disabled + Checked
 </Checkbox.Root>
 ```
@@ -95,7 +103,7 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 
 ## Notes
 
-- You must provide your own SVG icon inside `Checkbox.Indicator` (e.g. a checkmark or minus icon).
+- You must provide your own icon inside `Checkbox.Indicator` — use `<Icon icon={Check} size="sm" />` from `@tale-ui/react/icon` with `lucide-react`.
 - Use `defaultSelected` for uncontrolled or `isSelected`/`onChange` for controlled state.
 - `isIndeterminate` renders a third visual state (typically a minus icon instead of a checkmark).
 - When used inside a `CheckboxGroup`, add a `value` prop to each `Checkbox.Root`.

@@ -81,11 +81,15 @@ import { Checkbox } from '@tale-ui/react/checkbox';
 
 ### Form Controls
 
-Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Radio · Radio Group · Search Field · Select · Slider · Switch · Text Area · Text Field · Toggle Button · Toggle Button Group · Date Field · Date Picker · Date Range Picker · Time Field · Color Picker
+Autocomplete · Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Radio · Radio Group · Search Field · Select · Slider · Switch · Text Area · Text Field · Toggle Button · Toggle Button Group
 
-### Layout
+### Date & Time
 
-Accordion · Disclosure · Scroll Area · Separator · Tabs
+Calendar · Date Field · Date Picker · Date Range Picker · Range Calendar · Time Field
+
+### Color
+
+Color Area · Color Field · Color Picker · Color Slider · Color Swatch · Color Swatch Picker · Color Wheel
 
 ### Overlay
 
@@ -93,23 +97,31 @@ Alert Dialog · Dialog · Drawer · Popover · Preview Card · Tooltip
 
 ### Navigation
 
-Breadcrumbs · Context Menu · Link · Menu · Menubar · Navigation Menu · Toolbar
+Breadcrumbs · Context Menu · Link · Menu · Menubar · Navigation Menu
 
-### Data Display
+### Layout
 
-Calendar · Grid List · Range Calendar · Table · Tag Group · Tree
+Accordion · Disclosure · Scroll Area · Separator · Tabs · Toolbar
 
-### Feedback & Display
+### Feedback
 
-Avatar · Meter · ProgressBar
+Meter · Progress Bar
+
+### Display
+
+Avatar · Grid List · Table · Tag Group · Tree
 
 ### Form Structure
 
-Autocomplete · Field · Fieldset · Form
+Field · Fieldset · Form
+
+### Interaction
+
+Drop Zone · File Trigger
 
 ### Utilities
 
-Container · CSP Provider · I18nProvider · Icon · IconButton · `mergeProps`
+Color Mode Toggle · Container · CSP Provider · I18n Provider · Icon · IconButton · `mergeProps`
 
 ## Styling
 
@@ -120,7 +132,7 @@ Components apply BEM base class names automatically. Variant and size props map 
 // → class="tale-button tale-button--primary tale-button--sm"
 ```
 
-State is exposed via data attributes (`data-disabled`, `data-open`, `data-checked`, `data-focus-visible`, `data-selected`, `data-highlighted`, etc.) for CSS selectors.
+State is exposed via data attributes (`data-disabled`, `data-open`, `data-selected`, `data-pressed`, `data-focus-visible`, `data-focused`, `data-hovered`, `data-entering`, `data-exiting`, `data-placement`) for CSS selectors.
 
 ## Custom Theme
 

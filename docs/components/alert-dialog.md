@@ -16,6 +16,7 @@ A modal alert dialog with `role="alertdialog"` for confirmations and destructive
 | `AlertDialog.Title` | Heading with `slot="title"`. |
 | `AlertDialog.Description` | Paragraph describing the alert. |
 | `AlertDialog.Close` | Button that closes the dialog via `slot="close"`. |
+| `AlertDialog.Actions` | Actions row for confirm/cancel buttons. |
 
 ## Basic Usage
 
@@ -38,10 +39,10 @@ function Example() {
             <AlertDialog.Description>
               This will permanently delete the item. This action cannot be undone.
             </AlertDialog.Description>
-            <div className="tale-alert-dialog__actions">
+            <AlertDialog.Actions>
               <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
               <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
-            </div>
+            </AlertDialog.Actions>
           </AlertDialog.Content>
         </AlertDialog.Popup>
       </AlertDialog.Backdrop>
@@ -71,3 +72,5 @@ function Example() {
 - **Popup and Content are separate.** `Popup` is the Modal container, `Content` is the alertdialog element inside it. Always nest `Content` inside `Popup`.
 - Unlike `Dialog`, AlertDialog renders with `role="alertdialog"` for screen reader announcements.
 - **ARIA labelling:** `AlertDialog.Title` is automatically associated with `aria-labelledby` and `AlertDialog.Description` with `aria-describedby`. Always include both for accessibility.
+- **Uncontrolled shortcut:** For simple cases, you can skip `isOpen`/`onOpenChange` and use `slot="close"` on action `Button` elements instead of `onPress={() => setOpen(false)}`. React Aria will close the dialog automatically.
+- **Do not add a corner X close button by default.** AlertDialog uses `role="alertdialog"` — it is semantically for actions that require explicit acknowledgement (destructive operations, confirmations). Adding `<AlertDialog.Close />` (corner X icon) allows dismissal without making a choice, which defeats the purpose. The basic example intentionally omits it. If you must include `AlertDialog.Close`, ensure it behaves identically to the safe/non-destructive action (Cancel) — never wire it to the destructive action. For general-purpose modals that can be freely dismissed, use `Dialog` instead.

@@ -21,6 +21,7 @@ export * from './color-swatch';
 export * from './color-swatch-picker';
 export * from './color-wheel';
 export * from './disclosure';
+export * from './color-mode-toggle';
 export * from './combobox';
 export * from './container';
 export * from './context-menu';

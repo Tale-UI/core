@@ -13,7 +13,7 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
 | `Combobox.InputGroup` | Groups the input and trigger button together |
 | `Combobox.Input` | The text input for filtering |
 | `Combobox.Trigger` | Button to open/close the dropdown |
-| `Combobox.Popover` | Floating popover container |
+| `Combobox.Popover` | Floating popover container. Accepts `placement` and `offset`. |
 | `Combobox.ListBox` | Scrollable list of options |
 | `Combobox.Item` | An individual option |
 | `Combobox.Section` | A group of related items |
@@ -21,7 +21,8 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
 | `Combobox.Empty` | Shown when no items match the filter |
 | `Combobox.Chips` | Container for multi-select chip tags |
 | `Combobox.Chip` | A single chip tag |
-| `Combobox.ChipRemove` | Remove button inside a chip |
+| `Combobox.ChipRemove` | Remove button inside a chip (renders a default × icon; use self-closing) |
+| `Combobox.ItemIndicator` | Selection indicator inside an item |
 | `Combobox.Separator` | Visual divider |
 
 ## Basic Usage
@@ -30,7 +31,7 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
 <Combobox.Root>
   <Combobox.InputGroup>
     <Combobox.Input />
-    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+    <Combobox.Trigger />
   </Combobox.InputGroup>
   <Combobox.Popover>
     <Combobox.ListBox>
@@ -51,7 +52,7 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
   <Combobox.Label>Favorite fruit</Combobox.Label>
   <Combobox.InputGroup>
     <Combobox.Input />
-    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+    <Combobox.Trigger />
   </Combobox.InputGroup>
   <Combobox.Popover>
     <Combobox.ListBox>
@@ -70,7 +71,7 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
   <Combobox.Label>Search countries</Combobox.Label>
   <Combobox.InputGroup>
     <Combobox.Input placeholder="Type to search..." />
-    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+    <Combobox.Trigger />
   </Combobox.InputGroup>
   <Combobox.Popover>
     <Combobox.ListBox>
@@ -89,7 +90,7 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
   <Combobox.Label>Food</Combobox.Label>
   <Combobox.InputGroup>
     <Combobox.Input placeholder="Search food..." />
-    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+    <Combobox.Trigger />
   </Combobox.InputGroup>
   <Combobox.Popover>
     <Combobox.ListBox>
@@ -115,13 +116,40 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
   <Combobox.Label>Search</Combobox.Label>
   <Combobox.InputGroup>
     <Combobox.Input placeholder="Type to filter..." />
-    <Combobox.Trigger>&#x25BE;</Combobox.Trigger>
+    <Combobox.Trigger />
   </Combobox.InputGroup>
   <Combobox.Popover>
     <Combobox.ListBox>
       <Combobox.Empty>No results found.</Combobox.Empty>
       <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
       <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
+    </Combobox.ListBox>
+  </Combobox.Popover>
+</Combobox.Root>
+```
+
+### Multi-select with Chips
+
+```tsx
+<Combobox.Root selectionMode="multiple">
+  <Combobox.Label>Frameworks</Combobox.Label>
+  <Combobox.Chips>
+    <Combobox.Chip>
+      React <Combobox.ChipRemove aria-label="Remove React" />
+    </Combobox.Chip>
+    <Combobox.Chip>
+      Vue <Combobox.ChipRemove aria-label="Remove Vue" />
+    </Combobox.Chip>
+  </Combobox.Chips>
+  <Combobox.InputGroup>
+    <Combobox.Input placeholder="Add framework..." />
+    <Combobox.Trigger />
+  </Combobox.InputGroup>
+  <Combobox.Popover>
+    <Combobox.ListBox>
+      <Combobox.Item id="react" textValue="React">React</Combobox.Item>
+      <Combobox.Item id="vue" textValue="Vue">Vue</Combobox.Item>
+      <Combobox.Item id="angular" textValue="Angular">Angular</Combobox.Item>
     </Combobox.ListBox>
   </Combobox.Popover>
 </Combobox.Root>
@@ -139,6 +167,7 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
 - `.tale-combobox__item` -- Individual option
 - `.tale-combobox__header` -- Section header
 - `.tale-combobox__empty` -- Empty state message
+- `.tale-combobox__item-indicator` -- Selection indicator inside an item
 - `.tale-combobox__chips` -- Multi-select chips container
 - `.tale-combobox__chip` -- Individual chip
 - `.tale-combobox__chip-remove` -- Chip remove button

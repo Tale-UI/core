@@ -13,6 +13,7 @@
   },
   "include": [
     "vitest-env.d.ts",
+    "test/chai-matchers.d.ts",
     "src/**/*.spec.ts*",
     "src/**/*.test.ts*",
     "src/index.test.ts",

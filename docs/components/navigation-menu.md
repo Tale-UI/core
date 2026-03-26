@@ -15,6 +15,7 @@ A horizontal navigation bar with links and optional dropdown submenus.
 | `NavigationMenu.Trigger` | A `<button>` that toggles a dropdown submenu. |
 | `NavigationMenu.Popup` | Dropdown container for submenu content. |
 | `NavigationMenu.Content` | Content wrapper inside the dropdown popup. |
+| `NavigationMenu.Icon` | Dropdown chevron icon inside a trigger. |
 
 ## Basic Usage
 
@@ -55,7 +56,7 @@ function NavWithDropdown() {
         </NavigationMenu.Item>
         <NavigationMenu.Item>
           <NavigationMenu.Trigger onClick={() => setOpen(!open)}>
-            Products
+            Products <NavigationMenu.Icon />
           </NavigationMenu.Trigger>
           {open && (
             <NavigationMenu.Popup>

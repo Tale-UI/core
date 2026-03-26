@@ -55,7 +55,7 @@ import { Popover } from '@tale-ui/react/popover';
 <Popover.Root>
   <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">Open Popover</Popover.Trigger>
   <Popover.Popup placement="bottom" offset={8}>
-    <Popover.Close aria-label="Close">X</Popover.Close>
+    <Popover.Close aria-label="Close" />
     <Popover.Title>Dismissible Popover</Popover.Title>
     <Popover.Description>
       Click the close button to dismiss this popover.
@@ -66,7 +66,6 @@ import { Popover } from '@tale-ui/react/popover';
 
 ## CSS Classes
 
-- `.tale-popover__trigger` — Trigger element (no styling by default)
 - `.tale-popover__popup` — Popover content container
 - `.tale-popover__arrow` — Arrow element
 - `.tale-popover__title` — Title heading

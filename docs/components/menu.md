@@ -16,6 +16,11 @@ A dropdown menu triggered by a button, with items, groups, headers, and separato
 | `Menu.Group` | Groups items under a section (MenuSection). |
 | `Menu.Header` | Section header label inside a `Group`. |
 | `Menu.Separator` | Visual separator between items or groups. |
+| `Menu.Arrow` | Arrow pointing to the trigger (place inside `Popover`). |
+| `Menu.CheckboxItem` | A menu item with a checkbox toggle. Use with `selectionMode="multiple"`. |
+| `Menu.RadioItem` | A menu item with radio selection. Use with `selectionMode="single"`. |
+| `Menu.LinkItem` | A menu item that navigates to a URL. Accepts `href` and `target`. |
+| `Menu.SubmenuTrigger` | A menu item that opens a nested submenu on hover/click. |
 
 ## Basic Usage
 
@@ -97,6 +102,50 @@ import { Menu } from '@tale-ui/react/menu';
 </Menu.Root>
 ```
 
+### Checkbox Items
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options ▾</Menu.Trigger>
+  <Menu.Popover placement="bottom" offset={4}>
+    <Menu.MenuList aria-label="View options" selectionMode="multiple">
+      <Menu.CheckboxItem id="sidebar" textValue="Show Sidebar">Show Sidebar</Menu.CheckboxItem>
+      <Menu.CheckboxItem id="minimap" textValue="Show Minimap">Show Minimap</Menu.CheckboxItem>
+      <Menu.CheckboxItem id="wordwrap" textValue="Word Wrap">Word Wrap</Menu.CheckboxItem>
+    </Menu.MenuList>
+  </Menu.Popover>
+</Menu.Root>
+```
+
+### Radio Items
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Sort ▾</Menu.Trigger>
+  <Menu.Popover placement="bottom" offset={4}>
+    <Menu.MenuList aria-label="Sort order" selectionMode="single">
+      <Menu.RadioItem id="name" textValue="Name">Name</Menu.RadioItem>
+      <Menu.RadioItem id="date" textValue="Date">Date</Menu.RadioItem>
+      <Menu.RadioItem id="size" textValue="Size">Size</Menu.RadioItem>
+    </Menu.MenuList>
+  </Menu.Popover>
+</Menu.Root>
+```
+
+### Link Items
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links ▾</Menu.Trigger>
+  <Menu.Popover placement="bottom" offset={4}>
+    <Menu.MenuList aria-label="External links">
+      <Menu.LinkItem id="docs" href="/docs" textValue="Documentation">Documentation</Menu.LinkItem>
+      <Menu.LinkItem id="github" href="https://github.com" target="_blank" textValue="GitHub">GitHub</Menu.LinkItem>
+    </Menu.MenuList>
+  </Menu.Popover>
+</Menu.Root>
+```
+
 ## CSS Classes
 
 - `.tale-menu__trigger` — Trigger button
@@ -105,6 +154,11 @@ import { Menu } from '@tale-ui/react/menu';
 - `.tale-menu__item` — Menu item
 - `.tale-menu__header` — Group header
 - `.tale-menu__separator` — Separator line
+- `.tale-menu__arrow` — Arrow element
+- `.tale-menu__checkbox-item` — Checkbox menu item
+- `.tale-menu__radio-item` — Radio menu item
+- `.tale-menu__link-item` — Link menu item
+- `.tale-menu__submenu-trigger` — Submenu trigger item
 
 ## Notes
 

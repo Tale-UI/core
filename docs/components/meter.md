@@ -9,6 +9,7 @@ A horizontal bar representing a scalar measurement within a known range (e.g. st
 | Part | Description |
 |------|-------------|
 | `Meter.Root` | Wrapper managing value and ARIA semantics |
+| `Meter.Header` | Flex row wrapper for Label + Value |
 | `Meter.Label` | Accessible text label |
 | `Meter.Value` | Displays the current value (e.g. "60%"); `aria-hidden` |
 | `Meter.Track` | Background rail |
@@ -30,10 +31,10 @@ A horizontal bar representing a scalar measurement within a known range (e.g. st
 
 ```tsx
 <Meter.Root value={60} minValue={0} maxValue={100}>
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <Meter.Header>
     <Meter.Label>Storage</Meter.Label>
     <Meter.Value>60%</Meter.Value>
-  </div>
+  </Meter.Header>
   <Meter.Track>
     <Meter.Indicator value={60} />
   </Meter.Track>
@@ -46,10 +47,10 @@ A horizontal bar representing a scalar measurement within a known range (e.g. st
 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
   {[10, 40, 70, 90].map((value) => (
     <Meter.Root key={value} value={value} minValue={0} maxValue={100}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Meter.Header>
         <Meter.Label>Usage</Meter.Label>
         <Meter.Value>{value}%</Meter.Value>
-      </div>
+      </Meter.Header>
       <Meter.Track>
         <Meter.Indicator value={value} />
       </Meter.Track>
@@ -61,6 +62,7 @@ A horizontal bar representing a scalar measurement within a known range (e.g. st
 ## CSS Classes
 
 - `.tale-meter` — Root container
+- `.tale-meter__header` — Header row (Label + Value)
 - `.tale-meter__label` — Label text
 - `.tale-meter__value` — Value display
 - `.tale-meter__track` — Background rail

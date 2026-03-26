@@ -13,18 +13,12 @@ export interface CheckboxRootProps extends Omit<AriaCheckboxProps, 'className'> 
  * @example
  * ```tsx
  * import { Checkbox } from '@tale-ui/react/checkbox';
- *
- * function CheckIcon() {
- *   return (
- *     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
- *       <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
- *     </svg>
- *   );
- * }
+ * import { Icon } from '@tale-ui/react/icon';
+ * import { Check } from 'lucide-react';
  *
  * <Checkbox.Root>
  *   <Checkbox.Indicator>
- *     <CheckIcon />
+ *     <Icon icon={Check} size="sm" />
  *   </Checkbox.Indicator>
  *   Accept terms and conditions
  * </Checkbox.Root>

@@ -56,3 +56,4 @@ A pressable toggle button that maintains selected/unselected state, built on Rea
 - Use `defaultSelected` for uncontrolled or `isSelected`/`onChange` for controlled state.
 - `ToggleButtonGroup` wraps multiple toggle buttons for toolbar-style layouts.
 - **`ToggleButtonGroup` requires `aria-label` or `aria-labelledby`.** React Aria logs a console warning at runtime if neither is provided. Always supply one for accessibility.
+- `ToggleButtonGroup` is also available via `import { ToggleButtonGroup } from '@tale-ui/react/toggle-group'` for convenience. Both import paths resolve to the same component.

@@ -1044,6 +1044,13 @@
   gap: var(--space-3xs);
 }
 
+.tale-checkbox-group[data-orientation='horizontal'],
+.tale-radio-group[data-orientation='horizontal'] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-m);
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    21. COMBOBOX + AUTOCOMPLETE INPUT GROUP + EMPTY STATE
    ══════════════════════════════════════════════════════════════════════════ */

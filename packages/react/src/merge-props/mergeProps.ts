@@ -30,6 +30,16 @@ const EMPTY_PROPS = {};
  * The function is responsible for chaining event handlers if needed (i.e. we don't run the merge logic).
  *
  * Event handlers returned by the functions are not automatically prevented when `preventTaleUIHandler` is called.
+ *
+ * @example
+ * ```tsx
+ * import { mergeProps } from '@tale-ui/react/merge-props';
+ *
+ * const baseProps = { className: 'base', onClick: handleClick };
+ * const extraProps = { className: 'extra', 'aria-label': 'Button' };
+ * const merged = mergeProps(baseProps, extraProps);
+ * // → { className: 'extra base', onClick: handleClick, 'aria-label': 'Button' }
+ * ```
  * They must check `event.taleUIHandlerPrevented` themselves and bail out if it's true.
  *
  * @important **`ref` is not merged.**

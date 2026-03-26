@@ -12,6 +12,15 @@ export interface I18nProviderProps {
 /**
  * Sets the locale and text direction for Tale UI components.
  * Wraps React Aria's `I18nProvider`.
+ *
+ * @example
+ * ```tsx
+ * import { I18nProvider } from '@tale-ui/react/i18n-provider';
+ *
+ * <I18nProvider locale="en-US">
+ *   <App />
+ * </I18nProvider>
+ * ```
  */
 export function I18nProvider(props: I18nProviderProps) {
   return <AriaI18nProvider {...props} />;

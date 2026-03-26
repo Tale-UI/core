@@ -40,11 +40,29 @@
 /* ─── Arrow ────────────────────────────────────────────────────────────────── */
 
 .tale-preview-card__arrow {
+  position: absolute;
+  z-index: 1;
+}
+
+.tale-preview-card__arrow svg {
+  display: block;
   width: 1rem;
-  height: 0.5rem;
+  height: 1rem;
   fill: var(--neutral-10);
   stroke: var(--neutral-20);
   stroke-width: 1;
+}
+
+[data-placement="bottom"] > .tale-preview-card__arrow svg {
+  transform: rotate(180deg);
+}
+
+[data-placement="left"] > .tale-preview-card__arrow svg {
+  transform: rotate(-90deg);
+}
+
+[data-placement="right"] > .tale-preview-card__arrow svg {
+  transform: rotate(90deg);
 }
 
 /* ─── Heading ──────────────────────────────────────────────────────────────── */

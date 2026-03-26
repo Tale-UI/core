@@ -9,7 +9,7 @@ This monorepo is managed with **pnpm workspaces**.
 | `packages/` | Shared, reusable libraries (CSS, component libs, utilities) | Yes |
 | `docs/` | Next.js static documentation site | No |
 | `playground/` | Development sandboxes (Storybook, Vite app, scale tool) | No |
-| `examples/` | Standalone example projects | No |
+
 | `apps/` | End-user applications | No |
 | `scripts/` | Build and release scripts | No |
 | `tools/` | Build tools, generators, CLI tools for the monorepo | No |
@@ -30,7 +30,7 @@ core/
 │   ├── storybook/         # Component Storybook (stories, visual reference)
 │   ├── vite-app/          # Minimal Vite + React sandbox
 │   └── scale/             # Tonal palette generator tool
-├── examples/              # Standalone consumer examples
+
 ├── scripts/               # build-css.js, release-css.js
 └── tools/                 # Monorepo tooling
 ```

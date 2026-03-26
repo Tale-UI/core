@@ -44,6 +44,25 @@ export const Default: Story = {
   ),
 };
 
+export const WithArrow: Story = {
+  render: (args) => (
+    <PreviewCard.Root>
+      <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
+      <PreviewCard.Popup placement={args.placement} offset={args.offset}>
+        <PreviewCard.Arrow />
+        <PreviewCard.Content aria-label="Preview">
+          <div className="story-preview-content">
+            <h4 className="story-preview-title">Arrow Preview</h4>
+            <p className="story-preview-text">
+              This preview card includes an arrow pointing to the trigger.
+            </p>
+          </div>
+        </PreviewCard.Content>
+      </PreviewCard.Popup>
+    </PreviewCard.Root>
+  ),
+};
+
 export const WithImage: Story = {
   render: () => (
     <PreviewCard.Root>

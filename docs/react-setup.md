@@ -231,7 +231,10 @@ Components that accept variant/size props apply the BEM modifier class for you:
 | Component | Import path | Key classes |
 |-----------|------------|-------------|
 | Button | `@tale-ui/react/button` | `.tale-button`, `--primary`, `--neutral`, `--ghost`, `--danger`, `--sm`, `--md`, `--lg` |
+| IconButton | `@tale-ui/react/icon-button` | `.tale-icon-button`, `--sm`, `--md`, `--lg` |
 | Input | `@tale-ui/react/input` | `.tale-input`, `--sm`, `--lg` |
+| TextField | `@tale-ui/react/text-field` | `.tale-text-field` |
+| TextArea | `@tale-ui/react/text-area` | `.tale-text-area` |
 | Checkbox | `@tale-ui/react/checkbox` | `.tale-checkbox` |
 | Checkbox Group | `@tale-ui/react/checkbox-group` | — |
 | Radio | `@tale-ui/react/radio` | `.tale-radio` |
@@ -244,6 +247,30 @@ Components that accept variant/size props apply the BEM modifier class for you:
 | Autocomplete | `@tale-ui/react/autocomplete` | `.tale-autocomplete__input`, `__popup`, `__item` |
 | Number Field | `@tale-ui/react/number-field` | `.tale-number-field` |
 | Slider | `@tale-ui/react/slider` | `.tale-slider` |
+| Search Field | `@tale-ui/react/search-field` | `.tale-search-field` |
+
+### Date & Time
+
+| Component | Import path | Key classes |
+|-----------|------------|-------------|
+| Calendar | `@tale-ui/react/calendar` | `.tale-calendar` |
+| Range Calendar | `@tale-ui/react/range-calendar` | `.tale-range-calendar` |
+| Date Field | `@tale-ui/react/date-field` | `.tale-date-field` |
+| Date Picker | `@tale-ui/react/date-picker` | `.tale-date-picker` |
+| Date Range Picker | `@tale-ui/react/date-range-picker` | `.tale-date-range-picker` |
+| Time Field | `@tale-ui/react/time-field` | `.tale-time-field` |
+
+### Color
+
+| Component | Import path | Key classes |
+|-----------|------------|-------------|
+| Color Area | `@tale-ui/react/color-area` | `.tale-color-area` |
+| Color Slider | `@tale-ui/react/color-slider` | `.tale-color-slider` |
+| Color Wheel | `@tale-ui/react/color-wheel` | `.tale-color-wheel` |
+| Color Swatch | `@tale-ui/react/color-swatch` | `.tale-color-swatch` |
+| Color Swatch Picker | `@tale-ui/react/color-swatch-picker` | `.tale-color-swatch-picker` |
+| Color Field | `@tale-ui/react/color-field` | `.tale-color-field` |
+| Color Picker | `@tale-ui/react/color-picker` | — (headless state provider) |
 
 ### Layout
 
@@ -275,6 +302,8 @@ Components that accept variant/size props apply the BEM modifier class for you:
 | Menubar | `@tale-ui/react/menubar` |
 | Navigation Menu | `@tale-ui/react/navigation-menu` |
 | Toolbar | `@tale-ui/react/toolbar` |
+| Breadcrumbs | `@tale-ui/react/breadcrumbs` |
+| Link | `@tale-ui/react/link` |
 
 ### Feedback & Display
 
@@ -283,6 +312,17 @@ Components that accept variant/size props apply the BEM modifier class for you:
 | ProgressBar | `@tale-ui/react/progress-bar` |
 | Meter | `@tale-ui/react/meter` |
 | Avatar | `@tale-ui/react/avatar` |
+| GridList | `@tale-ui/react/grid-list` |
+| Table | `@tale-ui/react/table` |
+| Tree | `@tale-ui/react/tree` |
+| TagGroup | `@tale-ui/react/tag-group` |
+
+### Interaction
+
+| Component | Import path |
+|-----------|------------|
+| DropZone | `@tale-ui/react/drop-zone` |
+| FileTrigger | `@tale-ui/react/file-trigger` |
 
 ### Form Structure
 
@@ -300,7 +340,9 @@ Components that accept variant/size props apply the BEM modifier class for you:
 | CSP Provider | `@tale-ui/react/csp-provider` | Content Security Policy nonce injection |
 | I18nProvider | `@tale-ui/react/i18n-provider` | Locale and text direction (wraps React Aria's I18nProvider) |
 | `mergeProps` | `@tale-ui/react/merge-props` | Merge multiple prop objects |
-| `useRender` | `@tale-ui/react/use-render` | Custom render hook |
+
+| Icon | `@tale-ui/react/icon` | Renders a Lucide icon with Tale UI sizing |
+| ColorModeToggle | `@tale-ui/react/color-mode-toggle` | Light/dark mode toggle with persistence |
 
 ---
 
@@ -470,7 +512,9 @@ import { Field } from '@tale-ui/react/field';
 
 ### What's built-in (no action needed)
 
-Tale UI components are built on React Aria Components, which handle:
+Tale UI components are built on React Aria Components, which handle most accessibility automatically. However, Tale UI adds custom props, auto-rendered icons, and some components that are not RAC-based at all. See [react-aria-deviations.md](react-aria-deviations.md) for the full list.
+
+React Aria Components handle:
 
 - **ARIA relationships** — Labels are linked to inputs via `aria-labelledby`, descriptions via `aria-describedby`, errors announced in live regions
 - **Keyboard navigation** — Arrow keys in menus/selects/tabs, Enter/Space for activation, Escape to close overlays, Tab for focus order

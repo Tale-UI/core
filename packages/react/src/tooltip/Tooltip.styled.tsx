@@ -17,7 +17,7 @@ import { cx } from '../_cx';
  * import { Tooltip } from '@tale-ui/react/tooltip';
  *
  * <Tooltip.Root>
- *   <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+ *   <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Hover me</Tooltip.Trigger>
  *   <Tooltip.Popup placement="top" offset={8}>
  *     <Tooltip.Arrow />
  *     Tooltip text

@@ -4,7 +4,7 @@ import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';
 type Args = {
   size?: 'sm' | 'md' | 'lg';
   isDisabled?: boolean;
-  isSelected?: boolean;
+  defaultSelected?: boolean;
   children?: string;
 };
 
@@ -16,12 +16,12 @@ const meta: Meta<Args> = {
       options: ['sm', 'md', 'lg'],
     },
     isDisabled: { control: 'boolean' },
-    isSelected: { control: 'boolean' },
+    defaultSelected: { control: 'boolean' },
   },
   args: {
     size: 'md',
     isDisabled: false,
-    isSelected: false,
+    defaultSelected: false,
     children: 'Toggle me',
   },
   parameters: { layout: 'centered' },
@@ -33,7 +33,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <ToggleButton key={String(args.isSelected)} size={args.size} isDisabled={args.isDisabled} defaultSelected={args.isSelected}>
+    <ToggleButton key={String(args.defaultSelected)} size={args.size} isDisabled={args.isDisabled} defaultSelected={args.defaultSelected}>
       {args.children}
     </ToggleButton>
   ),
@@ -41,7 +41,7 @@ export const Default: Story = {
 
 export const Pressed: Story = {
   args: {
-    isSelected: true,
+    defaultSelected: true,
     children: 'Pressed',
   },
   render: Default.render,
@@ -57,8 +57,8 @@ export const Disabled: Story = {
 
 export const Group: Story = {
   render: (args) => (
-    <ToggleButtonGroup>
-      <ToggleButton key={`bold-${args.isSelected}`} size={args.size} isDisabled={args.isDisabled} defaultSelected={args.isSelected}>
+    <ToggleButtonGroup aria-label="Text formatting">
+      <ToggleButton key={`bold-${args.defaultSelected}`} size={args.size} isDisabled={args.isDisabled} defaultSelected={args.defaultSelected}>
         Bold
       </ToggleButton>
       <ToggleButton size={args.size} isDisabled={args.isDisabled}>
@@ -74,13 +74,13 @@ export const Group: Story = {
 export const AllSizes: Story = {
   render: (args) => (
     <div className="story-row story-row--s">
-      <ToggleButton key={`sm-${args.isSelected}`} size="sm" isDisabled={args.isDisabled} defaultSelected={args.isSelected}>
+      <ToggleButton key={`sm-${args.defaultSelected}`} size="sm" isDisabled={args.isDisabled} defaultSelected={args.defaultSelected}>
         Small
       </ToggleButton>
-      <ToggleButton key={`md-${args.isSelected}`} size="md" isDisabled={args.isDisabled} defaultSelected={args.isSelected}>
+      <ToggleButton key={`md-${args.defaultSelected}`} size="md" isDisabled={args.isDisabled} defaultSelected={args.defaultSelected}>
         Medium
       </ToggleButton>
-      <ToggleButton key={`lg-${args.isSelected}`} size="lg" isDisabled={args.isDisabled} defaultSelected={args.isSelected}>
+      <ToggleButton key={`lg-${args.defaultSelected}`} size="lg" isDisabled={args.isDisabled} defaultSelected={args.defaultSelected}>
         Large
       </ToggleButton>
     </div>

@@ -32,7 +32,7 @@ import { RangeCalendar } from '@tale-ui/react/range-calendar';
     <DateRangePicker.StartDate>
       {(segment) => <DateRangePicker.Segment segment={segment} />}
     </DateRangePicker.StartDate>
-    <span>&ndash;</span>
+    <span aria-hidden="true">&ndash;</span>
     <DateRangePicker.EndDate>
       {(segment) => <DateRangePicker.Segment segment={segment} />}
     </DateRangePicker.EndDate>
@@ -41,11 +41,11 @@ import { RangeCalendar } from '@tale-ui/react/range-calendar';
   <DateRangePicker.Popover>
     <DateRangePicker.Dialog>
       <RangeCalendar.Root>
-        <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <RangeCalendar.Header>
           <RangeCalendar.PreviousButton />
           <RangeCalendar.Heading />
           <RangeCalendar.NextButton />
-        </header>
+        </RangeCalendar.Header>
         <RangeCalendar.Grid>
           <RangeCalendar.GridHeader>
             {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}

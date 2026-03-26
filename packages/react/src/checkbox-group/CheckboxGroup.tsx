@@ -10,6 +10,8 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
   label?: string;
   /** A description for the checkbox group. Displays below the group. */
   description?: string;
+  /** Layout orientation. Sets `data-orientation` for CSS styling. */
+  orientation?: 'horizontal' | 'vertical';
 }
 
 /**
@@ -34,10 +36,11 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
  * ```
  */
 export const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
-  ({ className, ...props }, ref) => (
+  ({ className, orientation, ...props }, ref) => (
     <AriaCheckboxGroup
       ref={ref}
       className={cx('tale-checkbox-group', className)}
+      data-orientation={orientation}
       {...props}
     />
   ),

@@ -9,6 +9,7 @@ A draggable range input for selecting a value or range within a given span.
 | Part | Description |
 |------|-------------|
 | `Slider.Root` | Wrapper managing value, min/max, step, and orientation |
+| `Slider.Header` | Flex row wrapper for Label + Output |
 | `Slider.Label` | Accessible label |
 | `Slider.Output` | Displays the current value(s) |
 | `Slider.Control` | Touch-active container around the track |
@@ -20,10 +21,10 @@ A draggable range input for selecting a value or range within a given span.
 
 ```tsx
 <Slider.Root defaultValue={50}>
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <Slider.Header>
     <Slider.Label>Volume</Slider.Label>
     <Slider.Output />
-  </div>
+  </Slider.Header>
   <Slider.Control>
     <Slider.Track>
       <Slider.Indicator />
@@ -39,10 +40,10 @@ A draggable range input for selecting a value or range within a given span.
 
 ```tsx
 <Slider.Root defaultValue={[20, 80]}>
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <Slider.Header>
     <Slider.Label>Price Range</Slider.Label>
     <Slider.Output />
-  </div>
+  </Slider.Header>
   <Slider.Control>
     <Slider.Track>
       <Slider.Indicator />
@@ -57,10 +58,10 @@ A draggable range input for selecting a value or range within a given span.
 
 ```tsx
 <Slider.Root defaultValue={50} step={10}>
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <Slider.Header>
     <Slider.Label>Quality</Slider.Label>
     <Slider.Output />
-  </div>
+  </Slider.Header>
   <Slider.Control>
     <Slider.Track>
       <Slider.Indicator />
@@ -74,10 +75,10 @@ A draggable range input for selecting a value or range within a given span.
 
 ```tsx
 <Slider.Root defaultValue={60} isDisabled>
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <Slider.Header>
     <Slider.Label>Disabled Slider</Slider.Label>
     <Slider.Output />
-  </div>
+  </Slider.Header>
   <Slider.Control>
     <Slider.Track>
       <Slider.Indicator />
@@ -105,6 +106,7 @@ A draggable range input for selecting a value or range within a given span.
 ## CSS Classes
 
 - `.tale-slider` — Root container
+- `.tale-slider__header` — Header row (Label + Output)
 - `.tale-slider__label` — Label
 - `.tale-slider__output` — Value display
 - `.tale-slider__control` — Touch container

@@ -33,7 +33,7 @@ export const Default: Story = {
         <Combobox.Input />
         <Combobox.Trigger />
       </Combobox.InputGroup>
-      <Combobox.Popover>
+      <Combobox.Popover offset={4}>
         <Combobox.ListBox>
           <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
           <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
@@ -54,7 +54,7 @@ export const WithLabel: Story = {
         <Combobox.Input />
         <Combobox.Trigger />
       </Combobox.InputGroup>
-      <Combobox.Popover>
+      <Combobox.Popover offset={4}>
         <Combobox.ListBox>
           <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
           <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
@@ -73,7 +73,7 @@ export const WithInputGroup: Story = {
         <Combobox.Input placeholder="Type to search…" />
         <Combobox.Trigger />
       </Combobox.InputGroup>
-      <Combobox.Popover>
+      <Combobox.Popover offset={4}>
         <Combobox.ListBox>
           <Combobox.Item id="us" textValue="United States">United States</Combobox.Item>
           <Combobox.Item id="ca" textValue="Canada">Canada</Combobox.Item>
@@ -94,7 +94,7 @@ export const WithSections: Story = {
         <Combobox.Input placeholder="Search food…" />
         <Combobox.Trigger />
       </Combobox.InputGroup>
-      <Combobox.Popover>
+      <Combobox.Popover offset={4}>
         <Combobox.ListBox>
           <Combobox.Section>
             <Combobox.Header>Fruits</Combobox.Header>
@@ -122,12 +122,40 @@ export const Empty: Story = {
         <Combobox.Input placeholder="Type to filter…" />
         <Combobox.Trigger />
       </Combobox.InputGroup>
-      <Combobox.Popover>
+      <Combobox.Popover offset={4}>
         <Combobox.ListBox>
           <Combobox.Empty>No results found.</Combobox.Empty>
           <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
           <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
           <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+        </Combobox.ListBox>
+      </Combobox.Popover>
+    </Combobox.Root>
+  ),
+};
+
+export const MultiSelectChips: Story = {
+  render: () => (
+    <Combobox.Root selectionMode="multiple">
+      <Combobox.Label>Frameworks</Combobox.Label>
+      <Combobox.Chips>
+        <Combobox.Chip>
+          React <Combobox.ChipRemove aria-label="Remove React" />
+        </Combobox.Chip>
+        <Combobox.Chip>
+          Vue <Combobox.ChipRemove aria-label="Remove Vue" />
+        </Combobox.Chip>
+      </Combobox.Chips>
+      <Combobox.InputGroup>
+        <Combobox.Input placeholder="Add framework…" />
+        <Combobox.Trigger />
+      </Combobox.InputGroup>
+      <Combobox.Popover offset={4}>
+        <Combobox.ListBox>
+          <Combobox.Item id="react" textValue="React">React</Combobox.Item>
+          <Combobox.Item id="vue" textValue="Vue">Vue</Combobox.Item>
+          <Combobox.Item id="angular" textValue="Angular">Angular</Combobox.Item>
+          <Combobox.Item id="svelte" textValue="Svelte">Svelte</Combobox.Item>
         </Combobox.ListBox>
       </Combobox.Popover>
     </Combobox.Root>

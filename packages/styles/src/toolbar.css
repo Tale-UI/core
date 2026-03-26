@@ -36,6 +36,7 @@
   gap: var(--space-4xs);
   padding: var(--space-4xs) var(--space-3xs);
   min-height: 3.2rem;
+  min-width: 2.4rem;
   border: none;
   border-radius: var(--radius-m);
   background-color: transparent;

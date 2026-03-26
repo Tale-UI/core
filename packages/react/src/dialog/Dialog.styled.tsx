@@ -36,7 +36,7 @@ import { cx } from '../_cx';
  *   <Dialog.Trigger className="tale-button--primary">Open Dialog</Dialog.Trigger>
  *   <Dialog.Backdrop>
  *     <Dialog.Popup>
- *       <Dialog.Close aria-label="Close">✕</Dialog.Close>
+ *       <Dialog.Close aria-label="Close" />
  *       <Dialog.Title>Confirm action</Dialog.Title>
  *       <Dialog.Description>Are you sure?</Dialog.Description>
  *       <Dialog.Actions>

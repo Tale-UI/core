@@ -29,7 +29,7 @@ export type RootProps = AriaMenuTriggerProps;
  * import { Menu } from '@tale-ui/react/menu';
  *
  * <Menu.Root>
- *   <Menu.Trigger>Options</Menu.Trigger>
+ *   <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options</Menu.Trigger>
  *   <Menu.Popover>
  *     <Menu.MenuList>
  *       <Menu.Item id="edit">Edit</Menu.Item>

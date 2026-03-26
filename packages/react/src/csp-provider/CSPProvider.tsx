@@ -7,6 +7,15 @@ import { CSPContext, type CSPContextValue } from './CSPContext';
  * require inline `<style>` or `<script>` tags.
  *
  * Documentation: [Tale UI CSP Provider](https://tale-ui.dev/react/utils/csp-provider)
+ *
+ * @example
+ * ```tsx
+ * import { CSPProvider } from '@tale-ui/react/csp-provider';
+ *
+ * <CSPProvider nonce={myNonceValue}>
+ *   <App />
+ * </CSPProvider>
+ * ```
  */
 export function CSPProvider(props: CSPProvider.Props) {
   const { children, nonce, disableStyleElements } = props;
