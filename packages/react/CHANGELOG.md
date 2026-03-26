@@ -2,6 +2,28 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.33 — 2026-03-26
+
+### Added
+
+- **Icon** and **IconButton** components with lucide-react integration for consistent icon rendering and accessible icon-only buttons.
+- **CSPProvider**, **I18nProvider**, and **mergeProps** utility now have dedicated docs and JSDoc.
+- **PreviewCard** styled sub-components (Trigger, Popover, Content, Heading, Avatar).
+- New component docs for Icon, IconButton, CSPProvider, I18nProvider, mergeProps, RadioGroup, and ToggleGroup.
+
+### Changed
+
+- **IconButton** now requires `aria-label` — enforced via TypeScript prop type.
+- **CheckboxGroup** and **RadioGroup** accept top-level `label` and `description` props.
+- Accordion, AlertDialog, Calendar, Combobox, DatePicker, DateRangePicker, Dialog, NavigationMenu, NumberField, Popover, RangeCalendar, SearchField, and Select components updated to use `Icon` sub-components internally.
+- Docs, JSDoc, Storybook stories, and ComponentAudit aligned across all 67 components.
+- Consumer CLAUDE.md snippet expanded with token size suffix, layout utility, and Select.placeholder pitfalls.
+- Removed example apps (vite-css, tanstack-start-tailwind-css) in favour of docs.
+
+### Fixed
+
+- Dialog close button and Drawer popup spacing tightened in styles.
+
 ## v1.3.32 — 2026-03-25
 
 ### Fixed
