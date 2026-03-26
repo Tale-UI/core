@@ -2,6 +2,13 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.34 — 2026-03-26
+
+### Fixed
+
+- **JSDoc examples:** CheckboxGroup now shows Icon+check inside Indicator; DateRangePicker dash marked `aria-hidden`; Fieldset gets `@example` block; ProgressBar and Slider examples wrap Label/Value in Header.
+- **Styles:** Accordion header heading margins reset; textarea `box-sizing: border-box`; fieldset legend `border: none` in primitives reset.
+
 ## v1.3.33 — 2026-03-26
 
 ### Added
