@@ -15,6 +15,10 @@ A horizontal toolbar grouping actions, links, and inputs with keyboard navigatio
 | `Toolbar.Input` | A text input inside the toolbar. |
 | `Toolbar.Separator` | A visual divider between groups. |
 
+## Props
+
+Accepts all React Aria `Toolbar` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -12,6 +12,10 @@ A single collapsible section that toggles visibility of its content panel.
 | `Disclosure.Trigger` | Button that toggles the panel |
 | `Disclosure.Panel` | Collapsible content area |
 
+## Props
+
+Accepts all React Aria `Disclosure` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

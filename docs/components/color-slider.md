@@ -14,6 +14,10 @@ A slider for adjusting a single color channel (hue, saturation, lightness, alpha
 | `ColorSlider.Label` | Accessible label |
 | `ColorSlider.Output` | Displays the current channel value |
 
+## Props
+
+Accepts all React Aria `ColorSlider` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

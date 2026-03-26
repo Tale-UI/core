@@ -19,6 +19,10 @@ A date input with a trigger button that opens a popover calendar for date select
 | `DatePicker.Description` | Helper text |
 | `DatePicker.ErrorMessage` | Validation error message |
 
+## Props
+
+Accepts all React Aria `DatePicker` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

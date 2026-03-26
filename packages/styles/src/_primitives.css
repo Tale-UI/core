@@ -56,7 +56,7 @@
   border-radius: var(--radius-m);
   background-color: var(--neutral-10);
   color: var(--neutral-90);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   outline: none;
 }
@@ -244,7 +244,7 @@
 
 .tale-color-field__label {
   display: block;
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--label-s-font-size);
   font-weight: var(--label-font-weight);
   color: var(--neutral-70);
@@ -306,7 +306,7 @@
   padding: var(--space-2xs) var(--space-xs);
   border-radius: var(--radius-m);
   color: var(--neutral-80);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   cursor: pointer;
   outline: none;
@@ -461,7 +461,7 @@
 .tale-number-field__description,
 .tale-tag-group__description {
   color: var(--neutral-60);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   line-height: 1.5;
 }
@@ -482,7 +482,7 @@
 .tale-number-field__error,
 .tale-tag-group__error {
   color: var(--red-60);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   line-height: 1.4;
 }
@@ -554,7 +554,7 @@
   padding: var(--space-3xs) var(--space-xs);
   background-color: transparent;
   color: var(--neutral-90);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   outline: none;
 }
@@ -771,7 +771,7 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   color: var(--neutral-90);
   transition: background 0.1s ease, color 0.1s ease;
@@ -909,7 +909,7 @@
 .tale-drawer__description {
   margin: 0;
   color: var(--neutral-70);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   line-height: 1.6;
 }
@@ -1104,7 +1104,7 @@
   padding: var(--space-m);
   text-align: center;
   color: var(--neutral-50);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   cursor: default;
 }
@@ -1133,4 +1133,18 @@
 .tale-color-slider__thumb[data-disabled],
 .tale-color-wheel__thumb[data-disabled] {
   opacity: 0.45;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   16. SEMANTIC ELEMENT SHIELD
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Reset structural properties on semantic HTML elements placed directly inside
+   Tale UI components. Prevents consumer global styles (e.g. `section { padding: 1rem }`)
+   from breaking component layout. :where() keeps specificity at zero.
+   :not(.tale-ui) excludes <html class="tale-ui"> so the reset doesn't apply page-wide. */
+:where([class*="tale-"]:not(.tale-ui)) > :where(section, article, header, footer, nav, aside, main) {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }

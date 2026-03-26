@@ -14,6 +14,10 @@ A vertically stacked set of collapsible sections, allowing one or multiple panel
 | `Accordion.Trigger` | Button that toggles the associated panel; renders a chevron icon automatically |
 | `Accordion.Panel` | Collapsible content area revealed when the item is expanded |
 
+## Props
+
+Accepts all React Aria `DisclosureGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

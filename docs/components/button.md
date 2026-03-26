@@ -4,6 +4,16 @@
 
 A styled button component with variant and size props, built on React Aria's Button.
 
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'primary' \| 'neutral' \| 'ghost' \| 'danger'` | `'primary'` | Visual style variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
+| `disabled` | `boolean` | — | Alias for `isDisabled` for convenience |
+
+Also accepts all React Aria `Button` props.
+
 ## Basic Usage
 
 ```tsx

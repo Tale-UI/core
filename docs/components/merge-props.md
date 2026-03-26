@@ -4,6 +4,10 @@
 
 Merges multiple sets of React props with smart handling for event handlers, `className`, and `style`.
 
+## Props
+
+Accepts any number of props objects. See the `@example` JSDoc on the export for usage.
+
 ## Basic Usage
 
 ```tsx

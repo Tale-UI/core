@@ -15,6 +15,10 @@ An accessible data table with support for sorting and row selection.
 | `Table.Row` | A table row. Requires `id`. |
 | `Table.Cell` | A table data cell. |
 
+## Props
+
+Accepts all React Aria `Table` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

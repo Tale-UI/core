@@ -15,6 +15,10 @@ A generic field wrapper providing label, description, error, and control layout 
 | `Field.Error` | Validation error message. |
 | `Field.Item` | Optional item container for grouped content. |
 
+## Props
+
+Accepts all React Aria `Label`, `Text`, and `FieldError` props on sub-parts, plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

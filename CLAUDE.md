@@ -132,7 +132,7 @@ Status of required artifacts for all 67 components. When adding or updating a co
 
 **Non-trivial components requiring tests:** Drawer (custom state/swipe), Meter (percentage calc), ProgressBar (percentage calc + indeterminate), ColorModeToggle (localStorage/OS preference), Tabs (MutationObserver/ResizeObserver indicator)
 
-**Total:** 69 components | **Fully complete:** 69 | **Missing artifacts:** 0
+**Total:** 73 components | **Fully complete:** 73 | **Missing artifacts:** 0
 
 ### Form Controls
 
@@ -155,6 +155,7 @@ Status of required artifacts for all 67 components. When adding or updating a co
 | SearchField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | TextField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | TextArea | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| PinInput | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ### Date & Time
 
@@ -212,13 +213,16 @@ Status of required artifacts for all 67 components. When adding or updating a co
 | ScrollArea | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Separator | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Toolbar | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Carousel | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ### Feedback
 
 | Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Banner | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | ProgressBar | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Meter | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Spinner | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ### Display
 

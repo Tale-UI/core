@@ -11,6 +11,10 @@ A horizontal menu bar that wraps multiple `Menu` instances (e.g., File, Edit, Vi
 | `Menubar.Root` | The `<div role="menubar">` container. |
 | `Menubar.Item` | Wrapper for each menu inside the bar. |
 
+## Props
+
+Accepts all native `<div>` element props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -15,6 +15,10 @@ A labeled group of tags supporting selection and removal.
 | `TagGroup.Description` | Help text below the tag list. |
 | `TagGroup.ErrorMessage` | Validation error text. |
 
+## Props
+
+Accepts all React Aria `TagGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

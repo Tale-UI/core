@@ -20,7 +20,7 @@
 .tale-tree {
   display: flex;
   flex-direction: column;
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   color: var(--neutral-90);
   outline: none;

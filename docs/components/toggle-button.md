@@ -4,6 +4,20 @@
 
 A pressable toggle button that maintains selected/unselected state, built on React Aria's ToggleButton.
 
+## Props
+
+### ToggleButton
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
+
+Also accepts all React Aria `ToggleButton` props.
+
+### ToggleButtonGroup
+
+No Tale UI-specific props. Also accepts all React Aria `ToggleButtonGroup` props.
+
 ## Basic Usage
 
 ```tsx

@@ -1,0 +1,103 @@
+/* ─── Carousel ─────────────────────────────────────────────────────────────── */
+
+.tale-carousel {
+  position: relative;
+}
+
+/* ─── Content (viewport) ───────────────────────────────────────────────────── */
+
+.tale-carousel__content {
+  overflow: hidden;
+}
+
+.tale-carousel__container {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.tale-carousel[data-orientation="vertical"] .tale-carousel__content {
+  height: 100%;
+}
+
+.tale-carousel[data-orientation="vertical"] .tale-carousel__container {
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ─── Item (slide) ─────────────────────────────────────────────────────────── */
+
+.tale-carousel__item {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.tale-carousel[data-orientation="vertical"] .tale-carousel__item {
+  min-height: 0;
+}
+
+/* ─── Navigation triggers ──────────────────────────────────────────────────── */
+
+.tale-carousel__previous,
+.tale-carousel__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 1px solid var(--neutral-22);
+  border-radius: var(--radius-full);
+  background-color: var(--neutral-5);
+  color: var(--neutral-70);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.tale-carousel__previous:hover,
+.tale-carousel__next:hover {
+  background-color: var(--neutral-12);
+}
+
+.tale-carousel__previous:focus-visible,
+.tale-carousel__next:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+.tale-carousel__previous:disabled,
+.tale-carousel__next:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ─── Indicators ───────────────────────────────────────────────────────────── */
+
+.tale-carousel__indicators {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3xs);
+  padding: var(--space-xs) 0;
+}
+
+.tale-carousel__indicator {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: var(--radius-full);
+  background-color: var(--neutral-30);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.tale-carousel__indicator[data-selected] {
+  background-color: var(--color-60);
+}
+
+.tale-carousel__indicator:hover:not([data-selected]) {
+  background-color: var(--neutral-50);
+}
+
+.tale-carousel__indicator:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}

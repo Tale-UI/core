@@ -15,6 +15,24 @@ A horizontal bar representing a scalar measurement within a known range (e.g. st
 | `Meter.Track` | Background rail |
 | `Meter.Indicator` | Filled portion sized by `value`, `min`, and `max` |
 
+## Props
+
+### Root
+
+No Tale UI-specific props beyond React Aria's `Meter` props (`value`, `minValue`, `maxValue`, etc.).
+
+Also accepts all React Aria `Meter` props.
+
+### Indicator
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | `0` | The current value |
+| `min` | `number` | `0` | The minimum value |
+| `max` | `number` | `100` | The maximum value |
+
+Also accepts all standard `<div>` HTML attributes.
+
 ## Basic Usage
 
 ```tsx

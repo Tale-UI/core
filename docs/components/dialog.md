@@ -17,6 +17,10 @@ A modal dialog overlay with backdrop, title, description, and close button.
 | `Dialog.Close` | Icon button that closes the dialog via `slot="close"`. Positioned top-right. |
 | `Dialog.Actions` | Flex row container for action buttons (Cancel/Confirm). |
 
+## Props
+
+Accepts all React Aria `DialogTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

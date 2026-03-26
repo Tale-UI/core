@@ -11,6 +11,10 @@ A two-dimensional color picker area for selecting saturation and lightness (or o
 | `ColorArea.Root` | The 2D gradient area |
 | `ColorArea.Thumb` | Draggable thumb for selecting a color |
 
+## Props
+
+Accepts all React Aria `ColorArea` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

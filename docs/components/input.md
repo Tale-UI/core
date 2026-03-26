@@ -14,6 +14,10 @@ A compound text input component with label, description, and error message parts
 | `Input.Description` | Helper text below the input |
 | `Input.ErrorMessage` | Validation error message (shown when `isInvalid`) |
 
+## Props
+
+Accepts all React Aria `TextField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

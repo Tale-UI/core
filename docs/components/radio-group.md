@@ -4,6 +4,10 @@
 
 A convenience re-export of `Radio.Group` from `@tale-ui/react/radio`. Both import paths resolve to the same component.
 
+## Props
+
+Accepts all React Aria `RadioGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

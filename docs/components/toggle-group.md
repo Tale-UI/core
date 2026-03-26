@@ -4,6 +4,10 @@
 
 A convenience re-export of `ToggleButtonGroup` from `@tale-ui/react/toggle-button`. Both import paths resolve to the same component.
 
+## Props
+
+Accepts all React Aria `ToggleButtonGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

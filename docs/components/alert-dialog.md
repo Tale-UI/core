@@ -18,6 +18,10 @@ A modal alert dialog with `role="alertdialog"` for confirmations and destructive
 | `AlertDialog.Close` | Button that closes the dialog via `slot="close"`. |
 | `AlertDialog.Actions` | Actions row for confirm/cancel buttons. |
 
+## Props
+
+Accepts all React Aria `DialogTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -15,6 +15,10 @@ A segmented time input field that allows users to type a time value with individ
 | `TimeField.Description` | Helper text |
 | `TimeField.ErrorMessage` | Validation error message |
 
+## Props
+
+Accepts all React Aria `TimeField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

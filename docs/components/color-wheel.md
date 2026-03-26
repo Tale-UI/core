@@ -12,6 +12,10 @@ A circular hue selector that renders as a color wheel ring.
 | `ColorWheel.Track` | The circular color track |
 | `ColorWheel.Thumb` | Draggable thumb on the wheel |
 
+## Props
+
+Accepts all React Aria `ColorWheel` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

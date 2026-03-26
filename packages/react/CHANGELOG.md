@@ -2,6 +2,25 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.35 — 2026-03-27
+
+### Added
+
+- **Banner**, **Carousel**, **EmptyState**, **PinInput**, and **Spinner** components with full styled sub-components, CSS, docs, Storybook stories, and ComponentAudit entries.
+- **Tabs.test.tsx** and **ColorModeToggle.test.tsx** unit tests.
+- `docs/component-index.md` — all 73 components at a glance.
+- `docs/recipes/` — copy-paste multi-component patterns.
+- `llms-full.txt` — full AI reference including all component docs.
+- Pagination triggers updated to use `Icon` component.
+- `idx` audit column added to CLAUDE.md component table.
+
+### Changed
+
+- GridList styled sub-components and stories updated.
+- Consumer CLAUDE.md snippet: added `IconButton` aria-label pitfall and token size suffix notes.
+- CI workflow updated.
+- Many component docs updated with additional usage notes and CSS class tables.
+
 ## v1.3.34 — 2026-03-26
 
 ### Fixed

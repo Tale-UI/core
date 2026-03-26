@@ -1,0 +1,116 @@
+# Banner
+
+`import { Banner } from '@tale-ui/react/banner';`
+
+An inline notification banner with semantic colour variants for feedback messages.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `Banner.Root` | Container (`<div>`). Accepts `variant` and `size` props. |
+| `Banner.Icon` | Wrapper for an icon. |
+| `Banner.Title` | Main heading text. |
+| `Banner.Description` | Supporting description text. |
+| `Banner.Actions` | Container for action buttons. |
+| `Banner.Close` | Dismiss button. Default `aria-label="Dismiss"` and X icon; pass children to override. |
+
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Semantic colour variant |
+| size | `'sm' \| 'md'` | `'md'` | Size variant |
+
+Also accepts all standard `<div>` HTML attributes.
+
+## Basic Usage
+
+```tsx
+<Banner.Root variant="info">
+  <Banner.Icon><Icon icon={InfoIcon} size="sm" /></Banner.Icon>
+  <Banner.Title>Heads up</Banner.Title>
+  <Banner.Description>Your trial expires in 3 days.</Banner.Description>
+</Banner.Root>
+```
+
+## Examples
+
+### All Variants
+
+```tsx
+<Banner.Root variant="info">
+  <Banner.Title>Info</Banner.Title>
+  <Banner.Description>Informational message.</Banner.Description>
+</Banner.Root>
+
+<Banner.Root variant="success">
+  <Banner.Title>Success</Banner.Title>
+  <Banner.Description>Operation completed.</Banner.Description>
+</Banner.Root>
+
+<Banner.Root variant="warning">
+  <Banner.Title>Warning</Banner.Title>
+  <Banner.Description>Please review before continuing.</Banner.Description>
+</Banner.Root>
+
+<Banner.Root variant="error">
+  <Banner.Title>Error</Banner.Title>
+  <Banner.Description>Something went wrong.</Banner.Description>
+</Banner.Root>
+```
+
+### With Actions
+
+```tsx
+<Banner.Root variant="warning">
+  <Banner.Title>Update available</Banner.Title>
+  <Banner.Description>A new version is ready to install.</Banner.Description>
+  <Banner.Actions>
+    <Button variant="ghost" size="sm">Later</Button>
+    <Button variant="primary" size="sm">Update now</Button>
+  </Banner.Actions>
+</Banner.Root>
+```
+
+### Dismissible
+
+```tsx
+<Banner.Root variant="info">
+  <Banner.Title>Tip</Banner.Title>
+  <Banner.Description>You can customise your dashboard.</Banner.Description>
+  <Banner.Close onClick={() => setVisible(false)} />
+</Banner.Root>
+```
+
+### Small Size
+
+```tsx
+<Banner.Root variant="success" size="sm">
+  <Banner.Title>Saved</Banner.Title>
+  <Banner.Description>Changes saved successfully.</Banner.Description>
+</Banner.Root>
+```
+
+## CSS Classes
+
+- `.tale-banner` — Root container (info variant by default)
+- `.tale-banner--success` — Success variant
+- `.tale-banner--warning` — Warning variant
+- `.tale-banner--error` — Error variant
+- `.tale-banner--sm` — Small size
+- `.tale-banner__icon` — Icon container
+- `.tale-banner__title` — Title text
+- `.tale-banner__description` — Description text
+- `.tale-banner__actions` — Actions container
+- `.tale-banner__close` — Close/dismiss button
+
+## Notes
+
+- Custom component — not built on a React Aria primitive.
+- Uses `role="status"` for accessibility.
+- The `info` variant uses `--color-*` tokens (auto-invert in dark mode). The `success`, `warning`, and `error` variants use semantic tokens (`--success-*`, `--warning-*`, `--error-*`) which do NOT invert in dark mode — this is intentional for status indicators.
+- `Banner.Close` has a default `aria-label="Dismiss"` and renders a default X icon via the `Icon` component. Pass children to override.
+- All parts are optional. Use only what you need.

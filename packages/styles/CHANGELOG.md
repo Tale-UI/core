@@ -2,6 +2,18 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.35 — 2026-03-27
+
+### Added
+
+- **banner.css**, **carousel.css**, **empty-state.css**, **pin-input.css**, **spinner.css** — styles for five new components.
+- New selectors in `index.css` for the above components.
+- Additional `_primitives.css` grouped selectors for new component patterns.
+
+### Changed
+
+- Minor fixes to breadcrumbs, calendar, color-field, drop-zone, grid-list, link, number-field, popover, table, tabs, text-area, and tree CSS.
+
 ## v1.3.34 — 2026-03-26
 
 ### Fixed

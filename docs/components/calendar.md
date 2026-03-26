@@ -19,6 +19,10 @@ A date picker calendar for selecting a single date, with month navigation.
 | `Calendar.Cell` | Individual date cell — **use inside `GridBody` only**; accepts a `date` prop |
 | `Calendar.Header` | Flex row wrapper for navigation buttons and heading |
 
+## Props
+
+Accepts all React Aria `Calendar` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

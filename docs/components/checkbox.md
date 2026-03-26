@@ -13,6 +13,10 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 
 > **Important:** `Checkbox.Indicator` is a plain `<span>` — it does NOT include a built-in checkmark icon. You must provide a child icon using `<Icon icon={Check} size="sm" />` from `@tale-ui/react/icon` and `lucide-react`.
 
+## Props
+
+Accepts all React Aria `Checkbox` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

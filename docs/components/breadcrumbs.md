@@ -12,6 +12,10 @@ A navigation trail showing the current page location within a hierarchy.
 | `Breadcrumbs.Item` | A single breadcrumb entry (`<li>`). |
 | `Breadcrumbs.Link` | The clickable link inside an item. Omit `href` for the current (last) item. |
 
+## Props
+
+Accepts all React Aria `Breadcrumbs` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

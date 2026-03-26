@@ -38,6 +38,7 @@ import { NavigationMenu } from '@tale-ui/react/navigation-menu';
 import { Menubar } from '@tale-ui/react/menubar';
 
 // Layout
+import { Carousel } from '@tale-ui/react/carousel';
 import { Accordion } from '@tale-ui/react/accordion';
 import { Disclosure } from '@tale-ui/react/disclosure';
 import { Tabs } from '@tale-ui/react/tabs';
@@ -45,10 +46,13 @@ import { ScrollArea } from '@tale-ui/react/scroll-area';
 import { Container } from '@tale-ui/react/container';
 
 // Feedback
+import { Banner } from '@tale-ui/react/banner';
 import { ProgressBar } from '@tale-ui/react/progress-bar';
 import { Meter } from '@tale-ui/react/meter';
+import { Spinner } from '@tale-ui/react/spinner';
 // Display
 import { Avatar } from '@tale-ui/react/avatar';
+import { EmptyState } from '@tale-ui/react/empty-state';
 
 // Form Structure
 import { Field } from '@tale-ui/react/field';
@@ -106,6 +110,8 @@ import { ColorWheel } from '@tale-ui/react/color-wheel';
 import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';
 import { GridList } from '@tale-ui/react/grid-list';
 import { Link } from '@tale-ui/react/link';
+import { Pagination } from '@tale-ui/react/pagination';
+import { PinInput } from '@tale-ui/react/pin-input';
 import { Table } from '@tale-ui/react/table';
 import { TagGroup } from '@tale-ui/react/tag-group';
 import { Tree } from '@tale-ui/react/tree';
@@ -161,6 +167,7 @@ const TOC = [
     { id: 'autocomplete', label: 'Autocomplete' },
     { id: 'combobox', label: 'Combobox' },
     { id: 'number-field', label: 'NumberField' },
+    { id: 'pin-input', label: 'PinInput' },
     { id: 'slider', label: 'Slider' },
     { id: 'search-field', label: 'SearchField' },
     { id: 'text-field', label: 'TextField' },
@@ -198,8 +205,10 @@ const TOC = [
     { id: 'menubar', label: 'Menubar' },
     { id: 'breadcrumbs', label: 'Breadcrumbs' },
     { id: 'link', label: 'Link' },
+    { id: 'pagination', label: 'Pagination' },
   ]},
   { category: 'Layout', items: [
+    { id: 'carousel', label: 'Carousel' },
     { id: 'accordion', label: 'Accordion' },
     { id: 'disclosure', label: 'Disclosure' },
     { id: 'tabs', label: 'Tabs' },
@@ -208,11 +217,14 @@ const TOC = [
     { id: 'toolbar', label: 'Toolbar' },
   ]},
   { category: 'Feedback', items: [
+    { id: 'banner', label: 'Banner' },
     { id: 'progress-bar', label: 'ProgressBar' },
     { id: 'meter', label: 'Meter' },
+    { id: 'spinner', label: 'Spinner' },
   ]},
   { category: 'Display', items: [
     { id: 'avatar', label: 'Avatar' },
+    { id: 'empty-state', label: 'EmptyState' },
     { id: 'grid-list', label: 'GridList' },
     { id: 'table', label: 'Table' },
     { id: 'tag-group', label: 'TagGroup' },
@@ -1800,9 +1812,107 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
+        <Section id="pagination" title="Pagination" classes={['tale-pagination', 'tale-pagination__item', 'tale-pagination__item--current', 'tale-pagination__ellipsis', 'tale-pagination__previous', 'tale-pagination__next']}>
+          <SubHeading>Default</SubHeading>
+          <Pagination.Root aria-label="Pagination">
+            <Pagination.PreviousTrigger />
+            <Pagination.Item page={1} />
+            <Pagination.Item page={2} current />
+            <Pagination.Item page={3} />
+            <Pagination.NextTrigger />
+          </Pagination.Root>
+          <SubHeading>Many Pages</SubHeading>
+          <Pagination.Root aria-label="Pagination">
+            <Pagination.PreviousTrigger />
+            <Pagination.Item page={1} />
+            <Pagination.Ellipsis />
+            <Pagination.Item page={4} />
+            <Pagination.Item page={5} current />
+            <Pagination.Item page={6} />
+            <Pagination.Ellipsis />
+            <Pagination.Item page={20} />
+            <Pagination.NextTrigger />
+          </Pagination.Root>
+          <SubHeading>First Page (Previous Disabled)</SubHeading>
+          <Pagination.Root aria-label="Pagination">
+            <Pagination.PreviousTrigger disabled />
+            <Pagination.Item page={1} current />
+            <Pagination.Item page={2} />
+            <Pagination.Item page={3} />
+            <Pagination.NextTrigger />
+          </Pagination.Root>
+        </Section>
+
+        <Section id="pin-input" title="PinInput" classes={['tale-pin-input', 'tale-pin-input__group', 'tale-pin-input__slot', 'tale-pin-input__separator', 'tale-pin-input__caret']}>
+          <SubHeading>4-digit</SubHeading>
+          <PinInput.Root maxLength={4}>
+            <PinInput.Group>
+              <PinInput.Slot index={0} />
+              <PinInput.Slot index={1} />
+              <PinInput.Slot index={2} />
+              <PinInput.Slot index={3} />
+            </PinInput.Group>
+          </PinInput.Root>
+          <SubHeading>6-digit with separator</SubHeading>
+          <PinInput.Root maxLength={6}>
+            <PinInput.Group>
+              <PinInput.Slot index={0} />
+              <PinInput.Slot index={1} />
+              <PinInput.Slot index={2} />
+            </PinInput.Group>
+            <PinInput.Separator />
+            <PinInput.Group>
+              <PinInput.Slot index={3} />
+              <PinInput.Slot index={4} />
+              <PinInput.Slot index={5} />
+            </PinInput.Group>
+          </PinInput.Root>
+          <SubHeading>Disabled</SubHeading>
+          <PinInput.Root maxLength={4} disabled>
+            <PinInput.Group>
+              <PinInput.Slot index={0} />
+              <PinInput.Slot index={1} />
+              <PinInput.Slot index={2} />
+              <PinInput.Slot index={3} />
+            </PinInput.Group>
+          </PinInput.Root>
+        </Section>
+
         {/* ============================================================= */}
         {/* LAYOUT */}
         {/* ============================================================= */}
+
+        <Section id="carousel" title="Carousel" classes={['tale-carousel', 'tale-carousel__content', 'tale-carousel__container', 'tale-carousel__item', 'tale-carousel__previous', 'tale-carousel__next', 'tale-carousel__indicators', 'tale-carousel__indicator']}>
+          <SubHeading>Default</SubHeading>
+          <div style={{ maxWidth: 400 }}>
+            <Carousel.Root>
+              <Carousel.Content>
+                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 1</div></Carousel.Item>
+                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 2</div></Carousel.Item>
+                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 3</div></Carousel.Item>
+              </Carousel.Content>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-xs)', marginTop: 'var(--space-xs)' }}>
+                <Carousel.PreviousTrigger />
+                <Carousel.NextTrigger />
+              </div>
+            </Carousel.Root>
+          </div>
+          <SubHeading>With indicators + loop</SubHeading>
+          <div style={{ maxWidth: 400 }}>
+            <Carousel.Root loop>
+              <Carousel.Content>
+                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 1</div></Carousel.Item>
+                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 2</div></Carousel.Item>
+                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 3</div></Carousel.Item>
+              </Carousel.Content>
+              <Carousel.Indicators>
+                <Carousel.Indicator index={0} />
+                <Carousel.Indicator index={1} />
+                <Carousel.Indicator index={2} />
+              </Carousel.Indicators>
+            </Carousel.Root>
+          </div>
+        </Section>
 
         <Section id="accordion" title="Accordion" classes={['tale-accordion', 'tale-accordion__item', 'tale-accordion__trigger', 'tale-accordion__trigger-icon', 'tale-accordion__panel']}>
           <SubHeading>Default Open</SubHeading>
@@ -2010,6 +2120,40 @@ export default function ComponentAudit() {
         {/* FEEDBACK */}
         {/* ============================================================= */}
 
+        <Section id="banner" title="Banner" classes={['tale-banner', 'tale-banner--success', 'tale-banner--warning', 'tale-banner--error', 'tale-banner--sm', 'tale-banner__icon', 'tale-banner__title', 'tale-banner__description', 'tale-banner__actions', 'tale-banner__close']}>
+          <SubHeading>Info (default)</SubHeading>
+          <Banner.Root variant="info">
+            <Banner.Title>Heads up</Banner.Title>
+            <Banner.Description>Your trial expires in 3 days.</Banner.Description>
+          </Banner.Root>
+          <SubHeading>Success</SubHeading>
+          <Banner.Root variant="success">
+            <Banner.Title>Success</Banner.Title>
+            <Banner.Description>Operation completed.</Banner.Description>
+          </Banner.Root>
+          <SubHeading>Warning</SubHeading>
+          <Banner.Root variant="warning">
+            <Banner.Title>Warning</Banner.Title>
+            <Banner.Description>Please review before continuing.</Banner.Description>
+          </Banner.Root>
+          <SubHeading>Error</SubHeading>
+          <Banner.Root variant="error">
+            <Banner.Title>Error</Banner.Title>
+            <Banner.Description>Something went wrong.</Banner.Description>
+          </Banner.Root>
+          <SubHeading>With Close</SubHeading>
+          <Banner.Root variant="info">
+            <Banner.Title>Tip</Banner.Title>
+            <Banner.Description>You can customise your dashboard.</Banner.Description>
+            <Banner.Close aria-label="Dismiss" />
+          </Banner.Root>
+          <SubHeading>Small</SubHeading>
+          <Banner.Root variant="info" size="sm">
+            <Banner.Title>Note</Banner.Title>
+            <Banner.Description>Compact banner.</Banner.Description>
+          </Banner.Root>
+        </Section>
+
         <Section id="progress-bar" title="ProgressBar" classes={['tale-progress-bar', 'tale-progress-bar__header', 'tale-progress-bar__label', 'tale-progress-bar__value', 'tale-progress-bar__track', 'tale-progress-bar__indicator']}>
           <SubHeading>With Header, Label &amp; Value</SubHeading>
           <div className="audit__demo-wide display--flex flex--col gap--s">
@@ -2097,6 +2241,25 @@ export default function ComponentAudit() {
         </Section>
 
 
+        <Section id="spinner" title="Spinner" classes={['tale-spinner', 'tale-spinner--line', 'tale-spinner--dots', 'tale-spinner--sm', 'tale-spinner--lg']}>
+          <SubHeading>Circle (default)</SubHeading>
+          <Row>
+            <Spinner size="sm" />
+            <Spinner size="md" />
+            <Spinner size="lg" />
+          </Row>
+          <SubHeading>Dots</SubHeading>
+          <Row>
+            <Spinner variant="dots" size="sm" />
+            <Spinner variant="dots" size="md" />
+            <Spinner variant="dots" size="lg" />
+          </Row>
+          <SubHeading>Line</SubHeading>
+          <div className="audit__demo-wide">
+            <Spinner variant="line" />
+          </div>
+        </Section>
+
         {/* ============================================================= */}
         {/* DISPLAY */}
         {/* ============================================================= */}
@@ -2117,6 +2280,32 @@ export default function ComponentAudit() {
               <Avatar.Fallback>AB</Avatar.Fallback>
             </Avatar.Root>
           </Row>
+        </Section>
+
+        <Section id="empty-state" title="EmptyState" classes={['tale-empty-state', 'tale-empty-state--sm', 'tale-empty-state--lg', 'tale-empty-state__icon', 'tale-empty-state__title', 'tale-empty-state__description', 'tale-empty-state__actions']}>
+          <SubHeading>Default (md)</SubHeading>
+          <EmptyState.Root>
+            <EmptyState.Title>No items</EmptyState.Title>
+            <EmptyState.Description>Nothing here yet.</EmptyState.Description>
+          </EmptyState.Root>
+          <SubHeading>With Actions</SubHeading>
+          <EmptyState.Root>
+            <EmptyState.Title>No projects</EmptyState.Title>
+            <EmptyState.Description>Get started by creating your first project.</EmptyState.Description>
+            <EmptyState.Actions>
+              <Button variant="primary" size="sm">Create project</Button>
+            </EmptyState.Actions>
+          </EmptyState.Root>
+          <SubHeading>Small</SubHeading>
+          <EmptyState.Root size="sm">
+            <EmptyState.Title>No results</EmptyState.Title>
+            <EmptyState.Description>Try adjusting your filters.</EmptyState.Description>
+          </EmptyState.Root>
+          <SubHeading>Large</SubHeading>
+          <EmptyState.Root size="lg">
+            <EmptyState.Title>Welcome</EmptyState.Title>
+            <EmptyState.Description>Your dashboard is empty.</EmptyState.Description>
+          </EmptyState.Root>
         </Section>
 
         {/* ============================================================= */}
@@ -2298,6 +2487,12 @@ export default function ComponentAudit() {
           <GridList.Root aria-label="Selectable items" selectionMode="multiple" className="audit__demo-medium">
             {['Design tokens', 'Components', 'Documentation', 'Testing'].map((item) => (
               <GridList.Item key={item} id={item} textValue={item}>{item}</GridList.Item>
+            ))}
+          </GridList.Root>
+          <SubHeading>With Icons</SubHeading>
+          <GridList.Root aria-label="Items with icons" selectionMode="single" className="audit__demo-medium">
+            {([['Favorites', Star], ['Liked', Heart], ['Alerts', Bell], ['Settings', Settings]] as const).map(([label, icon]) => (
+              <GridList.Item key={label} id={label} textValue={label}><Icon icon={icon} size="sm" />{label}</GridList.Item>
             ))}
           </GridList.Root>
         </Section>

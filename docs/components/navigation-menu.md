@@ -17,6 +17,10 @@ A horizontal navigation bar with links and optional dropdown submenus.
 | `NavigationMenu.Content` | Content wrapper inside the dropdown popup. |
 | `NavigationMenu.Icon` | Dropdown chevron icon inside a trigger. |
 
+## Props
+
+Accepts all native `<nav>` element props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

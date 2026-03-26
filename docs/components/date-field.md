@@ -15,6 +15,10 @@ A segmented date input field that allows users to type a date value with individ
 | `DateField.Description` | Helper text below the field |
 | `DateField.ErrorMessage` | Validation error message |
 
+## Props
+
+Accepts all React Aria `DateField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -19,11 +19,13 @@ export type RootProps<T extends object> = Omit<AriaGridListProps<T>, 'className'
  * @example
  * ```tsx
  * import { GridList } from '@tale-ui/react/grid-list';
+ * import { Icon } from '@tale-ui/react/icon';
+ * import { Star, Heart, Bell } from 'lucide-react';
  *
  * <GridList.Root aria-label="Items" selectionMode="multiple">
- *   <GridList.Item id="1" textValue="Item 1">Item 1</GridList.Item>
- *   <GridList.Item id="2" textValue="Item 2">Item 2</GridList.Item>
- *   <GridList.Item id="3" textValue="Item 3">Item 3</GridList.Item>
+ *   <GridList.Item id="1" textValue="Favorites"><Icon icon={Star} size="sm" />Favorites</GridList.Item>
+ *   <GridList.Item id="2" textValue="Liked"><Icon icon={Heart} size="sm" />Liked</GridList.Item>
+ *   <GridList.Item id="3" textValue="Alerts"><Icon icon={Bell} size="sm" />Alerts</GridList.Item>
  * </GridList.Root>
  * ```
  */

@@ -15,6 +15,24 @@ A horizontal bar indicating progress toward completion, with support for determi
 | `ProgressBar.Track` | Background rail |
 | `ProgressBar.Indicator` | Filled portion; set `value` for determinate width, omit for indeterminate |
 
+## Props
+
+### Root
+
+No Tale UI-specific props beyond React Aria's `ProgressBar` props (`value`, `minValue`, `maxValue`, `isIndeterminate`, etc.).
+
+Also accepts all React Aria `ProgressBar` props.
+
+### Indicator
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number \| null` | — | The current value (0--max). When `null` or omitted the bar is indeterminate |
+| `min` | `number` | `0` | The minimum value |
+| `max` | `number` | `100` | The maximum value |
+
+Also accepts all standard `<div>` HTML attributes.
+
 ## Basic Usage
 
 ```tsx

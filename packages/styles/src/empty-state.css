@@ -1,0 +1,116 @@
+/*
+ * EmptyState — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component (not React Aria). Presentational only.
+ *
+ * Usage:
+ *   <EmptyState.Root className="tale-empty-state">
+ *     <EmptyState.Icon className="tale-empty-state__icon">...</EmptyState.Icon>
+ *     <EmptyState.Title className="tale-empty-state__title">...</EmptyState.Title>
+ *     <EmptyState.Description className="tale-empty-state__description">...</EmptyState.Description>
+ *     <EmptyState.Actions className="tale-empty-state__actions">...</EmptyState.Actions>
+ *   </EmptyState.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-2xl) var(--space-xl);
+  gap: var(--space-xs);
+  font-family: var(--text-font-family);
+}
+
+/* ─── Size variants ────────────────────────────────────────────────────────── */
+
+.tale-empty-state--sm {
+  padding: var(--space-xl) var(--space-l);
+  gap: var(--space-3xs);
+}
+
+.tale-empty-state--lg {
+  padding: var(--space-4xl) var(--space-2xl);
+  gap: var(--space-2xs);
+}
+
+/* ─── Icon ─────────────────────────────────────────────────────────────────── */
+
+.tale-empty-state__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neutral-40);
+  margin-bottom: var(--space-3xs);
+}
+
+.tale-empty-state--sm .tale-empty-state__icon {
+  margin-bottom: var(--space-4xs);
+}
+
+.tale-empty-state--lg .tale-empty-state__icon {
+  margin-bottom: var(--space-xs);
+}
+
+/* ─── Title ────────────────────────────────────────────────────────────────── */
+
+.tale-empty-state__title {
+  margin: 0;
+  font-size: var(--text-m-font-size);
+  font-weight: 600;
+  color: var(--neutral-90);
+  line-height: var(--text-m-line-height);
+}
+
+.tale-empty-state--sm .tale-empty-state__title {
+  font-size: var(--text-m-font-size);
+  line-height: var(--text-m-line-height);
+}
+
+.tale-empty-state--lg .tale-empty-state__title {
+  font-size: var(--text-l-font-size);
+  line-height: var(--text-l-line-height);
+}
+
+/* ─── Description ──────────────────────────────────────────────────────────── */
+
+.tale-empty-state__description {
+  margin: 0;
+  font-size: var(--text-m-font-size);
+  color: var(--neutral-60);
+  line-height: var(--text-m-line-height);
+  max-width: 36ch;
+}
+
+.tale-empty-state--sm .tale-empty-state__description {
+  font-size: var(--text-m-font-size);
+  line-height: var(--text-m-line-height);
+}
+
+.tale-empty-state--lg .tale-empty-state__description {
+  font-size: var(--text-m-font-size);
+  line-height: var(--text-m-line-height);
+  max-width: 44ch;
+}
+
+/* ─── Actions ──────────────────────────────────────────────────────────────── */
+
+.tale-empty-state__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+}
+
+.tale-empty-state--sm .tale-empty-state__actions {
+  margin-top: var(--space-3xs);
+  gap: var(--space-3xs);
+}
+
+.tale-empty-state--lg .tale-empty-state__actions {
+  margin-top: var(--space-s);
+}

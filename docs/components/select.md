@@ -22,6 +22,10 @@ A compound dropdown select component with popover listbox, built on React Aria's
 | `Select.ItemIndicator` | Selection indicator inside an item (e.g. checkmark) |
 | `Select.Separator` | A visual divider between items or sections |
 
+## Props
+
+Accepts all React Aria `Select` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

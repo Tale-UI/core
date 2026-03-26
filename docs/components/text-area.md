@@ -14,6 +14,10 @@ A multi-line text input with label, description, and error message support.
 | `TextArea.Description` | Helper text below the textarea |
 | `TextArea.ErrorMessage` | Validation error message (shown when `isInvalid`) |
 
+## Props
+
+Accepts all React Aria `TextField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

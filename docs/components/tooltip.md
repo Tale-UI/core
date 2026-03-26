@@ -13,6 +13,10 @@ A hover/focus-triggered tooltip with optional arrow and configurable placement.
 | `Tooltip.Popup` | The tooltip overlay. Accepts `placement` and `offset`. |
 | `Tooltip.Arrow` | Arrow pointing to the trigger. |
 
+## Props
+
+Accepts all React Aria `TooltipTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

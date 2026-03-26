@@ -81,7 +81,7 @@ import { Checkbox } from '@tale-ui/react/checkbox';
 
 ### Form Controls
 
-Autocomplete · Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Radio · Radio Group · Search Field · Select · Slider · Switch · Text Area · Text Field · Toggle Button · Toggle Button Group
+Autocomplete · Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Pin Input · Radio · Radio Group · Search Field · Select · Slider · Switch · Text Area · Text Field · Toggle Button · Toggle Button Group
 
 ### Date & Time
 
@@ -97,19 +97,19 @@ Alert Dialog · Dialog · Drawer · Popover · Preview Card · Tooltip
 
 ### Navigation
 
-Breadcrumbs · Context Menu · Link · Menu · Menubar · Navigation Menu
+Breadcrumbs · Context Menu · Link · Menu · Menubar · Navigation Menu · Pagination
 
 ### Layout
 
-Accordion · Disclosure · Scroll Area · Separator · Tabs · Toolbar
+Accordion · Carousel · Disclosure · Scroll Area · Separator · Tabs · Toolbar
 
 ### Feedback
 
-Meter · Progress Bar
+Banner · Meter · Progress Bar · Spinner
 
 ### Display
 
-Avatar · Grid List · Table · Tag Group · Tree
+Avatar · Empty State · Grid List · Table · Tag Group · Tree
 
 ### Form Structure
 

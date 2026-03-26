@@ -29,6 +29,7 @@ describe('@tale-ui/react', () => {
           (key) =>
             ![
               '.',
+              './styles',
               './utils',
               './temporal-adapter-luxon',
               './temporal-adapter-date-fns',

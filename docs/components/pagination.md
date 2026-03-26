@@ -14,6 +14,17 @@ Page navigation for moving between pages of content.
 | `Pagination.Item` | A page number button. Set `current` for the active page. |
 | `Pagination.Ellipsis` | Visual indicator for skipped page numbers. |
 
+## Props
+
+### Item
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `page` | `number` | — | The page number this item represents |
+| `current` | `boolean` | — | Whether this is the current page (sets `aria-current="page"`) |
+
+Also accepts all standard `<button>` HTML attributes (except `children`, which is derived from `page`).
+
 ## Basic Usage
 
 ```tsx

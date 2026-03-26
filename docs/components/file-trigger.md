@@ -4,6 +4,10 @@
 
 A headless component that opens the native file picker when its child element is clicked.
 
+## Props
+
+Accepts all React Aria `FileTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -4,6 +4,10 @@
 
 A drag-and-drop target area that accepts files and other draggable content.
 
+## Props
+
+Accepts all React Aria `DropZone` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -121,7 +121,7 @@
 .tale-tabs__panel {
   padding: var(--space-m) 0;
   color: var(--neutral-80);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   line-height: 1.6;
   outline: none;

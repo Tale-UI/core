@@ -16,6 +16,10 @@ A right-click context menu that appears at the cursor position.
 | `ContextMenu.Group` | Groups items into a section. |
 | `ContextMenu.Separator` | Visual separator between items or groups. |
 
+## Props
+
+Accepts all React Aria `Menu` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -33,7 +33,7 @@
   width: 100%;
   min-height: 3.6rem;
   padding: var(--space-3xs) var(--space-2xs);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   line-height: 1.5;
   color: var(--neutral-90);
@@ -76,7 +76,7 @@
 /* ─── Description ──────────────────────────────────────────────────────────── */
 
 .tale-color-field__description {
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   color: var(--neutral-50);
 }
@@ -84,7 +84,7 @@
 /* ─── Error ────────────────────────────────────────────────────────────────── */
 
 .tale-color-field__error {
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   color: var(--red-60);
 }

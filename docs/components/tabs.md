@@ -14,6 +14,10 @@ A tabbed interface for switching between panels of content.
 | `Tabs.Panel` | Content area associated with a tab (matched by `id`) |
 | `Tabs.Indicator` | Animated bar that slides to the selected tab. Place inside `Tabs.List`. |
 
+## Props
+
+Accepts all React Aria `Tabs` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

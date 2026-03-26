@@ -11,6 +11,10 @@ A native `<fieldset>` wrapper for grouping related form fields with a legend.
 | `Fieldset.Root` | The `<fieldset>` element. Accepts `disabled` to disable all children. |
 | `Fieldset.Legend` | The `<legend>` element for the group title. |
 
+## Props
+
+Accepts all native `<fieldset>` element props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

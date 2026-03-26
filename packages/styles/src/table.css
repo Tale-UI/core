@@ -25,7 +25,7 @@
 .tale-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   color: var(--neutral-90);
   outline: none;

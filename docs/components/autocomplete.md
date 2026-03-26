@@ -18,6 +18,10 @@ A compound inline autocomplete component with a search field and filterable list
 | `Autocomplete.Empty` | Shown when no items match the filter |
 | `Autocomplete.Separator` | Visual divider |
 
+## Props
+
+Accepts all React Aria `Autocomplete` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

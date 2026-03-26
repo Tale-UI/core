@@ -1,0 +1,83 @@
+/* ─── PinInput ─────────────────────────────────────────────────────────────── */
+
+.tale-pin-input {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+}
+
+.tale-pin-input:has(input:disabled) {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ─── Group ────────────────────────────────────────────────────────────────── */
+
+.tale-pin-input__group {
+  display: inline-flex;
+  gap: var(--space-4xs);
+}
+
+/* ─── Slot ─────────────────────────────────────────────────────────────────── */
+
+.tale-pin-input__slot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4.8rem;
+  border: 1px solid var(--neutral-26);
+  border-radius: var(--radius-m);
+  background-color: var(--neutral-5);
+  font-family: var(--text-font-family);
+  font-size: var(--text-l-font-size);
+  font-weight: 500;
+  color: var(--neutral-90);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tale-pin-input__slot[data-active] {
+  border-color: var(--color-60);
+  box-shadow: 0 0 0 1px var(--color-60);
+}
+
+.tale-pin-input__slot[data-filled] {
+  background-color: var(--neutral-10);
+}
+
+/* ─── Caret ────────────────────────────────────────────────────────────────── */
+
+.tale-pin-input__caret {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.tale-pin-input__caret::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 1.6rem;
+  background-color: var(--neutral-90);
+  animation: tale-pin-input-blink 1s step-end infinite;
+}
+
+@keyframes tale-pin-input-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ─── Separator ────────────────────────────────────────────────────────────── */
+
+.tale-pin-input__separator {
+  display: inline-flex;
+  align-items: center;
+  color: var(--neutral-50);
+  font-size: var(--text-m-font-size);
+  padding: 0 var(--space-4xs);
+}

@@ -11,6 +11,10 @@ A toggle switch component with a sliding thumb, built on React Aria's Switch.
 | `Switch.Root` | The switch label and toggle wrapper |
 | `Switch.Thumb` | The sliding thumb indicator |
 
+## Props
+
+Accepts all React Aria `Switch` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -37,6 +37,10 @@ const [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));
 </ColorSlider.Root>
 ```
 
+## Props
+
+Accepts all React Aria `ColorPicker` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## CSS Classes
 
 None — `ColorPicker.Root` is a state-only wrapper with no DOM element or BEM class.

@@ -34,8 +34,9 @@
 .tale-grid-list__item {
   display: flex;
   align-items: center;
+  gap: var(--space-2xs);
   padding: var(--space-3xs) var(--space-2xs);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   color: var(--neutral-90);
   background-color: var(--neutral-5);

@@ -12,6 +12,24 @@ A circular avatar displaying a user image or fallback initials.
 | `Avatar.Image` | An `<img>` element for the user photo. |
 | `Avatar.Fallback` | Text content shown when no image is provided or loading fails. |
 
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size variant controlling avatar dimensions |
+
+Also accepts all standard `<span>` HTML attributes.
+
+### Image
+
+No Tale UI-specific props. Accepts all standard `<img>` HTML attributes.
+
+### Fallback
+
+No Tale UI-specific props. Accepts all standard `<span>` HTML attributes.
+
 ## Basic Usage
 
 ```tsx

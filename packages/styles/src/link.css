@@ -13,7 +13,7 @@
 
 .tale-link {
   color: var(--color-70);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;

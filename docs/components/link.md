@@ -4,6 +4,10 @@
 
 A styled anchor element with accessible disabled state support.
 
+## Props
+
+Accepts all React Aria `Link` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

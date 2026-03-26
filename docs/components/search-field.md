@@ -15,6 +15,10 @@ A search input field with built-in clear button support.
 | `SearchField.ErrorMessage` | Validation error message |
 | `SearchField.ClearButton` | Button to clear the input value |
 
+## Props
+
+Accepts all React Aria `SearchField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

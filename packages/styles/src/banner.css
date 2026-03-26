@@ -1,0 +1,149 @@
+/*
+ * Banner — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component (not React Aria). Inline notification banners.
+ *
+ * Variants: info (default), success, warning, error
+ * Sizes: sm, md (default)
+ *
+ * Usage:
+ *   <Banner.Root className="tale-banner">
+ *     <Banner.Icon className="tale-banner__icon">...</Banner.Icon>
+ *     <Banner.Title className="tale-banner__title">...</Banner.Title>
+ *     <Banner.Description className="tale-banner__description">...</Banner.Description>
+ *     <Banner.Actions className="tale-banner__actions">...</Banner.Actions>
+ *     <Banner.Close className="tale-banner__close" />
+ *   </Banner.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-s);
+  border: 1px solid var(--color-30);
+  border-radius: var(--radius-l);
+  background-color: var(--color-10);
+  font-family: var(--text-font-family);
+  font-size: var(--text-s-font-size);
+  line-height: var(--text-s-line-height);
+}
+
+/* ─── Size: sm ─────────────────────────────────────────────────────────────── */
+
+.tale-banner--sm {
+  gap: var(--space-3xs);
+  padding: var(--space-xs) var(--space-xs);
+  font-size: var(--text-xs-font-size);
+  line-height: var(--text-xs-line-height);
+}
+
+/* ─── Variant: success ─────────────────────────────────────────────────────── */
+
+.tale-banner--success {
+  border-color: var(--success-30);
+  background-color: var(--success-10);
+}
+
+.tale-banner--success .tale-banner__icon,
+.tale-banner--success .tale-banner__title {
+  color: var(--success-80);
+}
+
+.tale-banner--success .tale-banner__description {
+  color: var(--success-70);
+}
+
+/* ─── Variant: warning ─────────────────────────────────────────────────────── */
+
+.tale-banner--warning {
+  border-color: var(--warning-30);
+  background-color: var(--warning-10);
+}
+
+.tale-banner--warning .tale-banner__icon,
+.tale-banner--warning .tale-banner__title {
+  color: var(--warning-80);
+}
+
+.tale-banner--warning .tale-banner__description {
+  color: var(--warning-80);
+}
+
+/* ─── Variant: error ───────────────────────────────────────────────────────── */
+
+.tale-banner--error {
+  border-color: var(--error-30);
+  background-color: var(--error-10);
+}
+
+.tale-banner--error .tale-banner__icon,
+.tale-banner--error .tale-banner__title {
+  color: var(--error-80);
+}
+
+.tale-banner--error .tale-banner__description {
+  color: var(--error-70);
+}
+
+/* ─── Icon ─────────────────────────────────────────────────────────────────── */
+
+.tale-banner__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-80);
+  padding-top: 0.1rem;
+}
+
+/* ─── Content (Title + Description) ────────────────────────────────────────── */
+
+.tale-banner__title {
+  font-weight: 600;
+  color: var(--color-80);
+}
+
+.tale-banner__description {
+  color: var(--color-70);
+}
+
+/* ─── Actions ──────────────────────────────────────────────────────────────── */
+
+.tale-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ─── Close ────────────────────────────────────────────────────────────────── */
+
+.tale-banner__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: var(--space-4xs);
+  border: none;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--neutral-60);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tale-banner__close:hover {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+}
+
+.tale-banner__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+}

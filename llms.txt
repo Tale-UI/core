@@ -187,6 +187,19 @@ Pattern: `.{block}--{breakpoint}-{modifier}` (e.g. `.gap--m-s`, `.grid--l-2`, `.
 4. Utilities (display, visual, position, sizing, border, spacing)
 5. Themes (color/neutral overrides, dark mode — last so they cascade correctly)
 
+### Full AI Reference (single file)
+
+For agents that prefer everything in one read: `llms-full.txt` (~1,930 lines)
+GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/core/main/llms-full.txt
+
+### Component Index
+
+All 69 components with description, import path, and sub-parts: `docs/component-index.md`
+
+### Recipes
+
+Copy-paste multi-component patterns: `docs/recipes/index.md`
+
 ### Full CSS Reference
 
 For the complete enumeration of every class, token, and value: `packages/css/docs/ai-reference.md`

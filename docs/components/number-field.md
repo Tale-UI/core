@@ -17,6 +17,10 @@ A numeric input with increment/decrement buttons, supporting min/max bounds, ste
 | `NumberField.Description` | Help text displayed below the field |
 | `NumberField.ErrorMessage` | Validation error message |
 
+## Props
+
+Accepts all React Aria `NumberField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

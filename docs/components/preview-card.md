@@ -14,6 +14,10 @@ A hover-triggered popover card for previewing content linked to a trigger elemen
 | `PreviewCard.Content` | Dialog content inside the popover. Requires `aria-label`. |
 | `PreviewCard.Arrow` | Arrow pointing to the trigger. Place inside `Popup`. |
 
+## Props
+
+Accepts all React Aria `DialogTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

@@ -16,6 +16,10 @@ A positioned overlay anchored to a trigger button, with optional arrow and close
 | `Popover.Description` | Description paragraph. |
 | `Popover.Close` | Button that closes the popover via `slot="close"`. |
 
+## Props
+
+Accepts all React Aria `DialogTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

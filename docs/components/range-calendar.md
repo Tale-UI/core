@@ -19,6 +19,10 @@ A calendar component for selecting a date range with start and end dates.
 | `RangeCalendar.PreviousButton` | Navigate to previous month (renders a ChevronLeft icon by default) |
 | `RangeCalendar.NextButton` | Navigate to next month (renders a ChevronRight icon by default) |
 
+## Props
+
+Accepts all React Aria `RangeCalendar` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

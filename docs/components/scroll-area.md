@@ -15,6 +15,10 @@ A styled scrollable container with custom scrollbar UI.
 | `ScrollArea.Thumb` | Draggable scrollbar thumb inside a `Scrollbar` |
 | `ScrollArea.Corner` | Corner piece shown when both scrollbars are visible |
 
+## Props
+
+Accepts all standard `<div>` HTML attributes plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

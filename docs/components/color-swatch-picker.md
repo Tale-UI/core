@@ -11,6 +11,10 @@ A selectable grid of color swatches for picking from a predefined set of colors.
 | `ColorSwatchPicker.Root` | Container that manages selection state |
 | `ColorSwatchPicker.Item` | Individual selectable swatch item |
 
+## Props
+
+Accepts all React Aria `ColorSwatchPicker` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

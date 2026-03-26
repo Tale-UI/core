@@ -22,6 +22,10 @@ A dropdown menu triggered by a button, with items, groups, headers, and separato
 | `Menu.LinkItem` | A menu item that navigates to a URL. Accepts `href` and `target`. |
 | `Menu.SubmenuTrigger` | A menu item that opens a nested submenu on hover/click. |
 
+## Props
+
+Accepts all React Aria `MenuTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

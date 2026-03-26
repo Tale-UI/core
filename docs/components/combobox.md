@@ -25,6 +25,10 @@ A compound combobox (autocomplete select) with a text input, trigger button, and
 | `Combobox.ItemIndicator` | Selection indicator inside an item |
 | `Combobox.Separator` | Visual divider |
 
+## Props
+
+Accepts all React Aria `ComboBox` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

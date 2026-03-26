@@ -4,6 +4,10 @@
 
 A visual divider between content sections, supporting horizontal and vertical orientations.
 
+## Props
+
+Accepts all React Aria `Separator` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

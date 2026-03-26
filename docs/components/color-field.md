@@ -14,6 +14,10 @@ A text input for entering color values as hex, RGB, or HSL strings.
 | `ColorField.Description` | Helper text |
 | `ColorField.ErrorMessage` | Validation error message |
 
+## Props
+
+Accepts all React Aria `ColorField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

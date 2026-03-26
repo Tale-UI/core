@@ -23,6 +23,7 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 | [SearchField](search-field.md) | Search input with clear button |
 | [TextField](text-field.md) | Single-line text input with validation |
 | [TextArea](text-area.md) | Multi-line text input with validation |
+| [PinInput](pin-input.md) | OTP/verification code input with digit slots |
 
 ## Date & Time
 
@@ -68,6 +69,7 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 | [Menubar](menubar.md) | Horizontal menu bar |
 | [Breadcrumbs](breadcrumbs.md) | Breadcrumb navigation |
 | [Link](link.md) | Styled anchor link |
+| [Pagination](pagination.md) | Page navigation controls |
 
 ## Layout
 
@@ -79,19 +81,23 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 | [ScrollArea](scroll-area.md) | Custom scrollbar container |
 | [Separator](separator.md) | Horizontal or vertical divider |
 | [Toolbar](toolbar.md) | Grouped action bar |
+| [Carousel](carousel.md) | Embla-powered slide carousel with navigation |
 
 ## Feedback
 
 | Component | Description |
 |-----------|-------------|
+| [Banner](banner.md) | Inline notification banner with semantic variants |
 | [ProgressBar](progress-bar.md) | Determinate/indeterminate progress |
 | [Meter](meter.md) | Scalar measurement display |
+| [Spinner](spinner.md) | Indeterminate loading indicator |
 
 ## Display
 
 | Component | Description |
 |-----------|-------------|
 | [Avatar](avatar.md) | User avatar with image and fallback |
+| [EmptyState](empty-state.md) | Placeholder for empty content areas |
 | [GridList](grid-list.md) | Selectable grid of items |
 | [Table](table.md) | Data table with sorting |
 | [TagGroup](tag-group.md) | Tag list with optional removal |

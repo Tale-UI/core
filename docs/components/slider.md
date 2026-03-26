@@ -17,6 +17,10 @@ A draggable range input for selecting a value or range within a given span.
 | `Slider.Indicator` | Filled portion of the track |
 | `Slider.Thumb` | Draggable handle (render two for a range slider) |
 
+## Props
+
+Accepts all React Aria `Slider` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

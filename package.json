@@ -52,6 +52,9 @@
     "test:webkit:ui": "pnpm test:webkit --browser.headless=false",
     "test:browsers": "cross-env VITEST_ENV=all-browsers pnpm test:_unit",
     "typescript": "tsc -b tsconfig.json",
+    "audit:bem": "node tools/audit-bem.js",
+    "audit:docs": "node tools/audit-docs.js",
+    "audit:brand": "node tools/audit-brand.js",
     "inline-scripts": "tsx ./scripts/inlineScripts.mts",
     "prepare": "husky"
   },

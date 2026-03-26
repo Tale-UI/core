@@ -13,6 +13,25 @@ A compound radio button component with group support, built on React Aria's Radi
 | `Radio.Indicator` | The visual circle indicator |
 | `Radio.Dot` | Inner dot inside the indicator (optional; for custom rendering) |
 
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
+
+Also accepts all React Aria `Radio` props.
+
+### Group
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | — | An accessible label for the radio group |
+| `description` | `string` | — | A description displayed below the group |
+
+Also accepts all React Aria `RadioGroup` props.
+
 ## Basic Usage
 
 ```tsx

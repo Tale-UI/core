@@ -12,6 +12,10 @@ A hierarchical tree view with expandable/collapsible nodes and optional selectio
 | `Tree.Item` | A tree node. Requires `id` and `textValue`. Nest items for sub-trees. |
 | `Tree.ItemContent` | Renders the visible label content of a tree item. Wraps children in a `div.tale-tree__item-content`. |
 
+## Props
+
+Accepts all React Aria `Tree` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx

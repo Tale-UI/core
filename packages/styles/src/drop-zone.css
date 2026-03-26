@@ -19,7 +19,7 @@
   justify-content: center;
   min-height: 8rem;
   padding: var(--space-s);
-  font-family: var(--body-font-family);
+  font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   color: var(--neutral-50);
   background-color: var(--neutral-5);

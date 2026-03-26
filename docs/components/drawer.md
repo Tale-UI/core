@@ -18,6 +18,26 @@ A slide-in panel with optional backdrop, title, and description.
 | `Drawer.Handle` | Drag handle for swipe-to-dismiss interaction. |
 | `Drawer.SwipeArea` | Invisible touch target area for swipe gestures. |
 
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | — | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when the open state changes |
+
+Also accepts all standard `<div>` HTML attributes.
+
+### SwipeArea
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `disabled` | `boolean` | — | Disables the swipe gesture area |
+
+Also accepts all standard `<div>` HTML attributes.
+
 ## Basic Usage
 
 ```tsx

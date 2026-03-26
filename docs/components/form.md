@@ -4,6 +4,10 @@
 
 A styled form element with built-in React Aria validation support.
 
+## Props
+
+Accepts all React Aria `Form` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
 ## Basic Usage
 
 ```tsx
