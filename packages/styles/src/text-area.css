@@ -28,6 +28,7 @@
 
 .tale-text-area__textarea {
   display: block;
+  box-sizing: border-box;
   width: 100%;
   min-height: 8rem;
   padding: var(--space-3xs) var(--space-xs);

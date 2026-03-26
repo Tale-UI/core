@@ -846,6 +846,7 @@
   line-height: inherit;
   letter-spacing: inherit;
   color: var(--neutral-90);
+  border: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

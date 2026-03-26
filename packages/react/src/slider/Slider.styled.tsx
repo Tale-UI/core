@@ -27,8 +27,10 @@ export type RootProps<T extends number | number[] = number> = Omit<AriaSliderPro
  * import { Slider } from '@tale-ui/react/slider';
  *
  * <Slider.Root defaultValue={50}>
- *   <Slider.Label>Volume</Slider.Label>
- *   <Slider.Output />
+ *   <Slider.Header>
+ *     <Slider.Label>Volume</Slider.Label>
+ *     <Slider.Output />
+ *   </Slider.Header>
  *   <Slider.Control>
  *     <Slider.Track>
  *       <Slider.Indicator />

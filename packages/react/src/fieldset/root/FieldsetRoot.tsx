@@ -9,6 +9,20 @@ import { useRenderElement } from '../../utils/useRenderElement';
  * Renders a `<fieldset>` element.
  *
  * Documentation: [Tale UI Fieldset](https://tale-ui.dev/react/components/fieldset)
+ *
+ * @example
+ * ```tsx
+ * import { Fieldset } from '@tale-ui/react/fieldset';
+ * import { TextField } from '@tale-ui/react/text-field';
+ *
+ * <Fieldset.Root>
+ *   <Fieldset.Legend>Personal Information</Fieldset.Legend>
+ *   <TextField.Root>
+ *     <TextField.Label>First Name</TextField.Label>
+ *     <TextField.Input placeholder="John" />
+ *   </TextField.Root>
+ * </Fieldset.Root>
+ * ```
  */
 export const FieldsetRoot = React.forwardRef(function FieldsetRoot(
   componentProps: FieldsetRoot.Props,

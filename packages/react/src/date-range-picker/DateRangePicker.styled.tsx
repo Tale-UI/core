@@ -49,7 +49,7 @@ const RootInner = <T extends DateValue>(
  *     <DateRangePicker.StartDate>
  *       {(segment) => <DateRangePicker.Segment segment={segment} />}
  *     </DateRangePicker.StartDate>
- *     <span>–</span>
+ *     <span aria-hidden="true">–</span>
  *     <DateRangePicker.EndDate>
  *       {(segment) => <DateRangePicker.Segment segment={segment} />}
  *     </DateRangePicker.EndDate>

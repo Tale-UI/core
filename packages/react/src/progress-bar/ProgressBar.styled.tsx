@@ -17,8 +17,10 @@ export interface RootProps extends Omit<AriaProgressBarProps, 'className'> {
  * import { ProgressBar } from '@tale-ui/react/progress-bar';
  *
  * <ProgressBar.Root value={60} minValue={0} maxValue={100}>
- *   <ProgressBar.Label>Upload progress</ProgressBar.Label>
- *   <ProgressBar.Value>60%</ProgressBar.Value>
+ *   <ProgressBar.Header>
+ *     <ProgressBar.Label>Upload progress</ProgressBar.Label>
+ *     <ProgressBar.Value>60%</ProgressBar.Value>
+ *   </ProgressBar.Header>
  *   <ProgressBar.Track>
  *     <ProgressBar.Indicator value={60} />
  *   </ProgressBar.Track>

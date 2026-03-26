@@ -22,14 +22,16 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
  * ```tsx
  * import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
  * import { Checkbox } from '@tale-ui/react/checkbox';
+ * import { Icon } from '@tale-ui/react/icon';
+ * import { Check } from 'lucide-react';
  *
  * <CheckboxGroup label="Favorite fruits">
  *   <Checkbox.Root value="apple">
- *     <Checkbox.Indicator />
+ *     <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
  *     Apple
  *   </Checkbox.Root>
  *   <Checkbox.Root value="banana">
- *     <Checkbox.Indicator />
+ *     <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
  *     Banana
  *   </Checkbox.Root>
  * </CheckboxGroup>
