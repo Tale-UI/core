@@ -2,6 +2,21 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.36 — 2026-03-27
+
+### Added
+
+- **Button:** `inverse` variant for use on dark/coloured backgrounds.
+- Comprehensive component audit system in `tools/` with brand-token, docs, and BEM audit scripts.
+- Monorepo tools documented in `tools/README.md`.
+
+### Changed
+
+- **Slider** and **Combobox** styles refined.
+- Scale playground: border radius curvature control added.
+- Dead `ComponentsDemo` route removed from playground.
+- 9 new gap-analysis components (AppStoreButton, Badge, DotIcon, FeaturedIcon, PaymentInput, RatingBadge, RatingStars, SelectNative, SocialButton) plus Avatar enhancements.
+
 ## v1.3.35 — 2026-03-27
 
 ### Added

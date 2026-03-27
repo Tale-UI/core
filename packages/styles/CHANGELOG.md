@@ -2,6 +2,19 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.36 — 2026-03-27
+
+### Added
+
+- **button.css:** `inverse` variant styles.
+- CSS for 9 new components: AppStoreButton, Badge, DotIcon, FeaturedIcon, PaymentInput, RatingBadge, RatingStars, SelectNative, SocialButton.
+- `_dark-overrides.css` for explicit dark mode overrides.
+
+### Fixed
+
+- **NumberField:** Remove spurious `background-color` from group wrapper; move correct shade to stepper buttons.
+- **Slider** and **Combobox** style refinements.
+
 ## v1.3.35 — 2026-03-27
 
 ### Added

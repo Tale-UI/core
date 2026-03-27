@@ -31,7 +31,6 @@
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
   overflow: hidden;
-  background-color: var(--neutral-10);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -71,7 +70,7 @@
   width: 3.2rem;
   min-height: 3.6rem;
   border-radius: 0;
-  background-color: var(--neutral-14);
+  background-color: var(--neutral-10);
   color: var(--neutral-70);
   font-size: var(--label-m-font-size);
   font-family: var(--label-font-family);
