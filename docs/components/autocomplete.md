@@ -77,6 +77,7 @@ function ProduceSearch() {
 
 ## CSS Classes
 
+- `.tale-autocomplete__popover` -- Popup container (min-width anchored, max-height 28rem with overflow scroll)
 - `.tale-autocomplete__search-field` -- Search field wrapper
 - `.tale-autocomplete__input` -- Text input
 - `.tale-autocomplete__listbox` -- List of options

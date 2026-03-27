@@ -99,6 +99,7 @@ const [selectedKey, setSelectedKey] = useState<string>('tab1');
 
 - `.tale-tabs` — Root container
 - `.tale-tabs__list` — Tab button strip
+- `.tale-tabs__list-inner` — Inner flex wrapper for tab buttons (supports vertical orientation)
 - `.tale-tabs__tab` — Individual tab button
 - `.tale-tabs__panel` — Content panel
 - `.tale-tabs__indicator` — Sliding indicator bar

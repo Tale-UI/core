@@ -163,6 +163,9 @@ import { Menu } from '@tale-ui/react/menu';
 - `.tale-menu__radio-item` — Radio menu item
 - `.tale-menu__link-item` — Link menu item
 - `.tale-menu__submenu-trigger` — Submenu trigger item
+- `.tale-menu__item-indicator` — Checkbox/radio item check indicator
+- `.tale-menubar` — Horizontal menu bar container
+- `.tale-menubar__item` — Individual menubar item wrapper
 
 ## Notes
 

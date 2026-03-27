@@ -125,7 +125,7 @@ Also accepts all standard `<span>` HTML attributes.
 - `.tale-avatar__fallback` — Fallback text
 - `.tale-avatar-group` — Group container
 - `.tale-avatar-group--sm` / `--md` / `--lg` / `--xl` — Group size modifiers
-- `.tale-avatar__count` — Overflow count indicator
+- `.tale-avatar-count` — "+N" overflow count indicator (with `--sm` / `--md` / `--lg` / `--xl` size modifiers)
 
 ## Notes
 

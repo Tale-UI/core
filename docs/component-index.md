@@ -66,7 +66,7 @@ Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | Menu | Dropdown menu with items and groups | `@tale-ui/react/menu` | Root, Trigger, Popover, MenuList, Item, Group, Header, Separator, Arrow, CheckboxItem, RadioItem, LinkItem, SubmenuTrigger |
-| ContextMenu | Right-click context menu | `@tale-ui/react/context-menu` | Root, Trigger, Popup, MenuList, Item, Group, Separator |
+| ContextMenu | Right-click context menu | `@tale-ui/react/context-menu` | Root, Trigger, Popup, MenuList, Item, Group, ContextMenuSeparator |
 | NavigationMenu | Top-level navigation bar | `@tale-ui/react/navigation-menu` | Root, List, Item, Link, Trigger, Popup, Content, Icon |
 | Menubar | Horizontal menu bar | `@tale-ui/react/menubar` | Root, Item |
 | Breadcrumbs | Breadcrumb navigation | `@tale-ui/react/breadcrumbs` | Root, Item, Link |
@@ -89,7 +89,7 @@ Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
-| Banner | Inline notification banner | `@tale-ui/react/banner` | Root, Icon, Title, Description, Actions, Close |
+| Banner | Inline notification banner | `@tale-ui/react/banner` | Root, BannerIcon, Title, Description, Actions, Close |
 | ProgressBar | Determinate/indeterminate progress | `@tale-ui/react/progress-bar` | Root, Header, Label, Value, Track, Indicator |
 | Meter | Scalar measurement display | `@tale-ui/react/meter` | Root, Header, Label, Value, Track, Indicator |
 | Spinner | Indeterminate loading indicator | `@tale-ui/react/spinner` | -- |
@@ -101,7 +101,7 @@ Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage
 | Avatar | User avatar with image, fallback, group, and count | `@tale-ui/react/avatar` | Root, Image, Fallback, Group, Count |
 | Badge | Small status label with semantic variants | `@tale-ui/react/badge` | -- |
 | DotIcon | Small colored circle status indicator | `@tale-ui/react/dot-icon` | -- |
-| EmptyState | Placeholder for empty content areas | `@tale-ui/react/empty-state` | Root, Icon, Title, Description, Actions |
+| EmptyState | Placeholder for empty content areas | `@tale-ui/react/empty-state` | Root, EmptyStateIcon, Title, Description, Actions |
 | FeaturedIcon | Themed background wrapper for icons | `@tale-ui/react/featured-icon` | -- |
 | GridList | Selectable grid of items | `@tale-ui/react/grid-list` | Root, Item |
 | RatingBadge | Pill badge with star icon and numeric rating | `@tale-ui/react/rating-badge` | -- |

@@ -31,6 +31,8 @@ jobs:
         run: pnpm audit:docs
       - name: Audit brand tokens
         run: pnpm audit:brand
+      - name: Audit component completeness
+        run: pnpm audit:components
       - name: Build CSS
         run: pnpm --filter @tale-ui/core build
       - name: Verify dist is up-to-date

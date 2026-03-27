@@ -66,6 +66,20 @@ export interface RadioGroupProps extends Omit<AriaRadioGroupProps, 'className'> 
   size?: Size | undefined;
 }
 
+/**
+ * A group of radio buttons allowing single selection.
+ *
+ * @example
+ * ```tsx
+ * import { Radio } from '@tale-ui/react/radio';
+ *
+ * <Radio.Group label="Favorite color">
+ *   <Radio.Root value="red"><Radio.Indicator /> Red</Radio.Root>
+ *   <Radio.Root value="green"><Radio.Indicator /> Green</Radio.Root>
+ *   <Radio.Root value="blue"><Radio.Indicator /> Blue</Radio.Root>
+ * </Radio.Group>
+ * ```
+ */
 export const Group = React.forwardRef<HTMLDivElement, RadioGroupProps>(
   ({ size, className, ...props }, ref) => {
     const group = <AriaRadioGroup ref={ref} className={cx('tale-radio-group', className)} {...props} />;

@@ -11,8 +11,8 @@ This monorepo is managed with **pnpm workspaces**.
 | `playground/` | Development sandboxes (Storybook, Vite app, scale tool) | No |
 
 | `apps/` | End-user applications | No |
-| `scripts/` | Build and release scripts | No |
-| `tools/` | Build tools, generators, CLI tools for the monorepo | No |
+| `scripts/` | Release, changelog, and API docs scripts | No |
+| `tools/` | Audit, build, and release scripts ([README](../tools/README.md)) | No |
 
 ## Directory Layout
 
@@ -31,8 +31,8 @@ core/
 │   ├── vite-app/          # Minimal Vite + React sandbox
 │   └── scale/             # Tonal palette generator tool
 
-├── scripts/               # build-css.js, release-css.js
-└── tools/                 # Monorepo tooling
+├── scripts/               # Release, changelog, API docs scripts
+└── tools/                 # Audit, build, and release scripts (see tools/README.md)
 ```
 
 ## Packages

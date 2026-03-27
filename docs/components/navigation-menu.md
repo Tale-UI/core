@@ -91,6 +91,7 @@ function NavWithDropdown() {
 - `.tale-navigation-menu__popup` — Dropdown container
 - `.tale-navigation-menu__content` — Content inside dropdown
 - `.tale-navigation-menu__icon` — Dropdown chevron icon inside a trigger
+- `.tale-navigation-menu__viewport` — Animated viewport container for dropdown content
 
 ## Notes
 

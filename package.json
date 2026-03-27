@@ -55,6 +55,7 @@
     "audit:bem": "node tools/audit-bem.js",
     "audit:docs": "node tools/audit-docs.js",
     "audit:brand": "node tools/audit-brand.js",
+    "audit:components": "node tools/audit-components.js",
     "inline-scripts": "tsx ./scripts/inlineScripts.mts",
     "prepare": "husky"
   },

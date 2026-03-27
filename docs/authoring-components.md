@@ -442,3 +442,4 @@ When adding a new component, complete every step:
 14. [ ] Run `pnpm typescript` — verify types compile
 15. [ ] Run `pnpm build` — verify build succeeds
 16. [ ] Update the component's row in the **Component Artifact Audit** section of `CLAUDE.md`
+17. [ ] Run `pnpm audit:components -- --component={component}` — verify all checks pass

@@ -27,6 +27,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [docs/component-index.md](docs/component-index.md) | All 69 components at a glance: description, import path, sub-parts |
 | [docs/components/](docs/components/index.md) | Per-component usage guide: imports, parts, examples, CSS classes |
 | [docs/recipes/](docs/recipes/index.md) | Copy-paste multi-component patterns (forms, tables, navigation, search, settings) |
+| [tools/README.md](tools/README.md) | Monorepo tooling: audit scripts, build scripts, release process |
 
 ## CSS Design System (@tale-ui/core)
 
@@ -88,6 +89,10 @@ pnpm test:chromium              # run tests in chromium
 pnpm typescript                 # type check
 pnpm eslint                     # lint JS/TS
 pnpm lint:css                   # lint CSS design system
+pnpm audit:bem              # verify BEM classes have matching CSS
+pnpm audit:brand            # verify no --brand-* in component CSS
+pnpm audit:docs             # verify docs list all component props
+pnpm audit:components       # 19-check component completeness audit
 ```
 
 ### Component source conventions
