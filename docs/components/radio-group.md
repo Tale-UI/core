@@ -6,7 +6,11 @@ A convenience re-export of `Radio.Group` from `@tale-ui/react/radio`. Both impor
 
 ## Props
 
-Accepts all React Aria `RadioGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | — | Propagates size to child `Radio.Root` components |
+
+Also accepts all React Aria `RadioGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
 ## Basic Usage
 

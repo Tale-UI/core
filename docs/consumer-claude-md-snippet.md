@@ -44,6 +44,7 @@ Before generating or modifying component code, you MUST:
    - `Calendar.Heading` must have no vertical margin or padding — do not add spacing to it or wrap it in an element that adds margins (e.g. `<h2>`).
    - Do NOT nest `ColorSlider` inside `ColorPicker.Root` — the context does not propagate and causes "Unknown color channel: hue" at runtime. Use `ColorArea` and `ColorSlider` as standalone components with shared `useState`.
    - `Checkbox.Indicator` does NOT render a checkmark on its own — you must provide a child `<Icon icon={Check} size="sm" />` from `@tale-ui/react/icon` and `lucide-react`.
+   - **Never use `.Visual` exports** (`Checkbox.Visual`, `Radio.Visual`, `Switch.Visual`, `ToggleButtonVisual`) for interactive UI. They are `aria-hidden` building blocks for custom component composition only — not for application screens.
    - `Dialog.Close` and `Popover.Close` auto-render an X icon — use them self-closing (`<Dialog.Close aria-label="Close" />`). Pass children only to override the default icon.
    - `Dialog.Backdrop` must **wrap** `Dialog.Popup` (opposite of Drawer).
    - `Select.Root` owns the `placeholder` prop — do NOT put `placeholder` on `Select.Value`.
@@ -69,7 +70,9 @@ Before generating or modifying component code, you MUST:
    - **CSPProvider:** If your app uses a Content Security Policy, wrap your app in `<CSPProvider nonce={myNonce}>` from `@tale-ui/react/csp-provider` to apply the nonce to Tale UI's inline styles.
    - **Do not apply global styles to semantic HTML elements.** Tale UI components internally render `<section>`, `<header>`, and other semantic elements (via React Aria). Global rules like `section { padding: 1rem }` will leak into Dialog, Menu, Popover, and other overlay components and break their layout. Style with class selectors (`.my-section { ... }`) instead of element selectors. Tale UI includes a defensive CSS shield that resets `margin`, `padding`, and `border` on semantic elements directly inside `.tale-*` containers, but nested elements are not covered.
 
-6. **Dark mode must persist between refreshes.** Every new app must:
+6. **Charts (separate package):** Install `@tale-ui/charts` and `recharts` separately. Import chart styles via `import '@tale-ui/charts/styles';`. Charts use the same compound parts pattern: `BarChart.Root`, `BarChart.Bar`, etc.
+
+7. **Dark mode must persist between refreshes.** Every new app must:
 
    a. Add `class="tale-ui"` and `data-color-mode` to `<html>`:
    ```html

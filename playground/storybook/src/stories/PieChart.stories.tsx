@@ -1,0 +1,42 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { PieChart } from '@tale-ui/charts/pie-chart';
+import '@tale-ui/charts/chart.css';
+
+const channelData = [
+  { name: 'Direct', value: 400 },
+  { name: 'Organic', value: 300 },
+  { name: 'Referral', value: 200 },
+  { name: 'Social', value: 100 },
+];
+
+const meta: Meta = {
+  title: 'Charts/PieChart',
+  parameters: { layout: 'centered' },
+};
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {
+  render() {
+    return (
+      <PieChart.Root width={600} height={300}>
+        <PieChart.Pie data={channelData} dataKey="value" nameKey="name" />
+        <PieChart.Tooltip />
+        <PieChart.Legend />
+      </PieChart.Root>
+    );
+  },
+};
+
+export const Donut: Story = {
+  render() {
+    return (
+      <PieChart.Root width={600} height={300}>
+        <PieChart.Pie data={channelData} dataKey="value" nameKey="name" innerRadius={60} outerRadius={100} />
+        <PieChart.Tooltip />
+        <PieChart.Legend />
+      </PieChart.Root>
+    );
+  },
+};

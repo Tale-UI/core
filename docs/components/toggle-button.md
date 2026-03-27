@@ -18,6 +18,15 @@ Also accepts all React Aria `ToggleButton` props.
 
 No Tale UI-specific props. Also accepts all React Aria `ToggleButtonGroup` props.
 
+### Visual
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the toggle visual appears pressed/selected |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
+
+`ToggleButtonVisual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
+
 ## Basic Usage
 
 ```tsx

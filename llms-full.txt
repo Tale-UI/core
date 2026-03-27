@@ -1336,6 +1336,17 @@ Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage
 | IconButton | Square button for icon-only use | `@tale-ui/react/icon-button` | -- |
 | mergeProps | Smart React props merging utility | `@tale-ui/react/merge-props` | -- |
 
+## Charts (6)
+
+| Component | Description | Import | Parts |
+|-----------|-------------|--------|-------|
+| AreaChart | Token-themed area chart | `@tale-ui/charts/area-chart` | Root, Area, XAxis, YAxis, Grid, Tooltip, Legend |
+| BarChart | Token-themed bar chart | `@tale-ui/charts/bar-chart` | Root, Bar, XAxis, YAxis, Grid, Tooltip, Legend |
+| LineChart | Token-themed line chart | `@tale-ui/charts/line-chart` | Root, Line, XAxis, YAxis, Grid, Tooltip, Legend |
+| PieChart | Token-themed pie chart | `@tale-ui/charts/pie-chart` | Root, Pie, Cell, Tooltip, Legend |
+| RadarChart | Token-themed radar chart | `@tale-ui/charts/radar-chart` | Root, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Tooltip, Legend |
+| RadialBarChart | Token-themed radial bar chart | `@tale-ui/charts/radial-bar-chart` | Root, RadialBar, Tooltip, Legend |
+
 ---
 
 # Section 4: Per-Component Docs (docs/components/)
@@ -1549,6 +1560,117 @@ function Example() {
 - **ARIA labelling:** `AlertDialog.Title` is automatically associated with `aria-labelledby` and `AlertDialog.Description` with `aria-describedby`. Always include both for accessibility.
 - **Uncontrolled shortcut:** For simple cases, you can skip `isOpen`/`onOpenChange` and use `slot="close"` on action `Button` elements instead of `onPress={() => setOpen(false)}`. React Aria will close the dialog automatically.
 - **Do not add a corner X close button by default.** AlertDialog uses `role="alertdialog"` — it is semantically for actions that require explicit acknowledgement (destructive operations, confirmations). Adding `<AlertDialog.Close />` (corner X icon) allows dismissal without making a choice, which defeats the purpose. The basic example intentionally omits it. If you must include `AlertDialog.Close`, ensure it behaves identically to the safe/non-destructive action (Cancel) — never wire it to the destructive action. For general-purpose modals that can be freely dismissed, use `Dialog` instead.
+
+---
+
+## area-chart
+
+# AreaChart
+
+`import { AreaChart } from '@tale-ui/charts/area-chart';`
+
+An area chart themed with Tale UI design tokens. Built on Recharts.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `AreaChart.Root` | Container wrapping Recharts `AreaChart`. Accepts `data`, `width`, `height`, `palette`. |
+| `AreaChart.Area` | An area series. Accepts `dataKey`. |
+| `AreaChart.XAxis` | Horizontal axis. Accepts `dataKey` and Recharts XAxis props. |
+| `AreaChart.YAxis` | Vertical axis. |
+| `AreaChart.Grid` | Cartesian grid lines. |
+| `AreaChart.Tooltip` | Styled tooltip using `ChartTooltip`. |
+| `AreaChart.Legend` | Styled legend using `ChartLegend`. |
+
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `Record<string, unknown>[]` | — | Chart data array (required) |
+| `width` | `number` | — | Chart width in pixels |
+| `height` | `number` | — | Chart height in pixels |
+| `palette` | `string[]` | Token-based palette | Custom series colours |
+
+### Area
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `dataKey` | `string` | — | Data key to plot (required) |
+| `stroke` | `string` | Auto from palette | Area stroke colour |
+| `fill` | `string` | Auto from palette | Area fill colour |
+| `fillOpacity` | `number` | `0.15` | Fill transparency (0–1) |
+
+All parts also accept standard Recharts props for their underlying component.
+
+## Basic Usage
+
+```tsx
+<AreaChart.Root data={data} width={600} height={300}>
+  <AreaChart.Grid />
+  <AreaChart.XAxis dataKey="month" />
+  <AreaChart.YAxis />
+  <AreaChart.Tooltip />
+  <AreaChart.Area dataKey="revenue" />
+</AreaChart.Root>
+```
+
+## Examples
+
+### Multiple Series
+
+```tsx
+<AreaChart.Root data={data} width={600} height={300}>
+  <AreaChart.Grid strokeDasharray="3 3" />
+  <AreaChart.XAxis dataKey="month" />
+  <AreaChart.YAxis />
+  <AreaChart.Tooltip />
+  <AreaChart.Legend />
+  <AreaChart.Area dataKey="revenue" />
+  <AreaChart.Area dataKey="profit" />
+</AreaChart.Root>
+```
+
+### Custom Fill Opacity
+
+```tsx
+<AreaChart.Root data={data} width={600} height={300}>
+  <AreaChart.Grid />
+  <AreaChart.XAxis dataKey="month" />
+  <AreaChart.YAxis />
+  <AreaChart.Tooltip />
+  <AreaChart.Area dataKey="revenue" fillOpacity={0.3} />
+</AreaChart.Root>
+```
+
+### With ChartContainer (responsive)
+
+```tsx
+import { ChartContainer } from '@tale-ui/charts';
+
+<ChartContainer height={300}>
+  <AreaChart.Root data={data}>
+    <AreaChart.Grid />
+    <AreaChart.XAxis dataKey="month" />
+    <AreaChart.YAxis />
+    <AreaChart.Area dataKey="revenue" />
+  </AreaChart.Root>
+</ChartContainer>
+```
+
+## CSS Classes
+
+- `.tale-chart` — Base chart wrapper
+- `.tale-chart--area` — Area chart modifier
+
+## Notes
+
+- Requires `recharts` as a peer dependency: `npm install recharts`.
+- Series colours are auto-assigned from the palette. Override per-Area with `stroke` and `fill`.
+- Areas default to `fillOpacity={0.15}` for a subtle shaded effect beneath the line.
+- All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
 
 ---
 
@@ -1852,6 +1974,103 @@ Also accepts all standard `<div>` HTML attributes.
 - The `info` variant uses `--color-*` tokens (auto-invert in dark mode). The `success`, `warning`, and `error` variants use semantic tokens (`--success-*`, `--warning-*`, `--error-*`) which do NOT invert in dark mode — this is intentional for status indicators.
 - `Banner.Close` has a default `aria-label="Dismiss"` and renders a default X icon via the `Icon` component. Pass children to override.
 - All parts are optional. Use only what you need.
+
+---
+
+## bar-chart
+
+# BarChart
+
+`import { BarChart } from '@tale-ui/charts/bar-chart';`
+
+A bar chart themed with Tale UI design tokens. Built on Recharts.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `BarChart.Root` | Container wrapping Recharts `BarChart`. Accepts `data`, `width`, `height`, `palette`. |
+| `BarChart.Bar` | A bar series. Accepts `dataKey`. |
+| `BarChart.XAxis` | Horizontal axis. Accepts `dataKey` and Recharts XAxis props. |
+| `BarChart.YAxis` | Vertical axis. |
+| `BarChart.Grid` | Cartesian grid lines. |
+| `BarChart.Tooltip` | Styled tooltip using `ChartTooltip`. |
+| `BarChart.Legend` | Styled legend using `ChartLegend`. |
+
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `Record<string, unknown>[]` | — | Chart data array (required) |
+| `width` | `number` | — | Chart width in pixels |
+| `height` | `number` | — | Chart height in pixels |
+| `palette` | `string[]` | Token-based palette | Custom series colours |
+
+### Bar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `dataKey` | `string` | — | Data key to plot (required) |
+| `fill` | `string` | Auto from palette | Bar fill colour |
+
+All parts also accept standard Recharts props for their underlying component.
+
+## Basic Usage
+
+```tsx
+<BarChart.Root data={data} width={600} height={300}>
+  <BarChart.Grid />
+  <BarChart.XAxis dataKey="month" />
+  <BarChart.YAxis />
+  <BarChart.Tooltip />
+  <BarChart.Bar dataKey="revenue" />
+</BarChart.Root>
+```
+
+## Examples
+
+### Multiple Series
+
+```tsx
+<BarChart.Root data={data} width={600} height={300}>
+  <BarChart.Grid strokeDasharray="3 3" />
+  <BarChart.XAxis dataKey="month" />
+  <BarChart.YAxis />
+  <BarChart.Tooltip />
+  <BarChart.Legend />
+  <BarChart.Bar dataKey="revenue" />
+  <BarChart.Bar dataKey="profit" />
+</BarChart.Root>
+```
+
+### With ChartContainer (responsive)
+
+```tsx
+import { ChartContainer } from '@tale-ui/charts';
+
+<ChartContainer height={300}>
+  <BarChart.Root data={data}>
+    <BarChart.Grid />
+    <BarChart.XAxis dataKey="month" />
+    <BarChart.YAxis />
+    <BarChart.Bar dataKey="revenue" />
+  </BarChart.Root>
+</ChartContainer>
+```
+
+## CSS Classes
+
+- `.tale-chart` — Base chart wrapper
+- `.tale-chart--bar` — Bar chart modifier
+
+## Notes
+
+- Requires `recharts` as a peer dependency: `npm install recharts`.
+- Series colours are auto-assigned from the palette. Override per-Bar with `fill`.
+- Bars have rounded top corners by default (`radius={[4, 4, 0, 0]}`).
+- All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
 
 ---
 
@@ -2375,6 +2594,14 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 ## Props
 
 Accepts all React Aria `Checkbox` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
+### Visual
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the checkbox visual appears checked |
+
+`Checkbox.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
 
 ## Basic Usage
 
@@ -4743,6 +4970,117 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 
 ---
 
+## line-chart
+
+# LineChart
+
+`import { LineChart } from '@tale-ui/charts/line-chart';`
+
+A line chart themed with Tale UI design tokens. Built on Recharts.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `LineChart.Root` | Container wrapping Recharts `LineChart`. Accepts `data`, `width`, `height`, `palette`. |
+| `LineChart.Line` | A line series. Accepts `dataKey`. |
+| `LineChart.XAxis` | Horizontal axis. Accepts `dataKey` and Recharts XAxis props. |
+| `LineChart.YAxis` | Vertical axis. |
+| `LineChart.Grid` | Cartesian grid lines. |
+| `LineChart.Tooltip` | Styled tooltip using `ChartTooltip`. |
+| `LineChart.Legend` | Styled legend using `ChartLegend`. |
+
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `Record<string, unknown>[]` | — | Chart data array (required) |
+| `width` | `number` | — | Chart width in pixels |
+| `height` | `number` | — | Chart height in pixels |
+| `palette` | `string[]` | Token-based palette | Custom series colours |
+
+### Line
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `dataKey` | `string` | — | Data key to plot (required) |
+| `stroke` | `string` | Auto from palette | Line stroke colour |
+| `strokeWidth` | `number` | `2` | Line thickness in pixels |
+| `dot` | `boolean` | `false` | Whether to show data point dots |
+
+All parts also accept standard Recharts props for their underlying component.
+
+## Basic Usage
+
+```tsx
+<LineChart.Root data={data} width={600} height={300}>
+  <LineChart.Grid />
+  <LineChart.XAxis dataKey="month" />
+  <LineChart.YAxis />
+  <LineChart.Tooltip />
+  <LineChart.Line dataKey="revenue" />
+</LineChart.Root>
+```
+
+## Examples
+
+### Multiple Series
+
+```tsx
+<LineChart.Root data={data} width={600} height={300}>
+  <LineChart.Grid strokeDasharray="3 3" />
+  <LineChart.XAxis dataKey="month" />
+  <LineChart.YAxis />
+  <LineChart.Tooltip />
+  <LineChart.Legend />
+  <LineChart.Line dataKey="revenue" />
+  <LineChart.Line dataKey="profit" />
+</LineChart.Root>
+```
+
+### With Dots and Custom Stroke
+
+```tsx
+<LineChart.Root data={data} width={600} height={300}>
+  <LineChart.Grid />
+  <LineChart.XAxis dataKey="month" />
+  <LineChart.YAxis />
+  <LineChart.Tooltip />
+  <LineChart.Line dataKey="revenue" stroke="var(--color-50)" strokeWidth={3} dot />
+</LineChart.Root>
+```
+
+### With ChartContainer (responsive)
+
+```tsx
+import { ChartContainer } from '@tale-ui/charts';
+
+<ChartContainer height={300}>
+  <LineChart.Root data={data}>
+    <LineChart.Grid />
+    <LineChart.XAxis dataKey="month" />
+    <LineChart.YAxis />
+    <LineChart.Line dataKey="revenue" />
+  </LineChart.Root>
+</ChartContainer>
+```
+
+## CSS Classes
+
+- `.tale-chart` — Base chart wrapper
+- `.tale-chart--line` — Line chart modifier
+
+## Notes
+
+- Requires `recharts` as a peer dependency: `npm install recharts`.
+- Series colours are auto-assigned from the palette. Override per-Line with `stroke`.
+- Lines default to `strokeWidth={2}` and `dot={false}` for a clean appearance.
+- All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
+
+---
+
 ## link
 
 # Link
@@ -5559,6 +5897,121 @@ import { Icon } from '@tale-ui/react/icon';
 
 ---
 
+## pie-chart
+
+# PieChart
+
+`import { PieChart } from '@tale-ui/charts/pie-chart';`
+
+A pie chart themed with Tale UI design tokens. Built on Recharts.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `PieChart.Root` | Container wrapping Recharts `PieChart`. Accepts `width`, `height`, `palette`. |
+| `PieChart.Pie` | A pie series. Accepts `data`, `dataKey`, `nameKey`. |
+| `PieChart.Cell` | Individual slice styling. Auto-generated from palette unless manually specified. |
+| `PieChart.Tooltip` | Styled tooltip using `ChartTooltip`. |
+| `PieChart.Legend` | Styled legend using `ChartLegend`. |
+
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `number` | — | Chart width in pixels |
+| `height` | `number` | — | Chart height in pixels |
+| `palette` | `string[]` | Token-based palette | Custom slice colours |
+
+### Pie
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `Record<string, unknown>[]` | — | Pie data array (required) |
+| `dataKey` | `string` | — | Numeric value key (required) |
+| `nameKey` | `string` | `'name'` | Label key for legend/tooltip |
+| `innerRadius` | `number` | `0` | Inner radius (set > 0 for donut) |
+| `outerRadius` | `number` | `80` | Outer radius |
+| `paddingAngle` | `number` | `2` | Angle between slices in degrees |
+
+### Cell
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `fill` | `string` | Auto from palette | Slice fill colour |
+
+All parts also accept standard Recharts props for their underlying component.
+
+## Basic Usage
+
+```tsx
+const data = [
+  { name: 'Direct', value: 400 },
+  { name: 'Organic', value: 300 },
+  { name: 'Referral', value: 200 },
+  { name: 'Social', value: 100 },
+];
+
+<PieChart.Root width={400} height={300}>
+  <PieChart.Pie data={data} dataKey="value" nameKey="name" />
+  <PieChart.Tooltip />
+  <PieChart.Legend />
+</PieChart.Root>
+```
+
+## Examples
+
+### Donut Chart
+
+```tsx
+<PieChart.Root width={400} height={300}>
+  <PieChart.Pie data={data} dataKey="value" nameKey="name" innerRadius={50} outerRadius={80} />
+  <PieChart.Tooltip />
+  <PieChart.Legend />
+</PieChart.Root>
+```
+
+### Custom Slice Colours
+
+```tsx
+<PieChart.Root width={400} height={300} palette={['#8884d8', '#82ca9d', '#ffc658', '#ff7f50']}>
+  <PieChart.Pie data={data} dataKey="value" nameKey="name" />
+  <PieChart.Tooltip />
+</PieChart.Root>
+```
+
+### With ChartContainer (responsive)
+
+```tsx
+import { ChartContainer } from '@tale-ui/charts';
+
+<ChartContainer height={300}>
+  <PieChart.Root>
+    <PieChart.Pie data={data} dataKey="value" nameKey="name" />
+    <PieChart.Tooltip />
+    <PieChart.Legend />
+  </PieChart.Root>
+</ChartContainer>
+```
+
+## CSS Classes
+
+- `.tale-chart` — Base chart wrapper
+- `.tale-chart--pie` — Pie chart modifier
+
+## Notes
+
+- Requires `recharts` as a peer dependency: `npm install recharts`.
+- Slice colours are auto-assigned from the palette. Override with `palette` on Root or `fill` on individual `Cell` elements.
+- `Cell` elements are auto-generated for each data entry when not manually specified.
+- Set `innerRadius` > 0 to create a donut chart.
+- Default `paddingAngle={2}` adds a small gap between slices for visual clarity.
+- All Tale UI design tokens are used for tooltip styling — dark mode works automatically.
+
+---
+
 ## pin-input
 
 # PinInput
@@ -5661,11 +6114,11 @@ const [value, setValue] = React.useState('');
 ## CSS Classes
 
 - `.tale-pin-input` — Root container
-- `.tale-pin-input[data-disabled]` — Disabled state
+- `.tale-pin-input:has(input:disabled)` — Disabled state (dimmed, no pointer events)
 - `.tale-pin-input__group` — Slot group
 - `.tale-pin-input__slot` — Individual digit slot
 - `.tale-pin-input__slot[data-active]` — Active (focused) slot
-- `.tale-pin-input__slot[data-filled]` — Slot with a character
+- `.tale-pin-input__slot[data-filled]` — Slot with a character (darker border)
 - `.tale-pin-input__caret` — Blinking caret indicator
 - `.tale-pin-input__separator` — Separator between groups
 
@@ -5980,6 +6433,223 @@ Also accepts all standard `<div>` HTML attributes.
 
 ---
 
+## radar-chart
+
+# RadarChart
+
+`import { RadarChart } from '@tale-ui/charts/radar-chart';`
+
+A radar chart themed with Tale UI design tokens. Built on Recharts.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `RadarChart.Root` | Container wrapping Recharts `RadarChart`. Accepts `data`, `width`, `height`, `palette`. |
+| `RadarChart.Radar` | A radar series. Accepts `dataKey`. |
+| `RadarChart.PolarGrid` | Concentric grid lines. |
+| `RadarChart.PolarAngleAxis` | Angular axis labels. Accepts `dataKey` for category names. |
+| `RadarChart.PolarRadiusAxis` | Radial value axis. |
+| `RadarChart.Tooltip` | Styled tooltip using `ChartTooltip`. |
+| `RadarChart.Legend` | Styled legend using `ChartLegend`. |
+
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `Record<string, unknown>[]` | — | Chart data array (required) |
+| `width` | `number` | — | Chart width in pixels |
+| `height` | `number` | — | Chart height in pixels |
+| `palette` | `string[]` | Token-based palette | Custom series colours |
+
+### Radar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `dataKey` | `string` | — | Data key to plot (required) |
+| `stroke` | `string` | Auto from palette | Radar stroke colour |
+| `fill` | `string` | Auto from palette | Radar fill colour |
+| `fillOpacity` | `number` | `0.15` | Fill transparency (0–1) |
+
+### PolarAngleAxis
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `dataKey` | `string` | — | Category label key (required) |
+
+All parts also accept standard Recharts props for their underlying component.
+
+## Basic Usage
+
+```tsx
+const data = [
+  { subject: 'Math', score: 80 },
+  { subject: 'Science', score: 90 },
+  { subject: 'English', score: 70 },
+  { subject: 'History', score: 65 },
+  { subject: 'Art', score: 85 },
+];
+
+<RadarChart.Root data={data} width={500} height={400}>
+  <RadarChart.PolarGrid />
+  <RadarChart.PolarAngleAxis dataKey="subject" />
+  <RadarChart.PolarRadiusAxis />
+  <RadarChart.Tooltip />
+  <RadarChart.Radar dataKey="score" />
+</RadarChart.Root>
+```
+
+## Examples
+
+### Multiple Series
+
+```tsx
+const data = [
+  { subject: 'Math', alice: 80, bob: 70 },
+  { subject: 'Science', alice: 90, bob: 85 },
+  { subject: 'English', alice: 70, bob: 90 },
+  { subject: 'History', alice: 65, bob: 75 },
+  { subject: 'Art', alice: 85, bob: 60 },
+];
+
+<RadarChart.Root data={data} width={500} height={400}>
+  <RadarChart.PolarGrid />
+  <RadarChart.PolarAngleAxis dataKey="subject" />
+  <RadarChart.PolarRadiusAxis />
+  <RadarChart.Tooltip />
+  <RadarChart.Legend />
+  <RadarChart.Radar dataKey="alice" />
+  <RadarChart.Radar dataKey="bob" />
+</RadarChart.Root>
+```
+
+### With ChartContainer (responsive)
+
+```tsx
+import { ChartContainer } from '@tale-ui/charts';
+
+<ChartContainer height={400}>
+  <RadarChart.Root data={data}>
+    <RadarChart.PolarGrid />
+    <RadarChart.PolarAngleAxis dataKey="subject" />
+    <RadarChart.Radar dataKey="score" />
+  </RadarChart.Root>
+</ChartContainer>
+```
+
+## CSS Classes
+
+- `.tale-chart` — Base chart wrapper
+- `.tale-chart--radar` — Radar chart modifier
+
+## Notes
+
+- Requires `recharts` as a peer dependency: `npm install recharts`.
+- Series colours are auto-assigned from the palette. Override per-Radar with `stroke` and `fill`.
+- Radar areas default to `fillOpacity={0.15}` for a subtle shaded effect.
+- `PolarAngleAxis` labels the spokes; `PolarRadiusAxis` labels the concentric rings.
+- All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
+
+---
+
+## radial-bar-chart
+
+# RadialBarChart
+
+`import { RadialBarChart } from '@tale-ui/charts/radial-bar-chart';`
+
+A radial bar chart themed with Tale UI design tokens. Built on Recharts.
+
+## Parts
+
+| Part | Description |
+|------|-------------|
+| `RadialBarChart.Root` | Container wrapping Recharts `RadialBarChart`. Accepts `data`, `width`, `height`, `palette`. |
+| `RadialBarChart.RadialBar` | The radial bar series. Accepts `dataKey`. |
+| `RadialBarChart.Tooltip` | Styled tooltip using `ChartTooltip`. |
+| `RadialBarChart.Legend` | Styled legend using `ChartLegend`. |
+
+## Props
+
+### Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `Record<string, unknown>[]` | — | Chart data array (required) |
+| `width` | `number` | — | Chart width in pixels |
+| `height` | `number` | — | Chart height in pixels |
+| `palette` | `string[]` | Token-based palette | Custom bar colours |
+| `innerRadius` | `number \| string` | `'10%'` | Inner radius of the chart |
+| `outerRadius` | `number \| string` | `'80%'` | Outer radius of the chart |
+
+### RadialBar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `dataKey` | `string` | — | Numeric value key (required) |
+| `fill` | `string` | Auto from palette | Bar fill colour |
+
+All parts also accept standard Recharts props for their underlying component.
+
+## Basic Usage
+
+```tsx
+const data = [
+  { name: 'Q1', value: 80, fill: 'var(--color-50)' },
+  { name: 'Q2', value: 60, fill: 'var(--color-40)' },
+  { name: 'Q3', value: 90, fill: 'var(--color-60)' },
+  { name: 'Q4', value: 70, fill: 'var(--color-30)' },
+];
+
+<RadialBarChart.Root data={data} width={400} height={300}>
+  <RadialBarChart.RadialBar dataKey="value" />
+  <RadialBarChart.Tooltip />
+  <RadialBarChart.Legend />
+</RadialBarChart.Root>
+```
+
+## Examples
+
+### With Palette Colours
+
+```tsx
+<RadialBarChart.Root data={data} width={400} height={300} palette={['#8884d8', '#82ca9d', '#ffc658', '#ff7f50']}>
+  <RadialBarChart.RadialBar dataKey="value" />
+  <RadialBarChart.Tooltip />
+  <RadialBarChart.Legend />
+</RadialBarChart.Root>
+```
+
+### With ChartContainer (responsive)
+
+```tsx
+import { ChartContainer } from '@tale-ui/charts';
+
+<ChartContainer height={300}>
+  <RadialBarChart.Root data={data}>
+    <RadialBarChart.RadialBar dataKey="value" />
+    <RadialBarChart.Tooltip />
+    <RadialBarChart.Legend />
+  </RadialBarChart.Root>
+</ChartContainer>
+```
+
+## CSS Classes
+
+- `.tale-chart` — Base chart wrapper
+- `.tale-chart--radial-bar` — Radial bar chart modifier
+
+## Notes
+
+- Requires `recharts` as a peer dependency: `npm install recharts`.
+- Bar colours can be set via `palette` on Root, `fill` on RadialBar, or `fill` on each data entry.
+- The simplest chart type — no axes or grid needed.
+- All Tale UI design tokens are used for tooltip styling — dark mode works automatically.
+
+---
+
 ## radio-group
 
 # RadioGroup
@@ -5990,7 +6660,11 @@ A convenience re-export of `Radio.Group` from `@tale-ui/react/radio`. Both impor
 
 ## Props
 
-Accepts all React Aria `RadioGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | — | Propagates size to child `Radio.Root` components |
+
+Also accepts all React Aria `RadioGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
 ## Basic Usage
 
@@ -6052,6 +6726,14 @@ Also accepts all React Aria `Radio` props.
 | `description` | `string` | — | A description displayed below the group |
 
 Also accepts all React Aria `RadioGroup` props.
+
+### Visual
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the radio visual appears selected |
+
+`Radio.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
 
 ## Basic Usage
 
@@ -6831,6 +7513,14 @@ A toggle switch component with a sliding thumb, built on React Aria's Switch.
 
 Accepts all React Aria `Switch` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
+### Visual
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the switch visual appears on/checked |
+
+`Switch.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
+
 ## Basic Usage
 
 ```tsx
@@ -7497,6 +8187,15 @@ Also accepts all React Aria `ToggleButton` props.
 
 No Tale UI-specific props. Also accepts all React Aria `ToggleButtonGroup` props.
 
+### Visual
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the toggle visual appears pressed/selected |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
+
+`ToggleButtonVisual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
+
 ## Basic Usage
 
 ```tsx
@@ -7563,7 +8262,11 @@ A convenience re-export of `ToggleButtonGroup` from `@tale-ui/react/toggle-butto
 
 ## Props
 
-Accepts all React Aria `ToggleButtonGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | — | Propagates size to child `ToggleButton` components |
+
+Also accepts all React Aria `ToggleButtonGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
 ## Basic Usage
 
@@ -7828,7 +8531,193 @@ Accepts all React Aria `Tree` props plus an optional `className`. See the `@exam
 
 ---
 
+## visual-exports
+
+# Visual-Only Exports
+
+Visual-only exports render component indicators (checkbox box, radio circle, switch toggle, toggle button) **without** React Aria behaviour — no keyboard handling, no focus management, no ARIA attributes.
+
+## Important: Component Authors Only
+
+**Do not use Visual exports to build application UIs.** When generating pages, forms, or interactive experiences, always use the standard compound parts (`Checkbox.Root`, `Radio.Root`, `Switch.Root`, `ToggleButton`) which include full accessibility behaviour.
+
+Visual exports are `aria-hidden="true"` and provide **zero** keyboard or screen reader support on their own. Using them in place of standard components creates inaccessible interfaces.
+
+## When to Use
+
+Use Visual exports **only** when building new compound components or component variations where behaviour is provided by a different source:
+
+- Embedding a checkbox visual inside a `Menu.Item` (Menu handles selection)
+- Creating a custom card-based radio group where the card handles interaction
+- Building a read-only settings summary with toggle visuals
+- Composing a drag-and-drop list where items show toggle state
+
+## Available Exports
+
+| Export | Renders | BEM Class |
+|--------|---------|-----------|
+| `Checkbox.Visual` | Checkbox indicator box | `tale-checkbox__indicator` |
+| `Radio.Visual` | Radio indicator circle | `tale-radio__indicator` |
+| `Switch.Visual` | Switch track + thumb | `tale-switch` + `tale-switch__thumb` |
+| `ToggleButtonVisual` | Toggle button container | `tale-toggle-button` |
+
+All Visual components accept:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the visual appears in its active/selected state |
+| `className` | `string` | — | Additional CSS class name |
+
+`ToggleButtonVisual` also accepts `size` (`'sm' | 'md' | 'lg'`, default `'md'`).
+
+## Examples
+
+### Checkbox Visual in a Menu Item
+
+```tsx
+import { Checkbox } from '@tale-ui/react/checkbox';
+import { Menu } from '@tale-ui/react/menu';
+import { Icon } from '@tale-ui/react/icon';
+import { Check } from 'lucide-react';
+
+<Menu.Item onAction={toggleNotifications}>
+  <Checkbox.Visual checked={notificationsEnabled}>
+    <Icon icon={Check} size="sm" />
+  </Checkbox.Visual>
+  Enable notifications
+</Menu.Item>
+```
+
+### Radio Visual in a Custom Card
+
+```tsx
+import { Radio } from '@tale-ui/react/radio';
+
+<div role="radio" aria-checked={isSelected} onClick={onSelect}>
+  <Radio.Visual checked={isSelected} />
+  <span>Option label</span>
+</div>
+```
+
+### Switch Visual in a Read-Only Summary
+
+```tsx
+import { Switch } from '@tale-ui/react/switch';
+
+<div className="settings-summary">
+  <Switch.Visual checked={isEnabled} />
+  <span>Dark mode</span>
+</div>
+```
+
+## Notes
+
+- Visual components reuse the same BEM classes as their interactive counterparts — all existing CSS applies.
+- `data-selected` is set when `checked` is true, matching React Aria's data attribute convention.
+- Visual components render no `<input>`, no `role`, and no keyboard listeners. The parent must provide all behaviour and accessibility.
+
+---
+
 # Section 5: Recipes (docs/recipes/)
+
+## dashboard-with-charts
+
+# Dashboard with Charts
+
+A multi-chart dashboard layout combining bar, line, and pie charts.
+
+## Components Used
+
+- `BarChart` from `@tale-ui/charts/bar-chart`
+- `LineChart` from `@tale-ui/charts/line-chart`
+- `PieChart` from `@tale-ui/charts/pie-chart`
+- `ChartContainer` from `@tale-ui/charts`
+
+## Code
+
+```tsx
+import { BarChart } from '@tale-ui/charts/bar-chart';
+import { LineChart } from '@tale-ui/charts/line-chart';
+import { PieChart } from '@tale-ui/charts/pie-chart';
+import { ChartContainer } from '@tale-ui/charts';
+import '@tale-ui/charts/styles';
+
+const monthlyData = [
+  { month: 'Jan', revenue: 4000, profit: 2400, expenses: 1600 },
+  { month: 'Feb', revenue: 3000, profit: 1398, expenses: 1602 },
+  { month: 'Mar', revenue: 5000, profit: 3200, expenses: 1800 },
+  { month: 'Apr', revenue: 4500, profit: 2800, expenses: 1700 },
+  { month: 'May', revenue: 6000, profit: 3900, expenses: 2100 },
+  { month: 'Jun', revenue: 5500, profit: 3500, expenses: 2000 },
+];
+
+const channelData = [
+  { name: 'Direct', value: 400 },
+  { name: 'Organic', value: 300 },
+  { name: 'Referral', value: 200 },
+  { name: 'Social', value: 100 },
+];
+
+function Dashboard() {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 'var(--space-l)' }}>
+      {/* Revenue trend */}
+      <div>
+        <h3>Revenue Trend</h3>
+        <ChartContainer height={300}>
+          <LineChart.Root data={monthlyData}>
+            <LineChart.Grid />
+            <LineChart.XAxis dataKey="month" />
+            <LineChart.YAxis />
+            <LineChart.Tooltip />
+            <LineChart.Legend />
+            <LineChart.Line dataKey="revenue" />
+            <LineChart.Line dataKey="profit" />
+          </LineChart.Root>
+        </ChartContainer>
+      </div>
+
+      {/* Channel breakdown */}
+      <div>
+        <h3>Traffic Sources</h3>
+        <ChartContainer height={300}>
+          <PieChart.Root>
+            <PieChart.Pie data={channelData} dataKey="value" nameKey="name" />
+            <PieChart.Tooltip />
+            <PieChart.Legend />
+          </PieChart.Root>
+        </ChartContainer>
+      </div>
+
+      {/* Monthly comparison */}
+      <div style={{ gridColumn: '1 / -1' }}>
+        <h3>Monthly Comparison</h3>
+        <ChartContainer height={300}>
+          <BarChart.Root data={monthlyData}>
+            <BarChart.Grid />
+            <BarChart.XAxis dataKey="month" />
+            <BarChart.YAxis />
+            <BarChart.Tooltip />
+            <BarChart.Legend />
+            <BarChart.Bar dataKey="revenue" />
+            <BarChart.Bar dataKey="profit" />
+            <BarChart.Bar dataKey="expenses" />
+          </BarChart.Root>
+        </ChartContainer>
+      </div>
+    </div>
+  );
+}
+```
+
+## Customization Points
+
+- Import `@tale-ui/charts/styles` for Tale UI themed chart styling.
+- Use `ChartContainer` for responsive sizing; set `height` or `aspect`.
+- Override series colours via `palette` on Root or `fill`/`stroke` on individual series.
+- Charts automatically adapt to dark mode via `data-color-mode="dark"` on `<html>`.
+
+---
 
 ## data-table-with-sorting
 
@@ -8015,6 +8904,80 @@ function SignUpForm() {
 - Use `isRequired` on any field to enable built-in React Aria validation.
 - `ErrorMessage` parts only display when the field is invalid.
 - Wrap multiple fieldsets in the same `Form.Root` for multi-section forms.
+
+---
+
+## header-navigation
+
+# Header Navigation
+
+A horizontal navigation bar with logo, links, and right-aligned action buttons.
+
+## Components Used
+
+- `NavigationMenu` from `@tale-ui/react/navigation-menu`
+- `Button` from `@tale-ui/react/button`
+- `IconButton` from `@tale-ui/react/icon-button`
+- `Icon` from `@tale-ui/react/icon`
+- `Separator` from `@tale-ui/react/separator`
+- `Bell`, `Search` from `lucide-react`
+
+## Code
+
+```tsx
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+import { Button } from '@tale-ui/react/button';
+import { IconButton } from '@tale-ui/react/icon-button';
+import { Icon } from '@tale-ui/react/icon';
+import { Separator } from '@tale-ui/react/separator';
+import { Bell, Search } from 'lucide-react';
+
+function AppHeader() {
+  return (
+    <header style={{ display: 'flex', alignItems: 'center', padding: 'var(--space-xs) var(--space-m)', borderBottom: '1px solid var(--neutral-16)' }}>
+      {/* Logo */}
+      <a href="/" style={{ fontWeight: 700, fontSize: 'var(--label-l-font-size)', marginRight: 'var(--space-m)', textDecoration: 'none', color: 'var(--neutral-90)' }}>
+        Acme
+      </a>
+
+      {/* Navigation links */}
+      <NavigationMenu.Root>
+        <NavigationMenu.List>
+          <NavigationMenu.Item>
+            <NavigationMenu.Link href="/products">Products</NavigationMenu.Link>
+          </NavigationMenu.Item>
+          <NavigationMenu.Item>
+            <NavigationMenu.Link href="/pricing">Pricing</NavigationMenu.Link>
+          </NavigationMenu.Item>
+          <NavigationMenu.Item>
+            <NavigationMenu.Link href="/docs">Docs</NavigationMenu.Link>
+          </NavigationMenu.Item>
+        </NavigationMenu.List>
+      </NavigationMenu.Root>
+
+      {/* Right-aligned actions */}
+      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-2xs)' }}>
+        <IconButton aria-label="Search" variant="ghost" size="sm">
+          <Icon icon={Search} size="sm" />
+        </IconButton>
+        <IconButton aria-label="Notifications" variant="ghost" size="sm">
+          <Icon icon={Bell} size="sm" />
+        </IconButton>
+        <Separator orientation="vertical" style={{ height: '2rem' }} />
+        <Button variant="primary" size="sm">Sign in</Button>
+      </div>
+    </header>
+  );
+}
+```
+
+## Customization Points
+
+- Replace the logo `<a>` with your brand component or image.
+- Add dropdown menus using `NavigationMenu.Trigger` and `NavigationMenu.Popup` for nested navigation.
+- Use `aria-current="page"` on the active link (React Aria handles this automatically when `href` matches).
+- For a sticky header, add `position: sticky; top: 0; z-index: 10; background: var(--neutral-5)` to the `<header>`.
+- Combine with the [Sidebar Navigation](sidebar-navigation.md) recipe for a sidebar + header layout.
 
 ---
 
@@ -8498,6 +9461,155 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 - Replace `navItems` with your app's route structure.
 - Add nested navigation by using `NavigationMenu.Trigger` and `NavigationMenu.Popup` for dropdowns.
 - Use `aria-current="page"` on the active link (React Aria handles this automatically when `href` matches).
+- Adjust the `768px` breakpoint to match your design requirements.
+- `Drawer.Root` uses `open`/`onOpenChange` (not `isOpen`) — it's a custom component.
+
+---
+
+## sidebar-with-header
+
+# Sidebar with Header
+
+A two-region layout with a fixed sidebar, top header bar, and scrollable main content.
+
+## Components Used
+
+- `NavigationMenu` from `@tale-ui/react/navigation-menu`
+- `Drawer` from `@tale-ui/react/drawer`
+- `IconButton` from `@tale-ui/react/icon-button`
+- `Icon` from `@tale-ui/react/icon`
+- `Separator` from `@tale-ui/react/separator`
+- `Button` from `@tale-ui/react/button`
+- `Menu2`, `Home`, `Settings`, `Users`, `FileText`, `Bell` from `lucide-react`
+
+## Code
+
+```tsx
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+import { Drawer } from '@tale-ui/react/drawer';
+import { IconButton } from '@tale-ui/react/icon-button';
+import { Icon } from '@tale-ui/react/icon';
+import { Separator } from '@tale-ui/react/separator';
+import { Button } from '@tale-ui/react/button';
+import { Menu2, Home, Settings, Users, FileText, Bell } from 'lucide-react';
+import { useState } from 'react';
+
+const navItems = [
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/documents', label: 'Documents', icon: FileText },
+  { href: '/team', label: 'Team', icon: Users },
+  { href: '/settings', label: 'Settings', icon: Settings },
+];
+
+function SidebarNav() {
+  return (
+    <NavigationMenu.Root orientation="vertical">
+      <NavigationMenu.List>
+        {navItems.map((item) => (
+          <NavigationMenu.Item key={item.href}>
+            <NavigationMenu.Link href={item.href}>
+              <NavigationMenu.Icon><Icon icon={item.icon} size="sm" /></NavigationMenu.Icon>
+              {item.label}
+            </NavigationMenu.Link>
+          </NavigationMenu.Item>
+        ))}
+      </NavigationMenu.List>
+    </NavigationMenu.Root>
+  );
+}
+
+function AppLayout({ children }: { children: React.ReactNode }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  return (
+    <div className="app-layout">
+      {/* Desktop sidebar */}
+      <aside className="app-sidebar">
+        <div style={{ padding: 'var(--space-m)', fontWeight: 700, fontSize: 'var(--label-l-font-size)' }}>
+          Acme
+        </div>
+        <Separator />
+        <div style={{ padding: 'var(--space-s)' }}>
+          <SidebarNav />
+        </div>
+      </aside>
+
+      <div className="app-main">
+        {/* Header */}
+        <header className="app-header">
+          {/* Mobile menu trigger */}
+          <Drawer.Root open={drawerOpen} onOpenChange={setDrawerOpen}>
+            <Drawer.Trigger className="mobile-menu-trigger">
+              <IconButton aria-label="Open menu" variant="ghost">
+                <Icon icon={Menu2} />
+              </IconButton>
+            </Drawer.Trigger>
+            <Drawer.Backdrop />
+            <Drawer.Popup side="left" style={{ width: 280, padding: 'var(--space-s)' }}>
+              <Drawer.Title>Navigation</Drawer.Title>
+              <SidebarNav />
+            </Drawer.Popup>
+          </Drawer.Root>
+
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-2xs)' }}>
+            <IconButton aria-label="Notifications" variant="ghost" size="sm">
+              <Icon icon={Bell} size="sm" />
+            </IconButton>
+            <Button variant="ghost" size="sm">Account</Button>
+          </div>
+        </header>
+
+        {/* Scrollable content */}
+        <main style={{ flex: 1, padding: 'var(--space-l)', overflow: 'auto' }}>
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
+```
+
+```css
+/* Add to your app CSS */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-sidebar {
+  width: 240px;
+  border-right: 1px solid var(--neutral-16);
+  flex-shrink: 0;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-xs) var(--space-m);
+  border-bottom: 1px solid var(--neutral-16);
+}
+
+.mobile-menu-trigger { display: none; }
+
+@media (max-width: 768px) {
+  .app-sidebar { display: none; }
+  .mobile-menu-trigger { display: block; }
+}
+```
+
+## Customization Points
+
+- Replace the logo text with your brand component or image.
+- Add a user avatar or profile dropdown in the header's right section.
+- Use `aria-current="page"` on the active nav link for screen reader support.
+- For a collapsible sidebar (icon-only mode), toggle the sidebar width between `240px` and `64px` and conditionally hide link labels.
 - Adjust the `768px` breakpoint to match your design requirements.
 - `Drawer.Root` uses `open`/`onOpenChange` (not `isOpen`) — it's a custom component.
 

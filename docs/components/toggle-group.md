@@ -6,7 +6,11 @@ A convenience re-export of `ToggleButtonGroup` from `@tale-ui/react/toggle-butto
 
 ## Props
 
-Accepts all React Aria `ToggleButtonGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | — | Propagates size to child `ToggleButton` components |
+
+Also accepts all React Aria `ToggleButtonGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
 ## Basic Usage
 

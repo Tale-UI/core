@@ -129,3 +129,14 @@ Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage
 | Icon | Lucide-react icon wrapper with BEM sizing | `@tale-ui/react/icon` | -- |
 | IconButton | Square button for icon-only use | `@tale-ui/react/icon-button` | -- |
 | mergeProps | Smart React props merging utility | `@tale-ui/react/merge-props` | -- |
+
+## Charts (6)
+
+| Component | Description | Import | Parts |
+|-----------|-------------|--------|-------|
+| AreaChart | Token-themed area chart | `@tale-ui/charts/area-chart` | Root, Area, XAxis, YAxis, Grid, Tooltip, Legend |
+| BarChart | Token-themed bar chart | `@tale-ui/charts/bar-chart` | Root, Bar, XAxis, YAxis, Grid, Tooltip, Legend |
+| LineChart | Token-themed line chart | `@tale-ui/charts/line-chart` | Root, Line, XAxis, YAxis, Grid, Tooltip, Legend |
+| PieChart | Token-themed pie chart | `@tale-ui/charts/pie-chart` | Root, Pie, Cell, Tooltip, Legend |
+| RadarChart | Token-themed radar chart | `@tale-ui/charts/radar-chart` | Root, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Tooltip, Legend |
+| RadialBarChart | Token-themed radial bar chart | `@tale-ui/charts/radial-bar-chart` | Root, RadialBar, Tooltip, Legend |

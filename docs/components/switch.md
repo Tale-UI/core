@@ -15,6 +15,14 @@ A toggle switch component with a sliding thumb, built on React Aria's Switch.
 
 Accepts all React Aria `Switch` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
+### Visual
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the switch visual appears on/checked |
+
+`Switch.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
+
 ## Basic Usage
 
 ```tsx

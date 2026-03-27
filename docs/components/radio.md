@@ -32,6 +32,14 @@ Also accepts all React Aria `Radio` props.
 
 Also accepts all React Aria `RadioGroup` props.
 
+### Visual
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Whether the radio visual appears selected |
+
+`Radio.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
+
 ## Basic Usage
 
 ```tsx

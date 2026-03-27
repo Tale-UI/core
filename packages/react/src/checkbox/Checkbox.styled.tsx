@@ -41,3 +41,40 @@ export const Indicator = React.forwardRef<HTMLSpanElement, CheckboxIndicatorProp
   ),
 );
 Indicator.displayName = 'Checkbox.Indicator';
+
+/* ─── Visual ──────────────────────────────────────────────────────────────── */
+
+export interface CheckboxVisualProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
+  /** Whether the checkbox visual appears checked. */
+  checked?: boolean;
+  /** Additional CSS class name. */
+  className?: string;
+}
+
+/**
+ * Render-only checkbox indicator **without** React Aria behaviour.
+ * Use only when building new components where behaviour is provided externally.
+ * Do NOT use in application UI — use Checkbox.Root instead.
+ *
+ * @example
+ * ```tsx
+ * <Menu.Item>
+ *   <Checkbox.Visual checked={isSelected}>
+ *     <Icon icon={Check} size="sm" />
+ *   </Checkbox.Visual>
+ *   Enable notifications
+ * </Menu.Item>
+ * ```
+ */
+export const Visual = React.forwardRef<HTMLSpanElement, CheckboxVisualProps>(
+  ({ checked, className, ...props }, ref) => (
+    <span
+      ref={ref}
+      aria-hidden="true"
+      data-selected={checked || undefined}
+      className={cx('tale-checkbox__indicator', className)}
+      {...props}
+    />
+  ),
+);
+Visual.displayName = 'Checkbox.Visual';

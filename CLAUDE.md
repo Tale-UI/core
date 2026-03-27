@@ -10,6 +10,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [packages/react](packages/react/) | `@tale-ui/react` | Styled React components — BEM class names applied automatically (built on React Aria Components) |
 | [packages/styles](packages/styles/) | `@tale-ui/react-styles` | CSS per component (uses @tale-ui/core tokens) |
 | [packages/utils](packages/utils/) | `@tale-ui/utils` | Shared utilities |
+| [packages/charts](packages/charts/CLAUDE.md) | `@tale-ui/charts` | Recharts-based chart components themed with design tokens |
 
 ## Documentation
 
@@ -262,4 +263,33 @@ Status of required artifacts for all 67 components. When adding or updating a co
 | IconButton | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | mergeProps | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | n/a | n/a |
 
-<!-- Last generated: 2026-03-26 -->
+## Charts Package Artifact Audit (`@tale-ui/charts`)
+
+Status of required artifacts for all 6 chart components and 3 shared utilities. When adding or updating a chart, update the relevant row below.
+
+**Legend:** styled = `{Chart}.styled.tsx` | index = `index.ts` | test = `charts.test.tsx` coverage | css = `chart.css` entry | doc = `docs/components/{name}.md` | snip = consumer-claude-md-snippet.md | idx = `docs/component-index.md` entry | story = Storybook story
+
+**✓** = present | **✗** = missing | **n/a** = not applicable
+
+**Total:** 6 chart components + 3 shared utilities | **Fully complete:** 9 | **Missing artifacts:** 0
+
+### Chart Components
+
+| Component | styled | index | test | css | doc | snip | idx | story |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AreaChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| BarChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| LineChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| PieChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| RadarChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| RadialBarChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Shared Utilities
+
+| Utility | file | test | doc |
+| --- | --- | --- | --- |
+| ChartContainer | ✓ | n/a | ✓ (in chart docs) |
+| ChartTooltip | ✓ | ✓ | ✓ (in chart docs) |
+| ChartLegend | ✓ | ✓ | ✓ (in chart docs) |
+
+<!-- Last generated: 2026-03-27 -->

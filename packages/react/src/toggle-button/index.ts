@@ -1,2 +1,2 @@
-export { ToggleButton, ToggleButtonGroup } from './ToggleButton.styled';
-export type { ToggleButtonProps, ToggleButtonGroupProps } from './ToggleButton.styled';
+export { ToggleButton, ToggleButtonGroup, ToggleButtonVisual } from './ToggleButton.styled';
+export type { ToggleButtonProps, ToggleButtonGroupProps, ToggleButtonVisualProps } from './ToggleButton.styled';

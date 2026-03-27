@@ -37,3 +37,40 @@ export const Thumb = React.forwardRef<HTMLSpanElement, SwitchThumbProps>(
   ),
 );
 Thumb.displayName = 'Switch.Thumb';
+
+/* ─── Visual ──────────────────────────────────────────────────────────────── */
+
+export interface SwitchVisualProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
+  /** Whether the switch visual appears on/checked. */
+  checked?: boolean;
+  /** Additional CSS class name. */
+  className?: string;
+}
+
+/**
+ * Render-only switch track + thumb **without** React Aria behaviour.
+ * Use only when building new components where behaviour is provided externally.
+ * Do NOT use in application UI — use Switch.Root instead.
+ *
+ * @example
+ * ```tsx
+ * <SettingsSummary>
+ *   <Switch.Visual checked={isEnabled} />
+ *   Feature enabled
+ * </SettingsSummary>
+ * ```
+ */
+export const Visual = React.forwardRef<HTMLSpanElement, SwitchVisualProps>(
+  ({ checked, className, ...props }, ref) => (
+    <span
+      ref={ref}
+      aria-hidden="true"
+      data-selected={checked || undefined}
+      className={cx('tale-switch', className)}
+      {...props}
+    >
+      <span className="tale-switch__thumb" />
+    </span>
+  ),
+);
+Visual.displayName = 'Switch.Visual';

@@ -55,7 +55,6 @@ test-results/
 /examples/*/dist/
 
 # Analysis (local research notes)
-analysis/
 
 # Misc
 *.log

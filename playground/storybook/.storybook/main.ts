@@ -56,6 +56,7 @@ const config: StorybookConfig = {
     config.resolve.alias = {
       ...((config.resolve.alias as Record<string, string>) ?? {}),
       '@tale-ui/react': path.resolve(__dirname, '../../../packages/react/src'),
+      '@tale-ui/charts': path.resolve(__dirname, '../../../packages/charts/src'),
       '@tale-ui/utils': path.resolve(__dirname, '../../../packages/utils/src'),
       '@tale-ui/react-styles': path.resolve(__dirname, '../../../packages/styles/src'),
       '@tale-ui/core': path.resolve(__dirname, '../../../packages/css/src/index.css'),

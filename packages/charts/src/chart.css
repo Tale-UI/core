@@ -1,0 +1,117 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Tale UI — Charts
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+.tale-chart {
+  position: relative;
+  font-family: var(--text-font-family);
+  color: var(--neutral-90);
+}
+
+/* ─── Container (responsive wrapper) ───────────────────────────────────────── */
+
+.tale-chart__container {
+  width: 100%;
+}
+
+/* ─── Tooltip ──────────────────────────────────────────────────────────────── */
+
+.tale-chart__tooltip {
+  background: var(--neutral-5);
+  border: 1px solid var(--neutral-16);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-xs) var(--space-s);
+  font-family: var(--text-font-family);
+  font-size: var(--text-xs-font-size);
+  line-height: 1.4;
+  min-width: 120px;
+}
+
+.tale-chart__tooltip-label {
+  font-size: var(--label-s-font-size);
+  font-weight: 600;
+  color: var(--neutral-90);
+  margin-bottom: var(--space-2xs);
+}
+
+.tale-chart__tooltip-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 2px 0;
+}
+
+.tale-chart__tooltip-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tale-chart__tooltip-name {
+  color: var(--neutral-60);
+  flex: 1;
+}
+
+.tale-chart__tooltip-value {
+  font-weight: 600;
+  color: var(--neutral-90);
+  margin-left: var(--space-xs);
+}
+
+/* ─── Legend ────────────────────────────────────────────────────────────────── */
+
+.tale-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-s);
+  justify-content: center;
+  padding-top: var(--space-xs);
+  font-family: var(--text-font-family);
+  font-size: var(--text-xs-font-size);
+}
+
+.tale-chart__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  color: var(--neutral-70);
+}
+
+.tale-chart__legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── Recharts overrides ───────────────────────────────────────────────────── */
+
+.tale-chart .recharts-cartesian-grid line {
+  stroke: var(--neutral-16);
+}
+
+.tale-chart .recharts-text {
+  fill: var(--neutral-60);
+  font-family: var(--text-font-family);
+  font-size: var(--text-xs-font-size);
+}
+
+.tale-chart .recharts-legend-wrapper {
+  font-family: var(--text-font-family);
+  font-size: var(--text-s-font-size);
+}
+
+.tale-chart .recharts-tooltip-cursor {
+  stroke: var(--neutral-22);
+}
+
+.tale-chart .recharts-sector:focus,
+.tale-chart .recharts-sector:focus-visible {
+  outline: none;
+}
