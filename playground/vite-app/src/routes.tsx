@@ -1,6 +1,5 @@
 import type * as React from 'react';
 import ComponentAudit from './demos/ComponentAudit';
-import ComponentsDemo from './demos/ComponentsDemo';
 import RandomColorDemo from './demos/RandomColorDemo';
 import RecipePlayground from './demos/RecipePlayground';
 import ContainedTriggers from './experiments/perf/contained-triggers';
@@ -29,13 +28,6 @@ export const defaultRoute = '/perf/contained-triggers';
 
 export const routes: RouteEntry[] = [
   { type: 'header', label: 'Components' },
-  {
-    type: 'route',
-    path: '/components',
-    label: 'Components',
-    element: <ComponentsDemo />,
-    showInNav: true,
-  },
   {
     type: 'route',
     path: '/component-audit',
