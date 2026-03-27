@@ -52,18 +52,18 @@ const SKIP_DIRS = new Set([
 
 // Components that don't have a .styled.tsx file (re-exports, providers, utilities)
 const NO_STYLED_FILE = new Set([
-  'checkbox-group', 'radio-group', 'toggle-group',
+  'checkbox-group', 'radio-group', 'toggle-group', 'social-button-group',
   'container', 'csp-provider', 'merge-props',
 ]);
 
 // Re-export components where @example lives in the source package, not in their own dir
 const REEXPORT_SKIP_EXAMPLE = new Set([
-  'checkbox-group', 'radio-group', 'toggle-group',
+  'checkbox-group', 'radio-group', 'toggle-group', 'social-button-group',
 ]);
 
 // Components that don't need CSS files
 const NO_CSS = new Set([
-  'checkbox-group', 'radio-group', 'toggle-group',
+  'checkbox-group', 'radio-group', 'toggle-group', 'social-button-group',
   'container', 'csp-provider', 'i18n-provider', 'merge-props',
   'context-menu', 'menubar',
 ]);
@@ -414,6 +414,14 @@ function auditComponent(name) {
       );
       for (const cls of baseClasses) {
         if (!docClasses.includes(cls)) {
+          // Check if a sibling doc file covers this class (e.g. social-button-group.md)
+          const siblingName = cls.replace('tale-', '');
+          const siblingDocPath = path.join(DOCS_DIR, `${siblingName}.md`);
+          const siblingDoc = readFile(siblingDocPath);
+          if (siblingDoc) {
+            const siblingDocClasses = extractDocCSSClasses(siblingDoc);
+            if (siblingDocClasses && siblingDocClasses.includes(cls)) continue;
+          }
           warnings.push(`CSS class ".${cls}" not documented in markdown`);
         }
       }

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Avatar } from '@tale-ui/react/avatar';
+import { DotIcon } from '@tale-ui/react/dot-icon';
 
 type Args = {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -59,10 +60,11 @@ export const WithImage: Story = {
     // The Fallback content is shown when no image src is provided or the image fails to load.
     <div className="story-row story-row--m">
       <Avatar.Root size="lg">
-        <Avatar.Image src="" alt="User avatar" />
+        <Avatar.Image src="https://placehold.co/96x96" alt="User avatar" />
         <Avatar.Fallback>AB</Avatar.Fallback>
       </Avatar.Root>
-      <Avatar.Root size="lg">
+      <Avatar.Root size="xl">
+        <Avatar.Image src="https://placehold.co/160x160" alt="User avatar" />
         <Avatar.Fallback>CD</Avatar.Fallback>
       </Avatar.Root>
     </div>
@@ -108,4 +110,103 @@ export const GroupSizes: Story = {
       </div>
     );
   },
+};
+
+export const WithIndicator: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div className="story-row story-row--m">
+      <Avatar.Indicator badge={<DotIcon color="success" />}>
+        <Avatar.Root size="sm">
+          <Avatar.Image src="https://placehold.co/48x48" alt="User" />
+          <Avatar.Fallback>AB</Avatar.Fallback>
+        </Avatar.Root>
+      </Avatar.Indicator>
+      <Avatar.Indicator badge={<DotIcon color="success" />}>
+        <Avatar.Root size="md">
+          <Avatar.Image src="https://placehold.co/72x72" alt="User" />
+          <Avatar.Fallback>CD</Avatar.Fallback>
+        </Avatar.Root>
+      </Avatar.Indicator>
+      <Avatar.Indicator badge={<DotIcon color="error" />}>
+        <Avatar.Root size="lg">
+          <Avatar.Image src="https://placehold.co/96x96" alt="User" />
+          <Avatar.Fallback>EF</Avatar.Fallback>
+        </Avatar.Root>
+      </Avatar.Indicator>
+      <Avatar.Indicator badge={<DotIcon color="neutral" />} position="top-right">
+        <Avatar.Root size="xl">
+          <Avatar.Image src="https://placehold.co/160x160" alt="User" />
+          <Avatar.Fallback>GH</Avatar.Fallback>
+        </Avatar.Root>
+      </Avatar.Indicator>
+    </div>
+  ),
+};
+
+export const LabelGroupStory: Story = {
+  name: 'LabelGroup',
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
+      <Avatar.LabelGroup size="sm">
+        <Avatar.Root>
+          <Avatar.Image src="https://placehold.co/48x48" alt="User" />
+          <Avatar.Fallback>JD</Avatar.Fallback>
+        </Avatar.Root>
+        <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+        <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>
+      </Avatar.LabelGroup>
+      <Avatar.LabelGroup size="md">
+        <Avatar.Root>
+          <Avatar.Image src="https://placehold.co/72x72" alt="User" />
+          <Avatar.Fallback>JD</Avatar.Fallback>
+        </Avatar.Root>
+        <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+        <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>
+      </Avatar.LabelGroup>
+      <Avatar.LabelGroup size="lg">
+        <Avatar.Root>
+          <Avatar.Image src="https://placehold.co/96x96" alt="User" />
+          <Avatar.Fallback>JD</Avatar.Fallback>
+        </Avatar.Root>
+        <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+        <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>
+      </Avatar.LabelGroup>
+    </div>
+  ),
+};
+
+export const LabelGroupWithIndicator: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
+      <Avatar.LabelGroup size="md">
+        <Avatar.Indicator badge={<DotIcon color="success" />}>
+          <Avatar.Root>
+            <Avatar.Image src="https://placehold.co/72x72" alt="User" />
+            <Avatar.Fallback>JD</Avatar.Fallback>
+          </Avatar.Root>
+        </Avatar.Indicator>
+        <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+        <Avatar.LabelGroupSubtitle>Online</Avatar.LabelGroupSubtitle>
+      </Avatar.LabelGroup>
+      <Avatar.LabelGroup size="lg">
+        <Avatar.Indicator badge={<DotIcon color="error" />}>
+          <Avatar.Root>
+            <Avatar.Image src="https://placehold.co/96x96" alt="User" />
+            <Avatar.Fallback>AB</Avatar.Fallback>
+          </Avatar.Root>
+        </Avatar.Indicator>
+        <Avatar.LabelGroupTitle>Alex Brown</Avatar.LabelGroupTitle>
+        <Avatar.LabelGroupSubtitle>Offline</Avatar.LabelGroupSubtitle>
+      </Avatar.LabelGroup>
+    </div>
+  ),
 };

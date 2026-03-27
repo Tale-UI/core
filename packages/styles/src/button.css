@@ -2,7 +2,7 @@
  * Button — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * React Aria Button exposes: [data-disabled] [data-pressed] [data-hovered] [data-focus-visible]
+ * React Aria Button exposes: [data-disabled] [data-pending] [data-pressed] [data-hovered] [data-focus-visible]
  *
  * Variants:   .tale-button--primary  (default filled)
  *             .tale-button--neutral  (subtle secondary)
@@ -21,6 +21,7 @@
 /* ─── Base ─────────────────────────────────────────────────────────────────── */
 
 .tale-button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -59,6 +60,35 @@
   opacity: 0.45;
 }
 
+/* ─── Pending state (from data-pending attr set by React Aria) ────────────── */
+
+.tale-button[data-pending] {
+  cursor: default;
+}
+
+.tale-button__content {
+  display: contents;
+  color: inherit;
+}
+
+.tale-button__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Spinner inherits button text colour */
+.tale-button .tale-spinner__track {
+  stroke: currentcolor;
+  opacity: 0.3;
+}
+
+.tale-button .tale-spinner__arc {
+  stroke: currentcolor;
+}
+
 /* ─── Primary variant — filled brand colour ───────────────────────────────── */
 
 .tale-button--primary {
@@ -68,11 +98,11 @@
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 1px inset, rgba(10, 13, 18, 0.18) 0px 0px 0px 1px inset, rgba(10, 13, 18, 0.05) 0px -2px 0px 0px inset, rgba(10, 13, 18, 0.05) 0px 1px 2px 0px;
 }
 
-.tale-button--primary:hover:not([data-disabled]) {
+.tale-button--primary:hover:not([data-disabled], [data-pending]) {
   background-color: var(--color-50);
 }
 
-.tale-button--primary:active:not([data-disabled]) {
+.tale-button--primary:active:not([data-disabled], [data-pending]) {
   background-color: var(--color-40);
 }
 
@@ -84,12 +114,12 @@
   border-color: var(--neutral-22);
 }
 
-.tale-button--neutral:hover:not([data-disabled]) {
+.tale-button--neutral:hover:not([data-disabled], [data-pending]) {
   background-color: var(--neutral-18);
   border-color: var(--neutral-28);
 }
 
-.tale-button--neutral:active:not([data-disabled]) {
+.tale-button--neutral:active:not([data-disabled], [data-pending]) {
   background-color: var(--neutral-22);
 }
 
@@ -101,13 +131,13 @@
   border-color: transparent;
 }
 
-.tale-button--ghost:hover:not([data-disabled]) {
-  background-color: var(--neutral-14);
+.tale-button--ghost:hover:not([data-disabled], [data-pending]) {
+  background-color: color-mix(in srgb, var(--neutral-100) 10%, transparent);
   color: var(--neutral-90);
 }
 
-.tale-button--ghost:active:not([data-disabled]) {
-  background-color: var(--neutral-18);
+.tale-button--ghost:active:not([data-disabled], [data-pending]) {
+  background-color: color-mix(in srgb, var(--neutral-100) 5%, transparent);
 }
 
 /* ─── Danger variant — destructive actions ────────────────────────────────── */
@@ -119,11 +149,11 @@
   box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 1px inset, rgba(10, 13, 18, 0.18) 0px 0px 0px 1px inset, rgba(10, 13, 18, 0.05) 0px -2px 0px 0px inset, rgba(10, 13, 18, 0.05) 0px 1px 2px 0px
 }
 
-.tale-button--danger:hover:not([data-disabled]) {
+.tale-button--danger:hover:not([data-disabled], [data-pending]) {
   background-color: var(--error-50);
 }
 
-.tale-button--danger:active:not([data-disabled]) {
+.tale-button--danger:active:not([data-disabled], [data-pending]) {
   background-color: var(--error-40);
 }
 
@@ -135,11 +165,11 @@
   border-color: transparent;
 }
 
-.tale-button--inverse:hover:not([data-disabled]) {
+.tale-button--inverse:hover:not([data-disabled], [data-pending]) {
   background-color: var(--neutral-80);
 }
 
-.tale-button--inverse:active:not([data-disabled]) {
+.tale-button--inverse:active:not([data-disabled], [data-pending]) {
   background-color: var(--neutral-50);
 }
 

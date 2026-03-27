@@ -18,6 +18,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
+  width: fit-content;
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
   background-color: var(--neutral-5);
@@ -50,6 +51,10 @@
   flex-shrink: 0;
 }
 
+.tale-social-button__icon svg {
+  display: block;
+}
+
 /* ─── Sizes ──────────────────────────────────────────────────────────────── */
 
 .tale-social-button--sm {
@@ -57,9 +62,19 @@
   font-size: var(--label-s-font-size);
 }
 
+.tale-social-button--sm .tale-social-button__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
 .tale-social-button--md {
   padding: var(--space-2xs) var(--space-s);
   font-size: var(--label-m-font-size);
+}
+
+.tale-social-button--md .tale-social-button__icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .tale-social-button--lg {
@@ -67,10 +82,31 @@
   font-size: var(--label-l-font-size);
 }
 
+.tale-social-button--lg .tale-social-button__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
 /* ─── Provider hover accents ─────────────────────────────────────────────── */
 
-.tale-social-button--google:hover  { border-color: #4285F4; }
-.tale-social-button--github:hover  { border-color: var(--neutral-60); }
-.tale-social-button--apple:hover   { border-color: var(--neutral-60); }
-.tale-social-button--x:hover       { border-color: var(--neutral-60); }
-.tale-social-button--facebook:hover { border-color: #1877F2; }
+.tale-social-button--google:hover,
+.tale-social-button--github:hover,
+.tale-social-button--apple:hover,
+.tale-social-button--x:hover,
+.tale-social-button--facebook:hover {
+  border-color: var(--neutral-40);
+}
+
+/* ─── Social Button Group ──────────────────────────────────────────────── */
+
+.tale-social-button-group {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  width: max-content;
+}
+
+.tale-social-button-group .tale-social-button {
+  width: 100%;
+  justify-content: center;
+}

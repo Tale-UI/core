@@ -52,3 +52,5 @@ Also accepts all standard `<button>` HTML attributes.
 - Renders a `<button type="button">` element.
 - Each provider has its own branded SVG icon embedded in the component.
 - Pass label text as `children` (e.g. "Sign in with Google").
+- Standalone buttons have `width: fit-content` with left-aligned icon and text.
+- See also [SocialButtonGroup](social-button-group.md) for equal-width grouped layout.

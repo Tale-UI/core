@@ -24,6 +24,18 @@ import { cx } from '../_cx';
  *   </Tooltip.Popup>
  * </Tooltip.Root>
  * ```
+ *
+ * @example With supporting text
+ * ```tsx
+ * <Tooltip.Root>
+ *   <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Feature</Tooltip.Trigger>
+ *   <Tooltip.Popup placement="top" offset={8}>
+ *     <Tooltip.Arrow />
+ *     <Tooltip.Title>Feature Name</Tooltip.Title>
+ *     <Tooltip.Description>Additional context about this feature.</Tooltip.Description>
+ *   </Tooltip.Popup>
+ * </Tooltip.Root>
+ * ```
  */
 export const Root = TooltipTrigger;
 export type RootProps = TooltipTriggerComponentProps;
@@ -45,6 +57,24 @@ export const Popup = React.forwardRef<
   <Tooltip ref={ref} className={cx('tale-tooltip__popup', className)} {...props} />
 ));
 Popup.displayName = 'Tooltip.Popup';
+
+// Title — bold main text for structured tooltips
+export const Title = React.forwardRef<
+  HTMLSpanElement,
+  Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <span ref={ref} className={cx('tale-tooltip__title', className)} {...props} />
+));
+Title.displayName = 'Tooltip.Title';
+
+// Description — lighter supporting text
+export const Description = React.forwardRef<
+  HTMLSpanElement,
+  Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <span ref={ref} className={cx('tale-tooltip__description', className)} {...props} />
+));
+Description.displayName = 'Tooltip.Description';
 
 // Arrow
 export const Arrow = React.forwardRef<

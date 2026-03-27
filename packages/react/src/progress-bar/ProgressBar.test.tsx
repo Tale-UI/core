@@ -165,5 +165,64 @@ describe('<ProgressBar />', () => {
       );
       expect(refEl).to.be.instanceof(window.HTMLSpanElement);
     });
+
+    it('applies left style for top-floating labelPosition', async () => {
+      await render(
+        <ProgressBar.Root value={60} minValue={0} maxValue={100} aria-label="Loading" labelPosition="top-floating">
+          <ProgressBar.Value data-testid="value">60%</ProgressBar.Value>
+        </ProgressBar.Root>,
+      );
+      expect(screen.getByTestId('value').style.left).to.equal('60%');
+    });
+
+    it('applies left style for bottom-floating labelPosition', async () => {
+      await render(
+        <ProgressBar.Root value={25} minValue={0} maxValue={100} aria-label="Loading" labelPosition="bottom-floating">
+          <ProgressBar.Value data-testid="value">25%</ProgressBar.Value>
+        </ProgressBar.Root>,
+      );
+      expect(screen.getByTestId('value').style.left).to.equal('25%');
+    });
+
+    it('does not apply left style for non-floating labelPosition', async () => {
+      await render(
+        <ProgressBar.Root value={60} aria-label="Loading" labelPosition="right">
+          <ProgressBar.Value data-testid="value">60%</ProgressBar.Value>
+        </ProgressBar.Root>,
+      );
+      expect(screen.getByTestId('value').style.left).to.equal('');
+    });
+  });
+
+  describe('labelPosition prop', () => {
+    it('sets data-label-position attribute for non-default positions', async () => {
+      await render(<ProgressBar.Root value={50} aria-label="Loading" labelPosition="right" />);
+      expect(screen.getByRole('progressbar')).to.have.attribute('data-label-position', 'right');
+    });
+
+    it('does not set data-label-position for default "top" position', async () => {
+      await render(<ProgressBar.Root value={50} aria-label="Loading" labelPosition="top" />);
+      expect(screen.getByRole('progressbar')).not.to.have.attribute('data-label-position');
+    });
+
+    it('does not set data-label-position when labelPosition is omitted', async () => {
+      await render(<ProgressBar.Root value={50} aria-label="Loading" />);
+      expect(screen.getByRole('progressbar')).not.to.have.attribute('data-label-position');
+    });
+
+    it('sets data-label-position="bottom" correctly', async () => {
+      await render(<ProgressBar.Root value={50} aria-label="Loading" labelPosition="bottom" />);
+      expect(screen.getByRole('progressbar')).to.have.attribute('data-label-position', 'bottom');
+    });
+
+    it('sets data-label-position="top-floating" correctly', async () => {
+      await render(<ProgressBar.Root value={50} aria-label="Loading" labelPosition="top-floating" />);
+      expect(screen.getByRole('progressbar')).to.have.attribute('data-label-position', 'top-floating');
+    });
+
+    it('sets data-label-position="bottom-floating" correctly', async () => {
+      await render(<ProgressBar.Root value={50} aria-label="Loading" labelPosition="bottom-floating" />);
+      expect(screen.getByRole('progressbar')).to.have.attribute('data-label-position', 'bottom-floating');
+    });
   });
 });

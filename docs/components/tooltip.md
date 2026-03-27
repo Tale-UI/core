@@ -12,6 +12,8 @@ A hover/focus-triggered tooltip with optional arrow and configurable placement.
 | `Tooltip.Trigger` | Element that triggers the tooltip on hover/focus. |
 | `Tooltip.Popup` | The tooltip overlay. Accepts `placement` and `offset`. |
 | `Tooltip.Arrow` | Arrow pointing to the trigger. |
+| `Tooltip.Title` | Bold main text for structured tooltips. |
+| `Tooltip.Description` | Supporting text (lighter weight/opacity). |
 
 ## Props
 
@@ -47,6 +49,19 @@ import { Tooltip } from '@tale-ui/react/tooltip';
 ))}
 ```
 
+### With Supporting Text
+
+```tsx
+<Tooltip.Root>
+  <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Feature info</Tooltip.Trigger>
+  <Tooltip.Popup placement="top" offset={8}>
+    <Tooltip.Arrow />
+    <Tooltip.Title>Feature Name</Tooltip.Title>
+    <Tooltip.Description>This feature allows you to do something useful.</Tooltip.Description>
+  </Tooltip.Popup>
+</Tooltip.Root>
+```
+
 ### With Delay
 
 ```tsx
@@ -72,6 +87,8 @@ import { Tooltip } from '@tale-ui/react/tooltip';
 - `.tale-tooltip__trigger` — Trigger element
 - `.tale-tooltip__popup` — Tooltip container
 - `.tale-tooltip__arrow` — Arrow element
+- `.tale-tooltip__title` — Title text (semibold)
+- `.tale-tooltip__description` — Supporting text (lighter weight/opacity)
 
 ## Notes
 

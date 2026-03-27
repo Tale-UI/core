@@ -129,7 +129,7 @@ import { RatingStars } from '@tale-ui/react/rating-stars';
 import { RatingBadge } from '@tale-ui/react/rating-badge';
 import { SelectNative } from '@tale-ui/react/select-native';
 import { AppStoreButton } from '@tale-ui/react/app-store-button';
-import { SocialButton } from '@tale-ui/react/social-button';
+import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';
 import { PaymentInput } from '@tale-ui/react/payment-input';
 
 
@@ -266,6 +266,7 @@ const TOC = [
   { category: 'Marketing', items: [
     { id: 'app-store-button', label: 'AppStoreButton' },
     { id: 'social-button', label: 'SocialButton' },
+    { id: 'social-button-group', label: 'SocialButtonGroup' },
   ]},
   { category: 'Utility', items: [
     { id: 'color-mode-toggle', label: 'ColorModeToggle' },
@@ -878,7 +879,7 @@ export default function ComponentAudit() {
         {/* FORM CONTROLS */}
         {/* ============================================================= */}
 
-        <Section id="button" title="Button" classes={['tale-button', 'tale-button--primary', 'tale-button--neutral', 'tale-button--ghost', 'tale-button--danger', 'tale-button--inverse', 'tale-button--sm', 'tale-button--md', 'tale-button--lg']}>
+        <Section id="button" title="Button" classes={['tale-button', 'tale-button--primary', 'tale-button--neutral', 'tale-button--ghost', 'tale-button--danger', 'tale-button--inverse', 'tale-button--sm', 'tale-button--md', 'tale-button--lg', 'tale-button__content', 'tale-button__spinner']}>
           <SubHeading>Variants</SubHeading>
           <Row>
             <Button variant="primary">Primary</Button>
@@ -912,6 +913,14 @@ export default function ComponentAudit() {
               <Icon icon={ChevronDown} size="sm" />
             </Button>
           </Row>
+          <SubHeading>Pending</SubHeading>
+          <Row>
+            <Button isPending variant="primary">Primary</Button>
+            <Button isPending variant="neutral">Neutral</Button>
+            <Button isPending variant="ghost">Ghost</Button>
+            <Button isPending variant="danger">Danger</Button>
+            <Button isPending variant="inverse">Inverse</Button>
+          </Row>
         </Section>
 
         <Section id="icon-button" title="IconButton" classes={['tale-icon-button', 'tale-icon-button--sm', 'tale-icon-button--md', 'tale-icon-button--lg']}>
@@ -936,6 +945,14 @@ export default function ComponentAudit() {
             <IconButton disabled variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
             <IconButton disabled variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
             <IconButton disabled variant="inverse" aria-label="Download"><Icon icon={Download} /></IconButton>
+          </Row>
+          <SubHeading>Pending</SubHeading>
+          <Row>
+            <IconButton isPending variant="primary" aria-label="Add"><Icon icon={Plus} /></IconButton>
+            <IconButton isPending variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
+            <IconButton isPending variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
+            <IconButton isPending variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
+            <IconButton isPending variant="inverse" aria-label="Download"><Icon icon={Download} /></IconButton>
           </Row>
         </Section>
 
@@ -1364,7 +1381,7 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="slider" title="Slider" classes={['tale-slider', 'tale-slider__header', 'tale-slider__label', 'tale-slider__output', 'tale-slider__control', 'tale-slider__track', 'tale-slider__indicator', 'tale-slider__thumb']}>
+        <Section id="slider" title="Slider" classes={['tale-slider', 'tale-slider__header', 'tale-slider__label', 'tale-slider__output', 'tale-slider__output--top', 'tale-slider__output--bottom', 'tale-slider__control', 'tale-slider__track', 'tale-slider__indicator', 'tale-slider__thumb']}>
           <SubHeading>With Header &amp; Output</SubHeading>
           <div className="audit__demo-narrow audit__demo-spaced">
             <Slider.Root defaultValue={50}>
@@ -1440,6 +1457,32 @@ export default function ComponentAudit() {
                 <Slider.Track>
                   <Slider.Indicator />
                   <Slider.Thumb />
+                </Slider.Track>
+              </Slider.Control>
+            </Slider.Root>
+          </div>
+          <SubHeading>Thumb Label — Bottom</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Slider.Root defaultValue={50}>
+              <Slider.Control>
+                <Slider.Track>
+                  <Slider.Indicator />
+                  <Slider.Thumb>
+                    <Slider.Output position="bottom" />
+                  </Slider.Thumb>
+                </Slider.Track>
+              </Slider.Control>
+            </Slider.Root>
+          </div>
+          <SubHeading>Thumb Label — Floating Top</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <Slider.Root defaultValue={50}>
+              <Slider.Control>
+                <Slider.Track>
+                  <Slider.Indicator />
+                  <Slider.Thumb>
+                    <Slider.Output position="top" />
+                  </Slider.Thumb>
                 </Slider.Track>
               </Slider.Control>
             </Slider.Root>
@@ -1610,7 +1653,7 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="tooltip" title="Tooltip" classes={['tale-tooltip__popup', 'tale-tooltip__arrow']}>
+        <Section id="tooltip" title="Tooltip" classes={['tale-tooltip__popup', 'tale-tooltip__arrow', 'tale-tooltip__title', 'tale-tooltip__description']}>
           <SubHeading>Without arrow</SubHeading>
           <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
@@ -1645,6 +1688,19 @@ export default function ComponentAudit() {
                 lines to demonstrate how the tooltip handles extended content gracefully.
               </Tooltip.Popup>
             </Tooltip.Root>
+          </Row>
+          <SubHeading>With Supporting Text</SubHeading>
+          <Row className="audit__demo-row--padded">
+            {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
+              <Tooltip.Root key={side} delay={300} closeDelay={150}>
+                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Info ({side})</Tooltip.Trigger>
+                <Tooltip.Popup placement={side} offset={8}>
+                  <Tooltip.Arrow />
+                  <Tooltip.Title>Feature Name</Tooltip.Title>
+                  <Tooltip.Description>Supporting text on {side}</Tooltip.Description>
+                </Tooltip.Popup>
+              </Tooltip.Root>
+            ))}
           </Row>
           <SubHeading>With Delay</SubHeading>
           <Row className="audit__demo-row--padded">
@@ -2295,6 +2351,59 @@ export default function ComponentAudit() {
               </ProgressBar.Track>
             </ProgressBar.Root>
           </div>
+          <SubHeading>Label position: right</SubHeading>
+          <div className="audit__demo-wide display--flex flex--col gap--s">
+            {[20, 60, 100].map((value) => (
+              <ProgressBar.Root key={value} value={value} labelPosition="right">
+                <ProgressBar.Header>
+                  <ProgressBar.Value>{value}%</ProgressBar.Value>
+                </ProgressBar.Header>
+                <ProgressBar.Track>
+                  <ProgressBar.Indicator value={value} />
+                </ProgressBar.Track>
+              </ProgressBar.Root>
+            ))}
+          </div>
+          <SubHeading>Label position: bottom</SubHeading>
+          <div className="audit__demo-wide display--flex flex--col gap--s">
+            {[20, 60, 100].map((value) => (
+              <ProgressBar.Root key={value} value={value} labelPosition="bottom">
+                <ProgressBar.Header>
+                  <ProgressBar.Label>Uploading</ProgressBar.Label>
+                  <ProgressBar.Value>{value}%</ProgressBar.Value>
+                </ProgressBar.Header>
+                <ProgressBar.Track>
+                  <ProgressBar.Indicator value={value} />
+                </ProgressBar.Track>
+              </ProgressBar.Root>
+            ))}
+          </div>
+          <SubHeading>Label position: top-floating</SubHeading>
+          <div className="audit__demo-wide display--flex flex--col gap--s">
+            {[20, 60, 100].map((value) => (
+              <ProgressBar.Root key={value} value={value} labelPosition="top-floating">
+                <ProgressBar.Header>
+                  <ProgressBar.Value>{value}%</ProgressBar.Value>
+                </ProgressBar.Header>
+                <ProgressBar.Track>
+                  <ProgressBar.Indicator value={value} />
+                </ProgressBar.Track>
+              </ProgressBar.Root>
+            ))}
+          </div>
+          <SubHeading>Label position: bottom-floating</SubHeading>
+          <div className="audit__demo-wide display--flex flex--col gap--s">
+            {[20, 60, 100].map((value) => (
+              <ProgressBar.Root key={value} value={value} labelPosition="bottom-floating">
+                <ProgressBar.Header>
+                  <ProgressBar.Value>{value}%</ProgressBar.Value>
+                </ProgressBar.Header>
+                <ProgressBar.Track>
+                  <ProgressBar.Indicator value={value} />
+                </ProgressBar.Track>
+              </ProgressBar.Root>
+            ))}
+          </div>
         </Section>
 
         <Section id="meter" title="Meter" classes={['tale-meter', 'tale-meter__header', 'tale-meter__label', 'tale-meter__value', 'tale-meter__track', 'tale-meter__indicator']}>
@@ -2363,7 +2472,7 @@ export default function ComponentAudit() {
         {/* DISPLAY */}
         {/* ============================================================= */}
 
-        <Section id="avatar" title="Avatar" classes={['tale-avatar', 'tale-avatar--sm', 'tale-avatar--md', 'tale-avatar--lg', 'tale-avatar--xl', 'tale-avatar__image', 'tale-avatar__fallback', 'tale-avatar-group', 'tale-avatar-count']}>
+        <Section id="avatar" title="Avatar" classes={['tale-avatar', 'tale-avatar--sm', 'tale-avatar--md', 'tale-avatar--lg', 'tale-avatar--xl', 'tale-avatar__image', 'tale-avatar__fallback', 'tale-avatar-group', 'tale-avatar-count', 'tale-avatar-indicator', 'tale-avatar-indicator--bottom-right', 'tale-avatar-indicator--top-right', 'tale-avatar-indicator__badge', 'tale-avatar-label-group', 'tale-avatar-label-group--sm', 'tale-avatar-label-group--md', 'tale-avatar-label-group--lg', 'tale-avatar-label-group__title', 'tale-avatar-label-group__subtitle']}>
           <SubHeading>Sizes (fallback)</SubHeading>
           <Row>
             {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
@@ -2375,7 +2484,7 @@ export default function ComponentAudit() {
           <SubHeading>With image</SubHeading>
           <Row>
             <Avatar.Root size="lg">
-              <Avatar.Image src="https://avatars.githubusercontent.com/u/1" alt="User" />
+              <Avatar.Image src="https://placehold.co/96x96" alt="User" />
               <Avatar.Fallback>AB</Avatar.Fallback>
             </Avatar.Root>
           </Row>
@@ -2394,9 +2503,64 @@ export default function ComponentAudit() {
               <Avatar.Count>+5</Avatar.Count>
             </Avatar.Group>
           </Row>
+          <SubHeading>Indicator (bottom-right)</SubHeading>
+          <Row>
+            {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+              <Avatar.Indicator key={size} badge={<DotIcon color="success" />}>
+                <Avatar.Root size={size}>
+                  <Avatar.Fallback>AB</Avatar.Fallback>
+                </Avatar.Root>
+              </Avatar.Indicator>
+            ))}
+          </Row>
+          <SubHeading>Indicator (top-right)</SubHeading>
+          <Row>
+            <Avatar.Indicator badge={<DotIcon color="error" />} position="top-right">
+              <Avatar.Root size="lg">
+                <Avatar.Fallback>CD</Avatar.Fallback>
+              </Avatar.Root>
+            </Avatar.Indicator>
+          </Row>
+          <SubHeading>LabelGroup sizes</SubHeading>
+          <Row>
+            <Avatar.LabelGroup size="sm">
+              <Avatar.Root>
+                <Avatar.Fallback>JD</Avatar.Fallback>
+              </Avatar.Root>
+              <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+              <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>
+            </Avatar.LabelGroup>
+            <Avatar.LabelGroup size="md">
+              <Avatar.Root>
+                <Avatar.Fallback>JD</Avatar.Fallback>
+              </Avatar.Root>
+              <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+              <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>
+            </Avatar.LabelGroup>
+            <Avatar.LabelGroup size="lg">
+              <Avatar.Root>
+                <Avatar.Fallback>JD</Avatar.Fallback>
+              </Avatar.Root>
+              <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+              <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>
+            </Avatar.LabelGroup>
+          </Row>
+          <SubHeading>LabelGroup with Indicator</SubHeading>
+          <Row>
+            <Avatar.LabelGroup size="md">
+              <Avatar.Indicator badge={<DotIcon color="success" />}>
+                <Avatar.Root>
+                  <Avatar.Image src="https://placehold.co/72x72" alt="User" />
+                  <Avatar.Fallback>JD</Avatar.Fallback>
+                </Avatar.Root>
+              </Avatar.Indicator>
+              <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+              <Avatar.LabelGroupSubtitle>Online</Avatar.LabelGroupSubtitle>
+            </Avatar.LabelGroup>
+          </Row>
         </Section>
 
-        <Section id="badge" title="Badge" classes={['tale-badge', 'tale-badge--neutral', 'tale-badge--brand', 'tale-badge--error', 'tale-badge--warning', 'tale-badge--success', 'tale-badge--sm', 'tale-badge--md', 'tale-badge--lg']}>
+        <Section id="badge" title="Badge" classes={['tale-badge', 'tale-badge--neutral', 'tale-badge--brand', 'tale-badge--error', 'tale-badge--warning', 'tale-badge--success', 'tale-badge--red', 'tale-badge--orange', 'tale-badge--amber', 'tale-badge--yellow', 'tale-badge--lime', 'tale-badge--green', 'tale-badge--emerald', 'tale-badge--teal', 'tale-badge--cyan', 'tale-badge--sky', 'tale-badge--indigo', 'tale-badge--violet', 'tale-badge--purple', 'tale-badge--fuchsia', 'tale-badge--pink', 'tale-badge--rose', 'tale-badge--sm', 'tale-badge--md', 'tale-badge--lg']}>
           <SubHeading>Variants</SubHeading>
           <Row>
             <Badge variant="neutral">Neutral</Badge>
@@ -2404,6 +2568,25 @@ export default function ComponentAudit() {
             <Badge variant="error">Error</Badge>
             <Badge variant="warning">Warning</Badge>
             <Badge variant="success">Success</Badge>
+          </Row>
+          <SubHeading>Named Colors</SubHeading>
+          <Row>
+            <Badge variant="red">Red</Badge>
+            <Badge variant="orange">Orange</Badge>
+            <Badge variant="amber">Amber</Badge>
+            <Badge variant="yellow">Yellow</Badge>
+            <Badge variant="lime">Lime</Badge>
+            <Badge variant="green">Green</Badge>
+            <Badge variant="emerald">Emerald</Badge>
+            <Badge variant="teal">Teal</Badge>
+            <Badge variant="cyan">Cyan</Badge>
+            <Badge variant="sky">Sky</Badge>
+            <Badge variant="indigo">Indigo</Badge>
+            <Badge variant="violet">Violet</Badge>
+            <Badge variant="purple">Purple</Badge>
+            <Badge variant="fuchsia">Fuchsia</Badge>
+            <Badge variant="pink">Pink</Badge>
+            <Badge variant="rose">Rose</Badge>
           </Row>
           <SubHeading>Sizes</SubHeading>
           <Row>
@@ -3095,6 +3278,23 @@ export default function ComponentAudit() {
             <SocialButton provider="google" size="md">Google (md)</SocialButton>
             <SocialButton provider="google" size="lg">Google (lg)</SocialButton>
           </Row>
+        </Section>
+
+        <Section id="social-button-group" title="SocialButtonGroup" classes={['tale-social-button-group']}>
+          <SubHeading>Default</SubHeading>
+          <SocialButtonGroup>
+            <SocialButton provider="google">Sign in with Google</SocialButton>
+            <SocialButton provider="github">Continue with GitHub</SocialButton>
+            <SocialButton provider="apple">Sign in with Apple</SocialButton>
+            <SocialButton provider="x">Sign in with X</SocialButton>
+            <SocialButton provider="facebook">Continue with Facebook</SocialButton>
+          </SocialButtonGroup>
+          <SubHeading>Size propagation (lg)</SubHeading>
+          <SocialButtonGroup size="lg">
+            <SocialButton provider="google">Sign in with Google</SocialButton>
+            <SocialButton provider="github">Continue with GitHub</SocialButton>
+            <SocialButton provider="apple">Sign in with Apple</SocialButton>
+          </SocialButtonGroup>
         </Section>
 
         {/* ============================================================= */}

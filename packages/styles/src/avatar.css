@@ -165,3 +165,92 @@
   height: 8rem;
   font-size: var(--label-l-font-size);
 }
+
+/* ─── Indicator — badge positioned at avatar corner ────────────────────────── */
+
+.tale-avatar-indicator {
+  position: relative;
+  display: inline-flex;
+}
+
+.tale-avatar-indicator__badge {
+  position: absolute;
+  display: flex;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 0 2px var(--neutral-10);
+}
+
+.tale-avatar-indicator--bottom-right .tale-avatar-indicator__badge {
+  bottom: 0;
+  right: 0;
+}
+
+.tale-avatar-indicator--top-right .tale-avatar-indicator__badge {
+  top: 0;
+  right: 0;
+}
+
+/* ─── LabelGroup — avatar + title + subtitle profile row ───────────────────── */
+
+.tale-avatar-label-group {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.tale-avatar-label-group > .tale-avatar,
+.tale-avatar-label-group > .tale-avatar-indicator {
+  grid-row: 1 / -1;
+}
+
+.tale-avatar-label-group__title {
+  font-family: var(--label-font-family);
+  font-weight: var(--label-font-weight);
+  font-size: var(--text-s-font-size);
+  color: var(--neutral-90);
+  line-height: 1.2;
+}
+
+.tale-avatar-label-group__subtitle {
+  font-size: var(--text-xs-font-size);
+  line-height: 1.2;
+  color: var(--neutral-60);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Size modifiers */
+
+.tale-avatar-label-group--sm {
+  column-gap: var(--space-2xs);
+}
+
+.tale-avatar-label-group--sm .tale-avatar-label-group__title {
+  font-size: var(--text-xs-font-size);
+}
+
+.tale-avatar-label-group--sm .tale-avatar-label-group__subtitle {
+  font-size: var(--text-xs-font-size);
+}
+
+.tale-avatar-label-group--lg {
+  column-gap: var(--space-s);
+}
+
+.tale-avatar-label-group--lg .tale-avatar-label-group__title {
+  font-size: var(--text-m-font-size);
+  position: relative;
+  top: 10%;
+}
+
+.tale-avatar-label-group--lg .tale-avatar-label-group__subtitle {
+  font-size: var(--text-s-font-size);
+  position: relative;
+  bottom: 10%;
+}

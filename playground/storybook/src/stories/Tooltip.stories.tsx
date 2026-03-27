@@ -87,6 +87,43 @@ export const WithoutArrow: Story = {
   ),
 };
 
+export const WithSupportingText: Story = {
+  name: 'With Supporting Text',
+  render: (args) => (
+    <div className="story-padded">
+      <Tooltip.Root>
+        <Tooltip.Trigger>Feature info</Tooltip.Trigger>
+        <Tooltip.Popup placement={args.placement} offset={args.offset}>
+          <Tooltip.Arrow />
+          <Tooltip.Title>Feature Name</Tooltip.Title>
+          <Tooltip.Description>This feature allows you to do something useful.</Tooltip.Description>
+        </Tooltip.Popup>
+      </Tooltip.Root>
+    </div>
+  ),
+};
+
+export const SupportingTextPlacements: Story = {
+  name: 'Supporting Text — All Placements',
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div className="story-padded story-tooltip-row">
+      {(['top', 'bottom', 'left', 'right'] as const).map((placement) => (
+        <Tooltip.Root key={placement}>
+          <Tooltip.Trigger>{placement}</Tooltip.Trigger>
+          <Tooltip.Popup placement={placement} offset={8}>
+            <Tooltip.Arrow />
+            <Tooltip.Title>Heading</Tooltip.Title>
+            <Tooltip.Description>Supporting text on {placement}</Tooltip.Description>
+          </Tooltip.Popup>
+        </Tooltip.Root>
+      ))}
+    </div>
+  ),
+};
+
 export const WithDelay: Story = {
   name: 'With Delay',
   render: (args) => (

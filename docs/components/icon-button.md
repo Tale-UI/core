@@ -48,6 +48,16 @@ import { Plus, Settings, Search, Trash2, Download } from 'lucide-react';
 </IconButton>
 ```
 
+### Pending / Loading
+
+```tsx
+<IconButton variant="ghost" isPending aria-label="Search">
+  <Icon icon={Search} />
+</IconButton>
+```
+
+When pending, the icon is hidden and replaced by a Spinner. The button remains focusable but does not respond to press or hover events.
+
 ## Props
 
 | Prop | Type | Default | Description |
@@ -56,6 +66,8 @@ import { Plus, Settings, Search, Trash2, Download } from 'lucide-react';
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
 | `isDisabled` | `boolean` | `false` | Disables the button |
 | `disabled` | `boolean` | — | Alias for `isDisabled` |
+| `isPending` | `boolean` | — | Shows a loading spinner and prevents interaction while remaining focusable |
+| `pending` | `boolean` | — | Alias for `isPending` |
 | `aria-label` | `string` | — | Required accessible label |
 | `className` | `string` | — | Additional class name |
 
@@ -75,3 +87,4 @@ Variant styles (`.tale-button--primary`, etc.) are inherited from the Button com
 - The default variant is `ghost` (unlike Button which defaults to `primary`), since icon-only buttons are most commonly used as subtle actions.
 - Always use `md` size icons inside IconButton for visual consistency.
 - Always provide `aria-label` — without visible text the button is inaccessible otherwise.
+- Both `isPending` and `pending` props are supported (aliases). When pending, press and hover events are suppressed but the button remains focusable for accessibility.

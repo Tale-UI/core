@@ -8,7 +8,7 @@ A small status label with semantic color variants.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| variant | `'neutral' \| 'brand' \| 'error' \| 'warning' \| 'success'` | `'neutral'` | Color variant |
+| variant | `'neutral' \| 'brand' \| 'error' \| 'warning' \| 'success' \| 'red' \| 'orange' \| 'amber' \| 'yellow' \| 'lime' \| 'green' \| 'emerald' \| 'teal' \| 'cyan' \| 'sky' \| 'indigo' \| 'violet' \| 'purple' \| 'fuchsia' \| 'pink' \| 'rose'` | `'neutral'` | Color variant |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the badge |
 
 Also accepts all standard `<span>` HTML attributes.
@@ -39,6 +39,27 @@ Also accepts all standard `<span>` HTML attributes.
 <Badge size="lg">Large</Badge>
 ```
 
+### Named Color Variants
+
+```tsx
+<Badge variant="red">Red</Badge>
+<Badge variant="orange">Orange</Badge>
+<Badge variant="amber">Amber</Badge>
+<Badge variant="yellow">Yellow</Badge>
+<Badge variant="lime">Lime</Badge>
+<Badge variant="green">Green</Badge>
+<Badge variant="emerald">Emerald</Badge>
+<Badge variant="teal">Teal</Badge>
+<Badge variant="cyan">Cyan</Badge>
+<Badge variant="sky">Sky</Badge>
+<Badge variant="indigo">Indigo</Badge>
+<Badge variant="violet">Violet</Badge>
+<Badge variant="purple">Purple</Badge>
+<Badge variant="fuchsia">Fuchsia</Badge>
+<Badge variant="pink">Pink</Badge>
+<Badge variant="rose">Rose</Badge>
+```
+
 ### Combined
 
 ```tsx
@@ -49,7 +70,8 @@ Also accepts all standard `<span>` HTML attributes.
 ## CSS Classes
 
 - `.tale-badge` -- Base
-- `.tale-badge--neutral` / `--brand` / `--error` / `--warning` / `--success` -- Variant modifiers
+- `.tale-badge--neutral` / `--brand` / `--error` / `--warning` / `--success` -- Semantic variant modifiers
+- `.tale-badge--red` / `--orange` / `--amber` / `--yellow` / `--lime` / `--green` / `--emerald` / `--teal` / `--cyan` / `--sky` / `--indigo` / `--violet` / `--purple` / `--fuchsia` / `--pink` / `--rose` -- Named color modifiers
 - `.tale-badge--sm` / `--md` / `--lg` -- Size modifiers
 
 ## Notes

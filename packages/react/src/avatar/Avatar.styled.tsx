@@ -121,3 +121,105 @@ export const Fallback = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<H
   ),
 );
 Fallback.displayName = 'Avatar.Fallback';
+
+// ── Indicator ────────────────────────────────────────────────────────────────
+
+export interface IndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /**
+   * Position of the badge relative to the avatar.
+   * @default 'bottom-right'
+   */
+  position?: 'bottom-right' | 'top-right' | undefined;
+  /** Element to position at the avatar corner (typically a DotIcon). */
+  badge?: React.ReactNode | undefined;
+}
+
+/**
+ * Positions a badge (e.g. DotIcon) at the corner of an avatar.
+ * Wraps Avatar.Root from outside because `.tale-avatar` has `overflow: hidden`.
+ *
+ * @example
+ * ```tsx
+ * import { Avatar } from '@tale-ui/react/avatar';
+ * import { DotIcon } from '@tale-ui/react/dot-icon';
+ *
+ * <Avatar.Indicator badge={<DotIcon color="success" />}>
+ *   <Avatar.Root>
+ *     <Avatar.Image src="/photo.jpg" alt="User" />
+ *     <Avatar.Fallback>JD</Avatar.Fallback>
+ *   </Avatar.Root>
+ * </Avatar.Indicator>
+ * ```
+ */
+export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
+  ({ position = 'bottom-right', badge, className, children, ...props }, ref) => (
+    <span
+      ref={ref}
+      className={cx(`tale-avatar-indicator tale-avatar-indicator--${position}`, className)}
+      {...props}
+    >
+      {children}
+      {badge != null && <span className="tale-avatar-indicator__badge">{badge}</span>}
+    </span>
+  ),
+);
+Indicator.displayName = 'Avatar.Indicator';
+
+// ── LabelGroup ───────────────────────────────────────────────────────────────
+
+type LabelGroupSize = 'sm' | 'md' | 'lg';
+
+export interface LabelGroupProps extends React.HTMLAttributes<HTMLElement> {
+  /** Controls avatar size (via context) and text sizing. Defaults to 'md'. */
+  size?: LabelGroupSize | undefined;
+}
+
+/**
+ * Combines an avatar with a title and subtitle for user profile displays.
+ *
+ * @example
+ * ```tsx
+ * import { Avatar } from '@tale-ui/react/avatar';
+ *
+ * <Avatar.LabelGroup size="md">
+ *   <Avatar.Root>
+ *     <Avatar.Image src="/photo.jpg" alt="User" />
+ *     <Avatar.Fallback>JD</Avatar.Fallback>
+ *   </Avatar.Root>
+ *   <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
+ *   <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>
+ * </Avatar.LabelGroup>
+ * ```
+ */
+export const LabelGroup = React.forwardRef<HTMLElement, LabelGroupProps>(
+  ({ size = 'md', className, children, ...props }, ref) => {
+    const content = (
+      <figure
+        ref={ref}
+        className={cx(`tale-avatar-label-group tale-avatar-label-group--${size}`, className)}
+        {...props}
+      >
+        {children}
+      </figure>
+    );
+
+    return (
+      <AvatarSizeContext.Provider value={size}>{content}</AvatarSizeContext.Provider>
+    );
+  },
+);
+LabelGroup.displayName = 'Avatar.LabelGroup';
+
+export const LabelGroupTitle = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-avatar-label-group__title', className)} {...props} />
+  ),
+);
+LabelGroupTitle.displayName = 'Avatar.LabelGroupTitle';
+
+export const LabelGroupSubtitle = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cx('tale-avatar-label-group__subtitle', className)} {...props} />
+  ),
+);
+LabelGroupSubtitle.displayName = 'Avatar.LabelGroupSubtitle';

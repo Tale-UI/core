@@ -131,6 +131,7 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 |-----------|-------------|
 | [AppStoreButton](app-store-button.md) | App store download button (Apple/Google) |
 | [SocialButton](social-button.md) | Social login button with provider icon |
+| [SocialButtonGroup](social-button-group.md) | Equal-width vertical group for social login buttons |
 
 ## Utility
 

@@ -1,6 +1,6 @@
 # Component Index
 
-Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
+Quick-reference table for all 82 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
 
 ## Form Controls (21)
 
@@ -59,7 +59,7 @@ Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage
 | Popover | Anchored popup | `@tale-ui/react/popover` | Root, Trigger, Popup, Arrow, Title, Description, Close |
 | PreviewCard | Hover preview card | `@tale-ui/react/preview-card` | Root, Trigger, Popup, Content, Arrow |
 | Drawer | Slide-in panel | `@tale-ui/react/drawer` | Root, Trigger, Backdrop, Popup, Title, Description, Close, Handle, SwipeArea |
-| Tooltip | Hover tooltip | `@tale-ui/react/tooltip` | Root, Trigger, Popup, Arrow |
+| Tooltip | Hover tooltip | `@tale-ui/react/tooltip` | Root, Trigger, Popup, Arrow, Title, Description |
 
 ## Navigation (7)
 
@@ -98,7 +98,7 @@ Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
-| Avatar | User avatar with image, fallback, group, and count | `@tale-ui/react/avatar` | Root, Image, Fallback, Group, Count |
+| Avatar | User avatar with image, fallback, group, count, indicator, and label group | `@tale-ui/react/avatar` | Root, Image, Fallback, Group, Count, Indicator, LabelGroup, LabelGroupTitle, LabelGroupSubtitle |
 | Badge | Small status label with semantic variants | `@tale-ui/react/badge` | -- |
 | DotIcon | Small colored circle status indicator | `@tale-ui/react/dot-icon` | -- |
 | EmptyState | Placeholder for empty content areas | `@tale-ui/react/empty-state` | Root, EmptyStateIcon, Title, Description, Actions |
@@ -137,12 +137,13 @@ Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage
 | IconButton | Square button for icon-only use | `@tale-ui/react/icon-button` | -- |
 | mergeProps | Smart React props merging utility | `@tale-ui/react/merge-props` | -- |
 
-## Marketing (2)
+## Marketing (3)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | AppStoreButton | App store download button (Apple/Google) | `@tale-ui/react/app-store-button` | -- |
 | SocialButton | Social login button with provider icon | `@tale-ui/react/social-button` | -- |
+| SocialButtonGroup | Equal-width vertical group for social login buttons | `@tale-ui/react/social-button` | -- |
 
 ## Charts (6)
 

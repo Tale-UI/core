@@ -153,6 +153,69 @@ export const Disabled: Story = {
   ),
 };
 
+export const ThumbLabelBottom: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div className="story-slider-wide">
+      <Slider.Root defaultValue={50}>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb>
+              <Slider.Output position="bottom" />
+            </Slider.Thumb>
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  ),
+};
+
+export const ThumbLabelTop: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div className="story-slider-wide">
+      <Slider.Root defaultValue={50}>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb>
+              <Slider.Output position="top" />
+            </Slider.Thumb>
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  ),
+};
+
+export const ThumbLabelRange: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div className="story-slider-wide">
+      <Slider.Root defaultValue={[20, 80]}>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb index={0}>
+              <Slider.Output position="top" index={0} />
+            </Slider.Thumb>
+            <Slider.Thumb index={1}>
+              <Slider.Output position="top" index={1} />
+            </Slider.Thumb>
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>
+    </div>
+  ),
+};
+
 export const Vertical: Story = {
   parameters: {
     controls: { disable: true },

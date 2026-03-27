@@ -4,6 +4,7 @@ import {
   SliderTrack as AriaSliderTrack,
   SliderThumb as AriaSliderThumb,
   SliderOutput as AriaSliderOutput,
+  SliderStateContext,
   Label as AriaLabel,
   type SliderProps as AriaSliderProps,
   type SliderTrackProps as AriaSliderTrackProps,
@@ -89,9 +90,24 @@ Track.displayName = 'Slider.Track';
 export type IndicatorProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
 
 export const Indicator = React.forwardRef<HTMLDivElement, IndicatorProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cx('tale-slider__indicator', className)} {...props} />
-  ),
+  ({ className, style, ...props }, ref) => {
+    const state = React.useContext(SliderStateContext);
+    let fillStyle: React.CSSProperties | undefined;
+    if (state) {
+      const count = state.values.length;
+      const start = count > 1 ? state.getThumbPercent(0) : 0;
+      const end = state.getThumbPercent(count - 1);
+      const startPct = `${start * 100}%`;
+      const sizePct = `${(end - start) * 100}%`;
+      fillStyle =
+        state.orientation === 'vertical'
+          ? { bottom: startPct, height: sizePct }
+          : { left: startPct, width: sizePct };
+    }
+    return (
+      <div ref={ref} className={cx('tale-slider__indicator', className)} style={{ ...fillStyle, ...style }} {...props} />
+    );
+  },
 );
 Indicator.displayName = 'Slider.Indicator';
 
@@ -108,12 +124,32 @@ Thumb.displayName = 'Slider.Thumb';
 
 /* ─── Output (current value display) ─────────────────────────────────────── */
 
-export type OutputProps = Omit<AriaSliderOutputProps, 'className'> & { className?: string };
+export type OutputProps = Omit<AriaSliderOutputProps, 'className'> & {
+  className?: string;
+  /** Position relative to the thumb. Nest Output inside Thumb when using this prop. */
+  position?: 'top' | 'bottom';
+  /** Thumb index to display. When set, only that thumb's formatted value is shown instead of all values. */
+  index?: number;
+};
 
 export const Output = React.forwardRef<HTMLOutputElement, OutputProps>(
-  ({ className, ...props }, ref) => (
-    <AriaSliderOutput ref={ref} className={cx('tale-slider__output', className)} {...props} />
-  ),
+  ({ className, position, index, children, ...props }, ref) => {
+    const state = React.useContext(SliderStateContext);
+    const resolvedChildren =
+      children ?? (index != null && state ? state.getThumbValueLabel(index) : undefined);
+    return (
+      <AriaSliderOutput
+        ref={ref}
+        className={cx(
+          `tale-slider__output${position ? ` tale-slider__output--${position}` : ''}`,
+          className,
+        )}
+        {...props}
+      >
+        {resolvedChildren}
+      </AriaSliderOutput>
+    );
+  },
 );
 Output.displayName = 'Slider.Output';
 

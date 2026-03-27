@@ -58,4 +58,48 @@ describe('<Button />', () => {
       expect(handlePress.callCount).to.equal(0);
     });
   });
+
+  describe('isPending', () => {
+    it('sets data-pending attribute when isPending', async () => {
+      await render(<Button isPending>Click me</Button>);
+      const button = screen.getByRole('button');
+      expect(button).to.have.attribute('data-pending');
+    });
+
+    it('sets data-pending attribute when pending alias is used', async () => {
+      await render(<Button pending>Click me</Button>);
+      const button = screen.getByRole('button');
+      expect(button).to.have.attribute('data-pending');
+    });
+
+    it('renders a spinner when pending', async () => {
+      const { container } = await render(<Button isPending>Click me</Button>);
+      expect(container.querySelector('.tale-button__spinner')).to.exist;
+    });
+
+    it('hides button content visually when pending', async () => {
+      const { container } = await render(<Button isPending>Click me</Button>);
+      const content = container.querySelector('.tale-button__content') as HTMLElement;
+      expect(content.style.visibility).to.equal('hidden');
+    });
+
+    it('does not render spinner when not pending', async () => {
+      const { container } = await render(<Button>Click me</Button>);
+      expect(container.querySelector('.tale-button__spinner')).to.not.exist;
+    });
+
+    it('does not fire onPress when pending', async () => {
+      const handlePress = spy();
+      const { user } = await render(<Button isPending onPress={handlePress}>Click me</Button>);
+      const button = screen.getByRole('button');
+      await user.click(button);
+      expect(handlePress.callCount).to.equal(0);
+    });
+
+    it('keeps button focusable when pending', async () => {
+      await render(<Button isPending>Click me</Button>);
+      const button = screen.getByRole('button');
+      expect(button).to.not.have.attribute('disabled');
+    });
+  });
 });

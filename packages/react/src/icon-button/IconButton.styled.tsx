@@ -2,15 +2,20 @@ import * as React from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import type { ButtonProps as AriaButtonProps } from 'react-aria-components';
 import { cx } from '../_cx';
+import { Spinner } from '../spinner/Spinner.styled';
 
 type Variant = 'primary' | 'neutral' | 'ghost' | 'danger' | 'inverse';
 type Size = 'sm' | 'md' | 'lg';
+
+const SPINNER_SIZE: Record<Size, 'sm' | 'md'> = { sm: 'sm', md: 'sm', lg: 'md' };
 
 export interface IconButtonProps extends Omit<AriaButtonProps, 'className' | 'aria-label' | 'aria-labelledby'> {
   variant?: Variant | undefined;
   size?: Size | undefined;
   /** Alias for `isDisabled` for convenience. */
   disabled?: boolean | undefined;
+  /** Alias for `isPending` for convenience. */
+  pending?: boolean | undefined;
   className?: string | undefined;
   /**
    * Accessible label for the icon button. Required because icon-only buttons
@@ -48,16 +53,36 @@ export type AccessibleIconButtonProps = IconButtonProps & RequireAccessibleName;
  * <IconButton variant="ghost" aria-label="Search">
  *   <Icon icon={Search} />
  * </IconButton>
+ * <IconButton variant="ghost" aria-label="Loading" isPending>
+ *   <Icon icon={Search} />
+ * </IconButton>
  * ```
  */
 export const IconButton = React.forwardRef<HTMLButtonElement, AccessibleIconButtonProps>(
-  ({ variant = 'ghost', size = 'md', className, disabled, isDisabled, ...props }, ref) => (
-    <AriaButton
-      ref={ref}
-      isDisabled={disabled ?? isDisabled}
-      className={cx(`tale-icon-button tale-button tale-button--${variant} tale-icon-button--${size}`, className)}
-      {...props}
-    />
-  ),
+  ({ variant = 'ghost', size = 'md', className, disabled, isDisabled, isPending, pending, children, ...props }, ref) => {
+    const effectivePending = pending ?? isPending;
+    return (
+      <AriaButton
+        ref={ref}
+        isDisabled={disabled ?? isDisabled}
+        isPending={effectivePending}
+        className={cx(`tale-icon-button tale-button tale-button--${variant} tale-icon-button--${size}`, className)}
+        {...props}
+      >
+        <span className="tale-button__content" style={effectivePending ? { visibility: 'hidden' } : undefined}>
+          {children as React.ReactNode}
+        </span>
+        {effectivePending && (
+          <Spinner
+            variant="circle"
+            size={SPINNER_SIZE[size]}
+            aria-hidden="true"
+            role="presentation"
+            className="tale-button__spinner"
+          />
+        )}
+      </AriaButton>
+    );
+  },
 );
 IconButton.displayName = 'IconButton';

@@ -109,7 +109,7 @@ Banner · Meter · Progress Bar · Spinner
 
 ### Display
 
-Avatar (with Group and Count) · Badge · Dot Icon · Empty State · Featured Icon · Grid List · Rating Badge · Rating Stars · Table · Tag Group · Tree
+Avatar (with Group, Count, Indicator, and LabelGroup) · Badge · Dot Icon · Empty State · Featured Icon · Grid List · Rating Badge · Rating Stars · Table · Tag Group · Tree
 
 ### Form Structure
 
@@ -121,7 +121,7 @@ Drop Zone · File Trigger
 
 ### Marketing
 
-App Store Button · Social Button
+App Store Button · Social Button · Social Button Group
 
 ### Utilities
 

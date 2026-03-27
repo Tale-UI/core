@@ -65,4 +65,48 @@ describe('<IconButton />', () => {
     await render(<IconButton ref={(el) => { ref = el; }} aria-label="Test">X</IconButton>);
     expect(ref).to.be.instanceOf(HTMLButtonElement);
   });
+
+  describe('isPending', () => {
+    it('sets data-pending attribute when isPending', async () => {
+      await render(<IconButton isPending aria-label="Test">X</IconButton>);
+      const button = screen.getByRole('button');
+      expect(button).to.have.attribute('data-pending');
+    });
+
+    it('sets data-pending attribute when pending alias is used', async () => {
+      await render(<IconButton pending aria-label="Test">X</IconButton>);
+      const button = screen.getByRole('button');
+      expect(button).to.have.attribute('data-pending');
+    });
+
+    it('renders a spinner when pending', async () => {
+      const { container } = await render(<IconButton isPending aria-label="Test">X</IconButton>);
+      expect(container.querySelector('.tale-button__spinner')).to.exist;
+    });
+
+    it('hides button content visually when pending', async () => {
+      const { container } = await render(<IconButton isPending aria-label="Test">X</IconButton>);
+      const content = container.querySelector('.tale-button__content') as HTMLElement;
+      expect(content.style.visibility).to.equal('hidden');
+    });
+
+    it('does not render spinner when not pending', async () => {
+      const { container } = await render(<IconButton aria-label="Test">X</IconButton>);
+      expect(container.querySelector('.tale-button__spinner')).to.not.exist;
+    });
+
+    it('does not fire onPress when pending', async () => {
+      const handlePress = spy();
+      const { user } = await render(<IconButton isPending onPress={handlePress} aria-label="Test">X</IconButton>);
+      const button = screen.getByRole('button');
+      await user.click(button);
+      expect(handlePress.callCount).to.equal(0);
+    });
+
+    it('keeps button focusable when pending', async () => {
+      await render(<IconButton isPending aria-label="Test">X</IconButton>);
+      const button = screen.getByRole('button');
+      expect(button).to.not.have.attribute('disabled');
+    });
+  });
 });

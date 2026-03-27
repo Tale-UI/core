@@ -138,7 +138,7 @@ Status of required artifacts for all 81 components. When adding or updating a co
 
 **Non-trivial components requiring tests:** Drawer (custom state/swipe), Meter (percentage calc), ProgressBar (percentage calc + indeterminate), ColorModeToggle (localStorage/OS preference), Tabs (MutationObserver/ResizeObserver indicator)
 
-**Total:** 82 components | **Fully complete:** 82 | **Missing artifacts:** 0
+**Total:** 83 components | **Fully complete:** 83 | **Missing artifacts:** 0
 
 ### Form Controls
 
@@ -254,6 +254,7 @@ Status of required artifacts for all 81 components. When adding or updating a co
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | AppStoreButton | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | SocialButton | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| SocialButtonGroup | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ### Form Structure
 

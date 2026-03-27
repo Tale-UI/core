@@ -9,6 +9,15 @@
  *             .tale-badge--warning
  *             .tale-badge--success
  *
+ * Colors:     .tale-badge--red      .tale-badge--orange
+ *             .tale-badge--amber    .tale-badge--yellow
+ *             .tale-badge--lime     .tale-badge--green
+ *             .tale-badge--emerald  .tale-badge--teal
+ *             .tale-badge--cyan     .tale-badge--sky
+ *             .tale-badge--indigo   .tale-badge--violet
+ *             .tale-badge--purple   .tale-badge--fuchsia
+ *             .tale-badge--pink     .tale-badge--rose
+ *
  * Sizes:      .tale-badge--sm
  *             .tale-badge--md  (default)
  *             .tale-badge--lg
@@ -75,4 +84,102 @@
   background-color: var(--success-10);
   color: var(--success-70);
   border-color: var(--success-30);
+}
+
+/* ─── Named Colors ───────────────────────────────────────────────────────── */
+
+.tale-badge--red {
+  background-color: var(--red-10);
+  color: var(--red-70);
+  border-color: var(--red-30);
+}
+
+.tale-badge--orange {
+  background-color: var(--orange-10);
+  color: var(--orange-70);
+  border-color: var(--orange-30);
+}
+
+.tale-badge--amber {
+  background-color: var(--amber-10);
+  color: var(--amber-70);
+  border-color: var(--amber-30);
+}
+
+.tale-badge--yellow {
+  background-color: var(--yellow-10);
+  color: var(--yellow-70);
+  border-color: var(--yellow-30);
+}
+
+.tale-badge--lime {
+  background-color: var(--lime-10);
+  color: var(--lime-70);
+  border-color: var(--lime-30);
+}
+
+.tale-badge--green {
+  background-color: var(--green-10);
+  color: var(--green-70);
+  border-color: var(--green-30);
+}
+
+.tale-badge--emerald {
+  background-color: var(--emerald-10);
+  color: var(--emerald-70);
+  border-color: var(--emerald-30);
+}
+
+.tale-badge--teal {
+  background-color: var(--teal-10);
+  color: var(--teal-70);
+  border-color: var(--teal-30);
+}
+
+.tale-badge--cyan {
+  background-color: var(--cyan-10);
+  color: var(--cyan-70);
+  border-color: var(--cyan-30);
+}
+
+.tale-badge--sky {
+  background-color: var(--sky-10);
+  color: var(--sky-70);
+  border-color: var(--sky-30);
+}
+
+.tale-badge--indigo {
+  background-color: var(--indigo-10);
+  color: var(--indigo-70);
+  border-color: var(--indigo-30);
+}
+
+.tale-badge--violet {
+  background-color: var(--violet-10);
+  color: var(--violet-70);
+  border-color: var(--violet-30);
+}
+
+.tale-badge--purple {
+  background-color: var(--purple-10);
+  color: var(--purple-70);
+  border-color: var(--purple-30);
+}
+
+.tale-badge--fuchsia {
+  background-color: var(--fuchsia-10);
+  color: var(--fuchsia-70);
+  border-color: var(--fuchsia-30);
+}
+
+.tale-badge--pink {
+  background-color: var(--pink-10);
+  color: var(--pink-70);
+  border-color: var(--pink-30);
+}
+
+.tale-badge--rose {
+  background-color: var(--rose-10);
+  color: var(--rose-70);
+  border-color: var(--rose-30);
 }

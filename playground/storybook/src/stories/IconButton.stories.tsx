@@ -7,6 +7,7 @@ type Args = {
   variant: 'primary' | 'neutral' | 'ghost' | 'danger' | 'inverse';
   size: 'sm' | 'md' | 'lg';
   disabled: boolean;
+  pending: boolean;
 };
 
 const meta: Meta<Args> = {
@@ -21,11 +22,13 @@ const meta: Meta<Args> = {
       options: ['sm', 'md', 'lg'],
     },
     disabled: { control: 'boolean' },
+    pending: { control: 'boolean' },
   },
   args: {
     variant: 'ghost',
     size: 'md',
     disabled: false,
+    pending: false,
   },
 };
 
@@ -35,7 +38,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <IconButton variant={args.variant} size={args.size} isDisabled={args.disabled} aria-label="Search">
+    <IconButton variant={args.variant} size={args.size} isDisabled={args.disabled} isPending={args.pending} aria-label="Search">
       <Icon icon={Search} />
     </IconButton>
   ),
@@ -98,6 +101,29 @@ export const Disabled: Story = {
         <Icon icon={Trash2} />
       </IconButton>
       <IconButton variant="inverse" isDisabled aria-label="Download">
+        <Icon icon={Download} />
+      </IconButton>
+    </div>
+  ),
+};
+
+export const Pending: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="story-row story-row--s">
+      <IconButton variant="primary" isPending aria-label="Add">
+        <Icon icon={Plus} />
+      </IconButton>
+      <IconButton variant="neutral" isPending aria-label="Settings">
+        <Icon icon={Settings} />
+      </IconButton>
+      <IconButton variant="ghost" isPending aria-label="Search">
+        <Icon icon={Search} />
+      </IconButton>
+      <IconButton variant="danger" isPending aria-label="Delete">
+        <Icon icon={Trash2} />
+      </IconButton>
+      <IconButton variant="inverse" isPending aria-label="Download">
         <Icon icon={Download} />
       </IconButton>
     </div>

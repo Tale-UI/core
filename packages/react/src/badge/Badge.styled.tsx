@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { cx } from '../_cx';
 
-type Variant = 'neutral' | 'brand' | 'error' | 'warning' | 'success';
+type Variant =
+  | 'neutral' | 'brand' | 'error' | 'warning' | 'success'
+  | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald'
+  | 'teal' | 'cyan' | 'sky' | 'indigo' | 'violet' | 'purple' | 'fuchsia'
+  | 'pink' | 'rose';
 type Size = 'sm' | 'md' | 'lg';
 
 export interface BadgeProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {

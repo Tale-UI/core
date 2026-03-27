@@ -34,5 +34,122 @@
   animation: tale-progress-bar-indeterminate 1.5s ease-in-out infinite;
 }
 
-/* ─── Value label ──────────────────────────────────────────────────────────── */
+/* ─── Label position: right ──────────────────────────────────────────────── */
+
+.tale-progress-bar[data-label-position="right"] {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.tale-progress-bar[data-label-position="right"] .tale-progress-bar__header {
+  display: contents;
+}
+
+.tale-progress-bar[data-label-position="right"] .tale-progress-bar__label {
+  display: none;
+}
+
+.tale-progress-bar[data-label-position="right"] .tale-progress-bar__value {
+  flex-shrink: 0;
+  order: 1;
+}
+
+.tale-progress-bar[data-label-position="right"] .tale-progress-bar__track {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Label position: bottom ─────────────────────────────────────────────── */
+
+.tale-progress-bar[data-label-position="bottom"] .tale-progress-bar__header {
+  display: contents;
+}
+
+.tale-progress-bar[data-label-position="bottom"] .tale-progress-bar__label {
+  margin-bottom: var(--space-xs);
+}
+
+.tale-progress-bar[data-label-position="bottom"] .tale-progress-bar__value {
+  order: 1;
+  margin-top: var(--space-4xs);
+}
+
+/* ─── Label position: floating (shared) ──────────────────────────────────── */
+
+.tale-progress-bar[data-label-position="top-floating"],
+.tale-progress-bar[data-label-position="bottom-floating"] {
+  position: relative;
+}
+
+.tale-progress-bar[data-label-position="top-floating"] .tale-progress-bar__header,
+.tale-progress-bar[data-label-position="bottom-floating"] .tale-progress-bar__header {
+  display: contents;
+}
+
+.tale-progress-bar[data-label-position="top-floating"] .tale-progress-bar__label,
+.tale-progress-bar[data-label-position="bottom-floating"] .tale-progress-bar__label {
+  display: none;
+}
+
+.tale-progress-bar[data-label-position="top-floating"] .tale-progress-bar__value,
+.tale-progress-bar[data-label-position="bottom-floating"] .tale-progress-bar__value {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background-color: var(--neutral-90);
+  color: var(--neutral-90-fg);
+  padding: var(--space-4xs) var(--space-2xs);
+  border-radius: var(--radius-s);
+  font-size: var(--label-s-font-size);
+  pointer-events: none;
+  z-index: 1;
+  transition: left 0.3s ease;
+}
+
+.tale-progress-bar[data-label-position="top-floating"] .tale-progress-bar__value::after,
+.tale-progress-bar[data-label-position="bottom-floating"] .tale-progress-bar__value::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+}
+
+/* ─── Label position: top-floating ──────────────────────────────────────── */
+
+.tale-progress-bar[data-label-position="top-floating"] {
+  padding-top: var(--space-l);
+}
+
+.tale-progress-bar[data-label-position="top-floating"] .tale-progress-bar__value {
+  bottom: calc(100% - var(--space-l) + var(--space-xs));
+}
+
+.tale-progress-bar[data-label-position="top-floating"] .tale-progress-bar__value::after {
+  top: 100%;
+  border-top-color: var(--neutral-90);
+}
+
+/* ─── Label position: bottom-floating ───────────────────────────────────── */
+
+.tale-progress-bar[data-label-position="bottom-floating"] {
+  padding-bottom: var(--space-l);
+}
+
+.tale-progress-bar[data-label-position="bottom-floating"] .tale-progress-bar__value {
+  top: calc(100% - var(--space-l) + var(--space-xs));
+}
+
+.tale-progress-bar[data-label-position="bottom-floating"] .tale-progress-bar__value::after {
+  bottom: 100%;
+  border-bottom-color: var(--neutral-90);
+}
+
+/* ─── Floating + indeterminate: hide value (no position to anchor to) ─────── */
+
+.tale-progress-bar[data-label-position="top-floating"][data-indeterminate] .tale-progress-bar__value,
+.tale-progress-bar[data-label-position="bottom-floating"][data-indeterminate] .tale-progress-bar__value {
+  display: none;
+}
 

@@ -43,6 +43,24 @@
   transform: scale(0.96);
 }
 
+/* ─── Structured content (Title + Description) ────────────────────────────── */
+
+.tale-tooltip__popup:has(.tale-tooltip__title) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
+  padding: var(--space-2xs);
+}
+
+.tale-tooltip__title {
+  font-weight: var(--label-font-weight);
+}
+
+.tale-tooltip__description {
+  font-weight: var(--text-font-weight);
+  opacity: 0.7;
+}
+
 /* ─── Arrow ────────────────────────────────────────────────────────────────── */
 
 /* Arrow — square SVG (8×8 viewBox), rotated per placement.

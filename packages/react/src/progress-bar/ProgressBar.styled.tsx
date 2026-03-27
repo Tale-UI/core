@@ -3,10 +3,34 @@ import { ProgressBar } from 'react-aria-components';
 import type { ProgressBarProps as AriaProgressBarProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
+// ── Context ─────────────────────────────────────────────────────────────────
+
+export type LabelPosition = 'top' | 'right' | 'bottom' | 'top-floating' | 'bottom-floating';
+
+interface ProgressBarContextValue {
+  labelPosition: LabelPosition;
+  percentage: number | null;
+}
+
+const ProgressBarContext = React.createContext<ProgressBarContextValue>({
+  labelPosition: 'top',
+  percentage: null,
+});
+
 // ── Root ───────────────────────────────────────────────────────────────────
 
 export interface RootProps extends Omit<AriaProgressBarProps, 'className'> {
   className?: string | undefined;
+  /**
+   * Controls where the label/value text is positioned relative to the track.
+   * - `'top'` — Label + Value row above the track (default)
+   * - `'right'` — Value text inline to the right of the track
+   * - `'bottom'` — Value text below the track
+   * - `'top-floating'` — Floating tooltip above the track, aligned to the fill point
+   * - `'bottom-floating'` — Floating tooltip below the track, aligned to the fill point
+   * @default 'top'
+   */
+  labelPosition?: LabelPosition | undefined;
 }
 
 /**
@@ -28,9 +52,28 @@ export interface RootProps extends Omit<AriaProgressBarProps, 'className'> {
  * ```
  */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
-  ({ className, ...props }, ref) => (
-    <ProgressBar ref={ref} className={cx('tale-progress-bar', className)} {...props} />
-  ),
+  ({ className, labelPosition = 'top', value, minValue = 0, maxValue = 100, children, ...props }, ref) => {
+    const percentage =
+      value != null && Number.isFinite(value as number)
+        ? (((value as number) - minValue) / (maxValue - minValue)) * 100
+        : null;
+
+    return (
+      <ProgressBarContext.Provider value={{ labelPosition, percentage }}>
+        <ProgressBar
+          ref={ref}
+          className={cx('tale-progress-bar', className)}
+          value={value}
+          minValue={minValue}
+          maxValue={maxValue}
+          data-label-position={labelPosition !== 'top' ? labelPosition : undefined}
+          {...props}
+        >
+          {children}
+        </ProgressBar>
+      </ProgressBarContext.Provider>
+    );
+  },
 );
 Root.displayName = 'ProgressBar.Root';
 
@@ -119,7 +162,9 @@ export interface ValueProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Value = React.forwardRef<HTMLSpanElement, ValueProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, style, ...props }, ref) => {
+    const { labelPosition, percentage } = React.useContext(ProgressBarContext);
+
     if (process.env.NODE_ENV !== 'production' && children == null) {
       console.warn(
         'ProgressBar.Value was rendered without children. It is a display-only <span> that renders ' +
@@ -127,8 +172,18 @@ export const Value = React.forwardRef<HTMLSpanElement, ValueProps>(
       );
     }
 
+    const isFloating = labelPosition === 'top-floating' || labelPosition === 'bottom-floating';
+    const mergedStyle: React.CSSProperties =
+      isFloating && percentage != null ? { left: `${percentage}%`, ...style } : { ...style };
+
     return (
-      <span ref={ref} aria-hidden className={cx('tale-progress-bar__value', className)} {...props}>
+      <span
+        ref={ref}
+        aria-hidden
+        className={cx('tale-progress-bar__value', className)}
+        style={mergedStyle}
+        {...props}
+      >
         {children}
       </span>
     );

@@ -182,10 +182,10 @@ body {
     color: var(--display-color);
 }
 :where(p, span) {
-    color: var(--text-color);
+    /* color: var(--text-color); */
 }
 :where(pre) {
-    color: var(--mono-color);
+    /* color: var(--mono-color); */
 }
 body{
     color: var(--text-color);

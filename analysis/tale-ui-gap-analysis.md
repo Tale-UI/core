@@ -50,7 +50,7 @@ Every component from Untitled UI Pro mapped to its Tale UI equivalent. Status ke
 
 | Untitled UI Pro | Tale UI | Status | Notes |
 |-----------------|---------|--------|-------|
-| Button (9 variants, polymorphic) | Button + Link | ✅ Equivalent | Separate Button/Link is cleaner; polymorphic 🚫 rejected |
+| Button (9 colors, 5 sizes, polymorphic) | Button + Link | ✅ Equivalent | **Colors (9→5):** primary→primary, secondary→neutral, tertiary→ghost, primary-destructive→danger; link-gray/link-color/link-destructive→Link component; secondary-destructive & tertiary-destructive have no direct Tale UI equivalent. Tale UI has `inverse` (UUI Pro does not). **Sizes (5→3):** xs and xl missing. **Features:** UUI Pro has `iconLeading`/`iconTrailing` props + `showTextWhileLoading`; Tale UI uses children composition + `isPending` (hides content). Polymorphic 🚫 rejected |
 | ButtonClose (X button) | IconButton | ✅ Equivalent | `<IconButton><Icon icon={X} /></IconButton>` |
 | ButtonUtility (icon-only) | IconButton | ✅ Equivalent | Same concept, different name |
 | ButtonGroup | ToggleButtonGroup | ✅ Equivalent | Shared border/rounding handled via CSS |

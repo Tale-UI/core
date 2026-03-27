@@ -95,6 +95,7 @@
     "./separator": "./src/separator/index.ts",
     "./slider": "./src/slider/index.ts",
     "./social-button": "./src/social-button/index.ts",
+    "./social-button-group": "./src/social-button-group/index.ts",
     "./spinner": "./src/spinner/index.ts",
     "./switch": "./src/switch/index.ts",
     "./table": "./src/table/index.ts",

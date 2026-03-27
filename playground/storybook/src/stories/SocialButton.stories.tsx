@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SocialButton } from '@tale-ui/react/social-button';
+import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';
 
 type Args = {
   provider: 'google' | 'github' | 'apple' | 'x' | 'facebook';
@@ -52,6 +52,46 @@ export const Sizes: Story = {
         <SocialButton provider="google" size="sm">Sign in with Google</SocialButton>
         <SocialButton provider="google" size="md">Sign in with Google</SocialButton>
         <SocialButton provider="google" size="lg">Sign in with Google</SocialButton>
+      </div>
+    );
+  },
+};
+
+export const Grouped: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <SocialButtonGroup>
+        <SocialButton provider="google">Sign in with Google</SocialButton>
+        <SocialButton provider="github">Continue with GitHub</SocialButton>
+        <SocialButton provider="apple">Sign in with Apple</SocialButton>
+        <SocialButton provider="x">Sign in with X</SocialButton>
+        <SocialButton provider="facebook">Continue with Facebook</SocialButton>
+      </SocialButtonGroup>
+    );
+  },
+};
+
+export const GroupedSizes: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+        <SocialButtonGroup size="sm">
+          <SocialButton provider="google">Sign in with Google</SocialButton>
+          <SocialButton provider="github">Continue with GitHub</SocialButton>
+          <SocialButton provider="apple">Sign in with Apple</SocialButton>
+        </SocialButtonGroup>
+        <SocialButtonGroup size="md">
+          <SocialButton provider="google">Sign in with Google</SocialButton>
+          <SocialButton provider="github">Continue with GitHub</SocialButton>
+          <SocialButton provider="apple">Sign in with Apple</SocialButton>
+        </SocialButtonGroup>
+        <SocialButtonGroup size="lg">
+          <SocialButton provider="google">Sign in with Google</SocialButton>
+          <SocialButton provider="github">Continue with GitHub</SocialButton>
+          <SocialButton provider="apple">Sign in with Apple</SocialButton>
+        </SocialButtonGroup>
       </div>
     );
   },

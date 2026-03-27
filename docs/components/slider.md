@@ -11,7 +11,7 @@ A draggable range input for selecting a value or range within a given span.
 | `Slider.Root` | Wrapper managing value, min/max, step, and orientation |
 | `Slider.Header` | Flex row wrapper for Label + Output |
 | `Slider.Label` | Accessible label |
-| `Slider.Output` | Displays the current value(s) |
+| `Slider.Output` | Displays the current value(s). Accepts optional `position` (`'top'` \| `'bottom'`) for thumb-relative placement — nest inside `Slider.Thumb` when using |
 | `Slider.Control` | Touch-active container around the track |
 | `Slider.Track` | The rail the thumb slides along |
 | `Slider.Indicator` | Filled portion of the track |
@@ -75,6 +75,40 @@ Accepts all React Aria `Slider` props plus an optional `className`. See the `@ex
 </Slider.Root>
 ```
 
+### Thumb Label (Bottom)
+
+Place `Slider.Output` inside `Slider.Thumb` with `position="bottom"` to show the value below the handle.
+
+```tsx
+<Slider.Root defaultValue={50}>
+  <Slider.Control>
+    <Slider.Track>
+      <Slider.Indicator />
+      <Slider.Thumb>
+        <Slider.Output position="bottom" />
+      </Slider.Thumb>
+    </Slider.Track>
+  </Slider.Control>
+</Slider.Root>
+```
+
+### Thumb Label (Floating Top)
+
+Use `position="top"` for a floating tooltip-style label above the thumb.
+
+```tsx
+<Slider.Root defaultValue={50}>
+  <Slider.Control>
+    <Slider.Track>
+      <Slider.Indicator />
+      <Slider.Thumb>
+        <Slider.Output position="top" />
+      </Slider.Thumb>
+    </Slider.Track>
+  </Slider.Control>
+</Slider.Root>
+```
+
 ### Disabled
 
 ```tsx
@@ -117,6 +151,8 @@ Accepts all React Aria `Slider` props plus an optional `className`. See the `@ex
 - `.tale-slider__track` — Rail
 - `.tale-slider__indicator` — Filled portion
 - `.tale-slider__thumb` — Draggable handle
+- `.tale-slider__output--top` — Floating tooltip-style value display above thumb
+- `.tale-slider__output--bottom` — Value display below thumb
 
 ## Notes
 

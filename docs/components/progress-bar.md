@@ -19,9 +19,11 @@ A horizontal bar indicating progress toward completion, with support for determi
 
 ### Root
 
-No Tale UI-specific props beyond React Aria's `ProgressBar` props (`value`, `minValue`, `maxValue`, `isIndeterminate`, etc.).
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `labelPosition` | `'top' \| 'right' \| 'bottom' \| 'top-floating' \| 'bottom-floating'` | `'top'` | Where to position the label/value relative to the track |
 
-Also accepts all React Aria `ProgressBar` props.
+Also accepts all React Aria `ProgressBar` props (`value`, `minValue`, `maxValue`, `isIndeterminate`, etc.).
 
 ### Indicator
 
@@ -45,12 +47,73 @@ Also accepts all standard `<div>` HTML attributes.
 
 ## Examples
 
-### With Label and Value
+### With Label and Value (top, default)
 
 ```tsx
 <ProgressBar.Root value={60} minValue={0} maxValue={100}>
   <ProgressBar.Header>
     <ProgressBar.Label>Uploading...</ProgressBar.Label>
+    <ProgressBar.Value>60%</ProgressBar.Value>
+  </ProgressBar.Header>
+  <ProgressBar.Track>
+    <ProgressBar.Indicator value={60} />
+  </ProgressBar.Track>
+</ProgressBar.Root>
+```
+
+### Label position: right
+
+Value text appears inline to the right of the bar. The Label is hidden in this layout.
+
+```tsx
+<ProgressBar.Root value={60} minValue={0} maxValue={100} labelPosition="right">
+  <ProgressBar.Header>
+    <ProgressBar.Value>60%</ProgressBar.Value>
+  </ProgressBar.Header>
+  <ProgressBar.Track>
+    <ProgressBar.Indicator value={60} />
+  </ProgressBar.Track>
+</ProgressBar.Root>
+```
+
+### Label position: bottom
+
+Value text appears below the bar.
+
+```tsx
+<ProgressBar.Root value={60} minValue={0} maxValue={100} labelPosition="bottom">
+  <ProgressBar.Header>
+    <ProgressBar.Label>Uploading...</ProgressBar.Label>
+    <ProgressBar.Value>60%</ProgressBar.Value>
+  </ProgressBar.Header>
+  <ProgressBar.Track>
+    <ProgressBar.Indicator value={60} />
+  </ProgressBar.Track>
+</ProgressBar.Root>
+```
+
+### Label position: top-floating
+
+A floating tooltip appears above the bar, anchored to the fill point.
+
+```tsx
+<ProgressBar.Root value={60} minValue={0} maxValue={100} labelPosition="top-floating">
+  <ProgressBar.Header>
+    <ProgressBar.Value>60%</ProgressBar.Value>
+  </ProgressBar.Header>
+  <ProgressBar.Track>
+    <ProgressBar.Indicator value={60} />
+  </ProgressBar.Track>
+</ProgressBar.Root>
+```
+
+### Label position: bottom-floating
+
+A floating tooltip appears below the bar, anchored to the fill point.
+
+```tsx
+<ProgressBar.Root value={60} minValue={0} maxValue={100} labelPosition="bottom-floating">
+  <ProgressBar.Header>
     <ProgressBar.Value>60%</ProgressBar.Value>
   </ProgressBar.Header>
   <ProgressBar.Track>
@@ -103,3 +166,4 @@ Also accepts all standard `<div>` HTML attributes.
 - The `Indicator` computes its width as a percentage from `value`, `min` (default 0), and `max` (default 100).
 - **`ProgressBar.Value` requires children to display text.** It is a plain `<span>` (`aria-hidden`) that renders whatever you pass as children. Using it self-closing (`<ProgressBar.Value />`) renders an empty span. Always provide display text: `<ProgressBar.Value>60%</ProgressBar.Value>`.
 - For indeterminate state, pass `isIndeterminate` on `Root` and omit `value` on `Indicator`. The indicator receives a `data-indeterminate` attribute for CSS animation targeting.
+- For floating label positions (`top-floating`, `bottom-floating`), the `Value` is positioned absolutely relative to `Root` using the fill percentage. Floating tooltips are hidden when the bar is indeterminate. The `Header` wrapper uses `display: contents` in non-top layouts so Label and Value participate directly in Root's flex flow.
