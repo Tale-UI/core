@@ -162,7 +162,13 @@ function Row({ children, className }: { children: React.ReactNode; className?: s
 // ---------------------------------------------------------------------------
 
 // TOC — order matches the content sections below
+const COLOR_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
+const NEUTRAL_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
+
 const TOC = [
+  { category: 'Palette', items: [
+    { id: 'palette', label: 'Color & Neutral' },
+  ]},
   { category: 'Form Controls', items: [
     { id: 'button', label: 'Button' },
     { id: 'icon-button', label: 'IconButton' },
@@ -665,14 +671,20 @@ export default function ComponentAudit() {
   });
   const [panelOpen, setPanelOpen] = React.useState(() => cssOverride.length > 0);
 
-  // Extract .color-* and .neutral-* class names from pasted CSS so we can
-  // apply them to the wrapper element (the Scale app scopes overrides to these).
-  const themeClasses = React.useMemo(() => {
+  // Extract .color-*, .neutral-*, and .tale-ui class names from pasted CSS so
+  // we can apply them to the DOM (the Scale app scopes overrides to these).
+  // .tale-ui goes on <body> so descendant selectors like
+  // `:where(html:not(...)) .tale-ui` match; the rest go on <html>.
+  const { htmlClasses, hasTaleUi } = React.useMemo(() => {
     const classes = new Set<string>();
-    const re = /\.(color-[a-z][\w-]*|neutral-[a-z][\w-]*)\b/g;
+    let taleUi = false;
+    const re = /\.(color-[a-z][\w-]*|neutral-[a-z][\w-]*|tale-ui)\b/g;
     let m: RegExpExecArray | null;
-    while ((m = re.exec(cssOverride))) classes.add(m[1]);
-    return [...classes].join(' ');
+    while ((m = re.exec(cssOverride))) {
+      if (m[1] === 'tale-ui') taleUi = true;
+      else classes.add(m[1]);
+    }
+    return { htmlClasses: [...classes].join(' '), hasTaleUi: taleUi };
   }, [cssOverride]);
 
   React.useEffect(() => {
@@ -688,14 +700,20 @@ export default function ComponentAudit() {
     return () => { el?.remove(); };
   }, [cssOverride]);
 
-  // Apply detected theme classes (.color-*, .neutral-*) to <html> so the
-  // overridden tokens affect the page background and everything else.
+  // Apply .color-* / .neutral-* to <html> so overridden tokens cascade everywhere.
   React.useEffect(() => {
     const root = document.documentElement;
-    const classes = themeClasses.split(' ').filter(Boolean);
+    const classes = htmlClasses.split(' ').filter(Boolean);
     classes.forEach(c => root.classList.add(c));
     return () => { classes.forEach(c => root.classList.remove(c)); };
-  }, [themeClasses]);
+  }, [htmlClasses]);
+
+  // Apply .tale-ui to <body> (not <html>) so the Scale app's descendant
+  // selectors like `:where(html:not(...)) .tale-ui` match correctly.
+  React.useEffect(() => {
+    if (hasTaleUi) document.body.classList.add('tale-ui');
+    return () => { document.body.classList.remove('tale-ui'); };
+  }, [hasTaleUi]);
 
   return (
     <>
@@ -753,6 +771,42 @@ export default function ComponentAudit() {
 
       {/* Content */}
       <main>
+        {/* ============================================================= */}
+        {/* PALETTE */}
+        {/* ============================================================= */}
+
+        <Section id="palette" title="Color & Neutral Palette" classes={[]}>
+          <SubHeading>Color shades</SubHeading>
+          <div className="audit__palette-grid">
+            {COLOR_SHADES.map(s => (
+              <div
+                key={s}
+                className="audit__palette-swatch"
+                style={{ background: `var(--color-${s})`, color: `var(--color-${s}-fg)` }}
+              >
+                <div className="audit__palette-shade">{s}</div>
+                <div className="audit__palette-ag">Ag</div>
+                <div className="audit__palette-token">--color-{s}-fg</div>
+              </div>
+            ))}
+          </div>
+
+          <SubHeading>Neutral shades</SubHeading>
+          <div className="audit__palette-grid">
+            {NEUTRAL_SHADES.map(s => (
+              <div
+                key={s}
+                className="audit__palette-swatch"
+                style={{ background: `var(--neutral-${s})`, color: `var(--neutral-${s}-fg)` }}
+              >
+                <div className="audit__palette-shade">{s}</div>
+                <div className="audit__palette-ag">Ag</div>
+                <div className="audit__palette-token">--neutral-{s}-fg</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
         {/* ============================================================= */}
         {/* UTILITY */}
         {/* ============================================================= */}

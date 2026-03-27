@@ -22,7 +22,20 @@ import { NumberField } from '@tale-ui/react/number-field'
 import { SearchField } from '@tale-ui/react/search-field'
 import { GridList } from '@tale-ui/react/grid-list'
 import { Icon } from '@tale-ui/react/icon'
-import { Check, Heart, Star, Bell, Plus, Download, Settings, Trash2 } from 'lucide-react'
+import { IconButton } from '@tale-ui/react/icon-button'
+import { Badge } from '@tale-ui/react/badge'
+import { DotIcon } from '@tale-ui/react/dot-icon'
+import { TextField } from '@tale-ui/react/text-field'
+import { TextArea } from '@tale-ui/react/text-area'
+import { Banner } from '@tale-ui/react/banner'
+import { Spinner } from '@tale-ui/react/spinner'
+import { RatingStars } from '@tale-ui/react/rating-stars'
+import { Table } from '@tale-ui/react/table'
+import { Menu } from '@tale-ui/react/menu'
+import { Disclosure } from '@tale-ui/react/disclosure'
+import { Calendar } from '@tale-ui/react/calendar'
+import { Pagination } from '@tale-ui/react/pagination'
+import { Check, Heart, Star, Bell, Plus, Download, Settings, Trash2, Search, Info, AlertTriangle, CheckCircle2, XCircle, MoreHorizontal } from 'lucide-react'
 
 const PREVIEW_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
@@ -115,6 +128,7 @@ const ComponentPreview = () => {
             <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', alignItems: 'center' }}>
               <Button variant="primary" size="sm">Primary</Button>
               <Button variant="neutral" size="sm">Neutral</Button>
+              <Button variant="inverse" size="sm">Inverse</Button>
               <Button variant="ghost" size="sm">Ghost</Button>
               <Button variant="danger" size="sm">Danger</Button>
               <Button variant="primary" size="sm" disabled>Disabled</Button>
@@ -153,6 +167,33 @@ const ComponentPreview = () => {
               <Button variant="primary" size="sm"><Icon icon={Plus} size="sm" /> Add</Button>
               <Button variant="neutral" size="sm"><Icon icon={Download} size="sm" /> Save</Button>
               <Button variant="danger" size="sm"><Icon icon={Trash2} size="sm" /> Delete</Button>
+            </div>
+          </section>
+        </Grid>
+
+        {/* Badge + DotIcon + IconButton */}
+        <Grid>
+          <section>
+            <SectionLabel>Badges & Dots</SectionLabel>
+            <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Badge variant="brand">Brand</Badge>
+              <Badge variant="error">Error</Badge>
+              <Badge variant="warning">Warning</Badge>
+              <Badge variant="success">Success</Badge>
+              <Badge variant="neutral">Neutral</Badge>
+              <DotIcon color="brand" />
+              <DotIcon color="error" />
+              <DotIcon color="warning" />
+              <DotIcon color="success" />
+            </div>
+          </section>
+          <section>
+            <SectionLabel>Icon buttons</SectionLabel>
+            <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', alignItems: 'center' }}>
+              <IconButton variant="primary" size="sm" aria-label="Search"><Icon icon={Search} size="sm" /></IconButton>
+              <IconButton variant="neutral" size="sm" aria-label="Settings"><Icon icon={Settings} size="sm" /></IconButton>
+              <IconButton variant="ghost" size="sm" aria-label="More"><Icon icon={MoreHorizontal} size="sm" /></IconButton>
+              <IconButton variant="danger" size="sm" aria-label="Delete"><Icon icon={Trash2} size="sm" /></IconButton>
             </div>
           </section>
         </Grid>
@@ -252,6 +293,25 @@ const ComponentPreview = () => {
           </section>
         </Grid>
 
+        {/* TextField + TextArea */}
+        <Grid>
+          <section>
+            <SectionLabel>Text field</SectionLabel>
+            <TextField.Root>
+              <TextField.Label>Full name</TextField.Label>
+              <TextField.Input placeholder="Enter your name" />
+              <TextField.Description>As it appears on your ID.</TextField.Description>
+            </TextField.Root>
+          </section>
+          <section>
+            <SectionLabel>Text area</SectionLabel>
+            <TextArea.Root>
+              <TextArea.Label>Notes</TextArea.Label>
+              <TextArea.TextArea placeholder="Write something…" rows={2} />
+            </TextArea.Root>
+          </section>
+        </Grid>
+
         {/* Tabs full width */}
         <section>
           <SectionLabel>Tabs</SectionLabel>
@@ -299,6 +359,49 @@ const ComponentPreview = () => {
             </Accordion.Item>
           </Accordion.Root>
         </section>
+
+        {/* Banners */}
+        <section>
+          <SectionLabel>Banners</SectionLabel>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+            <Banner.Root variant="info" size="sm">
+              <Banner.Icon><Icon icon={Info} size="sm" /></Banner.Icon>
+              <Banner.Title>Information banner</Banner.Title>
+            </Banner.Root>
+            <Banner.Root variant="success" size="sm">
+              <Banner.Icon><Icon icon={CheckCircle2} size="sm" /></Banner.Icon>
+              <Banner.Title>Success banner</Banner.Title>
+            </Banner.Root>
+            <Banner.Root variant="warning" size="sm">
+              <Banner.Icon><Icon icon={AlertTriangle} size="sm" /></Banner.Icon>
+              <Banner.Title>Warning banner</Banner.Title>
+            </Banner.Root>
+            <Banner.Root variant="error" size="sm">
+              <Banner.Icon><Icon icon={XCircle} size="sm" /></Banner.Icon>
+              <Banner.Title>Error banner</Banner.Title>
+            </Banner.Root>
+          </div>
+        </section>
+
+        {/* Spinner + Rating stars */}
+        <Grid>
+          <section>
+            <SectionLabel>Spinners</SectionLabel>
+            <div style={{ display: 'flex', gap: 'var(--space-m)', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Spinner variant="circle" size="sm" />
+              <Spinner variant="circle" size="md" />
+              <Spinner variant="dots" size="sm" />
+              <Spinner variant="line" size="sm" />
+            </div>
+          </section>
+          <section>
+            <SectionLabel>Rating stars</SectionLabel>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+              <RatingStars value={4} max={5} size="md" />
+              <RatingStars value={2.5} max={5} size="sm" />
+            </div>
+          </section>
+        </Grid>
 
         {/* Progress / Meter + Tags / Avatars */}
         <Grid>
@@ -379,7 +482,87 @@ const ComponentPreview = () => {
           </section>
         </Grid>
 
-        {/* Breadcrumbs + Links + Separator — compact bottom row */}
+        {/* Table */}
+        <section>
+          <SectionLabel>Table</SectionLabel>
+          <Table.Root aria-label="People" selectionMode="multiple" defaultSelectedKeys={['r2']}>
+            <Table.Header>
+              <Table.Column isRowHeader>Name</Table.Column>
+              <Table.Column>Role</Table.Column>
+              <Table.Column>Status</Table.Column>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row id="r1">
+                <Table.Cell>Alice</Table.Cell>
+                <Table.Cell>Engineer</Table.Cell>
+                <Table.Cell><Badge variant="success" size="sm">Active</Badge></Table.Cell>
+              </Table.Row>
+              <Table.Row id="r2">
+                <Table.Cell>Bob</Table.Cell>
+                <Table.Cell>Designer</Table.Cell>
+                <Table.Cell><Badge variant="brand" size="sm">Active</Badge></Table.Cell>
+              </Table.Row>
+              <Table.Row id="r3">
+                <Table.Cell>Carol</Table.Cell>
+                <Table.Cell>Manager</Table.Cell>
+                <Table.Cell><Badge variant="neutral" size="sm">Away</Badge></Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table.Root>
+        </section>
+
+        {/* Menu + Disclosure */}
+        <Grid>
+          <section>
+            <SectionLabel>Menu</SectionLabel>
+            <Menu.Root>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--sm">
+                <Icon icon={MoreHorizontal} size="sm" /> Options
+              </Menu.Trigger>
+              <Menu.Popover>
+                <Menu.MenuList>
+                  <Menu.Item id="edit">Edit</Menu.Item>
+                  <Menu.Item id="duplicate">Duplicate</Menu.Item>
+                  <Menu.Separator />
+                  <Menu.Item id="delete">Delete</Menu.Item>
+                </Menu.MenuList>
+              </Menu.Popover>
+            </Menu.Root>
+          </section>
+          <section>
+            <SectionLabel>Disclosure</SectionLabel>
+            <Disclosure.Root>
+              <Disclosure.Trigger>Show details</Disclosure.Trigger>
+              <Disclosure.Panel>
+                <p style={{ fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-70)', margin: 0 }}>
+                  Additional details revealed on expand.
+                </p>
+              </Disclosure.Panel>
+            </Disclosure.Root>
+          </section>
+        </Grid>
+
+        {/* Calendar */}
+        <section>
+          <SectionLabel>Calendar</SectionLabel>
+          <Calendar.Root>
+            <Calendar.Header>
+              <Calendar.PreviousButton />
+              <Calendar.Heading />
+              <Calendar.NextButton />
+            </Calendar.Header>
+            <Calendar.Grid>
+              <Calendar.GridHeader>
+                {day => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+              </Calendar.GridHeader>
+              <Calendar.GridBody>
+                {date => <Calendar.Cell date={date} />}
+              </Calendar.GridBody>
+            </Calendar.Grid>
+          </Calendar.Root>
+        </section>
+
+        {/* Breadcrumbs + Links + Pagination — compact bottom row */}
         <Separator />
         <div style={{ display: 'flex', gap: 'var(--space-l)', alignItems: 'center', flexWrap: 'wrap' }}>
           <Breadcrumbs.Root>
@@ -394,6 +577,20 @@ const ComponentPreview = () => {
             <Link href="#">Learn more</Link>
           </div>
         </div>
+
+        {/* Pagination */}
+        <section>
+          <SectionLabel>Pagination</SectionLabel>
+          <Pagination.Root aria-label="Pages">
+            <Pagination.PreviousTrigger />
+            <Pagination.Item page={1} />
+            <Pagination.Item page={2} current />
+            <Pagination.Item page={3} />
+            <Pagination.Ellipsis />
+            <Pagination.Item page={10} />
+            <Pagination.NextTrigger />
+          </Pagination.Root>
+        </section>
 
       </PreviewBox>
     </Root>

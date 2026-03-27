@@ -34,7 +34,7 @@
   padding: var(--space-3xs) var(--space-xs);
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
-  background-color: var(--neutral-10);
+  background-color: var(--transparent);
   color: var(--neutral-90);
   font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);

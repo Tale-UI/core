@@ -130,16 +130,16 @@
 /* ─── Inverse variant — high-contrast neutral ──────────────────────────── */
 
 .tale-button--inverse {
-  background-color: var(--neutral-80);
+  background-color: var(--neutral-90);
   color: var(--neutral-5);
   border-color: transparent;
 }
 
 .tale-button--inverse:hover:not([data-disabled]) {
-  background-color: var(--neutral-70);
+  background-color: var(--neutral-80);
 }
 
 .tale-button--inverse:active:not([data-disabled]) {
-  background-color: var(--neutral-60);
+  background-color: var(--neutral-50);
 }
 
