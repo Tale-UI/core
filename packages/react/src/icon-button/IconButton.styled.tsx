@@ -3,7 +3,7 @@ import { Button as AriaButton } from 'react-aria-components';
 import type { ButtonProps as AriaButtonProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
-type Variant = 'primary' | 'neutral' | 'ghost' | 'danger';
+type Variant = 'primary' | 'neutral' | 'ghost' | 'danger' | 'inverse';
 type Size = 'sm' | 'md' | 'lg';
 
 export interface IconButtonProps extends Omit<AriaButtonProps, 'className' | 'aria-label' | 'aria-labelledby'> {

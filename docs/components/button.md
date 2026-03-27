@@ -8,7 +8,7 @@ A styled button component with variant and size props, built on React Aria's But
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'primary' \| 'neutral' \| 'ghost' \| 'danger'` | `'primary'` | Visual style variant |
+| `variant` | `'primary' \| 'neutral' \| 'ghost' \| 'danger' \| 'inverse'` | `'primary'` | Visual style variant |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
 | `disabled` | `boolean` | — | Alias for `isDisabled` for convenience |
 
@@ -31,6 +31,7 @@ Also accepts all React Aria `Button` props.
 <Button variant="neutral">Neutral</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="danger">Danger</Button>
+<Button variant="inverse">Inverse</Button>
 ```
 
 ### All Sizes
@@ -64,6 +65,7 @@ Also accepts all React Aria `Button` props.
 - `.tale-button--neutral` -- Neutral variant
 - `.tale-button--ghost` -- Ghost variant
 - `.tale-button--danger` -- Danger variant
+- `.tale-button--inverse` -- Inverse variant
 - `.tale-button--sm` -- Small size
 - `.tale-button--md` -- Medium size (default)
 - `.tale-button--lg` -- Large size

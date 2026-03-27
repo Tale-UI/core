@@ -8,6 +8,7 @@
  *             .tale-button--neutral  (subtle secondary)
  *             .tale-button--ghost    (transparent, border only)
  *             .tale-button--danger   (destructive)
+ *             .tale-button--inverse  (high-contrast neutral)
  *
  * Sizes:      .tale-button--sm
  *             .tale-button--md  (default)
@@ -124,5 +125,21 @@
 
 .tale-button--danger:active:not([data-disabled]) {
   background-color: var(--error-40);
+}
+
+/* ─── Inverse variant — high-contrast neutral ──────────────────────────── */
+
+.tale-button--inverse {
+  background-color: var(--neutral-80);
+  color: var(--neutral-5);
+  border-color: transparent;
+}
+
+.tale-button--inverse:hover:not([data-disabled]) {
+  background-color: var(--neutral-70);
+}
+
+.tale-button--inverse:active:not([data-disabled]) {
+  background-color: var(--neutral-60);
 }
 

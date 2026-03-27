@@ -4,7 +4,7 @@ import { Icon } from '@tale-ui/react/icon';
 import { Search, Bell, Settings, Plus, Trash2, Heart, Download } from 'lucide-react';
 
 type Args = {
-  variant: 'primary' | 'neutral' | 'ghost' | 'danger';
+  variant: 'primary' | 'neutral' | 'ghost' | 'danger' | 'inverse';
   size: 'sm' | 'md' | 'lg';
   disabled: boolean;
 };
@@ -14,7 +14,7 @@ const meta: Meta<Args> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'neutral', 'ghost', 'danger'],
+      options: ['primary', 'neutral', 'ghost', 'danger', 'inverse'],
     },
     size: {
       control: 'select',
@@ -57,6 +57,9 @@ export const AllVariants: Story = {
       <IconButton variant="danger" aria-label="Delete">
         <Icon icon={Trash2} />
       </IconButton>
+      <IconButton variant="inverse" aria-label="Download">
+        <Icon icon={Download} />
+      </IconButton>
     </div>
   ),
 };
@@ -93,6 +96,9 @@ export const Disabled: Story = {
       </IconButton>
       <IconButton variant="danger" isDisabled aria-label="Delete">
         <Icon icon={Trash2} />
+      </IconButton>
+      <IconButton variant="inverse" isDisabled aria-label="Download">
+        <Icon icon={Download} />
       </IconButton>
     </div>
   ),

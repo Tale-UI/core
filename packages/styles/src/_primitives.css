@@ -948,6 +948,11 @@
   color: var(--neutral-60);
 }
 
+.tale-dialog__close svg,
+.tale-popover__close svg {
+  stroke-width: 2;
+}
+
 /* Modal actions row */
 .tale-alert-dialog__actions,
 .tale-dialog__actions,

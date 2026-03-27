@@ -23,12 +23,13 @@ import { Search } from 'lucide-react';
 ### All Variants
 
 ```tsx
-import { Plus, Settings, Search, Trash2 } from 'lucide-react';
+import { Plus, Settings, Search, Trash2, Download } from 'lucide-react';
 
 <IconButton variant="primary" aria-label="Add"><Icon icon={Plus} /></IconButton>
 <IconButton variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
 <IconButton variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
 <IconButton variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
+<IconButton variant="inverse" aria-label="Download"><Icon icon={Download} /></IconButton>
 ```
 
 ### All Sizes
@@ -51,7 +52,7 @@ import { Plus, Settings, Search, Trash2 } from 'lucide-react';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'primary' \| 'neutral' \| 'ghost' \| 'danger'` | `'ghost'` | Visual variant |
+| `variant` | `'primary' \| 'neutral' \| 'ghost' \| 'danger' \| 'inverse'` | `'ghost'` | Visual variant |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
 | `isDisabled` | `boolean` | `false` | Disables the button |
 | `disabled` | `boolean` | — | Alias for `isDisabled` |

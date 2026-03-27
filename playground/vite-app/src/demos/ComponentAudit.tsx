@@ -824,13 +824,14 @@ export default function ComponentAudit() {
         {/* FORM CONTROLS */}
         {/* ============================================================= */}
 
-        <Section id="button" title="Button" classes={['tale-button', 'tale-button--primary', 'tale-button--neutral', 'tale-button--ghost', 'tale-button--danger', 'tale-button--sm', 'tale-button--md', 'tale-button--lg']}>
+        <Section id="button" title="Button" classes={['tale-button', 'tale-button--primary', 'tale-button--neutral', 'tale-button--ghost', 'tale-button--danger', 'tale-button--inverse', 'tale-button--sm', 'tale-button--md', 'tale-button--lg']}>
           <SubHeading>Variants</SubHeading>
           <Row>
             <Button variant="primary">Primary</Button>
             <Button variant="neutral">Neutral</Button>
             <Button variant="ghost">Ghost</Button>
             <Button variant="danger">Danger</Button>
+            <Button variant="inverse">Inverse</Button>
           </Row>
           <SubHeading>Sizes</SubHeading>
           <Row>
@@ -844,6 +845,7 @@ export default function ComponentAudit() {
             <Button disabled variant="neutral">Neutral</Button>
             <Button disabled variant="ghost">Ghost</Button>
             <Button disabled variant="danger">Danger</Button>
+            <Button disabled variant="inverse">Inverse</Button>
           </Row>
           <SubHeading>With Icons</SubHeading>
           <Row>
@@ -865,6 +867,7 @@ export default function ComponentAudit() {
             <IconButton variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
             <IconButton variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
             <IconButton variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
+            <IconButton variant="inverse" aria-label="Download"><Icon icon={Download} /></IconButton>
           </Row>
           <SubHeading>Sizes</SubHeading>
           <Row>
@@ -878,6 +881,7 @@ export default function ComponentAudit() {
             <IconButton disabled variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
             <IconButton disabled variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
             <IconButton disabled variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
+            <IconButton disabled variant="inverse" aria-label="Download"><Icon icon={Download} /></IconButton>
           </Row>
         </Section>
 

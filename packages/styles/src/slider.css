@@ -95,8 +95,8 @@
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 50%;
-  background-color: var(--neutral-10);
-  border: 2px solid var(--color-60);
+  background-color: var(--neutral-5);
+  border: 2px solid var(--neutral-40);
   box-shadow: var(--shadow-s);
   outline: none;
   transform-origin: center center;
@@ -120,11 +120,7 @@
 
 .tale-slider__thumb[data-dragging] {
   cursor: grabbing;
-  scale: 1.15;
-}
-
-.tale-slider__thumb:active {
-  scale: 1.15;
+  border: 2px solid var(--neutral-80);
 }
 
 /* ─── Disabled state ──────────────────────────────────────────────────────── */

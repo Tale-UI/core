@@ -3,7 +3,7 @@ import { Button as AriaButton } from 'react-aria-components';
 import type { ButtonProps as AriaButtonProps } from 'react-aria-components';
 import { cx } from '../_cx';
 
-type Variant = 'primary' | 'neutral' | 'ghost' | 'danger';
+type Variant = 'primary' | 'neutral' | 'ghost' | 'danger' | 'inverse';
 type Size = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends Omit<AriaButtonProps, 'className'> {
@@ -25,6 +25,7 @@ export interface ButtonProps extends Omit<AriaButtonProps, 'className'> {
  * <Button variant="neutral">Neutral</Button>
  * <Button variant="ghost">Ghost</Button>
  * <Button variant="danger">Danger</Button>
+ * <Button variant="inverse">Inverse</Button>
  * ```
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

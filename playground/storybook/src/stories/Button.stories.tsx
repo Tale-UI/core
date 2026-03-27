@@ -4,7 +4,7 @@ import { Icon } from '@tale-ui/react/icon';
 import { Plus, ChevronRight } from 'lucide-react';
 
 type Args = {
-  variant: 'primary' | 'neutral' | 'ghost' | 'danger';
+  variant: 'primary' | 'neutral' | 'ghost' | 'danger' | 'inverse';
   size: 'sm' | 'md' | 'lg';
   disabled: boolean;
   children: string;
@@ -15,7 +15,7 @@ const meta: Meta<Args> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'neutral', 'ghost', 'danger'],
+      options: ['primary', 'neutral', 'ghost', 'danger', 'inverse'],
     },
     size: {
       control: 'select',
@@ -54,6 +54,7 @@ export const AllVariants: Story = {
       <Button variant="neutral">Neutral</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="danger">Danger</Button>
+      <Button variant="inverse">Inverse</Button>
     </div>
   ),
 };
@@ -81,6 +82,7 @@ export const Disabled: Story = {
       <Button variant="neutral" isDisabled>Neutral</Button>
       <Button variant="ghost" isDisabled>Ghost</Button>
       <Button variant="danger" isDisabled>Danger</Button>
+      <Button variant="inverse" isDisabled>Inverse</Button>
     </div>
   ),
 };
