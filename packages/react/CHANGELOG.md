@@ -2,6 +2,13 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.37 — 2026-03-27
+
+### Changed
+
+- **Playground:** Expanded Scale component preview, added Component Audit palette grid, and fixed CSS override scoping.
+- Root `package.json`: added `dev:all` and `open:dev-urls` scripts for parallel Storybook/Scale/Playground development.
+
 ## v1.3.36 — 2026-03-27
 
 ### Added

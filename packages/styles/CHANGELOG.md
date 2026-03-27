@@ -2,6 +2,12 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.37 — 2026-03-27
+
+### Fixed
+
+- CSS override scoping fixes in playground.
+
 ## v1.3.36 — 2026-03-27
 
 ### Added

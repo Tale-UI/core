@@ -20,6 +20,8 @@
     "scale:build": "pnpm -C playground/scale build",
     "storybook": "pnpm -C playground/storybook dev",
     "storybook:build": "pnpm -C playground/storybook build",
+    "open:dev-urls": "node -e \"const { exec } = require('node:child_process'); const urls = ['http://localhost:5174', 'http://localhost:5173']; const openCmd = process.platform === 'win32' ? 'start \\\"\\\" ' : process.platform === 'darwin' ? 'open ' : 'xdg-open '; for (const url of urls) exec(openCmd + url);\"",
+    "dev:all": "pnpm open:dev-urls && concurrently -k -n storybook,scale,playground \"pnpm storybook\" \"pnpm scale:dev -- --port 5174 --strictPort\" \"pnpm playground:dev -- --port 5173 --strictPort\"",
     "eslint": "pnpm -r lint && eslint . --cache --report-unused-disable-directives --max-warnings 0",
     "eslint:ci": "pnpm -r lint && eslint . --report-unused-disable-directives --max-warnings 0",
     "lint:css": "stylelint \"packages/css/src/**/*.css\" --config .stylelintrc.json",
