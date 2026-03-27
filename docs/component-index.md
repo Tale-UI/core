@@ -1,8 +1,8 @@
 # Component Index
 
-Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
+Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
 
-## Form Controls (18)
+## Form Controls (21)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
@@ -23,7 +23,9 @@ Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage
 | SearchField | Search input with clear button | `@tale-ui/react/search-field` | Root, Input, Label, Description, ErrorMessage, ClearButton |
 | TextField | Single-line text input with validation | `@tale-ui/react/text-field` | Root, Input, Label, Description, ErrorMessage |
 | TextArea | Multi-line text input with validation | `@tale-ui/react/text-area` | Root, TextArea, Label, Description, ErrorMessage |
+| PaymentInput | Credit card number input with auto-formatting and card type detection | `@tale-ui/react/payment-input` | Root, Label, Group, Input, CardIcon, Description, ErrorMessage |
 | PinInput | OTP/verification code input | `@tale-ui/react/pin-input` | Root, Group, Slot, Separator |
+| SelectNative | Styled native `<select>` element | `@tale-ui/react/select-native` | -- |
 
 ## Date & Time (6)
 
@@ -92,13 +94,18 @@ Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage
 | Meter | Scalar measurement display | `@tale-ui/react/meter` | Root, Header, Label, Value, Track, Indicator |
 | Spinner | Indeterminate loading indicator | `@tale-ui/react/spinner` | -- |
 
-## Display (6)
+## Display (11)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
-| Avatar | User avatar with image and fallback | `@tale-ui/react/avatar` | Root, Image, Fallback |
+| Avatar | User avatar with image, fallback, group, and count | `@tale-ui/react/avatar` | Root, Image, Fallback, Group, Count |
+| Badge | Small status label with semantic variants | `@tale-ui/react/badge` | -- |
+| DotIcon | Small colored circle status indicator | `@tale-ui/react/dot-icon` | -- |
 | EmptyState | Placeholder for empty content areas | `@tale-ui/react/empty-state` | Root, Icon, Title, Description, Actions |
+| FeaturedIcon | Themed background wrapper for icons | `@tale-ui/react/featured-icon` | -- |
 | GridList | Selectable grid of items | `@tale-ui/react/grid-list` | Root, Item |
+| RatingBadge | Pill badge with star icon and numeric rating | `@tale-ui/react/rating-badge` | -- |
+| RatingStars | Read-only star rating display | `@tale-ui/react/rating-stars` | -- |
 | Table | Data table with sorting | `@tale-ui/react/table` | Root, Header, Column, Body, Row, Cell |
 | TagGroup | Tag list with optional removal | `@tale-ui/react/tag-group` | Root, Label, List, Tag, Description, ErrorMessage |
 | Tree | Hierarchical tree view | `@tale-ui/react/tree` | Root, Item, ItemContent |
@@ -129,6 +136,13 @@ Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage
 | Icon | Lucide-react icon wrapper with BEM sizing | `@tale-ui/react/icon` | -- |
 | IconButton | Square button for icon-only use | `@tale-ui/react/icon-button` | -- |
 | mergeProps | Smart React props merging utility | `@tale-ui/react/merge-props` | -- |
+
+## Marketing (2)
+
+| Component | Description | Import | Parts |
+|-----------|-------------|--------|-------|
+| AppStoreButton | App store download button (Apple/Google) | `@tale-ui/react/app-store-button` | -- |
+| SocialButton | Social login button with provider icon | `@tale-ui/react/social-button` | -- |
 
 ## Charts (6)
 

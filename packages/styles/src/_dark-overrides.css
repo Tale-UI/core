@@ -1,0 +1,35 @@
+/*
+ * Dark mode overrides — @tale-ui/react-styles
+ *
+ * Manual overrides for component selectors that need adjustments beyond
+ * automatic token inversion.
+ *
+ * Most components need NO overrides — tokens handle dark mode automatically.
+ * Only add rules here when a component looks wrong in dark mode and the fix
+ * cannot be achieved by switching to a different token value in the base CSS.
+ *
+ * The selector matches all dark mode activation methods from _color-modes.css:
+ *   - html[data-color-mode="dark"]  — explicit attribute (Tale UI default)
+ *   - .dark                          — utility class (Tailwind convention)
+ *   - @media (prefers-color-scheme: dark) — OS preference (when no explicit mode set)
+ */
+
+/* ─── Attribute: data-color-mode="dark" ────────────────────────────────────── */
+
+html[data-color-mode="dark"] {
+  /* .tale-fieldset { border-color: var(--neutral-26); } */
+}
+
+/* ─── Class: .dark ─────────────────────────────────────────────────────────── */
+
+.dark {
+  /* .tale-fieldset { border-color: var(--neutral-26); } */
+}
+
+/* ─── OS preference fallback (no explicit mode set) ────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-color-mode]) {
+    /* .tale-fieldset { border-color: var(--neutral-26); } */
+  }
+}

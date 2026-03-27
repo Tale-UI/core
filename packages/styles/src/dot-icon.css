@@ -1,0 +1,35 @@
+/*
+ * DotIcon — @tale-ui/react
+ *
+ * A small colored circle indicator for status display.
+ *
+ * Colors:     .tale-dot-icon--neutral  (default)
+ *             .tale-dot-icon--brand
+ *             .tale-dot-icon--error
+ *             .tale-dot-icon--warning
+ *             .tale-dot-icon--success
+ *
+ * Sizes:      .tale-dot-icon--sm  (6px)
+ *             .tale-dot-icon--md  (8px, default)
+ *             .tale-dot-icon--lg  (10px)
+ */
+
+.tale-dot-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────────────────── */
+
+.tale-dot-icon--sm { width: 0.6rem; height: 0.6rem; }
+.tale-dot-icon--md { width: 0.8rem; height: 0.8rem; }
+.tale-dot-icon--lg { width: 1rem; height: 1rem; }
+
+/* ─── Colors ─────────────────────────────────────────────────────────────── */
+
+.tale-dot-icon--neutral { background-color: var(--neutral-50); }
+.tale-dot-icon--brand   { background-color: var(--color-60); }
+.tale-dot-icon--error   { background-color: var(--error-60); }
+.tale-dot-icon--warning { background-color: var(--warning-60); }
+.tale-dot-icon--success { background-color: var(--success-60); }

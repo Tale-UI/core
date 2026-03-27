@@ -121,6 +121,17 @@ import { DropZone } from '@tale-ui/react/drop-zone';
 import { FileTrigger } from '@tale-ui/react/file-trigger';
 import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 
+// New components
+import { Badge } from '@tale-ui/react/badge';
+import { DotIcon } from '@tale-ui/react/dot-icon';
+import { FeaturedIcon } from '@tale-ui/react/featured-icon';
+import { RatingStars } from '@tale-ui/react/rating-stars';
+import { RatingBadge } from '@tale-ui/react/rating-badge';
+import { SelectNative } from '@tale-ui/react/select-native';
+import { AppStoreButton } from '@tale-ui/react/app-store-button';
+import { SocialButton } from '@tale-ui/react/social-button';
+import { PaymentInput } from '@tale-ui/react/payment-input';
+
 
 // ---------------------------------------------------------------------------
 // Layout helpers
@@ -168,10 +179,12 @@ const TOC = [
     { id: 'combobox', label: 'Combobox' },
     { id: 'number-field', label: 'NumberField' },
     { id: 'pin-input', label: 'PinInput' },
+    { id: 'payment-input', label: 'PaymentInput' },
     { id: 'slider', label: 'Slider' },
     { id: 'search-field', label: 'SearchField' },
     { id: 'text-field', label: 'TextField' },
     { id: 'text-area', label: 'TextArea' },
+    { id: 'select-native', label: 'SelectNative' },
   ]},
   { category: 'Date & Time', items: [
     { id: 'calendar', label: 'Calendar' },
@@ -224,8 +237,13 @@ const TOC = [
   ]},
   { category: 'Display', items: [
     { id: 'avatar', label: 'Avatar' },
+    { id: 'badge', label: 'Badge' },
+    { id: 'dot-icon', label: 'DotIcon' },
     { id: 'empty-state', label: 'EmptyState' },
+    { id: 'featured-icon', label: 'FeaturedIcon' },
     { id: 'grid-list', label: 'GridList' },
+    { id: 'rating-badge', label: 'RatingBadge' },
+    { id: 'rating-stars', label: 'RatingStars' },
     { id: 'table', label: 'Table' },
     { id: 'tag-group', label: 'TagGroup' },
     { id: 'tree', label: 'Tree' },
@@ -238,6 +256,10 @@ const TOC = [
   { category: 'Interaction', items: [
     { id: 'drop-zone', label: 'DropZone' },
     { id: 'file-trigger', label: 'FileTrigger' },
+  ]},
+  { category: 'Marketing', items: [
+    { id: 'app-store-button', label: 'AppStoreButton' },
+    { id: 'social-button', label: 'SocialButton' },
   ]},
   { category: 'Utility', items: [
     { id: 'color-mode-toggle', label: 'ColorModeToggle' },
@@ -1878,6 +1900,25 @@ export default function ComponentAudit() {
           </PinInput.Root>
         </Section>
 
+        <Section id="payment-input" title="PaymentInput" classes={['tale-payment-input', 'tale-payment-input__group', 'tale-payment-input__input', 'tale-payment-input__label', 'tale-payment-input__card-icon', 'tale-payment-input__description', 'tale-payment-input__error']}>
+          <SubHeading>Default</SubHeading>
+          <PaymentInput.Root>
+            <PaymentInput.Group>
+              <PaymentInput.Input placeholder="1234 5678 9012 3456" />
+              <PaymentInput.CardIcon />
+            </PaymentInput.Group>
+          </PaymentInput.Root>
+          <SubHeading>With Label</SubHeading>
+          <PaymentInput.Root>
+            <PaymentInput.Label>Card number</PaymentInput.Label>
+            <PaymentInput.Group>
+              <PaymentInput.Input placeholder="1234 5678 9012 3456" />
+              <PaymentInput.CardIcon />
+            </PaymentInput.Group>
+            <PaymentInput.Description>Visa, Mastercard, Amex, or Discover</PaymentInput.Description>
+          </PaymentInput.Root>
+        </Section>
+
         {/* ============================================================= */}
         {/* LAYOUT */}
         {/* ============================================================= */}
@@ -2264,7 +2305,7 @@ export default function ComponentAudit() {
         {/* DISPLAY */}
         {/* ============================================================= */}
 
-        <Section id="avatar" title="Avatar" classes={['tale-avatar', 'tale-avatar--sm', 'tale-avatar--md', 'tale-avatar--lg', 'tale-avatar--xl', 'tale-avatar__image', 'tale-avatar__fallback']}>
+        <Section id="avatar" title="Avatar" classes={['tale-avatar', 'tale-avatar--sm', 'tale-avatar--md', 'tale-avatar--lg', 'tale-avatar--xl', 'tale-avatar__image', 'tale-avatar__fallback', 'tale-avatar-group', 'tale-avatar-count']}>
           <SubHeading>Sizes (fallback)</SubHeading>
           <Row>
             {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
@@ -2279,6 +2320,55 @@ export default function ComponentAudit() {
               <Avatar.Image src="https://avatars.githubusercontent.com/u/1" alt="User" />
               <Avatar.Fallback>AB</Avatar.Fallback>
             </Avatar.Root>
+          </Row>
+          <SubHeading>Group with Count</SubHeading>
+          <Row>
+            <Avatar.Group size="md">
+              <Avatar.Root>
+                <Avatar.Fallback>AB</Avatar.Fallback>
+              </Avatar.Root>
+              <Avatar.Root>
+                <Avatar.Fallback>CD</Avatar.Fallback>
+              </Avatar.Root>
+              <Avatar.Root>
+                <Avatar.Fallback>EF</Avatar.Fallback>
+              </Avatar.Root>
+              <Avatar.Count>+5</Avatar.Count>
+            </Avatar.Group>
+          </Row>
+        </Section>
+
+        <Section id="badge" title="Badge" classes={['tale-badge', 'tale-badge--neutral', 'tale-badge--brand', 'tale-badge--error', 'tale-badge--warning', 'tale-badge--success', 'tale-badge--sm', 'tale-badge--md', 'tale-badge--lg']}>
+          <SubHeading>Variants</SubHeading>
+          <Row>
+            <Badge variant="neutral">Neutral</Badge>
+            <Badge variant="brand">Brand</Badge>
+            <Badge variant="error">Error</Badge>
+            <Badge variant="warning">Warning</Badge>
+            <Badge variant="success">Success</Badge>
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <Badge size="sm">Small</Badge>
+            <Badge size="md">Medium</Badge>
+            <Badge size="lg">Large</Badge>
+          </Row>
+        </Section>
+
+        <Section id="dot-icon" title="DotIcon" classes={['tale-dot-icon', 'tale-dot-icon--neutral', 'tale-dot-icon--brand', 'tale-dot-icon--error', 'tale-dot-icon--warning', 'tale-dot-icon--success', 'tale-dot-icon--sm', 'tale-dot-icon--md', 'tale-dot-icon--lg']}>
+          <SubHeading>Colors</SubHeading>
+          <Row>
+            <DotIcon color="neutral" />
+            <DotIcon color="brand" />
+            <DotIcon color="error" />
+            <DotIcon color="warning" />
+            <DotIcon color="success" />
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <DotIcon size="sm" />
+            <DotIcon size="md" />
+            <DotIcon size="lg" />
           </Row>
         </Section>
 
@@ -2476,6 +2566,28 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
+        <Section id="select-native" title="SelectNative" classes={['tale-select-native', 'tale-select-native--sm', 'tale-select-native--md', 'tale-select-native--lg']}>
+          <SubHeading>Default</SubHeading>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
+            <SelectNative>
+              <option value="">Select an option</option>
+              <option value="a">Option A</option>
+              <option value="b">Option B</option>
+              <option value="c">Option C</option>
+            </SelectNative>
+          </div>
+          <SubHeading>Sizes</SubHeading>
+          <div className="audit__demo-narrow display--flex flex--col gap--2xs">
+            <SelectNative size="sm"><option>Small</option></SelectNative>
+            <SelectNative size="md"><option>Medium</option></SelectNative>
+            <SelectNative size="lg"><option>Large</option></SelectNative>
+          </div>
+          <SubHeading>Disabled</SubHeading>
+          <div className="audit__demo-narrow">
+            <SelectNative disabled><option>Disabled</option></SelectNative>
+          </div>
+        </Section>
+
         <Section id="grid-list" title="GridList" classes={['tale-grid-list', 'tale-grid-list__item']}>
           <SubHeading>Default</SubHeading>
           <GridList.Root aria-label="Items" className="audit__demo-medium">
@@ -2550,6 +2662,58 @@ export default function ComponentAudit() {
           </Table.Root>
           <SubHeading>With Sorting</SubHeading>
           <SortableTableDemo />
+        </Section>
+
+        <Section id="featured-icon" title="FeaturedIcon" classes={['tale-featured-icon', 'tale-featured-icon--brand', 'tale-featured-icon--error', 'tale-featured-icon--warning', 'tale-featured-icon--success', 'tale-featured-icon--neutral', 'tale-featured-icon--square', 'tale-featured-icon--sm', 'tale-featured-icon--md', 'tale-featured-icon--lg']}>
+          <SubHeading>Variants</SubHeading>
+          <Row>
+            <FeaturedIcon variant="brand"><Icon icon={Star} /></FeaturedIcon>
+            <FeaturedIcon variant="error"><Icon icon={AlertCircle} /></FeaturedIcon>
+            <FeaturedIcon variant="warning"><Icon icon={AlertCircle} /></FeaturedIcon>
+            <FeaturedIcon variant="success"><Icon icon={CheckCircle} /></FeaturedIcon>
+            <FeaturedIcon variant="neutral"><Icon icon={Info} /></FeaturedIcon>
+          </Row>
+          <SubHeading>Square shape</SubHeading>
+          <Row>
+            <FeaturedIcon variant="brand" shape="square"><Icon icon={Star} /></FeaturedIcon>
+            <FeaturedIcon variant="error" shape="square"><Icon icon={AlertCircle} /></FeaturedIcon>
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <FeaturedIcon size="sm"><Icon icon={Star} /></FeaturedIcon>
+            <FeaturedIcon size="md"><Icon icon={Star} /></FeaturedIcon>
+            <FeaturedIcon size="lg"><Icon icon={Star} /></FeaturedIcon>
+          </Row>
+        </Section>
+
+        <Section id="rating-badge" title="RatingBadge" classes={['tale-rating-badge', 'tale-rating-badge--sm', 'tale-rating-badge--md', 'tale-rating-badge--lg']}>
+          <SubHeading>Default</SubHeading>
+          <Row>
+            <RatingBadge value={4.5} />
+            <RatingBadge value={3.8} />
+            <RatingBadge value={5.0} />
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <RatingBadge value={4.5} size="sm" />
+            <RatingBadge value={4.5} size="md" />
+            <RatingBadge value={4.5} size="lg" />
+          </Row>
+        </Section>
+
+        <Section id="rating-stars" title="RatingStars" classes={['tale-rating-stars', 'tale-rating-stars__star', 'tale-rating-stars__star--filled', 'tale-rating-stars__star--half']}>
+          <SubHeading>Default</SubHeading>
+          <Row>
+            <RatingStars value={3} />
+            <RatingStars value={3.5} />
+            <RatingStars value={5} />
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <RatingStars value={4} size="sm" />
+            <RatingStars value={4} size="md" />
+            <RatingStars value={4} size="lg" />
+          </Row>
         </Section>
 
         <Section id="tag-group" title="TagGroup" classes={['tale-tag-group', 'tale-tag-group__list', 'tale-tag-group__tag', 'tale-tag-group__label', 'tale-tag-group__description']}>
@@ -2840,6 +3004,39 @@ export default function ComponentAudit() {
         <Section id="color-picker" title="ColorPicker" classes={[]}>
           <SubHeading>Standalone components with shared state</SubHeading>
           <ColorPickerDemo />
+        </Section>
+
+        {/* ============================================================= */}
+        {/* MARKETING                                                      */}
+        {/* ============================================================= */}
+
+        <Section id="app-store-button" title="AppStoreButton" classes={['tale-app-store-button', 'tale-app-store-button--apple', 'tale-app-store-button--google', 'tale-app-store-button--sm', 'tale-app-store-button--md', 'tale-app-store-button--lg']}>
+          <SubHeading>Both stores</SubHeading>
+          <Row>
+            <AppStoreButton store="apple" href="#" />
+            <AppStoreButton store="google" href="#" />
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <AppStoreButton store="apple" size="sm" href="#" />
+            <AppStoreButton store="apple" size="md" href="#" />
+            <AppStoreButton store="apple" size="lg" href="#" />
+          </Row>
+        </Section>
+
+        <Section id="social-button" title="SocialButton" classes={['tale-social-button', 'tale-social-button--google', 'tale-social-button--github', 'tale-social-button--apple', 'tale-social-button--x', 'tale-social-button--facebook', 'tale-social-button--sm', 'tale-social-button--md', 'tale-social-button--lg']}>
+          <SubHeading>Providers</SubHeading>
+          <Row>
+            <SocialButton provider="google">Continue with Google</SocialButton>
+            <SocialButton provider="github">Continue with GitHub</SocialButton>
+            <SocialButton provider="apple">Continue with Apple</SocialButton>
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <SocialButton provider="google" size="sm">Google (sm)</SocialButton>
+            <SocialButton provider="google" size="md">Google (md)</SocialButton>
+            <SocialButton provider="google" size="lg">Google (lg)</SocialButton>
+          </Row>
         </Section>
 
         {/* ============================================================= */}

@@ -1,0 +1,52 @@
+/*
+ * AppStoreButton — @tale-ui/react
+ *
+ * An app store download badge wrapping an official SVG badge image.
+ *
+ * Variants:   .tale-app-store-button--apple
+ *             .tale-app-store-button--google
+ *
+ * Sizes:      .tale-app-store-button--sm
+ *             .tale-app-store-button--md  (default)
+ *             .tale-app-store-button--lg
+ */
+
+.tale-app-store-button {
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background-color: #000;
+  transition: opacity 0.15s ease;
+}
+
+.tale-app-store-button:hover {
+  opacity: 0.85;
+}
+
+.tale-app-store-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+}
+
+/* Badge image fills the container */
+.tale-app-store-button img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
+/* ─── Sizes ─────────────────────────────────────────────────────────────── */
+
+.tale-app-store-button--sm {
+  height: 3.2rem;
+}
+
+.tale-app-store-button--md {
+  height: 4rem;
+}
+
+.tale-app-store-button--lg {
+  height: 5.2rem;
+}

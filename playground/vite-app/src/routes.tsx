@@ -2,6 +2,7 @@ import type * as React from 'react';
 import ComponentAudit from './demos/ComponentAudit';
 import ComponentsDemo from './demos/ComponentsDemo';
 import RandomColorDemo from './demos/RandomColorDemo';
+import RecipePlayground from './demos/RecipePlayground';
 import ContainedTriggers from './experiments/perf/contained-triggers';
 import DetachedTriggers from './experiments/perf/detached-triggers';
 import RadixTriggers from './experiments/perf/radix-triggers';
@@ -40,6 +41,13 @@ export const routes: RouteEntry[] = [
     path: '/component-audit',
     label: 'Component audit',
     element: <ComponentAudit />,
+    showInNav: true,
+  },
+  {
+    type: 'route',
+    path: '/recipes',
+    label: 'Recipe playground',
+    element: <RecipePlayground />,
     showInNav: true,
   },
   {

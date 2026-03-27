@@ -1,12 +1,12 @@
 :root {
     --scale: 0.125rem;
     --radius-none: 0;
-    --radius-xs: calc(2 * var(--scale));
-    --radius-s: calc(3 * var(--scale));
-    --radius-m: calc(4 * var(--scale));
-    --radius-l: calc(8 * var(--scale));
-    --radius-xl: calc(10 * var(--scale));
-    --radius-2xl: calc(12 * var(--scale));
+    --radius-xs: calc(4 * var(--scale));
+    --radius-s: calc(6 * var(--scale));
+    --radius-m: calc(8 * var(--scale));
+    --radius-l: calc(12 * var(--scale));
+    --radius-xl: calc(16 * var(--scale));
+    --radius-2xl: calc(24 * var(--scale));
     --radius-full: 9999px;
     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.15);
     --shadow-s: 0 1.5px 3px rgba(0, 0, 0, 0.15);

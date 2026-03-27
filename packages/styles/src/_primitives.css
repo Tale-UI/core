@@ -7,14 +7,14 @@
  * Imported first in index.css so component files can override via cascade.
  *
  * Groups:
- *    1. Field control       — Input, Select trigger, Combobox input, Autocomplete input, SearchField input, TextField input, DateField input, TimeField input
- *    2. Field label         — Input, Select, Combobox, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, NumberField
+ *    1. Field control       — Input, Select trigger, Combobox input, Autocomplete input, SearchField input, TextField input, DateField input, TimeField input, PaymentInput input
+ *    2. Field label         — Input, Select, Combobox, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, NumberField, PaymentInput
  *    3. Dropdown popup      — Select, Combobox, Autocomplete, Menu, Popover
  *    4. Dropdown item       — Select, Combobox, Autocomplete, Menu (all item variants)
  *    5. Group label         — Select, Combobox, Autocomplete, Menu
  *    6. Misc                — Separator, Popup arrow, Item indicator
  *    7. Disclosure panel    — Disclosure, Accordion (animation + typography)
- *    8. Field description   — Field, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, TagGroup
+ *    8. Field description   — Field, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, TagGroup, PaymentInput
  *    9. Field error         — same components as 8
  *   10. Date/time field root — DateField, DatePicker, DateRangePicker, TimeField (root layout + standalone input + picker group + inner input)
  *   11. Date/time segment   — DateField, DatePicker, DateRangePicker, TimeField
@@ -34,7 +34,7 @@
 
 :root {
   --focus-ring-color: var(--neutral-50);
-  --focus-ring-glow: color-mix(in srgb, var(--neutral-60) 15%, transparent);
+  --focus-ring-glow: color-mix(in srgb, var(--neutral-60) 20%, transparent);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -48,13 +48,15 @@
 .tale-search-field__input,
 .tale-text-field__input,
 .tale-date-field__input,
-.tale-time-field__input {
+.tale-time-field__input,
+.tale-payment-input__input {
   box-sizing: border-box;
   min-height: 3.6rem;
   padding: var(--space-3xs) var(--space-xs);
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
-  background-color: var(--neutral-10);
+  /* background-color: var(--neutral-10); */
+  background-color: transparent;
   color: var(--neutral-90);
   font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
@@ -74,7 +76,9 @@
 .tale-text-field__input:focus,
 .tale-text-field__input[data-focused],
 .tale-date-field__input[data-focused],
-.tale-time-field__input[data-focused] {
+.tale-time-field__input[data-focused],
+.tale-payment-input__input:focus,
+.tale-payment-input__input[data-focused] {
   border-color: var(--focus-ring-color);
   box-shadow: 0 0 0 3px var(--focus-ring-glow);
 }
@@ -84,7 +88,8 @@
 .tale-combobox__input::placeholder,
 .tale-autocomplete__input::placeholder,
 .tale-search-field__input::placeholder,
-.tale-text-field__input::placeholder {
+.tale-text-field__input::placeholder,
+.tale-payment-input__input::placeholder {
   color: var(--neutral-50);
 }
 
@@ -164,7 +169,8 @@
 .tale-date-picker__label,
 .tale-date-range-picker__label,
 .tale-time-field__label,
-.tale-number-field__label {
+.tale-number-field__label,
+.tale-payment-input__label {
   color: var(--neutral-70);
   font-family: var(--label-font-family);
   font-size: var(--label-s-font-size);
@@ -184,7 +190,8 @@
 .tale-date-picker[data-disabled] .tale-date-picker__label,
 .tale-date-range-picker[data-disabled] .tale-date-range-picker__label,
 .tale-time-field[data-disabled] .tale-time-field__label,
-.tale-number-field[data-disabled] .tale-number-field__label {
+.tale-number-field[data-disabled] .tale-number-field__label,
+.tale-payment-input[data-disabled] .tale-payment-input__label {
   opacity: 0.45;
 }
 
@@ -199,7 +206,8 @@
 .tale-date-picker[data-invalid] .tale-date-picker__label,
 .tale-date-range-picker[data-invalid] .tale-date-range-picker__label,
 .tale-time-field[data-invalid] .tale-time-field__label,
-.tale-number-field[data-invalid] .tale-number-field__label {
+.tale-number-field[data-invalid] .tale-number-field__label,
+.tale-payment-input[data-invalid] .tale-payment-input__label {
   color: var(--red-60);
 }
 
@@ -459,7 +467,8 @@
 .tale-date-range-picker__description,
 .tale-time-field__description,
 .tale-number-field__description,
-.tale-tag-group__description {
+.tale-tag-group__description,
+.tale-payment-input__description {
   color: var(--neutral-60);
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
@@ -480,7 +489,8 @@
 .tale-date-range-picker__error,
 .tale-time-field__error,
 .tale-number-field__error,
-.tale-tag-group__error {
+.tale-tag-group__error,
+.tale-payment-input__error {
   color: var(--red-60);
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);

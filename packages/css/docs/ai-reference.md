@@ -269,7 +269,7 @@ Each family has the same 27 shade values listed above.
 
 **Radius tokens**
 
-`--radius-none` (0) · `--radius-xs` (0.25rem) · `--radius-s` (0.375rem) · `--radius-m` (0.5rem) · `--radius-l` (1rem) · `--radius-xl` (1.25rem) · `--radius-2xl` (1.5rem) · `--radius-full` (9999px)
+`--radius-none` (0) · `--radius-xs` (0.5rem) · `--radius-s` (0.75rem) · `--radius-m` (1rem) · `--radius-l` (1.5rem) · `--radius-xl` (2rem) · `--radius-2xl` (3rem) · `--radius-full` (9999px)
 
 **Shadow tokens**
 

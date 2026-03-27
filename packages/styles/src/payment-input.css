@@ -1,0 +1,97 @@
+/*
+ * PaymentInput — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria–based payment card input exposes:
+ *   Root:  [data-disabled] [data-invalid]
+ *   Input: [data-focused] [data-disabled] [data-invalid]
+ *
+ * Usage:
+ *   <PaymentInput.Root className="tale-payment-input">
+ *     <PaymentInput.Label className="tale-payment-input__label">Card number</PaymentInput.Label>
+ *     <PaymentInput.Group className="tale-payment-input__group">
+ *       <PaymentInput.Input className="tale-payment-input__input" />
+ *       <PaymentInput.CardIcon className="tale-payment-input__card-icon" />
+ *     </PaymentInput.Group>
+ *     <PaymentInput.Description className="tale-payment-input__description">Enter your card number</PaymentInput.Description>
+ *     <PaymentInput.Error className="tale-payment-input__error">Invalid card number</PaymentInput.Error>
+ *   </PaymentInput.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-payment-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+}
+
+/* ─── Group — wraps input + card icon ──────────────────────────────────────── */
+
+.tale-payment-input__group {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* ─── Input ────────────────────────────────────────────────────────────────── */
+
+.tale-payment-input__input {
+  display: block;
+  width: 100%;
+  padding-inline-end: 4rem;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.tale-payment-input__input:hover:not(:focus, [data-disabled], [data-invalid]) {
+  border-color: var(--neutral-40);
+}
+
+.tale-payment-input__input[data-invalid] {
+  border-color: var(--red-60);
+}
+
+.tale-payment-input__input[data-invalid]:focus,
+.tale-payment-input__input[data-invalid][data-focused] {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--red-60) 20%, transparent);
+}
+
+.tale-payment-input__input[data-disabled],
+.tale-payment-input__input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background-color: var(--neutral-14);
+}
+
+/* Label, description, and error styles are shared in _primitives.css */
+
+/* ─── Card icon ───────────────────────────────────────────────────────────── */
+
+.tale-payment-input__card-icon {
+  position: absolute;
+  inset-inline-end: var(--space-xs);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  color: var(--neutral-50);
+  pointer-events: none;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+/* ─── Disabled state ──────────────────────────────────────────────────────── */
+
+.tale-payment-input[data-disabled] .tale-payment-input__card-icon {
+  opacity: 0.45;
+}

@@ -23,7 +23,9 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 | [SearchField](search-field.md) | Search input with clear button |
 | [TextField](text-field.md) | Single-line text input with validation |
 | [TextArea](text-area.md) | Multi-line text input with validation |
+| [PaymentInput](payment-input.md) | Credit card number input with auto-formatting and card type detection |
 | [PinInput](pin-input.md) | OTP/verification code input with digit slots |
+| [SelectNative](select-native.md) | Styled native `<select>` element |
 
 ## Date & Time
 
@@ -97,8 +99,13 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 | Component | Description |
 |-----------|-------------|
 | [Avatar](avatar.md) | User avatar with image and fallback |
+| [Badge](badge.md) | Small status label with semantic variants |
+| [DotIcon](dot-icon.md) | Small colored circle status indicator |
 | [EmptyState](empty-state.md) | Placeholder for empty content areas |
+| [FeaturedIcon](featured-icon.md) | Themed background wrapper for icons |
 | [GridList](grid-list.md) | Selectable grid of items |
+| [RatingBadge](rating-badge.md) | Pill badge with star icon and numeric rating |
+| [RatingStars](rating-stars.md) | Read-only star rating display |
 | [Table](table.md) | Data table with sorting |
 | [TagGroup](tag-group.md) | Tag list with optional removal |
 | [Tree](tree.md) | Hierarchical tree view |
@@ -117,6 +124,13 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 |-----------|-------------|
 | [DropZone](drop-zone.md) | Drag-and-drop target |
 | [FileTrigger](file-trigger.md) | Native file picker trigger |
+
+## Marketing
+
+| Component | Description |
+|-----------|-------------|
+| [AppStoreButton](app-store-button.md) | App store download button (Apple/Google) |
+| [SocialButton](social-button.md) | Social login button with provider icon |
 
 ## Utility
 

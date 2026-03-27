@@ -125,7 +125,7 @@ See [docs/authoring-components.md](docs/authoring-components.md) for the full ch
 
 ## Component Artifact Audit
 
-Status of required artifacts for all 67 components. When adding or updating a component, update the relevant row below.
+Status of required artifacts for all 81 components. When adding or updating a component, update the relevant row below.
 
 **Legend:** styled = `{Component}.styled.tsx` | index = `index.ts` | test = `{Component}.test.tsx` (non-trivial logic only) | css = `{component}.css` in styles/src | prim = `_primitives.css` entry (if shared declarations apply) | doc = `docs/components/{name}.md` | snip = consumer-claude-md-snippet.md | rdme = react/README.md | idx = `docs/component-index.md` entry | story = Storybook story | audit = ComponentAudit.tsx entry
 
@@ -133,7 +133,7 @@ Status of required artifacts for all 67 components. When adding or updating a co
 
 **Non-trivial components requiring tests:** Drawer (custom state/swipe), Meter (percentage calc), ProgressBar (percentage calc + indeterminate), ColorModeToggle (localStorage/OS preference), Tabs (MutationObserver/ResizeObserver indicator)
 
-**Total:** 73 components | **Fully complete:** 73 | **Missing artifacts:** 0
+**Total:** 82 components | **Fully complete:** 82 | **Missing artifacts:** 0
 
 ### Form Controls
 
@@ -156,7 +156,9 @@ Status of required artifacts for all 67 components. When adding or updating a co
 | SearchField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | TextField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | TextArea | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| PaymentInput | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | PinInput | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| SelectNative | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ### Date & Time
 
@@ -235,6 +237,18 @@ Status of required artifacts for all 67 components. When adding or updating a co
 | Table | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | TagGroup | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Tree | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Badge | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| DotIcon | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| FeaturedIcon | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| RatingStars | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| RatingBadge | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+### Marketing
+
+| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AppStoreButton | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| SocialButton | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ### Form Structure
 

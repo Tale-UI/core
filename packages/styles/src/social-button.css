@@ -1,0 +1,76 @@
+/*
+ * SocialButton — @tale-ui/react
+ *
+ * A social login button with a provider icon on the left.
+ *
+ * Sizes:      .tale-social-button--sm
+ *             .tale-social-button--md  (default)
+ *             .tale-social-button--lg
+ *
+ * Providers:  .tale-social-button--google
+ *             .tale-social-button--github
+ *             .tale-social-button--apple
+ *             .tale-social-button--x
+ *             .tale-social-button--facebook
+ */
+
+.tale-social-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: var(--radius-m);
+  background-color: var(--neutral-5);
+  color: var(--neutral-90);
+  font-family: var(--text-font-family);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.tale-social-button:hover {
+  background-color: var(--neutral-10);
+  border-color: var(--neutral-30);
+}
+
+.tale-social-button:focus-visible {
+  outline: 2px solid var(--color-50);
+  outline-offset: 2px;
+}
+
+.tale-social-button:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ─── Icon ───────────────────────────────────────────────────────────────── */
+
+.tale-social-button__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────────────────── */
+
+.tale-social-button--sm {
+  padding: var(--space-3xs) var(--space-xs);
+  font-size: var(--label-s-font-size);
+}
+
+.tale-social-button--md {
+  padding: var(--space-2xs) var(--space-s);
+  font-size: var(--label-m-font-size);
+}
+
+.tale-social-button--lg {
+  padding: var(--space-xs) var(--space-m);
+  font-size: var(--label-l-font-size);
+}
+
+/* ─── Provider hover accents ─────────────────────────────────────────────── */
+
+.tale-social-button--google:hover  { border-color: #4285F4; }
+.tale-social-button--github:hover  { border-color: var(--neutral-60); }
+.tale-social-button--apple:hover   { border-color: var(--neutral-60); }
+.tale-social-button--x:hover       { border-color: var(--neutral-60); }
+.tale-social-button--facebook:hover { border-color: #1877F2; }

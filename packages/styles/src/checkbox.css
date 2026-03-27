@@ -34,7 +34,7 @@
   justify-content: center;
   width: 1.8rem;
   height: 1.8rem;
-  border-radius: var(--radius-s);
+  border-radius: var(--radius-xs);
   border: 1.5px solid var(--neutral-40);
   background-color: var(--neutral-10);
   outline: none;

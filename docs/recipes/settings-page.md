@@ -55,12 +55,12 @@ function SettingsPage() {
         <Fieldset.Legend>Appearance</Fieldset.Legend>
 
         <Radio.Group defaultValue="system">
-          <Radio.Root value="light"><Radio.Indicator><Radio.Dot /></Radio.Indicator>Light</Radio.Root>
-          <Radio.Root value="dark"><Radio.Indicator><Radio.Dot /></Radio.Indicator>Dark</Radio.Root>
-          <Radio.Root value="system"><Radio.Indicator><Radio.Dot /></Radio.Indicator>System</Radio.Root>
+          <Radio.Root value="light"><Radio.Indicator />Light</Radio.Root>
+          <Radio.Root value="dark"><Radio.Indicator />Dark</Radio.Root>
+          <Radio.Root value="system"><Radio.Indicator />System</Radio.Root>
         </Radio.Group>
 
-        <Select.Root defaultSelectedKey="comfortable" placeholder="Select density">
+        <Select.Root defaultValue="comfortable" placeholder="Select density">
           <Select.Label>Display Density</Select.Label>
           <Select.Trigger />
           <Select.Popover>

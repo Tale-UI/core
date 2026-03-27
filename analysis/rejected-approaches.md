@@ -163,6 +163,45 @@ Use `Button` for actions and `Link` for navigation. Both components exist, are f
 
 ---
 
+## 4. Pre-Built Icon Sets
+
+### The Idea
+
+Bundle proprietary icon sets — payment icons (57), social icons (23), integration icons (17) — directly into the design system, as Untitled UI Pro does with 5,700+ icons across 3 packages.
+
+### Why It Was Initially Appealing
+
+Pre-built icon sets mean agents don't need to know which icon library to install. Every icon is available immediately, and there's a single consistent visual style across all icons in the system.
+
+### Why It Was Rejected
+
+**Tale UI's `<Icon>` component with consumer-chosen libraries is more flexible and avoids vendor lock-in.**
+
+Tale UI's icon architecture uses `<Icon icon={...}>` from `@tale-ui/react/icon`, where the `icon` prop accepts any SVG component. The recommended library is [Lucide React](https://lucide.dev/) (4,000+ icons, MIT licensed, tree-shakeable), but consumers can use any library that exports React SVG components.
+
+This approach is better because:
+
+1. **No vendor lock-in** — consumers choose their icon library. Switching from Lucide to Heroicons (or any other library) requires zero changes to Tale UI components — just different imports.
+2. **Tree-shaking** — only icons actually imported are included in the bundle. A proprietary set of 5,700+ icons would bloat the package even if only 20 are used.
+3. **Community maintained** — Lucide has 4,000+ icons with active community contributions. A proprietary set requires ongoing maintenance to add new icons (payment processors, social platforms, etc. change frequently).
+4. **Consistent API** — `<Icon icon={ChevronLeft} size="sm" />` works identically regardless of which icon library provides `ChevronLeft`. The Tale UI `<Icon>` component handles sizing, colour inheritance, and accessibility uniformly.
+5. **Different product scope** — icon design is a separate discipline from component architecture. Bundling icons would expand the project's maintenance surface into visual asset creation, which is not the design system's core competency.
+
+### The Better Alternative
+
+Use `<Icon>` from `@tale-ui/react/icon` with Lucide React (or any SVG icon library):
+
+```tsx
+import { Icon } from '@tale-ui/react/icon';
+import { CreditCard, Github, Slack } from 'lucide-react';
+
+<Icon icon={CreditCard} size="sm" />  // payment
+<Icon icon={Github} size="sm" />       // social
+<Icon icon={Slack} size="sm" />        // integration
+```
+
+---
+
 ## Summary
 
 | Approach | Problem It Solves | Why Rejected | Better Alternative |
@@ -170,6 +209,7 @@ Use `Button` for actions and `Link` for navigation. Both components exist, are f
 | Convenience wrappers | Verbosity for simple use cases | Introduces second composition pattern; degrades #1 AI advantage | Recipe docs with copy-paste snippets |
 | Data-driven APIs | Boilerplate for list-like components | Introduces second export pattern; opaque item shapes reduce AI accuracy | Recipe docs with `.map()` patterns |
 | Polymorphic button | Choosing between Button and Link | Hides rendered element and ARIA semantics; creates agent ambiguity | Separate `Button` (actions) and `Link` (navigation) components |
+| Pre-built icon sets | Needing specific payment/social/integration icons | Vendor lock-in, bundle bloat, maintenance burden for visual assets | `<Icon>` component + Lucide React (or any SVG icon library) |
 
 All rejected approaches address real or perceived developer friction. The key insight is that the friction is best solved at the **documentation layer** (recipes, snippets, examples) or by **embracing explicit separation** rather than adding API-level abstractions. Documentation-level solutions preserve Tale UI's pattern consistency while still giving agents and developers the "here's how to do this quickly" guidance they need.
 

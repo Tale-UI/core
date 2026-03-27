@@ -1,0 +1,48 @@
+/*
+ * RatingStars — @tale-ui/react
+ *
+ * A read-only star rating display supporting full and half stars.
+ *
+ * Sizes:      .tale-rating-stars--sm
+ *             .tale-rating-stars--md  (default)
+ *             .tale-rating-stars--lg
+ */
+
+.tale-rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4xs);
+}
+
+.tale-rating-stars__star {
+  position: relative;
+  display: inline-flex;
+  color: var(--neutral-26);
+}
+
+.tale-rating-stars__star--filled {
+  color: var(--yellow-60);
+}
+
+/* ─── Half star ──────────────────────────────────────────────────────────── */
+
+.tale-rating-stars__star--half {
+  position: relative;
+  display: inline-flex;
+  color: var(--neutral-26);
+}
+
+.tale-rating-stars__star-overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(0 50% 0 0);
+  color: var(--yellow-60);
+  display: inline-flex;
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────────────────── */
+
+.tale-rating-stars--sm { gap: 0.2rem; }
+.tale-rating-stars--md { gap: var(--space-4xs); }
+.tale-rating-stars--lg { gap: var(--space-3xs); }

@@ -123,4 +123,5 @@
 .tale-toolbar__input {
   height: 3.2rem;
   min-height: unset;
+  background-color: var(--neutral-5);
 }

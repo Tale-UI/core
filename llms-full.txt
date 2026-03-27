@@ -1206,9 +1206,9 @@ Use these to verify an AI correctly understands this reference.
 
 # Component Index
 
-Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
+Quick-reference table for all 81 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
 
-## Form Controls (18)
+## Form Controls (20)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
@@ -1230,6 +1230,7 @@ Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage
 | TextField | Single-line text input with validation | `@tale-ui/react/text-field` | Root, Input, Label, Description, ErrorMessage |
 | TextArea | Multi-line text input with validation | `@tale-ui/react/text-area` | Root, TextArea, Label, Description, ErrorMessage |
 | PinInput | OTP/verification code input | `@tale-ui/react/pin-input` | Root, Group, Slot, Separator |
+| SelectNative | Styled native `<select>` element | `@tale-ui/react/select-native` | -- |
 
 ## Date & Time (6)
 
@@ -1298,13 +1299,18 @@ Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage
 | Meter | Scalar measurement display | `@tale-ui/react/meter` | Root, Header, Label, Value, Track, Indicator |
 | Spinner | Indeterminate loading indicator | `@tale-ui/react/spinner` | -- |
 
-## Display (6)
+## Display (11)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | Avatar | User avatar with image and fallback | `@tale-ui/react/avatar` | Root, Image, Fallback |
+| Badge | Small status label with semantic variants | `@tale-ui/react/badge` | -- |
+| DotIcon | Small colored circle status indicator | `@tale-ui/react/dot-icon` | -- |
 | EmptyState | Placeholder for empty content areas | `@tale-ui/react/empty-state` | Root, Icon, Title, Description, Actions |
+| FeaturedIcon | Themed background wrapper for icons | `@tale-ui/react/featured-icon` | -- |
 | GridList | Selectable grid of items | `@tale-ui/react/grid-list` | Root, Item |
+| RatingBadge | Pill badge with star icon and numeric rating | `@tale-ui/react/rating-badge` | -- |
+| RatingStars | Read-only star rating display | `@tale-ui/react/rating-stars` | -- |
 | Table | Data table with sorting | `@tale-ui/react/table` | Root, Header, Column, Body, Row, Cell |
 | TagGroup | Tag list with optional removal | `@tale-ui/react/tag-group` | Root, Label, List, Tag, Description, ErrorMessage |
 | Tree | Hierarchical tree view | `@tale-ui/react/tree` | Root, Item, ItemContent |
@@ -1335,6 +1341,13 @@ Quick-reference table for all 73 `@tale-ui/react` components. For detailed usage
 | Icon | Lucide-react icon wrapper with BEM sizing | `@tale-ui/react/icon` | -- |
 | IconButton | Square button for icon-only use | `@tale-ui/react/icon-button` | -- |
 | mergeProps | Smart React props merging utility | `@tale-ui/react/merge-props` | -- |
+
+## Marketing (2)
+
+| Component | Description | Import | Parts |
+|-----------|-------------|--------|-------|
+| AppStoreButton | App store download button (Apple/Google) | `@tale-ui/react/app-store-button` | -- |
+| SocialButton | Social login button with provider icon | `@tale-ui/react/social-button` | -- |
 
 ## Charts (6)
 
@@ -1560,6 +1573,66 @@ function Example() {
 - **ARIA labelling:** `AlertDialog.Title` is automatically associated with `aria-labelledby` and `AlertDialog.Description` with `aria-describedby`. Always include both for accessibility.
 - **Uncontrolled shortcut:** For simple cases, you can skip `isOpen`/`onOpenChange` and use `slot="close"` on action `Button` elements instead of `onPress={() => setOpen(false)}`. React Aria will close the dialog automatically.
 - **Do not add a corner X close button by default.** AlertDialog uses `role="alertdialog"` — it is semantically for actions that require explicit acknowledgement (destructive operations, confirmations). Adding `<AlertDialog.Close />` (corner X icon) allows dismissal without making a choice, which defeats the purpose. The basic example intentionally omits it. If you must include `AlertDialog.Close`, ensure it behaves identically to the safe/non-destructive action (Cancel) — never wire it to the destructive action. For general-purpose modals that can be freely dismissed, use `Dialog` instead.
+
+---
+
+## app-store-button
+
+# AppStoreButton
+
+`import { AppStoreButton } from '@tale-ui/react/app-store-button';`
+
+A dark-styled app store download button with the appropriate store logo and text.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| store | `'apple' \| 'google'` | (required) | Target app store |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
+
+Also accepts all standard `<a>` HTML attributes except `children`. Set `href` to the store URL.
+
+## Basic Usage
+
+```tsx
+<AppStoreButton store="apple" href="https://apps.apple.com/..." />
+```
+
+## Examples
+
+### Both Stores
+
+```tsx
+<AppStoreButton store="apple" href="https://apps.apple.com/app/example" />
+<AppStoreButton store="google" href="https://play.google.com/store/apps/details?id=example" />
+```
+
+### All Sizes
+
+```tsx
+<AppStoreButton store="apple" href="#" size="sm" />
+<AppStoreButton store="apple" href="#" size="md" />
+<AppStoreButton store="apple" href="#" size="lg" />
+```
+
+## CSS Classes
+
+- `.tale-app-store-button` -- Base
+- `.tale-app-store-button--apple` / `--google` -- Store modifiers
+- `.tale-app-store-button--sm` / `--md` / `--lg` -- Size modifiers
+- `.tale-app-store-button__icon` -- Store logo wrapper
+- `.tale-app-store-button__text` -- Text wrapper
+- `.tale-app-store-button__label` -- Top label ("Download on the" / "GET IT ON")
+- `.tale-app-store-button__store` -- Store name ("App Store" / "Google Play")
+
+## Notes
+
+- Custom component -- not built on a React Aria primitive.
+- Renders an `<a>` element with `target="_blank"` and `rel="noopener noreferrer"` by default.
+- The Apple variant displays "Download on the App Store".
+- The Google variant displays "GET IT ON Google Play".
+- Does not accept `children` -- text is auto-generated from `store`.
 
 ---
 
@@ -1853,6 +1926,70 @@ No Tale UI-specific props. Accepts all standard `<span>` HTML attributes.
 
 - Always include a `Fallback` alongside `Image` so initials display while the image loads or if it fails.
 - Default size is `md`.
+
+---
+
+## badge
+
+# Badge
+
+`import { Badge } from '@tale-ui/react/badge';`
+
+A small status label with semantic color variants.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | `'neutral' \| 'brand' \| 'error' \| 'warning' \| 'success'` | `'neutral'` | Color variant |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the badge |
+
+Also accepts all standard `<span>` HTML attributes.
+
+## Basic Usage
+
+```tsx
+<Badge variant="success">Active</Badge>
+```
+
+## Examples
+
+### All Variants
+
+```tsx
+<Badge variant="neutral">Neutral</Badge>
+<Badge variant="brand">Brand</Badge>
+<Badge variant="error">Error</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="success">Success</Badge>
+```
+
+### All Sizes
+
+```tsx
+<Badge size="sm">Small</Badge>
+<Badge size="md">Medium</Badge>
+<Badge size="lg">Large</Badge>
+```
+
+### Combined
+
+```tsx
+<Badge variant="error" size="sm">Failed</Badge>
+<Badge variant="success" size="lg">Approved</Badge>
+```
+
+## CSS Classes
+
+- `.tale-badge` -- Base
+- `.tale-badge--neutral` / `--brand` / `--error` / `--warning` / `--success` -- Variant modifiers
+- `.tale-badge--sm` / `--md` / `--lg` -- Size modifiers
+
+## Notes
+
+- Custom component -- not built on a React Aria primitive.
+- Default variant is `neutral`, default size is `md`.
+- Renders a `<span>` element. Pass `children` for the label text.
 
 ---
 
@@ -4017,6 +4154,63 @@ const [isExpanded, setIsExpanded] = useState(false);
 
 ---
 
+## dot-icon
+
+# DotIcon
+
+`import { DotIcon } from '@tale-ui/react/dot-icon';`
+
+A small colored circle indicator, typically used for status display.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| color | `'neutral' \| 'brand' \| 'error' \| 'warning' \| 'success'` | `'neutral'` | Dot color variant |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Dot size |
+
+Also accepts all standard `<span>` HTML attributes except `children`.
+
+## Basic Usage
+
+```tsx
+<DotIcon color="success" />
+```
+
+## Examples
+
+### All Colors
+
+```tsx
+<DotIcon color="neutral" />
+<DotIcon color="brand" />
+<DotIcon color="error" />
+<DotIcon color="warning" />
+<DotIcon color="success" />
+```
+
+### All Sizes
+
+```tsx
+<DotIcon size="sm" />
+<DotIcon size="md" />
+<DotIcon size="lg" />
+```
+
+## CSS Classes
+
+- `.tale-dot-icon` -- Base
+- `.tale-dot-icon--neutral` / `--brand` / `--error` / `--warning` / `--success` -- Color modifiers
+- `.tale-dot-icon--sm` / `--md` / `--lg` -- Size modifiers
+
+## Notes
+
+- Custom component -- not built on a React Aria primitive.
+- Renders with `aria-hidden="true"` since it is a decorative indicator.
+- Does not accept `children`.
+
+---
+
 ## drawer
 
 # Drawer
@@ -4309,6 +4503,80 @@ Also accepts all standard `<div>` HTML attributes.
 - All parts are optional. Use only what you need.
 - The `size` prop on `Root` affects spacing and typography of all child parts via CSS descendant selectors.
 - Default size is `md`.
+
+---
+
+## featured-icon
+
+# FeaturedIcon
+
+`import { FeaturedIcon } from '@tale-ui/react/featured-icon';`
+
+A themed background wrapper for an Icon child. Used to highlight icons in empty states, banners, and feature lists.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | `'brand' \| 'error' \| 'warning' \| 'success' \| 'neutral'` | `'brand'` | Color variant |
+| shape | `'circle' \| 'square'` | `'circle'` | Shape of the container |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the container |
+
+Also accepts all standard `<span>` HTML attributes.
+
+## Basic Usage
+
+```tsx
+import { Icon } from '@tale-ui/react/icon';
+import { AlertCircle } from 'lucide-react';
+
+<FeaturedIcon variant="error">
+  <Icon icon={AlertCircle} />
+</FeaturedIcon>
+```
+
+## Examples
+
+### All Variants
+
+```tsx
+import { Icon } from '@tale-ui/react/icon';
+import { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-react';
+
+<FeaturedIcon variant="brand"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon variant="error"><Icon icon={AlertCircle} /></FeaturedIcon>
+<FeaturedIcon variant="warning"><Icon icon={AlertTriangle} /></FeaturedIcon>
+<FeaturedIcon variant="success"><Icon icon={CheckCircle} /></FeaturedIcon>
+<FeaturedIcon variant="neutral"><Icon icon={Info} /></FeaturedIcon>
+```
+
+### Shapes
+
+```tsx
+<FeaturedIcon variant="brand" shape="circle"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon variant="brand" shape="square"><Icon icon={Star} /></FeaturedIcon>
+```
+
+### All Sizes
+
+```tsx
+<FeaturedIcon size="sm"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon size="md"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon size="lg"><Icon icon={Star} /></FeaturedIcon>
+```
+
+## CSS Classes
+
+- `.tale-featured-icon` -- Base (circle by default)
+- `.tale-featured-icon--brand` / `--error` / `--warning` / `--success` / `--neutral` -- Variant modifiers
+- `.tale-featured-icon--square` -- Square shape modifier
+- `.tale-featured-icon--sm` / `--md` / `--lg` -- Size modifiers
+
+## Notes
+
+- Custom component -- not built on a React Aria primitive.
+- Pass an `<Icon>` component as children.
+- Default shape is `circle`, default variant is `brand`, default size is `md`.
 
 ---
 
@@ -6905,6 +7173,133 @@ Accepts all React Aria `RangeCalendar` props plus an optional `className`. See t
 
 ---
 
+## rating-badge
+
+# RatingBadge
+
+`import { RatingBadge } from '@tale-ui/react/rating-badge';`
+
+A pill-shaped badge displaying a star icon and numeric rating value.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `number` | (required) | Numeric rating value |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the badge |
+
+Also accepts all standard `<span>` HTML attributes except `children`.
+
+## Basic Usage
+
+```tsx
+<RatingBadge value={4.5} />
+```
+
+## Examples
+
+### Various Ratings
+
+```tsx
+<RatingBadge value={3.8} />
+<RatingBadge value={4.5} />
+<RatingBadge value={5.0} />
+```
+
+### All Sizes
+
+```tsx
+<RatingBadge value={4.5} size="sm" />
+<RatingBadge value={4.5} size="md" />
+<RatingBadge value={4.5} size="lg" />
+```
+
+## CSS Classes
+
+- `.tale-rating-badge` -- Base
+- `.tale-rating-badge--sm` / `--md` / `--lg` -- Size modifiers
+
+## Notes
+
+- Custom component -- not built on a React Aria primitive.
+- Displays the value formatted to one decimal place (e.g. `4.5`).
+- Internally renders a `lucide-react` Star icon via the `<Icon>` component.
+- Does not accept `children`.
+
+---
+
+## rating-stars
+
+# RatingStars
+
+`import { RatingStars } from '@tale-ui/react/rating-stars';`
+
+A read-only star rating display. Supports half-star values.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `number` | (required) | Rating value from 0 to `max`. Supports half values (e.g. 3.5). |
+| max | `number` | `5` | Maximum number of stars |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the stars |
+
+Also accepts all standard `<div>` HTML attributes except `children`.
+
+## Basic Usage
+
+```tsx
+<RatingStars value={3.5} />
+```
+
+## Examples
+
+### Full Stars
+
+```tsx
+<RatingStars value={4} />
+```
+
+### Half Stars
+
+```tsx
+<RatingStars value={2.5} />
+<RatingStars value={3.5} />
+<RatingStars value={4.5} />
+```
+
+### All Sizes
+
+```tsx
+<RatingStars value={4} size="sm" />
+<RatingStars value={4} size="md" />
+<RatingStars value={4} size="lg" />
+```
+
+### Custom Max
+
+```tsx
+<RatingStars value={7} max={10} />
+```
+
+## CSS Classes
+
+- `.tale-rating-stars` -- Root container
+- `.tale-rating-stars--sm` / `--md` / `--lg` -- Size modifiers
+- `.tale-rating-stars__star` -- Individual star
+- `.tale-rating-stars__star--filled` -- Filled star
+- `.tale-rating-stars__star--half` -- Half-filled star
+- `.tale-rating-stars__star-overlay` -- Overlay element for half-star effect
+
+## Notes
+
+- Custom component -- not built on a React Aria primitive.
+- Uses `role="img"` with an auto-generated `aria-label` (e.g. "3.5 out of 5 stars").
+- Internally renders `lucide-react` Star icons via the `<Icon>` component.
+- This is a display-only component; it does not handle user input.
+
+---
+
 ## scroll-area
 
 # ScrollArea
@@ -7072,6 +7467,84 @@ import { X } from 'lucide-react';
 - The clear button is absolutely positioned inside the input (overlays the right side). The input has `padding-inline-end` reserved for it.
 - The clear button automatically hides when the field is empty (via `data-empty` on the Root: `.tale-search-field[data-empty] .tale-search-field__clear { display: none }`).
 - Supports `isDisabled` prop on the Root.
+
+---
+
+## select-native
+
+# SelectNative
+
+`import { SelectNative } from '@tale-ui/react/select-native';`
+
+A styled native `<select>` element matching the Input field appearance. Use when you need native browser select behaviour instead of a custom popover listbox.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Field size |
+
+Also accepts all standard `<select>` HTML attributes. Pass `<option>` elements as children.
+
+## Basic Usage
+
+```tsx
+<SelectNative>
+  <option value="a">Option A</option>
+  <option value="b">Option B</option>
+</SelectNative>
+```
+
+## Examples
+
+### All Sizes
+
+```tsx
+<SelectNative size="sm">
+  <option>Small</option>
+</SelectNative>
+<SelectNative size="md">
+  <option>Medium</option>
+</SelectNative>
+<SelectNative size="lg">
+  <option>Large</option>
+</SelectNative>
+```
+
+### Disabled
+
+```tsx
+<SelectNative disabled>
+  <option>Cannot select</option>
+</SelectNative>
+```
+
+### With Groups
+
+```tsx
+<SelectNative>
+  <optgroup label="Fruits">
+    <option value="apple">Apple</option>
+    <option value="banana">Banana</option>
+  </optgroup>
+  <optgroup label="Vegetables">
+    <option value="carrot">Carrot</option>
+    <option value="broccoli">Broccoli</option>
+  </optgroup>
+</SelectNative>
+```
+
+## CSS Classes
+
+- `.tale-select-native` -- Base
+- `.tale-select-native--sm` / `--md` / `--lg` -- Size modifiers
+
+## Notes
+
+- Custom component -- not built on a React Aria primitive.
+- Renders a native `<select>` element with Tale UI field styling.
+- Use this instead of `Select` when you need native mobile picker behaviour or `<optgroup>` support.
+- Pair with `Field` for label and validation: wrap in `<Field.Root>` with `<Field.Label>` and `<Field.Control>`.
 
 ---
 
@@ -7410,6 +7883,65 @@ Accepts all React Aria `Slider` props plus an optional `className`. See the `@ex
 - Pass an array (e.g. `defaultValue={[20, 80]}`) for a range slider, and render two `Slider.Thumb` elements.
 - Supports `orientation="horizontal"` (default) and `orientation="vertical"`.
 - `Slider.Control` is a plain `<div>` that provides a larger touch target around the track.
+
+---
+
+## social-button
+
+# SocialButton
+
+`import { SocialButton } from '@tale-ui/react/social-button';`
+
+A social login button with a provider icon on the left.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| provider | `'google' \| 'github' \| 'apple' \| 'x' \| 'facebook'` | (required) | Social provider whose icon to display |
+| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
+
+Also accepts all standard `<button>` HTML attributes.
+
+## Basic Usage
+
+```tsx
+<SocialButton provider="google">Sign in with Google</SocialButton>
+```
+
+## Examples
+
+### All Providers
+
+```tsx
+<SocialButton provider="google">Sign in with Google</SocialButton>
+<SocialButton provider="github">Continue with GitHub</SocialButton>
+<SocialButton provider="apple">Sign in with Apple</SocialButton>
+<SocialButton provider="x">Sign in with X</SocialButton>
+<SocialButton provider="facebook">Continue with Facebook</SocialButton>
+```
+
+### All Sizes
+
+```tsx
+<SocialButton provider="google" size="sm">Sign in with Google</SocialButton>
+<SocialButton provider="google" size="md">Sign in with Google</SocialButton>
+<SocialButton provider="google" size="lg">Sign in with Google</SocialButton>
+```
+
+## CSS Classes
+
+- `.tale-social-button` -- Base
+- `.tale-social-button--google` / `--github` / `--apple` / `--x` / `--facebook` -- Provider modifiers
+- `.tale-social-button--sm` / `--md` / `--lg` -- Size modifiers
+- `.tale-social-button__icon` -- Icon wrapper
+
+## Notes
+
+- Custom component -- not built on a React Aria primitive.
+- Renders a `<button type="button">` element.
+- Each provider has its own branded SVG icon embedded in the component.
+- Pass label text as `children` (e.g. "Sign in with Google").
 
 ---
 

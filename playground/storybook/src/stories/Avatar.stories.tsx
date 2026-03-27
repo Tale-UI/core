@@ -68,3 +68,44 @@ export const WithImage: Story = {
     </div>
   ),
 };
+
+export const GroupWithCount: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render() {
+    return (
+      <Avatar.Group size="md">
+        <Avatar.Root>
+          <Avatar.Fallback>AB</Avatar.Fallback>
+        </Avatar.Root>
+        <Avatar.Root>
+          <Avatar.Fallback>CD</Avatar.Fallback>
+        </Avatar.Root>
+        <Avatar.Root>
+          <Avatar.Fallback>EF</Avatar.Fallback>
+        </Avatar.Root>
+        <Avatar.Count>+5</Avatar.Count>
+      </Avatar.Group>
+    );
+  },
+};
+
+export const GroupSizes: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+          <Avatar.Group key={size} size={size}>
+            <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
+            <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
+            <Avatar.Count>+3</Avatar.Count>
+          </Avatar.Group>
+        ))}
+      </div>
+    );
+  },
+};

@@ -104,3 +104,64 @@
 .tale-avatar--xl .tale-avatar__fallback {
   font-size: var(--label-l-font-size);
 }
+
+/* ─── Group — overlapping avatar stack ────────────────────────────────────── */
+
+.tale-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.tale-avatar-group > :not(:first-child) {
+  margin-inline-start: -0.8rem;
+}
+
+.tale-avatar-group > .tale-avatar,
+.tale-avatar-group > .tale-avatar-count {
+  box-shadow: 0 0 0 2px var(--neutral-10);
+}
+
+/* ─── Count — "+N" overflow indicator ─────────────────────────────────────── */
+
+.tale-avatar-count {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--neutral-18);
+  color: var(--neutral-70);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+
+  /* Default size: md */
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.tale-avatar-count--sm {
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: var(--label-xs-font-size, 1rem);
+}
+
+.tale-avatar-count--md {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.tale-avatar-count--lg {
+  width: var(--space-xl);
+  height: var(--space-xl);
+  font-size: var(--label-m-font-size);
+}
+
+.tale-avatar-count--xl {
+  width: 8rem;
+  height: 8rem;
+  font-size: var(--label-l-font-size);
+}

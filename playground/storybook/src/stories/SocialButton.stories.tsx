@@ -1,0 +1,58 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { SocialButton } from '@tale-ui/react/social-button';
+
+type Args = {
+  provider: 'google' | 'github' | 'apple' | 'x' | 'facebook';
+  size: 'sm' | 'md' | 'lg';
+};
+
+const meta: Meta<Args> = {
+  title: 'Components/SocialButton',
+  parameters: { layout: 'centered' },
+  argTypes: {
+    provider: {
+      control: 'select',
+      options: ['google', 'github', 'apple', 'x', 'facebook'],
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+    },
+  },
+  args: {
+    provider: 'google',
+    size: 'md',
+  },
+};
+
+export default meta;
+
+type Story = StoryObj<Args>;
+
+export const AllProviders: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'stretch', width: 280 }}>
+        <SocialButton provider="google">Sign in with Google</SocialButton>
+        <SocialButton provider="github">Continue with GitHub</SocialButton>
+        <SocialButton provider="apple">Sign in with Apple</SocialButton>
+        <SocialButton provider="x">Sign in with X</SocialButton>
+        <SocialButton provider="facebook">Continue with Facebook</SocialButton>
+      </div>
+    );
+  },
+};
+
+export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'stretch', width: 280 }}>
+        <SocialButton provider="google" size="sm">Sign in with Google</SocialButton>
+        <SocialButton provider="google" size="md">Sign in with Google</SocialButton>
+        <SocialButton provider="google" size="lg">Sign in with Google</SocialButton>
+      </div>
+    );
+  },
+};

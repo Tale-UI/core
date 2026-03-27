@@ -11,7 +11,7 @@ A compound radio button component with group support, built on React Aria's Radi
 | `Radio.Group` | Groups radio buttons with a label and manages selection |
 | `Radio.Root` | An individual radio option |
 | `Radio.Indicator` | The visual circle indicator |
-| `Radio.Dot` | Inner dot inside the indicator (optional; for custom rendering) |
+| `Radio.Dot` | Standalone inner dot for custom compositions only. **Do not nest inside `Radio.Indicator`** — Indicator already renders its own dot via CSS `::after`. |
 
 ## Props
 

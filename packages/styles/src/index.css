@@ -29,9 +29,11 @@
 @import './number-field.css';
 @import './slider.css';
 @import './select.css';
+@import './select-native.css';
 @import './combobox.css';
 @import './autocomplete.css';
 @import './pin-input.css';
+@import './payment-input.css';
 
 /* ─── Layout / containers ───────────────────────────────────────────────────── */
 @import './carousel.css';
@@ -57,12 +59,17 @@
 @import './pagination.css';
 
 /* ─── Feedback / display ────────────────────────────────────────────────────── */
+@import './badge.css';
 @import './banner.css';
 @import './progress-bar.css';
 @import './meter.css';
 @import './spinner.css';
 @import './avatar.css';
+@import './dot-icon.css';
 @import './empty-state.css';
+@import './featured-icon.css';
+@import './rating-stars.css';
+@import './rating-badge.css';
 
 /* ─── Form structure ────────────────────────────────────────────────────────── */
 @import './field.css';
@@ -93,6 +100,10 @@
 @import './icon.css';
 @import './icon-button.css';
 
+/* ─── Marketing ────────────────────────────────────────────────────────────── */
+@import './app-store-button.css';
+@import './social-button.css';
+
 /* ─── Utilities ─────────────────────────────────────────────────────────────── */
 @import './toolbar.css';
 @import './calendar.css';
@@ -101,3 +112,6 @@
 @import './time-field.css';
 @import './date-picker.css';
 @import './date-range-picker.css';
+
+/* ─── Dark mode overrides (must be last) ───────────────────────────────────── */
+@import './_dark-overrides.css';
