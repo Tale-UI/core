@@ -5,7 +5,8 @@ import styled from 'styled-components'
 import { Button } from '@tale-ui/react/button'
 import { ToggleButton } from '@tale-ui/react/toggle-button'
 import { ToggleButtonGroup } from '@tale-ui/react/toggle-button'
-import { isValidHex, numberToHex, errorColor, generatePalette, randomBaseColor, getContrastRatio, generateCssOutput, NAMED_SHADES, NEUTRAL_SHADES } from './utils'
+import { isValidHex, numberToHex, errorColor, generatePalette, randomBaseColor, getContrastRatio, generateCssOutput, generateRadiusCss, getRadiusValue, RADIUS_TOKENS, NAMED_SHADES, NEUTRAL_SHADES } from './utils'
+import Slider from './components/slider'
 import ColorsRow from './components/colors-row'
 import MainColorSelector from './components/main-color-selector'
 import BackgroundSelector from './components/background-selector'
@@ -150,6 +151,67 @@ const PreviewColumn = styled.div`
 `
 
 
+const RadiusSection = styled.div`
+  margin-bottom: var(--space-xl);
+
+  @media (max-width: 720px) {
+    margin-bottom: var(--space-l);
+  }
+`
+
+const RadiusHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  margin-bottom: var(--space-m);
+`
+
+const RadiusLabel = styled.span`
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: var(--label-line-height);
+`
+
+const RadiusValue = styled.span`
+  font-size: var(--mono-s-font-size);
+  font-family: var(--mono-font-family);
+  color: var(--neutral-60);
+  min-width: 80px;
+`
+
+const RadiusPreviewRow = styled.div`
+  display: flex;
+  gap: var(--space-m);
+  flex-wrap: wrap;
+`
+
+const RadiusPreviewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3xs);
+`
+
+const RadiusPreviewBox = styled.div`
+  width: 48px;
+  height: 48px;
+  background: var(--color-60, var(--neutral-40));
+  border: 1px solid var(--neutral-26);
+  transition: border-radius 0.15s ease;
+`
+
+const RadiusTokenName = styled.span`
+  font-size: var(--mono-xs-font-size, 10px);
+  font-family: var(--mono-font-family);
+  color: var(--neutral-60);
+`
+
+const RadiusTokenValue = styled.span`
+  font-size: var(--mono-xs-font-size, 10px);
+  font-family: var(--mono-font-family);
+  color: var(--neutral-40);
+`
+
 const DEFAULT_NAMED_COLOR   = 'dc2626'
 const DEFAULT_NEUTRAL_COLOR = '79716b'
 const DEFAULT_MODE          = 'named'
@@ -164,6 +226,12 @@ const parseHash = () => {
     const hash = decodeURI(window.location.hash)
     if (!hash || hash === '#') return null
     const parts = hash.slice(1).split('/')
+    // 4-part: namedHex/neutralHex/mode/curvature
+    if (parts.length === 4 && isValidHex(parts[0]) && isValidHex(parts[1]) && ['named', 'neutral'].includes(parts[2])) {
+      const c = parseFloat(parts[3])
+      return { namedColor: parts[0], neutralColor: parts[1], mode: parts[2], curvature: isFinite(c) ? c : 1 }
+    }
+    // 3-part: namedHex/neutralHex/mode
     if (parts.length === 3 && isValidHex(parts[0]) && isValidHex(parts[1]) && ['named', 'neutral'].includes(parts[2])) {
       return { namedColor: parts[0], neutralColor: parts[1], mode: parts[2] }
     }
@@ -215,6 +283,7 @@ const ScaleApp = () => {
   const [bgColor,      setBgColor]      = useState(DEFAULT_BG)
   const [switchPoint,  setSwitchPoint]  = useState(null)  // null = auto
   const [whiteAnchor,  setWhiteAnchor]  = useState(false)
+  const [curvature,    setCurvature]    = useState(initial.curvature ?? 1)
 
   // Active-mode aliases — the rest of the UI (controls, ColorsRow, CssOutput) operates on these
   const mainColor    = mode === 'named' ? namedColor   : neutralColor
@@ -356,6 +425,8 @@ const ScaleApp = () => {
     if (neutralPalette.length) {
       parts.push(generateCssOutput('neutral', neutralPalette, { mode: 'neutral' }))
     }
+    const radiusCss = generateRadiusCss(curvature)
+    if (radiusCss) parts.push(radiusCss)
     if (!parts.length) return
     const el = document.createElement('style')
     el.id = 'scale-preview-theme'
@@ -369,12 +440,30 @@ const ScaleApp = () => {
       css = css.replace(/:root\b/g, '[data-scale-app]')
     }
     el.textContent = css
-    return () => el.remove()
-  }, [namedPalette, neutralPalette, mode, switchPoint, namedAutoPivot])
+
+    // Also set --radius-* on the style root so non-embedded elements pick them up
+    const root = getStyleRoot()
+    for (const { name, multiplier } of RADIUS_TOKENS) {
+      if (curvature === 1) {
+        root.style.removeProperty(`--radius-${name}`)
+      } else {
+        root.style.setProperty(`--radius-${name}`, `${getRadiusValue(multiplier, curvature).toFixed(3)}rem`)
+      }
+    }
+
+    return () => {
+      el.remove()
+      const r = getStyleRoot()
+      for (const { name } of RADIUS_TOKENS) {
+        r.style.removeProperty(`--radius-${name}`)
+      }
+    }
+  }, [namedPalette, neutralPalette, mode, switchPoint, namedAutoPivot, curvature])
 
   // Debounced URL hash update (5-part format)
   useEffect(() => {
-    const nextHash = `#${encodeURIComponent(namedColor)}/${encodeURIComponent(neutralColor)}/${mode}`
+    const curvaturePart = curvature !== 1 ? `/${curvature.toFixed(2)}` : ''
+    const nextHash = `#${encodeURIComponent(namedColor)}/${encodeURIComponent(neutralColor)}/${mode}${curvaturePart}`
 
     if (hashUpdateTimeoutRef.current) clearTimeout(hashUpdateTimeoutRef.current)
 
@@ -389,7 +478,7 @@ const ScaleApp = () => {
     }, 120)
 
     return () => { if (hashUpdateTimeoutRef.current) clearTimeout(hashUpdateTimeoutRef.current) }
-  }, [namedColor, neutralColor, mode])
+  }, [namedColor, neutralColor, mode, curvature])
 
   const handleMainColorChange = (e) => {
     const raw = e.target.value.replace(/#/g, '').replace(/[^0-9a-fA-F]/g, '').slice(0, 6)
@@ -482,6 +571,37 @@ const ScaleApp = () => {
 
           <ColorsRow palette={palette} pivot={switchPoint ?? autoPivot} varPrefix={mode === 'named' ? 'color' : 'neutral'} bgIsLight={bgIsLight} />
 
+          <RadiusSection>
+            <RadiusHeader>
+              <RadiusLabel>Border radius</RadiusLabel>
+              <Slider
+                type="range"
+                min="0"
+                max="2"
+                step="0.01"
+                value={curvature}
+                onChange={(e) => setCurvature(parseFloat(e.target.value))}
+              />
+              <RadiusValue>{curvature.toFixed(2)}x{curvature === 1 ? ' (default)' : ''}</RadiusValue>
+              {curvature !== 1 && (
+                <Button variant="ghost" size="sm" onPress={() => setCurvature(1)}>Reset</Button>
+              )}
+            </RadiusHeader>
+            <RadiusPreviewRow>
+              {RADIUS_TOKENS.map(({ name, multiplier }) => {
+                const rem = getRadiusValue(multiplier, curvature)
+                const px = Math.round(rem * 16)
+                return (
+                  <RadiusPreviewItem key={name}>
+                    <RadiusPreviewBox style={{ borderRadius: `${rem}rem` }} />
+                    <RadiusTokenName>{name}</RadiusTokenName>
+                    <RadiusTokenValue>{px}px</RadiusTokenValue>
+                  </RadiusPreviewItem>
+                )
+              })}
+            </RadiusPreviewRow>
+          </RadiusSection>
+
           <OutputRow>
             <CssColumn>
               <CssOutput
@@ -489,6 +609,7 @@ const ScaleApp = () => {
                 namedPivot={switchPoint ?? namedAutoPivot}
                 neutralPalette={neutralPalette}
                 bgColor={bgColor}
+                curvature={curvature}
               />
             </CssColumn>
             <PreviewColumn>

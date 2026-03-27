@@ -814,8 +814,8 @@ export default function ComponentAudit() {
           <SubHeading>Color overrides</SubHeading>
           <Row>
             {(['brand', 'red', 'indigo', 'green', 'random'] as const).map((color) => (
-              <Container key={color} color={color} className="audit__color-demo">
-                <span className="audit__color-label">{color}</span>
+              <Container key={color} color={color} className="audit__palette-demo">
+                <span className="audit__palette-label">{color}</span>
               </Container>
             ))}
           </Row>

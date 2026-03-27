@@ -252,14 +252,14 @@
   font-size: var(--text-m-font-size);
 }
 
-.audit__color-demo {
+.audit__palette-demo {
   padding: 1.6rem 2.4rem;
   border-radius: 0.8rem;
   background: var(--color-10);
   border: 1px solid var(--color-20);
 }
 
-.audit__color-label {
+.audit__palette-label {
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
   color: var(--color-70);

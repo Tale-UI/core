@@ -213,6 +213,36 @@ export const randomBaseColor = (mode) => {
   // Fallback to known-good colours (should never be reached in practice)
   return isNeutral ? '#79716b' : '#dc2626'
 }
+export const RADIUS_TOKENS = [
+  { name: 'xs',  multiplier: 4 },
+  { name: 's',   multiplier: 6 },
+  { name: 'm',   multiplier: 8 },
+  { name: 'l',   multiplier: 12 },
+  { name: 'xl',  multiplier: 16 },
+  { name: '2xl', multiplier: 24 },
+]
+
+const RADIUS_SCALE = 0.125 // rem — matches --scale in _effects.css
+
+/**
+ * Compute the radius value (in rem) for a token at a given curvature factor.
+ */
+export const getRadiusValue = (multiplier, curvature) =>
+  multiplier * RADIUS_SCALE * curvature
+
+/**
+ * Generate CSS overrides for --radius-* tokens at a given curvature factor.
+ * Returns empty string when curvature is 1 (defaults).
+ */
+export const generateRadiusCss = (curvature) => {
+  if (curvature === 1) return ''
+  const lines = RADIUS_TOKENS.map(({ name, multiplier }) => {
+    const value = getRadiusValue(multiplier, curvature)
+    return `  --radius-${name.padEnd(3)}: ${value.toFixed(3)}rem;`
+  })
+  return `:root {\n${lines.join('\n')}\n}`
+}
+
 export const generateCssOutput = (name, palette, { mode = 'named', pivot = 60 } = {}) => {
   if (!palette || palette.length === 0) return ''
 
