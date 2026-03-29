@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { RadialBarChart } from '@tale-ui/charts/radial-bar-chart';
 import '@tale-ui/charts/chart.css';
 

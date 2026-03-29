@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TagGroup } from '@tale-ui/react/tag-group';
 import type { Selection } from 'react-aria-components';
 import { useState } from 'react';

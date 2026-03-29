@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Autocomplete } from '@tale-ui/react/autocomplete';
 import { useFilter } from 'react-aria-components';
 

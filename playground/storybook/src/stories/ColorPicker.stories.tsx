@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ColorArea } from '@tale-ui/react/color-area';
 import { ColorSlider } from '@tale-ui/react/color-slider';
 import { parseColor, type Color } from 'react-aria-components';

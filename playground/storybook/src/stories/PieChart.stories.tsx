@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { PieChart } from '@tale-ui/charts/pie-chart';
 import '@tale-ui/charts/chart.css';
 

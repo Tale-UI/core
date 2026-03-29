@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AppStoreButton } from '@tale-ui/react/app-store-button';
 
 type Args = {

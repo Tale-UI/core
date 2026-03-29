@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ContextMenu } from '@tale-ui/react/context-menu';
 
 type Args = Record<string, never>;

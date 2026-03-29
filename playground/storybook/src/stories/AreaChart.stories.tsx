@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AreaChart } from '@tale-ui/charts/area-chart';
 import '@tale-ui/charts/chart.css';
 

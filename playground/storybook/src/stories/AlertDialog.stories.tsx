@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AlertDialog } from '@tale-ui/react/alert-dialog';
 import { Button } from '@tale-ui/react/button';
 

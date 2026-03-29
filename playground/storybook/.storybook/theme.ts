@@ -1,91 +1,93 @@
-import { create } from 'storybook/internal/theming';
+import { create } from 'storybook/theming';
 
 /**
- * Resolve a CSS color token to a concrete rgb() value.
+ * Static color maps derived from the Tale UI design tokens.
  *
- * getPropertyValue() returns the raw registered value — e.g. "var(--neutral-default-10)" —
- * because custom properties are not computed. Storybook's create() can't parse var()
- * chains, so we force full resolution by applying the variable to a real CSS property
- * on a temp element and reading the computed value back.
+ * In Storybook v8 we resolved CSS custom properties at runtime via temp DOM
+ * elements. Storybook v10's manager UI loads before the managerHead <style>
+ * tag is available, so runtime resolution returns transparent/empty values
+ * that crash polished's parseToRgb. We use hardcoded hex values instead.
+ *
+ * Light values come from --neutral-warm-* and --brand-* in _neutrals.css / _colors.css.
+ * Dark values use the inverted scale from _color-modes.css.
  */
-function resolveColor(varName: string): string {
-  const el = document.createElement('div');
-  el.style.cssText = 'position:fixed;top:-9999px;visibility:hidden;pointer-events:none;';
-  document.body.appendChild(el);
-  el.style.setProperty('background-color', `var(${varName})`);
-  const color = getComputedStyle(el).backgroundColor; // 'rgb(r, g, b)'
-  el.remove();
-  return color;
-}
+const palette = {
+  light: {
+    neutral5: '#f9f8f8',
+    neutral12: '#edeceb',
+    neutral14: '#e8e7e6',
+    neutral16: '#e4e1e0',
+    neutral20: '#dad7d6',
+    neutral60: '#79716b',
+    neutral70: '#5f5954',
+    neutral90: '#2b2826',
+    color60: '#025768',
+  },
+  dark: {
+    neutral5: '#0a0a09',   // color-mix(in srgb, neutral-default-100 60%, black)
+    neutral12: '#161514',  // neutral-default-98
+    neutral14: '#1b1a18',  // neutral-default-96
+    neutral16: '#211e1d',  // neutral-default-94
+    neutral20: '#2b2826',  // neutral-default-90
+    neutral60: '#918b86',  // neutral-default-50
+    neutral70: '#a9a4a0',  // neutral-default-40
+    neutral90: '#dad7d6',  // neutral-default-20
+    color60: '#539198',    // brand-40
+  },
+} as const;
 
-/**
- * Resolve a calc()-based length token (e.g. --radius-s) to a concrete pixel number
- * by measuring a hidden element in the manager's own rem context (1rem = 16px).
- */
-function resolveTokenPx(varName: string): number {
-  const el = document.createElement('div');
-  el.style.cssText = 'position:fixed;top:-9999px;visibility:hidden;pointer-events:none;';
-  document.body.appendChild(el);
-  el.style.setProperty('width', `var(${varName})`);
-  const px = parseFloat(getComputedStyle(el).width);
-  el.remove();
-  return px;
-}
-
-/**
- * Read a non-color CSS custom property (e.g. font-family strings) directly.
- * These are stored as literal strings so getPropertyValue is sufficient.
- */
-function resolveString(varName: string): string {
-  return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-}
+const fonts = {
+  body: '"Inter", sans-serif',
+  mono: '"Roboto Mono", monospace',
+};
 
 export function buildTheme(base: 'light' | 'dark') {
-  // Set data-color-mode so _color-modes.css applies the correct light/dark inversion
-  // before we read the token values. This ensures resolveColor() returns the right
-  // rgb() for the target mode, not the current browser state.
+  // Set data-color-mode so the CSS tokens injected via managerHead resolve
+  // correctly for the active mode (e.g. --neutral-16 in the hover overrides).
   document.documentElement.setAttribute('data-color-mode', base);
+
+  const p = palette[base];
 
   return create({
     base,
 
-    // Brand / accent — uses --color-60 which inverts in dark mode
-    colorPrimary: resolveColor('--color-60'),
-    colorSecondary: resolveColor('--color-60'),
+    // Brand / accent
+    colorPrimary: p.color60,
+    colorSecondary: p.color60,
 
     // App chrome backgrounds
-    appBg: resolveColor('--neutral-12'), // Left sidebar
-    appContentBg: resolveColor('--neutral-5'),
-    appPreviewBg: resolveColor('--neutral-5'),
-    appBorderColor: resolveColor('--neutral-14'),
-    appBorderRadius: resolveTokenPx('--radius-s'),
+    appBg: p.neutral12,        // Left sidebar
+    appContentBg: p.neutral5,
+    appPreviewBg: p.neutral5,
+    appBorderColor: p.neutral14,
+    appBorderRadius: 12,       // --radius-s ≈ 0.75rem ≈ 12px
 
     // Top toolbar bar
-    barBg: resolveColor('--neutral-12'),
-    barTextColor: resolveColor('--neutral-70'),
-    barHoverColor: resolveColor('--color-60'),
-    barSelectedColor: resolveColor('--color-60'),
+    barBg: p.neutral12,
+    barTextColor: p.neutral70,
+    barHoverColor: p.color60,
+    barSelectedColor: p.color60,
 
     // Text
-    textColor: resolveColor('--neutral-90'),
-    textInverseColor: resolveColor('--neutral-5'),
-    textMutedColor: resolveColor('--neutral-60'),
+    textColor: p.neutral90,
+    textInverseColor: p.neutral5,
+    textMutedColor: p.neutral60,
 
     // Controls (icon buttons and boolean toggles in addons panel)
-    buttonBg: resolveColor('--neutral-12'),
-    buttonBorder: resolveColor('--neutral-20'),
-    booleanBg: resolveColor('--neutral-16'),
-    booleanSelectedBg: resolveColor('--neutral-5'),
+    buttonBg: p.neutral12,
+    buttonBorder: p.neutral20,
+    booleanBg: p.neutral16,
+    booleanSelectedBg: p.neutral5,
 
     // Inputs (controls panel, search)
-    inputBg: resolveColor('--neutral-5'),
-    inputBorder: resolveColor('--neutral-20'),
-    inputTextColor: resolveColor('--neutral-90'),
-    inputBorderRadius: resolveTokenPx('--radius-xs'),
+    inputBg: p.neutral5,
+    inputBorder: p.neutral20,
+    inputTextColor: p.neutral90,
+    inputBorderRadius: 8,      // --radius-xs ≈ 0.5rem ≈ 8px
 
-    // Typography — font tokens are literal strings, no var() chain to resolve
-    fontBase: resolveString('--body-font'),
-    fontCode: resolveString('--mono-font'),
+    // Typography
+    fontBase: fonts.body,
+    fontCode: fonts.mono,
 
     brandTitle: 'Tale UI',
   });

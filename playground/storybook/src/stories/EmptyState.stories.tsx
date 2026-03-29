@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { EmptyState } from '@tale-ui/react/empty-state';
 import { Button } from '@tale-ui/react/button';
 

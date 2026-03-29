@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DatePicker } from '@tale-ui/react/date-picker';
 import { Calendar } from '@tale-ui/react/calendar';
 

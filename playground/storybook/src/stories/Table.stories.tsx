@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Table } from '@tale-ui/react/table';
 import { useState } from 'react';
 import type { SortDescriptor } from 'react-aria-components';

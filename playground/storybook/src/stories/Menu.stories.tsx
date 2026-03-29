@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Menu } from '@tale-ui/react/menu';
 import { Icon } from '@tale-ui/react/icon';
 import { ChevronDown } from 'lucide-react';

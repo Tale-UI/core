@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Avatar } from '@tale-ui/react/avatar';
 import { DotIcon } from '@tale-ui/react/dot-icon';
 

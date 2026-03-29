@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';
 
 type Args = Record<string, never>;

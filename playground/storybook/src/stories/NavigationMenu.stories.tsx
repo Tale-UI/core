@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { NavigationMenu } from '@tale-ui/react/navigation-menu';
 
 type Args = Record<string, never>;

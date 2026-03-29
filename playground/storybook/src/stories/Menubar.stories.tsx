@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Menubar } from '@tale-ui/react/menubar';
 import { Menu } from '@tale-ui/react/menu';
 

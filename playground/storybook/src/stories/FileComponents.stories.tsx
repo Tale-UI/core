@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DropZone } from '@tale-ui/react/drop-zone';
 import { FileTrigger } from '@tale-ui/react/file-trigger';
 import { Button } from '@tale-ui/react/button';

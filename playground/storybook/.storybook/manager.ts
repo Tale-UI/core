@@ -1,6 +1,6 @@
 import React from 'react';
-import { addons, types, useStorybookApi } from '@storybook/manager-api';
-import { IconButton } from '@storybook/components';
+import { addons, types, useStorybookApi } from 'storybook/manager-api';
+import { IconButton } from 'storybook/internal/components';
 import { SunIcon, MoonIcon } from '@storybook/icons';
 import { buildTheme } from './theme';
 

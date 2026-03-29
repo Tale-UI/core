@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
 import { Checkbox } from '@tale-ui/react/checkbox';
 import { Field } from '@tale-ui/react/field';

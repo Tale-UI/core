@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Form } from '@tale-ui/react/form';
 import { TextField } from '@tale-ui/react/text-field';
 import { NumberField } from '@tale-ui/react/number-field';

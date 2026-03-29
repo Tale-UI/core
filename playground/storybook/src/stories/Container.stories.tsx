@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Container, CONTAINER_COLORS } from '@tale-ui/react/container';
 
 type Args = {

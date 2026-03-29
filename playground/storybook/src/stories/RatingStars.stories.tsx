@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { RatingStars } from '@tale-ui/react/rating-stars';
 import { RatingBadge } from '@tale-ui/react/rating-badge';
 

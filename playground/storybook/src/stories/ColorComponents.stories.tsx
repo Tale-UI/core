@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ColorArea } from '@tale-ui/react/color-area';
 import { ColorField } from '@tale-ui/react/color-field';
 import { ColorSlider } from '@tale-ui/react/color-slider';

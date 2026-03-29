@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { GridList } from '@tale-ui/react/grid-list';
 import { Icon } from '@tale-ui/react/icon';
 import { Star, Heart, Bell, Settings, Mail } from 'lucide-react';

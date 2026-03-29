@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Fieldset } from '@tale-ui/react/fieldset';
 import { TextField } from '@tale-ui/react/text-field';
 

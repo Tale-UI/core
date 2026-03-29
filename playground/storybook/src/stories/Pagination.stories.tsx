@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Icon } from '@tale-ui/react/icon';
 import { Pagination } from '@tale-ui/react/pagination';

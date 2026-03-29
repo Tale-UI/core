@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FeaturedIcon } from '@tale-ui/react/featured-icon';
 import { Icon } from '@tale-ui/react/icon';
 import { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-react';

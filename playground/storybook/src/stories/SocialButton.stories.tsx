@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';
 
 type Args = {

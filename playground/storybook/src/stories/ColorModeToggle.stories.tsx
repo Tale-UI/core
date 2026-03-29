@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 
 type Args = {

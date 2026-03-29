@@ -1,10 +1,15 @@
+// This file has been automatically migrated to valid ESM format by Storybook.
+import { fileURLToPath } from "node:url";
 import fs from 'node:fs';
-import path from 'node:path';
+import path, { dirname } from 'node:path';
 import type { StorybookConfig } from '@storybook/react-vite';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
   stories: ['../src/stories/**/*.mdx', '../src/stories/**/*.stories.@(ts|tsx)'],
-  addons: ['@storybook/addon-essentials', '@storybook/addon-docs', '@storybook/addon-a11y'],
+  addons: [getAbsolutePath("@storybook/addon-docs"), getAbsolutePath("@storybook/addon-a11y")],
   managerHead: (head) => {
     const cssDir = path.resolve(__dirname, '../../../packages/css/src');
     const files = [
@@ -27,7 +32,8 @@ const config: StorybookConfig = {
 * {
   /* Storybook computes lighten(45%, colorSecondary) for sidebar tree-node hover, which
      produces a vivid teal when colorSecondary is our dark brand (#025768). Override with
-     a neutral that reads correctly in both light and dark mode via _color-modes.css. */
+     a neutral that reads correctly in both light and dark mode via _color-modes.css.
+     buildTheme() sets data-color-mode on <html> so the tokens invert correctly. */
   --tree-node-background-hover: var(--neutral-16) !important;
 }
 *[data-selected="true"] {
@@ -46,7 +52,7 @@ const config: StorybookConfig = {
 }`;
     return `${head}<style id="tale-ui-tokens">${css}${overrides}</style>`;
   },
-  framework: { name: '@storybook/react-vite', options: {} },
+  framework: { name: getAbsolutePath("@storybook/react-vite"), options: {} },
   typescript: { reactDocgen: false },
   async viteFinal(config) {
     const baseUrl = process.env.STORYBOOK_BASE ?? '/';
@@ -76,3 +82,7 @@ const config: StorybookConfig = {
 };
 
 export default config;
+
+function getAbsolutePath(value: string): any {
+  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
+}

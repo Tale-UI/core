@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '@tale-ui/react/button';
 import type { ButtonProps } from '@tale-ui/react/button';
 import { Icon } from '@tale-ui/react/icon';
