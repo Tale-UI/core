@@ -7,6 +7,10 @@
  *   [data-disabled] [data-readonly] [data-required] [data-invalid]
  *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
  *
+ * Sizes:  .tale-checkbox--sm   (1.4rem indicator)
+ *         (default / md)       (1.8rem indicator)
+ *         .tale-checkbox--lg   (2.2rem indicator)
+ *
  * Usage:
  *   <Checkbox.Root className="tale-checkbox">
  *     <Checkbox.Indicator className="tale-checkbox__indicator">
@@ -101,4 +105,28 @@
 
 .tale-checkbox:not([data-selected], [data-indeterminate]) .tale-checkbox__indicator svg {
   visibility: hidden;
+}
+
+/* ─── Size: sm ───────────────────────────────────────────────────────────── */
+
+.tale-checkbox--sm .tale-checkbox__indicator {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.tale-checkbox--sm .tale-checkbox__indicator svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+/* ─── Size: lg ───────────────────────────────────────────────────────────── */
+
+.tale-checkbox--lg .tale-checkbox__indicator {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.tale-checkbox--lg .tale-checkbox__indicator svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }

@@ -7,10 +7,13 @@ type Variant =
   | 'teal' | 'cyan' | 'sky' | 'indigo' | 'violet' | 'purple' | 'fuchsia'
   | 'pink' | 'rose';
 type Size = 'sm' | 'md' | 'lg';
+type BadgeType = 'pill' | 'rounded' | 'modern';
 
 export interface BadgeProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
   variant?: Variant | undefined;
   size?: Size | undefined;
+  /** Visual type. `'pill'` (default) uses full border-radius, `'rounded'` uses medium radius, `'modern'` uses neutral shadow styling. */
+  type?: BadgeType | undefined;
   className?: string | undefined;
 }
 
@@ -26,10 +29,14 @@ export interface BadgeProps extends Omit<React.ComponentPropsWithoutRef<'span'>,
  * ```
  */
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ variant = 'neutral', size = 'md', className, ...props }, ref) => (
+  ({ variant = 'neutral', size = 'md', type = 'pill', className, ...props }, ref) => (
     <span
       ref={ref}
-      className={cx(`tale-badge tale-badge--${variant} tale-badge--${size}`, className)}
+      className={cx(
+        `tale-badge tale-badge--${variant} tale-badge--${size}`,
+        type !== 'pill' && `tale-badge--${type}`,
+        className,
+      )}
       {...props}
     />
   ),

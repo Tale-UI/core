@@ -58,6 +58,7 @@ export * from './pin-input';
 export * from './popover';
 export * from './preview-card';
 export * from './progress-bar';
+export * from './progress-circle';
 export * from './rating-badge';
 export * from './rating-stars';
 export * from './radio';

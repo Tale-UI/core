@@ -90,7 +90,8 @@ Quick-reference table for all 82 `@tale-ui/react` components. For detailed usage
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | Banner | Inline notification banner | `@tale-ui/react/banner` | Root, BannerIcon, Title, Description, Actions, Close |
-| ProgressBar | Determinate/indeterminate progress | `@tale-ui/react/progress-bar` | Root, Header, Label, Value, Track, Indicator |
+| ProgressBar | Determinate/indeterminate linear progress | `@tale-ui/react/progress-bar` | Root, Header, Label, Value, Track, Indicator |
+| ProgressCircle | Determinate/indeterminate circular progress | `@tale-ui/react/progress-circle` | Root, Track, Label, Value |
 | Meter | Scalar measurement display | `@tale-ui/react/meter` | Root, Header, Label, Value, Track, Indicator |
 | Spinner | Indeterminate loading indicator | `@tale-ui/react/spinner` | -- |
 

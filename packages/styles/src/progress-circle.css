@@ -1,0 +1,112 @@
+/*
+ * ProgressCircle — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria ProgressBar exposes: role="progressbar", aria-valuenow, aria-valuemin, aria-valuemax
+ *
+ * Sizes:      .tale-progress-circle--sm  (3.2rem)
+ *             (default md — 4.8rem)
+ *             .tale-progress-circle--lg  (6.4rem)
+ *
+ * States:     [data-indeterminate] — animated spin
+ *             [data-complete] — green indicator
+ *
+ * Usage:
+ *   <ProgressCircle.Root value={60}>
+ *     <ProgressCircle.Track />
+ *   </ProgressCircle.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-progress-circle {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3xs);
+}
+
+/* ─── Track (SVG container) ────────────────────────────────────────────────── */
+
+.tale-progress-circle__track {
+  width: 4.8rem;
+  height: 4.8rem;
+}
+
+.tale-progress-circle--sm .tale-progress-circle__track {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+.tale-progress-circle--lg .tale-progress-circle__track {
+  width: 6.4rem;
+  height: 6.4rem;
+}
+
+/* ─── Rail (background ring) ───────────────────────────────────────────────── */
+
+.tale-progress-circle__rail {
+  stroke: var(--neutral-20);
+}
+
+/* ─── Indicator (filled arc) ───────────────────────────────────────────────── */
+
+.tale-progress-circle__indicator {
+  stroke: var(--color-60);
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+/* ─── Indeterminate animation ──────────────────────────────────────────────── */
+
+.tale-progress-circle[data-indeterminate] .tale-progress-circle__track {
+  animation: tale-progress-circle-rotate 1s linear infinite;
+}
+
+.tale-progress-circle__indicator[data-indeterminate] {
+  animation: tale-progress-circle-dash 1.2s ease-in-out infinite;
+  transition: none;
+}
+
+@keyframes tale-progress-circle-rotate {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes tale-progress-circle-dash {
+  0% {
+    stroke-dasharray: 1, 100;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 70, 100;
+    stroke-dashoffset: -25;
+  }
+
+  100% {
+    stroke-dasharray: 70, 100;
+    stroke-dashoffset: -99;
+  }
+}
+
+/* ─── Complete state ───────────────────────────────────────────────────────── */
+
+.tale-progress-circle[data-complete] .tale-progress-circle__indicator {
+  stroke: var(--success-60);
+}
+
+/* ─── Label / Value ────────────────────────────────────────────────────────── */
+
+.tale-progress-circle__label {
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-progress-circle__value {
+  color: var(--neutral-60);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+}

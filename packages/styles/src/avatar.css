@@ -6,10 +6,12 @@
  *   Image:    [data-entering] (for lazy load transition)
  *   Fallback: (shown when image fails or while loading)
  *
- * Sizes:  .tale-avatar--sm   (2.4rem)
+ * Sizes:  .tale-avatar--xs   (1.6rem)
+ *         .tale-avatar--sm   (2.4rem)
  *         .tale-avatar--md   (3.6rem, default)
  *         .tale-avatar--lg   (5.6rem)
  *         .tale-avatar--xl   (8rem)
+ *         .tale-avatar--2xl  (12rem)
  *
  * Usage:
  *   <Avatar.Root className="tale-avatar tale-avatar--md">
@@ -73,6 +75,16 @@
 
 /* ─── Size modifiers ──────────────────────────────────────────────────────── */
 
+.tale-avatar--xs {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.tale-avatar--xs .tale-avatar__fallback {
+  font-size: 0.7rem;
+  letter-spacing: 0;
+}
+
 .tale-avatar--sm {
   width: 2.4rem;
   height: 2.4rem;
@@ -103,6 +115,15 @@
 
 .tale-avatar--xl .tale-avatar__fallback {
   font-size: var(--label-l-font-size);
+}
+
+.tale-avatar--2xl {
+  width: 12rem;
+  height: 12rem;
+}
+
+.tale-avatar--2xl .tale-avatar__fallback {
+  font-size: var(--label-xl-font-size, 2.4rem);
 }
 
 /* ─── Group — overlapping avatar stack ────────────────────────────────────── */
@@ -143,6 +164,12 @@
   height: 3.6rem;
 }
 
+.tale-avatar-count--xs {
+  width: 1.6rem;
+  height: 1.6rem;
+  font-size: 0.7rem;
+}
+
 .tale-avatar-count--sm {
   width: 2.4rem;
   height: 2.4rem;
@@ -164,6 +191,12 @@
   width: 8rem;
   height: 8rem;
   font-size: var(--label-l-font-size);
+}
+
+.tale-avatar-count--2xl {
+  width: 12rem;
+  height: 12rem;
+  font-size: var(--label-xl-font-size, 2.4rem);
 }
 
 /* ─── Indicator — badge positioned at avatar corner ────────────────────────── */

@@ -13,6 +13,8 @@ Page navigation for moving between pages of content.
 | `Pagination.NextTrigger` | Button to go to the next page. |
 | `Pagination.Item` | A page number button. Set `current` for the active page. |
 | `Pagination.Ellipsis` | Visual indicator for skipped page numbers. |
+| `Pagination.Dot` | A small dot indicator for page position. |
+| `Pagination.Line` | A line/bar indicator for page position. |
 
 ## Props
 
@@ -24,6 +26,15 @@ Page navigation for moving between pages of content.
 | `current` | `boolean` | — | Whether this is the current page (sets `aria-current="page"`) |
 
 Also accepts all standard `<button>` HTML attributes (except `children`, which is derived from `page`).
+
+### Dot / Line
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `page` | `number` | — | The page number this indicator represents |
+| `current` | `boolean` | — | Whether this is the current page (sets `aria-current="page"`) |
+
+Also accepts all standard `<button>` HTML attributes (except `children`).
 
 ## Basic Usage
 
@@ -82,6 +93,27 @@ import { Icon } from '@tale-ui/react/icon';
 </Pagination.Root>
 ```
 
+### Dot Display
+
+```tsx
+<Pagination.Root aria-label="Slides">
+  <Pagination.Dot page={1} />
+  <Pagination.Dot page={2} current />
+  <Pagination.Dot page={3} />
+  <Pagination.Dot page={4} />
+</Pagination.Root>
+```
+
+### Line Display
+
+```tsx
+<Pagination.Root aria-label="Steps">
+  <Pagination.Line page={1} />
+  <Pagination.Line page={2} current />
+  <Pagination.Line page={3} />
+</Pagination.Root>
+```
+
 ## CSS Classes
 
 - `.tale-pagination` — Root container
@@ -90,6 +122,10 @@ import { Icon } from '@tale-ui/react/icon';
 - `.tale-pagination__ellipsis` — Skipped pages indicator
 - `.tale-pagination__previous` — Previous page trigger
 - `.tale-pagination__next` — Next page trigger
+- `.tale-pagination__dot` — Dot indicator
+- `.tale-pagination__dot--current` — Active dot
+- `.tale-pagination__line` — Line/bar indicator
+- `.tale-pagination__line--current` — Active line
 
 ## Notes
 

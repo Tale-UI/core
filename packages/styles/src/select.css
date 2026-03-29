@@ -49,6 +49,19 @@
   pointer-events: none;
 }
 
+/* ─── Trigger size variants ─────────────────────────────────────────────── */
+
+.tale-select__trigger--sm {
+  min-height: var(--space-m);
+  padding: var(--space-4xs) var(--space-3xs);
+  font-size: var(--label-s-font-size);
+}
+
+.tale-select__trigger--lg {
+  min-height: 4.4rem;
+  padding: var(--space-2xs) var(--space-s);
+}
+
 /* ─── Value / placeholder ──────────────────────────────────────────────────── */
 
 .tale-select__value[data-placeholder] {

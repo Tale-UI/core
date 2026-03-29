@@ -3,7 +3,8 @@ import { cx } from '../_cx';
 
 type Variant = 'brand' | 'error' | 'warning' | 'success' | 'neutral';
 type Shape = 'circle' | 'square';
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'sm' | 'md' | 'lg' | 'xl';
+type Theme = 'light' | 'gradient' | 'dark' | 'outline' | 'modern' | 'modern-neue';
 
 export interface FeaturedIconProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
   /** Color variant. Defaults to 'brand'. */
@@ -12,6 +13,8 @@ export interface FeaturedIconProps extends Omit<React.ComponentPropsWithoutRef<'
   shape?: Shape | undefined;
   /** Size of the container. Defaults to 'md'. */
   size?: Size | undefined;
+  /** Visual theme. Defaults to 'light'. */
+  theme?: Theme | undefined;
   className?: string | undefined;
 }
 
@@ -27,12 +30,16 @@ export interface FeaturedIconProps extends Omit<React.ComponentPropsWithoutRef<'
  * <FeaturedIcon variant="error" shape="circle" size="lg">
  *   <Icon icon={AlertCircle} />
  * </FeaturedIcon>
+ * <FeaturedIcon variant="brand" theme="gradient" size="xl">
+ *   <Icon icon={AlertCircle} />
+ * </FeaturedIcon>
  * ```
  */
 export const FeaturedIcon = React.forwardRef<HTMLSpanElement, FeaturedIconProps>(
-  ({ variant = 'brand', shape = 'circle', size = 'md', className, ...props }, ref) => {
+  ({ variant = 'brand', shape = 'circle', size = 'md', theme = 'light', className, ...props }, ref) => {
     const classes = [`tale-featured-icon tale-featured-icon--${variant} tale-featured-icon--${size}`];
     if (shape === 'square') classes.push('tale-featured-icon--square');
+    if (theme !== 'light') classes.push(`tale-featured-icon--${theme}`);
 
     return (
       <span

@@ -13,13 +13,21 @@ A toggle switch component with a sliding thumb, built on React Aria's Switch.
 
 ## Props
 
-Accepts all React Aria `Switch` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+Accepts all React Aria `Switch` props plus:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md'` | `'md'` | Size variant |
+| `slim` | `boolean` | -- | Slim track variant with reduced height |
+| `className` | `string` | -- | Additional CSS class name |
 
 ### Visual
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `checked` | `boolean` | `false` | Whether the switch visual appears on/checked |
+| `size` | `'sm' \| 'md'` | `'md'` | Size variant |
+| `slim` | `boolean` | -- | Slim track variant with reduced height |
 
 `Switch.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
 
@@ -85,10 +93,44 @@ Accepts all React Aria `Switch` props plus an optional `className`. See the `@ex
 </Switch.Root>
 ```
 
+### Small Size
+
+```tsx
+<Switch.Root size="sm">
+  <Switch.Thumb />
+  Small switch
+</Switch.Root>
+```
+
+### Slim Variant
+
+```tsx
+<Switch.Root slim>
+  <Switch.Thumb />
+  Slim switch
+</Switch.Root>
+
+<Switch.Root slim defaultSelected>
+  <Switch.Thumb />
+  Slim switch (on)
+</Switch.Root>
+```
+
+### Slim + Small
+
+```tsx
+<Switch.Root size="sm" slim>
+  <Switch.Thumb />
+  Slim small switch
+</Switch.Root>
+```
+
 ## CSS Classes
 
 - `.tale-switch` -- Base (root label)
 - `.tale-switch__thumb` -- The sliding thumb element
+- `.tale-switch--sm` -- Small size variant
+- `.tale-switch--slim` -- Slim track variant
 
 ## Notes
 

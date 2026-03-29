@@ -155,3 +155,73 @@ export const NextTrigger = React.forwardRef<HTMLButtonElement, NextTriggerProps>
   ),
 );
 NextTrigger.displayName = 'Pagination.NextTrigger';
+
+/* ─── Dot ────────────────────────────────────────────────────────────────── */
+
+export interface DotProps extends Omit<React.ComponentPropsWithoutRef<'button'>, 'children'> {
+  /** The page number this dot represents. */
+  page: number;
+  /** Whether this is the current page. */
+  current?: boolean;
+}
+
+/**
+ * A dot indicator for page position. Use instead of `Item` for a minimal display.
+ *
+ * @example
+ * ```tsx
+ * <Pagination.Dot page={1} />
+ * <Pagination.Dot page={2} current />
+ * ```
+ */
+export const Dot = React.forwardRef<HTMLButtonElement, DotProps>(
+  ({ page, current, className, ...props }, ref) => (
+    <button
+      ref={ref}
+      type="button"
+      aria-label={`Page ${page}`}
+      aria-current={current ? 'page' : undefined}
+      className={cx(
+        current ? 'tale-pagination__dot tale-pagination__dot--current' : 'tale-pagination__dot',
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
+Dot.displayName = 'Pagination.Dot';
+
+/* ─── Line ───────────────────────────────────────────────────────────────── */
+
+export interface LineProps extends Omit<React.ComponentPropsWithoutRef<'button'>, 'children'> {
+  /** The page number this line represents. */
+  page: number;
+  /** Whether this is the current page. */
+  current?: boolean;
+}
+
+/**
+ * A line/bar indicator for page position. Use instead of `Item` for a progress-bar display.
+ *
+ * @example
+ * ```tsx
+ * <Pagination.Line page={1} />
+ * <Pagination.Line page={2} current />
+ * ```
+ */
+export const Line = React.forwardRef<HTMLButtonElement, LineProps>(
+  ({ page, current, className, ...props }, ref) => (
+    <button
+      ref={ref}
+      type="button"
+      aria-label={`Page ${page}`}
+      aria-current={current ? 'page' : undefined}
+      className={cx(
+        current ? 'tale-pagination__line tale-pagination__line--current' : 'tale-pagination__line',
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
+Line.displayName = 'Pagination.Line';

@@ -18,6 +18,13 @@ A tabbed interface for switching between panels of content.
 
 Accepts all React Aria `Tabs` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
+### `Tabs.List`
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md'` | `'md'` | Size variant for all tabs in the list |
+| `variant` | `'underline' \| 'pills' \| 'enclosed'` | `'underline'` | Visual style of the tab list |
+
 ## Basic Usage
 
 ```tsx
@@ -77,6 +84,78 @@ Accepts all React Aria `Tabs` props plus an optional `className`. See the `@exam
 </Tabs.Root>
 ```
 
+### Small Tabs
+
+```tsx
+<Tabs.Root defaultSelectedKey="tab1">
+  <Tabs.List size="sm">
+    <Tabs.Tab id="tab1">Account</Tabs.Tab>
+    <Tabs.Tab id="tab2">Settings</Tabs.Tab>
+    <Tabs.Tab id="tab3">Notifications</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel id="tab1"><p>Account details.</p></Tabs.Panel>
+  <Tabs.Panel id="tab2"><p>App settings.</p></Tabs.Panel>
+  <Tabs.Panel id="tab3"><p>Notification preferences.</p></Tabs.Panel>
+</Tabs.Root>
+```
+
+### Variants
+
+The `variant` prop on `Tabs.List` controls the visual style of the tab strip.
+
+#### Underline (default)
+
+```tsx
+<Tabs.Root defaultSelectedKey="tab1">
+  <Tabs.List variant="underline">
+    <Tabs.Tab id="tab1">Account</Tabs.Tab>
+    <Tabs.Tab id="tab2">Settings</Tabs.Tab>
+    <Tabs.Tab id="tab3">Notifications</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel id="tab1"><p>Account details.</p></Tabs.Panel>
+  <Tabs.Panel id="tab2"><p>App settings.</p></Tabs.Panel>
+  <Tabs.Panel id="tab3"><p>Notification preferences.</p></Tabs.Panel>
+</Tabs.Root>
+```
+
+#### Pills
+
+Rounded pill background on the selected tab. The indicator becomes a full-height pill.
+
+```tsx
+<Tabs.Root defaultSelectedKey="tab1">
+  <Tabs.List variant="pills">
+    <Tabs.Tab id="tab1">Account</Tabs.Tab>
+    <Tabs.Tab id="tab2">Settings</Tabs.Tab>
+    <Tabs.Tab id="tab3">Notifications</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel id="tab1"><p>Account details.</p></Tabs.Panel>
+  <Tabs.Panel id="tab2"><p>App settings.</p></Tabs.Panel>
+  <Tabs.Panel id="tab3"><p>Notification preferences.</p></Tabs.Panel>
+</Tabs.Root>
+```
+
+#### Enclosed
+
+Bordered tabs where the selected tab connects visually to the content panel. The indicator is hidden.
+
+```tsx
+<Tabs.Root defaultSelectedKey="tab1">
+  <Tabs.List variant="enclosed">
+    <Tabs.Tab id="tab1">Account</Tabs.Tab>
+    <Tabs.Tab id="tab2">Settings</Tabs.Tab>
+    <Tabs.Tab id="tab3">Notifications</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel id="tab1"><p>Account details.</p></Tabs.Panel>
+  <Tabs.Panel id="tab2"><p>App settings.</p></Tabs.Panel>
+  <Tabs.Panel id="tab3"><p>Notification preferences.</p></Tabs.Panel>
+</Tabs.Root>
+```
+
 ### Controlled
 
 ```tsx
@@ -101,6 +180,11 @@ const [selectedKey, setSelectedKey] = useState<string>('tab1');
 - `.tale-tabs__list` — Tab button strip
 - `.tale-tabs__list-inner` — Inner flex wrapper for tab buttons (supports vertical orientation)
 - `.tale-tabs__tab` — Individual tab button
+- `.tale-tabs__tab--sm` — Small size variant
+- `.tale-tabs__tab--pills` — Pills variant applied to individual tab
+- `.tale-tabs__tab--enclosed` — Enclosed variant applied to individual tab
+- `.tale-tabs__list--pills` — Pills variant on the tab list
+- `.tale-tabs__list--enclosed` — Enclosed variant on the tab list
 - `.tale-tabs__panel` — Content panel
 - `.tale-tabs__indicator` — Sliding indicator bar
 

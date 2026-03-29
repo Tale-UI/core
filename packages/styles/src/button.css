@@ -7,7 +7,9 @@
  * Variants:   .tale-button--primary  (default filled)
  *             .tale-button--neutral  (subtle secondary)
  *             .tale-button--ghost    (transparent, border only)
- *             .tale-button--danger   (destructive)
+ *             .tale-button--danger   (destructive, filled)
+ *             .tale-button--danger-neutral (destructive, outlined)
+ *             .tale-button--danger-ghost   (destructive, transparent)
  *             .tale-button--inverse  (high-contrast neutral)
  *
  * Sizes:      .tale-button--sm
@@ -77,6 +79,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Inline spinner (showTextWhileLoading) */
+.tale-button__content--with-spinner {
+  display: contents;
+}
+
+.tale-button__spinner--inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 /* Spinner inherits button text colour */
@@ -155,6 +169,40 @@
 
 .tale-button--danger:active:not([data-disabled], [data-pending]) {
   background-color: var(--error-40);
+}
+
+/* ─── Danger-neutral variant — outlined destructive ─────────────────────── */
+
+.tale-button--danger-neutral {
+  background-color: var(--error-10);
+  color: var(--error-70);
+  border-color: var(--error-30);
+}
+
+.tale-button--danger-neutral:hover:not([data-disabled], [data-pending]) {
+  background-color: var(--error-20);
+  border-color: var(--error-40);
+}
+
+.tale-button--danger-neutral:active:not([data-disabled], [data-pending]) {
+  background-color: var(--error-20);
+}
+
+/* ─── Danger-ghost variant — transparent destructive ────────────────────── */
+
+.tale-button--danger-ghost {
+  background-color: transparent;
+  color: var(--error-70);
+  border-color: transparent;
+}
+
+.tale-button--danger-ghost:hover:not([data-disabled], [data-pending]) {
+  background-color: color-mix(in srgb, var(--error-60) 10%, transparent);
+  color: var(--error-80);
+}
+
+.tale-button--danger-ghost:active:not([data-disabled], [data-pending]) {
+  background-color: color-mix(in srgb, var(--error-60) 5%, transparent);
 }
 
 /* ─── Inverse variant — high-contrast neutral ──────────────────────────── */

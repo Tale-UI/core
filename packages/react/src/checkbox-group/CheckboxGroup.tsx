@@ -3,6 +3,7 @@ import * as React from 'react';
 import { CheckboxGroup as AriaCheckboxGroup } from 'react-aria-components';
 import type { CheckboxGroupProps as AriaCheckboxGroupProps } from 'react-aria-components';
 import { cx } from '../_cx';
+import { SizeContext } from '../_SizeContext';
 
 export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'className'> {
   className?: string | undefined;
@@ -12,6 +13,8 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
   description?: string;
   /** Layout orientation. Sets `data-orientation` for CSS styling. */
   orientation?: 'horizontal' | 'vertical';
+  /** Propagates size to all child Checkbox.Root components. */
+  size?: 'sm' | 'md' | 'lg';
 }
 
 /**
@@ -38,14 +41,17 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
  * ```
  */
 export const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
-  ({ className, orientation, ...props }, ref) => (
-    <AriaCheckboxGroup
-      ref={ref}
-      className={cx('tale-checkbox-group', className)}
-      data-orientation={orientation}
-      {...props}
-    />
-  ),
+  ({ className, orientation, size, ...props }, ref) => {
+    const group = (
+      <AriaCheckboxGroup
+        ref={ref}
+        className={cx('tale-checkbox-group', className)}
+        data-orientation={orientation}
+        {...props}
+      />
+    );
+    return size ? <SizeContext.Provider value={size}>{group}</SizeContext.Provider> : group;
+  },
 );
 CheckboxGroup.displayName = 'CheckboxGroup';
 

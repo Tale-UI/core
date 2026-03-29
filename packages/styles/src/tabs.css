@@ -8,6 +8,10 @@
  *   Panel:     [data-inert]
  *   Indicator: (custom decorative bar)
  *
+ * Variants:  (default / underline)  bottom bar indicator
+ *            .tale-tabs__list--pills     pill background indicator
+ *            .tale-tabs__list--enclosed  bordered panel tabs
+ *
  * Usage:
  *   <Tabs.Root className="tale-tabs">
  *     <Tabs.List className="tale-tabs__list">
@@ -96,6 +100,13 @@
   pointer-events: none;
 }
 
+/* ─── Tab size: small ──────────────────────────────────────────────────── */
+
+.tale-tabs__tab--sm {
+  padding: var(--space-3xs) var(--space-xs);
+  font-size: var(--label-s-font-size);
+}
+
 /* ─── Indicator ────────────────────────────────────────────────────────────── */
 
 .tale-tabs__indicator {
@@ -133,4 +144,102 @@
 
 .tale-tabs__panel[data-hidden] {
   display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Variant: pills                                                            */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.tale-tabs__list--pills {
+  border-bottom: none;
+  gap: var(--space-4xs);
+  background-color: var(--neutral-10);
+  border-radius: var(--radius-m);
+  padding: var(--space-4xs);
+}
+
+.tale-tabs__list--pills .tale-tabs__list-inner {
+  gap: var(--space-4xs);
+}
+
+.tale-tabs__tab--pills {
+  border-radius: var(--radius-s);
+  z-index: 1;
+}
+
+.tale-tabs__tab--pills[data-selected] {
+  color: var(--neutral-90);
+}
+
+.tale-tabs__tab--pills:hover:not([data-disabled], [data-selected]) {
+  background-color: transparent;
+}
+
+.tale-tabs__list--pills .tale-tabs__indicator {
+  bottom: auto;
+  top: 0;
+  height: auto;
+  background-color: var(--neutral-5);
+  border-radius: var(--radius-s);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__list--pills {
+  border-right: none;
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__list--pills .tale-tabs__indicator {
+  right: auto;
+  width: auto;
+  border-radius: var(--radius-s);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Variant: enclosed                                                         */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.tale-tabs__list--enclosed {
+  border-bottom: 1px solid var(--neutral-18);
+  gap: 0;
+}
+
+.tale-tabs__tab--enclosed {
+  border: 1px solid transparent;
+  border-bottom: none;
+  margin-bottom: -1px;
+  border-radius: var(--radius-s) var(--radius-s) 0 0;
+}
+
+.tale-tabs__tab--enclosed[data-selected] {
+  background-color: var(--neutral-5);
+  border-color: var(--neutral-18);
+  border-bottom-color: var(--neutral-5);
+  color: var(--neutral-90);
+}
+
+.tale-tabs__tab--enclosed:hover:not([data-disabled], [data-selected]) {
+  background-color: var(--neutral-10);
+  border-radius: var(--radius-s) var(--radius-s) 0 0;
+}
+
+.tale-tabs__list--enclosed .tale-tabs__indicator {
+  display: none;
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__list--enclosed {
+  border-right: 1px solid var(--neutral-18);
+  border-bottom: none;
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__tab--enclosed {
+  border-bottom: 1px solid transparent;
+  border-right: none;
+  margin-bottom: 0;
+  margin-right: -1px;
+  border-radius: var(--radius-s) 0 0 var(--radius-s);
+}
+
+.tale-tabs[data-orientation="vertical"] .tale-tabs__tab--enclosed[data-selected] {
+  border-bottom-color: var(--neutral-18);
+  border-right-color: var(--neutral-5);
 }

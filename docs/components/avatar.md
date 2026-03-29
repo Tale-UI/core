@@ -8,7 +8,7 @@ A circular avatar displaying a user image or fallback initials.
 
 | Part | Description |
 |------|-------------|
-| `Avatar.Root` | Outer container. Accepts a `size` prop (`sm`, `md`, `lg`, `xl`). |
+| `Avatar.Root` | Outer container. Accepts a `size` prop (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`). |
 | `Avatar.Image` | An `<img>` element for the user photo. |
 | `Avatar.Fallback` | Text content shown when no image is provided or loading fails. |
 | `Avatar.Group` | Stacks multiple avatars with overlapping layout. Propagates `size` to children. |
@@ -24,7 +24,7 @@ A circular avatar displaying a user image or fallback initials.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size variant controlling avatar dimensions |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Size variant controlling avatar dimensions |
 
 Also accepts all standard `<span>` HTML attributes.
 
@@ -68,6 +68,9 @@ Also accepts all standard `<figure>` HTML attributes.
 ### All Sizes
 
 ```tsx
+<Avatar.Root size="xs">
+  <Avatar.Fallback>XS</Avatar.Fallback>
+</Avatar.Root>
 <Avatar.Root size="sm">
   <Avatar.Fallback>SM</Avatar.Fallback>
 </Avatar.Root>
@@ -79,6 +82,9 @@ Also accepts all standard `<figure>` HTML attributes.
 </Avatar.Root>
 <Avatar.Root size="xl">
   <Avatar.Fallback>XL</Avatar.Fallback>
+</Avatar.Root>
+<Avatar.Root size="2xl">
+  <Avatar.Fallback>2X</Avatar.Fallback>
 </Avatar.Root>
 ```
 
@@ -95,7 +101,7 @@ Also accepts all standard `<figure>` HTML attributes.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size variant propagated to all child avatars |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Size variant propagated to all child avatars |
 
 Also accepts all standard `<div>` HTML attributes.
 
@@ -184,12 +190,12 @@ import { DotIcon } from '@tale-ui/react/dot-icon';
 ## CSS Classes
 
 - `.tale-avatar` — Base
-- `.tale-avatar--sm` / `--md` / `--lg` / `--xl` — Size modifiers
+- `.tale-avatar--xs` / `--sm` / `--md` / `--lg` / `--xl` / `--2xl` — Size modifiers
 - `.tale-avatar__image` — Image element
 - `.tale-avatar__fallback` — Fallback text
 - `.tale-avatar-group` — Group container
-- `.tale-avatar-group--sm` / `--md` / `--lg` / `--xl` — Group size modifiers
-- `.tale-avatar-count` — "+N" overflow count indicator (with `--sm` / `--md` / `--lg` / `--xl` size modifiers)
+- `.tale-avatar-group--xs` / `--sm` / `--md` / `--lg` / `--xl` / `--2xl` — Group size modifiers
+- `.tale-avatar-count` — "+N" overflow count indicator (with `--xs` / `--sm` / `--md` / `--lg` / `--xl` / `--2xl` size modifiers)
 - `.tale-avatar-indicator` — Indicator positioning wrapper
 - `.tale-avatar-indicator--bottom-right` / `--top-right` — Indicator position modifiers
 - `.tale-avatar-indicator__badge` — Positioned badge element

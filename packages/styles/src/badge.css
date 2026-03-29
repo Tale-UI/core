@@ -21,6 +21,10 @@
  * Sizes:      .tale-badge--sm
  *             .tale-badge--md  (default)
  *             .tale-badge--lg
+ *
+ * Types:      (default / pill)   full border-radius
+ *             .tale-badge--rounded   medium border-radius
+ *             .tale-badge--modern    neutral shadow outline style
  */
 
 .tale-badge {
@@ -182,4 +186,20 @@
   background-color: var(--rose-10);
   color: var(--rose-70);
   border-color: var(--rose-30);
+}
+
+/* ─── Type: rounded ─────────────────────────────────────────────────────── */
+
+.tale-badge--rounded {
+  border-radius: var(--radius-s);
+}
+
+/* ─── Type: modern ──────────────────────────────────────────────────────── */
+
+.tale-badge--modern {
+  border-radius: var(--radius-s);
+  background-color: var(--neutral-5);
+  border-color: var(--neutral-18);
+  color: var(--neutral-70);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
 }

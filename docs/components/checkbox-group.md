@@ -11,6 +11,7 @@ Groups a set of checkboxes with form validation and accessibility support, built
 | `label` | `string` | — | Accessible group label |
 | `orientation` | `'horizontal' \| 'vertical'` | — | Layout orientation. Sets `data-orientation` for CSS styling |
 | `isDisabled` | `boolean` | `false` | Disables all child checkboxes |
+| `size` | `'sm' \| 'md' \| 'lg'` | — | Propagates size to all child Checkbox.Root components |
 
 ## Basic Usage
 

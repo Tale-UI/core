@@ -116,3 +116,37 @@
   );
   background-color: var(--color-60-fg);
 }
+
+/* ─── Small size ────────────────────────────────────────────────────────── */
+
+.tale-switch--sm {
+  --tale-switch-track-width: 3.2rem;
+  --tale-switch-track-height: 1.8rem;
+  --tale-switch-thumb-size: 1.2rem;
+  --tale-switch-thumb-offset: 0.3rem;
+  font-size: var(--label-s-font-size);
+}
+
+/* ─── Slim variant ──────────────────────────────────────────────────────── */
+
+.tale-switch--slim {
+  --tale-switch-track-height: 1.6rem;
+}
+
+.tale-switch--slim::before {
+  background-color: transparent;
+  border-width: 1px;
+}
+
+.tale-switch--slim[data-selected]::before {
+  background-color: var(--color-60);
+  border-color: var(--color-60);
+}
+
+/* ─── Slim + Small ──────────────────────────────────────────────────────── */
+
+.tale-switch--slim.tale-switch--sm {
+  --tale-switch-track-height: 1.4rem;
+  --tale-switch-thumb-size: 1rem;
+  --tale-switch-thumb-offset: 0.2rem;
+}

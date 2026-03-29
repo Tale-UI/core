@@ -8,11 +8,12 @@ A styled button component with variant and size props, built on React Aria's But
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'primary' \| 'neutral' \| 'ghost' \| 'danger' \| 'inverse'` | `'primary'` | Visual style variant |
+| `variant` | `'primary' \| 'neutral' \| 'ghost' \| 'danger' \| 'danger-neutral' \| 'danger-ghost' \| 'inverse'` | `'primary'` | Visual style variant |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
 | `disabled` | `boolean` | — | Alias for `isDisabled` for convenience |
 | `isPending` | `boolean` | — | Shows a loading spinner and prevents interaction while remaining focusable |
 | `pending` | `boolean` | — | Alias for `isPending` for convenience |
+| `showTextWhileLoading` | `boolean` | — | When true, keeps children visible alongside the spinner during pending state |
 
 Also accepts all React Aria `Button` props.
 
@@ -33,6 +34,8 @@ Also accepts all React Aria `Button` props.
 <Button variant="neutral">Neutral</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="danger">Danger</Button>
+<Button variant="danger-neutral">Danger Neutral</Button>
+<Button variant="danger-ghost">Danger Ghost</Button>
 <Button variant="inverse">Inverse</Button>
 ```
 
@@ -69,19 +72,31 @@ Also accepts all React Aria `Button` props.
 
 When pending, the button shows a Spinner overlay while hiding its content (preserving width). The button remains focusable but does not respond to press or hover events. React Aria announces the pending state to screen readers automatically.
 
+### Pending with Visible Text
+
+```tsx
+<Button variant="primary" isPending showTextWhileLoading>Saving…</Button>
+```
+
+When `showTextWhileLoading` is true, the spinner renders inline alongside the children instead of replacing them.
+
 ## CSS Classes
 
 - `.tale-button` -- Base
 - `.tale-button--primary` -- Primary variant
 - `.tale-button--neutral` -- Neutral variant
 - `.tale-button--ghost` -- Ghost variant
-- `.tale-button--danger` -- Danger variant
+- `.tale-button--danger` -- Danger variant (filled)
+- `.tale-button--danger-neutral` -- Danger neutral variant (outlined destructive)
+- `.tale-button--danger-ghost` -- Danger ghost variant (transparent destructive)
 - `.tale-button--inverse` -- Inverse variant
 - `.tale-button--sm` -- Small size
 - `.tale-button--md` -- Medium size (default)
 - `.tale-button--lg` -- Large size
 - `.tale-button__content` -- Inner wrapper for button children (uses `display: contents`)
+- `.tale-button__content--with-spinner` -- Applied to content when `showTextWhileLoading` is true during pending
 - `.tale-button__spinner` -- Absolutely-positioned spinner overlay shown during pending state
+- `.tale-button__spinner--inline` -- Inline spinner shown when `showTextWhileLoading` is true
 
 ## Notes
 

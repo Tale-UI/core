@@ -17,11 +17,18 @@ A compound checkbox component with a visual indicator, built on React Aria's Che
 
 Accepts all React Aria `Checkbox` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
+### Checkbox.Root
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the checkbox indicator |
+
 ### Visual
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `checked` | `boolean` | `false` | Whether the checkbox visual appears checked |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the checkbox indicator |
 
 `Checkbox.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
 
@@ -77,6 +84,25 @@ import { Minus } from 'lucide-react';
 </Checkbox.Root>
 ```
 
+### Sizes
+
+```tsx
+<Checkbox.Root size="sm">
+  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+  Small
+</Checkbox.Root>
+
+<Checkbox.Root size="md">
+  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+  Medium (default)
+</Checkbox.Root>
+
+<Checkbox.Root size="lg">
+  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+  Large
+</Checkbox.Root>
+```
+
 ### All States
 
 ```tsx
@@ -111,6 +137,8 @@ import { Check, Minus } from 'lucide-react';
 ## CSS Classes
 
 - `.tale-checkbox` -- Base (root label)
+- `.tale-checkbox--sm` -- Small size (1.4rem indicator)
+- `.tale-checkbox--lg` -- Large size (2.2rem indicator)
 - `.tale-checkbox__indicator` -- The visual indicator box
 
 ## Notes

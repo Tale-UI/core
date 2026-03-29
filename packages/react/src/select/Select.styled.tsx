@@ -24,9 +24,19 @@ import {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
+/* ─── Context ────────────────────────────────────────────────────────────── */
+
+type Size = 'sm' | 'md' | 'lg';
+interface SelectContextValue { size: Size; }
+const SelectContext = React.createContext<SelectContextValue>({ size: 'md' });
+
 /* ─── Root (Select) ───────────────────────────────────────────────────────── */
 
-export type RootProps<T extends object = {}> = Omit<AriaSelectProps<T>, 'className'> & { className?: string };
+export type RootProps<T extends object = {}> = Omit<AriaSelectProps<T>, 'className'> & {
+  className?: string;
+  /** Size of the trigger button, propagated via context. @default 'md' */
+  size?: Size | undefined;
+};
 
 /**
  * A dropdown select input for choosing from a list of options.
@@ -53,12 +63,14 @@ export type RootProps<T extends object = {}> = Omit<AriaSelectProps<T>, 'classNa
 export const Root: <T extends object = {}>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(
-  ({ className, ...props }: RootProps, ref) => (
-    <AriaSelect
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={cx('tale-select', className)}
-      {...props}
-    />
+  ({ className, size, ...props }: RootProps, ref) => (
+    <SelectContext.Provider value={{ size: size ?? 'md' }}>
+      <AriaSelect
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={cx('tale-select', className)}
+        {...props}
+      />
+    </SelectContext.Provider>
   ),
 ) as any;
 (Root as any).displayName = 'Select.Root';
@@ -68,9 +80,13 @@ export const Root: <T extends object = {}>(
 export type TriggerProps = Omit<AriaButtonProps, 'className'> & { className?: string };
 
 export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
-  ({ className, ...props }, ref) => (
-    <AriaButton ref={ref} className={cx('tale-select__trigger', className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    const { size } = React.useContext(SelectContext);
+    const sizeClass = size !== 'md' ? `tale-select__trigger--${size}` : '';
+    return (
+      <AriaButton ref={ref} className={cx('tale-select__trigger', sizeClass, className)} {...props} />
+    );
+  },
 );
 Trigger.displayName = 'Select.Trigger';
 

@@ -24,6 +24,12 @@ A compound dropdown select component with popover listbox, built on React Aria's
 
 ## Props
 
+### Select.Root
+
+| Prop   | Type                    | Default | Description                                       |
+|--------|-------------------------|---------|---------------------------------------------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size of the trigger button, propagated via context |
+
 Accepts all React Aria `Select` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
 ## Basic Usage
@@ -110,6 +116,49 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
 </Select.Root>
 ```
 
+### Sizes
+
+```tsx
+<Select.Root size="sm" placeholder="Small select">
+  <Select.Trigger>
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+      <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select.Root>
+
+<Select.Root size="md" placeholder="Medium select (default)">
+  <Select.Trigger>
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+      <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select.Root>
+
+<Select.Root size="lg" placeholder="Large select">
+  <Select.Trigger>
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+      <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select.Root>
+```
+
 ### Disabled
 
 ```tsx
@@ -131,6 +180,8 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
 
 - `.tale-select` -- Base (root)
 - `.tale-select__trigger` -- Trigger button
+- `.tale-select__trigger--sm` -- Small trigger variant
+- `.tale-select__trigger--lg` -- Large trigger variant
 - `.tale-select__value` -- Selected value display
 - `.tale-select__icon` -- Dropdown arrow icon
 - `.tale-select__popover` -- Floating popover

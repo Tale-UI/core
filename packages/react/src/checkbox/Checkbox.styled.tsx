@@ -2,8 +2,13 @@ import * as React from 'react';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 import type { CheckboxProps as AriaCheckboxProps } from 'react-aria-components';
 import { cx } from '../_cx';
+import { useSize } from '../_SizeContext';
+
+type Size = 'sm' | 'md' | 'lg';
 
 export interface CheckboxRootProps extends Omit<AriaCheckboxProps, 'className'> {
+  /** Size of the checkbox indicator. Defaults to `'md'`. Inherits from CheckboxGroup `size` when omitted. */
+  size?: Size | undefined;
   className?: string | undefined;
 }
 
@@ -25,9 +30,16 @@ export interface CheckboxRootProps extends Omit<AriaCheckboxProps, 'className'> 
  * ```
  */
 export const Root = React.forwardRef<HTMLLabelElement, CheckboxRootProps>(
-  ({ className, ...props }, ref) => (
-    <AriaCheckbox ref={ref} className={cx('tale-checkbox', className)} {...props} />
-  ),
+  ({ size: sizeProp, className, ...props }, ref) => {
+    const size = useSize(sizeProp, 'md');
+    return (
+      <AriaCheckbox
+        ref={ref}
+        className={cx(size !== 'md' ? `tale-checkbox tale-checkbox--${size}` : 'tale-checkbox', className)}
+        {...props}
+      />
+    );
+  },
 );
 Root.displayName = 'Checkbox.Root';
 
@@ -47,6 +59,8 @@ Indicator.displayName = 'Checkbox.Indicator';
 export interface CheckboxVisualProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
   /** Whether the checkbox visual appears checked. */
   checked?: boolean;
+  /** Size of the checkbox visual. Defaults to `'md'`. */
+  size?: Size | undefined;
   /** Additional CSS class name. */
   className?: string;
 }
@@ -67,12 +81,12 @@ export interface CheckboxVisualProps extends Omit<React.ComponentPropsWithoutRef
  * ```
  */
 export const Visual = React.forwardRef<HTMLSpanElement, CheckboxVisualProps>(
-  ({ checked, className, ...props }, ref) => (
+  ({ checked, size = 'md', className, ...props }, ref) => (
     <span
       ref={ref}
       aria-hidden="true"
       data-selected={checked || undefined}
-      className={cx('tale-checkbox__indicator', className)}
+      className={cx(size !== 'md' ? `tale-checkbox__indicator tale-checkbox__indicator--${size}` : 'tale-checkbox__indicator', className)}
       {...props}
     />
   ),

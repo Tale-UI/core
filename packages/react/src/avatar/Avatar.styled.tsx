@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { cx } from '../_cx';
 
-type Size = 'sm' | 'md' | 'lg' | 'xl';
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
-// ── Size context (Avatar has 4 sizes, shared _SizeContext only types 3) ─────
+// ── Size context (Avatar has 6 sizes, shared _SizeContext only types 3) ─────
 
 const AvatarSizeContext = React.createContext<Size | undefined>(undefined);
 

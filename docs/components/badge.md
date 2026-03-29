@@ -10,6 +10,7 @@ A small status label with semantic color variants.
 |------|------|---------|-------------|
 | variant | `'neutral' \| 'brand' \| 'error' \| 'warning' \| 'success' \| 'red' \| 'orange' \| 'amber' \| 'yellow' \| 'lime' \| 'green' \| 'emerald' \| 'teal' \| 'cyan' \| 'sky' \| 'indigo' \| 'violet' \| 'purple' \| 'fuchsia' \| 'pink' \| 'rose'` | `'neutral'` | Color variant |
 | size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the badge |
+| type | `'pill' \| 'rounded' \| 'modern'` | `'pill'` | Visual type. pill uses full border-radius, rounded uses medium radius, modern uses neutral shadow styling |
 
 Also accepts all standard `<span>` HTML attributes.
 
@@ -60,11 +61,21 @@ Also accepts all standard `<span>` HTML attributes.
 <Badge variant="rose">Rose</Badge>
 ```
 
+### Types
+
+```tsx
+<Badge type="pill">Pill (default)</Badge>
+<Badge type="rounded">Rounded</Badge>
+<Badge type="modern">Modern</Badge>
+```
+
 ### Combined
 
 ```tsx
 <Badge variant="error" size="sm">Failed</Badge>
 <Badge variant="success" size="lg">Approved</Badge>
+<Badge variant="brand" type="rounded">Rounded Brand</Badge>
+<Badge variant="success" type="modern">Modern Success</Badge>
 ```
 
 ## CSS Classes
@@ -73,9 +84,10 @@ Also accepts all standard `<span>` HTML attributes.
 - `.tale-badge--neutral` / `--brand` / `--error` / `--warning` / `--success` -- Semantic variant modifiers
 - `.tale-badge--red` / `--orange` / `--amber` / `--yellow` / `--lime` / `--green` / `--emerald` / `--teal` / `--cyan` / `--sky` / `--indigo` / `--violet` / `--purple` / `--fuchsia` / `--pink` / `--rose` -- Named color modifiers
 - `.tale-badge--sm` / `--md` / `--lg` -- Size modifiers
+- `.tale-badge--rounded` / `--modern` -- Type modifiers (pill is default, no extra class)
 
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.
-- Default variant is `neutral`, default size is `md`.
+- Default variant is `neutral`, default size is `md`, default type is `pill`.
 - Renders a `<span>` element. Pass `children` for the label text.

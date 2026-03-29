@@ -13,6 +13,11 @@ import type {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
+type TabSize = 'sm' | 'md';
+type TabVariant = 'underline' | 'pills' | 'enclosed';
+const TabSizeContext = React.createContext<TabSize>('md');
+const TabVariantContext = React.createContext<TabVariant>('underline');
+
 // ── Root ───────────────────────────────────────────────────────────────────
 
 export interface RootProps extends Omit<AriaTabsProps, 'className'> {
@@ -52,10 +57,14 @@ Root.displayName = 'Tabs.Root';
 
 export interface ListProps extends Omit<AriaTabListProps<object>, 'className'> {
   className?: string | undefined;
+  /** Size variant applied to all tabs in the list. */
+  size?: TabSize | undefined;
+  /** Visual style. `'underline'` (default) shows animated bottom bar, `'pills'` shows rounded pill background, `'enclosed'` shows bordered tab panel. */
+  variant?: TabVariant | undefined;
 }
 
 export const List = React.forwardRef<HTMLDivElement, ListProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, size, variant, ...props }, ref) => {
     const tabs: React.ReactNode[] = [];
     const extras: React.ReactNode[] = [];
 
@@ -67,15 +76,29 @@ export const List = React.forwardRef<HTMLDivElement, ListProps>(
       }
     });
 
+    const resolvedSize = size ?? 'md';
+    const resolvedVariant = variant ?? 'underline';
+    const variantClass = resolvedVariant !== 'underline' ? ` tale-tabs__list--${resolvedVariant}` : '';
+
     if (extras.length === 0) {
-      return <TabList ref={ref} className={cx('tale-tabs__list', className)} {...props}>{tabs}</TabList>;
+      return (
+        <TabSizeContext.Provider value={resolvedSize}>
+          <TabVariantContext.Provider value={resolvedVariant}>
+            <TabList ref={ref} className={cx(`tale-tabs__list${variantClass}`, className)} {...props}>{tabs}</TabList>
+          </TabVariantContext.Provider>
+        </TabSizeContext.Provider>
+      );
     }
 
     return (
-      <div className={cx('tale-tabs__list', className)} style={{ position: 'relative' }}>
-        <TabList ref={ref} className="tale-tabs__list-inner" {...props}>{tabs}</TabList>
-        {extras}
-      </div>
+      <TabSizeContext.Provider value={resolvedSize}>
+        <TabVariantContext.Provider value={resolvedVariant}>
+          <div className={cx(`tale-tabs__list${variantClass}`, className)} style={{ position: 'relative' }}>
+            <TabList ref={ref} className="tale-tabs__list-inner" {...props}>{tabs}</TabList>
+            {extras}
+          </div>
+        </TabVariantContext.Provider>
+      </TabSizeContext.Provider>
     );
   },
 );
@@ -88,9 +111,15 @@ export interface TabProps extends Omit<AriaTabProps, 'className'> {
 }
 
 export const Tab = React.forwardRef<HTMLDivElement, TabProps>(
-  ({ className, ...props }, ref) => (
-    <AriaTab ref={ref} className={cx('tale-tabs__tab', className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    const tabSize = React.useContext(TabSizeContext);
+    const tabVariant = React.useContext(TabVariantContext);
+    const sizeClass = tabSize === 'sm' ? ' tale-tabs__tab--sm' : '';
+    const variantClass = tabVariant !== 'underline' ? ` tale-tabs__tab--${tabVariant}` : '';
+    return (
+      <AriaTab ref={ref} className={cx(`tale-tabs__tab${sizeClass}${variantClass}`, className)} {...props} />
+    );
+  },
 );
 Tab.displayName = 'Tabs.Tab';
 
@@ -116,7 +145,7 @@ export interface IndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string | undefined;
 }
 
-function updateIndicator(indicator: HTMLSpanElement) {
+function updateIndicator(indicator: HTMLSpanElement, variant: TabVariant = 'underline') {
   const wrapper = indicator.parentElement;
   if (!wrapper) return;
 
@@ -128,17 +157,33 @@ function updateIndicator(indicator: HTMLSpanElement) {
   const isVertical = wrapper.closest('[data-orientation="vertical"]') !== null;
 
   if (isVertical) {
+    // Clear horizontal-only styles
+    indicator.style.left = '';
     indicator.style.top = `${selectedTab.offsetTop}px`;
     indicator.style.height = `${selectedTab.offsetHeight}px`;
+    if (variant === 'pills') {
+      indicator.style.width = `${selectedTab.offsetWidth}px`;
+    } else {
+      indicator.style.width = '';
+    }
   } else {
     indicator.style.left = `${selectedTab.offsetLeft}px`;
     indicator.style.width = `${selectedTab.offsetWidth}px`;
+    if (variant === 'pills') {
+      indicator.style.top = `${selectedTab.offsetTop}px`;
+      indicator.style.height = `${selectedTab.offsetHeight}px`;
+    } else {
+      // Clear pills/vertical-only styles
+      indicator.style.top = '';
+      indicator.style.height = '';
+    }
   }
 }
 
 export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
   ({ className, style, ...props }, ref) => {
     const innerRef = React.useRef<HTMLSpanElement | null>(null);
+    const tabVariant = React.useContext(TabVariantContext);
 
     const mergedRef = React.useCallback(
       (node: HTMLSpanElement | null) => {
@@ -150,6 +195,9 @@ export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
     );
 
     React.useEffect(() => {
+      // Enclosed variant doesn't use an animated indicator
+      if (tabVariant === 'enclosed') return;
+
       const indicator = innerRef.current;
       if (!indicator) return;
 
@@ -158,15 +206,17 @@ export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
 
       const tabContainer = wrapper.querySelector('.tale-tabs__list-inner') ?? wrapper;
 
+      const update = () => updateIndicator(indicator, tabVariant);
+
       // Initial position (after paint so tabs are laid out)
-      const rafId = requestAnimationFrame(() => updateIndicator(indicator));
+      const rafId = requestAnimationFrame(update);
 
       // Watch for data-selected changes on any child tab
-      const mutationObserver = new MutationObserver(() => updateIndicator(indicator));
+      const mutationObserver = new MutationObserver(update);
       mutationObserver.observe(tabContainer, { attributes: true, attributeFilter: ['data-selected'], subtree: true });
 
       // Re-measure if tabs resize (e.g. font loading, container resize)
-      const resizeObserver = new ResizeObserver(() => updateIndicator(indicator));
+      const resizeObserver = new ResizeObserver(update);
       resizeObserver.observe(tabContainer);
 
       return () => {
@@ -174,8 +224,9 @@ export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
         mutationObserver.disconnect();
         resizeObserver.disconnect();
       };
-    }, []);
+    }, [tabVariant]);
 
+    // Enclosed variant hides indicator via CSS
     return (
       <span
         ref={mergedRef}

@@ -10,7 +10,8 @@ A themed background wrapper for an Icon child. Used to highlight icons in empty 
 |------|------|---------|-------------|
 | variant | `'brand' \| 'error' \| 'warning' \| 'success' \| 'neutral'` | `'brand'` | Color variant |
 | shape | `'circle' \| 'square'` | `'circle'` | Shape of the container |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the container |
+| size | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size of the container |
+| theme | `'light' \| 'gradient' \| 'dark' \| 'outline' \| 'modern' \| 'modern-neue'` | `'light'` | Visual theme |
 
 Also accepts all standard `<span>` HTML attributes.
 
@@ -53,6 +54,18 @@ import { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-reac
 <FeaturedIcon size="sm"><Icon icon={Star} /></FeaturedIcon>
 <FeaturedIcon size="md"><Icon icon={Star} /></FeaturedIcon>
 <FeaturedIcon size="lg"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon size="xl"><Icon icon={Star} /></FeaturedIcon>
+```
+
+### Themes
+
+```tsx
+<FeaturedIcon variant="brand" theme="light"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon variant="brand" theme="gradient"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon variant="brand" theme="dark"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon variant="brand" theme="outline"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon variant="brand" theme="modern"><Icon icon={Star} /></FeaturedIcon>
+<FeaturedIcon variant="brand" theme="modern-neue"><Icon icon={Star} /></FeaturedIcon>
 ```
 
 ## CSS Classes
@@ -60,7 +73,12 @@ import { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-reac
 - `.tale-featured-icon` -- Base (circle by default)
 - `.tale-featured-icon--brand` / `--error` / `--warning` / `--success` / `--neutral` -- Variant modifiers
 - `.tale-featured-icon--square` -- Square shape modifier
-- `.tale-featured-icon--sm` / `--md` / `--lg` -- Size modifiers
+- `.tale-featured-icon--sm` / `--md` / `--lg` / `--xl` -- Size modifiers
+- `.tale-featured-icon--gradient` -- Gradient theme (outer ring + inner filled circle)
+- `.tale-featured-icon--dark` -- Dark theme (solid bg + white icon)
+- `.tale-featured-icon--outline` -- Outline theme (concentric rings, no fill)
+- `.tale-featured-icon--modern` -- Modern theme (white bg + coloured icon + border)
+- `.tale-featured-icon--modern-neue` -- Modern-neue theme (soft bg + inner shadow)
 
 ## Notes
 
