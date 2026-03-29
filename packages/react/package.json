@@ -83,6 +83,7 @@
     "./popover": "./src/popover/index.ts",
     "./preview-card": "./src/preview-card/index.ts",
     "./progress-bar": "./src/progress-bar/index.ts",
+    "./progress-circle": "./src/progress-circle/index.ts",
     "./radio": "./src/radio/index.ts",
     "./radio-group": "./src/radio-group/index.ts",
     "./rating-badge": "./src/rating-badge/index.ts",

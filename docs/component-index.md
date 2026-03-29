@@ -71,7 +71,7 @@ Quick-reference table for all 82 `@tale-ui/react` components. For detailed usage
 | Menubar | Horizontal menu bar | `@tale-ui/react/menubar` | Root, Item |
 | Breadcrumbs | Breadcrumb navigation | `@tale-ui/react/breadcrumbs` | Root, Item, Link |
 | Link | Styled anchor link | `@tale-ui/react/link` | -- |
-| Pagination | Page navigation controls | `@tale-ui/react/pagination` | Root, PreviousTrigger, NextTrigger, Item, Ellipsis |
+| Pagination | Page navigation controls | `@tale-ui/react/pagination` | Root, PreviousTrigger, NextTrigger, Item, Ellipsis, Dot, Line |
 
 ## Layout (7)
 

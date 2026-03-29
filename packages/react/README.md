@@ -105,7 +105,7 @@ Accordion · Carousel · Disclosure · Scroll Area · Separator · Tabs · Toolb
 
 ### Feedback
 
-Banner · Meter · Progress Bar · Spinner
+Banner · Meter · Progress Bar · Progress Circle · Spinner
 
 ### Display
 

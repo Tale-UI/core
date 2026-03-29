@@ -62,6 +62,7 @@
     "./popover": "./src/popover.css",
     "./preview-card": "./src/preview-card.css",
     "./progress-bar": "./src/progress-bar.css",
+    "./progress-circle": "./src/progress-circle.css",
     "./radio": "./src/radio.css",
     "./range-calendar": "./src/range-calendar.css",
     "./rating-badge": "./src/rating-badge.css",
