@@ -7,7 +7,7 @@ type Args = {
   isSelected: boolean;
   isDisabled: boolean;
   isIndeterminate: boolean;
-  size: 'sm' | 'md' | 'lg';
+  size: 'sm' | 'md';
 };
 
 const meta: Meta<Args> = {
@@ -22,7 +22,7 @@ const meta: Meta<Args> = {
     isSelected: { control: 'boolean' },
     isDisabled: { control: 'boolean' },
     isIndeterminate: { control: 'boolean' },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['sm', 'md'] },
   },
 };
 
@@ -156,12 +156,6 @@ export const AllSizes: Story = {
         Medium (default)
       </Checkbox.Root>
 
-      <Checkbox.Root size="lg" defaultSelected>
-        <Checkbox.Indicator>
-          <Icon icon={Check} size="sm" />
-        </Checkbox.Indicator>
-        Large
-      </Checkbox.Root>
     </div>
   ),
 };
@@ -220,7 +214,7 @@ export const AllStates: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const sizes = ['sm', 'md', 'lg'] as const;
+    const sizes = ['sm', 'md'] as const;
     const states = [
       { label: 'Unchecked', props: {} },
       { label: 'Checked', props: { defaultSelected: true } },

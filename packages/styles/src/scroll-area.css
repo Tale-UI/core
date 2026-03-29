@@ -43,14 +43,14 @@
   display: flex;
   touch-action: none;
   user-select: none;
-  padding: 0.2rem;
+  padding: 0.15rem;
   background-color: transparent;
   transition: background-color 0.15s ease;
 }
 
 .tale-scroll-area__scrollbar[data-orientation="vertical"] {
   flex-direction: column;
-  width: 1rem;
+  width: 0.65rem;
   position: absolute;
   top: 0;
   right: 0;
@@ -59,7 +59,7 @@
 
 .tale-scroll-area__scrollbar[data-orientation="horizontal"] {
   flex-direction: row;
-  height: 1rem;
+  height: 0.65rem;
   position: absolute;
   left: 0;
   right: 0;
@@ -73,10 +73,11 @@
 /* ─── Thumb ────────────────────────────────────────────────────────────────── */
 
 .tale-scroll-area__thumb {
-  flex: 1;
+  flex: 0 0 auto;
   border-radius: var(--radius-full);
   background-color: var(--neutral-40);
   position: relative;
+  cursor: pointer;
   transition: background-color 0.15s ease;
 }
 

@@ -5,7 +5,6 @@ type Args = {
   isSelected?: boolean;
   isDisabled?: boolean;
   size?: 'sm' | 'md';
-  slim?: boolean;
 };
 
 const meta: Meta<Args> = {
@@ -14,13 +13,11 @@ const meta: Meta<Args> = {
     isSelected: { control: 'boolean' },
     isDisabled: { control: 'boolean' },
     size: { control: 'select', options: ['sm', 'md'] },
-    slim: { control: 'boolean' },
   },
   args: {
     isSelected: false,
     isDisabled: false,
     size: 'md',
-    slim: false,
   },
 };
 
@@ -30,7 +27,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Switch.Root key={String(args.isSelected)} defaultSelected={args.isSelected} isDisabled={args.isDisabled} size={args.size} slim={args.slim}>
+    <Switch.Root key={String(args.isSelected)} defaultSelected={args.isSelected} isDisabled={args.isDisabled} size={args.size}>
       <Switch.Thumb />
       Enable notifications
     </Switch.Root>
@@ -134,52 +131,12 @@ export const AllSizes: Story = {
   ),
 };
 
-export const Slim: Story = {
-  parameters: {
-    controls: { disable: true },
-  },
-  render: () => (
-    <div className="story-col story-col--m">
-      <Switch.Root slim>
-        <Switch.Thumb />
-        Slim (off)
-      </Switch.Root>
-
-      <Switch.Root slim defaultSelected>
-        <Switch.Thumb />
-        Slim (on)
-      </Switch.Root>
-    </div>
-  ),
-};
-
-export const SlimSmall: Story = {
-  parameters: {
-    controls: { disable: true },
-  },
-  render: () => (
-    <div className="story-col story-col--m">
-      <Switch.Root size="sm" slim>
-        <Switch.Thumb />
-        Slim + Small (off)
-      </Switch.Root>
-
-      <Switch.Root size="sm" slim defaultSelected>
-        <Switch.Thumb />
-        Slim + Small (on)
-      </Switch.Root>
-    </div>
-  ),
-};
-
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
     const configs = [
-      { size: 'md' as const, slim: false, label: 'md' },
-      { size: 'sm' as const, slim: false, label: 'sm' },
-      { size: 'md' as const, slim: true, label: 'md slim' },
-      { size: 'sm' as const, slim: true, label: 'sm slim' },
+      { size: 'md' as const, label: 'md' },
+      { size: 'sm' as const, label: 'sm' },
     ];
     const states = [
       { label: 'Off', props: {} },
@@ -195,7 +152,7 @@ export const AllVariations: Story = {
           <>
             <div key={`label-${state.label}`} className="story-label">{state.label}</div>
             {configs.map((c) => (
-              <Switch.Root key={`${state.label}-${c.label}`} size={c.size} slim={c.slim} {...state.props}>
+              <Switch.Root key={`${state.label}-${c.label}`} size={c.size} {...state.props}>
                 <Switch.Thumb />
               </Switch.Root>
             ))}

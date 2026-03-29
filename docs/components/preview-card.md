@@ -16,7 +16,14 @@ A hover-triggered popover card for previewing content linked to a trigger elemen
 
 ## Props
 
-Accepts all React Aria `DialogTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+### Root
+
+| Prop         | Type     | Default | Description                                  |
+|--------------|----------|---------|----------------------------------------------|
+| `delay`      | `number` | `400`   | Delay in ms before opening on hover          |
+| `closeDelay` | `number` | `300`   | Delay in ms before closing after hover ends  |
+
+All other parts accept standard HTML attributes plus an optional `className`. `Popup` accepts React Aria `Popover` props (`placement`, `offset`, etc.).
 
 ## Basic Usage
 

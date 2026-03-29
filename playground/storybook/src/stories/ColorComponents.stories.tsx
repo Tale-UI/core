@@ -96,7 +96,7 @@ export const ColorSwatchPickerStory: Story = {
     return (
       <ColorSwatchPicker.Root defaultValue={parseColor('#ff0000')}>
         {['#ff0000', '#ff8800', '#ffff00', '#00ff00', '#0088ff', '#8800ff'].map((c) => (
-          <ColorSwatchPicker.Item key={c} color={c} />
+          <ColorSwatchPicker.Item key={c} color={c}><ColorSwatch /></ColorSwatchPicker.Item>
         ))}
       </ColorSwatchPicker.Root>
     );
@@ -176,7 +176,7 @@ export const AllVariations: Story = {
           <span className="story-label">Color Swatch Picker</span>
           <ColorSwatchPicker.Root defaultValue={parseColor('#ff0000')}>
             {['#ff0000', '#ff8800', '#ffff00', '#00ff00', '#0088ff', '#8800ff'].map((c) => (
-              <ColorSwatchPicker.Item key={c} color={c} />
+              <ColorSwatchPicker.Item key={c} color={c}><ColorSwatch /></ColorSwatchPicker.Item>
             ))}
           </ColorSwatchPicker.Root>
         </div>

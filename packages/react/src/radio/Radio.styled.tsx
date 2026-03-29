@@ -10,9 +10,11 @@ import type {
 import { cx } from '../_cx';
 import { SizeContext, useSize } from '../_SizeContext';
 
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'sm' | 'md';
 
 export interface RadioRootProps extends Omit<AriaRadioProps, 'className'> {
+  /** Size of the radio indicator. Defaults to `'md'`.
+   * The `'sm'` variant is for edge-cases only (dense tables, compact toolbars) — prefer `'md'` in most contexts. */
   size?: Size | undefined;
   className?: string | undefined;
 }

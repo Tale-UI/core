@@ -137,3 +137,4 @@ Also accepts all React Aria `RadioGroup` props.
 - `isDisabled` on the group disables all child radios.
 - Supports `data-readonly` and `data-required` attributes for corresponding states.
 - **Standalone import:** `Radio.Group` is also available as `import { RadioGroup } from '@tale-ui/react/radio-group';`. This is functionally identical to `Radio.Group`.
+- **Size guidance:** The default `md` size is almost always the right choice. The `sm` variant is intended for edge-cases only (e.g. dense data tables or compact toolbars) and should be seldom used — it reduces the touch target and can hurt readability.

@@ -592,14 +592,6 @@
   outline: none;
 }
 
-.tale-date-field__segment[data-focused],
-.tale-date-picker__segment[data-focused],
-.tale-date-range-picker__segment[data-focused],
-.tale-time-field__segment[data-focused] {
-  background: var(--color-60);
-  color: var(--color-60-fg);
-}
-
 .tale-date-field__segment[data-placeholder],
 .tale-date-picker__segment[data-placeholder],
 .tale-date-range-picker__segment[data-placeholder],
@@ -635,8 +627,8 @@
 .tale-date-picker__segment[data-focused],
 .tale-date-range-picker__segment[data-focused],
 .tale-time-field__segment[data-focused] {
-  background: var(--color-60);
-  color: var(--color-60-fg);
+  background: var(--neutral-80);
+  color: var(--neutral-5);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -940,11 +932,13 @@
   opacity: 0;
 }
 
-/* Modal / Popover close button — position only (button base from .tale-icon-button + .tale-button--ghost) */
-.tale-dialog__close,
-.tale-popover__close {
+/* Modal / Popover close button — position only (button base from .tale-icon-button + .tale-button--ghost).
+   Double-class specificity (0,2,0) ensures position: absolute wins over .tale-button's position: relative. */
+.tale-dialog__close.tale-button,
+.tale-popover__close.tale-button {
   position: absolute;
   color: var(--neutral-60);
+  min-height: auto;
 }
 
 .tale-dialog__close svg,

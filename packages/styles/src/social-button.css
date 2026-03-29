@@ -5,7 +5,6 @@
  *
  * Sizes:      .tale-social-button--sm
  *             .tale-social-button--md  (default)
- *             .tale-social-button--lg
  *
  * Providers:  .tale-social-button--google
  *             .tale-social-button--github
@@ -75,16 +74,6 @@
 .tale-social-button--md .tale-social-button__icon svg {
   width: 20px;
   height: 20px;
-}
-
-.tale-social-button--lg {
-  padding: var(--space-xs) var(--space-m);
-  font-size: var(--label-l-font-size);
-}
-
-.tale-social-button--lg .tale-social-button__icon svg {
-  width: 24px;
-  height: 24px;
 }
 
 /* ─── Provider hover accents ─────────────────────────────────────────────── */

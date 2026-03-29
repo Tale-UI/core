@@ -5,7 +5,6 @@
  *
  * Sizes:      .tale-select-native--sm
  *             .tale-select-native--md  (default)
- *             .tale-select-native--lg
  */
 
 .tale-select-native {
@@ -57,11 +56,4 @@
   padding-right: calc(var(--space-xs) + 2rem);
   font-size: var(--label-m-font-size);
   line-height: 2.4rem;
-}
-
-.tale-select-native--lg {
-  padding: var(--space-xs) var(--space-s);
-  padding-right: calc(var(--space-s) + 2rem);
-  font-size: var(--label-l-font-size);
-  line-height: 2.8rem;
 }

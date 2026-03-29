@@ -206,3 +206,45 @@
     --brand-90: var(--rose-90);
     --brand-100: var(--rose-100);
 }
+
+/* ─── System colours ──────────────────────────────────────────────────────── */
+
+.color-error {
+    --brand-5: var(--error-5);
+    --brand-10: var(--error-10);
+    --brand-20: var(--error-20);
+    --brand-30: var(--error-30);
+    --brand-40: var(--error-40);
+    --brand-50: var(--error-50);
+    --brand-60: var(--error-60);
+    --brand-70: var(--error-70);
+    --brand-80: var(--error-80);
+    --brand-90: var(--error-90);
+    --brand-100: var(--error-100);
+}
+.color-warning {
+    --brand-5: var(--warning-5);
+    --brand-10: var(--warning-10);
+    --brand-20: var(--warning-20);
+    --brand-30: var(--warning-30);
+    --brand-40: var(--warning-40);
+    --brand-50: var(--warning-50);
+    --brand-60: var(--warning-60);
+    --brand-70: var(--warning-70);
+    --brand-80: var(--warning-80);
+    --brand-90: var(--warning-90);
+    --brand-100: var(--warning-100);
+}
+.color-success {
+    --brand-5: var(--success-5);
+    --brand-10: var(--success-10);
+    --brand-20: var(--success-20);
+    --brand-30: var(--success-30);
+    --brand-40: var(--success-40);
+    --brand-50: var(--success-50);
+    --brand-60: var(--success-60);
+    --brand-70: var(--success-70);
+    --brand-80: var(--success-80);
+    --brand-90: var(--success-90);
+    --brand-100: var(--success-100);
+}

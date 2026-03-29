@@ -244,6 +244,7 @@ export const AllVariations: Story = {
   render() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)', width: 400 }}>
+        {/* ── Single value ── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
           <span className="story-label">Single value</span>
           <Slider.Root defaultValue={50}>
@@ -260,6 +261,7 @@ export const AllVariations: Story = {
           </Slider.Root>
         </div>
 
+        {/* ── Range (two thumbs) ── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
           <span className="story-label">Range (two thumbs)</span>
           <Slider.Root defaultValue={[20, 80]}>
@@ -277,6 +279,120 @@ export const AllVariations: Story = {
           </Slider.Root>
         </div>
 
+        {/* ── Custom step ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Step = 10</span>
+          <Slider.Root defaultValue={50} step={10}>
+            <Slider.Header>
+              <Slider.Label>Quality</Slider.Label>
+              <Slider.Output />
+            </Slider.Header>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb />
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        {/* ── Custom min/max ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Custom range (min 200, max 1000, step 50)</span>
+          <Slider.Root defaultValue={600} minValue={200} maxValue={1000} step={50}>
+            <Slider.Header>
+              <Slider.Label>Budget</Slider.Label>
+              <Slider.Output />
+            </Slider.Header>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb />
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        {/* ── Track only (no header) ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Track only (no header)</span>
+          <Slider.Root defaultValue={35}>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb />
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        {/* ── Thumb label top (single) ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Thumb label (top)</span>
+          <Slider.Root defaultValue={50}>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb>
+                  <Slider.Output position="top" />
+                </Slider.Thumb>
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        {/* ── Thumb label bottom (single) ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Thumb label (bottom)</span>
+          <Slider.Root defaultValue={50}>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb>
+                  <Slider.Output position="bottom" />
+                </Slider.Thumb>
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        {/* ── Thumb labels on range (top) ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Thumb labels on range (top)</span>
+          <Slider.Root defaultValue={[25, 75]}>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb index={0}>
+                  <Slider.Output position="top" index={0} />
+                </Slider.Thumb>
+                <Slider.Thumb index={1}>
+                  <Slider.Output position="top" index={1} />
+                </Slider.Thumb>
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        {/* ── Thumb labels on range (bottom) ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Thumb labels on range (bottom)</span>
+          <Slider.Root defaultValue={[30, 70]}>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb index={0}>
+                  <Slider.Output position="bottom" index={0} />
+                </Slider.Thumb>
+                <Slider.Thumb index={1}>
+                  <Slider.Output position="bottom" index={1} />
+                </Slider.Thumb>
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        {/* ── Disabled ── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
           <span className="story-label">Disabled</span>
           <Slider.Root defaultValue={60} isDisabled>
@@ -293,21 +409,74 @@ export const AllVariations: Story = {
           </Slider.Root>
         </div>
 
+        {/* ── Disabled range ── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-          <span className="story-label">With output labels on thumbs</span>
-          <Slider.Root defaultValue={[25, 75]}>
+          <span className="story-label">Disabled range</span>
+          <Slider.Root defaultValue={[20, 80]} isDisabled>
+            <Slider.Header>
+              <Slider.Label>Disabled Range</Slider.Label>
+              <Slider.Output />
+            </Slider.Header>
             <Slider.Control>
               <Slider.Track>
                 <Slider.Indicator />
-                <Slider.Thumb index={0}>
-                  <Slider.Output position="top" index={0} />
-                </Slider.Thumb>
-                <Slider.Thumb index={1}>
-                  <Slider.Output position="top" index={1} />
-                </Slider.Thumb>
+                <Slider.Thumb />
+                <Slider.Thumb />
               </Slider.Track>
             </Slider.Control>
           </Slider.Root>
+        </div>
+
+        {/* ── Vertical variations ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Vertical</span>
+          <div style={{ display: 'flex', gap: 'var(--space-xl)' }}>
+            <div className="story-slider-vertical">
+              <Slider.Root defaultValue={40} orientation="vertical">
+                <Slider.Header>
+                  <Slider.Label>Single</Slider.Label>
+                  <Slider.Output />
+                </Slider.Header>
+                <Slider.Control>
+                  <Slider.Track>
+                    <Slider.Indicator />
+                    <Slider.Thumb />
+                  </Slider.Track>
+                </Slider.Control>
+              </Slider.Root>
+            </div>
+
+            <div className="story-slider-vertical">
+              <Slider.Root defaultValue={[20, 70]} orientation="vertical">
+                <Slider.Header>
+                  <Slider.Label>Range</Slider.Label>
+                  <Slider.Output />
+                </Slider.Header>
+                <Slider.Control>
+                  <Slider.Track>
+                    <Slider.Indicator />
+                    <Slider.Thumb />
+                    <Slider.Thumb />
+                  </Slider.Track>
+                </Slider.Control>
+              </Slider.Root>
+            </div>
+
+            <div className="story-slider-vertical">
+              <Slider.Root defaultValue={60} orientation="vertical" isDisabled>
+                <Slider.Header>
+                  <Slider.Label>Disabled</Slider.Label>
+                  <Slider.Output />
+                </Slider.Header>
+                <Slider.Control>
+                  <Slider.Track>
+                    <Slider.Indicator />
+                    <Slider.Thumb />
+                  </Slider.Track>
+                </Slider.Control>
+              </Slider.Root>
+            </div>
+          </div>
         </div>
       </div>
     );

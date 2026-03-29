@@ -13,7 +13,7 @@ const meta: Meta<Args> = {
   title: 'Components/Input',
   decorators: [
     (Story) => (
-      <div className="story-field">
+      <div className="story-field" style={{ width: 'initial' }}>
         <Story />
       </div>
     ),
@@ -129,6 +129,7 @@ export const AllSizes: Story = {
 };
 
 export const AllVariations: Story = {
+  decorators: [(Story) => <Story />],
   parameters: { controls: { disable: true } },
   render() {
     const sizes = ['sm', 'md', 'lg'] as const;

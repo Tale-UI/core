@@ -98,17 +98,40 @@ export const AllVariations: Story = {
       { label: 'Disabled + Pressed', props: { isDisabled: true, defaultSelected: true } },
     ] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
-        <div />
-        {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
-        {states.map((state) => (
-          <>
-            <div key={`label-${state.label}`} className="story-label">{state.label}</div>
-            {sizes.map((s) => (
-              <ToggleButton key={`${state.label}-${s}`} size={s} {...state.props}>{state.label}</ToggleButton>
-            ))}
-          </>
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        {/* Individual buttons */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
+          <div />
+          {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+          {states.map((state) => (
+            <>
+              <div key={`label-${state.label}`} className="story-label">{state.label}</div>
+              {sizes.map((s) => (
+                <ToggleButton key={`${state.label}-${s}`} size={s} {...state.props}>{state.label}</ToggleButton>
+              ))}
+            </>
+          ))}
+        </div>
+
+        {/* Grouped buttons */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
+          {sizes.map((s) => (
+            <>
+              <div key={`group-label-${s}`} className="story-label">Group ({s})</div>
+              <ToggleButtonGroup key={`group-${s}`} aria-label={`Formatting ${s}`}>
+                <ToggleButton size={s}>Bold</ToggleButton>
+                <ToggleButton size={s} defaultSelected>Italic</ToggleButton>
+                <ToggleButton size={s}>Underline</ToggleButton>
+              </ToggleButtonGroup>
+            </>
+          ))}
+          <div className="story-label">Group (disabled)</div>
+          <ToggleButtonGroup aria-label="Formatting disabled">
+            <ToggleButton isDisabled>Bold</ToggleButton>
+            <ToggleButton isDisabled defaultSelected>Italic</ToggleButton>
+            <ToggleButton isDisabled>Underline</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
       </div>
     );
   },

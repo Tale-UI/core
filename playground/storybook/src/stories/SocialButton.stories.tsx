@@ -3,7 +3,7 @@ import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';
 
 type Args = {
   provider: 'google' | 'github' | 'apple' | 'x' | 'facebook';
-  size: 'sm' | 'md' | 'lg';
+  size: 'sm' | 'md';
 };
 
 const meta: Meta<Args> = {
@@ -16,7 +16,7 @@ const meta: Meta<Args> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'],
+      options: ['sm', 'md'],
     },
   },
   args: {
@@ -51,7 +51,6 @@ export const Sizes: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'stretch', width: 280 }}>
         <SocialButton provider="google" size="sm">Sign in with Google</SocialButton>
         <SocialButton provider="google" size="md">Sign in with Google</SocialButton>
-        <SocialButton provider="google" size="lg">Sign in with Google</SocialButton>
       </div>
     );
   },
@@ -87,11 +86,6 @@ export const GroupedSizes: Story = {
           <SocialButton provider="github">Continue with GitHub</SocialButton>
           <SocialButton provider="apple">Sign in with Apple</SocialButton>
         </SocialButtonGroup>
-        <SocialButtonGroup size="lg">
-          <SocialButton provider="google">Sign in with Google</SocialButton>
-          <SocialButton provider="github">Continue with GitHub</SocialButton>
-          <SocialButton provider="apple">Sign in with Apple</SocialButton>
-        </SocialButtonGroup>
       </div>
     );
   },
@@ -101,9 +95,9 @@ export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
     const providers = ['google', 'github', 'apple', 'x', 'facebook'] as const;
-    const sizes = ['sm', 'md', 'lg'] as const;
+    const sizes = ['sm', 'md'] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 280px)', gap: '1.2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 280px)', gap: '1.2rem' }}>
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {providers.map((p) =>
           sizes.map((s) => (

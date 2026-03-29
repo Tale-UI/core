@@ -8,7 +8,7 @@ A styled native `<select>` element matching the Input field appearance. Use when
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Field size |
+| size | `'sm' \| 'md'` | `'md'` | Field size |
 
 Also accepts all standard `<select>` HTML attributes. Pass `<option>` elements as children.
 
@@ -31,9 +31,6 @@ Also accepts all standard `<select>` HTML attributes. Pass `<option>` elements a
 </SelectNative>
 <SelectNative size="md">
   <option>Medium</option>
-</SelectNative>
-<SelectNative size="lg">
-  <option>Large</option>
 </SelectNative>
 ```
 
@@ -63,7 +60,7 @@ Also accepts all standard `<select>` HTML attributes. Pass `<option>` elements a
 ## CSS Classes
 
 - `.tale-select-native` -- Base
-- `.tale-select-native--sm` / `--md` / `--lg` -- Size modifiers
+- `.tale-select-native--sm` / `--md` -- Size modifiers
 
 ## Notes
 

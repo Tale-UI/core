@@ -46,15 +46,17 @@ Accepts all React Aria `Label`, `Text`, and `FieldError` props on sub-parts, plu
 
 ### With Error
 
+For error messages to render, use a validatable component like `Input.Root` with `isInvalid`:
+
 ```tsx
-<Field.Root>
-  <Field.Label>Password</Field.Label>
-  <Field.Control>
-    <input className="tale-input" type="password" />
-  </Field.Control>
-  <Field.Description>Must be at least 8 characters long.</Field.Description>
-  <Field.Error>This field is required.</Field.Error>
-</Field.Root>
+import { Input } from '@tale-ui/react/input';
+
+<Input.Root isInvalid>
+  <Input.Label>Password</Input.Label>
+  <Input.Input type="password" />
+  <Input.Description>Must be at least 8 characters long.</Input.Description>
+  <Input.ErrorMessage>This field is required.</Input.ErrorMessage>
+</Input.Root>
 ```
 
 ## CSS Classes

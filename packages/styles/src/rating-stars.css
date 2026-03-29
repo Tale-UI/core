@@ -24,6 +24,10 @@
   color: var(--yellow-60);
 }
 
+.tale-rating-stars__star--filled svg {
+  fill: currentcolor;
+}
+
 /* ─── Half star ──────────────────────────────────────────────────────────── */
 
 .tale-rating-stars__star--half {
@@ -39,6 +43,10 @@
   clip-path: inset(0 50% 0 0);
   color: var(--yellow-60);
   display: inline-flex;
+}
+
+.tale-rating-stars__star-overlay svg {
+  fill: currentcolor;
 }
 
 /* ─── Sizes ──────────────────────────────────────────────────────────────── */

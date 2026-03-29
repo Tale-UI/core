@@ -4,10 +4,11 @@ import type { CheckboxProps as AriaCheckboxProps } from 'react-aria-components';
 import { cx } from '../_cx';
 import { useSize } from '../_SizeContext';
 
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'sm' | 'md';
 
 export interface CheckboxRootProps extends Omit<AriaCheckboxProps, 'className'> {
-  /** Size of the checkbox indicator. Defaults to `'md'`. Inherits from CheckboxGroup `size` when omitted. */
+  /** Size of the checkbox indicator. Defaults to `'md'`. Inherits from CheckboxGroup `size` when omitted.
+   * The `'sm'` variant is for edge-cases only (dense tables, compact toolbars) — prefer `'md'` in most contexts. */
   size?: Size | undefined;
   className?: string | undefined;
 }

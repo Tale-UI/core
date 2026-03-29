@@ -400,9 +400,10 @@ import { Field } from '@tale-ui/react/field';
     <input className="tale-input" type="password" />
   </Field.Control>
   <Field.Description>Must be at least 8 characters.</Field.Description>
-  <Field.Error>This field is required.</Field.Error>
 </Field.Root>
 ```
+
+> **Note:** `Field.Error` requires a React Aria validation context to render. For error messages, use a validatable component like `Input.Root` with `isInvalid` (see Pattern A) instead of `Field.Root`.
 
 ### When to use which
 

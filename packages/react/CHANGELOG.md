@@ -2,6 +2,23 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.38 — 2026-03-29
+
+### Added
+
+- **ProgressCircle** component with size, colour, and indeterminate variants.
+- **Pagination** Dot and Line sub-parts added to index.
+- AllVariations Storybook story for all 78 components.
+- Enhanced component docs: Checkbox, Field, PreviewCard, Radio, SelectNative, SocialButton, Switch.
+
+### Changed
+
+- **Storybook** upgraded from 8.6.14 to 10.3.3; onboarding checklist hidden.
+- **Banner**, **CheckboxGroup**, **Checkbox**, **PreviewCard**, **Radio**, **ScrollArea**, **SelectNative**, **SocialButton**, **Switch** — refined styled components and JSDoc.
+- Updated `_primitives.css`, icon-button, rating-stars, scroll-area, select-native, social-button, switch, tabs, toggle-button CSS.
+- Consumer setup guide (`react-setup.md`) updated.
+- Color themes CSS updated.
+
 ## v1.3.37 — 2026-03-27
 
 ### Changed

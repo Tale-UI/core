@@ -4,7 +4,7 @@ import { Radio } from '@tale-ui/react/radio';
 
 type Args = {
   isDisabled?: boolean;
-  size: 'sm' | 'md' | 'lg';
+  size: 'sm' | 'md';
 };
 
 const meta: Meta<Args> = {
@@ -13,7 +13,7 @@ const meta: Meta<Args> = {
     isDisabled: { control: 'boolean' },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'],
+      options: ['sm', 'md'],
     },
   },
   args: {
@@ -89,7 +89,7 @@ export const Horizontal: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const sizes = ['sm', 'md', 'lg'] as const;
+    const sizes = ['sm', 'md'] as const;
     return (
       <div className="story-sections">
         {sizes.map((size) => (

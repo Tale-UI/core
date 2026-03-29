@@ -81,6 +81,8 @@ const preview: Preview = {
         if (aIsComponents && bIsComponents) {
           const byTitle = a.title.localeCompare(b.title);
           if (byTitle !== 0) return byTitle;
+          if (a.name === 'All Variations') return -1;
+          if (b.name === 'All Variations') return 1;
           return a.name.localeCompare(b.name);
         }
 

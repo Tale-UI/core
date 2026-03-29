@@ -14,7 +14,7 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
   /** Layout orientation. Sets `data-orientation` for CSS styling. */
   orientation?: 'horizontal' | 'vertical';
   /** Propagates size to all child Checkbox.Root components. */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md';
 }
 
 /**

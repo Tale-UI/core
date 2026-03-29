@@ -79,6 +79,7 @@
 
 .tale-toggle-button-group {
   display: inline-flex;
+  width: fit-content;
   align-items: center;
   gap: 0;
   border-radius: var(--radius-m);

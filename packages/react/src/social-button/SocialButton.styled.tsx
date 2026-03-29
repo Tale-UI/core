@@ -3,7 +3,7 @@ import { cx } from '../_cx';
 import { SizeContext, useSize } from '../_SizeContext';
 
 type Provider = 'google' | 'github' | 'apple' | 'x' | 'facebook';
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'sm' | 'md';
 
 export interface SocialButtonProps extends Omit<React.ComponentPropsWithoutRef<'button'>, 'className'> {
   /** Social provider whose icon to display. */
@@ -64,7 +64,7 @@ const providerIcons: Record<Provider, React.FC> = {
  * import { SocialButton } from '@tale-ui/react/social-button';
  *
  * <SocialButton provider="google">Sign in with Google</SocialButton>
- * <SocialButton provider="github" size="lg">Continue with GitHub</SocialButton>
+ * <SocialButton provider="github" size="sm">Continue with GitHub</SocialButton>
  * ```
  */
 export const SocialButton = React.forwardRef<HTMLButtonElement, SocialButtonProps>(

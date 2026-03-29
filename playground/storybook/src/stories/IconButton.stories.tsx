@@ -159,7 +159,7 @@ export const AllVariations: Story = {
       <div className="story-sections">
         <div>
           <div className="story-heading">Default</div>
-          <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.8rem', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.8rem', alignItems: 'center', justifyItems: 'center' }}>
             <div />
             {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
             {variants.map((v) => (

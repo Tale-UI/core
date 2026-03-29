@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cx } from '../_cx';
 
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'sm' | 'md';
 
 export interface SelectNativeProps extends Omit<React.ComponentPropsWithoutRef<'select'>, 'className' | 'size'> {
   /** Field size. Defaults to 'md'. */
@@ -21,7 +21,7 @@ export interface SelectNativeProps extends Omit<React.ComponentPropsWithoutRef<'
  *   <option value="b">Option B</option>
  * </SelectNative>
  *
- * <SelectNative size="lg" disabled>
+ * <SelectNative disabled>
  *   <option>Disabled</option>
  * </SelectNative>
  * ```

@@ -7,14 +7,14 @@ import { Check } from 'lucide-react';
 
 type Args = {
   isDisabled?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md';
 };
 
 const meta: Meta<Args> = {
   title: 'Components/CheckboxGroup',
   argTypes: {
     isDisabled: { control: 'boolean' },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['sm', 'md'] },
   },
   args: {
     isDisabled: false,
@@ -143,7 +143,7 @@ export const Horizontal: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const sizes = ['sm', 'md', 'lg'] as const;
+    const sizes = ['sm', 'md'] as const;
     return (
       <div className="story-sections">
         {sizes.map((size) => (

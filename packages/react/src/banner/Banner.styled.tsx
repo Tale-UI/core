@@ -35,7 +35,7 @@ export interface RootProps extends Omit<React.ComponentPropsWithoutRef<'div'>, '
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ variant = 'info', size = 'md', className, ...props }, ref) => {
     const classes = ['tale-banner'];
-    if (variant !== 'info') classes.push(`tale-banner--${variant}`);
+    if (variant !== 'info') classes.push(`color-${variant}`);
     if (size !== 'md') classes.push(`tale-banner--${size}`);
 
     return (
@@ -174,7 +174,7 @@ export const Close = React.forwardRef<HTMLButtonElement, CloseProps>(
       ref={ref}
       type="button"
       aria-label="Dismiss"
-      className={cx('tale-banner__close', className)}
+      className={cx('tale-icon-button tale-icon-button--sm tale-button tale-button--ghost tale-banner__close', className)}
       {...props}
     >
       {children ?? <Icon icon={X} size="sm" />}

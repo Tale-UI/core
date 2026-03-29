@@ -1008,7 +1008,7 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="checkbox" title="Checkbox" classes={['tale-checkbox', 'tale-checkbox--sm', 'tale-checkbox--lg', 'tale-checkbox__indicator']}>
+        <Section id="checkbox" title="Checkbox" classes={['tale-checkbox', 'tale-checkbox--sm', 'tale-checkbox__indicator']}>
           <SubHeading>Sizes</SubHeading>
           <div className="display--flex flex--col gap--2xs">
             <Checkbox.Root size="sm" defaultSelected>
@@ -1018,10 +1018,6 @@ export default function ComponentAudit() {
             <Checkbox.Root size="md" defaultSelected>
               <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
               Medium (default)
-            </Checkbox.Root>
-            <Checkbox.Root size="lg" defaultSelected>
-              <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-              Large
             </Checkbox.Root>
           </div>
           <SubHeading>States</SubHeading>
@@ -1097,19 +1093,9 @@ export default function ComponentAudit() {
               ))}
             </div>
           </CheckboxGroup>
-          <CheckboxGroup aria-label="Large group" size="lg">
-            <div className="display--flex flex--col gap--3xs">
-              {['Gamma', 'Delta'].map((label) => (
-                <Checkbox.Root key={label} value={label.toLowerCase()}>
-                  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-                  {label}
-                </Checkbox.Root>
-              ))}
-            </div>
-          </CheckboxGroup>
         </Section>
 
-        <Section id="radio" title="Radio" classes={['tale-radio', 'tale-radio__indicator', 'tale-radio__dot', 'tale-radio--sm', 'tale-radio--lg']}>
+        <Section id="radio" title="Radio" classes={['tale-radio', 'tale-radio__indicator', 'tale-radio__dot', 'tale-radio--sm']}>
           <SubHeading>States</SubHeading>
           <div className="audit__demo-spaced display--flex flex--col gap--2xs">
             <Radio.Group aria-label="Radio states">
@@ -2454,6 +2440,15 @@ export default function ComponentAudit() {
             <Banner.Description>You can customise your dashboard.</Banner.Description>
             <Banner.Close aria-label="Dismiss" />
           </Banner.Root>
+          <SubHeading>With Actions</SubHeading>
+          <Banner.Root variant="info">
+            <Banner.Title>Update available</Banner.Title>
+            <Banner.Description>A new version is ready to install.</Banner.Description>
+            <Banner.Actions>
+              <Button variant="ghost" size="sm">Later</Button>
+              <Button variant="ghost" size="sm">Update now</Button>
+            </Banner.Actions>
+          </Banner.Root>
           <SubHeading>Small</SubHeading>
           <Banner.Root variant="info" size="sm">
             <Banner.Title>Note</Banner.Title>
@@ -2853,13 +2848,11 @@ export default function ComponentAudit() {
           </div>
           <SubHeading>With Error</SubHeading>
           <div className="audit__demo-medium">
-            <Field.Root data-invalid>
-              <Field.Label>Password</Field.Label>
-              <Field.Control>
-                <Input.Input type="password" defaultValue="123" />
-              </Field.Control>
-              <Field.Error>Password must be at least 8 characters.</Field.Error>
-            </Field.Root>
+            <Input.Root isInvalid>
+              <Input.Label>Password</Input.Label>
+              <Input.Input type="password" defaultValue="123" />
+              <Input.ErrorMessage>Password must be at least 8 characters.</Input.ErrorMessage>
+            </Input.Root>
           </div>
           <SubHeading>Disabled</SubHeading>
           <div className="audit__demo-medium">
@@ -3472,7 +3465,7 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="social-button" title="SocialButton" classes={['tale-social-button', 'tale-social-button--google', 'tale-social-button--github', 'tale-social-button--apple', 'tale-social-button--x', 'tale-social-button--facebook', 'tale-social-button--sm', 'tale-social-button--md', 'tale-social-button--lg']}>
+        <Section id="social-button" title="SocialButton" classes={['tale-social-button', 'tale-social-button--google', 'tale-social-button--github', 'tale-social-button--apple', 'tale-social-button--x', 'tale-social-button--facebook', 'tale-social-button--sm', 'tale-social-button--md']}>
           <SubHeading>Providers</SubHeading>
           <Row>
             <SocialButton provider="google">Continue with Google</SocialButton>
@@ -3483,7 +3476,6 @@ export default function ComponentAudit() {
           <Row>
             <SocialButton provider="google" size="sm">Google (sm)</SocialButton>
             <SocialButton provider="google" size="md">Google (md)</SocialButton>
-            <SocialButton provider="google" size="lg">Google (lg)</SocialButton>
           </Row>
         </Section>
 
@@ -3496,8 +3488,8 @@ export default function ComponentAudit() {
             <SocialButton provider="x">Sign in with X</SocialButton>
             <SocialButton provider="facebook">Continue with Facebook</SocialButton>
           </SocialButtonGroup>
-          <SubHeading>Size propagation (lg)</SubHeading>
-          <SocialButtonGroup size="lg">
+          <SubHeading>Size propagation (sm)</SubHeading>
+          <SocialButtonGroup size="sm">
             <SocialButton provider="google">Sign in with Google</SocialButton>
             <SocialButton provider="github">Continue with GitHub</SocialButton>
             <SocialButton provider="apple">Sign in with Apple</SocialButton>

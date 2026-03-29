@@ -49,6 +49,15 @@ const config: StorybookConfig = {
   align-items: center;
   padding-bottom: 5px;
 }
+/* Sidebar context-menu (meatball) button — Storybook's Emotion styles set a
+   vivid teal on hover (lighten of colorSecondary). Override with neutral tokens.
+   Doubled attribute selector bumps specificity above Emotion's single class. */
+button[data-testid="context-menu"][data-testid="context-menu"]:hover,
+button[data-testid="context-menu"][data-testid="context-menu"]:focus-visible {
+  color: var(--neutral-90) !important;
+  background: var(--neutral-16) !important;
+  border-radius: 4px;
+}
 /* Hide the onboarding checklist widget — the feature flag is overridden by
    Storybook's common-preset so CSS is the only reliable way to remove it. */
 #storybook-checklist-widget {

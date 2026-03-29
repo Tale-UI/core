@@ -9,7 +9,7 @@ A social login button with a provider icon on the left.
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | provider | `'google' \| 'github' \| 'apple' \| 'x' \| 'facebook'` | (required) | Social provider whose icon to display |
-| size | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
+| size | `'sm' \| 'md'` | `'md'` | Button size |
 
 Also accepts all standard `<button>` HTML attributes.
 
@@ -36,14 +36,13 @@ Also accepts all standard `<button>` HTML attributes.
 ```tsx
 <SocialButton provider="google" size="sm">Sign in with Google</SocialButton>
 <SocialButton provider="google" size="md">Sign in with Google</SocialButton>
-<SocialButton provider="google" size="lg">Sign in with Google</SocialButton>
 ```
 
 ## CSS Classes
 
 - `.tale-social-button` -- Base
 - `.tale-social-button--google` / `--github` / `--apple` / `--x` / `--facebook` -- Provider modifiers
-- `.tale-social-button--sm` / `--md` / `--lg` -- Size modifiers
+- `.tale-social-button--sm` / `--md` -- Size modifiers
 - `.tale-social-button__icon` -- Icon wrapper
 
 ## Notes

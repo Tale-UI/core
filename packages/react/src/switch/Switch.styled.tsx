@@ -9,8 +9,6 @@ type Size = 'sm' | 'md';
 export interface SwitchRootProps extends Omit<AriaSwitchProps, 'className'> {
   /** Size variant. */
   size?: Size | undefined;
-  /** Slim track variant with reduced height. */
-  slim?: boolean | undefined;
   className?: string | undefined;
 }
 
@@ -28,11 +26,10 @@ export interface SwitchRootProps extends Omit<AriaSwitchProps, 'className'> {
  * ```
  */
 export const Root = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
-  ({ size: sizeProp, slim, className, ...props }, ref) => {
+  ({ size: sizeProp, className, ...props }, ref) => {
     const size = useSize(sizeProp, 'md') as Size;
     const classes = ['tale-switch'];
     if (size === 'sm') classes.push('tale-switch--sm');
-    if (slim) classes.push('tale-switch--slim');
     return (
       <AriaSwitch ref={ref} className={cx(classes.join(' '), className)} {...props} />
     );
@@ -58,8 +55,6 @@ export interface SwitchVisualProps extends Omit<React.ComponentPropsWithoutRef<'
   checked?: boolean;
   /** Size variant. */
   size?: Size | undefined;
-  /** Slim track variant with reduced height. */
-  slim?: boolean | undefined;
   /** Additional CSS class name. */
   className?: string;
 }
@@ -78,10 +73,9 @@ export interface SwitchVisualProps extends Omit<React.ComponentPropsWithoutRef<'
  * ```
  */
 export const Visual = React.forwardRef<HTMLSpanElement, SwitchVisualProps>(
-  ({ checked, size: sizeProp, slim, className, ...props }, ref) => {
+  ({ checked, size: sizeProp, className, ...props }, ref) => {
     const classes = ['tale-switch'];
     if (sizeProp === 'sm') classes.push('tale-switch--sm');
-    if (slim) classes.push('tale-switch--slim');
     return (
       <span
         ref={ref}

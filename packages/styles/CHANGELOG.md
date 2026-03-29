@@ -2,6 +2,12 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.38 — 2026-03-29
+
+### Changed
+
+- Updated `_primitives.css`, banner, icon-button, rating-stars, scroll-area, select-native, social-button, switch, tabs, and toggle-button CSS.
+
 ## v1.3.37 — 2026-03-27
 
 ### Fixed

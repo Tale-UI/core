@@ -18,7 +18,6 @@ Accepts all React Aria `Switch` props plus:
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `size` | `'sm' \| 'md'` | `'md'` | Size variant |
-| `slim` | `boolean` | -- | Slim track variant with reduced height |
 | `className` | `string` | -- | Additional CSS class name |
 
 ### Visual
@@ -27,7 +26,6 @@ Accepts all React Aria `Switch` props plus:
 |------|------|---------|-------------|
 | `checked` | `boolean` | `false` | Whether the switch visual appears on/checked |
 | `size` | `'sm' \| 'md'` | `'md'` | Size variant |
-| `slim` | `boolean` | -- | Slim track variant with reduced height |
 
 `Switch.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
 
@@ -102,35 +100,11 @@ Accepts all React Aria `Switch` props plus:
 </Switch.Root>
 ```
 
-### Slim Variant
-
-```tsx
-<Switch.Root slim>
-  <Switch.Thumb />
-  Slim switch
-</Switch.Root>
-
-<Switch.Root slim defaultSelected>
-  <Switch.Thumb />
-  Slim switch (on)
-</Switch.Root>
-```
-
-### Slim + Small
-
-```tsx
-<Switch.Root size="sm" slim>
-  <Switch.Thumb />
-  Slim small switch
-</Switch.Root>
-```
-
 ## CSS Classes
 
 - `.tale-switch` -- Base (root label)
 - `.tale-switch__thumb` -- The sliding thumb element
 - `.tale-switch--sm` -- Small size variant
-- `.tale-switch--slim` -- Slim track variant
 
 ## Notes
 

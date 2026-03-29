@@ -148,3 +148,4 @@ import { Check, Minus } from 'lucide-react';
 - `isIndeterminate` renders a third visual state (typically a minus icon instead of a checkmark).
 - When used inside a `CheckboxGroup`, add a `value` prop to each `Checkbox.Root`.
 - Supports `data-readonly` and `data-required` attributes for corresponding states.
+- **Size guidance:** The default `md` size is almost always the right choice. The `sm` variant is intended for edge-cases only (e.g. dense data tables or compact toolbars) and should be seldom used — it reduces the touch target and can hurt readability.

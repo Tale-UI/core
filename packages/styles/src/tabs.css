@@ -169,6 +169,7 @@
 
 .tale-tabs__tab--pills[data-selected] {
   color: var(--neutral-90);
+  text-decoration: underline;
 }
 
 .tale-tabs__tab--pills:hover:not([data-disabled], [data-selected]) {
@@ -182,6 +183,7 @@
   background-color: var(--neutral-5);
   border-radius: var(--radius-s);
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+  border: 1px solid var(--neutral-14);
 }
 
 .tale-tabs[data-orientation="vertical"] .tale-tabs__list--pills {

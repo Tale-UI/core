@@ -198,22 +198,39 @@ export const AllVariations: Story = {
     const variants = ['underline', 'pills', 'enclosed'] as const;
     const sizes = ['sm', 'md'] as const;
 
+    const orientations = ['horizontal', 'vertical'] as const;
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-l)' }}>
-        {variants.map((variant) =>
-          sizes.map((size) => (
-            <div key={`${variant}-${size}`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
-              <span className="story-label">variant="{variant}" size="{size}"</span>
-              <Tabs.Root defaultSelectedKey="t1">
-                <Tabs.List variant={variant} size={size}>
-                  <Tabs.Tab id="t1">Account</Tabs.Tab>
-                  <Tabs.Tab id="t2">Settings</Tabs.Tab>
-                  <Tabs.Tab id="t3">Notifications</Tabs.Tab>
-                  <Tabs.Indicator />
-                </Tabs.List>
-              </Tabs.Root>
-            </div>
-          )),
+        {orientations.map((orientation) =>
+          variants.map((variant) =>
+            sizes.map((size) => (
+              <div key={`${orientation}-${variant}-${size}`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+                <span className="story-label">{orientation} / {variant} / {size}</span>
+                <Tabs.Root defaultSelectedKey="t1" orientation={orientation}>
+                  {orientation === 'vertical' ? (
+                    <div className="story-tabs-vertical">
+                      <Tabs.List variant={variant} size={size}>
+                        <Tabs.Tab id="t1">Account</Tabs.Tab>
+                        <Tabs.Tab id="t2">Settings</Tabs.Tab>
+                        <Tabs.Tab id="t3">Notifications</Tabs.Tab>
+                        <Tabs.Indicator />
+                      </Tabs.List>
+                      <Tabs.Panel id="t1">Account content</Tabs.Panel>
+                      <Tabs.Panel id="t2">Settings content</Tabs.Panel>
+                      <Tabs.Panel id="t3">Notifications content</Tabs.Panel>
+                    </div>
+                  ) : (
+                    <Tabs.List variant={variant} size={size}>
+                      <Tabs.Tab id="t1">Account</Tabs.Tab>
+                      <Tabs.Tab id="t2">Settings</Tabs.Tab>
+                      <Tabs.Tab id="t3">Notifications</Tabs.Tab>
+                      <Tabs.Indicator />
+                    </Tabs.List>
+                  )}
+                </Tabs.Root>
+              </div>
+            )),
+          ),
         )}
       </div>
     );

@@ -109,7 +109,7 @@
 .tale-switch[data-selected] .tale-switch__thumb {
   transform: translate(
     calc(
-      var(--tale-switch-track-width) - (var(--tale-switch-thumb-offset) * 2) -
+      var(--tale-switch-track-width) - (var(--tale-switch-thumb-offset) * 1.2) -
         var(--tale-switch-thumb-size)
     ),
     -50%
@@ -127,26 +127,7 @@
   font-size: var(--label-s-font-size);
 }
 
-/* ─── Slim variant ──────────────────────────────────────────────────────── */
-
-.tale-switch--slim {
-  --tale-switch-track-height: 1.6rem;
-}
-
-.tale-switch--slim::before {
-  background-color: transparent;
-  border-width: 1px;
-}
-
-.tale-switch--slim[data-selected]::before {
-  background-color: var(--color-60);
-  border-color: var(--color-60);
-}
-
-/* ─── Slim + Small ──────────────────────────────────────────────────────── */
-
-.tale-switch--slim.tale-switch--sm {
-  --tale-switch-track-height: 1.4rem;
-  --tale-switch-thumb-size: 1rem;
-  --tale-switch-thumb-offset: 0.2rem;
+.tale-switch--sm .tale-switch__thumb {
+  width: calc(var(--tale-switch-thumb-size) * 0.8);
+  height: calc(var(--tale-switch-thumb-size) * 0.8);
 }

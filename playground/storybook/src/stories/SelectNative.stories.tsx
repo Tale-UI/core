@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SelectNative } from '@tale-ui/react/select-native';
 
 type Args = {
-  size: 'sm' | 'md' | 'lg';
+  size: 'sm' | 'md';
   disabled: boolean;
 };
 
@@ -10,7 +10,7 @@ const meta: Meta<Args> = {
   title: 'Components/SelectNative',
   parameters: { layout: 'centered' },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['sm', 'md'] },
     disabled: { control: 'boolean' },
   },
   args: {
@@ -46,9 +46,6 @@ export const Sizes: Story = {
         <SelectNative size="md">
           <option>Medium</option>
         </SelectNative>
-        <SelectNative size="lg">
-          <option>Large</option>
-        </SelectNative>
       </div>
     );
   },
@@ -68,9 +65,9 @@ export const Disabled: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const sizes = ['sm', 'md', 'lg'] as const;
+    const sizes = ['sm', 'md'] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(2, auto)', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         <div className="story-label">Default</div>
