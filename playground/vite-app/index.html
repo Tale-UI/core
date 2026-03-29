@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tale UI Vite Playground</title>
     <script>
-      const saved = localStorage.getItem('pg-color-mode');
-      const mode = saved ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-color-mode', mode);
+      // Scale app (Theme Playground) is the authority for data-color-mode.
+      // Read persisted bg before Scale mounts to prevent flash.
+      localStorage.removeItem('color-mode');
+      var bg = localStorage.getItem('scale-bg') || 'light';
+      document.documentElement.setAttribute('data-color-mode', bg === 'dark' || bg === 'accent' ? 'dark' : 'light');
     </script>
   </head>
-  <body>
+  <body class="tale-ui">
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
   </body>

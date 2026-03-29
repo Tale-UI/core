@@ -4,7 +4,7 @@
  * Styled with @tale-ui/core design tokens.
  * Custom component (not React Aria). Inline notification banners.
  *
- * Variants: info (default), success, warning, error — via .color-* theme classes
+ * Variants: info (default), success, warning, error
  * Sizes: sm, md (default)
  *
  * Usage:
@@ -39,6 +39,25 @@
   padding: var(--space-2xs) var(--space-2xs);
   font-size: var(--text-xs-font-size);
   line-height: var(--text-xs-line-height);
+}
+
+/* ─── Variant: info (default) — uses neutral tokens ───────────────────────── */
+
+.tale-banner--info {
+  border-color: var(--neutral-80);
+  background-color: var(--neutral-90);
+}
+
+.tale-banner--info .tale-banner__icon {
+  color: var(--neutral-5);
+}
+
+.tale-banner--info .tale-banner__title {
+  color: var(--neutral-5);
+}
+
+.tale-banner--info .tale-banner__description {
+  color: var(--neutral-14);
 }
 
 /* Variants (success, warning, error) are applied via .color-* theme classes
@@ -78,8 +97,53 @@
   flex-shrink: 0;
 }
 
+/* ─── Action buttons ──────────────────────────────────────────────────────── */
+
+/* Default action buttons for color-based variants (success, warning, error) */
+.tale-banner__actions .tale-button {
+  background-color: transparent;
+  color: var(--color-80);
+  border-color: transparent;
+}
+
+.tale-banner__actions .tale-button:hover:not([data-disabled], [data-pending]) {
+  background-color: color-mix(in srgb, var(--color-80) 12%, transparent);
+  color: var(--color-90);
+}
+
+/* Info variant action buttons — light text on dark neutral background */
+.tale-banner--info .tale-banner__actions .tale-button {
+  color: var(--neutral-5);
+}
+
+.tale-banner--info .tale-banner__actions .tale-button:hover:not([data-disabled], [data-pending]) {
+  background-color: color-mix(in srgb, var(--neutral-5) 15%, transparent);
+  color: var(--neutral-5);
+}
+
+.tale-banner__actions .tale-button:active:not([data-disabled], [data-pending]) {
+  background-color: color-mix(in srgb, var(--color-80) 8%, transparent);
+}
+
+.tale-banner--info .tale-banner__actions .tale-button:active:not([data-disabled], [data-pending]) {
+  background-color: color-mix(in srgb, var(--neutral-5) 10%, transparent);
+}
+
 /* ─── Close (uses .tale-icon-button--sm .tale-button--ghost base) ──────────── */
 
 .tale-banner__close {
   flex-shrink: 0;
+}
+
+.tale-banner--info .tale-banner__close {
+  color: var(--neutral-5);
+}
+
+.tale-banner--info .tale-banner__close:hover:not([data-disabled]) {
+  background-color: color-mix(in srgb, var(--neutral-5) 15%, transparent);
+  color: var(--neutral-5);
+}
+
+.tale-banner--info .tale-banner__close:active:not([data-disabled]) {
+  background-color: color-mix(in srgb, var(--neutral-5) 10%, transparent);
 }

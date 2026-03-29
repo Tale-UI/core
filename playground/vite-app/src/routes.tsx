@@ -1,7 +1,10 @@
 import type * as React from 'react';
 import ComponentAudit from './demos/ComponentAudit';
-import RandomColorDemo from './demos/RandomColorDemo';
-import RecipePlayground from './demos/RecipePlayground';
+import ScaleDemo from './demos/ScaleDemo';
+import FormWithValidation from './demos/recipes/FormWithValidation';
+import DataTableWithSorting from './demos/recipes/DataTableWithSorting';
+import SearchWithAutocomplete from './demos/recipes/SearchWithAutocomplete';
+import SettingsPage from './demos/recipes/SettingsPage';
 import ContainedTriggers from './experiments/perf/contained-triggers';
 import DetachedTriggers from './experiments/perf/detached-triggers';
 import RadixTriggers from './experiments/perf/radix-triggers';
@@ -27,6 +30,14 @@ export type RouteEntry =
 export const defaultRoute = '/perf/contained-triggers';
 
 export const routes: RouteEntry[] = [
+  { type: 'header', label: 'Tools' },
+  {
+    type: 'route',
+    path: '/scale',
+    label: 'Theme playground',
+    element: <ScaleDemo />,
+    showInNav: true,
+  },
   { type: 'header', label: 'Components' },
   {
     type: 'route',
@@ -35,18 +46,33 @@ export const routes: RouteEntry[] = [
     element: <ComponentAudit />,
     showInNav: true,
   },
+  { type: 'header', label: 'Recipes' },
   {
     type: 'route',
-    path: '/recipes',
-    label: 'Recipe playground',
-    element: <RecipePlayground />,
+    path: '/recipes/form-with-validation',
+    label: 'Form with validation',
+    element: <FormWithValidation />,
     showInNav: true,
   },
   {
     type: 'route',
-    path: '/random-color',
-    label: 'Random color demo',
-    element: <RandomColorDemo />,
+    path: '/recipes/data-table',
+    label: 'Data table with sorting',
+    element: <DataTableWithSorting />,
+    showInNav: true,
+  },
+  {
+    type: 'route',
+    path: '/recipes/search-autocomplete',
+    label: 'Search with autocomplete',
+    element: <SearchWithAutocomplete />,
+    showInNav: true,
+  },
+  {
+    type: 'route',
+    path: '/recipes/settings-page',
+    label: 'Settings page',
+    element: <SettingsPage />,
     showInNav: true,
   },
   { type: 'header', label: 'Performance benchmarks' },

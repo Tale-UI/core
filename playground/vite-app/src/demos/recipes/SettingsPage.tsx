@@ -1,0 +1,86 @@
+import { Form } from '@tale-ui/react/form';
+import { Fieldset } from '@tale-ui/react/fieldset';
+import { TextField } from '@tale-ui/react/text-field';
+import { Select } from '@tale-ui/react/select';
+import { Switch } from '@tale-ui/react/switch';
+import { Radio } from '@tale-ui/react/radio';
+import { Separator } from '@tale-ui/react/separator';
+import { Button } from '@tale-ui/react/button';
+
+export default function SettingsPage() {
+  return (
+    <div style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}>
+      <h1>Settings Page</h1>
+      <Form onSubmit={(e) => { e.preventDefault(); }}>
+        <Fieldset.Root>
+          <Fieldset.Legend>Notifications</Fieldset.Legend>
+
+          <Switch.Root defaultSelected>
+            <Switch.Thumb />
+            Email notifications
+          </Switch.Root>
+
+          <Switch.Root>
+            <Switch.Thumb />
+            Push notifications
+          </Switch.Root>
+
+          <Switch.Root defaultSelected>
+            <Switch.Thumb />
+            Weekly digest
+          </Switch.Root>
+        </Fieldset.Root>
+
+        <Separator />
+
+        <Fieldset.Root>
+          <Fieldset.Legend>Appearance</Fieldset.Legend>
+
+          <Radio.Group defaultValue="system" label="Theme">
+            <Radio.Root value="light"><Radio.Indicator />Light</Radio.Root>
+            <Radio.Root value="dark"><Radio.Indicator />Dark</Radio.Root>
+            <Radio.Root value="system"><Radio.Indicator />System</Radio.Root>
+          </Radio.Group>
+
+          <Select.Root defaultValue="comfortable" placeholder="Select density">
+            <Select.Label>Display Density</Select.Label>
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Icon />
+            </Select.Trigger>
+            <Select.Popover>
+              <Select.ListBox>
+                <Select.Item id="compact">Compact</Select.Item>
+                <Select.Item id="comfortable">Comfortable</Select.Item>
+                <Select.Item id="spacious">Spacious</Select.Item>
+              </Select.ListBox>
+            </Select.Popover>
+          </Select.Root>
+        </Fieldset.Root>
+
+        <Separator />
+
+        <Fieldset.Root>
+          <Fieldset.Legend>Profile</Fieldset.Legend>
+
+          <TextField.Root>
+            <TextField.Label>Display Name</TextField.Label>
+            <TextField.Input defaultValue="Jane Doe" />
+          </TextField.Root>
+
+          <TextField.Root type="email">
+            <TextField.Label>Email</TextField.Label>
+            <TextField.Input defaultValue="jane@example.com" />
+          </TextField.Root>
+        </Fieldset.Root>
+
+        <Separator />
+
+        <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end' }}>
+          <Button type="reset" variant="ghost">Cancel</Button>
+          <Button type="submit" variant="primary">Save Changes</Button>
+        </div>
+      </Form>
+    </div>
+  );
+}

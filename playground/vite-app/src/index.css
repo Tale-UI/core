@@ -13,7 +13,7 @@ body {
 }
 
 .pg-container {
-  max-width: 64rem;
+  /* max-width: 64rem; */
   margin: 0 auto;
   padding-inline: var(--space-s);
 }
@@ -58,6 +58,8 @@ body {
 
 .pg-main {
   padding-block: var(--space-l);
+  width: 100%;
+  max-width: 1270px;
 }
 
 /* ─── Logo ──────────────────────────────────────────────────────────────────── */
@@ -76,6 +78,59 @@ body {
   width: 2.4rem;
   height: 2.4rem;
   flex-shrink: 0;
+}
+
+.pg-header-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.pg-header-link {
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--neutral-70);
+  text-decoration: none;
+}
+
+.pg-header-link:hover {
+  color: var(--neutral-90);
+}
+
+.pg-header-btn {
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  font-family: inherit;
+  color: var(--neutral-70);
+  background: none;
+  border: 1px solid var(--neutral-26);
+  border-radius: var(--radius-s);
+  padding: var(--space-4xs) var(--space-xs);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.pg-header-btn:hover {
+  background-color: var(--neutral-14);
+  color: var(--neutral-90);
+  border-color: var(--neutral-30);
+}
+
+.pg-header-modes {
+  display: flex;
+  gap: 1px;
+}
+
+.pg-header-modes .pg-header-btn {
+  border-radius: 0;
+}
+
+.pg-header-modes .pg-header-btn:first-child {
+  border-radius: var(--radius-s) 0 0 var(--radius-s);
+}
+
+.pg-header-modes .pg-header-btn:last-child {
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
 }
 
 /* ─── Nav ───────────────────────────────────────────────────────────────────── */

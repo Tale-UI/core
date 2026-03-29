@@ -212,7 +212,7 @@ const RadiusTokenValue = styled.span`
   color: var(--neutral-40);
 `
 
-const DEFAULT_NAMED_COLOR   = 'dc2626'
+const DEFAULT_NAMED_COLOR   = '025768'
 const DEFAULT_NEUTRAL_COLOR = '79716b'
 const DEFAULT_MODE          = 'named'
 const DEFAULT_BG            = 'light'
@@ -280,7 +280,9 @@ const ScaleApp = () => {
   const [namedColor,   setNamedColor]   = useState(initial.namedColor)
   const [neutralColor, setNeutralColor] = useState(initial.neutralColor)
   const [mode,         setMode]         = useState(initial.mode)
-  const [bgColor,      setBgColor]      = useState(DEFAULT_BG)
+  const [bgColor,      setBgColor]      = useState(() => {
+    try { return localStorage.getItem('scale-bg') || DEFAULT_BG } catch { return DEFAULT_BG }
+  })
   const [switchPoint,  setSwitchPoint]  = useState(null)  // null = auto
   const [whiteAnchor,  setWhiteAnchor]  = useState(false)
   const [curvature,    setCurvature]    = useState(initial.curvature ?? 1)
@@ -332,6 +334,7 @@ const ScaleApp = () => {
 
   // Update background and toggle dark/light mode on the design system
   useEffect(() => {
+    try { localStorage.setItem('scale-bg', bgColor) } catch { /* quota */ }
     const embedded = document.querySelector('[data-scale-app]')
     var isAccent = bgColor === 'accent'
     if (embedded) {
@@ -342,9 +345,7 @@ const ScaleApp = () => {
         embedded.style.removeProperty('--neutral-5')
       }
       embedded.style.backgroundColor = 'var(--neutral-5)'
-      embedded.classList.toggle('dark', !bgIsLight)
-      embedded.classList.toggle('light', bgIsLight)
-      // Also set data-color-mode on <html> to silence the OS dark media query
+      embedded.setAttribute('data-color-mode', bgIsLight ? 'light' : 'dark')
       document.documentElement.setAttribute('data-color-mode', bgIsLight ? 'light' : 'dark')
 
       // Re-define fg tokens on the embedded element so var(--neutral-5) / var(--neutral-100)
@@ -376,8 +377,6 @@ const ScaleApp = () => {
         root.style.removeProperty('--neutral-5')
       }
       root.setAttribute('data-color-mode', bgIsLight ? 'light' : 'dark')
-      root.classList.toggle('dark', !bgIsLight)
-      root.classList.toggle('light', bgIsLight)
 
       // Re-define fg tokens so var(--neutral-5) / var(--neutral-100)
       // resolve correctly for the active color mode
@@ -480,6 +479,19 @@ const ScaleApp = () => {
     return () => { if (hashUpdateTimeoutRef.current) clearTimeout(hashUpdateTimeoutRef.current) }
   }, [namedColor, neutralColor, mode, curvature])
 
+  const resetToDefaults = () => {
+    setNamedColor(DEFAULT_NAMED_COLOR)
+    setNeutralColor(DEFAULT_NEUTRAL_COLOR)
+    setMode(DEFAULT_MODE)
+    setSwitchPoint(null)
+    setWhiteAnchor(false)
+    setCurvature(1)
+    try {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search)
+      latestHashRef.current = ''
+    } catch { /* ignore */ }
+  }
+
   const handleMainColorChange = (e) => {
     const raw = e.target.value.replace(/#/g, '').replace(/[^0-9a-fA-F]/g, '').slice(0, 6)
     setMainColor(raw)
@@ -493,6 +505,21 @@ const ScaleApp = () => {
     setNamedColor(randomBaseColor('named').replace('#', ''))
     setNeutralColor(randomBaseColor('neutral').replace('#', ''))
   }
+
+  // Listen for external requests from the playground header
+  useEffect(() => {
+    const onRandomize = () => handleRandomizeBoth()
+    const onSetBg = (e) => setBgColor(e.detail)
+    const onReset = () => resetToDefaults()
+    window.addEventListener('scale:randomize-both', onRandomize)
+    window.addEventListener('scale:set-bg', onSetBg)
+    window.addEventListener('scale:reset', onReset)
+    return () => {
+      window.removeEventListener('scale:randomize-both', onRandomize)
+      window.removeEventListener('scale:set-bg', onSetBg)
+      window.removeEventListener('scale:reset', onReset)
+    }
+  })
 
   return (
     <MainWrapper className="tale-ui">
@@ -539,6 +566,14 @@ const ScaleApp = () => {
           title="Randomize both named and neutral colours"
         >
           Randomize both
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onPress={resetToDefaults}
+          title="Reset all settings to design system defaults"
+        >
+          Reset to defaults
         </Button>
         {mode === 'neutral' && (
           <ToggleButton

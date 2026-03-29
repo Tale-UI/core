@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router';
+import { BrowserRouter, Link, Navigate, Route, Routes, useLocation } from 'react-router';
 import { Home } from './Home';
 import { routes } from './routes';
+import ScaleDemo from './demos/ScaleDemo';
 import '@tale-ui/react-styles/index.css';
 import './index.css';
 
@@ -18,6 +19,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 
 export function App() {
+  const { pathname } = useLocation();
+  const isScale = pathname === '/scale' || pathname === `${routerBase}/scale`;
+
   return (
     <div>
       <header className="pg-header">
@@ -26,13 +30,40 @@ export function App() {
             <img src={`${baseUrl}tale-ui-logo.svg`} alt="Tale UI logo" />
             Tale UI playground
           </Link>
+          <nav className="pg-header-nav">
+            <Link className="pg-header-link" to="/scale">Theme Playground</Link>
+            <button
+              className="pg-header-btn"
+              onClick={() => window.dispatchEvent(new Event('scale:randomize-both'))}
+              title="Randomize both named and neutral colours"
+            >
+              Randomize theme
+            </button>
+            <button
+              className="pg-header-btn"
+              onClick={() => window.dispatchEvent(new Event('scale:reset'))}
+              title="Reset theme to design system defaults"
+            >
+              Reset theme
+            </button>
+            <div className="pg-header-modes">
+              <button className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'light' }))}>Light</button>
+              <button className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'dark' }))}>Dark</button>
+              <button className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'accent' }))}>Accent</button>
+            </div>
+          </nav>
         </div>
       </header>
-      <main className="pg-container pg-main">
+      {/* Scale app is always mounted to preserve state and global CSS effects */}
+      <div style={{ display: isScale ? undefined : 'none' }}>
+        <ScaleDemo />
+      </div>
+      <main className="pg-container pg-main" style={{ display: isScale ? 'none' : undefined }}>
         <Routes>
           <Route path="/" element={<Home />} />
           {routes.map((entry) => {
             if (entry.type === 'route') {
+              if (entry.path === '/scale') return null;
               return <Route key={entry.path} path={entry.path} element={entry.element} />;
             }
 

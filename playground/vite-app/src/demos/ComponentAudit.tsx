@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useFilter, parseColor } from 'react-aria-components';
+import { useFilter, parseColor, Switch as AriaSwitch } from 'react-aria-components';
 import type { SortDescriptor } from 'react-aria-components';
 import '@tale-ui/react-styles/index.css';
 import './ComponentAudit.css';
@@ -120,7 +120,6 @@ import { Tree } from '@tale-ui/react/tree';
 // Interaction
 import { DropZone } from '@tale-ui/react/drop-zone';
 import { FileTrigger } from '@tale-ui/react/file-trigger';
-import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 
 // New components
 import { Badge } from '@tale-ui/react/badge';
@@ -156,6 +155,33 @@ function SubHeading({ children }: { children: React.ReactNode }) {
 
 function Row({ children, className }: { children: React.ReactNode; className?: string }) {
   return <div className={`audit__demo-row${className ? ` ${className}` : ''}`}>{children}</div>;
+}
+
+/** Visual-only ColorModeToggle that delegates to the Scale app instead of touching <html>. */
+function InertColorModeToggle({ disabled }: { disabled?: boolean }) {
+  const [dark, setDark] = React.useState(() =>
+    document.documentElement.getAttribute('data-color-mode') === 'dark'
+  );
+
+  React.useEffect(() => {
+    const obs = new MutationObserver(() => {
+      setDark(document.documentElement.getAttribute('data-color-mode') === 'dark');
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <AriaSwitch
+      aria-label="Toggle dark mode"
+      isSelected={dark}
+      onChange={(v) => {
+        window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: v ? 'dark' : 'light' }));
+      }}
+      className="tale-color-mode-toggle"
+      isDisabled={disabled}
+    />
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -666,94 +692,8 @@ function ControlledTabsDemo() {
 
 const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape'];
 
-const CSS_OVERRIDE_KEY = 'tale-ui-audit-css-override';
-
 export default function ComponentAudit() {
-  const [cssOverride, setCssOverride] = React.useState(() => {
-    try { return localStorage.getItem(CSS_OVERRIDE_KEY) ?? ''; } catch { return ''; }
-  });
-  const [panelOpen, setPanelOpen] = React.useState(() => cssOverride.length > 0);
-
-  // Extract .color-*, .neutral-*, and .tale-ui class names from pasted CSS so
-  // we can apply them to the DOM (the Scale app scopes overrides to these).
-  // .tale-ui goes on <body> so descendant selectors like
-  // `:where(html:not(...)) .tale-ui` match; the rest go on <html>.
-  const { htmlClasses, hasTaleUi } = React.useMemo(() => {
-    const classes = new Set<string>();
-    let taleUi = false;
-    const re = /\.(color-[a-z][\w-]*|neutral-[a-z][\w-]*|tale-ui)\b/g;
-    let m: RegExpExecArray | null;
-    while ((m = re.exec(cssOverride))) {
-      if (m[1] === 'tale-ui') taleUi = true;
-      else classes.add(m[1]);
-    }
-    return { htmlClasses: [...classes].join(' '), hasTaleUi: taleUi };
-  }, [cssOverride]);
-
-  React.useEffect(() => {
-    const STYLE_ID = 'tale-ui-css-override';
-    let el = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!el) {
-      el = document.createElement('style');
-      el.id = STYLE_ID;
-      document.head.appendChild(el);
-    }
-    el.textContent = cssOverride;
-    try { localStorage.setItem(CSS_OVERRIDE_KEY, cssOverride); } catch { /* quota */ }
-    return () => { el?.remove(); };
-  }, [cssOverride]);
-
-  // Apply .color-* / .neutral-* to <html> so overridden tokens cascade everywhere.
-  React.useEffect(() => {
-    const root = document.documentElement;
-    const classes = htmlClasses.split(' ').filter(Boolean);
-    classes.forEach(c => root.classList.add(c));
-    return () => { classes.forEach(c => root.classList.remove(c)); };
-  }, [htmlClasses]);
-
-  // Apply .tale-ui to <body> (not <html>) so the Scale app's descendant
-  // selectors like `:where(html:not(...)) .tale-ui` match correctly.
-  React.useEffect(() => {
-    if (hasTaleUi) document.body.classList.add('tale-ui');
-    return () => { document.body.classList.remove('tale-ui'); };
-  }, [hasTaleUi]);
-
   return (
-    <>
-    {/* CSS Override Panel */}
-    <div className="audit__override-panel">
-      <button
-        onClick={() => setPanelOpen(p => !p)}
-        className="audit__override-toggle"
-      >
-        <span className={`audit__override-chevron${panelOpen ? ' audit__override-chevron--open' : ''}`}>
-          &#9654;
-        </span>
-        CSS Override
-        {cssOverride.trim() && <span className="audit__override-label">(active)</span>}
-      </button>
-
-      {panelOpen && (
-        <div className="audit__override-body">
-          <textarea
-            value={cssOverride}
-            onChange={e => setCssOverride(e.target.value)}
-            placeholder={'Paste CSS from Scale app here…\ne.g. :root { --red-60: #e53e3e; }\n     .color-red { --brand-60: var(--red-60); }'}
-            spellCheck={false}
-            className="audit__override-textarea"
-          />
-          <div className="audit__override-actions">
-            <button
-              onClick={() => setCssOverride('')}
-              className="audit__override-button"
-            >
-              Clear
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-
     <div className="audit">
       {/* TOC */}
       <nav className="audit__sidebar">
@@ -815,13 +755,13 @@ export default function ComponentAudit() {
         {/* ============================================================= */}
 
         <Section id="color-mode-toggle" title="ColorModeToggle" classes={['tale-color-mode-toggle']}>
-          <SubHeading>Default</SubHeading>
+          <SubHeading>Default (controls Theme Playground background)</SubHeading>
           <Row>
-            <ColorModeToggle />
+            <InertColorModeToggle />
           </Row>
           <SubHeading>Disabled</SubHeading>
           <Row>
-            <ColorModeToggle isDisabled />
+            <InertColorModeToggle disabled />
           </Row>
         </Section>
 
@@ -3519,6 +3459,5 @@ export default function ComponentAudit() {
 
       </main>
     </div>
-    </>
   );
 }
