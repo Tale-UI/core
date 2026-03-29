@@ -81,8 +81,9 @@ Also accepts all standard `<span>` HTML attributes.
 ## CSS Classes
 
 - `.tale-badge` -- Base
-- `.tale-badge--neutral` / `--brand` / `--error` / `--warning` / `--success` -- Semantic variant modifiers
-- `.tale-badge--red` / `--orange` / `--amber` / `--yellow` / `--lime` / `--green` / `--emerald` / `--teal` / `--cyan` / `--sky` / `--indigo` / `--violet` / `--purple` / `--fuchsia` / `--pink` / `--rose` -- Named color modifiers
+- `.tale-badge--neutral` -- Neutral variant (uses `--neutral-*` tokens)
+- `.tale-badge--color` -- Color variant (uses `--color-*` tokens). Combined with `.color-*` theme classes to switch palette.
+- `.color-error` / `.color-warning` / `.color-success` / `.color-red` / `.color-orange` etc. -- Theme class from `@tale-ui/core` that remaps `--color-*` tokens to the named palette. Applied automatically by the React component.
 - `.tale-badge--sm` / `--md` / `--lg` -- Size modifiers
 - `.tale-badge--rounded` / `--modern` -- Type modifiers (pill is default, no extra class)
 
@@ -91,3 +92,5 @@ Also accepts all standard `<span>` HTML attributes.
 - Custom component -- not built on a React Aria primitive.
 - Default variant is `neutral`, default size is `md`, default type is `pill`.
 - Renders a `<span>` element. Pass `children` for the label text.
+- The `brand` variant uses `--color-*` tokens directly (the brand palette). All other non-neutral variants apply a `.color-*` theme class to remap the palette.
+- Color variant backgrounds use `color-mix(in srgb, var(--color-60) 15%, var(--neutral-5))` for a subtle tinted background.

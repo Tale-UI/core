@@ -2,6 +2,12 @@
 
 All notable changes to the utility library are documented in this file.
 
+## v1.3.39 — 2026-03-30
+
+### Changed
+
+- Version aligned with `@tale-ui/react` and `@tale-ui/react-styles` at 1.3.39 (no functional changes).
+
 ## v1.3.38 — 2026-03-29
 
 ### Changed

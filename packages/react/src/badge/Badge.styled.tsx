@@ -29,15 +29,24 @@ export interface BadgeProps extends Omit<React.ComponentPropsWithoutRef<'span'>,
  * ```
  */
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ variant = 'neutral', size = 'md', type = 'pill', className, ...props }, ref) => (
-    <span
-      ref={ref}
-      className={cx(
-        `tale-badge tale-badge--${variant} tale-badge--${size}${type !== 'pill' ? ` tale-badge--${type}` : ''}`,
-        className,
-      )}
-      {...props}
-    />
-  ),
+  ({ variant = 'neutral', size = 'md', type = 'pill', className, ...props }, ref) => {
+    const classes = ['tale-badge', `tale-badge--${size}`];
+    if (type !== 'pill') classes.push(`tale-badge--${type}`);
+
+    if (variant === 'neutral') {
+      classes.push('tale-badge--neutral');
+    } else {
+      classes.push('tale-badge--color');
+      if (variant !== 'brand') classes.push(`color-${variant}`);
+    }
+
+    return (
+      <span
+        ref={ref}
+        className={cx(classes.join(' '), className)}
+        {...props}
+      />
+    );
+  },
 );
 Badge.displayName = 'Badge';

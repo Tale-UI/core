@@ -2,6 +2,17 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.39 — 2026-03-30
+
+### Changed
+
+- **Badge:** Simplified to use `.tale-badge--color` + `.color-*` theme classes instead of 20 individual variant CSS classes. Background uses `color-mix(in srgb, var(--color-60) 15%, var(--neutral-5))`.
+- **Banner:** Info variant now applies `.tale-banner--info` class and uses neutral tokens (dark background, light text). Action buttons and close button styled for visibility on dark background.
+
+### Fixed
+
+- **NavigationMenu:** Dropdown demo in ComponentAudit now toggles on click instead of being always open.
+
 ## v1.3.38 — 2026-03-29
 
 ### Added

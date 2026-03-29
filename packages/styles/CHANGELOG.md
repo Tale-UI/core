@@ -2,6 +2,13 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.39 — 2026-03-30
+
+### Changed
+
+- **badge.css:** Replaced 20 individual named-color variant classes with single `.tale-badge--color` using `--color-*` tokens. Background uses `color-mix(in srgb, var(--color-60) 15%, var(--neutral-5))`.
+- **banner.css:** Info variant (`.tale-banner--info`) uses neutral tokens (neutral-90 bg, neutral-5 text). Added custom action button and close button styles for info variant visibility. Color variants use `--color-*` tokens via `.color-*` theme classes.
+
 ## v1.3.38 — 2026-03-29
 
 ### Changed

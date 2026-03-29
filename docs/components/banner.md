@@ -96,10 +96,9 @@ Also accepts all standard `<div>` HTML attributes.
 
 ## CSS Classes
 
-- `.tale-banner` — Root container (info variant by default)
-- `.tale-banner--success` — Success variant
-- `.tale-banner--warning` — Warning variant
-- `.tale-banner--error` — Error variant
+- `.tale-banner` — Root container
+- `.tale-banner--info` — Info variant (uses `--neutral-*` tokens — dark background with light text)
+- `.color-success` / `.color-warning` / `.color-error` — Theme class from `@tale-ui/core` applied for non-info variants. Remaps `--color-*` tokens to the semantic palette. Applied automatically by the React component.
 - `.tale-banner--sm` — Small size
 - `.tale-banner__icon` — Icon container
 - `.tale-banner__title` — Title text
@@ -111,6 +110,7 @@ Also accepts all standard `<div>` HTML attributes.
 
 - Custom component — not built on a React Aria primitive.
 - Uses `role="status"` for accessibility.
-- The `info` variant uses `--color-*` tokens (auto-invert in dark mode). The `success`, `warning`, and `error` variants use semantic tokens (`--success-*`, `--warning-*`, `--error-*`) which do NOT invert in dark mode — this is intentional for status indicators.
+- The `info` variant uses `--neutral-*` tokens (dark `neutral-90` background, `neutral-5` text). Action buttons and close button are styled for visibility on this dark background.
+- The `success`, `warning`, and `error` variants use `--color-*` tokens, switched via `.color-*` theme classes.
 - `Banner.Close` has a default `aria-label="Dismiss"` and renders a default X icon via the `Icon` component. Pass children to override.
 - All parts are optional. Use only what you need.

@@ -371,6 +371,32 @@ function CalendarSection() {
 // ColorPicker.Root, so we use standalone components with useState)
 // ---------------------------------------------------------------------------
 
+function NavMenuDropdownDemo() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <NavigationMenu.Root>
+      <NavigationMenu.List>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Trigger onClick={() => setOpen(o => !o)}>
+            Products <NavigationMenu.Icon />
+          </NavigationMenu.Trigger>
+          {open && (
+            <NavigationMenu.Popup>
+              <NavigationMenu.Content>
+                <NavigationMenu.Link href="#">Widget</NavigationMenu.Link>
+                <NavigationMenu.Link href="#">Gadget</NavigationMenu.Link>
+              </NavigationMenu.Content>
+            </NavigationMenu.Popup>
+          )}
+        </NavigationMenu.Item>
+      </NavigationMenu.List>
+    </NavigationMenu.Root>
+  );
+}
+
 function ColorPickerDemo() {
   const [color, setColor] = React.useState(parseColor('hsb(200, 100%, 100%)'));
   return (
@@ -1882,24 +1908,7 @@ export default function ComponentAudit() {
             </NavigationMenu.List>
           </NavigationMenu.Root>
           <SubHeading>With Dropdown &amp; Icon</SubHeading>
-          <NavigationMenu.Root>
-            <NavigationMenu.List>
-              <NavigationMenu.Item>
-                <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
-              </NavigationMenu.Item>
-              <NavigationMenu.Item>
-                <NavigationMenu.Trigger>
-                  Products <NavigationMenu.Icon />
-                </NavigationMenu.Trigger>
-                <NavigationMenu.Popup>
-                  <NavigationMenu.Content>
-                    <NavigationMenu.Link href="#">Widget</NavigationMenu.Link>
-                    <NavigationMenu.Link href="#">Gadget</NavigationMenu.Link>
-                  </NavigationMenu.Content>
-                </NavigationMenu.Popup>
-              </NavigationMenu.Item>
-            </NavigationMenu.List>
-          </NavigationMenu.Root>
+          <NavMenuDropdownDemo />
         </Section>
 
         <Section id="menubar" title="Menubar" classes={['tale-menubar', 'tale-menubar__item']}>
