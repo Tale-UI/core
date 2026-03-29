@@ -96,3 +96,21 @@ export const GroupedSizes: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const providers = ['google', 'github', 'apple', 'x', 'facebook'] as const;
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 280px)', gap: '1.2rem' }}>
+        {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+        {providers.map((p) =>
+          sizes.map((s) => (
+            <SocialButton key={`${p}-${s}`} provider={p} size={s}>Sign in with {p}</SocialButton>
+          )),
+        )}
+      </div>
+    );
+  },
+};

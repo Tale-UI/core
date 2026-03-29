@@ -48,3 +48,35 @@ export const MultipleSeries: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Single Series</span>
+          <LineChart.Root data={monthlyData} width={600} height={250}>
+            <LineChart.Grid />
+            <LineChart.XAxis dataKey="month" />
+            <LineChart.YAxis />
+            <LineChart.Tooltip />
+            <LineChart.Line dataKey="revenue" />
+          </LineChart.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Multiple Series</span>
+          <LineChart.Root data={monthlyData} width={600} height={250}>
+            <LineChart.Grid strokeDasharray="3 3" />
+            <LineChart.XAxis dataKey="month" />
+            <LineChart.YAxis />
+            <LineChart.Tooltip />
+            <LineChart.Legend />
+            <LineChart.Line dataKey="revenue" />
+            <LineChart.Line dataKey="profit" />
+          </LineChart.Root>
+        </div>
+      </div>
+    );
+  },
+};

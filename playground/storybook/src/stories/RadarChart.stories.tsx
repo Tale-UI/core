@@ -46,3 +46,35 @@ export const SingleSeries: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Multiple Series</span>
+          <RadarChart.Root data={radarData} width={600} height={350}>
+            <RadarChart.PolarGrid />
+            <RadarChart.PolarAngleAxis dataKey="subject" />
+            <RadarChart.Tooltip />
+            <RadarChart.Legend />
+            <RadarChart.Radar dataKey="A" />
+            <RadarChart.Radar dataKey="B" />
+          </RadarChart.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Single Series</span>
+          <RadarChart.Root data={radarData} width={600} height={350}>
+            <RadarChart.PolarGrid />
+            <RadarChart.PolarAngleAxis dataKey="subject" />
+            <RadarChart.PolarRadiusAxis />
+            <RadarChart.Tooltip />
+            <RadarChart.Radar dataKey="A" />
+          </RadarChart.Root>
+        </div>
+      </div>
+    );
+  },
+};

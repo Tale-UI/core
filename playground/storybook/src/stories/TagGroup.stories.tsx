@@ -93,3 +93,72 @@ export const WithSelection: Story = {
     );
   },
 };
+
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const [tags, setTags] = useState([
+      { id: 'react', name: 'React' },
+      { id: 'vue', name: 'Vue' },
+      { id: 'svelte', name: 'Svelte' },
+    ]);
+
+    const handleRemove = (keys: Selection) => {
+      setTags((prev) =>
+        prev.filter((tag) => !(keys as Set<string>).has(tag.id)),
+      );
+    };
+
+    return (
+      <div className="story-cards" style={{ gap: '2rem' }}>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Default</p>
+          <TagGroup.Root>
+            <TagGroup.Label>Categories</TagGroup.Label>
+            <TagGroup.List>
+              <TagGroup.Tag id="react">React</TagGroup.Tag>
+              <TagGroup.Tag id="vue">Vue</TagGroup.Tag>
+              <TagGroup.Tag id="angular">Angular</TagGroup.Tag>
+            </TagGroup.List>
+          </TagGroup.Root>
+        </div>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Removable</p>
+          <TagGroup.Root onRemove={handleRemove}>
+            <TagGroup.Label>Frameworks</TagGroup.Label>
+            <TagGroup.List>
+              {tags.map((tag) => (
+                <TagGroup.Tag key={tag.id} id={tag.id}>
+                  {tag.name}
+                </TagGroup.Tag>
+              ))}
+            </TagGroup.List>
+          </TagGroup.Root>
+        </div>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Selectable</p>
+          <TagGroup.Root selectionMode="multiple">
+            <TagGroup.Label>Skills</TagGroup.Label>
+            <TagGroup.List>
+              <TagGroup.Tag id="ts">TypeScript</TagGroup.Tag>
+              <TagGroup.Tag id="rust">Rust</TagGroup.Tag>
+              <TagGroup.Tag id="go">Go</TagGroup.Tag>
+            </TagGroup.List>
+          </TagGroup.Root>
+        </div>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Disabled tags</p>
+          <TagGroup.Root disabledKeys={['a', 'b', 'c']}>
+            <TagGroup.Label>Disabled</TagGroup.Label>
+            <TagGroup.List>
+              <TagGroup.Tag id="a">Alpha</TagGroup.Tag>
+              <TagGroup.Tag id="b">Beta</TagGroup.Tag>
+              <TagGroup.Tag id="c">Gamma</TagGroup.Tag>
+            </TagGroup.List>
+          </TagGroup.Root>
+        </div>
+      </div>
+    );
+  },
+};

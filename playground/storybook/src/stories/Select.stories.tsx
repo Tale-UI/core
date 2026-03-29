@@ -3,6 +3,7 @@ import { Select } from '@tale-ui/react/select';
 
 type Args = {
   isDisabled?: boolean;
+  size: 'sm' | 'md' | 'lg';
 };
 
 const meta: Meta<Args> = {
@@ -16,9 +17,14 @@ const meta: Meta<Args> = {
   ],
   argTypes: {
     isDisabled: { control: 'boolean' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+    },
   },
   args: {
     isDisabled: false,
+    size: 'md',
   },
 };
 
@@ -28,7 +34,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled} placeholder="Select a fruit…">
+    <Select.Root isDisabled={args.isDisabled} size={args.size} placeholder="Select a fruit…">
       <Select.Trigger>
         <Select.Value />
         <Select.Icon />
@@ -48,7 +54,7 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled} placeholder="Choose one…">
+    <Select.Root isDisabled={args.isDisabled} size={args.size} placeholder="Choose one…">
       <Select.Label>Favorite fruit</Select.Label>
       <Select.Trigger>
         <Select.Value />
@@ -67,7 +73,7 @@ export const WithLabel: Story = {
 
 export const WithGroups: Story = {
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled} placeholder="Select a food…">
+    <Select.Root isDisabled={args.isDisabled} size={args.size} placeholder="Select a food…">
       <Select.Label>Food</Select.Label>
       <Select.Trigger>
         <Select.Value />
@@ -95,7 +101,7 @@ export const WithGroups: Story = {
 
 export const WithDisabledItems: Story = {
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled} placeholder="Select…">
+    <Select.Root isDisabled={args.isDisabled} size={args.size} placeholder="Select…">
       <Select.Label>Available options</Select.Label>
       <Select.Trigger>
         <Select.Value />
@@ -119,7 +125,7 @@ export const Disabled: Story = {
     isDisabled: true,
   },
   render: (args) => (
-    <Select.Root isDisabled={args.isDisabled} placeholder="Cannot select…">
+    <Select.Root isDisabled={args.isDisabled} size={args.size} placeholder="Cannot select…">
       <Select.Label>Disabled select</Select.Label>
       <Select.Trigger>
         <Select.Value />
@@ -132,4 +138,100 @@ export const Disabled: Story = {
       </Select.Popover>
     </Select.Root>
   ),
+};
+
+export const AllSizes: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Select.Root key={size} size={size} isDisabled={args.isDisabled} placeholder={`Size: ${size}`}>
+          <Select.Label>{size.toUpperCase()}</Select.Label>
+          <Select.Trigger>
+            <Select.Value />
+            <Select.Icon />
+          </Select.Trigger>
+          <Select.Popover>
+            <Select.ListBox>
+              <Select.Item id={`${size}-apple`} textValue="Apple">Apple</Select.Item>
+              <Select.Item id={`${size}-banana`} textValue="Banana">Banana</Select.Item>
+              <Select.Item id={`${size}-cherry`} textValue="Cherry">Cherry</Select.Item>
+            </Select.ListBox>
+          </Select.Popover>
+        </Select.Root>
+      ))}
+    </div>
+  ),
+};
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div className="story-sections">
+        <div>
+          <div className="story-heading">Sizes</div>
+          <div style={{ display: 'flex', gap: '1.2rem' }}>
+            {sizes.map((size) => (
+              <Select.Root key={size} size={size} placeholder={`Size: ${size}`}>
+                <Select.Label>{size}</Select.Label>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Icon />
+                </Select.Trigger>
+                <Select.Popover>
+                  <Select.ListBox>
+                    <Select.Item id={`${size}-a`} textValue="Apple">Apple</Select.Item>
+                    <Select.Item id={`${size}-b`} textValue="Banana">Banana</Select.Item>
+                  </Select.ListBox>
+                </Select.Popover>
+              </Select.Root>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">Disabled</div>
+          <Select.Root isDisabled placeholder="Disabled">
+            <Select.Label>Disabled</Select.Label>
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Icon />
+            </Select.Trigger>
+            <Select.Popover>
+              <Select.ListBox>
+                <Select.Item id="dis-a" textValue="Apple">Apple</Select.Item>
+              </Select.ListBox>
+            </Select.Popover>
+          </Select.Root>
+        </div>
+        <div>
+          <div className="story-heading">With sections</div>
+          <Select.Root placeholder="Select food…">
+            <Select.Label>Food</Select.Label>
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Icon />
+            </Select.Trigger>
+            <Select.Popover>
+              <Select.ListBox>
+                <Select.Section>
+                  <Select.Header>Fruits</Select.Header>
+                  <Select.Item id="sec-apple" textValue="Apple">Apple</Select.Item>
+                  <Select.Item id="sec-banana" textValue="Banana">Banana</Select.Item>
+                </Select.Section>
+                <Select.Section>
+                  <Select.Header>Vegetables</Select.Header>
+                  <Select.Item id="sec-carrot" textValue="Carrot">Carrot</Select.Item>
+                  <Select.Item id="sec-broccoli" textValue="Broccoli">Broccoli</Select.Item>
+                </Select.Section>
+              </Select.ListBox>
+            </Select.Popover>
+          </Select.Root>
+        </div>
+      </div>
+    );
+  },
 };

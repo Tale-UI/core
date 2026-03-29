@@ -7,15 +7,18 @@ import { Check } from 'lucide-react';
 
 type Args = {
   isDisabled?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 };
 
 const meta: Meta<Args> = {
   title: 'Components/CheckboxGroup',
   argTypes: {
     isDisabled: { control: 'boolean' },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
   args: {
     isDisabled: false,
+    size: 'md',
   },
 };
 
@@ -26,7 +29,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <CheckboxGroup label="Favorite fruits" isDisabled={args.isDisabled}>
+    <CheckboxGroup label="Favorite fruits" isDisabled={args.isDisabled} size={args.size}>
       <Checkbox.Root value="apple">
         <Checkbox.Indicator>
           <Icon icon={Check} size="sm" />
@@ -54,7 +57,7 @@ export const Disabled: Story = {
     isDisabled: true,
   },
   render: (args) => (
-    <CheckboxGroup label="Disabled group" isDisabled={args.isDisabled}>
+    <CheckboxGroup label="Disabled group" isDisabled={args.isDisabled} size={args.size}>
       <Checkbox.Root value="apple">
         <Checkbox.Indicator>
           <Icon icon={Check} size="sm" />
@@ -82,6 +85,7 @@ export const WithDescription: Story = {
     <CheckboxGroup
       label="Notification preferences"
       isDisabled={args.isDisabled}
+      size={args.size}
     >
       <Field.Description>Select how you would like to be notified.</Field.Description>
       <Checkbox.Root value="email">
@@ -111,6 +115,7 @@ export const Horizontal: Story = {
     <CheckboxGroup
       label="Pick toppings"
       isDisabled={args.isDisabled}
+      size={args.size}
       className="story-checkbox-horizontal"
     >
       <Checkbox.Root value="cheese">
@@ -133,4 +138,35 @@ export const Horizontal: Story = {
       </Checkbox.Root>
     </CheckboxGroup>
   ),
+};
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div className="story-sections">
+        {sizes.map((size) => (
+          <div key={size}>
+            <div className="story-heading">Size: {size}</div>
+            <div style={{ display: 'flex', gap: '2rem' }}>
+              <CheckboxGroup label="Default" size={size}>
+                <Checkbox.Root value="a"><Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>Apple</Checkbox.Root>
+                <Checkbox.Root value="b"><Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>Banana</Checkbox.Root>
+              </CheckboxGroup>
+              <CheckboxGroup label="Disabled" size={size} isDisabled>
+                <Checkbox.Root value="a"><Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>Apple</Checkbox.Root>
+                <Checkbox.Root value="b"><Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>Banana</Checkbox.Root>
+              </CheckboxGroup>
+              <CheckboxGroup label="With description" size={size}>
+                <Field.Description>Pick your favorites.</Field.Description>
+                <Checkbox.Root value="a"><Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>Apple</Checkbox.Root>
+                <Checkbox.Root value="b"><Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>Banana</Checkbox.Root>
+              </CheckboxGroup>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  },
 };

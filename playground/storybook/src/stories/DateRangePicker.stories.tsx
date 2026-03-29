@@ -67,3 +67,58 @@ export const Default: Story = {
     </DateRangePicker.Root>
   ),
 };
+
+const DateRangePickerExample = ({ isDisabled }: { isDisabled?: boolean }) => (
+  <DateRangePicker.Root isDisabled={isDisabled} className="story-field-full">
+    <DateRangePicker.Label>Date range</DateRangePicker.Label>
+    <DateRangePicker.Group>
+      <DateRangePicker.StartDate>
+        {(segment) => <DateRangePicker.Segment segment={segment} />}
+      </DateRangePicker.StartDate>
+      <span className="story-separator-dash">&ndash;</span>
+      <DateRangePicker.EndDate>
+        {(segment) => <DateRangePicker.Segment segment={segment} />}
+      </DateRangePicker.EndDate>
+      <DateRangePicker.Trigger />
+    </DateRangePicker.Group>
+    <DateRangePicker.Popover>
+      <DateRangePicker.Dialog>
+        <RangeCalendar.Root>
+          <RangeCalendar.Header>
+            <RangeCalendar.PreviousButton />
+            <RangeCalendar.Heading />
+            <RangeCalendar.NextButton />
+          </RangeCalendar.Header>
+          <RangeCalendar.Grid>
+            <RangeCalendar.GridHeader>
+              {(day) => (
+                <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>
+              )}
+            </RangeCalendar.GridHeader>
+            <RangeCalendar.GridBody>
+              {(date) => <RangeCalendar.Cell date={date} />}
+            </RangeCalendar.GridBody>
+          </RangeCalendar.Grid>
+        </RangeCalendar.Root>
+      </DateRangePicker.Dialog>
+    </DateRangePicker.Popover>
+  </DateRangePicker.Root>
+);
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 280px' }}>
+          <p className="story-label">Default</p>
+          <DateRangePickerExample />
+        </div>
+        <div style={{ flex: '1 1 280px' }}>
+          <p className="story-label">Disabled</p>
+          <DateRangePickerExample isDisabled />
+        </div>
+      </div>
+    );
+  },
+};

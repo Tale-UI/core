@@ -109,3 +109,53 @@ export const Controlled: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
+        <div>
+          <div className="story-heading">4-digit</div>
+          <PinInput.Root maxLength={4}>
+            <PinInput.Group>
+              {[0, 1, 2, 3].map((i) => <PinInput.Slot key={i} index={i} />)}
+            </PinInput.Group>
+          </PinInput.Root>
+        </div>
+        <div>
+          <div className="story-heading">6-digit</div>
+          <PinInput.Root maxLength={6}>
+            <PinInput.Group>
+              {[0, 1, 2, 3, 4, 5].map((i) => <PinInput.Slot key={i} index={i} />)}
+            </PinInput.Group>
+          </PinInput.Root>
+        </div>
+        <div>
+          <div className="story-heading">6-digit with separator</div>
+          <PinInput.Root maxLength={6}>
+            <PinInput.Group>
+              <PinInput.Slot index={0} />
+              <PinInput.Slot index={1} />
+              <PinInput.Slot index={2} />
+            </PinInput.Group>
+            <PinInput.Separator />
+            <PinInput.Group>
+              <PinInput.Slot index={3} />
+              <PinInput.Slot index={4} />
+              <PinInput.Slot index={5} />
+            </PinInput.Group>
+          </PinInput.Root>
+        </div>
+        <div>
+          <div className="story-heading">Disabled</div>
+          <PinInput.Root maxLength={4} disabled>
+            <PinInput.Group>
+              {[0, 1, 2, 3].map((i) => <PinInput.Slot key={i} index={i} />)}
+            </PinInput.Group>
+          </PinInput.Root>
+        </div>
+      </div>
+    );
+  },
+};

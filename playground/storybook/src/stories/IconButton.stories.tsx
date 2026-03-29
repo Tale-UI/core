@@ -149,3 +149,52 @@ export const Toolbar: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const variants = ['primary', 'neutral', 'ghost', 'danger', 'inverse'] as const;
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div className="story-sections">
+        <div>
+          <div className="story-heading">Default</div>
+          <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.8rem', alignItems: 'center' }}>
+            <div />
+            {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+            {variants.map((v) => (
+              <>
+                <div key={`label-${v}`} className="story-label">{v}</div>
+                {sizes.map((s) => (
+                  <IconButton key={`${v}-${s}`} variant={v} size={s} aria-label={v}>
+                    <Icon icon={Heart} />
+                  </IconButton>
+                ))}
+              </>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">Disabled</div>
+          <div className="story-row story-row--s">
+            {variants.map((v) => (
+              <IconButton key={v} variant={v} isDisabled aria-label={v}>
+                <Icon icon={Heart} />
+              </IconButton>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">Pending</div>
+          <div className="story-row story-row--s">
+            {variants.map((v) => (
+              <IconButton key={v} variant={v} isPending aria-label={v}>
+                <Icon icon={Heart} />
+              </IconButton>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  },
+};

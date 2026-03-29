@@ -67,3 +67,45 @@ export const Disabled: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-cards">
+        <div style={{ flex: '1 1 300px' }}>
+          <p className="story-label">Default fieldset</p>
+          <Fieldset.Root>
+            <Fieldset.Legend>Personal Information</Fieldset.Legend>
+            <div className="story-col story-col--m">
+              <TextField.Root>
+                <TextField.Label>First Name</TextField.Label>
+                <TextField.Input placeholder="John" />
+              </TextField.Root>
+              <TextField.Root>
+                <TextField.Label>Last Name</TextField.Label>
+                <TextField.Input placeholder="Doe" />
+              </TextField.Root>
+            </div>
+          </Fieldset.Root>
+        </div>
+        <div style={{ flex: '1 1 300px' }}>
+          <p className="story-label">Disabled fieldset</p>
+          <Fieldset.Root disabled>
+            <Fieldset.Legend>Billing Address (disabled)</Fieldset.Legend>
+            <div className="story-col story-col--m">
+              <TextField.Root>
+                <TextField.Label>Street</TextField.Label>
+                <TextField.Input placeholder="123 Main St" />
+              </TextField.Root>
+              <TextField.Root>
+                <TextField.Label>City</TextField.Label>
+                <TextField.Input placeholder="Anytown" />
+              </TextField.Root>
+            </div>
+          </Fieldset.Root>
+        </div>
+      </div>
+    );
+  },
+};

@@ -64,3 +64,29 @@ export const Disabled: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
+        <div />
+        {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+        <div className="story-label">Default</div>
+        {sizes.map((s) => (
+          <SelectNative key={`default-${s}`} size={s}>
+            <option>Option A</option>
+            <option>Option B</option>
+          </SelectNative>
+        ))}
+        <div className="story-label">Disabled</div>
+        {sizes.map((s) => (
+          <SelectNative key={`disabled-${s}`} size={s} disabled>
+            <option>Disabled</option>
+          </SelectNative>
+        ))}
+      </div>
+    );
+  },
+};

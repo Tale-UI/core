@@ -65,3 +65,33 @@ function WithDropdownExample() {
 export const WithDropdown: Story = {
   render: () => <WithDropdownExample />,
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Default</span>
+          <NavigationMenu.Root>
+            <NavigationMenu.List>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+              </NavigationMenu.Item>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="#">About</NavigationMenu.Link>
+              </NavigationMenu.Item>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="#">Contact</NavigationMenu.Link>
+              </NavigationMenu.Item>
+            </NavigationMenu.List>
+          </NavigationMenu.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">With Dropdown</span>
+          <WithDropdownExample />
+        </div>
+      </div>
+    );
+  },
+};

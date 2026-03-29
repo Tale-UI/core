@@ -95,3 +95,34 @@ export const BadgeSizes: StoryObj<BadgeArgs> = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const sizes = ['sm', 'md', 'lg'] as const;
+    const values = [0, 1.5, 3, 4.5, 5];
+    return (
+      <div className="story-sections">
+        <div>
+          <div className="story-heading">RatingStars</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(5, auto)', gap: '1rem', alignItems: 'center' }}>
+            <div />
+            {values.map((v) => <div key={v} className="story-label">{v}</div>)}
+            {sizes.map((s) => (
+              <>
+                <div key={`label-${s}`} className="story-label">{s}</div>
+                {values.map((v) => <RatingStars key={`${s}-${v}`} value={v} size={s} />)}
+              </>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">RatingBadge</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+            {sizes.map((s) => <RatingBadge key={s} value={4.5} size={s} />)}
+          </div>
+        </div>
+      </div>
+    );
+  },
+};

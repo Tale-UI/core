@@ -72,3 +72,43 @@ export const Disabled: Story = {
     </TextArea.Root>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-cards">
+        <div style={{ width: 240 }}>
+          <div className="story-heading">Default</div>
+          <TextArea.Root>
+            <TextArea.Label>Bio</TextArea.Label>
+            <TextArea.TextArea placeholder="Enter text…" />
+            <TextArea.Description>Max 500 chars</TextArea.Description>
+          </TextArea.Root>
+        </div>
+        <div style={{ width: 240 }}>
+          <div className="story-heading">Invalid</div>
+          <TextArea.Root isInvalid>
+            <TextArea.Label>Bio</TextArea.Label>
+            <TextArea.TextArea />
+            <TextArea.ErrorMessage>This field is required</TextArea.ErrorMessage>
+          </TextArea.Root>
+        </div>
+        <div style={{ width: 240 }}>
+          <div className="story-heading">Disabled</div>
+          <TextArea.Root isDisabled>
+            <TextArea.Label>Bio</TextArea.Label>
+            <TextArea.TextArea placeholder="Disabled" />
+          </TextArea.Root>
+        </div>
+        <div style={{ width: 240 }}>
+          <div className="story-heading">Read-only</div>
+          <TextArea.Root isReadOnly>
+            <TextArea.Label>Bio</TextArea.Label>
+            <TextArea.TextArea value="Read-only content" />
+          </TextArea.Root>
+        </div>
+      </div>
+    );
+  },
+};

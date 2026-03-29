@@ -3,14 +3,14 @@ import { Avatar } from '@tale-ui/react/avatar';
 import { DotIcon } from '@tale-ui/react/dot-icon';
 
 type Args = {
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 };
 
 const meta: Meta<Args> = {
   title: 'Components/Avatar',
   parameters: { layout: 'centered' },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg', 'xl'] },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] },
   },
   args: {
     size: 'md',
@@ -35,6 +35,9 @@ export const AllSizes: Story = {
   },
   render: () => (
     <div className="story-row story-row--m">
+      <Avatar.Root size="xs">
+        <Avatar.Fallback>XS</Avatar.Fallback>
+      </Avatar.Root>
       <Avatar.Root size="sm">
         <Avatar.Fallback>SM</Avatar.Fallback>
       </Avatar.Root>
@@ -46,6 +49,9 @@ export const AllSizes: Story = {
       </Avatar.Root>
       <Avatar.Root size="xl">
         <Avatar.Fallback>XL</Avatar.Fallback>
+      </Avatar.Root>
+      <Avatar.Root size="2xl">
+        <Avatar.Fallback>2X</Avatar.Fallback>
       </Avatar.Root>
     </div>
   ),
@@ -100,7 +106,7 @@ export const GroupSizes: Story = {
   render() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+        {(['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const).map((size) => (
           <Avatar.Group key={size} size={size}>
             <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
             <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
@@ -209,4 +215,72 @@ export const LabelGroupWithIndicator: Story = {
       </Avatar.LabelGroup>
     </div>
   ),
+};
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const sizes = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
+    return (
+      <div className="story-sections">
+        <div>
+          <div className="story-heading">Sizes (fallback)</div>
+          <div className="story-row story-row--m">
+            {sizes.map((s) => (
+              <div key={s} className="story-col" style={{ alignItems: 'center' }}>
+                <Avatar.Root size={s}><Avatar.Fallback>{s.toUpperCase()}</Avatar.Fallback></Avatar.Root>
+                <span style={{ fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{s}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">With image</div>
+          <div className="story-row story-row--m">
+            {sizes.map((s) => (
+              <Avatar.Root key={s} size={s}>
+                <Avatar.Image src="https://placehold.co/160x160" alt="User" />
+                <Avatar.Fallback>{s.toUpperCase()}</Avatar.Fallback>
+              </Avatar.Root>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">With indicator</div>
+          <div className="story-row story-row--m">
+            {(['sm', 'md', 'lg', 'xl'] as const).map((s) => (
+              <Avatar.Indicator key={s} badge={<DotIcon color="success" />}>
+                <Avatar.Root size={s}><Avatar.Fallback>{s.toUpperCase()}</Avatar.Fallback></Avatar.Root>
+              </Avatar.Indicator>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">Groups</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {(['sm', 'md', 'lg'] as const).map((s) => (
+              <Avatar.Group key={s} size={s}>
+                <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
+                <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
+                <Avatar.Root><Avatar.Fallback>EF</Avatar.Fallback></Avatar.Root>
+                <Avatar.Count>+3</Avatar.Count>
+              </Avatar.Group>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">LabelGroup sizes</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {(['sm', 'md', 'lg'] as const).map((s) => (
+              <Avatar.LabelGroup key={s} size={s}>
+                <Avatar.Root><Avatar.Fallback>JD</Avatar.Fallback></Avatar.Root>
+                <Avatar.LabelGroupTitle>Jane Doe ({s})</Avatar.LabelGroupTitle>
+                <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>
+              </Avatar.LabelGroup>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  },
 };

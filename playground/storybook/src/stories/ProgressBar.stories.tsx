@@ -242,3 +242,46 @@ export const AnimatedBottomFloating: Story = {
     </div>
   ),
 };
+
+
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const positions = ['top', 'right', 'bottom', 'top-floating', 'bottom-floating'] as const;
+    const values = [0, 50, 100];
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)', width: 400 }}>
+        {positions.map((pos) => (
+          <div key={pos} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-s)' }}>
+            <span className="story-label">labelPosition="{pos}"</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
+              {values.map((v) => (
+                <ProgressBar.Root key={v} value={v} minValue={0} maxValue={100} labelPosition={pos}>
+                  <ProgressBar.Header>
+                    <ProgressBar.Label>Progress</ProgressBar.Label>
+                    <ProgressBar.Value>{v}%</ProgressBar.Value>
+                  </ProgressBar.Header>
+                  <ProgressBar.Track>
+                    <ProgressBar.Indicator value={v} />
+                  </ProgressBar.Track>
+                </ProgressBar.Root>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-s)' }}>
+          <span className="story-label">Indeterminate</span>
+          <ProgressBar.Root isIndeterminate minValue={0} maxValue={100}>
+            <ProgressBar.Label>Loading...</ProgressBar.Label>
+            <ProgressBar.Track>
+              <ProgressBar.Indicator />
+            </ProgressBar.Track>
+          </ProgressBar.Root>
+        </div>
+      </div>
+    );
+  },
+};

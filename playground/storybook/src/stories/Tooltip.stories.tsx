@@ -1,4 +1,3 @@
-import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tooltip } from '@tale-ui/react/tooltip';
 
@@ -144,4 +143,46 @@ export const WithDelay: Story = {
       </Tooltip.Root>
     </div>
   ),
+};
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+
+    const placements = ['top', 'bottom', 'left', 'right'] as const;
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)', alignItems: 'center', padding: 'var(--space-3xl)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)', alignItems: 'center' }}>
+          <span className="story-label">Simple tooltip — all placements</span>
+          <div style={{ display: 'flex', gap: 'var(--space-l)' }}>
+            {placements.map((placement) => (
+              <Tooltip.Root key={placement}>
+                <Tooltip.Trigger>{placement}</Tooltip.Trigger>
+                <Tooltip.Popup placement={placement} offset={8}>
+                  <Tooltip.Arrow />
+                  Tooltip on {placement}
+                </Tooltip.Popup>
+              </Tooltip.Root>
+            ))}
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)', alignItems: 'center' }}>
+          <span className="story-label">With title + description — all placements</span>
+          <div style={{ display: 'flex', gap: 'var(--space-l)' }}>
+            {placements.map((placement) => (
+              <Tooltip.Root key={placement}>
+                <Tooltip.Trigger>{placement}</Tooltip.Trigger>
+                <Tooltip.Popup placement={placement} offset={8}>
+                  <Tooltip.Arrow />
+                  <Tooltip.Title>Heading</Tooltip.Title>
+                  <Tooltip.Description>Supporting text on {placement}</Tooltip.Description>
+                </Tooltip.Popup>
+              </Tooltip.Root>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  },
 };

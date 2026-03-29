@@ -86,3 +86,33 @@ export const WithIcons: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-cards">
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Single select</p>
+          <GridList.Root aria-label="Items — single" selectionMode="single">
+            {items.map((item) => (
+              <GridList.Item key={item.id} id={item.id} textValue={item.name}>
+                {item.name}
+              </GridList.Item>
+            ))}
+          </GridList.Root>
+        </div>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Multiple select</p>
+          <GridList.Root aria-label="Items — multi" selectionMode="multiple">
+            {items.map((item) => (
+              <GridList.Item key={item.id} id={item.id} textValue={item.name}>
+                {item.name}
+              </GridList.Item>
+            ))}
+          </GridList.Root>
+        </div>
+      </div>
+    );
+  },
+};

@@ -28,3 +28,22 @@ export const Default: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Default</span>
+          <RadialBarChart.Root data={data} width={600} height={350}>
+            <RadialBarChart.RadialBar dataKey="value" />
+            <RadialBarChart.Tooltip />
+            <RadialBarChart.Legend />
+          </RadialBarChart.Root>
+        </div>
+      </div>
+    );
+  },
+};

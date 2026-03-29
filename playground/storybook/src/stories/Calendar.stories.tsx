@@ -71,3 +71,17 @@ export const ReadOnly: Story = {
     </Calendar.Root>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-sections">
+        <div>
+          <p className="story-label">Default calendar</p>
+          <CalendarTemplate />
+        </div>
+      </div>
+    );
+  },
+};

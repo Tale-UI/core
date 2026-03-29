@@ -72,3 +72,27 @@ export const DotsSizes: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const variants = ['circle', 'dots', 'line'] as const;
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, 1fr)', gap: '1.6rem', alignItems: 'center' }}>
+        <div />
+        {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+        {variants.map((v) => (
+          <>
+            <div key={`label-${v}`} className="story-label">{v}</div>
+            {sizes.map((s) => (
+              <div key={`${v}-${s}`} style={{ width: v === 'line' ? 200 : 'auto' }}>
+                <Spinner variant={v} size={s} />
+              </div>
+            ))}
+          </>
+        ))}
+      </div>
+    );
+  },
+};

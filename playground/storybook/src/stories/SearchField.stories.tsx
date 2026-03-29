@@ -58,3 +58,35 @@ export const WithClearButton: Story = {
     </SearchField.Root>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-cards">
+        <div style={{ width: 240 }}>
+          <div className="story-heading">Default</div>
+          <SearchField.Root>
+            <SearchField.Label>Search</SearchField.Label>
+            <SearchField.Input placeholder="Search..." />
+          </SearchField.Root>
+        </div>
+        <div style={{ width: 240 }}>
+          <div className="story-heading">With clear button</div>
+          <SearchField.Root defaultValue="React">
+            <SearchField.Label>Search</SearchField.Label>
+            <SearchField.Input placeholder="Search..." />
+            <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
+          </SearchField.Root>
+        </div>
+        <div style={{ width: 240 }}>
+          <div className="story-heading">Disabled</div>
+          <SearchField.Root isDisabled>
+            <SearchField.Label>Search</SearchField.Label>
+            <SearchField.Input placeholder="Disabled" />
+          </SearchField.Root>
+        </div>
+      </div>
+    );
+  },
+};

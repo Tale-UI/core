@@ -52,3 +52,23 @@ export const Sizes: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const stores = ['apple', 'google'] as const;
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '1.2rem', alignItems: 'center' }}>
+        <div />
+        {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+        {stores.map((store) => (
+          <>
+            <div key={`label-${store}`} className="story-label">{store}</div>
+            {sizes.map((s) => <AppStoreButton key={`${store}-${s}`} store={store} size={s} href="#" />)}
+          </>
+        ))}
+      </div>
+    );
+  },
+};

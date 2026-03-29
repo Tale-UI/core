@@ -66,3 +66,49 @@ export const CustomPalette: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Single Series</span>
+          <BarChart.Root data={monthlyData} width={600} height={250}>
+            <BarChart.Grid />
+            <BarChart.XAxis dataKey="month" />
+            <BarChart.YAxis />
+            <BarChart.Tooltip />
+            <BarChart.Bar dataKey="revenue" />
+          </BarChart.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Multiple Series</span>
+          <BarChart.Root data={monthlyData} width={600} height={250}>
+            <BarChart.Grid strokeDasharray="3 3" />
+            <BarChart.XAxis dataKey="month" />
+            <BarChart.YAxis />
+            <BarChart.Tooltip />
+            <BarChart.Legend />
+            <BarChart.Bar dataKey="revenue" />
+            <BarChart.Bar dataKey="profit" />
+            <BarChart.Bar dataKey="expenses" />
+          </BarChart.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Custom Palette</span>
+          <BarChart.Root data={monthlyData} width={600} height={250} palette={['#3b82f6', '#10b981', '#f59e0b']}>
+            <BarChart.Grid />
+            <BarChart.XAxis dataKey="month" />
+            <BarChart.YAxis />
+            <BarChart.Tooltip />
+            <BarChart.Legend />
+            <BarChart.Bar dataKey="revenue" />
+            <BarChart.Bar dataKey="profit" />
+            <BarChart.Bar dataKey="expenses" />
+          </BarChart.Root>
+        </div>
+      </div>
+    );
+  },
+};

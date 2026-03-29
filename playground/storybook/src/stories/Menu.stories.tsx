@@ -204,3 +204,74 @@ export const AllItemTypes: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', padding: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Default</span>
+          <Menu.Root>
+            <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+            <Menu.Popover>
+              <Menu.MenuList aria-label="File actions">
+                <Menu.Item id="av-new" textValue="New File">New File</Menu.Item>
+                <Menu.Item id="av-open" textValue="Open">Open</Menu.Item>
+                <Menu.Separator />
+                <Menu.Item id="av-save" textValue="Save">Save</Menu.Item>
+              </Menu.MenuList>
+            </Menu.Popover>
+          </Menu.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">With Groups</span>
+          <Menu.Root>
+            <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+            <Menu.Popover>
+              <Menu.MenuList aria-label="Actions">
+                <Menu.Group>
+                  <Menu.Header>Edit</Menu.Header>
+                  <Menu.Item id="av-cut" textValue="Cut">Cut</Menu.Item>
+                  <Menu.Item id="av-copy" textValue="Copy">Copy</Menu.Item>
+                </Menu.Group>
+                <Menu.Separator />
+                <Menu.Group>
+                  <Menu.Header>View</Menu.Header>
+                  <Menu.Item id="av-zoom-in" textValue="Zoom In">Zoom In</Menu.Item>
+                  <Menu.Item id="av-zoom-out" textValue="Zoom Out">Zoom Out</Menu.Item>
+                </Menu.Group>
+              </Menu.MenuList>
+            </Menu.Popover>
+          </Menu.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Checkbox Items</span>
+          <Menu.Root>
+            <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+            <Menu.Popover>
+              <Menu.MenuList aria-label="Format" selectionMode="multiple">
+                <Menu.CheckboxItem id="av-bold" textValue="Bold">Bold</Menu.CheckboxItem>
+                <Menu.CheckboxItem id="av-italic" textValue="Italic">Italic</Menu.CheckboxItem>
+                <Menu.CheckboxItem id="av-underline" textValue="Underline">Underline</Menu.CheckboxItem>
+              </Menu.MenuList>
+            </Menu.Popover>
+          </Menu.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Radio Items</span>
+          <Menu.Root>
+            <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+            <Menu.Popover>
+              <Menu.MenuList aria-label="View" selectionMode="single">
+                <Menu.RadioItem id="av-list" textValue="List">List</Menu.RadioItem>
+                <Menu.RadioItem id="av-grid" textValue="Grid">Grid</Menu.RadioItem>
+                <Menu.RadioItem id="av-board" textValue="Board">Board</Menu.RadioItem>
+              </Menu.MenuList>
+            </Menu.Popover>
+          </Menu.Root>
+        </div>
+      </div>
+    );
+  },
+};

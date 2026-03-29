@@ -52,3 +52,45 @@ export const WithValidation: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-cards">
+        <div style={{ width: 280 }}>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Default</div>
+          <PaymentInput.Root>
+            <PaymentInput.Label>Card number</PaymentInput.Label>
+            <PaymentInput.Group>
+              <PaymentInput.Input placeholder="1234 5678 9012 3456" />
+              <PaymentInput.CardIcon />
+            </PaymentInput.Group>
+          </PaymentInput.Root>
+        </div>
+        <div style={{ width: 280 }}>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>With description</div>
+          <PaymentInput.Root>
+            <PaymentInput.Label>Card number</PaymentInput.Label>
+            <PaymentInput.Group>
+              <PaymentInput.Input placeholder="1234 5678 9012 3456" />
+              <PaymentInput.CardIcon />
+            </PaymentInput.Group>
+            <PaymentInput.Description>Visa, Mastercard, Amex, Discover</PaymentInput.Description>
+          </PaymentInput.Root>
+        </div>
+        <div style={{ width: 280 }}>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Invalid</div>
+          <PaymentInput.Root isInvalid>
+            <PaymentInput.Label>Card number</PaymentInput.Label>
+            <PaymentInput.Group>
+              <PaymentInput.Input placeholder="1234 5678 9012 3456" />
+              <PaymentInput.CardIcon />
+            </PaymentInput.Group>
+            <PaymentInput.ErrorMessage>Invalid card number</PaymentInput.ErrorMessage>
+          </PaymentInput.Root>
+        </div>
+      </div>
+    );
+  },
+};

@@ -110,3 +110,74 @@ export const WithSections: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render: function AllVariationsAutocomplete() {
+    let { contains } = useFilter({ sensitivity: 'base' });
+    return (
+      <div style={{ display: 'flex', gap: '1.6rem', flexWrap: 'wrap' }}>
+        <div>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Default</div>
+          <div style={panelStyle}>
+            <Autocomplete.Root filter={contains}>
+              <div style={searchStyle}>
+                <Autocomplete.SearchField aria-label="Search">
+                  <Autocomplete.Input placeholder="Search fruits..." />
+                </Autocomplete.SearchField>
+              </div>
+              <div style={listStyle}>
+                <Autocomplete.ListBox aria-label="Fruits">
+                  {fruits.map((f) => <Autocomplete.Item key={`av-${f.id}`} id={`av-${f.id}`} textValue={f.name}>{f.name}</Autocomplete.Item>)}
+                </Autocomplete.ListBox>
+              </div>
+            </Autocomplete.Root>
+          </div>
+        </div>
+        <div>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Disabled</div>
+          <div style={panelStyle}>
+            <Autocomplete.Root filter={contains}>
+              <div style={searchStyle}>
+                <Autocomplete.SearchField aria-label="Search" isDisabled>
+                  <Autocomplete.Input placeholder="Disabled" />
+                </Autocomplete.SearchField>
+              </div>
+              <div style={listStyle}>
+                <Autocomplete.ListBox aria-label="Fruits">
+                  {fruits.slice(0, 3).map((f) => <Autocomplete.Item key={`avd-${f.id}`} id={`avd-${f.id}`} textValue={f.name}>{f.name}</Autocomplete.Item>)}
+                </Autocomplete.ListBox>
+              </div>
+            </Autocomplete.Root>
+          </div>
+        </div>
+        <div>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>With sections</div>
+          <div style={panelStyle}>
+            <Autocomplete.Root filter={contains}>
+              <div style={searchStyle}>
+                <Autocomplete.SearchField aria-label="Search produce">
+                  <Autocomplete.Input placeholder="Search produce..." />
+                </Autocomplete.SearchField>
+              </div>
+              <div style={listStyle}>
+                <Autocomplete.ListBox aria-label="Produce">
+                  <Autocomplete.Section>
+                    <Autocomplete.Header>Fruits</Autocomplete.Header>
+                    <Autocomplete.Item id="avs-apple" textValue="Apple">Apple</Autocomplete.Item>
+                    <Autocomplete.Item id="avs-banana" textValue="Banana">Banana</Autocomplete.Item>
+                  </Autocomplete.Section>
+                  <Autocomplete.Section>
+                    <Autocomplete.Header>Vegetables</Autocomplete.Header>
+                    <Autocomplete.Item id="avs-carrot" textValue="Carrot">Carrot</Autocomplete.Item>
+                    <Autocomplete.Item id="avs-broccoli" textValue="Broccoli">Broccoli</Autocomplete.Item>
+                  </Autocomplete.Section>
+                </Autocomplete.ListBox>
+              </div>
+            </Autocomplete.Root>
+          </div>
+        </div>
+      </div>
+    );
+  },
+};

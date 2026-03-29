@@ -108,3 +108,48 @@ export const Both: Story = {
     </ScrollArea.Root>
   ),
 };
+
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 300px' }}>
+          <p className="story-label">Vertical scroll</p>
+          <ScrollArea.Root style={{ width: 300, height: 200, border: '1px solid var(--neutral-20)' }}>
+            <ScrollArea.Viewport>
+              <ScrollArea.Content>
+                <div style={{ padding: 'var(--space-s)' }}>
+                  {paragraphs}
+                </div>
+              </ScrollArea.Content>
+            </ScrollArea.Viewport>
+            <ScrollArea.Scrollbar orientation="vertical">
+              <ScrollArea.Thumb />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
+        </div>
+        <div style={{ flex: '1 1 300px' }}>
+          <p className="story-label">Horizontal scroll</p>
+          <ScrollArea.Root style={{ width: 300, height: 100, border: '1px solid var(--neutral-20)' }}>
+            <ScrollArea.Viewport>
+              <ScrollArea.Content>
+                <div style={{ width: 800, padding: 'var(--space-s)', whiteSpace: 'nowrap' }}>
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <p key={i}>
+                      This is a very long line of text that extends beyond the visible area to demonstrate horizontal scrolling.
+                    </p>
+                  ))}
+                </div>
+              </ScrollArea.Content>
+            </ScrollArea.Viewport>
+            <ScrollArea.Scrollbar orientation="horizontal">
+              <ScrollArea.Thumb />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
+        </div>
+      </div>
+    );
+  },
+};

@@ -131,3 +131,49 @@ export const Dismissable: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: 'var(--space-m)', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+          <span className="story-label">Default</span>
+          <DialogDemo
+            triggerLabel="Open Default"
+            triggerVariant="primary"
+            title="Confirm action"
+            description="Are you sure you want to proceed? This action can be undone later."
+          />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+          <span className="story-label">Scrollable</span>
+          <DialogDemo
+            triggerLabel="Open Scrollable"
+            triggerVariant="neutral"
+            title="Terms of Service"
+            description="Please read the following terms carefully."
+          >
+            <div style={{ maxHeight: 200, overflow: 'auto', margin: 'var(--space-s) 0' }}>
+              {Array.from({ length: 10 }, (_, i) => (
+                <p key={i} style={{ margin: 'var(--space-xs) 0', color: 'var(--neutral-60)' }}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </p>
+              ))}
+            </div>
+          </DialogDemo>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+          <span className="story-label">Alert-style</span>
+          <DialogDemo
+            triggerLabel="Delete Account"
+            triggerVariant="danger"
+            title="Delete account"
+            description="This action is permanent and cannot be undone. All your data will be lost."
+          />
+        </div>
+      </div>
+    );
+  },
+};

@@ -45,3 +45,18 @@ export const AllColors: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-row story-row--s" style={{ flexWrap: 'wrap', maxWidth: '600px' }}>
+        {CONTAINER_COLORS.map((color) => (
+          <Container key={color} color={color} className="story-container-demo">
+            <span className="story-container-label">{color}</span>
+          </Container>
+        ))}
+      </div>
+    );
+  },
+};

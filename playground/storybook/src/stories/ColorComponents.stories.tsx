@@ -135,3 +135,59 @@ export const CombinedPicker: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', padding: 16, alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Color Area</span>
+          <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+            <ColorArea.Thumb />
+          </ColorArea.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Color Slider</span>
+          <ColorSlider.Root channel="hue" defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+            <ColorSlider.Label>Hue</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Color Wheel</span>
+          <ColorWheel.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} outerRadius={100} innerRadius={70}>
+            <ColorWheel.Track />
+            <ColorWheel.Thumb />
+          </ColorWheel.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Color Swatch</span>
+          <div style={{ display: 'flex', gap: 4 }}>
+            {['#ff0000', '#00ff00', '#0000ff', '#ff8800', '#8800ff'].map((c) => (
+              <ColorSwatch key={c} color={c} />
+            ))}
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Color Swatch Picker</span>
+          <ColorSwatchPicker.Root defaultValue={parseColor('#ff0000')}>
+            {['#ff0000', '#ff8800', '#ffff00', '#00ff00', '#0088ff', '#8800ff'].map((c) => (
+              <ColorSwatchPicker.Item key={c} color={c} />
+            ))}
+          </ColorSwatchPicker.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Color Field</span>
+          <ColorField.Root defaultValue={parseColor('#ff0000')}>
+            <ColorField.Label>Hex colour</ColorField.Label>
+            <ColorField.Input />
+          </ColorField.Root>
+        </div>
+      </div>
+    );
+  },
+};

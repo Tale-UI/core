@@ -6,10 +6,11 @@ import { Icon } from '@tale-ui/react/icon';
 import { Plus, ChevronRight } from 'lucide-react';
 
 type Args = {
-  variant: 'primary' | 'neutral' | 'ghost' | 'danger' | 'inverse';
+  variant: 'primary' | 'neutral' | 'ghost' | 'danger' | 'danger-neutral' | 'danger-ghost' | 'inverse';
   size: 'sm' | 'md' | 'lg';
   disabled: boolean;
   pending: boolean;
+  showTextWhileLoading: boolean;
   children: string;
 };
 
@@ -18,7 +19,7 @@ const meta: Meta<Args> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'neutral', 'ghost', 'danger', 'inverse'],
+      options: ['primary', 'neutral', 'ghost', 'danger', 'danger-neutral', 'danger-ghost', 'inverse'],
     },
     size: {
       control: 'select',
@@ -26,6 +27,7 @@ const meta: Meta<Args> = {
     },
     disabled: { control: 'boolean' },
     pending: { control: 'boolean' },
+    showTextWhileLoading: { control: 'boolean' },
     children: { control: 'text' },
   },
   args: {
@@ -33,6 +35,7 @@ const meta: Meta<Args> = {
     size: 'md',
     disabled: false,
     pending: false,
+    showTextWhileLoading: false,
     children: 'Button',
   },
 };
@@ -43,7 +46,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Button variant={args.variant} size={args.size} isDisabled={args.disabled} isPending={args.pending}>
+    <Button variant={args.variant} size={args.size} isDisabled={args.disabled} isPending={args.pending} showTextWhileLoading={args.showTextWhileLoading}>
       {args.children}
     </Button>
   ),
@@ -59,6 +62,8 @@ export const AllVariants: Story = {
       <Button variant="neutral">Neutral</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="danger">Danger</Button>
+      <Button variant="danger-neutral">Danger Neutral</Button>
+      <Button variant="danger-ghost">Danger Ghost</Button>
       <Button variant="inverse">Inverse</Button>
     </div>
   ),
@@ -87,6 +92,8 @@ export const Disabled: Story = {
       <Button variant="neutral" isDisabled>Neutral</Button>
       <Button variant="ghost" isDisabled>Ghost</Button>
       <Button variant="danger" isDisabled>Danger</Button>
+      <Button variant="danger-neutral" isDisabled>Danger Neutral</Button>
+      <Button variant="danger-ghost" isDisabled>Danger Ghost</Button>
       <Button variant="inverse" isDisabled>Inverse</Button>
     </div>
   ),
@@ -102,7 +109,22 @@ export const Pending: Story = {
       <Button variant="neutral" isPending>Neutral</Button>
       <Button variant="ghost" isPending>Ghost</Button>
       <Button variant="danger" isPending>Danger</Button>
+      <Button variant="danger-neutral" isPending>Danger Neutral</Button>
+      <Button variant="danger-ghost" isPending>Danger Ghost</Button>
       <Button variant="inverse" isPending>Inverse</Button>
+    </div>
+  ),
+};
+
+export const PendingWithText: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div className="story-row story-row--s">
+      <Button variant="primary" isPending showTextWhileLoading>Saving…</Button>
+      <Button variant="neutral" isPending showTextWhileLoading>Loading</Button>
+      <Button variant="danger" isPending showTextWhileLoading>Deleting…</Button>
     </div>
   ),
 };
@@ -151,4 +173,47 @@ export const WithIcon: Story = {
       </Button>
     </div>
   ),
+};
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const variants = ['primary', 'neutral', 'ghost', 'danger', 'danger-neutral', 'danger-ghost', 'inverse'] as const;
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div className="story-sections">
+        <div>
+          <div className="story-heading">Default</div>
+          <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.8rem', alignItems: 'center' }}>
+            <div />
+            {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+            {variants.map((v) => (
+              <>
+                <div key={`label-${v}`} className="story-label">{v}</div>
+                {sizes.map((s) => <Button key={`${v}-${s}`} variant={v} size={s}>{v}</Button>)}
+              </>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">Disabled</div>
+          <div className="story-row story-row--s">
+            {variants.map((v) => <Button key={v} variant={v} isDisabled>{v}</Button>)}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">Pending</div>
+          <div className="story-row story-row--s">
+            {variants.map((v) => <Button key={v} variant={v} isPending>{v}</Button>)}
+          </div>
+        </div>
+        <div>
+          <div className="story-heading">Pending with text</div>
+          <div className="story-row story-row--s">
+            {variants.map((v) => <Button key={v} variant={v} isPending showTextWhileLoading>{v}</Button>)}
+          </div>
+        </div>
+      </div>
+    );
+  },
 };

@@ -78,3 +78,26 @@ export const Large: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+        {sizes.map((size) => (
+          <EmptyState.Root key={size} size={size}>
+            <EmptyState.Title>No items ({size})</EmptyState.Title>
+            <EmptyState.Description>
+              This is the {size} empty state with actions.
+            </EmptyState.Description>
+            <EmptyState.Actions>
+              <Button variant="primary">Create</Button>
+              <Button variant="ghost">Learn more</Button>
+            </EmptyState.Actions>
+          </EmptyState.Root>
+        ))}
+      </div>
+    );
+  },
+};

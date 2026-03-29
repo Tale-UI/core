@@ -4,8 +4,9 @@ import { Tabs } from '@tale-ui/react/tabs';
 
 type Args = {
   orientation?: 'horizontal' | 'vertical';
-  selectedKey?: string;
   isDisabled?: boolean;
+  size: 'sm' | 'md';
+  variant: 'underline' | 'pills' | 'enclosed';
 };
 
 const meta: Meta<Args> = {
@@ -15,16 +16,21 @@ const meta: Meta<Args> = {
       control: 'select',
       options: ['horizontal', 'vertical'],
     },
-    selectedKey: {
-      control: 'select',
-      options: ['tab1', 'tab2', 'tab3'],
-    },
     isDisabled: { control: 'boolean' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md'],
+    },
+    variant: {
+      control: 'select',
+      options: ['underline', 'pills', 'enclosed'],
+    },
   },
   args: {
     orientation: 'horizontal',
-    selectedKey: 'tab1',
     isDisabled: false,
+    size: 'md',
+    variant: 'underline',
   },
 };
 
@@ -34,8 +40,8 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Tabs.Root selectedKey={args.selectedKey} orientation={args.orientation} isDisabled={args.isDisabled}>
-      <Tabs.List>
+    <Tabs.Root defaultSelectedKey="tab1" orientation={args.orientation} isDisabled={args.isDisabled}>
+      <Tabs.List size={args.size} variant={args.variant}>
         <Tabs.Tab id="tab1">Account</Tabs.Tab>
         <Tabs.Tab id="tab2">Settings</Tabs.Tab>
         <Tabs.Tab id="tab3">Notifications</Tabs.Tab>
@@ -128,6 +134,23 @@ export const WithDisabledTab: Story = {
   ),
 };
 
+export const SmallTabs: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Tabs.Root defaultSelectedKey="tab1">
+      <Tabs.List size="sm">
+        <Tabs.Tab id="tab1">Small Tab 1</Tabs.Tab>
+        <Tabs.Tab id="tab2">Small Tab 2</Tabs.Tab>
+        <Tabs.Tab id="tab3">Small Tab 3</Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel id="tab1">Content 1</Tabs.Panel>
+      <Tabs.Panel id="tab2">Content 2</Tabs.Panel>
+      <Tabs.Panel id="tab3">Content 3</Tabs.Panel>
+    </Tabs.Root>
+  ),
+};
+
 export const Controlled: Story = {
   parameters: {
     controls: { disable: true },
@@ -163,6 +186,35 @@ export const Controlled: Story = {
             </div>
           </Tabs.Panel>
         </Tabs.Root>
+      </div>
+    );
+  },
+};
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+
+    const variants = ['underline', 'pills', 'enclosed'] as const;
+    const sizes = ['sm', 'md'] as const;
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-l)' }}>
+        {variants.map((variant) =>
+          sizes.map((size) => (
+            <div key={`${variant}-${size}`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+              <span className="story-label">variant="{variant}" size="{size}"</span>
+              <Tabs.Root defaultSelectedKey="t1">
+                <Tabs.List variant={variant} size={size}>
+                  <Tabs.Tab id="t1">Account</Tabs.Tab>
+                  <Tabs.Tab id="t2">Settings</Tabs.Tab>
+                  <Tabs.Tab id="t3">Notifications</Tabs.Tab>
+                  <Tabs.Indicator />
+                </Tabs.List>
+              </Tabs.Root>
+            </div>
+          )),
+        )}
       </div>
     );
   },

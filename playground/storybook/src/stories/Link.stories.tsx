@@ -19,7 +19,19 @@ const meta: Meta<Args> = {
     );
   },
   argTypes: {
+    href: { control: 'text' },
     isDisabled: { control: 'boolean' },
+    target: {
+      control: 'select',
+      options: ['_self', '_blank'],
+    },
+    children: { control: 'text' },
+  },
+  args: {
+    href: '#',
+    isDisabled: false,
+    target: '_self',
+    children: 'Click here',
   },
 };
 
@@ -49,5 +61,18 @@ export const External: Story = {
     isDisabled: false,
     target: '_blank',
     children: 'Open in new tab',
+  },
+};
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-col story-col--m">
+        <Link href="#">Default link</Link>
+        <Link href="#" isDisabled>Disabled link</Link>
+        <Link href="https://example.com" target="_blank">External link (new tab)</Link>
+      </div>
+    );
   },
 };

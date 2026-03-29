@@ -40,3 +40,29 @@ export const Donut: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Default Pie</span>
+          <PieChart.Root width={600} height={250}>
+            <PieChart.Pie data={channelData} dataKey="value" nameKey="name" />
+            <PieChart.Tooltip />
+            <PieChart.Legend />
+          </PieChart.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span className="story-label">Donut</span>
+          <PieChart.Root width={600} height={250}>
+            <PieChart.Pie data={channelData} dataKey="value" nameKey="name" innerRadius={60} outerRadius={100} />
+            <PieChart.Tooltip />
+            <PieChart.Legend />
+          </PieChart.Root>
+        </div>
+      </div>
+    );
+  },
+};

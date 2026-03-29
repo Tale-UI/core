@@ -46,3 +46,40 @@ export const WithLabel: Story = {
     </DateField.Root>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Default</p>
+          <DateField.Root>
+            <DateField.Label>Date</DateField.Label>
+            <DateField.DateInput className="story-date-input">
+              {(segment) => <DateField.Segment segment={segment} />}
+            </DateField.DateInput>
+          </DateField.Root>
+        </div>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Disabled</p>
+          <DateField.Root isDisabled>
+            <DateField.Label>Date</DateField.Label>
+            <DateField.DateInput className="story-date-input">
+              {(segment) => <DateField.Segment segment={segment} />}
+            </DateField.DateInput>
+          </DateField.Root>
+        </div>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Invalid</p>
+          <DateField.Root isInvalid>
+            <DateField.Label>Date</DateField.Label>
+            <DateField.DateInput className="story-date-input">
+              {(segment) => <DateField.Segment segment={segment} />}
+            </DateField.DateInput>
+          </DateField.Root>
+        </div>
+      </div>
+    );
+  },
+};

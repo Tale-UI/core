@@ -53,3 +53,58 @@ export const LongPath: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-sections">
+        <div>
+          <p className="story-label">Short (2 items)</p>
+          <Breadcrumbs.Root>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link>Products</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+          </Breadcrumbs.Root>
+        </div>
+        <div>
+          <p className="story-label">Long (5 items)</p>
+          <Breadcrumbs.Root>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Category</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Subcategory</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Products</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link>Widget Pro</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+          </Breadcrumbs.Root>
+        </div>
+        <div>
+          <p className="story-label">With current page (no link)</p>
+          <Breadcrumbs.Root>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Products</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link>Current Page</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+          </Breadcrumbs.Root>
+        </div>
+      </div>
+    );
+  },
+};

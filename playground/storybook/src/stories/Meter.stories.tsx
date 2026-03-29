@@ -77,3 +77,35 @@ export const AllValues: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const zones = [
+      { value: 10, label: 'Low (10%)' },
+      { value: 40, label: 'Medium (40%)' },
+      { value: 70, label: 'High (70%)' },
+      { value: 90, label: 'Critical (90%)' },
+    ];
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)', width: 360 }}>
+        <span className="story-label">Color zones by value</span>
+        {zones.map(({ value, label }) => (
+          <div key={value} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
+            <span className="story-label" style={{ fontSize: 'var(--text-xs-font-size)' }}>{label}</span>
+            <Meter.Root value={value} minValue={0} maxValue={100}>
+              <Meter.Header>
+                <Meter.Label>Storage</Meter.Label>
+                <Meter.Value>{value}%</Meter.Value>
+              </Meter.Header>
+              <Meter.Track>
+                <Meter.Indicator value={value} />
+              </Meter.Track>
+            </Meter.Root>
+          </div>
+        ))}
+      </div>
+    );
+  },
+};

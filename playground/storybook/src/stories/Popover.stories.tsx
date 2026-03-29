@@ -99,3 +99,29 @@ export const WithCloseButton: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+
+    const placements = ['top', 'bottom', 'left', 'right'] as const;
+
+    return (
+      <div style={{ display: 'flex', gap: 'var(--space-l)', alignItems: 'flex-start', padding: 'var(--space-3xl)' }}>
+        {placements.map((placement) => (
+          <div key={placement} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+            <span className="story-label">placement="{placement}"</span>
+            <Popover.Root>
+              <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">{placement}</Popover.Trigger>
+              <Popover.Popup placement={placement} offset={8}>
+                <Popover.Arrow />
+                <Popover.Title>Placement: {placement}</Popover.Title>
+                <Popover.Description>Popover on the {placement}.</Popover.Description>
+              </Popover.Popup>
+            </Popover.Root>
+          </div>
+        ))}
+      </div>
+    );
+  },
+};

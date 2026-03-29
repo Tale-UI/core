@@ -122,3 +122,64 @@ export const Autoplay: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)', maxWidth: 500 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Horizontal</span>
+          <Carousel.Root style={{ maxWidth: 500 }}>
+            <Carousel.Content>
+              {[1, 2, 3, 4].map((n) => (
+                <Carousel.Item key={n}>
+                  <div style={slideStyle}>Slide {n}</div>
+                </Carousel.Item>
+              ))}
+            </Carousel.Content>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-xs)', marginTop: 'var(--space-xs)' }}>
+              <Carousel.PreviousTrigger />
+              <Carousel.NextTrigger />
+            </div>
+          </Carousel.Root>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Vertical</span>
+          <Carousel.Root orientation="vertical" style={{ maxWidth: 500, height: 220 }}>
+            <Carousel.Content>
+              {[1, 2, 3].map((n) => (
+                <Carousel.Item key={n}>
+                  <div style={{ ...slideStyle, height: 220 }}>Slide {n}</div>
+                </Carousel.Item>
+              ))}
+            </Carousel.Content>
+          </Carousel.Root>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Loop with indicators</span>
+          <Carousel.Root loop style={{ maxWidth: 500 }}>
+            <Carousel.Content>
+              {[1, 2, 3, 4].map((n) => (
+                <Carousel.Item key={n}>
+                  <div style={slideStyle}>Slide {n}</div>
+                </Carousel.Item>
+              ))}
+            </Carousel.Content>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-xs)', marginTop: 'var(--space-xs)' }}>
+              <Carousel.PreviousTrigger />
+              <Carousel.NextTrigger />
+            </div>
+            <Carousel.Indicators>
+              {[0, 1, 2, 3].map((i) => (
+                <Carousel.Indicator key={i} index={i} />
+              ))}
+            </Carousel.Indicators>
+          </Carousel.Root>
+        </div>
+      </div>
+    );
+  },
+};

@@ -1,5 +1,36 @@
 /* stories.css — Shared layout classes for Storybook stories */
 
+/* ─── AllVariations helpers ───────────────────────────────────────────────── */
+
+/* Section / column / row header label */
+.story-label {
+  font-weight: 600;
+  font-size: var(--label-s-font-size);
+  color: var(--neutral-60);
+}
+
+/* Section heading with bottom margin (used before a group of items) */
+.story-heading {
+  font-weight: 600;
+  font-size: var(--label-s-font-size);
+  color: var(--neutral-60);
+  margin-bottom: 0.8rem;
+}
+
+/* Vertical stack of sections with generous gap */
+.story-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Horizontal wrap of side-by-side cards/panels */
+.story-cards {
+  display: flex;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+
 /* ─── Story decorators ────────────────────────────────────────────────────── */
 
 /* Centered full-viewport decorator (Accordion, Disclosure) */

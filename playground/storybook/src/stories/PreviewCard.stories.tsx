@@ -85,3 +85,35 @@ export const WithImage: Story = {
     </PreviewCard.Root>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+
+    const placements = ['top', 'bottom', 'left', 'right'] as const;
+
+    return (
+      <div style={{ display: 'flex', gap: 'var(--space-l)', alignItems: 'flex-start', padding: 'var(--space-3xl)' }}>
+        {placements.map((placement) => (
+          <div key={placement} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+            <span className="story-label">placement="{placement}"</span>
+            <PreviewCard.Root>
+              <PreviewCard.Trigger>Hover ({placement})</PreviewCard.Trigger>
+              <PreviewCard.Popup placement={placement} offset={8}>
+                <PreviewCard.Arrow />
+                <PreviewCard.Content aria-label={`Preview ${placement}`}>
+                  <div className="story-preview-content">
+                    <h4 className="story-preview-title">Preview: {placement}</h4>
+                    <p className="story-preview-text">
+                      This card is placed on the {placement}.
+                    </p>
+                  </div>
+                </PreviewCard.Content>
+              </PreviewCard.Popup>
+            </PreviewCard.Root>
+          </div>
+        ))}
+      </div>
+    );
+  },
+};

@@ -65,3 +65,21 @@ export const Default: Story = {
 export const WithLabel: Story = {
   render: (args) => <DatePickerTemplate {...args} showLabel />,
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 250px' }}>
+          <p className="story-label">Default</p>
+          <DatePickerTemplate showLabel />
+        </div>
+        <div style={{ flex: '1 1 250px' }}>
+          <p className="story-label">Disabled</p>
+          <DatePickerTemplate showLabel isDisabled />
+        </div>
+      </div>
+    );
+  },
+};

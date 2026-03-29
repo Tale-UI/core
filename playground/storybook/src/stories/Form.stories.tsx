@@ -68,3 +68,57 @@ export const WithValidation: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-cards">
+        <div style={{ flex: '1 1 280px' }}>
+          <p className="story-label">Valid form</p>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert('Form submitted!');
+            }}
+          >
+            <div className="story-col story-col--m">
+              <TextField.Root name="username" isRequired>
+                <TextField.Label>Username</TextField.Label>
+                <TextField.Input placeholder="Enter username" />
+              </TextField.Root>
+              <TextField.Root name="email" type="email" isRequired>
+                <TextField.Label>Email</TextField.Label>
+                <TextField.Input placeholder="you@example.com" />
+              </TextField.Root>
+              <Button type="submit">Submit</Button>
+            </div>
+          </Form>
+        </div>
+        <div style={{ flex: '1 1 280px' }}>
+          <p className="story-label">Invalid form (with validation errors)</p>
+          <Form
+            validationBehavior="native"
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div className="story-col story-col--m">
+              <TextField.Root name="fullName" isRequired isInvalid>
+                <TextField.Label>Full Name</TextField.Label>
+                <TextField.Input placeholder="Enter your full name" />
+                <TextField.ErrorMessage>This field is required.</TextField.ErrorMessage>
+              </TextField.Root>
+              <TextField.Root name="password" type="password" isRequired isInvalid>
+                <TextField.Label>Password</TextField.Label>
+                <TextField.Input placeholder="At least 8 characters" />
+                <TextField.ErrorMessage>Password must be at least 8 characters.</TextField.ErrorMessage>
+              </TextField.Root>
+              <Button type="submit">Submit</Button>
+            </div>
+          </Form>
+        </div>
+      </div>
+    );
+  },
+};

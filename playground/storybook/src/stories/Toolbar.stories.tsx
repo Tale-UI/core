@@ -52,3 +52,34 @@ export const WithInput: Story = {
     );
   },
 };
+
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-sections">
+        <div>
+          <p className="story-label">Toolbar with buttons and separators</p>
+          <Toolbar.Root aria-label="Formatting">
+            <Toolbar.Group>
+              <Toolbar.Button>Bold</Toolbar.Button>
+              <Toolbar.Button>Italic</Toolbar.Button>
+              <Toolbar.Button>Underline</Toolbar.Button>
+            </Toolbar.Group>
+            <Toolbar.Separator />
+            <Toolbar.Group>
+              <Toolbar.Button>Left</Toolbar.Button>
+              <Toolbar.Button>Center</Toolbar.Button>
+              <Toolbar.Button>Right</Toolbar.Button>
+            </Toolbar.Group>
+            <Toolbar.Separator />
+            <Toolbar.Group>
+              <Toolbar.Input placeholder="Search..." aria-label="Search" />
+            </Toolbar.Group>
+          </Toolbar.Root>
+        </div>
+      </div>
+    );
+  },
+};

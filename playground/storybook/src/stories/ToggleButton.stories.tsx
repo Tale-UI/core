@@ -86,3 +86,30 @@ export const AllSizes: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const sizes = ['sm', 'md', 'lg'] as const;
+    const states = [
+      { label: 'Default', props: {} },
+      { label: 'Pressed', props: { defaultSelected: true } },
+      { label: 'Disabled', props: { isDisabled: true } },
+      { label: 'Disabled + Pressed', props: { isDisabled: true, defaultSelected: true } },
+    ] as const;
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
+        <div />
+        {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+        {states.map((state) => (
+          <>
+            <div key={`label-${state.label}`} className="story-label">{state.label}</div>
+            {sizes.map((s) => (
+              <ToggleButton key={`${state.label}-${s}`} size={s} {...state.props}>{state.label}</ToggleButton>
+            ))}
+          </>
+        ))}
+      </div>
+    );
+  },
+};

@@ -88,3 +88,54 @@ export const WithExpanded: Story = {
     );
   },
 };
+
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 250px' }}>
+          <p className="story-label">Single select</p>
+          <Tree.Root aria-label="Files — single" selectionMode="single" defaultExpandedKeys={new Set(['1'])}>
+            <Tree.Item id="1" textValue="Documents">
+              <Tree.ItemContent>Documents</Tree.ItemContent>
+              <Tree.Item id="1.1" textValue="report.pdf">
+                <Tree.ItemContent>report.pdf</Tree.ItemContent>
+              </Tree.Item>
+              <Tree.Item id="1.2" textValue="notes.txt">
+                <Tree.ItemContent>notes.txt</Tree.ItemContent>
+              </Tree.Item>
+            </Tree.Item>
+            <Tree.Item id="2" textValue="Photos">
+              <Tree.ItemContent>Photos</Tree.ItemContent>
+              <Tree.Item id="2.1" textValue="vacation.jpg">
+                <Tree.ItemContent>vacation.jpg</Tree.ItemContent>
+              </Tree.Item>
+            </Tree.Item>
+          </Tree.Root>
+        </div>
+        <div style={{ flex: '1 1 250px' }}>
+          <p className="story-label">Multiple select</p>
+          <Tree.Root aria-label="Files — multi" selectionMode="multiple" defaultExpandedKeys={new Set(['1'])}>
+            <Tree.Item id="1" textValue="Documents">
+              <Tree.ItemContent>Documents</Tree.ItemContent>
+              <Tree.Item id="1.1" textValue="report.pdf">
+                <Tree.ItemContent>report.pdf</Tree.ItemContent>
+              </Tree.Item>
+              <Tree.Item id="1.2" textValue="notes.txt">
+                <Tree.ItemContent>notes.txt</Tree.ItemContent>
+              </Tree.Item>
+            </Tree.Item>
+            <Tree.Item id="2" textValue="Photos">
+              <Tree.ItemContent>Photos</Tree.ItemContent>
+              <Tree.Item id="2.1" textValue="vacation.jpg">
+                <Tree.ItemContent>vacation.jpg</Tree.ItemContent>
+              </Tree.Item>
+            </Tree.Item>
+          </Tree.Root>
+        </div>
+      </div>
+    );
+  },
+};

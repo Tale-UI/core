@@ -61,3 +61,54 @@ export const Default: Story = {
     </Menubar.Root>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 16 }}>
+        <span className="story-label">Default Menubar</span>
+        <Menubar.Root>
+          <Menubar.Item>
+            <Menu.Root>
+              <Menu.Trigger>File</Menu.Trigger>
+              <Menu.Popover>
+                <Menu.MenuList aria-label="File">
+                  <Menu.Item id="av-new" textValue="New">New</Menu.Item>
+                  <Menu.Item id="av-open" textValue="Open">Open</Menu.Item>
+                  <Menu.Separator />
+                  <Menu.Item id="av-save" textValue="Save">Save</Menu.Item>
+                </Menu.MenuList>
+              </Menu.Popover>
+            </Menu.Root>
+          </Menubar.Item>
+          <Menubar.Item>
+            <Menu.Root>
+              <Menu.Trigger>Edit</Menu.Trigger>
+              <Menu.Popover>
+                <Menu.MenuList aria-label="Edit">
+                  <Menu.Item id="av-undo" textValue="Undo">Undo</Menu.Item>
+                  <Menu.Item id="av-redo" textValue="Redo">Redo</Menu.Item>
+                  <Menu.Separator />
+                  <Menu.Item id="av-cut" textValue="Cut">Cut</Menu.Item>
+                  <Menu.Item id="av-copy" textValue="Copy">Copy</Menu.Item>
+                </Menu.MenuList>
+              </Menu.Popover>
+            </Menu.Root>
+          </Menubar.Item>
+          <Menubar.Item>
+            <Menu.Root>
+              <Menu.Trigger>View</Menu.Trigger>
+              <Menu.Popover>
+                <Menu.MenuList aria-label="View">
+                  <Menu.Item id="av-zoom-in" textValue="Zoom In">Zoom In</Menu.Item>
+                  <Menu.Item id="av-zoom-out" textValue="Zoom Out">Zoom Out</Menu.Item>
+                </Menu.MenuList>
+              </Menu.Popover>
+            </Menu.Root>
+          </Menubar.Item>
+        </Menubar.Root>
+      </div>
+    );
+  },
+};

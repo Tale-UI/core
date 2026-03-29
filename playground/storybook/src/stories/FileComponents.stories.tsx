@@ -90,3 +90,25 @@ export const Combined: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-cards">
+        <div style={{ flex: '1 1 250px' }}>
+          <p className="story-label">DropZone</p>
+          <DropZone className="story-dropzone-basic">
+            <p>Drop files here</p>
+          </DropZone>
+        </div>
+        <div style={{ flex: '1 1 250px' }}>
+          <p className="story-label">FileTrigger</p>
+          <FileTrigger onSelect={() => {}}>
+            <Button>Upload file</Button>
+          </FileTrigger>
+        </div>
+      </div>
+    );
+  },
+};

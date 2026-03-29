@@ -237,3 +237,79 @@ export const Vertical: Story = {
     </div>
   ),
 };
+
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)', width: 400 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Single value</span>
+          <Slider.Root defaultValue={50}>
+            <Slider.Header>
+              <Slider.Label>Volume</Slider.Label>
+              <Slider.Output />
+            </Slider.Header>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb />
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Range (two thumbs)</span>
+          <Slider.Root defaultValue={[20, 80]}>
+            <Slider.Header>
+              <Slider.Label>Price Range</Slider.Label>
+              <Slider.Output />
+            </Slider.Header>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb />
+                <Slider.Thumb />
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">Disabled</span>
+          <Slider.Root defaultValue={60} isDisabled>
+            <Slider.Header>
+              <Slider.Label>Disabled</Slider.Label>
+              <Slider.Output />
+            </Slider.Header>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb />
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <span className="story-label">With output labels on thumbs</span>
+          <Slider.Root defaultValue={[25, 75]}>
+            <Slider.Control>
+              <Slider.Track>
+                <Slider.Indicator />
+                <Slider.Thumb index={0}>
+                  <Slider.Output position="top" index={0} />
+                </Slider.Thumb>
+                <Slider.Thumb index={1}>
+                  <Slider.Output position="top" index={1} />
+                </Slider.Thumb>
+              </Slider.Track>
+            </Slider.Control>
+          </Slider.Root>
+        </div>
+      </div>
+    );
+  },
+};

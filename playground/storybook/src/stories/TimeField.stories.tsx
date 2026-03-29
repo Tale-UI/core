@@ -50,3 +50,32 @@ export const WithLabel: Story = {
     </TimeField.Root>
   ),
 };
+
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Default</p>
+          <TimeField.Root>
+            <TimeField.Label>Time</TimeField.Label>
+            <TimeField.DateInput className="story-date-input">
+              {(segment) => <TimeField.Segment segment={segment} />}
+            </TimeField.DateInput>
+          </TimeField.Root>
+        </div>
+        <div style={{ flex: '1 1 200px' }}>
+          <p className="story-label">Disabled</p>
+          <TimeField.Root isDisabled>
+            <TimeField.Label>Time</TimeField.Label>
+            <TimeField.DateInput className="story-date-input">
+              {(segment) => <TimeField.Segment segment={segment} />}
+            </TimeField.DateInput>
+          </TimeField.Root>
+        </div>
+      </div>
+    );
+  },
+};

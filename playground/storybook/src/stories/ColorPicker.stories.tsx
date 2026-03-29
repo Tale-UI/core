@@ -56,3 +56,42 @@ export const SharedState: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const [color, setColor] = useState<Color>(parseColor('hsb(200, 100%, 100%)'));
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 16 }}>
+        <span className="story-label">Shared State Color Picker</span>
+        <div className="story-col story-col--m">
+          <ColorArea.Root value={color} onChange={setColor}>
+            <ColorArea.Thumb />
+          </ColorArea.Root>
+          <ColorSlider.Root channel="hue" value={color} onChange={setColor}>
+            <ColorSlider.Label>Hue</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+          <ColorSlider.Root channel="saturation" value={color} onChange={setColor}>
+            <ColorSlider.Label>Saturation</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+          <ColorSlider.Root channel="brightness" value={color} onChange={setColor}>
+            <ColorSlider.Label>Brightness</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+        </div>
+      </div>
+    );
+  },
+};

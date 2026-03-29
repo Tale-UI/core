@@ -49,3 +49,23 @@ export const AllColors: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const colors = ['neutral', 'brand', 'error', 'warning', 'success'] as const;
+    const sizes = ['sm', 'md', 'lg'] as const;
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '1.2rem', alignItems: 'center' }}>
+        <div />
+        {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+        {colors.map((c) => (
+          <>
+            <div key={`label-${c}`} className="story-label">{c}</div>
+            {sizes.map((s) => <DotIcon key={`${c}-${s}`} color={c} size={s} />)}
+          </>
+        ))}
+      </div>
+    );
+  },
+};

@@ -92,3 +92,30 @@ export const Dismissible: Story = {
     );
   },
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const variants = ['info', 'success', 'warning', 'error'] as const;
+    const sizes = ['sm', 'md'] as const;
+    return (
+      <div className="story-sections">
+        {sizes.map((size) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            <div className="story-label">Size: {size}</div>
+            {variants.map((v) => (
+              <Banner.Root key={`${v}-${size}`} variant={v} size={size}>
+                <Banner.Title>{v.charAt(0).toUpperCase() + v.slice(1)}</Banner.Title>
+                <Banner.Description>This is a {v} banner at {size} size.</Banner.Description>
+                <Banner.Actions>
+                  <Button variant="ghost" size="sm">Action</Button>
+                </Banner.Actions>
+                <Banner.Close aria-label="Dismiss" />
+              </Banner.Root>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  },
+};

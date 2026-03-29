@@ -143,3 +143,23 @@ export const Accessible: Story = {
     </div>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const sizes = ['sm', 'md', 'lg', 'xl'] as const;
+    const icons = [Heart, Star, Bell, Settings, Search, AlertCircle, CheckCircle, Info] as const;
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '1.2rem', alignItems: 'center' }}>
+        <div />
+        {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+        {icons.map((IconComp, i) => (
+          <>
+            <div key={`label-${i}`} className="story-label">{IconComp.displayName}</div>
+            {sizes.map((s) => <Icon key={`${i}-${s}`} icon={IconComp} size={s} />)}
+          </>
+        ))}
+      </div>
+    );
+  },
+};

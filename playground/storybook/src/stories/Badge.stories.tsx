@@ -7,6 +7,7 @@ type Args = {
     | 'teal' | 'cyan' | 'sky' | 'indigo' | 'violet' | 'purple' | 'fuchsia'
     | 'pink' | 'rose';
   size: 'sm' | 'md' | 'lg';
+  type: 'pill' | 'rounded' | 'modern';
 };
 
 const meta: Meta<Args> = {
@@ -21,10 +22,15 @@ const meta: Meta<Args> = {
       control: 'select',
       options: ['sm', 'md', 'lg'],
     },
+    type: {
+      control: 'select',
+      options: ['pill', 'rounded', 'modern'],
+    },
   },
   args: {
     variant: 'neutral',
     size: 'md',
+    type: 'pill',
   },
 };
 
@@ -34,7 +40,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render(args) {
-    return <Badge variant={args.variant} size={args.size}>Badge</Badge>;
+    return <Badge variant={args.variant} size={args.size} type={args.type}>Badge</Badge>;
   },
 };
 
@@ -87,6 +93,47 @@ export const AllSizes: Story = {
         <Badge size="sm">Small</Badge>
         <Badge size="md">Medium</Badge>
         <Badge size="lg">Large</Badge>
+      </div>
+    );
+  },
+};
+
+export const AllTypes: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+        <Badge type="pill">Pill</Badge>
+        <Badge type="rounded">Rounded</Badge>
+        <Badge type="modern">Modern</Badge>
+      </div>
+    );
+  },
+};
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    const variants = ['neutral', 'brand', 'error', 'warning', 'success', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const;
+    const sizes = ['sm', 'md', 'lg'] as const;
+    const types = ['pill', 'rounded', 'modern'] as const;
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2.4rem' }}>
+        {types.map((t) => (
+          <div key={t}>
+            <div className="story-heading">Type: {t}</div>
+            <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.4rem 0.8rem', alignItems: 'center' }}>
+              <div />
+              {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
+              {variants.map((v) => (
+                <>
+                  <div key={`label-${v}`} className="story-label">{v}</div>
+                  {sizes.map((s) => <Badge key={`${v}-${s}`} variant={v} size={s} type={t}>{v}</Badge>)}
+                </>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     );
   },

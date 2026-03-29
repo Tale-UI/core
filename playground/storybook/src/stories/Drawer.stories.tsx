@@ -88,3 +88,59 @@ export const WithActions: Story = {
     </Drawer.Root>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div style={{ display: 'flex', gap: 'var(--space-l)', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+          <span className="story-label">Basic</span>
+          <Drawer.Root>
+            <Drawer.Trigger className="tale-button tale-button--neutral">Basic</Drawer.Trigger>
+            <Drawer.Popup>
+              <p>Simple drawer content.</p>
+              <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+            </Drawer.Popup>
+          </Drawer.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+          <span className="story-label">With title</span>
+          <Drawer.Root>
+            <Drawer.Trigger className="tale-button tale-button--neutral">Title</Drawer.Trigger>
+            <Drawer.Popup>
+              <Drawer.Title>Drawer Title</Drawer.Title>
+              <Drawer.Description>Description text goes here.</Drawer.Description>
+              <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+            </Drawer.Popup>
+          </Drawer.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+          <span className="story-label">With backdrop</span>
+          <Drawer.Root>
+            <Drawer.Trigger className="tale-button tale-button--neutral">Backdrop</Drawer.Trigger>
+            <Drawer.Backdrop />
+            <Drawer.Popup>
+              <Drawer.Title>Backdrop Drawer</Drawer.Title>
+              <Drawer.Description>Click backdrop to close.</Drawer.Description>
+              <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+            </Drawer.Popup>
+          </Drawer.Root>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)', alignItems: 'center' }}>
+          <span className="story-label">With handle</span>
+          <Drawer.Root>
+            <Drawer.Trigger className="tale-button tale-button--neutral">Handle</Drawer.Trigger>
+            <Drawer.Backdrop />
+            <Drawer.Popup>
+              <Drawer.Handle />
+              <Drawer.Title>Draggable Drawer</Drawer.Title>
+              <Drawer.Description>This drawer has a drag handle.</Drawer.Description>
+              <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
+            </Drawer.Popup>
+          </Drawer.Root>
+        </div>
+      </div>
+    );
+  },
+};

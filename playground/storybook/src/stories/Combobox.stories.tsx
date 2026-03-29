@@ -161,3 +161,85 @@ export const MultiSelectChips: Story = {
     </Combobox.Root>
   ),
 };
+
+export const AllVariations: Story = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-cards">
+        <div style={{ width: 260 }}>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Default</div>
+          <Combobox.Root>
+            <Combobox.Label>Fruit</Combobox.Label>
+            <Combobox.InputGroup>
+              <Combobox.Input placeholder="Select…" />
+              <Combobox.Trigger />
+            </Combobox.InputGroup>
+            <Combobox.Popover offset={4}>
+              <Combobox.ListBox>
+                <Combobox.Item id="av-apple" textValue="Apple">Apple</Combobox.Item>
+                <Combobox.Item id="av-banana" textValue="Banana">Banana</Combobox.Item>
+              </Combobox.ListBox>
+            </Combobox.Popover>
+          </Combobox.Root>
+        </div>
+        <div style={{ width: 260 }}>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Disabled</div>
+          <Combobox.Root isDisabled>
+            <Combobox.Label>Fruit</Combobox.Label>
+            <Combobox.InputGroup>
+              <Combobox.Input placeholder="Disabled" />
+              <Combobox.Trigger />
+            </Combobox.InputGroup>
+            <Combobox.Popover offset={4}>
+              <Combobox.ListBox>
+                <Combobox.Item id="av-dis-apple" textValue="Apple">Apple</Combobox.Item>
+              </Combobox.ListBox>
+            </Combobox.Popover>
+          </Combobox.Root>
+        </div>
+        <div style={{ width: 260 }}>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>With sections</div>
+          <Combobox.Root>
+            <Combobox.Label>Food</Combobox.Label>
+            <Combobox.InputGroup>
+              <Combobox.Input placeholder="Search…" />
+              <Combobox.Trigger />
+            </Combobox.InputGroup>
+            <Combobox.Popover offset={4}>
+              <Combobox.ListBox>
+                <Combobox.Section>
+                  <Combobox.Header>Fruits</Combobox.Header>
+                  <Combobox.Item id="av-s-apple" textValue="Apple">Apple</Combobox.Item>
+                </Combobox.Section>
+                <Combobox.Section>
+                  <Combobox.Header>Vegetables</Combobox.Header>
+                  <Combobox.Item id="av-s-carrot" textValue="Carrot">Carrot</Combobox.Item>
+                </Combobox.Section>
+              </Combobox.ListBox>
+            </Combobox.Popover>
+          </Combobox.Root>
+        </div>
+        <div style={{ width: 260 }}>
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Multi-select with chips</div>
+          <Combobox.Root selectionMode="multiple">
+            <Combobox.Label>Frameworks</Combobox.Label>
+            <Combobox.Chips>
+              <Combobox.Chip>React <Combobox.ChipRemove aria-label="Remove" /></Combobox.Chip>
+            </Combobox.Chips>
+            <Combobox.InputGroup>
+              <Combobox.Input placeholder="Add…" />
+              <Combobox.Trigger />
+            </Combobox.InputGroup>
+            <Combobox.Popover offset={4}>
+              <Combobox.ListBox>
+                <Combobox.Item id="av-m-react" textValue="React">React</Combobox.Item>
+                <Combobox.Item id="av-m-vue" textValue="Vue">Vue</Combobox.Item>
+              </Combobox.ListBox>
+            </Combobox.Popover>
+          </Combobox.Root>
+        </div>
+      </div>
+    );
+  },
+};
