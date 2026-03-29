@@ -61,8 +61,8 @@ export interface RootProps {
 export const Root: React.FC<RootProps> = ({ children, delay = 400, closeDelay = 300 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const triggerRef = React.useRef<HTMLSpanElement>(null);
-  const openTimer = React.useRef<ReturnType<typeof setTimeout>>();
-  const closeTimer = React.useRef<ReturnType<typeof setTimeout>>();
+  const openTimer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+  const closeTimer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const onHoverOpen = React.useCallback(() => {
     clearTimeout(closeTimer.current);

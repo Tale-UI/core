@@ -84,7 +84,7 @@ export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
     const { size } = React.useContext(SelectContext);
     const sizeClass = size !== 'md' ? `tale-select__trigger--${size}` : '';
     return (
-      <AriaButton ref={ref} className={cx('tale-select__trigger', sizeClass, className)} {...props} />
+      <AriaButton ref={ref} className={cx(`tale-select__trigger${sizeClass ? ` ${sizeClass}` : ''}`, className)} {...props} />
     );
   },
 );

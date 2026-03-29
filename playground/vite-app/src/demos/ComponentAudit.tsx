@@ -1166,19 +1166,19 @@ export default function ComponentAudit() {
           </div>
           <SubHeading>Slim</SubHeading>
           <div className="display--flex flex--col gap--xs">
-            <Switch.Root slim>
+            <Switch.Root>
               <Switch.Thumb />
               Slim (off)
             </Switch.Root>
-            <Switch.Root slim defaultSelected>
+            <Switch.Root defaultSelected>
               <Switch.Thumb />
               Slim (on)
             </Switch.Root>
-            <Switch.Root slim size="sm">
+            <Switch.Root size="sm">
               <Switch.Thumb />
               Slim + Small (off)
             </Switch.Root>
-            <Switch.Root slim size="sm" defaultSelected>
+            <Switch.Root size="sm" defaultSelected>
               <Switch.Thumb />
               Slim + Small (on)
             </Switch.Root>
@@ -2562,9 +2562,9 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Indeterminate</SubHeading>
           <Row>
-            <ProgressCircle.Root value={null} size="sm"><ProgressCircle.Track /></ProgressCircle.Root>
-            <ProgressCircle.Root value={null}><ProgressCircle.Track /></ProgressCircle.Root>
-            <ProgressCircle.Root value={null} size="lg"><ProgressCircle.Track /></ProgressCircle.Root>
+            <ProgressCircle.Root value={undefined} size="sm"><ProgressCircle.Track /></ProgressCircle.Root>
+            <ProgressCircle.Root value={undefined}><ProgressCircle.Track /></ProgressCircle.Root>
+            <ProgressCircle.Root value={undefined} size="lg"><ProgressCircle.Track /></ProgressCircle.Root>
           </Row>
           <SubHeading>Complete</SubHeading>
           <Row>
@@ -3002,7 +3002,6 @@ export default function ComponentAudit() {
           <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <SelectNative size="sm"><option>Small</option></SelectNative>
             <SelectNative size="md"><option>Medium</option></SelectNative>
-            <SelectNative size="lg"><option>Large</option></SelectNative>
           </div>
           <SubHeading>Disabled</SubHeading>
           <div className="audit__demo-narrow">

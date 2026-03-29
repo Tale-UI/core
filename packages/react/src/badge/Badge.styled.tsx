@@ -33,8 +33,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     <span
       ref={ref}
       className={cx(
-        `tale-badge tale-badge--${variant} tale-badge--${size}`,
-        type !== 'pill' && `tale-badge--${type}`,
+        `tale-badge tale-badge--${variant} tale-badge--${size}${type !== 'pill' ? ` tale-badge--${type}` : ''}`,
         className,
       )}
       {...props}
