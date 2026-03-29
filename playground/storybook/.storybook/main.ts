@@ -49,6 +49,11 @@ const config: StorybookConfig = {
   align-items: center;
   padding-bottom: 5px;
 }
+/* Hide the onboarding checklist widget — the feature flag is overridden by
+   Storybook's common-preset so CSS is the only reliable way to remove it. */
+#storybook-checklist-widget {
+  display: none !important;
+}
 }`;
     return `${head}<style id="tale-ui-tokens">${css}${overrides}</style>`;
   },
