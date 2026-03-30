@@ -79,6 +79,17 @@ export const Root: <T extends object = {}>(
 
 export type TriggerProps = Omit<AriaButtonProps, 'className'> & { className?: string };
 
+/**
+ * Button that opens the select dropdown
+ *
+ * @example
+ * ```tsx
+ * <Select.Trigger>
+ *   <Select.Value />
+ *   <Select.Icon />
+ * </Select.Trigger>
+ * ```
+ */
 export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
   ({ className, ...props }, ref) => {
     const { size } = React.useContext(SelectContext);
@@ -94,6 +105,14 @@ Trigger.displayName = 'Select.Trigger';
 
 export type ValueProps<T extends object = object> = Omit<AriaSelectValueProps<T>, 'className'> & { className?: string };
 
+/**
+ * Displays the currently selected value or placeholder text
+ *
+ * @example
+ * ```tsx
+ * <Select.Value />
+ * ```
+ */
 export const Value: <T extends object = object>(
   props: ValueProps<T> & React.RefAttributes<HTMLSpanElement>,
 ) => React.ReactElement | null = React.forwardRef(
@@ -111,6 +130,14 @@ export const Value: <T extends object = object>(
 
 export type IconProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
 
+/**
+ * Chevron indicator inside the trigger; pass children to override the default icon
+ *
+ * @example
+ * ```tsx
+ * <Select.Icon />
+ * ```
+ */
 export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
   ({ className, children, ...props }, ref) => (
     <span ref={ref} className={cx('tale-select__icon', className)} aria-hidden="true" {...props}>
@@ -124,6 +151,16 @@ Icon.displayName = 'Select.Icon';
 
 export type PopoverProps = Omit<AriaPopoverProps, 'className'> & { className?: string };
 
+/**
+ * Floating container that holds the listbox when the select is open
+ *
+ * @example
+ * ```tsx
+ * <Select.Popover>
+ *   <Select.ListBox>…</Select.ListBox>
+ * </Select.Popover>
+ * ```
+ */
 export const Popover = React.forwardRef<HTMLElement, PopoverProps>(
   ({ className, ...props }, ref) => (
     <AriaPopover ref={ref} className={cx('tale-select__popover', className)} {...props} />
@@ -135,6 +172,16 @@ Popover.displayName = 'Select.Popover';
 
 export type ListBoxProps<T extends object = object> = Omit<AriaListBoxProps<T>, 'className'> & { className?: string };
 
+/**
+ * Scrollable list of selectable options
+ *
+ * @example
+ * ```tsx
+ * <Select.ListBox>
+ *   <Select.Item id="apple">Apple</Select.Item>
+ * </Select.ListBox>
+ * ```
+ */
 export const ListBox: <T extends object = object>(
   props: ListBoxProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(
@@ -152,6 +199,14 @@ export const ListBox: <T extends object = object>(
 
 export type ItemProps<T = object> = Omit<AriaListBoxItemProps<T>, 'className'> & { className?: string };
 
+/**
+ * A single selectable option inside the listbox
+ *
+ * @example
+ * ```tsx
+ * <Select.Item id="banana">Banana</Select.Item>
+ * ```
+ */
 export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
   ({ className, ...props }, ref) => (
     <AriaListBoxItem ref={ref} className={cx('tale-select__item', className)} {...props} />
@@ -163,6 +218,17 @@ Item.displayName = 'Select.Item';
 
 export type SectionProps<T = object> = AriaListBoxSectionProps<T>;
 
+/**
+ * Groups related items under an optional header
+ *
+ * @example
+ * ```tsx
+ * <Select.Section>
+ *   <Select.Header>Citrus</Select.Header>
+ *   <Select.Item id="orange">Orange</Select.Item>
+ * </Select.Section>
+ * ```
+ */
 export const Section: <T extends object>(
   props: SectionProps<T> & React.RefAttributes<HTMLElement>,
 ) => React.ReactElement | null = AriaListBoxSection as any;
@@ -171,6 +237,14 @@ export const Section: <T extends object>(
 
 export type HeaderProps = Omit<React.HTMLAttributes<HTMLElement>, 'className'> & { className?: string };
 
+/**
+ * Heading label for a section of items
+ *
+ * @example
+ * ```tsx
+ * <Select.Header>Citrus</Select.Header>
+ * ```
+ */
 export const Header = React.forwardRef<HTMLElement, HeaderProps>(
   ({ className, ...props }, ref) => (
     <AriaHeader
@@ -186,6 +260,14 @@ Header.displayName = 'Select.Header';
 
 export type LabelProps = Omit<AriaLabelProps, 'className'> & { className?: string };
 
+/**
+ * Accessible label for the select field
+ *
+ * @example
+ * ```tsx
+ * <Select.Label>Fruit</Select.Label>
+ * ```
+ */
 export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
   ({ className, ...props }, ref) => (
     <AriaLabel ref={ref} className={cx('tale-select__label', className)} {...props} />
@@ -197,6 +279,14 @@ Label.displayName = 'Select.Label';
 
 export type SeparatorProps = Omit<AriaSeparatorProps, 'className'> & { className?: string };
 
+/**
+ * Visual divider between items or sections
+ *
+ * @example
+ * ```tsx
+ * <Select.Separator />
+ * ```
+ */
 export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
   ({ className, ...props }, ref) => (
     <AriaSeparator ref={ref} className={cx('tale-select__separator', className)} {...props} />
@@ -208,6 +298,17 @@ Separator.displayName = 'Select.Separator';
 
 export type ItemTextProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
 
+/**
+ * Text label within an item, used when the item contains additional elements
+ *
+ * @example
+ * ```tsx
+ * <Select.Item id="us">
+ *   <Select.ItemText>United States</Select.ItemText>
+ *   <Select.ItemIndicator>✓</Select.ItemIndicator>
+ * </Select.Item>
+ * ```
+ */
 export const ItemText = React.forwardRef<HTMLSpanElement, ItemTextProps>(
   ({ className, ...props }, ref) => (
     <span ref={ref} className={cx('tale-select__item-text', className)} {...props} />
@@ -219,6 +320,14 @@ ItemText.displayName = 'Select.ItemText';
 
 export type ItemIndicatorProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
 
+/**
+ * Checkmark or custom indicator shown on the selected item
+ *
+ * @example
+ * ```tsx
+ * <Select.ItemIndicator>✓</Select.ItemIndicator>
+ * ```
+ */
 export const ItemIndicator = React.forwardRef<HTMLSpanElement, ItemIndicatorProps>(
   ({ className, ...props }, ref) => (
     <span ref={ref} className={cx('tale-select__item-indicator', className)} {...props} />

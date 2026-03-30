@@ -1,6 +1,6 @@
 # Component Index
 
-Quick-reference table for all 82 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
+Quick-reference table for all 88 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
 
 ## Form Controls (21)
 
@@ -73,17 +73,20 @@ Quick-reference table for all 82 `@tale-ui/react` components. For detailed usage
 | Link | Styled anchor link | `@tale-ui/react/link` | -- |
 | Pagination | Page navigation controls | `@tale-ui/react/pagination` | Root, PreviousTrigger, NextTrigger, Item, Ellipsis, Dot, Line |
 
-## Layout (7)
+## Layout (10)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | Accordion | Collapsible content sections | `@tale-ui/react/accordion` | Root, Item, Header, Trigger, Panel |
+| Card | Surface container with header, body, and footer sections | `@tale-ui/react/card` | Root, Header, Body, Footer |
+| Carousel | Slide carousel with navigation | `@tale-ui/react/carousel` | Root, Content, Item, PreviousTrigger, NextTrigger, Indicators, Indicator |
+| Column | Vertical flex-column layout with gap, align, and justify props | `@tale-ui/react/column` | -- |
 | Disclosure | Single collapsible section | `@tale-ui/react/disclosure` | Root, Trigger, Panel |
-| Tabs | Tabbed content with indicator | `@tale-ui/react/tabs` | Root, List, Tab, Panel, Indicator |
+| Row | Horizontal flex-row layout with gap, align, and justify props | `@tale-ui/react/row` | -- |
 | ScrollArea | Custom scrollbar container | `@tale-ui/react/scroll-area` | Root, Viewport, Content, Scrollbar, Thumb, Corner |
 | Separator | Horizontal or vertical divider | `@tale-ui/react/separator` | -- |
+| Tabs | Tabbed content with indicator | `@tale-ui/react/tabs` | Root, List, Tab, Panel, Indicator |
 | Toolbar | Grouped action bar | `@tale-ui/react/toolbar` | Root, Group, Button, Link, Input, Separator |
-| Carousel | Slide carousel with navigation | `@tale-ui/react/carousel` | Root, Content, Item, PreviousTrigger, NextTrigger, Indicators, Indicator |
 
 ## Feedback (4)
 
@@ -95,7 +98,7 @@ Quick-reference table for all 82 `@tale-ui/react` components. For detailed usage
 | Meter | Scalar measurement display | `@tale-ui/react/meter` | Root, Header, Label, Value, Track, Indicator |
 | Spinner | Indeterminate loading indicator | `@tale-ui/react/spinner` | -- |
 
-## Display (11)
+## Display (13)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
@@ -105,6 +108,8 @@ Quick-reference table for all 82 `@tale-ui/react` components. For detailed usage
 | EmptyState | Placeholder for empty content areas | `@tale-ui/react/empty-state` | Root, EmptyStateIcon, Title, Description, Actions |
 | FeaturedIcon | Themed background wrapper for icons | `@tale-ui/react/featured-icon` | -- |
 | GridList | Selectable grid of items | `@tale-ui/react/grid-list` | Root, Item |
+| Image | Styled image wrapper with radius and fit props | `@tale-ui/react/image` | -- |
+| List | Simple non-interactive list with optional dividers | `@tale-ui/react/list` | Root, Item |
 | RatingBadge | Pill badge with star icon and numeric rating | `@tale-ui/react/rating-badge` | -- |
 | RatingStars | Read-only star rating display | `@tale-ui/react/rating-stars` | -- |
 | Table | Data table with sorting | `@tale-ui/react/table` | Root, Header, Column, Body, Row, Cell |
@@ -125,6 +130,12 @@ Quick-reference table for all 82 `@tale-ui/react` components. For detailed usage
 |-----------|-------------|--------|-------|
 | DropZone | Drag-and-drop target | `@tale-ui/react/drop-zone` | -- |
 | FileTrigger | Native file picker trigger | `@tale-ui/react/file-trigger` | -- |
+
+## Typography (1)
+
+| Component | Description | Import | Parts |
+|-----------|-------------|--------|-------|
+| Text | Polymorphic typography wrapper with variant, size, and colour props | `@tale-ui/react/text` | -- |
 
 ## Utility (7)
 

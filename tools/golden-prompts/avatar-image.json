@@ -1,0 +1,7 @@
+{
+  "slug": "avatar-image",
+  "difficulty": "simple",
+  "prompt": "Create a 200x150 image with rounded corners showing a photo at \"/photo.jpg\" with alt text \"A mountain landscape\".",
+  "reference": "import { Image } from '@tale-ui/react/image';\n\nexport function AvatarImage() {\n  return <Image src=\"/photo.jpg\" alt=\"A mountain landscape\" radius=\"md\" width={200} height={150} />;\n}\n",
+  "tags": ["Image"]
+}

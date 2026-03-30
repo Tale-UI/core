@@ -1,0 +1,7 @@
+{
+  "slug": "tabs-with-panels",
+  "difficulty": "medium",
+  "prompt": "Create a tabbed interface with three tabs: 'Overview', 'Features', and 'Pricing'. Each tab should have a corresponding content panel with a short paragraph describing that section. The first tab should be selected by default.",
+  "reference": "import { Tabs } from '@tale-ui/react/tabs';\n\nexport function TabsWithPanels() {\n  return (\n    <Tabs.Root defaultSelectedKey=\"overview\">\n      <Tabs.List>\n        <Tabs.Tab id=\"overview\">Overview</Tabs.Tab>\n        <Tabs.Tab id=\"features\">Features</Tabs.Tab>\n        <Tabs.Tab id=\"pricing\">Pricing</Tabs.Tab>\n        <Tabs.Indicator />\n      </Tabs.List>\n      <Tabs.Panel id=\"overview\">\n        <p>Get a high-level summary of the product and its core value proposition.</p>\n      </Tabs.Panel>\n      <Tabs.Panel id=\"features\">\n        <p>Explore the full list of features including integrations, analytics, and collaboration tools.</p>\n      </Tabs.Panel>\n      <Tabs.Panel id=\"pricing\">\n        <p>Choose from flexible pricing plans designed for individuals, teams, and enterprises.</p>\n      </Tabs.Panel>\n    </Tabs.Root>\n  );\n}",
+  "tags": ["Tabs"]
+}

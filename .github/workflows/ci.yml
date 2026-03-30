@@ -33,6 +33,14 @@ jobs:
         run: pnpm audit:brand
       - name: Audit component completeness
         run: pnpm audit:components
+      - name: Verify component registry
+        run: pnpm registry:check
+      - name: Verify cursor rules
+        run: pnpm cursorrules:check
+      - name: Audit snippet component kinds
+        run: pnpm audit:snippet-kinds
+      - name: Validate golden prompts
+        run: pnpm golden:validate
       - name: Build CSS
         run: pnpm --filter @tale-ui/core build
       - name: Verify dist is up-to-date
@@ -43,6 +51,64 @@ jobs:
             git diff --stat packages/css/dist/
             exit 1
           fi
+
+  # TypeScript, ESLint, and unit tests
+  check-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: TypeScript
+        run: pnpm typescript
+      - name: ESLint
+        run: pnpm eslint:ci
+      - name: Unit tests (jsdom)
+        run: pnpm test:jsdom
+
+  # A2UI catalog drift prevention
+  check-a2ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: Verify A2UI catalog docs
+        run: pnpm a2ui:check-docs
+      - name: Validate A2UI examples
+        run: pnpm a2ui:validate-examples
+      - name: Audit A2UI docs
+        run: pnpm a2ui:audit-docs
+
+  # Markdown lint and formatting
+  check-formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: Markdown lint
+        run: pnpm markdownlint
+      - name: Prettier
+        run: pnpm prettier
 
   # Tests dev-only scripts across all supported dev environments
   test-dev:

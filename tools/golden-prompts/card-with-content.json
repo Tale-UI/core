@@ -1,0 +1,7 @@
+{
+  "slug": "card-with-content",
+  "difficulty": "medium",
+  "prompt": "Create a card with a header displaying a title, a body with descriptive text, and a footer containing a primary action button labeled 'Get Started'.",
+  "reference": "import { Card } from '@tale-ui/react/card';\nimport { Text } from '@tale-ui/react/text';\nimport { Button } from '@tale-ui/react/button';\n\nexport function CardWithContent() {\n  return (\n    <Card.Root>\n      <Card.Header>\n        <Text variant=\"title\" size=\"m\">Welcome</Text>\n      </Card.Header>\n      <Card.Body>\n        <Text variant=\"text\" size=\"m\">\n          This is your personal dashboard. Here you can manage your account settings, view recent activity, and explore new features.\n        </Text>\n      </Card.Body>\n      <Card.Footer>\n        <Button variant=\"primary\">Get Started</Button>\n      </Card.Footer>\n    </Card.Root>\n  );\n}",
+  "tags": ["Card", "Text", "Button"]
+}

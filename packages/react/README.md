@@ -101,7 +101,7 @@ Breadcrumbs · Context Menu · Link · Menu · Menubar · Navigation Menu · Pag
 
 ### Layout
 
-Accordion · Carousel · Disclosure · Scroll Area · Separator · Tabs · Toolbar
+Accordion · Card · Carousel · Column · Disclosure · Row · Scroll Area · Separator · Tabs · Toolbar
 
 ### Feedback
 
@@ -109,7 +109,7 @@ Banner · Meter · Progress Bar · Progress Circle · Spinner
 
 ### Display
 
-Avatar (with Group, Count, Indicator, and LabelGroup) · Badge · Dot Icon · Empty State · Featured Icon · Grid List · Rating Badge · Rating Stars · Table · Tag Group · Tree
+Avatar (with Group, Count, Indicator, and LabelGroup) · Badge · Dot Icon · Empty State · Featured Icon · Grid List · Image · List · Rating Badge · Rating Stars · Table · Tag Group · Tree
 
 ### Form Structure
 
@@ -122,6 +122,10 @@ Drop Zone · File Trigger
 ### Marketing
 
 App Store Button · Social Button · Social Button Group
+
+### Typography
+
+Text
 
 ### Utilities
 

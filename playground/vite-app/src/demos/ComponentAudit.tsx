@@ -44,6 +44,9 @@ import { Disclosure } from '@tale-ui/react/disclosure';
 import { Tabs } from '@tale-ui/react/tabs';
 import { ScrollArea } from '@tale-ui/react/scroll-area';
 import { Container } from '@tale-ui/react/container';
+import { Card } from '@tale-ui/react/card';
+import { Column } from '@tale-ui/react/column';
+import { Row as LayoutRow } from '@tale-ui/react/row';
 
 // Feedback
 import { Banner } from '@tale-ui/react/banner';
@@ -54,6 +57,8 @@ import { Spinner } from '@tale-ui/react/spinner';
 // Display
 import { Avatar } from '@tale-ui/react/avatar';
 import { EmptyState } from '@tale-ui/react/empty-state';
+import { Image } from '@tale-ui/react/image';
+import { List } from '@tale-ui/react/list';
 
 // Form Structure
 import { Field } from '@tale-ui/react/field';
@@ -131,6 +136,7 @@ import { SelectNative } from '@tale-ui/react/select-native';
 import { AppStoreButton } from '@tale-ui/react/app-store-button';
 import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';
 import { PaymentInput } from '@tale-ui/react/payment-input';
+import { Text } from '@tale-ui/react/text';
 
 
 // ---------------------------------------------------------------------------
@@ -261,6 +267,9 @@ const TOC = [
     { id: 'scroll-area', label: 'ScrollArea' },
     { id: 'separator', label: 'Separator' },
     { id: 'toolbar', label: 'Toolbar' },
+    { id: 'card', label: 'Card' },
+    { id: 'column', label: 'Column' },
+    { id: 'row', label: 'Row' },
   ]},
   { category: 'Feedback', items: [
     { id: 'banner', label: 'Banner' },
@@ -281,6 +290,8 @@ const TOC = [
     { id: 'table', label: 'Table' },
     { id: 'tag-group', label: 'TagGroup' },
     { id: 'tree', label: 'Tree' },
+    { id: 'image', label: 'Image' },
+    { id: 'list', label: 'List' },
   ]},
   { category: 'Form Structure', items: [
     { id: 'field', label: 'Field' },
@@ -290,6 +301,9 @@ const TOC = [
   { category: 'Interaction', items: [
     { id: 'drop-zone', label: 'DropZone' },
     { id: 'file-trigger', label: 'FileTrigger' },
+  ]},
+  { category: 'Typography', items: [
+    { id: 'text', label: 'Text' },
   ]},
   { category: 'Marketing', items: [
     { id: 'app-store-button', label: 'AppStoreButton' },
@@ -2358,6 +2372,56 @@ export default function ComponentAudit() {
           </Toolbar.Root>
         </Section>
 
+        <Section id="card" title="Card" classes={['tale-card', 'tale-card--outlined', 'tale-card--elevated', 'tale-card--filled', 'tale-card--sm', 'tale-card--md', 'tale-card--lg', 'tale-card__header', 'tale-card__body', 'tale-card__footer']}>
+          <SubHeading>Outlined (default)</SubHeading>
+          <Card.Root variant="outlined" style={{ maxWidth: '32rem' }}>
+            <Card.Header>Card title</Card.Header>
+            <Card.Body>Card body content goes here.</Card.Body>
+            <Card.Footer>
+              <Button variant="ghost" size="sm">Cancel</Button>
+              <Button variant="primary" size="sm">Confirm</Button>
+            </Card.Footer>
+          </Card.Root>
+          <SubHeading>Elevated</SubHeading>
+          <Card.Root variant="elevated" style={{ maxWidth: '32rem' }}>
+            <Card.Header>Elevated card</Card.Header>
+            <Card.Body>Content with shadow.</Card.Body>
+          </Card.Root>
+          <SubHeading>Filled</SubHeading>
+          <Card.Root variant="filled" style={{ maxWidth: '32rem' }}>
+            <Card.Header>Filled card</Card.Header>
+            <Card.Body>Background fill variant.</Card.Body>
+          </Card.Root>
+        </Section>
+
+        <Section id="column" title="Column" classes={['tale-column']}>
+          <SubHeading>Default</SubHeading>
+          <Column gap="s" style={{ maxWidth: '32rem' }}>
+            <span>First child</span>
+            <span>Second child</span>
+            <span>Third child</span>
+          </Column>
+        </Section>
+
+        <Section id="row" title="Row" classes={['tale-row', 'tale-row--wrap']}>
+          <SubHeading>Default</SubHeading>
+          <LayoutRow gap="s">
+            <Button variant="ghost">Cancel</Button>
+            <Button variant="primary">Save</Button>
+          </LayoutRow>
+          <SubHeading>Justify end</SubHeading>
+          <LayoutRow gap="s" justify="end">
+            <Button variant="ghost">Cancel</Button>
+            <Button variant="primary">Save</Button>
+          </LayoutRow>
+          <SubHeading>Wrapped</SubHeading>
+          <LayoutRow gap="xs" wrap style={{ maxWidth: '20rem' }}>
+            {['One', 'Two', 'Three', 'Four', 'Five', 'Six'].map((t) => (
+              <span key={t} style={{ padding: '0.4rem 0.8rem', background: 'var(--neutral-10)', borderRadius: 'var(--radius-s)' }}>{t}</span>
+            ))}
+          </LayoutRow>
+        </Section>
+
         {/* ============================================================= */}
         {/* FEEDBACK */}
         {/* ============================================================= */}
@@ -2769,6 +2833,46 @@ export default function ComponentAudit() {
             <EmptyState.Title>Welcome</EmptyState.Title>
             <EmptyState.Description>Your dashboard is empty.</EmptyState.Description>
           </EmptyState.Root>
+        </Section>
+
+        <Section id="image" title="Image" classes={['tale-image', 'tale-image--sm', 'tale-image--md', 'tale-image--lg', 'tale-image--full', 'tale-image--contain', 'tale-image--fill', 'tale-image--none']}>
+          <SubHeading>Default (cover)</SubHeading>
+          <Image src="https://picsum.photos/seed/taleui/300/200" alt="Demo" width={300} height={200} />
+          <SubHeading>Radius variants</SubHeading>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <Image src="https://picsum.photos/seed/taleui/120/120" alt="none" radius="none" width={120} height={120} />
+            <Image src="https://picsum.photos/seed/taleui/120/120" alt="sm" radius="sm" width={120} height={120} />
+            <Image src="https://picsum.photos/seed/taleui/120/120" alt="md" radius="md" width={120} height={120} />
+            <Image src="https://picsum.photos/seed/taleui/120/120" alt="lg" radius="lg" width={120} height={120} />
+            <Image src="https://picsum.photos/seed/taleui/120/120" alt="full" radius="full" width={120} height={120} />
+          </div>
+        </Section>
+
+        <Section id="list" title="List" classes={['tale-list', 'tale-list--divided', 'tale-list--compact', 'tale-list--spacious', 'tale-list__item']}>
+          <SubHeading>Plain</SubHeading>
+          <List.Root style={{ maxWidth: '24rem' }}>
+            <List.Item>First item</List.Item>
+            <List.Item>Second item</List.Item>
+            <List.Item>Third item</List.Item>
+          </List.Root>
+          <SubHeading>Divided</SubHeading>
+          <List.Root variant="divided" style={{ maxWidth: '24rem' }}>
+            <List.Item>Apple</List.Item>
+            <List.Item>Banana</List.Item>
+            <List.Item>Cherry</List.Item>
+          </List.Root>
+          <SubHeading>Compact</SubHeading>
+          <List.Root variant="divided" density="compact" style={{ maxWidth: '24rem' }}>
+            <List.Item>Compact one</List.Item>
+            <List.Item>Compact two</List.Item>
+            <List.Item>Compact three</List.Item>
+          </List.Root>
+          <SubHeading>Spacious</SubHeading>
+          <List.Root variant="divided" density="spacious" style={{ maxWidth: '24rem' }}>
+            <List.Item>Spacious one</List.Item>
+            <List.Item>Spacious two</List.Item>
+            <List.Item>Spacious three</List.Item>
+          </List.Root>
         </Section>
 
         {/* ============================================================= */}
@@ -3464,6 +3568,35 @@ export default function ComponentAudit() {
               <Button variant="neutral">Choose file…</Button>
             </FileTrigger>
           </Row>
+        </Section>
+
+        {/* ============================================================= */}
+        {/* TYPOGRAPHY                                                     */}
+        {/* ============================================================= */}
+
+        <Section id="text" title="Text" classes={['tale-text', 'tale-text--muted', 'tale-text--accent']}>
+          <SubHeading>Variants</SubHeading>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            <Text variant="display" size="m" as="div">display-m</Text>
+            <Text variant="heading" size="m" as="div">heading-m</Text>
+            <Text variant="title" size="m" as="div">title-m</Text>
+            <Text variant="label" size="m" as="div">label-m</Text>
+            <Text variant="text" size="m" as="div">text-m (body)</Text>
+            <Text variant="mono" size="m" as="div">mono-m</Text>
+          </div>
+          <SubHeading>Sizes (text variant)</SubHeading>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <Text variant="text" size="l">text-l</Text>
+            <Text variant="text" size="m">text-m</Text>
+            <Text variant="text" size="s">text-s</Text>
+            <Text variant="text" size="xs">text-xs</Text>
+          </div>
+          <SubHeading>Colours</SubHeading>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <Text color="default">Default colour</Text>
+            <Text color="muted">Muted colour</Text>
+            <Text color="accent">Accent colour</Text>
+          </div>
         </Section>
 
       </main>

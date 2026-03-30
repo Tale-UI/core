@@ -1,0 +1,51 @@
+/*
+ * Image — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component (not React Aria). Presentational only.
+ *
+ * Radius:     .tale-image--sm / --md / --lg / --full
+ * Fit:        (default = cover)
+ *             .tale-image--contain / --fill / --none
+ */
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+
+.tale-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* ─── Radius ────────────────────────────────────────────────────────────────── */
+
+.tale-image--sm {
+  border-radius: var(--radius-s);
+}
+
+.tale-image--md {
+  border-radius: var(--radius-m);
+}
+
+.tale-image--lg {
+  border-radius: var(--radius-l);
+}
+
+.tale-image--full {
+  border-radius: var(--radius-full);
+}
+
+/* ─── Object fit ────────────────────────────────────────────────────────────── */
+
+.tale-image--contain {
+  object-fit: contain;
+}
+
+.tale-image--fill {
+  object-fit: fill;
+}
+
+.tale-image--none {
+  object-fit: none;
+}

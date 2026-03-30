@@ -51,6 +51,14 @@ export type InputProps = Omit<AriaInputProps, 'className' | 'size'> & {
   className?: string | undefined;
 };
 
+/**
+ * The native input element with size variants
+ *
+ * @example
+ * ```tsx
+ * <Input.Input placeholder="you@example.com" size="md" />
+ * ```
+ */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ size = 'md', className, ...props }, ref) => (
     <AriaInput
@@ -68,6 +76,14 @@ export interface LabelProps extends Omit<AriaLabelProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * Label text associated with the input field
+ *
+ * @example
+ * ```tsx
+ * <Input.Label>Email address</Input.Label>
+ * ```
+ */
 export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
   ({ className, ...props }, ref) => (
     <AriaLabel ref={ref} className={cx('tale-input__label', className)} {...props} />
@@ -81,6 +97,14 @@ export interface DescriptionProps extends Omit<AriaTextProps, 'className' | 'slo
   className?: string | undefined;
 }
 
+/**
+ * Helper text displayed below the input
+ *
+ * @example
+ * ```tsx
+ * <Input.Description>We'll never share your email.</Input.Description>
+ * ```
+ */
 export const Description = React.forwardRef<HTMLElement, DescriptionProps>(
   ({ className, ...props }, ref) => (
     <AriaText
@@ -99,6 +123,14 @@ export interface ErrorMessageProps extends Omit<AriaTextProps, 'className' | 'sl
   className?: string | undefined;
 }
 
+/**
+ * Validation error message shown when the field is invalid
+ *
+ * @example
+ * ```tsx
+ * <Input.ErrorMessage>Please enter a valid email.</Input.ErrorMessage>
+ * ```
+ */
 export const ErrorMessage = React.forwardRef<HTMLElement, ErrorMessageProps>(
   ({ className, ...props }, ref) => (
     <AriaText

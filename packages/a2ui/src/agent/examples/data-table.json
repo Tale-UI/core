@@ -1,0 +1,71 @@
+{
+  "description": "Data table with status badges and action buttons",
+  "messages": [
+    {
+      "type": "beginRendering",
+      "surfaceId": "orders",
+      "rootComponentId": "root"
+    },
+    {
+      "type": "surfaceUpdate",
+      "surfaceId": "orders",
+      "components": [
+        {
+          "id": "root",
+          "component": {
+            "Column": {
+              "spacing": "m",
+              "children": ["header-row", "table-card"]
+            }
+          }
+        },
+        {
+          "id": "header-row",
+          "component": {
+            "Row": {
+              "justify": "between",
+              "children": ["page-title", "add-btn"]
+            }
+          }
+        },
+        {
+          "id": "page-title",
+          "component": {
+            "Text": {
+              "content": "Recent Orders",
+              "usageHint": "heading-m"
+            }
+          }
+        },
+        {
+          "id": "add-btn",
+          "component": {
+            "Button": {
+              "label": "New Order",
+              "variant": "primary",
+              "action": { "name": "createOrder", "context": {} }
+            }
+          }
+        },
+        {
+          "id": "table-card",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "padding": "sm",
+              "children": ["table"]
+            }
+          }
+        },
+        {
+          "id": "table",
+          "component": {
+            "Table": {
+              "label": "Recent orders"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

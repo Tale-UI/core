@@ -46,6 +46,19 @@ export interface AccordionItemProps extends Omit<DisclosureProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * A single collapsible section within the accordion
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Item id="section1">
+ *   <Accordion.Header>
+ *     <Accordion.Trigger>Section title</Accordion.Trigger>
+ *   </Accordion.Header>
+ *   <Accordion.Panel>Section content</Accordion.Panel>
+ * </Accordion.Item>
+ * ```
+ */
 export const Item = React.forwardRef<HTMLDivElement, AccordionItemProps>(
   ({ className, ...props }, ref) => (
     <Disclosure ref={ref} className={cx('tale-accordion__item', className)} {...props} />
@@ -57,6 +70,16 @@ export interface AccordionHeaderProps extends React.HTMLAttributes<HTMLHeadingEl
   className?: string | undefined;
 }
 
+/**
+ * Heading wrapper for the accordion trigger button
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Header>
+ *   <Accordion.Trigger>Section title</Accordion.Trigger>
+ * </Accordion.Header>
+ * ```
+ */
 export const Header = React.forwardRef<HTMLHeadingElement, AccordionHeaderProps>(
   ({ className, ...props }, ref) => (
     <h3 ref={ref} className={cx('tale-accordion__header', className)} {...props} />
@@ -68,6 +91,14 @@ export interface AccordionTriggerProps extends Omit<ButtonProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * The clickable button that toggles an accordion panel open or closed
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Trigger>Frequently asked question</Accordion.Trigger>
+ * ```
+ */
 export const Trigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   ({ className, children, ...props }, ref) => (
     <AriaButton ref={ref} slot="trigger" className={cx('tale-accordion__trigger', className)} {...props}>
@@ -82,6 +113,14 @@ export interface AccordionPanelProps extends Omit<DisclosurePanelProps, 'classNa
   className?: string | undefined;
 }
 
+/**
+ * The collapsible content area revealed when the trigger is activated
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Panel>Answer to the question goes here.</Accordion.Panel>
+ * ```
+ */
 export const Panel = React.forwardRef<HTMLDivElement, AccordionPanelProps>(
   ({ className, ...props }, ref) => (
     <DisclosurePanel ref={ref} className={cx('tale-accordion__panel', className)} {...props} />

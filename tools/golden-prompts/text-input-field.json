@@ -1,0 +1,7 @@
+{
+  "slug": "text-input-field",
+  "difficulty": "medium",
+  "prompt": "Create a text input field with a label that says 'Full Name' and a description below it that says 'Enter your first and last name as they appear on your ID.'",
+  "reference": "import { Input } from '@tale-ui/react/input';\n\nexport function TextInputField() {\n  return (\n    <Input.Root>\n      <Input.Label>Full Name</Input.Label>\n      <Input.Input size=\"md\" placeholder=\"John Doe\" />\n      <Input.Description>Enter your first and last name as they appear on your ID.</Input.Description>\n    </Input.Root>\n  );\n}",
+  "tags": ["Input"]
+}

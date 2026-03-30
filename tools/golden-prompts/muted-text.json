@@ -1,0 +1,7 @@
+{
+  "slug": "muted-text",
+  "difficulty": "simple",
+  "prompt": "Create a muted secondary text paragraph that says \"This action cannot be undone.\"",
+  "reference": "import { Text } from '@tale-ui/react/text';\n\nexport function MutedText() {\n  return (\n    <Text as=\"p\" color=\"muted\">\n      This action cannot be undone.\n    </Text>\n  );\n}\n",
+  "tags": ["Text"]
+}

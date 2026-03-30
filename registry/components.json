@@ -1,0 +1,3035 @@
+{
+  "schemaVersion": "1.0.0",
+  "taleUiVersion": "1.3.39",
+  "components": [
+    {
+      "name": "Accordion",
+      "slug": "accordion",
+      "import": "@tale-ui/react/accordion",
+      "category": "Layout",
+      "description": "Collapsible content sections",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Item",
+        "Header",
+        "Trigger",
+        "Panel"
+      ],
+      "examples": [
+        "<Accordion.Root>\n  <Accordion.Item id=\"a\">\n    <Accordion.Header>\n      <Accordion.Trigger>What is Tale UI?</Accordion.Trigger>\n    </Accordion.Header>\n    <Accordion.Panel>\n      Tale UI is a comprehensive design system and component library built\n      with React and CSS custom properties.\n    </Accordion.Panel>\n  </Accordion.Item>\n  <Accordion.Item id=\"b\">\n    <Accordion.Header>\n      <Accordion.Trigger>How do I install it?</Accordion.Trigger>\n    </Accordion.Header>\n    <Accordion.Panel>\n      Install via npm or pnpm: <code>pnpm add @tale-ui/react @tale-ui/react-styles</code>\n    </Accordion.Panel>\n  </Accordion.Item>\n</Accordion.Root>",
+        "<Accordion.Root allowsMultipleExpanded>\n  <Accordion.Item id=\"a\">\n    <Accordion.Header>\n      <Accordion.Trigger>Section One</Accordion.Trigger>\n    </Accordion.Header>\n    <Accordion.Panel>\n      Multiple items can be open at the same time.\n    </Accordion.Panel>\n  </Accordion.Item>\n  <Accordion.Item id=\"b\">\n    <Accordion.Header>\n      <Accordion.Trigger>Section Two</Accordion.Trigger>\n    </Accordion.Header>\n    <Accordion.Panel>\n      Try opening this while the first section is still open.\n    </Accordion.Panel>\n  </Accordion.Item>\n</Accordion.Root>",
+        "<Accordion.Root defaultExpandedKeys={['a']}>\n  <Accordion.Item id=\"a\">\n    <Accordion.Header>\n      <Accordion.Trigger>Initially Open</Accordion.Trigger>\n    </Accordion.Header>\n    <Accordion.Panel>\n      This section is open by default.\n    </Accordion.Panel>\n  </Accordion.Item>\n  <Accordion.Item id=\"b\">\n    <Accordion.Header>\n      <Accordion.Trigger>Initially Closed</Accordion.Trigger>\n    </Accordion.Header>\n    <Accordion.Panel>\n      This section starts closed.\n    </Accordion.Panel>\n  </Accordion.Item>\n</Accordion.Root>",
+        "<Accordion.Root isDisabled>\n  <Accordion.Item id=\"a\">\n    <Accordion.Header>\n      <Accordion.Trigger>Disabled Item</Accordion.Trigger>\n    </Accordion.Header>\n    <Accordion.Panel>\n      This content cannot be revealed because the accordion is disabled.\n    </Accordion.Panel>\n  </Accordion.Item>\n</Accordion.Root>"
+      ],
+      "cssClasses": [
+        "tale-accordion",
+        "tale-accordion__header",
+        "tale-accordion__item",
+        "tale-accordion__panel",
+        "tale-accordion__trigger",
+        "tale-accordion__trigger-icon"
+      ]
+    },
+    {
+      "name": "AlertDialog",
+      "slug": "alert-dialog",
+      "import": "@tale-ui/react/alert-dialog",
+      "category": "Overlay",
+      "description": "Confirmation dialog",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Backdrop",
+        "Popup",
+        "Content",
+        "Title",
+        "Description",
+        "Trigger",
+        "Actions",
+        "Close"
+      ],
+      "examples": [
+        "import { useState } from 'react';\nimport { AlertDialog } from '@tale-ui/react/alert-dialog';\nimport { Button } from '@tale-ui/react/button';\n\nfunction Example() {\n  const [open, setOpen] = useState(false);\n  return (\n    <AlertDialog.Root isOpen={open} onOpenChange={setOpen}>\n      <AlertDialog.Trigger className=\"tale-button tale-button--danger\">\n        Delete Item\n      </AlertDialog.Trigger>\n      <AlertDialog.Backdrop>\n        <AlertDialog.Popup>\n          <AlertDialog.Content>\n            <AlertDialog.Title>Are you sure?</AlertDialog.Title>\n            <AlertDialog.Description>\n              This will permanently delete the item. This action cannot be undone.\n            </AlertDialog.Description>\n            <AlertDialog.Actions>\n              <Button variant=\"neutral\" onPress={() => setOpen(false)}>Cancel</Button>\n              <Button variant=\"danger\" onPress={() => setOpen(false)}>Delete</Button>\n            </AlertDialog.Actions>\n          </AlertDialog.Content>\n        </AlertDialog.Popup>\n      </AlertDialog.Backdrop>\n    </AlertDialog.Root>\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-alert-dialog__content",
+        "tale-alert-dialog__popup"
+      ]
+    },
+    {
+      "name": "AppStoreButton",
+      "slug": "app-store-button",
+      "import": "@tale-ui/react/app-store-button",
+      "category": "Marketing",
+      "description": "App store download button (Apple/Google)",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "store",
+          "type": "Store",
+          "required": true,
+          "description": "Target app store.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Badge size. Defaults to 'md'.",
+          "default": "'md'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<AppStoreButton store=\"apple\" href=\"https://apps.apple.com/...\" />",
+        "<AppStoreButton store=\"apple\" href=\"https://apps.apple.com/app/example\" />\n<AppStoreButton store=\"google\" href=\"https://play.google.com/store/apps/details?id=example\" />",
+        "<AppStoreButton store=\"apple\" href=\"#\" size=\"sm\" />\n<AppStoreButton store=\"apple\" href=\"#\" size=\"md\" />\n<AppStoreButton store=\"apple\" href=\"#\" size=\"lg\" />"
+      ],
+      "cssClasses": [
+        "tale-app-store-button",
+        "tale-app-store-button--apple",
+        "tale-app-store-button--google",
+        "tale-app-store-button--lg",
+        "tale-app-store-button--md",
+        "tale-app-store-button--sm"
+      ]
+    },
+    {
+      "name": "Autocomplete",
+      "slug": "autocomplete",
+      "import": "@tale-ui/react/autocomplete",
+      "category": "Form Controls",
+      "description": "Inline search with filterable listbox",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "SearchField",
+        "Input",
+        "ListBox",
+        "Item",
+        "Section",
+        "Header",
+        "Empty",
+        "Separator"
+      ],
+      "examples": [
+        "import { useFilter } from 'react-aria-components';\n\nfunction SearchPanel() {\n  let { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search fruits\">\n        <Autocomplete.Input placeholder=\"Search fruits...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Fruits\">\n        <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n        <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        <Autocomplete.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Autocomplete.Item>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}",
+        "import { useFilter } from 'react-aria-components';\n\nfunction ProduceSearch() {\n  let { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search produce\">\n        <Autocomplete.Input placeholder=\"Search produce...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Produce\">\n        <Autocomplete.Section>\n          <Autocomplete.Header>Fruits</Autocomplete.Header>\n          <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n          <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        </Autocomplete.Section>\n        <Autocomplete.Section>\n          <Autocomplete.Header>Vegetables</Autocomplete.Header>\n          <Autocomplete.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Autocomplete.Item>\n          <Autocomplete.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Autocomplete.Item>\n        </Autocomplete.Section>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-autocomplete__input",
+        "tale-autocomplete__item",
+        "tale-autocomplete__listbox",
+        "tale-autocomplete__popover",
+        "tale-autocomplete__search-field"
+      ]
+    },
+    {
+      "name": "Avatar",
+      "slug": "avatar",
+      "import": "@tale-ui/react/avatar",
+      "category": "Display",
+      "description": "User avatar with image, fallback, group, count, indicator, and label group",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Group",
+        "Count",
+        "Root",
+        "Image",
+        "Fallback",
+        "Indicator",
+        "LabelGroup",
+        "LabelGroupTitle",
+        "LabelGroupSubtitle"
+      ],
+      "examples": [
+        "<Avatar.Root size=\"md\">\n  <Avatar.Fallback>JD</Avatar.Fallback>\n</Avatar.Root>",
+        "<Avatar.Root size=\"xs\">\n  <Avatar.Fallback>XS</Avatar.Fallback>\n</Avatar.Root>\n<Avatar.Root size=\"sm\">\n  <Avatar.Fallback>SM</Avatar.Fallback>\n</Avatar.Root>\n<Avatar.Root size=\"md\">\n  <Avatar.Fallback>MD</Avatar.Fallback>\n</Avatar.Root>\n<Avatar.Root size=\"lg\">\n  <Avatar.Fallback>LG</Avatar.Fallback>\n</Avatar.Root>\n<Avatar.Root size=\"xl\">\n  <Avatar.Fallback>XL</Avatar.Fallback>\n</Avatar.Root>\n<Avatar.Root size=\"2xl\">\n  <Avatar.Fallback>2X</Avatar.Fallback>\n</Avatar.Root>",
+        "<Avatar.Root size=\"lg\">\n  <Avatar.Image src=\"/photo.jpg\" alt=\"User avatar\" />\n  <Avatar.Fallback>AB</Avatar.Fallback>\n</Avatar.Root>",
+        "<Avatar.Group size=\"md\">\n  <Avatar.Root>\n    <Avatar.Fallback>AB</Avatar.Fallback>\n  </Avatar.Root>\n  <Avatar.Root>\n    <Avatar.Fallback>CD</Avatar.Fallback>\n  </Avatar.Root>\n  <Avatar.Root>\n    <Avatar.Fallback>EF</Avatar.Fallback>\n  </Avatar.Root>\n  <Avatar.Count count={5} />\n</Avatar.Group>",
+        "<Avatar.Group size=\"lg\">\n  <Avatar.Root>\n    <Avatar.Image src=\"/alice.jpg\" alt=\"Alice\" />\n    <Avatar.Fallback>AL</Avatar.Fallback>\n  </Avatar.Root>\n  <Avatar.Root>\n    <Avatar.Image src=\"/bob.jpg\" alt=\"Bob\" />\n    <Avatar.Fallback>BO</Avatar.Fallback>\n  </Avatar.Root>\n  <Avatar.Count count={12} />\n</Avatar.Group>",
+        "import { DotIcon } from '@tale-ui/react/dot-icon';\n\n<Avatar.Indicator badge={<DotIcon color=\"success\" />}>\n  <Avatar.Root size=\"lg\">\n    <Avatar.Image src=\"/photo.jpg\" alt=\"User\" />\n    <Avatar.Fallback>JD</Avatar.Fallback>\n  </Avatar.Root>\n</Avatar.Indicator>",
+        "<Avatar.LabelGroup size=\"md\">\n  <Avatar.Root>\n    <Avatar.Image src=\"/photo.jpg\" alt=\"User\" />\n    <Avatar.Fallback>JD</Avatar.Fallback>\n  </Avatar.Root>\n  <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>\n  <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>\n</Avatar.LabelGroup>",
+        "<Avatar.LabelGroup size=\"md\">\n  <Avatar.Indicator badge={<DotIcon color=\"success\" />}>\n    <Avatar.Root>\n      <Avatar.Image src=\"/photo.jpg\" alt=\"User\" />\n      <Avatar.Fallback>JD</Avatar.Fallback>\n    </Avatar.Root>\n  </Avatar.Indicator>\n  <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>\n  <Avatar.LabelGroupSubtitle>Online</Avatar.LabelGroupSubtitle>\n</Avatar.LabelGroup>"
+      ],
+      "cssClasses": [
+        "tale-avatar",
+        "tale-avatar--2xl",
+        "tale-avatar--lg",
+        "tale-avatar--md",
+        "tale-avatar--sm",
+        "tale-avatar--xl",
+        "tale-avatar--xs",
+        "tale-avatar-count",
+        "tale-avatar-count--2xl",
+        "tale-avatar-count--lg",
+        "tale-avatar-count--md",
+        "tale-avatar-count--sm",
+        "tale-avatar-count--xl",
+        "tale-avatar-count--xs",
+        "tale-avatar-group",
+        "tale-avatar-indicator",
+        "tale-avatar-indicator--bottom-right",
+        "tale-avatar-indicator--top-right",
+        "tale-avatar-indicator__badge",
+        "tale-avatar-label-group",
+        "tale-avatar-label-group--lg",
+        "tale-avatar-label-group--sm",
+        "tale-avatar-label-group__subtitle",
+        "tale-avatar-label-group__title",
+        "tale-avatar__fallback",
+        "tale-avatar__image"
+      ]
+    },
+    {
+      "name": "Badge",
+      "slug": "badge",
+      "import": "@tale-ui/react/badge",
+      "category": "Display",
+      "description": "Small status label with semantic variants",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": null,
+          "default": "'neutral'"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": null,
+          "default": "'md'"
+        },
+        {
+          "name": "type",
+          "type": "BadgeType",
+          "required": false,
+          "description": "Visual type. `'pill'` (default) uses full border-radius, `'rounded'` uses medium radius, `'modern'` uses neutral shadow styling.",
+          "default": "'pill'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<Badge variant=\"success\">Active</Badge>",
+        "<Badge variant=\"neutral\">Neutral</Badge>\n<Badge variant=\"brand\">Brand</Badge>\n<Badge variant=\"error\">Error</Badge>\n<Badge variant=\"warning\">Warning</Badge>\n<Badge variant=\"success\">Success</Badge>",
+        "<Badge size=\"sm\">Small</Badge>\n<Badge size=\"md\">Medium</Badge>\n<Badge size=\"lg\">Large</Badge>",
+        "<Badge variant=\"red\">Red</Badge>\n<Badge variant=\"orange\">Orange</Badge>\n<Badge variant=\"amber\">Amber</Badge>\n<Badge variant=\"yellow\">Yellow</Badge>\n<Badge variant=\"lime\">Lime</Badge>\n<Badge variant=\"green\">Green</Badge>\n<Badge variant=\"emerald\">Emerald</Badge>\n<Badge variant=\"teal\">Teal</Badge>\n<Badge variant=\"cyan\">Cyan</Badge>\n<Badge variant=\"sky\">Sky</Badge>\n<Badge variant=\"indigo\">Indigo</Badge>\n<Badge variant=\"violet\">Violet</Badge>\n<Badge variant=\"purple\">Purple</Badge>\n<Badge variant=\"fuchsia\">Fuchsia</Badge>\n<Badge variant=\"pink\">Pink</Badge>\n<Badge variant=\"rose\">Rose</Badge>",
+        "<Badge type=\"pill\">Pill (default)</Badge>\n<Badge type=\"rounded\">Rounded</Badge>\n<Badge type=\"modern\">Modern</Badge>",
+        "<Badge variant=\"error\" size=\"sm\">Failed</Badge>\n<Badge variant=\"success\" size=\"lg\">Approved</Badge>\n<Badge variant=\"brand\" type=\"rounded\">Rounded Brand</Badge>\n<Badge variant=\"success\" type=\"modern\">Modern Success</Badge>"
+      ],
+      "cssClasses": [
+        "tale-badge",
+        "tale-badge--color",
+        "tale-badge--lg",
+        "tale-badge--md",
+        "tale-badge--modern",
+        "tale-badge--neutral",
+        "tale-badge--rounded",
+        "tale-badge--sm"
+      ]
+    },
+    {
+      "name": "Banner",
+      "slug": "banner",
+      "import": "@tale-ui/react/banner",
+      "category": "Feedback",
+      "description": "Inline notification banner",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": "Semantic variant controlling the colour scheme.",
+          "default": "'info'"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size variant affecting spacing and typography.",
+          "default": "'md'"
+        }
+      ],
+      "parts": [
+        "Root",
+        "BannerIcon",
+        "Title",
+        "Description",
+        "Actions",
+        "Close"
+      ],
+      "examples": [
+        "<Banner.Root variant=\"info\">\n  <Banner.Icon><Icon icon={InfoIcon} size=\"sm\" /></Banner.Icon>\n  <Banner.Title>Heads up</Banner.Title>\n  <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n</Banner.Root>",
+        "<Banner.Root variant=\"info\">\n  <Banner.Title>Info</Banner.Title>\n  <Banner.Description>Informational message.</Banner.Description>\n</Banner.Root>\n\n<Banner.Root variant=\"success\">\n  <Banner.Title>Success</Banner.Title>\n  <Banner.Description>Operation completed.</Banner.Description>\n</Banner.Root>\n\n<Banner.Root variant=\"warning\">\n  <Banner.Title>Warning</Banner.Title>\n  <Banner.Description>Please review before continuing.</Banner.Description>\n</Banner.Root>\n\n<Banner.Root variant=\"error\">\n  <Banner.Title>Error</Banner.Title>\n  <Banner.Description>Something went wrong.</Banner.Description>\n</Banner.Root>",
+        "<Banner.Root variant=\"warning\">\n  <Banner.Title>Update available</Banner.Title>\n  <Banner.Description>A new version is ready to install.</Banner.Description>\n  <Banner.Actions>\n    <Button variant=\"ghost\" size=\"sm\">Later</Button>\n    <Button variant=\"primary\" size=\"sm\">Update now</Button>\n  </Banner.Actions>\n</Banner.Root>",
+        "<Banner.Root variant=\"info\">\n  <Banner.Title>Tip</Banner.Title>\n  <Banner.Description>You can customise your dashboard.</Banner.Description>\n  <Banner.Close onClick={() => setVisible(false)} />\n</Banner.Root>",
+        "<Banner.Root variant=\"success\" size=\"sm\">\n  <Banner.Title>Saved</Banner.Title>\n  <Banner.Description>Changes saved successfully.</Banner.Description>\n</Banner.Root>"
+      ],
+      "cssClasses": [
+        "tale-banner",
+        "tale-banner--info",
+        "tale-banner--sm",
+        "tale-banner__actions",
+        "tale-banner__close",
+        "tale-banner__description",
+        "tale-banner__icon",
+        "tale-banner__title",
+        "tale-button",
+        "tale-button--ghost",
+        "tale-icon-button--sm"
+      ]
+    },
+    {
+      "name": "Breadcrumbs",
+      "slug": "breadcrumbs",
+      "import": "@tale-ui/react/breadcrumbs",
+      "category": "Navigation",
+      "description": "Breadcrumb navigation",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Item",
+        "Link"
+      ],
+      "examples": [
+        "<Breadcrumbs.Root>\n  <Breadcrumbs.Item>\n    <Breadcrumbs.Link href=\"#\">Home</Breadcrumbs.Link>\n  </Breadcrumbs.Item>\n  <Breadcrumbs.Item>\n    <Breadcrumbs.Link href=\"#\">Products</Breadcrumbs.Link>\n  </Breadcrumbs.Item>\n  <Breadcrumbs.Item>\n    <Breadcrumbs.Link>Widget</Breadcrumbs.Link>\n  </Breadcrumbs.Item>\n</Breadcrumbs.Root>",
+        "<Breadcrumbs.Root>\n  <Breadcrumbs.Item>\n    <Breadcrumbs.Link href=\"#\">Home</Breadcrumbs.Link>\n  </Breadcrumbs.Item>\n  <Breadcrumbs.Item>\n    <Breadcrumbs.Link href=\"#\">Category</Breadcrumbs.Link>\n  </Breadcrumbs.Item>\n  <Breadcrumbs.Item>\n    <Breadcrumbs.Link href=\"#\">Subcategory</Breadcrumbs.Link>\n  </Breadcrumbs.Item>\n  <Breadcrumbs.Item>\n    <Breadcrumbs.Link href=\"#\">Products</Breadcrumbs.Link>\n  </Breadcrumbs.Item>\n  <Breadcrumbs.Item>\n    <Breadcrumbs.Link>Widget Pro</Breadcrumbs.Link>\n  </Breadcrumbs.Item>\n</Breadcrumbs.Root>"
+      ],
+      "cssClasses": [
+        "tale-breadcrumbs",
+        "tale-breadcrumbs__item",
+        "tale-breadcrumbs__link"
+      ]
+    },
+    {
+      "name": "Button",
+      "slug": "button",
+      "import": "@tale-ui/react/button",
+      "category": "Form Controls",
+      "description": "Action button with variant and size props",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": null,
+          "default": "'primary'"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": null,
+          "default": "'md'"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Alias for `isDisabled` for convenience.",
+          "default": null
+        },
+        {
+          "name": "pending",
+          "type": "boolean",
+          "required": false,
+          "description": "Alias for `isPending` for convenience.",
+          "default": null
+        },
+        {
+          "name": "showTextWhileLoading",
+          "type": "boolean",
+          "required": false,
+          "description": "When true, keeps children visible alongside the spinner during pending state.",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<Button variant=\"primary\" size=\"md\">\n  Button\n</Button>",
+        "<Button variant=\"primary\">Primary</Button>\n<Button variant=\"neutral\">Neutral</Button>\n<Button variant=\"ghost\">Ghost</Button>\n<Button variant=\"danger\">Danger</Button>\n<Button variant=\"danger-neutral\">Danger Neutral</Button>\n<Button variant=\"danger-ghost\">Danger Ghost</Button>\n<Button variant=\"inverse\">Inverse</Button>",
+        "<Button variant=\"primary\" size=\"sm\">Small</Button>\n<Button variant=\"primary\" size=\"md\">Medium</Button>\n<Button variant=\"primary\" size=\"lg\">Large</Button>",
+        "<Button variant=\"primary\" isDisabled>Primary</Button>\n<Button variant=\"neutral\" isDisabled>Neutral</Button>",
+        "<Button variant=\"primary\">\n  <PlusIcon />\n  Add Item\n</Button>",
+        "<Button variant=\"primary\" isPending>Saving…</Button>\n<Button variant=\"neutral\" pending>Loading</Button>",
+        "<Button variant=\"primary\" isPending showTextWhileLoading>Saving…</Button>"
+      ],
+      "cssClasses": [
+        "tale-button",
+        "tale-button--danger",
+        "tale-button--danger-ghost",
+        "tale-button--danger-neutral",
+        "tale-button--ghost",
+        "tale-button--inverse",
+        "tale-button--lg",
+        "tale-button--md",
+        "tale-button--neutral",
+        "tale-button--primary",
+        "tale-button--sm",
+        "tale-button__content",
+        "tale-button__content--with-spinner",
+        "tale-button__spinner",
+        "tale-button__spinner--inline",
+        "tale-spinner__arc",
+        "tale-spinner__track"
+      ]
+    },
+    {
+      "name": "Calendar",
+      "slug": "calendar",
+      "import": "@tale-ui/react/calendar",
+      "category": "Date & Time",
+      "description": "Interactive date calendar",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Header",
+        "Grid",
+        "GridHeader",
+        "GridHeaderCell",
+        "GridBody",
+        "Cell",
+        "Heading",
+        "PreviousButton",
+        "NextButton"
+      ],
+      "examples": [
+        "<Calendar.Root>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>\n      {(date) => <Calendar.Cell date={date} />}\n    </Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>",
+        "<Calendar.Root isDisabled>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>\n      {(date) => <Calendar.Cell date={date} />}\n    </Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>",
+        "import { today, getLocalTimeZone } from '@internationalized/date';\n\n<Calendar.Root defaultValue={today(getLocalTimeZone())} isReadOnly>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>\n      {(date) => <Calendar.Cell date={date} />}\n    </Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>"
+      ],
+      "cssClasses": [
+        "tale-calendar__cell",
+        "tale-calendar__grid",
+        "tale-calendar__grid-body",
+        "tale-calendar__grid-header",
+        "tale-calendar__grid-header-cell",
+        "tale-calendar__header",
+        "tale-icon-button"
+      ]
+    },
+    {
+      "name": "Card",
+      "slug": "card",
+      "import": "@tale-ui/react/card",
+      "category": "Layout",
+      "description": "Surface container with header, body, and footer sections",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": "Visual style. @default 'outlined'",
+          "default": "'outlined'"
+        },
+        {
+          "name": "padding",
+          "type": "Padding",
+          "required": false,
+          "description": "Inner padding. @default 'md'",
+          "default": "'md'"
+        }
+      ],
+      "parts": [
+        "Root",
+        "Header",
+        "Body",
+        "Footer"
+      ],
+      "examples": [
+        "<Card.Root>\n  <Card.Header>\n    <Text variant=\"title\" size=\"m\">Card Title</Text>\n  </Card.Header>\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">Card content goes here.</Text>\n  </Card.Body>\n</Card.Root>",
+        "<Card.Root variant=\"outlined\">\n  <Card.Header>\n    <Text variant=\"title\" size=\"m\">Project Settings</Text>\n  </Card.Header>\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">Configure your project preferences.</Text>\n  </Card.Body>\n  <Card.Footer>\n    <Row gap=\"s\" justify=\"end\">\n      <Button>Cancel</Button>\n      <Button variant=\"primary\">Save</Button>\n    </Row>\n  </Card.Footer>\n</Card.Root>",
+        "<Card.Root variant=\"elevated\">\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">\n      An elevated card with a shadow for visual depth.\n    </Text>\n  </Card.Body>\n</Card.Root>",
+        "<Card.Root variant=\"filled\">\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">\n      A filled card with a subtle background color.\n    </Text>\n  </Card.Body>\n</Card.Root>",
+        "<Card.Root padding=\"sm\">\n  <Card.Body><Text>Small padding</Text></Card.Body>\n</Card.Root>\n\n<Card.Root padding=\"md\">\n  <Card.Body><Text>Medium padding (default)</Text></Card.Body>\n</Card.Root>\n\n<Card.Root padding=\"lg\">\n  <Card.Body><Text>Large padding</Text></Card.Body>\n</Card.Root>",
+        "<Card.Root variant=\"outlined\" padding=\"md\">\n  <Card.Header>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"title\" size=\"m\">Team Members</Text>\n      <Badge variant=\"brand\">3 active</Badge>\n    </Row>\n  </Card.Header>\n  <Card.Body>\n    <Column gap=\"s\">\n      <Text variant=\"text\" size=\"m\">Alice Johnson</Text>\n      <Text variant=\"text\" size=\"m\">Bob Smith</Text>\n      <Text variant=\"text\" size=\"m\">Carol Lee</Text>\n    </Column>\n  </Card.Body>\n  <Card.Footer>\n    <Button variant=\"ghost\" size=\"sm\">View all</Button>\n  </Card.Footer>\n</Card.Root>"
+      ],
+      "cssClasses": [
+        "tale-card",
+        "tale-card--elevated",
+        "tale-card--filled",
+        "tale-card--lg",
+        "tale-card--md",
+        "tale-card--outlined",
+        "tale-card--sm",
+        "tale-card__body",
+        "tale-card__footer",
+        "tale-card__header"
+      ]
+    },
+    {
+      "name": "Carousel",
+      "slug": "carousel",
+      "import": "@tale-ui/react/carousel",
+      "category": "Layout",
+      "description": "Slide carousel with navigation",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable infinite looping.",
+          "default": null
+        },
+        {
+          "name": "autoplay",
+          "type": "boolean",
+          "required": false,
+          "description": "Auto-advance slides on an interval.",
+          "default": null
+        },
+        {
+          "name": "slidesPerView",
+          "type": "number",
+          "required": false,
+          "description": "Number of slides visible at once.",
+          "default": "1"
+        },
+        {
+          "name": "orientation",
+          "type": "'horizontal' | 'vertical'",
+          "required": false,
+          "description": "Scroll direction.",
+          "default": "'horizontal'"
+        }
+      ],
+      "parts": [
+        "Root",
+        "Content",
+        "Item",
+        "PreviousTrigger",
+        "NextTrigger",
+        "Indicators",
+        "Indicator"
+      ],
+      "examples": [
+        "<Carousel.Root>\n  <Carousel.Content>\n    <Carousel.Item>Slide 1</Carousel.Item>\n    <Carousel.Item>Slide 2</Carousel.Item>\n    <Carousel.Item>Slide 3</Carousel.Item>\n  </Carousel.Content>\n  <Carousel.PreviousTrigger />\n  <Carousel.NextTrigger />\n</Carousel.Root>",
+        "<Carousel.Root loop>\n  <Carousel.Content>\n    <Carousel.Item>Slide 1</Carousel.Item>\n    <Carousel.Item>Slide 2</Carousel.Item>\n    <Carousel.Item>Slide 3</Carousel.Item>\n  </Carousel.Content>\n  <Carousel.PreviousTrigger />\n  <Carousel.NextTrigger />\n  <Carousel.Indicators>\n    <Carousel.Indicator index={0} />\n    <Carousel.Indicator index={1} />\n    <Carousel.Indicator index={2} />\n  </Carousel.Indicators>\n</Carousel.Root>",
+        "<Carousel.Root orientation=\"vertical\" style={{ height: 300 }}>\n  <Carousel.Content>\n    <Carousel.Item>Slide 1</Carousel.Item>\n    <Carousel.Item>Slide 2</Carousel.Item>\n    <Carousel.Item>Slide 3</Carousel.Item>\n  </Carousel.Content>\n</Carousel.Root>",
+        "<Carousel.Root autoplay loop>\n  <Carousel.Content>\n    <Carousel.Item>Slide 1</Carousel.Item>\n    <Carousel.Item>Slide 2</Carousel.Item>\n    <Carousel.Item>Slide 3</Carousel.Item>\n  </Carousel.Content>\n</Carousel.Root>"
+      ],
+      "cssClasses": [
+        "tale-carousel",
+        "tale-carousel__container",
+        "tale-carousel__content",
+        "tale-carousel__indicator",
+        "tale-carousel__indicators",
+        "tale-carousel__item",
+        "tale-carousel__next",
+        "tale-carousel__previous"
+      ]
+    },
+    {
+      "name": "Checkbox",
+      "slug": "checkbox",
+      "import": "@tale-ui/react/checkbox",
+      "category": "Form Controls",
+      "description": "Checkbox with visual indicator",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the checkbox indicator. Defaults to `'md'`. Inherits from CheckboxGroup `size` when omitted. The `'sm'` variant is for edge-cases only (dense tables, compact toolbars) — prefer `'md'` in most contexts.",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Indicator",
+        "Visual"
+      ],
+      "examples": [
+        "import { Checkbox } from '@tale-ui/react/checkbox';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\n<Checkbox.Root>\n  <Checkbox.Indicator>\n    <Icon icon={Check} size=\"sm\" />\n  </Checkbox.Indicator>\n  Accept terms and conditions\n</Checkbox.Root>",
+        "<Checkbox.Root defaultSelected>\n  <Checkbox.Indicator>\n    <Icon icon={Check} size=\"sm\" />\n  </Checkbox.Indicator>\n  Checked by default\n</Checkbox.Root>",
+        "<Checkbox.Root isDisabled>\n  <Checkbox.Indicator>\n    <Icon icon={Check} size=\"sm\" />\n  </Checkbox.Indicator>\n  Disabled checkbox\n</Checkbox.Root>",
+        "import { Minus } from 'lucide-react';\n\n<Checkbox.Root isIndeterminate>\n  <Checkbox.Indicator>\n    <Icon icon={Minus} size=\"sm\" />\n  </Checkbox.Indicator>\n  Indeterminate state\n</Checkbox.Root>",
+        "<Checkbox.Root size=\"sm\">\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Small\n</Checkbox.Root>\n\n<Checkbox.Root size=\"md\">\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Medium (default)\n</Checkbox.Root>\n\n<Checkbox.Root size=\"lg\">\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Large\n</Checkbox.Root>",
+        "import { Check, Minus } from 'lucide-react';\n\n<Checkbox.Root>\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Unchecked\n</Checkbox.Root>\n\n<Checkbox.Root defaultSelected>\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Checked\n</Checkbox.Root>\n\n<Checkbox.Root isIndeterminate>\n  <Checkbox.Indicator><Icon icon={Minus} size=\"sm\" /></Checkbox.Indicator>\n  Indeterminate\n</Checkbox.Root>\n\n<Checkbox.Root isDisabled>\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Disabled\n</Checkbox.Root>\n\n<Checkbox.Root isDisabled defaultSelected>\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Disabled + Checked\n</Checkbox.Root>"
+      ],
+      "cssClasses": [
+        "tale-checkbox",
+        "tale-checkbox--lg",
+        "tale-checkbox--sm",
+        "tale-checkbox__indicator"
+      ]
+    },
+    {
+      "name": "CheckboxGroup",
+      "slug": "checkbox-group",
+      "import": "@tale-ui/react/checkbox-group",
+      "category": "Form Controls",
+      "description": "Groups multiple checkboxes with validation",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "An accessible label for the checkbox group.",
+          "default": null
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "A description for the checkbox group. Displays below the group.",
+          "default": null
+        },
+        {
+          "name": "orientation",
+          "type": "'horizontal' | 'vertical'",
+          "required": false,
+          "description": "Layout orientation. Sets `data-orientation` for CSS styling.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md'",
+          "required": false,
+          "description": "Propagates size to all child Checkbox.Root components.",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\nimport { Checkbox } from '@tale-ui/react/checkbox';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\n<CheckboxGroup label=\"Favorite fruits\">\n  <Checkbox.Root value=\"apple\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Apple\n  </Checkbox.Root>\n  <Checkbox.Root value=\"banana\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Banana\n  </Checkbox.Root>\n  <Checkbox.Root value=\"cherry\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Cherry\n  </Checkbox.Root>\n</CheckboxGroup>",
+        "<CheckboxGroup label=\"Disabled group\" isDisabled>\n  <Checkbox.Root value=\"apple\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Apple\n  </Checkbox.Root>\n  <Checkbox.Root value=\"banana\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Banana\n  </Checkbox.Root>\n</CheckboxGroup>",
+        "import { Field } from '@tale-ui/react/field';\n\n<CheckboxGroup label=\"Notification preferences\">\n  <Field.Description>Select how you would like to be notified.</Field.Description>\n  <Checkbox.Root value=\"email\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Email\n  </Checkbox.Root>\n  <Checkbox.Root value=\"sms\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    SMS\n  </Checkbox.Root>\n  <Checkbox.Root value=\"push\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Push notification\n  </Checkbox.Root>\n</CheckboxGroup>",
+        "<CheckboxGroup label=\"Pick toppings\" orientation=\"horizontal\">\n  <Checkbox.Root value=\"cheese\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Cheese\n  </Checkbox.Root>\n  <Checkbox.Root value=\"pepperoni\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Pepperoni\n  </Checkbox.Root>\n</CheckboxGroup>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "ColorArea",
+      "slug": "color-area",
+      "import": "@tale-ui/react/color-area",
+      "category": "Color",
+      "description": "2D color picker surface",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Thumb"
+      ],
+      "examples": [
+        "import { parseColor } from 'react-aria-components';\n\n<ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorArea.Thumb />\n</ColorArea.Root>"
+      ],
+      "cssClasses": [
+        "tale-color-area"
+      ]
+    },
+    {
+      "name": "ColorField",
+      "slug": "color-field",
+      "import": "@tale-ui/react/color-field",
+      "category": "Color",
+      "description": "Text input for color values",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Input",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "<ColorField.Root>\n  <ColorField.Label>Color</ColorField.Label>\n  <ColorField.Input />\n</ColorField.Root>"
+      ],
+      "cssClasses": [
+        "tale-color-field",
+        "tale-color-field__description",
+        "tale-color-field__error",
+        "tale-color-field__input"
+      ]
+    },
+    {
+      "name": "ColorModeToggle",
+      "slug": "color-mode-toggle",
+      "import": "@tale-ui/react/color-mode-toggle",
+      "category": "Utility",
+      "description": "Light/dark mode toggle with persistence",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "defaultMode",
+          "type": "'light' | 'dark'",
+          "required": false,
+          "description": "Initial colour mode when no localStorage value exists. Defaults to OS preference.",
+          "default": null
+        },
+        {
+          "name": "storageKey",
+          "type": "string",
+          "required": false,
+          "description": "localStorage key for persisting the colour mode. @default 'color-mode'",
+          "default": "'color-mode'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<ColorModeToggle />",
+        "// Always start in dark mode on first visit\n<ColorModeToggle defaultMode=\"dark\" />\n\n// Always start in light mode on first visit\n<ColorModeToggle defaultMode=\"light\" />",
+        "// Use a different localStorage key (useful if multiple apps share the same origin)\n<ColorModeToggle storageKey=\"my-app-color-mode\" />",
+        "// Fixed top-right corner\n<ColorModeToggle style={{ position: 'fixed', top: '1.6rem', right: '1.6rem', zIndex: 1000 }} />\n\n// Inside a header\n<header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n  <h1>My App</h1>\n  <ColorModeToggle />\n</header>"
+      ],
+      "cssClasses": [
+        "tale-color-mode-toggle"
+      ]
+    },
+    {
+      "name": "ColorPicker",
+      "slug": "color-picker",
+      "import": "@tale-ui/react/color-picker",
+      "category": "Color",
+      "description": "Headless color state provider",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root"
+      ],
+      "examples": [
+        "import { useState } from 'react';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\nimport { parseColor } from 'react-aria-components';\n\nconst [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));\n\n<ColorArea.Root value={color} onChange={setColor}>\n  <ColorArea.Thumb />\n</ColorArea.Root>\n\n<ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "ColorSlider",
+      "slug": "color-slider",
+      "import": "@tale-ui/react/color-slider",
+      "category": "Color",
+      "description": "Single-channel color slider",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Track",
+        "Thumb",
+        "Label",
+        "Output"
+      ],
+      "examples": [
+        "import { parseColor } from 'react-aria-components';\n\n<ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
+        "<ColorSlider.Root channel=\"saturation\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Saturation</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>"
+      ],
+      "cssClasses": [
+        "tale-color-slider",
+        "tale-color-slider__label",
+        "tale-color-slider__output",
+        "tale-color-slider__thumb",
+        "tale-color-slider__track"
+      ]
+    },
+    {
+      "name": "ColorSwatch",
+      "slug": "color-swatch",
+      "import": "@tale-ui/react/color-swatch",
+      "category": "Color",
+      "description": "Color preview element",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { parseColor } from 'react-aria-components';\n\n<ColorSwatch color={parseColor('#ff0000')} />"
+      ],
+      "cssClasses": [
+        "tale-color-swatch"
+      ]
+    },
+    {
+      "name": "ColorSwatchPicker",
+      "slug": "color-swatch-picker",
+      "import": "@tale-ui/react/color-swatch-picker",
+      "category": "Color",
+      "description": "Selectable swatch grid",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Item"
+      ],
+      "examples": [
+        "import { ColorSwatch } from '@tale-ui/react/color-swatch';\n\n<ColorSwatchPicker.Root>\n  <ColorSwatchPicker.Item color=\"#ff0000\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n  <ColorSwatchPicker.Item color=\"#00ff00\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n  <ColorSwatchPicker.Item color=\"#0000ff\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n</ColorSwatchPicker.Root>"
+      ],
+      "cssClasses": [
+        "tale-color-swatch-picker",
+        "tale-color-swatch-picker__item"
+      ]
+    },
+    {
+      "name": "ColorWheel",
+      "slug": "color-wheel",
+      "import": "@tale-ui/react/color-wheel",
+      "category": "Color",
+      "description": "Circular hue selector",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Track",
+        "Thumb"
+      ],
+      "examples": [
+        "import { parseColor } from 'react-aria-components';\n\n<ColorWheel.Root\n  defaultValue={parseColor('hsl(0, 100%, 50%)')}\n  outerRadius={100}\n  innerRadius={70}\n>\n  <ColorWheel.Track />\n  <ColorWheel.Thumb />\n</ColorWheel.Root>"
+      ],
+      "cssClasses": [
+        "tale-color-wheel",
+        "tale-color-wheel__track"
+      ]
+    },
+    {
+      "name": "Column",
+      "slug": "column",
+      "import": "@tale-ui/react/column",
+      "category": "Layout",
+      "description": "Vertical flex-column layout with gap, align, and justify props",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "gap",
+          "type": "Gap",
+          "required": false,
+          "description": "Gap between children, mapped to `--space- ` tokens. @default 'm'",
+          "default": "'m'"
+        },
+        {
+          "name": "align",
+          "type": "Align",
+          "required": false,
+          "description": "Cross-axis alignment. @default 'stretch'",
+          "default": "'stretch'"
+        },
+        {
+          "name": "justify",
+          "type": "Justify",
+          "required": false,
+          "description": "Main-axis distribution. @default 'start'",
+          "default": "'start'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<Column gap=\"m\">\n  <Text variant=\"heading\" size=\"m\">Title</Text>\n  <Text variant=\"text\" size=\"m\">Description text below the title.</Text>\n</Column>",
+        "<Column gap=\"m\">\n  <Field>\n    <Field.Label>Name</Field.Label>\n    <Input placeholder=\"Enter your name\" />\n  </Field>\n  <Field>\n    <Field.Label>Email</Field.Label>\n    <Input type=\"email\" placeholder=\"Enter your email\" />\n  </Field>\n  <Row gap=\"s\" justify=\"end\">\n    <Button>Cancel</Button>\n    <Button variant=\"primary\">Submit</Button>\n  </Row>\n</Column>",
+        "<Column gap=\"s\" align=\"center\">\n  <Avatar src=\"/avatar.jpg\" alt=\"User\" />\n  <Text variant=\"label\" size=\"m\">Jane Doe</Text>\n  <Text variant=\"text\" size=\"s\" color=\"muted\">Developer</Text>\n</Column>",
+        "<Column gap=\"xs\">\n  <Text variant=\"title\" size=\"m\">Notifications</Text>\n  <Text variant=\"text\" size=\"s\" color=\"muted\">\n    Manage how you receive notifications.\n  </Text>\n  <Separator />\n  <Switch>Email notifications</Switch>\n  <Switch>Push notifications</Switch>\n</Column>",
+        "<Column gap=\"m\" justify=\"between\" style={{ minHeight: 300 }}>\n  <Text variant=\"heading\" size=\"m\">Header</Text>\n  <Text variant=\"text\" size=\"m\">Content fills the middle.</Text>\n  <Text variant=\"text\" size=\"s\" color=\"muted\">Footer</Text>\n</Column>"
+      ],
+      "cssClasses": [
+        "tale-column"
+      ]
+    },
+    {
+      "name": "Combobox",
+      "slug": "combobox",
+      "import": "@tale-ui/react/combobox",
+      "category": "Form Controls",
+      "description": "Filterable select with multi-select support",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Label",
+        "Input",
+        "Trigger",
+        "Popover",
+        "ListBox",
+        "Item",
+        "Section",
+        "Header",
+        "Empty",
+        "InputGroup",
+        "Chips",
+        "Chip",
+        "ChipRemove",
+        "Separator",
+        "ItemIndicator"
+      ],
+      "examples": [
+        "<Combobox.Root>\n  <Combobox.InputGroup>\n    <Combobox.Input />\n    <Combobox.Trigger />\n  </Combobox.InputGroup>\n  <Combobox.Popover>\n    <Combobox.ListBox>\n      <Combobox.Item id=\"apple\" textValue=\"Apple\">Apple</Combobox.Item>\n      <Combobox.Item id=\"banana\" textValue=\"Banana\">Banana</Combobox.Item>\n      <Combobox.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Combobox.Item>\n    </Combobox.ListBox>\n  </Combobox.Popover>\n</Combobox.Root>",
+        "<Combobox.Root>\n  <Combobox.Label>Favorite fruit</Combobox.Label>\n  <Combobox.InputGroup>\n    <Combobox.Input />\n    <Combobox.Trigger />\n  </Combobox.InputGroup>\n  <Combobox.Popover>\n    <Combobox.ListBox>\n      <Combobox.Item id=\"apple\" textValue=\"Apple\">Apple</Combobox.Item>\n      <Combobox.Item id=\"banana\" textValue=\"Banana\">Banana</Combobox.Item>\n      <Combobox.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Combobox.Item>\n    </Combobox.ListBox>\n  </Combobox.Popover>\n</Combobox.Root>",
+        "<Combobox.Root>\n  <Combobox.Label>Search countries</Combobox.Label>\n  <Combobox.InputGroup>\n    <Combobox.Input placeholder=\"Type to search...\" />\n    <Combobox.Trigger />\n  </Combobox.InputGroup>\n  <Combobox.Popover>\n    <Combobox.ListBox>\n      <Combobox.Item id=\"us\" textValue=\"United States\">United States</Combobox.Item>\n      <Combobox.Item id=\"ca\" textValue=\"Canada\">Canada</Combobox.Item>\n      <Combobox.Item id=\"mx\" textValue=\"Mexico\">Mexico</Combobox.Item>\n    </Combobox.ListBox>\n  </Combobox.Popover>\n</Combobox.Root>",
+        "<Combobox.Root>\n  <Combobox.Label>Food</Combobox.Label>\n  <Combobox.InputGroup>\n    <Combobox.Input placeholder=\"Search food...\" />\n    <Combobox.Trigger />\n  </Combobox.InputGroup>\n  <Combobox.Popover>\n    <Combobox.ListBox>\n      <Combobox.Section>\n        <Combobox.Header>Fruits</Combobox.Header>\n        <Combobox.Item id=\"apple\" textValue=\"Apple\">Apple</Combobox.Item>\n        <Combobox.Item id=\"banana\" textValue=\"Banana\">Banana</Combobox.Item>\n      </Combobox.Section>\n      <Combobox.Section>\n        <Combobox.Header>Vegetables</Combobox.Header>\n        <Combobox.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Combobox.Item>\n        <Combobox.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Combobox.Item>\n      </Combobox.Section>\n    </Combobox.ListBox>\n  </Combobox.Popover>\n</Combobox.Root>",
+        "<Combobox.Root>\n  <Combobox.Label>Search</Combobox.Label>\n  <Combobox.InputGroup>\n    <Combobox.Input placeholder=\"Type to filter...\" />\n    <Combobox.Trigger />\n  </Combobox.InputGroup>\n  <Combobox.Popover>\n    <Combobox.ListBox>\n      <Combobox.Empty>No results found.</Combobox.Empty>\n      <Combobox.Item id=\"apple\" textValue=\"Apple\">Apple</Combobox.Item>\n      <Combobox.Item id=\"banana\" textValue=\"Banana\">Banana</Combobox.Item>\n    </Combobox.ListBox>\n  </Combobox.Popover>\n</Combobox.Root>",
+        "<Combobox.Root selectionMode=\"multiple\">\n  <Combobox.Label>Frameworks</Combobox.Label>\n  <Combobox.Chips>\n    <Combobox.Chip>\n      React <Combobox.ChipRemove aria-label=\"Remove React\" />\n    </Combobox.Chip>\n    <Combobox.Chip>\n      Vue <Combobox.ChipRemove aria-label=\"Remove Vue\" />\n    </Combobox.Chip>\n  </Combobox.Chips>\n  <Combobox.InputGroup>\n    <Combobox.Input placeholder=\"Add framework...\" />\n    <Combobox.Trigger />\n  </Combobox.InputGroup>\n  <Combobox.Popover>\n    <Combobox.ListBox>\n      <Combobox.Item id=\"react\" textValue=\"React\">React</Combobox.Item>\n      <Combobox.Item id=\"vue\" textValue=\"Vue\">Vue</Combobox.Item>\n      <Combobox.Item id=\"angular\" textValue=\"Angular\">Angular</Combobox.Item>\n    </Combobox.ListBox>\n  </Combobox.Popover>\n</Combobox.Root>"
+      ],
+      "cssClasses": [
+        "tale-combobox__chip",
+        "tale-combobox__chip-remove",
+        "tale-combobox__chips",
+        "tale-combobox__input",
+        "tale-combobox__item",
+        "tale-combobox__listbox",
+        "tale-combobox__popover"
+      ]
+    },
+    {
+      "name": "Container",
+      "slug": "container",
+      "import": "@tale-ui/react/container",
+      "category": "Utility",
+      "description": "Colour palette override wrapper",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "color",
+          "type": "ContainerColor",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<Container color=\"indigo\">\n  {/* All children will use indigo --color-* tokens */}\n  <Button variant=\"primary\">Indigo Button</Button>\n</Container>",
+        "<Container color=\"red\">\n  <p style={{ color: 'var(--color-60)' }}>This text is red-60.</p>\n</Container>",
+        "<Container color=\"random\">\n  <p style={{ color: 'var(--color-60)' }}>Random colour.</p>\n</Container>",
+        "<Container color=\"brand\">\n  <p>Same as not using Container at all.</p>\n</Container>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "ContextMenu",
+      "slug": "context-menu",
+      "import": "@tale-ui/react/context-menu",
+      "category": "Navigation",
+      "description": "Right-click context menu",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Popup",
+        "MenuList",
+        "Item",
+        "Group",
+        "ContextMenuSeparator"
+      ],
+      "examples": [
+        "import { ContextMenu } from '@tale-ui/react/context-menu';\n\n<ContextMenu.Root>\n  <ContextMenu.Trigger>Right-click here</ContextMenu.Trigger>\n  <ContextMenu.Popup>\n    <ContextMenu.MenuList>\n      <ContextMenu.Item id=\"cut\">Cut</ContextMenu.Item>\n      <ContextMenu.Item id=\"copy\">Copy</ContextMenu.Item>\n      <ContextMenu.Separator />\n      <ContextMenu.Item id=\"paste\">Paste</ContextMenu.Item>\n    </ContextMenu.MenuList>\n  </ContextMenu.Popup>\n</ContextMenu.Root>",
+        "<ContextMenu.Root>\n  <ContextMenu.Trigger>\n    <div style={{\n      padding: 'var(--space-xl)',\n      border: '2px dashed var(--neutral-30)',\n      borderRadius: 'var(--space-2xs)',\n      textAlign: 'center',\n    }}>\n      Right-click this area\n    </div>\n  </ContextMenu.Trigger>\n  <ContextMenu.Popup>\n    <ContextMenu.MenuList>\n      <ContextMenu.Group>\n        <ContextMenu.Item id=\"cut\">Cut</ContextMenu.Item>\n        <ContextMenu.Item id=\"copy\">Copy</ContextMenu.Item>\n        <ContextMenu.Item id=\"paste\">Paste</ContextMenu.Item>\n      </ContextMenu.Group>\n      <ContextMenu.Separator />\n      <ContextMenu.Group>\n        <ContextMenu.Item id=\"select-all\">Select All</ContextMenu.Item>\n        <ContextMenu.Item id=\"find\">Find...</ContextMenu.Item>\n      </ContextMenu.Group>\n      <ContextMenu.Separator />\n      <ContextMenu.Group>\n        <ContextMenu.Item id=\"inspect\">Inspect Element</ContextMenu.Item>\n      </ContextMenu.Group>\n    </ContextMenu.MenuList>\n  </ContextMenu.Popup>\n</ContextMenu.Root>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "CSPProvider",
+      "slug": "csp-provider",
+      "import": "@tale-ui/react/csp-provider",
+      "category": "Utility",
+      "description": "Content Security Policy nonce provider",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "nonce",
+          "type": "string",
+          "required": false,
+          "description": "The nonce value to apply to inline `<style>` and `<script>` tags.",
+          "default": null
+        },
+        {
+          "name": "disableStyleElements",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether inline `<style>` elements created by Tale UI components should not be rendered. Instead, components must specify the CSS styles via custom class names or other methods. @default false",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { CSPProvider } from '@tale-ui/react/csp-provider';\n\n<CSPProvider nonce={myNonceValue}>\n  <App />\n</CSPProvider>",
+        "<CSPProvider disableStyleElements>\n  <App />\n</CSPProvider>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "DateField",
+      "slug": "date-field",
+      "import": "@tale-ui/react/date-field",
+      "category": "Date & Time",
+      "description": "Segmented date input",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "DateInput",
+        "Segment",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "<DateField.Root>\n  <DateField.DateInput style={{ display: 'flex' }}>\n    {(segment) => <DateField.Segment segment={segment} />}\n  </DateField.DateInput>\n</DateField.Root>",
+        "<DateField.Root>\n  <DateField.Label>Date</DateField.Label>\n  <DateField.DateInput style={{ display: 'flex' }}>\n    {(segment) => <DateField.Segment segment={segment} />}\n  </DateField.DateInput>\n</DateField.Root>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "DatePicker",
+      "slug": "date-picker",
+      "import": "@tale-ui/react/date-picker",
+      "category": "Date & Time",
+      "description": "Date field with calendar popover",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "DateInput",
+        "Segment",
+        "Group",
+        "Trigger",
+        "Popover",
+        "Dialog",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "import { DatePicker } from '@tale-ui/react/date-picker';\nimport { Calendar } from '@tale-ui/react/calendar';\n\n<DatePicker.Root>\n  <DatePicker.Group>\n    <DatePicker.DateInput>\n      {(segment) => <DatePicker.Segment segment={segment} />}\n    </DatePicker.DateInput>\n    <DatePicker.Trigger />\n  </DatePicker.Group>\n  <DatePicker.Popover>\n    <DatePicker.Dialog>\n      <Calendar.Root>\n        <Calendar.Header>\n          <Calendar.PreviousButton />\n          <Calendar.Heading />\n          <Calendar.NextButton />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>\n            {(date) => <Calendar.Cell date={date} />}\n          </Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar.Root>\n    </DatePicker.Dialog>\n  </DatePicker.Popover>\n</DatePicker.Root>",
+        "<DatePicker.Root>\n  <DatePicker.Label>Date</DatePicker.Label>\n  <DatePicker.Group>\n    <DatePicker.DateInput>\n      {(segment) => <DatePicker.Segment segment={segment} />}\n    </DatePicker.DateInput>\n    <DatePicker.Trigger />\n  </DatePicker.Group>\n  <DatePicker.Popover>\n    <DatePicker.Dialog>\n      {/* Calendar content same as above */}\n    </DatePicker.Dialog>\n  </DatePicker.Popover>\n</DatePicker.Root>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "DateRangePicker",
+      "slug": "date-range-picker",
+      "import": "@tale-ui/react/date-range-picker",
+      "category": "Date & Time",
+      "description": "Start/end date picker",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Group",
+        "StartDate",
+        "EndDate",
+        "Segment",
+        "Trigger",
+        "Popover",
+        "Dialog",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "import { DateRangePicker } from '@tale-ui/react/date-range-picker';\nimport { RangeCalendar } from '@tale-ui/react/range-calendar';\n\n<DateRangePicker.Root>\n  <DateRangePicker.Label>Date range</DateRangePicker.Label>\n  <DateRangePicker.Group>\n    <DateRangePicker.StartDate>\n      {(segment) => <DateRangePicker.Segment segment={segment} />}\n    </DateRangePicker.StartDate>\n    <span aria-hidden=\"true\">&ndash;</span>\n    <DateRangePicker.EndDate>\n      {(segment) => <DateRangePicker.Segment segment={segment} />}\n    </DateRangePicker.EndDate>\n    <DateRangePicker.Trigger />\n  </DateRangePicker.Group>\n  <DateRangePicker.Popover>\n    <DateRangePicker.Dialog>\n      <RangeCalendar.Root>\n        <RangeCalendar.Header>\n          <RangeCalendar.PreviousButton />\n          <RangeCalendar.Heading />\n          <RangeCalendar.NextButton />\n        </RangeCalendar.Header>\n        <RangeCalendar.Grid>\n          <RangeCalendar.GridHeader>\n            {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n          </RangeCalendar.GridHeader>\n          <RangeCalendar.GridBody>\n            {(date) => <RangeCalendar.Cell date={date} />}\n          </RangeCalendar.GridBody>\n        </RangeCalendar.Grid>\n      </RangeCalendar.Root>\n    </DateRangePicker.Dialog>\n  </DateRangePicker.Popover>\n</DateRangePicker.Root>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "Dialog",
+      "slug": "dialog",
+      "import": "@tale-ui/react/dialog",
+      "category": "Overlay",
+      "description": "Modal dialog with backdrop",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Backdrop",
+        "Popup",
+        "Title",
+        "Description",
+        "Close",
+        "Actions"
+      ],
+      "examples": [
+        "import { useState } from 'react';\nimport { Dialog } from '@tale-ui/react/dialog';\nimport { Button } from '@tale-ui/react/button';\n\nfunction Example() {\n  const [open, setOpen] = useState(false);\n  return (\n    <Dialog.Root isOpen={open} onOpenChange={setOpen}>\n      <Dialog.Trigger className=\"tale-button--primary\">Open Dialog</Dialog.Trigger>\n      <Dialog.Backdrop>\n        <Dialog.Popup>\n          <Dialog.Close aria-label=\"Close\" />\n          <Dialog.Title>Confirm action</Dialog.Title>\n          <Dialog.Description>\n            Are you sure you want to proceed? This action can be undone later.\n          </Dialog.Description>\n          <Dialog.Actions>\n            <Button variant=\"neutral\" onPress={() => setOpen(false)}>Cancel</Button>\n            <Button variant=\"primary\" onPress={() => setOpen(false)}>Confirm</Button>\n          </Dialog.Actions>\n        </Dialog.Popup>\n      </Dialog.Backdrop>\n    </Dialog.Root>\n  );\n}",
+        "const [open, setOpen] = useState(false);\n\n<Dialog.Root isOpen={open} onOpenChange={setOpen}>\n  <Dialog.Trigger className=\"tale-button--danger\">Delete Account</Dialog.Trigger>\n  <Dialog.Backdrop>\n    <Dialog.Popup>\n      <Dialog.Close aria-label=\"Close\" />\n      <Dialog.Title>Delete account</Dialog.Title>\n      <Dialog.Description>\n        This action is permanent and cannot be undone. All your data will be lost.\n      </Dialog.Description>\n      <Dialog.Actions>\n        <Button variant=\"neutral\" onPress={() => setOpen(false)}>Cancel</Button>\n        <Button variant=\"danger\" onPress={() => setOpen(false)}>Delete</Button>\n      </Dialog.Actions>\n    </Dialog.Popup>\n  </Dialog.Backdrop>\n</Dialog.Root>",
+        "const [open, setOpen] = useState(false);\n\n<Dialog.Root isOpen={open} onOpenChange={setOpen}>\n  <Dialog.Trigger className=\"tale-button--neutral\">Open Dismissable</Dialog.Trigger>\n  <Dialog.Backdrop isDismissable>\n    <Dialog.Popup>\n      <Dialog.Close aria-label=\"Close\" />\n      <Dialog.Title>Dismissable Dialog</Dialog.Title>\n      <Dialog.Description>\n        Click the backdrop or press Escape to dismiss this dialog.\n      </Dialog.Description>\n      <Dialog.Actions>\n        <Button variant=\"neutral\" onPress={() => setOpen(false)}>Dismiss</Button>\n      </Dialog.Actions>\n    </Dialog.Popup>\n  </Dialog.Backdrop>\n</Dialog.Root>"
+      ],
+      "cssClasses": [
+        "tale-dialog__close",
+        "tale-dialog__popup"
+      ]
+    },
+    {
+      "name": "Disclosure",
+      "slug": "disclosure",
+      "import": "@tale-ui/react/disclosure",
+      "category": "Layout",
+      "description": "Single collapsible section",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Panel"
+      ],
+      "examples": [
+        "<Disclosure.Root>\n  <Disclosure.Trigger>Show more</Disclosure.Trigger>\n  <Disclosure.Panel>\n    <p>This is the hidden content revealed when the disclosure is expanded.</p>\n  </Disclosure.Panel>\n</Disclosure.Root>",
+        "<Disclosure.Root defaultExpanded>\n  <Disclosure.Trigger>Show more</Disclosure.Trigger>\n  <Disclosure.Panel>\n    <p>This content is visible by default.</p>\n  </Disclosure.Panel>\n</Disclosure.Root>",
+        "<Disclosure.Root isDisabled>\n  <Disclosure.Trigger>Show more</Disclosure.Trigger>\n  <Disclosure.Panel>\n    <p>This content cannot be toggled.</p>\n  </Disclosure.Panel>\n</Disclosure.Root>",
+        "const [isExpanded, setIsExpanded] = useState(false);\n\n<Disclosure.Root isExpanded={isExpanded} onExpandedChange={setIsExpanded}>\n  <Disclosure.Trigger>{isExpanded ? 'Collapse' : 'Expand'}</Disclosure.Trigger>\n  <Disclosure.Panel>\n    <p>This disclosure is controlled externally via useState.</p>\n  </Disclosure.Panel>\n</Disclosure.Root>"
+      ],
+      "cssClasses": [
+        "tale-disclosure",
+        "tale-disclosure__panel",
+        "tale-disclosure__trigger"
+      ]
+    },
+    {
+      "name": "DotIcon",
+      "slug": "dot-icon",
+      "import": "@tale-ui/react/dot-icon",
+      "category": "Display",
+      "description": "Small colored circle status indicator",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "color",
+          "type": "Color",
+          "required": false,
+          "description": "Dot color variant. Defaults to 'neutral'.",
+          "default": "'neutral'"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Dot size. Defaults to 'md'.",
+          "default": "'md'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<DotIcon color=\"success\" />",
+        "<DotIcon color=\"neutral\" />\n<DotIcon color=\"brand\" />\n<DotIcon color=\"error\" />\n<DotIcon color=\"warning\" />\n<DotIcon color=\"success\" />",
+        "<DotIcon size=\"sm\" />\n<DotIcon size=\"md\" />\n<DotIcon size=\"lg\" />"
+      ],
+      "cssClasses": [
+        "tale-dot-icon",
+        "tale-dot-icon--brand",
+        "tale-dot-icon--error",
+        "tale-dot-icon--lg",
+        "tale-dot-icon--md",
+        "tale-dot-icon--neutral",
+        "tale-dot-icon--sm",
+        "tale-dot-icon--success",
+        "tale-dot-icon--warning"
+      ]
+    },
+    {
+      "name": "Drawer",
+      "slug": "drawer",
+      "import": "@tale-ui/react/drawer",
+      "category": "Overlay",
+      "description": "Slide-in panel",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": "false"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Popup",
+        "Close",
+        "Title",
+        "Description",
+        "Backdrop",
+        "Handle",
+        "SwipeArea"
+      ],
+      "examples": [
+        "import { Drawer } from '@tale-ui/react/drawer';\n\n<Drawer.Root>\n  <Drawer.Trigger className=\"tale-button tale-button--neutral\">Open Drawer</Drawer.Trigger>\n  <Drawer.Backdrop />\n  <Drawer.Popup>\n    <Drawer.Title>Drawer Title</Drawer.Title>\n    <Drawer.Description>\n      A drawer panel for side or bottom content.\n    </Drawer.Description>\n    <div style={{ marginTop: 'var(--space-m)', display: 'flex', gap: 'var(--space-xs)' }}>\n      <Drawer.Close className=\"tale-button tale-button--neutral\" style={{ flex: 1 }}>Cancel</Drawer.Close>\n      <Drawer.Close className=\"tale-button tale-button--primary\" style={{ flex: 1 }}>Confirm</Drawer.Close>\n    </div>\n  </Drawer.Popup>\n</Drawer.Root>",
+        "<Drawer.Root>\n  <Drawer.Trigger className=\"tale-button tale-button--neutral\">Open Drawer</Drawer.Trigger>\n  <Drawer.Popup>\n    <p>Drawer content goes here.</p>\n    <Drawer.Close className=\"tale-button tale-button--neutral\">Close</Drawer.Close>\n  </Drawer.Popup>\n</Drawer.Root>"
+      ],
+      "cssClasses": [
+        "tale-drawer__backdrop",
+        "tale-drawer__handle",
+        "tale-drawer__popup",
+        "tale-drawer__swipe-area"
+      ]
+    },
+    {
+      "name": "DropZone",
+      "slug": "drop-zone",
+      "import": "@tale-ui/react/drop-zone",
+      "category": "Interaction",
+      "description": "Drag-and-drop target",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { useState } from 'react';\n\nfunction MyDropZone() {\n  const [dropped, setDropped] = useState(false);\n\n  return (\n    <DropZone onDrop={() => setDropped(true)}>\n      <p>{dropped ? 'File dropped!' : 'Drop files here'}</p>\n    </DropZone>\n  );\n}",
+        "import { DropZone } from '@tale-ui/react/drop-zone';\nimport { FileTrigger } from '@tale-ui/react/file-trigger';\nimport { Button } from '@tale-ui/react/button';\nimport { useState } from 'react';\n\nfunction FileUpload() {\n  const [files, setFiles] = useState<string[]>([]);\n\n  return (\n    <DropZone\n      onDrop={(e) => {\n        const names = e.items\n          .filter((item) => item.kind === 'file')\n          .map((item) => ('name' in item ? item.name : 'unknown'));\n        setFiles((prev) => [...prev, ...names]);\n      }}\n    >\n      <p>Drop files here or</p>\n      <FileTrigger\n        onSelect={(fileList) => {\n          if (fileList) {\n            setFiles((prev) => [...prev, ...Array.from(fileList).map((f) => f.name)]);\n          }\n        }}\n      >\n        <Button>Browse files</Button>\n      </FileTrigger>\n      {files.length > 0 && <p>Files: {files.join(', ')}</p>}\n    </DropZone>\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-drop-zone"
+      ]
+    },
+    {
+      "name": "EmptyState",
+      "slug": "empty-state",
+      "import": "@tale-ui/react/empty-state",
+      "category": "Display",
+      "description": "Placeholder for empty content areas",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "required": false,
+          "description": "Size variant affecting spacing and typography.",
+          "default": "'md'"
+        }
+      ],
+      "parts": [
+        "Root",
+        "EmptyStateIcon",
+        "Title",
+        "Description",
+        "Actions"
+      ],
+      "examples": [
+        "<EmptyState.Root>\n  <EmptyState.Icon><Icon icon={InboxIcon} size=\"lg\" /></EmptyState.Icon>\n  <EmptyState.Title>No messages</EmptyState.Title>\n  <EmptyState.Description>Your inbox is empty.</EmptyState.Description>\n  <EmptyState.Actions>\n    <Button variant=\"primary\">Compose</Button>\n  </EmptyState.Actions>\n</EmptyState.Root>",
+        "<EmptyState.Root>\n  <EmptyState.Title>No items</EmptyState.Title>\n</EmptyState.Root>",
+        "<EmptyState.Root>\n  <EmptyState.Icon><Icon icon={SearchIcon} size=\"lg\" /></EmptyState.Icon>\n  <EmptyState.Title>No results found</EmptyState.Title>\n  <EmptyState.Description>Try adjusting your search terms or filters.</EmptyState.Description>\n</EmptyState.Root>",
+        "<EmptyState.Root size=\"sm\">\n  <EmptyState.Title>No items</EmptyState.Title>\n  <EmptyState.Description>Nothing here yet.</EmptyState.Description>\n</EmptyState.Root>\n\n<EmptyState.Root size=\"md\">\n  <EmptyState.Title>No items</EmptyState.Title>\n  <EmptyState.Description>Nothing here yet.</EmptyState.Description>\n</EmptyState.Root>\n\n<EmptyState.Root size=\"lg\">\n  <EmptyState.Title>No items</EmptyState.Title>\n  <EmptyState.Description>Nothing here yet.</EmptyState.Description>\n</EmptyState.Root>",
+        "<EmptyState.Root>\n  <EmptyState.Icon><Icon icon={PlusCircleIcon} size=\"lg\" /></EmptyState.Icon>\n  <EmptyState.Title>No projects</EmptyState.Title>\n  <EmptyState.Description>Get started by creating your first project.</EmptyState.Description>\n  <EmptyState.Actions>\n    <Button variant=\"primary\">Create project</Button>\n    <Button variant=\"ghost\">Learn more</Button>\n  </EmptyState.Actions>\n</EmptyState.Root>"
+      ],
+      "cssClasses": [
+        "tale-empty-state",
+        "tale-empty-state--lg",
+        "tale-empty-state--sm",
+        "tale-empty-state__actions",
+        "tale-empty-state__description",
+        "tale-empty-state__icon",
+        "tale-empty-state__title"
+      ]
+    },
+    {
+      "name": "FeaturedIcon",
+      "slug": "featured-icon",
+      "import": "@tale-ui/react/featured-icon",
+      "category": "Display",
+      "description": "Themed background wrapper for icons",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": "Color variant. Defaults to 'brand'.",
+          "default": "'brand'"
+        },
+        {
+          "name": "shape",
+          "type": "Shape",
+          "required": false,
+          "description": "Shape of the container. Defaults to 'circle'.",
+          "default": "'circle'"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the container. Defaults to 'md'.",
+          "default": "'md'"
+        },
+        {
+          "name": "theme",
+          "type": "Theme",
+          "required": false,
+          "description": "Visual theme. Defaults to 'light'.",
+          "default": "'light'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { Icon } from '@tale-ui/react/icon';\nimport { AlertCircle } from 'lucide-react';\n\n<FeaturedIcon variant=\"error\">\n  <Icon icon={AlertCircle} />\n</FeaturedIcon>",
+        "import { Icon } from '@tale-ui/react/icon';\nimport { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-react';\n\n<FeaturedIcon variant=\"brand\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"error\"><Icon icon={AlertCircle} /></FeaturedIcon>\n<FeaturedIcon variant=\"warning\"><Icon icon={AlertTriangle} /></FeaturedIcon>\n<FeaturedIcon variant=\"success\"><Icon icon={CheckCircle} /></FeaturedIcon>\n<FeaturedIcon variant=\"neutral\"><Icon icon={Info} /></FeaturedIcon>",
+        "<FeaturedIcon variant=\"brand\" shape=\"circle\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"brand\" shape=\"square\"><Icon icon={Star} /></FeaturedIcon>",
+        "<FeaturedIcon size=\"sm\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon size=\"md\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon size=\"lg\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon size=\"xl\"><Icon icon={Star} /></FeaturedIcon>",
+        "<FeaturedIcon variant=\"brand\" theme=\"light\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"brand\" theme=\"gradient\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"brand\" theme=\"dark\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"brand\" theme=\"outline\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"brand\" theme=\"modern\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"brand\" theme=\"modern-neue\"><Icon icon={Star} /></FeaturedIcon>"
+      ],
+      "cssClasses": [
+        "tale-featured-icon",
+        "tale-featured-icon--brand",
+        "tale-featured-icon--dark",
+        "tale-featured-icon--error",
+        "tale-featured-icon--gradient",
+        "tale-featured-icon--lg",
+        "tale-featured-icon--md",
+        "tale-featured-icon--modern",
+        "tale-featured-icon--modern-neue",
+        "tale-featured-icon--neutral",
+        "tale-featured-icon--outline",
+        "tale-featured-icon--sm",
+        "tale-featured-icon--square",
+        "tale-featured-icon--success",
+        "tale-featured-icon--warning",
+        "tale-featured-icon--xl"
+      ]
+    },
+    {
+      "name": "Field",
+      "slug": "field",
+      "import": "@tale-ui/react/field",
+      "category": "Form Structure",
+      "description": "Form field wrapper with label and validation",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Label",
+        "Description",
+        "Error",
+        "Control",
+        "Item"
+      ],
+      "examples": [
+        "<Field.Root>\n  <Field.Label>Name</Field.Label>\n  <Field.Control>\n    <input className=\"tale-input\" placeholder=\"Enter your name\" />\n  </Field.Control>\n</Field.Root>",
+        "<Field.Root>\n  <Field.Label>Email</Field.Label>\n  <Field.Control>\n    <input className=\"tale-input\" type=\"email\" placeholder=\"you@example.com\" />\n  </Field.Control>\n  <Field.Description>We will never share your email with anyone.</Field.Description>\n</Field.Root>",
+        "import { Input } from '@tale-ui/react/input';\n\n<Input.Root isInvalid>\n  <Input.Label>Password</Input.Label>\n  <Input.Input type=\"password\" />\n  <Input.Description>Must be at least 8 characters long.</Input.Description>\n  <Input.ErrorMessage>This field is required.</Input.ErrorMessage>\n</Input.Root>"
+      ],
+      "cssClasses": [
+        "tale-field",
+        "tale-field__control",
+        "tale-field__item"
+      ]
+    },
+    {
+      "name": "Fieldset",
+      "slug": "fieldset",
+      "import": "@tale-ui/react/fieldset",
+      "category": "Form Structure",
+      "description": "Grouped fields with legend",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Legend"
+      ],
+      "examples": [
+        "<Fieldset.Root>\n  <Fieldset.Legend>Personal Information</Fieldset.Legend>\n  <TextField.Root>\n    <TextField.Label>First Name</TextField.Label>\n    <TextField.Input placeholder=\"John\" />\n  </TextField.Root>\n  <TextField.Root>\n    <TextField.Label>Last Name</TextField.Label>\n    <TextField.Input placeholder=\"Doe\" />\n  </TextField.Root>\n</Fieldset.Root>",
+        "<Fieldset.Root disabled>\n  <Fieldset.Legend>Billing Address (disabled)</Fieldset.Legend>\n  <TextField.Root>\n    <TextField.Label>Street</TextField.Label>\n    <TextField.Input placeholder=\"123 Main St\" />\n  </TextField.Root>\n  <TextField.Root>\n    <TextField.Label>City</TextField.Label>\n    <TextField.Input placeholder=\"Anytown\" />\n  </TextField.Root>\n</Fieldset.Root>"
+      ],
+      "cssClasses": [
+        "tale-fieldset",
+        "tale-fieldset__legend"
+      ]
+    },
+    {
+      "name": "FileTrigger",
+      "slug": "file-trigger",
+      "import": "@tale-ui/react/file-trigger",
+      "category": "Interaction",
+      "description": "Native file picker trigger",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { Button } from '@tale-ui/react/button';\nimport { useState } from 'react';\n\nfunction FileUpload() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <>\n      <FileTrigger\n        onSelect={(fileList) => {\n          if (fileList) {\n            setFileName(Array.from(fileList).map((f) => f.name).join(', '));\n          }\n        }}\n      >\n        <Button>Upload file</Button>\n      </FileTrigger>\n      {fileName && <p>Selected: {fileName}</p>}\n    </>\n  );\n}"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "Form",
+      "slug": "form",
+      "import": "@tale-ui/react/form",
+      "category": "Form Structure",
+      "description": "Form element with validation",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "<Form onSubmit={(e) => { e.preventDefault(); }}>\n  <TextField.Root name=\"username\" isRequired>\n    <TextField.Label>Username</TextField.Label>\n    <TextField.Input placeholder=\"Enter username\" />\n  </TextField.Root>\n  <Button type=\"submit\">Submit</Button>\n</Form>",
+        "<Form\n  validationBehavior=\"native\"\n  onSubmit={(e) => {\n    e.preventDefault();\n    alert('Validation passed!');\n  }}\n>\n  <TextField.Root name=\"fullName\" isRequired>\n    <TextField.Label>Full Name</TextField.Label>\n    <TextField.Input placeholder=\"Enter your full name\" />\n  </TextField.Root>\n  <TextField.Root name=\"password\" type=\"password\" isRequired minLength={8}>\n    <TextField.Label>Password</TextField.Label>\n    <TextField.Input placeholder=\"At least 8 characters\" />\n  </TextField.Root>\n  <NumberField.Root name=\"age\" minValue={18} maxValue={120}>\n    <NumberField.Label>Age</NumberField.Label>\n    <NumberField.Input placeholder=\"Must be 18+\" />\n  </NumberField.Root>\n  <Button type=\"submit\">Submit</Button>\n</Form>"
+      ],
+      "cssClasses": [
+        "tale-form"
+      ]
+    },
+    {
+      "name": "GridList",
+      "slug": "grid-list",
+      "import": "@tale-ui/react/grid-list",
+      "category": "Display",
+      "description": "Selectable grid of items",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Item"
+      ],
+      "examples": [
+        "<GridList.Root aria-label=\"Items\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">Item 3</GridList.Item>\n</GridList.Root>",
+        "<GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">Item 3</GridList.Item>\n</GridList.Root>",
+        "import { GridList } from '@tale-ui/react/grid-list';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Star, Heart, Bell } from 'lucide-react';\n\n<GridList.Root aria-label=\"Items\" selectionMode=\"single\">\n  <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n</GridList.Root>"
+      ],
+      "cssClasses": [
+        "tale-grid-list",
+        "tale-grid-list__item"
+      ]
+    },
+    {
+      "name": "I18nProvider",
+      "slug": "i18n-provider",
+      "import": "@tale-ui/react/i18n-provider",
+      "category": "Utility",
+      "description": "Locale and text direction provider",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "locale",
+          "type": "string",
+          "required": false,
+          "description": "The locale to apply to the children (e.g. `\"en-US\"`, `\"ar-AE\"`).",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { I18nProvider } from '@tale-ui/react/i18n-provider';\n\n<I18nProvider locale=\"en-US\">\n  <App />\n</I18nProvider>",
+        "<I18nProvider locale=\"ar-AE\">\n  <App />\n</I18nProvider>",
+        "import { useLocale } from '@tale-ui/react/i18n-provider';\n\nfunction LocaleDisplay() {\n  const { locale, direction } = useLocale();\n  return <p>Locale: {locale}, Direction: {direction}</p>;\n}"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "Icon",
+      "slug": "icon",
+      "import": "@tale-ui/react/icon",
+      "category": "Utility",
+      "description": "Lucide-react icon wrapper with BEM sizing",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "icon",
+          "type": "IconComponent",
+          "required": true,
+          "description": "A lucide-react icon component (e.g., ChevronDown).",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size variant. Defaults to 'md'.",
+          "default": "'md'"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label. If omitted, icon is decorative (aria-hidden).",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { Icon } from '@tale-ui/react/icon';\nimport { Heart } from 'lucide-react';\n\n<Icon icon={Heart} />",
+        "import { Star } from 'lucide-react';\n\n<Icon icon={Star} size=\"sm\" />\n<Icon icon={Star} />              {/* md — default */}\n<Icon icon={Star} size=\"lg\" />\n<Icon icon={Star} size=\"xl\" />",
+        "import { AlertCircle } from 'lucide-react';\n\n<Icon icon={AlertCircle} label=\"Warning\" />",
+        "import { Button } from '@tale-ui/react/button';\nimport { Plus } from 'lucide-react';\n\n<Button variant=\"primary\">\n  <Icon icon={Plus} size=\"sm\" />\n  Add Item\n</Button>"
+      ],
+      "cssClasses": [
+        "tale-icon",
+        "tale-icon--lg",
+        "tale-icon--sm",
+        "tale-icon--xl"
+      ]
+    },
+    {
+      "name": "IconButton",
+      "slug": "icon-button",
+      "import": "@tale-ui/react/icon-button",
+      "category": "Utility",
+      "description": "Square button for icon-only use",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": null,
+          "default": "'ghost'"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": null,
+          "default": "'md'"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Alias for `isDisabled` for convenience.",
+          "default": null
+        },
+        {
+          "name": "pending",
+          "type": "boolean",
+          "required": false,
+          "description": "Alias for `isPending` for convenience.",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { IconButton } from '@tale-ui/react/icon-button';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Search } from 'lucide-react';\n\n<IconButton aria-label=\"Search\">\n  <Icon icon={Search} />\n</IconButton>",
+        "import { Plus, Settings, Search, Trash2, Download } from 'lucide-react';\n\n<IconButton variant=\"primary\" aria-label=\"Add\"><Icon icon={Plus} /></IconButton>\n<IconButton variant=\"neutral\" aria-label=\"Settings\"><Icon icon={Settings} /></IconButton>\n<IconButton variant=\"ghost\" aria-label=\"Search\"><Icon icon={Search} /></IconButton>\n<IconButton variant=\"danger\" aria-label=\"Delete\"><Icon icon={Trash2} /></IconButton>\n<IconButton variant=\"inverse\" aria-label=\"Download\"><Icon icon={Download} /></IconButton>",
+        "<IconButton variant=\"neutral\" size=\"sm\" aria-label=\"Small\"><Icon icon={Heart} /></IconButton>\n<IconButton variant=\"neutral\" size=\"md\" aria-label=\"Medium\"><Icon icon={Heart} /></IconButton>\n<IconButton variant=\"neutral\" size=\"lg\" aria-label=\"Large\"><Icon icon={Heart} /></IconButton>",
+        "<IconButton variant=\"ghost\" isDisabled aria-label=\"Search\">\n  <Icon icon={Search} />\n</IconButton>",
+        "<IconButton variant=\"ghost\" isPending aria-label=\"Search\">\n  <Icon icon={Search} />\n</IconButton>"
+      ],
+      "cssClasses": [
+        "tale-button",
+        "tale-icon",
+        "tale-icon-button",
+        "tale-icon-button--lg",
+        "tale-icon-button--md",
+        "tale-icon-button--sm"
+      ]
+    },
+    {
+      "name": "Image",
+      "slug": "image",
+      "import": "@tale-ui/react/image",
+      "category": "Display",
+      "description": "Styled image wrapper with radius and fit props",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "radius",
+          "type": "Radius",
+          "required": false,
+          "description": "Border radius. @default 'none'",
+          "default": "'none'"
+        },
+        {
+          "name": "fit",
+          "type": "Fit",
+          "required": false,
+          "description": "Object-fit behaviour. @default 'cover'",
+          "default": "'cover'"
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": true,
+          "description": "Alt text (required for accessibility).",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<Image src=\"/photo.jpg\" alt=\"A mountain landscape\" />",
+        "<Image src=\"/photo.jpg\" alt=\"Photo\" radius=\"none\" width={200} height={150} />\n<Image src=\"/photo.jpg\" alt=\"Photo\" radius=\"sm\" width={200} height={150} />\n<Image src=\"/photo.jpg\" alt=\"Photo\" radius=\"md\" width={200} height={150} />\n<Image src=\"/photo.jpg\" alt=\"Photo\" radius=\"lg\" width={200} height={150} />\n<Image src=\"/photo.jpg\" alt=\"Photo\" radius=\"full\" width={200} height={200} />",
+        "<Image\n  src=\"/photo.jpg\"\n  alt=\"Cover (default)\"\n  fit=\"cover\"\n  width={300}\n  height={200}\n/>\n<Image\n  src=\"/photo.jpg\"\n  alt=\"Contain\"\n  fit=\"contain\"\n  width={300}\n  height={200}\n/>\n<Image\n  src=\"/photo.jpg\"\n  alt=\"Fill\"\n  fit=\"fill\"\n  width={300}\n  height={200}\n/>\n<Image\n  src=\"/photo.jpg\"\n  alt=\"None (natural size)\"\n  fit=\"none\"\n  width={300}\n  height={200}\n/>",
+        "<Image\n  src=\"/avatar.jpg\"\n  alt=\"User avatar\"\n  radius=\"full\"\n  fit=\"cover\"\n  width={80}\n  height={80}\n/>",
+        "<Image\n  src=\"/hero.jpg\"\n  alt=\"Hero banner\"\n  radius=\"lg\"\n  width={800}\n  height={400}\n  loading=\"lazy\"\n/>"
+      ],
+      "cssClasses": [
+        "tale-image",
+        "tale-image--contain",
+        "tale-image--fill",
+        "tale-image--full",
+        "tale-image--lg",
+        "tale-image--md",
+        "tale-image--none",
+        "tale-image--sm"
+      ]
+    },
+    {
+      "name": "Input",
+      "slug": "input",
+      "import": "@tale-ui/react/input",
+      "category": "Form Controls",
+      "description": "Text input with label, description, and validation",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Input",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "<Input.Root>\n  <Input.Input size=\"md\" placeholder=\"Type here...\" />\n</Input.Root>",
+        "<Input.Root>\n  <Input.Label>Email address</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Type here...\" />\n</Input.Root>",
+        "<Input.Root>\n  <Input.Label>Username</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Type here...\" />\n  <Input.Description>Must be 3-20 characters long.</Input.Description>\n</Input.Root>",
+        "<Input.Root isInvalid>\n  <Input.Label>Email</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Type here...\" />\n  <Input.ErrorMessage>Please enter a valid email address.</Input.ErrorMessage>\n</Input.Root>",
+        "<Input.Root isDisabled>\n  <Input.Label>Disabled input</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Cannot edit\" />\n</Input.Root>",
+        "<Input.Root isReadOnly>\n  <Input.Label>Read-only input</Input.Label>\n  <Input.Input size=\"md\" value=\"This value cannot be changed\" />\n</Input.Root>",
+        "<Input.Root>\n  <Input.Label>Small</Input.Label>\n  <Input.Input size=\"sm\" placeholder=\"Small input\" />\n</Input.Root>\n\n<Input.Root>\n  <Input.Label>Medium</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Medium input\" />\n</Input.Root>\n\n<Input.Root>\n  <Input.Label>Large</Input.Label>\n  <Input.Input size=\"lg\" placeholder=\"Large input\" />\n</Input.Root>"
+      ],
+      "cssClasses": [
+        "tale-input",
+        "tale-input--lg",
+        "tale-input--sm",
+        "tale-input__root"
+      ]
+    },
+    {
+      "name": "Link",
+      "slug": "link",
+      "import": "@tale-ui/react/link",
+      "category": "Navigation",
+      "description": "Styled anchor link",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "<Link href=\"#\">Click here</Link>",
+        "<Link href=\"#\" isDisabled>Click here</Link>",
+        "<Link href=\"https://example.com\" target=\"_blank\">Open in new tab</Link>"
+      ],
+      "cssClasses": [
+        "tale-link"
+      ]
+    },
+    {
+      "name": "List",
+      "slug": "list",
+      "import": "@tale-ui/react/list",
+      "category": "Display",
+      "description": "Simple non-interactive list with optional dividers",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": "Visual style. `'divided'` adds separators between items. @default 'plain'",
+          "default": "'plain'"
+        },
+        {
+          "name": "density",
+          "type": "Density",
+          "required": false,
+          "description": "Item padding density. @default 'default'",
+          "default": "'default'"
+        }
+      ],
+      "parts": [
+        "Root",
+        "Item"
+      ],
+      "examples": [
+        "<List.Root>\n  <List.Item>First item</List.Item>\n  <List.Item>Second item</List.Item>\n  <List.Item>Third item</List.Item>\n</List.Root>",
+        "<List.Root variant=\"plain\">\n  <List.Item>Apples</List.Item>\n  <List.Item>Bananas</List.Item>\n  <List.Item>Cherries</List.Item>\n</List.Root>",
+        "<List.Root variant=\"divided\">\n  <List.Item>Apples</List.Item>\n  <List.Item>Bananas</List.Item>\n  <List.Item>Cherries</List.Item>\n</List.Root>",
+        "<List.Root variant=\"divided\">\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Column gap=\"2xs\">\n        <Text variant=\"label\" size=\"m\">Alice Johnson</Text>\n        <Text variant=\"text\" size=\"s\" color=\"muted\">alice@example.com</Text>\n      </Column>\n      <Badge variant=\"success\">Active</Badge>\n    </Row>\n  </List.Item>\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Column gap=\"2xs\">\n        <Text variant=\"label\" size=\"m\">Bob Smith</Text>\n        <Text variant=\"text\" size=\"s\" color=\"muted\">bob@example.com</Text>\n      </Column>\n      <Badge variant=\"neutral\">Inactive</Badge>\n    </Row>\n  </List.Item>\n</List.Root>",
+        "<List.Root variant=\"divided\">\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"text\" size=\"m\">Email notifications</Text>\n      <Switch defaultSelected />\n    </Row>\n  </List.Item>\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"text\" size=\"m\">Push notifications</Text>\n      <Switch />\n    </Row>\n  </List.Item>\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"text\" size=\"m\">SMS notifications</Text>\n      <Switch />\n    </Row>\n  </List.Item>\n</List.Root>"
+      ],
+      "cssClasses": [
+        "tale-list",
+        "tale-list--compact",
+        "tale-list--divided",
+        "tale-list--spacious",
+        "tale-list__item"
+      ]
+    },
+    {
+      "name": "Menu",
+      "slug": "menu",
+      "import": "@tale-ui/react/menu",
+      "category": "Navigation",
+      "description": "Dropdown menu with items and groups",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Trigger",
+        "MenuList",
+        "Popover",
+        "Item",
+        "Group",
+        "Header",
+        "Separator",
+        "Arrow",
+        "CheckboxItem",
+        "RadioItem",
+        "LinkItem",
+        "SubmenuTrigger"
+      ],
+      "examples": [
+        "import { Menu } from '@tale-ui/react/menu';\n\n<Menu.Root>\n  <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Options ▾</Menu.Trigger>\n  <Menu.Popover placement=\"bottom\" offset={4}>\n    <Menu.MenuList>\n      <Menu.Item id=\"new\">New File</Menu.Item>\n      <Menu.Item id=\"open\">Open</Menu.Item>\n      <Menu.Separator />\n      <Menu.Item id=\"save\">Save</Menu.Item>\n      <Menu.Item id=\"save-as\">Save As...</Menu.Item>\n      <Menu.Separator />\n      <Menu.Item id=\"close\">Close</Menu.Item>\n    </Menu.MenuList>\n  </Menu.Popover>\n</Menu.Root>",
+        "<Menu.Root>\n  <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Actions ▾</Menu.Trigger>\n  <Menu.Popover placement=\"bottom\" offset={4}>\n    <Menu.MenuList>\n      <Menu.Group>\n        <Menu.Header>Edit</Menu.Header>\n        <Menu.Item id=\"cut\">Cut</Menu.Item>\n        <Menu.Item id=\"copy\">Copy</Menu.Item>\n        <Menu.Item id=\"paste\">Paste</Menu.Item>\n      </Menu.Group>\n      <Menu.Separator />\n      <Menu.Group>\n        <Menu.Header>View</Menu.Header>\n        <Menu.Item id=\"zoom-in\">Zoom In</Menu.Item>\n        <Menu.Item id=\"zoom-out\">Zoom Out</Menu.Item>\n        <Menu.Item id=\"reset-zoom\">Reset Zoom</Menu.Item>\n      </Menu.Group>\n    </Menu.MenuList>\n  </Menu.Popover>\n</Menu.Root>",
+        "<Menu.Root>\n  <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Edit ▾</Menu.Trigger>\n  <Menu.Popover placement=\"bottom\" offset={4}>\n    <Menu.MenuList>\n      <Menu.Item id=\"undo\">Undo</Menu.Item>\n      <Menu.Item id=\"redo\" isDisabled>Redo</Menu.Item>\n      <Menu.Separator />\n      <Menu.Item id=\"cut\">Cut</Menu.Item>\n      <Menu.Item id=\"copy\">Copy</Menu.Item>\n      <Menu.Item id=\"paste\" isDisabled>Paste</Menu.Item>\n    </Menu.MenuList>\n  </Menu.Popover>\n</Menu.Root>",
+        "<Menu.Root isDisabled>\n  <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Disabled Menu ▾</Menu.Trigger>\n  <Menu.Popover placement=\"bottom\" offset={4}>\n    <Menu.MenuList>\n      <Menu.Item id=\"a\">Item A</Menu.Item>\n      <Menu.Item id=\"b\">Item B</Menu.Item>\n    </Menu.MenuList>\n  </Menu.Popover>\n</Menu.Root>",
+        "<Menu.Root>\n  <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Options ▾</Menu.Trigger>\n  <Menu.Popover placement=\"bottom\" offset={4}>\n    <Menu.MenuList aria-label=\"View options\" selectionMode=\"multiple\">\n      <Menu.CheckboxItem id=\"sidebar\" textValue=\"Show Sidebar\">Show Sidebar</Menu.CheckboxItem>\n      <Menu.CheckboxItem id=\"minimap\" textValue=\"Show Minimap\">Show Minimap</Menu.CheckboxItem>\n      <Menu.CheckboxItem id=\"wordwrap\" textValue=\"Word Wrap\">Word Wrap</Menu.CheckboxItem>\n    </Menu.MenuList>\n  </Menu.Popover>\n</Menu.Root>",
+        "<Menu.Root>\n  <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Sort ▾</Menu.Trigger>\n  <Menu.Popover placement=\"bottom\" offset={4}>\n    <Menu.MenuList aria-label=\"Sort order\" selectionMode=\"single\">\n      <Menu.RadioItem id=\"name\" textValue=\"Name\">Name</Menu.RadioItem>\n      <Menu.RadioItem id=\"date\" textValue=\"Date\">Date</Menu.RadioItem>\n      <Menu.RadioItem id=\"size\" textValue=\"Size\">Size</Menu.RadioItem>\n    </Menu.MenuList>\n  </Menu.Popover>\n</Menu.Root>",
+        "<Menu.Root>\n  <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Links ▾</Menu.Trigger>\n  <Menu.Popover placement=\"bottom\" offset={4}>\n    <Menu.MenuList aria-label=\"External links\">\n      <Menu.LinkItem id=\"docs\" href=\"/docs\" textValue=\"Documentation\">Documentation</Menu.LinkItem>\n      <Menu.LinkItem id=\"github\" href=\"https://github.com\" target=\"_blank\" textValue=\"GitHub\">GitHub</Menu.LinkItem>\n    </Menu.MenuList>\n  </Menu.Popover>\n</Menu.Root>"
+      ],
+      "cssClasses": [
+        "tale-context-menu__group",
+        "tale-context-menu__item",
+        "tale-context-menu__list",
+        "tale-menu__checkbox-item",
+        "tale-menu__item",
+        "tale-menu__item-indicator",
+        "tale-menu__link-item",
+        "tale-menu__popover",
+        "tale-menu__popup",
+        "tale-menu__radio-item",
+        "tale-menu__submenu-trigger",
+        "tale-menu__trigger",
+        "tale-menubar",
+        "tale-menubar__item"
+      ]
+    },
+    {
+      "name": "Menubar",
+      "slug": "menubar",
+      "import": "@tale-ui/react/menubar",
+      "category": "Navigation",
+      "description": "Horizontal menu bar",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Item"
+      ],
+      "examples": [
+        "import { Menubar } from '@tale-ui/react/menubar';\nimport { Menu } from '@tale-ui/react/menu';\n\n<Menubar.Root>\n  <Menubar.Item>\n    <Menu.Root>\n      <Menu.Trigger>File</Menu.Trigger>\n      <Menu.Popover>\n        <Menu.MenuList>\n          <Menu.Item id=\"new\">New</Menu.Item>\n          <Menu.Item id=\"open\">Open</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"save\">Save</Menu.Item>\n          <Menu.Item id=\"save-as\">Save As...</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  </Menubar.Item>\n  <Menubar.Item>\n    <Menu.Root>\n      <Menu.Trigger>Edit</Menu.Trigger>\n      <Menu.Popover>\n        <Menu.MenuList>\n          <Menu.Item id=\"undo\">Undo</Menu.Item>\n          <Menu.Item id=\"redo\">Redo</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"cut\">Cut</Menu.Item>\n          <Menu.Item id=\"copy\">Copy</Menu.Item>\n          <Menu.Item id=\"paste\">Paste</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  </Menubar.Item>\n  <Menubar.Item>\n    <Menu.Root>\n      <Menu.Trigger>View</Menu.Trigger>\n      <Menu.Popover>\n        <Menu.MenuList>\n          <Menu.Item id=\"zoom-in\">Zoom In</Menu.Item>\n          <Menu.Item id=\"zoom-out\">Zoom Out</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"fullscreen\">Fullscreen</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  </Menubar.Item>\n</Menubar.Root>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "mergeProps",
+      "slug": "merge-props",
+      "import": "@tale-ui/react/merge-props",
+      "category": "Utility",
+      "description": "Smart React props merging utility",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { mergeProps } from '@tale-ui/react/merge-props';\n\nconst baseProps = { className: 'base', onClick: handleClick };\nconst extraProps = { className: 'extra', 'aria-label': 'Button' };\n\nconst merged = mergeProps(baseProps, extraProps);\n// → { className: 'extra base', onClick: handleClick, 'aria-label': 'Button' }",
+        "const a = { onClick: () => console.log('a') };\nconst b = { onClick: () => console.log('b') };\n\nconst merged = mergeProps(a, b);\n// Clicking calls: b handler first, then a handler",
+        "const a = { onClick: () => console.log('a') };\nconst b = { onClick: (e) => { e.preventTaleUIHandler(); console.log('b only'); } };\n\nconst merged = mergeProps(a, b);\n// Clicking calls: b handler only — a handler is skipped",
+        "import { mergeProps, mergePropsN } from '@tale-ui/react/merge-props';"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "Meter",
+      "slug": "meter",
+      "import": "@tale-ui/react/meter",
+      "category": "Feedback",
+      "description": "Scalar measurement display",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Header",
+        "Track",
+        "Indicator",
+        "Label",
+        "Value"
+      ],
+      "examples": [
+        "<Meter.Root value={60} minValue={0} maxValue={100}>\n  <Meter.Track>\n    <Meter.Indicator value={60} />\n  </Meter.Track>\n</Meter.Root>",
+        "<Meter.Root value={60} minValue={0} maxValue={100}>\n  <Meter.Header>\n    <Meter.Label>Storage</Meter.Label>\n    <Meter.Value>60%</Meter.Value>\n  </Meter.Header>\n  <Meter.Track>\n    <Meter.Indicator value={60} />\n  </Meter.Track>\n</Meter.Root>",
+        "<div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>\n  {[10, 40, 70, 90].map((value) => (\n    <Meter.Root key={value} value={value} minValue={0} maxValue={100}>\n      <Meter.Header>\n        <Meter.Label>Usage</Meter.Label>\n        <Meter.Value>{value}%</Meter.Value>\n      </Meter.Header>\n      <Meter.Track>\n        <Meter.Indicator value={value} />\n      </Meter.Track>\n    </Meter.Root>\n  ))}\n</div>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "NavigationMenu",
+      "slug": "navigation-menu",
+      "import": "@tale-ui/react/navigation-menu",
+      "category": "Navigation",
+      "description": "Top-level navigation bar",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "List",
+        "Item",
+        "Trigger",
+        "Popup",
+        "Content",
+        "Link",
+        "Icon"
+      ],
+      "examples": [
+        "import { NavigationMenu } from '@tale-ui/react/navigation-menu';\n\n<NavigationMenu.Root>\n  <NavigationMenu.List>\n    <NavigationMenu.Item>\n      <NavigationMenu.Link href=\"#\">Home</NavigationMenu.Link>\n    </NavigationMenu.Item>\n    <NavigationMenu.Item>\n      <NavigationMenu.Link href=\"#\">About</NavigationMenu.Link>\n    </NavigationMenu.Item>\n    <NavigationMenu.Item>\n      <NavigationMenu.Link href=\"#\">Contact</NavigationMenu.Link>\n    </NavigationMenu.Item>\n  </NavigationMenu.List>\n</NavigationMenu.Root>",
+        "import { useState } from 'react';\nimport { NavigationMenu } from '@tale-ui/react/navigation-menu';\n\nfunction NavWithDropdown() {\n  const [open, setOpen] = useState(false);\n\n  return (\n    <NavigationMenu.Root>\n      <NavigationMenu.List>\n        <NavigationMenu.Item>\n          <NavigationMenu.Link href=\"#\">Home</NavigationMenu.Link>\n        </NavigationMenu.Item>\n        <NavigationMenu.Item>\n          <NavigationMenu.Trigger onClick={() => setOpen(!open)}>\n            Products <NavigationMenu.Icon />\n          </NavigationMenu.Trigger>\n          {open && (\n            <NavigationMenu.Popup>\n              <NavigationMenu.Content>\n                <NavigationMenu.Link href=\"#\">Widget Pro</NavigationMenu.Link>\n                <NavigationMenu.Link href=\"#\">Gadget Plus</NavigationMenu.Link>\n                <NavigationMenu.Link href=\"#\">Tool Suite</NavigationMenu.Link>\n              </NavigationMenu.Content>\n            </NavigationMenu.Popup>\n          )}\n        </NavigationMenu.Item>\n        <NavigationMenu.Item>\n          <NavigationMenu.Link href=\"#\">Contact</NavigationMenu.Link>\n        </NavigationMenu.Item>\n      </NavigationMenu.List>\n    </NavigationMenu.Root>\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-navigation-menu",
+        "tale-navigation-menu__content",
+        "tale-navigation-menu__icon",
+        "tale-navigation-menu__item",
+        "tale-navigation-menu__link",
+        "tale-navigation-menu__list",
+        "tale-navigation-menu__popup",
+        "tale-navigation-menu__trigger",
+        "tale-navigation-menu__viewport"
+      ]
+    },
+    {
+      "name": "NumberField",
+      "slug": "number-field",
+      "import": "@tale-ui/react/number-field",
+      "category": "Form Controls",
+      "description": "Numeric input with increment/decrement",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Group",
+        "Input",
+        "Increment",
+        "Decrement",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "<NumberField.Root defaultValue={0}>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
+        "<NumberField.Root defaultValue={1}>\n  <NumberField.Label>Quantity</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
+        "<NumberField.Root defaultValue={5} minValue={0} maxValue={10}>\n  <NumberField.Label>Rating (0-10)</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
+        "<NumberField.Root defaultValue={0} step={5}>\n  <NumberField.Label>Step by 5</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
+        "<NumberField.Root defaultValue={42} isDisabled>\n  <NumberField.Label>Disabled</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
+        "<NumberField.Root\n  defaultValue={99.99}\n  formatOptions={{ style: 'currency', currency: 'USD' }}\n>\n  <NumberField.Label>Price</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>"
+      ],
+      "cssClasses": [
+        "tale-number-field",
+        "tale-number-field__decrement",
+        "tale-number-field__group",
+        "tale-number-field__increment",
+        "tale-number-field__input"
+      ]
+    },
+    {
+      "name": "Pagination",
+      "slug": "pagination",
+      "import": "@tale-ui/react/pagination",
+      "category": "Navigation",
+      "description": "Page navigation controls",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Item",
+        "Ellipsis",
+        "PreviousTrigger",
+        "NextTrigger",
+        "Dot",
+        "Line"
+      ],
+      "examples": [
+        "<Pagination.Root aria-label=\"Pagination\">\n  <Pagination.PreviousTrigger />\n  <Pagination.Item page={1} />\n  <Pagination.Item page={2} current />\n  <Pagination.Item page={3} />\n  <Pagination.NextTrigger />\n</Pagination.Root>",
+        "<Pagination.Root aria-label=\"Pagination\">\n  <Pagination.PreviousTrigger />\n  <Pagination.Item page={1} />\n  <Pagination.Ellipsis />\n  <Pagination.Item page={4} />\n  <Pagination.Item page={5} current />\n  <Pagination.Item page={6} />\n  <Pagination.Ellipsis />\n  <Pagination.Item page={20} />\n  <Pagination.NextTrigger />\n</Pagination.Root>",
+        "<Pagination.Root aria-label=\"Pagination\">\n  <Pagination.PreviousTrigger disabled />\n  <Pagination.Item page={1} current />\n  <Pagination.Item page={2} />\n  <Pagination.Item page={3} />\n  <Pagination.NextTrigger />\n</Pagination.Root>",
+        "import { ChevronLeft, ChevronRight } from 'lucide-react';\nimport { Icon } from '@tale-ui/react/icon';\n\n<Pagination.Root aria-label=\"Pagination\">\n  <Pagination.PreviousTrigger><Icon icon={ChevronLeft} size=\"sm\" /> Prev</Pagination.PreviousTrigger>\n  <Pagination.Item page={1} />\n  <Pagination.Item page={2} current />\n  <Pagination.Item page={3} />\n  <Pagination.NextTrigger>Next <Icon icon={ChevronRight} size=\"sm\" /></Pagination.NextTrigger>\n</Pagination.Root>",
+        "<Pagination.Root aria-label=\"Slides\">\n  <Pagination.Dot page={1} />\n  <Pagination.Dot page={2} current />\n  <Pagination.Dot page={3} />\n  <Pagination.Dot page={4} />\n</Pagination.Root>",
+        "<Pagination.Root aria-label=\"Steps\">\n  <Pagination.Line page={1} />\n  <Pagination.Line page={2} current />\n  <Pagination.Line page={3} />\n</Pagination.Root>"
+      ],
+      "cssClasses": [
+        "tale-pagination",
+        "tale-pagination__dot",
+        "tale-pagination__dot--current",
+        "tale-pagination__ellipsis",
+        "tale-pagination__item",
+        "tale-pagination__item--current",
+        "tale-pagination__line",
+        "tale-pagination__line--current",
+        "tale-pagination__next",
+        "tale-pagination__previous"
+      ]
+    },
+    {
+      "name": "PaymentInput",
+      "slug": "payment-input",
+      "import": "@tale-ui/react/payment-input",
+      "category": "Form Controls",
+      "description": "Credit card number input with auto-formatting and card type detection",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Group",
+        "Input",
+        "Label",
+        "Description",
+        "ErrorMessage",
+        "CardIcon"
+      ],
+      "examples": [
+        "<PaymentInput.Root>\n  <PaymentInput.Label>Card number</PaymentInput.Label>\n  <PaymentInput.Group>\n    <PaymentInput.Input />\n    <PaymentInput.CardIcon />\n  </PaymentInput.Group>\n</PaymentInput.Root>",
+        "<PaymentInput.Root>\n  <PaymentInput.Label>Card number</PaymentInput.Label>\n  <PaymentInput.Group>\n    <PaymentInput.Input />\n    <PaymentInput.CardIcon />\n  </PaymentInput.Group>\n  <PaymentInput.Description>Enter your 15 or 16 digit card number</PaymentInput.Description>\n</PaymentInput.Root>",
+        "<PaymentInput.Root isRequired>\n  <PaymentInput.Label>Card number</PaymentInput.Label>\n  <PaymentInput.Group>\n    <PaymentInput.Input />\n    <PaymentInput.CardIcon />\n  </PaymentInput.Group>\n  <PaymentInput.ErrorMessage>Please enter a valid card number</PaymentInput.ErrorMessage>\n</PaymentInput.Root>"
+      ],
+      "cssClasses": [
+        "tale-payment-input",
+        "tale-payment-input__card-icon",
+        "tale-payment-input__group",
+        "tale-payment-input__input"
+      ]
+    },
+    {
+      "name": "PinInput",
+      "slug": "pin-input",
+      "import": "@tale-ui/react/pin-input",
+      "category": "Form Controls",
+      "description": "OTP/verification code input",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "maxLength",
+          "type": "number",
+          "required": true,
+          "description": "Total number of input slots.",
+          "default": null
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled value.",
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called when the value changes.",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the input is disabled.",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Group",
+        "Slot",
+        "Separator"
+      ],
+      "examples": [
+        "<PinInput.Root maxLength={4}>\n  <PinInput.Group>\n    <PinInput.Slot index={0} />\n    <PinInput.Slot index={1} />\n    <PinInput.Slot index={2} />\n    <PinInput.Slot index={3} />\n  </PinInput.Group>\n</PinInput.Root>",
+        "<PinInput.Root maxLength={6}>\n  <PinInput.Group>\n    <PinInput.Slot index={0} />\n    <PinInput.Slot index={1} />\n    <PinInput.Slot index={2} />\n  </PinInput.Group>\n  <PinInput.Separator />\n  <PinInput.Group>\n    <PinInput.Slot index={3} />\n    <PinInput.Slot index={4} />\n    <PinInput.Slot index={5} />\n  </PinInput.Group>\n</PinInput.Root>",
+        "const [value, setValue] = React.useState('');\n\n<PinInput.Root maxLength={6} value={value} onChange={setValue}>\n  <PinInput.Group>\n    <PinInput.Slot index={0} />\n    <PinInput.Slot index={1} />\n    <PinInput.Slot index={2} />\n    <PinInput.Slot index={3} />\n    <PinInput.Slot index={4} />\n    <PinInput.Slot index={5} />\n  </PinInput.Group>\n</PinInput.Root>",
+        "<PinInput.Root maxLength={4} disabled>\n  <PinInput.Group>\n    <PinInput.Slot index={0} />\n    <PinInput.Slot index={1} />\n    <PinInput.Slot index={2} />\n    <PinInput.Slot index={3} />\n  </PinInput.Group>\n</PinInput.Root>"
+      ],
+      "cssClasses": [
+        "tale-pin-input",
+        "tale-pin-input__caret",
+        "tale-pin-input__group",
+        "tale-pin-input__separator",
+        "tale-pin-input__slot"
+      ]
+    },
+    {
+      "name": "Popover",
+      "slug": "popover",
+      "import": "@tale-ui/react/popover",
+      "category": "Overlay",
+      "description": "Anchored popup",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Arrow",
+        "Popup",
+        "Title",
+        "Description",
+        "Close"
+      ],
+      "examples": [
+        "import { Popover } from '@tale-ui/react/popover';\n\n<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Title>Popover Title</Popover.Title>\n    <Popover.Description>\n      This is a basic popover with a title and description.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
+        "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">With Arrow</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Arrow />\n    <Popover.Title>Arrow Popover</Popover.Title>\n    <Popover.Description>\n      This popover includes an arrow pointing to the trigger.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
+        "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Close aria-label=\"Close\" />\n    <Popover.Title>Dismissible Popover</Popover.Title>\n    <Popover.Description>\n      Click the close button to dismiss this popover.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>"
+      ],
+      "cssClasses": [
+        "tale-popover__close",
+        "tale-popover__description",
+        "tale-popover__popup",
+        "tale-popover__title"
+      ]
+    },
+    {
+      "name": "PreviewCard",
+      "slug": "preview-card",
+      "import": "@tale-ui/react/preview-card",
+      "category": "Overlay",
+      "description": "Hover preview card",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "description": "Delay in ms before opening on hover. @default 400",
+          "default": null
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "description": "Delay in ms before closing after hover ends. @default 300",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Arrow",
+        "Popup",
+        "Content"
+      ],
+      "examples": [
+        "import { PreviewCard } from '@tale-ui/react/preview-card';\n\n<PreviewCard.Root>\n  <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>\n  <PreviewCard.Popup placement=\"bottom\" offset={8}>\n    <PreviewCard.Content aria-label=\"Preview\">\n      <div style={{ maxWidth: '280px' }}>\n        <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Preview Title</h4>\n        <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>\n          This is a preview card with some descriptive text content that appears on hover.\n        </p>\n      </div>\n    </PreviewCard.Content>\n  </PreviewCard.Popup>\n</PreviewCard.Root>",
+        "<PreviewCard.Root>\n  <PreviewCard.Trigger>Preview with image</PreviewCard.Trigger>\n  <PreviewCard.Popup placement=\"bottom\" offset={8}>\n    <PreviewCard.Content aria-label=\"Image preview\">\n      <div style={{ maxWidth: '300px' }}>\n        <div style={{ width: '100%', height: '120px', background: 'var(--neutral-20)' }}>\n          Image placeholder\n        </div>\n        <div style={{ padding: 'var(--space-xs)' }}>\n          <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Card with Image</h4>\n          <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>\n            A preview card that includes an image area above the text content.\n          </p>\n        </div>\n      </div>\n    </PreviewCard.Content>\n  </PreviewCard.Popup>\n</PreviewCard.Root>",
+        "<PreviewCard.Root>\n  <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>\n  <PreviewCard.Popup placement=\"bottom\" offset={8}>\n    <PreviewCard.Arrow />\n    <PreviewCard.Content aria-label=\"Preview\">\n      <div style={{ maxWidth: '280px' }}>\n        <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Preview Title</h4>\n        <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>\n          This preview card includes an arrow pointing to the trigger.\n        </p>\n      </div>\n    </PreviewCard.Content>\n  </PreviewCard.Popup>\n</PreviewCard.Root>"
+      ],
+      "cssClasses": [
+        "tale-preview-card",
+        "tale-preview-card__arrow",
+        "tale-preview-card__popup"
+      ]
+    },
+    {
+      "name": "ProgressBar",
+      "slug": "progress-bar",
+      "import": "@tale-ui/react/progress-bar",
+      "category": "Feedback",
+      "description": "Determinate/indeterminate linear progress",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "labelPosition",
+          "type": "LabelPosition",
+          "required": false,
+          "description": "Controls where the label/value text is positioned relative to the track. - `'top'` — Label + Value row above the track (default) - `'right'` — Value text inline to the right of the track - `'bottom'` — Value text below the track - `'top-floating'` — Floating tooltip above the track, aligned to the fill point - `'bottom-floating'` — Floating tooltip below the track, aligned to the fill point @default 'top'",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Header",
+        "Track",
+        "Indicator",
+        "Label",
+        "Value"
+      ],
+      "examples": [
+        "<ProgressBar.Root value={60} minValue={0} maxValue={100}>\n  <ProgressBar.Track>\n    <ProgressBar.Indicator value={60} />\n  </ProgressBar.Track>\n</ProgressBar.Root>",
+        "<ProgressBar.Root value={60} minValue={0} maxValue={100}>\n  <ProgressBar.Header>\n    <ProgressBar.Label>Uploading...</ProgressBar.Label>\n    <ProgressBar.Value>60%</ProgressBar.Value>\n  </ProgressBar.Header>\n  <ProgressBar.Track>\n    <ProgressBar.Indicator value={60} />\n  </ProgressBar.Track>\n</ProgressBar.Root>",
+        "<ProgressBar.Root value={60} minValue={0} maxValue={100} labelPosition=\"right\">\n  <ProgressBar.Header>\n    <ProgressBar.Value>60%</ProgressBar.Value>\n  </ProgressBar.Header>\n  <ProgressBar.Track>\n    <ProgressBar.Indicator value={60} />\n  </ProgressBar.Track>\n</ProgressBar.Root>",
+        "<ProgressBar.Root value={60} minValue={0} maxValue={100} labelPosition=\"bottom\">\n  <ProgressBar.Header>\n    <ProgressBar.Label>Uploading...</ProgressBar.Label>\n    <ProgressBar.Value>60%</ProgressBar.Value>\n  </ProgressBar.Header>\n  <ProgressBar.Track>\n    <ProgressBar.Indicator value={60} />\n  </ProgressBar.Track>\n</ProgressBar.Root>",
+        "<ProgressBar.Root value={60} minValue={0} maxValue={100} labelPosition=\"top-floating\">\n  <ProgressBar.Header>\n    <ProgressBar.Value>60%</ProgressBar.Value>\n  </ProgressBar.Header>\n  <ProgressBar.Track>\n    <ProgressBar.Indicator value={60} />\n  </ProgressBar.Track>\n</ProgressBar.Root>",
+        "<ProgressBar.Root value={60} minValue={0} maxValue={100} labelPosition=\"bottom-floating\">\n  <ProgressBar.Header>\n    <ProgressBar.Value>60%</ProgressBar.Value>\n  </ProgressBar.Header>\n  <ProgressBar.Track>\n    <ProgressBar.Indicator value={60} />\n  </ProgressBar.Track>\n</ProgressBar.Root>",
+        "<ProgressBar.Root isIndeterminate minValue={0} maxValue={100}>\n  <ProgressBar.Label>Loading...</ProgressBar.Label>\n  <ProgressBar.Track>\n    <ProgressBar.Indicator />\n  </ProgressBar.Track>\n</ProgressBar.Root>",
+        "<div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>\n  {[0, 25, 50, 75, 100].map((value) => (\n    <ProgressBar.Root key={value} value={value} minValue={0} maxValue={100}>\n      <ProgressBar.Header>\n        <ProgressBar.Label>Progress</ProgressBar.Label>\n        <ProgressBar.Value>{value}%</ProgressBar.Value>\n      </ProgressBar.Header>\n      <ProgressBar.Track>\n        <ProgressBar.Indicator value={value} />\n      </ProgressBar.Track>\n    </ProgressBar.Root>\n  ))}\n</div>"
+      ],
+      "cssClasses": [
+        "tale-progress-bar",
+        "tale-progress-bar__header",
+        "tale-progress-bar__indicator",
+        "tale-progress-bar__label",
+        "tale-progress-bar__track",
+        "tale-progress-bar__value"
+      ]
+    },
+    {
+      "name": "ProgressCircle",
+      "slug": "progress-circle",
+      "import": "@tale-ui/react/progress-circle",
+      "category": "Feedback",
+      "description": "Determinate/indeterminate circular progress",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the circular indicator.",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Track",
+        "Label",
+        "Value"
+      ],
+      "examples": [
+        "<ProgressCircle.Root value={60}>\n  <ProgressCircle.Track />\n</ProgressCircle.Root>",
+        "<ProgressCircle.Root value={75}>\n  <ProgressCircle.Track />\n  <ProgressCircle.Label>Upload</ProgressCircle.Label>\n  <ProgressCircle.Value />\n</ProgressCircle.Root>",
+        "<ProgressCircle.Root value={null}>\n  <ProgressCircle.Track />\n</ProgressCircle.Root>",
+        "<ProgressCircle.Root value={60} size=\"sm\"><ProgressCircle.Track /></ProgressCircle.Root>\n<ProgressCircle.Root value={60} size=\"md\"><ProgressCircle.Track /></ProgressCircle.Root>\n<ProgressCircle.Root value={60} size=\"lg\"><ProgressCircle.Track /></ProgressCircle.Root>",
+        "<ProgressCircle.Root value={100}>\n  <ProgressCircle.Track />\n</ProgressCircle.Root>"
+      ],
+      "cssClasses": [
+        "tale-progress-circle",
+        "tale-progress-circle--lg",
+        "tale-progress-circle--sm",
+        "tale-progress-circle__indicator",
+        "tale-progress-circle__label",
+        "tale-progress-circle__rail",
+        "tale-progress-circle__track",
+        "tale-progress-circle__value"
+      ]
+    },
+    {
+      "name": "Radio",
+      "slug": "radio",
+      "import": "@tale-ui/react/radio",
+      "category": "Form Controls",
+      "description": "Radio button with group support",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the radio indicator. Defaults to `'md'`. The `'sm'` variant is for edge-cases only (dense tables, compact toolbars) — prefer `'md'` in most contexts.",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Indicator",
+        "Group",
+        "Dot",
+        "Visual"
+      ],
+      "examples": [
+        "<Radio.Group label=\"Favorite color\">\n  <Radio.Root value=\"red\">\n    <Radio.Indicator />\n    Red\n  </Radio.Root>\n  <Radio.Root value=\"green\">\n    <Radio.Indicator />\n    Green\n  </Radio.Root>\n  <Radio.Root value=\"blue\">\n    <Radio.Indicator />\n    Blue\n  </Radio.Root>\n</Radio.Group>",
+        "<Radio.Group label=\"Disabled group\" isDisabled>\n  <Radio.Root value=\"red\">\n    <Radio.Indicator />\n    Red\n  </Radio.Root>\n  <Radio.Root value=\"green\">\n    <Radio.Indicator />\n    Green\n  </Radio.Root>\n</Radio.Group>",
+        "<Radio.Group label=\"Plan\" orientation=\"horizontal\">\n  <Radio.Root value=\"free\">\n    <Radio.Indicator />\n    Free\n  </Radio.Root>\n  <Radio.Root value=\"pro\">\n    <Radio.Indicator />\n    Pro\n  </Radio.Root>\n  <Radio.Root value=\"enterprise\">\n    <Radio.Indicator />\n    Enterprise\n  </Radio.Root>\n</Radio.Group>",
+        "<Radio.Group label=\"Small radios\">\n  <Radio.Root value=\"a\" size=\"sm\">\n    <Radio.Indicator />\n    Small option A\n  </Radio.Root>\n</Radio.Group>\n\n<Radio.Group label=\"Medium radios\">\n  <Radio.Root value=\"a\" size=\"md\">\n    <Radio.Indicator />\n    Medium option A\n  </Radio.Root>\n</Radio.Group>\n\n<Radio.Group label=\"Large radios\">\n  <Radio.Root value=\"a\" size=\"lg\">\n    <Radio.Indicator />\n    Large option A\n  </Radio.Root>\n</Radio.Group>"
+      ],
+      "cssClasses": [
+        "tale-radio",
+        "tale-radio--lg",
+        "tale-radio--sm",
+        "tale-radio__dot",
+        "tale-radio__indicator"
+      ]
+    },
+    {
+      "name": "RadioGroup",
+      "slug": "radio-group",
+      "import": "@tale-ui/react/radio-group",
+      "category": "Form Controls",
+      "description": "Convenience re-export of `Radio.Group`",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { Radio } from '@tale-ui/react/radio';\n\n<RadioGroup label=\"Favorite color\">\n  <Radio.Root value=\"red\">\n    <Radio.Indicator />\n    Red\n  </Radio.Root>\n  <Radio.Root value=\"blue\">\n    <Radio.Indicator />\n    Blue\n  </Radio.Root>\n</RadioGroup>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "RangeCalendar",
+      "slug": "range-calendar",
+      "import": "@tale-ui/react/range-calendar",
+      "category": "Date & Time",
+      "description": "Date range selection calendar",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Header",
+        "Grid",
+        "GridHeader",
+        "GridHeaderCell",
+        "GridBody",
+        "Cell",
+        "Heading",
+        "PreviousButton",
+        "NextButton"
+      ],
+      "examples": [
+        "<RangeCalendar.Root>\n  <RangeCalendar.Header>\n    <RangeCalendar.PreviousButton />\n    <RangeCalendar.Heading />\n    <RangeCalendar.NextButton />\n  </RangeCalendar.Header>\n  <RangeCalendar.Grid>\n    <RangeCalendar.GridHeader>\n      {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n    </RangeCalendar.GridHeader>\n    <RangeCalendar.GridBody>\n      {(date) => <RangeCalendar.Cell date={date} />}\n    </RangeCalendar.GridBody>\n  </RangeCalendar.Grid>\n</RangeCalendar.Root>"
+      ],
+      "cssClasses": [
+        "tale-range-calendar__cell",
+        "tale-range-calendar__grid",
+        "tale-range-calendar__grid-body",
+        "tale-range-calendar__grid-header",
+        "tale-range-calendar__header"
+      ]
+    },
+    {
+      "name": "RatingBadge",
+      "slug": "rating-badge",
+      "import": "@tale-ui/react/rating-badge",
+      "category": "Display",
+      "description": "Pill badge with star icon and numeric rating",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "required": true,
+          "description": "Numeric rating value.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the badge. Defaults to 'md'.",
+          "default": "'md'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<RatingBadge value={4.5} />",
+        "<RatingBadge value={3.8} />\n<RatingBadge value={4.5} />\n<RatingBadge value={5.0} />",
+        "<RatingBadge value={4.5} size=\"sm\" />\n<RatingBadge value={4.5} size=\"md\" />\n<RatingBadge value={4.5} size=\"lg\" />"
+      ],
+      "cssClasses": [
+        "tale-rating-badge",
+        "tale-rating-badge--lg",
+        "tale-rating-badge--md",
+        "tale-rating-badge--sm"
+      ]
+    },
+    {
+      "name": "RatingStars",
+      "slug": "rating-stars",
+      "import": "@tale-ui/react/rating-stars",
+      "category": "Display",
+      "description": "Read-only star rating display",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "required": true,
+          "description": "Rating value from 0 to max. Supports half values (e.g. 3.5).",
+          "default": null
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "description": "Maximum number of stars. Defaults to 5.",
+          "default": "5"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the stars. Defaults to 'md'.",
+          "default": "'md'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<RatingStars value={3.5} />",
+        "<RatingStars value={4} />",
+        "<RatingStars value={2.5} />\n<RatingStars value={3.5} />\n<RatingStars value={4.5} />",
+        "<RatingStars value={4} size=\"sm\" />\n<RatingStars value={4} size=\"md\" />\n<RatingStars value={4} size=\"lg\" />",
+        "<RatingStars value={7} max={10} />"
+      ],
+      "cssClasses": [
+        "tale-rating-stars",
+        "tale-rating-stars--lg",
+        "tale-rating-stars--md",
+        "tale-rating-stars--sm",
+        "tale-rating-stars__star",
+        "tale-rating-stars__star--filled",
+        "tale-rating-stars__star--half",
+        "tale-rating-stars__star-overlay"
+      ]
+    },
+    {
+      "name": "Row",
+      "slug": "row",
+      "import": "@tale-ui/react/row",
+      "category": "Layout",
+      "description": "Horizontal flex-row layout with gap, align, and justify props",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "gap",
+          "type": "Gap",
+          "required": false,
+          "description": "Gap between children, mapped to `--space- ` tokens. @default 'm'",
+          "default": "'m'"
+        },
+        {
+          "name": "align",
+          "type": "Align",
+          "required": false,
+          "description": "Cross-axis alignment. @default 'center'",
+          "default": "'center'"
+        },
+        {
+          "name": "justify",
+          "type": "Justify",
+          "required": false,
+          "description": "Main-axis distribution. @default 'start'",
+          "default": "'start'"
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether children should wrap. @default false",
+          "default": "false"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<Row gap=\"s\">\n  <Button>Cancel</Button>\n  <Button variant=\"primary\">Save</Button>\n</Row>",
+        "<Row gap=\"s\" justify=\"end\">\n  <Button>Cancel</Button>\n  <Button variant=\"primary\">Submit</Button>\n</Row>",
+        "<Row gap=\"m\" justify=\"center\" align=\"center\">\n  <Icon icon={StarIcon} />\n  <Text variant=\"label\" size=\"m\">Featured</Text>\n</Row>",
+        "<Row justify=\"between\" align=\"center\">\n  <Text variant=\"heading\" size=\"m\">Settings</Text>\n  <Button variant=\"ghost\" size=\"sm\">Edit</Button>\n</Row>",
+        "<Row gap=\"xs\" wrap>\n  <Badge>React</Badge>\n  <Badge>TypeScript</Badge>\n  <Badge>CSS</Badge>\n  <Badge>Design Systems</Badge>\n</Row>",
+        "<Row gap=\"m\" align=\"start\">\n  <Text>Top-aligned</Text>\n  <Text variant=\"display\" size=\"l\">Tall</Text>\n</Row>\n\n<Row gap=\"m\" align=\"baseline\">\n  <Text variant=\"heading\" size=\"l\">Title</Text>\n  <Text variant=\"text\" size=\"s\">subtitle</Text>\n</Row>"
+      ],
+      "cssClasses": [
+        "tale-row",
+        "tale-row--wrap"
+      ]
+    },
+    {
+      "name": "ScrollArea",
+      "slug": "scroll-area",
+      "import": "@tale-ui/react/scroll-area",
+      "category": "Layout",
+      "description": "Custom scrollbar container",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Viewport",
+        "Scrollbar",
+        "Thumb",
+        "Corner",
+        "Content"
+      ],
+      "examples": [
+        "<ScrollArea.Root style={{ width: 300, height: 200 }}>\n  <ScrollArea.Viewport>\n    <ScrollArea.Content>\n      <div style={{ padding: 'var(--space-s)' }}>\n        {/* tall content here */}\n      </div>\n    </ScrollArea.Content>\n  </ScrollArea.Viewport>\n  <ScrollArea.Scrollbar orientation=\"vertical\">\n    <ScrollArea.Thumb />\n  </ScrollArea.Scrollbar>\n</ScrollArea.Root>",
+        "<ScrollArea.Root style={{ width: 300, height: 100 }}>\n  <ScrollArea.Viewport>\n    <ScrollArea.Content>\n      <div style={{ width: 800, padding: 'var(--space-s)', whiteSpace: 'nowrap' }}>\n        {/* wide content here */}\n      </div>\n    </ScrollArea.Content>\n  </ScrollArea.Viewport>\n  <ScrollArea.Scrollbar orientation=\"horizontal\">\n    <ScrollArea.Thumb />\n  </ScrollArea.Scrollbar>\n</ScrollArea.Root>",
+        "<ScrollArea.Root style={{ width: 300, height: 200 }}>\n  <ScrollArea.Viewport>\n    <ScrollArea.Content>\n      <div style={{ width: 600, padding: 'var(--space-s)' }}>\n        {/* wide and tall content */}\n      </div>\n    </ScrollArea.Content>\n  </ScrollArea.Viewport>\n  <ScrollArea.Scrollbar orientation=\"vertical\">\n    <ScrollArea.Thumb />\n  </ScrollArea.Scrollbar>\n  <ScrollArea.Scrollbar orientation=\"horizontal\">\n    <ScrollArea.Thumb />\n  </ScrollArea.Scrollbar>\n  <ScrollArea.Corner />\n</ScrollArea.Root>"
+      ],
+      "cssClasses": [
+        "tale-scroll-area",
+        "tale-scroll-area__content",
+        "tale-scroll-area__corner",
+        "tale-scroll-area__scrollbar",
+        "tale-scroll-area__thumb",
+        "tale-scroll-area__viewport"
+      ]
+    },
+    {
+      "name": "SearchField",
+      "slug": "search-field",
+      "import": "@tale-ui/react/search-field",
+      "category": "Form Controls",
+      "description": "Search input with clear button",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Input",
+        "Label",
+        "Description",
+        "ErrorMessage",
+        "ClearButton"
+      ],
+      "examples": [
+        "<SearchField.Root>\n  <SearchField.Input placeholder=\"Search...\" />\n</SearchField.Root>",
+        "<SearchField.Root>\n  <SearchField.Label>Search</SearchField.Label>\n  <SearchField.Input placeholder=\"Search...\" />\n</SearchField.Root>",
+        "import { Icon } from '@tale-ui/react/icon';\nimport { X } from 'lucide-react';\n\n<SearchField.Root defaultValue=\"React\">\n  <SearchField.Label>Search</SearchField.Label>\n  <SearchField.Input placeholder=\"Search...\" />\n  <SearchField.ClearButton><Icon icon={X} size=\"sm\" /></SearchField.ClearButton>\n</SearchField.Root>"
+      ],
+      "cssClasses": [
+        "tale-search-field",
+        "tale-search-field__clear",
+        "tale-search-field__input"
+      ]
+    },
+    {
+      "name": "Select",
+      "slug": "select",
+      "import": "@tale-ui/react/select",
+      "category": "Form Controls",
+      "description": "Dropdown select with popover listbox",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the trigger button, propagated via context. @default 'md'",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Value",
+        "Icon",
+        "Popover",
+        "ListBox",
+        "Item",
+        "Section",
+        "Header",
+        "Label",
+        "Separator",
+        "ItemText",
+        "ItemIndicator"
+      ],
+      "examples": [
+        "<Select.Root placeholder=\"Select a fruit...\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root placeholder=\"Choose one...\">\n  <Select.Label>Favorite fruit</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root placeholder=\"Select a food...\">\n  <Select.Label>Food</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Section>\n        <Select.Header>Fruits</Select.Header>\n        <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n        <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n      </Select.Section>\n      <Select.Section>\n        <Select.Header>Vegetables</Select.Header>\n        <Select.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Select.Item>\n        <Select.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Select.Item>\n      </Select.Section>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root placeholder=\"Select...\">\n  <Select.Label>Available options</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\" isDisabled>Banana (sold out)</Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root size=\"sm\" placeholder=\"Small select\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>\n\n<Select.Root size=\"md\" placeholder=\"Medium select (default)\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>\n\n<Select.Root size=\"lg\" placeholder=\"Large select\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root isDisabled placeholder=\"Cannot select...\">\n  <Select.Label>Disabled select</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>"
+      ],
+      "cssClasses": [
+        "tale-select__item",
+        "tale-select__item-text",
+        "tale-select__listbox",
+        "tale-select__popover",
+        "tale-select__trigger",
+        "tale-select__trigger--lg",
+        "tale-select__trigger--sm",
+        "tale-select__value"
+      ]
+    },
+    {
+      "name": "SelectNative",
+      "slug": "select-native",
+      "import": "@tale-ui/react/select-native",
+      "category": "Form Controls",
+      "description": "Styled native `<select>` element",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Field size. Defaults to 'md'.",
+          "default": "'md'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<SelectNative>\n  <option value=\"a\">Option A</option>\n  <option value=\"b\">Option B</option>\n</SelectNative>",
+        "<SelectNative size=\"sm\">\n  <option>Small</option>\n</SelectNative>\n<SelectNative size=\"md\">\n  <option>Medium</option>\n</SelectNative>",
+        "<SelectNative disabled>\n  <option>Cannot select</option>\n</SelectNative>",
+        "<SelectNative>\n  <optgroup label=\"Fruits\">\n    <option value=\"apple\">Apple</option>\n    <option value=\"banana\">Banana</option>\n  </optgroup>\n  <optgroup label=\"Vegetables\">\n    <option value=\"carrot\">Carrot</option>\n    <option value=\"broccoli\">Broccoli</option>\n  </optgroup>\n</SelectNative>"
+      ],
+      "cssClasses": [
+        "tale-select-native",
+        "tale-select-native--md",
+        "tale-select-native--sm"
+      ]
+    },
+    {
+      "name": "Separator",
+      "slug": "separator",
+      "import": "@tale-ui/react/separator",
+      "category": "Layout",
+      "description": "Horizontal or vertical divider",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "<Separator />",
+        "<div style={{ display: 'flex', alignItems: 'center', height: '100%', gap: 'var(--space-m)' }}>\n  <span>Left</span>\n  <Separator orientation=\"vertical\" />\n  <span>Right</span>\n</div>",
+        "<div>\n  <p>First block of content.</p>\n  <Separator />\n  <p>Second block of content.</p>\n</div>"
+      ],
+      "cssClasses": [
+        "tale-separator",
+        "tale-separator--vertical"
+      ]
+    },
+    {
+      "name": "Slider",
+      "slug": "slider",
+      "import": "@tale-ui/react/slider",
+      "category": "Form Controls",
+      "description": "Range input with single or dual thumbs",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Header",
+        "Control",
+        "Track",
+        "Indicator",
+        "Thumb",
+        "Output",
+        "Label"
+      ],
+      "examples": [
+        "<Slider.Root defaultValue={50}>\n  <Slider.Header>\n    <Slider.Label>Volume</Slider.Label>\n    <Slider.Output />\n  </Slider.Header>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
+        "<Slider.Root defaultValue={[20, 80]}>\n  <Slider.Header>\n    <Slider.Label>Price Range</Slider.Label>\n    <Slider.Output />\n  </Slider.Header>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
+        "<Slider.Root defaultValue={50} step={10}>\n  <Slider.Header>\n    <Slider.Label>Quality</Slider.Label>\n    <Slider.Output />\n  </Slider.Header>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
+        "<Slider.Root defaultValue={50}>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb>\n        <Slider.Output position=\"bottom\" />\n      </Slider.Thumb>\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
+        "<Slider.Root defaultValue={50}>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb>\n        <Slider.Output position=\"top\" />\n      </Slider.Thumb>\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
+        "<Slider.Root defaultValue={60} isDisabled>\n  <Slider.Header>\n    <Slider.Label>Disabled Slider</Slider.Label>\n    <Slider.Output />\n  </Slider.Header>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
+        "<Slider.Root defaultValue={40} orientation=\"vertical\">\n  <Slider.Label>Vertical</Slider.Label>\n  <Slider.Output />\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>"
+      ],
+      "cssClasses": [
+        "tale-slider",
+        "tale-slider__control",
+        "tale-slider__indicator",
+        "tale-slider__output--bottom",
+        "tale-slider__output--top",
+        "tale-slider__thumb",
+        "tale-slider__track"
+      ]
+    },
+    {
+      "name": "SocialButton",
+      "slug": "social-button",
+      "import": "@tale-ui/react/social-button",
+      "category": "Marketing",
+      "description": "Social login button with provider icon",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "provider",
+          "type": "Provider",
+          "required": true,
+          "description": "Social provider whose icon to display.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Button size. Defaults to 'md'.",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<SocialButton provider=\"google\">Sign in with Google</SocialButton>",
+        "<SocialButton provider=\"google\">Sign in with Google</SocialButton>\n<SocialButton provider=\"github\">Continue with GitHub</SocialButton>\n<SocialButton provider=\"apple\">Sign in with Apple</SocialButton>\n<SocialButton provider=\"x\">Sign in with X</SocialButton>\n<SocialButton provider=\"facebook\">Continue with Facebook</SocialButton>",
+        "<SocialButton provider=\"google\" size=\"sm\">Sign in with Google</SocialButton>\n<SocialButton provider=\"google\" size=\"md\">Sign in with Google</SocialButton>"
+      ],
+      "cssClasses": [
+        "tale-social-button",
+        "tale-social-button--apple",
+        "tale-social-button--facebook",
+        "tale-social-button--github",
+        "tale-social-button--google",
+        "tale-social-button--md",
+        "tale-social-button--sm",
+        "tale-social-button--x",
+        "tale-social-button-group",
+        "tale-social-button__icon"
+      ]
+    },
+    {
+      "name": "SocialButtonGroup",
+      "slug": "social-button-group",
+      "import": "@tale-ui/react/social-button-group",
+      "category": "Marketing",
+      "description": "Equal-width vertical group for social login buttons",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';\n\n<SocialButtonGroup>\n  <SocialButton provider=\"google\">Sign in with Google</SocialButton>\n  <SocialButton provider=\"github\">Continue with GitHub</SocialButton>\n  <SocialButton provider=\"apple\">Sign in with Apple</SocialButton>\n</SocialButtonGroup>",
+        "<SocialButtonGroup size=\"lg\">\n  <SocialButton provider=\"google\">Sign in with Google</SocialButton>\n  <SocialButton provider=\"github\">Continue with GitHub</SocialButton>\n  <SocialButton provider=\"apple\">Sign in with Apple</SocialButton>\n</SocialButtonGroup>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "Spinner",
+      "slug": "spinner",
+      "import": "@tale-ui/react/spinner",
+      "category": "Feedback",
+      "description": "Indeterminate loading indicator",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": "Visual style of the spinner animation.",
+          "default": "'circle'"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the spinner.",
+          "default": "'md'"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label. Defaults to \"Loading\".",
+          "default": "'Loading'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<Spinner />",
+        "<Spinner variant=\"circle\" />\n<Spinner variant=\"line\" />\n<Spinner variant=\"dots\" />",
+        "<Spinner size=\"sm\" />\n<Spinner size=\"md\" />\n<Spinner size=\"lg\" />",
+        "<Spinner label=\"Saving…\" />",
+        "<div style={{ width: 300 }}>\n  <Spinner variant=\"line\" />\n</div>"
+      ],
+      "cssClasses": [
+        "tale-spinner",
+        "tale-spinner--dots",
+        "tale-spinner--lg",
+        "tale-spinner--line",
+        "tale-spinner--sm",
+        "tale-spinner__arc",
+        "tale-spinner__dot",
+        "tale-spinner__line-indicator",
+        "tale-spinner__line-track",
+        "tale-spinner__svg",
+        "tale-spinner__track"
+      ]
+    },
+    {
+      "name": "Switch",
+      "slug": "switch",
+      "import": "@tale-ui/react/switch",
+      "category": "Form Controls",
+      "description": "Toggle switch with sliding thumb",
+      "kind": "compound",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size variant.",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Thumb",
+        "Visual"
+      ],
+      "examples": [
+        "<Switch.Root>\n  <Switch.Thumb />\n  Enable notifications\n</Switch.Root>",
+        "<Switch.Root defaultSelected>\n  <Switch.Thumb />\n  Dark mode\n</Switch.Root>",
+        "<Switch.Root isDisabled>\n  <Switch.Thumb />\n  Disabled switch\n</Switch.Root>",
+        "<Switch.Root isDisabled defaultSelected>\n  <Switch.Thumb />\n  Disabled and on\n</Switch.Root>",
+        "<Switch.Root>\n  <Switch.Thumb />\n  Default (off)\n</Switch.Root>\n\n<Switch.Root defaultSelected>\n  <Switch.Thumb />\n  Default (on)\n</Switch.Root>\n\n<Switch.Root isDisabled>\n  <Switch.Thumb />\n  Disabled (off)\n</Switch.Root>\n\n<Switch.Root isDisabled defaultSelected>\n  <Switch.Thumb />\n  Disabled (on)\n</Switch.Root>",
+        "<Switch.Root size=\"sm\">\n  <Switch.Thumb />\n  Small switch\n</Switch.Root>"
+      ],
+      "cssClasses": [
+        "tale-switch",
+        "tale-switch--sm",
+        "tale-switch__thumb"
+      ]
+    },
+    {
+      "name": "Table",
+      "slug": "table",
+      "import": "@tale-ui/react/table",
+      "category": "Display",
+      "description": "Data table with sorting",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Header",
+        "Column",
+        "Body",
+        "Row",
+        "Cell"
+      ],
+      "examples": [
+        "<Table.Root aria-label=\"People\">\n  <Table.Header>\n    <Table.Column isRowHeader>Name</Table.Column>\n    <Table.Column>Email</Table.Column>\n    <Table.Column>Role</Table.Column>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row id=\"1\">\n      <Table.Cell>Alice</Table.Cell>\n      <Table.Cell>alice@example.com</Table.Cell>\n      <Table.Cell>Admin</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>",
+        "<Table.Root aria-label=\"People\" selectionMode=\"multiple\">\n  <Table.Header>\n    <Table.Column isRowHeader>Name</Table.Column>\n    <Table.Column>Email</Table.Column>\n    <Table.Column>Role</Table.Column>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row id=\"1\">\n      <Table.Cell>Alice</Table.Cell>\n      <Table.Cell>alice@example.com</Table.Cell>\n      <Table.Cell>Admin</Table.Cell>\n    </Table.Row>\n    <Table.Row id=\"2\">\n      <Table.Cell>Bob</Table.Cell>\n      <Table.Cell>bob@example.com</Table.Cell>\n      <Table.Cell>Editor</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>",
+        "import { useState } from 'react';\nimport type { SortDescriptor } from 'react-aria-components';\n\nfunction SortableTable() {\n  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({\n    column: 'name',\n    direction: 'ascending',\n  });\n\n  const rows = [\n    { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Admin' },\n    { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Editor' },\n  ];\n\n  const sorted = [...rows].sort((a, b) => {\n    const col = sortDescriptor.column as keyof typeof a;\n    const cmp = a[col].localeCompare(b[col]);\n    return sortDescriptor.direction === 'descending' ? -cmp : cmp;\n  });\n\n  return (\n    <Table.Root\n      aria-label=\"People\"\n      sortDescriptor={sortDescriptor}\n      onSortChange={setSortDescriptor}\n    >\n      <Table.Header>\n        <Table.Column id=\"name\" isRowHeader allowsSorting>Name</Table.Column>\n        <Table.Column id=\"email\" allowsSorting>Email</Table.Column>\n        <Table.Column id=\"role\" allowsSorting>Role</Table.Column>\n      </Table.Header>\n      <Table.Body>\n        {sorted.map((row) => (\n          <Table.Row key={row.id} id={row.id}>\n            <Table.Cell>{row.name}</Table.Cell>\n            <Table.Cell>{row.email}</Table.Cell>\n            <Table.Cell>{row.role}</Table.Cell>\n          </Table.Row>\n        ))}\n      </Table.Body>\n    </Table.Root>\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-table",
+        "tale-table__body",
+        "tale-table__cell",
+        "tale-table__column",
+        "tale-table__header",
+        "tale-table__row"
+      ]
+    },
+    {
+      "name": "Tabs",
+      "slug": "tabs",
+      "import": "@tale-ui/react/tabs",
+      "category": "Layout",
+      "description": "Tabbed content with indicator",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "List",
+        "Tab",
+        "Panel",
+        "Indicator"
+      ],
+      "examples": [
+        "<Tabs.Root defaultSelectedKey=\"tab1\">\n  <Tabs.List>\n    <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Notifications</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\">\n    <p>Manage your account details and preferences.</p>\n  </Tabs.Panel>\n  <Tabs.Panel id=\"tab2\">\n    <p>Configure application settings and behavior.</p>\n  </Tabs.Panel>\n  <Tabs.Panel id=\"tab3\">\n    <p>Control how and when you receive notifications.</p>\n  </Tabs.Panel>\n</Tabs.Root>",
+        "<Tabs.Root defaultSelectedKey=\"tab1\" orientation=\"vertical\">\n  <div style={{ display: 'flex', gap: 'var(--space-m)' }}>\n    <Tabs.List>\n      <Tabs.Tab id=\"tab1\">General</Tabs.Tab>\n      <Tabs.Tab id=\"tab2\">Security</Tabs.Tab>\n      <Tabs.Tab id=\"tab3\">Privacy</Tabs.Tab>\n      <Tabs.Indicator />\n    </Tabs.List>\n    <div>\n      <Tabs.Panel id=\"tab1\"><p>General settings.</p></Tabs.Panel>\n      <Tabs.Panel id=\"tab2\"><p>Security options.</p></Tabs.Panel>\n      <Tabs.Panel id=\"tab3\"><p>Privacy preferences.</p></Tabs.Panel>\n    </div>\n  </div>\n</Tabs.Root>",
+        "<Tabs.Root defaultSelectedKey=\"tab1\">\n  <Tabs.List>\n    <Tabs.Tab id=\"tab1\">Active</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\" isDisabled>Disabled</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Also Active</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>This tab is selectable.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>This tab is also selectable.</p></Tabs.Panel>\n</Tabs.Root>",
+        "<Tabs.Root defaultSelectedKey=\"tab1\">\n  <Tabs.List size=\"sm\">\n    <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Notifications</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>Account details.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab2\"><p>App settings.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>Notification preferences.</p></Tabs.Panel>\n</Tabs.Root>",
+        "<Tabs.Root defaultSelectedKey=\"tab1\">\n  <Tabs.List variant=\"underline\">\n    <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Notifications</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>Account details.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab2\"><p>App settings.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>Notification preferences.</p></Tabs.Panel>\n</Tabs.Root>",
+        "<Tabs.Root defaultSelectedKey=\"tab1\">\n  <Tabs.List variant=\"pills\">\n    <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Notifications</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>Account details.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab2\"><p>App settings.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>Notification preferences.</p></Tabs.Panel>\n</Tabs.Root>",
+        "<Tabs.Root defaultSelectedKey=\"tab1\">\n  <Tabs.List variant=\"enclosed\">\n    <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Notifications</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>Account details.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab2\"><p>App settings.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>Notification preferences.</p></Tabs.Panel>\n</Tabs.Root>",
+        "const [selectedKey, setSelectedKey] = useState<string>('tab1');\n\n<Tabs.Root selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(String(key))}>\n  <Tabs.List>\n    <Tabs.Tab id=\"tab1\">First</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Second</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Third</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>First tab content.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab2\"><p>Second tab content.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>Third tab content.</p></Tabs.Panel>\n</Tabs.Root>"
+      ],
+      "cssClasses": [
+        "tale-tabs",
+        "tale-tabs__indicator",
+        "tale-tabs__list",
+        "tale-tabs__list--enclosed",
+        "tale-tabs__list--pills",
+        "tale-tabs__list-inner",
+        "tale-tabs__panel",
+        "tale-tabs__tab",
+        "tale-tabs__tab--enclosed",
+        "tale-tabs__tab--pills",
+        "tale-tabs__tab--sm"
+      ]
+    },
+    {
+      "name": "TagGroup",
+      "slug": "tag-group",
+      "import": "@tale-ui/react/tag-group",
+      "category": "Display",
+      "description": "Tag list with optional removal",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "List",
+        "Tag",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "<TagGroup.Root>\n  <TagGroup.Label>Categories</TagGroup.Label>\n  <TagGroup.List>\n    <TagGroup.Tag id=\"react\">React</TagGroup.Tag>\n    <TagGroup.Tag id=\"vue\">Vue</TagGroup.Tag>\n    <TagGroup.Tag id=\"angular\">Angular</TagGroup.Tag>\n  </TagGroup.List>\n  <TagGroup.Description>Select your frameworks</TagGroup.Description>\n</TagGroup.Root>",
+        "import { useState } from 'react';\nimport type { Selection } from 'react-aria-components';\n\nfunction RemovableTags() {\n  const [tags, setTags] = useState([\n    { id: 'react', name: 'React' },\n    { id: 'vue', name: 'Vue' },\n    { id: 'angular', name: 'Angular' },\n    { id: 'svelte', name: 'Svelte' },\n  ]);\n\n  const handleRemove = (keys: Selection) => {\n    setTags((prev) => prev.filter((tag) => !(keys as Set<string>).has(tag.id)));\n  };\n\n  return (\n    <TagGroup.Root onRemove={handleRemove}>\n      <TagGroup.Label>Frameworks</TagGroup.Label>\n      <TagGroup.List>\n        {tags.map((tag) => (\n          <TagGroup.Tag key={tag.id} id={tag.id}>{tag.name}</TagGroup.Tag>\n        ))}\n      </TagGroup.List>\n    </TagGroup.Root>\n  );\n}",
+        "<TagGroup.Root selectionMode=\"multiple\">\n  <TagGroup.Label>Skills</TagGroup.Label>\n  <TagGroup.List>\n    <TagGroup.Tag id=\"typescript\">TypeScript</TagGroup.Tag>\n    <TagGroup.Tag id=\"rust\">Rust</TagGroup.Tag>\n    <TagGroup.Tag id=\"python\">Python</TagGroup.Tag>\n    <TagGroup.Tag id=\"go\">Go</TagGroup.Tag>\n  </TagGroup.List>\n  <TagGroup.Description>Select all that apply</TagGroup.Description>\n</TagGroup.Root>"
+      ],
+      "cssClasses": [
+        "tale-tag-group",
+        "tale-tag-group__label",
+        "tale-tag-group__list",
+        "tale-tag-group__tag"
+      ]
+    },
+    {
+      "name": "Text",
+      "slug": "text",
+      "import": "@tale-ui/react/text",
+      "category": "Typography",
+      "description": "Polymorphic typography wrapper with variant, size, and colour props",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": "Typography variant. @default 'text'",
+          "default": "'text'"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Typography size. @default 'm'",
+          "default": "'m'"
+        },
+        {
+          "name": "as",
+          "type": "TextElement",
+          "required": false,
+          "description": "HTML element to render. @default 'span'",
+          "default": null
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "required": false,
+          "description": "Text colour. `'muted'` uses `--neutral-60`, `'accent'` uses `--color-60`. @default 'default'",
+          "default": "'default'"
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<Text variant=\"heading\" size=\"l\">Welcome back</Text>",
+        "<Text variant=\"display\" size=\"l\">Display</Text>\n<Text variant=\"heading\" size=\"l\">Heading</Text>\n<Text variant=\"title\" size=\"l\">Title</Text>\n<Text variant=\"label\" size=\"l\">Label</Text>\n<Text variant=\"text\" size=\"l\">Text</Text>\n<Text variant=\"mono\" size=\"l\">Mono</Text>",
+        "<Text variant=\"text\" size=\"xs\">Extra small</Text>\n<Text variant=\"text\" size=\"s\">Small</Text>\n<Text variant=\"text\" size=\"m\">Medium</Text>\n<Text variant=\"text\" size=\"l\">Large</Text>",
+        "<Text color=\"default\">Default color</Text>\n<Text color=\"muted\">Muted color</Text>\n<Text color=\"accent\">Accent color</Text>",
+        "<Text as=\"h1\" variant=\"display\" size=\"l\">Page Title</Text>\n<Text as=\"h2\" variant=\"heading\" size=\"l\">Section Heading</Text>\n<Text as=\"p\" variant=\"text\" size=\"m\">Body paragraph text.</Text>\n<Text as=\"label\" variant=\"label\" size=\"s\">Form label</Text>",
+        "<Text as=\"h1\" variant=\"display\" size=\"l\" color=\"accent\">\n  Hero Title\n</Text>\n<Text as=\"p\" variant=\"text\" size=\"m\" color=\"muted\">\n  A supporting description rendered as a paragraph.\n</Text>\n<Text variant=\"mono\" size=\"s\" color=\"muted\">\n  const x = 42;\n</Text>"
+      ],
+      "cssClasses": [
+        "tale-text",
+        "tale-text--accent",
+        "tale-text--muted"
+      ]
+    },
+    {
+      "name": "TextArea",
+      "slug": "text-area",
+      "import": "@tale-ui/react/text-area",
+      "category": "Form Controls",
+      "description": "Multi-line text input with validation",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "TextArea",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "<TextArea.Root>\n  <TextArea.TextArea placeholder=\"Enter text...\" />\n</TextArea.Root>",
+        "<TextArea.Root>\n  <TextArea.Label>Bio</TextArea.Label>\n  <TextArea.TextArea />\n  <TextArea.Description>Max 500 chars</TextArea.Description>\n</TextArea.Root>",
+        "<TextArea.Root isInvalid>\n  <TextArea.Label>Bio</TextArea.Label>\n  <TextArea.TextArea />\n  <TextArea.ErrorMessage>This field is required</TextArea.ErrorMessage>\n</TextArea.Root>",
+        "<TextArea.Root isDisabled>\n  <TextArea.Label>Bio</TextArea.Label>\n  <TextArea.TextArea placeholder=\"Disabled field\" />\n</TextArea.Root>"
+      ],
+      "cssClasses": [
+        "tale-text-area",
+        "tale-text-area__textarea"
+      ]
+    },
+    {
+      "name": "TextField",
+      "slug": "text-field",
+      "import": "@tale-ui/react/text-field",
+      "category": "Form Controls",
+      "description": "Single-line text input with validation",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Input",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "<TextField.Root>\n  <TextField.Input placeholder=\"Enter text...\" />\n</TextField.Root>",
+        "<TextField.Root>\n  <TextField.Label>Name</TextField.Label>\n  <TextField.Input />\n  <TextField.Description>Helper text</TextField.Description>\n</TextField.Root>",
+        "<TextField.Root isInvalid>\n  <TextField.Label>Email</TextField.Label>\n  <TextField.Input />\n  <TextField.ErrorMessage>Please enter a valid email address</TextField.ErrorMessage>\n</TextField.Root>",
+        "<TextField.Root isDisabled>\n  <TextField.Label>Name</TextField.Label>\n  <TextField.Input placeholder=\"Disabled field\" />\n</TextField.Root>"
+      ],
+      "cssClasses": [
+        "tale-text-field__input"
+      ]
+    },
+    {
+      "name": "TimeField",
+      "slug": "time-field",
+      "import": "@tale-ui/react/time-field",
+      "category": "Date & Time",
+      "description": "Segmented time input",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "DateInput",
+        "Segment",
+        "Label",
+        "Description",
+        "ErrorMessage"
+      ],
+      "examples": [
+        "<TimeField.Root>\n  <TimeField.DateInput style={{ display: 'flex' }}>\n    {(segment) => <TimeField.Segment segment={segment} />}\n  </TimeField.DateInput>\n</TimeField.Root>",
+        "<TimeField.Root>\n  <TimeField.Label>Time</TimeField.Label>\n  <TimeField.DateInput style={{ display: 'flex' }}>\n    {(segment) => <TimeField.Segment segment={segment} />}\n  </TimeField.DateInput>\n</TimeField.Root>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "ToggleButton",
+      "slug": "toggle-button",
+      "import": "@tale-ui/react/toggle-button",
+      "category": "Form Controls",
+      "description": "Pressable toggle with selected/unselected state",
+      "kind": "simple",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "<ToggleButton size=\"md\">Toggle me</ToggleButton>",
+        "<ToggleButton defaultSelected>Pressed</ToggleButton>",
+        "<ToggleButton isDisabled>Disabled</ToggleButton>",
+        "<ToggleButtonGroup aria-label=\"Text formatting\">\n  <ToggleButton>Bold</ToggleButton>\n  <ToggleButton>Italic</ToggleButton>\n  <ToggleButton>Underline</ToggleButton>\n</ToggleButtonGroup>",
+        "<ToggleButton size=\"sm\">Small</ToggleButton>\n<ToggleButton size=\"md\">Medium</ToggleButton>\n<ToggleButton size=\"lg\">Large</ToggleButton>"
+      ],
+      "cssClasses": [
+        "tale-toggle-button",
+        "tale-toggle-button--lg",
+        "tale-toggle-button--md",
+        "tale-toggle-button--sm",
+        "tale-toggle-button-group"
+      ]
+    },
+    {
+      "name": "ToggleButtonGroup",
+      "slug": "toggle-group",
+      "import": "@tale-ui/react/toggle-group",
+      "category": "Form Controls",
+      "description": "Group of toggle buttons",
+      "kind": "simple",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';\nimport { ToggleButton } from '@tale-ui/react/toggle-button';\n\n<ToggleButtonGroup aria-label=\"Text formatting\">\n  <ToggleButton>Bold</ToggleButton>\n  <ToggleButton>Italic</ToggleButton>\n  <ToggleButton>Underline</ToggleButton>\n</ToggleButtonGroup>"
+      ],
+      "cssClasses": null
+    },
+    {
+      "name": "Toolbar",
+      "slug": "toolbar",
+      "import": "@tale-ui/react/toolbar",
+      "category": "Layout",
+      "description": "Grouped action bar",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Group",
+        "Button",
+        "Link",
+        "Input",
+        "Separator"
+      ],
+      "examples": [
+        "<Toolbar.Root aria-label=\"Formatting\">\n  <Toolbar.Group>\n    <Toolbar.Button>Bold</Toolbar.Button>\n    <Toolbar.Button>Italic</Toolbar.Button>\n    <Toolbar.Button>Underline</Toolbar.Button>\n  </Toolbar.Group>\n  <Toolbar.Separator />\n  <Toolbar.Group>\n    <Toolbar.Button>Left</Toolbar.Button>\n    <Toolbar.Button>Center</Toolbar.Button>\n    <Toolbar.Button>Right</Toolbar.Button>\n  </Toolbar.Group>\n</Toolbar.Root>",
+        "<Toolbar.Root aria-label=\"Search toolbar\">\n  <Toolbar.Group>\n    <Toolbar.Button>Filter</Toolbar.Button>\n    <Toolbar.Button>Sort</Toolbar.Button>\n  </Toolbar.Group>\n  <Toolbar.Separator />\n  <Toolbar.Group>\n    <Toolbar.Input placeholder=\"Search...\" aria-label=\"Search\" />\n  </Toolbar.Group>\n  <Toolbar.Separator />\n  <Toolbar.Group>\n    <Toolbar.Button>Reset</Toolbar.Button>\n  </Toolbar.Group>\n</Toolbar.Root>"
+      ],
+      "cssClasses": [
+        "tale-toolbar",
+        "tale-toolbar__button",
+        "tale-toolbar__group",
+        "tale-toolbar__input",
+        "tale-toolbar__link",
+        "tale-toolbar__separator"
+      ]
+    },
+    {
+      "name": "Tooltip",
+      "slug": "tooltip",
+      "import": "@tale-ui/react/tooltip",
+      "category": "Overlay",
+      "description": "Hover tooltip",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Popup",
+        "Title",
+        "Description",
+        "Arrow"
+      ],
+      "examples": [
+        "import { Tooltip } from '@tale-ui/react/tooltip';\n\n<Tooltip.Root>\n  <Tooltip.Trigger>Hover me</Tooltip.Trigger>\n  <Tooltip.Popup placement=\"top\" offset={8}>\n    <Tooltip.Arrow />\n    This is a tooltip\n  </Tooltip.Popup>\n</Tooltip.Root>",
+        "{(['top', 'bottom', 'left', 'right'] as const).map((placement) => (\n  <Tooltip.Root key={placement}>\n    <Tooltip.Trigger>{placement}</Tooltip.Trigger>\n    <Tooltip.Popup placement={placement} offset={8}>\n      <Tooltip.Arrow />\n      Tooltip on {placement}\n    </Tooltip.Popup>\n  </Tooltip.Root>\n))}",
+        "<Tooltip.Root>\n  <Tooltip.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Feature info</Tooltip.Trigger>\n  <Tooltip.Popup placement=\"top\" offset={8}>\n    <Tooltip.Arrow />\n    <Tooltip.Title>Feature Name</Tooltip.Title>\n    <Tooltip.Description>This feature allows you to do something useful.</Tooltip.Description>\n  </Tooltip.Popup>\n</Tooltip.Root>",
+        "<Tooltip.Root delay={500}>\n  <Tooltip.Trigger>500ms delay</Tooltip.Trigger>\n  <Tooltip.Popup placement=\"top\" offset={8}>\n    <Tooltip.Arrow />\n    Appeared after 500ms\n  </Tooltip.Popup>\n</Tooltip.Root>\n\n<Tooltip.Root delay={0}>\n  <Tooltip.Trigger>No delay</Tooltip.Trigger>\n  <Tooltip.Popup placement=\"top\" offset={8}>\n    <Tooltip.Arrow />\n    Instant tooltip\n  </Tooltip.Popup>\n</Tooltip.Root>"
+      ],
+      "cssClasses": [
+        "tale-tooltip__arrow",
+        "tale-tooltip__description",
+        "tale-tooltip__popup",
+        "tale-tooltip__title"
+      ]
+    },
+    {
+      "name": "Tree",
+      "slug": "tree",
+      "import": "@tale-ui/react/tree",
+      "category": "Display",
+      "description": "Hierarchical tree view",
+      "kind": "compound",
+      "props": [],
+      "parts": [
+        "Root",
+        "Item",
+        "ItemContent"
+      ],
+      "examples": [
+        "<Tree.Root aria-label=\"Files\">\n  <Tree.Item id=\"1\" textValue=\"Documents\">\n    <Tree.ItemContent>Documents</Tree.ItemContent>\n    <Tree.Item id=\"1.1\" textValue=\"report.pdf\">\n      <Tree.ItemContent>report.pdf</Tree.ItemContent>\n    </Tree.Item>\n  </Tree.Item>\n  <Tree.Item id=\"2\" textValue=\"Photos\">\n    <Tree.ItemContent>Photos</Tree.ItemContent>\n  </Tree.Item>\n</Tree.Root>",
+        "<Tree.Root aria-label=\"Files\" defaultExpandedKeys={new Set(['1', '2'])}>\n  <Tree.Item id=\"1\" textValue=\"Documents\">\n    <Tree.ItemContent>Documents</Tree.ItemContent>\n    <Tree.Item id=\"1.1\" textValue=\"report.pdf\">\n      <Tree.ItemContent>report.pdf</Tree.ItemContent>\n    </Tree.Item>\n    <Tree.Item id=\"1.2\" textValue=\"notes.txt\">\n      <Tree.ItemContent>notes.txt</Tree.ItemContent>\n    </Tree.Item>\n  </Tree.Item>\n  <Tree.Item id=\"2\" textValue=\"Photos\">\n    <Tree.ItemContent>Photos</Tree.ItemContent>\n    <Tree.Item id=\"2.1\" textValue=\"vacation.jpg\">\n      <Tree.ItemContent>vacation.jpg</Tree.ItemContent>\n    </Tree.Item>\n  </Tree.Item>\n</Tree.Root>"
+      ],
+      "cssClasses": [
+        "tale-tree",
+        "tale-tree__item",
+        "tale-tree__item-content"
+      ]
+    }
+  ]
+}

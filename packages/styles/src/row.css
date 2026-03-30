@@ -1,0 +1,18 @@
+/*
+ * Row — @tale-ui/react
+ *
+ * Horizontal flex-row layout wrapper.
+ * Gap, alignment, and justification are applied via inline styles
+ * using --space-* design tokens.
+ *
+ * Modifiers:  .tale-row--wrap   (enables flex-wrap)
+ */
+
+.tale-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.tale-row--wrap {
+  flex-wrap: wrap;
+}

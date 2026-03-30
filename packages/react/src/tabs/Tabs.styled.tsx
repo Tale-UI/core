@@ -63,6 +63,17 @@ export interface ListProps extends Omit<AriaTabListProps<object>, 'className'> {
   variant?: TabVariant | undefined;
 }
 
+/**
+ * Container for tab buttons, with optional size and variant
+ *
+ * @example
+ * ```tsx
+ * <Tabs.List size="sm" variant="pills">
+ *   <Tabs.Tab id="tab1">Overview</Tabs.Tab>
+ *   <Tabs.Tab id="tab2">Details</Tabs.Tab>
+ * </Tabs.List>
+ * ```
+ */
 export const List = React.forwardRef<HTMLDivElement, ListProps>(
   ({ className, children, size, variant, ...props }, ref) => {
     const tabs: React.ReactNode[] = [];
@@ -110,6 +121,14 @@ export interface TabProps extends Omit<AriaTabProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * An individual tab button within the tab list
+ *
+ * @example
+ * ```tsx
+ * <Tabs.Tab id="settings">Settings</Tabs.Tab>
+ * ```
+ */
 export const Tab = React.forwardRef<HTMLDivElement, TabProps>(
   ({ className, ...props }, ref) => {
     const tabSize = React.useContext(TabSizeContext);
@@ -129,6 +148,14 @@ export interface PanelProps extends Omit<AriaTabPanelProps, 'className'> {
   className?: string | undefined;
 }
 
+/**
+ * Content area displayed when the corresponding tab is selected
+ *
+ * @example
+ * ```tsx
+ * <Tabs.Panel id="settings">Settings content here.</Tabs.Panel>
+ * ```
+ */
 export const Panel = React.forwardRef<HTMLDivElement, PanelProps>(
   ({ className, ...props }, ref) => (
     <TabPanel ref={ref} className={cx('tale-tabs__panel', className)} {...props} />
@@ -180,6 +207,17 @@ function updateIndicator(indicator: HTMLSpanElement, variant: TabVariant = 'unde
   }
 }
 
+/**
+ * Animated bar that tracks the currently selected tab
+ *
+ * @example
+ * ```tsx
+ * <Tabs.List>
+ *   <Tabs.Tab id="tab1">One</Tabs.Tab>
+ *   <Tabs.Indicator />
+ * </Tabs.List>
+ * ```
+ */
 export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
   ({ className, style, ...props }, ref) => {
     const innerRef = React.useRef<HTMLSpanElement | null>(null);

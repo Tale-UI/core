@@ -1,0 +1,12 @@
+/*
+ * Column — @tale-ui/react
+ *
+ * Vertical flex-column layout wrapper.
+ * Gap, alignment, and justification are applied via inline styles
+ * using --space-* design tokens.
+ */
+
+.tale-column {
+  display: flex;
+  flex-direction: column;
+}

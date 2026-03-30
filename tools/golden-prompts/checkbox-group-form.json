@@ -1,0 +1,7 @@
+{
+  "slug": "checkbox-group-form",
+  "difficulty": "medium",
+  "prompt": "Create a checkbox group labeled 'Notification Preferences' with three checkboxes: 'Email', 'SMS', and 'Push Notifications'. Each checkbox should have a check icon indicator.",
+  "reference": "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\nimport { Checkbox } from '@tale-ui/react/checkbox';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\nexport function CheckboxGroupForm() {\n  return (\n    <CheckboxGroup label=\"Notification Preferences\">\n      <Checkbox.Root value=\"email\">\n        <Checkbox.Indicator>\n          <Icon icon={Check} size=\"sm\" />\n        </Checkbox.Indicator>\n        Email\n      </Checkbox.Root>\n      <Checkbox.Root value=\"sms\">\n        <Checkbox.Indicator>\n          <Icon icon={Check} size=\"sm\" />\n        </Checkbox.Indicator>\n        SMS\n      </Checkbox.Root>\n      <Checkbox.Root value=\"push\">\n        <Checkbox.Indicator>\n          <Icon icon={Check} size=\"sm\" />\n        </Checkbox.Indicator>\n        Push Notifications\n      </Checkbox.Root>\n    </CheckboxGroup>\n  );\n}",
+  "tags": ["CheckboxGroup", "Checkbox", "Icon"]
+}

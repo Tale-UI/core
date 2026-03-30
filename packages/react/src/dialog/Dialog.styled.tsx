@@ -60,6 +60,15 @@ const StyledTrigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
   ),
 );
 StyledTrigger.displayName = 'Dialog.Trigger';
+
+/**
+ * Button that opens the dialog
+ *
+ * @example
+ * ```tsx
+ * <Dialog.Trigger className="tale-button--primary">Open Dialog</Dialog.Trigger>
+ * ```
+ */
 export const Trigger = StyledTrigger;
 
 /* ─── Backdrop ───────────────────────────────────────────────────────────────── */
@@ -72,6 +81,17 @@ const StyledBackdrop = React.forwardRef<HTMLDivElement, BackdropProps>(
   ),
 );
 StyledBackdrop.displayName = 'Dialog.Backdrop';
+
+/**
+ * Semi-transparent overlay behind the dialog popup
+ *
+ * @example
+ * ```tsx
+ * <Dialog.Backdrop>
+ *   <Dialog.Popup>...</Dialog.Popup>
+ * </Dialog.Backdrop>
+ * ```
+ */
 export const Backdrop = StyledBackdrop;
 
 /* ─── Popup ──────────────────────────────────────────────────────────────────── */
@@ -100,6 +120,18 @@ const StyledPopup = React.forwardRef<HTMLElement, PopupProps>(
   ),
 );
 StyledPopup.displayName = 'Dialog.Popup';
+
+/**
+ * The dialog content container rendered inside a modal
+ *
+ * @example
+ * ```tsx
+ * <Dialog.Popup>
+ *   <Dialog.Title>Confirm</Dialog.Title>
+ *   <Dialog.Description>Are you sure?</Dialog.Description>
+ * </Dialog.Popup>
+ * ```
+ */
 export const Popup = StyledPopup;
 
 /* ─── Title ──────────────────────────────────────────────────────────────────── */
@@ -117,6 +149,15 @@ const StyledTitle = React.forwardRef<HTMLHeadingElement, TitleProps>(
   ),
 );
 StyledTitle.displayName = 'Dialog.Title';
+
+/**
+ * The heading rendered inside the dialog popup
+ *
+ * @example
+ * ```tsx
+ * <Dialog.Title>Confirm action</Dialog.Title>
+ * ```
+ */
 export const Title = StyledTitle;
 
 /* ─── Description ────────────────────────────────────────────────────────────── */
@@ -133,6 +174,15 @@ const StyledDescription = React.forwardRef<HTMLParagraphElement, DescriptionProp
   ),
 );
 StyledDescription.displayName = 'Dialog.Description';
+
+/**
+ * Supporting text rendered below the dialog title
+ *
+ * @example
+ * ```tsx
+ * <Dialog.Description>Are you sure you want to proceed?</Dialog.Description>
+ * ```
+ */
 export const Description = StyledDescription;
 
 /* ─── Close ──────────────────────────────────────────────────────────────────── */
@@ -168,6 +218,18 @@ const StyledActions = React.forwardRef<HTMLDivElement, ActionsProps>(
   ),
 );
 StyledActions.displayName = 'Dialog.Actions';
+
+/**
+ * Container for action buttons at the bottom of the dialog
+ *
+ * @example
+ * ```tsx
+ * <Dialog.Actions>
+ *   <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
+ *   <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
+ * </Dialog.Actions>
+ * ```
+ */
 export const Actions = StyledActions;
 
 /* ─── Re-export prop types ───────────────────────────────────────────────────── */

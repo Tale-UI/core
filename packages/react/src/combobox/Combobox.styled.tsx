@@ -69,6 +69,14 @@ export const Root: <T extends object = object>(
 
 export type LabelProps = Omit<AriaLabelProps, 'className'> & { className?: string };
 
+/**
+ * Accessible label for the combobox field
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Label>Country</Combobox.Label>
+ * ```
+ */
 export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
   ({ className, ...props }, ref) => (
     <AriaLabel ref={ref} className={cx('tale-combobox__label', className)} {...props} />
@@ -80,6 +88,14 @@ Label.displayName = 'Combobox.Label';
 
 export type InputProps = Omit<AriaInputProps, 'className'> & { className?: string };
 
+/**
+ * Text input for typing and filtering the listbox options
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Input placeholder="Search..." />
+ * ```
+ */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => (
     <AriaInput ref={ref} className={cx('tale-combobox__input', className)} {...props} />
@@ -91,6 +107,14 @@ Input.displayName = 'Combobox.Input';
 
 export type TriggerProps = Omit<AriaButtonProps, 'className'> & { className?: string };
 
+/**
+ * Button that toggles the dropdown; renders a chevron icon by default
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Trigger />
+ * ```
+ */
 export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
   ({ className, children, ...props }, ref) => (
     <AriaButton ref={ref} className={cx('tale-combobox__trigger', className)} {...props}>
@@ -104,6 +128,16 @@ Trigger.displayName = 'Combobox.Trigger';
 
 export type PopoverProps = Omit<AriaPopoverProps, 'className'> & { className?: string };
 
+/**
+ * Floating container that holds the listbox when the combobox is open
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Popover>
+ *   <Combobox.ListBox>…</Combobox.ListBox>
+ * </Combobox.Popover>
+ * ```
+ */
 export const Popover = React.forwardRef<HTMLElement, PopoverProps>(
   ({ className, ...props }, ref) => (
     <AriaPopover ref={ref} className={cx('tale-combobox__popover', className)} {...props} />
@@ -117,6 +151,16 @@ export type ListBoxProps<T extends object = object> = Omit<AriaListBoxProps<T>, 
   className?: string;
 };
 
+/**
+ * Scrollable list of filterable options
+ *
+ * @example
+ * ```tsx
+ * <Combobox.ListBox>
+ *   <Combobox.Item id="us" textValue="United States">United States</Combobox.Item>
+ * </Combobox.ListBox>
+ * ```
+ */
 export const ListBox: <T extends object = object>(
   props: ListBoxProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(
@@ -134,6 +178,14 @@ export const ListBox: <T extends object = object>(
 
 export type ItemProps<T = object> = Omit<AriaListBoxItemProps<T>, 'className'> & { className?: string };
 
+/**
+ * A single selectable option inside the listbox
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Item id="us" textValue="United States">United States</Combobox.Item>
+ * ```
+ */
 export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
   ({ className, ...props }, ref) => (
     <AriaListBoxItem ref={ref} className={cx('tale-combobox__item', className)} {...props} />
@@ -145,6 +197,17 @@ Item.displayName = 'Combobox.Item';
 
 export type SectionProps<T = object> = AriaListBoxSectionProps<T>;
 
+/**
+ * Groups related items under an optional header
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Section>
+ *   <Combobox.Header>Americas</Combobox.Header>
+ *   <Combobox.Item id="us" textValue="United States">United States</Combobox.Item>
+ * </Combobox.Section>
+ * ```
+ */
 export const Section: <T extends object>(
   props: SectionProps<T> & React.RefAttributes<HTMLElement>,
 ) => React.ReactElement | null = AriaListBoxSection as any;
@@ -153,6 +216,14 @@ export const Section: <T extends object>(
 
 export type HeaderProps = Omit<React.HTMLAttributes<HTMLElement>, 'className'> & { className?: string };
 
+/**
+ * Heading label for a section of items
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Header>Americas</Combobox.Header>
+ * ```
+ */
 export const Header = React.forwardRef<HTMLElement, HeaderProps>(
   ({ className, ...props }, ref) => (
     <AriaHeader
@@ -168,6 +239,14 @@ Header.displayName = 'Combobox.Header';
 
 export type EmptyProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
 
+/**
+ * Placeholder content shown when no items match the filter
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Empty>No results found</Combobox.Empty>
+ * ```
+ */
 export const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cx('tale-combobox__empty', className)} {...props} />
@@ -179,6 +258,17 @@ Empty.displayName = 'Combobox.Empty';
 
 export type InputGroupProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
 
+/**
+ * Wrapper that visually groups the input and trigger button
+ *
+ * @example
+ * ```tsx
+ * <Combobox.InputGroup>
+ *   <Combobox.Input placeholder="Search..." />
+ *   <Combobox.Trigger />
+ * </Combobox.InputGroup>
+ * ```
+ */
 export const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cx('tale-combobox__input-group', className)} {...props} />
@@ -190,6 +280,16 @@ InputGroup.displayName = 'Combobox.InputGroup';
 
 export type ChipsProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
 
+/**
+ * Container for selected-value chips in a multi-select combobox
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Chips>
+ *   <Combobox.Chip>United States <Combobox.ChipRemove /></Combobox.Chip>
+ * </Combobox.Chips>
+ * ```
+ */
 export const Chips = React.forwardRef<HTMLDivElement, ChipsProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cx('tale-combobox__chips', className)} {...props} />
@@ -201,6 +301,14 @@ Chips.displayName = 'Combobox.Chips';
 
 export type ChipProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
 
+/**
+ * A removable tag representing a selected value
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Chip>United States <Combobox.ChipRemove /></Combobox.Chip>
+ * ```
+ */
 export const Chip = React.forwardRef<HTMLSpanElement, ChipProps>(
   ({ className, ...props }, ref) => (
     <span ref={ref} className={cx('tale-combobox__chip', className)} {...props} />
@@ -214,6 +322,14 @@ export type ChipRemoveProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
   className?: string;
 };
 
+/**
+ * Button to remove a chip; renders a default X icon
+ *
+ * @example
+ * ```tsx
+ * <Combobox.ChipRemove onClick={() => remove(id)} />
+ * ```
+ */
 export const ChipRemove = React.forwardRef<HTMLButtonElement, ChipRemoveProps>(
   ({ className, children, ...props }, ref) => (
     <button ref={ref} type="button" className={cx('tale-combobox__chip-remove', className)} {...props}>
@@ -227,6 +343,14 @@ ChipRemove.displayName = 'Combobox.ChipRemove';
 
 export type SeparatorProps = Omit<AriaSeparatorProps, 'className'> & { className?: string };
 
+/**
+ * Visual divider between items or sections
+ *
+ * @example
+ * ```tsx
+ * <Combobox.Separator />
+ * ```
+ */
 export const Separator = React.forwardRef<HTMLElement, SeparatorProps>(
   ({ className, ...props }, ref) => (
     <AriaSeparator ref={ref} className={cx('tale-combobox__separator', className)} {...props} />
@@ -238,6 +362,14 @@ Separator.displayName = 'Combobox.Separator';
 
 export type ItemIndicatorProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> & { className?: string };
 
+/**
+ * Checkmark or custom indicator shown on the selected item
+ *
+ * @example
+ * ```tsx
+ * <Combobox.ItemIndicator>✓</Combobox.ItemIndicator>
+ * ```
+ */
 export const ItemIndicator = React.forwardRef<HTMLSpanElement, ItemIndicatorProps>(
   ({ className, ...props }, ref) => (
     <span ref={ref} className={cx('tale-combobox__item-indicator', className)} {...props} />

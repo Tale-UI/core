@@ -1,0 +1,7 @@
+{
+  "slug": "horizontal-separator",
+  "difficulty": "simple",
+  "prompt": "Create a horizontal separator line.",
+  "reference": "import { Separator } from '@tale-ui/react/separator';\n\nexport function HorizontalSeparator() {\n  return <Separator />;\n}\n",
+  "tags": ["Separator"]
+}

@@ -58,6 +58,17 @@
     "audit:docs": "node tools/audit-docs.js",
     "audit:brand": "node tools/audit-brand.js",
     "audit:components": "node tools/audit-components.js",
+    "registry:generate": "node tools/generate-registry.js",
+    "registry:check": "node tools/generate-registry.js --check",
+    "cursorrules:generate": "node tools/generate-cursorrules.js",
+    "cursorrules:check": "node tools/generate-cursorrules.js --check",
+    "audit:snippet-kinds": "node tools/audit-snippet-kinds.js",
+    "validate:generated": "node tools/validate-generated.mjs",
+    "golden:validate": "node tools/validate-golden-prompts.mjs",
+    "a2ui:generate-docs": "node tools/generate-a2ui-catalog-docs.js",
+    "a2ui:check-docs": "node tools/generate-a2ui-catalog-docs.js --check",
+    "a2ui:validate-examples": "node tools/validate-a2ui-examples.js",
+    "a2ui:audit-docs": "node tools/audit-a2ui-catalog-docs.js",
     "inline-scripts": "tsx ./scripts/inlineScripts.mts",
     "prepare": "husky"
   },
@@ -75,6 +86,7 @@
     "@babel/runtime": "^7.28.6",
     "@eslint/compat": "^2.0.3",
     "@eslint/js": "^10.0.1",
+    "@modelcontextprotocol/sdk": "^1.28.0",
     "@next/eslint-plugin-next": "^16.1.7",
     "@octokit/rest": "22.0.1",
     "@playwright/test": "1.58.2",
@@ -105,6 +117,7 @@
     "husky": "^9.1.7",
     "lerna": "9.0.4",
     "lint-staged": "^16.3.0",
+    "lucide-react": "^1.7.0",
     "markdownlint-cli2": "0.21.0",
     "prettier": "3.8.1",
     "pretty-quick": "4.2.2",
@@ -122,7 +135,8 @@
     "typescript-eslint": "^8.57.1",
     "vite": "7.3.1",
     "vitest": "4.0.18",
-    "vitest-fail-on-console": "0.10.1"
+    "vitest-fail-on-console": "0.10.1",
+    "zod": "^3.25.76"
   },
   "packageManager": "pnpm@10.29.3",
   "engines": {

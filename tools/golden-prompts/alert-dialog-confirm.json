@@ -1,0 +1,7 @@
+{
+  "slug": "alert-dialog-confirm",
+  "difficulty": "medium",
+  "prompt": "Create a confirmation dialog triggered by a 'Delete Account' button. The dialog should have a title 'Delete Account?', a description warning that this action is permanent, and two action buttons: 'Cancel' (neutral) and 'Delete' (danger).",
+  "reference": "import * as React from 'react';\nimport { AlertDialog } from '@tale-ui/react/alert-dialog';\nimport { Button } from '@tale-ui/react/button';\n\nexport function AlertDialogConfirm() {\n  const [open, setOpen] = React.useState(false);\n  return (\n    <AlertDialog.Root isOpen={open} onOpenChange={setOpen}>\n      <AlertDialog.Trigger className=\"tale-button tale-button--danger\">\n        Delete Account\n      </AlertDialog.Trigger>\n      <AlertDialog.Backdrop>\n        <AlertDialog.Popup>\n          <AlertDialog.Content>\n            <AlertDialog.Title>Delete Account?</AlertDialog.Title>\n            <AlertDialog.Description>\n              This action is permanent and cannot be undone. All your data will be lost.\n            </AlertDialog.Description>\n            <AlertDialog.Actions>\n              <Button variant=\"neutral\" onPress={() => setOpen(false)}>Cancel</Button>\n              <Button variant=\"danger\" onPress={() => setOpen(false)}>Delete</Button>\n            </AlertDialog.Actions>\n          </AlertDialog.Content>\n        </AlertDialog.Popup>\n      </AlertDialog.Backdrop>\n    </AlertDialog.Root>\n  );\n}",
+  "tags": ["AlertDialog", "Button"]
+}

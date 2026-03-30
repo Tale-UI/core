@@ -1,0 +1,49 @@
+/*
+ * List — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component (not React Aria). Presentational only.
+ *
+ * Variants:   (default / plain)   no dividers
+ *             .tale-list--divided  border between items
+ *
+ * Density:    .tale-list--compact   (--space-2xs padding)
+ *             (default)             (--space-xs padding)
+ *             .tale-list--spacious  (--space-s padding)
+ */
+
+/* ─── Root ──────────────────────────────────────────────────────────────────── */
+
+.tale-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--text-font-family);
+}
+
+/* ─── Item ──────────────────────────────────────────────────────────────────── */
+
+.tale-list__item {
+  padding: var(--space-xs) 0;
+  color: var(--neutral-90);
+  font-size: var(--text-m-font-size);
+  line-height: var(--text-line-height);
+}
+
+/* ─── Density ──────────────────────────────────────────────────────────────── */
+
+.tale-list--compact > .tale-list__item {
+  padding: var(--space-2xs) 0;
+}
+
+.tale-list--spacious > .tale-list__item {
+  padding: var(--space-s) 0;
+}
+
+/* ─── Divided variant ───────────────────────────────────────────────────────── */
+
+.tale-list--divided > .tale-list__item + .tale-list__item {
+  border-top: 1px solid var(--neutral-18);
+}

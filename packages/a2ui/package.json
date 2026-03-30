@@ -1,0 +1,45 @@
+{
+  "name": "@tale-ui/a2ui",
+  "version": "0.1.0",
+  "description": "A2UI protocol renderer for Tale UI — maps A2UI agent messages to Tale UI React components.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tale-UI/core.git",
+    "directory": "packages/a2ui"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts",
+    "./catalog": "./src/catalog.ts",
+    "./renderer": "./src/renderer/index.ts",
+    "./validation": "./src/validation/validate.ts"
+  },
+  "type": "commonjs",
+  "scripts": {
+    "typescript": "tsc -b tsconfig.json",
+    "test": "cross-env VITEST_ENV=jsdom vitest"
+  },
+  "dependencies": {
+    "@tale-ui/react": "workspace:*",
+    "lucide-react": ">=0.300.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "@types/react": "^17 || ^18 || ^19",
+    "react": "^17 || ^18 || ^19",
+    "react-dom": "^17 || ^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "sideEffects": false
+}

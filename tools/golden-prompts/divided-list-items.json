@@ -1,0 +1,7 @@
+{
+  "slug": "divided-list-items",
+  "difficulty": "medium",
+  "prompt": "Create a divided list displaying four items: 'Design Review', 'Sprint Planning', 'Code Review', and 'Retrospective'.",
+  "reference": "import { List } from '@tale-ui/react/list';\n\nexport function DividedListItems() {\n  return (\n    <List.Root variant=\"divided\">\n      <List.Item>Design Review</List.Item>\n      <List.Item>Sprint Planning</List.Item>\n      <List.Item>Code Review</List.Item>\n      <List.Item>Retrospective</List.Item>\n    </List.Root>\n  );\n}",
+  "tags": ["List"]
+}

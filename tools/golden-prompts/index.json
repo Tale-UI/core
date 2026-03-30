@@ -1,0 +1,84 @@
+{
+  "prompts": [
+    {
+      "slug": "accordion-faq",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "alert-dialog-confirm",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "avatar-image",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "card-with-content",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "checkbox-group-form",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "data-display-cards",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "divided-list-items",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "horizontal-separator",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "icon-button-delete",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "loading-spinner",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "muted-text",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "primary-button",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "progress-bar-labeled",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "search-field",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "settings-page",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "status-badge",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "styled-link",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "tabs-with-panels",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "text-input-field",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "user-profile-card",
+      "difficulty": "complex"
+    }
+  ]
+}

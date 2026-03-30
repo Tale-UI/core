@@ -31,7 +31,7 @@ Before generating or modifying component code, you MUST:
 4. **Do not guess component APIs.** Always check the `@example` block first. Incorrect usage (wrong sub-part names, missing wrapper components, wrong import paths) causes build failures.
 
 5. **Common pitfalls to avoid:**
-   - **Namespace components** (use `<Component.Root>`, never `<Component>` directly): `Accordion`, `AlertDialog`, `Autocomplete`, `Avatar`, `Banner`, `Breadcrumbs`, `Calendar`, `Carousel`, `Checkbox`, `ColorArea`, `ColorField`, `ColorPicker`, `ColorSlider`, `ColorSwatch`, `ColorSwatchPicker`, `ColorWheel`, `Combobox`, `ContextMenu`, `DateField`, `DatePicker`, `DateRangePicker`, `Dialog`, `Disclosure`, `Drawer`, `EmptyState`, `Field`, `Fieldset`, `GridList`, `Input`, `Menu`, `Menubar`, `Meter`, `NavigationMenu`, `NumberField`, `Pagination`, `PaymentInput`, `PinInput`, `Popover`, `PreviewCard`, `ProgressBar`, `ProgressCircle`, `Radio`, `RangeCalendar`, `ScrollArea`, `SearchField`, `Select`, `Slider`, `Table`, `Tabs`, `TagGroup`, `TextArea`, `TextField`, `TimeField`, `Toolbar`, `Tooltip`, `Tree`. **Simple components** (direct use, no `.Root`): `AppStoreButton`, `Badge`, `Button`, `CheckboxGroup`, `ColorModeToggle`, `Container`, `DotIcon`, `DropZone`, `FeaturedIcon`, `FileTrigger`, `Form`, `Icon`, `IconButton`, `Link`, `RadioGroup`, `RatingBadge`, `RatingStars`, `SelectNative`, `Separator`, `SocialButton`, `SocialButtonGroup`, `Spinner`, `ToggleButton`, `ToggleButtonGroup`.
+   - **Namespace components** (use `<Component.Root>`, never `<Component>` directly): `Accordion`, `AlertDialog`, `Autocomplete`, `Avatar`, `Banner`, `Breadcrumbs`, `Calendar`, `Card`, `Carousel`, `Checkbox`, `ColorArea`, `ColorField`, `ColorPicker`, `ColorSlider`, `ColorSwatchPicker`, `ColorWheel`, `Combobox`, `ContextMenu`, `DateField`, `DatePicker`, `DateRangePicker`, `Dialog`, `Disclosure`, `Drawer`, `EmptyState`, `Field`, `Fieldset`, `GridList`, `Input`, `List`, `Menu`, `Menubar`, `Meter`, `NavigationMenu`, `NumberField`, `Pagination`, `PaymentInput`, `PinInput`, `Popover`, `PreviewCard`, `ProgressBar`, `ProgressCircle`, `Radio`, `RangeCalendar`, `ScrollArea`, `SearchField`, `Select`, `Slider`, `Switch`, `Table`, `Tabs`, `TagGroup`, `TextArea`, `TextField`, `TimeField`, `Toolbar`, `Tooltip`, `Tree`. **Simple components** (direct use, no `.Root`): `AppStoreButton`, `Badge`, `Button`, `CSPProvider`, `CheckboxGroup`, `ColorModeToggle`, `ColorSwatch`, `Column`, `Container`, `DotIcon`, `DropZone`, `FeaturedIcon`, `FileTrigger`, `Form`, `I18nProvider`, `Icon`, `IconButton`, `Image`, `Link`, `RadioGroup`, `RatingBadge`, `RatingStars`, `Row`, `SelectNative`, `Separator`, `SocialButton`, `SocialButtonGroup`, `Spinner`, `Text`, `ToggleButton`, `ToggleButtonGroup`, `mergeProps`.
    - `Drawer.Root` uses `open`/`onOpenChange` (NOT `isOpen`) — it is a custom component, not built on React Aria Modal. Dialog and AlertDialog use `isOpen`.
    - `Drawer.Backdrop` must be a self-closing sibling of `Drawer.Popup` (`<Drawer.Backdrop />`), never a wrapper around it.
    - There is NO `Drawer.Actions` part (unlike `Dialog.Actions`). Wrap action buttons in a plain `<div>` with flex layout instead.
@@ -74,6 +74,19 @@ Before generating or modifying component code, you MUST:
    - **Do not apply global styles to semantic HTML elements.** Tale UI components internally render `<section>`, `<header>`, and other semantic elements (via React Aria). Global rules like `section { padding: 1rem }` will leak into Dialog, Menu, Popover, and other overlay components and break their layout. Style with class selectors (`.my-section { ... }`) instead of element selectors. Tale UI includes a defensive CSS shield that resets `margin`, `padding`, and `border` on semantic elements directly inside `.tale-*` containers, but nested elements are not covered.
 
 6. **Charts (separate package):** Install `@tale-ui/charts` and `recharts` separately. Import chart styles via `import '@tale-ui/charts/styles';`. Charts use the same compound parts pattern: `BarChart.Root`, `BarChart.Bar`, etc.
+
+8. **A2UI protocol support (optional):** If this project uses AI agents that render UI via the [A2UI protocol](https://a2ui.org/), install `@tale-ui/a2ui`. It maps A2UI agent messages to Tale UI components. See `node_modules/@tale-ui/a2ui/README.md` or the [integration guide](https://github.com/Tale-UI/core/blob/main/docs/a2ui-integration.md). Quick setup:
+
+   ```tsx
+   import { A2UIProvider, A2UISurface } from '@tale-ui/a2ui/renderer';
+   import { taleUICatalog } from '@tale-ui/a2ui/catalog';
+
+   <A2UIProvider catalog={taleUICatalog} onAction={handleAction}>
+     <A2UISurface surfaceId="main" />
+   </A2UIProvider>
+   ```
+
+   The catalog covers 21 standard A2UI types (Text, Button, Row, Column, Card, Image, List, TextInput, Checkbox, Radio, Select, Switch, Table, Tabs, Badge, Progress, Spinner, Separator, Link, Icon, Form). Extend with `createCatalog()` for custom types. Validate agent output with `validateMessages()` from `@tale-ui/a2ui/validation`.
 
 7. **Dark mode must persist between refreshes.** Every new app must:
 

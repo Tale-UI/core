@@ -1,0 +1,7 @@
+{
+  "slug": "progress-bar-labeled",
+  "difficulty": "medium",
+  "prompt": "Create a progress bar at 65% completion with a label that says 'Uploading Files' and a value display showing '65%'.",
+  "reference": "import { ProgressBar } from '@tale-ui/react/progress-bar';\n\nexport function ProgressBarLabeled() {\n  return (\n    <ProgressBar.Root value={65} minValue={0} maxValue={100}>\n      <ProgressBar.Header>\n        <ProgressBar.Label>Uploading Files</ProgressBar.Label>\n        <ProgressBar.Value>65%</ProgressBar.Value>\n      </ProgressBar.Header>\n      <ProgressBar.Track>\n        <ProgressBar.Indicator value={65} />\n      </ProgressBar.Track>\n    </ProgressBar.Root>\n  );\n}",
+  "tags": ["ProgressBar"]
+}

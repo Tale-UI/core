@@ -1,0 +1,7 @@
+{
+  "slug": "loading-spinner",
+  "difficulty": "simple",
+  "prompt": "Create a loading spinner with the label \"Loading data...\".",
+  "reference": "import { Spinner } from '@tale-ui/react/spinner';\n\nexport function LoadingSpinner() {\n  return <Spinner label=\"Loading data...\" />;\n}\n",
+  "tags": ["Spinner"]
+}

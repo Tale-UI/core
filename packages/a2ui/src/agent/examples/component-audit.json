@@ -1,0 +1,653 @@
+{
+  "description": "Component audit — exercises all 25 A2UI catalog types",
+  "messages": [
+    {
+      "type": "beginRendering",
+      "surfaceId": "audit",
+      "rootComponentId": "root"
+    },
+    {
+      "type": "surfaceUpdate",
+      "surfaceId": "audit",
+      "components": [
+        {
+          "id": "root",
+          "component": {
+            "Column": {
+              "spacing": "l",
+              "children": [
+                "heading",
+                "typography-card",
+                "layout-card",
+                "display-card",
+                "interactive-card",
+                "form-card",
+                "data-card",
+                "feedback-card"
+              ]
+            }
+          }
+        },
+
+        {
+          "id": "heading",
+          "component": {
+            "Text": {
+              "content": "A2UI Component Audit",
+              "usageHint": "heading-l"
+            }
+          }
+        },
+
+        {
+          "id": "typography-card",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["typo-header", "typo-body"]
+            }
+          }
+        },
+        {
+          "id": "typo-header",
+          "component": {
+            "CardHeader": {
+              "children": ["typo-title"]
+            }
+          }
+        },
+        {
+          "id": "typo-title",
+          "component": {
+            "Text": {
+              "content": "1. Typography (Text)",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "typo-body",
+          "component": {
+            "CardBody": {
+              "children": ["typo-col"]
+            }
+          }
+        },
+        {
+          "id": "typo-col",
+          "component": {
+            "Column": {
+              "spacing": "xs",
+              "children": [
+                "typo-display", "typo-heading", "typo-title-text",
+                "typo-label", "typo-body-text", "typo-caption",
+                "typo-muted", "typo-accent"
+              ]
+            }
+          }
+        },
+        { "id": "typo-display", "component": { "Text": { "content": "Display text", "usageHint": "display-s" } } },
+        { "id": "typo-heading", "component": { "Text": { "content": "Heading text", "usageHint": "heading-m" } } },
+        { "id": "typo-title-text", "component": { "Text": { "content": "Title text", "usageHint": "title" } } },
+        { "id": "typo-label", "component": { "Text": { "content": "Label text", "usageHint": "label" } } },
+        { "id": "typo-body-text", "component": { "Text": { "content": "Body text — the quick brown fox jumps over the lazy dog.", "usageHint": "body" } } },
+        { "id": "typo-caption", "component": { "Text": { "content": "Caption text", "usageHint": "caption" } } },
+        { "id": "typo-muted", "component": { "Text": { "content": "Muted color text", "usageHint": "body", "color": "muted" } } },
+        { "id": "typo-accent", "component": { "Text": { "content": "Accent color text", "usageHint": "body", "color": "accent" } } },
+
+        {
+          "id": "layout-card",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["layout-header", "layout-body"]
+            }
+          }
+        },
+        {
+          "id": "layout-header",
+          "component": {
+            "CardHeader": {
+              "children": ["layout-title"]
+            }
+          }
+        },
+        {
+          "id": "layout-title",
+          "component": {
+            "Text": {
+              "content": "2. Layout (Row, Column, Card, CardHeader, CardBody, CardFooter)",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "layout-body",
+          "component": {
+            "CardBody": {
+              "children": ["layout-row"]
+            }
+          }
+        },
+        {
+          "id": "layout-row",
+          "component": {
+            "Row": {
+              "spacing": "m",
+              "alignment": "stretch",
+              "children": ["layout-card-elevated", "layout-card-filled"]
+            }
+          }
+        },
+        {
+          "id": "layout-card-elevated",
+          "component": {
+            "Card": {
+              "variant": "elevated",
+              "padding": "md",
+              "children": ["elevated-body"]
+            }
+          },
+          "weight": 1
+        },
+        {
+          "id": "elevated-body",
+          "component": {
+            "CardBody": {
+              "children": ["elevated-text"]
+            }
+          }
+        },
+        {
+          "id": "elevated-text",
+          "component": {
+            "Text": {
+              "content": "Elevated card with weight=1",
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "layout-card-filled",
+          "component": {
+            "Card": {
+              "variant": "filled",
+              "padding": "lg",
+              "children": ["filled-header", "filled-body", "filled-footer"]
+            }
+          },
+          "weight": 2
+        },
+        {
+          "id": "filled-header",
+          "component": {
+            "CardHeader": {
+              "children": ["filled-header-text"]
+            }
+          }
+        },
+        {
+          "id": "filled-header-text",
+          "component": {
+            "Text": {
+              "content": "Filled card header",
+              "usageHint": "label"
+            }
+          }
+        },
+        {
+          "id": "filled-body",
+          "component": {
+            "CardBody": {
+              "children": ["filled-body-text"]
+            }
+          }
+        },
+        {
+          "id": "filled-body-text",
+          "component": {
+            "Text": {
+              "content": "Card body with weight=2 (takes 2x space)",
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "filled-footer",
+          "component": {
+            "CardFooter": {
+              "children": ["filled-footer-text"]
+            }
+          }
+        },
+        {
+          "id": "filled-footer-text",
+          "component": {
+            "Text": {
+              "content": "Card footer",
+              "usageHint": "caption",
+              "color": "muted"
+            }
+          }
+        },
+
+        {
+          "id": "display-card",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["display-header", "display-body"]
+            }
+          }
+        },
+        {
+          "id": "display-header",
+          "component": {
+            "CardHeader": {
+              "children": ["display-title"]
+            }
+          }
+        },
+        {
+          "id": "display-title",
+          "component": {
+            "Text": {
+              "content": "3. Display (Image, Badge, Icon, Separator, List, ListItem)",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "display-body",
+          "component": {
+            "CardBody": {
+              "children": ["display-col"]
+            }
+          }
+        },
+        {
+          "id": "display-col",
+          "component": {
+            "Column": {
+              "spacing": "m",
+              "children": ["display-image", "display-badges", "display-icons", "display-sep", "display-list"]
+            }
+          }
+        },
+        {
+          "id": "display-image",
+          "component": {
+            "Image": {
+              "src": "https://picsum.photos/600/150",
+              "alt": "Random landscape image",
+              "radius": "md",
+              "fit": "cover"
+            }
+          }
+        },
+        {
+          "id": "display-badges",
+          "component": {
+            "Row": {
+              "spacing": "xs",
+              "wrap": true,
+              "children": ["badge-neutral", "badge-brand", "badge-success", "badge-error", "badge-warning"]
+            }
+          }
+        },
+        { "id": "badge-neutral", "component": { "Badge": { "label": "Neutral", "tone": "neutral" } } },
+        { "id": "badge-brand", "component": { "Badge": { "label": "Brand", "tone": "brand" } } },
+        { "id": "badge-success", "component": { "Badge": { "label": "Success", "tone": "success", "size": "sm" } } },
+        { "id": "badge-error", "component": { "Badge": { "label": "Error", "tone": "error", "size": "sm" } } },
+        { "id": "badge-warning", "component": { "Badge": { "label": "Warning", "tone": "warning", "size": "lg" } } },
+        {
+          "id": "display-icons",
+          "component": {
+            "Row": {
+              "spacing": "s",
+              "children": ["icon-search", "icon-user", "icon-settings", "icon-heart", "icon-star"]
+            }
+          }
+        },
+        { "id": "icon-search", "component": { "Icon": { "name": "search", "size": "md", "label": "Search" } } },
+        { "id": "icon-user", "component": { "Icon": { "name": "user", "size": "md", "label": "User" } } },
+        { "id": "icon-settings", "component": { "Icon": { "name": "settings", "size": "md", "label": "Settings" } } },
+        { "id": "icon-heart", "component": { "Icon": { "name": "heart", "size": "lg", "label": "Heart" } } },
+        { "id": "icon-star", "component": { "Icon": { "name": "star", "size": "lg", "label": "Star" } } },
+        {
+          "id": "display-sep",
+          "component": {
+            "Separator": {
+              "orientation": "horizontal"
+            }
+          }
+        },
+        {
+          "id": "display-list",
+          "component": {
+            "List": {
+              "variant": "divided",
+              "children": ["list-item-1", "list-item-2", "list-item-3"]
+            }
+          }
+        },
+        { "id": "list-item-1", "component": { "ListItem": { "content": "First list item" } } },
+        { "id": "list-item-2", "component": { "ListItem": { "content": "Second list item" } } },
+        { "id": "list-item-3", "component": { "ListItem": { "content": "Third list item" } } },
+
+        {
+          "id": "interactive-card",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["interactive-header", "interactive-body"]
+            }
+          }
+        },
+        {
+          "id": "interactive-header",
+          "component": {
+            "CardHeader": {
+              "children": ["interactive-title"]
+            }
+          }
+        },
+        {
+          "id": "interactive-title",
+          "component": {
+            "Text": {
+              "content": "4. Interactive (Button, Link)",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "interactive-body",
+          "component": {
+            "CardBody": {
+              "children": ["interactive-row"]
+            }
+          }
+        },
+        {
+          "id": "interactive-row",
+          "component": {
+            "Row": {
+              "spacing": "s",
+              "wrap": true,
+              "children": ["btn-primary", "btn-neutral", "btn-ghost", "btn-danger", "btn-disabled", "link-example"]
+            }
+          }
+        },
+        { "id": "btn-primary", "component": { "Button": { "label": "Primary", "variant": "primary", "action": { "name": "click", "context": { "variant": "primary" } } } } },
+        { "id": "btn-neutral", "component": { "Button": { "label": "Neutral", "variant": "neutral", "action": { "name": "click", "context": { "variant": "neutral" } } } } },
+        { "id": "btn-ghost", "component": { "Button": { "label": "Ghost", "variant": "ghost", "action": { "name": "click", "context": { "variant": "ghost" } } } } },
+        { "id": "btn-danger", "component": { "Button": { "label": "Danger", "variant": "danger", "action": { "name": "click", "context": { "variant": "danger" } } } } },
+        { "id": "btn-disabled", "component": { "Button": { "label": "Disabled", "variant": "neutral", "disabled": true } } },
+        { "id": "link-example", "component": { "Link": { "label": "Example link →", "href": "https://a2ui.org", "target": "_blank" } } },
+
+        {
+          "id": "form-card",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["form-header", "form-body"]
+            }
+          }
+        },
+        {
+          "id": "form-header",
+          "component": {
+            "CardHeader": {
+              "children": ["form-title"]
+            }
+          }
+        },
+        {
+          "id": "form-title",
+          "component": {
+            "Text": {
+              "content": "5. Form Controls (Form, TextInput, Checkbox, Radio, Select, Switch)",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "form-body",
+          "component": {
+            "CardBody": {
+              "children": ["form-element"]
+            }
+          }
+        },
+        {
+          "id": "form-element",
+          "component": {
+            "Form": {
+              "action": { "name": "submitForm", "context": {} },
+              "children": ["form-col"]
+            }
+          }
+        },
+        {
+          "id": "form-col",
+          "component": {
+            "Column": {
+              "spacing": "m",
+              "children": ["input-name", "input-email", "checkbox-terms", "switch-newsletter", "form-actions"]
+            }
+          }
+        },
+        {
+          "id": "input-name",
+          "component": {
+            "TextInput": {
+              "label": "Full name",
+              "binding": { "path": "name" },
+              "required": true
+            }
+          }
+        },
+        {
+          "id": "input-email",
+          "component": {
+            "TextInput": {
+              "label": "Email address",
+              "description": "We will never share your email.",
+              "binding": { "path": "email" },
+              "required": true
+            }
+          }
+        },
+        {
+          "id": "checkbox-terms",
+          "component": {
+            "Checkbox": {
+              "label": "I agree to the terms and conditions",
+              "binding": { "path": "terms" },
+              "action": { "name": "toggleTerms", "context": {} }
+            }
+          }
+        },
+        {
+          "id": "switch-newsletter",
+          "component": {
+            "Switch": {
+              "label": "Subscribe to newsletter",
+              "binding": { "path": "newsletter" },
+              "action": { "name": "toggleNewsletter", "context": {} }
+            }
+          }
+        },
+        {
+          "id": "form-actions",
+          "component": {
+            "Row": {
+              "justify": "end",
+              "spacing": "s",
+              "children": ["form-cancel", "form-submit"]
+            }
+          }
+        },
+        { "id": "form-cancel", "component": { "Button": { "label": "Cancel", "variant": "neutral", "action": { "name": "cancel", "context": {} } } } },
+        { "id": "form-submit", "component": { "Button": { "label": "Submit", "variant": "primary", "action": { "name": "submitForm", "context": {} } } } },
+
+        {
+          "id": "data-card",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["data-header", "data-body"]
+            }
+          }
+        },
+        {
+          "id": "data-header",
+          "component": {
+            "CardHeader": {
+              "children": ["data-title"]
+            }
+          }
+        },
+        {
+          "id": "data-title",
+          "component": {
+            "Text": {
+              "content": "6. Data Display (Table, Tabs)",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "data-body",
+          "component": {
+            "CardBody": {
+              "children": ["data-col"]
+            }
+          }
+        },
+        {
+          "id": "data-col",
+          "component": {
+            "Column": {
+              "spacing": "m",
+              "children": ["data-table", "data-tabs"]
+            }
+          }
+        },
+        {
+          "id": "data-table",
+          "component": {
+            "Table": {
+              "label": "Sample data table"
+            }
+          }
+        },
+        {
+          "id": "data-tabs",
+          "component": {
+            "Tabs": {
+              "defaultTab": "tab1"
+            }
+          }
+        },
+
+        {
+          "id": "feedback-card",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["feedback-header", "feedback-body"]
+            }
+          }
+        },
+        {
+          "id": "feedback-header",
+          "component": {
+            "CardHeader": {
+              "children": ["feedback-title"]
+            }
+          }
+        },
+        {
+          "id": "feedback-title",
+          "component": {
+            "Text": {
+              "content": "7. Feedback (Progress, Spinner)",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "feedback-body",
+          "component": {
+            "CardBody": {
+              "children": ["feedback-col"]
+            }
+          }
+        },
+        {
+          "id": "feedback-col",
+          "component": {
+            "Column": {
+              "spacing": "m",
+              "children": ["progress-bar", "spinner-row"]
+            }
+          }
+        },
+        {
+          "id": "progress-bar",
+          "component": {
+            "Progress": {
+              "value": { "path": "progress" },
+              "maxValue": 100,
+              "label": "Upload progress"
+            }
+          }
+        },
+        {
+          "id": "spinner-row",
+          "component": {
+            "Row": {
+              "spacing": "l",
+              "children": ["spinner-circle", "spinner-line", "spinner-dots"]
+            }
+          }
+        },
+        { "id": "spinner-circle", "component": { "Spinner": { "variant": "circle", "size": "md", "label": "Loading" } } },
+        { "id": "spinner-line", "component": { "Spinner": { "variant": "line", "size": "md", "label": "Loading" } } },
+        { "id": "spinner-dots", "component": { "Spinner": { "variant": "dots", "size": "md", "label": "Loading" } } }
+      ]
+    },
+    {
+      "type": "dataModelUpdate",
+      "surfaceId": "audit",
+      "path": "name",
+      "value": "Jane Doe"
+    },
+    {
+      "type": "dataModelUpdate",
+      "surfaceId": "audit",
+      "path": "email",
+      "value": "jane@example.com"
+    },
+    {
+      "type": "dataModelUpdate",
+      "surfaceId": "audit",
+      "path": "terms",
+      "value": true
+    },
+    {
+      "type": "dataModelUpdate",
+      "surfaceId": "audit",
+      "path": "newsletter",
+      "value": false
+    },
+    {
+      "type": "dataModelUpdate",
+      "surfaceId": "audit",
+      "path": "progress",
+      "value": 72
+    }
+  ]
+}

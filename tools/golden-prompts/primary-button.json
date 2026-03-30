@@ -1,0 +1,7 @@
+{
+  "slug": "primary-button",
+  "difficulty": "simple",
+  "prompt": "Create a primary button that says \"Save\".",
+  "reference": "import { Button } from '@tale-ui/react/button';\n\nexport function PrimaryButton() {\n  return <Button variant=\"primary\">Save</Button>;\n}\n",
+  "tags": ["Button"]
+}

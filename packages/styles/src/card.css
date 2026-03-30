@@ -1,0 +1,83 @@
+/*
+ * Card — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component (not React Aria). Presentational only.
+ *
+ * Variants:   .tale-card--outlined  (default — border)
+ *             .tale-card--elevated  (shadow)
+ *             .tale-card--filled    (background fill)
+ *
+ * Padding:    .tale-card--sm / --md (default) / --lg
+ */
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+
+.tale-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-l);
+  font-family: var(--text-font-family);
+  overflow: hidden;
+}
+
+/* ─── Padding ───────────────────────────────────────────────────────────────── */
+
+.tale-card--sm {
+  padding: var(--space-s);
+}
+
+.tale-card--md {
+  padding: var(--space-l);
+}
+
+.tale-card--lg {
+  padding: var(--space-xl);
+}
+
+/* ─── Variants ──────────────────────────────────────────────────────────────── */
+
+.tale-card--outlined {
+  background-color: var(--neutral-5);
+  border: 1px solid var(--neutral-22);
+}
+
+.tale-card--elevated {
+  background-color: var(--neutral-5);
+  box-shadow: var(--shadow-m);
+}
+
+.tale-card--filled {
+  background-color: var(--neutral-10);
+}
+
+/* ─── Header ────────────────────────────────────────────────────────────────── */
+
+.tale-card__header {
+  font-size: var(--text-m-font-size);
+  font-weight: 600;
+  color: var(--neutral-90);
+  line-height: var(--text-line-height);
+}
+
+/* ─── Body ──────────────────────────────────────────────────────────────────── */
+
+.tale-card__body {
+  flex: 1;
+  color: var(--neutral-70);
+  font-size: var(--text-m-font-size);
+  line-height: var(--text-line-height);
+}
+
+.tale-card__header + .tale-card__body {
+  margin-top: var(--space-xs);
+}
+
+/* ─── Footer ────────────────────────────────────────────────────────────────── */
+
+.tale-card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-s);
+}

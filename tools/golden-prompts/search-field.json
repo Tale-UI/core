@@ -1,0 +1,7 @@
+{
+  "slug": "search-field",
+  "difficulty": "medium",
+  "prompt": "Create a search field with a visible label that says 'Search Products', a placeholder 'Type to search...', a default value of 'Keyboard', and a clear button with an X icon.",
+  "reference": "import { SearchField } from '@tale-ui/react/search-field';\nimport { Icon } from '@tale-ui/react/icon';\nimport { X } from 'lucide-react';\n\nexport function SearchFieldExample() {\n  return (\n    <SearchField.Root defaultValue=\"Keyboard\">\n      <SearchField.Label>Search Products</SearchField.Label>\n      <SearchField.Input placeholder=\"Type to search...\" />\n      <SearchField.ClearButton>\n        <Icon icon={X} size=\"sm\" />\n      </SearchField.ClearButton>\n    </SearchField.Root>\n  );\n}",
+  "tags": ["SearchField", "Icon"]
+}

@@ -19,6 +19,9 @@ build
 build-tests
 dist/
 
+# Generated scratch (validation temp files)
+tools/.generated-scratch/
+
 # Environment
 .env
 .env.local
@@ -55,6 +58,7 @@ test-results/
 /examples/*/dist/
 
 # Analysis (local research notes)
+/analysis/
 
 # Misc
 *.log

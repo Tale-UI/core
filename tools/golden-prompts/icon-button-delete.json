@@ -1,0 +1,7 @@
+{
+  "slug": "icon-button-delete",
+  "difficulty": "simple",
+  "prompt": "Create a danger-styled icon button with a trash icon and an aria-label of \"Delete item\".",
+  "reference": "import { IconButton } from '@tale-ui/react/icon-button';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Trash2 } from 'lucide-react';\n\nexport function IconButtonDelete() {\n  return (\n    <IconButton variant=\"danger\" aria-label=\"Delete item\">\n      <Icon icon={Trash2} />\n    </IconButton>\n  );\n}\n",
+  "tags": ["IconButton", "Icon"]
+}

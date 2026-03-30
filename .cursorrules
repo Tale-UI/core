@@ -1,0 +1,77 @@
+# Tale UI — Cursor Rules
+
+Use **only** components from `@tale-ui/react` for all UI. Never invent new imports or use other component libraries.
+
+## Before writing UI code
+
+1. Check `registry/components.json` for available components, props, parts, and examples.
+2. Read the `@example` JSDoc on each component's `.d.ts` export before using it:
+   `node_modules/@tale-ui/react/esm/{name}/{Name}.styled.d.ts`
+3. For deeper details (all props, variants, patterns), read `docs/components/{name}.md`.
+
+## Import patterns
+
+- **Namespace components** (compound, multi-part): `import { Dialog } from '@tale-ui/react/dialog'` then `<Dialog.Root>`, `<Dialog.Trigger>`, etc.
+- **Simple components** (single element): `import { Button } from '@tale-ui/react/button'` then `<Button>`.
+- Never import from nested paths like `@tale-ui/react/button/Button.styled`.
+
+## Namespace vs simple
+
+**Namespace** (use `.Root`): Accordion, AlertDialog, Autocomplete, Avatar, Banner, Breadcrumbs, Calendar, Card, Carousel, Checkbox, ColorArea, ColorField, ColorPicker, ColorSlider, ColorSwatchPicker, ColorWheel, Combobox, ContextMenu, DateField, DatePicker, DateRangePicker, Dialog, Disclosure, Drawer, EmptyState, Field, Fieldset, GridList, Input, List, Menu, Menubar, Meter, NavigationMenu, NumberField, Pagination, PaymentInput, PinInput, Popover, PreviewCard, ProgressBar, ProgressCircle, Radio, RangeCalendar, ScrollArea, SearchField, Select, Slider, Switch, Table, Tabs, TagGroup, TextArea, TextField, TimeField, Toolbar, Tooltip, Tree.
+
+**Simple** (direct use): AppStoreButton, Badge, Button, CSPProvider, CheckboxGroup, ColorModeToggle, ColorSwatch, Column, Container, DotIcon, DropZone, FeaturedIcon, FileTrigger, Form, I18nProvider, Icon, IconButton, Image, Link, RadioGroup, RatingBadge, RatingStars, Row, SelectNative, Separator, SocialButton, SocialButtonGroup, Spinner, Text, ToggleButton, ToggleButtonGroup, mergeProps.
+
+## Critical pitfalls
+
+- `Drawer.Root` uses `open`/`onOpenChange` (NOT `isOpen`) — it is a custom component, not built on React Aria Modal. Dialog and AlertDialog use `isOpen`.
+- `Drawer.Backdrop` must be a self-closing sibling of `Drawer.Popup` (`<Drawer.Backdrop />`), never a wrapper around it.
+- There is NO `Drawer.Actions` part (unlike `Dialog.Actions`). Wrap action buttons in a plain `<div>` with flex layout instead.
+- `Meter.Value` and `ProgressBar.Value` need children text (e.g. `<Meter.Value>60%</Meter.Value>`), not self-closing.
+- `NumberField.Increment` and `NumberField.Decrement` render their own lucide-react icons — use them self-closing.
+- `ToggleButtonGroup` requires `aria-label` or `aria-labelledby` for accessibility.
+- Dark mode: always set `data-color-mode` to `"dark"` or `"light"` — never remove the attribute to switch to light mode.
+- `Calendar.PreviousButton`, `Calendar.Heading`, and `Calendar.NextButton` must be wrapped in `Calendar.Header` — it provides the flex layout. Same rule applies to `RangeCalendar.Header`.
+- `Calendar.GridHeader` passes day name strings, not dates — use `Calendar.GridHeaderCell` inside it, not `Calendar.Cell`. Reserve `Calendar.Cell` for `Calendar.GridBody`.
+- `Calendar.Heading` must have no vertical margin or padding — do not add spacing to it or wrap it in an element that adds margins (e.g. `<h2>`).
+- Do NOT nest `ColorSlider` inside `ColorPicker.Root` — the context does not propagate and causes "Unknown color channel: hue" at runtime. Use `ColorArea` and `ColorSlider` as standalone components with shared `useState`.
+- `PaymentInput.CardIcon` auto-detects card type — use self-closing inside `PaymentInput.Group`. `PaymentInput.Input` auto-formats digits — do not manually format values.
+- `Avatar.Group` propagates size to children — do not set size on individual `Avatar.Root` inside a Group unless overriding.
+- `Avatar.Indicator` must wrap outside `Avatar.Root` (not inside it) because `.tale-avatar` has `overflow: hidden`. Pass the badge element via the `badge` prop. `Avatar.LabelGroup` propagates size to child avatars like `Avatar.Group`.
+- `Checkbox.Indicator` does NOT render a checkmark on its own — you must provide a child `<Icon icon={Check} size="sm" />` from `@tale-ui/react/icon` and `lucide-react`.
+- Never use `.Visual` exports (`Checkbox.Visual`, `Radio.Visual`, `Switch.Visual`, `ToggleButtonVisual`) for interactive UI. They are `aria-hidden` building blocks for custom component composition only — not for application screens.
+- `Dialog.Close` and `Popover.Close` auto-render an X icon — use them self-closing (`<Dialog.Close aria-label="Close" />`). Pass children only to override the default icon.
+- `Dialog.Backdrop` must wrap `Dialog.Popup` (opposite of Drawer).
+- `Select.Root` owns the `placeholder` prop — do NOT put `placeholder` on `Select.Value`.
+- `Combobox.Trigger` auto-renders a chevron icon — use it self-closing inside `Combobox.InputGroup`.
+- `SearchField.ClearButton` does NOT auto-render an icon — pass `<Icon icon={X} size="sm" />` as children (import from `@tale-ui/react/icon` and `lucide-react`).
+- Trigger button styling — Triggers render their own `<button>`, so never nest `<Button>` inside them. But they differ in how BEM classes are applied:
+- Icon and IconButton:
+- `Icon` takes a component ref, not an instance: `<Icon icon={Heart} />` (correct) vs `<Icon icon={<Heart />} />` (wrong). Import icons from `lucide-react`.
+- `IconButton` requires `aria-label` for accessibility: `<IconButton aria-label="Delete"><Icon icon={Trash2} /></IconButton>`.
+- Token size suffixes: Tale UI uses `-s`, `-m`, `-l` (NOT Bootstrap-style `-sm`, `-md`, `-lg`). Full scale: `4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl`. Example: `--space-m` not `--space-md`.
+- Layout utilities: Tale UI provides layout utility classes (`.flex--row`, `.flex--col`, `.gap--m`, `.grid--3`, `.center--hv`, etc.) — use these instead of writing manual `display: flex` / `gap` declarations.
+- AlertDialog vs Dialog: `AlertDialog` uses `role="alertdialog"` and is for actions requiring explicit acknowledgement (deletions, confirmations). Do NOT add `<AlertDialog.Close />` (corner X icon) — it allows dismissal without choosing an action. Force the user to pick Cancel or Confirm. For general-purpose modals that can be freely dismissed, use `Dialog` instead.
+- I18nProvider: For locale/RTL support, wrap your app in `<I18nProvider locale="...">` from `@tale-ui/react/i18n-provider`. This affects date/time formatting, number formatting, and text direction for all Tale UI components.
+- CSPProvider: If your app uses a Content Security Policy, wrap your app in `<CSPProvider nonce={myNonce}>` from `@tale-ui/react/csp-provider` to apply the nonce to Tale UI's inline styles.
+- Do not apply global styles to semantic HTML elements. Tale UI components internally render `<section>`, `<header>`, and other semantic elements (via React Aria). Global rules like `section { padding: 1rem }` will leak into Dialog, Menu, Popover, and other overlay components and break their layout. Style with class selectors (`.my-section { ... }`) instead of element selectors. Tale UI includes a defensive CSS shield that resets `margin`, `padding`, and `border` on semantic elements directly inside `.tale-*` containers, but nested elements are not covered.
+
+## CSS tokens
+
+- Colors: `--color-*` and `--neutral-*` (NEVER `--brand-*` in component CSS)
+- Spacing: `--space-4xs` through `--space-4xl`
+- Typography: `--label-s-font-size`, `--text-s-font-size`, etc.
+- Neutral shades (irregular): 5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 40, 50, 60, 70, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100
+- Color shades (regular): 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+- `--neutral-15`, `--neutral-25`, `--neutral-35` DO NOT EXIST.
+
+## Dark mode
+
+Automatic via `data-color-mode="dark"` on `<html>`. Components using `--color-*` and `--neutral-*` get dark mode for free.
+
+## Layout components
+
+Use `Row` (horizontal flex) and `Column` (vertical flex) for layout. Both accept `gap`, `align`, `justify` props mapped to `--space-*` tokens.
+
+## After generating code
+
+Verify: all imports exist in `@tale-ui/react`, all props are valid, namespace components use `.Root`, simple components don't.

@@ -1,0 +1,7 @@
+{
+  "slug": "status-badge",
+  "difficulty": "simple",
+  "prompt": "Create a success badge that displays the text \"Active\".",
+  "reference": "import { Badge } from '@tale-ui/react/badge';\n\nexport function StatusBadge() {\n  return <Badge variant=\"success\">Active</Badge>;\n}\n",
+  "tags": ["Badge"]
+}

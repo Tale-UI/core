@@ -5,6 +5,7 @@ import FormWithValidation from './demos/recipes/FormWithValidation';
 import DataTableWithSorting from './demos/recipes/DataTableWithSorting';
 import SearchWithAutocomplete from './demos/recipes/SearchWithAutocomplete';
 import SettingsPage from './demos/recipes/SettingsPage';
+import A2UIDemo from './demos/A2UIDemo';
 import ContainedTriggers from './experiments/perf/contained-triggers';
 import DetachedTriggers from './experiments/perf/detached-triggers';
 import RadixTriggers from './experiments/perf/radix-triggers';
@@ -73,6 +74,14 @@ export const routes: RouteEntry[] = [
     path: '/recipes/settings-page',
     label: 'Settings page',
     element: <SettingsPage />,
+    showInNav: true,
+  },
+  { type: 'header', label: 'A2UI' },
+  {
+    type: 'route',
+    path: '/a2ui',
+    label: 'A2UI renderer demo',
+    element: <A2UIDemo />,
     showInNav: true,
   },
   { type: 'header', label: 'Performance benchmarks' },

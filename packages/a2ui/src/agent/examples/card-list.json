@@ -1,0 +1,177 @@
+{
+  "description": "Card list with images showing product items",
+  "messages": [
+    {
+      "type": "beginRendering",
+      "surfaceId": "products",
+      "rootComponentId": "root"
+    },
+    {
+      "type": "surfaceUpdate",
+      "surfaceId": "products",
+      "components": [
+        {
+          "id": "root",
+          "component": {
+            "Column": {
+              "spacing": "l",
+              "children": ["title", "grid"]
+            }
+          }
+        },
+        {
+          "id": "title",
+          "component": {
+            "Text": {
+              "content": "Featured Products",
+              "usageHint": "heading-l"
+            }
+          }
+        },
+        {
+          "id": "grid",
+          "component": {
+            "Row": {
+              "spacing": "m",
+              "wrap": true,
+              "alignment": "stretch",
+              "children": ["card-1", "card-2", "card-3"]
+            }
+          }
+        },
+        {
+          "id": "card-1",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["card-1-img", "card-1-body"]
+            }
+          },
+          "weight": 1
+        },
+        {
+          "id": "card-1-img",
+          "component": {
+            "Image": {
+              "src": "https://picsum.photos/400/200",
+              "alt": "Product image",
+              "radius": "md",
+              "fit": "cover"
+            }
+          }
+        },
+        {
+          "id": "card-1-body",
+          "component": {
+            "CardBody": {
+              "children": ["card-1-title", "card-1-desc", "card-1-price"]
+            }
+          }
+        },
+        {
+          "id": "card-1-title",
+          "component": {
+            "Text": {
+              "content": "Wireless Headphones",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "card-1-desc",
+          "component": {
+            "Text": {
+              "content": "Premium noise-cancelling headphones with 30-hour battery life.",
+              "usageHint": "body-s",
+              "color": "muted"
+            }
+          }
+        },
+        {
+          "id": "card-1-price",
+          "component": {
+            "Badge": {
+              "label": "$299",
+              "tone": "brand",
+              "size": "md"
+            }
+          }
+        },
+        {
+          "id": "card-2",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["card-2-body"]
+            }
+          },
+          "weight": 1
+        },
+        {
+          "id": "card-2-body",
+          "component": {
+            "CardBody": {
+              "children": ["card-2-title", "card-2-desc"]
+            }
+          }
+        },
+        {
+          "id": "card-2-title",
+          "component": {
+            "Text": {
+              "content": "Smart Watch",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "card-2-desc",
+          "component": {
+            "Text": {
+              "content": "Fitness tracking with heart rate monitor.",
+              "usageHint": "body-s",
+              "color": "muted"
+            }
+          }
+        },
+        {
+          "id": "card-3",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": ["card-3-body"]
+            }
+          },
+          "weight": 1
+        },
+        {
+          "id": "card-3-body",
+          "component": {
+            "CardBody": {
+              "children": ["card-3-title", "card-3-desc"]
+            }
+          }
+        },
+        {
+          "id": "card-3-title",
+          "component": {
+            "Text": {
+              "content": "USB-C Hub",
+              "usageHint": "title"
+            }
+          }
+        },
+        {
+          "id": "card-3-desc",
+          "component": {
+            "Text": {
+              "content": "7-in-1 hub with HDMI, USB-A, and SD card reader.",
+              "usageHint": "body-s",
+              "color": "muted"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
