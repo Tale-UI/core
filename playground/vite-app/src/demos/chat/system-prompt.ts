@@ -5,7 +5,6 @@
  * Shared by all LLM provider clients.
  */
 
-// @ts-expect-error Vite raw import
 import systemPromptMd from '@tale-ui/a2ui/src/agent/system-prompt.md?raw';
 
 const RESPONSE_INSTRUCTIONS = `

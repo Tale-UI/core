@@ -238,7 +238,7 @@ export const taleUICatalog: Catalog = {
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.required as boolean | undefined,
         onChange: props.binding
-          ? (v: string) => {
+          ? (_v: string) => {
               const handler = pressHandler(props.action, ctx);
               if (handler) handler();
             }

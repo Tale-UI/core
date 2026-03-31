@@ -27,10 +27,8 @@
 import * as React from 'react';
 import type {
   A2UIMessage,
-  A2UIAction,
   Catalog,
   SurfaceState,
-  DataBinding,
 } from '../types.ts';
 import { createDataModelStore, type DataModelStore } from './useDataModel.ts';
 import type { OnAction } from './useActionDispatcher.ts';
@@ -132,7 +130,7 @@ export function A2UIProvider({ catalog, onAction, children }: A2UIProviderProps)
             store.set(msg.path, msg.value);
           }
           // LLM bulk format: { data: { key1: val1, key2: val2 } }
-          const raw = msg as Record<string, unknown>;
+          const raw = msg as unknown as Record<string, unknown>;
           if (raw.data && typeof raw.data === 'object') {
             for (const [key, val] of Object.entries(raw.data as Record<string, unknown>)) {
               store.set(key, val);

@@ -14,11 +14,18 @@
       "@tale-ui/react/*": ["../../packages/react/src/*"],
       "@tale-ui/utils": ["../../packages/utils/src/index.ts"],
       "@tale-ui/utils/*": ["../../packages/utils/src/*"],
+      "@tale-ui/a2ui": ["../../packages/a2ui/src/index.ts"],
+      "@tale-ui/a2ui/types": ["../../packages/a2ui/src/types.ts"],
+      "@tale-ui/a2ui/catalog": ["../../packages/a2ui/src/catalog.ts"],
+      "@tale-ui/a2ui/renderer": ["../../packages/a2ui/src/renderer/index.ts"],
+      "@tale-ui/a2ui/validation": ["../../packages/a2ui/src/validation/validate.ts"],
+      "@tale-ui/a2ui/src/*": ["../../packages/a2ui/src/*"],
       "docs/*": ["../../docs/*"]
     },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
     "moduleDetection": "force",
     "noEmit": true,
@@ -35,5 +42,5 @@
     { "path": "../../packages/utils/tsconfig.build.json" },
     { "path": "../../packages/react/tsconfig.build.json" }
   ],
-  "include": ["src"]
+  "include": ["src", "../../packages/a2ui/src"]
 }

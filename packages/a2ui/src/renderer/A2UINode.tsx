@@ -7,10 +7,9 @@
  */
 
 import * as React from 'react';
-import type { TreeNode, A2UIAction, Catalog, DataBinding } from '../types.ts';
+import type { TreeNode, Catalog, DataBinding } from '../types.ts';
 import { isDataBinding } from '../types.ts';
 import type { DataModelStore } from './useDataModel.ts';
-import { useDataModelValue } from './useDataModel.ts';
 import { useActionDispatcher, type OnAction } from './useActionDispatcher.ts';
 
 /* ─── Props ───────────────────────────────────────────────────────────────── */

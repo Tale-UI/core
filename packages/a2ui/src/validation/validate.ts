@@ -5,7 +5,7 @@
  * Returns structured errors that can be fed back to agents for self-correction.
  */
 
-import type { A2UIMessage, A2UIComponent, Catalog } from '../types.ts';
+import type { A2UIComponent, Catalog } from '../types.ts';
 
 /* ─── Error Types ─────────────────────────────────────────────────────────── */
 

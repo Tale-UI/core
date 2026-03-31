@@ -87,7 +87,7 @@ function buildNode(
  */
 function getTypeAndProps(comp: A2UIComponent): [string | null, Record<string, unknown>] {
   // Format 2: LLM shorthand with top-level type/props/children
-  const raw = comp as Record<string, unknown>;
+  const raw = comp as unknown as Record<string, unknown>;
   if (typeof raw.type === 'string' && raw.type !== 'beginRendering' && raw.type !== 'surfaceUpdate' && raw.type !== 'dataModelUpdate' && raw.type !== 'deleteSurface') {
     const props = (raw.props ?? {}) as Record<string, unknown>;
     // Merge children into props if present at top level
