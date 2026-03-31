@@ -1,0 +1,7 @@
+{
+  "slug": "select-without-root",
+  "expectValid": false,
+  "expectedError": "wrong-kind",
+  "description": "Using Select (compound) as bare JSX — a very common LLM mistake",
+  "reference": "import { Select } from '@tale-ui/react/select';\n\nexport function CountrySelect() {\n  return (\n    <Select label=\"Country\">\n      <Select.Item id=\"us\">United States</Select.Item>\n      <Select.Item id=\"uk\">United Kingdom</Select.Item>\n    </Select>\n  );\n}\n"
+}

@@ -6,12 +6,15 @@
  * for AI agents (Claude Code, Cursor, Windsurf, etc.).
  *
  * Tools:
- *   list_components  — list all components with name, import, category, description
- *   get_component    — get full details for a component (props, parts, examples, CSS classes)
+ *   list_components   — list all components with name, import, category, description
+ *   get_component     — get full details for a component (props, parts, examples, CSS classes)
  *   search_components — fuzzy search components by intent/query
- *   get_recipe       — get a recipe's markdown content by name
- *   list_recipes     — list all available recipes
- *   search_docs      — keyword search across all documentation files
+ *   get_recipe        — get a recipe's markdown content by name
+ *   list_recipes      — list all available recipes
+ *   search_docs       — keyword search across all documentation files
+ *   list_a2ui_types   — list all A2UI catalog types with name, category, props
+ *   get_a2ui_type     — get full details for an A2UI type (props, component, hints)
+ *   get_a2ui_example  — get a few-shot A2UI message example by name
  *
  * Run:  node tools/mcp-server.mjs
  * Config (Claude Code .claude/settings.json):
@@ -28,6 +31,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const REGISTRY_PATH = join(ROOT, 'registry/components.json');
+const A2UI_CATALOG_PATH = join(ROOT, 'registry/a2ui-catalog.json');
 const RECIPES_DIR = join(ROOT, 'docs/recipes');
 const DOCS_DIR = join(ROOT, 'docs');
 
@@ -35,6 +39,10 @@ const DOCS_DIR = join(ROOT, 'docs');
 
 function loadRegistry() {
   return JSON.parse(readFileSync(REGISTRY_PATH, 'utf8'));
+}
+
+function loadA2UICatalog() {
+  return JSON.parse(readFileSync(A2UI_CATALOG_PATH, 'utf8'));
 }
 
 function loadRecipeIndex() {
@@ -301,6 +309,95 @@ server.tool(
 
     return {
       content: [{ type: 'text', text: JSON.stringify(summary, null, 2) }],
+    };
+  },
+);
+
+// ─── A2UI Tools ─────────────────────────────────────────────────────────────
+
+// Tool: list_a2ui_types
+server.tool(
+  'list_a2ui_types',
+  'List all A2UI catalog types available for agent UI generation. Each type maps to a Tale UI component. Use this to discover what components agents can render via A2UI messages.',
+  {},
+  async () => {
+    const catalog = loadA2UICatalog();
+    const summary = catalog.types.map(t => ({
+      name: t.name,
+      category: t.category,
+      component: t.component,
+      props: t.props,
+      isSubPart: t.isSubPart,
+      description: t.description,
+    }));
+    return {
+      content: [{ type: 'text', text: JSON.stringify(summary, null, 2) }],
+    };
+  },
+);
+
+// Tool: get_a2ui_type
+server.tool(
+  'get_a2ui_type',
+  'Get full details for a specific A2UI catalog type including props, the Tale UI component it maps to, and related information (usageHints for Text, icon names for Icon).',
+  { name: z.string().describe('A2UI type name (e.g. "Button", "TextInput", "Card")') },
+  async ({ name }) => {
+    const catalog = loadA2UICatalog();
+    const type = catalog.types.find(t => t.name.toLowerCase() === name.toLowerCase());
+
+    if (!type) {
+      const available = catalog.types.filter(t => !t.isSubPart).map(t => t.name).join(', ');
+      return {
+        content: [{ type: 'text', text: `A2UI type "${name}" not found. Available types: ${available}` }],
+        isError: true,
+      };
+    }
+
+    const result = { ...type };
+
+    // Enrich with related data
+    if (type.name === 'Text') {
+      result.usageHints = catalog.usageHints;
+    }
+    if (type.name === 'Icon') {
+      result.availableIcons = catalog.iconNames;
+    }
+
+    // Find sub-parts that belong to this type
+    const prefix = type.name;
+    const subParts = catalog.types.filter(t =>
+      t.isSubPart && t.name.startsWith(prefix) && t.name !== prefix
+    );
+    if (subParts.length > 0) {
+      result.subParts = subParts.map(s => ({ name: s.name, description: s.description, props: s.props }));
+    }
+
+    return {
+      content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
+    };
+  },
+);
+
+// Tool: get_a2ui_example
+server.tool(
+  'get_a2ui_example',
+  'Get a complete A2UI message example by name. Examples show full beginRendering + surfaceUpdate + dataModelUpdate sequences that render working Tale UI interfaces.',
+  { name: z.string().describe('Example name (e.g. "simple-form", "dashboard", "settings-page", "component-audit")') },
+  async ({ name }) => {
+    const catalog = loadA2UICatalog();
+    const slug = name.toLowerCase().replace(/\s+/g, '-');
+    const example = catalog.examples[slug];
+
+    if (!example) {
+      const available = Object.keys(catalog.examples).join(', ');
+      return {
+        content: [{ type: 'text', text: `Example "${name}" not found. Available: ${available}` }],
+        isError: true,
+      };
+    }
+
+    return {
+      content: [{ type: 'text', text: JSON.stringify(example, null, 2) }],
     };
   },
 );

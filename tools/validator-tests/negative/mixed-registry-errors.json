@@ -1,0 +1,7 @@
+{
+  "slug": "mixed-registry-errors",
+  "expectValid": false,
+  "expectedError": "invalid-import",
+  "description": "Multiple errors: invalid import path plus valid imports mixed together",
+  "reference": "import { Modal } from '@tale-ui/react/modal';\nimport { Toast } from '@tale-ui/react/toast';\nimport { Button } from '@tale-ui/react/button';\nimport { Badge } from '@tale-ui/react/badge';\n\nexport function NotificationPanel() {\n  return (\n    <div>\n      <Badge variant=\"success\">Active</Badge>\n      <Button variant=\"primary\" onPress={() => {}}>Show Toast</Button>\n      <Modal>\n        <Modal.Header>Notifications</Modal.Header>\n      </Modal>\n    </div>\n  );\n}\n"
+}

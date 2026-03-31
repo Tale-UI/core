@@ -1,0 +1,3202 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-03-31",
+  "types": [
+    {
+      "name": "Text",
+      "category": "Typography",
+      "component": "Text",
+      "props": [
+        {
+          "name": "usageHint",
+          "allowedValues": "`display-l`, `display-m`, `display-s`, `heading-l`, `heading-m`, `heading-s`, `heading`, `title`, `label`, `body`, `body-s`, `caption`, `mono`"
+        },
+        {
+          "name": "color",
+          "allowedValues": "`default`, `muted`, `accent`"
+        },
+        {
+          "name": "content",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Typography wrapper with variant, size, and colour props"
+    },
+    {
+      "name": "Row",
+      "category": "Layout",
+      "component": "Row",
+      "props": [
+        {
+          "name": "spacing",
+          "allowedValues": "`4xs`, `3xs`, `2xs`, `xs`, `s`, `m`, `l`, `xl`, `2xl`"
+        },
+        {
+          "name": "alignment",
+          "allowedValues": "`start`, `center`, `end`, `stretch`, `baseline`"
+        },
+        {
+          "name": "justify",
+          "allowedValues": "`start`, `center`, `end`, `between`"
+        },
+        {
+          "name": "wrap",
+          "allowedValues": "boolean"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Horizontal flex-row layout with gap, align, and justify"
+    },
+    {
+      "name": "Column",
+      "category": "Layout",
+      "component": "Column",
+      "props": [
+        {
+          "name": "spacing",
+          "allowedValues": "`4xs`, `3xs`, `2xs`, `xs`, `s`, `m`, `l`, `xl`, `2xl`"
+        },
+        {
+          "name": "alignment",
+          "allowedValues": "`start`, `center`, `end`, `stretch`, `baseline`"
+        },
+        {
+          "name": "justify",
+          "allowedValues": "`start`, `center`, `end`, `between`"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Vertical flex-column layout with gap, align, and justify"
+    },
+    {
+      "name": "Card",
+      "category": "Layout",
+      "component": "Card.Root",
+      "props": [
+        {
+          "name": "variant",
+          "allowedValues": "`outlined`, `elevated`, `filled`"
+        },
+        {
+          "name": "padding",
+          "allowedValues": "`sm`, `md`, `lg`"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Surface container with header, body, and footer sections"
+    },
+    {
+      "name": "Image",
+      "category": "Display",
+      "component": "Image",
+      "props": [
+        {
+          "name": "src",
+          "allowedValues": "URL string or `{ \"path\": \"...\" }` binding"
+        },
+        {
+          "name": "alt",
+          "allowedValues": "string (required)"
+        },
+        {
+          "name": "radius",
+          "allowedValues": "`none`, `sm`, `md`, `lg`, `full`"
+        },
+        {
+          "name": "fit",
+          "allowedValues": "`cover`, `contain`, `fill`, `none`"
+        },
+        {
+          "name": "width",
+          "allowedValues": "number or string"
+        },
+        {
+          "name": "height",
+          "allowedValues": "number or string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Styled image wrapper with radius and fit props"
+    },
+    {
+      "name": "List",
+      "category": "Display",
+      "component": "List.Root",
+      "props": [
+        {
+          "name": "variant",
+          "allowedValues": "`plain`, `divided`"
+        },
+        {
+          "name": "density",
+          "allowedValues": "`compact`, `default`, `spacious`"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Simple non-interactive list with optional dividers"
+    },
+    {
+      "name": "ListItem",
+      "category": "Display",
+      "component": "List.Item",
+      "props": [
+        {
+          "name": "content",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Individual item within a List"
+    },
+    {
+      "name": "Badge",
+      "category": "Display",
+      "component": "Badge",
+      "props": [
+        {
+          "name": "tone",
+          "allowedValues": "`neutral`, `brand`, `error`, `warning`, `success`, `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose`"
+        },
+        {
+          "name": "size",
+          "allowedValues": "`sm`, `md`, `lg`"
+        },
+        {
+          "name": "type",
+          "allowedValues": "`pill`, `rounded`, `modern`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Small status label with colour variants"
+    },
+    {
+      "name": "Icon",
+      "category": "Display",
+      "component": "Icon",
+      "props": [
+        {
+          "name": "name",
+          "allowedValues": "lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`)"
+        },
+        {
+          "name": "size",
+          "allowedValues": "`sm`, `md`, `lg`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Lucide icon wrapper resolved by name string"
+    },
+    {
+      "name": "Separator",
+      "category": "Display",
+      "component": "Separator",
+      "props": [
+        {
+          "name": "orientation",
+          "allowedValues": "`horizontal`, `vertical`"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Visual divider between content sections"
+    },
+    {
+      "name": "Link",
+      "category": "Display",
+      "component": "Link",
+      "props": [
+        {
+          "name": "href",
+          "allowedValues": "URL string"
+        },
+        {
+          "name": "target",
+          "allowedValues": "`_blank`, `_self`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Navigation link"
+    },
+    {
+      "name": "Button",
+      "category": "Interactive",
+      "component": "Button",
+      "props": [
+        {
+          "name": "variant",
+          "allowedValues": "`primary`, `neutral`, `ghost`, `danger`"
+        },
+        {
+          "name": "size",
+          "allowedValues": "`sm`, `md`, `lg`"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "action",
+          "allowedValues": "`{ \"name\": \"...\", \"context\": { ... } }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Action button with variant, size, and loading state"
+    },
+    {
+      "name": "TextInput",
+      "category": "Form Controls",
+      "component": "TextField.Root",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultValue",
+          "allowedValues": "string or number"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "readOnly",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "required",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "action",
+          "allowedValues": "`{ \"name\": \"...\", \"context\": { ... } }`"
+        },
+        {
+          "name": "description",
+          "allowedValues": "string (helper text)"
+        },
+        {
+          "name": "errorMessage",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Single-line text field with label, description, and validation"
+    },
+    {
+      "name": "Checkbox",
+      "category": "Form Controls",
+      "component": "Checkbox.Root",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultSelected",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Checkbox input with indicator and label"
+    },
+    {
+      "name": "Radio",
+      "category": "Form Controls",
+      "component": "RadioGroup",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultValue",
+          "allowedValues": "string or number"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "action",
+          "allowedValues": "`{ \"name\": \"...\", \"context\": { ... } }`"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Radio group container for RadioOption children"
+    },
+    {
+      "name": "Select",
+      "category": "Form Controls",
+      "component": "Select.Root",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultValue",
+          "allowedValues": "string or number"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "placeholder",
+          "allowedValues": "string"
+        },
+        {
+          "name": "action",
+          "allowedValues": "`{ \"name\": \"...\", \"context\": { ... } }`"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Dropdown select with trigger, popover, and list box"
+    },
+    {
+      "name": "Switch",
+      "category": "Form Controls",
+      "component": "Switch.Root",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultSelected",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Toggle switch with thumb and label"
+    },
+    {
+      "name": "RadioOption",
+      "category": "Form Controls",
+      "component": "Radio.Root",
+      "props": [
+        {
+          "name": "value",
+          "allowedValues": "number or `{ \"path\": \"...\" }` binding"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Individual radio option with indicator and label"
+    },
+    {
+      "name": "SelectItem",
+      "category": "Form Controls",
+      "component": "Select.Item",
+      "props": [
+        {
+          "name": "value",
+          "allowedValues": "number or `{ \"path\": \"...\" }` binding"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Individual option within a Select"
+    },
+    {
+      "name": "Table",
+      "category": "Data Display",
+      "component": "Table.Root",
+      "props": [
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "selectionMode",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Data table with sorting and selection"
+    },
+    {
+      "name": "Tabs",
+      "category": "Data Display",
+      "component": "Tabs.Root",
+      "props": [
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultTab",
+          "allowedValues": "string (tab ID)"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Tabbed interface with panels"
+    },
+    {
+      "name": "Progress",
+      "category": "Data Display",
+      "component": "ProgressBar.Root",
+      "props": [
+        {
+          "name": "value",
+          "allowedValues": "number or `{ \"path\": \"...\" }` binding"
+        },
+        {
+          "name": "maxValue",
+          "allowedValues": "number"
+        },
+        {
+          "name": "indeterminate",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Linear progress bar (determinate or indeterminate)"
+    },
+    {
+      "name": "Spinner",
+      "category": "Data Display",
+      "component": "Spinner",
+      "props": [
+        {
+          "name": "variant",
+          "allowedValues": "`circle`, `line`, `dots`"
+        },
+        {
+          "name": "size",
+          "allowedValues": "`sm`, `md`, `lg`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Loading indicator (circle, line, or dots)"
+    },
+    {
+      "name": "Form",
+      "category": "Form Structure",
+      "component": "Form",
+      "props": [
+        {
+          "name": "action",
+          "allowedValues": "`{ \"name\": \"...\", \"context\": { ... } }`"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Form container with submit action handling"
+    },
+    {
+      "name": "CardHeader",
+      "category": "Card Sub-Parts",
+      "component": "Card.Header",
+      "props": [],
+      "isSubPart": true,
+      "description": "Header section within a Card"
+    },
+    {
+      "name": "CardBody",
+      "category": "Card Sub-Parts",
+      "component": "Card.Body",
+      "props": [],
+      "isSubPart": true,
+      "description": "Body section within a Card"
+    },
+    {
+      "name": "CardFooter",
+      "category": "Card Sub-Parts",
+      "component": "Card.Footer",
+      "props": [],
+      "isSubPart": true,
+      "description": "Footer section within a Card"
+    },
+    {
+      "name": "Avatar",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Avatar.Root",
+      "props": [
+        {
+          "name": "size",
+          "allowedValues": "`sm`, `md`, `lg`"
+        },
+        {
+          "name": "initials",
+          "allowedValues": "string (e.g. \"JD\")"
+        }
+      ],
+      "isSubPart": false,
+      "description": "User profile image with fallback initials"
+    },
+    {
+      "name": "AvatarImage",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Avatar.Image",
+      "props": [
+        {
+          "name": "src",
+          "allowedValues": "URL string or `{ \"path\": \"...\" }` binding"
+        },
+        {
+          "name": "alt",
+          "allowedValues": "string (required)"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Image within an Avatar"
+    },
+    {
+      "name": "AvatarFallback",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Avatar.Fallback",
+      "props": [
+        {
+          "name": "initials",
+          "allowedValues": "string (e.g. \"JD\")"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Fallback text/initials within an Avatar"
+    },
+    {
+      "name": "Banner",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Banner.Root",
+      "props": [
+        {
+          "name": "variant",
+          "allowedValues": "`info`, `success`, `warning`, `error`"
+        },
+        {
+          "name": "size",
+          "allowedValues": "`sm`, `md`"
+        },
+        {
+          "name": "icon",
+          "allowedValues": "boolean (show/hide icon)"
+        },
+        {
+          "name": "title",
+          "allowedValues": "string"
+        },
+        {
+          "name": "description",
+          "allowedValues": "string (helper text)"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Inline notification with icon, title, and description"
+    },
+    {
+      "name": "Disclosure",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Disclosure.Root",
+      "props": [
+        {
+          "name": "defaultExpanded",
+          "allowedValues": "boolean"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Single collapsible section"
+    },
+    {
+      "name": "DisclosureTrigger",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Disclosure.Trigger",
+      "props": [
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Clickable trigger to expand/collapse a Disclosure"
+    },
+    {
+      "name": "DisclosurePanel",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Disclosure.Panel",
+      "props": [],
+      "isSubPart": true,
+      "description": "Collapsible content panel within a Disclosure"
+    },
+    {
+      "name": "TextAreaInput",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "TextArea.Root",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultValue",
+          "allowedValues": "string or number"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "required",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "description",
+          "allowedValues": "string (helper text)"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Multi-line text field with label and description"
+    },
+    {
+      "name": "NumberInput",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "NumberField.Root",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultValue",
+          "allowedValues": "string or number"
+        },
+        {
+          "name": "minValue",
+          "allowedValues": "number"
+        },
+        {
+          "name": "maxValue",
+          "allowedValues": "number"
+        },
+        {
+          "name": "step",
+          "allowedValues": "number"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "required",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "description",
+          "allowedValues": "string (helper text)"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Numeric input with increment/decrement buttons"
+    },
+    {
+      "name": "SliderInput",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Slider.Root",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultValue",
+          "allowedValues": "string or number"
+        },
+        {
+          "name": "minValue",
+          "allowedValues": "number"
+        },
+        {
+          "name": "maxValue",
+          "allowedValues": "number"
+        },
+        {
+          "name": "step",
+          "allowedValues": "number"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Range slider with label and output display"
+    },
+    {
+      "name": "SearchInput",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "SearchField.Root",
+      "props": [
+        {
+          "name": "binding",
+          "allowedValues": "`{ \"path\": \"fieldName\" }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        },
+        {
+          "name": "defaultValue",
+          "allowedValues": "string or number"
+        },
+        {
+          "name": "disabled",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "action",
+          "allowedValues": "`{ \"name\": \"...\", \"context\": { ... } }`"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Search field with clear button"
+    },
+    {
+      "name": "Accordion",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Accordion.Root",
+      "props": [
+        {
+          "name": "allowsMultipleExpanded",
+          "allowedValues": "boolean"
+        },
+        {
+          "name": "defaultExpandedKeys",
+          "allowedValues": "array of string IDs"
+        }
+      ],
+      "isSubPart": false,
+      "description": "Group of collapsible disclosure sections"
+    },
+    {
+      "name": "AccordionItem",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Accordion.Item",
+      "props": [
+        {
+          "name": "id",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Individual collapsible item within an Accordion"
+    },
+    {
+      "name": "AccordionHeader",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Accordion.Header",
+      "props": [],
+      "isSubPart": true,
+      "description": "Header wrapper within an AccordionItem"
+    },
+    {
+      "name": "AccordionTrigger",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Accordion.Trigger",
+      "props": [
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Clickable trigger within an AccordionHeader"
+    },
+    {
+      "name": "AccordionPanel",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Accordion.Panel",
+      "props": [],
+      "isSubPart": true,
+      "description": "Collapsible content panel within an AccordionItem"
+    },
+    {
+      "name": "Menu",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Menu.Root",
+      "props": [],
+      "isSubPart": false,
+      "description": "Dropdown menu with trigger"
+    },
+    {
+      "name": "MenuTrigger",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Menu.Trigger",
+      "props": [
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Button that opens a Menu"
+    },
+    {
+      "name": "MenuPopover",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Menu.Popover",
+      "props": [],
+      "isSubPart": true,
+      "description": "Popover containing the menu list"
+    },
+    {
+      "name": "MenuItem",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Menu.Item",
+      "props": [
+        {
+          "name": "id",
+          "allowedValues": "string"
+        },
+        {
+          "name": "action",
+          "allowedValues": "`{ \"name\": \"...\", \"context\": { ... } }`"
+        },
+        {
+          "name": "label",
+          "allowedValues": "string"
+        }
+      ],
+      "isSubPart": true,
+      "description": "Actionable item within a Menu"
+    },
+    {
+      "name": "MenuSeparator",
+      "category": "Extended Catalog (Tale UI extras)",
+      "component": "Menu.Separator",
+      "props": [],
+      "isSubPart": true,
+      "description": "Visual divider between menu items"
+    }
+  ],
+  "usageHints": [
+    {
+      "hint": "display-l",
+      "variant": "display",
+      "size": "l",
+      "element": "h1"
+    },
+    {
+      "hint": "display-m",
+      "variant": "display",
+      "size": "m",
+      "element": "h1"
+    },
+    {
+      "hint": "display-s",
+      "variant": "display",
+      "size": "s",
+      "element": "h2"
+    },
+    {
+      "hint": "heading-l",
+      "variant": "heading",
+      "size": "l",
+      "element": "h2"
+    },
+    {
+      "hint": "heading-m",
+      "variant": "heading",
+      "size": "m",
+      "element": "h3"
+    },
+    {
+      "hint": "heading-s",
+      "variant": "heading",
+      "size": "s",
+      "element": "h4"
+    },
+    {
+      "hint": "heading",
+      "variant": "heading",
+      "size": "m",
+      "element": "h3"
+    },
+    {
+      "hint": "title",
+      "variant": "title",
+      "size": "m",
+      "element": "h4"
+    },
+    {
+      "hint": "label",
+      "variant": "label",
+      "size": "m",
+      "element": "span"
+    },
+    {
+      "hint": "body",
+      "variant": "text",
+      "size": "m",
+      "element": "p"
+    },
+    {
+      "hint": "body-s",
+      "variant": "text",
+      "size": "s",
+      "element": "p"
+    },
+    {
+      "hint": "caption",
+      "variant": "text",
+      "size": "xs",
+      "element": "span"
+    },
+    {
+      "hint": "mono",
+      "variant": "mono",
+      "size": "m",
+      "element": "span"
+    }
+  ],
+  "iconNames": [
+    "alert-circle",
+    "alert-triangle",
+    "archive",
+    "arrow-down",
+    "arrow-left",
+    "arrow-right",
+    "arrow-up",
+    "bell",
+    "bookmark",
+    "calendar",
+    "check",
+    "check-circle",
+    "chevron-down",
+    "chevron-left",
+    "chevron-right",
+    "chevron-up",
+    "clock",
+    "copy",
+    "download",
+    "edit",
+    "external-link",
+    "eye",
+    "eye-off",
+    "file",
+    "filter",
+    "folder",
+    "globe",
+    "heart",
+    "help-circle",
+    "home",
+    "image",
+    "info",
+    "link",
+    "list",
+    "loader",
+    "lock",
+    "log-out",
+    "mail",
+    "map",
+    "menu",
+    "message-circle",
+    "minus",
+    "moon",
+    "more-horizontal",
+    "more-vertical",
+    "palette",
+    "pencil",
+    "phone",
+    "plus",
+    "refresh-cw",
+    "search",
+    "send",
+    "settings",
+    "share",
+    "shopping-cart",
+    "slash",
+    "star",
+    "sun",
+    "trash",
+    "upload",
+    "user",
+    "users",
+    "x",
+    "x-circle",
+    "zap"
+  ],
+  "examples": {
+    "card-list": {
+      "description": "Card list with images showing product items",
+      "messages": [
+        {
+          "type": "beginRendering",
+          "surfaceId": "products",
+          "rootComponentId": "root"
+        },
+        {
+          "type": "surfaceUpdate",
+          "surfaceId": "products",
+          "components": [
+            {
+              "id": "root",
+              "component": {
+                "Column": {
+                  "spacing": "l",
+                  "children": [
+                    "title",
+                    "grid"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "title",
+              "component": {
+                "Text": {
+                  "content": "Featured Products",
+                  "usageHint": "heading-l"
+                }
+              }
+            },
+            {
+              "id": "grid",
+              "component": {
+                "Row": {
+                  "spacing": "m",
+                  "wrap": true,
+                  "alignment": "stretch",
+                  "children": [
+                    "card-1",
+                    "card-2",
+                    "card-3"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "card-1",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "card-1-img",
+                    "card-1-body"
+                  ]
+                }
+              },
+              "weight": 1
+            },
+            {
+              "id": "card-1-img",
+              "component": {
+                "Image": {
+                  "src": "https://picsum.photos/400/200",
+                  "alt": "Product image",
+                  "radius": "md",
+                  "fit": "cover"
+                }
+              }
+            },
+            {
+              "id": "card-1-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "card-1-title",
+                    "card-1-desc",
+                    "card-1-price"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "card-1-title",
+              "component": {
+                "Text": {
+                  "content": "Wireless Headphones",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "card-1-desc",
+              "component": {
+                "Text": {
+                  "content": "Premium noise-cancelling headphones with 30-hour battery life.",
+                  "usageHint": "body-s",
+                  "color": "muted"
+                }
+              }
+            },
+            {
+              "id": "card-1-price",
+              "component": {
+                "Badge": {
+                  "label": "$299",
+                  "tone": "brand",
+                  "size": "md"
+                }
+              }
+            },
+            {
+              "id": "card-2",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "card-2-body"
+                  ]
+                }
+              },
+              "weight": 1
+            },
+            {
+              "id": "card-2-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "card-2-title",
+                    "card-2-desc"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "card-2-title",
+              "component": {
+                "Text": {
+                  "content": "Smart Watch",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "card-2-desc",
+              "component": {
+                "Text": {
+                  "content": "Fitness tracking with heart rate monitor.",
+                  "usageHint": "body-s",
+                  "color": "muted"
+                }
+              }
+            },
+            {
+              "id": "card-3",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "card-3-body"
+                  ]
+                }
+              },
+              "weight": 1
+            },
+            {
+              "id": "card-3-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "card-3-title",
+                    "card-3-desc"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "card-3-title",
+              "component": {
+                "Text": {
+                  "content": "USB-C Hub",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "card-3-desc",
+              "component": {
+                "Text": {
+                  "content": "7-in-1 hub with HDMI, USB-A, and SD card reader.",
+                  "usageHint": "body-s",
+                  "color": "muted"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "component-audit": {
+      "description": "Component audit — exercises all 25 A2UI catalog types",
+      "messages": [
+        {
+          "type": "beginRendering",
+          "surfaceId": "audit",
+          "rootComponentId": "root"
+        },
+        {
+          "type": "surfaceUpdate",
+          "surfaceId": "audit",
+          "components": [
+            {
+              "id": "root",
+              "component": {
+                "Column": {
+                  "spacing": "l",
+                  "children": [
+                    "heading",
+                    "typography-card",
+                    "layout-card",
+                    "display-card",
+                    "interactive-card",
+                    "form-card",
+                    "data-card",
+                    "feedback-card"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "heading",
+              "component": {
+                "Text": {
+                  "content": "A2UI Component Audit",
+                  "usageHint": "heading-l"
+                }
+              }
+            },
+            {
+              "id": "typography-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "typo-header",
+                    "typo-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "typo-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "typo-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "typo-title",
+              "component": {
+                "Text": {
+                  "content": "1. Typography (Text)",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "typo-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "typo-col"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "typo-col",
+              "component": {
+                "Column": {
+                  "spacing": "xs",
+                  "children": [
+                    "typo-display",
+                    "typo-heading",
+                    "typo-title-text",
+                    "typo-label",
+                    "typo-body-text",
+                    "typo-caption",
+                    "typo-muted",
+                    "typo-accent"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "typo-display",
+              "component": {
+                "Text": {
+                  "content": "Display text",
+                  "usageHint": "display-s"
+                }
+              }
+            },
+            {
+              "id": "typo-heading",
+              "component": {
+                "Text": {
+                  "content": "Heading text",
+                  "usageHint": "heading-m"
+                }
+              }
+            },
+            {
+              "id": "typo-title-text",
+              "component": {
+                "Text": {
+                  "content": "Title text",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "typo-label",
+              "component": {
+                "Text": {
+                  "content": "Label text",
+                  "usageHint": "label"
+                }
+              }
+            },
+            {
+              "id": "typo-body-text",
+              "component": {
+                "Text": {
+                  "content": "Body text — the quick brown fox jumps over the lazy dog.",
+                  "usageHint": "body"
+                }
+              }
+            },
+            {
+              "id": "typo-caption",
+              "component": {
+                "Text": {
+                  "content": "Caption text",
+                  "usageHint": "caption"
+                }
+              }
+            },
+            {
+              "id": "typo-muted",
+              "component": {
+                "Text": {
+                  "content": "Muted color text",
+                  "usageHint": "body",
+                  "color": "muted"
+                }
+              }
+            },
+            {
+              "id": "typo-accent",
+              "component": {
+                "Text": {
+                  "content": "Accent color text",
+                  "usageHint": "body",
+                  "color": "accent"
+                }
+              }
+            },
+            {
+              "id": "layout-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "layout-header",
+                    "layout-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "layout-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "layout-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "layout-title",
+              "component": {
+                "Text": {
+                  "content": "2. Layout (Row, Column, Card, CardHeader, CardBody, CardFooter)",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "layout-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "layout-row"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "layout-row",
+              "component": {
+                "Row": {
+                  "spacing": "m",
+                  "alignment": "stretch",
+                  "children": [
+                    "layout-card-elevated",
+                    "layout-card-filled"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "layout-card-elevated",
+              "component": {
+                "Card": {
+                  "variant": "elevated",
+                  "padding": "md",
+                  "children": [
+                    "elevated-body"
+                  ]
+                }
+              },
+              "weight": 1
+            },
+            {
+              "id": "elevated-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "elevated-text"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "elevated-text",
+              "component": {
+                "Text": {
+                  "content": "Elevated card with weight=1",
+                  "usageHint": "body"
+                }
+              }
+            },
+            {
+              "id": "layout-card-filled",
+              "component": {
+                "Card": {
+                  "variant": "filled",
+                  "padding": "lg",
+                  "children": [
+                    "filled-header",
+                    "filled-body",
+                    "filled-footer"
+                  ]
+                }
+              },
+              "weight": 2
+            },
+            {
+              "id": "filled-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "filled-header-text"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "filled-header-text",
+              "component": {
+                "Text": {
+                  "content": "Filled card header",
+                  "usageHint": "label"
+                }
+              }
+            },
+            {
+              "id": "filled-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "filled-body-text"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "filled-body-text",
+              "component": {
+                "Text": {
+                  "content": "Card body with weight=2 (takes 2x space)",
+                  "usageHint": "body"
+                }
+              }
+            },
+            {
+              "id": "filled-footer",
+              "component": {
+                "CardFooter": {
+                  "children": [
+                    "filled-footer-text"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "filled-footer-text",
+              "component": {
+                "Text": {
+                  "content": "Card footer",
+                  "usageHint": "caption",
+                  "color": "muted"
+                }
+              }
+            },
+            {
+              "id": "display-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "display-header",
+                    "display-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "display-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "display-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "display-title",
+              "component": {
+                "Text": {
+                  "content": "3. Display (Image, Badge, Icon, Separator, List, ListItem)",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "display-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "display-col"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "display-col",
+              "component": {
+                "Column": {
+                  "spacing": "m",
+                  "children": [
+                    "display-image",
+                    "display-badges",
+                    "display-icons",
+                    "display-sep",
+                    "display-list"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "display-image",
+              "component": {
+                "Image": {
+                  "src": "https://picsum.photos/600/150",
+                  "alt": "Random landscape image",
+                  "radius": "md",
+                  "fit": "cover"
+                }
+              }
+            },
+            {
+              "id": "display-badges",
+              "component": {
+                "Row": {
+                  "spacing": "xs",
+                  "wrap": true,
+                  "children": [
+                    "badge-neutral",
+                    "badge-brand",
+                    "badge-success",
+                    "badge-error",
+                    "badge-warning"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "badge-neutral",
+              "component": {
+                "Badge": {
+                  "label": "Neutral",
+                  "tone": "neutral"
+                }
+              }
+            },
+            {
+              "id": "badge-brand",
+              "component": {
+                "Badge": {
+                  "label": "Brand",
+                  "tone": "brand"
+                }
+              }
+            },
+            {
+              "id": "badge-success",
+              "component": {
+                "Badge": {
+                  "label": "Success",
+                  "tone": "success",
+                  "size": "sm"
+                }
+              }
+            },
+            {
+              "id": "badge-error",
+              "component": {
+                "Badge": {
+                  "label": "Error",
+                  "tone": "error",
+                  "size": "sm"
+                }
+              }
+            },
+            {
+              "id": "badge-warning",
+              "component": {
+                "Badge": {
+                  "label": "Warning",
+                  "tone": "warning",
+                  "size": "lg"
+                }
+              }
+            },
+            {
+              "id": "display-icons",
+              "component": {
+                "Row": {
+                  "spacing": "s",
+                  "children": [
+                    "icon-search",
+                    "icon-user",
+                    "icon-settings",
+                    "icon-heart",
+                    "icon-star"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "icon-search",
+              "component": {
+                "Icon": {
+                  "name": "search",
+                  "size": "md",
+                  "label": "Search"
+                }
+              }
+            },
+            {
+              "id": "icon-user",
+              "component": {
+                "Icon": {
+                  "name": "user",
+                  "size": "md",
+                  "label": "User"
+                }
+              }
+            },
+            {
+              "id": "icon-settings",
+              "component": {
+                "Icon": {
+                  "name": "settings",
+                  "size": "md",
+                  "label": "Settings"
+                }
+              }
+            },
+            {
+              "id": "icon-heart",
+              "component": {
+                "Icon": {
+                  "name": "heart",
+                  "size": "lg",
+                  "label": "Heart"
+                }
+              }
+            },
+            {
+              "id": "icon-star",
+              "component": {
+                "Icon": {
+                  "name": "star",
+                  "size": "lg",
+                  "label": "Star"
+                }
+              }
+            },
+            {
+              "id": "display-sep",
+              "component": {
+                "Separator": {
+                  "orientation": "horizontal"
+                }
+              }
+            },
+            {
+              "id": "display-list",
+              "component": {
+                "List": {
+                  "variant": "divided",
+                  "children": [
+                    "list-item-1",
+                    "list-item-2",
+                    "list-item-3"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "list-item-1",
+              "component": {
+                "ListItem": {
+                  "content": "First list item"
+                }
+              }
+            },
+            {
+              "id": "list-item-2",
+              "component": {
+                "ListItem": {
+                  "content": "Second list item"
+                }
+              }
+            },
+            {
+              "id": "list-item-3",
+              "component": {
+                "ListItem": {
+                  "content": "Third list item"
+                }
+              }
+            },
+            {
+              "id": "interactive-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "interactive-header",
+                    "interactive-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "interactive-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "interactive-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "interactive-title",
+              "component": {
+                "Text": {
+                  "content": "4. Interactive (Button, Link)",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "interactive-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "interactive-row"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "interactive-row",
+              "component": {
+                "Row": {
+                  "spacing": "s",
+                  "wrap": true,
+                  "children": [
+                    "btn-primary",
+                    "btn-neutral",
+                    "btn-ghost",
+                    "btn-danger",
+                    "btn-disabled",
+                    "link-example"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "btn-primary",
+              "component": {
+                "Button": {
+                  "label": "Primary",
+                  "variant": "primary",
+                  "action": {
+                    "name": "click",
+                    "context": {
+                      "variant": "primary"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "btn-neutral",
+              "component": {
+                "Button": {
+                  "label": "Neutral",
+                  "variant": "neutral",
+                  "action": {
+                    "name": "click",
+                    "context": {
+                      "variant": "neutral"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "btn-ghost",
+              "component": {
+                "Button": {
+                  "label": "Ghost",
+                  "variant": "ghost",
+                  "action": {
+                    "name": "click",
+                    "context": {
+                      "variant": "ghost"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "btn-danger",
+              "component": {
+                "Button": {
+                  "label": "Danger",
+                  "variant": "danger",
+                  "action": {
+                    "name": "click",
+                    "context": {
+                      "variant": "danger"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "btn-disabled",
+              "component": {
+                "Button": {
+                  "label": "Disabled",
+                  "variant": "neutral",
+                  "disabled": true
+                }
+              }
+            },
+            {
+              "id": "link-example",
+              "component": {
+                "Link": {
+                  "label": "Example link →",
+                  "href": "https://a2ui.org",
+                  "target": "_blank"
+                }
+              }
+            },
+            {
+              "id": "form-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "form-header",
+                    "form-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "form-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "form-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "form-title",
+              "component": {
+                "Text": {
+                  "content": "5. Form Controls (Form, TextInput, Checkbox, Radio, Select, Switch)",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "form-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "form-element"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "form-element",
+              "component": {
+                "Form": {
+                  "action": {
+                    "name": "submitForm",
+                    "context": {}
+                  },
+                  "children": [
+                    "form-col"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "form-col",
+              "component": {
+                "Column": {
+                  "spacing": "m",
+                  "children": [
+                    "input-name",
+                    "input-email",
+                    "checkbox-terms",
+                    "switch-newsletter",
+                    "form-actions"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "input-name",
+              "component": {
+                "TextInput": {
+                  "label": "Full name",
+                  "binding": {
+                    "path": "name"
+                  },
+                  "required": true
+                }
+              }
+            },
+            {
+              "id": "input-email",
+              "component": {
+                "TextInput": {
+                  "label": "Email address",
+                  "description": "We will never share your email.",
+                  "binding": {
+                    "path": "email"
+                  },
+                  "required": true
+                }
+              }
+            },
+            {
+              "id": "checkbox-terms",
+              "component": {
+                "Checkbox": {
+                  "label": "I agree to the terms and conditions",
+                  "binding": {
+                    "path": "terms"
+                  },
+                  "action": {
+                    "name": "toggleTerms",
+                    "context": {}
+                  }
+                }
+              }
+            },
+            {
+              "id": "switch-newsletter",
+              "component": {
+                "Switch": {
+                  "label": "Subscribe to newsletter",
+                  "binding": {
+                    "path": "newsletter"
+                  },
+                  "action": {
+                    "name": "toggleNewsletter",
+                    "context": {}
+                  }
+                }
+              }
+            },
+            {
+              "id": "form-actions",
+              "component": {
+                "Row": {
+                  "justify": "end",
+                  "spacing": "s",
+                  "children": [
+                    "form-cancel",
+                    "form-submit"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "form-cancel",
+              "component": {
+                "Button": {
+                  "label": "Cancel",
+                  "variant": "neutral",
+                  "action": {
+                    "name": "cancel",
+                    "context": {}
+                  }
+                }
+              }
+            },
+            {
+              "id": "form-submit",
+              "component": {
+                "Button": {
+                  "label": "Submit",
+                  "variant": "primary",
+                  "action": {
+                    "name": "submitForm",
+                    "context": {}
+                  }
+                }
+              }
+            },
+            {
+              "id": "data-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "data-header",
+                    "data-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "data-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "data-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "data-title",
+              "component": {
+                "Text": {
+                  "content": "6. Data Display (Table, Tabs)",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "data-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "data-col"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "data-col",
+              "component": {
+                "Column": {
+                  "spacing": "m",
+                  "children": [
+                    "data-table",
+                    "data-tabs"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "data-table",
+              "component": {
+                "Table": {
+                  "label": "Sample data table"
+                }
+              }
+            },
+            {
+              "id": "data-tabs",
+              "component": {
+                "Tabs": {
+                  "defaultTab": "tab1"
+                }
+              }
+            },
+            {
+              "id": "feedback-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "feedback-header",
+                    "feedback-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "feedback-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "feedback-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "feedback-title",
+              "component": {
+                "Text": {
+                  "content": "7. Feedback (Progress, Spinner)",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "feedback-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "feedback-col"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "feedback-col",
+              "component": {
+                "Column": {
+                  "spacing": "m",
+                  "children": [
+                    "progress-bar",
+                    "spinner-row"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "progress-bar",
+              "component": {
+                "Progress": {
+                  "value": {
+                    "path": "progress"
+                  },
+                  "maxValue": 100,
+                  "label": "Upload progress"
+                }
+              }
+            },
+            {
+              "id": "spinner-row",
+              "component": {
+                "Row": {
+                  "spacing": "l",
+                  "children": [
+                    "spinner-circle",
+                    "spinner-line",
+                    "spinner-dots"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "spinner-circle",
+              "component": {
+                "Spinner": {
+                  "variant": "circle",
+                  "size": "md",
+                  "label": "Loading"
+                }
+              }
+            },
+            {
+              "id": "spinner-line",
+              "component": {
+                "Spinner": {
+                  "variant": "line",
+                  "size": "md",
+                  "label": "Loading"
+                }
+              }
+            },
+            {
+              "id": "spinner-dots",
+              "component": {
+                "Spinner": {
+                  "variant": "dots",
+                  "size": "md",
+                  "label": "Loading"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "audit",
+          "path": "name",
+          "value": "Jane Doe"
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "audit",
+          "path": "email",
+          "value": "jane@example.com"
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "audit",
+          "path": "terms",
+          "value": true
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "audit",
+          "path": "newsletter",
+          "value": false
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "audit",
+          "path": "progress",
+          "value": 72
+        }
+      ]
+    },
+    "dashboard": {
+      "description": "Dashboard layout with stats cards and a progress indicator",
+      "messages": [
+        {
+          "type": "beginRendering",
+          "surfaceId": "dashboard",
+          "rootComponentId": "root"
+        },
+        {
+          "type": "surfaceUpdate",
+          "surfaceId": "dashboard",
+          "components": [
+            {
+              "id": "root",
+              "component": {
+                "Column": {
+                  "spacing": "l",
+                  "children": [
+                    "header",
+                    "stats-row",
+                    "progress-section"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "header",
+              "component": {
+                "Row": {
+                  "justify": "between",
+                  "children": [
+                    "title",
+                    "refresh-btn"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "title",
+              "component": {
+                "Text": {
+                  "content": "Dashboard",
+                  "usageHint": "heading-l"
+                }
+              }
+            },
+            {
+              "id": "refresh-btn",
+              "component": {
+                "Button": {
+                  "label": "Refresh",
+                  "variant": "neutral",
+                  "action": {
+                    "name": "refresh",
+                    "context": {}
+                  }
+                }
+              }
+            },
+            {
+              "id": "stats-row",
+              "component": {
+                "Row": {
+                  "spacing": "m",
+                  "alignment": "stretch",
+                  "children": [
+                    "stat-1",
+                    "stat-2",
+                    "stat-3"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "stat-1",
+              "component": {
+                "Card": {
+                  "variant": "filled",
+                  "padding": "md",
+                  "children": [
+                    "stat-1-body"
+                  ]
+                }
+              },
+              "weight": 1
+            },
+            {
+              "id": "stat-1-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "stat-1-label",
+                    "stat-1-value"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "stat-1-label",
+              "component": {
+                "Text": {
+                  "content": "Total Users",
+                  "usageHint": "label",
+                  "color": "muted"
+                }
+              }
+            },
+            {
+              "id": "stat-1-value",
+              "component": {
+                "Text": {
+                  "content": "12,847",
+                  "usageHint": "heading-m"
+                }
+              }
+            },
+            {
+              "id": "stat-2",
+              "component": {
+                "Card": {
+                  "variant": "filled",
+                  "padding": "md",
+                  "children": [
+                    "stat-2-body"
+                  ]
+                }
+              },
+              "weight": 1
+            },
+            {
+              "id": "stat-2-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "stat-2-label",
+                    "stat-2-value"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "stat-2-label",
+              "component": {
+                "Text": {
+                  "content": "Revenue",
+                  "usageHint": "label",
+                  "color": "muted"
+                }
+              }
+            },
+            {
+              "id": "stat-2-value",
+              "component": {
+                "Text": {
+                  "content": "$84,230",
+                  "usageHint": "heading-m"
+                }
+              }
+            },
+            {
+              "id": "stat-3",
+              "component": {
+                "Card": {
+                  "variant": "filled",
+                  "padding": "md",
+                  "children": [
+                    "stat-3-body"
+                  ]
+                }
+              },
+              "weight": 1
+            },
+            {
+              "id": "stat-3-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "stat-3-label",
+                    "stat-3-value",
+                    "stat-3-badge"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "stat-3-label",
+              "component": {
+                "Text": {
+                  "content": "Conversion Rate",
+                  "usageHint": "label",
+                  "color": "muted"
+                }
+              }
+            },
+            {
+              "id": "stat-3-value",
+              "component": {
+                "Text": {
+                  "content": "3.24%",
+                  "usageHint": "heading-m"
+                }
+              }
+            },
+            {
+              "id": "stat-3-badge",
+              "component": {
+                "Badge": {
+                  "label": "+12%",
+                  "tone": "success",
+                  "size": "sm"
+                }
+              }
+            },
+            {
+              "id": "progress-section",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "progress-header",
+                    "progress-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "progress-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "progress-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "progress-title",
+              "component": {
+                "Text": {
+                  "content": "Monthly Goal",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "progress-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "progress-bar"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "progress-bar",
+              "component": {
+                "Progress": {
+                  "value": {
+                    "path": "goalProgress"
+                  },
+                  "maxValue": 100,
+                  "label": "Monthly goal progress"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "dashboard",
+          "path": "goalProgress",
+          "value": 67
+        }
+      ]
+    },
+    "data-table": {
+      "description": "Data table with status badges and action buttons",
+      "messages": [
+        {
+          "type": "beginRendering",
+          "surfaceId": "orders",
+          "rootComponentId": "root"
+        },
+        {
+          "type": "surfaceUpdate",
+          "surfaceId": "orders",
+          "components": [
+            {
+              "id": "root",
+              "component": {
+                "Column": {
+                  "spacing": "m",
+                  "children": [
+                    "header-row",
+                    "table-card"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "header-row",
+              "component": {
+                "Row": {
+                  "justify": "between",
+                  "children": [
+                    "page-title",
+                    "add-btn"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "page-title",
+              "component": {
+                "Text": {
+                  "content": "Recent Orders",
+                  "usageHint": "heading-m"
+                }
+              }
+            },
+            {
+              "id": "add-btn",
+              "component": {
+                "Button": {
+                  "label": "New Order",
+                  "variant": "primary",
+                  "action": {
+                    "name": "createOrder",
+                    "context": {}
+                  }
+                }
+              }
+            },
+            {
+              "id": "table-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "padding": "sm",
+                  "children": [
+                    "table"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "table",
+              "component": {
+                "Table": {
+                  "label": "Recent orders"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "settings-page": {
+      "description": "Settings page with switches, select, and radio options",
+      "messages": [
+        {
+          "type": "beginRendering",
+          "surfaceId": "settings",
+          "rootComponentId": "root"
+        },
+        {
+          "type": "surfaceUpdate",
+          "surfaceId": "settings",
+          "components": [
+            {
+              "id": "root",
+              "component": {
+                "Column": {
+                  "spacing": "l",
+                  "children": [
+                    "heading",
+                    "notifications-card",
+                    "appearance-card"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "heading",
+              "component": {
+                "Text": {
+                  "content": "Settings",
+                  "usageHint": "heading-l"
+                }
+              }
+            },
+            {
+              "id": "notifications-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "notif-header",
+                    "notif-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "notif-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-title",
+              "component": {
+                "Text": {
+                  "content": "Notifications",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "notif-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "notif-list"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-list",
+              "component": {
+                "List": {
+                  "variant": "divided",
+                  "children": [
+                    "notif-email",
+                    "notif-push",
+                    "notif-sms"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-email",
+              "component": {
+                "ListItem": {
+                  "children": [
+                    "notif-email-row"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-email-row",
+              "component": {
+                "Row": {
+                  "justify": "between",
+                  "children": [
+                    "notif-email-label",
+                    "notif-email-switch"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-email-label",
+              "component": {
+                "Text": {
+                  "content": "Email notifications",
+                  "usageHint": "body"
+                }
+              }
+            },
+            {
+              "id": "notif-email-switch",
+              "component": {
+                "Switch": {
+                  "label": "Email notifications",
+                  "binding": {
+                    "path": "emailNotifications"
+                  },
+                  "action": {
+                    "name": "toggleNotification",
+                    "context": {
+                      "channel": "email"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "notif-push",
+              "component": {
+                "ListItem": {
+                  "children": [
+                    "notif-push-row"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-push-row",
+              "component": {
+                "Row": {
+                  "justify": "between",
+                  "children": [
+                    "notif-push-label",
+                    "notif-push-switch"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-push-label",
+              "component": {
+                "Text": {
+                  "content": "Push notifications",
+                  "usageHint": "body"
+                }
+              }
+            },
+            {
+              "id": "notif-push-switch",
+              "component": {
+                "Switch": {
+                  "label": "Push notifications",
+                  "binding": {
+                    "path": "pushNotifications"
+                  },
+                  "action": {
+                    "name": "toggleNotification",
+                    "context": {
+                      "channel": "push"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "notif-sms",
+              "component": {
+                "ListItem": {
+                  "children": [
+                    "notif-sms-row"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-sms-row",
+              "component": {
+                "Row": {
+                  "justify": "between",
+                  "children": [
+                    "notif-sms-label",
+                    "notif-sms-switch"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "notif-sms-label",
+              "component": {
+                "Text": {
+                  "content": "SMS notifications",
+                  "usageHint": "body"
+                }
+              }
+            },
+            {
+              "id": "notif-sms-switch",
+              "component": {
+                "Switch": {
+                  "label": "SMS notifications",
+                  "binding": {
+                    "path": "smsNotifications"
+                  },
+                  "action": {
+                    "name": "toggleNotification",
+                    "context": {
+                      "channel": "sms"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "appearance-card",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "appear-header",
+                    "appear-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "appear-header",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "appear-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "appear-title",
+              "component": {
+                "Text": {
+                  "content": "Appearance",
+                  "usageHint": "title"
+                }
+              }
+            },
+            {
+              "id": "appear-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "appear-col"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "appear-col",
+              "component": {
+                "Column": {
+                  "spacing": "m",
+                  "children": [
+                    "theme-select",
+                    "save-btn"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "theme-select",
+              "component": {
+                "Select": {
+                  "label": "Theme",
+                  "binding": {
+                    "path": "theme"
+                  },
+                  "action": {
+                    "name": "changeTheme",
+                    "context": {}
+                  }
+                }
+              }
+            },
+            {
+              "id": "save-btn",
+              "component": {
+                "Button": {
+                  "label": "Save changes",
+                  "variant": "primary",
+                  "action": {
+                    "name": "saveSettings",
+                    "context": {}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "settings",
+          "path": "emailNotifications",
+          "value": true
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "settings",
+          "path": "pushNotifications",
+          "value": true
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "settings",
+          "path": "smsNotifications",
+          "value": false
+        },
+        {
+          "type": "dataModelUpdate",
+          "surfaceId": "settings",
+          "path": "theme",
+          "value": "system"
+        }
+      ]
+    },
+    "simple-form": {
+      "description": "Simple login form with email and password fields",
+      "messages": [
+        {
+          "type": "beginRendering",
+          "surfaceId": "login",
+          "rootComponentId": "root"
+        },
+        {
+          "type": "surfaceUpdate",
+          "surfaceId": "login",
+          "components": [
+            {
+              "id": "root",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "padding": "lg",
+                  "children": [
+                    "card-body"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "card-body",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "form"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "form",
+              "component": {
+                "Form": {
+                  "action": {
+                    "name": "login",
+                    "context": {}
+                  },
+                  "children": [
+                    "form-col"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "form-col",
+              "component": {
+                "Column": {
+                  "spacing": "m",
+                  "children": [
+                    "heading",
+                    "email",
+                    "password",
+                    "actions"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "heading",
+              "component": {
+                "Text": {
+                  "content": "Sign in",
+                  "usageHint": "heading-m"
+                }
+              }
+            },
+            {
+              "id": "email",
+              "component": {
+                "TextInput": {
+                  "label": "Email",
+                  "binding": {
+                    "path": "email"
+                  },
+                  "required": true
+                }
+              }
+            },
+            {
+              "id": "password",
+              "component": {
+                "TextInput": {
+                  "label": "Password",
+                  "binding": {
+                    "path": "password"
+                  },
+                  "required": true
+                }
+              }
+            },
+            {
+              "id": "actions",
+              "component": {
+                "Row": {
+                  "justify": "end",
+                  "children": [
+                    "submit"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "submit",
+              "component": {
+                "Button": {
+                  "label": "Sign in",
+                  "variant": "primary",
+                  "action": {
+                    "name": "login",
+                    "context": {}
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

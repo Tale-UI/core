@@ -9,7 +9,9 @@
 
 .tale-select-native {
   display: block;
-  width: 100%;
+  width: fit-content;
+  min-width: 0;
+  max-width: 100%;
   appearance: none;
   font-family: var(--text-font-family);
   color: var(--neutral-90);

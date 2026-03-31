@@ -1,0 +1,7 @@
+{
+  "slug": "invalid-import-path",
+  "expectValid": false,
+  "expectedError": "invalid-import",
+  "description": "Importing from a path that doesn't exist in the registry",
+  "reference": "import { Notification } from '@tale-ui/react/notification';\nimport { Button } from '@tale-ui/react/button';\n\nexport function AlertNotification() {\n  return (\n    <div>\n      <Notification variant=\"error\">Something went wrong</Notification>\n      <Button variant=\"primary\">Dismiss</Button>\n    </div>\n  );\n}\n"
+}

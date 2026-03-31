@@ -2,6 +2,18 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.40 — 2026-03-31
+
+### Added
+
+- **A2UI:** Expanded catalog with new component types, enhanced renderer, validation, and system prompt.
+- **A2UI Chat Demo** in Vite playground.
+- **MCP Server:** Added A2UI catalog tools (`list_a2ui_types`, `get_a2ui_type`, `get_a2ui_example`).
+
+### Changed
+
+- Consumer CLAUDE.md snippet updated.
+
 ## v1.3.39 — 2026-03-30
 
 ### Changed

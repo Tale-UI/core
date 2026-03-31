@@ -91,6 +91,8 @@ jobs:
         run: pnpm a2ui:validate-examples
       - name: Audit A2UI docs
         run: pnpm a2ui:audit-docs
+      - name: Verify A2UI catalog registry
+        run: pnpm a2ui:check-catalog
 
   # Markdown lint and formatting
   check-formatting:

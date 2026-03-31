@@ -136,7 +136,7 @@ When clicked, your `onAction` callback receives `("main", { name: "save", contex
 
 ## Catalog Reference
 
-The default catalog maps all 21 A2UI standard component types to Tale UI.
+The default catalog maps all 30 A2UI standard component types to Tale UI.
 
 <!-- BEGIN:A2UI_CATALOG_TABLES -->
 | A2UI Type | Tale UI Component | Key A2UI Props |
@@ -153,19 +153,42 @@ The default catalog maps all 21 A2UI standard component types to Tale UI.
 | `Separator` | `Separator` | `orientation` |
 | `Link` | `Link` | `href`, `target`, `label` |
 | `Button` | `Button` | `variant`, `size`, `disabled`, `action`, `label` |
-| `TextInput` | `TextField.Root` | `binding`, `defaultValue`, `disabled`, `readOnly`, `required`, `action`, `label`, `description`, `errorMessage` |
-| `Checkbox` | `Checkbox.Root` | `binding`, `defaultSelected`, `disabled`, `action`, `label` |
-| `Radio` | `RadioGroup` | `binding`, `defaultValue`, `disabled`, `label`, `action` |
-| `Select` | `Select.Root` | `binding`, `defaultValue`, `disabled`, `label`, `action` |
-| `Switch` | `Switch.Root` | `binding`, `defaultSelected`, `disabled`, `action`, `label` |
+| `TextInput` | `TextField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `required`, `action`, `description`, `errorMessage` |
+| `Checkbox` | `Checkbox.Root` | `binding`, `label`, `defaultSelected`, `disabled` |
+| `Radio` | `RadioGroup` | `binding`, `label`, `defaultValue`, `disabled`, `action` |
+| `Select` | `Select.Root` | `binding`, `label`, `defaultValue`, `disabled`, `placeholder`, `action` |
+| `Switch` | `Switch.Root` | `binding`, `label`, `defaultSelected`, `disabled` |
+| `RadioOption` | `Radio.Root` | `value`, `disabled`, `label` |
+| `SelectItem` | `Select.Item` | `value`, `label` |
 | `Table` | `Table.Root` | `label`, `selectionMode` |
-| `Tabs` | `Tabs.Root` | `defaultTab` |
+| `Tabs` | `Tabs.Root` | `label`, `defaultTab` |
 | `Progress` | `ProgressBar.Root` | `value`, `maxValue`, `indeterminate`, `label` |
 | `Spinner` | `Spinner` | `variant`, `size`, `label` |
 | `Form` | `Form` | `action` |
 | `CardHeader` | `Card.Header` | -- |
 | `CardBody` | `Card.Body` | -- |
 | `CardFooter` | `Card.Footer` | -- |
+| `Avatar` | `Avatar.Root` | `size`, `initials` |
+| `AvatarImage` | `Avatar.Image` | `src`, `alt` |
+| `AvatarFallback` | `Avatar.Fallback` | `initials` |
+| `Banner` | `Banner.Root` | `variant`, `size`, `icon`, `title`, `description` |
+| `Disclosure` | `Disclosure.Root` | `defaultExpanded` |
+| `DisclosureTrigger` | `Disclosure.Trigger` | `label` |
+| `DisclosurePanel` | `Disclosure.Panel` | -- |
+| `TextAreaInput` | `TextArea.Root` | `binding`, `label`, `defaultValue`, `disabled`, `required`, `description` |
+| `NumberInput` | `NumberField.Root` | `binding`, `label`, `defaultValue`, `minValue`, `maxValue`, `step`, `disabled`, `required`, `description` |
+| `SliderInput` | `Slider.Root` | `binding`, `label`, `defaultValue`, `minValue`, `maxValue`, `step`, `disabled` |
+| `SearchInput` | `SearchField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `action` |
+| `Accordion` | `Accordion.Root` | `allowsMultipleExpanded`, `defaultExpandedKeys` |
+| `AccordionItem` | `Accordion.Item` | `id` |
+| `AccordionHeader` | `Accordion.Header` | -- |
+| `AccordionTrigger` | `Accordion.Trigger` | `label` |
+| `AccordionPanel` | `Accordion.Panel` | -- |
+| `Menu` | `Menu.Root` | -- |
+| `MenuTrigger` | `Menu.Trigger` | `label` |
+| `MenuPopover` | `Menu.Popover` | -- |
+| `MenuItem` | `Menu.Item` | `id`, `action`, `label` |
+| `MenuSeparator` | `Menu.Separator` | -- |
 
 **Text `usageHint` values:**
 

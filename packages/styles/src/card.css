@@ -24,15 +24,15 @@
 /* ─── Padding ───────────────────────────────────────────────────────────────── */
 
 .tale-card--sm {
-  padding: var(--space-s);
+  padding: var(--space-xs);
 }
 
 .tale-card--md {
-  padding: var(--space-l);
+  padding: var(--space-s);
 }
 
 .tale-card--lg {
-  padding: var(--space-xl);
+  padding: var(--space-m);
 }
 
 /* ─── Variants ──────────────────────────────────────────────────────────────── */

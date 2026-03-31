@@ -1,0 +1,7 @@
+{
+  "slug": "compound-without-root",
+  "expectValid": false,
+  "expectedError": "wrong-kind",
+  "description": "Using a compound component as bare JSX instead of <Component.Root>",
+  "reference": "import { Dialog } from '@tale-ui/react/dialog';\nimport { Button } from '@tale-ui/react/button';\n\nexport function ConfirmDialog() {\n  return (\n    <Dialog>\n      <Button slot=\"trigger\">Open</Button>\n      <Dialog.Header>\n        <Dialog.Title>Confirm action</Dialog.Title>\n      </Dialog.Header>\n      <Dialog.Body>\n        <p>Are you sure?</p>\n      </Dialog.Body>\n      <Dialog.Footer>\n        <Button variant=\"primary\">Confirm</Button>\n      </Dialog.Footer>\n    </Dialog>\n  );\n}\n"
+}

@@ -2,6 +2,13 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.40 — 2026-03-31
+
+### Changed
+
+- **Card:** Tightened padding for all sizes (sm: `xs`, md: `s`, lg: `m`).
+- **SelectNative:** Changed width from `100%` to `fit-content` with `max-width: 100%` for intrinsic sizing.
+
 ## v1.3.39 — 2026-03-30
 
 ### Changed

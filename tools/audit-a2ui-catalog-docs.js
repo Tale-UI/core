@@ -42,7 +42,13 @@ function extractCatalogKeys(source) {
 
 /** Standard types = all catalog keys minus Card sub-parts */
 function getStandardTypes(keys) {
-  const subParts = new Set(['CardHeader', 'CardBody', 'CardFooter', 'ListItem', 'RadioOption', 'SelectItem']);
+  const subParts = new Set([
+    'CardHeader', 'CardBody', 'CardFooter', 'ListItem', 'RadioOption', 'SelectItem',
+    'AvatarImage', 'AvatarFallback',
+    'DisclosureTrigger', 'DisclosurePanel',
+    'AccordionItem', 'AccordionHeader', 'AccordionTrigger', 'AccordionPanel',
+    'MenuTrigger', 'MenuPopover', 'MenuItem', 'MenuSeparator',
+  ]);
   return keys.filter((k) => !subParts.has(k));
 }
 
@@ -94,6 +100,12 @@ const REQUIRED_SUBPARTS = {
   TextInput: ['TextField.Label', 'TextField.Input'],
   Select: ['Select.Trigger', 'Select.Value', 'Select.Popover', 'Select.ListBox'],
   RadioOption: ['Radio.Indicator'],
+  Banner: ['Banner.Title', 'Banner.Description'],
+  TextAreaInput: ['TextArea.Label', 'TextArea.TextArea'],
+  NumberInput: ['NumberField.Label', 'NumberField.Group', 'NumberField.Input', 'NumberField.Increment', 'NumberField.Decrement'],
+  SliderInput: ['Slider.Label', 'Slider.Output', 'Slider.Track', 'Slider.Thumb'],
+  SearchInput: ['SearchField.Label', 'SearchField.Input', 'SearchField.ClearButton'],
+  MenuPopover: ['Menu.MenuList'],
 };
 
 /* ─── Checks ──────────────────────────────────────────────────────────────── */

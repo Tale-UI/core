@@ -232,6 +232,7 @@ A stdio-based MCP server that exposes the component registry, recipe docs, and f
 |--------|-------------|-----|---------|
 | `validate-generated.mjs` | `pnpm validate:generated` | No | Validates any `.tsx` against registry + TypeScript |
 | `validate-golden-prompts.mjs` | `pnpm golden:validate` | Yes | Validates all golden prompt reference implementations |
+| `run-validator-tests.mjs` | `pnpm validate:test` | No | Tests the validator itself against known-good and known-bad samples |
 
 ### validate-generated.mjs
 

@@ -38,6 +38,14 @@ export default defineConfig(() => {
         // Allow serving Tale UI source from the monorepo root.
         allow: [path.resolve(__dirname, '..', '..')],
       },
+      proxy: {
+        // Proxy Straico API requests to bypass CORS (Straico doesn't set CORS headers)
+        '/api/straico': {
+          target: 'https://api.straico.com',
+          changeOrigin: true,
+          rewrite: (p) => p.replace(/^\/api\/straico/, ''),
+        },
+      },
     },
   };
 });

@@ -83,12 +83,20 @@ export const A2UINode = React.memo(function A2UINode({
       : null;
 
   // Call the adapter to convert A2UI props to Tale UI props
-  const adaptedProps = entry.adapter(node.props, {
-    children: renderedChildren,
-    resolveBinding,
-    createActionHandler,
-    weight: node.weight,
-  });
+  let adaptedProps: Record<string, unknown>;
+  try {
+    adaptedProps = entry.adapter(node.props, {
+      children: renderedChildren,
+      resolveBinding,
+      createActionHandler,
+      weight: node.weight,
+    }) ?? {};
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(`[A2UI] Adapter error for "${node.type}" (${node.id}):`, err);
+    }
+    return null;
+  }
 
   // Apply flex-grow from weight if present
   const style =
@@ -121,6 +129,7 @@ function useBindingSubscriptions(
   // Collect all binding paths
   const paths = React.useMemo(() => {
     const result: string[] = [];
+    if (!props) return result;
     for (const value of Object.values(props)) {
       if (isDataBinding(value)) {
         result.push(value.path);

@@ -47,7 +47,7 @@ function AgentConnection() {
 
 ## Catalog
 
-The default catalog maps all 21 A2UI standard component types:
+The default catalog maps all 30 A2UI standard component types:
 
 | A2UI Type | Tale UI Component |
 |-----------|-------------------|
@@ -72,6 +72,15 @@ The default catalog maps all 21 A2UI standard component types:
 | Link | Link |
 | Icon | Icon |
 | Form | Form |
+| Avatar | Avatar.Root |
+| Banner | Banner.Root |
+| Disclosure | Disclosure.Root |
+| TextAreaInput | TextArea.Root |
+| NumberInput | NumberField.Root |
+| SliderInput | Slider.Root |
+| SearchInput | SearchField.Root |
+| Accordion | Accordion.Root |
+| Menu | Menu.Root |
 
 ### Custom Catalog
 

@@ -94,9 +94,19 @@ function extractUsageHints(source) {
   return hints;
 }
 
+const { PROP_VALUES, PROP_VALUE_OVERRIDES, SUB_PARTS } = require('./a2ui-catalog-metadata.js');
+
 /* ─── Table Generation ────────────────────────────────────────────────────── */
 
-/** Group entries by category, format as markdown tables for system-prompt.md */
+/** Get allowed values string for a prop, considering per-type overrides. */
+function propAllowedValues(typeName, propName) {
+  return PROP_VALUE_OVERRIDES[`${typeName}.${propName}`] || PROP_VALUES[propName] || '';
+}
+
+/**
+ * Generate detailed 3-column tables (Type | Prop | Allowed Values)
+ * grouped by category. Used for system-prompt.md.
+ */
 function generateSystemPromptTables(entries) {
   const categories = new Map();
   for (const e of entries) {
@@ -106,21 +116,27 @@ function generateSystemPromptTables(entries) {
 
   const sections = [];
   for (const [cat, items] of categories) {
-    const rows = items.map((e) => {
-      const props = e.adapterProps.length > 0
-        ? e.adapterProps.map((p) => `\`${p}\``).join(', ')
-        : '--';
-      return `| **${e.typeName}** | ${props} |`;
-    });
+    const rows = [];
+    for (const e of items) {
+      if (e.adapterProps.length === 0) {
+        rows.push(`| **${e.typeName}** | (none) | |`);
+      } else {
+        for (let i = 0; i < e.adapterProps.length; i++) {
+          const p = e.adapterProps[i];
+          const vals = propAllowedValues(e.typeName, p);
+          const typeCell = i === 0 ? `**${e.typeName}**` : '';
+          rows.push(`| ${typeCell} | \`${p}\` | ${vals} |`);
+        }
+      }
+    }
 
-    sections.push(`### ${cat}\n\n| Type | Key Props |\n|------|-----------|`);
-    sections.push(rows.join('\n'));
+    sections.push(`### ${cat}\n\n| Type | Prop | Allowed Values |\n|------|------|---------------|\n${rows.join('\n')}`);
   }
 
   return sections.join('\n\n');
 }
 
-/** Generate catalog mapping table for integration guide and README */
+/** Generate catalog mapping table for integration guide */
 function generateCatalogTable(entries) {
   const rows = entries.map((e) => {
     const props = e.adapterProps.length > 0
@@ -138,13 +154,6 @@ function generateHintTable(hints) {
     `| \`${h.hint}\` | ${h.variant} (${h.size}) | \`${h.element}\` |`
   );
   return `| Hint | Maps to | HTML element |\n|------|---------|-------------|\n${rows.join('\n')}`;
-}
-
-/** Generate standard type list for consumer snippet */
-function generateTypeList(entries) {
-  const subParts = new Set(['CardHeader', 'CardBody', 'CardFooter', 'ListItem', 'RadioOption', 'SelectItem']);
-  const standard = entries.filter((e) => !subParts.has(e.typeName));
-  return standard.map((e) => e.typeName).join(', ');
 }
 
 /* ─── Splice ──────────────────────────────────────────────────────────────── */
@@ -184,8 +193,7 @@ function main() {
     process.exit(1);
   }
 
-  const subParts = new Set(['CardHeader', 'CardBody', 'CardFooter', 'ListItem', 'RadioOption', 'SelectItem']);
-  const standardCount = entries.filter((e) => !subParts.has(e.typeName)).length;
+  const standardCount = entries.filter((e) => !SUB_PARTS.has(e.typeName)).length;
 
   const targets = [
     {

@@ -86,7 +86,7 @@ Before generating or modifying component code, you MUST:
    </A2UIProvider>
    ```
 
-   The catalog covers 21 standard A2UI types (Text, Button, Row, Column, Card, Image, List, TextInput, Checkbox, Radio, Select, Switch, Table, Tabs, Badge, Progress, Spinner, Separator, Link, Icon, Form). Extend with `createCatalog()` for custom types. Validate agent output with `validateMessages()` from `@tale-ui/a2ui/validation`.
+   The catalog covers 30 standard A2UI types (Text, Button, Row, Column, Card, Image, List, TextInput, Checkbox, Radio, Select, Switch, Table, Tabs, Badge, Progress, Spinner, Separator, Link, Icon, Form, Avatar, Banner, Disclosure, TextAreaInput, NumberInput, SliderInput, SearchInput, Accordion, Menu). Extend with `createCatalog()` for custom types. Validate agent output with `validateMessages()` from `@tale-ui/a2ui/validation`.
 
 7. **Dark mode must persist between refreshes.** Every new app must:
 

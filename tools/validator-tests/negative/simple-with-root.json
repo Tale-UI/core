@@ -1,0 +1,7 @@
+{
+  "slug": "simple-with-root",
+  "expectValid": false,
+  "expectedError": "wrong-kind",
+  "description": "Using a simple component with .Root suffix (treating it like a compound)",
+  "reference": "import { Button } from '@tale-ui/react/button';\n\nexport function SaveButton() {\n  return <Button.Root variant=\"primary\">Save</Button.Root>;\n}\n"
+}

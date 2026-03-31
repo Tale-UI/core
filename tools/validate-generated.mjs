@@ -101,10 +101,10 @@ function validateRegistry(code) {
     if (comp.kind === 'compound') {
       // Check if used as bare <Dialog> instead of <Dialog.Root>
       const bareUsageRegex = new RegExp(`<${name}[\\s/>](?![.])`, 'g');
-      const dotUsageRegex = new RegExp(`<${name}\\.`, 'g');
+      const rootUsageRegex = new RegExp(`<${name}\\.Root[\\s/>]`, 'g');
       const hasBare = bareUsageRegex.test(code);
-      const hasDot = dotUsageRegex.test(code);
-      if (hasBare && !hasDot) {
+      const hasRoot = rootUsageRegex.test(code);
+      if (hasBare && !hasRoot) {
         errors.push({ type: 'wrong-kind', message: `${name} is compound — use <${name}.Root>, not <${name}>` });
       }
     } else if (comp.kind === 'simple') {

@@ -52,7 +52,7 @@ function buildNode(
   const props: Record<string, unknown> = {};
   const children: TreeNode[] = [];
 
-  for (const [key, value] of Object.entries(rawProps)) {
+  for (const [key, value] of Object.entries(rawProps ?? {})) {
     if (typeof value === 'string' && byId.has(value)) {
       // Single child reference
       const child = buildNode(value, byId, visited);
@@ -80,9 +80,25 @@ function buildNode(
 
 /**
  * Extract the component type name and props from an A2UI component.
- * The component field is `{ TypeName: { ...props } }` with a single key.
+ *
+ * Supports two formats:
+ * 1. A2UI spec: `{ component: { TypeName: { ...props } } }`
+ * 2. LLM shorthand: `{ type: "TypeName", props: { ... }, children: [...] }`
  */
 function getTypeAndProps(comp: A2UIComponent): [string | null, Record<string, unknown>] {
+  // Format 2: LLM shorthand with top-level type/props/children
+  const raw = comp as Record<string, unknown>;
+  if (typeof raw.type === 'string' && raw.type !== 'beginRendering' && raw.type !== 'surfaceUpdate' && raw.type !== 'dataModelUpdate' && raw.type !== 'deleteSurface') {
+    const props = (raw.props ?? {}) as Record<string, unknown>;
+    // Merge children into props if present at top level
+    if (Array.isArray(raw.children) && !props.children) {
+      props.children = raw.children;
+    }
+    return [raw.type as string, props];
+  }
+
+  // Format 1: A2UI spec with component object
+  if (!comp.component || typeof comp.component !== 'object') return [null, {}];
   const keys = Object.keys(comp.component);
   if (keys.length === 0) return [null, {}];
   const type = keys[0]!;

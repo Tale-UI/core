@@ -127,7 +127,17 @@ export function A2UIProvider({ catalog, onAction, children }: A2UIProviderProps)
 
         case 'dataModelUpdate': {
           const store = getOrCreateStore(msg.surfaceId);
-          store.set(msg.path, msg.value);
+          // Standard format: { path: "key", value: "val" }
+          if (typeof msg.path === 'string') {
+            store.set(msg.path, msg.value);
+          }
+          // LLM bulk format: { data: { key1: val1, key2: val2 } }
+          const raw = msg as Record<string, unknown>;
+          if (raw.data && typeof raw.data === 'object') {
+            for (const [key, val] of Object.entries(raw.data as Record<string, unknown>)) {
+              store.set(key, val);
+            }
+          }
           break;
         }
 

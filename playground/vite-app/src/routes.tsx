@@ -6,6 +6,7 @@ import DataTableWithSorting from './demos/recipes/DataTableWithSorting';
 import SearchWithAutocomplete from './demos/recipes/SearchWithAutocomplete';
 import SettingsPage from './demos/recipes/SettingsPage';
 import A2UIDemo from './demos/A2UIDemo';
+import A2UIChatDemo from './demos/A2UIChatDemo';
 import ContainedTriggers from './experiments/perf/contained-triggers';
 import DetachedTriggers from './experiments/perf/detached-triggers';
 import RadixTriggers from './experiments/perf/radix-triggers';
@@ -82,6 +83,13 @@ export const routes: RouteEntry[] = [
     path: '/a2ui',
     label: 'A2UI renderer demo',
     element: <A2UIDemo />,
+    showInNav: true,
+  },
+  {
+    type: 'route',
+    path: '/a2ui-chat',
+    label: 'A2UI chat',
+    element: <A2UIChatDemo />,
     showInNav: true,
   },
   { type: 'header', label: 'Performance benchmarks' },

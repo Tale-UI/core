@@ -1,0 +1,7 @@
+{
+  "slug": "tabs-without-root",
+  "expectValid": false,
+  "expectedError": "wrong-kind",
+  "description": "Using Tabs (compound) as bare JSX instead of <Tabs.Root>",
+  "reference": "import { Tabs } from '@tale-ui/react/tabs';\n\nexport function SettingsTabs() {\n  return (\n    <Tabs defaultSelectedKey=\"general\">\n      <Tabs.List>\n        <Tabs.Tab id=\"general\">General</Tabs.Tab>\n        <Tabs.Tab id=\"security\">Security</Tabs.Tab>\n      </Tabs.List>\n      <Tabs.Panel id=\"general\">General settings</Tabs.Panel>\n      <Tabs.Panel id=\"security\">Security settings</Tabs.Panel>\n    </Tabs>\n  );\n}\n"
+}

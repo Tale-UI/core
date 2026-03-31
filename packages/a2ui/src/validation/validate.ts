@@ -67,8 +67,9 @@ export function validateMessage(msg: unknown): ValidationResult {
     case 'dataModelUpdate':
       if (!m.surfaceId || typeof m.surfaceId !== 'string')
         errors.push({ type: 'missing_field', message: 'dataModelUpdate requires "surfaceId".', field: 'surfaceId' });
-      if (typeof m.path !== 'string')
-        errors.push({ type: 'missing_field', message: 'dataModelUpdate requires "path" string.', field: 'path' });
+      // Accept standard format (path + value) or LLM bulk format (data object)
+      if (typeof m.path !== 'string' && (!m.data || typeof m.data !== 'object'))
+        errors.push({ type: 'missing_field', message: 'dataModelUpdate requires "path" string or "data" object.', field: 'path' });
       break;
 
     case 'deleteSurface':
