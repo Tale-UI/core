@@ -1,6 +1,6 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
+<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" alt="Perplexity" style="height:64px;margin-right:32px"/>
 
-# Create a comprehensive plan to implement Google's A2UI (https://a2ui.org/) into my own custom Design System and Component Library. Assume the agent in the Design System knows nothing about A2UI. Give me this plan in markdown.
+# Create a comprehensive plan to implement Google's A2UI (https://a2ui.org/) into my own custom Design System and Component Library. Assume the agent in the Design System knows nothing about A2UI. Give me this plan in markdown
 
 A2UI is a declarative protocol where agents stream JSON messages describing UI surfaces and flat lists of components; clients rebuild the tree and render them using native components from a predefined catalog. To integrate it with your design system, you’ll create an A2UI catalog backed by your components, wire up a renderer/bridge, and then teach your “design system agent” to emit A2UI messages instead of (or in addition to) your current formats.[^1][^2][^3][^4][^5]
 
@@ -51,7 +51,6 @@ Deliverable for this phase: a short internal “A2UI in our stack” note that r
 2. **Map to standard A2UI components**
     - For each A2UI standard component (e.g., `Text`, `Button`, `Row`, `Column`, `List`, `Card`, `Image`), choose the closest match in your library or decide to create a design-system-specific variant.[^7][^1][^4]
     - Capture a mapping table, e.g.:
-
 
 | A2UI type | Your DS component | Notes |
 | :-- | :-- | :-- |
@@ -226,4 +225,3 @@ If you’d like, I can next take your actual component API (props, naming, themi
 [^14]: https://dev.to/czmilo/a2ui-introduction-jb2
 
 [^15]: https://a2aprotocol.ai/blog/2025-the-complete-guide-to-a2ui-protocol
-

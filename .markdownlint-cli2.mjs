@@ -18,7 +18,9 @@ export default {
     MD041: false, // false positives in MDX
     MD051: false, // link-fragments — false positives in changelogs
     MD052: false, // reference-links-images
+    MD040: false, // fenced-code-language — too many pre-existing unlabelled blocks
     MD059: false, // descriptive-link-text
+    MD060: false, // table-column-style — too strict for generated/compact tables
   },
   ignores: [
     'CHANGELOG.old.md',
@@ -28,5 +30,6 @@ export default {
     '.github/PULL_REQUEST_TEMPLATE.md',
     'docs/public/**',
     'docs/export/**',
+    'analysis/**',
   ],
 };
