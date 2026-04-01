@@ -2,6 +2,13 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.41 — 2026-03-31
+
+### Changed
+
+- **button.css:** Added `width: fit-content` so buttons no longer stretch to fill their container by default.
+- **number-field.css:** Added `width: fit-content` to root; changed input from `flex: 1` to `flex: 0 0 6rem` for consistent sizing.
+
 ## v1.3.40 — 2026-03-31
 
 ### Changed

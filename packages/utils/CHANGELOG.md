@@ -2,6 +2,10 @@
 
 All notable changes to the utility library are documented in this file.
 
+## v1.3.41 — 2026-03-31
+
+No changes — version bump for coordinated release.
+
 ## v1.3.40 — 2026-03-31
 
 ### Changed

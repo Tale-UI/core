@@ -2,6 +2,12 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.41 — 2026-03-31
+
+### Changed
+
+- **Banner.test.tsx:** Updated tests to reflect current BEM class output (info variant now always applies `tale-banner--info`; color variants use `color-*` theme class).
+
 ## v1.3.40 — 2026-03-31
 
 ### Added
