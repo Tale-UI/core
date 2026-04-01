@@ -102,6 +102,28 @@ function parseComponentIndex() {
   return map;
 }
 
+// ─── Type alias extraction ───────────────────────────────────────────────────
+
+/**
+ * Extract type aliases that are pure string unions from a styled file.
+ * Returns a Map from alias name → array of string values.
+ * e.g. `type Variant = 'primary' | 'neutral'` → Map { Variant → ['primary','neutral'] }
+ */
+function extractTypeAliases(content) {
+  if (!content) return new Map();
+  const map = new Map();
+  // Match: type Name = 'a' | 'b' | ... (single-line, may have trailing semicolon)
+  const re = /^(?:export\s+)?type\s+(\w+)\s*=\s*((?:'[^']*'\s*\|?\s*)+);?$/gm;
+  let m;
+  while ((m = re.exec(content)) !== null) {
+    const name = m[1];
+    const body = m[2];
+    const values = [...body.matchAll(/'([^']*)'/g)].map(v => v[1]);
+    if (values.length > 0) map.set(name, values);
+  }
+  return map;
+}
+
 // ─── Kind detection ─────────────────────────────────────────────────────────
 
 function detectKind(indexContent) {
@@ -229,6 +251,119 @@ function extractCSSClasses(cssContent) {
   return [...classes].sort();
 }
 
+// ─── Doc-based prop extraction (fallback for inherited RAC props) ───────────
+
+/**
+ * When the styled-file extraction yields zero custom props (because the
+ * interface body only contains `className`), fall back to extracting
+ * consumer-facing props from the component's markdown documentation.
+ *
+ * Sources:
+ *   1. JSX attributes on `<Component.Root ...>` in code examples
+ *   2. Prop names mentioned in backticks in the ## Notes section
+ *   3. Prop names mentioned in backticks in the ## Props section
+ */
+function extractDocProps(docContent, pascal) {
+  if (!docContent) return [];
+  const normalized = docContent.replace(/\r\n/g, '\n');
+  const found = new Map(); // name → { type }
+
+  // 1. Extract props from JSX code examples
+  //    Match <Pascal.Root prop1 prop2="val" prop3={expr}> or <Pascal prop1 ...>
+  const codeBlocks = [];
+  const codeRegex = /```tsx\n([\s\S]*?)```/g;
+  let cm;
+  while ((cm = codeRegex.exec(normalized)) !== null) {
+    codeBlocks.push(cm[1]);
+  }
+
+  for (const code of codeBlocks) {
+    // Match Root element opening tags (possibly multi-line).
+    // Uses balanced-brace matching to avoid stopping at > inside {arrow => fn}
+    const rootTagRegex = new RegExp(
+      `<${pascal}\\.Root\\b((?:[^>{}/]|\\{(?:[^{}]|\\{[^{}]*\\})*\\}|/(?!>))*)(?:>|/>)`, 'gs',
+    );
+    let rm;
+    while ((rm = rootTagRegex.exec(code)) !== null) {
+      const attrStr = rm[1];
+      if (!attrStr.trim()) continue;
+
+      // Parse JSX attributes sequentially to avoid false positives inside strings.
+      // Matches: propName="val" | propName={expr} | propName (boolean)
+      const jsxAttrRegex = /\b([a-zA-Z]\w*)\s*(?:=\s*(?:"[^"]*"|\{[^}]*(?:\{[^}]*\}[^}]*)*\}))?/g;
+      let am;
+      while ((am = jsxAttrRegex.exec(attrStr)) !== null) {
+        const name = am[1];
+        const full = am[0];
+        // Skip internal/framework props
+        if (name === 'className' || name === 'children' || name === 'key' || name === 'ref' || name === 'style') continue;
+        // Skip aria-* (attrStr may contain aria-label="..." which splits on hyphen)
+        if (name === 'aria') continue;
+
+        if (!found.has(name)) {
+          if (full.includes('="')) {
+            found.set(name, { type: 'string' });
+          } else if (full.includes('={')) {
+            found.set(name, { type: inferPropType(name) });
+          } else {
+            // Bare prop (boolean)
+            found.set(name, { type: 'boolean' });
+          }
+        }
+      }
+    }
+  }
+
+  // 2. Extract props mentioned in ## Notes section
+  const notesSectionMatch = normalized.match(/## Notes\n([\s\S]*?)(?=\n## |\n$|$)/);
+  if (notesSectionMatch) {
+    extractPropsFromProse(notesSectionMatch[1], found);
+  }
+
+  // 3. Extract props mentioned in ## Props section (prose descriptions)
+  const propsSectionMatch = normalized.match(/## Props\n([\s\S]*?)(?=\n## )/);
+  if (propsSectionMatch) {
+    extractPropsFromProse(propsSectionMatch[1], found);
+  }
+
+  return [...found.entries()]
+    .filter(([name]) => name !== 'className' && name !== 'children')
+    .map(([name, info]) => ({
+      name,
+      type: info.type,
+      required: false,
+      description: null,
+      default: null,
+    }));
+}
+
+/** Extract backtick-quoted prop names from prose text */
+function extractPropsFromProse(text, found) {
+  // Match `propName` where propName looks like a React prop.
+  // Only match well-known prop patterns to avoid false positives.
+  const propRegex = /`(is[A-Z]\w+|default[A-Z]\w+|on[A-Z]\w+|allows\w+|selectionMode|orientation|placeholder|sortDescriptor|inputValue|isDismissable|placement|shouldFlip|crossOffset|allowsMultipleExpanded|allowsSorting)`/g;
+  let m;
+  while ((m = propRegex.exec(text)) !== null) {
+    const name = m[1];
+    if (!found.has(name)) {
+      found.set(name, { type: inferPropType(name) });
+    }
+  }
+}
+
+/** Infer prop type from naming convention */
+function inferPropType(name) {
+  if (/^is[A-Z]/.test(name)) return 'boolean';
+  if (/^allows/.test(name)) return 'boolean';
+  if (/^default[A-Z]/.test(name) && name.endsWith('Keys')) return 'Iterable<Key>';
+  if (/^on[A-Z]/.test(name)) return 'function';
+  if (name === 'selectionMode') return "'none' | 'single' | 'multiple'";
+  if (name === 'orientation') return "'horizontal' | 'vertical'";
+  if (name === 'placement') return "'top' | 'bottom' | 'left' | 'right'";
+  if (name === 'sortDescriptor') return 'SortDescriptor';
+  return 'string';
+}
+
 // ─── Example extraction from docs ───────────────────────────────────────────
 
 function extractDocExamples(docContent) {
@@ -265,13 +400,41 @@ function generateRegistry() {
     const kind = detectKind(indexContent);
     const importPath = reactPkg.exports[`./${slug}`] ? `@tale-ui/react/${slug}` : null;
 
-    // Props
+    // Props — extract from styled file, then supplement with doc-extracted props
+    const typeAliases = extractTypeAliases(styledContent);
     const rawProps = extractProps(styledContent, pascal);
     const defaults = extractDefaults(styledContent);
-    const props = rawProps.map(p => ({
-      ...p,
-      default: defaults[p.name] || null,
-    }));
+
+    // For compound components, also extract consumer-facing props from docs
+    // (examples + Notes section) to capture inherited RAC props.
+    if (kind === 'compound') {
+      const docProps = extractDocProps(docContent, pascal);
+      const existingNames = new Set(rawProps.map(p => p.name));
+      for (const dp of docProps) {
+        if (!existingNames.has(dp.name)) {
+          rawProps.push(dp);
+        }
+      }
+    }
+
+    const props = rawProps.map(p => {
+      // Resolve allowedValues: if the type is a known alias → expand to string array;
+      // if type is an inline string union ('a' | 'b') → parse directly.
+      let allowedValues = null;
+      if (typeAliases.has(p.type)) {
+        allowedValues = typeAliases.get(p.type);
+      } else if (/^'[^']*'(\s*\|\s*'[^']*')+$/.test(p.type)) {
+        allowedValues = [...p.type.matchAll(/'([^']*)'/g)].map(v => v[1]);
+      }
+      return {
+        name: p.name,
+        type: p.type,
+        required: p.required,
+        description: p.description,
+        default: defaults[p.name] || p.default || null,
+        ...(allowedValues ? { allowedValues } : {}),
+      };
+    });
 
     // Parts
     const parts = extractParts(indexContent, styledContent);

@@ -1,0 +1,7 @@
+{
+  "slug": "slider-volume",
+  "difficulty": "medium",
+  "prompt": "Show a volume slider ranging from 0 to 100 with a default value of 50.",
+  "reference": "import { Slider } from '@tale-ui/react/slider';\n\nexport function VolumeSlider() {\n  return (\n    <Slider.Root defaultValue={50} minValue={0} maxValue={100}>\n      <Slider.Header>\n        <Slider.Label>Volume</Slider.Label>\n        <Slider.Output />\n      </Slider.Header>\n      <Slider.Control>\n        <Slider.Track>\n          <Slider.Indicator />\n          <Slider.Thumb />\n        </Slider.Track>\n      </Slider.Control>\n    </Slider.Root>\n  );\n}",
+  "tags": ["Slider"]
+}

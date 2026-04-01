@@ -1,0 +1,7 @@
+{
+  "slug": "combobox-search",
+  "difficulty": "medium",
+  "prompt": "Show a combobox for searching and selecting a country from a dropdown list.",
+  "reference": "import { Combobox } from '@tale-ui/react/combobox';\n\nexport function CountryCombobox() {\n  return (\n    <Combobox.Root>\n      <Combobox.Label>Country</Combobox.Label>\n      <Combobox.InputGroup>\n        <Combobox.Input placeholder=\"Search countries...\" />\n        <Combobox.Trigger />\n      </Combobox.InputGroup>\n      <Combobox.Popover>\n        <Combobox.ListBox>\n          <Combobox.Item id=\"us\" textValue=\"United States\">United States</Combobox.Item>\n          <Combobox.Item id=\"ca\" textValue=\"Canada\">Canada</Combobox.Item>\n          <Combobox.Item id=\"uk\" textValue=\"United Kingdom\">United Kingdom</Combobox.Item>\n          <Combobox.Item id=\"au\" textValue=\"Australia\">Australia</Combobox.Item>\n          <Combobox.Item id=\"de\" textValue=\"Germany\">Germany</Combobox.Item>\n        </Combobox.ListBox>\n      </Combobox.Popover>\n    </Combobox.Root>\n  );\n}",
+  "tags": ["Combobox"]
+}

@@ -1,0 +1,7 @@
+{
+  "slug": "field-with-validation",
+  "difficulty": "medium",
+  "prompt": "Show a Field wrapper with a label, description helper text, and an error message.",
+  "reference": "import { Field } from '@tale-ui/react/field';\n\nexport function FieldWithValidation() {\n  return (\n    <Field.Root>\n      <Field.Label>Email address</Field.Label>\n      <Field.Control>\n        <input className=\"tale-input\" type=\"email\" placeholder=\"you@example.com\" />\n      </Field.Control>\n      <Field.Description>We will never share your email with anyone.</Field.Description>\n      <Field.Error>Please enter a valid email address.</Field.Error>\n    </Field.Root>\n  );\n}",
+  "tags": ["Field"]
+}

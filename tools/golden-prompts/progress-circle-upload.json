@@ -1,0 +1,7 @@
+{
+  "slug": "progress-circle-upload",
+  "difficulty": "medium",
+  "prompt": "Show an upload progress circle at 65% completion.",
+  "reference": "import { ProgressCircle } from '@tale-ui/react/progress-circle';\n\nexport function UploadProgressCircle() {\n  return (\n    <ProgressCircle.Root value={65}>\n      <ProgressCircle.Track />\n      <ProgressCircle.Label>Upload</ProgressCircle.Label>\n      <ProgressCircle.Value />\n    </ProgressCircle.Root>\n  );\n}",
+  "tags": ["ProgressCircle"]
+}

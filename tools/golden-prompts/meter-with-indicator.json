@@ -1,0 +1,7 @@
+{
+  "slug": "meter-with-indicator",
+  "difficulty": "medium",
+  "prompt": "Create a meter showing 75% disk usage with a label and track.",
+  "reference": "import { Meter } from '@tale-ui/react/meter';\n\nexport function DiskUsageMeter() {\n  return (\n    <Meter.Root value={75} minValue={0} maxValue={100}>\n      <Meter.Header>\n        <Meter.Label>Disk Usage</Meter.Label>\n        <Meter.Value />\n      </Meter.Header>\n      <Meter.Track>\n        <Meter.Indicator value={75} />\n      </Meter.Track>\n    </Meter.Root>\n  );\n}\n",
+  "tags": ["Meter"]
+}

@@ -14,6 +14,7 @@ const API_URL = import.meta.env.DEV
   ? '/api/straico/v0/chat/completions'
   : 'https://api.straico.com/v0/chat/completions';
 const MODEL = 'anthropic/claude-sonnet-4';
+const MAX_TOKENS = 16384;
 
 /**
  * Fetch a completion from the Straico API (non-streaming).
@@ -36,6 +37,7 @@ export async function fetchStraicoCompletion({
       },
       body: JSON.stringify({
         model: MODEL,
+        max_tokens: MAX_TOKENS,
         messages: [
           { role: 'system', content: getSystemPrompt() },
           ...messages.map((m) => ({ role: m.role, content: m.content })),
@@ -54,14 +56,16 @@ export async function fetchStraicoCompletion({
     // Straico wraps the OpenAI-compatible response inside data.completion
     // Python SDK: reply["completion"]["choices"][0]["message"]["content"]
     const completion = json.data?.completion ?? json.completion ?? json;
-    const content = completion?.choices?.[0]?.message?.content ?? '';
+    const choice = completion?.choices?.[0];
+    const content = choice?.message?.content ?? '';
+    const truncated = choice?.finish_reason === 'length';
 
     if (!content) {
       throw new Error(`Straico returned an empty response. Raw: ${JSON.stringify(json).slice(0, 200)}`);
     }
 
     onChunk(content);
-    onComplete(content);
+    onComplete(content, { truncated });
   } catch (err) {
     if ((err as Error).name === 'AbortError') return;
     onError(err as Error);

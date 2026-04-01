@@ -1,0 +1,7 @@
+{
+  "slug": "color-area-picker",
+  "difficulty": "complex",
+  "prompt": "Show a color picker using ColorArea and a hue ColorSlider with shared state — do NOT use ColorPicker.Root.",
+  "reference": "import { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\n\nexport function ColorAreaPicker() {\n  return (\n    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-s)' }}>\n      <ColorArea.Root\n        defaultValue=\"hsl(0, 100%, 50%)\"\n        xChannel=\"saturation\"\n        yChannel=\"lightness\"\n      >\n        <ColorArea.Thumb />\n      </ColorArea.Root>\n      <ColorSlider.Root channel=\"hue\" defaultValue=\"hsl(0, 100%, 50%)\">\n        <ColorSlider.Label>Hue</ColorSlider.Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider.Root>\n    </div>\n  );\n}",
+  "tags": ["ColorArea", "ColorSlider"]
+}

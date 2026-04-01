@@ -136,7 +136,7 @@ When clicked, your `onAction` callback receives `("main", { name: "save", contex
 
 ## Catalog Reference
 
-The default catalog maps all 30 A2UI standard component types to Tale UI.
+The default catalog maps all 135 A2UI standard component types to Tale UI.
 
 <!-- BEGIN:A2UI_CATALOG_TABLES -->
 | A2UI Type | Tale UI Component | Key A2UI Props |
@@ -151,20 +151,28 @@ The default catalog maps all 30 A2UI standard component types to Tale UI.
 | `Badge` | `Badge` | `tone`, `size`, `type`, `label` |
 | `Icon` | `Icon` | `name`, `size`, `label` |
 | `Separator` | `Separator` | `orientation` |
-| `Link` | `Link` | `href`, `target`, `label` |
-| `Button` | `Button` | `variant`, `size`, `disabled`, `action`, `label` |
-| `TextInput` | `TextField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `required`, `action`, `description`, `errorMessage` |
-| `Checkbox` | `Checkbox.Root` | `binding`, `label`, `defaultSelected`, `disabled` |
-| `Radio` | `RadioGroup` | `binding`, `label`, `defaultValue`, `disabled`, `action` |
-| `Select` | `Select.Root` | `binding`, `label`, `defaultValue`, `disabled`, `placeholder`, `action` |
-| `Switch` | `Switch.Root` | `binding`, `label`, `defaultSelected`, `disabled` |
-| `RadioOption` | `Radio.Root` | `value`, `disabled`, `label` |
+| `Link` | `Link` | `href`, `target`, `rel`, `download`, `label` |
+| `Button` | `Button` | `variant`, `size`, `disabled`, `isPending`, `showTextWhileLoading`, `action`, `label` |
+| `TextInput` | `TextField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `action`, `type`, `placeholder`, `description`, `errorMessage` |
+| `Checkbox` | `Checkbox.Root` | `binding`, `label`, `defaultSelected`, `disabled`, `readOnly`, `isIndeterminate`, `isRequired`, `size`, `value`, `name`, `action` |
+| `Radio` | `RadioGroup` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `size`, `name`, `description`, `action` |
+| `Select` | `Select.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `size`, `name`, `placeholder`, `action` |
+| `Switch` | `Switch.Root` | `binding`, `label`, `defaultSelected`, `disabled`, `readOnly`, `isRequired`, `size`, `value`, `name`, `action` |
+| `RadioOption` | `Radio.Root` | `value`, `disabled`, `size`, `label` |
 | `SelectItem` | `Select.Item` | `value`, `label` |
-| `Table` | `Table.Root` | `label`, `selectionMode` |
-| `Tabs` | `Tabs.Root` | `label`, `defaultTab` |
-| `Progress` | `ProgressBar.Root` | `value`, `maxValue`, `indeterminate`, `label` |
+| `Table` | `Table.Root` | `label`, `selectionMode`, `selectionBehavior`, `disabledKeys`, `onSelectionChange` |
+| `TableHeader` | `Table.Header` | -- |
+| `TableColumn` | `Table.Column` | `isRowHeader`, `allowsSorting`, `width`, `minWidth`, `maxWidth`, `label` |
+| `TableBody` | `Table.Body` | -- |
+| `TableRow` | `Table.Row` | `id`, `action` |
+| `TableCell` | `Table.Cell` | `content` |
+| `Tabs` | `Tabs.Root` | `label`, `defaultTab`, `orientation`, `isDisabled` |
+| `TabList` | `Tabs.List` | `size`, `variant` |
+| `TabItem` | `Tabs.Tab` | `id`, `isDisabled`, `label` |
+| `TabPanel` | `Tabs.Panel` | `id` |
+| `Progress` | `ProgressBar.Root` | `value`, `minValue`, `maxValue`, `indeterminate`, `labelPosition`, `label` |
 | `Spinner` | `Spinner` | `variant`, `size`, `label` |
-| `Form` | `Form` | `action` |
+| `Form` | `Form` | `validationBehavior`, `action` |
 | `CardHeader` | `Card.Header` | -- |
 | `CardBody` | `Card.Body` | -- |
 | `CardFooter` | `Card.Footer` | -- |
@@ -172,23 +180,102 @@ The default catalog maps all 30 A2UI standard component types to Tale UI.
 | `AvatarImage` | `Avatar.Image` | `src`, `alt` |
 | `AvatarFallback` | `Avatar.Fallback` | `initials` |
 | `Banner` | `Banner.Root` | `variant`, `size`, `icon`, `title`, `description` |
-| `Disclosure` | `Disclosure.Root` | `defaultExpanded` |
+| `Disclosure` | `Disclosure.Root` | `defaultExpanded`, `isExpanded`, `onExpandedChange` |
 | `DisclosureTrigger` | `Disclosure.Trigger` | `label` |
 | `DisclosurePanel` | `Disclosure.Panel` | -- |
-| `TextAreaInput` | `TextArea.Root` | `binding`, `label`, `defaultValue`, `disabled`, `required`, `description` |
-| `NumberInput` | `NumberField.Root` | `binding`, `label`, `defaultValue`, `minValue`, `maxValue`, `step`, `disabled`, `required`, `description` |
-| `SliderInput` | `Slider.Root` | `binding`, `label`, `defaultValue`, `minValue`, `maxValue`, `step`, `disabled` |
-| `SearchInput` | `SearchField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `action` |
-| `Accordion` | `Accordion.Root` | `allowsMultipleExpanded`, `defaultExpandedKeys` |
-| `AccordionItem` | `Accordion.Item` | `id` |
+| `TextAreaInput` | `TextArea.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `placeholder`, `description` |
+| `NumberInput` | `NumberField.Root` | `binding`, `label`, `defaultValue`, `minValue`, `maxValue`, `step`, `disabled`, `readOnly`, `required`, `isInvalid`, `formatOptions`, `name`, `description` |
+| `SliderInput` | `Slider.Root` | `binding`, `label`, `defaultValue`, `minValue`, `maxValue`, `step`, `disabled`, `readOnly`, `isRequired`, `orientation`, `name` |
+| `SearchInput` | `SearchField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `name`, `action`, `placeholder` |
+| `Accordion` | `Accordion.Root` | `allowsMultipleExpanded`, `defaultExpandedKeys`, `expandedKeys`, `isDisabled`, `onExpandedChange` |
+| `AccordionItem` | `Accordion.Item` | `id`, `isDisabled`, `defaultExpanded` |
 | `AccordionHeader` | `Accordion.Header` | -- |
 | `AccordionTrigger` | `Accordion.Trigger` | `label` |
 | `AccordionPanel` | `Accordion.Panel` | -- |
 | `Menu` | `Menu.Root` | -- |
 | `MenuTrigger` | `Menu.Trigger` | `label` |
-| `MenuPopover` | `Menu.Popover` | -- |
-| `MenuItem` | `Menu.Item` | `id`, `action`, `label` |
+| `MenuPopover` | `Menu.Popover` | `placement`, `offset`, `crossOffset`, `shouldFlip`, `maxHeight` |
+| `MenuItem` | `Menu.Item` | `id`, `textValue`, `href`, `target`, `disabled`, `action`, `label` |
 | `MenuSeparator` | `Menu.Separator` | -- |
+| `Dialog` | `Dialog.Root` | `triggerLabel`, `title`, `isKeyboardDismissDisabled`, `isDismissable`, `description` |
+| `AlertDialog` | `AlertDialog.Root` | `triggerLabel`, `title`, `isKeyboardDismissDisabled`, `description` |
+| `Drawer` | `Drawer.Root` | `placement`, `triggerLabel`, `title`, `description` |
+| `Tooltip` | `Tooltip.Root` | `delay`, `closeDelay` |
+| `TooltipTrigger` | `Tooltip.Trigger` | `label` |
+| `TooltipPopup` | `Tooltip.Popup` | `placement`, `offset`, `crossOffset`, `shouldFlip`, `content` |
+| `Popover` | `Popover.Root` | `isDismissable` |
+| `PopoverTrigger` | `Popover.Trigger` | `label` |
+| `PopoverPopup` | `Popover.Popup` | `placement`, `offset`, `crossOffset`, `shouldFlip`, `isKeyboardDismissDisabled`, `title`, `description` |
+| `Breadcrumbs` | `Breadcrumbs.Root` | -- |
+| `BreadcrumbItem` | `Breadcrumbs.Item` | `label` |
+| `BreadcrumbLink` | `Breadcrumbs.Link` | `href`, `rel`, `label` |
+| `Pagination` | `Pagination.Root` | `label` |
+| `PaginationItem` | `Pagination.Item` | `page`, `current`, `isDisabled`, `action` |
+| `PaginationPrevious` | `Pagination.PreviousTrigger` | `disabled`, `action` |
+| `PaginationNext` | `Pagination.NextTrigger` | `disabled`, `action` |
+| `PaginationEllipsis` | `Pagination.Ellipsis` | -- |
+| `TagGroup` | `TagGroup.Root` | `label`, `selectionMode`, `defaultSelectedKeys`, `isDisabled`, `onSelectionChange`, `onRemove` |
+| `TagList` | `TagGroup.List` | -- |
+| `Tag` | `TagGroup.Tag` | `id`, `textValue`, `href`, `disabled`, `label` |
+| `EmptyState` | `EmptyState.Root` | `size`, `icon`, `title`, `description` |
+| `Meter` | `Meter.Root` | `value`, `minValue`, `maxValue`, `label` |
+| `ProgressCircle` | `ProgressCircle.Root` | `value`, `minValue`, `maxValue`, `isIndeterminate`, `label`, `size` |
+| `ToggleButton` | `ToggleButton` | `binding`, `size`, `disabled`, `readOnly`, `isRequired`, `value`, `name`, `label` |
+| `ToggleButtonGroup` | `ToggleButtonGroup` | `selectionMode`, `disallowEmptySelection`, `defaultSelectedKeys`, `readOnly`, `size` |
+| `Field` | `Field.Root` | -- |
+| `FieldLabel` | `Field.Label` | `label` |
+| `FieldDescription` | `Field.Description` | `content` |
+| `FieldError` | `Field.Error` | `message` |
+| `CheckboxGroup` | `CheckboxGroup` | `label`, `description`, `orientation`, `size`, `disabled`, `required`, `isInvalid`, `name` |
+| `Combobox` | `Combobox.Root` | `label`, `disabled`, `required`, `isInvalid`, `name`, `placeholder`, `description` |
+| `ComboboxItem` | `Combobox.Item` | `id`, `textValue`, `disabled`, `label` |
+| `SelectNative` | `SelectNative` | `label`, `size`, `disabled`, `name`, `options` |
+| `PinInput` | `PinInput.Root` | `maxLength`, `disabled` |
+| `Calendar` | `Calendar.Root` | `label`, `disabled`, `readOnly` |
+| `RangeCalendar` | `RangeCalendar.Root` | `label`, `disabled`, `readOnly` |
+| `DateField` | `DateField.Root` | `label`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `description`, `errorMessage` |
+| `DatePicker` | `DatePicker.Root` | `label`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `description`, `errorMessage` |
+| `DateRangePicker` | `DateRangePicker.Root` | `label`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `description`, `errorMessage` |
+| `TimeField` | `TimeField.Root` | `label`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `description`, `errorMessage` |
+| `ColorField` | `ColorField.Root` | `label`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `placeholder`, `description`, `errorMessage` |
+| `ColorArea` | `ColorArea.Root` | `label`, `xChannel`, `yChannel` |
+| `ColorSlider` | `ColorSlider.Root` | `channel`, `label` |
+| `PreviewCard` | `PreviewCard.Root` | `delay`, `closeDelay`, `label`, `placement`, `title` |
+| `ContextMenu` | `ContextMenu.Root` | -- |
+| `ContextMenuTrigger` | `ContextMenu.Trigger` | `label` |
+| `ContextMenuPopup` | `ContextMenu.Popup` | -- |
+| `ContextMenuItem` | `ContextMenu.Item` | `id`, `textValue`, `disabled`, `action`, `label` |
+| `ContextMenuSeparator` | `ContextMenu.Separator` | -- |
+| `NavigationMenu` | `NavigationMenu.Root` | -- |
+| `NavigationMenuItem` | `NavigationMenu.Item` | -- |
+| `NavigationMenuLink` | `NavigationMenu.Link` | `href`, `label` |
+| `Carousel` | `Carousel.Root` | `loop`, `autoplay`, `slidesPerView`, `orientation` |
+| `CarouselItem` | `Carousel.Item` | -- |
+| `ScrollArea` | `ScrollArea.Root` | -- |
+| `Toolbar` | `Toolbar.Root` | `label` |
+| `ToolbarButton` | `Toolbar.Button` | `disabled`, `action`, `label` |
+| `ToolbarSeparator` | `Toolbar.Separator` | -- |
+| `GridList` | `GridList.Root` | `label`, `selectionMode` |
+| `GridListItem` | `GridList.Item` | `id`, `textValue`, `disabled`, `label` |
+| `Tree` | `Tree.Root` | `label`, `selectionMode` |
+| `TreeItem` | `Tree.Item` | `id`, `textValue`, `label` |
+| `RatingStars` | `RatingStars` | `value`, `max`, `size` |
+| `RatingBadge` | `RatingBadge` | `value`, `size` |
+| `FeaturedIcon` | `FeaturedIcon` | `variant`, `shape`, `size`, `theme` |
+| `DotIcon` | `DotIcon` | `color`, `size` |
+| `Fieldset` | `Fieldset.Root` | `label` |
+| `IconButton` | `IconButton` | `variant`, `size`, `disabled`, `label`, `action` |
+| `DropZone` | `DropZone` | `action` |
+| `FileTrigger` | `FileTrigger` | `acceptedFileTypes`, `allowsMultiple`, `action` |
+| `PaymentInput` | `PaymentInput.Root` | `label`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `placeholder`, `description`, `errorMessage` |
+| `Autocomplete` | `Autocomplete.Root` | `label`, `placeholder` |
+| `AutocompleteItem` | `Autocomplete.Item` | `id`, `textValue`, `disabled`, `label` |
+| `ColorWheel` | `ColorWheel.Root` | `label`, `outerRadius`, `innerRadius` |
+| `ColorSwatch` | `ColorSwatch` | `color` |
+| `ColorSwatchPicker` | `ColorSwatchPicker.Root` | `colors` |
+| `ColorPicker` | `ColorPicker.Root` | -- |
+| `AppStoreButton` | `AppStoreButton` | `store`, `size`, `href` |
+| `SocialButton` | `SocialButton` | `provider`, `size`, `href`, `label` |
 
 **Text `usageHint` values:**
 

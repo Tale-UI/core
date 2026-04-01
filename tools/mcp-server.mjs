@@ -15,6 +15,7 @@
  *   list_a2ui_types   — list all A2UI catalog types with name, category, props
  *   get_a2ui_type     — get full details for an A2UI type (props, component, hints)
  *   get_a2ui_example  — get a few-shot A2UI message example by name
+ *   validate_code     — validate generated Tale UI React code (registry + tsc)
  *
  * Run:  node tools/mcp-server.mjs
  * Config (Claude Code .claude/settings.json):
@@ -27,6 +28,7 @@ import { z } from 'zod';
 import { readFileSync, readdirSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { execFileSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -149,13 +151,81 @@ function fuzzyMatch(query, text) {
   return 0;
 }
 
+// Synonym map: common terms agents might search for → Tale UI component names
+const SYNONYMS = {
+  dropdown: ['Select', 'Combobox', 'Menu'],
+  modal: ['Dialog', 'AlertDialog'],
+  popup: ['Popover', 'Dialog', 'Tooltip'],
+  overlay: ['Dialog', 'AlertDialog', 'Drawer', 'Popover'],
+  sidebar: ['Drawer', 'NavigationMenu'],
+  toggle: ['Switch', 'ToggleButton', 'ToggleButtonGroup'],
+  toast: ['Banner'],
+  notification: ['Banner'],
+  alert: ['Banner', 'AlertDialog'],
+  chip: ['Badge', 'TagGroup'],
+  tag: ['TagGroup', 'Badge'],
+  loader: ['Spinner', 'ProgressBar', 'ProgressCircle'],
+  loading: ['Spinner', 'ProgressBar', 'ProgressCircle'],
+  input: ['TextField', 'TextArea', 'NumberField', 'SearchField', 'Input'],
+  'text input': ['TextField', 'Input'],
+  'text field': ['TextField', 'Input'],
+  textarea: ['TextArea'],
+  autocomplete: ['Autocomplete', 'Combobox'],
+  typeahead: ['Autocomplete', 'Combobox'],
+  nav: ['NavigationMenu', 'Breadcrumbs', 'Tabs'],
+  navigation: ['NavigationMenu', 'Breadcrumbs', 'Tabs'],
+  stepper: ['NumberField'],
+  accordion: ['Accordion', 'Disclosure'],
+  collapse: ['Accordion', 'Disclosure'],
+  expandable: ['Accordion', 'Disclosure'],
+  table: ['Table'],
+  grid: ['GridList', 'Table'],
+  avatar: ['Avatar'],
+  image: ['Image', 'Avatar'],
+  icon: ['Icon', 'IconButton'],
+  progress: ['ProgressBar', 'ProgressCircle', 'Meter'],
+  meter: ['Meter', 'ProgressBar'],
+  slider: ['Slider'],
+  range: ['Slider', 'RangeCalendar'],
+  date: ['DatePicker', 'DateField', 'Calendar', 'DateRangePicker'],
+  calendar: ['Calendar', 'DatePicker', 'RangeCalendar'],
+  time: ['TimeField'],
+  color: ['ColorPicker', 'ColorArea', 'ColorSlider', 'ColorField', 'ColorWheel', 'ColorSwatch', 'ColorSwatchPicker'],
+  form: ['Form', 'TextField', 'Select', 'Checkbox', 'Radio'],
+  card: ['Card'],
+  empty: ['EmptyState'],
+  'empty state': ['EmptyState'],
+  'no data': ['EmptyState'],
+  file: ['FileTrigger', 'DropZone'],
+  upload: ['FileTrigger', 'DropZone'],
+  'drag and drop': ['DropZone'],
+  paginate: ['Pagination'],
+  paging: ['Pagination'],
+  breadcrumb: ['Breadcrumbs'],
+  tree: ['Tree'],
+  list: ['List', 'GridList'],
+};
+
 function searchComponents(components, query) {
+  const q = query.toLowerCase();
+
+  // Check synonyms and boost matching components
+  const synonymBoosts = new Map();
+  for (const [term, targets] of Object.entries(SYNONYMS)) {
+    if (q.includes(term)) {
+      for (const target of targets) {
+        synonymBoosts.set(target, (synonymBoosts.get(target) || 0) + 60);
+      }
+    }
+  }
+
   const scored = components.map(c => {
     const nameScore = fuzzyMatch(query, c.name);
     const descScore = fuzzyMatch(query, c.description);
     const catScore = fuzzyMatch(query, c.category);
     const partsScore = c.parts ? Math.max(...c.parts.map(p => fuzzyMatch(query, p)), 0) * 0.5 : 0;
-    const score = Math.max(nameScore, descScore * 0.9, catScore * 0.7, partsScore);
+    const synonymScore = synonymBoosts.get(c.name) || 0;
+    const score = Math.max(nameScore, descScore * 0.9, catScore * 0.7, partsScore, synonymScore);
     return { ...c, score };
   });
 
@@ -195,7 +265,7 @@ server.tool(
 // Tool: get_component
 server.tool(
   'get_component',
-  'Get full details for a specific Tale UI component including props, parts, examples, and CSS classes. Use this before generating code with a component you haven\'t used yet.',
+  'Get full details for a specific Tale UI component including props (with allowedValues arrays for enum props), parts, examples, and CSS classes. ALWAYS call this before generating code with any component — props include exact allowed strings for variant/size/etc so you never guess values.',
   { name: z.string().describe('Component name (PascalCase like "Button" or kebab-case like "date-picker")') },
   async ({ name }) => {
     const registry = loadRegistry();
@@ -339,7 +409,7 @@ server.tool(
 // Tool: get_a2ui_type
 server.tool(
   'get_a2ui_type',
-  'Get full details for a specific A2UI catalog type including props, the Tale UI component it maps to, and related information (usageHints for Text, icon names for Icon).',
+  'Get full details for a specific A2UI catalog type including props (with allowedValues arrays for enum props and hint strings for documentation), the Tale UI component it maps to, and related information (usageHints for Text, icon names for Icon). Check allowedValues before setting any prop — never guess string values for variant, size, placement, etc.',
   { name: z.string().describe('A2UI type name (e.g. "Button", "TextInput", "Card")') },
   async ({ name }) => {
     const catalog = loadA2UICatalog();
@@ -399,6 +469,54 @@ server.tool(
     return {
       content: [{ type: 'text', text: JSON.stringify(example, null, 2) }],
     };
+  },
+);
+
+// Tool: validate_code
+server.tool(
+  'validate_code',
+  'Validate generated Tale UI React code against the component registry and TypeScript compiler. Returns registry errors (wrong imports, wrong kind usage) and tsc errors (invalid props, type mismatches). Call this after generating any Tale UI code to catch mistakes before returning it to the user.',
+  {
+    code: z.string().describe('The complete TSX/TypeScript code snippet to validate. Should include import statements.'),
+  },
+  async ({ code }) => {
+    const validatorPath = join(ROOT, 'tools/validate-generated.mjs');
+    try {
+      const result = execFileSync(
+        process.execPath,
+        [validatorPath, '--code', code, '--json'],
+        { cwd: ROOT, timeout: 30000, encoding: 'utf8' },
+      );
+      const parsed = JSON.parse(result);
+      const registryErrors = parsed.registryErrors || [];
+      const tsErrors = (parsed.typescriptErrors || []).map(e => `Line ${e.line}: ${e.message}`);
+      const errors = [...registryErrors, ...tsErrors];
+      if (errors.length === 0) {
+        return { content: [{ type: 'text', text: '✅ Code is valid — no registry or TypeScript errors.' }] };
+      }
+      return {
+        content: [{ type: 'text', text: `Found ${errors.length} error(s):\n\n${errors.map(e => `• ${e}`).join('\n')}` }],
+        isError: true,
+      };
+    } catch (err) {
+      // execFileSync throws on non-zero exit; stdout still has the JSON
+      const stdout = err.stdout || '';
+      try {
+        const parsed = JSON.parse(stdout);
+        const registryErrors = parsed.registryErrors || [];
+        const tsErrors = (parsed.typescriptErrors || []).map(e => `Line ${e.line}: ${e.message}`);
+        const errors = [...registryErrors, ...tsErrors];
+        return {
+          content: [{ type: 'text', text: `Found ${errors.length} error(s):\n\n${errors.map(e => `• ${e}`).join('\n')}` }],
+          isError: true,
+        };
+      } catch {
+        return {
+          content: [{ type: 'text', text: `Validation failed: ${err.message}` }],
+          isError: true,
+        };
+      }
+    }
   },
 );
 

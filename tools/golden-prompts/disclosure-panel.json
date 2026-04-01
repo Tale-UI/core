@@ -1,0 +1,7 @@
+{
+  "slug": "disclosure-panel",
+  "difficulty": "medium",
+  "prompt": "Show a 'What is included?' disclosure panel that reveals a list of included features when expanded.",
+  "reference": "import { Disclosure } from '@tale-ui/react/disclosure';\n\nexport function WhatsIncludedDisclosure() {\n  return (\n    <Disclosure.Root>\n      <Disclosure.Trigger>What is included?</Disclosure.Trigger>\n      <Disclosure.Panel>\n        <p>All plans include unlimited projects, priority support, and access to all integrations.</p>\n      </Disclosure.Panel>\n    </Disclosure.Root>\n  );\n}",
+  "tags": ["Disclosure"]
+}

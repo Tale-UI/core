@@ -1,0 +1,7 @@
+{
+  "slug": "featured-icon-notification",
+  "difficulty": "simple",
+  "prompt": "Show a bell notification featured icon using FeaturedIcon.",
+  "reference": "import { FeaturedIcon } from '@tale-ui/react/featured-icon';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Bell } from 'lucide-react';\n\nexport function BellFeaturedIcon() {\n  return (\n    <FeaturedIcon variant=\"brand\">\n      <Icon icon={Bell} />\n    </FeaturedIcon>\n  );\n}",
+  "tags": ["FeaturedIcon"]
+}

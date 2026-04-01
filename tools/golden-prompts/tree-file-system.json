@@ -1,0 +1,7 @@
+{
+  "slug": "tree-file-system",
+  "difficulty": "complex",
+  "prompt": "Show a file system tree with folders (src, public) and files nested inside them.",
+  "reference": "import { Tree } from '@tale-ui/react/tree';\n\nexport function FileSystemTree() {\n  return (\n    <Tree.Root aria-label=\"File system\" defaultExpandedKeys={new Set(['src', 'public'])}>\n      <Tree.Item id=\"src\" textValue=\"src\">\n        <Tree.ItemContent>src</Tree.ItemContent>\n        <Tree.Item id=\"src-index\" textValue=\"index.tsx\">\n          <Tree.ItemContent>index.tsx</Tree.ItemContent>\n        </Tree.Item>\n        <Tree.Item id=\"src-app\" textValue=\"App.tsx\">\n          <Tree.ItemContent>App.tsx</Tree.ItemContent>\n        </Tree.Item>\n      </Tree.Item>\n      <Tree.Item id=\"public\" textValue=\"public\">\n        <Tree.ItemContent>public</Tree.ItemContent>\n        <Tree.Item id=\"public-index\" textValue=\"index.html\">\n          <Tree.ItemContent>index.html</Tree.ItemContent>\n        </Tree.Item>\n        <Tree.Item id=\"public-favicon\" textValue=\"favicon.ico\">\n          <Tree.ItemContent>favicon.ico</Tree.ItemContent>\n        </Tree.Item>\n      </Tree.Item>\n    </Tree.Root>\n  );\n}",
+  "tags": ["Tree"]
+}

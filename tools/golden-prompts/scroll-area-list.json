@@ -1,0 +1,7 @@
+{
+  "slug": "scroll-area-list",
+  "difficulty": "medium",
+  "prompt": "Show a scroll area containing a list of 8 items inside a fixed-height container.",
+  "reference": "import { ScrollArea } from '@tale-ui/react/scroll-area';\n\nexport function ScrollableList() {\n  const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8'];\n\n  return (\n    <ScrollArea.Root style={{ width: 300, height: 200 }}>\n      <ScrollArea.Viewport>\n        <ScrollArea.Content>\n          <div style={{ padding: 'var(--space-s)' }}>\n            {items.map((item) => (\n              <div key={item} style={{ padding: 'var(--space-xs) 0' }}>{item}</div>\n            ))}\n          </div>\n        </ScrollArea.Content>\n      </ScrollArea.Viewport>\n      <ScrollArea.Scrollbar orientation=\"vertical\">\n        <ScrollArea.Thumb />\n      </ScrollArea.Scrollbar>\n    </ScrollArea.Root>\n  );\n}",
+  "tags": ["ScrollArea"]
+}

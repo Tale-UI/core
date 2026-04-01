@@ -1,0 +1,7 @@
+{
+  "slug": "dot-icon-status",
+  "difficulty": "simple",
+  "prompt": "Show a green status dot indicator using DotIcon.",
+  "reference": "import { DotIcon } from '@tale-ui/react/dot-icon';\n\nexport function GreenStatusDot() {\n  return <DotIcon color=\"success\" />;\n}",
+  "tags": ["DotIcon"]
+}

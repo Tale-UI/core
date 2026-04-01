@@ -1,0 +1,7 @@
+{
+  "slug": "select-native-country",
+  "difficulty": "medium",
+  "prompt": "Show a native select dropdown for country selection with options for US, UK, and Canada.",
+  "reference": "import { SelectNative } from '@tale-ui/react/select-native';\n\nexport function CountrySelect() {\n  return (\n    <SelectNative aria-label=\"Country\">\n      <option value=\"us\">United States</option>\n      <option value=\"uk\">United Kingdom</option>\n      <option value=\"ca\">Canada</option>\n    </SelectNative>\n  );\n}",
+  "tags": ["SelectNative"]
+}

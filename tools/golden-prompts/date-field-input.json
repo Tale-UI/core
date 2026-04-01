@@ -1,0 +1,7 @@
+{
+  "slug": "date-field-input",
+  "difficulty": "complex",
+  "prompt": "Show a date input field with a label for entering month, day, and year.",
+  "reference": "import { DateField } from '@tale-ui/react/date-field';\n\nexport function BirthdayDateField() {\n  return (\n    <DateField.Root>\n      <DateField.Label>Date of birth</DateField.Label>\n      <DateField.DateInput style={{ display: 'flex' }}>\n        {(segment) => <DateField.Segment segment={segment} />}\n      </DateField.DateInput>\n    </DateField.Root>\n  );\n}",
+  "tags": ["DateField"]
+}

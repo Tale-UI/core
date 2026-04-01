@@ -1,0 +1,7 @@
+{
+  "slug": "toggle-button-group-alignment",
+  "difficulty": "medium",
+  "prompt": "Show a toggle button group for text alignment with Left, Center, and Right options.",
+  "reference": "import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';\n\nexport function AlignmentToggleGroup() {\n  return (\n    <ToggleButtonGroup aria-label=\"Text alignment\">\n      <ToggleButton>Left</ToggleButton>\n      <ToggleButton>Center</ToggleButton>\n      <ToggleButton>Right</ToggleButton>\n    </ToggleButtonGroup>\n  );\n}",
+  "tags": ["ToggleButton", "ToggleButtonGroup"]
+}

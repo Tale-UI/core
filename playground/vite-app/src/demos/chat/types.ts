@@ -9,11 +9,15 @@ export interface ChatMessage {
   content: string;
 }
 
+export interface CompletionMeta {
+  truncated: boolean;
+}
+
 export interface StreamOptions {
   apiKey: string;
   messages: ChatMessage[];
   onChunk: (text: string) => void;
-  onComplete: (fullText: string) => void;
+  onComplete: (fullText: string, meta: CompletionMeta) => void;
   onError: (error: Error) => void;
   signal?: AbortSignal;
 }

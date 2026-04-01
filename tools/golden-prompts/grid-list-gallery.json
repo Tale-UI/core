@@ -1,0 +1,7 @@
+{
+  "slug": "grid-list-gallery",
+  "difficulty": "complex",
+  "prompt": "Show a selectable grid list of 4 image cards where the user can select multiple items.",
+  "reference": "import { GridList } from '@tale-ui/react/grid-list';\n\nexport function ImageGalleryGridList() {\n  return (\n    <GridList.Root aria-label=\"Image gallery\" selectionMode=\"multiple\">\n      <GridList.Item id=\"img1\" textValue=\"Mountain landscape\">\n        <div style={{ padding: 'var(--space-s)' }}>Mountain landscape</div>\n      </GridList.Item>\n      <GridList.Item id=\"img2\" textValue=\"City skyline\">\n        <div style={{ padding: 'var(--space-s)' }}>City skyline</div>\n      </GridList.Item>\n      <GridList.Item id=\"img3\" textValue=\"Forest path\">\n        <div style={{ padding: 'var(--space-s)' }}>Forest path</div>\n      </GridList.Item>\n      <GridList.Item id=\"img4\" textValue=\"Ocean sunset\">\n        <div style={{ padding: 'var(--space-s)' }}>Ocean sunset</div>\n      </GridList.Item>\n    </GridList.Root>\n  );\n}",
+  "tags": ["GridList"]
+}

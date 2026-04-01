@@ -9,24 +9,144 @@
       "difficulty": "medium"
     },
     {
+      "slug": "app-store-button-apple",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "autocomplete-search",
+      "difficulty": "medium"
+    },
+    {
       "slug": "avatar-image",
       "difficulty": "simple"
+    },
+    {
+      "slug": "avatar-with-label",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "breadcrumbs-nav",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "calendar-date",
+      "difficulty": "complex"
     },
     {
       "slug": "card-with-content",
       "difficulty": "medium"
     },
     {
+      "slug": "carousel-images",
+      "difficulty": "complex"
+    },
+    {
       "slug": "checkbox-group-form",
       "difficulty": "medium"
+    },
+    {
+      "slug": "color-area-picker",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "color-field-hex",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "color-mode-toggle",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "color-picker-root",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "color-swatch-display",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "color-swatch-picker-palette",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "color-wheel-hue",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "combobox-search",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "context-menu-actions",
+      "difficulty": "complex"
     },
     {
       "slug": "data-display-cards",
       "difficulty": "complex"
     },
     {
+      "slug": "date-field-input",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "date-picker-form",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "date-range-picker-form",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "dialog-dismissable",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "disclosure-panel",
+      "difficulty": "medium"
+    },
+    {
       "slug": "divided-list-items",
       "difficulty": "medium"
+    },
+    {
+      "slug": "dot-icon-status",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "drawer-with-backdrop",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "drop-zone-file",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "empty-state-no-results",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "featured-icon-notification",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "field-with-validation",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "fieldset-address",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "file-trigger-upload",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "form-login",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "grid-list-gallery",
+      "difficulty": "complex"
     },
     {
       "slug": "horizontal-separator",
@@ -37,12 +157,56 @@
       "difficulty": "simple"
     },
     {
+      "slug": "icon-display",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "input-field",
+      "difficulty": "medium"
+    },
+    {
       "slug": "loading-spinner",
       "difficulty": "simple"
     },
     {
+      "slug": "menu-dropdown",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "meter-with-indicator",
+      "difficulty": "medium"
+    },
+    {
       "slug": "muted-text",
       "difficulty": "simple"
+    },
+    {
+      "slug": "navigation-menu-site",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "number-field-quantity",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "pagination-control",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "payment-input-card",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "pin-input-verification",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "popover-info",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "preview-card-hover",
+      "difficulty": "medium"
     },
     {
       "slug": "primary-button",
@@ -53,12 +217,48 @@
       "difficulty": "medium"
     },
     {
+      "slug": "progress-circle-upload",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "radio-group-form",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "range-calendar-dates",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "rating-badge-score",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "rating-stars-display",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "scroll-area-list",
+      "difficulty": "medium"
+    },
+    {
       "slug": "search-field",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "select-native-country",
       "difficulty": "medium"
     },
     {
       "slug": "settings-page",
       "difficulty": "complex"
+    },
+    {
+      "slug": "slider-volume",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "social-button-google",
+      "difficulty": "simple"
     },
     {
       "slug": "status-badge",
@@ -69,12 +269,52 @@
       "difficulty": "simple"
     },
     {
+      "slug": "switch-toggle",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "table-data",
+      "difficulty": "complex"
+    },
+    {
       "slug": "tabs-with-panels",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "tag-group-skills",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "text-area-input",
       "difficulty": "medium"
     },
     {
       "slug": "text-input-field",
       "difficulty": "medium"
+    },
+    {
+      "slug": "time-field-input",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "toggle-button-bold",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "toggle-button-group-alignment",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "toolbar-actions",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "tooltip-button",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "tree-file-system",
+      "difficulty": "complex"
     },
     {
       "slug": "user-profile-card",

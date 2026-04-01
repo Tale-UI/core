@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { ColorPicker } from '@tale-ui/react/color-picker';
 import { ColorArea } from '@tale-ui/react/color-area';
 import { ColorSlider } from '@tale-ui/react/color-slider';
 import { parseColor, type Color } from 'react-aria-components';
@@ -14,6 +15,26 @@ const meta: Meta<Args> = {
 export default meta;
 
 type Story = StoryObj<Args>;
+
+/**
+ * ColorPicker.Root wraps ColorArea for controlled color selection.
+ * Note: nesting ColorSlider inside ColorPicker.Root has a known issue —
+ * use the shared-state pattern below instead.
+ */
+export const Root: Story = {
+  name: 'ColorPicker.Root',
+  render() {
+    const [color, setColor] = useState<Color>(parseColor('hsb(200, 100%, 100%)'));
+
+    return (
+      <ColorPicker.Root value={color} onChange={setColor}>
+        <ColorArea.Root>
+          <ColorArea.Thumb />
+        </ColorArea.Root>
+      </ColorPicker.Root>
+    );
+  },
+};
 
 /**
  * The recommended color picker pattern uses standalone ColorArea and ColorSlider

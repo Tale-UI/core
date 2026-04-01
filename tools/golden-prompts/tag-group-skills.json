@@ -1,0 +1,7 @@
+{
+  "slug": "tag-group-skills",
+  "difficulty": "medium",
+  "prompt": "Show a tag group with React, TypeScript, and CSS skill tags.",
+  "reference": "import { TagGroup } from '@tale-ui/react/tag-group';\n\nexport function SkillTags() {\n  return (\n    <TagGroup.Root>\n      <TagGroup.Label>Skills</TagGroup.Label>\n      <TagGroup.List>\n        <TagGroup.Tag id=\"react\">React</TagGroup.Tag>\n        <TagGroup.Tag id=\"typescript\">TypeScript</TagGroup.Tag>\n        <TagGroup.Tag id=\"css\">CSS</TagGroup.Tag>\n      </TagGroup.List>\n    </TagGroup.Root>\n  );\n}",
+  "tags": ["TagGroup"]
+}

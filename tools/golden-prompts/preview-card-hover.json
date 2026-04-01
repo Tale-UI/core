@@ -1,0 +1,7 @@
+{
+  "slug": "preview-card-hover",
+  "difficulty": "medium",
+  "prompt": "Show a link that displays a preview card popup with a title and description on hover.",
+  "reference": "import { PreviewCard } from '@tale-ui/react/preview-card';\n\nexport function LinkWithPreviewCard() {\n  return (\n    <PreviewCard.Root>\n      <PreviewCard.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Hover to preview</PreviewCard.Trigger>\n      <PreviewCard.Popup placement=\"bottom\" offset={8}>\n        <PreviewCard.Arrow />\n        <PreviewCard.Content aria-label=\"Preview\">\n          <div style={{ maxWidth: '280px' }}>\n            <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Preview Title</h4>\n            <p style={{ margin: 0, fontSize: 'var(--text-s-font-size)' }}>\n              A quick summary of this linked page or resource.\n            </p>\n          </div>\n        </PreviewCard.Content>\n      </PreviewCard.Popup>\n    </PreviewCard.Root>\n  );\n}",
+  "tags": ["PreviewCard"]
+}

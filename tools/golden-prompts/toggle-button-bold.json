@@ -1,0 +1,7 @@
+{
+  "slug": "toggle-button-bold",
+  "difficulty": "simple",
+  "prompt": "Show a bold text formatting toggle button.",
+  "reference": "import { ToggleButton } from '@tale-ui/react/toggle-button';\n\nexport function BoldToggleButton() {\n  return <ToggleButton>Bold</ToggleButton>;\n}",
+  "tags": ["ToggleButton"]
+}

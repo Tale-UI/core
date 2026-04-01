@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "taleUiVersion": "1.3.39",
+  "taleUiVersion": "1.3.40",
   "components": [
     {
       "name": "Accordion",
@@ -9,7 +9,29 @@
       "category": "Layout",
       "description": "Collapsible content sections",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "allowsMultipleExpanded",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultExpandedKeys",
+          "type": "Iterable<Key>",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Item",
@@ -39,7 +61,22 @@
       "category": "Overlay",
       "description": "Confirmation dialog",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isOpen",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onOpenChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Backdrop",
@@ -72,14 +109,23 @@
           "type": "Store",
           "required": true,
           "description": "Target app store.",
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "apple",
+            "google"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": "Badge size. Defaults to 'md'.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         }
       ],
       "parts": null,
@@ -104,7 +150,15 @@
       "category": "Form Controls",
       "description": "Inline search with filterable listbox",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "filter",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "SearchField",
@@ -141,7 +195,15 @@
           "type": "Size",
           "required": false,
           "description": null,
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+            "2xl"
+          ]
         }
       ],
       "parts": [
@@ -214,14 +276,24 @@
           "type": "Size",
           "required": false,
           "description": null,
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         },
         {
           "name": "type",
           "type": "BadgeType",
           "required": false,
           "description": "Visual type. `'pill'` (default) uses full border-radius, `'rounded'` uses medium radius, `'modern'` uses neutral shadow styling.",
-          "default": "'pill'"
+          "default": "'pill'",
+          "allowedValues": [
+            "pill",
+            "rounded",
+            "modern"
+          ]
         }
       ],
       "parts": null,
@@ -257,14 +329,24 @@
           "type": "Variant",
           "required": false,
           "description": "Semantic variant controlling the colour scheme.",
-          "default": "'info'"
+          "default": "'info'",
+          "allowedValues": [
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": "Size variant affecting spacing and typography.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
         }
       ],
       "parts": [
@@ -332,14 +414,28 @@
           "type": "Variant",
           "required": false,
           "description": null,
-          "default": "'primary'"
+          "default": "'primary'",
+          "allowedValues": [
+            "primary",
+            "neutral",
+            "ghost",
+            "danger",
+            "danger-neutral",
+            "danger-ghost",
+            "inverse"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": null,
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         },
         {
           "name": "disabled",
@@ -400,7 +496,29 @@
       "category": "Date & Time",
       "description": "Interactive date calendar",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Header",
@@ -441,14 +559,24 @@
           "type": "Variant",
           "required": false,
           "description": "Visual style. @default 'outlined'",
-          "default": "'outlined'"
+          "default": "'outlined'",
+          "allowedValues": [
+            "elevated",
+            "outlined",
+            "filled"
+          ]
         },
         {
           "name": "padding",
           "type": "Padding",
           "required": false,
           "description": "Inner padding. @default 'md'",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         }
       ],
       "parts": [
@@ -512,7 +640,11 @@
           "type": "'horizontal' | 'vertical'",
           "required": false,
           "description": "Scroll direction.",
-          "default": "'horizontal'"
+          "default": "'horizontal'",
+          "allowedValues": [
+            "horizontal",
+            "vertical"
+          ]
         }
       ],
       "parts": [
@@ -554,6 +686,45 @@
           "type": "Size",
           "required": false,
           "description": "Size of the checkbox indicator. Defaults to `'md'`. Inherits from CheckboxGroup `size` when omitted. The `'sm'` variant is for edge-cases only (dense tables, compact toolbars) — prefer `'md'` in most contexts.",
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "defaultSelected",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isIndeterminate",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isSelected",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
           "default": null
         }
       ],
@@ -604,14 +775,22 @@
           "type": "'horizontal' | 'vertical'",
           "required": false,
           "description": "Layout orientation. Sets `data-orientation` for CSS styling.",
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "horizontal",
+            "vertical"
+          ]
         },
         {
           "name": "size",
           "type": "'sm' | 'md'",
           "required": false,
           "description": "Propagates size to all child Checkbox.Root components.",
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
         }
       ],
       "parts": null,
@@ -630,7 +809,15 @@
       "category": "Color",
       "description": "2D color picker surface",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Thumb"
@@ -649,7 +836,22 @@
       "category": "Color",
       "description": "Text input for color values",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Input",
@@ -680,7 +882,11 @@
           "type": "'light' | 'dark'",
           "required": false,
           "description": "Initial colour mode when no localStorage value exists. Defaults to OS preference.",
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "light",
+            "dark"
+          ]
         },
         {
           "name": "storageKey",
@@ -724,7 +930,22 @@
       "category": "Color",
       "description": "Single-channel color slider",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "channel",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Track",
@@ -767,7 +988,22 @@
       "category": "Color",
       "description": "Selectable swatch grid",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Item"
@@ -787,7 +1023,29 @@
       "category": "Color",
       "description": "Circular hue selector",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "outerRadius",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "innerRadius",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Track",
@@ -814,21 +1072,45 @@
           "type": "Gap",
           "required": false,
           "description": "Gap between children, mapped to `--space- ` tokens. @default 'm'",
-          "default": "'m'"
+          "default": "'m'",
+          "allowedValues": [
+            "4xs",
+            "3xs",
+            "2xs",
+            "xs",
+            "s",
+            "m",
+            "l",
+            "xl",
+            "2xl"
+          ]
         },
         {
           "name": "align",
           "type": "Align",
           "required": false,
           "description": "Cross-axis alignment. @default 'stretch'",
-          "default": "'stretch'"
+          "default": "'stretch'",
+          "allowedValues": [
+            "start",
+            "center",
+            "end",
+            "stretch",
+            "baseline"
+          ]
         },
         {
           "name": "justify",
           "type": "Justify",
           "required": false,
           "description": "Main-axis distribution. @default 'start'",
-          "default": "'start'"
+          "default": "'start'",
+          "allowedValues": [
+            "start",
+            "center",
+            "end",
+            "between"
+          ]
         }
       ],
       "parts": null,
@@ -850,7 +1132,29 @@
       "category": "Form Controls",
       "description": "Filterable select with multi-select support",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "selectionMode",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "inputValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onInputChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Label",
@@ -972,7 +1276,22 @@
       "category": "Date & Time",
       "description": "Segmented date input",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "DateInput",
@@ -994,7 +1313,22 @@
       "category": "Date & Time",
       "description": "Date field with calendar popover",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "DateInput",
@@ -1020,7 +1354,22 @@
       "category": "Date & Time",
       "description": "Start/end date picker",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Group",
@@ -1046,7 +1395,29 @@
       "category": "Overlay",
       "description": "Modal dialog with backdrop",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isOpen",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onOpenChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDismissable",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Trigger",
@@ -1074,7 +1445,36 @@
       "category": "Layout",
       "description": "Single collapsible section",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "defaultExpanded",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isExpanded",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Trigger",
@@ -1105,14 +1505,26 @@
           "type": "Color",
           "required": false,
           "description": "Dot color variant. Defaults to 'neutral'.",
-          "default": "'neutral'"
+          "default": "'neutral'",
+          "allowedValues": [
+            "neutral",
+            "brand",
+            "error",
+            "warning",
+            "success"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": "Dot size. Defaults to 'md'.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         }
       ],
       "parts": null,
@@ -1158,6 +1570,13 @@
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void)",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isOpen",
+          "type": "boolean",
           "required": false,
           "description": null,
           "default": null
@@ -1215,7 +1634,12 @@
           "type": "'sm' | 'md' | 'lg'",
           "required": false,
           "description": "Size variant affecting spacing and typography.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         }
       ],
       "parts": [
@@ -1255,28 +1679,53 @@
           "type": "Variant",
           "required": false,
           "description": "Color variant. Defaults to 'brand'.",
-          "default": "'brand'"
+          "default": "'brand'",
+          "allowedValues": [
+            "brand",
+            "error",
+            "warning",
+            "success",
+            "neutral"
+          ]
         },
         {
           "name": "shape",
           "type": "Shape",
           "required": false,
           "description": "Shape of the container. Defaults to 'circle'.",
-          "default": "'circle'"
+          "default": "'circle'",
+          "allowedValues": [
+            "circle",
+            "square"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": "Size of the container. Defaults to 'md'.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ]
         },
         {
           "name": "theme",
           "type": "Theme",
           "required": false,
           "description": "Visual theme. Defaults to 'light'.",
-          "default": "'light'"
+          "default": "'light'",
+          "allowedValues": [
+            "light",
+            "gradient",
+            "dark",
+            "outline",
+            "modern",
+            "modern-neue"
+          ]
         }
       ],
       "parts": null,
@@ -1340,7 +1789,15 @@
       "category": "Form Structure",
       "description": "Grouped fields with legend",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Legend"
@@ -1392,7 +1849,22 @@
       "category": "Display",
       "description": "Selectable grid of items",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "selectionMode",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Item"
@@ -1451,7 +1923,13 @@
           "type": "Size",
           "required": false,
           "description": "Size variant. Defaults to 'md'.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ]
         },
         {
           "name": "label",
@@ -1488,14 +1966,26 @@
           "type": "Variant",
           "required": false,
           "description": null,
-          "default": "'ghost'"
+          "default": "'ghost'",
+          "allowedValues": [
+            "primary",
+            "neutral",
+            "ghost",
+            "danger",
+            "inverse"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": null,
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         },
         {
           "name": "disabled",
@@ -1542,14 +2032,27 @@
           "type": "Radius",
           "required": false,
           "description": "Border radius. @default 'none'",
-          "default": "'none'"
+          "default": "'none'",
+          "allowedValues": [
+            "none",
+            "sm",
+            "md",
+            "lg",
+            "full"
+          ]
         },
         {
           "name": "fit",
           "type": "Fit",
           "required": false,
           "description": "Object-fit behaviour. @default 'cover'",
-          "default": "'cover'"
+          "default": "'cover'",
+          "allowedValues": [
+            "cover",
+            "contain",
+            "fill",
+            "none"
+          ]
         },
         {
           "name": "alt",
@@ -1589,6 +2092,32 @@
         {
           "name": "size",
           "type": "Size",
+          "required": false,
+          "description": null,
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean",
           "required": false,
           "description": null,
           "default": null
@@ -1648,14 +2177,23 @@
           "type": "Variant",
           "required": false,
           "description": "Visual style. `'divided'` adds separators between items. @default 'plain'",
-          "default": "'plain'"
+          "default": "'plain'",
+          "allowedValues": [
+            "plain",
+            "divided"
+          ]
         },
         {
           "name": "density",
           "type": "Density",
           "required": false,
           "description": "Item padding density. @default 'default'",
-          "default": "'default'"
+          "default": "'default'",
+          "allowedValues": [
+            "compact",
+            "default",
+            "spacious"
+          ]
         }
       ],
       "parts": [
@@ -1684,7 +2222,22 @@
       "category": "Navigation",
       "description": "Dropdown menu with items and groups",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onAction",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Trigger",
@@ -1767,7 +2320,29 @@
       "category": "Feedback",
       "description": "Scalar measurement display",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "minValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "maxValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Header",
@@ -1824,7 +2399,50 @@
       "category": "Form Controls",
       "description": "Numeric input with increment/decrement",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "minValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "maxValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "step",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "formatOptions",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Group",
@@ -1858,7 +2476,15 @@
       "category": "Navigation",
       "description": "Page navigation controls",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Item",
@@ -1896,7 +2522,15 @@
       "category": "Form Controls",
       "description": "Credit card number input with auto-formatting and card type detection",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Group",
@@ -1982,7 +2616,35 @@
       "category": "Overlay",
       "description": "Anchored popup",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "placement",
+          "type": "'top' | 'bottom' | 'left' | 'right'",
+          "required": false,
+          "description": null,
+          "default": null,
+          "allowedValues": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "shouldFlip",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "crossOffset",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Trigger",
@@ -2025,6 +2687,19 @@
           "required": false,
           "description": "Delay in ms before closing after hover ends. @default 300",
           "default": null
+        },
+        {
+          "name": "placement",
+          "type": "'top' | 'bottom' | 'left' | 'right'",
+          "required": false,
+          "description": null,
+          "default": null,
+          "allowedValues": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ]
         }
       ],
       "parts": [
@@ -2058,6 +2733,41 @@
           "type": "LabelPosition",
           "required": false,
           "description": "Controls where the label/value text is positioned relative to the track. - `'top'` — Label + Value row above the track (default) - `'right'` — Value text inline to the right of the track - `'bottom'` — Value text below the track - `'top-floating'` — Floating tooltip above the track, aligned to the fill point - `'bottom-floating'` — Floating tooltip below the track, aligned to the fill point @default 'top'",
+          "default": null,
+          "allowedValues": [
+            "top",
+            "right",
+            "bottom",
+            "top-floating",
+            "bottom-floating"
+          ]
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "minValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "maxValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isIndeterminate",
+          "type": "boolean",
+          "required": false,
+          "description": null,
           "default": null
         }
       ],
@@ -2101,6 +2811,18 @@
           "type": "Size",
           "required": false,
           "description": "Size of the circular indicator.",
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": null,
           "default": null
         }
       ],
@@ -2141,6 +2863,24 @@
           "type": "Size",
           "required": false,
           "description": "Size of the radio indicator. Defaults to `'md'`. The `'sm'` variant is for edge-cases only (dense tables, compact toolbars) — prefer `'md'` in most contexts.",
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
           "default": null
         }
       ],
@@ -2186,7 +2926,22 @@
       "category": "Date & Time",
       "description": "Date range selection calendar",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Header",
@@ -2230,7 +2985,12 @@
           "type": "Size",
           "required": false,
           "description": "Size of the badge. Defaults to 'md'.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         }
       ],
       "parts": null,
@@ -2273,7 +3033,12 @@
           "type": "Size",
           "required": false,
           "description": "Size of the stars. Defaults to 'md'.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         }
       ],
       "parts": null,
@@ -2308,21 +3073,45 @@
           "type": "Gap",
           "required": false,
           "description": "Gap between children, mapped to `--space- ` tokens. @default 'm'",
-          "default": "'m'"
+          "default": "'m'",
+          "allowedValues": [
+            "4xs",
+            "3xs",
+            "2xs",
+            "xs",
+            "s",
+            "m",
+            "l",
+            "xl",
+            "2xl"
+          ]
         },
         {
           "name": "align",
           "type": "Align",
           "required": false,
           "description": "Cross-axis alignment. @default 'center'",
-          "default": "'center'"
+          "default": "'center'",
+          "allowedValues": [
+            "start",
+            "center",
+            "end",
+            "stretch",
+            "baseline"
+          ]
         },
         {
           "name": "justify",
           "type": "Justify",
           "required": false,
           "description": "Main-axis distribution. @default 'start'",
-          "default": "'start'"
+          "default": "'start'",
+          "allowedValues": [
+            "start",
+            "center",
+            "end",
+            "between"
+          ]
         },
         {
           "name": "wrap",
@@ -2383,7 +3172,22 @@
       "category": "Form Controls",
       "description": "Search input with clear button",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Input",
@@ -2416,6 +3220,25 @@
           "type": "Size",
           "required": false,
           "description": "Size of the trigger button, propagated via context. @default 'md'",
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
           "default": null
         }
       ],
@@ -2466,7 +3289,11 @@
           "type": "Size",
           "required": false,
           "description": "Field size. Defaults to 'md'.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
         }
       ],
       "parts": null,
@@ -2508,7 +3335,36 @@
       "category": "Form Controls",
       "description": "Range input with single or dual thumbs",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "step",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "orientation",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Header",
@@ -2551,14 +3407,25 @@
           "type": "Provider",
           "required": true,
           "description": "Social provider whose icon to display.",
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "google",
+            "github",
+            "apple",
+            "x",
+            "facebook"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": "Button size. Defaults to 'md'.",
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
         }
       ],
       "parts": null,
@@ -2608,14 +3475,24 @@
           "type": "Variant",
           "required": false,
           "description": "Visual style of the spinner animation.",
-          "default": "'circle'"
+          "default": "'circle'",
+          "allowedValues": [
+            "circle",
+            "line",
+            "dots"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": "Size of the spinner.",
-          "default": "'md'"
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         },
         {
           "name": "label",
@@ -2660,6 +3537,38 @@
           "type": "Size",
           "required": false,
           "description": "Size variant.",
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "defaultSelected",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isSelected",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
           "default": null
         }
       ],
@@ -2689,7 +3598,43 @@
       "category": "Display",
       "description": "Data table with sorting",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "selectionMode",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "sortDescriptor",
+          "type": "SortDescriptor",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onSortChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "allowsSorting",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Header",
@@ -2719,7 +3664,43 @@
       "category": "Layout",
       "description": "Tabbed content with indicator",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "defaultSelectedKey",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "orientation",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "selectedKey",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "List",
@@ -2758,7 +3739,22 @@
       "category": "Display",
       "description": "Tag list with optional removal",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "onRemove",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "selectionMode",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "List",
@@ -2792,28 +3788,59 @@
           "type": "Variant",
           "required": false,
           "description": "Typography variant. @default 'text'",
-          "default": "'text'"
+          "default": "'text'",
+          "allowedValues": [
+            "display",
+            "heading",
+            "title",
+            "label",
+            "text",
+            "mono"
+          ]
         },
         {
           "name": "size",
           "type": "Size",
           "required": false,
           "description": "Typography size. @default 'm'",
-          "default": "'m'"
+          "default": "'m'",
+          "allowedValues": [
+            "xs",
+            "s",
+            "m",
+            "l"
+          ]
         },
         {
           "name": "as",
           "type": "TextElement",
           "required": false,
           "description": "HTML element to render. @default 'span'",
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "p",
+            "span",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "div",
+            "label"
+          ]
         },
         {
           "name": "color",
           "type": "Color",
           "required": false,
           "description": "Text colour. `'muted'` uses `--neutral-60`, `'accent'` uses `--color-60`. @default 'default'",
-          "default": "'default'"
+          "default": "'default'",
+          "allowedValues": [
+            "default",
+            "muted",
+            "accent"
+          ]
         }
       ],
       "parts": null,
@@ -2838,7 +3865,36 @@
       "category": "Form Controls",
       "description": "Multi-line text input with validation",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "TextArea",
@@ -2864,7 +3920,36 @@
       "category": "Form Controls",
       "description": "Single-line text input with validation",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Input",
@@ -2889,7 +3974,22 @@
       "category": "Date & Time",
       "description": "Segmented time input",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "DateInput",
@@ -2917,7 +4017,12 @@
           "type": "Size",
           "required": false,
           "description": null,
-          "default": null
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
         }
       ],
       "parts": null,
@@ -2957,7 +4062,15 @@
       "category": "Layout",
       "description": "Grouped action bar",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Group",
@@ -2986,7 +4099,15 @@
       "category": "Overlay",
       "description": "Hover tooltip",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "delay",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Trigger",
@@ -3015,7 +4136,22 @@
       "category": "Display",
       "description": "Hierarchical tree view",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultExpandedKeys",
+          "type": "Iterable<Key>",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Item",

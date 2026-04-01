@@ -1,0 +1,7 @@
+{
+  "slug": "context-menu-actions",
+  "difficulty": "complex",
+  "prompt": "Show a right-click context menu with Edit, Copy, and Delete actions.",
+  "reference": "import { ContextMenu } from '@tale-ui/react/context-menu';\n\nexport function ActionsContextMenu() {\n  return (\n    <ContextMenu.Root>\n      <ContextMenu.Trigger>\n        <div style={{\n          padding: 'var(--space-xl)',\n          border: '2px dashed var(--neutral-30)',\n          borderRadius: 'var(--space-2xs)',\n          textAlign: 'center',\n        }}>\n          Right-click this area\n        </div>\n      </ContextMenu.Trigger>\n      <ContextMenu.Popup>\n        <ContextMenu.MenuList>\n          <ContextMenu.Item id=\"edit\">Edit</ContextMenu.Item>\n          <ContextMenu.Item id=\"copy\">Copy</ContextMenu.Item>\n          <ContextMenu.Separator />\n          <ContextMenu.Item id=\"delete\">Delete</ContextMenu.Item>\n        </ContextMenu.MenuList>\n      </ContextMenu.Popup>\n    </ContextMenu.Root>\n  );\n}",
+  "tags": ["ContextMenu"]
+}

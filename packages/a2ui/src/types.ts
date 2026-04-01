@@ -30,11 +30,23 @@ export interface SurfaceUpdateMessage {
 }
 
 /** Sets or patches a value in the surface's data model. */
-export interface DataModelUpdateMessage {
+export type DataModelUpdateMessage =
+  | DataModelUpdatePathMessage
+  | DataModelUpdateBulkMessage;
+
+/** Standard format: set a single value at a path. */
+export interface DataModelUpdatePathMessage {
   type: 'dataModelUpdate';
   surfaceId: string;
   path: string;
   value: unknown;
+}
+
+/** Bulk format: set multiple values at once. */
+export interface DataModelUpdateBulkMessage {
+  type: 'dataModelUpdate';
+  surfaceId: string;
+  data: Record<string, unknown>;
 }
 
 /** Removes a surface entirely. */

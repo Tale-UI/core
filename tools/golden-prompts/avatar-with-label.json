@@ -1,0 +1,7 @@
+{
+  "slug": "avatar-with-label",
+  "difficulty": "medium",
+  "prompt": "Show a user avatar with their name and role displayed beside it using a label group.",
+  "reference": "import { Avatar } from '@tale-ui/react/avatar';\n\nexport function AvatarWithLabel() {\n  return (\n    <Avatar.LabelGroup size=\"md\">\n      <Avatar.Root>\n        <Avatar.Image src=\"/photo.jpg\" alt=\"Jane Doe\" />\n        <Avatar.Fallback>JD</Avatar.Fallback>\n      </Avatar.Root>\n      <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>\n      <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>\n    </Avatar.LabelGroup>\n  );\n}",
+  "tags": ["Avatar"]
+}

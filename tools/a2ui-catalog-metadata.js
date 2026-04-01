@@ -27,7 +27,15 @@ const TYPE_DESCRIPTIONS = {
   SelectItem: 'Individual option within a Select',
   Switch: 'Toggle switch with thumb and label',
   Table: 'Data table with sorting and selection',
+  TableHeader: 'Header row container within a Table',
+  TableColumn: 'Column definition within a TableHeader',
+  TableBody: 'Body container for data rows within a Table',
+  TableRow: 'Individual data row within a TableBody',
+  TableCell: 'Individual cell within a TableRow',
   Tabs: 'Tabbed interface with panels',
+  TabList: 'Container for tab buttons within Tabs',
+  TabItem: 'Individual tab button within a TabList',
+  TabPanel: 'Content panel associated with a tab',
   Progress: 'Linear progress bar (determinate or indeterminate)',
   Spinner: 'Loading indicator (circle, line, or dots)',
   Form: 'Form container with submit action handling',
@@ -55,6 +63,85 @@ const TYPE_DESCRIPTIONS = {
   MenuPopover: 'Popover containing the menu list',
   MenuItem: 'Actionable item within a Menu',
   MenuSeparator: 'Visual divider between menu items',
+  Dialog: 'Modal dialog with backdrop, title, description, and close button',
+  AlertDialog: 'Confirmation dialog for destructive or important actions',
+  Drawer: 'Side panel overlay with backdrop, title, and close button',
+  Tooltip: 'Hover-triggered information overlay on a trigger element',
+  TooltipTrigger: 'Element that triggers a Tooltip on hover',
+  TooltipPopup: 'Popup content displayed by a Tooltip',
+  Popover: 'Click-triggered rich content overlay on a trigger element',
+  PopoverTrigger: 'Element that triggers a Popover on click',
+  PopoverPopup: 'Popup content displayed by a Popover',
+  Breadcrumbs: 'Navigation trail showing page hierarchy',
+  BreadcrumbItem: 'Individual item within a Breadcrumbs trail',
+  BreadcrumbLink: 'Link within a BreadcrumbItem',
+  Pagination: 'Page navigation with numbered items and prev/next controls',
+  PaginationItem: 'Numbered page button within Pagination',
+  PaginationPrevious: 'Previous page button within Pagination',
+  PaginationNext: 'Next page button within Pagination',
+  PaginationEllipsis: 'Ellipsis indicator for skipped pages',
+  TagGroup: 'Collection of tags for filtering or categorisation',
+  TagList: 'List container for Tag items within a TagGroup',
+  Tag: 'Individual tag within a TagList',
+  EmptyState: 'Placeholder for zero-data states with icon, title, and actions',
+  Meter: 'Visual indicator for a value within a known range (e.g. disk usage)',
+  ProgressCircle: 'Circular progress indicator with optional label',
+  ToggleButton: 'Pressable button that toggles between selected/deselected',
+  ToggleButtonGroup: 'Group of ToggleButtons with single or multiple selection',
+  Field: 'Generic form field wrapper with label, description, and error',
+  FieldLabel: 'Label for a Field',
+  FieldDescription: 'Description/helper text for a Field',
+  FieldError: 'Validation error message for a Field',
+  CheckboxGroup: 'Group of Checkbox inputs sharing a common label and validation state',
+  Combobox: 'Filterable dropdown combobox with search input and option list',
+  ComboboxItem: 'Individual option within a Combobox',
+  SelectNative: 'Native HTML select element for lightweight dropdowns',
+  PinInput: 'PIN/OTP entry field with individual character slots',
+  Calendar: 'Interactive monthly calendar for date selection',
+  RangeCalendar: 'Interactive monthly calendar for date range selection',
+  DateField: 'Accessible segmented date input field',
+  DatePicker: 'Date input with calendar popup for date selection',
+  DateRangePicker: 'Date range input with calendar popup',
+  TimeField: 'Accessible segmented time input field',
+  ColorField: 'Text input for entering colors as hex values',
+  ColorArea: '2D color selection area for hue/saturation/brightness channels',
+  ColorSlider: 'Linear slider for selecting a single color channel value',
+  PreviewCard: 'Hover-triggered preview popup card on a trigger element',
+  ContextMenu: 'Right-click triggered context menu overlay',
+  ContextMenuTrigger: 'Element that triggers a ContextMenu on right-click',
+  ContextMenuPopup: 'Popup containing the context menu list',
+  ContextMenuItem: 'Actionable item within a ContextMenu',
+  ContextMenuSeparator: 'Visual divider between context menu items',
+  NavigationMenu: 'Horizontal navigation menu bar with list of links',
+  NavigationMenuItem: 'Individual item within a NavigationMenu',
+  NavigationMenuLink: 'Navigation link within a NavigationMenuItem',
+  Carousel: 'Scrollable carousel of slide items with prev/next controls',
+  CarouselItem: 'Individual slide within a Carousel',
+  ScrollArea: 'Scrollable container with custom styled scrollbar',
+  Toolbar: 'Accessible toolbar with grouped action buttons',
+  ToolbarButton: 'Action button within a Toolbar',
+  ToolbarSeparator: 'Visual divider between Toolbar groups',
+  GridList: 'Interactive grid list with keyboard navigation and selection',
+  GridListItem: 'Individual item within a GridList',
+  Tree: 'Hierarchical tree view with expand/collapse and selection',
+  TreeItem: 'Individual node within a Tree (supports nested children)',
+  IconButton: 'Icon-only action button with accessible aria-label',
+  Fieldset: 'Form fieldset grouping related controls under a legend',
+  DropZone: 'Drop target area for file or item dropping',
+  FileTrigger: 'Button that opens native file selection dialog',
+  RatingStars: 'Read-only star rating display component',
+  RatingBadge: 'Compact pill badge showing a numeric star rating',
+  FeaturedIcon: 'Styled icon container with variant, shape, and theme options',
+  DotIcon: 'Small colored status dot indicator',
+  AppStoreButton: 'App Store or Google Play download button link',
+  SocialButton: 'Social provider login/auth button (Google, GitHub, Apple, X, Facebook)',
+  PaymentInput: 'Credit/debit card number input with auto-detected card type icon',
+  Autocomplete: 'Search field with filtered dropdown suggestions list',
+  AutocompleteItem: 'Individual suggestion item within an Autocomplete',
+  ColorWheel: 'Circular hue selector wheel with draggable thumb',
+  ColorSwatch: 'Small colored preview swatch for a specific color value',
+  ColorSwatchPicker: 'Grid of ColorSwatch items for selecting a preset color',
+  ColorPicker: 'Headless context provider grouping color selection controls',
 };
 
 /**
@@ -110,6 +197,44 @@ const PROP_VALUES = {
   defaultExpandedKeys: 'array of string IDs',
   initials: 'string (e.g. "JD")',
   selectionMode: 'string',
+  page: 'number',
+  current: 'boolean',
+  textValue: 'string',
+  message: 'string (error text)',
+  disallowEmptySelection: 'boolean',
+  triggerLabel: 'string (button text; defaults to title)',
+  isRowHeader: 'boolean',
+  isRequired: 'boolean',
+  isInvalid: 'boolean',
+  isPending: 'boolean',
+  isDisabled: 'boolean',
+  isReadOnly: 'boolean',
+  isExpanded: 'boolean',
+  isDismissable: 'boolean',
+  allowsSorting: 'boolean',
+  isIndeterminate: 'boolean',
+  selectionBehavior: '`toggle`, `replace`',
+  disabledKeys: 'array of string IDs',
+  defaultSelectedKeys: 'array of string IDs',
+  expandedKeys: 'array of string IDs',
+  onExpandedChange: 'action object `{ "name": "...", "context": { ... } }`',
+  onRemove: 'action object `{ "name": "...", "context": { ... } }`',
+  onSelectionChange: 'action object `{ "name": "...", "context": { ... } }`',
+  offset: 'number (px offset from trigger)',
+  crossOffset: 'number (px cross-axis offset)',
+  shouldFlip: 'boolean',
+  delay: 'number (ms)',
+  closeDelay: 'number (ms)',
+  formatOptions: 'object (Intl.NumberFormat options, e.g. `{ "style": "currency", "currency": "USD" }`)',
+  labelPosition: '`top`, `side`',
+  validationBehavior: '`native`, `aria`',
+  showTextWhileLoading: 'boolean',
+  isKeyboardDismissDisabled: 'boolean',
+  maxHeight: 'number (px, constrains popover height)',
+  rel: 'string',
+  minWidth: 'number',
+  maxWidth: 'number',
+  placement: 'string',
 };
 
 /**
@@ -128,6 +253,114 @@ const PROP_VALUE_OVERRIDES = {
   'Avatar.size': '`sm`, `md`, `lg`',
   'Checkbox.size': '`sm`, `md`',
   'Switch.size': '`sm`, `md`',
+  'EmptyState.size': '`sm`, `md`, `lg`',
+  'EmptyState.icon': 'lucide icon name string',
+  'ProgressCircle.size': '`sm`, `md`, `lg`',
+  'ToggleButtonGroup.selectionMode': '`single`, `multiple`',
+  'RadioOption.value': 'string (option identifier)',
+  'SelectItem.value': 'string (option identifier)',
+  'Table.selectionMode': '`none`, `single`, `multiple`',
+  'TabList.size': '`sm`, `md`',
+  'TabList.variant': '`underline`, `pills`, `enclosed`',
+  'ToggleButtonGroup.size': '`sm`, `md`, `lg`',
+  'TagGroup.selectionMode': '`none`, `single`, `multiple`',
+  'MenuPopover.placement': '`top`, `bottom`, `left`, `right`, `top-start`, `bottom-start`',
+  'TooltipPopup.placement': '`top`, `bottom`, `left`, `right`',
+  'PopoverPopup.placement': '`top`, `bottom`, `left`, `right`',
+  'Drawer.placement': '`left`, `right`',
+  'TextInput.type': '`text`, `email`, `password`, `url`, `tel`',
+  'RadioOption.size': '`sm`, `md`',
+  'Radio.size': '`sm`, `md`',
+  'Select.size': '`sm`, `md`, `lg`',
+  'Avatar.size': '`xs`, `sm`, `md`, `lg`, `xl`, `2xl`',
+  'Tabs.orientation': '`horizontal`, `vertical`',
+  'SliderInput.orientation': '`horizontal`, `vertical`',
+  'Table.selectionBehavior': '`toggle`, `replace`',
+  'Table.disabledKeys': 'array of string IDs',
+  'TableColumn.width': 'number or string',
+  'TableColumn.minWidth': 'number',
+  'TableColumn.maxWidth': 'number',
+  'Accordion.expandedKeys': 'array of string IDs (controlled)',
+  'Accordion.onExpandedChange': 'action object `{ "name": "...", "context": { ... } }`',
+  'AccordionItem.isDisabled': 'boolean',
+  'AccordionItem.defaultExpanded': 'boolean',
+  'Disclosure.isExpanded': 'boolean (controlled)',
+  'Disclosure.onExpandedChange': 'action object `{ "name": "...", "context": { ... } }`',
+  'MenuItem.href': 'URL string',
+  'MenuItem.target': '`_blank`, `_self`',
+  'Tooltip.delay': 'number (ms, default 700)',
+  'Tooltip.closeDelay': 'number (ms, default 600)',
+  'TooltipPopup.offset': 'number (px offset from trigger)',
+  'TooltipPopup.crossOffset': 'number (px cross-axis offset)',
+  'TooltipPopup.shouldFlip': 'boolean',
+  'Popover.isDismissable': 'boolean (default true)',
+  'PopoverPopup.offset': 'number (px offset from trigger)',
+  'PopoverPopup.crossOffset': 'number (px cross-axis offset)',
+  'PopoverPopup.shouldFlip': 'boolean',
+  'TagGroup.defaultSelectedKeys': 'array of string IDs',
+  'TagGroup.isDisabled': 'boolean',
+  'TagGroup.onSelectionChange': 'action object `{ "name": "...", "context": { ... } }`',
+  'Tag.href': 'URL string',
+  'Progress.labelPosition': '`top`, `side`',
+  'BreadcrumbLink.rel': 'string (e.g. `noopener`)',
+  'Form.validationBehavior': '`native`, `aria`',
+  'Button.showTextWhileLoading': 'boolean',
+  'NumberInput.formatOptions': 'object (Intl.NumberFormat options, e.g. `{ "style": "currency", "currency": "USD" }`)',
+  'ToggleButtonGroup.defaultSelectedKeys': 'array of string IDs',
+  'Checkbox.value': 'string (form submission value)',
+  'Switch.value': 'string (form submission value)',
+  'ToggleButton.value': 'string (form submission value)',
+  'MenuPopover.offset': 'number (px offset from trigger)',
+  'MenuPopover.crossOffset': 'number (px cross-axis offset)',
+  'MenuPopover.shouldFlip': 'boolean',
+  'MenuPopover.maxHeight': 'number (px, constrains menu list height)',
+  'Dialog.isKeyboardDismissDisabled': 'boolean (prevent Escape key from closing)',
+  'Dialog.isDismissable': 'boolean (default true — set false to prevent backdrop-click close)',
+  'AlertDialog.isKeyboardDismissDisabled': 'boolean (prevent Escape key from closing)',
+  'PopoverPopup.isKeyboardDismissDisabled': 'boolean (prevent Escape key from closing)',
+  'Link.rel': 'string (e.g. `noopener noreferrer`)',
+  'Link.download': 'string or boolean (triggers file download; string sets the filename)',
+  'Tabs.isDisabled': 'boolean',
+  'TabItem.isDisabled': 'boolean',
+  'PaginationItem.isDisabled': 'boolean',
+  // Additional components
+  'CheckboxGroup.orientation': '`horizontal`, `vertical`',
+  'CheckboxGroup.size': '`sm`, `md`',
+  'Combobox.size': '`sm`, `md`, `lg`',
+  'SelectNative.size': '`sm`, `md`',
+  'SelectNative.options': 'array of `{ "value": "...", "label": "..." }` objects',
+  'PinInput.maxLength': 'number (required — determines number of input slots)',
+  'ColorArea.xChannel': '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
+  'ColorArea.yChannel': '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
+  'ColorSlider.channel': '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
+  'Carousel.orientation': '`horizontal`, `vertical`',
+  'Carousel.slidesPerView': 'number (default 1)',
+  'Carousel.loop': 'boolean',
+  'Carousel.autoplay': 'boolean',
+  'GridList.selectionMode': '`none`, `single`, `multiple`',
+  'Tree.selectionMode': '`none`, `single`, `multiple`',
+  'IconButton.variant': '`primary`, `neutral`, `ghost`, `danger`, `inverse`',
+  'FeaturedIcon.variant': '`brand`, `error`, `warning`, `success`, `neutral`',
+  'FeaturedIcon.shape': '`circle`, `square`',
+  'FeaturedIcon.size': '`sm`, `md`, `lg`, `xl`',
+  'FeaturedIcon.theme': '`light`, `gradient`, `dark`, `outline`, `modern`, `modern-neue`',
+  'DotIcon.color': '`neutral`, `brand`, `error`, `warning`, `success`',
+  'AppStoreButton.store': '`apple`, `google` (required)',
+  'SocialButton.provider': '`google`, `github`, `apple`, `x`, `facebook` (required)',
+  'FileTrigger.acceptedFileTypes': 'array of MIME type strings (e.g. `["image/png", "image/jpeg"]`)',
+  'FileTrigger.allowsMultiple': 'boolean',
+  'NavigationMenuLink.href': 'URL string',
+  'PreviewCard.delay': 'number (ms, default 400)',
+  'PreviewCard.closeDelay': 'number (ms, default 300)',
+  'PreviewCard.placement': '`top`, `bottom`, `left`, `right`',
+  // Free-form color values — override the global `color` enum so hex strings pass validation
+  'ColorSwatch.color': 'hex or CSS color string (e.g. `#ff0000`)',
+  'PaymentInput.size': '`sm`, `md`, `lg`',
+  'Autocomplete.size': '`sm`, `md`, `lg`',
+  'ColorWheel.outerRadius': 'number (outer radius in px, default 100)',
+  'ColorWheel.innerRadius': 'number (inner radius in px, default 70)',
+  'ColorSwatchPicker.colors': 'array of hex color strings (e.g. `["#ff0000", "#00ff00", "#0000ff"]`)',
+  'ColorSwatchPicker.selectionMode': '`single`, `multiple`',
 };
 
 /** Types that are sub-parts of compound components (not top-level types). */
@@ -137,6 +370,69 @@ const SUB_PARTS = new Set([
   'DisclosureTrigger', 'DisclosurePanel',
   'AccordionItem', 'AccordionHeader', 'AccordionTrigger', 'AccordionPanel',
   'MenuTrigger', 'MenuPopover', 'MenuItem', 'MenuSeparator',
+  'TooltipTrigger', 'TooltipPopup',
+  'PopoverTrigger', 'PopoverPopup',
+  'BreadcrumbItem', 'BreadcrumbLink',
+  'TableHeader', 'TableColumn', 'TableBody', 'TableRow', 'TableCell',
+  'TabList', 'TabItem', 'TabPanel',
+  'PaginationItem', 'PaginationPrevious', 'PaginationNext', 'PaginationEllipsis',
+  'TagList', 'Tag',
+  'FieldLabel', 'FieldDescription', 'FieldError',
+  // Additional compound sub-parts
+  'ComboboxItem',
+  'ContextMenuTrigger', 'ContextMenuPopup', 'ContextMenuItem', 'ContextMenuSeparator',
+  'NavigationMenuItem', 'NavigationMenuLink',
+  'CarouselItem',
+  'GridListItem',
+  'TreeItem',
+  'ToolbarButton', 'ToolbarSeparator',
+  'AutocompleteItem',
 ]);
 
-module.exports = { TYPE_DESCRIPTIONS, PROP_VALUES, PROP_VALUE_OVERRIDES, SUB_PARTS };
+/**
+ * Parse backtick-quoted enum values from a hint string.
+ * e.g. "`primary`, `neutral`, `ghost`" → ['primary', 'neutral', 'ghost']
+ * Returns null when the string doesn't contain backtick-quoted tokens (free-form values).
+ */
+function parseEnumValues(hint) {
+  // Strings containing "(e.g." are non-exhaustive examples — skip them.
+  if (hint.includes('(e.g.')) return null;
+  const matches = [...hint.matchAll(/`([^`]+)`/g)].map(m => m[1]);
+  // Only return an array when every match looks like a plain token (no spaces, braces, etc.)
+  if (matches.length === 0) return null;
+  if (matches.some(v => /[\s{}()]/.test(v))) return null;
+  return matches;
+}
+
+/**
+ * Machine-readable allowed-value arrays, derived automatically from PROP_VALUES and
+ * PROP_VALUE_OVERRIDES.  Keys use the same "TypeName.propName" (or bare "propName")
+ * format.  Only props whose values are a closed enum get an entry — free-form strings,
+ * numbers, booleans, and complex objects are omitted.
+ *
+ * Used by:
+ *   - tools/validate-a2ui-examples.js  (runtime prop-value validation)
+ *   - tools/generate-a2ui-catalog.js   (emitted into registry/a2ui-catalog.json)
+ */
+const PROP_ALLOWED_VALUES = (() => {
+  const out = {};
+  // Global defaults (bare prop name)
+  for (const [key, hint] of Object.entries(PROP_VALUES)) {
+    const values = parseEnumValues(hint);
+    if (values) out[key] = values;
+  }
+  // Type-specific overrides ("TypeName.propName") always recorded — even when null
+  // (null = explicitly free-form; blocks the global fallback for that type)
+  for (const [key, hint] of Object.entries(PROP_VALUE_OVERRIDES)) {
+    const values = parseEnumValues(hint);
+    if (key.includes('.')) {
+      // Type-specific: record null to block global fallback, or the enum array
+      out[key] = values ?? null;
+    } else if (values) {
+      out[key] = values;
+    }
+  }
+  return out;
+})();
+
+module.exports = { TYPE_DESCRIPTIONS, PROP_VALUES, PROP_VALUE_OVERRIDES, PROP_ALLOWED_VALUES, SUB_PARTS };

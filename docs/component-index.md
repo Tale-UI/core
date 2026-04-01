@@ -1,8 +1,8 @@
 # Component Index
 
-Quick-reference table for all 88 `@tale-ui/react` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
+Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/charts` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
 
-## Form Controls (21)
+## Form Controls (20)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
@@ -88,7 +88,7 @@ Quick-reference table for all 88 `@tale-ui/react` components. For detailed usage
 | Tabs | Tabbed content with indicator | `@tale-ui/react/tabs` | Root, List, Tab, Panel, Indicator |
 | Toolbar | Grouped action bar | `@tale-ui/react/toolbar` | Root, Group, Button, Link, Input, Separator |
 
-## Feedback (4)
+## Feedback (5)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|

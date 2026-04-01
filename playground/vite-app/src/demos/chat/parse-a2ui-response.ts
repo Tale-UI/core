@@ -9,6 +9,10 @@ import type { A2UIMessage } from '@tale-ui/a2ui/types';
 import { validateMessages, formatErrors } from '@tale-ui/a2ui/validation';
 import { taleUICatalog } from '@tale-ui/a2ui/catalog';
 
+export interface ParseOptions {
+  truncated?: boolean;
+}
+
 export interface ParseResult {
   messages: A2UIMessage[] | null;
   errors: string | null;
@@ -20,7 +24,7 @@ export interface ParseResult {
  * Tries multiple strategies: raw JSON, markdown-fenced JSON.
  * Validates against the Tale UI catalog.
  */
-export function parseA2UIResponse(text: string): ParseResult {
+export function parseA2UIResponse(text: string, options?: ParseOptions): ParseResult {
   const trimmed = text.trim();
 
   // Strategy 1: Direct JSON parse
@@ -42,11 +46,29 @@ export function parseA2UIResponse(text: string): ParseResult {
     if (extracted) return validate(extracted, trimmed);
   }
 
+  // Detect truncation: the response was cut off before completing the JSON
+  if (options?.truncated || looksLikeTruncatedJson(trimmed)) {
+    return {
+      messages: null,
+      errors: 'Response was truncated — the output hit the token limit before the JSON was complete. Try a simpler prompt that produces fewer components.',
+      raw: trimmed,
+    };
+  }
+
   return {
     messages: null,
     errors: 'Could not extract valid JSON from the response. The LLM output was not a JSON array of A2UI messages.',
     raw: trimmed,
   };
+}
+
+/** Heuristic: response contains a `[` but no matching `]` at the end. */
+function looksLikeTruncatedJson(text: string): boolean {
+  const bracketStart = text.indexOf('[');
+  if (bracketStart === -1) return false;
+  // If the text has an opening bracket but the last non-whitespace char isn't `]`, it's likely truncated
+  const lastChar = text.trimEnd().slice(-1);
+  return lastChar !== ']';
 }
 
 function tryParse(text: string): unknown[] | null {

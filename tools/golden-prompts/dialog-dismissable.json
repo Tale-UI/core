@@ -1,0 +1,7 @@
+{
+  "slug": "dialog-dismissable",
+  "difficulty": "medium",
+  "prompt": "Create a dismissable dialog with a title, description, and a cancel/confirm button pair.",
+  "reference": "import { useState } from 'react';\nimport { Dialog } from '@tale-ui/react/dialog';\nimport { Button } from '@tale-ui/react/button';\n\nexport function ConfirmDialog() {\n  const [open, setOpen] = useState(false);\n  return (\n    <Dialog.Root isOpen={open} onOpenChange={setOpen}>\n      <Dialog.Trigger className=\"tale-button--primary\">\n        Open Dialog\n      </Dialog.Trigger>\n      <Dialog.Backdrop isDismissable>\n        <Dialog.Popup>\n          <Dialog.Title>Confirm Action</Dialog.Title>\n          <Dialog.Description>\n            Are you sure you want to proceed?\n          </Dialog.Description>\n          <Dialog.Actions>\n            <Button variant=\"neutral\" onPress={() => setOpen(false)}>Cancel</Button>\n            <Button variant=\"primary\" onPress={() => setOpen(false)}>Confirm</Button>\n          </Dialog.Actions>\n          <Dialog.Close aria-label=\"Close\" />\n        </Dialog.Popup>\n      </Dialog.Backdrop>\n    </Dialog.Root>\n  );\n}\n",
+  "tags": ["Dialog", "Button"]
+}

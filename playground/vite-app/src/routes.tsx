@@ -6,6 +6,7 @@ import DataTableWithSorting from './demos/recipes/DataTableWithSorting';
 import SearchWithAutocomplete from './demos/recipes/SearchWithAutocomplete';
 import SettingsPage from './demos/recipes/SettingsPage';
 import A2UIDemo from './demos/A2UIDemo';
+import EvalReview from './demos/EvalReview';
 import A2UIChatDemo from './demos/A2UIChatDemo';
 import ContainedTriggers from './experiments/perf/contained-triggers';
 import DetachedTriggers from './experiments/perf/detached-triggers';
@@ -75,6 +76,14 @@ export const routes: RouteEntry[] = [
     path: '/recipes/settings-page',
     label: 'Settings page',
     element: <SettingsPage />,
+    showInNav: true,
+  },
+  { type: 'header', label: 'Evaluation' },
+  {
+    type: 'route',
+    path: '/eval-review',
+    label: 'Eval review',
+    element: <EvalReview />,
     showInNav: true,
   },
   { type: 'header', label: 'A2UI' },

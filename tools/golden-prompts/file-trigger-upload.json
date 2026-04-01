@@ -1,0 +1,7 @@
+{
+  "slug": "file-trigger-upload",
+  "difficulty": "medium",
+  "prompt": "Show a file upload button using FileTrigger that displays the selected filename.",
+  "reference": "import { FileTrigger } from '@tale-ui/react/file-trigger';\nimport { Button } from '@tale-ui/react/button';\nimport { useState } from 'react';\n\nexport function FileUploadButton() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <>\n      <FileTrigger\n        onSelect={(fileList) => {\n          if (fileList) {\n            setFileName(Array.from(fileList).map((f) => f.name).join(', '));\n          }\n        }}\n      >\n        <Button variant=\"neutral\">Upload file</Button>\n      </FileTrigger>\n      {fileName && <p>Selected: {fileName}</p>}\n    </>\n  );\n}",
+  "tags": ["FileTrigger"]
+}

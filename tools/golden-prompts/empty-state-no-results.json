@@ -1,0 +1,7 @@
+{
+  "slug": "empty-state-no-results",
+  "difficulty": "medium",
+  "prompt": "Show an empty state with heading 'No results' and a description suggesting the user try different search terms.",
+  "reference": "import { EmptyState } from '@tale-ui/react/empty-state';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Search } from 'lucide-react';\n\nexport function NoResultsEmptyState() {\n  return (\n    <EmptyState.Root>\n      <EmptyState.Icon><Icon icon={Search} size=\"lg\" /></EmptyState.Icon>\n      <EmptyState.Title>No results</EmptyState.Title>\n      <EmptyState.Description>Try adjusting your search terms or filters.</EmptyState.Description>\n    </EmptyState.Root>\n  );\n}",
+  "tags": ["EmptyState"]
+}

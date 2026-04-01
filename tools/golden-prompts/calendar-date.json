@@ -1,0 +1,7 @@
+{
+  "slug": "calendar-date",
+  "difficulty": "complex",
+  "prompt": "Show a date calendar picker for selecting a single date.",
+  "reference": "import { Calendar } from '@tale-ui/react/calendar';\n\nexport function DateCalendar() {\n  return (\n    <Calendar.Root>\n      <Calendar.Header>\n        <Calendar.PreviousButton />\n        <Calendar.Heading />\n        <Calendar.NextButton />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>\n          {(date) => <Calendar.Cell date={date} />}\n        </Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar.Root>\n  );\n}",
+  "tags": ["Calendar"]
+}

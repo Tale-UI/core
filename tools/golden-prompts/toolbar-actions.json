@@ -1,0 +1,7 @@
+{
+  "slug": "toolbar-actions",
+  "difficulty": "medium",
+  "prompt": "Show a toolbar with Bold, Italic, and Underline action buttons.",
+  "reference": "import { Toolbar } from '@tale-ui/react/toolbar';\n\nexport function FormattingToolbar() {\n  return (\n    <Toolbar.Root aria-label=\"Text formatting\">\n      <Toolbar.Group>\n        <Toolbar.Button>Bold</Toolbar.Button>\n        <Toolbar.Button>Italic</Toolbar.Button>\n        <Toolbar.Button>Underline</Toolbar.Button>\n      </Toolbar.Group>\n    </Toolbar.Root>\n  );\n}",
+  "tags": ["Toolbar"]
+}

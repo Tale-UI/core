@@ -1,0 +1,7 @@
+{
+  "slug": "switch-toggle",
+  "difficulty": "medium",
+  "prompt": "Show a switch labeled 'Enable notifications'.",
+  "reference": "import { Switch } from '@tale-ui/react/switch';\n\nexport function NotificationsSwitch() {\n  return (\n    <Switch.Root>\n      <Switch.Thumb />\n      Enable notifications\n    </Switch.Root>\n  );\n}",
+  "tags": ["Switch"]
+}

@@ -21,6 +21,7 @@
   display: inline-flex;
   flex-direction: column;
   gap: var(--space-3xs);
+  width: fit-content;
 }
 
 /* ─── Group — wraps input + stepper buttons ───────────────────────────────── */
@@ -46,8 +47,7 @@
 /* ─── Input ───────────────────────────────────────────────────────────────── */
 
 .tale-number-field__input {
-  flex: 1;
-  min-width: 6rem;
+  flex: 0 0 6rem;
   min-height: 3.6rem;
   padding: var(--space-3xs) var(--space-xs);
   border: none;

@@ -1,0 +1,7 @@
+{
+  "slug": "color-swatch-display",
+  "difficulty": "simple",
+  "prompt": "Show a blue color swatch using the hex color #3b82f6.",
+  "reference": "import { ColorSwatch } from '@tale-ui/react/color-swatch';\n\nexport function BlueColorSwatch() {\n  return <ColorSwatch color=\"#3b82f6\" />;\n}",
+  "tags": ["ColorSwatch"]
+}

@@ -1,0 +1,7 @@
+{
+  "slug": "popover-info",
+  "difficulty": "medium",
+  "prompt": "Show an info button that opens a popover with help text explaining a feature.",
+  "reference": "import { Popover } from '@tale-ui/react/popover';\n\nexport function InfoPopover() {\n  return (\n    <Popover.Root>\n      <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Info</Popover.Trigger>\n      <Popover.Popup placement=\"bottom\" offset={8}>\n        <Popover.Arrow />\n        <Popover.Title>How it works</Popover.Title>\n        <Popover.Description>\n          This feature automatically syncs your data across all devices in real time.\n        </Popover.Description>\n      </Popover.Popup>\n    </Popover.Root>\n  );\n}",
+  "tags": ["Popover"]
+}

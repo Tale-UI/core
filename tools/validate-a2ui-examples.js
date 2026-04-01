@@ -5,7 +5,8 @@
  *
  * Validates A2UI few-shot example JSON files against the live catalog source.
  * Catches: unknown component types, invalid icon names, invalid usageHints,
- * orphaned child references, duplicate IDs, missing beginRendering.
+ * orphaned child references, duplicate IDs, missing beginRendering,
+ * unknown prop names (checked against registry/a2ui-catalog.json per-type lists).
  *
  * Usage:
  *   node tools/validate-a2ui-examples.js          # validate all examples
@@ -17,8 +18,14 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const CATALOG_PATH = path.join(ROOT, 'packages/a2ui/src/catalog.ts');
+const CATALOG_JSON_PATH = path.join(ROOT, 'registry/a2ui-catalog.json');
 const ICON_REGISTRY_PATH = path.join(ROOT, 'packages/a2ui/src/icon-registry.ts');
 const EXAMPLES_DIR = path.join(ROOT, 'packages/a2ui/src/agent/examples');
+
+const { PROP_ALLOWED_VALUES } = require('./a2ui-catalog-metadata.js');
+
+// Props that are always valid regardless of type (structural, not in per-type lists)
+const ALWAYS_ALLOWED_PROPS = new Set(['children', 'id']);
 
 /* ─── Source Parsing ──────────────────────────────────────────────────────── */
 
@@ -52,9 +59,29 @@ function extractUsageHints(source) {
   return hints;
 }
 
+/* ─── Catalog JSON Prop Map ───────────────────────────────────────────────── */
+
+/**
+ * Build a Map<typeName, Set<propName>> from registry/a2ui-catalog.json.
+ * Returns null if the file doesn't exist (graceful degradation).
+ */
+function buildAllowedPropsMap(catalogJsonPath) {
+  if (!fs.existsSync(catalogJsonPath)) return null;
+  const catalog = JSON.parse(fs.readFileSync(catalogJsonPath, 'utf8'));
+  const map = new Map();
+  for (const type of catalog.types || []) {
+    const allowed = new Set(ALWAYS_ALLOWED_PROPS);
+    for (const prop of type.props || []) {
+      allowed.add(prop.name);
+    }
+    map.set(type.name, allowed);
+  }
+  return map;
+}
+
 /* ─── Validation ──────────────────────────────────────────────────────────── */
 
-function validateExample(filePath, catalogKeys, iconNames, usageHints) {
+function validateExample(filePath, catalogKeys, iconNames, usageHints, allowedPropsMap) {
   const errors = [];
   const warnings = [];
   const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -117,6 +144,32 @@ function validateExample(filePath, catalogKeys, iconNames, usageHints) {
           errors.push(`Invalid usageHint "${props.usageHint}" on "${comp.id}". Valid: ${[...hintSet].join(', ')}`);
         }
       }
+
+      // Per-type prop name check
+      if (allowedPropsMap) {
+        const allowed = allowedPropsMap.get(typeName);
+        if (allowed) {
+          for (const propName of Object.keys(props)) {
+            if (!allowed.has(propName)) {
+              errors.push(`Unknown prop "${propName}" on ${typeName} "${comp.id}". Allowed: ${[...allowed].filter(p => !ALWAYS_ALLOWED_PROPS.has(p)).join(', ')}`);
+            }
+          }
+        }
+      }
+
+      // Per-type prop value check — only for string-valued props with a closed enum
+      for (const [propName, propValue] of Object.entries(props)) {
+        if (typeof propValue !== 'string') continue;
+        const typeKey = `${typeName}.${propName}`;
+        // Type-specific override takes full precedence (null = explicitly free-form → skip)
+        const allowed = typeKey in PROP_ALLOWED_VALUES
+          ? PROP_ALLOWED_VALUES[typeKey]
+          : PROP_ALLOWED_VALUES[propName];
+        if (!allowed) continue;
+        if (!allowed.includes(propValue)) {
+          errors.push(`Invalid value "${propValue}" for ${typeName}.${propName} on "${comp.id}". Allowed: ${allowed.join(', ')}`);
+        }
+      }
     }
 
     // Orphaned child references
@@ -148,6 +201,7 @@ function main() {
   const catalogKeys = extractCatalogKeys(catalogSource);
   const iconNames = extractIconNames(iconSource);
   const usageHints = extractUsageHints(catalogSource);
+  const allowedPropsMap = buildAllowedPropsMap(CATALOG_JSON_PATH);
 
   if (catalogKeys.length === 0) {
     console.error('ERROR: Could not extract any catalog keys from catalog.ts');
@@ -161,7 +215,7 @@ function main() {
   }
 
   const results = exampleFiles.map((f) =>
-    validateExample(path.join(EXAMPLES_DIR, f), catalogKeys, iconNames, usageHints),
+    validateExample(path.join(EXAMPLES_DIR, f), catalogKeys, iconNames, usageHints, allowedPropsMap),
   );
 
   if (isJson) {

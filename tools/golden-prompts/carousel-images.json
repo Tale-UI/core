@@ -1,0 +1,7 @@
+{
+  "slug": "carousel-images",
+  "difficulty": "complex",
+  "prompt": "Show an image carousel with 3 slides, navigation buttons, and indicator dots.",
+  "reference": "import { Carousel } from '@tale-ui/react/carousel';\n\nexport function ImageCarousel() {\n  return (\n    <Carousel.Root loop>\n      <Carousel.Content>\n        <Carousel.Item>\n          <div style={{ background: 'var(--neutral-20)', height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Slide 1</div>\n        </Carousel.Item>\n        <Carousel.Item>\n          <div style={{ background: 'var(--neutral-30)', height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Slide 2</div>\n        </Carousel.Item>\n        <Carousel.Item>\n          <div style={{ background: 'var(--neutral-40)', height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Slide 3</div>\n        </Carousel.Item>\n      </Carousel.Content>\n      <Carousel.PreviousTrigger />\n      <Carousel.NextTrigger />\n      <Carousel.Indicators>\n        <Carousel.Indicator index={0} />\n        <Carousel.Indicator index={1} />\n        <Carousel.Indicator index={2} />\n      </Carousel.Indicators>\n    </Carousel.Root>\n  );\n}",
+  "tags": ["Carousel"]
+}

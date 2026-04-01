@@ -20,24 +20,24 @@ describe('<Banner />', () => {
   });
 
   describe('prop: variant', () => {
-    it('info (default) — no variant modifier', async () => {
+    it('info (default) — uses BEM modifier', async () => {
       await render(<Banner.Root>Info</Banner.Root>);
-      expect(screen.getByRole('status')).not.to.have.class('tale-banner--info');
+      expect(screen.getByRole('status')).to.have.class('tale-banner--info');
     });
 
     it('success', async () => {
       await render(<Banner.Root variant="success">Success</Banner.Root>);
-      expect(screen.getByRole('status')).to.have.class('tale-banner--success');
+      expect(screen.getByRole('status')).to.have.class('color-success');
     });
 
     it('warning', async () => {
       await render(<Banner.Root variant="warning">Warning</Banner.Root>);
-      expect(screen.getByRole('status')).to.have.class('tale-banner--warning');
+      expect(screen.getByRole('status')).to.have.class('color-warning');
     });
 
     it('error', async () => {
       await render(<Banner.Root variant="error">Error</Banner.Root>);
-      expect(screen.getByRole('status')).to.have.class('tale-banner--error');
+      expect(screen.getByRole('status')).to.have.class('color-error');
     });
   });
 

@@ -1,0 +1,7 @@
+{
+  "slug": "input-field",
+  "difficulty": "medium",
+  "prompt": "Show a text input field with a label and placeholder 'Enter your name'.",
+  "reference": "import { Input } from '@tale-ui/react/input';\n\nexport function NameInput() {\n  return (\n    <Input.Root>\n      <Input.Label>Name</Input.Label>\n      <Input.Input size=\"md\" placeholder=\"Enter your name\" />\n    </Input.Root>\n  );\n}",
+  "tags": ["Input"]
+}

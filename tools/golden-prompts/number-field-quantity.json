@@ -1,0 +1,7 @@
+{
+  "slug": "number-field-quantity",
+  "difficulty": "medium",
+  "prompt": "Show a quantity number field with a label, minimum value of 1, and maximum value of 99.",
+  "reference": "import { NumberField } from '@tale-ui/react/number-field';\n\nexport function QuantityField() {\n  return (\n    <NumberField.Root defaultValue={1} minValue={1} maxValue={99}>\n      <NumberField.Label>Quantity</NumberField.Label>\n      <NumberField.Group>\n        <NumberField.Decrement />\n        <NumberField.Input />\n        <NumberField.Increment />\n      </NumberField.Group>\n    </NumberField.Root>\n  );\n}",
+  "tags": ["NumberField"]
+}

@@ -1,0 +1,7 @@
+{
+  "slug": "pagination-control",
+  "difficulty": "medium",
+  "prompt": "Show a pagination control displaying page 3 of 10 with previous/next buttons.",
+  "reference": "import { Pagination } from '@tale-ui/react/pagination';\n\nexport function PageControl() {\n  return (\n    <Pagination.Root aria-label=\"Pagination\">\n      <Pagination.PreviousTrigger />\n      <Pagination.Item page={1} />\n      <Pagination.Item page={2} />\n      <Pagination.Item page={3} current />\n      <Pagination.Ellipsis />\n      <Pagination.Item page={10} />\n      <Pagination.NextTrigger />\n    </Pagination.Root>\n  );\n}",
+  "tags": ["Pagination"]
+}

@@ -17,8 +17,10 @@ import cardList from '@tale-ui/a2ui/src/agent/examples/card-list.json';
 import dashboard from '@tale-ui/a2ui/src/agent/examples/dashboard.json';
 import settingsPage from '@tale-ui/a2ui/src/agent/examples/settings-page.json';
 import componentAudit from '@tale-ui/a2ui/src/agent/examples/component-audit.json';
+import fullShowcase from '@tale-ui/a2ui/src/agent/examples/full-showcase.json';
 
 const examples: Record<string, { description: string; messages: unknown[] }> = {
+  'full-showcase': fullShowcase,
   'component-audit': componentAudit,
   'simple-form': simpleForm,
   'card-list': cardList,
@@ -44,9 +46,9 @@ function MessageFeeder({ messages }: { messages: A2UIMessage[] }) {
 /* ─── Demo Component ──────────────────────────────────────────────────────── */
 
 export default function A2UIDemo() {
-  const [selectedExample, setSelectedExample] = React.useState('component-audit');
+  const [selectedExample, setSelectedExample] = React.useState('full-showcase');
   const [messages, setMessages] = React.useState<A2UIMessage[]>(
-    componentAudit.messages as A2UIMessage[],
+    fullShowcase.messages as A2UIMessage[],
   );
   const [jsonText, setJsonText] = React.useState('');
   const [validationOutput, setValidationOutput] = React.useState('');

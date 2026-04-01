@@ -1,0 +1,7 @@
+{
+  "slug": "color-mode-toggle",
+  "difficulty": "simple",
+  "prompt": "Show a dark/light mode toggle that persists user preference.",
+  "reference": "import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';\n\nexport function DarkModeToggle() {\n  return <ColorModeToggle />;\n}",
+  "tags": ["ColorModeToggle"]
+}

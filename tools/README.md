@@ -11,7 +11,7 @@ Source (.styled.tsx, index.ts, CSS, docs)
   │
   ├─► generate-registry.js ──► registry/components.json (90 components)
   │                                │
-  │                                ├─► mcp-server.mjs ──► 6 MCP tools (Claude Code, Cursor)
+  │                                ├─► mcp-server.mjs ──► 9 MCP tools (Claude Code, Cursor)
   │                                ├─► generate-cursorrules.js ──► .cursorrules (Cursor/Windsurf)
   │                                └─► validate-generated.mjs ──► validates any .tsx against registry + tsc
   │
@@ -58,6 +58,7 @@ pnpm audit:snippet-kinds     # verify consumer snippet is correct
 | `audit-brand.js` | `pnpm audit:brand` | Yes | Verifies component CSS never uses `--brand-*` tokens |
 | `audit-docs.js` | `pnpm audit:docs` | Yes | Verifies component markdown docs list all Tale UI-specific props |
 | `audit-components.js` | `pnpm audit:components` | Yes | Comprehensive 19-check component completeness audit |
+| `audit-coverage.js` | `pnpm audit:coverage` | `pnpm audit:coverage:check` | Reports components missing from ComponentAudit, Storybook, or A2UI full-showcase |
 
 ### audit-bem.js
 
@@ -109,6 +110,22 @@ pnpm audit:components -- --verbose           # include warnings
 **Skip lists:** Non-component directories (adapters, types) and special-case components (providers, re-exports, utilities) are handled via hardcoded skip lists at the top of the file. Standard components require no configuration.
 
 See also [`component-audit-prompt.md`](component-audit-prompt.md) — an AI agent guide for deep quality auditing beyond what the automated script checks.
+
+### audit-coverage.js
+
+Cross-checks three coverage surfaces against the canonical component and A2UI type lists:
+
+1. **ComponentAudit.tsx** — visual playground audit (`playground/vite-app/src/demos/ComponentAudit.tsx`)
+2. **Storybook stories** — scans `@tale-ui/react/*` imports across all `.stories.tsx` files, handling grouped stories (e.g. `ColorComponents.stories.tsx`) automatically
+3. **A2UI full-showcase** — scans all component type names used in `packages/a2ui/src/agent/examples/full-showcase.json` against catalog non-sub-part types
+
+Non-visual utilities (`CSPProvider`, `I18nProvider`, `mergeProps`) are excluded from coverage checks.
+
+```bash
+pnpm audit:coverage          # human-readable report
+pnpm audit:coverage:check    # exit 1 if any coverage gaps
+node tools/audit-coverage.js --json   # machine-readable JSON
+```
 
 ## Build Tools
 
@@ -210,6 +227,9 @@ A stdio-based MCP server that exposes the component registry, recipe docs, and f
 | `list_recipes` | List all 12 recipes (form validation, data table, sidebar, etc.) |
 | `get_recipe` | Get a recipe's full markdown content by slug |
 | `search_docs` | Keyword search across all 121 documentation files |
+| `list_a2ui_types` | List all A2UI catalog types with descriptions |
+| `get_a2ui_type` | Get details for one A2UI type (props, allowed values) |
+| `get_a2ui_example` | Get a few-shot A2UI example by name |
 
 **How agents use it:** Claude Code auto-discovers the server via `.mcp.json` and prompts for one-time approval. After that, agents can call these tools during code generation to look up correct imports, props, and patterns instead of guessing.
 
@@ -232,6 +252,8 @@ A stdio-based MCP server that exposes the component registry, recipe docs, and f
 |--------|-------------|-----|---------|
 | `validate-generated.mjs` | `pnpm validate:generated` | No | Validates any `.tsx` against registry + TypeScript |
 | `validate-golden-prompts.mjs` | `pnpm golden:validate` | Yes | Validates all golden prompt reference implementations |
+| `eval-golden-prompts.mjs` | `pnpm golden:eval` | No | Runs golden prompts against Claude (via Claude Code CLI) and scores L1–L3 |
+| `eval-fix-review.mjs` | `pnpm golden:fix-review` | No | Full pipeline: eval → auto-fix consumer snippet → visual review in playground |
 | `run-validator-tests.mjs` | `pnpm validate:test` | No | Tests the validator itself against known-good and known-bad samples |
 
 ### validate-generated.mjs
@@ -256,13 +278,72 @@ Uses `tsconfig.generated.json` (isolated tsconfig) and writes temp files to `.ge
 
 Runs `validate-generated.mjs` against every golden prompt reference implementation in `golden-prompts/`. Ensures references stay valid as components evolve. Runs in CI.
 
+### eval-golden-prompts.mjs
+
+Runs each golden prompt against the Claude API and scores the generated code across three automated levels:
+
+| Level | What it checks | How |
+|-------|---------------|-----|
+| L1 — Validity | Output passes `validate-generated.mjs` (registry + TypeScript) | Subprocess call |
+| L2 — Components | All expected `tags` components appear in the output | String search |
+| L3 — Imports | No imports from packages outside the allowed set | Import parsing |
+
+Requires the Claude Code CLI (`~/.local/bin/claude`) — no separate API key needed, uses your existing Claude Code login. Not run in CI — intended for manual runs before releases or model upgrades.
+
+```bash
+pnpm golden:eval                              # all prompts, default model (sonnet)
+pnpm golden:eval -- --model opus              # use a different model
+pnpm golden:eval -- --difficulty simple       # only simple prompts
+pnpm golden:eval -- --slug settings-page      # single prompt
+pnpm golden:eval -- --json                    # machine-readable output
+```
+
+**Example output:**
+
+```text
+=== Golden Prompt Eval — claude-sonnet-4-6 ===
+
+  primary-button                 [simple]   ✓ L1  ✓ L2  ✓ L3
+  settings-page                  [complex]  ✓ L1  ✗ L2  ✓ L3
+      L2: missing components: Column
+
+──────────────────────────────────────────────────────
+  Model:   claude-sonnet-4-6
+  Overall: 22/23 passed all checks
+  L1 validity:    23/23
+  L2 components:  22/23
+  L3 imports:     23/23
+  simple  : 8/8
+  medium  : 11/12
+  complex : 3/3
+```
+
+### eval-fix-review.mjs
+
+Full pipeline combining eval, automated fixing, and visual review:
+
+1. **Eval** — runs all golden prompts, collects failures and generated code
+2. **Fix loop** — for each failure, Claude diagnoses the root cause and patches `docs/consumer-claude-md-snippet.md` with a targeted rule addition or correction; re-evals the failing prompts; repeats up to 3 times
+3. **Review page** — generates `playground/vite-app/src/demos/EvalReview.tsx` with all passing components rendered, registers the route at `/eval-review`
+4. **Serve** — starts the Vite playground and opens `http://localhost:5173/eval-review` in the browser for visual L4 inspection
+
+After the run, check `git diff docs/consumer-claude-md-snippet.md` to review any documentation changes before committing.
+
+```bash
+pnpm golden:fix-review                          # full pipeline
+pnpm golden:fix-review -- --no-fix             # skip fix loop, go straight to review
+pnpm golden:fix-review -- --no-serve           # generate review page without starting server
+pnpm golden:fix-review -- --difficulty simple  # only simple prompts (faster)
+pnpm golden:fix-review -- --model opus         # use a different model
+```
+
 ### golden-prompts/
 
-20 reference prompts with validated implementations:
+74 reference prompts with validated implementations covering all Tale UI components:
 
-- **8 simple** — Button, Badge, Text, Image, Spinner, Separator, Link, IconButton
-- **8 medium** — Card, Input, Tabs, Checkbox group, AlertDialog, SearchField, ProgressBar, List
-- **4 complex** — Settings page, data display cards, FAQ accordion, user profile card
+- **18 simple** — Button, Badge, Text, Image, Spinner, Separator, Link, IconButton, Icon, ColorSwatch, DotIcon, FeaturedIcon, RatingStars, RatingBadge, AppStoreButton, SocialButton, ToggleButton, ColorModeToggle
+- **36 medium** — Card, Input, Tabs, Checkbox group, AlertDialog, SearchField, ProgressBar, List, Switch, RadioGroup, NumberField, Slider, SelectNative, ToggleButtonGroup, ProgressCircle, Disclosure, Tooltip, Popover, Breadcrumbs, Pagination, TagGroup, TextArea, Field, EmptyState, ScrollArea, Toolbar, Autocomplete, PinInput, ColorField, PreviewCard, DropZone, FileTrigger, Combobox, Drawer, Meter, Dialog
+- **20 complex** — Settings page, data display cards, FAQ accordion, user profile card, Table, Tree, GridList, NavigationMenu, ContextMenu, Carousel, Calendar, DatePicker, ColorArea+ColorSlider, PaymentInput, RangeCalendar, DateRangePicker, TimeField, DateField, Fieldset, ColorWheel
 
 Each file (`{slug}.json`) contains:
 
@@ -283,8 +364,8 @@ The `@tale-ui/a2ui` package (`packages/a2ui/`) provides an A2UI protocol rendere
 | Artifact | Path | Purpose |
 |----------|------|---------|
 | Protocol types | `packages/a2ui/src/types.ts` | TypeScript types for A2UI messages, components, catalog |
-| Catalog | `packages/a2ui/src/catalog.ts` | Maps 21 standard A2UI types to Tale UI components |
-| Icon registry | `packages/a2ui/src/icon-registry.ts` | 66 lucide-react icons resolvable by name string |
+| Catalog | `packages/a2ui/src/catalog.ts` | Maps 85 A2UI types to Tale UI components |
+| Icon registry | `packages/a2ui/src/icon-registry.ts` | 65 lucide-react icons resolvable by name string |
 | Renderer | `packages/a2ui/src/renderer/` | React provider, surface renderer, tree reconstruction |
 | Validator | `packages/a2ui/src/validation/validate.ts` | Message + catalog validation with structured errors |
 | Agent prompt | `packages/a2ui/src/agent/system-prompt.md` | LLM system prompt documenting the Tale UI A2UI catalog |

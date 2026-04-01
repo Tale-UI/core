@@ -1,0 +1,7 @@
+{
+  "slug": "breadcrumbs-nav",
+  "difficulty": "medium",
+  "prompt": "Show a breadcrumb navigation trail: Home > Products > Laptops.",
+  "reference": "import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';\n\nexport function ShopBreadcrumbs() {\n  return (\n    <Breadcrumbs.Root>\n      <Breadcrumbs.Item>\n        <Breadcrumbs.Link href=\"#\">Home</Breadcrumbs.Link>\n      </Breadcrumbs.Item>\n      <Breadcrumbs.Item>\n        <Breadcrumbs.Link href=\"#\">Products</Breadcrumbs.Link>\n      </Breadcrumbs.Item>\n      <Breadcrumbs.Item>\n        <Breadcrumbs.Link>Laptops</Breadcrumbs.Link>\n      </Breadcrumbs.Item>\n    </Breadcrumbs.Root>\n  );\n}",
+  "tags": ["Breadcrumbs"]
+}

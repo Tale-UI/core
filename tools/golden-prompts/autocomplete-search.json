@@ -1,0 +1,7 @@
+{
+  "slug": "autocomplete-search",
+  "difficulty": "medium",
+  "prompt": "Show an autocomplete component for searching and filtering a list of fruits.",
+  "reference": "import { Autocomplete } from '@tale-ui/react/autocomplete';\n\nexport function FruitAutocomplete() {\n  return (\n    <Autocomplete.Root>\n      <Autocomplete.SearchField aria-label=\"Search fruits\">\n        <Autocomplete.Input placeholder=\"Search fruits...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Fruits\">\n        <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n        <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        <Autocomplete.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Autocomplete.Item>\n        <Autocomplete.Item id=\"mango\" textValue=\"Mango\">Mango</Autocomplete.Item>\n        <Autocomplete.Item id=\"orange\" textValue=\"Orange\">Orange</Autocomplete.Item>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}",
+  "tags": ["Autocomplete"]
+}

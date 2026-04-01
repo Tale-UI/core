@@ -1,0 +1,7 @@
+{
+  "slug": "app-store-button-apple",
+  "difficulty": "simple",
+  "prompt": "Show an Apple App Store download button linking to the App Store.",
+  "reference": "import { AppStoreButton } from '@tale-ui/react/app-store-button';\n\nexport function AppleAppStoreButton() {\n  return <AppStoreButton store=\"apple\" href=\"https://apps.apple.com/\" />;\n}",
+  "tags": ["AppStoreButton"]
+}

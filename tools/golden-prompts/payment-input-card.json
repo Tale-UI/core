@@ -1,0 +1,7 @@
+{
+  "slug": "payment-input-card",
+  "difficulty": "complex",
+  "prompt": "Show a payment card number input with a label and auto-detecting card icon.",
+  "reference": "import { PaymentInput } from '@tale-ui/react/payment-input';\n\nexport function CreditCardInput() {\n  return (\n    <PaymentInput.Root>\n      <PaymentInput.Label>Card number</PaymentInput.Label>\n      <PaymentInput.Group>\n        <PaymentInput.Input />\n        <PaymentInput.CardIcon />\n      </PaymentInput.Group>\n      <PaymentInput.Description>Enter your 15 or 16 digit card number</PaymentInput.Description>\n    </PaymentInput.Root>\n  );\n}",
+  "tags": ["PaymentInput"]
+}

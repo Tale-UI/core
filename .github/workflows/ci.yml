@@ -33,6 +33,8 @@ jobs:
         run: pnpm audit:brand
       - name: Audit component completeness
         run: pnpm audit:components
+      - name: Audit coverage (ComponentAudit, Storybook, A2UI showcase)
+        run: pnpm audit:coverage:check
       - name: Verify component registry
         run: pnpm registry:check
       - name: Verify cursor rules

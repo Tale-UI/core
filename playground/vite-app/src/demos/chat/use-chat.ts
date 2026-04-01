@@ -99,11 +99,11 @@ export function useChat({ apiKey, provider, onA2UIMessages }: UseChatOptions): U
             return updated;
           });
         },
-        onComplete: (fullText) => {
+        onComplete: (fullText, meta) => {
           setIsStreaming(false);
           abortRef.current = null;
 
-          const result = parseA2UIResponse(fullText);
+          const result = parseA2UIResponse(fullText, { truncated: meta.truncated });
           console.log('[A2UI Chat] Parse result:', result.errors ? 'ERRORS' : 'OK', result.messages?.length ?? 0, 'messages');
           if (result.messages) {
             for (const msg of result.messages) {

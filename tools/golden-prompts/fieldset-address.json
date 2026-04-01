@@ -1,0 +1,7 @@
+{
+  "slug": "fieldset-address",
+  "difficulty": "complex",
+  "prompt": "Show an address fieldset with street, city, and zip text fields grouped together.",
+  "reference": "import { Fieldset } from '@tale-ui/react/fieldset';\nimport { TextField } from '@tale-ui/react/text-field';\n\nexport function AddressFieldset() {\n  return (\n    <Fieldset.Root>\n      <Fieldset.Legend>Shipping Address</Fieldset.Legend>\n      <TextField.Root>\n        <TextField.Label>Street</TextField.Label>\n        <TextField.Input placeholder=\"123 Main St\" />\n      </TextField.Root>\n      <TextField.Root>\n        <TextField.Label>City</TextField.Label>\n        <TextField.Input placeholder=\"New York\" />\n      </TextField.Root>\n      <TextField.Root>\n        <TextField.Label>ZIP code</TextField.Label>\n        <TextField.Input placeholder=\"10001\" />\n      </TextField.Root>\n    </Fieldset.Root>\n  );\n}",
+  "tags": ["Fieldset"]
+}

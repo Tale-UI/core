@@ -1,0 +1,7 @@
+{
+  "slug": "pin-input-verification",
+  "difficulty": "medium",
+  "prompt": "Show a 6-digit PIN input for verification codes, split into two groups of 3 with a separator.",
+  "reference": "import { PinInput } from '@tale-ui/react/pin-input';\n\nexport function VerificationPinInput() {\n  return (\n    <PinInput.Root maxLength={6}>\n      <PinInput.Group>\n        <PinInput.Slot index={0} />\n        <PinInput.Slot index={1} />\n        <PinInput.Slot index={2} />\n      </PinInput.Group>\n      <PinInput.Separator />\n      <PinInput.Group>\n        <PinInput.Slot index={3} />\n        <PinInput.Slot index={4} />\n        <PinInput.Slot index={5} />\n      </PinInput.Group>\n    </PinInput.Root>\n  );\n}",
+  "tags": ["PinInput"]
+}

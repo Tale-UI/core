@@ -45,6 +45,56 @@ import { Slider } from '@tale-ui/react/slider';
 import { SearchField } from '@tale-ui/react/search-field';
 import { Accordion } from '@tale-ui/react/accordion';
 import { Menu } from '@tale-ui/react/menu';
+import { Dialog } from '@tale-ui/react/dialog';
+import { AlertDialog } from '@tale-ui/react/alert-dialog';
+import { Drawer } from '@tale-ui/react/drawer';
+import { Tooltip } from '@tale-ui/react/tooltip';
+import { Popover } from '@tale-ui/react/popover';
+import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';
+import { Pagination } from '@tale-ui/react/pagination';
+import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';
+import { TagGroup } from '@tale-ui/react/tag-group';
+import { EmptyState } from '@tale-ui/react/empty-state';
+import { Meter } from '@tale-ui/react/meter';
+import { ProgressCircle } from '@tale-ui/react/progress-circle';
+import { Field } from '@tale-ui/react/field';
+import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
+import { Combobox } from '@tale-ui/react/combobox';
+import { PinInput } from '@tale-ui/react/pin-input';
+import { SelectNative } from '@tale-ui/react/select-native';
+import { Calendar } from '@tale-ui/react/calendar';
+import { RangeCalendar } from '@tale-ui/react/range-calendar';
+import { DateField } from '@tale-ui/react/date-field';
+import { DatePicker } from '@tale-ui/react/date-picker';
+import { DateRangePicker } from '@tale-ui/react/date-range-picker';
+import { TimeField } from '@tale-ui/react/time-field';
+import { ColorField } from '@tale-ui/react/color-field';
+import { ColorArea } from '@tale-ui/react/color-area';
+import { ColorSlider } from '@tale-ui/react/color-slider';
+import { PreviewCard } from '@tale-ui/react/preview-card';
+import { ContextMenu } from '@tale-ui/react/context-menu';
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+import { Carousel } from '@tale-ui/react/carousel';
+import { ScrollArea } from '@tale-ui/react/scroll-area';
+import { Toolbar } from '@tale-ui/react/toolbar';
+import { GridList } from '@tale-ui/react/grid-list';
+import { Tree } from '@tale-ui/react/tree';
+import { IconButton } from '@tale-ui/react/icon-button';
+import { Fieldset } from '@tale-ui/react/fieldset';
+import { DropZone } from '@tale-ui/react/drop-zone';
+import { FileTrigger } from '@tale-ui/react/file-trigger';
+import { RatingStars } from '@tale-ui/react/rating-stars';
+import { RatingBadge } from '@tale-ui/react/rating-badge';
+import { FeaturedIcon } from '@tale-ui/react/featured-icon';
+import { DotIcon } from '@tale-ui/react/dot-icon';
+import { AppStoreButton } from '@tale-ui/react/app-store-button';
+import { SocialButton } from '@tale-ui/react/social-button';
+import { PaymentInput } from '@tale-ui/react/payment-input';
+import { Autocomplete } from '@tale-ui/react/autocomplete';
+import { ColorWheel } from '@tale-ui/react/color-wheel';
+import { ColorSwatch } from '@tale-ui/react/color-swatch';
+import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';
+import { ColorPicker } from '@tale-ui/react/color-picker';
 import { Check, X } from 'lucide-react';
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
@@ -91,8 +141,7 @@ function mapTextHint(hint?: string): { variant: string; size: string; as: string
 /* ─── Standard Catalog ────────────────────────────────────────────────────── */
 
 /**
- * The Tale UI A2UI catalog. Maps all 21 A2UI standard component types
- * to their Tale UI equivalents.
+ * The Tale UI A2UI catalog. Maps A2UI component types to their Tale UI equivalents.
  */
 export const taleUICatalog: Catalog = {
   /* ── Typography ──────────────────────────────────────────────────────── */
@@ -207,6 +256,8 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       href: props.href as string,
       target: props.target as string | undefined,
+      rel: props.rel as string | undefined,
+      download: props.download as string | boolean | undefined,
       children: props.label ?? ctx.children,
     }),
   } as CatalogEntry,
@@ -219,6 +270,8 @@ export const taleUICatalog: Catalog = {
       variant: props.variant as string | undefined,
       size: props.size as string | undefined,
       isDisabled: props.disabled as boolean | undefined,
+      isPending: props.isPending as boolean | undefined,
+      showTextWhileLoading: props.showTextWhileLoading as boolean | undefined,
       onPress: pressHandler(props.action, ctx),
       children: props.label ?? ctx.children,
     }),
@@ -232,11 +285,12 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Text input' : undefined,
-        value: boundValue as string | undefined,
-        defaultValue: props.defaultValue as string | undefined,
+        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.required as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        name: props.name as string | undefined,
         onChange: props.binding
           ? (_v: string) => {
               const handler = pressHandler(props.action, ctx);
@@ -245,7 +299,7 @@ export const taleUICatalog: Catalog = {
           : undefined,
         children: h(React.Fragment, null,
           props.label ? h(TextField.Label, null, String(props.label)) : null,
-          h(TextField.Input),
+          h(TextField.Input, { type: props.type as string | undefined, placeholder: props.placeholder as string | undefined }),
           props.description ? h(TextField.Description, null, String(props.description)) : null,
           props.errorMessage ? h(TextField.ErrorMessage, null, String(props.errorMessage)) : null,
         ),
@@ -259,9 +313,15 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': (props.label as string) ?? 'Checkbox',
-        ...(boundValue != null ? { isSelected: boundValue as boolean } : {}),
         defaultSelected: (props.defaultSelected as boolean) ?? (boundValue as boolean | undefined),
         isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isIndeterminate: props.isIndeterminate as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        size: props.size as string | undefined,
+        value: props.value as string | undefined,
+        name: props.name as string | undefined,
+        onChange: props.action ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.() : undefined,
         children: h(React.Fragment, null,
           h(Checkbox.Indicator, null, h(Icon, { icon: Check, size: 'sm' })),
           (props.label as string) ?? ctx.children,
@@ -276,10 +336,15 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Radio group' : undefined,
-        value: boundValue as string | undefined,
-        defaultValue: props.defaultValue as string | undefined,
+        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        size: props.size as string | undefined,
+        name: props.name as string | undefined,
         label: props.label as string | undefined,
+        description: props.description as string | undefined,
         onChange: props.binding
           ? () => {
               const handler = pressHandler(props.action, ctx);
@@ -297,9 +362,13 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Select' : undefined,
-        selectedKey: boundValue as string | undefined,
-        defaultSelectedKey: props.defaultValue as string | undefined,
+        defaultSelectedKey: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        size: props.size as string | undefined,
+        name: props.name as string | undefined,
         placeholder: props.placeholder as string | undefined,
         onSelectionChange: props.binding
           ? () => {
@@ -327,10 +396,14 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': (props.label as string) ?? 'Switch',
-        // Only control if we have a bound value; otherwise let it be uncontrolled
-        ...(boundValue != null ? { isSelected: boundValue as boolean } : {}),
         defaultSelected: (props.defaultSelected as boolean) ?? (boundValue as boolean | undefined),
         isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        size: props.size as string | undefined,
+        value: props.value as string | undefined,
+        name: props.name as string | undefined,
+        onChange: props.action ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.() : undefined,
         children: h(React.Fragment, null,
           h(Switch.Thumb),
           (props.label as string) ?? ctx.children,
@@ -344,6 +417,7 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       value: props.value as string,
       isDisabled: props.disabled as boolean | undefined,
+      size: props.size as string | undefined,
       children: h(React.Fragment, null,
         h(Radio.Indicator),
         (props.label as string) ?? ctx.children,
@@ -367,7 +441,54 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       'aria-label': (props.label as string) ?? 'Table',
       selectionMode: props.selectionMode as string | undefined,
+      selectionBehavior: props.selectionBehavior as string | undefined,
+      disabledKeys: props.disabledKeys as string[] | undefined,
+      onSelectionChange: props.onSelectionChange
+        ? (_keys: unknown) => pressHandler(props.onSelectionChange, ctx)?.()
+        : undefined,
       children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TableHeader: {
+    component: Table.Header,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TableColumn: {
+    component: Table.Column,
+    adapter: (props, ctx) => ({
+      isRowHeader: props.isRowHeader as boolean | undefined,
+      allowsSorting: props.allowsSorting as boolean | undefined,
+      width: props.width as number | string | undefined,
+      minWidth: props.minWidth as number | undefined,
+      maxWidth: props.maxWidth as number | undefined,
+      children: props.label ? String(props.label) : ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TableBody: {
+    component: Table.Body,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TableRow: {
+    component: Table.Row,
+    adapter: (props, ctx) => ({
+      id: props.id as string | undefined,
+      onAction: props.action ? pressHandler(props.action, ctx) : undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TableCell: {
+    component: Table.Cell,
+    adapter: (props, ctx) => ({
+      children: props.content ? String(props.content) : ctx.children,
     }),
   } as CatalogEntry,
 
@@ -376,19 +497,63 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       'aria-label': (props.label as string) ?? 'Tabs',
       defaultSelectedKey: props.defaultTab as string | undefined,
+      orientation: props.orientation as string | undefined,
+      isDisabled: props.isDisabled as boolean | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TabList: {
+    component: Tabs.List,
+    adapter: (props, ctx) => ({
+      size: props.size as string | undefined,
+      variant: props.variant as string | undefined,
+      children: [ctx.children, h(Tabs.Indicator, { key: '__indicator' })],
+    }),
+  } as CatalogEntry,
+
+  TabItem: {
+    component: Tabs.Tab,
+    adapter: (props, ctx) => ({
+      id: props.id as string,
+      isDisabled: props.isDisabled as boolean | undefined,
+      children: props.label ? String(props.label) : ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TabPanel: {
+    component: Tabs.Panel,
+    adapter: (props, ctx) => ({
+      id: props.id as string,
       children: ctx.children,
     }),
   } as CatalogEntry,
 
   Progress: {
     component: ProgressBar.Root,
-    adapter: (props, ctx) => ({
-      value: resolve(props.value, ctx) as number | undefined,
-      maxValue: props.maxValue as number | undefined,
-      isIndeterminate: props.indeterminate as boolean | undefined,
-      'aria-label': (props.label as string) ?? 'Progress',
-      children: ctx.children,
-    }),
+    adapter: (props, ctx) => {
+      const val = resolve(props.value, ctx) as number | undefined;
+      const min = (props.minValue as number) ?? 0;
+      const max = (props.maxValue as number) ?? 100;
+      const pct = val != null ? Math.round(((val - min) / (max - min)) * 100) : undefined;
+      return {
+        value: val,
+        minValue: min !== 0 ? min : undefined,
+        maxValue: max !== 100 ? max : undefined,
+        isIndeterminate: props.indeterminate as boolean | undefined,
+        labelPosition: props.labelPosition as string | undefined,
+        'aria-label': (props.label as string) ?? 'Progress',
+        children: ctx.children ?? h(React.Fragment, null,
+          h(ProgressBar.Header, null,
+            props.label ? h(ProgressBar.Label, null, String(props.label)) : null,
+            !props.indeterminate && pct != null ? h(ProgressBar.Value, null, `${pct}%`) : null,
+          ),
+          h(ProgressBar.Track, null,
+            h(ProgressBar.Indicator, { value: val ?? 0, min, max }),
+          ),
+        ),
+      };
+    },
   } as CatalogEntry,
 
   Spinner: {
@@ -405,6 +570,7 @@ export const taleUICatalog: Catalog = {
   Form: {
     component: Form,
     adapter: (props, ctx) => ({
+      validationBehavior: props.validationBehavior as string | undefined,
       onSubmit: props.action
         ? (e: React.FormEvent) => {
             e.preventDefault();
@@ -482,6 +648,10 @@ export const taleUICatalog: Catalog = {
     component: Disclosure.Root,
     adapter: (props, ctx) => ({
       defaultExpanded: props.defaultExpanded as boolean | undefined,
+      isExpanded: props.isExpanded as boolean | undefined,
+      onExpandedChange: props.onExpandedChange
+        ? (isExp: boolean) => { void isExp; pressHandler(props.onExpandedChange, ctx)?.(); }
+        : undefined,
       children: ctx.children,
     }),
   } as CatalogEntry,
@@ -506,13 +676,15 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Text area' : undefined,
-        value: boundValue as string | undefined,
-        defaultValue: props.defaultValue as string | undefined,
+        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.required as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        name: props.name as string | undefined,
         children: h(React.Fragment, null,
           props.label ? h(TextArea.Label, null, String(props.label)) : null,
-          h(TextArea.TextArea),
+          h(TextArea.TextArea, { placeholder: props.placeholder as string | undefined }),
           props.description ? h(TextArea.Description, null, String(props.description)) : null,
         ),
       };
@@ -525,13 +697,16 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Number input' : undefined,
-        value: boundValue as number | undefined,
-        defaultValue: props.defaultValue as number | undefined,
+        defaultValue: (props.defaultValue as number | undefined) ?? (boundValue as number | undefined),
         minValue: props.minValue as number | undefined,
         maxValue: props.maxValue as number | undefined,
         step: props.step as number | undefined,
         isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.required as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        formatOptions: props.formatOptions as Intl.NumberFormatOptions | undefined,
+        name: props.name as string | undefined,
         children: h(React.Fragment, null,
           props.label ? h(NumberField.Label, null, String(props.label)) : null,
           h(NumberField.Group, null,
@@ -551,12 +726,17 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Slider' : undefined,
-        value: boundValue != null ? [boundValue as number] : undefined,
-        defaultValue: props.defaultValue != null ? [props.defaultValue as number] : undefined,
+        defaultValue: props.defaultValue != null
+          ? [props.defaultValue as number]
+          : boundValue != null ? [boundValue as number] : undefined,
         minValue: props.minValue as number | undefined,
         maxValue: props.maxValue as number | undefined,
         step: props.step as number | undefined,
         isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        orientation: props.orientation as string | undefined,
+        name: props.name as string | undefined,
         children: h(React.Fragment, null,
           h(Slider.Header, null,
             props.label ? h(Slider.Label, null, String(props.label)) : null,
@@ -579,9 +759,12 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Search' : undefined,
-        value: boundValue as string | undefined,
-        defaultValue: props.defaultValue as string | undefined,
+        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        name: props.name as string | undefined,
         onSubmit: props.action
           ? () => {
               const handler = pressHandler(props.action, ctx);
@@ -590,7 +773,7 @@ export const taleUICatalog: Catalog = {
           : undefined,
         children: h(React.Fragment, null,
           props.label ? h(SearchField.Label, null, String(props.label)) : null,
-          h(SearchField.Input),
+          h(SearchField.Input, { placeholder: props.placeholder as string | undefined }),
           h(SearchField.ClearButton, null, h(Icon, { icon: X, size: 'sm' })),
         ),
       };
@@ -602,6 +785,11 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       allowsMultipleExpanded: props.allowsMultipleExpanded as boolean | undefined,
       defaultExpandedKeys: props.defaultExpandedKeys as string[] | undefined,
+      expandedKeys: props.expandedKeys as string[] | undefined,
+      isDisabled: props.isDisabled as boolean | undefined,
+      onExpandedChange: props.onExpandedChange
+        ? (_keys: unknown) => pressHandler(props.onExpandedChange, ctx)?.()
+        : undefined,
       children: ctx.children,
     }),
   } as CatalogEntry,
@@ -610,6 +798,8 @@ export const taleUICatalog: Catalog = {
     component: Accordion.Item,
     adapter: (props, ctx) => ({
       id: props.id as string,
+      isDisabled: props.isDisabled as boolean | undefined,
+      defaultExpanded: props.defaultExpanded as boolean | undefined,
       children: ctx.children,
     }),
   } as CatalogEntry,
@@ -651,7 +841,12 @@ export const taleUICatalog: Catalog = {
 
   MenuPopover: {
     component: Menu.Popover,
-    adapter: (_props, ctx) => ({
+    adapter: (props, ctx) => ({
+      placement: props.placement as string | undefined,
+      offset: props.offset as number | undefined,
+      crossOffset: props.crossOffset as number | undefined,
+      shouldFlip: props.shouldFlip as boolean | undefined,
+      maxHeight: props.maxHeight as number | undefined,
       children: h(Menu.MenuList as React.ComponentType, null, ctx.children),
     }),
   } as CatalogEntry,
@@ -660,6 +855,10 @@ export const taleUICatalog: Catalog = {
     component: Menu.Item,
     adapter: (props, ctx) => ({
       id: props.id as string | undefined,
+      textValue: props.textValue as string | undefined,
+      href: props.href as string | undefined,
+      target: props.target as string | undefined,
+      isDisabled: props.disabled as boolean | undefined,
       onAction: props.action ? pressHandler(props.action, ctx) : undefined,
       children: props.label ?? ctx.children,
     }),
@@ -668,6 +867,1029 @@ export const taleUICatalog: Catalog = {
   MenuSeparator: {
     component: Menu.Separator,
     adapter: () => ({}),
+  } as CatalogEntry,
+
+  /* ── Overlays ───────────────────────────────────────────────────────── */
+
+  Dialog: {
+    component: Dialog.Root,
+    adapter: (props, ctx) => ({
+      children: h(React.Fragment, null,
+        h(Dialog.Trigger, { className: 'tale-button tale-button--neutral' },
+          String(props.triggerLabel ?? props.title ?? 'Open'),
+        ),
+        h(Dialog.Backdrop, null,
+          h(Dialog.Popup, {
+            modalProps: (props.isKeyboardDismissDisabled || props.isDismissable === false)
+              ? {
+                  isKeyboardDismissDisabled: props.isKeyboardDismissDisabled as boolean | undefined,
+                  isDismissable: props.isDismissable as boolean | undefined,
+                }
+              : undefined,
+          },
+            props.title ? h(Dialog.Title, null, String(props.title)) : null,
+            props.description ? h(Dialog.Description, null, String(props.description)) : null,
+            ctx.children,
+            h(Dialog.Close),
+          ),
+        ),
+      ),
+    }),
+  } as CatalogEntry,
+
+  AlertDialog: {
+    component: AlertDialog.Root,
+    adapter: (props, ctx) => ({
+      children: h(React.Fragment, null,
+        h(AlertDialog.Trigger, { className: 'tale-button tale-button--danger' },
+          String(props.triggerLabel ?? props.title ?? 'Open'),
+        ),
+        h(AlertDialog.Backdrop, null,
+          h(AlertDialog.Popup, {
+            isKeyboardDismissDisabled: props.isKeyboardDismissDisabled as boolean | undefined,
+          },
+            h(AlertDialog.Content, null,
+              props.title ? h(AlertDialog.Title, null, String(props.title)) : null,
+              props.description ? h(AlertDialog.Description, null, String(props.description)) : null,
+              ctx.children,
+            ),
+          ),
+        ),
+      ),
+    }),
+  } as CatalogEntry,
+
+  Drawer: {
+    component: Drawer.Root,
+    adapter: (props, ctx) => ({
+      placement: props.placement as string | undefined,
+      children: h(React.Fragment, null,
+        h(Drawer.Trigger, { className: 'tale-button tale-button--neutral' },
+          String(props.triggerLabel ?? props.title ?? 'Open'),
+        ),
+        h(Drawer.Backdrop),
+        h(Drawer.Popup, null,
+          props.title ? h(Drawer.Title, null, String(props.title)) : null,
+          props.description ? h(Drawer.Description, null, String(props.description)) : null,
+          ctx.children,
+          h(Drawer.Close),
+        ),
+      ),
+    }),
+  } as CatalogEntry,
+
+  Tooltip: {
+    component: Tooltip.Root,
+    adapter: (props, ctx) => ({
+      delay: props.delay as number | undefined,
+      closeDelay: props.closeDelay as number | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TooltipTrigger: {
+    component: Tooltip.Trigger,
+    adapter: (props, ctx) => ({
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TooltipPopup: {
+    component: Tooltip.Popup,
+    adapter: (props, ctx) => ({
+      placement: props.placement as string | undefined,
+      offset: props.offset as number | undefined,
+      crossOffset: props.crossOffset as number | undefined,
+      shouldFlip: props.shouldFlip as boolean | undefined,
+      children: h(React.Fragment, null,
+        h(Tooltip.Arrow),
+        ctx.children ?? String(props.content ?? ''),
+      ),
+    }),
+  } as CatalogEntry,
+
+  Popover: {
+    component: Popover.Root,
+    adapter: (props, ctx) => ({
+      isDismissable: props.isDismissable as boolean | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  PopoverTrigger: {
+    component: Popover.Trigger,
+    adapter: (props, ctx) => ({
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  PopoverPopup: {
+    component: Popover.Popup,
+    adapter: (props, ctx) => ({
+      placement: props.placement as string | undefined,
+      offset: props.offset as number | undefined,
+      crossOffset: props.crossOffset as number | undefined,
+      shouldFlip: props.shouldFlip as boolean | undefined,
+      isKeyboardDismissDisabled: props.isKeyboardDismissDisabled as boolean | undefined,
+      children: h(React.Fragment, null,
+        h(Popover.Arrow),
+        props.title ? h(Popover.Title, null, String(props.title)) : null,
+        props.description ? h(Popover.Description, null, String(props.description)) : null,
+        ctx.children,
+      ),
+    }),
+  } as CatalogEntry,
+
+  /* ── Navigation ─────────────────────────────────────────────────────── */
+
+  Breadcrumbs: {
+    component: Breadcrumbs.Root,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  BreadcrumbItem: {
+    component: Breadcrumbs.Item,
+    adapter: (props, ctx) => ({
+      children: props.label ? String(props.label) : ctx.children,
+    }),
+  } as CatalogEntry,
+
+  BreadcrumbLink: {
+    component: Breadcrumbs.Link,
+    adapter: (props, ctx) => ({
+      href: props.href as string,
+      rel: props.rel as string | undefined,
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  Pagination: {
+    component: Pagination.Root,
+    adapter: (props, ctx) => ({
+      'aria-label': (props.label as string) ?? 'Pagination',
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  PaginationItem: {
+    component: Pagination.Item,
+    adapter: (props, ctx) => ({
+      page: props.page as number,
+      current: props.current as boolean | undefined,
+      isDisabled: props.isDisabled as boolean | undefined,
+      onClick: pressHandler(props.action, ctx),
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  PaginationPrevious: {
+    component: Pagination.PreviousTrigger,
+    adapter: (props, ctx) => ({
+      disabled: props.disabled as boolean | undefined,
+      onClick: pressHandler(props.action, ctx),
+    }),
+  } as CatalogEntry,
+
+  PaginationNext: {
+    component: Pagination.NextTrigger,
+    adapter: (props, ctx) => ({
+      disabled: props.disabled as boolean | undefined,
+      onClick: pressHandler(props.action, ctx),
+    }),
+  } as CatalogEntry,
+
+  PaginationEllipsis: {
+    component: Pagination.Ellipsis,
+    adapter: () => ({}),
+  } as CatalogEntry,
+
+  /* ── Display ────────────────────────────────────────────────────────── */
+
+  TagGroup: {
+    component: TagGroup.Root,
+    adapter: (props, ctx) => ({
+      'aria-label': (props.label as string) ?? 'Tags',
+      selectionMode: props.selectionMode as string | undefined,
+      defaultSelectedKeys: props.defaultSelectedKeys as string[] | undefined,
+      isDisabled: props.isDisabled as boolean | undefined,
+      onSelectionChange: props.onSelectionChange
+        ? (_keys: unknown) => pressHandler(props.onSelectionChange, ctx)?.()
+        : undefined,
+      onRemove: props.onRemove
+        ? (_keys: unknown) => pressHandler(props.onRemove, ctx)?.()
+        : undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TagList: {
+    component: TagGroup.List,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  Tag: {
+    component: TagGroup.Tag,
+    adapter: (props, ctx) => ({
+      id: String(props.id ?? ''),
+      textValue: props.textValue as string | undefined,
+      href: props.href as string | undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  EmptyState: {
+    component: EmptyState.Root,
+    adapter: (props, ctx) => ({
+      size: props.size as string | undefined,
+      children: h(React.Fragment, null,
+        props.icon ? h(EmptyState.Icon, null, h(Icon, { icon: resolveIcon(props.icon as string), size: 'lg' })) : null,
+        props.title ? h(EmptyState.Title, null, String(props.title)) : null,
+        props.description ? h(EmptyState.Description, null, String(props.description)) : null,
+        ctx.children ? h(EmptyState.Actions, null, ctx.children) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
+  /* ── Feedback ───────────────────────────────────────────────────────── */
+
+  Meter: {
+    component: Meter.Root,
+    adapter: (props, ctx) => ({
+      value: resolve(props.value, ctx) as number | undefined,
+      minValue: props.minValue as number | undefined,
+      maxValue: props.maxValue as number | undefined,
+      'aria-label': (props.label as string) ?? 'Meter',
+      children: h(React.Fragment, null,
+        h(Meter.Header, null,
+          props.label ? h(Meter.Label, null, String(props.label)) : null,
+          h(Meter.Value),
+        ),
+        h(Meter.Track, null,
+          h(Meter.Indicator, {
+            value: resolve(props.value, ctx) as number ?? 0,
+            min: props.minValue as number ?? 0,
+            max: props.maxValue as number ?? 100,
+          }),
+        ),
+      ),
+    }),
+  } as CatalogEntry,
+
+  ProgressCircle: {
+    component: ProgressCircle.Root,
+    adapter: (props, ctx) => ({
+      value: resolve(props.value, ctx) as number | undefined,
+      minValue: props.minValue as number | undefined,
+      maxValue: props.maxValue as number | undefined,
+      isIndeterminate: props.isIndeterminate as boolean | undefined,
+      'aria-label': (props.label as string) ?? 'Progress',
+      size: props.size as string | undefined,
+      children: h(React.Fragment, null,
+        h(ProgressCircle.Track),
+        h(ProgressCircle.Value),
+      ),
+    }),
+  } as CatalogEntry,
+
+  ToggleButton: {
+    component: ToggleButton,
+    adapter: (props, ctx) => {
+      const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
+      return {
+        defaultSelected: boundValue as boolean | undefined,
+        size: props.size as string | undefined,
+        isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        value: props.value as string | undefined,
+        name: props.name as string | undefined,
+        children: props.label ?? ctx.children,
+      };
+    },
+  } as CatalogEntry,
+
+  ToggleButtonGroup: {
+    component: ToggleButtonGroup,
+    adapter: (props, ctx) => ({
+      selectionMode: (props.selectionMode as string) ?? 'single',
+      disallowEmptySelection: props.disallowEmptySelection as boolean | undefined,
+      defaultSelectedKeys: props.defaultSelectedKeys as string[] | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      size: props.size as string | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  /* ── Form Structure ─────────────────────────────────────────────────── */
+
+  Field: {
+    component: Field.Root,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  FieldLabel: {
+    component: Field.Label,
+    adapter: (props, ctx) => ({
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  FieldDescription: {
+    component: Field.Description,
+    adapter: (props, ctx) => ({
+      children: props.content ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  FieldError: {
+    component: Field.Error,
+    adapter: (props, ctx) => ({
+      children: props.message ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  /* ── Additional Form Controls ───────────────────────────────────────── */
+
+  CheckboxGroup: {
+    component: CheckboxGroup,
+    adapter: (props, ctx) => ({
+      label: props.label as string | undefined,
+      description: props.description as string | undefined,
+      orientation: props.orientation as string | undefined,
+      size: props.size as string | undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      isRequired: props.required as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      name: props.name as string | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  Combobox: {
+    component: Combobox.Root,
+    adapter: (props, ctx) => ({
+      'aria-label': !props.label ? 'Combobox' : undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      isRequired: props.required as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      name: props.name as string | undefined,
+      children: h(React.Fragment, null,
+        props.label ? h(Combobox.Label, null, String(props.label)) : null,
+        h(Combobox.InputGroup, null,
+          h(Combobox.Input, { placeholder: props.placeholder as string | undefined }),
+          h(Combobox.Trigger),
+        ),
+        h(Combobox.Popover, null,
+          h(Combobox.ListBox as React.ComponentType, null, ctx.children),
+        ),
+        props.description ? h('p', { className: 'tale-combobox__description' }, String(props.description)) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
+  ComboboxItem: {
+    component: Combobox.Item,
+    adapter: (props, ctx) => ({
+      id: props.id as string,
+      textValue: props.textValue as string | undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  SelectNative: {
+    component: SelectNative,
+    adapter: (props) => ({
+      'aria-label': (props.label as string) ?? 'Select',
+      size: props.size as string | undefined,
+      disabled: props.disabled as boolean | undefined,
+      name: props.name as string | undefined,
+      children: Array.isArray(props.options)
+        ? (props.options as Array<{ value: string; label: string }>).map((opt) =>
+            h('option', { key: opt.value, value: opt.value }, opt.label),
+          )
+        : undefined,
+    }),
+  } as CatalogEntry,
+
+  PinInput: {
+    component: PinInput.Root,
+    adapter: (props) => {
+      const len = (props.maxLength as number) ?? 4;
+      return {
+        maxLength: len,
+        disabled: props.disabled as boolean | undefined,
+        children: h(PinInput.Group, null,
+          ...Array.from({ length: len }, (_, i) => h(PinInput.Slot, { key: i, index: i })),
+        ),
+      };
+    },
+  } as CatalogEntry,
+
+  /* ── Date & Time ────────────────────────────────────────────────────── */
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Calendar: {
+    component: Calendar.Root,
+    adapter: (props) => ({
+      'aria-label': (props.label as string) ?? 'Calendar',
+      isDisabled: props.disabled as boolean | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      children: h(React.Fragment, null,
+        h(Calendar.Header, null,
+          h(Calendar.PreviousButton),
+          h(Calendar.Heading),
+          h(Calendar.NextButton),
+        ),
+        h(Calendar.Grid, null,
+          h(Calendar.GridHeader as React.ComponentType<any>, null,
+            ((day: unknown) => h(Calendar.GridHeaderCell, { key: String(day) }, String(day))) as any,
+          ),
+          h(Calendar.GridBody as React.ComponentType<any>, null,
+            ((date: unknown) => h(Calendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any,
+          ),
+        ),
+      ),
+    }),
+  } as CatalogEntry,
+
+  RangeCalendar: {
+    component: RangeCalendar.Root,
+    adapter: (props) => ({
+      'aria-label': (props.label as string) ?? 'Calendar',
+      isDisabled: props.disabled as boolean | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      children: h(React.Fragment, null,
+        h(RangeCalendar.Header, null,
+          h(RangeCalendar.PreviousButton),
+          h(RangeCalendar.Heading),
+          h(RangeCalendar.NextButton),
+        ),
+        h(RangeCalendar.Grid, null,
+          h(RangeCalendar.GridHeader as React.ComponentType<any>, null,
+            ((day: unknown) => h(RangeCalendar.GridHeaderCell, { key: String(day) }, String(day))) as any,
+          ),
+          h(RangeCalendar.GridBody as React.ComponentType<any>, null,
+            ((date: unknown) => h(RangeCalendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any,
+          ),
+        ),
+      ),
+    }),
+  } as CatalogEntry,
+
+  DateField: {
+    component: DateField.Root,
+    adapter: (props) => ({
+      'aria-label': !props.label ? 'Date' : undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      isRequired: props.required as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      name: props.name as string | undefined,
+      children: h(React.Fragment, null,
+        props.label ? h(DateField.Label, null, String(props.label)) : null,
+        h(DateField.DateInput as React.ComponentType<any>, null,
+          ((seg: any) => h(DateField.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
+        ),
+        props.description ? h(DateField.Description, null, String(props.description)) : null,
+        props.errorMessage ? h(DateField.ErrorMessage, null, String(props.errorMessage)) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
+  DatePicker: {
+    component: DatePicker.Root,
+    adapter: (props) => ({
+      'aria-label': !props.label ? 'Date' : undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      isRequired: props.required as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      name: props.name as string | undefined,
+      children: h(React.Fragment, null,
+        props.label ? h(DatePicker.Label, null, String(props.label)) : null,
+        h(DatePicker.Group, null,
+          h(DatePicker.DateInput as React.ComponentType<any>, null,
+            ((seg: any) => h(DatePicker.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
+          ),
+          h(DatePicker.Trigger),
+        ),
+        h(DatePicker.Popover, null,
+          h(DatePicker.Dialog, null,
+            h(Calendar.Root, null,
+              h(Calendar.Header, null,
+                h(Calendar.PreviousButton),
+                h(Calendar.Heading),
+                h(Calendar.NextButton),
+              ),
+              h(Calendar.Grid, null,
+                h(Calendar.GridHeader as React.ComponentType<any>, null,
+                  ((day: unknown) => h(Calendar.GridHeaderCell, { key: String(day) }, String(day))) as any,
+                ),
+                h(Calendar.GridBody as React.ComponentType<any>, null,
+                  ((date: unknown) => h(Calendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any,
+                ),
+              ),
+            ),
+          ),
+        ),
+        props.description ? h(DatePicker.Description, null, String(props.description)) : null,
+        props.errorMessage ? h(DatePicker.ErrorMessage, null, String(props.errorMessage)) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
+  DateRangePicker: {
+    component: DateRangePicker.Root,
+    adapter: (props) => ({
+      'aria-label': !props.label ? 'Date range' : undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      isRequired: props.required as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      name: props.name as string | undefined,
+      children: h(React.Fragment, null,
+        props.label ? h(DateRangePicker.Label, null, String(props.label)) : null,
+        h(DateRangePicker.Group, null,
+          h(DateRangePicker.StartDate as React.ComponentType<any>, null,
+            ((seg: any) => h(DateRangePicker.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
+          ),
+          h('span', { 'aria-hidden': true }, '–'),
+          h(DateRangePicker.EndDate as React.ComponentType<any>, null,
+            ((seg: any) => h(DateRangePicker.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
+          ),
+          h(DateRangePicker.Trigger),
+        ),
+        h(DateRangePicker.Popover, null,
+          h(DateRangePicker.Dialog, null,
+            h(RangeCalendar.Root, null,
+              h(RangeCalendar.Header, null,
+                h(RangeCalendar.PreviousButton),
+                h(RangeCalendar.Heading),
+                h(RangeCalendar.NextButton),
+              ),
+              h(RangeCalendar.Grid, null,
+                h(RangeCalendar.GridHeader as React.ComponentType<any>, null,
+                  ((day: unknown) => h(RangeCalendar.GridHeaderCell, { key: String(day) }, String(day))) as any,
+                ),
+                h(RangeCalendar.GridBody as React.ComponentType<any>, null,
+                  ((date: unknown) => h(RangeCalendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any,
+                ),
+              ),
+            ),
+          ),
+        ),
+        props.description ? h(DateRangePicker.Description, null, String(props.description)) : null,
+        props.errorMessage ? h(DateRangePicker.ErrorMessage, null, String(props.errorMessage)) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
+  TimeField: {
+    component: TimeField.Root,
+    adapter: (props) => ({
+      'aria-label': !props.label ? 'Time' : undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      isRequired: props.required as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      name: props.name as string | undefined,
+      children: h(React.Fragment, null,
+        props.label ? h(TimeField.Label, null, String(props.label)) : null,
+        h(TimeField.DateInput as React.ComponentType<any>, null,
+          ((seg: any) => h(TimeField.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
+        ),
+        props.description ? h(TimeField.Description, null, String(props.description)) : null,
+        props.errorMessage ? h(TimeField.ErrorMessage, null, String(props.errorMessage)) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
+  /* ── Color ──────────────────────────────────────────────────────────── */
+
+  ColorField: {
+    component: ColorField.Root,
+    adapter: (props) => ({
+      'aria-label': !props.label ? 'Color' : undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      isRequired: props.required as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      name: props.name as string | undefined,
+      children: h(React.Fragment, null,
+        props.label ? h(ColorField.Label, null, String(props.label)) : null,
+        h(ColorField.Input, { placeholder: props.placeholder as string | undefined }),
+        props.description ? h(ColorField.Description, null, String(props.description)) : null,
+        props.errorMessage ? h(ColorField.ErrorMessage, null, String(props.errorMessage)) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
+  ColorArea: {
+    component: ColorArea.Root,
+    adapter: (props) => ({
+      'aria-label': (props.label as string) ?? 'Color area',
+      xChannel: (props.xChannel as string) ?? 'saturation',
+      yChannel: (props.yChannel as string) ?? 'brightness',
+      children: h(ColorArea.Thumb),
+    }),
+  } as CatalogEntry,
+
+  ColorSlider: {
+    component: ColorSlider.Root,
+    adapter: (props) => ({
+      channel: (props.channel as string) ?? 'hue',
+      children: h(React.Fragment, null,
+        props.label ? h(ColorSlider.Label, null, String(props.label)) : null,
+        h(ColorSlider.Output),
+        h(ColorSlider.Track, null,
+          h(ColorSlider.Thumb),
+        ),
+      ),
+    }),
+  } as CatalogEntry,
+
+  /* ── Overlays (additional) ──────────────────────────────────────────── */
+
+  PreviewCard: {
+    component: PreviewCard.Root,
+    adapter: (props, ctx) => ({
+      delay: props.delay as number | undefined,
+      closeDelay: props.closeDelay as number | undefined,
+      children: h(React.Fragment, null,
+        h(PreviewCard.Trigger as React.ComponentType<any>, null, (props.label as string) ?? 'Preview'),
+        h(PreviewCard.Popup as React.ComponentType<any>, {
+          placement: (props.placement as string) ?? 'bottom',
+          offset: 8,
+        },
+          h(PreviewCard.Arrow as React.ComponentType, null),
+          h(PreviewCard.Content as React.ComponentType<any>, { 'aria-label': (props.title as string) ?? 'Preview' },
+            props.title ? h('strong', null, String(props.title)) : null,
+            ctx.children,
+          ),
+        ),
+      ),
+    }),
+  } as CatalogEntry,
+
+  ContextMenu: {
+    component: ContextMenu.Root,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  ContextMenuTrigger: {
+    component: ContextMenu.Trigger,
+    adapter: (props, ctx) => ({
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  ContextMenuPopup: {
+    component: ContextMenu.Popup,
+    adapter: (_props, ctx) => ({
+      children: h(ContextMenu.MenuList as React.ComponentType, null, ctx.children),
+    }),
+  } as CatalogEntry,
+
+  ContextMenuItem: {
+    component: ContextMenu.Item,
+    adapter: (props, ctx) => ({
+      id: props.id as string | undefined,
+      textValue: props.textValue as string | undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      onAction: props.action ? pressHandler(props.action, ctx) : undefined,
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  ContextMenuSeparator: {
+    component: ContextMenu.Separator,
+    adapter: () => ({}),
+  } as CatalogEntry,
+
+  /* ── Navigation (additional) ────────────────────────────────────────── */
+
+  NavigationMenu: {
+    component: NavigationMenu.Root,
+    adapter: (_props, ctx) => ({
+      children: h(NavigationMenu.List, null, ctx.children),
+    }),
+  } as CatalogEntry,
+
+  NavigationMenuItem: {
+    component: NavigationMenu.Item,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  NavigationMenuLink: {
+    component: NavigationMenu.Link,
+    adapter: (props, ctx) => ({
+      href: props.href as string | undefined,
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  /* ── Layout (additional) ────────────────────────────────────────────── */
+
+  Carousel: {
+    component: Carousel.Root,
+    adapter: (props, ctx) => ({
+      loop: props.loop as boolean | undefined,
+      autoplay: props.autoplay as boolean | undefined,
+      slidesPerView: props.slidesPerView as number | undefined,
+      orientation: props.orientation as string | undefined,
+      children: h(React.Fragment, null,
+        h(Carousel.Content, null, ctx.children),
+        h(Carousel.PreviousTrigger),
+        h(Carousel.NextTrigger),
+      ),
+    }),
+  } as CatalogEntry,
+
+  CarouselItem: {
+    component: Carousel.Item,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  ScrollArea: {
+    component: ScrollArea.Root,
+    adapter: (_props, ctx) => ({
+      children: h(React.Fragment, null,
+        h(ScrollArea.Viewport, null,
+          h(ScrollArea.Content, null, ctx.children),
+        ),
+        h(ScrollArea.Scrollbar, { orientation: 'vertical' },
+          h(ScrollArea.Thumb),
+        ),
+        h(ScrollArea.Corner),
+      ),
+    }),
+  } as CatalogEntry,
+
+  Toolbar: {
+    component: Toolbar.Root,
+    adapter: (props, ctx) => ({
+      'aria-label': (props.label as string) ?? 'Toolbar',
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  ToolbarButton: {
+    component: Toolbar.Button,
+    adapter: (props, ctx) => ({
+      isDisabled: props.disabled as boolean | undefined,
+      onPress: pressHandler(props.action, ctx),
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  ToolbarSeparator: {
+    component: Toolbar.Separator,
+    adapter: () => ({}),
+  } as CatalogEntry,
+
+  /* ── Display (additional) ───────────────────────────────────────────── */
+
+  GridList: {
+    component: GridList.Root,
+    adapter: (props, ctx) => ({
+      'aria-label': (props.label as string) ?? 'List',
+      selectionMode: props.selectionMode as string | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  GridListItem: {
+    component: GridList.Item,
+    adapter: (props, ctx) => ({
+      id: props.id as string,
+      textValue: props.textValue as string | undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  Tree: {
+    component: Tree.Root,
+    adapter: (props, ctx) => ({
+      'aria-label': (props.label as string) ?? 'Tree',
+      selectionMode: props.selectionMode as string | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  TreeItem: {
+    component: Tree.Item,
+    adapter: (props, ctx) => ({
+      id: props.id as string,
+      textValue: (props.textValue as string) ?? (props.label as string) ?? (props.id as string),
+      children: h(React.Fragment, null,
+        h(Tree.ItemContent, null, props.label ? String(props.label) : null),
+        ctx.children,
+      ),
+    }),
+  } as CatalogEntry,
+
+  RatingStars: {
+    component: RatingStars,
+    adapter: (props) => ({
+      value: props.value as number,
+      max: props.max as number | undefined,
+      size: props.size as string | undefined,
+    }),
+  } as CatalogEntry,
+
+  RatingBadge: {
+    component: RatingBadge,
+    adapter: (props) => ({
+      value: props.value as number,
+      size: props.size as string | undefined,
+    }),
+  } as CatalogEntry,
+
+  FeaturedIcon: {
+    component: FeaturedIcon,
+    adapter: (props, ctx) => ({
+      variant: props.variant as string | undefined,
+      shape: props.shape as string | undefined,
+      size: props.size as string | undefined,
+      theme: props.theme as string | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  DotIcon: {
+    component: DotIcon,
+    adapter: (props) => ({
+      color: props.color as string | undefined,
+      size: props.size as string | undefined,
+    }),
+  } as CatalogEntry,
+
+  /* ── Form Structure (additional) ────────────────────────────────────── */
+
+  Fieldset: {
+    component: Fieldset.Root,
+    adapter: (props, ctx) => ({
+      children: h(React.Fragment, null,
+        props.label ? h(Fieldset.Legend, null, String(props.label)) : null,
+        ctx.children,
+      ),
+    }),
+  } as CatalogEntry,
+
+  /* ── Interaction ────────────────────────────────────────────────────── */
+
+  IconButton: {
+    component: IconButton,
+    adapter: (props, ctx) => ({
+      variant: (props.variant as string) ?? 'ghost',
+      size: props.size as string | undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      'aria-label': (props.label as string) ?? 'Button',
+      onPress: pressHandler(props.action, ctx),
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  DropZone: {
+    component: DropZone,
+    adapter: (props, ctx) => ({
+      onDrop: props.action ? () => pressHandler(props.action, ctx)?.() : undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  FileTrigger: {
+    component: FileTrigger,
+    adapter: (props, ctx) => ({
+      acceptedFileTypes: props.acceptedFileTypes as string[] | undefined,
+      allowsMultiple: props.allowsMultiple as boolean | undefined,
+      onSelect: props.action ? () => pressHandler(props.action, ctx)?.() : undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  /* ── Additional Specialized Inputs ─────────────────────────────────── */
+
+  PaymentInput: {
+    component: PaymentInput.Root,
+    adapter: (props) => ({
+      'aria-label': !props.label ? 'Card number' : undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      isReadOnly: props.readOnly as boolean | undefined,
+      isRequired: props.required as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      name: props.name as string | undefined,
+      children: h(React.Fragment, null,
+        props.label ? h(PaymentInput.Label, null, String(props.label)) : null,
+        h(PaymentInput.Group, null,
+          h(PaymentInput.Input, { placeholder: props.placeholder as string | undefined }),
+          h(PaymentInput.CardIcon),
+        ),
+        props.description ? h(PaymentInput.Description, null, String(props.description)) : null,
+        props.errorMessage ? h(PaymentInput.ErrorMessage, null, String(props.errorMessage)) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
+  Autocomplete: {
+    component: Autocomplete.Root,
+    adapter: (props, ctx) => ({
+      children: h(React.Fragment, null,
+        h(Autocomplete.SearchField as React.ComponentType<any>, null,
+          props.label ? h('label' as any, null, String(props.label)) : null,
+          h(Autocomplete.Input as React.ComponentType<any>, { placeholder: props.placeholder as string | undefined }),
+        ),
+        h(Autocomplete.ListBox as React.ComponentType, null, ctx.children),
+      ),
+    }),
+  } as CatalogEntry,
+
+  AutocompleteItem: {
+    component: Autocomplete.Item,
+    adapter: (props, ctx) => ({
+      id: props.id as string,
+      textValue: props.textValue as string | undefined,
+      isDisabled: props.disabled as boolean | undefined,
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  /* ── Additional Color ───────────────────────────────────────────────── */
+
+  ColorWheel: {
+    component: ColorWheel.Root,
+    adapter: (props) => ({
+      'aria-label': (props.label as string) ?? 'Color wheel',
+      outerRadius: (props.outerRadius as number) ?? 100,
+      innerRadius: (props.innerRadius as number) ?? 70,
+      children: h(React.Fragment, null,
+        h(ColorWheel.Track),
+        h(ColorWheel.Thumb),
+      ),
+    }),
+  } as CatalogEntry,
+
+  ColorSwatch: {
+    component: ColorSwatch,
+    adapter: (props) => ({
+      color: props.color as string,
+    }),
+  } as CatalogEntry,
+
+  ColorSwatchPicker: {
+    component: ColorSwatchPicker.Root,
+    adapter: (props, ctx) => ({
+      children: Array.isArray(props.colors)
+        ? (props.colors as string[]).map((color, i) =>
+            h(ColorSwatchPicker.Item as React.ComponentType<any>, { key: i, color },
+              h(ColorSwatch, { color } as any),
+            ),
+          )
+        : ctx.children,
+    }),
+  } as CatalogEntry,
+
+  ColorPicker: {
+    component: ColorPicker.Root,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  /* ── Marketing ──────────────────────────────────────────────────────── */
+
+  AppStoreButton: {
+    component: AppStoreButton,
+    adapter: (props) => ({
+      store: props.store as 'apple' | 'google',
+      size: props.size as string | undefined,
+      href: props.href as string | undefined,
+    }),
+  } as CatalogEntry,
+
+  SocialButton: {
+    component: SocialButton,
+    adapter: (props) => ({
+      provider: props.provider as string,
+      size: props.size as string | undefined,
+      href: props.href as string | undefined,
+      children: props.label as string | undefined,
+    }),
   } as CatalogEntry,
 };
 

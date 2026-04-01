@@ -1,0 +1,7 @@
+{
+  "slug": "icon-display",
+  "difficulty": "simple",
+  "prompt": "Show a heart icon at medium size using the Icon component.",
+  "reference": "import { Icon } from '@tale-ui/react/icon';\nimport { Heart } from 'lucide-react';\n\nexport function HeartIcon() {\n  return <Icon icon={Heart} size=\"md\" />;\n}",
+  "tags": ["Icon"]
+}

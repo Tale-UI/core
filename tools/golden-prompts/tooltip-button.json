@@ -1,0 +1,7 @@
+{
+  "slug": "tooltip-button",
+  "difficulty": "medium",
+  "prompt": "Show a save button with a tooltip that says 'Save changes'.",
+  "reference": "import { Tooltip } from '@tale-ui/react/tooltip';\n\nexport function SaveButtonWithTooltip() {\n  return (\n    <Tooltip.Root>\n      <Tooltip.Trigger className=\"tale-button tale-button--primary tale-button--md\">Save</Tooltip.Trigger>\n      <Tooltip.Popup placement=\"top\" offset={8}>\n        <Tooltip.Arrow />\n        Save changes\n      </Tooltip.Popup>\n    </Tooltip.Root>\n  );\n}",
+  "tags": ["Tooltip"]
+}

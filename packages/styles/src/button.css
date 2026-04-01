@@ -48,6 +48,7 @@
   /* Default size: md */
   padding: var(--space-3xs) var(--space-xs);
   min-height: 3.6rem;
+  width: fit-content;
 }
 
 .tale-button:focus-visible {

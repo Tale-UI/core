@@ -1,0 +1,7 @@
+{
+  "slug": "navigation-menu-site",
+  "difficulty": "complex",
+  "prompt": "Show a site navigation bar with Home, Products, and About links.",
+  "reference": "import { NavigationMenu } from '@tale-ui/react/navigation-menu';\n\nexport function SiteNavigationMenu() {\n  return (\n    <NavigationMenu.Root>\n      <NavigationMenu.List>\n        <NavigationMenu.Item>\n          <NavigationMenu.Link href=\"#\">Home</NavigationMenu.Link>\n        </NavigationMenu.Item>\n        <NavigationMenu.Item>\n          <NavigationMenu.Link href=\"#\">Products</NavigationMenu.Link>\n        </NavigationMenu.Item>\n        <NavigationMenu.Item>\n          <NavigationMenu.Link href=\"#\">About</NavigationMenu.Link>\n        </NavigationMenu.Item>\n      </NavigationMenu.List>\n    </NavigationMenu.Root>\n  );\n}",
+  "tags": ["NavigationMenu"]
+}

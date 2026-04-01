@@ -1,0 +1,7 @@
+{
+  "slug": "color-field-hex",
+  "difficulty": "medium",
+  "prompt": "Show a hex color input field with a label.",
+  "reference": "import { ColorField } from '@tale-ui/react/color-field';\n\nexport function HexColorField() {\n  return (\n    <ColorField.Root>\n      <ColorField.Label>Hex color</ColorField.Label>\n      <ColorField.Input />\n    </ColorField.Root>\n  );\n}",
+  "tags": ["ColorField"]
+}

@@ -23,7 +23,7 @@ const OUTPUT_PATH = path.join(ROOT, 'registry/a2ui-catalog.json');
 
 const isCheck = process.argv.includes('--check');
 
-const { TYPE_DESCRIPTIONS, PROP_VALUES, PROP_VALUE_OVERRIDES, SUB_PARTS } = require('./a2ui-catalog-metadata.js');
+const { TYPE_DESCRIPTIONS, PROP_VALUES, PROP_VALUE_OVERRIDES, PROP_ALLOWED_VALUES, SUB_PARTS } = require('./a2ui-catalog-metadata.js');
 
 /* ─── Source Parsing ──────────────────────────────────────────────────────── */
 
@@ -114,10 +114,15 @@ function main() {
     name: e.typeName,
     category: e.category,
     component: e.component,
-    props: e.adapterProps.map((p) => ({
-      name: p,
-      allowedValues: PROP_VALUE_OVERRIDES[`${e.typeName}.${p}`] || PROP_VALUES[p] || '',
-    })),
+    props: e.adapterProps.map((p) => {
+      const typeKey = `${e.typeName}.${p}`;
+      const hint = PROP_VALUE_OVERRIDES[typeKey] || PROP_VALUES[p] || '';
+      // allowedValues: machine-readable array when a closed enum exists, null otherwise
+      const allowedValues = typeKey in PROP_ALLOWED_VALUES
+        ? PROP_ALLOWED_VALUES[typeKey]
+        : (PROP_ALLOWED_VALUES[p] ?? null);
+      return { name: p, hint, allowedValues };
+    }),
     isSubPart: SUB_PARTS.has(e.typeName),
     description: TYPE_DESCRIPTIONS[e.typeName] || '',
   }));

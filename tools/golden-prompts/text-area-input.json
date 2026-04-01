@@ -1,0 +1,7 @@
+{
+  "slug": "text-area-input",
+  "difficulty": "medium",
+  "prompt": "Show a bio textarea with a label and a placeholder saying 'Tell us about yourself'.",
+  "reference": "import { TextArea } from '@tale-ui/react/text-area';\n\nexport function BioTextArea() {\n  return (\n    <TextArea.Root>\n      <TextArea.Label>Bio</TextArea.Label>\n      <TextArea.TextArea placeholder=\"Tell us about yourself\" />\n    </TextArea.Root>\n  );\n}",
+  "tags": ["TextArea"]
+}

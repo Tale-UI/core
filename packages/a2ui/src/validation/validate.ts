@@ -7,6 +7,45 @@
 
 import type { A2UIComponent, Catalog } from '../types.ts';
 
+/* ─── Prop Value Constraints ─────────────────────────────────────────────── */
+
+/**
+ * Catalog prop schemas for enum value validation.
+ * Each entry maps TypeName.propName → array of allowed string values.
+ * Generated from the A2UI catalog metadata PROP_VALUES/PROP_VALUE_OVERRIDES.
+ * Only includes props with a finite set of known values (backtick-delimited enums).
+ */
+export type PropConstraints = Map<string, string[]>;
+
+/** Extract backtick-delimited enum values from an allowedValues string. */
+function extractEnumValues(allowedValues: string): string[] | null {
+  const matches = allowedValues.match(/`([^`]+)`/g);
+  if (!matches || matches.length === 0) return null;
+  return matches.map(m => m.slice(1, -1));
+}
+
+/**
+ * Build a PropConstraints map from an A2UI catalog JSON object.
+ * Expected shape: { types: [{ name, props: [{ name, allowedValues }] }] }
+ */
+export function buildPropConstraints(
+  catalogJson: { types: Array<{ name: string; props: Array<{ name: string; allowedValues: string }> }> },
+): PropConstraints {
+  const constraints: PropConstraints = new Map();
+  for (const type of catalogJson.types) {
+    for (const prop of type.props) {
+      if (!prop.allowedValues) continue;
+      // Skip props that accept free-form values (strings, numbers, bindings)
+      if (prop.allowedValues === 'boolean') continue;
+      const values = extractEnumValues(prop.allowedValues);
+      if (values && values.length > 0) {
+        constraints.set(`${type.name}.${prop.name}`, values);
+      }
+    }
+  }
+  return constraints;
+}
+
 /* ─── Error Types ─────────────────────────────────────────────────────────── */
 
 export interface ValidationError {
@@ -15,6 +54,7 @@ export interface ValidationError {
     | 'missing_field'
     | 'unknown_component_type'
     | 'missing_required_prop'
+    | 'invalid_prop_value'
     | 'orphaned_reference'
     | 'duplicate_id'
     | 'cycle_detected'
@@ -90,6 +130,7 @@ export function validateMessage(msg: unknown): ValidationResult {
 export function validateComponents(
   components: A2UIComponent[],
   catalog: Catalog,
+  propConstraints?: PropConstraints,
 ): ValidationResult {
   const errors: ValidationError[] = [];
   const ids = new Set<string>();
@@ -126,6 +167,27 @@ export function validateComponents(
         message: `Unknown component type "${typeName}" on component "${comp.id}". Available types: ${Object.keys(catalog).join(', ')}.`,
         componentId: comp.id,
       });
+      continue;
+    }
+
+    // Validate prop values against constraints (if provided)
+    if (propConstraints) {
+      const props = comp.component[typeName] ?? {};
+      for (const [propName, propValue] of Object.entries(props)) {
+        if (propName === 'children') continue;
+        if (typeof propValue !== 'string') continue;
+
+        const key = `${typeName}.${propName}`;
+        const allowed = propConstraints.get(key);
+        if (allowed && !allowed.includes(propValue)) {
+          errors.push({
+            type: 'invalid_prop_value' as ValidationError['type'],
+            message: `Component "${comp.id}" (${typeName}): prop "${propName}" has value "${propValue}" but allowed values are: ${allowed.join(', ')}.`,
+            componentId: comp.id,
+            field: propName,
+          });
+        }
+      }
     }
   }
 
@@ -161,6 +223,7 @@ export function validateComponents(
 export function validateMessages(
   messages: unknown[],
   catalog: Catalog,
+  propConstraints?: PropConstraints,
 ): ValidationResult {
   const errors: ValidationError[] = [];
 
@@ -176,7 +239,7 @@ export function validateMessages(
       (msg as Record<string, unknown>).type === 'surfaceUpdate'
     ) {
       const m = msg as { components: A2UIComponent[] };
-      const compResult = validateComponents(m.components, catalog);
+      const compResult = validateComponents(m.components, catalog, propConstraints);
       errors.push(...compResult.errors);
     }
   }

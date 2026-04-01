@@ -40,16 +40,11 @@ function extractCatalogKeys(source) {
   return keys;
 }
 
-/** Standard types = all catalog keys minus Card sub-parts */
+const { SUB_PARTS } = require('./a2ui-catalog-metadata.js');
+
+/** Standard types = all catalog keys minus sub-parts */
 function getStandardTypes(keys) {
-  const subParts = new Set([
-    'CardHeader', 'CardBody', 'CardFooter', 'ListItem', 'RadioOption', 'SelectItem',
-    'AvatarImage', 'AvatarFallback',
-    'DisclosureTrigger', 'DisclosurePanel',
-    'AccordionItem', 'AccordionHeader', 'AccordionTrigger', 'AccordionPanel',
-    'MenuTrigger', 'MenuPopover', 'MenuItem', 'MenuSeparator',
-  ]);
-  return keys.filter((k) => !subParts.has(k));
+  return keys.filter((k) => !SUB_PARTS.has(k));
 }
 
 function extractIconCount(source) {
@@ -160,8 +155,8 @@ function main() {
       for (const match of countMatches) {
         const num = parseInt(match.match(/(\d+)/)[1], 10);
         check(
-          num === standardKeys.length,
-          `${relPath}: A2UI type count ${num} matches source (${standardKeys.length})`,
+          num === allKeys.length,
+          `${relPath}: A2UI type count ${num} matches source (${allKeys.length})`,
         );
       }
     }

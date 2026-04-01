@@ -2,6 +2,21 @@
 
 Tale UI wraps React Aria Components (RAC) but adds, changes, or replaces behaviour in several places. This document is the single reference for every deviation a consumer or agent needs to know about.
 
+## Quick Reference
+
+| Deviation                                      | Impact                                   | Details                                                                       |
+| ---------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------- |
+| Drawer uses `open`, not `isOpen`               | **High** — wrong prop silently fails     | [Drawer-specific differences](#drawer-specific-differences)                   |
+| Drawer.Backdrop is a sibling, not a wrapper    | **High** — wrong nesting breaks close    | [Backdrop/Popup nesting](#backdoppopup-nesting-rules)                         |
+| IconButton defaults to `variant="ghost"`       | **Medium** — unexpected appearance       | [variant prop](#variant-prop)                                                 |
+| Never nest `<Button>` inside a Trigger         | **High** — invalid HTML `<button><button>` | [Trigger styling](#trigger-button-styling-differences)                        |
+| Checkbox.Indicator needs explicit Icon child   | **Medium** — missing checkmark           | [Auto-rendered icons](#auto-rendered-icons)                                   |
+| Pass `value` to both Meter.Root AND Indicator  | **Medium** — bar appears empty           | [Meter/ProgressBar](#meter-and-progressbar-value-passing)                     |
+| 20+ parts auto-render Lucide icons             | **Low** — override by passing children   | [Auto-rendered icons](#auto-rendered-icons)                                   |
+| 7 components are NOT built on React Aria       | **Medium** — no RAC keyboard/ARIA        | [Not built on RAC](#components-not-built-on-react-aria)                       |
+| AlertDialog should NOT have a Close button     | **Medium** — defeats acknowledgement UX  | [AlertDialog vs Dialog](#alertdialog-vs-dialog-semantics)                     |
+| ColorPicker cannot nest ColorSlider            | **High** — runtime error                 | [ColorPicker bug](#colorpicker-nesting-bug)                                   |
+
 ---
 
 ## Components NOT built on React Aria
@@ -16,7 +31,7 @@ These components are fully custom — they do not use React Aria and do not inhe
 | **Avatar** | Plain `<span>` / `<img>` elements |
 | **Icon** | Renders the Lucide SVG component directly with BEM sizing classes |
 | **Container** | Plain `<div>` that sets `--color-*` CSS custom properties |
-| **ColorModeToggle** | Wraps RAC Switch but adds side effects (localStorage, `data-color-mode` on `<html>`) |
+| **ColorModeToggle** | Wraps RAC Switch but removes `isSelected`/`onChange` (managed internally) and adds side effects (localStorage, `data-color-mode` on `<html>`) |
 
 ### Drawer-specific differences
 
@@ -98,6 +113,10 @@ Several components render default icons when no children are provided. Pass chil
 | `RangeCalendar.NextButton` | ChevronRight | `lucide-react` |
 | `Accordion.Trigger` | ChevronDown (appended) | `lucide-react` |
 | `NavigationMenu.Icon` | ChevronDown | `lucide-react` |
+| `Carousel.PreviousTrigger` | ChevronLeft | `lucide-react` |
+| `Carousel.NextTrigger` | ChevronRight | `lucide-react` |
+| `PaymentInput.CardIcon` | CreditCard | `lucide-react` |
+| `RatingStars` | Star (repeated per rating value) | `lucide-react` |
 | `Popover.Arrow` | Triangle SVG | inline |
 | `Tooltip.Arrow` | Triangle SVG | inline |
 | `PreviewCard.Arrow` | Triangle SVG | inline |

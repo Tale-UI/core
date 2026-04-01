@@ -1,0 +1,7 @@
+{
+  "slug": "time-field-input",
+  "difficulty": "complex",
+  "prompt": "Show a time input field with a label for selecting hours and minutes.",
+  "reference": "import { TimeField } from '@tale-ui/react/time-field';\n\nexport function AppointmentTimeField() {\n  return (\n    <TimeField.Root>\n      <TimeField.Label>Time</TimeField.Label>\n      <TimeField.DateInput style={{ display: 'flex' }}>\n        {(segment) => <TimeField.Segment segment={segment} />}\n      </TimeField.DateInput>\n    </TimeField.Root>\n  );\n}",
+  "tags": ["TimeField"]
+}

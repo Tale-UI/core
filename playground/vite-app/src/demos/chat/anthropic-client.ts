@@ -10,7 +10,7 @@ import { getSystemPrompt } from './system-prompt';
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-20250514';
-const MAX_TOKENS = 8192;
+const MAX_TOKENS = 16384;
 
 /**
  * Stream a completion from the Anthropic Messages API.
@@ -24,6 +24,7 @@ export async function streamAnthropicCompletion({
   signal,
 }: StreamOptions): Promise<void> {
   let fullText = '';
+  let truncated = false;
 
   try {
     const response = await fetch(API_URL, {
@@ -75,6 +76,9 @@ export async function streamAnthropicCompletion({
             fullText += event.delta.text;
             onChunk(event.delta.text);
           }
+          if (event.type === 'message_delta' && event.delta?.stop_reason === 'max_tokens') {
+            truncated = true;
+          }
           if (event.type === 'message_stop') break;
         } catch {
           // Ignore malformed SSE lines
@@ -82,7 +86,7 @@ export async function streamAnthropicCompletion({
       }
     }
 
-    onComplete(fullText);
+    onComplete(fullText, { truncated });
   } catch (err) {
     if ((err as Error).name === 'AbortError') return;
     onError(err as Error);

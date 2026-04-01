@@ -10,7 +10,7 @@ import { getSystemPrompt } from './system-prompt';
 
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 const MODEL = 'gpt-4o';
-const MAX_TOKENS = 8192;
+const MAX_TOKENS = 16384;
 
 /**
  * Stream a completion from the OpenAI Chat Completions API.
@@ -24,6 +24,7 @@ export async function streamOpenAICompletion({
   signal,
 }: StreamOptions): Promise<void> {
   let fullText = '';
+  let truncated = false;
 
   try {
     const response = await fetch(API_URL, {
@@ -71,10 +72,14 @@ export async function streamOpenAICompletion({
 
         try {
           const event = JSON.parse(data);
-          const content = event.choices?.[0]?.delta?.content;
+          const choice = event.choices?.[0];
+          const content = choice?.delta?.content;
           if (typeof content === 'string') {
             fullText += content;
             onChunk(content);
+          }
+          if (choice?.finish_reason === 'length') {
+            truncated = true;
           }
         } catch {
           // Ignore malformed SSE lines
@@ -82,7 +87,7 @@ export async function streamOpenAICompletion({
       }
     }
 
-    onComplete(fullText);
+    onComplete(fullText, { truncated });
   } catch (err) {
     if ((err as Error).name === 'AbortError') return;
     onError(err as Error);

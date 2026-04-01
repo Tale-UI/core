@@ -28,13 +28,19 @@ For each component used in JSX:
 - [ ] No `<Button>` nested inside a Trigger (Triggers render their own button)
 - [ ] `Drawer.Root` uses `open`/`onOpenChange`, not `isOpen`
 - [ ] `Drawer.Backdrop` is a sibling of `Drawer.Popup`, not a wrapper
-- [ ] `Dialog.Backdrop` wraps `Dialog.Popup`
+- [ ] `Dialog.Backdrop` wraps `Dialog.Popup` (opposite of Drawer)
 - [ ] `Icon` receives a component ref (`icon={Heart}`), not an instance (`icon={<Heart />}`)
 - [ ] `Checkbox.Indicator` has a child `<Icon icon={Check} />`
 - [ ] No `.Visual` exports used in interactive UI
 - [ ] `Select.Root` has `placeholder`, not `Select.Value`
-- [ ] `AlertDialog` has no `Close` button
+- [ ] `AlertDialog` has no `Close` button (force user to choose an action)
 - [ ] `Calendar.PreviousButton`, `Calendar.Heading`, `Calendar.NextButton` are inside `Calendar.Header`
+- [ ] `IconButton` defaults to `variant="ghost"` — not `"primary"` like `Button`
+- [ ] `Meter.Indicator` and `ProgressBar.Indicator` both receive `value` (not just the Root)
+- [ ] `ColorSlider` is NOT nested inside `ColorPicker.Root` (causes runtime error)
+- [ ] `SearchField.ClearButton` has an explicit `<Icon icon={X} />` child (not auto-rendered)
+- [ ] `Tabs.Indicator` is the last child inside `Tabs.List` (hoisted internally by RAC)
+- [ ] Trigger styling is inconsistent — check `react-aria-deviations.md` for which triggers auto-apply `tale-button`
 
 ### Step 4: Check CSS
 

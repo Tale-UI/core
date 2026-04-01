@@ -1,0 +1,7 @@
+{
+  "slug": "table-data",
+  "difficulty": "complex",
+  "prompt": "Show a data table with Name, Role, and Status columns and 3 rows of sample data.",
+  "reference": "import { Table } from '@tale-ui/react/table';\n\nexport function DataTable() {\n  return (\n    <Table.Root aria-label=\"Team members\">\n      <Table.Header>\n        <Table.Column isRowHeader>Name</Table.Column>\n        <Table.Column>Role</Table.Column>\n        <Table.Column>Status</Table.Column>\n      </Table.Header>\n      <Table.Body>\n        <Table.Row id=\"1\">\n          <Table.Cell>Alice Johnson</Table.Cell>\n          <Table.Cell>Designer</Table.Cell>\n          <Table.Cell>Active</Table.Cell>\n        </Table.Row>\n        <Table.Row id=\"2\">\n          <Table.Cell>Bob Smith</Table.Cell>\n          <Table.Cell>Engineer</Table.Cell>\n          <Table.Cell>Active</Table.Cell>\n        </Table.Row>\n        <Table.Row id=\"3\">\n          <Table.Cell>Carol White</Table.Cell>\n          <Table.Cell>Manager</Table.Cell>\n          <Table.Cell>Away</Table.Cell>\n        </Table.Row>\n      </Table.Body>\n    </Table.Root>\n  );\n}",
+  "tags": ["Table"]
+}

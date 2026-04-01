@@ -17,6 +17,20 @@ Each response should start with a beginRendering message, followed by one or mor
 
 Use surfaceId "main" for all surfaces.
 
+**dataModelUpdate format.** If you include dataModelUpdate messages, each MUST have \`surfaceId\`, \`path\` (string), and \`value\`:
+
+\`\`\`
+{ "type": "dataModelUpdate", "surfaceId": "main", "path": "fieldName", "value": "fieldValue" }
+\`\`\`
+
+Alternatively, use a \`data\` object to set multiple values at once:
+
+\`\`\`
+{ "type": "dataModelUpdate", "surfaceId": "main", "data": { "field1": "value1", "field2": "value2" } }
+\`\`\`
+
+Do NOT omit both \`path\` and \`data\` — one of them is required.
+
 **CRITICAL: Component format.** Each component in the surfaceUpdate components array MUST use this exact structure:
 
 \`\`\`
@@ -39,7 +53,14 @@ Do NOT use \`"type"\`, \`"props"\`, or top-level \`"children"\` fields. The comp
 
 When the user asks you to modify the current UI, send a complete new set of messages (beginRendering + surfaceUpdate) that replaces the current surface.
 
-When a user action is dispatched back to you (prefixed with [Action]), respond with updated A2UI messages if the UI should change, or a brief JSON array with just a Text component acknowledging the action.`;
+When a user action is dispatched back to you (prefixed with [Action]), respond with updated A2UI messages if the UI should change, or a brief JSON array with just a Text component acknowledging the action.
+
+**CRITICAL: Response size limits.** Your output WILL be truncated if you exceed the token limit, which will produce INVALID JSON and a broken UI. You MUST keep responses under 80 component nodes per surfaceUpdate. If the user asks for a very large UI (e.g. "show all components", "include everything"), you MUST NOT try to include all components. Instead:
+1. Build a focused, representative UI with 30-50 components covering a variety of component types
+2. End the JSON array properly (close all brackets)
+3. Add a final Text component explaining that more sections are available on request
+
+NEVER sacrifice valid JSON for completeness. A working UI with fewer components is always better than a truncated response.`;
 
 const SYSTEM_PROMPT: string = systemPromptMd + RESPONSE_INSTRUCTIONS;
 

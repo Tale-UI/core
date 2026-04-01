@@ -47,7 +47,7 @@ function AgentConnection() {
 
 ## Catalog
 
-The default catalog maps all 30 A2UI standard component types:
+The default catalog maps all 135 A2UI standard component types:
 
 | A2UI Type | Tale UI Component |
 |-----------|-------------------|
@@ -64,7 +64,15 @@ The default catalog maps all 30 A2UI standard component types:
 | Select | Select.Root |
 | Switch | Switch.Root |
 | Table | Table.Root |
+| TableHeader | Table.Header |
+| TableColumn | Table.Column |
+| TableBody | Table.Body |
+| TableRow | Table.Row |
+| TableCell | Table.Cell |
 | Tabs | Tabs.Root |
+| TabList | Tabs.List |
+| TabItem | Tabs.Tab |
+| TabPanel | Tabs.Panel |
 | Badge | Badge |
 | Progress | ProgressBar.Root |
 | Spinner | Spinner |
@@ -81,6 +89,85 @@ The default catalog maps all 30 A2UI standard component types:
 | SearchInput | SearchField.Root |
 | Accordion | Accordion.Root |
 | Menu | Menu.Root |
+| Dialog | Dialog.Root |
+| AlertDialog | AlertDialog.Root |
+| Drawer | Drawer.Root |
+| Tooltip | Tooltip.Root |
+| TooltipTrigger | Tooltip.Trigger |
+| TooltipPopup | Tooltip.Popup |
+| Popover | Popover.Root |
+| PopoverTrigger | Popover.Trigger |
+| PopoverPopup | Popover.Popup |
+| Breadcrumbs | Breadcrumbs.Root |
+| BreadcrumbItem | Breadcrumbs.Item |
+| BreadcrumbLink | Breadcrumbs.Link |
+| Pagination | Pagination.Root |
+| PaginationItem | Pagination.Item |
+| PaginationPrevious | Pagination.PreviousTrigger |
+| PaginationNext | Pagination.NextTrigger |
+| PaginationEllipsis | Pagination.Ellipsis |
+| TagGroup | TagGroup.Root |
+| TagList | TagGroup.List |
+| Tag | TagGroup.Tag |
+| EmptyState | EmptyState.Root |
+| Meter | Meter.Root |
+| ProgressCircle | ProgressCircle.Root |
+| ToggleButton | ToggleButton |
+| ToggleButtonGroup | ToggleButtonGroup |
+| Field | Field.Root |
+| FieldLabel | Field.Label |
+| FieldDescription | Field.Description |
+| FieldError | Field.Error |
+| CheckboxGroup | CheckboxGroup |
+| Combobox | Combobox.Root |
+| ComboboxItem | Combobox.Item |
+| SelectNative | SelectNative |
+| PinInput | PinInput.Root |
+| Calendar | Calendar.Root |
+| RangeCalendar | RangeCalendar.Root |
+| DateField | DateField.Root |
+| DatePicker | DatePicker.Root |
+| DateRangePicker | DateRangePicker.Root |
+| TimeField | TimeField.Root |
+| ColorField | ColorField.Root |
+| ColorArea | ColorArea.Root |
+| ColorSlider | ColorSlider.Root |
+| PreviewCard | PreviewCard.Root |
+| ContextMenu | ContextMenu.Root |
+| ContextMenuTrigger | ContextMenu.Trigger |
+| ContextMenuPopup | ContextMenu.Popup |
+| ContextMenuItem | ContextMenu.Item |
+| ContextMenuSeparator | ContextMenu.Separator |
+| NavigationMenu | NavigationMenu.Root |
+| NavigationMenuItem | NavigationMenu.Item |
+| NavigationMenuLink | NavigationMenu.Link |
+| Carousel | Carousel.Root |
+| CarouselItem | Carousel.Item |
+| ScrollArea | ScrollArea.Root |
+| Toolbar | Toolbar.Root |
+| ToolbarButton | Toolbar.Button |
+| ToolbarSeparator | Toolbar.Separator |
+| GridList | GridList.Root |
+| GridListItem | GridList.Item |
+| Tree | Tree.Root |
+| TreeItem | Tree.Item |
+| IconButton | IconButton |
+| Fieldset | Fieldset.Root |
+| DropZone | DropZone |
+| FileTrigger | FileTrigger |
+| RatingStars | RatingStars |
+| RatingBadge | RatingBadge |
+| FeaturedIcon | FeaturedIcon |
+| DotIcon | DotIcon |
+| AppStoreButton | AppStoreButton |
+| SocialButton | SocialButton |
+| PaymentInput | PaymentInput.Root |
+| Autocomplete | Autocomplete.Root |
+| AutocompleteItem | Autocomplete.Item |
+| ColorWheel | ColorWheel.Root |
+| ColorSwatch | ColorSwatch |
+| ColorSwatchPicker | ColorSwatchPicker.Root |
+| ColorPicker | ColorPicker.Root |
 
 ### Custom Catalog
 
@@ -120,7 +207,7 @@ if (!result.valid) {
 ```
 packages/a2ui/src/
 ├── types.ts              # A2UI protocol types
-├── catalog.ts            # 21 standard + custom catalog entries
+├── catalog.ts            # 135 standard + custom catalog entries
 ├── icon-registry.ts      # Icon name → lucide-react component
 ├── index.ts              # Public API
 ├── renderer/

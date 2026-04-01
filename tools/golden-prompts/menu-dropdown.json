@@ -1,0 +1,7 @@
+{
+  "slug": "menu-dropdown",
+  "difficulty": "medium",
+  "prompt": "Show a dropdown menu triggered by a button with file actions: New, Open, Save, and Close, separated into groups.",
+  "reference": "import { Menu } from '@tale-ui/react/menu';\n\nexport function MenuDropdown() {\n  return (\n    <Menu.Root>\n      <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">File ▾</Menu.Trigger>\n      <Menu.Popover placement=\"bottom\" offset={4}>\n        <Menu.MenuList aria-label=\"File actions\">\n          <Menu.Item id=\"new\" onAction={() => {}}>New</Menu.Item>\n          <Menu.Item id=\"open\" onAction={() => {}}>Open</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"save\" onAction={() => {}}>Save</Menu.Item>\n          <Menu.Item id=\"close\" onAction={() => {}}>Close</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  );\n}",
+  "tags": ["Menu"]
+}

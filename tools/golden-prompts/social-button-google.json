@@ -1,0 +1,7 @@
+{
+  "slug": "social-button-google",
+  "difficulty": "simple",
+  "prompt": "Show a 'Sign in with Google' social login button.",
+  "reference": "import { SocialButton } from '@tale-ui/react/social-button';\n\nexport function GoogleSignInButton() {\n  return <SocialButton provider=\"google\">Sign in with Google</SocialButton>;\n}",
+  "tags": ["SocialButton"]
+}

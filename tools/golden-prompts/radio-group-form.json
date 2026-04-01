@@ -1,0 +1,7 @@
+{
+  "slug": "radio-group-form",
+  "difficulty": "medium",
+  "prompt": "Show a radio group for plan selection with Free, Pro, and Enterprise options.",
+  "reference": "import { Radio } from '@tale-ui/react/radio';\n\nexport function PlanRadioGroup() {\n  return (\n    <Radio.Group label=\"Select a plan\">\n      <Radio.Root value=\"free\">\n        <Radio.Indicator />\n        Free\n      </Radio.Root>\n      <Radio.Root value=\"pro\">\n        <Radio.Indicator />\n        Pro\n      </Radio.Root>\n      <Radio.Root value=\"enterprise\">\n        <Radio.Indicator />\n        Enterprise\n      </Radio.Root>\n    </Radio.Group>\n  );\n}",
+  "tags": ["Radio", "RadioGroup"]
+}

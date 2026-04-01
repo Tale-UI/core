@@ -1,0 +1,7 @@
+{
+  "slug": "drop-zone-file",
+  "difficulty": "medium",
+  "prompt": "Show a file drop zone with 'Drop files here' text.",
+  "reference": "import { DropZone } from '@tale-ui/react/drop-zone';\nimport { useState } from 'react';\n\nexport function FileDropZone() {\n  const [dropped, setDropped] = useState(false);\n\n  return (\n    <DropZone onDrop={() => setDropped(true)}>\n      <p>{dropped ? 'File dropped!' : 'Drop files here'}</p>\n    </DropZone>\n  );\n}",
+  "tags": ["DropZone"]
+}

@@ -125,14 +125,13 @@ export function A2UIProvider({ catalog, onAction, children }: A2UIProviderProps)
 
         case 'dataModelUpdate': {
           const store = getOrCreateStore(msg.surfaceId);
-          // Standard format: { path: "key", value: "val" }
-          if (typeof msg.path === 'string') {
+          if ('path' in msg) {
+            // Standard format: { path: "key", value: "val" }
             store.set(msg.path, msg.value);
           }
-          // LLM bulk format: { data: { key1: val1, key2: val2 } }
-          const raw = msg as unknown as Record<string, unknown>;
-          if (raw.data && typeof raw.data === 'object') {
-            for (const [key, val] of Object.entries(raw.data as Record<string, unknown>)) {
+          if ('data' in msg) {
+            // LLM bulk format: { data: { key1: val1, key2: val2 } }
+            for (const [key, val] of Object.entries(msg.data)) {
               store.set(key, val);
             }
           }

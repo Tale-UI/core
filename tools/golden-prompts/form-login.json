@@ -1,0 +1,7 @@
+{
+  "slug": "form-login",
+  "difficulty": "medium",
+  "prompt": "Show a login form with email and password fields and a submit button, using native validation.",
+  "reference": "import { Form } from '@tale-ui/react/form';\nimport { TextField } from '@tale-ui/react/text-field';\nimport { Button } from '@tale-ui/react/button';\n\nexport function FormLogin() {\n  return (\n    <Form\n      validationBehavior=\"native\"\n      onSubmit={(e) => e.preventDefault()}\n    >\n      <TextField.Root name=\"email\" type=\"email\" isRequired>\n        <TextField.Label>Email</TextField.Label>\n        <TextField.Input placeholder=\"you@example.com\" />\n      </TextField.Root>\n      <TextField.Root name=\"password\" type=\"password\" isRequired minLength={8}>\n        <TextField.Label>Password</TextField.Label>\n        <TextField.Input placeholder=\"At least 8 characters\" />\n      </TextField.Root>\n      <Button type=\"submit\">Sign in</Button>\n    </Form>\n  );\n}",
+  "tags": ["Form"]
+}

@@ -1,0 +1,7 @@
+{
+  "slug": "color-swatch-picker-palette",
+  "difficulty": "medium",
+  "prompt": "Show a palette of selectable color swatches using ColorSwatchPicker.",
+  "reference": "import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';\nimport { ColorSwatch } from '@tale-ui/react/color-swatch';\n\nexport function ColorSwatchPickerPalette() {\n  return (\n    <ColorSwatchPicker.Root>\n      <ColorSwatchPicker.Item color=\"#e74c3c\">\n        <ColorSwatch />\n      </ColorSwatchPicker.Item>\n      <ColorSwatchPicker.Item color=\"#e67e22\">\n        <ColorSwatch />\n      </ColorSwatchPicker.Item>\n      <ColorSwatchPicker.Item color=\"#2ecc71\">\n        <ColorSwatch />\n      </ColorSwatchPicker.Item>\n      <ColorSwatchPicker.Item color=\"#3498db\">\n        <ColorSwatch />\n      </ColorSwatchPicker.Item>\n      <ColorSwatchPicker.Item color=\"#9b59b6\">\n        <ColorSwatch />\n      </ColorSwatchPicker.Item>\n    </ColorSwatchPicker.Root>\n  );\n}",
+  "tags": ["ColorSwatchPicker"]
+}

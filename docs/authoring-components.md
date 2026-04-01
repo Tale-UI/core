@@ -443,3 +443,5 @@ When adding a new component, complete every step:
 15. [ ] Run `pnpm build` — verify build succeeds
 16. [ ] Update the component's row in the **Component Artifact Audit** section of `CLAUDE.md`
 17. [ ] Run `pnpm audit:components -- --component={component}` — verify all checks pass
+18. [ ] Run `pnpm registry:generate` — regenerate `registry/components.json`
+19. [ ] **If the component should be available in A2UI:** register it in `packages/a2ui/src/catalog.ts` (add adapter), `tools/a2ui-catalog-metadata.js` (add description/props), then run `pnpm a2ui:generate-docs && pnpm a2ui:generate-catalog && pnpm a2ui:audit-docs`

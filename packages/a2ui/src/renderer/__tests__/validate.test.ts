@@ -60,7 +60,7 @@ describe('validateMessage', () => {
     expect(invalid.valid).toBe(false);
   });
 
-  it('validates dataModelUpdate', () => {
+  it('validates dataModelUpdate with path + value', () => {
     const valid = validateMessage({
       type: 'dataModelUpdate',
       surfaceId: 'main',
@@ -68,6 +68,24 @@ describe('validateMessage', () => {
       value: 'test',
     });
     expect(valid.valid).toBe(true);
+  });
+
+  it('validates dataModelUpdate with data object', () => {
+    const valid = validateMessage({
+      type: 'dataModelUpdate',
+      surfaceId: 'main',
+      data: { name: 'test', age: 25 },
+    });
+    expect(valid.valid).toBe(true);
+  });
+
+  it('rejects dataModelUpdate without path or data', () => {
+    const invalid = validateMessage({
+      type: 'dataModelUpdate',
+      surfaceId: 'main',
+    });
+    expect(invalid.valid).toBe(false);
+    expect(invalid.errors[0]?.type).toBe('missing_field');
   });
 
   it('validates deleteSurface', () => {

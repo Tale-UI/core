@@ -12,6 +12,9 @@ Copy-paste multi-component patterns for common real-world scenarios. Each recipe
 | [Search with Autocomplete](search-with-autocomplete.md) | Combobox, Icon | Search input with filtered suggestions |
 | [Settings Page](settings-page.md) | Fieldset, Switch, RadioGroup, TextField, Select, Button, Separator | Grouped settings form with save/cancel |
 | [React Hook Form](react-hook-form.md) | TextField, Select, Checkbox, Switch, Button, Fieldset | Integrating RHF Controller with Tale UI compound parts |
+| [Form Error Handling](form-error-handling.md) | TextField, Select, Button, Form | Field-level validation with isInvalid and ErrorMessage |
+| [Empty Data State](empty-data-state.md) | EmptyState, Table, List | Fallback UIs when tables or lists have no data |
+| [Loading Patterns](loading-patterns.md) | Spinner, ProgressBar, Button | Spinner, determinate/indeterminate progress, Button isPending |
 | [Dashboard with Charts](dashboard-with-charts.md) | BarChart, LineChart, PieChart, ChartContainer | Multi-chart dashboard layout |
 | [useClipboard](use-clipboard.md) | Button | Copy-to-clipboard hook with auto-reset feedback |
 | [useResizeObserver](use-resize-observer.md) | — | Observe element size changes via ResizeObserver |

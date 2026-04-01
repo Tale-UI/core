@@ -178,6 +178,39 @@ function splice(content, tag, newContent) {
   return `${before}\n${newContent}\n${after}`;
 }
 
+/* ─── Inline Token Replacement ───────────────────────────────────────────── */
+
+const MCP_SERVER_PATH = path.join(ROOT, 'tools/mcp-server.mjs');
+
+function countMcpTools() {
+  const src = fs.readFileSync(MCP_SERVER_PATH, 'utf8');
+  return (src.match(/server\.tool\(/g) || []).length;
+}
+
+/**
+ * Replace {{TOKEN}} placeholders in content with computed values.
+ * Returns { content, replacedCount }.
+ */
+function replaceTokens(content, tokenMap) {
+  let count = 0;
+  const result = content.replace(/\{\{(\w+)\}\}/g, (match, name) => {
+    if (name in tokenMap) {
+      count++;
+      return String(tokenMap[name]);
+    }
+    return match; // leave unknown tokens untouched
+  });
+  return { content: result, replacedCount: count };
+}
+
+/** Files that may contain {{TOKEN}} placeholders. */
+const INLINE_TOKEN_FILES = [
+  'packages/a2ui/README.md',
+  'docs/consumer-claude-md-snippet.md',
+  'docs/a2ui-integration.md',
+  'tools/README.md',
+];
+
 /* ─── Main ────────────────────────────────────────────────────────────────── */
 
 function main() {
@@ -194,6 +227,18 @@ function main() {
   }
 
   const standardCount = entries.filter((e) => !SUB_PARTS.has(e.typeName)).length;
+  const mcpToolCount = countMcpTools();
+
+  // Token map for inline replacement
+  const tokenMap = {
+    A2UI_TYPE_COUNT: entries.length,
+    A2UI_STANDARD_COUNT: standardCount,
+    A2UI_ICON_COUNT: iconNames.length,
+    A2UI_HINT_COUNT: usageHints.length,
+    MCP_TOOL_COUNT: mcpToolCount,
+  };
+
+  // --- Phase 1: Sentinel-delimited block replacement ---
 
   const targets = [
     {
@@ -244,6 +289,26 @@ function main() {
       }
     } else {
       console.log(`OK: ${relPath}`);
+    }
+  }
+
+  // --- Phase 2: Inline {{TOKEN}} replacement ---
+
+  for (const relFile of INLINE_TOKEN_FILES) {
+    const absFile = path.join(ROOT, relFile);
+    if (!fs.existsSync(absFile)) continue;
+
+    const original = fs.readFileSync(absFile, 'utf8');
+    const { content: replaced, replacedCount } = replaceTokens(original, tokenMap);
+
+    if (replacedCount > 0 && replaced !== original) {
+      if (isCheck) {
+        console.log(`STALE: ${relFile} — ${replacedCount} token(s) need replacing`);
+        stale = true;
+      } else {
+        fs.writeFileSync(absFile, replaced);
+        console.log(`TOKENS: ${relFile} — replaced ${replacedCount} token(s)`);
+      }
     }
   }
 
