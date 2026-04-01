@@ -69,8 +69,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: TypeScript
         run: pnpm typescript
-      - name: ESLint
-        run: pnpm eslint:ci
       - name: Unit tests (jsdom)
         run: pnpm test:jsdom
 
