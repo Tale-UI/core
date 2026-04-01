@@ -461,6 +461,7 @@ pnpm playground:dev
 ```
 
 The demo lets you:
+
 - Switch between pre-built examples
 - Edit A2UI JSON and load it live
 - See validation errors in real-time
@@ -485,18 +486,22 @@ A2UI rendering inherits all Tale UI design system features automatically:
 ## Troubleshooting
 
 **Surface doesn't render**
+
 - Ensure `beginRendering` is sent before `surfaceUpdate`
 - Check that `surfaceId` matches between messages and `<A2UISurface surfaceId="...">`
 - Check that `rootComponentId` in `beginRendering` matches an `id` in the components array
 
 **Unknown component type warning**
+
 - The component type name must exactly match a key in the catalog (case-sensitive)
 - Check `Object.keys(taleUICatalog)` for available types
 
 **Actions not firing**
+
 - Ensure your `onAction` callback is provided to `<A2UIProvider>`
 - Check that the component has an `action` prop with `{ name: "..." }`
 
 **Data binding not updating**
+
 - Send `dataModelUpdate` messages to set values at paths
 - The `path` in the binding must exactly match the `path` in `dataModelUpdate`

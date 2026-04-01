@@ -130,6 +130,7 @@ As with convenience wrappers, recipe docs solve the boilerplate problem without 
 ```
 
 This gives agents a copy-paste pattern that:
+
 - Uses the standard compound-parts API (one pattern to learn)
 - Is fully customizable (add a tooltip, badge, or conditional styling per item)
 - Makes the rendering structure visible in JSX (no opaque item shapes)

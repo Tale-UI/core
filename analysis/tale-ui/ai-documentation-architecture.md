@@ -50,6 +50,7 @@ Total AI-relevant documentation: ~2,400 lines across core files, plus ~67 compon
 The first file an AI agent should read. Provides a complete system overview in a single document.
 
 **Contents:**
+
 - 4-package architecture (core → styles → react → utils)
 - Quick-start code for React apps
 - Critical rules for code generation (naming conventions, shade numbers)
@@ -67,6 +68,7 @@ The first file an AI agent should read. Provides a complete system overview in a
 Loaded automatically by Claude Code and similar tools that honour `CLAUDE.md` conventions.
 
 **Contents:**
+
 - Package table with paths and npm names
 - Documentation index (links to every doc file with one-line descriptions)
 - CSS design system pointer to `packages/css/CLAUDE.md`
@@ -81,6 +83,7 @@ Loaded automatically by Claude Code and similar tools that honour `CLAUDE.md` co
 ### 3. `packages/css/CLAUDE.md` (51 lines) — CSS Contributor Guide
 
 **Contents:**
+
 - 5 critical rules (naming, specificity, shade numbering, `--brand-*` prohibition)
 - Project structure (`src/` organization by layer)
 - "Adding a new utility" checklist
@@ -98,6 +101,7 @@ A short pointer directing agents to read the full `README.md` before using the l
 A snippet designed to be copied into consuming projects' own `CLAUDE.md` files, so that AI agents working in those projects understand Tale UI conventions.
 
 **Contents:**
+
 - Setup guide reference
 - JSDoc example locations (`.d.ts` files)
 - Per-component doc pointers
@@ -120,6 +124,7 @@ A snippet designed to be copied into consuming projects' own `CLAUDE.md` files, 
 The complete lookup table for every CSS class, token, and valid value in the design system.
 
 **Contents:**
+
 - Critical rules (duplicated from `llms.txt` for standalone use)
 - Naming conventions with examples
 - Specificity patterns (only `.gap--*` and `.center--*` use double-selector)
@@ -141,6 +146,7 @@ The complete lookup table for every CSS class, token, and valid value in the des
 Explains the reasoning behind every architectural decision.
 
 **Sections:**
+
 1. Core Principles (CSS-first, token-driven, zero runtime, accessibility)
 2. Why React Aria Components
 3. Why the 4-Package Split
@@ -159,6 +165,7 @@ Explains the reasoning behind every architectural decision.
 Every difference between Tale UI and vanilla React Aria Components.
 
 **Contents:**
+
 - Components NOT built on React Aria (Drawer, NavigationMenu, ScrollArea, Avatar, Icon, Container)
 - Drawer-specific API differences
 - Custom props not in RAC (variant, size)
@@ -173,6 +180,7 @@ Every difference between Tale UI and vanilla React Aria Components.
 Step-by-step tutorial for adding new components.
 
 **Contents:**
+
 - File structure conventions
 - Simple component example (Button with `forwardRef`, `displayName`, `cx()`)
 - Composite component example (Select with namespace exports)

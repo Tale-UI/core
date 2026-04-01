@@ -54,6 +54,7 @@ button/
 ```
 
 **Key characteristics:**
+
 - Props interface extends React Aria, omits `className`, adds `variant`/`size`
 - `React.forwardRef` wrapping
 - BEM classes applied via `cx()`: `tale-button tale-button--${variant} tale-button--${size}`
@@ -73,6 +74,7 @@ text-field/
 ```
 
 **Key characteristics:**
+
 - Each part is a separate `forwardRef` component
 - Each part has its own Props interface
 - `displayName` follows `ComponentName.PartName` convention (e.g., `TextField.Root`)
@@ -98,6 +100,7 @@ dialog/
 ```
 
 **Key characteristics:**
+
 - Some parts are direct re-exports (`Root = DialogTrigger`)
 - Some wrap lower-level Aria components (Popup wraps `ModalOverlay` + `Modal` + `Dialog`)
 - Pass-through props like `modalProps` for wrapper-level control
@@ -109,6 +112,7 @@ dialog/
 **Example: Table** — Uses TypeScript generics for typed row data.
 
 **Key characteristics:**
+
 - Generic function signatures: `<T extends object>`
 - `as any` cast pattern to work around TypeScript's `forwardRef` generic limitations
 - Type overloads for proper consumer-facing types
@@ -169,6 +173,7 @@ export function cx(base: string, extra?: ClassName): ClassName {
 ### Per-Component CSS (`packages/styles/src/`)
 
 58 component CSS files (plus `_primitives.css` and `index.css`). Each component file:
+
 - Uses design tokens (`--color-*`, `--neutral-*`, `--space-*`, `--radius-*`) for colors, spacing, and typography — some raw `rgba()` values appear in box-shadow declarations
 - Styles states via `[data-*]` attribute selectors
 - Never uses `--brand-*` tokens (those are palette-only)

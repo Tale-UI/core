@@ -62,6 +62,7 @@ See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributo
 ### Design Tokens
 
 All component styles use tokens from `@tale-ui/core`:
+
 - **Colors:** `--neutral-*` and `--color-*` (NEVER `--brand-*` in component CSS)
 - **Foreground:** `--color-*-fg` and `--neutral-*-fg` for auto-contrasting text on any shade background
 - **Spacing:** `--space-4xs` through `--space-4xl`
@@ -142,6 +143,7 @@ packages/react/src/{component}/
 ### Component documentation
 
 Every component has a usage guide at `docs/components/{name}.md` with imports, sub-parts, props, and examples. When adding a new component, you must also:
+
 - Create `docs/components/{name}.md`
 - Add the component name to `docs/consumer-claude-md-snippet.md` (the available components list)
 - Add the component to the catalogue and per-component docs sections in `packages/react/README.md`

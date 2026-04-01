@@ -56,6 +56,7 @@ MyButton.displayName = 'MyButton';
 ```
 
 **Key patterns:**
+
 1. `Omit<AriaProps, 'className'>` — replace React Aria's className (which can be a function) with a simple string
 2. `cx(base, className)` — merges the BEM base with any consumer-provided className
 3. `React.forwardRef` — always forward refs for composability
@@ -160,6 +161,7 @@ export type {
 ```
 
 **Key patterns:**
+
 - Namespace export (`export * as MySelect`) — consumers use `<MySelect.Root>`, `<MySelect.Trigger>`, etc.
 - Each part gets its own BEM element class (`__trigger`, `__popover`, `__item`)
 - Generic type parameters (`<T extends object>`) are preserved for typed collections
@@ -199,6 +201,7 @@ className={cx(`tale-button tale-button--${variant} tale-button--${size}`, classN
 ```
 
 **Conventions:**
+
 - Default variant: `'primary'` (or the most common variant)
 - Default size: `'md'`
 - Size scale: `'sm'`, `'md'`, `'lg'`

@@ -19,6 +19,7 @@ Tale UI maintains three complementary verification layers:
 ## Storybook (56 Stories)
 
 ### Location
+
 `playground/storybook/src/stories/` — 56 story files (some components share a story file; not every component has its own).
 
 ### Story Authoring Pattern
@@ -78,21 +79,25 @@ export const AllVariants: Story = {
 ### Storybook Configuration
 
 **Config:** `.storybook/main.ts`
+
 - Vite-based bundler
 - Loads CSS tokens directly from `packages/css/src/`
 - Custom `managerHead` hook injects Tale UI tokens into Storybook chrome
 - File system allow-list for monorepo CSS `@import` chains
 
 **Preview:** `.storybook/preview.ts`
+
 - Color mode decorator (light/dark toggle on every story)
 - Story sort: Foundations → Playground → Components
 - Custom theme builder resolving CSS variables to RGB for Storybook's theming
 
 **Theme:** `.storybook/theme.ts`
+
 - `buildTheme()` resolves CSS custom properties via hidden DOM elements
 - Converts token values (rgb, px) to Storybook's expected format
 
 **Story CSS:** `src/stories/stories.css` (350+ lines)
+
 - Layout helpers: `.story-field`, `.story-row`, `.story-col`
 - Component-specific demo wrappers
 - Uses Tale UI tokens for consistent spacing
@@ -102,9 +107,11 @@ export const AllVariants: Story = {
 ## Component Audit (2,682 lines)
 
 ### Location
+
 `playground/vite-app/src/demos/ComponentAudit.tsx`
 
 ### Purpose
+
 A single-page showcase of **all visual components** for visual regression review (64 of 67 documented components — excludes non-visual utilities CSPProvider, I18nProvider, and mergeProps). Exercises every variant, size, and state of every component in one scrollable view.
 
 ### Architecture
@@ -235,10 +242,12 @@ it('calls onPress', async () => {
 ### Vitest Configuration
 
 **Root:** `vitest.config.mts`
+
 - Projects: `packages/*/vitest.config.mts`, `docs/vitest.config.mts`, `test/e2e`, `test/regressions`
 - Coverage: Istanbul provider, includes `packages/*/src/**/*.{ts,tsx}`
 
 **Commands:**
+
 - `pnpm test:jsdom` — Fast jsdom environment
 - `pnpm test:chromium` — Real browser via Playwright
 

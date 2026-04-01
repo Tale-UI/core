@@ -19,6 +19,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 **How easily can an agent find the information it needs?**
 
 **Strengths:**
+
 - `llms.txt` serves as a purpose-built LLM entry point — agents that support the convention get immediate context
 - `CLAUDE.md` at the root auto-loads in Claude Code and similar tools, providing a routing table to all documentation
 - Clear file naming: `ai-reference.md`, `consumer-claude-md-snippet.md` — purpose is obvious from the filename
@@ -26,6 +27,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 - No dead links or orphaned docs observed
 
 **Minor gaps:**
+
 - An agent that doesn't support `llms.txt` or `CLAUDE.md` conventions must discover the structure manually
 - No `llms-full.txt` (the expanded version of the llms.txt convention) for agents that want everything in one file
 
@@ -34,6 +36,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 **How effectively does the documentation prevent incorrect code generation?**
 
 **Strengths:**
+
 - **27 documented pitfalls** in `consumer-claude-md-snippet.md` — each with explicit "do this, not that" examples
 - **Critical rules repeated across multiple files** — the `--brand-*` prohibition appears in 4+ documents because it's the #1 AI error
 - **`react-aria-deviations.md`** prevents the most dangerous error class: generating React Aria patterns that don't match Tale UI's wrappers
@@ -48,6 +51,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 **How well can an agent produce correct, complete code from the docs?**
 
 **Strengths:**
+
 - Every component doc starts with the exact import statement — no guessing subpaths
 - Parts tables for compound components — agent knows all available sub-components
 - CSS class tables — agent can generate custom styles with correct selectors
@@ -57,6 +61,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 - BEM naming is deterministic: `tale-{component}`, `tale-{component}--{variant}`, `tale-{component}__{part}`
 
 **Minor gaps:**
+
 - No copy-paste-ready "recipe" docs for common multi-component compositions (e.g., "form with validation" or "data table with sorting and pagination")
 - Component docs don't include the full TypeScript prop types inline — agents must cross-reference `.d.ts` or source
 
@@ -65,6 +70,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 **How well does the system prevent agents from introducing bugs?**
 
 **Strengths:**
+
 - Token-only CSS values — impossible to introduce hardcoded colours or spacing that break dark mode
 - Data attribute state selectors — states are framework-managed, not manually toggled
 - `_primitives.css` shared groups — adding a new component to the right group gets correct styling for free
@@ -73,6 +79,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 - Foreground tokens (`--color-*-fg`) auto-contrast — no manual contrast calculation
 
 **Minor gaps:**
+
 - No runtime warnings when `--brand-*` tokens are used in component CSS (enforcement is documentation-only)
 - No CSS linting rule to catch invalid shade numbers at build time (though `pnpm lint:css` exists)
 
@@ -81,6 +88,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 **How quickly can an agent become productive with Tale UI?**
 
 **Strengths:**
+
 - `llms.txt` (199 lines) provides enough context for basic code generation in one read
 - `CLAUDE.md` (103 lines) adds monorepo navigation in one more read
 - The 4-package architecture is clean and well-separated — each has a clear, independent purpose
@@ -89,6 +97,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 - No complex build setup — CSS is plain files, no PostCSS or CSS-in-JS to configure
 
 **Minor gap:**
+
 - Total documentation is ~8,400 lines — comprehensive but could overwhelm context windows of smaller models. The layered architecture mitigates this (an agent only needs to read the relevant layer).
 
 ### 6. Maintainability & Freshness — 8/10
@@ -96,12 +105,14 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 **How well does the documentation stay current as the system evolves?**
 
 **Strengths:**
+
 - Explicit 5-artifact sync checklist in `CLAUDE.md` — enforced on every component change
 - Component Audit (`ComponentAudit.tsx`) serves as a visual regression catch for undocumented changes
 - Storybook stories exercise all variants — visual drift is caught
 - Documentation and source live in the same monorepo — changes can be atomic
 
 **Gaps:**
+
 - No automated check that markdown docs match component props (e.g., a new prop added to source but not to docs)
 - Documentation sync is enforced by convention (checklist in `CLAUDE.md`) rather than CI
 - 67 component docs + 56 stories + 2,682-line audit file is a large surface area to keep synchronized
@@ -111,6 +122,7 @@ Tale UI is **exceptionally well-optimized for AI-powered development**, ranking 
 **How well does the AI documentation travel with the design system?**
 
 **Strengths:**
+
 - `consumer-claude-md-snippet.md` is a **portability mechanism** — designed to be copied into consuming projects' `CLAUDE.md` files
 - JSDoc in `.d.ts` files means AI agents in consuming projects get examples via IDE hover
 - `llms.txt` is a recognized convention — agents searching for it will find it

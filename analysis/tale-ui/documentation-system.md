@@ -131,6 +131,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(...);
 ```
 
 **Purpose:** These comments appear in:
+
 - IDE tooltips and autocomplete
 - Generated `.d.ts` type declaration files
 - The `consumer-claude-md-snippet.md` directs agents to check `.d.ts` files in `node_modules` for these examples
@@ -138,6 +139,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(...);
 ### Coverage
 
 JSDoc is present on:
+
 - All exported component `forwardRef` wrappers
 - All Props interfaces (with `@param`-style property docs where non-obvious)
 - Key utility functions in `@tale-ui/utils`

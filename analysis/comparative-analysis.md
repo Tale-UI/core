@@ -45,6 +45,7 @@ This analysis synthesizes 13 source reports: 5 covering Tale UI and 8 covering U
 ### 1. Architecture & Package Model
 
 **Tale UI** uses a 4-package separation:
+
 - `@tale-ui/core` — Design tokens (CSS custom properties)
 - `@tale-ui/react` — Styled React components (BEM auto-applied)
 - `@tale-ui/react-styles` — CSS per component (no build step)
@@ -110,6 +111,7 @@ Untitled UI's simple components require fewer decisions (2-3 vs 3-4), but comple
 ### 3. Styling
 
 **Tale UI** uses BEM with CSS custom properties:
+
 - Deterministic class names: `.tale-button`, `.tale-button--primary`, `.tale-button--sm`
 - Styles in separate `packages/styles/src/` CSS files
 - State via data attributes: `[data-disabled]`, `[data-selected]`, `[data-focus-visible]`
@@ -117,6 +119,7 @@ Untitled UI's simple components require fewer decisions (2-3 vs 3-4), but comple
 - `_primitives.css` (1,150 lines) with 22 shared selector groups
 
 **Untitled UI Pro** uses Tailwind CSS v4.2:
+
 - Utility classes co-located in component files via `sortCx()` objects
 - `cx()` wrapper around `tailwind-merge` for deduplication
 - 856-line `theme.css` defining design tokens as Tailwind `@theme` values
@@ -226,11 +229,13 @@ Only Button, Input, Select, Checkbox, Radio, Badge, Avatar, FeaturedIcon, and Li
 | **Automated tests** (Vitest + Playwright) | BEM class correctness, behavior, ref forwarding, accessibility | Wrong BEM classes, broken interactions, accessibility violations |
 
 Additional capabilities:
+
 - CSS Override Panel in audit (live token injection with localStorage persistence)
 - Custom test assertions: `.toErrorDev()`, `.toBeInaccessible()`, `failOnConsole()`
 - Multiple test environments: jsdom (fast) + chromium/webkit/firefox (real browser)
 
 **Untitled UI Pro** has no testing or demo infrastructure:
+
 - No Storybook
 - No component playground
 - No test runner
@@ -274,6 +279,7 @@ Untitled UI Pro includes several categories of application-level components that
 | Pre-built icons | 5,700+ across 3 packages | Consumer-chosen (e.g., Lucide) |
 
 Additionally, Untitled UI Pro includes foundational assets:
+
 - 57 payment method icons, 23 social icons, 17 integration logos
 - 5 SVG background patterns, 5 SVG illustrations
 - Credit card display, iPhone mockup, rating stars/badges

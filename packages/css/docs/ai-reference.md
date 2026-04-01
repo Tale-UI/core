@@ -68,6 +68,7 @@ The `-60` shade is the BASE — the primary shade and the contrast switch point 
 | `*-70` → `*-100` | Dark | `*-5` |
 
 **Edge shades:**
+
 - `*-50` and `*-70` typically **fail 4.5:1 AA** for normal-size text — do not use for body copy
 - `*-50` and `*-70` generally **pass 3:1** — safe for large text (18px+ / 14px bold) and decorative elements
 
@@ -297,6 +298,7 @@ Each family has the same 27 shade values listed above.
 ```
 
 **HTML element defaults** (applied automatically, no class needed):
+
 - `h1` → display-m, `h2` → display-s, `h3` → heading-l, `h4` → heading-m, `h5` → title-l, `h6` → title-m
 - `body` → body-m
 
@@ -696,6 +698,7 @@ Source: `src/utilities/_border.css`
 .divider-bottom (border-bottom + padding-bottom)
 ```
 Custom properties for dividers:
+
 - `--divider-size` (default: `1px`) — controls border thickness
 - `--divider-gap` (default: `var(--space-m)`) — controls padding amount
 
@@ -742,6 +745,7 @@ Applied to a container; affects all `--neutral-*` usage inside:
 ```
 
 **Choosing a neutral family:**
+
 - `.neutral-warm` — editorial, lifestyle, warm brand tones (default)
 - `.neutral-cool` or `.neutral-slate` — tech, corporate, professional UIs
 - `.neutral-gray` — minimal, neutral-toned interfaces
@@ -763,6 +767,7 @@ Utility classes for applying mode to any element (not just html):
 ```
 
 **What dark mode does:**
+
 - Neutral scale inverts: `--neutral-10` (lightest in light) → maps to darkest value
 - Brand colors invert: `--color-5` → `--brand-100`, `--color-60` → `--brand-40`
 - Any component using only `--neutral-*` and `--color-*` tokens works in both modes automatically

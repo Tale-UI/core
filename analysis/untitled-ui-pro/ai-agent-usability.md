@@ -62,6 +62,7 @@ The single-tag pattern has very few ways to go wrong — props are self-document
 ```
 
 Without reading the source, an agent might:
+
 - Miss required sub-parts
 - Use wrong sub-part names
 - Forget the namespace pattern (`TextEditor.Root` vs `<TextEditorRoot>`)
@@ -100,12 +101,14 @@ The item type shapes are not documented in CLAUDE.md — an agent would need to 
 The compound parts pattern has a consistent structure across all components, so once an agent learns the pattern for one component, it applies to all.
 
 **Risk factors:**
+
 - Must know which sub-parts each component has
 - Must know the correct nesting order
 - More boilerplate = more places for syntax errors
 - Icon component must be imported separately
 
 **Advantage:**
+
 - `@example` JSDoc blocks provide copy-paste templates
 - Per-component markdown has complete examples
 - Pattern is consistent — same mental model for all 67 components

@@ -104,6 +104,7 @@ Set `data-color-mode` on `<html>`:
 ### Auto-inversion
 
 When dark mode is active, the neutral scale inverts automatically:
+
 - `--neutral-10` (lightest in light mode) → maps to `--neutral-default-100` (darkest)
 - `--neutral-90` (darkest in light mode) → maps to `--neutral-default-20` (lightest)
 

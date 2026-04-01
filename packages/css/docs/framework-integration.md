@@ -54,6 +54,7 @@ Tailwind must come **after** the design system so its resets don't undo the desi
 ### Specificity conflicts
 
 Both systems use low-specificity utility classes. In case of conflict:
+
 - Design system classes use `.class { }` (single selector, except `.gap--*` and `.center--*` which use `.class.class`)
 - Tailwind uses the same specificity level
 
@@ -62,6 +63,7 @@ If Tailwind overrides a design system class unintentionally, increase specificit
 ### Class name conflicts
 
 Known overlaps to avoid using together:
+
 - `.flex`, `.grid`, `.hidden`, `.block`, `.relative`, `.sticky` — both systems define these. Tailwind's versions will typically win if imported after.
 - Prefer design system layout classes (`.flex--col`, `.grid--3`) over raw Tailwind equivalents when using the design system.
 
@@ -167,6 +169,7 @@ Without `postcss-import`, use `dist/style.css` which has all `@import` statement
 The `file:` protocol in `package.json` creates a junction/symlink that some build tools (Turbopack, older webpack) don't follow on Windows.
 
 **Recommended alternatives:**
+
 1. Use `pnpm link --global` (see root `CLAUDE.md`) — more reliable than `file:`
 2. Use `dist/style.css` copied directly into the consuming project
 3. Publish to a private npm registry if distributing to a team

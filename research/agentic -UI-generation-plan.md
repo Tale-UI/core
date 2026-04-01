@@ -110,6 +110,7 @@ Now you make the model behave like a Tale UI specialist rather than a generic Re
    - This "LLM as hallucination detector" approach has empirical support when combined with good context.[web:31]
 
 **Deliverables:**
+
 - `PROMPT_TALEUI_RULES.md`
 - A reusable system prompt and tool-usage template for all your agent entry points.
 
@@ -135,6 +136,7 @@ Make it impossible for hallucinations to silently pass.
    - Optionally have an "AI scenario test" file where the agent is prompted to generate variants and the harness checks rendering + basic interactions.
 
 **Deliverables:**
+
 - Hardened TS config.
 - `taleui-agent-harness` script or service that runs: generate → typecheck → lint → repair.
 

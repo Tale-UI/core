@@ -31,6 +31,7 @@ Tale UI wraps [React Aria Components](https://react-spectrum.adobe.com/react-ari
 - **Production-ready** — React Aria is maintained by Adobe, powers Adobe's design system, and is used in production across thousands of applications.
 
 **What Tale UI adds on top:**
+
 - BEM class names applied automatically (consumers don't write class names)
 - `variant` and `size` props that map to BEM modifiers
 - Design token-based CSS in `@tale-ui/react-styles`
@@ -52,6 +53,7 @@ Tale UI wraps [React Aria Components](https://react-spectrum.adobe.com/react-ari
 ### `@tale-ui/core` — Design tokens (framework-agnostic)
 
 The token layer is pure CSS with no framework dependency. It works with React, Vue, Angular, or plain HTML. This means:
+
 - Design decisions (colours, spacing, typography) are defined once and shared everywhere
 - Teams using different frameworks can share the same visual language
 - The CSS build is trivial concatenation — no bundler required
@@ -59,6 +61,7 @@ The token layer is pure CSS with no framework dependency. It works with React, V
 ### `@tale-ui/react-styles` — Component CSS (separate from components)
 
 CSS rules live in their own package, not inside React components. This means:
+
 - CSS can be imported per-component for tree-shaking (`import '@tale-ui/react-styles/button'`)
 - Styling is inspectable and overridable — consumers can see and extend the CSS directly
 - No React dependency for CSS — the styles package only depends on `@tale-ui/core`
@@ -66,6 +69,7 @@ CSS rules live in their own package, not inside React components. This means:
 ### `@tale-ui/react` — Styled components (thin React wrappers)
 
 Components live in a separate package from both tokens and styles. This means:
+
 - Component logic (React Aria wrapping, prop handling) is decoupled from visual styling
 - Consumers control CSS loading — they choose all-in-one or per-component imports
 - Components can be versioned independently from the token system
@@ -75,6 +79,7 @@ Components live in a separate package from both tokens and styles. This means:
 Internal helpers (colour generation, React hooks, DOM utilities) are isolated so they can be reused across packages without circular dependencies.
 
 **Why not a single package?** Separation enables:
+
 - Independent versioning (token updates don't force component releases)
 - Framework flexibility (tokens work without React)
 - Tree-shaking (import only what you use)
@@ -123,6 +128,7 @@ React Aria Components expose ephemeral state (disabled, pressed, focused, open) 
 ```
 
 **Benefits:**
+
 - State and styling are both handled in CSS — no JavaScript needed to toggle class names
 - Data attributes are semantic — `data-disabled` is self-documenting
 - React Aria sets these automatically — Tale UI doesn't need custom state management
@@ -136,6 +142,7 @@ The colour system has three token layers. Understanding this hierarchy is critic
 ### Layer 1: `--brand-*` (palette source — NEVER use in component CSS)
 
 `--brand-5` through `--brand-100` define the raw colour palette. These tokens:
+
 - Are set at `:root` (the default palette) or by `.color-{name}` theme classes
 - **Never invert in dark mode** — they are the stable source of truth
 - **Must NEVER be used in component or UI CSS** — if you reference `--brand-60` in a button style, it won't change in dark mode
@@ -178,6 +185,7 @@ These tokens also auto-invert in dark mode. No separate dark-mode overrides need
 ### Why this separation?
 
 The three layers serve different purposes:
+
 - `--brand-*` is the raw palette — stable, never inverts, used only for defining colours
 - `--color-*` is the UI-facing alias — inverts in dark mode, used everywhere in component CSS
 - `--neutral-*` is the greyscale — inverts in dark mode, used for backgrounds, text, and borders

@@ -37,6 +37,7 @@
 ### Which utilities have responsive variants
 
 **Have responsive variants:**
+
 - Gap (`gap--`, `col-gap--`, `row-gap--`)
 - Grid (column counts, row counts, spans, starts, ends, order, alternates)
 - Centering (all directions)
@@ -45,6 +46,7 @@
 - Display/visibility (all display modes + visibility)
 
 **Do NOT have responsive variants:**
+
 - Opacity, aspect, object-fit, line-clamp, radius, shadow, border, divider, padding, z-index, position, sizing, flex-wrap, flex-grow, text transform/weight/style/decoration
 
 ### Special cases

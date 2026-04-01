@@ -11,6 +11,7 @@ You are reviewing code that uses `@tale-ui/react` components. Check it against t
 ### Step 1: List all imports
 
 For each `@tale-ui/react/*` import in the code, verify:
+
 - [ ] The import path exists (check `registry/components.json` slugs)
 - [ ] The imported name matches what the package exports
 - [ ] Namespace components are imported as a namespace (`import { Dialog } from '...'`), not destructured parts
@@ -18,6 +19,7 @@ For each `@tale-ui/react/*` import in the code, verify:
 ### Step 2: Verify component usage
 
 For each component used in JSX:
+
 - [ ] **Namespace vs simple** — If the component is compound (check `kind` in registry), it MUST use `.Root` / `.Trigger` / etc. If simple, it must NOT use `.Root`.
 - [ ] **Props exist** — Every prop passed exists on the component (check `props` in registry or the `.d.ts` file). No invented props.
 - [ ] **Required props present** — Any required props (especially `alt` on Image, `aria-label` on IconButton) are provided.
@@ -52,6 +54,7 @@ For each component used in JSX:
 ### Step 5: Fix and explain
 
 For each issue found:
+
 1. State the issue
 2. Show the incorrect code
 3. Show the corrected code
