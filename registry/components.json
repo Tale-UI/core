@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "taleUiVersion": "1.3.41",
+  "taleUiVersion": "1.3.42",
   "components": [
     {
       "name": "Accordion",
@@ -375,7 +375,8 @@
         "tale-banner__title",
         "tale-button",
         "tale-button--ghost",
-        "tale-icon-button--sm"
+        "tale-icon-button--sm",
+        "tale-link"
       ]
     },
     {
@@ -1839,7 +1840,9 @@
         "<Form\n  validationBehavior=\"native\"\n  onSubmit={(e) => {\n    e.preventDefault();\n    alert('Validation passed!');\n  }}\n>\n  <TextField.Root name=\"fullName\" isRequired>\n    <TextField.Label>Full Name</TextField.Label>\n    <TextField.Input placeholder=\"Enter your full name\" />\n  </TextField.Root>\n  <TextField.Root name=\"password\" type=\"password\" isRequired minLength={8}>\n    <TextField.Label>Password</TextField.Label>\n    <TextField.Input placeholder=\"At least 8 characters\" />\n  </TextField.Root>\n  <NumberField.Root name=\"age\" minValue={18} maxValue={120}>\n    <NumberField.Label>Age</NumberField.Label>\n    <NumberField.Input placeholder=\"Must be 18+\" />\n  </NumberField.Root>\n  <Button type=\"submit\">Submit</Button>\n</Form>"
       ],
       "cssClasses": [
-        "tale-form"
+        "tale-button",
+        "tale-form",
+        "tale-row"
       ]
     },
     {
