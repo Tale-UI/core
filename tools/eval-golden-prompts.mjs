@@ -17,13 +17,14 @@
  *   node tools/eval-golden-prompts.mjs --model claude-haiku-4-5-20251001
  *   node tools/eval-golden-prompts.mjs --difficulty simple
  *   node tools/eval-golden-prompts.mjs --slug primary-button
+ *   node tools/eval-golden-prompts.mjs --concurrency 10
  *   node tools/eval-golden-prompts.mjs --json
  */
 
 import { readFileSync, readdirSync, existsSync, writeFileSync, unlinkSync } from 'fs';
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { execFileSync } from 'child_process';
+import { execFileSync, spawn } from 'child_process';
 import { tmpdir } from 'os';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -72,6 +73,7 @@ const FILTER_DIFFICULTY = getArg('--difficulty');
 const FILTER_SLUG = getArg('--slug');
 const FILTER_SLUGS = getArg('--slugs')?.split(',').map(s => s.trim()) ?? null;
 const JSON_OUTPUT = hasFlag('--json');
+const CONCURRENCY = parseInt(getArg('--concurrency') ?? '5', 10);
 
 /* ─── Allowed imports (L3) ────────────────────────────────────────────────── */
 
@@ -126,21 +128,41 @@ writeFileSync(SYSTEM_PROMPT_FILE, SYSTEM_PROMPT, 'utf8');
 process.on('exit', () => { try { unlinkSync(SYSTEM_PROMPT_FILE); } catch { /* ignore */ } });
 
 function callClaude(userPrompt) {
-  const result = execFileSync(
-    CLAUDE_BIN,
-    [
-      '--print',
-      '--model', MODEL,
-      '--append-system-prompt-file', SYSTEM_PROMPT_FILE,
-      '--output-format', 'json',
-      userPrompt,
-    ],
-    { cwd: ROOT, timeout: 60000, encoding: 'utf8' }
-  );
+  return new Promise((resolve, reject) => {
+    const proc = spawn(
+      CLAUDE_BIN,
+      [
+        '--print',
+        '--no-session-persistence',
+        '--model', MODEL,
+        '--append-system-prompt-file', SYSTEM_PROMPT_FILE,
+        '--output-format', 'json',
+        userPrompt,
+      ],
+      { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] }
+    );
 
-  const parsed = JSON.parse(result);
-  if (parsed.is_error) throw new Error(parsed.result ?? 'Claude CLI returned an error');
-  return parsed.result ?? '';
+    let stdout = '';
+    proc.stdout.on('data', d => { stdout += d; });
+
+    const timer = setTimeout(() => {
+      proc.kill();
+      reject(new Error('Claude CLI timed out after 90s'));
+    }, 90000);
+
+    proc.on('close', (code) => {
+      clearTimeout(timer);
+      try {
+        const parsed = JSON.parse(stdout);
+        if (parsed.is_error) return reject(new Error(parsed.result ?? 'Claude CLI returned an error'));
+        resolve(parsed.result ?? '');
+      } catch (e) {
+        reject(new Error(`Failed to parse Claude output: ${stdout.slice(0, 200)}`));
+      }
+    });
+
+    proc.on('error', (err) => { clearTimeout(timer); reject(err); });
+  });
 }
 
 /* ─── Code extraction ─────────────────────────────────────────────────────── */
@@ -201,62 +223,78 @@ function checkL3(code) {
 
 /* ─── Main ────────────────────────────────────────────────────────────────── */
 
-function main() {
-  if (!JSON_OUTPUT) {
-    console.log(`\n=== Golden Prompt Eval — ${MODEL} ===\n`);
-    if (FILTER_DIFFICULTY) console.log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);
-    if (FILTER_SLUG) console.log(`  Filter: slug=${FILTER_SLUG}`);
-    console.log(`  Prompts: ${prompts.length}`);
-    console.log(`  CLI:     ${CLAUDE_BIN}\n`);
+// When in --json mode, progress goes to stderr so it's visible in the terminal
+// while stdout stays clean for machine-readable JSON parsing.
+const log = JSON_OUTPUT
+  ? (...args) => process.stderr.write(args.join(' ') + '\n')
+  : (...args) => process.stdout.write(args.join(' ') + '\n');
+const logInline = JSON_OUTPUT
+  ? (s) => process.stderr.write(s)
+  : (s) => process.stdout.write(s);
+
+async function evalPrompt(prompt, nth, total) {
+  let code = '';
+  let callError = null;
+
+  try {
+    const rawOutput = await callClaude(prompt.prompt);
+    code = extractCode(rawOutput);
+  } catch (err) {
+    callError = err.message;
   }
 
-  const results = [];
+  const l1 = callError ? { pass: false, errors: [callError] } : checkL1(code);
+  const l2 = callError ? { pass: false, missing: prompt.tags ?? [] } : checkL2(code, prompt.tags ?? []);
+  const l3 = callError ? { pass: false, forbidden: [] } : checkL3(code);
+  const allPass = l1.pass && l2.pass && l3.pass;
 
-  for (const prompt of prompts) {
-    if (!JSON_OUTPUT) {
-      process.stdout.write(`  ${prompt.slug.padEnd(30)} [${prompt.difficulty}] ... `);
-    }
+  const checks = [
+    l1.pass ? '✓ L1' : '✗ L1',
+    l2.pass ? '✓ L2' : '✗ L2',
+    l3.pass ? '✓ L3' : '✗ L3',
+  ].join('  ');
+  const counter = `[${String(nth).padStart(String(total).length)}/${total}]`;
+  log(`  ${counter}  ${prompt.slug.padEnd(30)} [${prompt.difficulty}]  ${checks}`);
+  if (!l1.pass) {
+    for (const e of l1.errors.slice(0, 3)) log(`      L1: ${e}`);
+    if (l1.errors.length > 3) log(`      L1: ... and ${l1.errors.length - 3} more`);
+  }
+  if (!l2.pass) log(`      L2: missing components: ${l2.missing.join(', ')}`);
+  if (!l3.pass) log(`      L3: forbidden imports: ${l3.forbidden.join(', ')}`);
 
-    let code = '';
-    let callError = null;
+  return {
+    slug: prompt.slug,
+    difficulty: prompt.difficulty,
+    allPass,
+    l1, l2, l3,
+    ...(JSON_OUTPUT ? { code } : {}),
+  };
+}
 
-    try {
-      const rawOutput = callClaude(prompt.prompt);
-      code = extractCode(rawOutput);
-    } catch (err) {
-      callError = err.message;
-    }
-
-    const l1 = callError ? { pass: false, errors: [callError] } : checkL1(code);
-    const l2 = callError ? { pass: false, missing: prompt.tags ?? [] } : checkL2(code, prompt.tags ?? []);
-    const l3 = callError ? { pass: false, forbidden: [] } : checkL3(code);
-
-    const allPass = l1.pass && l2.pass && l3.pass;
-
-    results.push({
-      slug: prompt.slug,
-      difficulty: prompt.difficulty,
-      allPass,
-      l1, l2, l3,
-      ...(JSON_OUTPUT ? { code } : {}),
-    });
-
-    if (!JSON_OUTPUT) {
-      const checks = [
-        l1.pass ? '✓ L1' : '✗ L1',
-        l2.pass ? '✓ L2' : '✗ L2',
-        l3.pass ? '✓ L3' : '✗ L3',
-      ].join('  ');
-      console.log(checks);
-
-      if (!l1.pass) {
-        for (const e of l1.errors.slice(0, 3)) console.log(`      L1: ${e}`);
-        if (l1.errors.length > 3) console.log(`      L1: ... and ${l1.errors.length - 3} more`);
-      }
-      if (!l2.pass) console.log(`      L2: missing components: ${l2.missing.join(', ')}`);
-      if (!l3.pass) console.log(`      L3: forbidden imports: ${l3.forbidden.join(', ')}`);
+async function runPool(items, concurrency, fn) {
+  const results = new Array(items.length);
+  let next = 0;
+  let completed = 0;
+  async function worker() {
+    while (next < items.length) {
+      const i = next++;
+      results[i] = await fn(items[i], completed + 1, items.length);
+      completed++;
     }
   }
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, worker));
+  return results;
+}
+
+async function main() {
+  log(`\n=== Golden Prompt Eval — ${MODEL} ===\n`);
+  if (FILTER_DIFFICULTY) log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);
+  if (FILTER_SLUG) log(`  Filter: slug=${FILTER_SLUG}`);
+  log(`  Prompts:     ${prompts.length}`);
+  log(`  Concurrency: ${CONCURRENCY}`);
+  log(`  CLI:         ${CLAUDE_BIN}\n`);
+
+  const results = await runPool(prompts, CONCURRENCY, evalPrompt);
 
   /* ── Summary ── */
 
@@ -266,22 +304,22 @@ function main() {
   const l2Pass = results.filter(r => r.l2.pass).length;
   const l3Pass = results.filter(r => r.l3.pass).length;
 
+  log(`\n${'─'.repeat(52)}`);
+  log(`  Model:          ${MODEL}`);
+  log(`  Overall:        ${passed}/${total} passed all checks`);
+  log(`  L1 validity:    ${l1Pass}/${total}`);
+  log(`  L2 components:  ${l2Pass}/${total}`);
+  log(`  L3 imports:     ${l3Pass}/${total}`);
+  for (const diff of ['simple', 'medium', 'complex']) {
+    const group = results.filter(r => r.difficulty === diff);
+    if (group.length === 0) continue;
+    const gPassed = group.filter(r => r.allPass).length;
+    log(`  ${diff.padEnd(8)}: ${gPassed}/${group.length}`);
+  }
+  log('');
+
   if (JSON_OUTPUT) {
-    console.log(JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2));
-  } else {
-    console.log(`\n${'─'.repeat(52)}`);
-    console.log(`  Model:          ${MODEL}`);
-    console.log(`  Overall:        ${passed}/${total} passed all checks`);
-    console.log(`  L1 validity:    ${l1Pass}/${total}`);
-    console.log(`  L2 components:  ${l2Pass}/${total}`);
-    console.log(`  L3 imports:     ${l3Pass}/${total}`);
-    for (const diff of ['simple', 'medium', 'complex']) {
-      const group = results.filter(r => r.difficulty === diff);
-      if (group.length === 0) continue;
-      const gPassed = group.filter(r => r.allPass).length;
-      console.log(`  ${diff.padEnd(8)}: ${gPassed}/${group.length}`);
-    }
-    console.log();
+    process.stdout.write(JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2) + '\n');
   }
 }
 

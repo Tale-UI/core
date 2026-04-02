@@ -19,7 +19,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { execFileSync, spawn } from 'child_process';
+import { execFileSync, spawnSync, spawn } from 'child_process';
 import { connect } from 'net';
 import { tmpdir } from 'os';
 
@@ -41,7 +41,7 @@ const FILTER_DIFFICULTY = getArg('--difficulty');
 const NO_FIX = hasFlag('--no-fix');
 const NO_SERVE = hasFlag('--no-serve');
 const MAX_ITER = 3;
-const PLAYGROUND_PORT = 5173;
+const PREFERRED_PORT = 5173;
 
 /* ─── Claude CLI ──────────────────────────────────────────────────────────── */
 
@@ -70,12 +70,17 @@ function runEval(slugs = null) {
   if (FILTER_DIFFICULTY) extraArgs.push('--difficulty', FILTER_DIFFICULTY);
   if (slugs?.length) extraArgs.push('--slugs', slugs.join(','));
 
-  const output = execFileSync(
+  // Progress lines go to stderr (visible in terminal), JSON result to stdout.
+  // Timeout: 90s per prompt / concurrency=5 * prompts, plus buffer. Use 15 min max.
+  const proc = spawnSync(
     process.execPath,
     [EVAL_SCRIPT, '--json', ...extraArgs],
-    { cwd: ROOT, timeout: 300000, encoding: 'utf8' }
+    { cwd: ROOT, timeout: 900000, encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] }
   );
-  return JSON.parse(output);
+
+  if (proc.error) throw new Error(`Eval script failed: ${proc.error.message}`);
+  if (!proc.stdout?.trim()) throw new Error('Eval script produced no output — it may have timed out or crashed.');
+  return JSON.parse(proc.stdout);
 }
 
 /* ─── Fix loop ────────────────────────────────────────────────────────────── */
@@ -125,7 +130,7 @@ Output a JSON fix in this exact format (no other text, just the JSON):
   try {
     const raw = execFileSync(
       CLAUDE_BIN,
-      ['--print', '--model', MODEL, '--append-system-prompt-file', tmpFile, '--output-format', 'json',
+      ['--print', '--no-session-persistence', '--model', MODEL, '--append-system-prompt-file', tmpFile, '--output-format', 'json',
         'Output only the JSON fix object as instructed. No explanation, no markdown fences.'],
       { cwd: ROOT, timeout: 60000, encoding: 'utf8' }
     );
@@ -243,7 +248,7 @@ function generateEvalReview(passingResults, allPrompts) {
           <code className="eval-review__slug">{r.slug}</code>
           <span className="eval-review__difficulty">[${r.difficulty}]</span>
         </div>
-        <p className="eval-review__prompt">${(prompt?.prompt ?? '').replace(/"/g, '&quot;')}</p>
+        <p className="eval-review__prompt">${(prompt?.prompt ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</p>
         <div className="eval-review__preview">
           <${funcName} />
         </div>
@@ -320,24 +325,32 @@ async function waitForPort(port, timeout = 60000) {
   return false;
 }
 
+async function findFreePort(start) {
+  for (let port = start; port < start + 20; port++) {
+    if (!await checkPort(port)) return port;
+  }
+  throw new Error('No free port found in range');
+}
+
 async function startPlayground() {
-  const alreadyRunning = await checkPort(PLAYGROUND_PORT);
-  if (alreadyRunning) {
-    console.log(`  Playground already running on :${PLAYGROUND_PORT}`);
-    return;
+  if (await checkPort(PREFERRED_PORT)) {
+    console.log(`  Playground already running on :${PREFERRED_PORT}`);
+    return PREFERRED_PORT;
   }
 
-  console.log(`  Starting playground dev server...`);
-  const proc = spawn('pnpm', ['playground:dev'], {
+  const port = await findFreePort(PREFERRED_PORT);
+  console.log(`  Starting playground dev server on :${port}...`);
+  const proc = spawn('pnpm', ['playground:dev', '--', '--port', String(port), '--strictPort'], {
     cwd: ROOT,
     detached: true,
     stdio: 'ignore',
   });
   proc.unref();
 
-  const ready = await waitForPort(PLAYGROUND_PORT);
-  if (!ready) throw new Error('Playground did not start within 60s');
-  console.log(`  Playground ready on :${PLAYGROUND_PORT}`);
+  const ready = await waitForPort(port);
+  if (!ready) throw new Error(`Playground did not start on :${port} within 60s`);
+  console.log(`  Playground ready on :${port}`);
+  return port;
 }
 
 /* ─── Main ────────────────────────────────────────────────────────────────── */
@@ -346,7 +359,7 @@ async function main() {
   console.log(`\n=== Eval → Fix → Review (${MODEL}) ===\n`);
 
   /* ── Step 1: Initial eval ── */
-  console.log('Step 1/4  Running initial eval...');
+  console.log('Step 1/4  Running initial eval against all golden prompts...');
   let evalResult = runEval();
   const allPrompts = evalResult.results.map(r => ({
     slug: r.slug,
@@ -445,15 +458,15 @@ async function main() {
   console.log(`  Written: ${passingResults.length} components to EvalReview.tsx`);
 
   if (NO_SERVE) {
-    console.log('\nStep 4/4  Skipped (--no-serve). Open playground manually: http://localhost:5173/eval-review');
+    console.log(`\nStep 4/4  Skipped (--no-serve). Open playground manually: http://localhost:${PREFERRED_PORT}/eval-review`);
     return;
   }
 
   /* ── Step 4: Serve and open ── */
   console.log('\nStep 4/4  Starting playground...');
-  await startPlayground();
+  const port = await startPlayground();
 
-  const url = `http://localhost:${PLAYGROUND_PORT}/eval-review`;
+  const url = `http://localhost:${port}/eval-review`;
   console.log(`  Opening ${url}`);
   execFileSync('open', [url]);
 

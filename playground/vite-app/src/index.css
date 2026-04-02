@@ -62,6 +62,10 @@ body {
   max-width: 1270px;
 }
 
+.eval-review__section {
+  margin-block: var(--space-m);
+}
+
 /* ─── Logo ──────────────────────────────────────────────────────────────────── */
 
 .pg-logo {
