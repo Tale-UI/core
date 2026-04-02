@@ -12,6 +12,7 @@ import { Text } from '@tale-ui/react/text';
 import { Row } from '@tale-ui/react/row';
 import { Column } from '@tale-ui/react/column';
 import { Card } from '@tale-ui/react/card';
+import { Combobox } from '@tale-ui/react/combobox';
 import { TextField } from '@tale-ui/react/text-field';
 import { SelectNative } from '@tale-ui/react/select-native';
 import { Banner } from '@tale-ui/react/banner';
@@ -121,6 +122,8 @@ export interface ChatPanelProps {
   onProviderChange: (provider: Provider) => void;
   apiKey: string;
   onApiKeyChange: (key: string) => void;
+  ollamaModel: string;
+  onOllamaModelChange: (model: string) => void;
 }
 
 export function ChatPanel({
@@ -133,6 +136,8 @@ export function ChatPanel({
   onProviderChange,
   apiKey,
   onApiKeyChange,
+  ollamaModel,
+  onOllamaModelChange,
 }: ChatPanelProps) {
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
@@ -152,7 +157,7 @@ export function ChatPanel({
         </Button>
       </Row>
 
-      {/* Provider + API Key */}
+      {/* Provider + API Key / Model */}
       <Row gap="3xs">
         <SelectNative
           aria-label="Provider"
@@ -163,16 +168,47 @@ export function ChatPanel({
           <option value="anthropic">Anthropic</option>
           <option value="openai">OpenAI</option>
           <option value="straico">Straico</option>
+          <option value="ollama">Ollama</option>
         </SelectNative>
-        <input
-          className="tale-input"
-          type="password"
-          value={apiKey}
-          onChange={(e) => onApiKeyChange(e.target.value)}
-          placeholder={provider === 'anthropic' ? 'sk-ant-...' : provider === 'straico' ? 'straico-key-...' : 'sk-...'}
-          aria-label="API key"
-          style={{ flex: 1, fontFamily: 'var(--mono-font-family)', fontSize: 'var(--text-xs-font-size)' }}
-        />
+        {provider === 'ollama' ? (
+          <div style={{ flex: 1 }}>
+            <Combobox.Root
+              aria-label="Ollama model"
+              inputValue={ollamaModel}
+              onInputChange={onOllamaModelChange}
+              allowsCustomValue
+            >
+              <Combobox.InputGroup>
+                <Combobox.Input
+                  placeholder="e.g. llama3.2, qwen2.5-coder"
+                  style={{ fontFamily: 'var(--mono-font-family)', fontSize: 'var(--text-xs-font-size)' }}
+                />
+                <Combobox.Trigger />
+              </Combobox.InputGroup>
+              <Combobox.Popover>
+                <Combobox.ListBox>
+                  <Combobox.Item id="qwen3-coder-next" textValue="qwen3-coder-next">qwen3-coder-next</Combobox.Item>
+                  <Combobox.Item id="qwen2.5-coder" textValue="qwen2.5-coder">qwen2.5-coder</Combobox.Item>
+                  <Combobox.Item id="llama3.2" textValue="llama3.2">llama3.2</Combobox.Item>
+                  <Combobox.Item id="llama3.1" textValue="llama3.1">llama3.1</Combobox.Item>
+                  <Combobox.Item id="mistral" textValue="mistral">mistral</Combobox.Item>
+                  <Combobox.Item id="deepseek-r1" textValue="deepseek-r1">deepseek-r1</Combobox.Item>
+                  <Combobox.Item id="gemma3" textValue="gemma3">gemma3</Combobox.Item>
+                </Combobox.ListBox>
+              </Combobox.Popover>
+            </Combobox.Root>
+          </div>
+        ) : (
+          <input
+            className="tale-input"
+            type="password"
+            value={apiKey}
+            onChange={(e) => onApiKeyChange(e.target.value)}
+            placeholder={provider === 'anthropic' ? 'sk-ant-...' : provider === 'straico' ? 'straico-key-...' : 'sk-...'}
+            aria-label="API key"
+            style={{ flex: 1, fontFamily: 'var(--mono-font-family)', fontSize: 'var(--text-xs-font-size)' }}
+          />
+        )}
       </Row>
 
       <Separator />
@@ -219,7 +255,7 @@ export function ChatPanel({
       )}
 
       {/* Input */}
-      <ChatInput onSend={onSend} disabled={isStreaming || !apiKey} />
+      <ChatInput onSend={onSend} disabled={isStreaming || (provider !== 'ollama' && !apiKey) || (provider === 'ollama' && !ollamaModel)} />
     </Column>
   );
 }

@@ -187,14 +187,6 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(
 
     const context = React.useContext(DrawerContext);
 
-    if (context && !context.mounted) {
-      return null;
-    }
-
-    const stateProps = context
-      ? getStateAttributesProps({ transitionStatus: context.transitionStatus }, transitionStatusMapping)
-      : undefined;
-
     const handleClick = React.useCallback(
       (event: React.MouseEvent<HTMLDivElement>) => {
         onClick?.(event);
@@ -205,6 +197,14 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(
       },
       [context, onClick],
     );
+
+    if (context && !context.mounted) {
+      return null;
+    }
+
+    const stateProps = context
+      ? getStateAttributesProps({ transitionStatus: context.transitionStatus }, transitionStatusMapping)
+      : undefined;
 
     return (
       <div

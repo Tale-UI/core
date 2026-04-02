@@ -66,6 +66,10 @@ body {
   margin-block: var(--space-m);
 }
 
+.eval-review__preview {
+  padding-block: var(--space-s);
+}
+
 /* ─── Logo ──────────────────────────────────────────────────────────────────── */
 
 .pg-logo {

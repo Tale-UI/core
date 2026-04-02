@@ -98,6 +98,16 @@ When `showTextWhileLoading` is true, the spinner renders inline alongside the ch
 - `.tale-button__spinner` -- Absolutely-positioned spinner overlay shown during pending state
 - `.tale-button__spinner--inline` -- Inline spinner shown when `showTextWhileLoading` is true
 
+## When to use each size
+
+| Size | Use when |
+|------|----------|
+| `sm` | Inside compact containers — banners, toolbars, table rows, inline alongside form fields, secondary actions in tight layouts. |
+| `md` | Default for most situations — form submissions, dialog actions, card footers, standalone CTAs in application UI. |
+| `lg` | Prominent standalone actions — hero sections, marketing CTAs, empty-state primary actions where the button needs to command more visual weight. |
+
+All buttons on a given surface should share the same size. Mixing `sm` and `md` in the same action group creates visual inconsistency; the only exception is an icon-only `IconButton` paired with a labelled `Button` in a toolbar, where size parity is already enforced by the toolbar height.
+
 ## Notes
 
 - `variant` defaults to `"primary"`, `size` defaults to `"md"`.

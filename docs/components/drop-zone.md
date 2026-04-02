@@ -71,3 +71,4 @@ function FileUpload() {
 - This is a simple (non-compound) component exported directly as `DropZone`.
 - The `onDrop` handler receives a drop event with an `items` array.
 - Use `data-drop-target` attribute for styling the active drop state.
+- **Click-to-browse:** nest a `FileTrigger` (wrapping a `Button`) directly inside `DropZone` and React Aria will forward clicks on the entire zone to the file picker automatically — the user does not need to click the button specifically. This is the recommended pattern for file upload zones.

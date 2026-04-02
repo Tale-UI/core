@@ -75,3 +75,5 @@ next-env.d.ts
 .claude/
 .cursor/
 .copilot/
+tools/.eval-call-cache.json
+tools/.eval-check-cache.json

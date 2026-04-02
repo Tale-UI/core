@@ -54,9 +54,12 @@ export const FileTriggerStory: Story = {
 };
 
 export const Combined: Story = {
-  name: 'Combined',
+  name: 'Combined (click or drag)',
   render() {
     const [files, setFiles] = useState<string[]>([]);
+
+    const addFiles = (names: string[]) =>
+      setFiles((prev) => [...prev, ...names]);
 
     return (
       <DropZone
@@ -64,27 +67,19 @@ export const Combined: Story = {
           const names = e.items
             .filter((item) => item.kind === 'file')
             .map((item) => ('name' in item ? item.name : 'unknown'));
-          setFiles((prev) => [...prev, ...names]);
+          addFiles(names);
         }}
         className="story-dropzone-combined"
       >
-        <p>Drop files here or</p>
         <FileTrigger
           onSelect={(fileList) => {
-            if (fileList) {
-              setFiles((prev) => [
-                ...prev,
-                ...Array.from(fileList).map((f) => f.name),
-              ]);
-            }
+            if (fileList) addFiles(Array.from(fileList).map((f) => f.name));
           }}
         >
-          <Button>Browse files</Button>
+          <Button variant="neutral">Click or drag files here</Button>
         </FileTrigger>
         {files.length > 0 && (
-          <p className="story-dropzone-files">
-            Files: {files.join(', ')}
-          </p>
+          <p className="story-dropzone-files">Files: {files.join(', ')}</p>
         )}
       </DropZone>
     );
@@ -97,13 +92,21 @@ export const AllVariations: Story = {
     return (
       <div className="story-cards">
         <div style={{ flex: '1 1 250px' }}>
-          <p className="story-label">DropZone</p>
+          <p className="story-label">Drag only</p>
           <DropZone className="story-dropzone-basic">
             <p>Drop files here</p>
           </DropZone>
         </div>
         <div style={{ flex: '1 1 250px' }}>
-          <p className="story-label">FileTrigger</p>
+          <p className="story-label">Click or drag</p>
+          <DropZone className="story-dropzone-combined">
+            <FileTrigger onSelect={() => {}}>
+              <Button variant="neutral">Click or drag files here</Button>
+            </FileTrigger>
+          </DropZone>
+        </div>
+        <div style={{ flex: '1 1 250px' }}>
+          <p className="story-label">FileTrigger standalone</p>
           <FileTrigger onSelect={() => {}}>
             <Button>Upload file</Button>
           </FileTrigger>

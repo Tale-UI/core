@@ -38,11 +38,14 @@ const STORAGE_KEYS = {
   'anthropic': 'tale-ui-a2ui-anthropic-key',
   'openai': 'tale-ui-a2ui-openai-key',
   'straico': 'tale-ui-a2ui-straico-key',
+  'ollama': 'tale-ui-a2ui-ollama-key', // unused — ollama needs no key
+  'ollama-model': 'tale-ui-a2ui-ollama-model',
 } as const;
 
 function getEnvKey(provider: Provider): string {
   if (provider === 'openai') return import.meta.env.VITE_OPENAI_API_KEY || '';
   if (provider === 'straico') return import.meta.env.VITE_STRAICO_API_KEY || '';
+  if (provider === 'ollama') return 'ollama'; // no real key needed
   return import.meta.env.VITE_ANTHROPIC_API_KEY || '';
 }
 
@@ -52,6 +55,9 @@ export default function A2UIChatDemo() {
   );
   const [apiKey, setApiKey] = React.useState(
     () => localStorage.getItem(STORAGE_KEYS[provider]) || getEnvKey(provider),
+  );
+  const [ollamaModel, setOllamaModel] = React.useState(
+    () => localStorage.getItem(STORAGE_KEYS['ollama-model']) || 'llama3.2',
   );
   const [actionLog, setActionLog] = React.useState<string[]>([]);
 
@@ -64,8 +70,7 @@ export default function A2UIChatDemo() {
   const handleProviderChange = React.useCallback((p: Provider) => {
     setProvider(p);
     localStorage.setItem(STORAGE_KEYS.provider, p);
-    // Load the stored key for the new provider
-    setApiKey(localStorage.getItem(STORAGE_KEYS[p]) || getEnvKey(p));
+    setApiKey(p === 'ollama' ? 'ollama' : (localStorage.getItem(STORAGE_KEYS[p]) || getEnvKey(p)));
   }, []);
 
   const handleApiKeyChange = React.useCallback((key: string) => {
@@ -77,13 +82,20 @@ export default function A2UIChatDemo() {
     }
   }, [provider]);
 
+  const handleOllamaModelChange = React.useCallback((m: string) => {
+    setOllamaModel(m);
+    localStorage.setItem(STORAGE_KEYS['ollama-model'], m);
+  }, []);
+
   return (
     <A2UIProvider catalog={taleUICatalog} onAction={handleAction}>
       <ChatDemoInner
         provider={provider}
         apiKey={apiKey}
+        ollamaModel={ollamaModel}
         onProviderChange={handleProviderChange}
         onApiKeyChange={handleApiKeyChange}
+        onOllamaModelChange={handleOllamaModelChange}
         actionHandlerRef={actionHandlerRef}
         actionLog={actionLog}
         setActionLog={setActionLog}
@@ -95,16 +107,20 @@ export default function A2UIChatDemo() {
 function ChatDemoInner({
   provider,
   apiKey,
+  ollamaModel,
   onProviderChange,
   onApiKeyChange,
+  onOllamaModelChange,
   actionHandlerRef,
   actionLog,
   setActionLog,
 }: {
   provider: Provider;
   apiKey: string;
+  ollamaModel: string;
   onProviderChange: (p: Provider) => void;
   onApiKeyChange: (key: string) => void;
+  onOllamaModelChange: (m: string) => void;
   actionHandlerRef: React.MutableRefObject<(surfaceId: string, action: A2UIAction) => void>;
   actionLog: string[];
   setActionLog: React.Dispatch<React.SetStateAction<string[]>>;
@@ -113,6 +129,7 @@ function ChatDemoInner({
 
   const chat = useChat({
     apiKey,
+    model: provider === 'ollama' ? ollamaModel : undefined,
     provider,
     onA2UIMessages: React.useCallback(
       (msgs) => {
@@ -149,6 +166,8 @@ function ChatDemoInner({
         onProviderChange={onProviderChange}
         apiKey={apiKey}
         onApiKeyChange={onApiKeyChange}
+        ollamaModel={ollamaModel}
+        onOllamaModelChange={onOllamaModelChange}
       />
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-s)', minWidth: 0 }}>

@@ -129,6 +129,34 @@
   background-color: color-mix(in srgb, var(--neutral-5) 10%, transparent);
 }
 
+/* ─── Links ─────────────────────────────────────────────────────────────────── */
+
+/* Color-based variants (success, warning, error) — match action button text */
+.tale-banner .tale-link {
+  color: var(--color-80);
+}
+
+.tale-banner .tale-link[data-hovered] {
+  color: var(--color-90);
+}
+
+.tale-banner .tale-link[data-pressed] {
+  color: var(--color-80);
+}
+
+/* Info variant — light text on dark neutral background */
+.tale-banner--info .tale-link {
+  color: var(--neutral-5);
+}
+
+.tale-banner--info .tale-link[data-hovered] {
+  color: var(--neutral-5);
+}
+
+.tale-banner--info .tale-link[data-pressed] {
+  color: var(--neutral-5);
+}
+
 /* ─── Close (uses .tale-icon-button--sm .tale-button--ghost base) ──────────── */
 
 .tale-banner__close {

@@ -21,6 +21,15 @@
 .tale-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-s);
   width: 100%;
+}
+
+/* ─── Button spacing ───────────────────────────────────────────────────────── */
+
+/* A standalone button or a row of buttons gets extra breathing room
+   above it to visually separate the actions from the form fields. */
+.tale-form > .tale-button,
+.tale-form > .tale-row:has(.tale-button) {
+  margin-top: var(--space-xs);
 }

@@ -46,7 +46,7 @@
 /* Current item */
 .tale-breadcrumbs__item[data-current] {
   font-weight: 600;
-  color: var(--neutral-90);
+  color: var(--neutral-100);
 }
 
 /* ─── Link ─────────────────────────────────────────────────────────────────── */

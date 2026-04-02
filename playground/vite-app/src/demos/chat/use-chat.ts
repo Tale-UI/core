@@ -23,6 +23,7 @@ export interface ChatEntry {
 
 interface UseChatOptions {
   apiKey: string;
+  model?: string;
   provider: Provider;
   onA2UIMessages: (msgs: A2UIMessage[]) => void;
 }
@@ -40,7 +41,7 @@ function genId(): string {
   return `msg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-export function useChat({ apiKey, provider, onA2UIMessages }: UseChatOptions): UseChatReturn {
+export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOptions): UseChatReturn {
   const [entries, setEntries] = React.useState<ChatEntry[]>([]);
   const [isStreaming, setIsStreaming] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -52,6 +53,8 @@ export function useChat({ apiKey, provider, onA2UIMessages }: UseChatOptions): U
   onA2UIMessagesRef.current = onA2UIMessages;
   const providerRef = React.useRef(provider);
   providerRef.current = provider;
+  const modelRef = React.useRef(model);
+  modelRef.current = model;
 
   const sendMessage = React.useCallback(
     (text: string) => {
@@ -87,6 +90,7 @@ export function useChat({ apiKey, provider, onA2UIMessages }: UseChatOptions): U
 
       streamCompletion(providerRef.current, {
         apiKey,
+        model: modelRef.current,
         messages: history,
         signal: abort.signal,
         onChunk: (chunk) => {

@@ -2,7 +2,7 @@
  * Shared types for LLM streaming clients.
  */
 
-export type Provider = 'anthropic' | 'openai' | 'straico';
+export type Provider = 'anthropic' | 'openai' | 'straico' | 'ollama';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
@@ -15,6 +15,7 @@ export interface CompletionMeta {
 
 export interface StreamOptions {
   apiKey: string;
+  model?: string;
   messages: ChatMessage[];
   onChunk: (text: string) => void;
   onComplete: (fullText: string, meta: CompletionMeta) => void;

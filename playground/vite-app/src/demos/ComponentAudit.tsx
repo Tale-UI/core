@@ -3559,6 +3559,12 @@ export default function ComponentAudit() {
               Drop files here
             </div>
           </DropZone>
+          <SubHeading>With FileTrigger (click or drag)</SubHeading>
+          <DropZone onDrop={() => {}}>
+            <FileTrigger onSelect={() => {}}>
+              <Button variant="neutral">Click or drag files here</Button>
+            </FileTrigger>
+          </DropZone>
         </Section>
 
         <Section id="file-trigger" title="FileTrigger" classes={[]}>

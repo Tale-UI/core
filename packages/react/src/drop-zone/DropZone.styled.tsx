@@ -14,12 +14,20 @@ export type DropZoneProps = Omit<AriaDropZoneProps, 'className'> & {
 /**
  * An area that accepts dragged files or data.
  *
+ * Nest a `FileTrigger` inside to also allow clicking anywhere on the zone to
+ * open the native file picker — React Aria forwards zone clicks to the
+ * FileTrigger automatically.
+ *
  * @example
  * ```tsx
  * import { DropZone } from '@tale-ui/react/drop-zone';
+ * import { FileTrigger } from '@tale-ui/react/file-trigger';
+ * import { Button } from '@tale-ui/react/button';
  *
  * <DropZone onDrop={(e) => console.log('Dropped:', e.items)}>
- *   <p>Drag and drop files here</p>
+ *   <FileTrigger onSelect={(files) => console.log(files)}>
+ *     <Button>Drop files here or click to browse</Button>
+ *   </FileTrigger>
  * </DropZone>
  * ```
  */

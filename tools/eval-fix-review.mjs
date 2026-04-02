@@ -37,13 +37,27 @@ const getArg = (flag) => { const i = args.indexOf(flag); return i !== -1 ? args[
 const hasFlag = (flag) => args.includes(flag);
 
 const MODEL = getArg('--model') ?? 'sonnet';
+const FIX_MODEL = getArg('--fix-model') ?? MODEL; // defaults to --model if not specified
+const rawProvider = getArg('--provider') ?? 'claude'; // 'claude' | 'straico' | 'local' | 'ollama' | 'lm-studio'
+const PROVIDER = (rawProvider === 'ollama' || rawProvider === 'lm-studio') ? 'local' : rawProvider;
+const LOCAL_URL = getArg('--local-url') ?? (rawProvider === 'lm-studio' ? 'http://localhost:1234/v1' : 'http://localhost:11434/v1');
+const rawFixProvider = getArg('--fix-provider') ?? rawProvider; // defaults to --provider if not specified
+const FIX_PROVIDER = (rawFixProvider === 'ollama' || rawFixProvider === 'lm-studio') ? 'local' : rawFixProvider;
+const FIX_LOCAL_URL = getArg('--fix-local-url') ?? (rawFixProvider === 'lm-studio' ? 'http://localhost:1234/v1' : 'http://localhost:11434/v1');
+const LOCAL_API_KEY = process.env.LOCAL_API_KEY ?? 'ollama';
 const FILTER_DIFFICULTY = getArg('--difficulty');
 const NO_FIX = hasFlag('--no-fix');
 const NO_SERVE = hasFlag('--no-serve');
-const MAX_ITER = 3;
-const PREFERRED_PORT = 5173;
+const NO_CACHE = hasFlag('--no-cache');
+const FRESH = hasFlag('--fresh');
+const UNTIL_PASS = hasFlag('--until-pass');
+const MAX_ITER = UNTIL_PASS
+  ? (getArg('--max-iter') ? parseInt(getArg('--max-iter'), 10) : Infinity)
+  : parseInt(getArg('--max-iter') ?? '3', 10);
+// Use a port outside the dev:all range (5173 = playground, 5174 = scale, 6006 = storybook)
+const PREFERRED_PORT = 5190;
 
-/* ─── Claude CLI ──────────────────────────────────────────────────────────── */
+/* ─── Provider setup ─────────────────────────────────────────────────────── */
 
 function findClaude() {
   const candidates = [
@@ -56,19 +70,72 @@ function findClaude() {
   try { return execFileSync('which', ['claude'], { encoding: 'utf8' }).trim(); } catch { return null; }
 }
 
-const CLAUDE_BIN = findClaude();
-if (!CLAUDE_BIN) {
-  console.error('ERROR: Claude Code CLI not found.');
-  process.exit(1);
+// Straico shorthands — mirrors eval-golden-prompts.mjs
+// Full model list: https://straico.com/multimodel/
+const STRAICO_MODEL_ALIASES = {
+  // Anthropic
+  sonnet:           'anthropic/claude-sonnet-4.5',
+  'sonnet-4':       'anthropic/claude-sonnet-4',
+  'sonnet-4.5':     'anthropic/claude-sonnet-4.5',
+  opus:             'claude-opus-4-5',
+  'opus-4':         'anthropic/claude-opus-4',
+  'opus-4.5':       'claude-opus-4-5',
+  haiku:            'claude-haiku-4-5-5',
+  // OpenAI
+  'gpt-4o':         'openai/gpt-4o-2024-11-20',
+  'gpt-4o-mini':    'openai/gpt-4o-mini',
+  'gpt-4.1':        'openai/gpt-4.1',
+  'gpt-4.1-mini':   'openai/gpt-4.1-mini',
+  'gpt-4.1-nano':   'openai/gpt-4.1-nano',
+  'gpt-5':          'openai/gpt-5',
+  'gpt-5-mini':     'openai/gpt-5-mini',
+  'o3':             'o3-2025-04-16',
+  'o4-mini':        'openai/o4-mini',
+  // Google
+  'gemini-flash':   'google/gemini-2.5-flash-lite',
+  'gemini-pro':     'google/gemini-3.1-pro-preview',
+  // DeepSeek
+  'deepseek':       'deepseek/deepseek-chat-v3.1',
+  'deepseek-r1':    'deepseek/deepseek-r1',
+  // Meta
+  'llama4':         'meta-llama/llama-4-maverick',
+  // xAI
+  'grok4':          'x-ai/grok-4',
+  'grok3':          'x-ai/grok-3-beta',
+};
+
+let CLAUDE_BIN = null;
+let STRAICO_API_KEY = null;
+let STRAICO_FIX_MODEL = null;
+
+if (PROVIDER === 'straico' || FIX_PROVIDER === 'straico') {
+  STRAICO_API_KEY = process.env.STRAICO_API_KEY;
+  if (!STRAICO_API_KEY) {
+    console.error('ERROR: STRAICO_API_KEY environment variable is not set.');
+    process.exit(1);
+  }
+  STRAICO_FIX_MODEL = STRAICO_MODEL_ALIASES[FIX_MODEL] ?? FIX_MODEL;
+}
+
+if (PROVIDER === 'claude' || FIX_PROVIDER === 'claude') {
+  CLAUDE_BIN = findClaude();
+  if (!CLAUDE_BIN) {
+    console.error('ERROR: Claude Code CLI not found.');
+    process.exit(1);
+  }
 }
 
 /* ─── Run eval ────────────────────────────────────────────────────────────── */
 
 function runEval(slugs = null) {
   const extraArgs = [];
-  if (MODEL !== 'sonnet') extraArgs.push('--model', MODEL);
+  extraArgs.push('--model', MODEL);
+  extraArgs.push('--provider', PROVIDER);
+  if (PROVIDER === 'local') extraArgs.push('--local-url', LOCAL_URL);
   if (FILTER_DIFFICULTY) extraArgs.push('--difficulty', FILTER_DIFFICULTY);
   if (slugs?.length) extraArgs.push('--slugs', slugs.join(','));
+  if (NO_CACHE) extraArgs.push('--no-cache');
+  if (FRESH) extraArgs.push('--fresh');
 
   // Progress lines go to stderr (visible in terminal), JSON result to stdout.
   // Timeout: 90s per prompt / concurrency=5 * prompts, plus buffer. Use 15 min max.
@@ -93,12 +160,16 @@ function buildErrorSummary(result) {
   return lines.join('\n');
 }
 
-function getFix(result) {
+async function getFix(result, failedOlds = []) {
   const snippet = readFileSync(SNIPPET_PATH, 'utf8');
 
   // Extract just the pitfalls section to keep the prompt short
   const pitfallsMatch = snippet.match(/5\. \*\*Common pitfalls[\s\S]*?(?=\n\d+\.|\n---|\n#)/);
   const pitfallsSection = pitfallsMatch ? pitfallsMatch[0] : snippet;
+
+  const failedHint = failedOlds.length > 0
+    ? `\nIMPORTANT: Previous fix attempts used these "old" strings which were NOT found verbatim in the documentation — do NOT use them again:\n${failedOlds.map(s => `  - "${s}"`).join('\n')}\nIf you cannot find an exact string to replace, set "old" to empty string "" to append a new bullet instead.\n`
+    : '';
 
   const fixPrompt = `You are improving Tale UI documentation to prevent AI code generation errors.
 
@@ -115,34 +186,132 @@ ${buildErrorSummary(result)}
 
 Current documentation (pitfalls section):
 ${pitfallsSection}
-
+${failedHint}
 Identify the exact rule that is missing or unclear in the pitfalls section that caused this error.
+The "old" value MUST be a substring that appears verbatim in the documentation above, or empty string "" to append a new bullet.
 Output a JSON fix in this exact format (no other text, just the JSON):
 {
   "diagnosis": "one sentence explaining the root cause",
-  "old": "exact string to find and replace in the documentation (use empty string to append a new bullet)",
+  "old": "exact verbatim substring from the documentation above, or empty string to append",
   "new": "the replacement text (or new bullet to append if old is empty string)"
 }`;
 
-  const tmpFile = join(tmpdir(), `tale-ui-fix-prompt-${process.pid}.md`);
-  writeFileSync(tmpFile, fixPrompt, 'utf8');
+  let text;
 
-  try {
-    const raw = execFileSync(
-      CLAUDE_BIN,
-      ['--print', '--no-session-persistence', '--model', MODEL, '--append-system-prompt-file', tmpFile, '--output-format', 'json',
-        'Output only the JSON fix object as instructed. No explanation, no markdown fences.'],
-      { cwd: ROOT, timeout: 60000, encoding: 'utf8' }
-    );
-    const parsed = JSON.parse(raw);
-    const text = parsed.result ?? '';
-    // Extract JSON from the response (may be wrapped in fences)
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('No JSON found in response');
-    return JSON.parse(jsonMatch[0]);
-  } finally {
-    try { execFileSync('rm', [tmpFile]); } catch { /* ignore */ }
+  if (FIX_PROVIDER === 'straico') {
+    const MAX_RETRIES = 3;
+    let lastErr;
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      const response = await fetch('https://api.straico.com/v0/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${STRAICO_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: STRAICO_FIX_MODEL,
+          max_tokens: 4096,
+          messages: [
+            { role: 'system', content: fixPrompt },
+            { role: 'user', content: 'Output only the JSON fix object as instructed. No explanation, no markdown fences.' },
+          ],
+        }),
+      });
+      if (!response.ok) {
+        const body = await response.text();
+        if (response.status === 500 && body.includes('Excessively l')) {
+          throw new Error(`Straico: fix prompt exceeds model context window for ${STRAICO_FIX_MODEL}.`);
+        }
+        if ((response.status === 502 || response.status === 503 || response.status === 504) && attempt < MAX_RETRIES) {
+          lastErr = new Error(`Straico API error (${response.status})`);
+          await new Promise(r => setTimeout(r, attempt * 2000));
+          continue;
+        }
+        throw new Error(`Straico API error (${response.status}): ${body.slice(0, 200)}`);
+      }
+      const json = await response.json();
+      const completion = json.data?.completion ?? json.completion ?? json;
+      text = completion?.choices?.[0]?.message?.content ?? '';
+      lastErr = null;
+      break;
+    }
+    if (lastErr) throw lastErr;
+  } else if (FIX_PROVIDER === 'local') {
+    const MAX_RETRIES = 2;
+    let lastErr;
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      let response;
+      try {
+        response = await fetch(`${FIX_LOCAL_URL}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${LOCAL_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: FIX_MODEL,
+            max_tokens: 4096,
+            messages: [
+              { role: 'system', content: fixPrompt },
+              { role: 'user', content: 'Output only the JSON fix object as instructed. No explanation, no markdown fences.' },
+            ],
+          }),
+          signal: AbortSignal.timeout(180000),
+        });
+      } catch (err) {
+        if (err.cause?.code === 'ECONNREFUSED') {
+          throw new Error(`Local LLM not reachable at ${FIX_LOCAL_URL}. Is Ollama / LM Studio running?`);
+        }
+        if (attempt < MAX_RETRIES) { lastErr = err; await new Promise(r => setTimeout(r, attempt * 2000)); continue; }
+        throw err;
+      }
+      if (!response.ok) {
+        const body = await response.text();
+        if (attempt < MAX_RETRIES) { lastErr = new Error(`Local LLM error (${response.status})`); await new Promise(r => setTimeout(r, attempt * 2000)); continue; }
+        throw new Error(`Local LLM error (${response.status}): ${body.slice(0, 200)}`);
+      }
+      const json = await response.json();
+      text = json.choices?.[0]?.message?.content ?? '';
+      lastErr = null;
+      break;
+    }
+    if (lastErr) throw lastErr;
+  } else {
+    const tmpFile = join(tmpdir(), `tale-ui-fix-prompt-${process.pid}.md`);
+    writeFileSync(tmpFile, fixPrompt, 'utf8');
+    const MAX_RETRIES = 3;
+    let lastErr;
+    try {
+      for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          const raw = execFileSync(
+            CLAUDE_BIN,
+            ['--print', '--no-session-persistence', '--model', FIX_MODEL, '--append-system-prompt-file', tmpFile, '--output-format', 'json',
+              'Output only the JSON fix object as instructed. No explanation, no markdown fences.'],
+            { cwd: tmpdir(), timeout: 180000, encoding: 'utf8' }
+          );
+          const parsed = JSON.parse(raw);
+          text = parsed.result ?? '';
+          lastErr = null;
+          break;
+        } catch (err) {
+          lastErr = err;
+          if (attempt < MAX_RETRIES) {
+            console.log(`    (Claude CLI attempt ${attempt} failed: ${err.code ?? err.message} — retrying...)`);
+            await new Promise(r => setTimeout(r, attempt * 3000));
+          }
+        }
+      }
+      if (lastErr) throw lastErr;
+    } finally {
+      try { execFileSync('rm', [tmpFile]); } catch { /* ignore */ }
+    }
   }
+
+  // Extract JSON from the response (may be wrapped in fences)
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('No JSON found in response');
+  return JSON.parse(jsonMatch[0]);
 }
 
 function applyFix(fix) {
@@ -165,25 +334,49 @@ function applyFix(fix) {
 
 /* ─── EvalReview.tsx generation ──────────────────────────────────────────── */
 
+/**
+ * Parse all import statements from a code block, handling both
+ * single-line and multi-line forms. Returns a list of {names, pkg, isType} entries.
+ */
+function parseImports(code) {
+  const results = [];
+  const lines = code.split('\n');
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    // Start of an import statement
+    const isType = /^import\s+type\s+\{/.test(line);
+    if (isType || /^import\s+\{/.test(line)) {
+      // Collect lines until we see `from '...'` or `from "..."`
+      let block = '';
+      while (i < lines.length) {
+        block += lines[i] + '\n';
+        if (/from\s+['"][^'"]+['"]\s*;?\s*$/.test(lines[i])) { i++; break; }
+        i++;
+      }
+      // Extract the names block and package
+      const namesMatch = block.match(/\{([\s\S]*?)\}/);
+      const pkgMatch = block.match(/from\s+['"]([^'"]+)['"]/);
+      if (namesMatch && pkgMatch) {
+        const names = namesMatch[1].split(',').map(s => s.trim()).filter(Boolean);
+        results.push({ names, pkg: pkgMatch[1], isType });
+      }
+    } else {
+      i++;
+    }
+  }
+  return results;
+}
+
 function mergeImports(codeBlocks) {
   const named = new Map();   // pkg → Set<string>
   const typed = new Map();   // pkg → Set<string>
 
   for (const code of codeBlocks) {
-    for (const line of code.split('\n')) {
-      const namedMatch = line.match(/^import\s+\{([^}]+)\}\s+from\s+['"]([^'"]+)['"]/);
-      if (namedMatch) {
-        const pkg = namedMatch[2];
-        if (!named.has(pkg)) named.set(pkg, new Set());
-        for (const n of namedMatch[1].split(',').map(s => s.trim()).filter(Boolean)) named.get(pkg).add(n);
-        continue;
-      }
-      const typeMatch = line.match(/^import\s+type\s+\{([^}]+)\}\s+from\s+['"]([^'"]+)['"]/);
-      if (typeMatch) {
-        const pkg = typeMatch[2];
-        if (!typed.has(pkg)) typed.set(pkg, new Set());
-        for (const n of typeMatch[1].split(',').map(s => s.trim()).filter(Boolean)) typed.get(pkg).add(n);
-      }
+    for (const { names, pkg, isType } of parseImports(code)) {
+      const map = isType ? typed : named;
+      if (!map.has(pkg)) map.set(pkg, new Set());
+      for (const n of names) map.get(pkg).add(n);
     }
   }
 
@@ -198,11 +391,24 @@ function mergeImports(codeBlocks) {
 }
 
 function stripImports(code) {
-  return code
-    .split('\n')
-    .filter(l => !l.match(/^import\s/))
-    .join('\n')
-    .trim();
+  const out = [];
+  const lines = code.split('\n');
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (/^import\s/.test(line)) {
+      // Skip all lines belonging to this import statement
+      while (i < lines.length) {
+        const l = lines[i++];
+        // Single-line import, or the closing `from '...'` line of a multi-line import
+        if (/from\s+['"][^'"]+['"]\s*;?\s*$/.test(l)) break;
+      }
+    } else {
+      out.push(line);
+      i++;
+    }
+  }
+  return out.join('\n').trim();
 }
 
 function toFuncName(slug) {
@@ -356,16 +562,13 @@ async function startPlayground() {
 /* ─── Main ────────────────────────────────────────────────────────────────── */
 
 async function main() {
-  console.log(`\n=== Eval → Fix → Review (${MODEL}) ===\n`);
+  const modelLabel = FIX_MODEL !== MODEL ? `${MODEL} / fix: ${FIX_MODEL}` : MODEL;
+  const providerLabel = FIX_PROVIDER !== PROVIDER ? `${PROVIDER} / fix: ${FIX_PROVIDER}` : PROVIDER;
+  console.log(`\n=== Eval → Fix → Review (${modelLabel}, ${providerLabel}) ===\n`);
 
   /* ── Step 1: Initial eval ── */
   console.log('Step 1/4  Running initial eval against all golden prompts...');
   let evalResult = runEval();
-  const allPrompts = evalResult.results.map(r => ({
-    slug: r.slug,
-    difficulty: r.difficulty,
-    prompt: null, // loaded below
-  }));
 
   // Load prompt text for fix loop
   const { readdirSync } = await import('fs');
@@ -395,40 +598,54 @@ async function main() {
 
   /* ── Step 2: Fix loop ── */
   if (!NO_FIX && failing.length > 0) {
-    console.log('Step 2/4  Fix loop (max', MAX_ITER, 'iterations)...');
+    const attemptsLabel = UNTIL_PASS ? 'unlimited attempts per prompt' : `max ${MAX_ITER} attempts per prompt`;
+    console.log(`Step 2/4  Fix loop (${attemptsLabel})...`);
 
-    for (let iter = 1; iter <= MAX_ITER && failing.length > 0; iter++) {
-      console.log(`\n  Iteration ${iter}/${MAX_ITER} — ${failing.length} failing prompt(s)`);
-
-      for (const failure of failing) {
-        console.log(`\n  Diagnosing: ${failure.slug}`);
+    const stillFailing = [];
+    for (const failure of failing) {
+      console.log(`\n  Diagnosing: ${failure.slug}`);
+      let current = failure;
+      let passed = false;
+      const failedOlds = [];
+      for (let attempt = 1; attempt <= MAX_ITER; attempt++) {
+        const attemptLabel = isFinite(MAX_ITER) ? `${attempt}/${MAX_ITER}` : `${attempt}`;
         try {
-          const fix = getFix(failure);
-          console.log(`    Diagnosis: ${fix.diagnosis}`);
+          const fix = await getFix(current, failedOlds);
+          console.log(`    [${attemptLabel}] Diagnosis: ${fix.diagnosis}`);
           const applied = applyFix(fix);
-          if (applied) console.log(`    Fix applied to consumer snippet`);
+          if (!applied) {
+            if (fix.old) failedOlds.push(fix.old);
+            console.log(`    [${attemptLabel}] Fix string not found in snippet — retrying with context`);
+            continue;
+          }
+          console.log(`    [${attemptLabel}] Fix applied — re-evaluating...`);
+          const reEval = runEval([current.slug]);
+          const reResult = { ...reEval.results[0], prompt: promptMap.get(current.slug)?.prompt ?? '' };
+          if (reResult.allPass && reResult.code) {
+            passingCode.set(current.slug, reResult);
+            console.log(`    [${attemptLabel}] ✓ Passing`);
+            passed = true;
+            break;
+          }
+          console.log(`    [${attemptLabel}] ✗ Still failing: L1=${reResult.l1.pass ? '✓' : '✗'} L2=${reResult.l2.pass ? '✓' : '✗'} L3=${reResult.l3.pass ? '✓' : '✗'}`);
+          current = reResult; // use fresh result for next attempt's diagnosis
+          failedOlds.length = 0; // reset — new failure context, old hints no longer relevant
         } catch (err) {
-          console.log(`    ⚠ Could not get fix: ${err.message}`);
+          if (err instanceof SyntaxError) {
+            // Malformed JSON from the model — retryable
+            console.log(`    [${attemptLabel}] ⚠ Malformed JSON response — retrying`);
+            continue;
+          }
+          console.log(`    [${attemptLabel}] ⚠ Could not get fix: ${err.message}`);
+          break;
         }
       }
-
-      // Re-eval only failing slugs
-      console.log(`\n  Re-running eval for ${failing.length} prompt(s)...`);
-      const reEval = runEval(failing.map(f => f.slug));
-      const reResults = reEval.results.map(r => ({
-        ...r,
-        prompt: promptMap.get(r.slug)?.prompt ?? '',
-      }));
-
-      for (const r of reResults) {
-        if (r.allPass && r.code) passingCode.set(r.slug, r);
-      }
-
-      const stillFailing = reResults.filter(r => !r.allPass);
-      const fixed = failing.length - stillFailing.length;
-      console.log(`  Fixed ${fixed}/${failing.length} this iteration. ${stillFailing.length} still failing.`);
-      failing = stillFailing;
+      if (!passed) stillFailing.push(current);
     }
+
+    const fixed = failing.length - stillFailing.length;
+    console.log(`\n  Fixed ${fixed}/${failing.length} prompts. ${stillFailing.length} still failing.`);
+    failing = stillFailing;
   } else if (NO_FIX) {
     console.log('Step 2/4  Fix loop skipped (--no-fix).');
   } else {
@@ -439,6 +656,16 @@ async function main() {
     console.log(`\n  ⚠ ${failing.length} prompt(s) still failing after fix loop:`);
     for (const f of failing) console.log(`    - ${f.slug}: L1=${f.l1.pass ? '✓' : '✗'} L2=${f.l2.pass ? '✓' : '✗'} L3=${f.l3.pass ? '✓' : '✗'}`);
   }
+
+  /* ── Step 2b: Final fresh eval ── */
+  console.log('\nStep 2b/4  Running fresh eval for final review generations...');
+  const finalEval = runEval();
+  for (const r of finalEval.results) {
+    const withPrompt = { ...r, prompt: promptMap.get(r.slug)?.prompt ?? '' };
+    if (r.allPass && r.code) passingCode.set(r.slug, withPrompt);
+  }
+  const finalFailing = finalEval.results.filter(r => !r.allPass);
+  console.log(`  ${finalEval.results.length - finalFailing.length}/${finalEval.results.length} passing in final eval.`);
 
   /* ── Step 3: Generate review page ── */
   console.log('\nStep 3/4  Generating EvalReview.tsx...');

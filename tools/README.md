@@ -280,7 +280,7 @@ Runs `validate-generated.mjs` against every golden prompt reference implementati
 
 ### eval-golden-prompts.mjs
 
-Runs each golden prompt against the Claude API and scores the generated code across three automated levels:
+Runs each golden prompt against an LLM and scores the generated code across three automated levels:
 
 | Level | What it checks | How |
 |-------|---------------|-----|
@@ -288,14 +288,106 @@ Runs each golden prompt against the Claude API and scores the generated code acr
 | L2 — Components | All expected `tags` components appear in the output | String search |
 | L3 — Imports | No imports from packages outside the allowed set | Import parsing |
 
-Requires the Claude Code CLI (`~/.local/bin/claude`) — no separate API key needed, uses your existing Claude Code login. Not run in CI — intended for manual runs before releases or model upgrades.
+Supports three providers. Not run in CI — intended for manual runs before releases or model upgrades.
+
+**Claude Code CLI (default):** No separate API key needed — uses your existing Claude Code login.
 
 ```bash
 pnpm golden:eval                              # all prompts, default model (sonnet)
-pnpm golden:eval -- --model opus              # use a different model
+pnpm golden:eval -- --model opus              # opus
+pnpm golden:eval -- --model haiku             # haiku
+pnpm golden:eval -- --model claude-haiku-4-5-20251001  # full model ID also accepted
 pnpm golden:eval -- --difficulty simple       # only simple prompts
 pnpm golden:eval -- --slug settings-page      # single prompt
+pnpm golden:eval -- --slugs a,b,c             # specific prompts (comma-separated)
 pnpm golden:eval -- --json                    # machine-readable output
+pnpm golden:eval -- --no-cache                # skip call cache, always call provider
+pnpm golden:eval -- --fresh                   # skip both caches (true benchmark run)
+```
+
+**Straico provider:** Requires `STRAICO_API_KEY` environment variable (get it at https://platform.straico.com/user-settings). Straico is a multi-provider proxy — any model it supports can be used, including OpenAI, Google Gemini, Meta Llama, Mistral, and Anthropic models.
+
+```bash
+STRAICO_API_KEY=xxx pnpm golden:eval -- --provider straico
+STRAICO_API_KEY=xxx pnpm golden:eval -- --provider straico --model sonnet        # anthropic/claude-sonnet-4
+STRAICO_API_KEY=xxx pnpm golden:eval -- --provider straico --model gpt-4o        # openai/gpt-4o
+STRAICO_API_KEY=xxx pnpm golden:eval -- --provider straico --model gpt-4o-mini   # openai/gpt-4o-mini
+STRAICO_API_KEY=xxx pnpm golden:eval -- --provider straico --model gemini-flash  # google/gemini-2.0-flash
+STRAICO_API_KEY=xxx pnpm golden:eval -- --provider straico --model gemini-pro    # google/gemini-2.5-pro-exp
+STRAICO_API_KEY=xxx pnpm golden:eval -- --provider straico --model anthropic/claude-opus-4  # full ID also accepted
+```
+
+Model shorthands for `--provider straico` (full list: https://straico.com/multimodel/):
+
+| Shorthand | Straico model ID |
+|-----------|-----------------|
+| `sonnet` (default) | `anthropic/claude-sonnet-4.5` |
+| `sonnet-4` | `anthropic/claude-sonnet-4` |
+| `sonnet-4.5` | `anthropic/claude-sonnet-4.5` |
+| `opus` | `claude-opus-4-5` |
+| `opus-4` | `anthropic/claude-opus-4` |
+| `opus-4.5` | `claude-opus-4-5` |
+| `haiku` | `claude-haiku-4-5-5` |
+| `gpt-4o` | `openai/gpt-4o-2024-11-20` |
+| `gpt-4o-mini` | `openai/gpt-4o-mini` |
+| `gpt-4.1` | `openai/gpt-4.1` |
+| `gpt-4.1-mini` | `openai/gpt-4.1-mini` |
+| `gpt-4.1-nano` | `openai/gpt-4.1-nano` |
+| `gpt-5` | `openai/gpt-5` |
+| `gpt-5-mini` | `openai/gpt-5-mini` |
+| `o3` | `o3-2025-04-16` |
+| `o4-mini` | `openai/o4-mini` |
+| `gemini-flash` | `google/gemini-2.5-flash-lite` |
+| `gemini-pro` | `google/gemini-3.1-pro-preview` |
+| `deepseek` | `deepseek/deepseek-chat-v3.1` |
+| `deepseek-r1` | `deepseek/deepseek-r1` |
+| `llama4` | `meta-llama/llama-4-maverick` |
+| `grok4` | `x-ai/grok-4` |
+| `grok3` | `x-ai/grok-3-beta` |
+
+Any model ID not in the shorthand table passes through as-is, so you can use the full Straico model string directly (e.g. `--model openai/gpt-5-pro`).
+
+**Local provider (Ollama / LM Studio):** Requires a locally running OpenAI-compatible server. Pass the model name as-is (no alias lookup is done for local models).
+
+| Server                            | Provider shorthand     | Default URL                  |
+|-----------------------------------|------------------------|------------------------------|
+| [Ollama](https://ollama.com)      | `--provider ollama`    | `http://localhost:11434/v1`  |
+| [LM Studio](https://lmstudio.ai)  | `--provider lm-studio` | `http://localhost:1234/v1`   |
+
+```bash
+# Ollama (shorthand — uses http://localhost:11434/v1 automatically)
+pnpm golden:eval -- --provider ollama --model llama3.2
+
+# LM Studio (shorthand — uses http://localhost:1234/v1 automatically)
+pnpm golden:eval -- --provider lm-studio --model llama3.2
+
+# --provider local is equivalent to --provider ollama (Ollama port)
+# Use --local-url to override the endpoint for any OpenAI-compatible server
+pnpm golden:eval -- --provider local --local-url http://localhost:8080/v1 --model custom-model
+```
+
+**Two-level cache** (`tools/.eval-call-cache.json`, `tools/.eval-check-cache.json` — both gitignored):
+
+| Cache       | Key                                                | Value           | Accurate?                                                        | Bypassed by           |
+|-------------|----------------------------------------------------|-----------------|------------------------------------------------------------------|-----------------------|
+| Call cache  | model + snippet hash + registry hash + prompt hash | generated code  | No — same inputs can produce different LLM output               | `--no-cache`, `--fresh` |
+| Check cache | code hash + registry hash                          | L1/L2/L3 results | Yes — same code + same registry always produces the same result | `--fresh` only        |
+
+The call cache is an **iteration shortcut**, not a benchmark. When patching `consumer-claude-md-snippet.md` and re-running to confirm a fix worked, prompts that were already passing don't need to call Claude again. But because LLMs are non-deterministic, a cached pass doesn't guarantee the prompt would pass on every run.
+
+The check cache is **always accurate** — L1 (TypeScript), L2 (component presence), and L3 (import cleanliness) are all deterministic given the same code and registry. It avoids re-running `tsc` on code the validator has already seen.
+
+**Recommended workflows:**
+
+```bash
+# Iterating on docs (fast — reuses cached passing results)
+pnpm golden:eval
+
+# Check if your specific fix worked (bypasses call cache for those slugs only)
+pnpm golden:eval -- --slugs color-wheel-hue,autocomplete-search
+
+# Accurate benchmark score (bypasses both caches — full re-run)
+pnpm golden:eval -- --fresh
 ```
 
 **Example output:**
@@ -330,11 +422,20 @@ Full pipeline combining eval, automated fixing, and visual review:
 After the run, check `git diff docs/consumer-claude-md-snippet.md` to review any documentation changes before committing.
 
 ```bash
-pnpm golden:fix-review                          # full pipeline
-pnpm golden:fix-review -- --no-fix             # skip fix loop, go straight to review
-pnpm golden:fix-review -- --no-serve           # generate review page without starting server
-pnpm golden:fix-review -- --difficulty simple  # only simple prompts (faster)
-pnpm golden:fix-review -- --model opus         # use a different model
+pnpm golden:fix-review                                         # full pipeline
+pnpm golden:fix-review -- --no-fix                            # skip fix loop, go straight to review
+pnpm golden:fix-review -- --no-serve                          # generate review page without starting server
+pnpm golden:fix-review -- --difficulty simple                 # only simple prompts (faster)
+pnpm golden:fix-review -- --model sonnet                      # model for both eval and fix
+pnpm golden:fix-review -- --model haiku --fix-model sonnet    # haiku for eval, sonnet for fixes
+pnpm golden:fix-review -- --until-pass                        # fix each prompt until it passes (no attempt cap)
+pnpm golden:fix-review -- --until-pass --max-iter 20          # fix each prompt until it passes, max 20 attempts each
+pnpm golden:fix-review -- --max-iter 10                       # raise per-prompt attempt cap (default: 3)
+pnpm golden:fix-review -- --provider straico                  # use Straico instead of Claude CLI
+pnpm golden:fix-review -- --provider straico --model haiku --fix-model sonnet  # cheaper evals, smarter fixes
+pnpm golden:fix-review -- --provider ollama --model llama3.2                  # Ollama (port 11434)
+pnpm golden:fix-review -- --provider lm-studio --model llama3.2               # LM Studio (port 1234)
+pnpm golden:fix-review -- --provider ollama --model llama3.2 --fix-provider claude --fix-model sonnet  # local eval, Claude fixes
 ```
 
 ### golden-prompts/

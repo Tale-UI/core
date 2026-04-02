@@ -47,7 +47,6 @@
 /* ─── Input ───────────────────────────────────────────────────────────────── */
 
 .tale-number-field__input {
-  flex: 0 0 6rem;
   min-height: 3.6rem;
   padding: var(--space-3xs) var(--space-xs);
   border: none;

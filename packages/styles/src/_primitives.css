@@ -529,7 +529,7 @@
   min-height: 3.6rem;
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
-  background-color: var(--neutral-10);
+  background-color: var(--neutral-5);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -671,7 +671,7 @@
   border-bottom: none;
   border-left: 1px solid var(--neutral-26);
   border-radius: 0 calc(var(--radius-m) - 1px) calc(var(--radius-m) - 1px) 0;
-  background-color: transparent;
+  background-color: var(--neutral-10);
 }
 
 .tale-date-picker__group .tale-date-picker__trigger:hover,
@@ -968,7 +968,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-3xs);
 }
 
 .tale-progress-bar,
