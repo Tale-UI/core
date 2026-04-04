@@ -8,6 +8,14 @@ Use this as a second-pass prompt to validate AI-generated Tale UI code.
 
 You are reviewing code that uses `@tale-ui/react` components. Check it against the component registry and fix every issue found.
 
+### Step 0: Confirm the component plan
+
+Before reading any code, verify you chose the right components for the task:
+
+- [ ] If the Tale UI MCP server is available, call `plan_ui` with the original prompt. Confirm the components it recommends match the ones in the code.
+- [ ] If any component in the code is **not** in `plan_ui`'s recommendations, verify it is still the correct choice and not a hallucination.
+- [ ] If a matching recipe exists in `plan_ui`'s output, confirm the code follows that recipe's structure.
+
 ### Step 1: List all imports
 
 For each `@tale-ui/react/*` import in the code, verify:

@@ -10,6 +10,8 @@ This project uses `@tale-ui/react` for all UI components.
 
 Before generating or modifying component code, you MUST:
 
+0. **Plan before generating JSX.** If the Tale UI MCP server is available, call the `plan_ui` tool with the UI description first. It returns which components to use, a matching recipe if one exists, and key pitfalls — so you choose the right components before writing a single line of JSX. Skip this step only if you are making a trivial single-component change.
+
 1. **Read the setup guide** in `node_modules/@tale-ui/react/README.md` — it contains critical configuration (font-size base, style imports, dark mode, theme overrides) that will produce broken output if skipped.
 
 2. **Check the JSDoc `@example` on each component's .d.ts export** before using it. Every component's Root export includes a `@example` block showing the correct import path, sub-parts, and composition pattern. Read the `.d.ts` file for each component you intend to use:

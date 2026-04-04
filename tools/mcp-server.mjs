@@ -12,10 +12,12 @@
  *   get_recipe        — get a recipe's markdown content by name
  *   list_recipes      — list all available recipes
  *   search_docs       — keyword search across all documentation files
- *   list_a2ui_types   — list all A2UI catalog types with name, category, props
- *   get_a2ui_type     — get full details for an A2UI type (props, component, hints)
- *   get_a2ui_example  — get a few-shot A2UI message example by name
- *   validate_code     — validate generated Tale UI React code (registry + tsc)
+ *   list_a2ui_types       — list all A2UI catalog types with name, category, props
+ *   get_a2ui_type         — get full details for an A2UI type (props, component, hints)
+ *   get_a2ui_example      — get a few-shot A2UI message example by name
+ *   validate_code         — validate generated Tale UI React code (registry + tsc)
+ *   get_component_stories — get Storybook story source code for a component
+ *   plan_ui               — plan which components/recipes to use before generating JSX
  *
  * Run:  node tools/mcp-server.mjs
  * Config (Claude Code .claude/settings.json):
@@ -25,7 +27,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
-import { readFileSync, readdirSync } from 'fs';
+import { readFileSync, readdirSync, existsSync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execFileSync } from 'child_process';
@@ -36,6 +38,7 @@ const REGISTRY_PATH = join(ROOT, 'registry/components.json');
 const A2UI_CATALOG_PATH = join(ROOT, 'registry/a2ui-catalog.json');
 const RECIPES_DIR = join(ROOT, 'docs/recipes');
 const DOCS_DIR = join(ROOT, 'docs');
+const STORIES_DIR = join(ROOT, 'playground/storybook/src/stories');
 
 // ─── Load data ──────────────────────────────────────────────────────────────
 
@@ -133,6 +136,39 @@ function searchDocs(query) {
     .filter(d => d.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 8);
+}
+
+// ─── Storybook story loader ──────────────────────────────────────────────────
+
+let _storyMap = null;
+
+/**
+ * Returns a Map<PascalName, { path, source, storyNames }>
+ * Built lazily on first call; cached thereafter.
+ */
+function loadStoryMap() {
+  if (_storyMap) return _storyMap;
+  _storyMap = new Map();
+  if (!existsSync(STORIES_DIR)) return _storyMap;
+
+  for (const file of readdirSync(STORIES_DIR)) {
+    if (!file.endsWith('.stories.tsx') && !file.endsWith('.stories.ts')) continue;
+    const filePath = join(STORIES_DIR, file);
+    const source = readFileSync(filePath, 'utf8');
+
+    // Extract exported story names (export const <Name>: Story = ...)
+    const storyNames = [];
+    const exportRegex = /^export\s+const\s+(\w+)\s*:/gm;
+    let m;
+    while ((m = exportRegex.exec(source)) !== null) {
+      if (m[1] !== 'default') storyNames.push(m[1]);
+    }
+
+    // Derive component name from filename (Button.stories.tsx → Button)
+    const componentName = file.replace(/\.stories\.(tsx?|jsx?)$/, '');
+    _storyMap.set(componentName, { path: filePath.replace(ROOT + '/', ''), source, storyNames });
+  }
+  return _storyMap;
 }
 
 // ─── Search helpers ─────────────────────────────────────────────────────────
@@ -245,7 +281,7 @@ const server = new McpServer({
 // Tool: list_components
 server.tool(
   'list_components',
-  'List all Tale UI components with name, import path, category, and description. Use this to discover what components are available.',
+  'List all Tale UI components with name, import path, category, description, and status. Use this to discover what components are available. Deprecated components are prefixed with ⚠️.',
   {},
   async () => {
     const registry = loadRegistry();
@@ -253,8 +289,11 @@ server.tool(
       name: c.name,
       import: c.import,
       category: c.category,
-      description: c.description,
+      description: c.status === 'deprecated'
+        ? `⚠️ Deprecated — ${c.deprecationNote || c.description}`
+        : c.description,
       kind: c.kind,
+      status: c.status || 'stable',
     }));
     return {
       content: [{ type: 'text', text: JSON.stringify(summary, null, 2) }],
@@ -517,6 +556,101 @@ server.tool(
         };
       }
     }
+  },
+);
+
+// Tool: get_component_stories
+server.tool(
+  'get_component_stories',
+  'Get the Storybook story source code for a Tale UI component. Stories show real-world usage examples with argTypes (allowed values for each prop) and render functions for every variant. Use this alongside get_component when you need concrete usage patterns beyond the registry examples.',
+  { name: z.string().describe('Component name (PascalCase like "Button", "Select", "Dialog")') },
+  async ({ name }) => {
+    const stories = loadStoryMap();
+
+    // Try exact match first, then case-insensitive
+    const entry = stories.get(name) || [...stories.entries()].find(
+      ([k]) => k.toLowerCase() === name.toLowerCase()
+    )?.[1];
+
+    if (!entry) {
+      const available = [...stories.keys()].sort().join(', ');
+      return {
+        content: [{ type: 'text', text: `No story file found for "${name}". Components with stories: ${available}` }],
+      };
+    }
+
+    const summary = {
+      file: entry.path,
+      storyNames: entry.storyNames,
+      source: entry.source,
+    };
+    return {
+      content: [{ type: 'text', text: JSON.stringify(summary, null, 2) }],
+    };
+  },
+);
+
+// Tool: plan_ui
+server.tool(
+  'plan_ui',
+  'Given a plain-language description of UI to build, return a structured component plan: which Tale UI components to use, how they nest, which recipe (if any) applies, and key pitfalls to avoid. Call this BEFORE generating any JSX so you choose the right components first.',
+  { prompt: z.string().describe('Plain-language description of the UI you want to build (e.g. "a settings form with text fields and a save button")') },
+  async ({ prompt }) => {
+    const registry = loadRegistry();
+    const recipes = loadRecipeIndex();
+
+    // Find matching components (reuse existing search logic)
+    const componentResults = searchComponents(registry.components, prompt).slice(0, 6);
+
+    // Find the nearest recipe by checking if any recipe slug/title words appear in the prompt
+    const pLower = prompt.toLowerCase();
+    const recipeMatch = recipes.find(r =>
+      r.slug.split('-').some(w => w.length > 3 && pLower.includes(w)) ||
+      r.title.toLowerCase().split(/\s+/).some(w => w.length > 3 && pLower.includes(w))
+    );
+
+    // Gather pitfall notes from docs search
+    const pitfallResults = searchDocs(prompt).slice(0, 3);
+
+    // Build the plan
+    const lines = ['## Component Plan\n'];
+
+    lines.push('### Recommended components\n');
+    if (componentResults.length === 0) {
+      lines.push('No matching components found. Use `list_components` to browse all available components.\n');
+    } else {
+      for (const c of componentResults) {
+        const statusNote = c.status === 'deprecated' ? ' ⚠️ **deprecated**' : '';
+        lines.push(`- **${c.name}**${statusNote} — \`${c.import}\``);
+        lines.push(`  ${c.description || ''}`);
+        lines.push(`  Kind: ${c.kind} | Call \`get_component\` for props, parts, and examples`);
+        lines.push('');
+      }
+    }
+
+    if (recipeMatch) {
+      lines.push('### Applicable recipe\n');
+      lines.push(`**${recipeMatch.title}** — \`${recipeMatch.slug}\``);
+      lines.push('Call `get_recipe` with this slug for a copy-paste starting point.\n');
+    }
+
+    if (pitfallResults.length > 0) {
+      lines.push('### Relevant documentation\n');
+      for (const d of pitfallResults) {
+        lines.push(`- **${d.title}** (\`${d.path}\`)`);
+        if (d.snippets.length > 0) lines.push(`  > ${d.snippets[0]}`);
+      }
+      lines.push('');
+    }
+
+    lines.push('### Next steps\n');
+    lines.push('1. Call `get_component` on each component above to read exact props and examples.');
+    lines.push('2. If a recipe was found, call `get_recipe` for the complete pattern.');
+    lines.push('3. Generate JSX using only the components listed. Call `validate_code` afterwards.');
+
+    return {
+      content: [{ type: 'text', text: lines.join('\n') }],
+    };
   },
 );
 

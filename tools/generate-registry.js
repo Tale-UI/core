@@ -458,6 +458,27 @@ function inferPropType(name) {
   return 'string';
 }
 
+// ─── Status extraction from styled file ─────────────────────────────────────
+
+/**
+ * Extract the component's lifecycle status from JSDoc tags in its styled file.
+ * Recognises:
+ *   @status stable | experimental | deprecated
+ *   @deprecated <migration message>   (only read when @status deprecated)
+ * Defaults to 'stable' when the tag is absent.
+ */
+function extractStatus(styledContent) {
+  if (!styledContent) return { status: 'stable', deprecationNote: null };
+  const statusMatch = styledContent.match(/@status\s+(stable|experimental|deprecated)/);
+  const status = statusMatch ? statusMatch[1] : 'stable';
+  let deprecationNote = null;
+  if (status === 'deprecated') {
+    const noteMatch = styledContent.match(/@deprecated\s+(.+)/);
+    deprecationNote = noteMatch ? noteMatch[1].trim() : null;
+  }
+  return { status, deprecationNote };
+}
+
 // ─── Example extraction from docs ───────────────────────────────────────────
 
 function extractDocExamples(docContent) {
@@ -550,6 +571,9 @@ function generateRegistry() {
     // Examples
     const examples = extractDocExamples(docContent);
 
+    // Status
+    const { status, deprecationNote } = extractStatus(styledContent);
+
     components.push({
       name: pascal,
       slug,
@@ -557,6 +581,8 @@ function generateRegistry() {
       category: indexInfo?.category || null,
       description: indexInfo?.description || null,
       kind,
+      status,
+      ...(deprecationNote ? { deprecationNote } : {}),
       props,
       parts,
       examples: examples.length > 0 ? examples : null,

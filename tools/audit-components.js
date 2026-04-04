@@ -25,6 +25,7 @@
  *  17. Parts listed in component-index.md match actual exports
  *  18. Doc examples use correct import paths
  *  19. Doc CSS classes match actual CSS file selectors
+ *  20. Deprecated components have a ## Migration or ## Deprecated section
  */
 
 const fs = require('fs');
@@ -398,6 +399,17 @@ function auditComponent(name) {
       if (!reactPkgJson.exports[importPath]) {
         issues.push(`Doc has invalid import path: ${m[1]}`);
         break; // Only report once
+      }
+    }
+  }
+
+  // 20. Deprecated components must have a Migration or Deprecated section in their docs
+  if (styledContent && docContent) {
+    const statusMatch = styledContent.match(/@status\s+(stable|experimental|deprecated)/);
+    const status = statusMatch ? statusMatch[1] : 'stable';
+    if (status === 'deprecated') {
+      if (!/^## (Migration|Deprecated)/m.test(docContent)) {
+        issues.push('Deprecated component is missing a ## Migration or ## Deprecated section in its doc');
       }
     }
   }

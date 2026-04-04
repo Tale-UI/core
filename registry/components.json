@@ -9,6 +9,7 @@
       "category": "Layout",
       "description": "Collapsible content sections",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "allowsMultipleExpanded",
@@ -61,6 +62,7 @@
       "category": "Overlay",
       "description": "Confirmation dialog",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "isOpen",
@@ -103,6 +105,7 @@
       "category": "Marketing",
       "description": "App store download button (Apple/Google)",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "store",
@@ -150,6 +153,7 @@
       "category": "Form Controls",
       "description": "Inline search with filterable listbox",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "filter",
@@ -189,6 +193,7 @@
       "category": "Display",
       "description": "User avatar with image, fallback, group, count, indicator, and label group",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -263,6 +268,7 @@
       "category": "Display",
       "description": "Small status label with semantic variants",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -323,6 +329,7 @@
       "category": "Feedback",
       "description": "Inline notification banner",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -386,6 +393,7 @@
       "category": "Navigation",
       "description": "Breadcrumb navigation",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -409,6 +417,7 @@
       "category": "Form Controls",
       "description": "Action button with variant and size props",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -497,6 +506,7 @@
       "category": "Date & Time",
       "description": "Interactive date calendar",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "isDisabled",
@@ -554,6 +564,7 @@
       "category": "Layout",
       "description": "Surface container with header, body, and footer sections",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -614,6 +625,7 @@
       "category": "Layout",
       "description": "Slide carousel with navigation",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "loop",
@@ -681,6 +693,7 @@
       "category": "Form Controls",
       "description": "Checkbox with visual indicator",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -742,6 +755,7 @@
       "category": "Form Controls",
       "description": "Groups multiple checkboxes with validation",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "label",
@@ -796,6 +810,7 @@
       "category": "Color",
       "description": "2D color picker surface",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "defaultValue",
@@ -823,6 +838,7 @@
       "category": "Color",
       "description": "Text input for color values",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -848,6 +864,7 @@
       "category": "Utility",
       "description": "Light/dark mode toggle with persistence",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "defaultMode",
@@ -886,6 +903,7 @@
       "category": "Color",
       "description": "Headless color state provider",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "value",
@@ -924,6 +942,7 @@
       "category": "Color",
       "description": "Single-channel color slider",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "channel",
@@ -966,6 +985,7 @@
       "category": "Color",
       "description": "Color preview element",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -982,6 +1002,7 @@
       "category": "Color",
       "description": "Selectable swatch grid",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -1002,6 +1023,7 @@
       "category": "Color",
       "description": "Circular hue selector",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "defaultValue",
@@ -1045,6 +1067,7 @@
       "category": "Layout",
       "description": "Vertical flex-column layout with gap, align, and justify props",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "gap",
@@ -1111,6 +1134,7 @@
       "category": "Form Controls",
       "description": "Filterable select with multi-select support",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "selectionMode",
@@ -1177,6 +1201,7 @@
       "category": "Utility",
       "description": "Colour palette override wrapper",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "color",
@@ -1202,6 +1227,7 @@
       "category": "Navigation",
       "description": "Right-click context menu",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -1225,6 +1251,7 @@
       "category": "Utility",
       "description": "Content Security Policy nonce provider",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "nonce",
@@ -1255,6 +1282,7 @@
       "category": "Date & Time",
       "description": "Segmented date input",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -1277,6 +1305,7 @@
       "category": "Date & Time",
       "description": "Date field with calendar popover",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -1303,6 +1332,7 @@
       "category": "Date & Time",
       "description": "Start/end date picker",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -1329,6 +1359,7 @@
       "category": "Overlay",
       "description": "Modal dialog with backdrop",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "isOpen",
@@ -1372,6 +1403,7 @@
       "category": "Layout",
       "description": "Single collapsible section",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "defaultExpanded",
@@ -1426,6 +1458,7 @@
       "category": "Display",
       "description": "Small colored circle status indicator",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "color",
@@ -1479,6 +1512,7 @@
       "category": "Overlay",
       "description": "Slide-in panel",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "open",
@@ -1531,6 +1565,7 @@
       "category": "Interaction",
       "description": "Drag-and-drop target",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -1548,6 +1583,7 @@
       "category": "Display",
       "description": "Placeholder for empty content areas",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -1593,6 +1629,7 @@
       "category": "Display",
       "description": "Themed background wrapper for icons",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -1682,6 +1719,7 @@
       "category": "Form Structure",
       "description": "Form field wrapper with label and validation",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -1709,6 +1747,7 @@
       "category": "Form Structure",
       "description": "Grouped fields with legend",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "disabled",
@@ -1738,6 +1777,7 @@
       "category": "Interaction",
       "description": "Native file picker trigger",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -1752,6 +1792,7 @@
       "category": "Form Structure",
       "description": "Form element with validation",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -1771,6 +1812,7 @@
       "category": "Display",
       "description": "Selectable grid of items",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "label",
@@ -1808,6 +1850,7 @@
       "category": "Utility",
       "description": "Locale and text direction provider",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "locale",
@@ -1832,6 +1875,7 @@
       "category": "Utility",
       "description": "Lucide-react icon wrapper with BEM sizing",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "icon",
@@ -1882,6 +1926,7 @@
       "category": "Utility",
       "description": "Square button for icon-only use",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -1948,6 +1993,7 @@
       "category": "Display",
       "description": "Styled image wrapper with radius and fit props",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "radius",
@@ -2010,6 +2056,7 @@
       "category": "Form Controls",
       "description": "Text input with label, description, and validation",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -2075,6 +2122,7 @@
       "category": "Navigation",
       "description": "Styled anchor link",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -2093,6 +2141,7 @@
       "category": "Display",
       "description": "Simple non-interactive list with optional dividers",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -2144,6 +2193,7 @@
       "category": "Navigation",
       "description": "Dropdown menu with items and groups",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "isOpen",
@@ -2222,6 +2272,7 @@
       "category": "Navigation",
       "description": "Horizontal menu bar",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -2239,6 +2290,7 @@
       "category": "Utility",
       "description": "Smart React props merging utility",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -2256,6 +2308,7 @@
       "category": "Feedback",
       "description": "Scalar measurement display",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "value",
@@ -2301,6 +2354,7 @@
       "category": "Navigation",
       "description": "Top-level navigation bar",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -2335,6 +2389,7 @@
       "category": "Form Controls",
       "description": "Numeric input with increment/decrement",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "defaultValue",
@@ -2412,6 +2467,7 @@
       "category": "Navigation",
       "description": "Page navigation controls",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "label",
@@ -2458,6 +2514,7 @@
       "category": "Form Controls",
       "description": "Credit card number input with auto-formatting and card type detection",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "isRequired",
@@ -2495,6 +2552,7 @@
       "category": "Form Controls",
       "description": "OTP/verification code input",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "maxLength",
@@ -2552,6 +2610,7 @@
       "category": "Overlay",
       "description": "Anchored popup",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -2581,6 +2640,7 @@
       "category": "Overlay",
       "description": "Hover preview card",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "delay",
@@ -2635,6 +2695,7 @@
       "category": "Feedback",
       "description": "Determinate/indeterminate linear progress",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "labelPosition",
@@ -2713,6 +2774,7 @@
       "category": "Feedback",
       "description": "Determinate/indeterminate circular progress",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -2765,6 +2827,7 @@
       "category": "Form Controls",
       "description": "Radio button with group support",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -2813,6 +2876,7 @@
       "category": "Form Controls",
       "description": "Convenience re-export of `Radio.Group`",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -2827,6 +2891,7 @@
       "category": "Date & Time",
       "description": "Date range selection calendar",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -2858,6 +2923,7 @@
       "category": "Display",
       "description": "Pill badge with star icon and numeric rating",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "value",
@@ -2899,6 +2965,7 @@
       "category": "Display",
       "description": "Read-only star rating display",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "value",
@@ -2953,6 +3020,7 @@
       "category": "Layout",
       "description": "Horizontal flex-row layout with gap, align, and justify props",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "gap",
@@ -3028,6 +3096,7 @@
       "category": "Layout",
       "description": "Custom scrollbar container",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -3058,6 +3127,7 @@
       "category": "Form Controls",
       "description": "Search input with clear button",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "defaultValue",
@@ -3093,6 +3163,7 @@
       "category": "Form Controls",
       "description": "Dropdown select with popover listbox",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -3162,6 +3233,7 @@
       "category": "Form Controls",
       "description": "Styled native `<select>` element",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -3195,6 +3267,7 @@
       "category": "Layout",
       "description": "Horizontal or vertical divider",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -3214,6 +3287,7 @@
       "category": "Form Controls",
       "description": "Range input with single or dual thumbs",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "defaultValue",
@@ -3280,6 +3354,7 @@
       "category": "Marketing",
       "description": "Social login button with provider icon",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "provider",
@@ -3333,6 +3408,7 @@
       "category": "Marketing",
       "description": "Equal-width vertical group for social login buttons",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -3348,6 +3424,7 @@
       "category": "Feedback",
       "description": "Indeterminate loading indicator",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -3410,6 +3487,7 @@
       "category": "Form Controls",
       "description": "Toggle switch with sliding thumb",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "defaultSelected",
@@ -3450,6 +3528,7 @@
       "category": "Display",
       "description": "Data table with sorting",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "label",
@@ -3509,6 +3588,7 @@
       "category": "Layout",
       "description": "Tabbed content with indicator",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "defaultSelectedKey",
@@ -3577,6 +3657,7 @@
       "category": "Display",
       "description": "Tag list with optional removal",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "onRemove",
@@ -3620,6 +3701,7 @@
       "category": "Typography",
       "description": "Polymorphic typography wrapper with variant, size, and colour props",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "variant",
@@ -3703,6 +3785,7 @@
       "category": "Form Controls",
       "description": "Multi-line text input with validation",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "isInvalid",
@@ -3744,6 +3827,7 @@
       "category": "Form Controls",
       "description": "Single-line text input with validation",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "isInvalid",
@@ -3784,6 +3868,7 @@
       "category": "Date & Time",
       "description": "Segmented time input",
       "kind": "compound",
+      "status": "stable",
       "props": [],
       "parts": [
         "Root",
@@ -3806,6 +3891,7 @@
       "category": "Form Controls",
       "description": "Pressable toggle with selected/unselected state",
       "kind": "simple",
+      "status": "stable",
       "props": [
         {
           "name": "size",
@@ -3843,6 +3929,7 @@
       "category": "Form Controls",
       "description": "Group of toggle buttons",
       "kind": "simple",
+      "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
@@ -3857,6 +3944,7 @@
       "category": "Layout",
       "description": "Grouped action bar",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "label",
@@ -3894,6 +3982,7 @@
       "category": "Overlay",
       "description": "Hover tooltip",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "delay",
@@ -3931,6 +4020,7 @@
       "category": "Display",
       "description": "Hierarchical tree view",
       "kind": "compound",
+      "status": "stable",
       "props": [
         {
           "name": "label",
