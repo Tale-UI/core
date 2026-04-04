@@ -429,6 +429,7 @@ After the run, check `git diff docs/consumer-claude-md-snippet.md` to review any
 pnpm golden:fix-review                                         # full pipeline
 pnpm golden:fix-review -- --no-fix                            # skip fix loop, go straight to review
 pnpm golden:fix-review -- --no-serve                          # generate review page without starting server
+pnpm golden:fix-review -- --skip-validate                     # skip pre-flight tsc check (open playground even if EvalReview.tsx has errors)
 pnpm golden:fix-review -- --difficulty simple                 # only simple prompts (faster)
 pnpm golden:fix-review -- --model sonnet                      # model for both eval and fix
 pnpm golden:fix-review -- --model haiku --fix-model sonnet    # haiku for eval, sonnet for fixes

@@ -222,20 +222,84 @@ function extractDefaults(styledContent) {
   return defaults;
 }
 
+// ─── RAC root-prop alias fallbacks ──────────────────────────────────────────
+
+const ROOT_ALIAS_PROP_MAP = {
+  AriaMenuTriggerProps: [
+    { name: 'isOpen', type: 'boolean' },
+    { name: 'defaultOpen', type: 'boolean' },
+    { name: 'onOpenChange', type: 'function' },
+    { name: 'isDisabled', type: 'boolean' },
+  ],
+  AriaColorPickerProps: [
+    { name: 'value', type: 'string | Color' },
+    { name: 'defaultValue', type: 'string | Color' },
+    { name: 'onChange', type: 'function' },
+  ],
+};
+
+function extractRootAliasProps(styledContent, pascal) {
+  if (!styledContent) return [];
+  const normalized = styledContent.replace(/\r\n/g, '\n');
+  const propTypeRegex = new RegExp(
+    `export\\s+type\\s+(?:RootProps|${pascal}Props|${pascal}RootProps)\\s*=\\s*(\\w+)\\s*;`,
+  );
+  const match = normalized.match(propTypeRegex);
+  if (!match) return [];
+
+  const alias = match[1];
+  const mapped = ROOT_ALIAS_PROP_MAP[alias];
+  if (!mapped) return [];
+
+  return mapped.map(prop => ({
+    name: prop.name,
+    type: prop.type,
+    required: false,
+    description: null,
+    default: null,
+  }));
+}
+
 // ─── Parts extraction ───────────────────────────────────────────────────────
 
 function extractParts(indexContent, styledContent) {
   if (!indexContent || !/export \* as \w+ from/.test(indexContent)) return null;
   if (!styledContent) return null;
+
+  // Collect display-name-derived parts (`Component.Part`) to augment export-
+  // derived parts when internal symbol names differ from public API names.
+  const displayNameParts = [];
+  const displayNameRegex = /\.displayName\s*=\s*['"][A-Za-z0-9]+\.(\w+)['"]/g;
+  let dm;
+  while ((dm = displayNameRegex.exec(styledContent)) !== null) {
+    displayNameParts.push(dm[1]);
+  }
+
   const parts = [];
-  const regex = /export (?:const|function) (\w+)/g;
+  const exportRegex = /export (?:const|function) (\w+)/g;
   let m;
-  while ((m = regex.exec(styledContent)) !== null) {
+  while ((m = exportRegex.exec(styledContent)) !== null) {
     // Skip internal helpers (lowercase first letter or starts with 'use')
     if (/^[a-z]/.test(m[1]) || m[1].startsWith('use')) continue;
     parts.push(m[1]);
   }
-  return parts.length > 0 ? parts : null;
+
+  // Map aliased exports like `export { EmptyStateIcon as Icon }`
+  const aliasRegex = /export\s*\{\s*(\w+)\s+as\s+(\w+)\s*\}/g;
+  let am;
+  while ((am = aliasRegex.exec(styledContent)) !== null) {
+    const from = am[1];
+    const to = am[2];
+    if (!parts.includes(from) || parts.includes(to)) continue;
+    const fromIndex = parts.indexOf(from);
+    parts[fromIndex] = to;
+  }
+
+  for (const part of displayNameParts) {
+    if (!parts.includes(part)) parts.push(part);
+  }
+
+  return parts.length > 0 ? [...new Set(parts)] : null;
 }
 
 // ─── CSS class extraction ───────────────────────────────────────────────────
@@ -260,8 +324,9 @@ function extractCSSClasses(cssContent) {
  *
  * Sources:
  *   1. JSX attributes on `<Component.Root ...>` in code examples
- *   2. Prop names mentioned in backticks in the ## Notes section
- *   3. Prop names mentioned in backticks in the ## Props section
+ *   2. Root-scoped prop names mentioned in backticks in ## Notes
+ *      (excluding negated mentions like "NOT `isOpen`")
+ *   3. Prop names mentioned in backticks in ## Props section
  */
 function extractDocProps(docContent, pascal) {
   if (!docContent) return [];
@@ -317,13 +382,13 @@ function extractDocProps(docContent, pascal) {
   // 2. Extract props mentioned in ## Notes section
   const notesSectionMatch = normalized.match(/## Notes\n([\s\S]*?)(?=\n## |\n$|$)/);
   if (notesSectionMatch) {
-    extractPropsFromProse(notesSectionMatch[1], found);
+    extractPropsFromProse(notesSectionMatch[1], found, { component: pascal, rootOnly: true });
   }
 
   // 3. Extract props mentioned in ## Props section (prose descriptions)
   const propsSectionMatch = normalized.match(/## Props\n([\s\S]*?)(?=\n## )/);
   if (propsSectionMatch) {
-    extractPropsFromProse(propsSectionMatch[1], found);
+    extractPropsFromProse(propsSectionMatch[1], found, { component: pascal, rootOnly: false });
   }
 
   return [...found.entries()]
@@ -338,15 +403,44 @@ function extractDocProps(docContent, pascal) {
 }
 
 /** Extract backtick-quoted prop names from prose text */
-function extractPropsFromProse(text, found) {
+function extractPropsFromProse(text, found, options = {}) {
+  const { component = null, rootOnly = false } = options;
   // Match `propName` where propName looks like a React prop.
   // Only match well-known prop patterns to avoid false positives.
   const propRegex = /`(is[A-Z]\w+|default[A-Z]\w+|on[A-Z]\w+|allows\w+|selectionMode|orientation|placeholder|sortDescriptor|inputValue|isDismissable|placement|shouldFlip|crossOffset|allowsMultipleExpanded|allowsSorting)`/g;
-  let m;
-  while ((m = propRegex.exec(text)) !== null) {
-    const name = m[1];
-    if (!found.has(name)) {
-      found.set(name, { type: inferPropType(name) });
+  const lines = text.split('\n');
+
+  for (const line of lines) {
+    if (rootOnly && component) {
+      const rootRefs = [
+        `\`${component}.Root\``,
+        `<${component}.Root`,
+        `${component}.Root`,
+      ];
+      if (!rootRefs.some(ref => line.includes(ref))) continue;
+    }
+
+    propRegex.lastIndex = 0;
+    let m;
+    while ((m = propRegex.exec(line)) !== null) {
+      const name = m[1];
+      const lower = line.toLowerCase();
+      const token = `\`${name.toLowerCase()}\``;
+
+      // Skip negated mentions (e.g. "NOT `isOpen`", "does not accept `open`").
+      const isNegated = (
+        lower.includes(`not ${token}`) ||
+        lower.includes(`(not ${token})`) ||
+        lower.includes(`does not accept ${token}`) ||
+        lower.includes(`doesn't accept ${token}`) ||
+        lower.includes(`no ${token}`) ||
+        lower.includes(`there is no ${token}`)
+      );
+      if (isNegated) continue;
+
+      if (!found.has(name)) {
+        found.set(name, { type: inferPropType(name) });
+      }
     }
   }
 }
@@ -404,6 +498,17 @@ function generateRegistry() {
     const typeAliases = extractTypeAliases(styledContent);
     const rawProps = extractProps(styledContent, pascal);
     const defaults = extractDefaults(styledContent);
+
+    const aliasProps = rawProps.length === 0 ? extractRootAliasProps(styledContent, pascal) : [];
+    if (aliasProps.length > 0) {
+      const existingNames = new Set(rawProps.map(p => p.name));
+      for (const ap of aliasProps) {
+        if (!existingNames.has(ap.name)) {
+          rawProps.push(ap);
+          existingNames.add(ap.name);
+        }
+      }
+    }
 
     // For compound components, also extract consumer-facing props from docs
     // (examples + Notes section) to capture inherited RAC props.

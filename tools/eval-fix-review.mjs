@@ -48,6 +48,7 @@ const LOCAL_API_KEY = process.env.LOCAL_API_KEY ?? 'ollama';
 const FILTER_DIFFICULTY = getArg('--difficulty');
 const NO_FIX = hasFlag('--no-fix');
 const NO_SERVE = hasFlag('--no-serve');
+const SKIP_VALIDATE = hasFlag('--skip-validate');
 const NO_CACHE = hasFlag('--no-cache');
 const FRESH = hasFlag('--fresh');
 const UNTIL_PASS = hasFlag('--until-pass');
@@ -380,6 +381,31 @@ function mergeImports(codeBlocks) {
     }
   }
 
+  // Deduplicate names that appear under multiple packages (e.g. TextField from
+  // @tale-ui/react AND @tale-ui/react/text-field). Keep the most specific path
+  // (longest) and remove the name from all others to avoid "already declared" errors.
+  for (const map of [named, typed]) {
+    const nameToPackages = new Map(); // name → [pkg, ...]
+    for (const [pkg, names] of map) {
+      for (const name of names) {
+        if (!nameToPackages.has(name)) nameToPackages.set(name, []);
+        nameToPackages.get(name).push(pkg);
+      }
+    }
+    for (const [name, pkgs] of nameToPackages) {
+      if (pkgs.length < 2) continue;
+      // Prefer the most specific (longest) path — deep imports over barrel
+      const keep = pkgs.reduce((a, b) => b.length > a.length ? b : a);
+      for (const pkg of pkgs) {
+        if (pkg !== keep) map.get(pkg).delete(name);
+      }
+    }
+    // Drop packages whose Set became empty
+    for (const [pkg, names] of map) {
+      if (names.size === 0) map.delete(pkg);
+    }
+  }
+
   const lines = [];
   for (const [pkg, names] of [...named.entries()].sort(([a], [b]) => a.localeCompare(b))) {
     lines.push(`import { ${[...names].sort().join(', ')} } from '${pkg}';`);
@@ -418,16 +444,60 @@ function toFuncName(slug) {
 function renameExport(code, slug) {
   const name = toFuncName(slug);
   // Handle: export function X, export default function X, export const X =
-  const renamed = code
+  let renamed = code
     .replace(/export\s+default\s+function\s+\w+/, `function ${name}`)
     .replace(/export\s+function\s+\w+/, `function ${name}`)
     .replace(/export\s+const\s+\w+\s*=/, `const ${name} =`);
 
+  // Prefix top-level `type X = ...` aliases with the component name to avoid
+  // "already declared" conflicts when multiple components use the same type name.
+  // Two-pass: collect all type names first, then rename declarations + usages.
+  const typeNames = [];
+  renamed.replace(/^(?:export\s+)?type\s+(\w+)\s*=/gm, (_, typeName) => { typeNames.push(typeName); });
+  for (const typeName of typeNames) {
+    const unique = `${name}${typeName}`;
+    renamed = renamed
+      .replace(new RegExp(`^((?:export\\s+)?type\\s+)${typeName}(\\s*=)`, 'm'), `$1${unique}$2`)
+      .replace(new RegExp(`\\b${typeName}\\b`, 'g'), unique);
+  }
+
+  // Prefix top-level helper functions/consts that aren't the main export and
+  // don't already start with `Eval` — prevents collisions with imported names
+  // (e.g. model defines `function Image(...)` which shadows the Tale UI import).
+  const helperNames = [];
+  renamed.replace(/^(?:function|const)\s+(?!Eval)(\w+)/gm, (_, h) => { helperNames.push(h); });
+  for (const helperName of helperNames) {
+    const unique = `${name}${helperName}`;
+    renamed = renamed
+      .replace(new RegExp(`^((?:function|const)\\s+)${helperName}\\b`, 'm'), `$1${unique}`)
+      .replace(new RegExp(`\\b${helperName}\\b`, 'g'), unique);
+  }
+
   // If no function or const declaration was found, wrap bare JSX in a function
   if (!/^(function|const)\s+Eval/m.test(renamed)) {
-    return `function ${name}() {\n  return (\n${renamed.split('\n').map(l => `    ${l}`).join('\n')}\n  );\n}`;
+    // Strip trailing semicolons (model sometimes emits `<X />;`) and guard against empty bodies
+    const body = renamed.trimEnd().replace(/;$/, '').trim();
+    if (!body) return `function ${name}() { return null; }`;
+    return `function ${name}() {\n  return (\n${body.split('\n').map(l => `    ${l}`).join('\n')}\n  );\n}`;
   }
   return renamed;
+}
+
+function validateReviewFile() {
+  const tsconfigPath = join(ROOT, 'playground/vite-app/tsconfig.app.json');
+  try {
+    execFileSync(
+      'npx', ['tsc', '--noEmit', '--project', tsconfigPath,
+              '--noUnusedLocals', 'false', '--noUnusedParameters', 'false'],
+      { cwd: ROOT, timeout: 60000, encoding: 'utf8', stdio: 'pipe' }
+    );
+    return { pass: true, errors: [] };
+  } catch (err) {
+    // Filter to only errors from EvalReview.tsx (pre-existing issues in other files are irrelevant)
+    const lines = (err.stdout || '').split('\n')
+      .filter(l => l.includes('EvalReview.tsx') && l.trim());
+    return { pass: lines.length > 0, errors: lines };
+  }
 }
 
 function generateEvalReview(passingResults, allPrompts) {
@@ -683,6 +753,23 @@ async function main() {
   writeFileSync(REVIEW_COMPONENT, reviewCode, 'utf8');
   ensureEvalRoute();
   console.log(`  Written: ${passingResults.length} components to EvalReview.tsx`);
+
+  process.stdout.write('  Validating EvalReview.tsx...');
+  const validation = validateReviewFile();
+  if (validation.pass) {
+    console.log(' ✓');
+  } else if (SKIP_VALIDATE) {
+    console.log(` ⚠ errors found (--skip-validate, continuing anyway)`);
+    for (const e of validation.errors.slice(0, 10)) console.error(`    ${e}`);
+    if (validation.errors.length > 10) console.error(`    ... and ${validation.errors.length - 10} more`);
+  } else {
+    console.log(' ✗');
+    console.error('\n  EvalReview.tsx has errors — not starting playground:\n');
+    for (const e of validation.errors.slice(0, 20)) console.error(`    ${e}`);
+    if (validation.errors.length > 20) console.error(`    ... and ${validation.errors.length - 20} more`);
+    console.error('\n  Re-run with --skip-validate to open the playground anyway.');
+    process.exit(1);
+  }
 
   if (NO_SERVE) {
     console.log(`\nStep 4/4  Skipped (--no-serve). Open playground manually: http://localhost:${PREFERRED_PORT}/eval-review`);

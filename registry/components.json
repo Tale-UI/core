@@ -351,7 +351,7 @@
       ],
       "parts": [
         "Root",
-        "BannerIcon",
+        "Icon",
         "Title",
         "Description",
         "Actions",
@@ -713,20 +713,6 @@
           "required": false,
           "description": null,
           "default": null
-        },
-        {
-          "name": "isSelected",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "onChange",
-          "type": "function",
-          "required": false,
-          "description": null,
-          "default": null
         }
       ],
       "parts": [
@@ -837,22 +823,7 @@
       "category": "Color",
       "description": "Text input for color values",
       "kind": "compound",
-      "props": [
-        {
-          "name": "isDisabled",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isRequired",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        }
-      ],
+      "props": [],
       "parts": [
         "Root",
         "Input",
@@ -915,7 +886,29 @@
       "category": "Color",
       "description": "Headless color state provider",
       "kind": "compound",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string | Color",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | Color",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root"
       ],
@@ -989,22 +982,7 @@
       "category": "Color",
       "description": "Selectable swatch grid",
       "kind": "compound",
-      "props": [
-        {
-          "name": "onChange",
-          "type": "function",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "defaultValue",
-          "type": "string",
-          "required": false,
-          "description": null,
-          "default": null
-        }
-      ],
+      "props": [],
       "parts": [
         "Root",
         "Item"
@@ -1232,7 +1210,7 @@
         "MenuList",
         "Item",
         "Group",
-        "ContextMenuSeparator"
+        "Separator"
       ],
       "examples": [
         "import { ContextMenu } from '@tale-ui/react/context-menu';\n\n<ContextMenu.Root>\n  <ContextMenu.Trigger>Right-click here</ContextMenu.Trigger>\n  <ContextMenu.Popup>\n    <ContextMenu.MenuList>\n      <ContextMenu.Item id=\"cut\">Cut</ContextMenu.Item>\n      <ContextMenu.Item id=\"copy\">Copy</ContextMenu.Item>\n      <ContextMenu.Separator />\n      <ContextMenu.Item id=\"paste\">Paste</ContextMenu.Item>\n    </ContextMenu.MenuList>\n  </ContextMenu.Popup>\n</ContextMenu.Root>",
@@ -1277,22 +1255,7 @@
       "category": "Date & Time",
       "description": "Segmented date input",
       "kind": "compound",
-      "props": [
-        {
-          "name": "isRequired",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isDisabled",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        }
-      ],
+      "props": [],
       "parts": [
         "Root",
         "DateInput",
@@ -1314,22 +1277,7 @@
       "category": "Date & Time",
       "description": "Date field with calendar popover",
       "kind": "compound",
-      "props": [
-        {
-          "name": "isRequired",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isDisabled",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        }
-      ],
+      "props": [],
       "parts": [
         "Root",
         "DateInput",
@@ -1355,22 +1303,7 @@
       "category": "Date & Time",
       "description": "Start/end date picker",
       "kind": "compound",
-      "props": [
-        {
-          "name": "isRequired",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isDisabled",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        }
-      ],
+      "props": [],
       "parts": [
         "Root",
         "Group",
@@ -1407,13 +1340,6 @@
         {
           "name": "onOpenChange",
           "type": "function",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isDismissable",
-          "type": "boolean",
           "required": false,
           "description": null,
           "default": null
@@ -1574,13 +1500,6 @@
           "required": false,
           "description": null,
           "default": null
-        },
-        {
-          "name": "isOpen",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
         }
       ],
       "parts": [
@@ -1645,7 +1564,7 @@
       ],
       "parts": [
         "Root",
-        "EmptyStateIcon",
+        "Icon",
         "Title",
         "Description",
         "Actions"
@@ -2227,15 +2146,29 @@
       "kind": "compound",
       "props": [
         {
-          "name": "isDisabled",
+          "name": "isOpen",
           "type": "boolean",
           "required": false,
           "description": null,
           "default": null
         },
         {
-          "name": "onAction",
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onOpenChange",
           "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
           "required": false,
           "description": null,
           "default": null
@@ -2619,35 +2552,7 @@
       "category": "Overlay",
       "description": "Anchored popup",
       "kind": "compound",
-      "props": [
-        {
-          "name": "placement",
-          "type": "'top' | 'bottom' | 'left' | 'right'",
-          "required": false,
-          "description": null,
-          "default": null,
-          "allowedValues": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        {
-          "name": "shouldFlip",
-          "type": "string",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "crossOffset",
-          "type": "string",
-          "required": false,
-          "description": null,
-          "default": null
-        }
-      ],
+      "props": [],
       "parts": [
         "Root",
         "Trigger",
@@ -2878,13 +2783,6 @@
           "required": false,
           "description": null,
           "default": null
-        },
-        {
-          "name": "isDisabled",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
         }
       ],
       "parts": [
@@ -2929,22 +2827,7 @@
       "category": "Date & Time",
       "description": "Date range selection calendar",
       "kind": "compound",
-      "props": [
-        {
-          "name": "isDisabled",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isReadOnly",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        }
-      ],
+      "props": [],
       "parts": [
         "Root",
         "Header",
@@ -3179,13 +3062,6 @@
         {
           "name": "defaultValue",
           "type": "string",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isDisabled",
-          "type": "boolean",
           "required": false,
           "description": null,
           "default": null
@@ -3536,17 +3412,6 @@
       "kind": "compound",
       "props": [
         {
-          "name": "size",
-          "type": "Size",
-          "required": false,
-          "description": "Size variant.",
-          "default": null,
-          "allowedValues": [
-            "sm",
-            "md"
-          ]
-        },
-        {
           "name": "defaultSelected",
           "type": "boolean",
           "required": false,
@@ -3556,20 +3421,6 @@
         {
           "name": "isDisabled",
           "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isSelected",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "onChange",
-          "type": "function",
           "required": false,
           "description": null,
           "default": null
@@ -3585,12 +3436,10 @@
         "<Switch.Root defaultSelected>\n  <Switch.Thumb />\n  Dark mode\n</Switch.Root>",
         "<Switch.Root isDisabled>\n  <Switch.Thumb />\n  Disabled switch\n</Switch.Root>",
         "<Switch.Root isDisabled defaultSelected>\n  <Switch.Thumb />\n  Disabled and on\n</Switch.Root>",
-        "<Switch.Root>\n  <Switch.Thumb />\n  Default (off)\n</Switch.Root>\n\n<Switch.Root defaultSelected>\n  <Switch.Thumb />\n  Default (on)\n</Switch.Root>\n\n<Switch.Root isDisabled>\n  <Switch.Thumb />\n  Disabled (off)\n</Switch.Root>\n\n<Switch.Root isDisabled defaultSelected>\n  <Switch.Thumb />\n  Disabled (on)\n</Switch.Root>",
-        "<Switch.Root size=\"sm\">\n  <Switch.Thumb />\n  Small switch\n</Switch.Root>"
+        "<Switch.Root>\n  <Switch.Thumb />\n  Default (off)\n</Switch.Root>\n\n<Switch.Root defaultSelected>\n  <Switch.Thumb />\n  Default (on)\n</Switch.Root>\n\n<Switch.Root isDisabled>\n  <Switch.Thumb />\n  Disabled (off)\n</Switch.Root>\n\n<Switch.Root isDisabled defaultSelected>\n  <Switch.Thumb />\n  Disabled (on)\n</Switch.Root>"
       ],
       "cssClasses": [
         "tale-switch",
-        "tale-switch--sm",
         "tale-switch__thumb"
       ]
     },
@@ -3626,13 +3475,6 @@
         {
           "name": "onSortChange",
           "type": "function",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "allowsSorting",
-          "type": "boolean",
           "required": false,
           "description": null,
           "default": null
@@ -3692,13 +3534,6 @@
         {
           "name": "onSelectionChange",
           "type": "function",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isDisabled",
-          "type": "boolean",
           "required": false,
           "description": null,
           "default": null
@@ -3882,20 +3717,6 @@
           "required": false,
           "description": null,
           "default": null
-        },
-        {
-          "name": "isRequired",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isReadOnly",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
         }
       ],
       "parts": [
@@ -3937,20 +3758,6 @@
           "required": false,
           "description": null,
           "default": null
-        },
-        {
-          "name": "isRequired",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isReadOnly",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
         }
       ],
       "parts": [
@@ -3977,22 +3784,7 @@
       "category": "Date & Time",
       "description": "Segmented time input",
       "kind": "compound",
-      "props": [
-        {
-          "name": "isRequired",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        },
-        {
-          "name": "isDisabled",
-          "type": "boolean",
-          "required": false,
-          "description": null,
-          "default": null
-        }
-      ],
+      "props": [],
       "parts": [
         "Root",
         "DateInput",

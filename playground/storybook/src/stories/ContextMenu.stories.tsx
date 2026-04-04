@@ -61,7 +61,7 @@ export const WithGroups: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const areaStyle = { padding: 32, border: '1px dashed var(--neutral-30)', borderRadius: 8, textAlign: 'center' };
+    const areaStyle = { padding: 32, border: '1px dashed var(--neutral-30)', borderRadius: 8, textAlign: 'center' as const };
     return (
       <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', padding: 16 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

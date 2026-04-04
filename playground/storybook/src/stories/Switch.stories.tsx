@@ -4,7 +4,6 @@ import { Switch } from '@tale-ui/react/switch';
 type Args = {
   isSelected?: boolean;
   isDisabled?: boolean;
-  size?: 'sm' | 'md';
 };
 
 const meta: Meta<Args> = {
@@ -12,12 +11,10 @@ const meta: Meta<Args> = {
   argTypes: {
     isSelected: { control: 'boolean' },
     isDisabled: { control: 'boolean' },
-    size: { control: 'select', options: ['sm', 'md'] },
   },
   args: {
     isSelected: false,
     isDisabled: false,
-    size: 'md',
   },
 };
 
@@ -27,7 +24,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Switch.Root key={String(args.isSelected)} defaultSelected={args.isSelected} isDisabled={args.isDisabled} size={args.size}>
+    <Switch.Root key={String(args.isSelected)} defaultSelected={args.isSelected} isDisabled={args.isDisabled}>
       <Switch.Thumb />
       Enable notifications
     </Switch.Root>
@@ -102,42 +99,9 @@ export const AllStates: Story = {
   ),
 };
 
-export const AllSizes: Story = {
-  parameters: {
-    controls: { disable: true },
-  },
-  render: () => (
-    <div className="story-col story-col--m">
-      <Switch.Root size="md">
-        <Switch.Thumb />
-        Medium (default)
-      </Switch.Root>
-
-      <Switch.Root size="md" defaultSelected>
-        <Switch.Thumb />
-        Medium (on)
-      </Switch.Root>
-
-      <Switch.Root size="sm">
-        <Switch.Thumb />
-        Small
-      </Switch.Root>
-
-      <Switch.Root size="sm" defaultSelected>
-        <Switch.Thumb />
-        Small (on)
-      </Switch.Root>
-    </div>
-  ),
-};
-
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const configs = [
-      { size: 'md' as const, label: 'md' },
-      { size: 'sm' as const, label: 'sm' },
-    ];
     const states = [
       { label: 'Off', props: {} },
       { label: 'On', props: { defaultSelected: true } },
@@ -145,18 +109,14 @@ export const AllVariations: Story = {
       { label: 'Disabled on', props: { isDisabled: true, defaultSelected: true } },
     ] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${configs.length}, auto)`, gap: '0.8rem 1.6rem', alignItems: 'center' }}>
-        <div />
-        {configs.map((c) => <div key={c.label} className="story-label">{c.label}</div>)}
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.8rem 1.6rem', alignItems: 'center' }}>
         {states.map((state) => (
-          <>
-            <div key={`label-${state.label}`} className="story-label">{state.label}</div>
-            {configs.map((c) => (
-              <Switch.Root key={`${state.label}-${c.label}`} size={c.size} {...state.props}>
-                <Switch.Thumb />
-              </Switch.Root>
-            ))}
-          </>
+          <div key={state.label} style={{ display: 'contents' }}>
+            <div className="story-label">{state.label}</div>
+            <Switch.Root {...state.props}>
+              <Switch.Thumb />
+            </Switch.Root>
+          </div>
         ))}
       </div>
     );

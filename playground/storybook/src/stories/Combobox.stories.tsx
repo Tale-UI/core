@@ -136,7 +136,7 @@ export const Empty: Story = {
 
 export const MultiSelectChips: Story = {
   render: () => (
-    <Combobox.Root selectionMode="multiple">
+    <Combobox.Root>
       <Combobox.Label>Frameworks</Combobox.Label>
       <Combobox.Chips>
         <Combobox.Chip>
@@ -221,8 +221,8 @@ export const AllVariations: Story = {
           </Combobox.Root>
         </div>
         <div style={{ width: 260 }}>
-          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Multi-select with chips</div>
-          <Combobox.Root selectionMode="multiple">
+          <div className="story-label" style={{ marginBottom: '0.4rem' }}>With chips</div>
+          <Combobox.Root>
             <Combobox.Label>Frameworks</Combobox.Label>
             <Combobox.Chips>
               <Combobox.Chip>React <Combobox.ChipRemove aria-label="Remove" /></Combobox.Chip>

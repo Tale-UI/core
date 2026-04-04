@@ -1120,7 +1120,7 @@ export default function ComponentAudit() {
           </Radio.Group>
         </Section>
 
-        <Section id="switch" title="Switch" classes={['tale-switch', 'tale-switch__thumb', 'tale-switch--sm', 'tale-switch--slim']}>
+        <Section id="switch" title="Switch" classes={['tale-switch', 'tale-switch__thumb']}>
           <SubHeading>States</SubHeading>
           <div className="display--flex flex--col gap--xs">
             {[
@@ -1134,34 +1134,6 @@ export default function ComponentAudit() {
                 {label}
               </Switch.Root>
             ))}
-          </div>
-          <SubHeading>Sizes</SubHeading>
-          <div className="display--flex flex--col gap--xs">
-            {(['md', 'sm'] as const).map((size) => (
-              <Switch.Root key={size} size={size} defaultSelected>
-                <Switch.Thumb />
-                {size.toUpperCase()}
-              </Switch.Root>
-            ))}
-          </div>
-          <SubHeading>Slim</SubHeading>
-          <div className="display--flex flex--col gap--xs">
-            <Switch.Root>
-              <Switch.Thumb />
-              Slim (off)
-            </Switch.Root>
-            <Switch.Root defaultSelected>
-              <Switch.Thumb />
-              Slim (on)
-            </Switch.Root>
-            <Switch.Root size="sm">
-              <Switch.Thumb />
-              Slim + Small (off)
-            </Switch.Root>
-            <Switch.Root size="sm" defaultSelected>
-              <Switch.Thumb />
-              Slim + Small (on)
-            </Switch.Root>
           </div>
         </Section>
 

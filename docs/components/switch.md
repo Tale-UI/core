@@ -17,7 +17,6 @@ Accepts all React Aria `Switch` props plus:
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `size` | `'sm' \| 'md'` | `'md'` | Size variant |
 | `className` | `string` | -- | Additional CSS class name |
 
 ### Visual
@@ -25,7 +24,6 @@ Accepts all React Aria `Switch` props plus:
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `checked` | `boolean` | `false` | Whether the switch visual appears on/checked |
-| `size` | `'sm' \| 'md'` | `'md'` | Size variant |
 
 `Switch.Visual` is `aria-hidden` — for component composition only, not application UI. See [Visual-Only Exports](visual-exports.md).
 
@@ -91,20 +89,10 @@ Accepts all React Aria `Switch` props plus:
 </Switch.Root>
 ```
 
-### Small Size
-
-```tsx
-<Switch.Root size="sm">
-  <Switch.Thumb />
-  Small switch
-</Switch.Root>
-```
-
 ## CSS Classes
 
 - `.tale-switch` -- Base (root label)
 - `.tale-switch__thumb` -- The sliding thumb element
-- `.tale-switch--sm` -- Small size variant
 
 ## Notes
 

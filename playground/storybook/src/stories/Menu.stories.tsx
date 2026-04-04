@@ -102,8 +102,8 @@ export const WithDisabledItems: Story = {
 export const Disabled: Story = {
   render: (args) => (
     <div className="story-padded">
-      <Menu.Root isDisabled>
-        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Disabled Menu <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+      <Menu.Root>
+        <Menu.Trigger className="tale-button tale-button--neutral tale-button--md" isDisabled>Disabled Menu <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
         <Menu.Popover placement={args.placement} offset={args.offset}>
           <Menu.MenuList aria-label="Menu">
             <Menu.Item id="a" textValue="Item A">Item A</Menu.Item>

@@ -116,18 +116,3 @@
   );
   background-color: var(--color-60-fg);
 }
-
-/* ─── Small size ────────────────────────────────────────────────────────── */
-
-.tale-switch--sm {
-  --tale-switch-track-width: 3.2rem;
-  --tale-switch-track-height: 1.8rem;
-  --tale-switch-thumb-size: 1.2rem;
-  --tale-switch-thumb-offset: 0.3rem;
-  font-size: var(--label-s-font-size);
-}
-
-.tale-switch--sm .tale-switch__thumb {
-  width: calc(var(--tale-switch-thumb-size) * 0.8);
-  height: calc(var(--tale-switch-thumb-size) * 0.8);
-}

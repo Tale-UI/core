@@ -2,13 +2,8 @@ import * as React from 'react';
 import { Switch as AriaSwitch } from 'react-aria-components';
 import type { SwitchProps as AriaSwitchProps } from 'react-aria-components';
 import { cx } from '../_cx';
-import { useSize } from '../_SizeContext';
-
-type Size = 'sm' | 'md';
 
 export interface SwitchRootProps extends Omit<AriaSwitchProps, 'className'> {
-  /** Size variant. */
-  size?: Size | undefined;
   className?: string | undefined;
 }
 
@@ -26,14 +21,9 @@ export interface SwitchRootProps extends Omit<AriaSwitchProps, 'className'> {
  * ```
  */
 export const Root = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
-  ({ size: sizeProp, className, ...props }, ref) => {
-    const size = useSize(sizeProp, 'md') as Size;
-    const classes = ['tale-switch'];
-    if (size === 'sm') classes.push('tale-switch--sm');
-    return (
-      <AriaSwitch ref={ref} className={cx(classes.join(' '), className)} {...props} />
-    );
-  },
+  ({ className, ...props }, ref) => (
+    <AriaSwitch ref={ref} className={cx('tale-switch', className)} {...props} />
+  ),
 );
 Root.displayName = 'Switch.Root';
 
@@ -53,8 +43,6 @@ Thumb.displayName = 'Switch.Thumb';
 export interface SwitchVisualProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
   /** Whether the switch visual appears on/checked. */
   checked?: boolean;
-  /** Size variant. */
-  size?: Size | undefined;
   /** Additional CSS class name. */
   className?: string;
 }
@@ -73,20 +61,16 @@ export interface SwitchVisualProps extends Omit<React.ComponentPropsWithoutRef<'
  * ```
  */
 export const Visual = React.forwardRef<HTMLSpanElement, SwitchVisualProps>(
-  ({ checked, size: sizeProp, className, ...props }, ref) => {
-    const classes = ['tale-switch'];
-    if (sizeProp === 'sm') classes.push('tale-switch--sm');
-    return (
-      <span
-        ref={ref}
-        aria-hidden="true"
-        data-selected={checked || undefined}
-        className={cx(classes.join(' '), className)}
-        {...props}
-      >
-        <span className="tale-switch__thumb" />
-      </span>
-    );
-  },
+  ({ checked, className, ...props }, ref) => (
+    <span
+      ref={ref}
+      aria-hidden="true"
+      data-selected={checked || undefined}
+      className={cx('tale-switch', className)}
+      {...props}
+    >
+      <span className="tale-switch__thumb" />
+    </span>
+  ),
 );
 Visual.displayName = 'Switch.Visual';

@@ -66,7 +66,7 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | Menu | Dropdown menu with items and groups | `@tale-ui/react/menu` | Root, Trigger, Popover, MenuList, Item, Group, Header, Separator, Arrow, CheckboxItem, RadioItem, LinkItem, SubmenuTrigger |
-| ContextMenu | Right-click context menu | `@tale-ui/react/context-menu` | Root, Trigger, Popup, MenuList, Item, Group, ContextMenuSeparator |
+| ContextMenu | Right-click context menu | `@tale-ui/react/context-menu` | Root, Trigger, Popup, MenuList, Item, Group, Separator |
 | NavigationMenu | Top-level navigation bar | `@tale-ui/react/navigation-menu` | Root, List, Item, Link, Trigger, Popup, Content, Icon |
 | Menubar | Horizontal menu bar | `@tale-ui/react/menubar` | Root, Item |
 | Breadcrumbs | Breadcrumb navigation | `@tale-ui/react/breadcrumbs` | Root, Item, Link |

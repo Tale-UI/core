@@ -4,14 +4,14 @@ import {
   MenuItem,
   MenuSection,
   Popover,
-  Separator,
+  Separator as AriaSeparator,
 } from 'react-aria-components';
 import type {
   MenuProps,
   MenuItemProps,
   MenuSectionProps,
   PopoverProps,
-  SeparatorProps,
+  SeparatorProps as AriaSeparatorProps,
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
@@ -195,11 +195,10 @@ Group.displayName = 'ContextMenu.Group';
 
 /* ─── Separator ──────────────────────────────────────────────────────────── */
 
-export const ContextMenuSeparator = React.forwardRef<
+export const Separator = React.forwardRef<
   HTMLElement,
-  Omit<SeparatorProps, 'className'> & { className?: string }
+  Omit<AriaSeparatorProps, 'className'> & { className?: string }
 >(({ className, ...props }, ref) => (
-  <Separator ref={ref} className={cx('tale-context-menu__separator', className)} {...props} />
+  <AriaSeparator ref={ref} className={cx('tale-context-menu__separator', className)} {...props} />
 ));
-ContextMenuSeparator.displayName = 'ContextMenu.Separator';
-export { ContextMenuSeparator as Separator };
+Separator.displayName = 'ContextMenu.Separator';
