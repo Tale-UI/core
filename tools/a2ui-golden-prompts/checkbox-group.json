@@ -1,0 +1,91 @@
+{
+  "slug": "checkbox-group",
+  "difficulty": "medium",
+  "prompt": "Show a 'Permissions' card with a column of three checkboxes: 'Read', 'Write', and 'Delete'. Place the checkboxes inside a card.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "permissions",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "permissions",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "children": ["card-header", "card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-header",
+            "component": {
+              "CardHeader": {
+                "children": ["title"]
+              }
+            }
+          },
+          {
+            "id": "title",
+            "component": {
+              "Text": {
+                "content": "Permissions",
+                "usageHint": "title"
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["checks-col"]
+              }
+            }
+          },
+          {
+            "id": "checks-col",
+            "component": {
+              "Column": {
+                "spacing": "s",
+                "children": ["check-read", "check-write", "check-delete"]
+              }
+            }
+          },
+          {
+            "id": "check-read",
+            "component": {
+              "Checkbox": {
+                "label": "Read",
+                "binding": { "path": "canRead" }
+              }
+            }
+          },
+          {
+            "id": "check-write",
+            "component": {
+              "Checkbox": {
+                "label": "Write",
+                "binding": { "path": "canWrite" }
+              }
+            }
+          },
+          {
+            "id": "check-delete",
+            "component": {
+              "Checkbox": {
+                "label": "Delete",
+                "binding": { "path": "canDelete" }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Checkbox", "Card", "Column", "Text"]
+}

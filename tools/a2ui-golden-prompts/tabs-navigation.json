@@ -1,0 +1,121 @@
+{
+  "slug": "tabs-navigation",
+  "difficulty": "medium",
+  "prompt": "Show a tabbed interface with three tabs: 'Overview', 'Activity', and 'Settings'. The Overview panel should contain a short text description.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "tabbed",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "tabbed",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Tabs": {
+                "defaultTab": "overview",
+                "children": ["tab-list", "panel-overview", "panel-activity", "panel-settings"]
+              }
+            }
+          },
+          {
+            "id": "tab-list",
+            "component": {
+              "TabList": {
+                "children": ["tab-overview", "tab-activity", "tab-settings"]
+              }
+            }
+          },
+          {
+            "id": "tab-overview",
+            "component": {
+              "TabItem": {
+                "id": "overview",
+                "label": "Overview"
+              }
+            }
+          },
+          {
+            "id": "tab-activity",
+            "component": {
+              "TabItem": {
+                "id": "activity",
+                "label": "Activity"
+              }
+            }
+          },
+          {
+            "id": "tab-settings",
+            "component": {
+              "TabItem": {
+                "id": "settings",
+                "label": "Settings"
+              }
+            }
+          },
+          {
+            "id": "panel-overview",
+            "component": {
+              "TabPanel": {
+                "id": "overview",
+                "children": ["overview-text"]
+              }
+            }
+          },
+          {
+            "id": "overview-text",
+            "component": {
+              "Text": {
+                "content": "Welcome to the overview. Here you can see a summary of your activity.",
+                "usageHint": "body"
+              }
+            }
+          },
+          {
+            "id": "panel-activity",
+            "component": {
+              "TabPanel": {
+                "id": "activity",
+                "children": ["activity-text"]
+              }
+            }
+          },
+          {
+            "id": "activity-text",
+            "component": {
+              "Text": {
+                "content": "No recent activity.",
+                "usageHint": "body",
+                "color": "muted"
+              }
+            }
+          },
+          {
+            "id": "panel-settings",
+            "component": {
+              "TabPanel": {
+                "id": "settings",
+                "children": ["settings-text"]
+              }
+            }
+          },
+          {
+            "id": "settings-text",
+            "component": {
+              "Text": {
+                "content": "Settings coming soon.",
+                "usageHint": "body",
+                "color": "muted"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Tabs", "TabList", "TabItem", "TabPanel", "Text"]
+}

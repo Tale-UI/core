@@ -47,6 +47,7 @@ pnpm audit:snippet-kinds     # verify consumer snippet is correct
 | check-a2ui | A2UI catalog docs | `pnpm a2ui:check-docs` | Catalog tables in docs drift from catalog.ts |
 | check-a2ui | A2UI examples | `pnpm a2ui:validate-examples` | Few-shot examples reference stale types/icons |
 | check-a2ui | A2UI docs audit | `pnpm a2ui:audit-docs` | Counts and type lists in docs go stale |
+| check-a2ui | A2UI golden prompts | `pnpm a2ui:golden:validate` | Reference A2UI JSON broken by catalog or prop value changes |
 | check-formatting | Markdown lint | `pnpm markdownlint` | Broken markdown tables, missing blank lines |
 | check-formatting | Prettier | `pnpm prettier` | Formatting drift |
 
@@ -255,6 +256,9 @@ A stdio-based MCP server that exposes the component registry, recipe docs, and f
 | `eval-golden-prompts.mjs` | `pnpm golden:eval` | No | Runs golden prompts against Claude (via Claude Code CLI) and scores L1–L3 |
 | `eval-fix-review.mjs` | `pnpm golden:fix-review` | No | Full pipeline: eval → auto-fix consumer snippet → visual review in playground |
 | `run-validator-tests.mjs` | `pnpm validate:test` | No | Tests the validator itself against known-good and known-bad samples |
+| `validate-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:validate` | Yes | Validates all A2UI golden prompt reference implementations against live catalog |
+| `eval-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:eval` | No | Runs A2UI golden prompts against a model and scores L1–L3 |
+| `eval-a2ui-fix-review.mjs` | `pnpm a2ui:golden:fix-review` | No | Full pipeline: eval → auto-fix A2UI system prompt based on failures |
 
 ### validate-generated.mjs
 
@@ -458,6 +462,112 @@ Each file (`{slug}.json`) contains:
 }
 ```
 
+### validate-a2ui-golden-prompts.mjs
+
+Runs deep multi-source validation on every A2UI golden prompt reference implementation in `a2ui-golden-prompts/`. Ensures references stay valid as the catalog evolves. Runs in CI.
+
+**Validation pipeline (6 sources of truth):**
+
+| Source | What it validates |
+|--------|-------------------|
+| `registry/a2ui-catalog.json` | Component type names and per-type allowed prop names |
+| `tools/a2ui-catalog-metadata.js` `PROP_ALLOWED_VALUES` | Enum prop values with type-specific overrides (e.g. `Button.variant`) |
+| `packages/a2ui/src/icon-registry.ts` | Valid Lucide icon names for `Icon` and `EmptyState` icon props |
+| `packages/a2ui/src/catalog.ts` `mapTextHint()` | Valid `usageHint` values for `Text` components |
+| Protocol structure | `beginRendering` ordering, `rootComponentId` exists, no orphaned children, no duplicate IDs |
+
+### eval-a2ui-golden-prompts.mjs
+
+Runs each A2UI golden prompt against an LLM and scores the generated A2UI JSON across three automated levels:
+
+| Level | What it checks | How |
+|-------|---------------|-----|
+| L1 — Validity | Output passes multi-source catalog validation | Same 6-source check as validate script |
+| L2 — Types | All expected `tags` component types appear in `surfaceUpdate` | Type key search in components array |
+| L3 — Structure | Protocol correctness (ordering, rootComponentId, no orphans, no duplicates) | Message structure parse |
+
+Supports the same three providers (Claude CLI, Straico, local) and the same flags as `eval-golden-prompts.mjs`. Not run in CI — intended for manual runs before releases or model upgrades. Uses separate cache files (`.eval-a2ui-call-cache.json`, `.eval-a2ui-check-cache.json`) so A2UI and TSX eval runs do not interfere.
+
+```bash
+pnpm a2ui:golden:eval                              # all prompts, default model (sonnet)
+pnpm a2ui:golden:eval -- --model opus              # opus
+pnpm a2ui:golden:eval -- --difficulty simple       # only simple prompts
+pnpm a2ui:golden:eval -- --slug marketing-buttons  # single prompt
+pnpm a2ui:golden:eval -- --slugs a,b,c             # specific prompts (comma-separated)
+pnpm a2ui:golden:eval -- --json                    # machine-readable output
+pnpm a2ui:golden:eval -- --no-cache                # skip call cache
+pnpm a2ui:golden:eval -- --fresh                   # skip both caches (true benchmark run)
+pnpm a2ui:golden:eval -- --provider straico --model gpt-4o
+pnpm a2ui:golden:eval -- --provider ollama --model qwen2.5-coder
+```
+
+The Straico model shorthand table from `eval-golden-prompts.mjs` applies here too — same aliases, same pass-through behaviour for full model IDs.
+
+**Example output:**
+
+```text
+=== A2UI Golden Prompt Eval — claude-sonnet-4-6 ===
+
+  single-button                  [simple]   ✓ L1  ✓ L2  ✓ L3
+  dashboard                      [complex]  ✓ L1  ✗ L2  ✓ L3
+      L2: missing types: ProgressBar
+
+──────────────────────────────────────────────────────
+  Model:   claude-sonnet-4-6
+  Overall: 40/41 passed all checks
+  L1 validity:    41/41
+  L2 types:       40/41
+  L3 structure:   41/41
+  simple  : 8/8
+  medium  : 21/22
+  complex : 11/11
+```
+
+### eval-a2ui-fix-review.mjs
+
+Automated fix-review loop for the A2UI system prompt:
+
+1. **Eval** — runs all A2UI golden prompts, collects failures
+2. **Fix loop** — for each failure, Claude diagnoses the root cause against the specific source-of-truth violated (e.g. "`Button.variant`: `PROP_ALLOWED_VALUES` allows `primary|neutral|ghost|danger`, model used `outlined`") and proposes a targeted patch (`{old, new}`) to `packages/a2ui/src/agent/system-prompt.md`; re-evals the failing prompts; repeats up to 3 times
+3. **Report** — prints before/after scores, what was fixed, what remains
+
+After the run, check `git diff packages/a2ui/src/agent/system-prompt.md` to review any documentation changes before committing. Unlike `eval-fix-review.mjs`, there is no playground review step — A2UI output is JSON, not renderable TSX.
+
+```bash
+pnpm a2ui:golden:fix-review
+pnpm a2ui:golden:fix-review -- --max-iter 5
+pnpm a2ui:golden:fix-review -- --model haiku --fix-model sonnet
+pnpm a2ui:golden:fix-review -- --provider straico --model gpt-4o
+pnpm a2ui:golden:fix-review -- --provider ollama --model qwen2.5-coder --fix-provider claude --fix-model sonnet
+```
+
+### a2ui-golden-prompts/
+
+41 reference prompts covering all 135 A2UI types:
+
+- **simple** — Single/few-component prompts: Button, Badge, Text, Icon, Spinner, ProgressBar, Banner, EmptyState
+- **medium** — Multi-component compositions: DataTable, ProfileCard, Card with footer, CheckboxGroup, Tabs, forms, Accordion, Settings pages, Card list, Avatar detail
+- **complex** — Full UI patterns: Dashboard, DialogConfirm, DrawerPanel, Tooltip/Popover, DropdownMenu, ContextMenu, BreadcrumbNav, Pagination, NavigationBar, advanced form controls, form field wrappers, Select variants, PinInput/PaymentInput, date/time pickers, color controls, TagGroup/Disclosure, Carousel, Grid/Tree, FileUpload, DecorativeDisplay, MarketingButtons
+
+Each file (`{slug}.json`) contains:
+
+```json
+{
+  "slug": "marketing-buttons",
+  "difficulty": "simple",
+  "prompt": "Show a download section with an Apple App Store button, a Google Play Store button, and social login buttons for Google and GitHub.",
+  "reference": {
+    "messages": [
+      { "type": "beginRendering", "surfaceId": "marketing", "rootComponentId": "root" },
+      { "type": "surfaceUpdate", "surfaceId": "marketing", "components": [...] }
+    ]
+  },
+  "tags": ["AppStoreButton", "SocialButton"]
+}
+```
+
+The `reference.messages` array must pass `pnpm a2ui:golden:validate` — run it after any reference changes.
+
 ## A2UI Integration
 
 The `@tale-ui/a2ui` package (`packages/a2ui/`) provides an A2UI protocol renderer that maps agent messages to Tale UI components. It includes:
@@ -479,6 +589,9 @@ The `@tale-ui/a2ui` package (`packages/a2ui/`) provides an A2UI protocol rendere
 | `generate-a2ui-catalog-docs.js` | `pnpm a2ui:generate-docs` | `pnpm a2ui:check-docs` | Regenerates catalog tables in system-prompt.md and a2ui-integration.md from catalog.ts source |
 | `validate-a2ui-examples.js` | `pnpm a2ui:validate-examples` | Yes | Validates few-shot example JSON against live catalog (types, icons, usageHints, child refs) |
 | `audit-a2ui-catalog-docs.js` | `pnpm a2ui:audit-docs` | Yes | Cross-checks counts, type lists, and icon counts in all A2UI docs against source |
+| `validate-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:validate` | Yes | Validates all 41 golden prompt references against live catalog (6-source deep check) |
+| `eval-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:eval` | No | Runs golden prompts against an LLM and scores generated A2UI JSON L1–L3 |
+| `eval-a2ui-fix-review.mjs` | `pnpm a2ui:golden:fix-review` | No | Automated fix loop: eval → patch system-prompt.md → re-eval → repeat |
 
 **When you change `catalog.ts` or `icon-registry.ts`**, run:
 
@@ -486,6 +599,7 @@ The `@tale-ui/a2ui` package (`packages/a2ui/`) provides an A2UI protocol rendere
 pnpm a2ui:generate-docs       # regenerate sentinel-delimited sections in docs
 pnpm a2ui:validate-examples   # verify examples still valid
 pnpm a2ui:audit-docs          # cross-check all docs
+pnpm a2ui:golden:validate     # verify golden prompt references still valid
 ```
 
 **Testing:**

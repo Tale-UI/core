@@ -1,0 +1,97 @@
+{
+  "slug": "breadcrumb-nav",
+  "difficulty": "simple",
+  "prompt": "Show a breadcrumb trail: Home > Products > Headphones. Also show a Link component below it.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "nav",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "nav",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["breadcrumbs", "link"]
+              }
+            }
+          },
+          {
+            "id": "breadcrumbs",
+            "component": {
+              "Breadcrumbs": {
+                "children": ["bc-home", "bc-products", "bc-current"]
+              }
+            }
+          },
+          {
+            "id": "bc-home",
+            "component": {
+              "BreadcrumbItem": {
+                "children": ["bc-home-link"]
+              }
+            }
+          },
+          {
+            "id": "bc-home-link",
+            "component": {
+              "BreadcrumbLink": {
+                "href": "/",
+                "label": "Home"
+              }
+            }
+          },
+          {
+            "id": "bc-products",
+            "component": {
+              "BreadcrumbItem": {
+                "children": ["bc-products-link"]
+              }
+            }
+          },
+          {
+            "id": "bc-products-link",
+            "component": {
+              "BreadcrumbLink": {
+                "href": "/products",
+                "label": "Products"
+              }
+            }
+          },
+          {
+            "id": "bc-current",
+            "component": {
+              "BreadcrumbItem": {
+                "children": ["bc-current-link"]
+              }
+            }
+          },
+          {
+            "id": "bc-current-link",
+            "component": {
+              "BreadcrumbLink": {
+                "label": "Headphones"
+              }
+            }
+          },
+          {
+            "id": "link",
+            "component": {
+              "Link": {
+                "href": "/products",
+                "label": "Back to Products"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Breadcrumbs", "BreadcrumbItem", "BreadcrumbLink", "Link"]
+}

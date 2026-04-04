@@ -1,0 +1,122 @@
+{
+  "slug": "decorative-display",
+  "difficulty": "medium",
+  "prompt": "Show a product review card with: a RatingStars (4.5 stars), a RatingBadge (4.5), a FeaturedIcon with a star icon, a DotIcon status indicator, a horizontal Separator, a Meter showing storage usage at 70%, and a ProgressCircle at 42%.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "review",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "review",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["col"]
+              }
+            }
+          },
+          {
+            "id": "col",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["rating-row", "sep", "meter", "progress-circle"]
+              }
+            }
+          },
+          {
+            "id": "rating-row",
+            "component": {
+              "Row": {
+                "spacing": "m",
+                "children": ["rating-stars", "rating-badge", "feat-icon", "dot-icon"]
+              }
+            }
+          },
+          {
+            "id": "rating-stars",
+            "component": {
+              "RatingStars": {
+                "value": 4.5,
+                "max": 5
+              }
+            }
+          },
+          {
+            "id": "rating-badge",
+            "component": {
+              "RatingBadge": {
+                "value": 4.5
+              }
+            }
+          },
+          {
+            "id": "feat-icon",
+            "component": {
+              "FeaturedIcon": {
+                "variant": "brand",
+                "shape": "circle",
+                "size": "md",
+                "theme": "light"
+              }
+            }
+          },
+          {
+            "id": "dot-icon",
+            "component": {
+              "DotIcon": {
+                "color": "success"
+              }
+            }
+          },
+          {
+            "id": "sep",
+            "component": {
+              "Separator": {
+                "orientation": "horizontal"
+              }
+            }
+          },
+          {
+            "id": "meter",
+            "component": {
+              "Meter": {
+                "label": "Storage used",
+                "value": 70,
+                "maxValue": 100
+              }
+            }
+          },
+          {
+            "id": "progress-circle",
+            "component": {
+              "ProgressCircle": {
+                "label": "Completion",
+                "value": 42,
+                "maxValue": 100,
+                "size": "md"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["RatingStars", "RatingBadge", "FeaturedIcon", "DotIcon", "Separator", "Meter", "ProgressCircle"]
+}

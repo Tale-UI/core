@@ -1,0 +1,81 @@
+{
+  "slug": "context-menu",
+  "difficulty": "medium",
+  "prompt": "Show a ContextMenu on a text area that says 'Right-click here'. The context menu should have items: 'Copy', 'Paste', a separator, and 'Select All'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "ctxmenu",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "ctxmenu",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "ContextMenu": {
+                "children": ["ctx-trigger", "ctx-popup"]
+              }
+            }
+          },
+          {
+            "id": "ctx-trigger",
+            "component": {
+              "ContextMenuTrigger": {
+                "label": "Right-click here"
+              }
+            }
+          },
+          {
+            "id": "ctx-popup",
+            "component": {
+              "ContextMenuPopup": {
+                "children": ["copy", "paste", "sep", "select-all"]
+              }
+            }
+          },
+          {
+            "id": "copy",
+            "component": {
+              "ContextMenuItem": {
+                "id": "copy",
+                "label": "Copy",
+                "action": { "name": "copy", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "paste",
+            "component": {
+              "ContextMenuItem": {
+                "id": "paste",
+                "label": "Paste",
+                "action": { "name": "paste", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "sep",
+            "component": {
+              "ContextMenuSeparator": {}
+            }
+          },
+          {
+            "id": "select-all",
+            "component": {
+              "ContextMenuItem": {
+                "id": "select-all",
+                "label": "Select All",
+                "action": { "name": "selectAll", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["ContextMenu", "ContextMenuTrigger", "ContextMenuPopup", "ContextMenuItem", "ContextMenuSeparator"]
+}

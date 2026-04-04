@@ -1,0 +1,89 @@
+{
+  "slug": "pagination",
+  "difficulty": "medium",
+  "prompt": "Show a pagination control with a Previous button, page items 1 through 3, an ellipsis, page 10, and a Next button.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "paging",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "paging",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Pagination": {
+                "label": "Page navigation",
+                "children": ["prev", "pg1", "pg2", "pg3", "ellipsis", "pg10", "next"]
+              }
+            }
+          },
+          {
+            "id": "prev",
+            "component": {
+              "PaginationPrevious": {
+                "action": { "name": "prevPage", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "pg1",
+            "component": {
+              "PaginationItem": {
+                "page": 1,
+                "current": true,
+                "action": { "name": "goToPage", "context": { "page": 1 } }
+              }
+            }
+          },
+          {
+            "id": "pg2",
+            "component": {
+              "PaginationItem": {
+                "page": 2,
+                "action": { "name": "goToPage", "context": { "page": 2 } }
+              }
+            }
+          },
+          {
+            "id": "pg3",
+            "component": {
+              "PaginationItem": {
+                "page": 3,
+                "action": { "name": "goToPage", "context": { "page": 3 } }
+              }
+            }
+          },
+          {
+            "id": "ellipsis",
+            "component": {
+              "PaginationEllipsis": {}
+            }
+          },
+          {
+            "id": "pg10",
+            "component": {
+              "PaginationItem": {
+                "page": 10,
+                "action": { "name": "goToPage", "context": { "page": 10 } }
+              }
+            }
+          },
+          {
+            "id": "next",
+            "component": {
+              "PaginationNext": {
+                "action": { "name": "nextPage", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Pagination", "PaginationItem", "PaginationPrevious", "PaginationNext", "PaginationEllipsis"]
+}

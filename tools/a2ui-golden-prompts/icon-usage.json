@@ -1,0 +1,54 @@
+{
+  "slug": "icon-usage",
+  "difficulty": "simple",
+  "prompt": "Show a row with a bell icon, a mail icon, and a settings icon.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "icons",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "icons",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Row": {
+                "spacing": "m",
+                "children": ["icon-bell", "icon-mail", "icon-settings"]
+              }
+            }
+          },
+          {
+            "id": "icon-bell",
+            "component": {
+              "Icon": {
+                "name": "bell"
+              }
+            }
+          },
+          {
+            "id": "icon-mail",
+            "component": {
+              "Icon": {
+                "name": "mail"
+              }
+            }
+          },
+          {
+            "id": "icon-settings",
+            "component": {
+              "Icon": {
+                "name": "settings"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Icon", "Row"]
+}

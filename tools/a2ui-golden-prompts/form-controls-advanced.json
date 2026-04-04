@@ -1,0 +1,145 @@
+{
+  "slug": "form-controls-advanced",
+  "difficulty": "complex",
+  "prompt": "Build a profile form card with: a multi-line TextAreaInput for 'Bio', a NumberInput for 'Age', a SearchInput for 'Location', a SliderInput for 'Experience (years)', and a Radio group for 'Preferred contact method' with options 'Email' and 'Phone'. Include a Save button.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "profile-form",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "profile-form",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "children": ["card-header", "card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-header",
+            "component": {
+              "CardHeader": {
+                "children": ["heading"]
+              }
+            }
+          },
+          {
+            "id": "heading",
+            "component": {
+              "Text": {
+                "content": "Edit Profile",
+                "usageHint": "heading-s"
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["form-col"]
+              }
+            }
+          },
+          {
+            "id": "form-col",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["bio", "age", "location", "experience", "contact", "save-btn"]
+              }
+            }
+          },
+          {
+            "id": "bio",
+            "component": {
+              "TextAreaInput": {
+                "label": "Bio",
+                "binding": { "path": "bio" },
+                "placeholder": "Tell us about yourself"
+              }
+            }
+          },
+          {
+            "id": "age",
+            "component": {
+              "NumberInput": {
+                "label": "Age",
+                "binding": { "path": "age" },
+                "minValue": 18,
+                "maxValue": 120
+              }
+            }
+          },
+          {
+            "id": "location",
+            "component": {
+              "SearchInput": {
+                "label": "Location",
+                "binding": { "path": "location" },
+                "placeholder": "Search city..."
+              }
+            }
+          },
+          {
+            "id": "experience",
+            "component": {
+              "SliderInput": {
+                "label": "Experience (years)",
+                "binding": { "path": "experience" },
+                "minValue": 0,
+                "maxValue": 40,
+                "step": 1
+              }
+            }
+          },
+          {
+            "id": "contact",
+            "component": {
+              "Radio": {
+                "label": "Preferred contact method",
+                "binding": { "path": "contactMethod" },
+                "children": ["contact-email", "contact-phone"]
+              }
+            }
+          },
+          {
+            "id": "contact-email",
+            "component": {
+              "RadioOption": {
+                "value": "email",
+                "label": "Email"
+              }
+            }
+          },
+          {
+            "id": "contact-phone",
+            "component": {
+              "RadioOption": {
+                "value": "phone",
+                "label": "Phone"
+              }
+            }
+          },
+          {
+            "id": "save-btn",
+            "component": {
+              "Button": {
+                "label": "Save Profile",
+                "variant": "primary",
+                "action": { "name": "saveProfile", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["TextAreaInput", "NumberInput", "SearchInput", "SliderInput", "Radio", "RadioOption"]
+}

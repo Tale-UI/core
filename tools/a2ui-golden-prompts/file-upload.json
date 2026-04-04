@@ -1,0 +1,48 @@
+{
+  "slug": "file-upload",
+  "difficulty": "simple",
+  "prompt": "Show a file upload area with a DropZone and a FileTrigger button that accepts image files.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "upload",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "upload",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["drop-zone", "file-trigger"]
+              }
+            }
+          },
+          {
+            "id": "drop-zone",
+            "component": {
+              "DropZone": {
+                "action": { "name": "onDrop", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "file-trigger",
+            "component": {
+              "FileTrigger": {
+                "acceptedFileTypes": ["image/png", "image/jpeg"],
+                "allowsMultiple": true,
+                "action": { "name": "onFileSelect", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["DropZone", "FileTrigger"]
+}

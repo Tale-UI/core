@@ -1,0 +1,91 @@
+{
+  "slug": "tooltip-popover",
+  "difficulty": "medium",
+  "prompt": "Show a row with a Tooltip on a button that says 'Hover me' (tooltip content: 'This is extra info'), a Popover on a button that says 'Click me' (popover title: 'Details', description: 'More info here'), and a PreviewCard with a link trigger labeled 'Preview link' and title 'Link Preview'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "overlays",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "overlays",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Row": {
+                "spacing": "l",
+                "children": ["tooltip", "popover", "preview"]
+              }
+            }
+          },
+          {
+            "id": "tooltip",
+            "component": {
+              "Tooltip": {
+                "children": ["tooltip-trigger", "tooltip-popup"]
+              }
+            }
+          },
+          {
+            "id": "tooltip-trigger",
+            "component": {
+              "TooltipTrigger": {
+                "label": "Hover me"
+              }
+            }
+          },
+          {
+            "id": "tooltip-popup",
+            "component": {
+              "TooltipPopup": {
+                "placement": "top",
+                "content": "This is extra info"
+              }
+            }
+          },
+          {
+            "id": "popover",
+            "component": {
+              "Popover": {
+                "children": ["popover-trigger", "popover-popup"]
+              }
+            }
+          },
+          {
+            "id": "popover-trigger",
+            "component": {
+              "PopoverTrigger": {
+                "label": "Click me"
+              }
+            }
+          },
+          {
+            "id": "popover-popup",
+            "component": {
+              "PopoverPopup": {
+                "placement": "bottom",
+                "title": "Details",
+                "description": "More info here"
+              }
+            }
+          },
+          {
+            "id": "preview",
+            "component": {
+              "PreviewCard": {
+                "label": "Preview link",
+                "placement": "bottom",
+                "title": "Link Preview"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Tooltip", "TooltipTrigger", "TooltipPopup", "Popover", "PopoverTrigger", "PopoverPopup", "PreviewCard"]
+}

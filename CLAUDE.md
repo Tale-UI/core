@@ -117,6 +117,9 @@ pnpm a2ui:check-docs        # verify A2UI docs match source (CI mode)
 pnpm a2ui:check-catalog     # verify A2UI catalog JSON matches source (CI mode)
 pnpm a2ui:validate-examples # validate A2UI few-shot examples against catalog
 pnpm a2ui:audit-docs        # cross-check A2UI type counts, names, hints across all docs
+pnpm a2ui:golden:validate   # validate all A2UI golden prompt references
+pnpm a2ui:golden:eval       # run A2UI prompts against a model and score L1–L3
+pnpm a2ui:golden:fix-review # eval → auto-fix A2UI system prompt based on failures
 ```
 
 **When changing `packages/a2ui/src/catalog.ts` or `tools/a2ui-catalog-metadata.js`**, regenerate:

@@ -1,0 +1,277 @@
+{
+  "slug": "settings-page",
+  "difficulty": "complex",
+  "prompt": "Build a settings page with two sections: a Notifications card with a divided list of three toggle switches (Email, Push, SMS notifications), and an Appearance card with a theme Select dropdown and a Save Changes button.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "settings",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "settings",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "l",
+                "children": ["heading", "notifications-card", "appearance-card"]
+              }
+            }
+          },
+          {
+            "id": "heading",
+            "component": {
+              "Text": {
+                "content": "Settings",
+                "usageHint": "heading-l"
+              }
+            }
+          },
+          {
+            "id": "notifications-card",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "children": ["notif-header", "notif-body"]
+              }
+            }
+          },
+          {
+            "id": "notif-header",
+            "component": {
+              "CardHeader": {
+                "children": ["notif-title"]
+              }
+            }
+          },
+          {
+            "id": "notif-title",
+            "component": {
+              "Text": {
+                "content": "Notifications",
+                "usageHint": "title"
+              }
+            }
+          },
+          {
+            "id": "notif-body",
+            "component": {
+              "CardBody": {
+                "children": ["notif-list"]
+              }
+            }
+          },
+          {
+            "id": "notif-list",
+            "component": {
+              "List": {
+                "variant": "divided",
+                "children": ["notif-email", "notif-push", "notif-sms"]
+              }
+            }
+          },
+          {
+            "id": "notif-email",
+            "component": {
+              "ListItem": {
+                "children": ["notif-email-row"]
+              }
+            }
+          },
+          {
+            "id": "notif-email-row",
+            "component": {
+              "Row": {
+                "justify": "between",
+                "children": ["notif-email-label", "notif-email-switch"]
+              }
+            }
+          },
+          {
+            "id": "notif-email-label",
+            "component": {
+              "Text": {
+                "content": "Email notifications",
+                "usageHint": "body"
+              }
+            }
+          },
+          {
+            "id": "notif-email-switch",
+            "component": {
+              "Switch": {
+                "label": "Email notifications",
+                "binding": { "path": "emailNotifications" },
+                "action": { "name": "toggleNotification", "context": { "channel": "email" } }
+              }
+            }
+          },
+          {
+            "id": "notif-push",
+            "component": {
+              "ListItem": {
+                "children": ["notif-push-row"]
+              }
+            }
+          },
+          {
+            "id": "notif-push-row",
+            "component": {
+              "Row": {
+                "justify": "between",
+                "children": ["notif-push-label", "notif-push-switch"]
+              }
+            }
+          },
+          {
+            "id": "notif-push-label",
+            "component": {
+              "Text": {
+                "content": "Push notifications",
+                "usageHint": "body"
+              }
+            }
+          },
+          {
+            "id": "notif-push-switch",
+            "component": {
+              "Switch": {
+                "label": "Push notifications",
+                "binding": { "path": "pushNotifications" },
+                "action": { "name": "toggleNotification", "context": { "channel": "push" } }
+              }
+            }
+          },
+          {
+            "id": "notif-sms",
+            "component": {
+              "ListItem": {
+                "children": ["notif-sms-row"]
+              }
+            }
+          },
+          {
+            "id": "notif-sms-row",
+            "component": {
+              "Row": {
+                "justify": "between",
+                "children": ["notif-sms-label", "notif-sms-switch"]
+              }
+            }
+          },
+          {
+            "id": "notif-sms-label",
+            "component": {
+              "Text": {
+                "content": "SMS notifications",
+                "usageHint": "body"
+              }
+            }
+          },
+          {
+            "id": "notif-sms-switch",
+            "component": {
+              "Switch": {
+                "label": "SMS notifications",
+                "binding": { "path": "smsNotifications" },
+                "action": { "name": "toggleNotification", "context": { "channel": "sms" } }
+              }
+            }
+          },
+          {
+            "id": "appearance-card",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "children": ["appear-header", "appear-body"]
+              }
+            }
+          },
+          {
+            "id": "appear-header",
+            "component": {
+              "CardHeader": {
+                "children": ["appear-title"]
+              }
+            }
+          },
+          {
+            "id": "appear-title",
+            "component": {
+              "Text": {
+                "content": "Appearance",
+                "usageHint": "title"
+              }
+            }
+          },
+          {
+            "id": "appear-body",
+            "component": {
+              "CardBody": {
+                "children": ["appear-col"]
+              }
+            }
+          },
+          {
+            "id": "appear-col",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["theme-select", "save-btn"]
+              }
+            }
+          },
+          {
+            "id": "theme-select",
+            "component": {
+              "Select": {
+                "label": "Theme",
+                "binding": { "path": "theme" },
+                "action": { "name": "changeTheme", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "save-btn",
+            "component": {
+              "Button": {
+                "label": "Save changes",
+                "variant": "primary",
+                "action": { "name": "saveSettings", "context": {} }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "dataModelUpdate",
+        "surfaceId": "settings",
+        "path": "emailNotifications",
+        "value": true
+      },
+      {
+        "type": "dataModelUpdate",
+        "surfaceId": "settings",
+        "path": "pushNotifications",
+        "value": true
+      },
+      {
+        "type": "dataModelUpdate",
+        "surfaceId": "settings",
+        "path": "smsNotifications",
+        "value": false
+      },
+      {
+        "type": "dataModelUpdate",
+        "surfaceId": "settings",
+        "path": "theme",
+        "value": "system"
+      }
+    ]
+  },
+  "tags": ["Card", "List", "Switch", "Select", "Button", "Column", "Row"]
+}

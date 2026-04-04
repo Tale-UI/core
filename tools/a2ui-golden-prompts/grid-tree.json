@@ -1,0 +1,105 @@
+{
+  "slug": "grid-tree",
+  "difficulty": "medium",
+  "prompt": "Show a page with a GridList of three selectable items (Dashboard, Reports, Settings) and a Tree hierarchy below it with a parent 'Documents' node containing two children: 'Reports' and 'Invoices'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "lists",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "lists",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "l",
+                "children": ["grid", "tree"]
+              }
+            }
+          },
+          {
+            "id": "grid",
+            "component": {
+              "GridList": {
+                "label": "Navigation",
+                "selectionMode": "single",
+                "children": ["grid-dash", "grid-reports", "grid-settings"]
+              }
+            }
+          },
+          {
+            "id": "grid-dash",
+            "component": {
+              "GridListItem": {
+                "id": "dashboard",
+                "label": "Dashboard"
+              }
+            }
+          },
+          {
+            "id": "grid-reports",
+            "component": {
+              "GridListItem": {
+                "id": "reports",
+                "label": "Reports"
+              }
+            }
+          },
+          {
+            "id": "grid-settings",
+            "component": {
+              "GridListItem": {
+                "id": "settings",
+                "label": "Settings"
+              }
+            }
+          },
+          {
+            "id": "tree",
+            "component": {
+              "Tree": {
+                "label": "File system",
+                "selectionMode": "single",
+                "children": ["tree-docs"]
+              }
+            }
+          },
+          {
+            "id": "tree-docs",
+            "component": {
+              "TreeItem": {
+                "id": "docs",
+                "label": "Documents",
+                "children": ["tree-rpts", "tree-inv"]
+              }
+            }
+          },
+          {
+            "id": "tree-rpts",
+            "component": {
+              "TreeItem": {
+                "id": "tree-reports",
+                "label": "Reports"
+              }
+            }
+          },
+          {
+            "id": "tree-inv",
+            "component": {
+              "TreeItem": {
+                "id": "invoices",
+                "label": "Invoices"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["GridList", "GridListItem", "Tree", "TreeItem"]
+}

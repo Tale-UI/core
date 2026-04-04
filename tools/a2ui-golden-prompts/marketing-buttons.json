@@ -1,0 +1,84 @@
+{
+  "slug": "marketing-buttons",
+  "difficulty": "simple",
+  "prompt": "Show a download section with an Apple App Store button, a Google Play Store button, and social login buttons for Google and GitHub.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "marketing",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "marketing",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["store-row", "social-row"]
+              }
+            }
+          },
+          {
+            "id": "store-row",
+            "component": {
+              "Row": {
+                "spacing": "m",
+                "children": ["apple", "google-play"]
+              }
+            }
+          },
+          {
+            "id": "apple",
+            "component": {
+              "AppStoreButton": {
+                "store": "apple",
+                "href": "https://apps.apple.com"
+              }
+            }
+          },
+          {
+            "id": "google-play",
+            "component": {
+              "AppStoreButton": {
+                "store": "google",
+                "href": "https://play.google.com"
+              }
+            }
+          },
+          {
+            "id": "social-row",
+            "component": {
+              "Row": {
+                "spacing": "m",
+                "children": ["social-google", "social-github"]
+              }
+            }
+          },
+          {
+            "id": "social-google",
+            "component": {
+              "SocialButton": {
+                "provider": "google",
+                "label": "Continue with Google"
+              }
+            }
+          },
+          {
+            "id": "social-github",
+            "component": {
+              "SocialButton": {
+                "provider": "github",
+                "label": "Continue with GitHub"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["AppStoreButton", "SocialButton"]
+}

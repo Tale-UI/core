@@ -1,0 +1,109 @@
+{
+  "slug": "date-time-pickers",
+  "difficulty": "complex",
+  "prompt": "Show a booking form card with a Calendar for selecting a date, a DateField for entering a date manually, a DatePicker with a popup calendar, a DateRangePicker for selecting a date range, a TimeField for selecting a time, and a RangeCalendar.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "booking",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "booking",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["col"]
+              }
+            }
+          },
+          {
+            "id": "col",
+            "component": {
+              "Column": {
+                "spacing": "l",
+                "children": ["heading", "calendar", "date-field", "date-picker", "range-picker", "time-field", "range-calendar"]
+              }
+            }
+          },
+          {
+            "id": "heading",
+            "component": {
+              "Text": {
+                "content": "Book Appointment",
+                "usageHint": "heading-s"
+              }
+            }
+          },
+          {
+            "id": "calendar",
+            "component": {
+              "Calendar": {
+                "label": "Select date"
+              }
+            }
+          },
+          {
+            "id": "date-field",
+            "component": {
+              "DateField": {
+                "label": "Date",
+                "name": "date"
+              }
+            }
+          },
+          {
+            "id": "date-picker",
+            "component": {
+              "DatePicker": {
+                "label": "Appointment date",
+                "name": "appointmentDate"
+              }
+            }
+          },
+          {
+            "id": "range-picker",
+            "component": {
+              "DateRangePicker": {
+                "label": "Stay duration",
+                "name": "stayRange"
+              }
+            }
+          },
+          {
+            "id": "time-field",
+            "component": {
+              "TimeField": {
+                "label": "Start time",
+                "name": "startTime"
+              }
+            }
+          },
+          {
+            "id": "range-calendar",
+            "component": {
+              "RangeCalendar": {
+                "label": "Select date range"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Calendar", "DateField", "DatePicker", "DateRangePicker", "TimeField", "RangeCalendar"]
+}

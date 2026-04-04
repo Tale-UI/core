@@ -1,0 +1,31 @@
+{
+  "slug": "progress-bar",
+  "difficulty": "simple",
+  "prompt": "Show a progress bar labeled 'Upload progress' at 45% completion.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "upload",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "upload",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Progress": {
+                "label": "Upload progress",
+                "value": 45,
+                "maxValue": 100
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Progress"]
+}

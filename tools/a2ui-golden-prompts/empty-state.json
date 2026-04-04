@@ -1,0 +1,31 @@
+{
+  "slug": "empty-state",
+  "difficulty": "simple",
+  "prompt": "Show an empty state for a notifications inbox. Use the EmptyState component with a bell icon, the title 'No notifications', and a description 'You're all caught up!'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "inbox",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "inbox",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "EmptyState": {
+                "icon": "bell",
+                "title": "No notifications",
+                "description": "You're all caught up!"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["EmptyState"]
+}

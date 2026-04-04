@@ -1,7 +1,7 @@
 {
   "slug": "color-wheel-hue",
   "difficulty": "medium",
-  "prompt": "Show a circular color wheel for selecting a hue.",
+  "prompt": "Show a circular color wheel for selecting a hue — do NOT use useState or import from @internationalized/color. Use defaultValue with a plain CSS string.",
   "reference": "import { ColorWheel } from '@tale-ui/react/color-wheel';\n\nexport function ColorWheelHue() {\n  return (\n    <ColorWheel.Root\n      defaultValue=\"hsl(0, 100%, 50%)\"\n      outerRadius={100}\n      innerRadius={70}\n    >\n      <ColorWheel.Track />\n      <ColorWheel.Thumb />\n    </ColorWheel.Root>\n  );\n}",
   "tags": ["ColorWheel"]
 }

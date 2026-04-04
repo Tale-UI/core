@@ -1,0 +1,49 @@
+{
+  "slug": "text-display",
+  "difficulty": "simple",
+  "prompt": "Show a heading 'Welcome back' with a muted body caption underneath that says 'You have 3 new messages'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "welcome",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "welcome",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "xs",
+                "children": ["heading", "subtitle"]
+              }
+            }
+          },
+          {
+            "id": "heading",
+            "component": {
+              "Text": {
+                "content": "Welcome back",
+                "usageHint": "heading-m"
+              }
+            }
+          },
+          {
+            "id": "subtitle",
+            "component": {
+              "Text": {
+                "content": "You have 3 new messages",
+                "usageHint": "body",
+                "color": "muted"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Text", "Column"]
+}

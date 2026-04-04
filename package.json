@@ -80,6 +80,9 @@
     "a2ui:generate-catalog": "node tools/generate-a2ui-catalog.js",
     "a2ui:check-catalog": "node tools/generate-a2ui-catalog.js --check",
     "a2ui:check-registry-sync": "node tools/audit-a2ui-registry-sync.js",
+    "a2ui:golden:validate": "node tools/validate-a2ui-golden-prompts.mjs",
+    "a2ui:golden:eval": "node tools/eval-a2ui-golden-prompts.mjs",
+    "a2ui:golden:fix-review": "node tools/eval-a2ui-fix-review.mjs",
     "inline-scripts": "tsx ./scripts/inlineScripts.mts",
     "prepare": "husky"
   },

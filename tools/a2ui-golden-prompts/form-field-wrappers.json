@@ -1,0 +1,90 @@
+{
+  "slug": "form-field-wrappers",
+  "difficulty": "medium",
+  "prompt": "Show a form section using Field wrappers with a FieldLabel, FieldDescription, and FieldError. Group two checkboxes ('Terms of Service', 'Marketing emails') inside a CheckboxGroup. Wrap the whole thing in a Fieldset.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "fields",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "fields",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Fieldset": {
+                "label": "Consent",
+                "children": ["field", "checkbox-group"]
+              }
+            }
+          },
+          {
+            "id": "field",
+            "component": {
+              "Field": {
+                "children": ["field-label", "field-desc", "field-error"]
+              }
+            }
+          },
+          {
+            "id": "field-label",
+            "component": {
+              "FieldLabel": {
+                "label": "Agreements"
+              }
+            }
+          },
+          {
+            "id": "field-desc",
+            "component": {
+              "FieldDescription": {
+                "content": "Please review and accept the following."
+              }
+            }
+          },
+          {
+            "id": "field-error",
+            "component": {
+              "FieldError": {
+                "message": "You must accept the terms to continue."
+              }
+            }
+          },
+          {
+            "id": "checkbox-group",
+            "component": {
+              "CheckboxGroup": {
+                "label": "Agreements",
+                "children": ["chk-tos", "chk-marketing"]
+              }
+            }
+          },
+          {
+            "id": "chk-tos",
+            "component": {
+              "Checkbox": {
+                "label": "Terms of Service",
+                "binding": { "path": "acceptedTos" },
+                "isRequired": true
+              }
+            }
+          },
+          {
+            "id": "chk-marketing",
+            "component": {
+              "Checkbox": {
+                "label": "Marketing emails",
+                "binding": { "path": "acceptedMarketing" }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Field", "FieldLabel", "FieldDescription", "FieldError", "CheckboxGroup", "Fieldset"]
+}

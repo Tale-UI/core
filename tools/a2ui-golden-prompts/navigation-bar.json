@@ -1,0 +1,80 @@
+{
+  "slug": "navigation-bar",
+  "difficulty": "simple",
+  "prompt": "Show a horizontal NavigationMenu with three link items: 'Home', 'Products', and 'About'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "navbar",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "navbar",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "NavigationMenu": {
+                "children": ["item-home", "item-products", "item-about"]
+              }
+            }
+          },
+          {
+            "id": "item-home",
+            "component": {
+              "NavigationMenuItem": {
+                "children": ["link-home"]
+              }
+            }
+          },
+          {
+            "id": "link-home",
+            "component": {
+              "NavigationMenuLink": {
+                "href": "/",
+                "label": "Home"
+              }
+            }
+          },
+          {
+            "id": "item-products",
+            "component": {
+              "NavigationMenuItem": {
+                "children": ["link-products"]
+              }
+            }
+          },
+          {
+            "id": "link-products",
+            "component": {
+              "NavigationMenuLink": {
+                "href": "/products",
+                "label": "Products"
+              }
+            }
+          },
+          {
+            "id": "item-about",
+            "component": {
+              "NavigationMenuItem": {
+                "children": ["link-about"]
+              }
+            }
+          },
+          {
+            "id": "link-about",
+            "component": {
+              "NavigationMenuLink": {
+                "href": "/about",
+                "label": "About"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["NavigationMenu", "NavigationMenuItem", "NavigationMenuLink"]
+}

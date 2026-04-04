@@ -1,0 +1,110 @@
+{
+  "slug": "color-controls",
+  "difficulty": "complex",
+  "prompt": "Show a color editor card with a ColorPicker context provider containing: a ColorArea for hue/saturation, a ColorSlider for the lightness channel, a ColorField for hex input, a ColorWheel, a ColorSwatch showing red, and a ColorSwatchPicker with three preset swatches.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "color-editor",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "color-editor",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["col"]
+              }
+            }
+          },
+          {
+            "id": "col",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["picker", "wheel", "swatch", "swatch-picker", "hex-field"]
+              }
+            }
+          },
+          {
+            "id": "picker",
+            "component": {
+              "ColorPicker": {
+                "children": ["area", "slider"]
+              }
+            }
+          },
+          {
+            "id": "area",
+            "component": {
+              "ColorArea": {
+                "xChannel": "saturation",
+                "yChannel": "lightness",
+                "label": "Color area"
+              }
+            }
+          },
+          {
+            "id": "slider",
+            "component": {
+              "ColorSlider": {
+                "channel": "hue",
+                "label": "Hue"
+              }
+            }
+          },
+          {
+            "id": "wheel",
+            "component": {
+              "ColorWheel": {
+                "outerRadius": 100,
+                "innerRadius": 70,
+                "label": "Hue wheel"
+              }
+            }
+          },
+          {
+            "id": "swatch",
+            "component": {
+              "ColorSwatch": {
+                "color": "#ff0000"
+              }
+            }
+          },
+          {
+            "id": "swatch-picker",
+            "component": {
+              "ColorSwatchPicker": {
+                "colors": ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff"]
+              }
+            }
+          },
+          {
+            "id": "hex-field",
+            "component": {
+              "ColorField": {
+                "label": "Hex color",
+                "name": "hexColor"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["ColorPicker", "ColorArea", "ColorSlider", "ColorWheel", "ColorSwatch", "ColorSwatchPicker", "ColorField"]
+}

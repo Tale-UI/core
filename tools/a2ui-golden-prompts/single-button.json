@@ -1,0 +1,31 @@
+{
+  "slug": "single-button",
+  "difficulty": "simple",
+  "prompt": "Show a single primary action button that says 'Get Started'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "cta",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "cta",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Button": {
+                "label": "Get Started",
+                "variant": "primary",
+                "action": { "name": "getStarted", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Button"]
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "tag-disclosure",
+  "difficulty": "medium",
+  "prompt": "Show a filter panel with a TagGroup of selectable tags (JavaScript, TypeScript, React, CSS) and a collapsible Disclosure section that reveals advanced filter options.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "filters",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "filters",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["tag-group", "disclosure"]
+              }
+            }
+          },
+          {
+            "id": "tag-group",
+            "component": {
+              "TagGroup": {
+                "label": "Technologies",
+                "selectionMode": "multiple",
+                "children": ["tag-list"]
+              }
+            }
+          },
+          {
+            "id": "tag-list",
+            "component": {
+              "TagList": {
+                "children": ["tag-js", "tag-ts", "tag-react", "tag-css"]
+              }
+            }
+          },
+          {
+            "id": "tag-js",
+            "component": {
+              "Tag": {
+                "id": "js",
+                "label": "JavaScript"
+              }
+            }
+          },
+          {
+            "id": "tag-ts",
+            "component": {
+              "Tag": {
+                "id": "ts",
+                "label": "TypeScript"
+              }
+            }
+          },
+          {
+            "id": "tag-react",
+            "component": {
+              "Tag": {
+                "id": "react",
+                "label": "React"
+              }
+            }
+          },
+          {
+            "id": "tag-css",
+            "component": {
+              "Tag": {
+                "id": "css",
+                "label": "CSS"
+              }
+            }
+          },
+          {
+            "id": "disclosure",
+            "component": {
+              "Disclosure": {
+                "children": ["disc-trigger", "disc-panel"]
+              }
+            }
+          },
+          {
+            "id": "disc-trigger",
+            "component": {
+              "DisclosureTrigger": {
+                "label": "Advanced filters"
+              }
+            }
+          },
+          {
+            "id": "disc-panel",
+            "component": {
+              "DisclosurePanel": {
+                "children": ["advanced-text"]
+              }
+            }
+          },
+          {
+            "id": "advanced-text",
+            "component": {
+              "Text": {
+                "content": "Additional filter options appear here.",
+                "usageHint": "body",
+                "color": "muted"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["TagGroup", "TagList", "Tag", "Disclosure", "DisclosureTrigger", "DisclosurePanel"]
+}

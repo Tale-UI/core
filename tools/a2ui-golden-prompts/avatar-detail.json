@@ -1,0 +1,47 @@
+{
+  "slug": "avatar-detail",
+  "difficulty": "simple",
+  "prompt": "Show an Avatar with a real profile image (use a picsum URL) and an AvatarFallback with initials 'AB' for when the image fails to load.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "user",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "user",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Avatar": {
+                "size": "lg",
+                "children": ["avatar-img", "avatar-fallback"]
+              }
+            }
+          },
+          {
+            "id": "avatar-img",
+            "component": {
+              "AvatarImage": {
+                "src": "https://picsum.photos/80/80",
+                "alt": "User profile photo"
+              }
+            }
+          },
+          {
+            "id": "avatar-fallback",
+            "component": {
+              "AvatarFallback": {
+                "initials": "AB"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["AvatarImage", "AvatarFallback"]
+}

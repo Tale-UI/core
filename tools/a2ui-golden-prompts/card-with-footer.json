@@ -1,0 +1,82 @@
+{
+  "slug": "card-with-footer",
+  "difficulty": "simple",
+  "prompt": "Show a card with a header, body, and footer. The header should have a title 'Plan Summary', the body should show a price, and the footer should have a 'Get Started' button.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "plan",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "plan",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "children": ["card-header", "card-body", "card-footer"]
+              }
+            }
+          },
+          {
+            "id": "card-header",
+            "component": {
+              "CardHeader": {
+                "children": ["title"]
+              }
+            }
+          },
+          {
+            "id": "title",
+            "component": {
+              "Text": {
+                "content": "Plan Summary",
+                "usageHint": "title"
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["price"]
+              }
+            }
+          },
+          {
+            "id": "price",
+            "component": {
+              "Text": {
+                "content": "$12 / month",
+                "usageHint": "display-s"
+              }
+            }
+          },
+          {
+            "id": "card-footer",
+            "component": {
+              "CardFooter": {
+                "children": ["cta"]
+              }
+            }
+          },
+          {
+            "id": "cta",
+            "component": {
+              "Button": {
+                "label": "Get Started",
+                "variant": "primary",
+                "action": { "name": "subscribe", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["CardFooter"]
+}

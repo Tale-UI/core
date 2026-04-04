@@ -1,0 +1,30 @@
+{
+  "slug": "single-badge",
+  "difficulty": "simple",
+  "prompt": "Show a success status badge with the label 'Active'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "status",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "status",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Badge": {
+                "label": "Active",
+                "tone": "success"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Badge"]
+}

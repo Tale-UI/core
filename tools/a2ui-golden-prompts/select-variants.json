@@ -1,0 +1,173 @@
+{
+  "slug": "select-variants",
+  "difficulty": "complex",
+  "prompt": "Show a form card with four different selection inputs: a Select with SelectItems for country, a Combobox with ComboboxItems for city, a SelectNative for timezone, and an Autocomplete with AutocompleteItems for language.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "selectors",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "selectors",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["form-col"]
+              }
+            }
+          },
+          {
+            "id": "form-col",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["country", "city", "timezone", "language"]
+              }
+            }
+          },
+          {
+            "id": "country",
+            "component": {
+              "Select": {
+                "label": "Country",
+                "binding": { "path": "country" },
+                "children": ["country-us", "country-uk", "country-ca"]
+              }
+            }
+          },
+          {
+            "id": "country-us",
+            "component": {
+              "SelectItem": {
+                "value": "us",
+                "label": "United States"
+              }
+            }
+          },
+          {
+            "id": "country-uk",
+            "component": {
+              "SelectItem": {
+                "value": "uk",
+                "label": "United Kingdom"
+              }
+            }
+          },
+          {
+            "id": "country-ca",
+            "component": {
+              "SelectItem": {
+                "value": "ca",
+                "label": "Canada"
+              }
+            }
+          },
+          {
+            "id": "city",
+            "component": {
+              "Combobox": {
+                "label": "City",
+                "placeholder": "Type to search...",
+                "children": ["city-nyc", "city-lon", "city-tor"]
+              }
+            }
+          },
+          {
+            "id": "city-nyc",
+            "component": {
+              "ComboboxItem": {
+                "id": "nyc",
+                "label": "New York"
+              }
+            }
+          },
+          {
+            "id": "city-lon",
+            "component": {
+              "ComboboxItem": {
+                "id": "lon",
+                "label": "London"
+              }
+            }
+          },
+          {
+            "id": "city-tor",
+            "component": {
+              "ComboboxItem": {
+                "id": "tor",
+                "label": "Toronto"
+              }
+            }
+          },
+          {
+            "id": "timezone",
+            "component": {
+              "SelectNative": {
+                "label": "Timezone",
+                "name": "timezone",
+                "options": [
+                  { "value": "utc", "label": "UTC" },
+                  { "value": "est", "label": "Eastern" },
+                  { "value": "pst", "label": "Pacific" }
+                ]
+              }
+            }
+          },
+          {
+            "id": "language",
+            "component": {
+              "Autocomplete": {
+                "label": "Language",
+                "placeholder": "Search languages...",
+                "children": ["lang-en", "lang-fr", "lang-es"]
+              }
+            }
+          },
+          {
+            "id": "lang-en",
+            "component": {
+              "AutocompleteItem": {
+                "id": "en",
+                "label": "English"
+              }
+            }
+          },
+          {
+            "id": "lang-fr",
+            "component": {
+              "AutocompleteItem": {
+                "id": "fr",
+                "label": "French"
+              }
+            }
+          },
+          {
+            "id": "lang-es",
+            "component": {
+              "AutocompleteItem": {
+                "id": "es",
+                "label": "Spanish"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["SelectItem", "Combobox", "ComboboxItem", "SelectNative", "Autocomplete", "AutocompleteItem"]
+}

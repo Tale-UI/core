@@ -1,0 +1,105 @@
+{
+  "slug": "simple-form",
+  "difficulty": "medium",
+  "prompt": "Create a login form card with email and password text inputs and a primary Sign In button. Use a Form component for the form container. Align the button to the right.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "login",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "login",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["form"]
+              }
+            }
+          },
+          {
+            "id": "form",
+            "component": {
+              "Form": {
+                "action": { "name": "login", "context": {} },
+                "children": ["form-col"]
+              }
+            }
+          },
+          {
+            "id": "form-col",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["heading", "email", "password", "actions"]
+              }
+            }
+          },
+          {
+            "id": "heading",
+            "component": {
+              "Text": {
+                "content": "Sign in",
+                "usageHint": "heading-m"
+              }
+            }
+          },
+          {
+            "id": "email",
+            "component": {
+              "TextInput": {
+                "label": "Email",
+                "binding": { "path": "email" },
+                "required": true
+              }
+            }
+          },
+          {
+            "id": "password",
+            "component": {
+              "TextInput": {
+                "label": "Password",
+                "binding": { "path": "password" },
+                "required": true
+              }
+            }
+          },
+          {
+            "id": "actions",
+            "component": {
+              "Row": {
+                "justify": "end",
+                "children": ["submit"]
+              }
+            }
+          },
+          {
+            "id": "submit",
+            "component": {
+              "Button": {
+                "label": "Sign in",
+                "variant": "primary",
+                "action": { "name": "login", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Form", "Card", "TextInput", "Button", "Column", "Row"]
+}

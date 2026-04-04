@@ -1,0 +1,170 @@
+{
+  "slug": "accordion-faq",
+  "difficulty": "medium",
+  "prompt": "Show a FAQ section with an 'FAQ' heading and an Accordion below it with three items: 'What is A2UI?', 'How do I add components?', and 'Can I use custom layouts?'. Each item should have a short answer in its panel.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "faq",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "faq",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["heading", "accordion"]
+              }
+            }
+          },
+          {
+            "id": "heading",
+            "component": {
+              "Text": {
+                "content": "FAQ",
+                "usageHint": "heading-m"
+              }
+            }
+          },
+          {
+            "id": "accordion",
+            "component": {
+              "Accordion": {
+                "children": ["item-1", "item-2", "item-3"]
+              }
+            }
+          },
+          {
+            "id": "item-1",
+            "component": {
+              "AccordionItem": {
+                "children": ["item-1-header", "item-1-panel"]
+              }
+            }
+          },
+          {
+            "id": "item-1-header",
+            "component": {
+              "AccordionHeader": {
+                "children": ["item-1-trigger"]
+              }
+            }
+          },
+          {
+            "id": "item-1-trigger",
+            "component": {
+              "AccordionTrigger": {
+                "label": "What is A2UI?"
+              }
+            }
+          },
+          {
+            "id": "item-1-panel",
+            "component": {
+              "AccordionPanel": {
+                "children": ["item-1-text"]
+              }
+            }
+          },
+          {
+            "id": "item-1-text",
+            "component": {
+              "Text": {
+                "content": "A2UI is a protocol for generating structured UI from agent messages.",
+                "usageHint": "body"
+              }
+            }
+          },
+          {
+            "id": "item-2",
+            "component": {
+              "AccordionItem": {
+                "children": ["item-2-header", "item-2-panel"]
+              }
+            }
+          },
+          {
+            "id": "item-2-header",
+            "component": {
+              "AccordionHeader": {
+                "children": ["item-2-trigger"]
+              }
+            }
+          },
+          {
+            "id": "item-2-trigger",
+            "component": {
+              "AccordionTrigger": {
+                "label": "How do I add components?"
+              }
+            }
+          },
+          {
+            "id": "item-2-panel",
+            "component": {
+              "AccordionPanel": {
+                "children": ["item-2-text"]
+              }
+            }
+          },
+          {
+            "id": "item-2-text",
+            "component": {
+              "Text": {
+                "content": "Add components by including them in the surfaceUpdate components array.",
+                "usageHint": "body"
+              }
+            }
+          },
+          {
+            "id": "item-3",
+            "component": {
+              "AccordionItem": {
+                "children": ["item-3-header", "item-3-panel"]
+              }
+            }
+          },
+          {
+            "id": "item-3-header",
+            "component": {
+              "AccordionHeader": {
+                "children": ["item-3-trigger"]
+              }
+            }
+          },
+          {
+            "id": "item-3-trigger",
+            "component": {
+              "AccordionTrigger": {
+                "label": "Can I use custom layouts?"
+              }
+            }
+          },
+          {
+            "id": "item-3-panel",
+            "component": {
+              "AccordionPanel": {
+                "children": ["item-3-text"]
+              }
+            }
+          },
+          {
+            "id": "item-3-text",
+            "component": {
+              "Text": {
+                "content": "Yes, use Row and Column components to build any layout structure.",
+                "usageHint": "body"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Accordion", "AccordionItem", "AccordionHeader", "AccordionTrigger", "AccordionPanel", "Text"]
+}

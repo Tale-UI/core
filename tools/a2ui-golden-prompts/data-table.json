@@ -1,0 +1,76 @@
+{
+  "slug": "data-table",
+  "difficulty": "medium",
+  "prompt": "Show a data table page with a heading 'Recent Orders', a 'New Order' primary button in the header aligned to the right, and a Table component inside an outlined card.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "orders",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "orders",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["header-row", "table-card"]
+              }
+            }
+          },
+          {
+            "id": "header-row",
+            "component": {
+              "Row": {
+                "justify": "between",
+                "children": ["page-title", "add-btn"]
+              }
+            }
+          },
+          {
+            "id": "page-title",
+            "component": {
+              "Text": {
+                "content": "Recent Orders",
+                "usageHint": "heading-m"
+              }
+            }
+          },
+          {
+            "id": "add-btn",
+            "component": {
+              "Button": {
+                "label": "New Order",
+                "variant": "primary",
+                "action": { "name": "createOrder", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "table-card",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "sm",
+                "children": ["table"]
+              }
+            }
+          },
+          {
+            "id": "table",
+            "component": {
+              "Table": {
+                "label": "Recent orders"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Table", "Card", "Button", "Row", "Column", "Text"]
+}

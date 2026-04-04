@@ -1,0 +1,50 @@
+{
+  "slug": "dialog-confirm",
+  "difficulty": "medium",
+  "prompt": "Show a page with a Dialog that has a 'Delete Account' trigger button, and an AlertDialog with a 'Reset Data' trigger button. The Dialog should have a title 'Delete your account' and a description. The AlertDialog should have a title 'Reset all data' and a description.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "dialogs",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "dialogs",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Row": {
+                "spacing": "m",
+                "children": ["dialog", "alert-dialog"]
+              }
+            }
+          },
+          {
+            "id": "dialog",
+            "component": {
+              "Dialog": {
+                "triggerLabel": "Delete Account",
+                "title": "Delete your account",
+                "description": "This action cannot be undone. All your data will be permanently removed."
+              }
+            }
+          },
+          {
+            "id": "alert-dialog",
+            "component": {
+              "AlertDialog": {
+                "triggerLabel": "Reset Data",
+                "title": "Reset all data",
+                "description": "Are you sure you want to reset all data to defaults?"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Dialog", "AlertDialog"]
+}

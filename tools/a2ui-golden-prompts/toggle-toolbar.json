@@ -1,0 +1,118 @@
+{
+  "slug": "toggle-toolbar",
+  "difficulty": "medium",
+  "prompt": "Show a text editor toolbar with: a ToggleButtonGroup for text formatting (Bold, Italic, Underline buttons with single selection), a toolbar separator, a Toolbar with ToolbarButton items for Cut, Copy, Paste, and an IconButton for settings.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "editor",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "editor",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["toggle-group", "toolbar"]
+              }
+            }
+          },
+          {
+            "id": "toggle-group",
+            "component": {
+              "ToggleButtonGroup": {
+                "selectionMode": "single",
+                "children": ["btn-bold", "btn-italic", "btn-underline"]
+              }
+            }
+          },
+          {
+            "id": "btn-bold",
+            "component": {
+              "ToggleButton": {
+                "value": "bold",
+                "label": "Bold"
+              }
+            }
+          },
+          {
+            "id": "btn-italic",
+            "component": {
+              "ToggleButton": {
+                "value": "italic",
+                "label": "Italic"
+              }
+            }
+          },
+          {
+            "id": "btn-underline",
+            "component": {
+              "ToggleButton": {
+                "value": "underline",
+                "label": "Underline"
+              }
+            }
+          },
+          {
+            "id": "toolbar",
+            "component": {
+              "Toolbar": {
+                "label": "Edit actions",
+                "children": ["tb-cut", "tb-copy", "tb-sep", "tb-paste", "tb-icon-btn"]
+              }
+            }
+          },
+          {
+            "id": "tb-cut",
+            "component": {
+              "ToolbarButton": {
+                "label": "Cut",
+                "action": { "name": "cut", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "tb-copy",
+            "component": {
+              "ToolbarButton": {
+                "label": "Copy",
+                "action": { "name": "copy", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "tb-sep",
+            "component": {
+              "ToolbarSeparator": {}
+            }
+          },
+          {
+            "id": "tb-paste",
+            "component": {
+              "ToolbarButton": {
+                "label": "Paste",
+                "action": { "name": "paste", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "tb-icon-btn",
+            "component": {
+              "IconButton": {
+                "variant": "ghost",
+                "label": "Settings",
+                "action": { "name": "openSettings", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["ToggleButton", "ToggleButtonGroup", "Toolbar", "ToolbarButton", "ToolbarSeparator", "IconButton"]
+}

@@ -1,0 +1,31 @@
+{
+  "slug": "banner-alert",
+  "difficulty": "simple",
+  "prompt": "Show a warning banner that says 'Your subscription expires in 3 days. Renew now to avoid interruption.'",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "alert",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "alert",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Banner": {
+                "variant": "warning",
+                "title": "Subscription expiring soon",
+                "description": "Your subscription expires in 3 days. Renew now to avoid interruption."
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Banner"]
+}

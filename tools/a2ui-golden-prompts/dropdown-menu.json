@@ -1,0 +1,81 @@
+{
+  "slug": "dropdown-menu",
+  "difficulty": "medium",
+  "prompt": "Show a dropdown Menu with a trigger button labeled 'Actions'. Include menu items: 'Edit', 'Duplicate', then a separator, then 'Delete'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "menu",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "menu",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Menu": {
+                "children": ["trigger", "popover"]
+              }
+            }
+          },
+          {
+            "id": "trigger",
+            "component": {
+              "MenuTrigger": {
+                "label": "Actions"
+              }
+            }
+          },
+          {
+            "id": "popover",
+            "component": {
+              "MenuPopover": {
+                "children": ["edit", "duplicate", "sep", "delete"]
+              }
+            }
+          },
+          {
+            "id": "edit",
+            "component": {
+              "MenuItem": {
+                "id": "edit",
+                "label": "Edit",
+                "action": { "name": "edit", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "duplicate",
+            "component": {
+              "MenuItem": {
+                "id": "duplicate",
+                "label": "Duplicate",
+                "action": { "name": "duplicate", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "sep",
+            "component": {
+              "MenuSeparator": {}
+            }
+          },
+          {
+            "id": "delete",
+            "component": {
+              "MenuItem": {
+                "id": "delete",
+                "label": "Delete",
+                "action": { "name": "delete", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Menu", "MenuTrigger", "MenuPopover", "MenuItem", "MenuSeparator"]
+}

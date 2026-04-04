@@ -1,0 +1,106 @@
+{
+  "slug": "profile-card",
+  "difficulty": "medium",
+  "prompt": "Show a user profile card with an avatar (initials 'JD'), a name heading 'Jane Doe', a muted body text 'Product Designer', and a row with two buttons: a primary 'Follow' button and a neutral 'Message' button.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "profile",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "profile",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["profile-col"]
+              }
+            }
+          },
+          {
+            "id": "profile-col",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "alignment": "center",
+                "children": ["avatar", "name", "role", "actions"]
+              }
+            }
+          },
+          {
+            "id": "avatar",
+            "component": {
+              "Avatar": {
+                "initials": "JD",
+                "size": "xl"
+              }
+            }
+          },
+          {
+            "id": "name",
+            "component": {
+              "Text": {
+                "content": "Jane Doe",
+                "usageHint": "heading-s"
+              }
+            }
+          },
+          {
+            "id": "role",
+            "component": {
+              "Text": {
+                "content": "Product Designer",
+                "usageHint": "body",
+                "color": "muted"
+              }
+            }
+          },
+          {
+            "id": "actions",
+            "component": {
+              "Row": {
+                "spacing": "s",
+                "children": ["follow-btn", "message-btn"]
+              }
+            }
+          },
+          {
+            "id": "follow-btn",
+            "component": {
+              "Button": {
+                "label": "Follow",
+                "variant": "primary",
+                "action": { "name": "follow", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "message-btn",
+            "component": {
+              "Button": {
+                "label": "Message",
+                "variant": "neutral",
+                "action": { "name": "message", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Avatar", "Card", "Button", "Column", "Row", "Text"]
+}

@@ -1,0 +1,137 @@
+{
+  "slug": "data-table-full",
+  "difficulty": "complex",
+  "prompt": "Show a full data table with a TableHeader row containing columns 'Name', 'Status', and 'Date', and two TableBody rows: one for 'Alice Johnson' / 'Active' / '2024-01-15', and one for 'Bob Smith' / 'Inactive' / '2024-01-10'.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "table",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "table",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Table": {
+                "label": "Users",
+                "children": ["thead", "tbody"]
+              }
+            }
+          },
+          {
+            "id": "thead",
+            "component": {
+              "TableHeader": {
+                "children": ["col-name", "col-status", "col-date"]
+              }
+            }
+          },
+          {
+            "id": "col-name",
+            "component": {
+              "TableColumn": {
+                "isRowHeader": true,
+                "label": "Name"
+              }
+            }
+          },
+          {
+            "id": "col-status",
+            "component": {
+              "TableColumn": {
+                "label": "Status"
+              }
+            }
+          },
+          {
+            "id": "col-date",
+            "component": {
+              "TableColumn": {
+                "label": "Date"
+              }
+            }
+          },
+          {
+            "id": "tbody",
+            "component": {
+              "TableBody": {
+                "children": ["row-1", "row-2"]
+              }
+            }
+          },
+          {
+            "id": "row-1",
+            "component": {
+              "TableRow": {
+                "id": "row-1",
+                "children": ["cell-1-name", "cell-1-status", "cell-1-date"]
+              }
+            }
+          },
+          {
+            "id": "cell-1-name",
+            "component": {
+              "TableCell": {
+                "content": "Alice Johnson"
+              }
+            }
+          },
+          {
+            "id": "cell-1-status",
+            "component": {
+              "TableCell": {
+                "content": "Active"
+              }
+            }
+          },
+          {
+            "id": "cell-1-date",
+            "component": {
+              "TableCell": {
+                "content": "2024-01-15"
+              }
+            }
+          },
+          {
+            "id": "row-2",
+            "component": {
+              "TableRow": {
+                "id": "row-2",
+                "children": ["cell-2-name", "cell-2-status", "cell-2-date"]
+              }
+            }
+          },
+          {
+            "id": "cell-2-name",
+            "component": {
+              "TableCell": {
+                "content": "Bob Smith"
+              }
+            }
+          },
+          {
+            "id": "cell-2-status",
+            "component": {
+              "TableCell": {
+                "content": "Inactive"
+              }
+            }
+          },
+          {
+            "id": "cell-2-date",
+            "component": {
+              "TableCell": {
+                "content": "2024-01-10"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["TableHeader", "TableColumn", "TableBody", "TableRow", "TableCell"]
+}

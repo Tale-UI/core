@@ -1,0 +1,50 @@
+{
+  "slug": "spinner-loading",
+  "difficulty": "simple",
+  "prompt": "Show a loading state with a spinner and a muted 'Loading...' label below it, centered.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "loading",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "loading",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "s",
+                "alignment": "center",
+                "children": ["spinner", "label"]
+              }
+            }
+          },
+          {
+            "id": "spinner",
+            "component": {
+              "Spinner": {
+                "variant": "circle",
+                "size": "lg"
+              }
+            }
+          },
+          {
+            "id": "label",
+            "component": {
+              "Text": {
+                "content": "Loading...",
+                "usageHint": "body",
+                "color": "muted"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Spinner", "Text", "Column"]
+}

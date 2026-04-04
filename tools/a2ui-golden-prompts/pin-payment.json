@@ -1,0 +1,92 @@
+{
+  "slug": "pin-payment",
+  "difficulty": "medium",
+  "prompt": "Show a checkout form card with a PaymentInput for card number and a PinInput for a 4-digit PIN. Include a 'Pay Now' button.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "checkout",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "checkout",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["card-header", "card-body"]
+              }
+            }
+          },
+          {
+            "id": "card-header",
+            "component": {
+              "CardHeader": {
+                "children": ["title"]
+              }
+            }
+          },
+          {
+            "id": "title",
+            "component": {
+              "Text": {
+                "content": "Payment",
+                "usageHint": "heading-s"
+              }
+            }
+          },
+          {
+            "id": "card-body",
+            "component": {
+              "CardBody": {
+                "children": ["col"]
+              }
+            }
+          },
+          {
+            "id": "col",
+            "component": {
+              "Column": {
+                "spacing": "m",
+                "children": ["card-number", "pin", "pay-btn"]
+              }
+            }
+          },
+          {
+            "id": "card-number",
+            "component": {
+              "PaymentInput": {
+                "label": "Card Number",
+                "name": "cardNumber"
+              }
+            }
+          },
+          {
+            "id": "pin",
+            "component": {
+              "PinInput": {
+                "maxLength": 4
+              }
+            }
+          },
+          {
+            "id": "pay-btn",
+            "component": {
+              "Button": {
+                "label": "Pay Now",
+                "variant": "primary",
+                "action": { "name": "pay", "context": {} }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["PaymentInput", "PinInput"]
+}

@@ -1,7 +1,7 @@
 {
   "slug": "color-picker-root",
   "difficulty": "medium",
-  "prompt": "Show a color picker using ColorPicker.Root wrapping a ColorArea — do NOT nest a ColorSlider inside ColorPicker.Root.",
+  "prompt": "Show a color picker using ColorPicker.Root with a ColorArea.Root child — import both ColorPicker from '@tale-ui/react/color-picker' and ColorArea from '@tale-ui/react/color-area'. Use <ColorArea.Root> (NOT <ColorArea>) inside ColorPicker.Root. Do NOT use useState or import from @internationalized/color. Use defaultValue with a plain CSS string on ColorPicker.Root.",
   "reference": "import { ColorPicker } from '@tale-ui/react/color-picker';\nimport { ColorArea } from '@tale-ui/react/color-area';\n\nexport function ColorPickerRoot() {\n  return (\n    <ColorPicker.Root defaultValue=\"hsl(200, 100%, 50%)\">\n      <ColorArea.Root xChannel=\"saturation\" yChannel=\"lightness\">\n        <ColorArea.Thumb />\n      </ColorArea.Root>\n    </ColorPicker.Root>\n  );\n}",
   "tags": ["ColorPicker"]
 }

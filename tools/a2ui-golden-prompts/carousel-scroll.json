@@ -1,0 +1,186 @@
+{
+  "slug": "carousel-scroll",
+  "difficulty": "medium",
+  "prompt": "Show a Carousel with three slides, each containing a card with a title and description. Below it, show a ScrollArea containing a long list of items.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "media",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "media",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "l",
+                "children": ["carousel", "scroll"]
+              }
+            }
+          },
+          {
+            "id": "carousel",
+            "component": {
+              "Carousel": {
+                "loop": true,
+                "slidesPerView": 1,
+                "children": ["slide-1", "slide-2", "slide-3"]
+              }
+            }
+          },
+          {
+            "id": "slide-1",
+            "component": {
+              "CarouselItem": {
+                "children": ["slide-1-card"]
+              }
+            }
+          },
+          {
+            "id": "slide-1-card",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["slide-1-body"]
+              }
+            }
+          },
+          {
+            "id": "slide-1-body",
+            "component": {
+              "CardBody": {
+                "children": ["slide-1-text"]
+              }
+            }
+          },
+          {
+            "id": "slide-1-text",
+            "component": {
+              "Text": {
+                "content": "Slide 1: Introduction",
+                "usageHint": "heading-s"
+              }
+            }
+          },
+          {
+            "id": "slide-2",
+            "component": {
+              "CarouselItem": {
+                "children": ["slide-2-card"]
+              }
+            }
+          },
+          {
+            "id": "slide-2-card",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["slide-2-body"]
+              }
+            }
+          },
+          {
+            "id": "slide-2-body",
+            "component": {
+              "CardBody": {
+                "children": ["slide-2-text"]
+              }
+            }
+          },
+          {
+            "id": "slide-2-text",
+            "component": {
+              "Text": {
+                "content": "Slide 2: Features",
+                "usageHint": "heading-s"
+              }
+            }
+          },
+          {
+            "id": "slide-3",
+            "component": {
+              "CarouselItem": {
+                "children": ["slide-3-card"]
+              }
+            }
+          },
+          {
+            "id": "slide-3-card",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "padding": "lg",
+                "children": ["slide-3-body"]
+              }
+            }
+          },
+          {
+            "id": "slide-3-body",
+            "component": {
+              "CardBody": {
+                "children": ["slide-3-text"]
+              }
+            }
+          },
+          {
+            "id": "slide-3-text",
+            "component": {
+              "Text": {
+                "content": "Slide 3: Get Started",
+                "usageHint": "heading-s"
+              }
+            }
+          },
+          {
+            "id": "scroll",
+            "component": {
+              "ScrollArea": {
+                "children": ["scroll-list"]
+              }
+            }
+          },
+          {
+            "id": "scroll-list",
+            "component": {
+              "List": {
+                "variant": "divided",
+                "children": ["item-a", "item-b", "item-c"]
+              }
+            }
+          },
+          {
+            "id": "item-a",
+            "component": {
+              "ListItem": {
+                "content": "Item A"
+              }
+            }
+          },
+          {
+            "id": "item-b",
+            "component": {
+              "ListItem": {
+                "content": "Item B"
+              }
+            }
+          },
+          {
+            "id": "item-c",
+            "component": {
+              "ListItem": {
+                "content": "Item C"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Carousel", "CarouselItem", "ScrollArea"]
+}

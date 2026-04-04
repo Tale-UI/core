@@ -1,0 +1,32 @@
+{
+  "slug": "drawer-panel",
+  "difficulty": "simple",
+  "prompt": "Show a Drawer that slides in from the right with a trigger button labeled 'Open Settings' and a title 'Settings Panel'. Include a short description inside.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "drawer",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "drawer",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Drawer": {
+                "placement": "right",
+                "triggerLabel": "Open Settings",
+                "title": "Settings Panel",
+                "description": "Adjust your preferences here."
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Drawer"]
+}

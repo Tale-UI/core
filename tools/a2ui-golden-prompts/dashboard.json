@@ -1,0 +1,242 @@
+{
+  "slug": "dashboard",
+  "difficulty": "complex",
+  "prompt": "Create a dashboard page with a page heading, a row of 3 stat cards (Total Users, Revenue, Conversion Rate), and a card showing a progress bar for a Monthly Goal. Include a Refresh button in the header aligned to the right. Set an initial goalProgress data model value of 67.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "dashboard",
+        "rootComponentId": "root"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "dashboard",
+        "components": [
+          {
+            "id": "root",
+            "component": {
+              "Column": {
+                "spacing": "l",
+                "children": ["header", "stats-row", "progress-section"]
+              }
+            }
+          },
+          {
+            "id": "header",
+            "component": {
+              "Row": {
+                "justify": "between",
+                "children": ["title", "refresh-btn"]
+              }
+            }
+          },
+          {
+            "id": "title",
+            "component": {
+              "Text": {
+                "content": "Dashboard",
+                "usageHint": "heading-l"
+              }
+            }
+          },
+          {
+            "id": "refresh-btn",
+            "component": {
+              "Button": {
+                "label": "Refresh",
+                "variant": "neutral",
+                "action": { "name": "refresh", "context": {} }
+              }
+            }
+          },
+          {
+            "id": "stats-row",
+            "component": {
+              "Row": {
+                "spacing": "m",
+                "alignment": "stretch",
+                "children": ["stat-1", "stat-2", "stat-3"]
+              }
+            }
+          },
+          {
+            "id": "stat-1",
+            "component": {
+              "Card": {
+                "variant": "filled",
+                "padding": "md",
+                "children": ["stat-1-body"]
+              }
+            },
+            "weight": 1
+          },
+          {
+            "id": "stat-1-body",
+            "component": {
+              "CardBody": {
+                "children": ["stat-1-label", "stat-1-value"]
+              }
+            }
+          },
+          {
+            "id": "stat-1-label",
+            "component": {
+              "Text": {
+                "content": "Total Users",
+                "usageHint": "label",
+                "color": "muted"
+              }
+            }
+          },
+          {
+            "id": "stat-1-value",
+            "component": {
+              "Text": {
+                "content": "12,847",
+                "usageHint": "heading-m"
+              }
+            }
+          },
+          {
+            "id": "stat-2",
+            "component": {
+              "Card": {
+                "variant": "filled",
+                "padding": "md",
+                "children": ["stat-2-body"]
+              }
+            },
+            "weight": 1
+          },
+          {
+            "id": "stat-2-body",
+            "component": {
+              "CardBody": {
+                "children": ["stat-2-label", "stat-2-value"]
+              }
+            }
+          },
+          {
+            "id": "stat-2-label",
+            "component": {
+              "Text": {
+                "content": "Revenue",
+                "usageHint": "label",
+                "color": "muted"
+              }
+            }
+          },
+          {
+            "id": "stat-2-value",
+            "component": {
+              "Text": {
+                "content": "$84,230",
+                "usageHint": "heading-m"
+              }
+            }
+          },
+          {
+            "id": "stat-3",
+            "component": {
+              "Card": {
+                "variant": "filled",
+                "padding": "md",
+                "children": ["stat-3-body"]
+              }
+            },
+            "weight": 1
+          },
+          {
+            "id": "stat-3-body",
+            "component": {
+              "CardBody": {
+                "children": ["stat-3-label", "stat-3-value", "stat-3-badge"]
+              }
+            }
+          },
+          {
+            "id": "stat-3-label",
+            "component": {
+              "Text": {
+                "content": "Conversion Rate",
+                "usageHint": "label",
+                "color": "muted"
+              }
+            }
+          },
+          {
+            "id": "stat-3-value",
+            "component": {
+              "Text": {
+                "content": "3.24%",
+                "usageHint": "heading-m"
+              }
+            }
+          },
+          {
+            "id": "stat-3-badge",
+            "component": {
+              "Badge": {
+                "label": "+12%",
+                "tone": "success",
+                "size": "sm"
+              }
+            }
+          },
+          {
+            "id": "progress-section",
+            "component": {
+              "Card": {
+                "variant": "outlined",
+                "children": ["progress-header", "progress-body"]
+              }
+            }
+          },
+          {
+            "id": "progress-header",
+            "component": {
+              "CardHeader": {
+                "children": ["progress-title"]
+              }
+            }
+          },
+          {
+            "id": "progress-title",
+            "component": {
+              "Text": {
+                "content": "Monthly Goal",
+                "usageHint": "title"
+              }
+            }
+          },
+          {
+            "id": "progress-body",
+            "component": {
+              "CardBody": {
+                "children": ["progress-bar"]
+              }
+            }
+          },
+          {
+            "id": "progress-bar",
+            "component": {
+              "Progress": {
+                "value": { "path": "goalProgress" },
+                "maxValue": 100,
+                "label": "Monthly goal progress"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "dataModelUpdate",
+        "surfaceId": "dashboard",
+        "path": "goalProgress",
+        "value": 67
+      }
+    ]
+  },
+  "tags": ["Card", "Row", "Column", "Text", "Button", "Badge", "Progress"]
+}
