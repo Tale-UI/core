@@ -59,6 +59,8 @@ test-results/
 
 # Analysis (local research notes)
 /analysis/
+/plans/
+/research/
 
 # Misc
 *.log

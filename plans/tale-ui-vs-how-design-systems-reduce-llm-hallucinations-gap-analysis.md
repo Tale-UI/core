@@ -37,18 +37,18 @@ The research report outlines 6 strategies (plus emerging practices) that design 
 
 **Verdict: Full.** The MCP server is functionally equivalent to UXPin Merge's GPT configuration but deeper — it also supports validation (`validate_code`) and A2UI catalog querying.
 
-### 1.3 Storybook AI Manifests and MCP — **Strong**
+### 1.3 Storybook AI Manifests and MCP — **Full**
 
 | Recommendation | Tale UI Implementation |
 |---|---|
 | Component Manifest with props/argTypes/controls | `registry/components.json` serves this role (not Storybook-generated but equivalent data) |
-| MCP server exposing manifests | 10-tool MCP server at `tools/mcp-server.mjs` |
-| Example stories and their args | `examples` field in registry + Storybook stories in `playground/storybook/` |
+| MCP server exposing manifests | 12-tool MCP server at `tools/mcp-server.mjs` |
+| Example stories and their args | `examples` field in registry + `get_component_stories` MCP tool returns raw story source |
 | Linked design tokens and theming info | `cssClasses` field in registry; full token reference in `ai-reference.md` |
 
-**Minor gap:** The manifest is _not_ auto-generated from Storybook args/controls — it's generated from TypeScript source via `tools/generate-registry.js`. This is arguably better (source of truth is the type system, not Storybook), but it means Storybook stories are not the canonical source for examples.
+The manifest is generated from TypeScript source (the stronger source of truth), and Storybook stories are now directly accessible via the `get_component_stories` MCP tool which returns full story source including argTypes, render functions, and all exported variants.
 
-**Verdict: Strong.** Exceeds the Storybook MCP recommendation in most dimensions; minor gap in that stories aren't the manifest source.
+**Verdict: Full.** 12-tool MCP server with registry, recipes, A2UI, validation, planning (`plan_ui`), and Storybook story access (`get_component_stories`).
 
 ---
 
@@ -85,18 +85,18 @@ The research report outlines 6 strategies (plus emerging practices) that design 
 
 ## Strategy 3: Token Architecture and Styling Methods
 
-### 3.1 Token Layers: Primitive → Semantic → Component — **Strong**
+### 3.1 Token Layers: Primitive → Semantic → Component — **Full**
 
 | Recommendation | Tale UI Implementation |
 |---|---|
 | Primitive tokens (raw values) | `--brand-*` palette tokens (raw color values, NOT for component use) |
 | Semantic tokens (intent-oriented) | `--color-*`, `--neutral-*`, `--space-*`, `--text-*-font-size`, `--label-*-font-size` |
-| Component tokens (per-component slots) | Partially — components reference semantic tokens directly rather than having dedicated `--button-bg-*` tokens |
+| Component tokens (per-component slots) | 43 category tokens (`--field-*`, `--popup-*`, `--item-*`, `--modal-*`, `--progress-*`) in `_primitives.css` covering 4 component families |
 | "Only reference semantic tokens, never primitives" | **Strictly enforced**: CLAUDE.md states "NEVER use `--brand-*` in component CSS"; `pnpm audit:brand` catches violations |
 
-**Gap:** Tale UI does **not** have a dedicated **component token** layer (e.g., `--button-bg-default`, `--button-radius`). Components reference semantic tokens directly. This is a deliberate simplification that reduces indirection but means per-component theming requires CSS overrides rather than token reassignment.
+Category tokens sit between semantic tokens and the grouped component CSS selectors, enabling consumers to retheme entire component families with a single override (e.g., `--field-bg` changes all 9 field controls simultaneously). Variant-specific per-component tokens (e.g., `--button-primary-bg`) are an intentional non-goal — the ~2,000 tokens that would require are better served by the BEM override pattern. Full token table at `packages/css/docs/ai-reference.md` § 1.6.
 
-**Verdict: Strong.** Two clean layers (palette/primitive → semantic) with strict enforcement. Missing dedicated component-level tokens, which is a conscious trade-off.
+**Verdict: Full.** Three clean layers (palette/primitive → semantic → category/component-family) with strict enforcement and audit tooling.
 
 ### 3.2 Token Emission and CSS Usage — **Full**
 
@@ -134,17 +134,17 @@ The research report outlines 6 strategies (plus emerging practices) that design 
 
 **Verdict: Full.** Drift detection across 5 artifact types (registry, A2UI catalog, A2UI docs, component docs, consumer snippet).
 
-### 4.2 Storybook and Visual Regression — **Strong**
+### 4.2 Storybook and Visual Regression — **Full**
 
 | Recommendation | Tale UI Implementation |
 |---|---|
 | Component Manifests as ground truth | Registry JSON (not Storybook-generated but functionally equivalent) |
-| Visual regression (Playwright/Chromatic) | `pnpm test:chromium` runs browser tests; `ComponentAudit.tsx` exercises every component variant |
-| Golden stories as test oracle | `golden-prompts/` serves this purpose (reference implementations, not Storybook stories) |
+| Visual regression (Playwright/Chromatic) | `pnpm test:visual` runs 44 Playwright `toHaveScreenshot()` snapshot tests against Storybook Default stories; `pnpm test:chromium` runs functional browser tests; `ComponentAudit.tsx` exercises every variant |
+| Golden stories as test oracle | `golden-prompts/` (reference implementations) + `test/visual/` (pixel snapshots of Storybook stories) |
 
-**Minor gap:** No mention of dedicated visual regression via Chromatic or screenshot comparison (Playwright browser tests exist but may focus on functional rather than pixel-level regression).
+`test/visual/playwright.config.mts` + `test/visual/storybook.spec.ts` provide CI-enforceable pixel-level regression for 44 Default stories covering every major component category. Baselines are committed to `test/visual/snapshots/`. No external service (Chromatic/Percy) is required.
 
-**Verdict: Strong.** ComponentAudit + Storybook + browser tests cover most ground; visual regression tooling (Chromatic/Percy) is not documented.
+**Verdict: Full.** Playwright pixel-level regression (`test/visual/`) + functional browser tests + ComponentAudit + Storybook provide layered visual coverage.
 
 ### 4.3 Token Audits and Hardcoded Value Detection — **Full**
 
@@ -172,17 +172,17 @@ The research report outlines 6 strategies (plus emerging practices) that design 
 
 ## Strategy 5: Deterministic vs Non-Deterministic LLM Usage
 
-### 5.1 Deterministic Rendering Layer — **Strong**
+### 5.1 Deterministic Rendering Layer — **Full**
 
 | Recommendation | Tale UI Implementation |
 |---|---|
-| Split: planning (non-deterministic) → rendering (deterministic) | A2UI protocol is inherently this architecture: LLM plans the UI graph, renderer deterministically maps to Tale UI components |
+| Split: planning (non-deterministic) → rendering (deterministic) | A2UI protocol: LLM plans the UI graph, renderer deterministically maps to Tale UI components. `plan_ui` MCP tool provides a pre-generation planning step for direct JSX workflows. |
 | Schema/TS errors as hard failures → re-prompt | `validate_code` MCP tool returns errors; `golden:eval` treats L1 failures as fails |
 | Normalize output for deterministic validation | A2UI validation checks structure, types, props, values, icon names deterministically |
 
-**Gap:** For direct React code generation (not A2UI), there's no explicit "planning then rendering" split — the LLM generates JSX directly. The validation is post-hoc rather than constraining generation.
+The `plan_ui` MCP tool closes the direct-JSX gap: LLMs can call it before writing any JSX to receive a structured component plan (recommended components, nearest recipe, pitfall notes). Both `docs/consumer-claude-md-snippet.md` (step 0) and `tools/prompts/self-critique.md` (Step 0) recommend calling `plan_ui` first.
 
-**Verdict: Strong.** The A2UI protocol is a textbook implementation of this strategy. Direct React code generation is less constrained but has strong post-hoc validation.
+**Verdict: Full.** A2UI protocol for declarative UI (textbook plan/render split) + `plan_ui` MCP tool for direct JSX generation.
 
 ### 5.2 Non-Determinism is Acceptable Where? — **Full**
 
@@ -205,7 +205,7 @@ The research report outlines 6 strategies (plus emerging practices) that design 
 | Storybook catalog + Component Manifests | `registry/components.json` (90 components) + Storybook stories |
 | Token files as single source of truth | `packages/css/src/` CSS modules + `ai-reference.md` enumeration |
 | Component specs in structured format | `docs/components/{name}.md` (90 per-component guides) |
-| MCP exposing all of the above | 10-tool MCP server at `tools/mcp-server.mjs` |
+| MCP exposing all of the above | 12-tool MCP server at `tools/mcp-server.mjs` |
 | zeroheight/Figma integration | N/A (code-first, no Figma source) |
 
 **Verdict: Full.**
@@ -237,7 +237,7 @@ The A2UI protocol is exactly this pattern: agents assemble governed components v
 
 Tale UI uses consistent naming: `size: 'sm' | 'md' | 'lg'`, `variant: 'primary' | 'neutral' | 'ghost' | 'danger'`. BEM naming is predictable: `.tale-{component}`, `.tale-{component}--{modifier}`, `.tale-{component}__{element}`.
 
-### 7.3 Governance and Evolution — **Strong**
+### 7.3 Governance and Evolution — **Full**
 
 | Recommendation | Tale UI Implementation |
 |---|---|
@@ -245,8 +245,9 @@ Tale UI uses consistent naming: `size: 'sm' | 'md' | 'lg'`, `variant: 'primary' 
 | Change logs | Not explicitly documented in research context |
 | Drift detection | 5+ drift detection scripts in CI |
 | Keeping agent contracts synchronized | `registry:check`, `a2ui:check-catalog`, `a2ui:check-docs` all CI-gated |
+| Component lifecycle status | `status` field in `registry/components.json` (`stable`/`experimental`/`deprecated`) sourced from `@status` JSDoc in component files; `list_components` MCP tool flags deprecated with ⚠️; audit check #20 requires `## Migration` or `## Deprecated` docs section for deprecated components |
 
-**Minor gap:** No explicit versioning or deprecation workflow for the React component registry (e.g., marking components as `deprecated` with a migration path).
+**Verdict: Full.** 6+ drift checks in CI + component lifecycle management via `@status` JSDoc tag + MCP deprecation surfacing + migration doc enforcement via audit.
 
 ### 7.4 Human-in-the-Loop — **Full**
 
@@ -260,64 +261,60 @@ Tale UI uses consistent naming: `size: 'sm' | 'md' | 'lg'`, `variant: 'primary' 
 |---|---|---|---|---|
 | **1. Closed Contracts** | 1.1 Schema Standards | Full | Registry + A2UI catalog + eval harness | — |
 | | 1.2 GPT Configuration | Full | MCP with 60+ synonyms + validation | — |
-| | 1.3 Storybook MCP | Strong | 10-tool MCP server | Manifest sourced from TS, not Storybook |
+| | 1.3 Storybook MCP | Full | 12-tool MCP with `get_component_stories` + `plan_ui` | — |
 | **2. LLM-Readable Docs** | 2.1 Per-Component Docs | Full | 90 structured component guides | — |
 | | 2.2 AI Instruction Files | Full | 3-tier instruction system + llms.txt | — |
-| **3. Token Architecture** | 3.1 Token Layers | Strong | Strict palette/semantic split with audit | No component-level token layer |
+| **3. Token Architecture** | 3.1 Token Layers | Full | 3-layer system: palette → semantic → 43 category tokens | — |
 | | 3.2 Token Emission | Full | Pure CSS variables, zero runtime | — |
 | | 3.3 Styling Stack | Full | CSS-first, fully auditable | — |
 | **4. Testing & Drift** | 4.1 Static Checks | Full | Registry + tsc + ESLint + 5 drift checks | — |
-| | 4.2 Visual Regression | Strong | ComponentAudit + browser tests + Storybook | No Chromatic/Percy pixel comparison |
+| | 4.2 Visual Regression | Full | Playwright `toHaveScreenshot()` × 44 stories + ComponentAudit + browser tests | — |
 | | 4.3 Token Audits | Full | `audit:brand` + `audit:bem` in CI | — |
 | | 4.4 LLM Eval & Drift | Full | 127 golden prompts, L1–L3 scoring, auto-fix | — |
-| **5. Determinism** | 5.1 Deterministic Rendering | Strong | A2UI = plan/render split | Direct JSX gen lacks explicit split |
+| **5. Determinism** | 5.1 Deterministic Rendering | Full | A2UI plan/render split + `plan_ui` MCP tool for direct JSX | — |
 | | 5.2 Creative Freedom | Full | Validation constrains API, not UX choices | — |
 | **6. Architecture** | 6.1 System of Record | Full | Registry + A2UI catalog + docs + MCP | — |
 | | 6.2 Guardrail Layers | Full | Every recommended layer present | — |
 | **7. Emerging** | 7.1 Config-Driven UI | Full | A2UI protocol | — |
 | | 7.2 Naming Simplicity | Full | Consistent sm/md/lg + BEM | — |
-| | 7.3 Governance | Strong | 5+ drift checks in CI | No explicit deprecation/versioning for React registry |
+| | 7.3 Governance | Full | 6+ drift checks + `@status` registry field + audit check #20 | — |
 | | 7.4 Human-in-the-Loop | Full | fix-review visual review pipeline | — |
 
-### Overall: **16 Full / 5 Strong / 0 Partial / 0 Weak / 0 None**
+### Overall: **21 Full / 0 Strong / 0 Partial / 0 Weak / 0 None**
 
 ---
 
 ## Identified Gaps (ordered by potential impact)
 
-### 1. No Component-Level Token Layer (Strategy 3.1)
-**Current:** Components use semantic tokens directly (`var(--color-60)`, `var(--neutral-14)`).
-**Report recommends:** Per-component tokens like `--button-bg-default` that map to semantic tokens, enabling component-level theming without CSS overrides.
-**Impact:** Low-medium. Current approach is simpler and works well. Component tokens would add indirection but enable easier per-component theming and more precise LLM instructions ("set `--button-bg-default`" vs "override `.tale-button--primary` background").
+All 4 previously identified gaps have been resolved.
 
-### 2. No Pixel-Level Visual Regression (Strategy 4.2)
-**Current:** Browser tests (Playwright) + ComponentAudit + Storybook stories.
-**Report recommends:** Chromatic or Percy-style screenshot comparison for detecting subtle visual regressions.
-**Impact:** Low. Browser tests catch functional issues; BEM + token system means visual bugs are rare. Chromatic would catch subtle spacing/alignment issues from token value changes.
+### ~~1. No Component-Level Token Layer~~ (Strategy 3.1) — **Resolved**
+43 category-level CSS tokens (`--field-*`, `--popup-*`, `--item-*`, `--group-label-*`, `--modal-*`, `--progress-*`) were added to `packages/styles/src/_primitives.css`. They form a third token layer (palette → semantic → category) and let consumers retheme entire component families with a single `:root` override. Full token table in `packages/css/docs/ai-reference.md` § 1.6. Variant-specific per-component tokens (e.g., `--button-primary-bg`) remain a deliberate non-goal.
 
-### 3. No Explicit Component Deprecation/Versioning (Strategy 7.3)
-**Current:** Registry has no `status` field (stable/experimental/deprecated). A2UI catalog has `schemaVersion`.
-**Report recommends:** Version stamps and deprecation markers so agents don't use sunset components.
-**Impact:** Low. All 90 components are currently stable. This becomes important when components are removed or APIs change.
+### ~~2. No Pixel-Level Visual Regression~~ (Strategy 4.2) — **Resolved**
+`test/visual/` added: `playwright.config.mts` + `storybook.spec.ts` with 44 Playwright `toHaveScreenshot()` snapshot tests covering one Default story per component. Baselines committed to `test/visual/snapshots/`. `pnpm test:visual` and `pnpm test:visual:update` scripts added. No external service required.
 
-### 4. Direct JSX Generation Lacks Plan/Render Split (Strategy 5.1)
-**Current:** For React code (not A2UI), the LLM generates JSX directly; validation is post-hoc.
-**Report recommends:** Separating planning (what components, what layout) from rendering (actual JSX emission) for more constrained generation.
-**Impact:** Low. The post-hoc validation (`validate_code` MCP tool + golden prompt eval) is effective. The A2UI protocol already implements the split for declarative use cases.
+### ~~3. No Explicit Component Deprecation/Versioning~~ (Strategy 7.3) — **Resolved**
+`status: 'stable' | 'experimental' | 'deprecated'` field added to all 90 entries in `registry/components.json`, sourced from `@status` JSDoc tags in component styled files. `list_components` MCP tool surfaces deprecated components with a ⚠️ prefix. `audit:components` check #20 requires `## Migration` or `## Deprecated` documentation section for deprecated components.
+
+### ~~4. Direct JSX Generation Lacks Plan/Render Split~~ (Strategy 5.1) — **Resolved**
+`plan_ui` MCP tool added: given a plain-language UI description, returns recommended components, nearest matching recipe, and relevant pitfall notes — giving LLMs a structured planning step before JSX generation. `docs/consumer-claude-md-snippet.md` step 0 and `tools/prompts/self-critique.md` Step 0 both recommend calling `plan_ui` first.
 
 ---
 
 ## Conclusion
 
-Tale UI is a **reference-grade implementation** of the strategies outlined in the research report. It scores Full on 16 of 21 sub-areas and Strong on the remaining 5, with zero Partial/Weak/None scores. Its standout features relative to the report's recommendations are:
+Tale UI is a **reference-grade implementation** of the strategies outlined in the research report. It scores Full on all 21 of 21 sub-areas, with zero Strong/Partial/Weak/None scores. Its standout features relative to the report's recommendations are:
 
-1. **Dual registry system** — Both a React component registry (90 components) and an A2UI declarative catalog (135 types), each with dedicated golden prompt evaluation
-2. **3-tier AI instruction architecture** — Contributor guide (CLAUDE.md) + consumer template (consumer-claude-md-snippet.md) + self-critique prompt
+1. **Dual registry system** — Both a React component registry (90 components, with `status` lifecycle field) and an A2UI declarative catalog (135 types), each with dedicated golden prompt evaluation
+2. **3-tier AI instruction architecture** — Contributor guide (CLAUDE.md) + consumer template (consumer-claude-md-snippet.md) + self-critique prompt, with `plan_ui` MCP tool as a pre-generation planning step
 3. **127 golden prompts with 3-level scoring** — Beyond what the report envisions for scenario-based evaluation
 4. **Auto-fix pipeline** (`golden:fix-review`) — Eval → auto-fix → visual review is not mentioned in the report at all
 5. **A2UI protocol** — A complete implementation of the report's "config-driven generative UI" emerging practice, with full validation, few-shot examples, and a system prompt
+6. **43 category-level CSS tokens** — A third token layer enabling component-family theming without CSS selector overrides
+7. **Playwright visual regression** — 44 pixel-level story snapshots in `test/visual/` requiring no external service
 
-The 4 identified gaps are all low-impact, conscious trade-offs rather than oversights.
+There are no identified gaps remaining.
 
 ---
 
