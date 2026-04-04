@@ -291,7 +291,7 @@ Design systems and component libraries are evolving from static human-facing sty
 
 These measures do not eliminate hallucinations entirely, but they significantly reduce their impact, making it difficult for agents to invent new API surface and easy for teams to detect and correct any deviations from the design system’s contract.[^7][^1][^2][^5][^4]
 
----
+***
 
 ## References
 
@@ -350,4 +350,3 @@ These measures do not eliminate hallucinations entirely, but they significantly 
 27. [Design for Systems, Not Users | Jake Redmond posted on the topic](https://www.linkedin.com/posts/jakeredmond_stop-designing-for-the-user-until-youve-activity-7443293735670607872-dlUn) - Hardik Pandya's article lays out a practical fix — make your design system LLM-readable: → Spec file...
 
 28. [When the AI team Goes Rogue – Arresting the Implementation Drift](https://www.linkedin.com/pulse/when-ai-team-goes-rogue-arresting-implementation-drift-manoj-jha-kxdaf) - · Support the same variants and props as Figma components. · Implement ... Agentic AI Reference Arch...
-

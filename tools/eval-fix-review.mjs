@@ -416,6 +416,52 @@ function mergeImports(codeBlocks) {
   return lines.join('\n');
 }
 
+/**
+ * Given the merged import block and the full body text of all component
+ * definitions, remove any imported name that never appears as an identifier
+ * in the body. Drops the entire import line if no names survive.
+ */
+function pruneUnusedImports(importBlock, bodyText) {
+  return importBlock
+    .split('\n')
+    .map(line => {
+      const namesMatch = line.match(/\{([\s\S]*?)\}/);
+      if (!namesMatch) return line;
+      const usedNames = namesMatch[1]
+        .split(',')
+        .map(s => s.trim())
+        .filter(n => n && new RegExp(`\\b${n}\\b`).test(bodyText));
+      if (usedNames.length === 0) return null;
+      return line.replace(/\{[\s\S]*?\}/, `{ ${usedNames.join(', ')} }`);
+    })
+    .filter(line => line !== null)
+    .join('\n');
+}
+
+/**
+ * Prefix any simple `const <ident> = ...` declaration with `_` when
+ * the identifier is never referenced outside its own declaration line.
+ * This suppresses TS6133 ("declared but never read") for unused locals
+ * produced by Claude-generated eval code without altering runtime behaviour.
+ * Destructuring patterns (`const { a } = ...`, `const [a] = ...`) are left
+ * untouched because they are more complex and rarely the source of these errors.
+ */
+function suppressUnusedLocals(code) {
+  const lines = code.split('\n');
+  return lines.map((line, idx) => {
+    const m = line.match(/^(\s*const\s+)([a-zA-Z_$][a-zA-Z0-9_$]*)(\s*=)/);
+    if (!m) return line;
+    const ident = m[2];
+    if (ident.startsWith('_')) return line; // already suppressed
+    const otherLines = [...lines.slice(0, idx), ...lines.slice(idx + 1)];
+    const usedElsewhere = otherLines.some(l => new RegExp(`\\b${ident}\\b`).test(l));
+    if (usedElsewhere) return line;
+    // Drop `const <ident> = ` entirely, leaving just the expression statement.
+    // (_-prefix suppresses noUnusedParameters but NOT noUnusedLocals in tsc.)
+    return line.replace(/^(\s*)const\s+[a-zA-Z_$][a-zA-Z0-9_$]*\s*=\s*/, '$1');
+  }).join('\n');
+}
+
 function stripImports(code) {
   const out = [];
   const lines = code.split('\n');
@@ -503,16 +549,23 @@ function validateReviewFile() {
 function generateEvalReview(passingResults, allPrompts) {
   const promptMap = new Map(allPrompts.map(p => [p.slug, p]));
 
-  const codeBlocks = passingResults.map(r => r.code).filter(Boolean);
-  const mergedImports = mergeImports(codeBlocks);
-
+  // Build component bodies first so the assembled text is available for
+  // import pruning. Apply suppressUnusedLocals to each block so that
+  // Claude-generated `const <x> = ...` that are never read get prefixed
+  // with `_`, satisfying noUnusedLocals without changing runtime behaviour.
   const componentDefs = passingResults
     .filter(r => r.code)
     .map(r => {
-      const body = renameExport(stripImports(r.code), r.slug);
+      const body = suppressUnusedLocals(renameExport(stripImports(r.code), r.slug));
       return `// ── ${r.slug} ${'─'.repeat(Math.max(0, 46 - r.slug.length))}\n${body}`;
     })
     .join('\n\n');
+
+  // Merge imports from all code blocks, then drop any name that is not
+  // actually referenced in the assembled component bodies to avoid TS6133
+  // ("declared but its value is never read") from unused icon imports etc.
+  const codeBlocks = passingResults.map(r => r.code).filter(Boolean);
+  const mergedImports = pruneUnusedImports(mergeImports(codeBlocks), componentDefs);
 
   const sections = passingResults
     .filter(r => r.code)

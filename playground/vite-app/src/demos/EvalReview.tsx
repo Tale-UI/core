@@ -82,7 +82,7 @@ import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';
 import { Toolbar } from '@tale-ui/react/toolbar';
 import { Tooltip } from '@tale-ui/react/tooltip';
 import { Tree } from '@tale-ui/react/tree';
-import { AlignCenter, AlignLeft, AlignRight, Bell, Bold, Check, ChevronLeft, ChevronRight, Copy, Edit, File, Folder, Heart, HelpCircle, Italic, Save, Search, Trash2, Underline, X } from 'lucide-react';
+import { AlignCenter, AlignLeft, AlignRight, Bell, Bold, Check, ChevronLeft, ChevronRight, Copy, Edit, Heart, HelpCircle, Italic, Save, Search, Trash2, Underline, X } from 'lucide-react';
 import { useState } from 'react';
 
 // ── accordion-faq ─────────────────────────────────
@@ -587,7 +587,7 @@ function EvalDrawerWithBackdrop() {
 function EvalDropZoneFile() {
   return (
     <DropZone onDrop={(e) => {
-      const names = e.items.filter(item => item.kind === 'file').map(item => 'name' in item ? item.name : 'unknown');
+      e.items.filter(item => item.kind === 'file').map(item => 'name' in item ? item.name : 'unknown');
       // Handle dropped files here
     }}>
       <p>Drop files here</p>

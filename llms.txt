@@ -150,6 +150,26 @@ document.documentElement.setAttribute('data-color-mode', mode);
 
 `packages/styles/src/_primitives.css` holds grouped selectors for declarations identical across multiple components (field controls, dropdown popups, dropdown items, group labels). When adding a new field-like input or dropdown — check `_primitives.css` first and add the new selector to the relevant group.
 
+**Category tokens** — 43 consumer-overridable CSS custom properties defined in `_primitives.css` that sit between the semantic design tokens and the grouped component selectors. Override on `:root` to retheme entire component families at once:
+
+| Family | Tokens | Components covered |
+|---|---|---|
+| `--field-*` | 17 tokens | All 9 field inputs + labels + descriptions + errors |
+| `--popup-*` / `--item-*` / `--group-label-*` | 14 tokens | All 6 popup containers + 9 item variants + section headers |
+| `--modal-*` | 6 tokens | AlertDialog, Dialog, Drawer |
+| `--progress-*` | 6 tokens | ProgressBar, Meter |
+
+```css
+:root {
+  --field-bg: var(--neutral-10);        /* all form fields at once */
+  --popup-radius: var(--radius-s);      /* all dropdown popups */
+  --modal-title-color: var(--color-60); /* all modal titles */
+  --progress-track-height: 0.4rem;      /* all progress bars */
+}
+```
+
+Full token table: `packages/css/docs/ai-reference.md` § 1.6
+
 ---
 
 ## CSS Design System (`@tale-ui/core`)

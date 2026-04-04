@@ -199,3 +199,38 @@ Before generating or modifying component code, you MUST:
 
    <ColorModeToggle />
    ```
+
+9. **Theming with category tokens.** Override component families in one place by setting category tokens on `:root`. These tokens are defined in `@tale-ui/react-styles` and default to the same semantic token values they replace — so changing them shifts the entire family simultaneously:
+
+   ```css
+   :root {
+     /* Retheme all form field inputs at once */
+     --field-bg: var(--neutral-10);
+     --field-border-color: var(--neutral-20);
+     --field-radius: var(--radius-s);
+
+     /* Retheme all dropdown popups and menus */
+     --popup-bg: var(--neutral-12);
+     --popup-radius: var(--radius-m);
+     --popup-shadow: var(--shadow-l);
+
+     /* Retheme all modal dialogs and drawers */
+     --modal-title-color: var(--color-80);
+     --modal-backdrop-bg: var(--scrim-strong);
+
+     /* Retheme all progress bars and meters */
+     --progress-track-height: 0.4rem;
+     --progress-indicator-bg: var(--color-60);
+   }
+   ```
+
+   **Available category token families:**
+
+   | Family | Tokens | Components |
+   |---|---|---|
+   | `--field-*` | `--field-min-height`, `--field-padding-block`, `--field-padding-inline`, `--field-border-color`, `--field-radius`, `--field-bg`, `--field-color`, `--field-font-family`, `--field-font-size`, `--field-focus-border`, `--field-focus-glow`, `--field-placeholder-color`, `--field-label-color`, `--field-label-font-size`, `--field-label-font-weight`, `--field-description-color`, `--field-error-color` | Input, Select, Combobox, Autocomplete, SearchField, TextField, DateField, TimeField, PaymentInput + labels/descriptions/errors |
+   | `--popup-*` | `--popup-bg`, `--popup-border-color`, `--popup-radius`, `--popup-shadow` | Select, Combobox, Autocomplete, Menu, ContextMenu, Popover popups |
+   | `--item-*` | `--item-padding-block`, `--item-padding-inline`, `--item-gap`, `--item-radius`, `--item-color`, `--item-font-size`, `--item-focus-bg`, `--item-focus-color` | All dropdown/menu items |
+   | `--group-label-*` | `--group-label-color`, `--group-label-font-size` | Section headers in dropdowns/menus |
+   | `--modal-*` | `--modal-title-color`, `--modal-title-font-size`, `--modal-description-color`, `--modal-description-font-size`, `--modal-backdrop-bg`, `--modal-actions-gap` | AlertDialog, Dialog, Drawer |
+   | `--progress-*` | `--progress-track-height`, `--progress-track-bg`, `--progress-track-radius`, `--progress-indicator-bg`, `--progress-label-color`, `--progress-value-color` | ProgressBar, Meter |

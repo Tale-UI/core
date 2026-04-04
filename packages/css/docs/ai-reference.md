@@ -282,6 +282,99 @@ Each family has the same 27 shade values listed above.
 
 ---
 
+### 1.6 Category Tokens
+
+Category tokens sit between the semantic tokens and the component grouped selectors. They let consumers retheme entire component families by overriding a single CSS custom property on `:root`. All 43 tokens are defined in `packages/styles/src/_primitives.css`.
+
+**Field controls** — `--field-*` (Groups 1, 2, 8, 9 in `_primitives.css`)
+
+Covers: Input, Select trigger, Combobox, Autocomplete, SearchField, TextField, DateField, TimeField, PaymentInput inputs, plus labels, descriptions, and errors across 12+ components.
+
+| Token | Default |
+|---|---|
+| `--field-min-height` | `3.6rem` |
+| `--field-padding-block` | `var(--space-3xs)` |
+| `--field-padding-inline` | `var(--space-xs)` |
+| `--field-border-color` | `var(--neutral-26)` |
+| `--field-radius` | `var(--radius-m)` |
+| `--field-bg` | `var(--neutral-5)` |
+| `--field-color` | `var(--neutral-90)` |
+| `--field-font-family` | `var(--text-font-family)` |
+| `--field-font-size` | `var(--text-m-font-size)` |
+| `--field-focus-border` | `var(--focus-ring-color)` |
+| `--field-focus-glow` | `0 0 0 3px var(--focus-ring-glow)` |
+| `--field-placeholder-color` | `var(--neutral-50)` |
+| `--field-label-color` | `var(--neutral-70)` |
+| `--field-label-font-size` | `var(--label-s-font-size)` |
+| `--field-label-font-weight` | `var(--label-font-weight)` |
+| `--field-description-color` | `var(--neutral-60)` |
+| `--field-error-color` | `var(--red-60)` |
+
+**Dropdown popups & items** — `--popup-*` and `--item-*` (Groups 3, 4, 5)
+
+Covers: Select, Combobox, Autocomplete, Menu, ContextMenu, Popover popups and all item variants.
+
+| Token | Default |
+|---|---|
+| `--popup-bg` | `var(--neutral-10)` |
+| `--popup-border-color` | `var(--neutral-20)` |
+| `--popup-radius` | `var(--radius-l)` |
+| `--popup-shadow` | `var(--shadow-m)` |
+| `--item-padding-block` | `var(--space-2xs)` |
+| `--item-padding-inline` | `var(--space-xs)` |
+| `--item-gap` | `var(--space-2xs)` |
+| `--item-radius` | `var(--radius-m)` |
+| `--item-color` | `var(--neutral-80)` |
+| `--item-font-size` | `var(--text-m-font-size)` |
+| `--item-focus-bg` | `var(--neutral-14)` |
+| `--item-focus-color` | `var(--neutral-90)` |
+| `--group-label-color` | `var(--neutral-50)` |
+| `--group-label-font-size` | `var(--label-s-font-size)` |
+
+**Modals** — `--modal-*` (Group 17)
+
+Covers: AlertDialog, Dialog, Drawer (title, description, backdrop, actions).
+
+| Token | Default |
+|---|---|
+| `--modal-title-color` | `var(--neutral-94)` |
+| `--modal-title-font-size` | `var(--label-l-font-size)` |
+| `--modal-description-color` | `var(--neutral-70)` |
+| `--modal-description-font-size` | `var(--text-m-font-size)` |
+| `--modal-backdrop-bg` | `var(--scrim)` |
+| `--modal-actions-gap` | `var(--space-xs)` |
+
+**Progress / Meter** — `--progress-*` (Group 18)
+
+Covers: ProgressBar, Meter (track, indicator, label, value).
+
+| Token | Default |
+|---|---|
+| `--progress-track-height` | `0.8rem` |
+| `--progress-track-bg` | `var(--neutral-24)` |
+| `--progress-track-radius` | `var(--radius-full)` |
+| `--progress-indicator-bg` | `var(--neutral-24-fg)` |
+| `--progress-label-color` | `var(--neutral-80)` |
+| `--progress-value-color` | `var(--neutral-60)` |
+
+**Usage example** — override a whole component family at once:
+
+```css
+:root {
+  /* Make all form fields use a warmer off-white background */
+  --field-bg: var(--neutral-10);
+  --field-border-color: var(--neutral-20);
+
+  /* Square corners on all dropdown popups */
+  --popup-radius: var(--radius-s);
+
+  /* Tighter progress bars */
+  --progress-track-height: 0.4rem;
+}
+```
+
+---
+
 ## 2. Class Enumeration by Module
 
 ### 2.1 Typography Classes

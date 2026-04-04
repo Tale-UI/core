@@ -37,6 +37,61 @@
   --focus-ring-glow: color-mix(in srgb, var(--neutral-60) 20%, transparent);
 }
 
+/* ─── Category tokens — consumer-overridable shared primitives ─────────── */
+
+:root {
+  /* Field controls (Groups 1, 2, 8, 9) */
+  --field-min-height: 3.6rem;
+  --field-padding-block: var(--space-3xs);
+  --field-padding-inline: var(--space-xs);
+  --field-border-color: var(--neutral-26);
+  --field-radius: var(--radius-m);
+  --field-bg: var(--neutral-5);
+  --field-color: var(--neutral-90);
+  --field-font-family: var(--text-font-family);
+  --field-font-size: var(--text-m-font-size);
+  --field-focus-border: var(--focus-ring-color);
+  --field-focus-glow: 0 0 0 3px var(--focus-ring-glow);
+  --field-placeholder-color: var(--neutral-50);
+  --field-label-color: var(--neutral-70);
+  --field-label-font-size: var(--label-s-font-size);
+  --field-label-font-weight: var(--label-font-weight);
+  --field-description-color: var(--neutral-60);
+  --field-error-color: var(--red-60);
+
+  /* Dropdown popups & items (Groups 3, 4, 5) */
+  --popup-bg: var(--neutral-10);
+  --popup-border-color: var(--neutral-20);
+  --popup-radius: var(--radius-l);
+  --popup-shadow: var(--shadow-m);
+  --item-padding-block: var(--space-2xs);
+  --item-padding-inline: var(--space-xs);
+  --item-gap: var(--space-2xs);
+  --item-radius: var(--radius-m);
+  --item-color: var(--neutral-80);
+  --item-font-size: var(--text-m-font-size);
+  --item-focus-bg: var(--neutral-14);
+  --item-focus-color: var(--neutral-90);
+  --group-label-color: var(--neutral-50);
+  --group-label-font-size: var(--label-s-font-size);
+
+  /* Modals (Group 17) */
+  --modal-title-color: var(--neutral-94);
+  --modal-title-font-size: var(--label-l-font-size);
+  --modal-description-color: var(--neutral-70);
+  --modal-description-font-size: var(--text-m-font-size);
+  --modal-backdrop-bg: var(--scrim);
+  --modal-actions-gap: var(--space-xs);
+
+  /* Progress / Meter (Group 18) */
+  --progress-track-height: 0.8rem;
+  --progress-track-bg: var(--neutral-24);
+  --progress-track-radius: var(--radius-full);
+  --progress-indicator-bg: var(--neutral-24-fg);
+  --progress-label-color: var(--neutral-80);
+  --progress-value-color: var(--neutral-60);
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    1. FIELD CONTROL
    ══════════════════════════════════════════════════════════════════════════ */
@@ -51,14 +106,14 @@
 .tale-time-field__input,
 .tale-payment-input__input {
   box-sizing: border-box;
-  min-height: 3.6rem;
-  padding: var(--space-3xs) var(--space-xs);
-  border: 1px solid var(--neutral-26);
-  border-radius: var(--radius-m);
-  background-color: var(--neutral-5);
-  color: var(--neutral-90);
-  font-family: var(--text-font-family);
-  font-size: var(--text-m-font-size);
+  min-height: var(--field-min-height);
+  padding: var(--field-padding-block) var(--field-padding-inline);
+  border: 1px solid var(--field-border-color);
+  border-radius: var(--field-radius);
+  background-color: var(--field-bg);
+  color: var(--field-color);
+  font-family: var(--field-font-family);
+  font-size: var(--field-font-size);
   outline: none;
 }
 
@@ -78,8 +133,8 @@
 .tale-time-field__input[data-focused],
 .tale-payment-input__input:focus,
 .tale-payment-input__input[data-focused] {
-  border-color: var(--focus-ring-color);
-  box-shadow: 0 0 0 3px var(--focus-ring-glow);
+  border-color: var(--field-focus-border);
+  box-shadow: var(--field-focus-glow);
 }
 
 /* Placeholder (select uses .tale-select__value[data-placeholder] instead) */
@@ -89,7 +144,7 @@
 .tale-search-field__input::placeholder,
 .tale-text-field__input::placeholder,
 .tale-payment-input__input::placeholder {
-  color: var(--neutral-50);
+  color: var(--field-placeholder-color);
 }
 
 /* Dropdown arrow triggers (select + combobox) */
@@ -170,10 +225,10 @@
 .tale-time-field__label,
 .tale-number-field__label,
 .tale-payment-input__label {
-  color: var(--neutral-70);
+  color: var(--field-label-color);
   font-family: var(--label-font-family);
-  font-size: var(--label-s-font-size);
-  font-weight: var(--label-font-weight);
+  font-size: var(--field-label-font-size);
+  font-weight: var(--field-label-font-weight);
   line-height: 1.3;
   cursor: default;
 }
@@ -267,10 +322,10 @@
 .tale-menu__popup,
 .tale-context-menu,
 .tale-popover__popup {
-  background-color: var(--neutral-10);
-  border: 1px solid var(--neutral-20);
-  border-radius: var(--radius-l);
-  box-shadow: var(--shadow-m);
+  background-color: var(--popup-bg);
+  border: 1px solid var(--popup-border-color);
+  border-radius: var(--popup-radius);
+  box-shadow: var(--popup-shadow);
   outline: none;
   overflow: hidden;
   transition: opacity 0.15s ease, transform 0.15s ease;
@@ -309,12 +364,12 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--space-2xs);
-  padding: var(--space-2xs) var(--space-xs);
-  border-radius: var(--radius-m);
-  color: var(--neutral-80);
+  gap: var(--item-gap);
+  padding: var(--item-padding-block) var(--item-padding-inline);
+  border-radius: var(--item-radius);
+  color: var(--item-color);
   font-family: var(--text-font-family);
-  font-size: var(--text-m-font-size);
+  font-size: var(--item-font-size);
   cursor: pointer;
   outline: none;
   transition: background-color 0.1s ease, color 0.1s ease;
@@ -331,8 +386,8 @@
 .tale-menu__link-item[data-focused],
 .tale-menu__submenu-trigger[data-focused],
 .tale-context-menu__item[data-focused] {
-  background-color: var(--neutral-14);
-  color: var(--neutral-90);
+  background-color: var(--item-focus-bg);
+  color: var(--item-focus-color);
 }
 
 /* Disabled */
@@ -359,9 +414,9 @@
 .tale-autocomplete__header,
 .tale-menu__header {
   padding: var(--space-4xs) var(--space-xs);
-  color: var(--neutral-50);
+  color: var(--group-label-color);
   font-family: var(--label-font-family);
-  font-size: var(--label-s-font-size);
+  font-size: var(--group-label-font-size);
   font-weight: var(--label-font-weight);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -468,7 +523,7 @@
 .tale-number-field__description,
 .tale-tag-group__description,
 .tale-payment-input__description {
-  color: var(--neutral-60);
+  color: var(--field-description-color);
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   line-height: 1.5;
@@ -490,7 +545,7 @@
 .tale-number-field__error,
 .tale-tag-group__error,
 .tale-payment-input__error {
-  color: var(--red-60);
+  color: var(--field-error-color);
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   line-height: 1.4;
@@ -526,10 +581,10 @@
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 3.6rem;
-  border: 1px solid var(--neutral-26);
-  border-radius: var(--radius-m);
-  background-color: var(--neutral-5);
+  min-height: var(--field-min-height);
+  border: 1px solid var(--field-border-color);
+  border-radius: var(--field-radius);
+  background-color: var(--field-bg);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -685,7 +740,7 @@
 
 .tale-date-picker__popover,
 .tale-date-range-picker__popover {
-  background: var(--neutral-10);
+  background: var(--popup-bg);
   border: 1px solid var(--neutral-14);
   border-radius: var(--radius-m);
   box-shadow: 0 4px 16px color-mix(in srgb, var(--neutral-100) 10%, transparent);
@@ -897,9 +952,9 @@
 .tale-drawer__title {
   margin: 0;
   padding-right: var(--space-m);
-  color: var(--neutral-94);
+  color: var(--modal-title-color);
   font-family: var(--label-font-family);
-  font-size: var(--label-l-font-size);
+  font-size: var(--modal-title-font-size);
   font-weight: var(--label-font-weight);
   line-height: 1.3;
 }
@@ -909,9 +964,9 @@
 .tale-dialog__description,
 .tale-drawer__description {
   margin: 0;
-  color: var(--neutral-70);
+  color: var(--modal-description-color);
   font-family: var(--text-font-family);
-  font-size: var(--text-m-font-size);
+  font-size: var(--modal-description-font-size);
   line-height: 1.6;
 }
 
@@ -920,7 +975,7 @@
 .tale-dialog__backdrop {
   position: fixed;
   inset: 0;
-  background-color: var(--scrim);
+  background-color: var(--modal-backdrop-bg);
   z-index: 100;
   transition: opacity 0.2s ease;
 }
@@ -953,7 +1008,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--space-xs);
+  gap: var(--modal-actions-gap);
   margin-top: var(--space-xs);
 }
 
@@ -981,7 +1036,7 @@
 
 .tale-progress-bar__label,
 .tale-meter__label {
-  color: var(--neutral-80);
+  color: var(--progress-label-color);
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
   font-weight: var(--label-font-weight);
@@ -991,23 +1046,23 @@
 .tale-meter__track {
   position: relative;
   width: 100%;
-  height: 0.8rem;
-  border-radius: var(--radius-full);
-  background-color: var(--neutral-24);
+  height: var(--progress-track-height);
+  border-radius: var(--progress-track-radius);
+  background-color: var(--progress-track-bg);
   overflow: hidden;
 }
 
 .tale-progress-bar__indicator,
 .tale-meter__indicator {
   height: 100%;
-  background-color: var(--neutral-24-fg);
-  border-radius: var(--radius-full);
+  background-color: var(--progress-indicator-bg);
+  border-radius: var(--progress-track-radius);
   transition: width 0.3s ease;
 }
 
 .tale-progress-bar__value,
 .tale-meter__value {
-  color: var(--neutral-60);
+  color: var(--progress-value-color);
   font-family: var(--label-font-family);
   font-size: var(--label-s-font-size);
   text-align: right;
@@ -1069,9 +1124,9 @@
   display: flex;
   align-items: center;
   position: relative;
-  border: 1px solid var(--neutral-20);
+  border: 1px solid var(--popup-border-color);
   border-radius: var(--radius-m);
-  background: var(--neutral-5);
+  background: var(--field-bg);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 

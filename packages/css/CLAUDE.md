@@ -11,6 +11,7 @@ Before making any changes, read the [Critical Rules in ai-reference.md](docs/ai-
 - **Only `.gap--*` and `.center--*`** use double-selector specificity (`.class.class`) — nothing else
 - **`--brand-*` is palette only** — always use `--color-*` in component/UI CSS so dark mode works
 - **Neutral shades are irregular** — do not guess; use exact values from the reference
+- **Category tokens are family-level overrides** — `--field-*`, `--popup-*`, `--item-*`, `--group-label-*`, `--modal-*`, and `--progress-*` are defined in `packages/styles/src/_primitives.css`; override these on `:root` to retheme shared primitives across component families. Full table: [docs/ai-reference.md § 1.6](docs/ai-reference.md#16-category-tokens)
 
 ## Project Structure
 

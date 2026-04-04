@@ -68,6 +68,7 @@ All component styles use tokens from `@tale-ui/core`:
 - **Spacing:** `--space-4xs` through `--space-4xl`
 - **Typography:** `--label-s-font-size`, `--text-s-font-size`, etc.
 - **Dark mode:** Automatic via `data-color-mode="dark"` on `<html>`
+- **Category tokens:** `--field-*`, `--popup-*`, `--item-*`, `--group-label-*`, `--modal-*`, `--progress-*` — consumer-overridable tokens defined in `packages/styles/src/_primitives.css` that sit between semantic tokens and grouped component selectors. Override on `:root` to retheme entire component families (e.g. `--field-bg` changes all 9 field controls simultaneously). See [packages/css/docs/ai-reference.md § 1.6](packages/css/docs/ai-reference.md) for the full token table.
 
 **Available `--neutral-*` shades (27 values — irregular scale):**
 
