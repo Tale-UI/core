@@ -45,6 +45,11 @@ Also accepts all standard `<button>` HTML attributes.
 - `.tale-social-button--sm` / `--md` -- Size modifiers
 - `.tale-social-button__icon` -- Icon wrapper
 
+## Pitfalls
+
+<!-- pitfall: social-button-provider-required -->
+- **`provider` prop is required** — `SocialButton` requires a `provider` value (`'google'`, `'github'`, `'apple'`, `'x'`, or `'facebook'`). Omitting it will render no icon and may cause a runtime error.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

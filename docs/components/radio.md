@@ -129,6 +129,16 @@ Also accepts all React Aria `RadioGroup` props.
 - `.tale-radio__dot` -- Inner dot inside the indicator
 - `.tale-radio-group` -- The group wrapper
 
+## Pitfalls
+
+<!-- pitfall: radio-separate-imports -->
+- **`Radio` and `RadioGroup` are separate components with separate imports** — `RadioGroup` from `@tale-ui/react/radio-group` has NO sub-parts (no `.Radios`, `.Item`, `.Indicator`). `Radio.Group` is the primary grouping sub-part of the `Radio` namespace.
+
+<!-- pitfall: radio-no-native-input-props -->
+- **`Radio.Root` does NOT accept `checked`, `onChange`, or native HTML input props** — selection state is managed by `Radio.Group` via `value`/`onChange` props. Passing `checked` causes TypeScript errors.
+  - anti-pattern: `<Radio.Root value="a" checked={isSelected} onChange={setSelected} />`
+  - fix: `<Radio.Group value={selected} onChange={setSelected}><Radio.Root value="a">...</Radio.Root></Radio.Group>`
+
 ## Notes
 
 - `size` defaults to `"md"`. The `--md` modifier class is omitted from the DOM.

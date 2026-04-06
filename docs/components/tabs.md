@@ -188,6 +188,14 @@ const [selectedKey, setSelectedKey] = useState<string>('tab1');
 - `.tale-tabs__panel` — Content panel
 - `.tale-tabs__indicator` — Sliding indicator bar
 
+## Pitfalls
+
+<!-- pitfall: tabs-no-trigger-or-content -->
+- **No `Tabs.Trigger` or `Tabs.Content`** — the correct sub-parts are `Tabs.Tab` and `Tabs.Panel`.
+
+<!-- pitfall: tabs-default-selected-key -->
+- **Uses `defaultSelectedKey`, NOT `defaultValue`** — pass the `id` of the tab that should be selected by default.
+
 ## Notes
 
 - Built on React Aria `Tabs`, `TabList`, `Tab`, and `TabPanel`.

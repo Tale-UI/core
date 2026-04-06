@@ -87,6 +87,29 @@ import { Drawer } from '@tale-ui/react/drawer';
 - `.tale-drawer__handle` — Optional drag handle element
 - `.tale-drawer__swipe-area` — Optional swipe-to-dismiss area
 
+## Pitfalls
+
+<!-- pitfall: drawer-open-not-isopen -->
+- **`Drawer.Root` uses `open`/`onOpenChange`, not `isOpen`.** This is the opposite of `Dialog` and `AlertDialog`, which use `isOpen`.
+  - anti-pattern: `<Drawer.Root isOpen={open} onOpenChange={setOpen}>`
+  - fix: `<Drawer.Root open={open} onOpenChange={setOpen}>`
+
+<!-- pitfall: drawer-backdrop-sibling -->
+- **`Drawer.Backdrop` must be a self-closing sibling of `Drawer.Popup`, not a wrapper.** Wrapping Popup inside Backdrop changes the React hook execution order and causes a "Rendered more hooks than during the previous render" crash. This is the opposite of Dialog where Backdrop wraps Popup.
+  - anti-pattern: `<Drawer.Backdrop><Drawer.Popup>...</Drawer.Popup></Drawer.Backdrop>`
+  - fix: `<Drawer.Backdrop /><Drawer.Popup>...</Drawer.Popup>`
+
+<!-- pitfall: drawer-no-layout-parts -->
+- **There are no `Drawer.Actions`, `Drawer.Body`, `Drawer.Header`, or `Drawer.Footer` sub-parts.** Use plain `<div>` elements with inline flex layout for action rows and content sections.
+  - anti-pattern: `<Drawer.Footer>...</Drawer.Footer>`
+  - fix: `<div style={{ display: 'flex', gap: 'var(--space-xs)' }}>...</div>`
+
+<!-- pitfall: drawer-no-placement-prop -->
+- **There is no `placement` prop on `Drawer.Root` or `Drawer.Popup`.** Drawer slides in from a fixed edge; placement is controlled via CSS.
+
+<!-- cross-pitfall-ref: no-asChild-on-triggers -->
+<!-- cross-pitfall-ref: no-button-inside-trigger -->
+
 ## Notes
 
 - **Trigger and Close need explicit `tale-button` classes.** `Drawer.Trigger` applies `tale-drawer__trigger` and `Drawer.Close` applies `tale-drawer__close` — neither includes `tale-button`. Add `className="tale-button tale-button--{variant}"` for button styling.

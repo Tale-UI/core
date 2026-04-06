@@ -30,6 +30,15 @@ import { Radio } from '@tale-ui/react/radio';
 </RadioGroup>
 ```
 
+## Pitfalls
+
+<!-- pitfall: radio-group-no-sub-parts -->
+- **`RadioGroup` (from `@tale-ui/react/radio-group`) has NO sub-parts** — using `<RadioGroup.Radios>`, `<RadioGroup.Item>`, or `<RadioGroup.Indicator>` causes 'Property does not exist' TypeScript errors. For grouping radios, prefer `Radio.Group` (sub-part of the `Radio` namespace).
+  - anti-pattern: `<RadioGroup.Item value="a">...</RadioGroup.Item>`
+  - fix: `<Radio.Group label="..."><Radio.Root value="a">...</Radio.Root></Radio.Group>`
+
+<!-- cross-pitfall-ref: no-cross-import-checkbox-group -->
+
 ## Notes
 
 - This is the same component as `Radio.Group` — see [Radio](radio.md) for the full API, props, examples, and CSS classes.

@@ -45,6 +45,19 @@ Accepts all React Aria `ColorPicker` props plus an optional `className`. See the
 
 None — `ColorPicker.Root` is a state-only wrapper with no DOM element or BEM class.
 
+## Pitfalls
+
+<!-- pitfall: color-picker-no-label-prop -->
+- **`ColorPicker.Root` does not accept a `label` prop** — There is no `label` prop on `ColorPicker.Root`. It is a headless state provider only.
+
+<!-- pitfall: color-picker-sub-components-not-exported -->
+- **Sub-components are NOT exported from `@tale-ui/react/color-picker`** — `ColorArea`, `ColorSwatch`, `ColorSlider`, and other color components each have their own import path. Import them individually.
+  - anti-pattern: `import { ColorArea, ColorSlider } from '@tale-ui/react/color-picker'`
+  - fix: `import { ColorArea } from '@tale-ui/react/color-area'` and `import { ColorSlider } from '@tale-ui/react/color-slider'`
+
+<!-- cross-pitfall-ref: color-imports-from-rac -->
+<!-- cross-pitfall-ref: no-color-pojo-state -->
+
 ## Notes
 
 - This is a headless state provider; it does not render its own DOM node.

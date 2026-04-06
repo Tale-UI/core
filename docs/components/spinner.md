@@ -66,6 +66,11 @@ Also accepts all standard `<div>` HTML attributes except `children`.
 - `.tale-spinner__line-indicator` — Line variant animated bar
 - `.tale-spinner__dot` — Individual dot in dots variant
 
+## Pitfalls
+
+<!-- pitfall: spinner-label-is-aria-not-visible -->
+- **`label` prop sets `aria-label` — it does NOT render visible text** — for a visible loading message alongside the spinner, wrap `<Spinner>` and `<Text>` together in a `<Row>`.
+
 ## Notes
 
 - Custom component — not built on a React Aria primitive.

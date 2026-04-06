@@ -60,6 +60,9 @@ pnpm audit:snippet-kinds     # verify consumer snippet is correct
 | `audit-docs.js` | `pnpm audit:docs` | Yes | Verifies component markdown docs list all Tale UI-specific props |
 | `audit-components.js` | `pnpm audit:components` | Yes | Comprehensive 19-check component completeness audit |
 | `audit-coverage.js` | `pnpm audit:coverage` | `pnpm audit:coverage:check` | Reports components missing from ComponentAudit, Storybook, or A2UI full-showcase |
+| `audit-pitfall-coverage.js` | `pnpm pitfalls:audit` | No | Reports which component docs are still missing pitfall sections |
+| `audit-pitfall-consistency.js` | `pnpm pitfalls:audit` | No | Verifies component pitfall markers match the generated registry |
+| `audit-pitfall-truth.mjs` | `pnpm pitfalls:truth` | No | Verifies pitfall wording is supported by the current implementation |
 
 ### audit-bem.js
 
@@ -165,6 +168,7 @@ pnpm release:css:dry-run    # patch bump without publishing
 | Script | pnpm command | CI | Purpose |
 |--------|-------------|-----|---------|
 | `generate-registry.js` | `pnpm registry:generate` | `pnpm registry:check` | Generates `registry/components.json` from source |
+| `generate-pitfalls-registry.js` | `pnpm pitfalls:generate` | `pnpm pitfalls:check` | Generates `registry/pitfalls.json` from shared pitfall docs |
 | `generate-cursorrules.js` | `pnpm cursorrules:generate` | `pnpm cursorrules:check` | Generates `.cursorrules` from registry + consumer snippet |
 | `audit-snippet-kinds.js` | `pnpm audit:snippet-kinds` | Yes | Validates consumer snippet namespace/simple lists match registry |
 
@@ -198,6 +202,41 @@ Generates `.cursorrules` (Cursor/Windsurf rules file) by combining:
 ```bash
 pnpm cursorrules:generate   # write .cursorrules
 pnpm cursorrules:check      # compare generated vs committed; exit 1 if different
+```
+
+### generate-pitfalls-registry.js
+
+Parses `docs/pitfalls.md` and writes `registry/pitfalls.json`, which powers shared cross-component pitfalls for MCP responses, eval context generation, and prompt tooling.
+
+```bash
+pnpm pitfalls:generate   # write registry/pitfalls.json
+pnpm pitfalls:check      # compare generated vs committed; exit 1 if different
+```
+
+### Pitfall audits
+
+The pitfall tooling has three layers:
+
+- `pnpm pitfalls:audit` runs coverage, consistency, and truth audits together
+- `pnpm pitfalls:check` verifies the generated shared pitfalls registry is up to date
+- `pnpm pitfalls:truth` checks that pitfall wording is supported by the current implementation
+
+The underlying scripts are:
+
+- `tools/audit-pitfall-coverage.js`
+- `tools/audit-pitfall-consistency.js`
+- `tools/audit-pitfall-truth.mjs`
+
+Current truth-audit checks catch contradictions such as:
+
+- claims that a part should not be added even though it is exported
+- shared trigger rules that assume every listed trigger renders a `<button>`
+- "use self-closing" rules for parts that explicitly support custom children with fallback content
+- known absolute guidance that is not actually enforced by the component implementation
+
+```bash
+pnpm pitfalls:audit
+pnpm pitfalls:truth
 ```
 
 ### audit-snippet-kinds.js
@@ -423,10 +462,13 @@ Full pipeline combining eval, automated fixing, and visual review:
 3. **Review page** — generates `playground/vite-app/src/demos/EvalReview.tsx` with all passing components rendered, registers the route at `/eval-review`
 4. **Serve** — starts the Vite playground and opens `http://localhost:5173/eval-review` in the browser for visual L4 inspection
 
+Before eval starts, the pipeline now runs `pnpm pitfalls:truth` as a preflight check so incorrect component pitfall docs do not silently feed the golden prompt workflow. Use `--skip-pitfall-truth` only when you are intentionally debugging the eval loop against a known-bad pitfall catalog.
+
 After the run, check `git diff docs/consumer-claude-md-snippet.md` to review any documentation changes before committing.
 
 ```bash
 pnpm golden:fix-review                                         # full pipeline
+pnpm golden:fix-review -- --skip-pitfall-truth                 # skip pitfall truth preflight
 pnpm golden:fix-review -- --no-fix                            # skip fix loop, go straight to review
 pnpm golden:fix-review -- --no-serve                          # generate review page without starting server
 pnpm golden:fix-review -- --skip-validate                     # skip pre-flight tsc check (open playground even if EvalReview.tsx has errors)

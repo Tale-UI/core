@@ -84,6 +84,11 @@ Also accepts all standard `<div>` HTML attributes.
 - `.tale-row--wrap` -- Enables flex wrapping
 - Gap, alignment, and justification are applied via inline style variables.
 
+## Pitfalls
+
+<!-- cross-pitfall-ref: row-justify-shorthand -->
+<!-- cross-pitfall-ref: row-no-css-flex-props -->
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

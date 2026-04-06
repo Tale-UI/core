@@ -36,6 +36,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const REGISTRY_PATH = join(ROOT, 'registry/components.json');
 const A2UI_CATALOG_PATH = join(ROOT, 'registry/a2ui-catalog.json');
+const PITFALLS_PATH = join(ROOT, 'registry/pitfalls.json');
 const RECIPES_DIR = join(ROOT, 'docs/recipes');
 const DOCS_DIR = join(ROOT, 'docs');
 const STORIES_DIR = join(ROOT, 'playground/storybook/src/stories');
@@ -48,6 +49,14 @@ function loadRegistry() {
 
 function loadA2UICatalog() {
   return JSON.parse(readFileSync(A2UI_CATALOG_PATH, 'utf8'));
+}
+
+function loadPitfalls() {
+  try {
+    return JSON.parse(readFileSync(PITFALLS_PATH, 'utf8'));
+  } catch {
+    return { crossComponentPitfalls: [], generalConventions: [], triggerStylingTable: null };
+  }
 }
 
 function loadRecipeIndex() {
@@ -322,8 +331,21 @@ server.tool(
       };
     }
 
+    // Resolve crossPitfallRefs into full pitfall objects
+    const pitfallData = loadPitfalls();
+    const crossPitfalls = (component.crossPitfallRefs || [])
+      .map(id => pitfallData.crossComponentPitfalls.find(p => p.id === id))
+      .filter(Boolean);
+    const hasTriggerStyling = crossPitfalls.some(p => p.category === 'trigger-styling');
+
+    const result = { ...component };
+    if (crossPitfalls.length > 0) result.crossComponentPitfalls = crossPitfalls;
+    if (hasTriggerStyling && pitfallData.triggerStylingTable) {
+      result.triggerStylingTable = pitfallData.triggerStylingTable;
+    }
+
     return {
-      content: [{ type: 'text', text: JSON.stringify(component, null, 2) }],
+      content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
     };
   },
 );
@@ -609,8 +631,8 @@ server.tool(
       r.title.toLowerCase().split(/\s+/).some(w => w.length > 3 && pLower.includes(w))
     );
 
-    // Gather pitfall notes from docs search
-    const pitfallResults = searchDocs(prompt).slice(0, 3);
+    // Load structured pitfall data
+    const pitfallData = loadPitfalls();
 
     // Build the plan
     const lines = ['## Component Plan\n'];
@@ -634,9 +656,42 @@ server.tool(
       lines.push('Call `get_recipe` with this slug for a copy-paste starting point.\n');
     }
 
-    if (pitfallResults.length > 0) {
+    // Gather pitfall summaries from structured data for matched components
+    const pitfallLines = [];
+    const seenCrossRefs = new Set();
+    for (const c of componentResults) {
+      const fullEntry = registry.components.find(comp => comp.name === c.name);
+      if (fullEntry?.pitfalls?.length > 0) {
+        for (const p of fullEntry.pitfalls) {
+          pitfallLines.push(`- **${c.name}**: ${p.summary}`);
+        }
+      }
+      if (fullEntry?.crossPitfallRefs?.length > 0) {
+        for (const refId of fullEntry.crossPitfallRefs) {
+          if (seenCrossRefs.has(refId)) continue;
+          seenCrossRefs.add(refId);
+          const cp = pitfallData.crossComponentPitfalls.find(p => p.id === refId);
+          if (cp) pitfallLines.push(`- **Cross-component**: ${cp.summary}`);
+        }
+      }
+    }
+    // Add general conventions (always relevant)
+    for (const gc of pitfallData.generalConventions) {
+      pitfallLines.push(`- **Convention**: ${gc.summary}`);
+    }
+
+    if (pitfallLines.length > 0) {
+      lines.push('### Pitfalls to avoid\n');
+      lines.push(...pitfallLines);
+      lines.push('');
+      lines.push('Call `get_component` for full pitfall details with anti-patterns and fixes.\n');
+    }
+
+    // Relevant docs (searchDocs as fallback for non-pitfall documentation)
+    const docResults = searchDocs(prompt).slice(0, 3);
+    if (docResults.length > 0) {
       lines.push('### Relevant documentation\n');
-      for (const d of pitfallResults) {
+      for (const d of docResults) {
         lines.push(`- **${d.title}** (\`${d.path}\`)`);
         if (d.snippets.length > 0) lines.push(`  > ${d.snippets[0]}`);
       }
@@ -644,7 +699,7 @@ server.tool(
     }
 
     lines.push('### Next steps\n');
-    lines.push('1. Call `get_component` on each component above to read exact props and examples.');
+    lines.push('1. Call `get_component` on each component above to read exact props, examples, and pitfalls.');
     lines.push('2. If a recipe was found, call `get_recipe` for the complete pattern.');
     lines.push('3. Generate JSX using only the components listed. Call `validate_code` afterwards.');
 

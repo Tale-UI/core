@@ -108,6 +108,22 @@ When `showTextWhileLoading` is true, the spinner renders inline alongside the ch
 
 All buttons on a given surface should share the same size. Mixing `sm` and `md` in the same action group creates visual inconsistency; the only exception is an icon-only `IconButton` paired with a labelled `Button` in a toolbar, where size parity is already enforced by the toolbar height.
 
+## Pitfalls
+
+<!-- pitfall: button-no-link-variant -->
+- **No `'link'` variant** — The valid variants are `'primary'`, `'neutral'`, `'ghost'`, `'danger'`, `'danger-neutral'`, `'danger-ghost'`, and `'inverse'`. There is no `'link'` variant. For link-styled text, use the `Link` component.
+
+<!-- pitfall: button-no-xs-size -->
+- **`size` accepts `'sm'`, `'md'`, `'lg'` only — no `'xs'`** — There is no `'xs'` size. The smallest available size is `'sm'`.
+
+<!-- pitfall: button-no-asChild -->
+- **No `asChild` prop** — `Button` does not support `asChild`. To render a button as a link, use the `Link` component or wrap with a router link adapter.
+
+<!-- pitfall: button-no-icon-prop -->
+- **No `icon`, `leftIcon`, `rightIcon`, or `startIcon` prop** — Place an `<Icon>` component (or any icon) directly as a child of `Button`. Position before or after the label text as needed.
+  - anti-pattern: `<Button leftIcon={<PlusIcon />}>Add</Button>`
+  - fix: `<Button><PlusIcon />Add</Button>`
+
 ## Notes
 
 - `variant` defaults to `"primary"`, `size` defaults to `"md"`.

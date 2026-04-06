@@ -100,6 +100,11 @@ Also accepts all standard `<div>` HTML attributes.
 - `.tale-empty-state__description` — Supporting text
 - `.tale-empty-state__actions` — Action buttons container
 
+## Pitfalls
+
+<!-- pitfall: empty-state-no-header-or-content-parts -->
+- **No `EmptyState.Header` or `EmptyState.Content`** — the available sub-parts are `Root`, `Icon`, `Title`, `Description`, and `Actions` only.
+
 ## Notes
 
 - Custom component — not built on a React Aria primitive.

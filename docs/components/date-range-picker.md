@@ -78,6 +78,24 @@ import { RangeCalendar } from '@tale-ui/react/range-calendar';
 - `.tale-date-range-picker__description` — Description text
 - `.tale-date-range-picker__error` — Error message
 
+## Pitfalls
+
+<!-- pitfall: date-range-picker-start-end-sub-parts -->
+- **Uses `StartDate` and `EndDate` sub-parts, not `DateInput`** — There is no `DateRangePicker.DateInput`. Use `DateRangePicker.StartDate` and `DateRangePicker.EndDate` for the two segmented inputs.
+  - anti-pattern: `<DateRangePicker.DateInput>`
+  - fix: `<DateRangePicker.StartDate>` and `<DateRangePicker.EndDate>`
+
+<!-- pitfall: date-range-picker-dialog-no-auto-calendar -->
+- **`DateRangePicker.Dialog` does not auto-render a calendar** — You must compose a full `RangeCalendar` (imported from `@tale-ui/react/range-calendar`) as children inside `DateRangePicker.Dialog`.
+
+<!-- pitfall: date-range-picker-no-date-value-type-import -->
+- **Do not import `DateValueType` from `@tale-ui/react/date-range-picker`** — `DateValueType` is not exported from this package. Derive the value type from the component props using `DateRangePicker` types from `react-aria-components` or `@internationalized/date`.
+
+<!-- cross-pitfall-ref: no-native-date -->
+<!-- cross-pitfall-ref: derive-date-type-from-props -->
+<!-- cross-pitfall-ref: no-internationalized-date-import -->
+<!-- cross-pitfall-ref: no-null-state-without-type -->
+
 ## Notes
 
 - Requires `RangeCalendar` from `@tale-ui/react/range-calendar` for the popover content.

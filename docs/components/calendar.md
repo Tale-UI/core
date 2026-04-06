@@ -102,6 +102,23 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 - `.tale-calendar__grid-body` — Date rows
 - `.tale-calendar__cell` — Individual date cell
 
+## Pitfalls
+
+<!-- pitfall: calendar-header-required -->
+- **Navigation buttons and heading must be inside `Calendar.Header`** — `Calendar.PreviousButton`, `Calendar.Heading`, and `Calendar.NextButton` must be placed inside `Calendar.Header`. Placing them directly in `Calendar.Root` without the `Header` wrapper loses the flex layout.
+
+<!-- pitfall: calendar-grid-header-cell-not-cell -->
+- **Use `Calendar.GridHeaderCell` in `GridHeader`, not `Calendar.Cell`** — `Calendar.GridHeader` passes day name strings (e.g. `"Mon"`) to its render prop. Using `Calendar.Cell` there crashes with `TypeError: can't access property "calendar", date is undefined` because `Cell` expects a `date` prop. Reserve `Calendar.Cell` for `GridBody`.
+
+<!-- pitfall: calendar-heading-no-margin -->
+- **`Calendar.Heading` must have no vertical margin or padding** — Do not add `margin-top`, `margin-bottom`, or vertical `padding` to `Calendar.Heading`. It is sized and positioned by `Calendar.Header`'s flex layout.
+
+<!-- cross-pitfall-ref: no-locale-prop-on-calendar -->
+<!-- cross-pitfall-ref: no-native-date -->
+<!-- cross-pitfall-ref: derive-date-type-from-props -->
+<!-- cross-pitfall-ref: no-null-state-without-type -->
+<!-- cross-pitfall-ref: no-internationalized-date-import -->
+
 ## Notes
 
 - Built on React Aria `Calendar` and related components.

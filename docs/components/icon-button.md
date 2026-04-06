@@ -82,6 +82,16 @@ All other props are forwarded to the underlying `<button>` element (via React Ar
 
 Variant styles (`.tale-button--primary`, etc.) are inherited from the Button component.
 
+## Pitfalls
+
+<!-- pitfall: icon-button-aria-label-required -->
+- **`aria-label` is required** — without visible text the button is inaccessible. Omitting it causes a screen reader to announce nothing useful.
+
+<!-- pitfall: icon-button-no-nested-in-trigger -->
+- **Do not nest `<IconButton>` inside a trigger component** — triggers render their own `<button>` element; nesting an `IconButton` creates a `<button>` inside a `<button>`, which is invalid HTML.
+  - anti-pattern: `<Tooltip.Trigger><IconButton aria-label="Info"><Icon icon={Info} /></IconButton></Tooltip.Trigger>`
+  - fix: `<Tooltip.Trigger aria-label="Info" className="tale-icon-button tale-icon-button--md"><Icon icon={Info} /></Tooltip.Trigger>`
+
 ## Notes
 
 - The default variant is `ghost` (unlike Button which defaults to `primary`), since icon-only buttons are most commonly used as subtle actions.

@@ -86,6 +86,20 @@ function ProduceSearch() {
 - `.tale-autocomplete__empty` -- Empty state message
 - `.tale-autocomplete__separator` -- Divider
 
+## Pitfalls
+
+<!-- cross-pitfall-ref: usefilter-from-rac-not-react-aria -->
+
+<!-- pitfall: autocomplete-no-phantom-sub-parts -->
+- **No `Autocomplete.Label`, `Autocomplete.Popover`, `Autocomplete.Trigger`, `Autocomplete.Value` sub-parts.**
+  - anti-pattern: `<Autocomplete.Root><Autocomplete.Label>Search</Autocomplete.Label><Autocomplete.Popover>...</Autocomplete.Popover></Autocomplete.Root>`
+  - fix: Use `Autocomplete.SearchField` with `aria-label` prop; Autocomplete renders inline — there is no popover.
+
+<!-- pitfall: autocomplete-no-controlled-props -->
+- **No controlled-state props on `Autocomplete.Root`.** Filter state is derived from the `filter` function and the input value managed by `Autocomplete.SearchField`/`Autocomplete.Input`.
+  - anti-pattern: `<Autocomplete.Root inputValue={query} onInputChange={setQuery}>`
+  - fix: `<Autocomplete.Root filter={contains}>` — the input manages its own value internally.
+
 ## Notes
 
 - Unlike Combobox, Autocomplete renders the list inline (no popover). It is suited for command palettes, sidebar filters, and embedded search panels.

@@ -62,6 +62,17 @@ Accepts all React Aria `Tree` props plus an optional `className`. See the `@exam
 - `.tale-tree__item` — Tree node (receives `data-level`, `data-has-child-items`, `data-expanded`, `data-selected`)
 - `.tale-tree__item-content` — Content wrapper inside each item (rendered by `Tree.ItemContent`)
 
+## Pitfalls
+
+<!-- pitfall: tree-sub-parts-only -->
+- **Sub-parts are Root, Item, and ItemContent only** — there is no `Tree.Node`, `Tree.Header`, or `Tree.ExpandTrigger`.
+
+<!-- pitfall: tree-root-requires-aria-label -->
+- **`Tree.Root` requires `aria-label`** — omitting it leaves the tree without an accessible name.
+
+<!-- pitfall: tree-item-requires-id-and-text-value -->
+- **Each `Tree.Item` requires both `id` and `textValue`** — `id` identifies the node, `textValue` provides the screen reader label.
+
 ## Notes
 
 - Nest `Tree.Item` elements inside a parent `Tree.Item` to create a hierarchy.

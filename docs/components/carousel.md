@@ -107,6 +107,17 @@ All other parts accept only an optional `className`.
 - `.tale-carousel__indicator` — Individual indicator dot
 - `.tale-carousel__indicator[data-selected]` — Active indicator
 
+## Pitfalls
+
+<!-- pitfall: carousel-correct-trigger-names -->
+- **Uses `Carousel.PreviousTrigger` and `Carousel.NextTrigger`** — NOT `PreviousButton` or `NextButton`.
+
+<!-- pitfall: carousel-no-slide-index-props -->
+- **No `selectedIndex`, `onSelectedIndexChange`, `currentSlide`, or `onSlideChange` props** — navigation is handled internally via Embla. Use `Carousel.Indicator` with an `index` prop for dot navigation.
+
+<!-- pitfall: carousel-no-dom-query -->
+- **Never use `document.querySelector` in carousel code** — all carousel interaction is managed through the component API and context internally.
+
 ## Notes
 
 - Requires `embla-carousel-react` as a peer dependency. Install it separately: `npm install embla-carousel-react embla-carousel`.

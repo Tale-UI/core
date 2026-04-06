@@ -93,6 +93,18 @@ function NavWithDropdown() {
 - `.tale-navigation-menu__icon` — Dropdown chevron icon inside a trigger
 - `.tale-navigation-menu__viewport` — Animated viewport container for dropdown content
 
+## Pitfalls
+
+<!-- pitfall: navigation-menu-list-required -->
+- **`NavigationMenu.List` is required between `NavigationMenu.Root` and `NavigationMenu.Item`.** Placing items directly inside `Root` skips the `<ul>` semantic wrapper.
+  - anti-pattern: `<NavigationMenu.Root><NavigationMenu.Item>...</NavigationMenu.Item></NavigationMenu.Root>`
+  - fix: `<NavigationMenu.Root><NavigationMenu.List><NavigationMenu.Item>...</NavigationMenu.Item></NavigationMenu.List></NavigationMenu.Root>`
+
+<!-- pitfall: navigation-menu-no-nav-component -->
+- **There is no `Nav` component in Tale UI.** Use `NavigationMenu.Root` as the `<nav>` wrapper — do not import or render a separate `Nav` component.
+  - anti-pattern: `import { Nav } from '@tale-ui/react/nav';`
+  - fix: `import { NavigationMenu } from '@tale-ui/react/navigation-menu';`
+
 ## Notes
 
 - This is a plain HTML implementation (not built on React Aria). Manage dropdown open/close state yourself.

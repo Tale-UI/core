@@ -70,6 +70,17 @@ const [isExpanded, setIsExpanded] = useState(false);
 - `.tale-disclosure__trigger` — Toggle button
 - `.tale-disclosure__panel` — Collapsible content area
 
+## Pitfalls
+
+<!-- pitfall: disclosure-no-content-sub-part -->
+- **Use `Disclosure.Panel` for content, NOT `Disclosure.Content`** — there is no `Disclosure.Content` sub-part.
+
+<!-- pitfall: disclosure-no-header-or-icon-parts -->
+- **No `Content`, `Header`, or `Icon` sub-parts** — the only parts are `Root`, `Trigger`, and `Panel`.
+
+<!-- pitfall: disclosure-controlled-state-props -->
+- **Controlled state uses `isExpanded`/`onExpandedChange`** — NOT `open`/`onOpenChange`.
+
 ## Notes
 
 - Built on React Aria `Disclosure` and `DisclosurePanel`.

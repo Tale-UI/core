@@ -106,6 +106,13 @@ const [value, setValue] = React.useState('');
 - `.tale-pin-input__caret` — Blinking caret indicator
 - `.tale-pin-input__separator` — Separator between groups
 
+## Pitfalls
+
+<!-- pitfall: pin-input-slot-not-input -->
+- **Uses `PinInput.Slot` (NOT `PinInput.Input`).** Each `Slot` requires an `index` prop. Requires `maxLength` on Root.
+  - anti-pattern: `<PinInput.Root><PinInput.Input /><PinInput.Input /></PinInput.Root>`
+  - fix: `<PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root>`
+
 ## Notes
 
 - Requires `input-otp` as a peer dependency. Install it separately: `npm install input-otp`.

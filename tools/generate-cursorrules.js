@@ -15,7 +15,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const REGISTRY_PATH = path.join(ROOT, 'registry/components.json');
-const SNIPPET_PATH = path.join(ROOT, 'docs/consumer-claude-md-snippet.md');
+const PITFALLS_PATH = path.join(ROOT, 'registry/pitfalls.json');
 const OUTPUT_PATH = path.join(ROOT, '.cursorrules');
 
 const args = process.argv.slice(2);
@@ -25,45 +25,43 @@ function readFile(filePath) {
   try { return fs.readFileSync(filePath, 'utf8'); } catch { return null; }
 }
 
-// ─── Extract pitfalls from consumer snippet ─────────────────────────────────
+// ─── Build pitfall lines from structured registry data ───────────────────────
 
-function extractPitfalls(snippetContent) {
-  if (!snippetContent) return '';
-  const normalized = snippetContent.replace(/\r\n/g, '\n');
+function buildPitfallLines(registry, pitfallsJson) {
+  const lines = [];
 
-  // Extract lines between the namespace/simple list and "6. **Charts"
-  // These are the individual pitfall bullet points (lines starting with "   - ")
-  const lines = normalized.split('\n');
-  const pitfalls = [];
-  let inPitfalls = false;
+  // General conventions from pitfalls.json
+  for (const gc of (pitfallsJson.generalConventions || [])) {
+    lines.push(gc.summary + (gc.detail ? ' — ' + gc.detail.replace(/`/g, '') : ''));
+  }
 
-  for (const line of lines) {
-    // Start after the namespace/simple component list line
-    if (line.includes('**Simple components** (direct use')) {
-      inPitfalls = true;
-      continue;
-    }
-    // Stop at the charts section or end of pitfalls
-    if (inPitfalls && /^\d+\.\s+\*\*/.test(line.trim())) {
-      break;
-    }
-    if (inPitfalls && line.trim().startsWith('- ')) {
-      // Clean up the line: remove leading whitespace and "- " prefix
-      let pitfall = line.trim().replace(/^- /, '');
-      // Remove markdown bold markers for cleaner output
-      pitfall = pitfall.replace(/\*\*/g, '');
-      pitfalls.push(pitfall);
+  // Trigger styling cross-component pitfalls
+  for (const cp of (pitfallsJson.crossComponentPitfalls || [])) {
+    if (cp.category === 'trigger-styling') {
+      lines.push(cp.summary + (cp.detail ? ' — ' + cp.detail.replace(/`/g, '') : ''));
     }
   }
 
-  return pitfalls;
+  // Top component-specific pitfalls (summary only, for cursorrules brevity)
+  const seen = new Set();
+  for (const component of registry.components) {
+    for (const p of (component.pitfalls || [])) {
+      const key = p.summary;
+      if (!seen.has(key)) {
+        seen.add(key);
+        lines.push(`[${component.name}] ${p.summary}`);
+      }
+    }
+  }
+
+  return lines;
 }
 
 // ─── Generate .cursorrules content ──────────────────────────────────────────
 
 function generate() {
   const registry = JSON.parse(readFile(REGISTRY_PATH));
-  const snippet = readFile(SNIPPET_PATH);
+  const pitfallsJson = JSON.parse(readFile(PITFALLS_PATH) || '{"crossComponentPitfalls":[],"generalConventions":[]}');
 
   const compound = registry.components
     .filter(c => c.kind === 'compound')
@@ -75,7 +73,7 @@ function generate() {
     .map(c => c.name)
     .sort();
 
-  const pitfalls = extractPitfalls(snippet);
+  const pitfalls = buildPitfallLines(registry, pitfallsJson);
 
   // Build the pitfalls section
   const pitfallLines = pitfalls.map(p => `- ${p}`).join('\n');

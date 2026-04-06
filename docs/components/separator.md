@@ -41,6 +41,14 @@ Accepts all React Aria `Separator` props plus an optional `className`. See the `
 - `.tale-separator` — Base (horizontal by default)
 - `.tale-separator--vertical` — Vertical orientation modifier
 
+## Pitfalls
+
+<!-- pitfall: separator-no-margin-padding-props -->
+- **Does NOT accept `margin`, `padding`, or other CSS shorthand as direct props** — use the `style` prop or a custom `className` for spacing adjustments.
+
+<!-- pitfall: separator-only-orientation-and-html-attrs -->
+- **Only accepts `orientation` and standard HTML attributes** — no additional Tale UI-specific props exist.
+
 ## Notes
 
 - Built on React Aria `Separator`.

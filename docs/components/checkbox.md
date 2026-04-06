@@ -141,6 +141,25 @@ import { Check, Minus } from 'lucide-react';
 - `.tale-checkbox--lg` -- Large size (2.2rem indicator)
 - `.tale-checkbox__indicator` -- The visual indicator box
 
+## Pitfalls
+
+<!-- pitfall: checkbox-always-use-namespace -->
+- **`Checkbox` is a namespace component — always use `<Checkbox.Root value="...">`, never `<Checkbox>` directly.** Using `<Checkbox>` causes "'Checkbox' cannot be used as a JSX component" errors.
+  - anti-pattern: `<Checkbox value="agree">Accept terms</Checkbox>`
+  - fix: `<Checkbox.Root value="agree"><Checkbox.Indicator>...</Checkbox.Indicator> Accept terms</Checkbox.Root>`
+
+<!-- pitfall: checkbox-value-not-id -->
+- **Each checkbox item uses `value` prop (not `id`) matching the parent CheckboxGroup's `value` array.**
+  - anti-pattern: `<Checkbox.Root id="apple">Apple</Checkbox.Root>`
+  - fix: `<Checkbox.Root value="apple">Apple</Checkbox.Root>`
+
+<!-- pitfall: checkbox-indicator-needs-icon -->
+- **`Checkbox.Indicator` does NOT render a checkmark on its own** — provide `<Icon icon={Check} size="sm" />` as a child.
+  - anti-pattern: `<Checkbox.Indicator />`
+  - fix: `<Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>`
+
+<!-- cross-pitfall-ref: no-visual-exports-for-interactive-ui -->
+
 ## Notes
 
 - You must provide your own icon inside `Checkbox.Indicator` — use `<Icon icon={Check} size="sm" />` from `@tale-ui/react/icon` with `lucide-react`.

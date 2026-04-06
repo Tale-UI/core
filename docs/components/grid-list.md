@@ -56,6 +56,14 @@ import { Star, Heart, Bell } from 'lucide-react';
 - `.tale-grid-list` — Base
 - `.tale-grid-list__item` — List item
 
+## Pitfalls
+
+<!-- pitfall: grid-list-no-is-selected-on-item -->
+- **`GridList.Item` does NOT accept `isSelected`** — use `selectedKeys` and `onSelectionChange` on `GridList.Root` instead.
+
+<!-- pitfall: grid-list-on-selection-change-set -->
+- **Do NOT annotate `onSelectionChange` parameter as `Set<string>`** — the parameter type is `Selection`; cast inside the handler if needed.
+
 ## Notes
 
 - `selectionMode` can be `"none"`, `"single"`, or `"multiple"`.

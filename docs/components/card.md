@@ -141,9 +141,21 @@ All parts accept standard `<div>` HTML attributes including `className`.
 - `.tale-card__body` -- Body section
 - `.tale-card__footer` -- Footer section
 
+## Pitfalls
+
+<!-- pitfall: card-no-elevated-boolean -->
+- **No `elevated` boolean prop** — use `variant="elevated"`. There is also no `variant="raised"`.
+
+<!-- pitfall: card-header-no-title-props -->
+- **`Card.Header` has NO `title` or `description` props** — place `<Text>` or other components directly inside `Card.Header` as children.
+
+<!-- pitfall: card-body-footer-no-gap -->
+- **`Card.Body` and `Card.Footer` do NOT accept a `gap` prop** — wrap children in `<Column gap="...">` inside these parts.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.
+- For side-by-side cards, wrapping each `Card.Root` in its own `<Column>` inside a `<Row>` is the recommended layout pattern.
 - All parts are optional. Use only what you need.
 - Default variant is `outlined`, default padding is `md`.
 - The `padding` prop on `Root` controls internal spacing for all child sections via CSS.

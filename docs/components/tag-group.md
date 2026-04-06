@@ -90,6 +90,17 @@ function RemovableTags() {
 - `.tale-tag-group__description` — Description text
 - `.tale-tag-group__error` — Error message
 
+## Pitfalls
+
+<!-- pitfall: tag-group-no-item-sub-part -->
+- **Uses `TagGroup.Tag`, NOT `TagGroup.Item`** — there is no `TagGroup.Item` sub-part.
+
+<!-- pitfall: tag-group-root-no-label-prop -->
+- **`TagGroup.Root` does NOT accept a `label` prop** — use `<TagGroup.Label>` as a child element.
+
+<!-- pitfall: tag-group-tag-no-on-remove -->
+- **`TagGroup.Tag` does NOT accept `onRemove`** — put `onRemove` on `TagGroup.Root` instead.
+
 ## Notes
 
 - Pass `onRemove` to `Root` to make tags removable. The callback receives the set of removed keys.

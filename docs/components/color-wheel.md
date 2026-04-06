@@ -37,6 +37,17 @@ import { parseColor } from 'react-aria-components';
 - `.tale-color-wheel__track` — Circular track
 - `.tale-color-wheel__thumb` — Draggable thumb
 
+## Pitfalls
+
+<!-- pitfall: color-wheel-track-required -->
+- **`ColorWheel.Track` is required** — Omitting `ColorWheel.Track` inside `ColorWheel.Root` will render a blank element with no visible color ring.
+
+<!-- pitfall: color-wheel-radius-required -->
+- **`outerRadius` and `innerRadius` are required props** — Both props must be provided on `ColorWheel.Root`. Omitting either will cause incorrect rendering or a runtime error.
+
+<!-- cross-pitfall-ref: color-imports-from-rac -->
+<!-- cross-pitfall-ref: no-color-pojo-state -->
+
 ## Notes
 
 - `outerRadius` and `innerRadius` control the wheel dimensions and ring thickness.

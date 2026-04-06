@@ -45,6 +45,11 @@ Also accepts all standard `<span>` HTML attributes except `children`.
 - `.tale-dot-icon--neutral` / `--brand` / `--error` / `--warning` / `--success` -- Color modifiers
 - `.tale-dot-icon--sm` / `--md` / `--lg` -- Size modifiers
 
+## Pitfalls
+
+<!-- pitfall: dot-icon-color-semantic-only -->
+- **`color` accepts semantic tokens only** — valid values are `'neutral'`, `'brand'`, `'error'`, `'warning'`, `'success'`. Raw color names or hex values are not accepted.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

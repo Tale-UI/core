@@ -66,6 +66,21 @@ All other SVG attributes are forwarded to the underlying `<svg>` element.
 - `.tale-icon--lg` — 32px
 - `.tale-icon--xl` — 48px
 
+## Pitfalls
+
+<!-- pitfall: icon-prop-is-component-not-instance -->
+- **`icon` prop takes a component reference, not an instance** — pass the icon class itself, not `<Bell />`.
+  - anti-pattern: `<Icon icon={<Bell />} />`
+  - fix: `<Icon icon={Bell} />`
+
+<!-- pitfall: icon-import-from-root -->
+- **Import lucide icons from `lucide-react` root, not deep subpaths** — deep imports like `lucide-react/dist/esm/icons/bell` are not part of the public API and break on package updates.
+  - anti-pattern: `import Bell from 'lucide-react/dist/esm/icons/bell';`
+  - fix: `import { Bell } from 'lucide-react';`
+
+<!-- pitfall: icon-size-values -->
+- **`size` accepts `'sm'`, `'md'`, `'lg'`, `'xl'` only** — NOT the token-style `'s'`/`'m'`/`'l'` suffixes used in CSS tokens.
+
 ## Notes
 
 - Icons inherit `currentColor` by default — they match the parent text color.

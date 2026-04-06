@@ -54,6 +54,11 @@ Accepts all native `<fieldset>` element props plus an optional `className`. See 
 - `.tale-fieldset` — Base
 - `.tale-fieldset__legend` — Legend
 
+## Pitfalls
+
+<!-- pitfall: fieldset-only-root-and-legend -->
+- **Only `Root` and `Legend` sub-parts** — There is no `Fieldset.Label` or `Fieldset.Description`. The only sub-parts are `Fieldset.Root` and `Fieldset.Legend`.
+
 ## Notes
 
 - Setting `disabled` on `Fieldset.Root` natively disables all form controls inside it.

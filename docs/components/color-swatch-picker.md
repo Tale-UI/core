@@ -38,6 +38,25 @@ import { ColorSwatch } from '@tale-ui/react/color-swatch';
 - `.tale-color-swatch-picker` — Root container
 - `.tale-color-swatch-picker__item` — Individual swatch item
 
+## Pitfalls
+
+<!-- pitfall: color-swatch-picker-import-swatch-separately -->
+- **`ColorSwatch` is NOT exported from `@tale-ui/react/color-swatch-picker`** — Import `ColorSwatch` from `@tale-ui/react/color-swatch`, not from the swatch picker package.
+  - anti-pattern: `import { ColorSwatch } from '@tale-ui/react/color-swatch-picker'`
+  - fix: `import { ColorSwatch } from '@tale-ui/react/color-swatch'`
+
+<!-- pitfall: color-swatch-picker-value-not-selection -->
+- **Uses `value`/`onChange`, not `onSelectionChange`** — The controlled API uses `value` and `onChange`. There is no `onSelectionChange` prop.
+
+<!-- pitfall: color-swatch-picker-value-not-nullable -->
+- **`value` does NOT accept `null` or `undefined`** — `ColorSwatchPicker.Root` requires a non-nullable color value when controlled. Use `defaultValue` for uncontrolled usage without an initial value.
+
+<!-- pitfall: color-swatch-picker-no-list-sub-part -->
+- **No `ColorSwatchPicker.List`** — There is no `List` sub-part. Place `ColorSwatchPicker.Item` elements directly inside `ColorSwatchPicker.Root`.
+
+<!-- cross-pitfall-ref: color-swatch-string-only -->
+<!-- cross-pitfall-ref: color-imports-from-rac -->
+
 ## Notes
 
 - Each `Item` accepts a `color` prop specifying the swatch color.

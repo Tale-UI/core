@@ -62,6 +62,15 @@ Also accepts all standard `<select>` HTML attributes. Pass `<option>` elements a
 - `.tale-select-native` -- Base
 - `.tale-select-native--sm` / `--md` -- Size modifiers
 
+## Pitfalls
+
+<!-- pitfall: select-native-no-sub-parts -->
+- **`SelectNative` has NO sub-parts** — no `.Root`, `.Label`, `.Trigger`, `.Value`, etc. Use `<SelectNative>` directly with plain HTML `<label>` and `<option>` children.
+  - anti-pattern: `<SelectNative.Root><SelectNative.Label>Size</SelectNative.Label><SelectNative.Trigger /></SelectNative.Root>`
+  - fix: `<label>Size<SelectNative><option value="sm">Small</option></SelectNative></label>`
+
+<!-- cross-pitfall-ref: no-label-component -->
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

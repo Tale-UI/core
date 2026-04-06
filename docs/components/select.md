@@ -193,6 +193,20 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
 - `.tale-select__item-indicator` -- Selection indicator inside an item
 - `.tale-select__separator` -- Divider
 
+## Pitfalls
+
+<!-- pitfall: select-placeholder-on-root -->
+- **`Select.Root` owns the `placeholder` prop** — do NOT put `placeholder` on `Select.Value`.
+  - anti-pattern: `<Select.Value placeholder="Pick one..." />`
+  - fix: `<Select.Root placeholder="Pick one..."><Select.Trigger><Select.Value /><Select.Icon /></Select.Trigger>...</Select.Root>`
+
+<!-- cross-pitfall-ref: selectedkey-not-value -->
+
+<!-- pitfall: select-no-option-sub-part -->
+- **No `Select.Option` — use `Select.Item`.** `Select.Trigger` requires `<Select.Icon />` after `<Select.Value />`.
+  - anti-pattern: `<Select.Option id="a">A</Select.Option>`
+  - fix: `<Select.Item id="a" textValue="A">A</Select.Item>`
+
 ## Notes
 
 - Each `Select.Item` should have an `id` and a `textValue` prop. `textValue` is inferred from text children but should be explicit for complex item content (icons, badges, etc.).

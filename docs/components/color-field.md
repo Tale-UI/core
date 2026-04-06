@@ -35,6 +35,16 @@ Accepts all React Aria `ColorField` props plus an optional `className`. See the 
 - `.tale-color-field__description` — Description text
 - `.tale-color-field__error` — Error message
 
+## Pitfalls
+
+<!-- pitfall: color-field-no-hex-color-field -->
+- **There is no `HexColorField` component** — The hex color text input is `ColorField` from `@tale-ui/react/color-field`. There is no separate `HexColorField` export.
+
+<!-- pitfall: color-field-onchange-returns-color-object -->
+- **`ColorField.Root` `onChange` returns a `Color` object, not a string** — The `onChange` callback receives a `Color` object from `react-aria-components`, not a raw hex string. Call `.toString('hex')` or similar on the value if you need a string.
+
+<!-- cross-pitfall-ref: color-imports-from-rac -->
+
 ## Notes
 
 - Accepts and parses hex, RGB, and HSL color string formats.

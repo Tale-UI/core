@@ -47,7 +47,8 @@ import { createHash } from 'crypto';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const GOLDEN_DIR = join(__dirname, 'golden-prompts');
-const SNIPPET_PATH = join(ROOT, 'docs/consumer-claude-md-snippet.md');
+const EVAL_CONTEXT_PATH = join(__dirname, '.eval-context.md');
+const SNIPPET_FALLBACK_PATH = join(ROOT, 'docs/consumer-claude-md-snippet.md');
 
 /* ─── Claude CLI resolution ───────────────────────────────────────────────── */
 
@@ -88,6 +89,7 @@ const FILTER_SLUGS = getArg('--slugs')?.split(',').map(s => s.trim()) ?? null;
 const JSON_OUTPUT = hasFlag('--json');
 const CONCURRENCY = parseInt(getArg('--concurrency') ?? '5', 10);
 const NO_CACHE = hasFlag('--no-cache') || hasFlag('--fresh');
+const SKIP_GENERATE = hasFlag('--skip-generate');
 const FRESH = hasFlag('--fresh'); // bypass both caches
 
 /* ─── Model resolution ────────────────────────────────────────────────────── */
@@ -173,9 +175,23 @@ const ALLOWED_IMPORT_PREFIXES = [
   '@internationalized/',
 ];
 
+/* ─── Eval context (auto-generated, includes expanded pitfalls) ───────────── */
+
+if (!SKIP_GENERATE) {
+  try {
+    execFileSync(process.execPath, [join(__dirname, 'generate-eval-context.js')], {
+      cwd: ROOT, timeout: 10000, encoding: 'utf8', stdio: 'pipe',
+    });
+  } catch (err) {
+    // Non-fatal: fall back to the consumer snippet if generation fails
+    process.stderr.write(`Warning: could not generate eval context: ${err.message}\n`);
+  }
+}
+
 /* ─── System prompt ───────────────────────────────────────────────────────── */
 
-const snippetRaw = readFileSync(SNIPPET_PATH, 'utf8');
+const snippetPath = existsSync(EVAL_CONTEXT_PATH) ? EVAL_CONTEXT_PATH : SNIPPET_FALLBACK_PATH;
+const snippetRaw = readFileSync(snippetPath, 'utf8');
 const snippetContent = snippetRaw.replace(/^[\s\S]*?(?=^## UI Components)/m, '');
 
 // Eval-lite: strip sections not needed for L1/L2/L3 checks (Charts, A2UI, Dark mode).
@@ -370,7 +386,7 @@ async function callStraico(userPrompt, { retries = 3 } = {}) {
         const body = await response.text();
         // 500 with "Excessively long" = context overflow — no point retrying
         if (response.status === 500 && body.includes('Excessively l')) {
-          throw new Error(`Straico: system prompt exceeds context window for ${MODEL}. The pitfalls section is ~46k chars — use a model with ≥100k context (e.g. --model sonnet, --model gpt-4o) or use --provider claude.`);
+          throw new Error(`Straico: system prompt exceeds context window for ${MODEL}. The eval context with pitfalls is ~11k tokens — use a model with ≥32k context (e.g. --model sonnet, --model gpt-4o) or use --provider claude.`);
         }
         // 502/503/504 are transient — retry with backoff
         if ((response.status === 502 || response.status === 503 || response.status === 504) && attempt < retries) {

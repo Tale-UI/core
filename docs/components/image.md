@@ -102,6 +102,17 @@ Also accepts all standard `<img>` HTML attributes (`src`, `width`, `height`, `lo
 - `.tale-image--fill` -- `object-fit: fill`
 - `.tale-image--none` -- `object-fit: none`
 
+## Pitfalls
+
+<!-- pitfall: image-radius-not-border-radius -->
+- **Uses `radius` (NOT `borderRadius`) for rounded corners** — `borderRadius` is not a valid prop.
+
+<!-- pitfall: image-no-size-prop -->
+- **Does NOT accept a `size` prop** — use the standard `width` and `height` HTML attributes instead.
+
+<!-- pitfall: image-radius-valid-values -->
+- **`radius` accepts `'none'`, `'sm'`, `'md'`, `'lg'`, `'full'`** — NOT the short forms `'s'`, `'m'`, or `'l'`.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

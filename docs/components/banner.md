@@ -106,6 +106,17 @@ Also accepts all standard `<div>` HTML attributes.
 - `.tale-banner__actions` — Actions container
 - `.tale-banner__close` — Close/dismiss button
 
+## Pitfalls
+
+<!-- pitfall: banner-always-use-root -->
+- **`Banner` is a namespace component** — always use `<Banner.Root>`, never `<Banner>` directly.
+
+<!-- pitfall: banner-no-brand-or-neutral-variant -->
+- **No `'brand'` or `'neutral'` variant** — valid values are `'info'` (default), `'success'`, `'warning'`, and `'error'`.
+
+<!-- pitfall: banner-use-title-and-description -->
+- **Pass content via `Banner.Title` and `Banner.Description`** — do NOT pass raw `<Text>` children directly to `Banner.Root`.
+
 ## Notes
 
 - Custom component — not built on a React Aria primitive.

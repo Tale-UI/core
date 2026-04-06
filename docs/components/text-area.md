@@ -65,6 +65,15 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 - `.tale-text-area__description` — Description text
 - `.tale-text-area__error` — Error message
 
+## Pitfalls
+
+<!-- cross-pitfall-ref: textarea-hyphenated-path -->
+
+<!-- pitfall: text-area-pascal-case-sub-part -->
+- **`TextArea.TextArea` sub-part is PascalCase — NOT `TextArea.Textarea` (lowercase 'a').** Causes 'Property does not exist' TypeScript errors.
+  - anti-pattern: `<TextArea.Textarea placeholder="..." />`
+  - fix: `<TextArea.TextArea placeholder="..." />`
+
 ## Notes
 
 - Supports `isRequired`, `isInvalid`, `isDisabled`, and `isReadOnly` props on the Root.

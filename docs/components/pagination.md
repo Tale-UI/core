@@ -127,6 +127,11 @@ import { Icon } from '@tale-ui/react/icon';
 - `.tale-pagination__line` — Line/bar indicator
 - `.tale-pagination__line--current` — Active line
 
+## Pitfalls
+
+<!-- pitfall: pagination-no-page-control-props-on-root -->
+- **Root does NOT accept `currentPage`, `totalPages`, or `onPageChange`** — render each page as `Pagination.Item` and mark the active page with the `current` prop. Pagination is stateless and fully declarative.
+
 ## Notes
 
 - Custom component — not built on a React Aria primitive.

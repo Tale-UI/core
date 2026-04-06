@@ -80,6 +80,13 @@ import { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-reac
 - `.tale-featured-icon--modern` -- Modern theme (white bg + coloured icon + border)
 - `.tale-featured-icon--modern-neue` -- Modern-neue theme (soft bg + inner shadow)
 
+## Pitfalls
+
+<!-- pitfall: featured-icon-no-icon-prop -->
+- **Does NOT accept an `icon` prop** — takes an `<Icon>` child. Both `FeaturedIcon` and the lucide icon must be imported separately.
+  - anti-pattern: `<FeaturedIcon icon={Bell} />`
+  - fix: `<FeaturedIcon size="lg"><Icon icon={Bell} /></FeaturedIcon>`
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

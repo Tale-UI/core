@@ -85,6 +85,14 @@ Accepts all standard `<div>` HTML attributes plus an optional `className`. See t
 - `.tale-scroll-area__thumb` — Scrollbar thumb
 - `.tale-scroll-area__corner` — Corner element
 
+## Pitfalls
+
+<!-- pitfall: scroll-area-orientation-is-string -->
+- **`Scrollbar` `orientation` is a string, not a boolean** — pass `orientation="vertical"` or `orientation="horizontal"` explicitly; do not omit it or treat it as a flag.
+
+<!-- pitfall: scroll-area-required-nesting -->
+- **Requires a specific nested structure** — the correct hierarchy is `Root > Viewport > Content > your content`, with `Scrollbar` (containing `Thumb`) as a sibling of `Viewport` inside `Root`.
+
 ## Notes
 
 - This is a purely structural component (no React Aria dependency); all parts are plain `<div>` wrappers with BEM classes.

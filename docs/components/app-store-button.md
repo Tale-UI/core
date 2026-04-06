@@ -46,6 +46,13 @@ Also accepts all standard `<a>` HTML attributes except `children`. Set `href` to
 - `.tale-app-store-button__label` — Top label ("Download on the" / "GET IT ON")
 - `.tale-app-store-button__store` — Store name ("App Store" / "Google Play")
 
+## Pitfalls
+
+<!-- pitfall: app-store-button-store-values -->
+- **`store` accepts `'apple'` or `'google'` only** — Do not use `'app-store'` or `'play-store'`. The valid values are `'apple'` and `'google'`.
+  - anti-pattern: `<AppStoreButton store="app-store" />`
+  - fix: `<AppStoreButton store="apple" />`
+
 ## Notes
 
 - Custom component — not built on a React Aria primitive.

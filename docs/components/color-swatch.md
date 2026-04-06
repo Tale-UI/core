@@ -20,6 +20,18 @@ import { parseColor } from 'react-aria-components';
 
 - `.tale-color-swatch` — Base element
 
+## Pitfalls
+
+<!-- pitfall: color-swatch-prop-is-string -->
+- **`color` prop accepts a plain CSS string, not a `Color` object** — Pass a CSS color string directly (e.g. `color="#ff0000"`). Do not use `parseColor()` or pass a `Color` object. Also, the prop is `color`, not `value`.
+  - anti-pattern: `<ColorSwatch color={parseColor('#ff0000')} />`
+  - fix: `<ColorSwatch color="#ff0000" />`
+
+<!-- pitfall: color-swatch-no-size-prop -->
+- **No `size` prop** — `ColorSwatch` does not accept a `size` prop. Use CSS to control dimensions.
+
+<!-- cross-pitfall-ref: color-swatch-string-only -->
+
 ## Notes
 
 - This is a simple (non-compound) component exported directly as `ColorSwatch`.

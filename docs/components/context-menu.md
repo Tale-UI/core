@@ -84,6 +84,31 @@ import { ContextMenu } from '@tale-ui/react/context-menu';
 - `.tale-context-menu__group` — Item group section
 - `.tale-context-menu__separator` — Separator line
 
+## Pitfalls
+
+<!-- pitfall: context-menu-no-controlled-state -->
+- **`ContextMenu.Root` does not accept controlled state props.** There is no `isOpen`, `open`, or `onOpenChange` prop — open/close is managed internally by the right-click interaction.
+
+<!-- pitfall: context-menu-no-right-click-prop -->
+- **`ContextMenu.Trigger` does not accept a `rightClick` prop.** Right-click behavior is built-in; the Trigger is always a right-click target.
+  - anti-pattern: `<ContextMenu.Trigger rightClick>`
+  - fix: `<ContextMenu.Trigger>`
+
+<!-- pitfall: context-menu-uses-popup-not-popover -->
+- **Use `ContextMenu.Popup`, not `ContextMenu.Popover`.** There is no `Popover` part in ContextMenu.
+  - anti-pattern: `<ContextMenu.Popover>...</ContextMenu.Popover>`
+  - fix: `<ContextMenu.Popup>...</ContextMenu.Popup>`
+
+<!-- pitfall: context-menu-menulist-required -->
+- **`ContextMenu.MenuList` is required between `ContextMenu.Popup` and `ContextMenu.Item`.** Placing items directly inside `Popup` causes TypeScript errors.
+  - anti-pattern: `<ContextMenu.Popup><ContextMenu.Item id="a">A</ContextMenu.Item></ContextMenu.Popup>`
+  - fix: `<ContextMenu.Popup><ContextMenu.MenuList><ContextMenu.Item id="a">A</ContextMenu.Item></ContextMenu.MenuList></ContextMenu.Popup>`
+
+<!-- pitfall: context-menu-item-no-tone -->
+- **`ContextMenu.Item` does not accept `tone`, `color`, `intent`, or `variant` props.** These are not part of the ContextMenu Item API.
+
+<!-- cross-pitfall-ref: no-asChild-on-triggers -->
+
 ## Notes
 
 - The menu appears at the cursor position using a virtual trigger element.

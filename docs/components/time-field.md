@@ -51,6 +51,24 @@ Accepts all React Aria `TimeField` props plus an optional `className`. See the `
 - `.tale-time-field__description` — Description text
 - `.tale-time-field__error` — Error message
 
+## Pitfalls
+
+<!-- pitfall: time-field-no-extra-sub-parts -->
+- **No `TimeField.Group`, `TimeField.Trigger`, `TimeField.Input`, `TimeField.Popover`, or `TimeField.Dialog` sub-parts** — `TimeField` is a segmented inline input only; it has no trigger or popover anatomy.
+
+<!-- pitfall: time-field-dateinput-not-input -->
+- **The input sub-part is `TimeField.DateInput`, not `TimeField.Input`** — There is no `TimeField.Input`. The correct sub-part for the segmented time input is `TimeField.DateInput`.
+  - anti-pattern: `<TimeField.Input>`
+  - fix: `<TimeField.DateInput>`
+
+<!-- pitfall: time-field-hour-singular -->
+- **Property is `hour` (singular), not `hours`** — React Aria uses `hour` (singular) for the hour segment value. Using `hours` will be silently ignored.
+  - anti-pattern: `granularity="hours"`
+  - fix: `granularity="hour"`
+
+<!-- cross-pitfall-ref: no-native-date -->
+<!-- cross-pitfall-ref: derive-date-type-from-props -->
+
 ## Notes
 
 - `DateInput` requires a render function child that receives each segment.

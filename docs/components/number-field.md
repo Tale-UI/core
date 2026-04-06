@@ -114,6 +114,20 @@ Accepts all React Aria `NumberField` props plus an optional `className`. See the
 - `.tale-number-field__description` — Help text
 - `.tale-number-field__error` — Error message
 
+## Pitfalls
+
+<!-- pitfall: number-field-no-null-value -->
+- **`NumberField.Root` `value` prop accepts `number | undefined`, NOT `number | null`.**
+  - anti-pattern: `<NumberField.Root value={count ?? null}>`
+  - fix: `<NumberField.Root value={count ?? undefined}>`
+
+<!-- pitfall: number-field-no-phantom-sub-parts -->
+- **No `NumberField.Step` or `NumberField.HintText` sub-parts.** Use `NumberField.Description` for help text.
+  - anti-pattern: `<NumberField.HintText>Between 0 and 100</NumberField.HintText>`
+  - fix: `<NumberField.Description>Between 0 and 100</NumberField.Description>`
+
+<!-- cross-pitfall-ref: minvalue-maxvalue-not-min-max -->
+
 ## Notes
 
 - Built on React Aria `NumberField`, `Group`, `Input`, `Button`, `Label`, `Text`, and `FieldError`.

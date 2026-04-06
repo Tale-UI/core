@@ -86,6 +86,19 @@ Also accepts all standard `<div>` HTML attributes.
 - `.tale-meter__track` — Background rail
 - `.tale-meter__indicator` — Filled bar
 
+## Pitfalls
+
+<!-- pitfall: meter-value-needs-children -->
+- **`Meter.Value` needs children text** — use `<Meter.Value>60%</Meter.Value>`, not self-closing `<Meter.Value />`, which renders an empty span.
+
+<!-- cross-pitfall-ref: minvalue-maxvalue-not-min-max -->
+
+<!-- pitfall: meter-indicator-own-value-prop -->
+- **`Meter.Indicator` requires its own `value` prop** — it does not inherit from `Meter.Root`. Always pass matching values to both.
+
+<!-- pitfall: meter-no-output-sub-part -->
+- **No `Meter.Output` sub-part** — use `Meter.Value` for displaying the current value text.
+
 ## Notes
 
 - Built on React Aria `Meter`.

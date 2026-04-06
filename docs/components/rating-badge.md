@@ -42,6 +42,11 @@ Also accepts all standard `<span>` HTML attributes except `children`.
 - `.tale-rating-badge` -- Base
 - `.tale-rating-badge--sm` / `--md` / `--lg` -- Size modifiers
 
+## Pitfalls
+
+<!-- pitfall: rating-badge-requires-value-prop -->
+- **Requires a `value` prop (number)** — do NOT pass the rating as children text; `RatingBadge` does not accept `children`.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

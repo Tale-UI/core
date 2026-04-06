@@ -160,6 +160,19 @@ A floating tooltip appears below the bar, anchored to the fill point.
 - `.tale-progress-bar__track` — Background rail
 - `.tale-progress-bar__indicator` — Filled bar (`data-indeterminate` attribute set when no value)
 
+## Pitfalls
+
+<!-- pitfall: progress-bar-value-needs-children -->
+- **`ProgressBar.Value` needs children text** — use `<ProgressBar.Value>60%</ProgressBar.Value>`, not self-closing `<ProgressBar.Value />`, which renders an empty span.
+
+<!-- cross-pitfall-ref: minvalue-maxvalue-not-min-max -->
+
+<!-- pitfall: progress-bar-indicator-own-value-prop -->
+- **`ProgressBar.Indicator` requires its own `value` prop** — it does not inherit from `ProgressBar.Root`. Always pass matching values to both.
+
+<!-- pitfall: progress-bar-no-output-sub-part -->
+- **No `ProgressBar.Output` sub-part** — use `ProgressBar.Value` for displaying the current value text.
+
 ## Notes
 
 - Built on React Aria `ProgressBar`.

@@ -94,6 +94,15 @@ Accepts all React Aria `Switch` props plus:
 - `.tale-switch` -- Base (root label)
 - `.tale-switch__thumb` -- The sliding thumb element
 
+## Pitfalls
+
+<!-- pitfall: switch-no-label-indicator-sub-parts -->
+- **No `Label` or `Indicator` sub-parts — only `Root` and `Thumb`** — `Switch` has only `Switch.Root` and `Switch.Thumb`. Label text is placed as a direct child of `Switch.Root`, not in a sub-part.
+  - anti-pattern: `<Switch.Label>Enable</Switch.Label>`
+  - fix: place label text as a text child of `Switch.Root`: `<Switch.Root><Switch.Thumb />Enable</Switch.Root>`
+
+<!-- cross-pitfall-ref: no-visual-exports-for-interactive-ui -->
+
 ## Notes
 
 - Use `defaultSelected` for uncontrolled or `isSelected`/`onChange` for controlled state.

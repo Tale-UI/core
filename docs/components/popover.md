@@ -76,6 +76,11 @@ import { Popover } from '@tale-ui/react/popover';
 - `.tale-popover__description` — Description paragraph
 - `.tale-popover__close` — Close button
 
+## Pitfalls
+
+<!-- cross-pitfall-ref: no-asChild-on-triggers -->
+<!-- cross-pitfall-ref: no-button-inside-trigger -->
+
 ## Notes
 
 - **Do not nest `<Button>` inside `<Popover.Trigger>`.** `Popover.Trigger` is a React Aria `Button` — nesting another `<Button>` creates invalid `<button><button>` HTML. Instead, apply button styling via `className="tale-button tale-button--{variant} tale-button--{size}"` directly on `Popover.Trigger`.

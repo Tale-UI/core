@@ -121,6 +121,14 @@ function SortableTable() {
 - `.tale-table__row` — Row
 - `.tale-table__cell` — Data cell
 
+## Pitfalls
+
+<!-- pitfall: table-no-column-header-part -->
+- **No `Table.ColumnHeader`** — use `Table.Column` for column header cells.
+
+<!-- pitfall: table-no-status-part -->
+- **No `Table.Status` sub-part** — render a `<Badge>` inside a `Table.Cell` to show status.
+
 ## Notes
 
 - Set `allowsSorting` on individual columns and provide `sortDescriptor` / `onSortChange` on `Root` to enable sorting.

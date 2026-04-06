@@ -119,6 +119,11 @@ Accepts all standard `<li>` HTML attributes including `className`.
 - `.tale-list--spacious` -- Spacious density (`--space-s` item padding)
 - `.tale-list__item` -- Individual list item
 
+## Pitfalls
+
+<!-- pitfall: list-variant-valid-values -->
+- **`variant` accepts `'plain'` or `'divided'` only** — `'item'` is NOT a valid value.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

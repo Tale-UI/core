@@ -167,6 +167,26 @@ import { Menu } from '@tale-ui/react/menu';
 - `.tale-menubar` — Horizontal menu bar container
 - `.tale-menubar__item` — Individual menubar item wrapper
 
+## Pitfalls
+
+<!-- pitfall: menu-menulist-required -->
+- **`Menu.MenuList` is required between `Menu.Popover` and `Menu.Item`.** Placing `Menu.Item` directly inside `Menu.Popover` causes TypeScript errors because `Popover` does not accept `Item` children.
+  - anti-pattern: `<Menu.Popover><Menu.Item id="a">A</Menu.Item></Menu.Popover>`
+  - fix: `<Menu.Popover><Menu.MenuList><Menu.Item id="a">A</Menu.Item></Menu.MenuList></Menu.Popover>`
+
+<!-- pitfall: menu-separator-inside-menulist -->
+- **`Menu.Separator` goes inside `Menu.MenuList`, not as a sibling of it.** A separator outside the list renders outside the `role="menu"` boundary.
+  - anti-pattern: `<Menu.MenuList>...</Menu.MenuList><Menu.Separator /><Menu.MenuList>...</Menu.MenuList>`
+  - fix: `<Menu.MenuList>...<Menu.Separator />...</Menu.MenuList>`
+
+<!-- pitfall: menu-root-no-onaction-open -->
+- **`Menu.Root` does not accept `onAction` or `open`.** Pass `onAction` to `Menu.Item`, and use uncontrolled open state (Menu.Root manages it internally via React Aria's MenuTrigger).
+  - anti-pattern: `<Menu.Root onAction={handleAction} open={isOpen}>`
+  - fix: `<Menu.Item id="a" onAction={handleAction}>A</Menu.Item>`
+
+<!-- cross-pitfall-ref: no-asChild-on-triggers -->
+<!-- cross-pitfall-ref: no-button-inside-trigger -->
+
 ## Notes
 
 - Each `Menu.Item` requires a unique `id` prop. Add `textValue` for accessibility (screen reader announcements and keyboard type-ahead).

@@ -92,6 +92,21 @@ import { Calendar } from '@tale-ui/react/calendar';
 - `.tale-date-picker__description` — Description text
 - `.tale-date-picker__error` — Error message
 
+## Pitfalls
+
+<!-- pitfall: date-picker-no-calendar-sub-parts -->
+- **No Calendar sub-parts on the `DatePicker` namespace** — `DatePicker.Dialog` does not auto-render a calendar. You must compose a full `Calendar.Root` (imported from `@tale-ui/react/calendar`) as children inside `DatePicker.Dialog`.
+
+<!-- pitfall: date-picker-no-label-prop -->
+- **No `label` prop on Root** — `DatePicker.Root` does not accept a `label` prop. Use `DatePicker.Label` as a separate sub-part.
+  - anti-pattern: `<DatePicker.Root label="Date">`
+  - fix: `<DatePicker.Label>Date</DatePicker.Label>` inside the root
+
+<!-- cross-pitfall-ref: no-native-date -->
+<!-- cross-pitfall-ref: derive-date-type-from-props -->
+<!-- cross-pitfall-ref: no-internationalized-date-import -->
+<!-- cross-pitfall-ref: no-null-state-without-type -->
+
 ## Notes
 
 - Requires `Calendar` from `@tale-ui/react/calendar` for the popover content.

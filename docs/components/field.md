@@ -68,6 +68,14 @@ import { Input } from '@tale-ui/react/input';
 - `.tale-field__error` — Error message
 - `.tale-field__item` — Item container
 
+## Pitfalls
+
+<!-- pitfall: field-root-no-validation-props -->
+- **`Field.Root` does not accept validation state props** — `Field.Root` is a plain layout container. It does not accept `isInvalid`, `isRequired`, `isDisabled`, or `isReadOnly`. For validated fields, use a component like `Input.Root` that has React Aria field context built in.
+
+<!-- pitfall: field-no-standalone-exports -->
+- **No standalone `FieldLabel`, `FieldError`, `FieldControl`, or `FieldDescription` exports** — All sub-parts are accessed through the `Field` namespace: `Field.Label`, `Field.Error`, `Field.Control`, `Field.Description`.
+
 ## Notes
 
 - `Field` is a layout component -- it does not include its own input. Place any `<input>`, `<textarea>`, or custom input component inside `Field.Control`.

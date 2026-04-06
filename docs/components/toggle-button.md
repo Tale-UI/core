@@ -73,6 +73,18 @@ No Tale UI-specific props. Also accepts all React Aria `ToggleButtonGroup` props
 - `.tale-toggle-button--lg` -- Large size
 - `.tale-toggle-button-group` -- Group wrapper
 
+## Pitfalls
+
+<!-- pitfall: toggle-button-isselected-not-pressed -->
+- **Uses `isSelected`/`defaultSelected` for toggle state, NOT `pressed`.**
+  - anti-pattern: `<ToggleButton pressed={isOn} onPressedChange={setOn}>Bold</ToggleButton>`
+  - fix: `<ToggleButton isSelected={isOn} onChange={setOn}>Bold</ToggleButton>`
+
+<!-- pitfall: toggle-button-no-value-prop -->
+- **Does NOT accept a `value` prop.**
+  - anti-pattern: `<ToggleButton value="bold">Bold</ToggleButton>`
+  - fix: `<ToggleButton defaultSelected>Bold</ToggleButton>`
+
 ## Notes
 
 - `size` defaults to `"md"`.

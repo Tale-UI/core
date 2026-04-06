@@ -25,6 +25,18 @@ import { ToggleButton } from '@tale-ui/react/toggle-button';
 </ToggleButtonGroup>
 ```
 
+## Pitfalls
+
+<!-- pitfall: toggle-group-no-radix-props -->
+- **Does NOT accept `type`, `value`, or `onValueChange` (Radix-style).** Uses `selectionMode`, `selectedKeys`, `defaultSelectedKeys`, `onSelectionChange`.
+  - anti-pattern: `<ToggleButtonGroup type="single" value={sel} onValueChange={setSel}>`
+  - fix: `<ToggleButtonGroup selectionMode="single" selectedKeys={sel} onSelectionChange={setSel}>`
+
+<!-- pitfall: toggle-group-requires-aria-label -->
+- **Requires `aria-label` or `aria-labelledby`.** React Aria logs a console warning at runtime if neither is provided.
+
+<!-- cross-pitfall-ref: toggle-button-group-import-path -->
+
 ## Notes
 
 - This is the same component as `ToggleButtonGroup` from `@tale-ui/react/toggle-button` — see [ToggleButton](toggle-button.md) for the full API, props, examples, and CSS classes.

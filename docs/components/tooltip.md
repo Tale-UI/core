@@ -90,6 +90,15 @@ import { Tooltip } from '@tale-ui/react/tooltip';
 - `.tale-tooltip__title` — Title text (semibold)
 - `.tale-tooltip__description` — Supporting text (lighter weight/opacity)
 
+## Pitfalls
+
+<!-- pitfall: tooltip-text-in-popup -->
+- **Tooltip text goes in `Tooltip.Popup`, not as children of `Tooltip.Trigger`.** Placing content inside `Tooltip.Trigger` renders it as part of the interactive element, not the tooltip.
+  - anti-pattern: `<Tooltip.Trigger>Hover me — This is a tooltip</Tooltip.Trigger>`
+  - fix: `<Tooltip.Trigger>Hover me</Tooltip.Trigger><Tooltip.Popup>This is a tooltip</Tooltip.Popup>`
+
+<!-- cross-pitfall-ref: no-asChild-on-triggers -->
+
 ## Notes
 
 - **Trigger needs explicit `tale-button` classes.** `Tooltip.Trigger` applies `tale-tooltip__trigger` (no styling). Add `className="tale-button tale-button--{variant}"` for button styling.

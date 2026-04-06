@@ -83,6 +83,10 @@ Also accepts all standard `<div>` HTML attributes.
 - `.tale-column` -- Base (applies `display: flex; flex-direction: column`)
 - Gap, alignment, and justification are applied via inline style variables.
 
+## Pitfalls
+
+<!-- cross-pitfall-ref: column-needs-explicit-import -->
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

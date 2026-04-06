@@ -65,6 +65,18 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 - `.tale-text-field__description` — Description text
 - `.tale-text-field__error` — Error message
 
+## Pitfalls
+
+<!-- pitfall: text-field-input-attrs-on-input -->
+- **`TextField.Root` accepts `name` — HTML input attributes (`type`, `minLength`, `maxLength`, `placeholder`) go on `TextField.Input`.**
+  - anti-pattern: `<TextField.Root placeholder="Enter name" type="email">`
+  - fix: `<TextField.Root name="email"><TextField.Input placeholder="Enter name" type="email" /></TextField.Root>`
+
+<!-- pitfall: no-password-input-component -->
+- **There is NO `PasswordInput` component** — for password fields, use `TextField` with `type="password"` on `TextField.Input`.
+  - anti-pattern: `<PasswordInput name="password" />`
+  - fix: `<TextField.Root><TextField.Label>Password</TextField.Label><TextField.Input name="password" type="password" /></TextField.Root>`
+
 ## Notes
 
 - Supports `isRequired`, `isInvalid`, `isDisabled`, and `isReadOnly` props on the Root.

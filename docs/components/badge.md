@@ -87,6 +87,14 @@ Also accepts all standard `<span>` HTML attributes.
 - `.tale-badge--sm` / `--md` / `--lg` -- Size modifiers
 - `.tale-badge--rounded` / `--modern` -- Type modifiers (pill is default, no extra class)
 
+## Pitfalls
+
+<!-- pitfall: badge-no-danger-variant -->
+- **`'danger'` is NOT a valid variant** — use `variant="error"` instead.
+
+<!-- pitfall: badge-no-color-prop -->
+- **No `color` prop** — use the `variant` prop to control color.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

@@ -204,6 +204,17 @@ import { DotIcon } from '@tale-ui/react/dot-icon';
 - `.tale-avatar-label-group__title` — Primary text
 - `.tale-avatar-label-group__subtitle` — Secondary text (truncated)
 
+## Pitfalls
+
+<!-- pitfall: avatar-indicator-outside-root -->
+- **`Avatar.Indicator` must wrap OUTSIDE `Avatar.Root`** — `Avatar.Root` has `overflow: hidden`, so placing `Avatar.Indicator` inside it will clip the indicator badge.
+
+<!-- pitfall: avatar-group-propagates-size -->
+- **`Avatar.Group` propagates `size` to children** — do not set `size` on individual `Avatar.Root` inside a Group unless intentionally overriding the group size.
+
+<!-- pitfall: avatar-size-full-values -->
+- **`size` accepts `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'2xl'`** — NOT the short forms `'s'`, `'m'`, or `'l'`.
+
 ## Notes
 
 - Always include a `Fallback` alongside `Image` so initials display while the image loads or if it fails.

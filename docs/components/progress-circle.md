@@ -81,6 +81,14 @@ Also accepts all React Aria `ProgressBar` props.
 - `.tale-progress-circle__label` -- Text label
 - `.tale-progress-circle__value` -- Percentage text
 
+## Pitfalls
+
+<!-- pitfall: progress-circle-no-text-inside-root -->
+- **Do NOT place `<Text>` inside `ProgressCircle.Root`** — use `ProgressCircle.Label` for labelling and `ProgressCircle.Value` for the percentage display.
+
+<!-- pitfall: progress-circle-size-valid-values -->
+- **`size` only accepts `'sm'`, `'md'`, `'lg'`** — NOT the short forms `'s'`, `'m'`, `'l'`, and NOT `'xl'`.
+
 ## Notes
 
 - Built on React Aria `ProgressBar` — provides `role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax` automatically.

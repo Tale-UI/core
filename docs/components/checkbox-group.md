@@ -95,6 +95,15 @@ import { Field } from '@tale-ui/react/field';
 
 - `.tale-checkbox-group` -- Base wrapper
 
+## Pitfalls
+
+<!-- pitfall: checkbox-group-string-array-not-set -->
+- **`CheckboxGroup` controlled-state uses `string[]` (plain array), NOT `Set<string>`.**
+  - anti-pattern: `<CheckboxGroup value={new Set(['apple'])} onChange={(v) => setSelected(v)} />`
+  - fix: `<CheckboxGroup value={['apple']} onChange={(v) => setSelected(v)} />`
+
+<!-- cross-pitfall-ref: no-cross-import-checkbox-group -->
+
 ## Notes
 
 - The `label` prop sets the accessible group label.

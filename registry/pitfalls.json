@@ -1,0 +1,620 @@
+{
+  "schemaVersion": "1.1.0",
+  "taleUiVersion": "1.3.42",
+  "crossComponentPitfalls": [
+    {
+      "id": "no-asChild-on-triggers",
+      "summary": "Never use asChild on any Tale UI trigger",
+      "detail": "Tale UI trigger components expose their own public structure and do not support `asChild`. Passing it causes TypeScript errors.",
+      "appliesTo": [
+        "Menu",
+        "Popover",
+        "Dialog",
+        "AlertDialog",
+        "Drawer",
+        "Tooltip",
+        "PreviewCard",
+        "ContextMenu"
+      ],
+      "category": "trigger-styling",
+      "antiPatterns": [
+        "<Menu.Trigger asChild><Button variant=\"primary\">File</Button></Menu.Trigger>"
+      ],
+      "fixes": [
+        "<Menu.Trigger className=\"tale-button tale-button--primary tale-button--md\">File</Menu.Trigger>"
+      ]
+    },
+    {
+      "id": "no-button-inside-trigger",
+      "summary": "Never nest <Button> or <IconButton> inside a trigger",
+      "detail": "this creates a `<button>` inside a `<button>` (invalid HTML) and breaks keyboard/pointer interactions. Style the trigger directly with BEM class names.",
+      "appliesTo": [
+        "Menu",
+        "Popover",
+        "Dialog",
+        "AlertDialog",
+        "Drawer",
+        "Tooltip"
+      ],
+      "category": "trigger-styling",
+      "antiPatterns": [
+        "<Dialog.Trigger><Button variant=\"neutral\">Open</Button></Dialog.Trigger>"
+      ],
+      "fixes": [
+        "<Dialog.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open</Dialog.Trigger>"
+      ]
+    },
+    {
+      "id": "no-null-state-without-type",
+      "summary": "Never write useState(null) without a type annotation for date/color components",
+      "detail": "TypeScript infers the literal `null` type, making the setter incompatible with the component's `onChange` prop. Always annotate: `useState<Type | null>(null)`.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar",
+        "DatePicker",
+        "DateRangePicker",
+        "ColorArea",
+        "ColorSlider",
+        "ColorWheel",
+        "ColorPicker"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": [
+        "const [value, setValue] = useState(null);"
+      ],
+      "fixes": [
+        "type T = Parameters<NonNullable<React.ComponentProps<typeof RangeCalendar.Root>['onChange']>>[0]; const [value, setValue] = useState<T | null>(null);"
+      ]
+    },
+    {
+      "id": "derive-date-type-from-props",
+      "summary": "Derive date value types from component props, not third-party imports",
+      "detail": "`DateValue`, `RangeValue`, and `ZonedDateTime` are not exported from any `@tale-ui/react/*` module. Importing them causes \"has no exported member\" TypeScript errors. Use the prop-derived pattern instead.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar",
+        "DatePicker",
+        "DateRangePicker",
+        "DateField",
+        "TimeField"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": [
+        "import type { DateValue } from '@tale-ui/react/calendar';"
+      ],
+      "fixes": [
+        "type DateVal = Parameters<NonNullable<React.ComponentProps<typeof Calendar.Root>['onChange']>>[0];"
+      ]
+    },
+    {
+      "id": "no-native-date",
+      "summary": "Never use native JavaScript Date objects with date components",
+      "detail": "React Aria uses `DateValue` (an international date type), not native `Date`. Passing a `Date` object or a `[Date, Date]` tuple causes type errors and runtime failures.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar",
+        "DatePicker",
+        "DateRangePicker",
+        "DateField",
+        "TimeField"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": [
+        "<Calendar.Root value={new Date()} />"
+      ]
+    },
+    {
+      "id": "no-internationalized-date-import",
+      "summary": "Do not import parseDate from @internationalized/date unless it is a direct project dependency",
+      "detail": "it is an internal package not available in consumer projects. Importing it causes \"Cannot find module\" TypeScript errors.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar",
+        "DatePicker",
+        "DateRangePicker",
+        "DateField",
+        "TimeField"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": [
+        "import { parseDate } from '@internationalized/date';"
+      ]
+    },
+    {
+      "id": "no-locale-prop-on-calendar",
+      "summary": "Do not pass a locale prop to Calendar.Root or RangeCalendar.Root",
+      "detail": "that prop does not exist and causes TypeScript errors. For locale support, wrap the component tree in `<I18nProvider locale=\"en-US\">` from `@tale-ui/react/i18n-provider`.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": [
+        "<Calendar.Root locale=\"en-US\" />"
+      ],
+      "fixes": [
+        "<I18nProvider locale=\"en-US\"><Calendar.Root /></I18nProvider>"
+      ]
+    },
+    {
+      "id": "color-imports-from-rac",
+      "summary": "Import parseColor and Color from react-aria-components, not @internationalized/color",
+      "detail": "`@internationalized/color` is an internal dependency not available in consumer projects. Always use the `react-aria-components` exports.",
+      "appliesTo": [
+        "ColorArea",
+        "ColorSlider",
+        "ColorWheel",
+        "ColorField",
+        "ColorPicker",
+        "ColorSwatchPicker"
+      ],
+      "category": "color-state",
+      "antiPatterns": [
+        "import { parseColor } from '@internationalized/color';"
+      ],
+      "fixes": [
+        "import { parseColor } from 'react-aria-components'; import type { Color } from 'react-aria-components';"
+      ]
+    },
+    {
+      "id": "color-swatch-string-only",
+      "summary": "ColorSwatch always accepts a plain CSS string, not a Color object",
+      "detail": "when `ColorSwatch` is driven by shared color state (a `Color` object from `useState`), serialize it first. Passing a raw `Color` object causes a TypeScript error.",
+      "appliesTo": [
+        "ColorSwatch"
+      ],
+      "category": "color-state",
+      "antiPatterns": [
+        "<ColorSwatch color={colorObject} />"
+      ],
+      "fixes": [
+        "<ColorSwatch color={colorObject.toString('css')} />"
+      ]
+    },
+    {
+      "id": "no-color-extract-channel",
+      "summary": "Do not extract a numeric channel value and pass it as value",
+      "detail": "color components expect a full `Color` object for `value`, not a number extracted from it (e.g. `color.hue`). Do not write a separate handler that reconstructs color from a number.",
+      "appliesTo": [
+        "ColorArea",
+        "ColorSlider",
+        "ColorWheel"
+      ],
+      "category": "color-state",
+      "antiPatterns": [
+        "<ColorSlider.Root value={color.hue} onChange={h => setColor(parseColor(\\"
+      ],
+      "fixes": [
+        "<ColorSlider.Root value={color} onChange={setColor} channel=\"hue\" />"
+      ]
+    },
+    {
+      "id": "no-color-pojo-state",
+      "summary": "Do not initialize color state with a plain JS object",
+      "detail": "`{ h: 200, s: 100, v: 100 }` is not a valid `Color` instance. Use `parseColor('hsl(200, 100%, 50%)')` to create a proper initial value.",
+      "appliesTo": [
+        "ColorArea",
+        "ColorSlider",
+        "ColorWheel",
+        "ColorPicker"
+      ],
+      "category": "color-state",
+      "antiPatterns": [
+        "useState({ h: 200, s: 100, v: 100, alpha: 1 })"
+      ],
+      "fixes": [
+        "useState(parseColor('hsl(200, 100%, 50%)'))"
+      ]
+    },
+    {
+      "id": "minvalue-maxvalue-not-min-max",
+      "summary": "Use minValue/maxValue props, not min/max",
+      "detail": "React Aria uses camelCase prop names. Passing `min={0} max={100}` causes \"is not assignable to type RootProps\" TypeScript errors.",
+      "appliesTo": [
+        "Meter",
+        "ProgressBar",
+        "Slider",
+        "NumberField"
+      ],
+      "category": "react-aria",
+      "antiPatterns": [
+        "<Meter.Root value={75} min={0} max={100}>"
+      ],
+      "fixes": [
+        "<Meter.Root value={75} minValue={0} maxValue={100}>"
+      ]
+    },
+    {
+      "id": "selectedkey-not-value",
+      "summary": "Use selectedKey/onSelectionChange for controlled selection, not value/onChange",
+      "detail": "passing `value` to `Select.Root`, `Combobox.Root`, or `Tabs.Root` causes \"is not assignable to type\" TypeScript errors. React Aria uses selection keys.",
+      "appliesTo": [
+        "Select",
+        "Combobox",
+        "Tabs"
+      ],
+      "category": "react-aria",
+      "antiPatterns": [
+        "<Select.Root value={selected} onChange={setSelected}>"
+      ],
+      "fixes": [
+        "<Select.Root selectedKey={selected} onSelectionChange={(key) => setSelected(key as string)}>"
+      ]
+    },
+    {
+      "id": "defaultexpandedkeys-not-defaultopen",
+      "summary": "Accordion.Root uses defaultExpandedKeys (an array), not defaultOpen or defaultValue",
+      "detail": "both `defaultOpen` and `defaultValue` are common React/HTML patterns that do not exist on `AccordionRootProps`; using them causes TypeScript errors.",
+      "appliesTo": [
+        "Accordion"
+      ],
+      "category": "react-aria",
+      "antiPatterns": [
+        "<Accordion.Root defaultOpen={true}>"
+      ],
+      "fixes": [
+        "<Accordion.Root defaultExpandedKeys={['item-id']}>"
+      ]
+    },
+    {
+      "id": "defaultselectedkey-not-defaultvalue-tabs",
+      "summary": "Tabs.Root uses defaultSelectedKey, not defaultValue",
+      "detail": "passing `defaultValue` causes \"is not assignable to type RootProps\" TypeScript errors.",
+      "appliesTo": [
+        "Tabs"
+      ],
+      "category": "react-aria",
+      "antiPatterns": [
+        "<Tabs.Root defaultValue=\"overview\">"
+      ],
+      "fixes": [
+        "<Tabs.Root defaultSelectedKey=\"overview\">"
+      ]
+    },
+    {
+      "id": "no-deep-subpath-imports",
+      "summary": "Never import from nested paths like @tale-ui/react/button/Button.styled",
+      "detail": "only the package-level path (`@tale-ui/react/button`) is valid. Deep subpath imports cause \"Cannot find module\" TypeScript errors.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import { Button } from '@tale-ui/react/button/Button.styled';"
+      ],
+      "fixes": [
+        "import { Button } from '@tale-ui/react/button';"
+      ]
+    },
+    {
+      "id": "usefilter-from-rac-not-react-aria",
+      "summary": "Import useFilter from react-aria-components, not react-aria",
+      "detail": "the two packages export different things. Using `react-aria` causes \"Module has no exported member 'useFilter'\" TypeScript errors.",
+      "appliesTo": [
+        "Autocomplete"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import { useFilter } from 'react-aria';"
+      ],
+      "fixes": [
+        "import { useFilter } from 'react-aria-components';"
+      ]
+    },
+    {
+      "id": "no-cross-import-checkbox-group",
+      "summary": "CheckboxGroup and Checkbox have separate import paths — do not cross-import",
+      "detail": "`CheckboxGroup` is at `@tale-ui/react/checkbox-group`; `Checkbox` is at `@tale-ui/react/checkbox`. Cross-importing causes \"Module has no exported member\" TypeScript errors.",
+      "appliesTo": [
+        "Checkbox",
+        "CheckboxGroup"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import { CheckboxGroup } from '@tale-ui/react/checkbox';"
+      ],
+      "fixes": [
+        "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';"
+      ]
+    },
+    {
+      "id": "no-color-component-from-color-picker",
+      "summary": "Color sub-components are not exported from @tale-ui/react/color-picker",
+      "detail": "each has its own import path. Importing from `color-picker` causes \"has no exported member\" TypeScript errors.",
+      "appliesTo": [
+        "ColorArea",
+        "ColorSlider",
+        "ColorSwatch",
+        "ColorSwatchPicker"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import { ColorArea, ColorSwatch } from '@tale-ui/react/color-picker';"
+      ],
+      "fixes": [
+        "import { ColorArea } from '@tale-ui/react/color-area'; import { ColorSwatch } from '@tale-ui/react/color-swatch';"
+      ]
+    },
+    {
+      "id": "toggle-button-group-import-path",
+      "summary": "ToggleButtonGroup is exported from @tale-ui/react/toggle-button, not @tale-ui/react/toggle-button-group",
+      "detail": "there is no `toggle-button-group` module; importing from it causes \"Cannot find module\" TypeScript errors. Also valid: `@tale-ui/react/toggle-group`.",
+      "appliesTo": [
+        "ToggleButtonGroup"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import { ToggleButtonGroup } from '@tale-ui/react/toggle-button-group';"
+      ],
+      "fixes": [
+        "import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';"
+      ]
+    },
+    {
+      "id": "textarea-hyphenated-path",
+      "summary": "TextArea import path is hyphenated: @tale-ui/react/text-area",
+      "detail": "using `@tale-ui/react/textarea` (no hyphen) causes \"Cannot find module\" TypeScript errors.",
+      "appliesTo": [
+        "TextArea"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import { TextArea } from '@tale-ui/react/textarea';"
+      ],
+      "fixes": [
+        "import { TextArea } from '@tale-ui/react/text-area';"
+      ]
+    },
+    {
+      "id": "no-label-component",
+      "summary": "There is no @tale-ui/react/label module and no Label component in Tale UI",
+      "detail": "use a native `<label htmlFor=\"...\">` HTML element instead.",
+      "appliesTo": [
+        "SelectNative"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import { Label } from '@tale-ui/react/label';"
+      ],
+      "fixes": [
+        "<label htmlFor=\"country\">Country</label>"
+      ]
+    },
+    {
+      "id": "use-row-not-flex-div",
+      "summary": "Use <Row> for horizontal layouts instead of <div style={{ display: 'flex' }}>",
+      "detail": "`Row` (from `@tale-ui/react/row`) applies the correct gap tokens and is the Tale UI convention. Similarly use `<Column>` for vertical stacks.",
+      "appliesTo": [
+        "Row",
+        "Column"
+      ],
+      "category": "layout",
+      "antiPatterns": [
+        "<div style={{ display: 'flex', gap: '8px' }}>"
+      ],
+      "fixes": [
+        "<Row gap=\"s\">"
+      ]
+    },
+    {
+      "id": "column-needs-explicit-import",
+      "summary": "Column is never globally available — always import it explicitly",
+      "detail": "`Column` is not re-exported from `@tale-ui/react/row` or any other module. Omitting the import causes \"Cannot find name 'Column'\" TypeScript errors.",
+      "appliesTo": [
+        "Column"
+      ],
+      "category": "layout",
+      "antiPatterns": [
+        "<Column gap=\"m\">"
+      ],
+      "fixes": [
+        "import { Column } from '@tale-ui/react/column';"
+      ]
+    },
+    {
+      "id": "row-justify-shorthand",
+      "summary": "Row justify prop uses shorthand tokens, not CSS property values",
+      "detail": "`'space-between'` is not valid. Use `'between'`.",
+      "appliesTo": [
+        "Row"
+      ],
+      "category": "layout",
+      "antiPatterns": [
+        "<Row justify=\"space-between\">"
+      ],
+      "fixes": [
+        "<Row justify=\"between\">"
+      ]
+    },
+    {
+      "id": "row-no-css-flex-props",
+      "summary": "Row does not accept raw CSS flex properties like alignItems, flexDirection, or flexWrap",
+      "detail": "passing these causes TypeScript errors. Use `style` for one-off overrides.",
+      "appliesTo": [
+        "Row"
+      ],
+      "category": "layout",
+      "antiPatterns": [
+        "<Row alignItems=\"center\">"
+      ],
+      "fixes": [
+        "<Row style={{ alignItems: 'center' }}>"
+      ]
+    },
+    {
+      "id": "container-is-not-layout",
+      "summary": "Container is a colour palette wrapper, not a layout component",
+      "detail": "do not use it as a `<div>` replacement. Use `<Column>` for vertical stacks and `<Row>` for horizontal layouts.",
+      "appliesTo": [
+        "Container"
+      ],
+      "category": "layout"
+    },
+    {
+      "id": "no-global-styles-on-semantic-html",
+      "summary": "Do not apply global styles to semantic HTML elements",
+      "detail": "Tale UI components render `<section>`, `<header>`, `<button>`, etc. internally. Global rules targeting those elements will leak into overlays and popovers.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "layout"
+    },
+    {
+      "id": "no-visual-exports-for-interactive-ui",
+      "summary": "Never use .Visual exports for interactive UI",
+      "detail": "`Checkbox.Visual`, `Radio.Visual`, `Switch.Visual`, and `ToggleButtonVisual` are `aria-hidden` building blocks for custom composition only. They have no keyboard/pointer interaction and no accessible labelling.",
+      "appliesTo": [
+        "Checkbox",
+        "Radio",
+        "Switch",
+        "ToggleButton"
+      ],
+      "category": "visual-exports"
+    },
+    {
+      "id": "dark-mode-attribute-required",
+      "summary": "Always set data-color-mode to \"dark\" or \"light\" on <html> — never remove the attribute",
+      "detail": "removing the attribute (instead of switching its value) causes all `--color-*` and `--neutral-*` tokens to revert to their light defaults even in dark mode.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "dark-mode",
+      "antiPatterns": [
+        "document.documentElement.removeAttribute('data-color-mode');"
+      ],
+      "fixes": [
+        "document.documentElement.setAttribute('data-color-mode', 'light');"
+      ]
+    }
+  ],
+  "generalConventions": [
+    {
+      "id": "no-jsx-element-return-type",
+      "summary": "Never annotate component return types as JSX.Element or use React.FC",
+      "detail": "this project uses the new JSX transform. Write plain functions with no return type annotation. Always include a space between `export` and `function`.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "typescript",
+      "antiPatterns": [
+        "export const MyComponent: React.FC = () => { ... }"
+      ],
+      "fixes": [
+        "export function MyComponent() { ... }"
+      ]
+    },
+    {
+      "id": "token-size-suffixes",
+      "summary": "CSS design tokens use -s/-m/-l suffixes; component size props use -sm/-md/-lg",
+      "detail": "e.g. `--space-s` is a token, but `size=\"sm\"` is a prop value. Token scale: `4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl`.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "typescript"
+    },
+    {
+      "id": "gap-max-is-2xl",
+      "summary": "Max gap value for Row/Column is '2xl'",
+      "detail": "there is no `'3xl'` or `'4xl'` gap token. Using them produces no visible spacing (token is undefined).",
+      "appliesTo": [
+        "Row",
+        "Column"
+      ],
+      "category": "typescript",
+      "antiPatterns": [
+        "<Row gap=\"3xl\">"
+      ],
+      "fixes": [
+        "<Row gap=\"2xl\">"
+      ]
+    },
+    {
+      "id": "no-variant-on-html-elements",
+      "summary": "Do not add variant, size, or color props to native HTML elements",
+      "detail": "these props only exist on Tale UI components. They are silently ignored on `<div>`, `<p>`, `<span>`, etc.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "typescript"
+    },
+    {
+      "id": "use-image-not-img",
+      "summary": "Use <Image> from @tale-ui/react/image instead of <img>",
+      "detail": "`Image` applies radius, lazy loading, and correct CSS. Use its `radius` prop (not `borderRadius`) and `width`/`height` (not `size`).",
+      "appliesTo": [
+        "Image"
+      ],
+      "category": "typescript",
+      "antiPatterns": [
+        "<img src=\"...\" style={{ borderRadius: '50%' }} />"
+      ],
+      "fixes": [
+        "<Image src=\"...\" radius=\"full\" width={40} height={40} />"
+      ]
+    },
+    {
+      "id": "no-heading-component",
+      "summary": "There is no Heading component in Tale UI",
+      "detail": "for headings, use `<Text variant=\"heading\" as=\"h2\">`. Importing `{ Heading }` from any `@tale-ui/react/*` path causes \"has no exported member 'Heading'\" TypeScript errors.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "typescript",
+      "antiPatterns": [
+        "import { Heading } from '@tale-ui/react';"
+      ],
+      "fixes": [
+        "import { Text } from '@tale-ui/react/text'; ... <Text variant=\"heading\" as=\"h2\">Title</Text>"
+      ]
+    }
+  ],
+  "triggerStylingTable": {
+    "headers": [
+      "Trigger",
+      "Auto-applies tale-button",
+      "Notes"
+    ],
+    "entries": [
+      {
+        "Trigger": "`Dialog.Trigger`",
+        "Auto-applies tale-button": "Yes",
+        "Notes": "Add variant: `tale-button--primary`"
+      },
+      {
+        "Trigger": "`AlertDialog.Trigger`",
+        "Auto-applies tale-button": "Yes",
+        "Notes": "Add variant: `tale-button--danger`"
+      },
+      {
+        "Trigger": "`Drawer.Trigger`",
+        "Auto-applies tale-button": "Yes",
+        "Notes": "Add variant class"
+      },
+      {
+        "Trigger": "`Popover.Trigger`",
+        "Auto-applies tale-button": "Yes",
+        "Notes": "Add variant class"
+      },
+      {
+        "Trigger": "`Menu.Trigger`",
+        "Auto-applies tale-button": "No",
+        "Notes": "Add full BEM: `tale-button tale-button--neutral tale-button--md`"
+      },
+      {
+        "Trigger": "`Tooltip.Trigger`",
+        "Auto-applies tale-button": "No",
+        "Notes": "Add full BEM or use `<IconButton>` pattern"
+      },
+      {
+        "Trigger": "`PreviewCard.Trigger`",
+        "Auto-applies tale-button": "No",
+        "Notes": "Add full BEM"
+      },
+      {
+        "Trigger": "`ContextMenu.Trigger`",
+        "Auto-applies tale-button": "No",
+        "Notes": "Wraps any child element; typically plain text or an element"
+      }
+    ]
+  }
+}

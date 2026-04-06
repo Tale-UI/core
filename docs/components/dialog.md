@@ -110,6 +110,26 @@ const [open, setOpen] = useState(false);
 - `.tale-dialog__close` — Close icon button (positioned top-right)
 - `.tale-dialog__actions` — Actions row (cancel/confirm buttons)
 
+## Pitfalls
+
+<!-- pitfall: dialog-isopen-not-open -->
+- **Controlled state uses `isOpen`/`onOpenChange`, not `open`.** Pass `isOpen={open} onOpenChange={setOpen}` to `Dialog.Root`.
+  - anti-pattern: `<Dialog.Root open={open} onOpenChange={setOpen}>`
+  - fix: `<Dialog.Root isOpen={open} onOpenChange={setOpen}>`
+
+<!-- pitfall: dialog-backdrop-wraps-popup -->
+- **`Dialog.Backdrop` must wrap `Dialog.Popup`, not be a sibling.** Using them as siblings creates two independent overlay portals; the backdrop will not be cleaned up on close.
+  - anti-pattern: `<Dialog.Backdrop /><Dialog.Popup>...</Dialog.Popup>`
+  - fix: `<Dialog.Backdrop><Dialog.Popup>...</Dialog.Popup></Dialog.Backdrop>`
+
+<!-- pitfall: dialog-no-header-body-parts -->
+- **There are no `Header` or `Body` sub-parts.** Place `Dialog.Title` and `Dialog.Description` directly inside `Dialog.Popup` — do not wrap them in a `Dialog.Header` or `Dialog.Body`.
+  - anti-pattern: `<Dialog.Header><Dialog.Title>...</Dialog.Title></Dialog.Header>`
+  - fix: `<Dialog.Title>...</Dialog.Title>`
+
+<!-- cross-pitfall-ref: no-asChild-on-triggers -->
+<!-- cross-pitfall-ref: no-button-inside-trigger -->
+
 ## Notes
 
 - **Controlled state uses `isOpen`, not `open`.** Pass `isOpen={open} onOpenChange={setOpen}` to `Dialog.Root`. This follows the React Aria Components convention.

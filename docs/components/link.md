@@ -32,6 +32,13 @@ Accepts all React Aria `Link` props plus an optional `className`. See the `@exam
 
 - `.tale-link` — Base
 
+## Pitfalls
+
+<!-- pitfall: link-no-isexternal-prop -->
+- **There is no `isExternal` prop.** Use standard HTML `target` and `rel` attributes to open links in a new tab.
+  - anti-pattern: `<Link href="https://example.com" isExternal>`
+  - fix: `<Link href="https://example.com" target="_blank" rel="noopener noreferrer">`
+
 ## Notes
 
 - Built on React Aria `Link`. Supports `isDisabled` to prevent interaction and apply `data-disabled`.

@@ -56,6 +56,20 @@ Accepts all React Aria `RangeCalendar` props plus an optional `className`. See t
 - `.tale-range-calendar__prev-button` — Previous month button
 - `.tale-range-calendar__next-button` — Next month button
 
+## Pitfalls
+
+<!-- pitfall: range-calendar-no-footer -->
+- **No `Footer` sub-part** — `RangeCalendar` has no `Footer` sub-part. To display the selected range below the calendar, place a `<Text>` component outside `RangeCalendar.Root` and update it from `onChange`.
+
+<!-- pitfall: range-calendar-unavailable-prop -->
+- **Use `isDateUnavailable` to disable dates, not `isOutsideRange`** — The correct prop for disabling specific dates is `isDateUnavailable` (a function that returns `true` for dates to disable). There is no `isOutsideRange` prop.
+
+<!-- cross-pitfall-ref: no-locale-prop-on-calendar -->
+<!-- cross-pitfall-ref: no-native-date -->
+<!-- cross-pitfall-ref: derive-date-type-from-props -->
+<!-- cross-pitfall-ref: no-null-state-without-type -->
+<!-- cross-pitfall-ref: no-internationalized-date-import -->
+
 ## Notes
 
 - `PreviousButton` defaults to a left-pointing arrow; `NextButton` defaults to a right-pointing arrow. Pass children to customize.

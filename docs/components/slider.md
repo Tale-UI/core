@@ -154,6 +154,15 @@ Use `position="top"` for a floating tooltip-style label above the thumb.
 - `.tale-slider__output--top` — Floating tooltip-style value display above thumb
 - `.tale-slider__output--bottom` — Value display below thumb
 
+## Pitfalls
+
+<!-- pitfall: slider-nested-structure -->
+- **Requires nested structure: Root > Control > Track > Indicator + Thumb.** Use `onChange` (NOT `onValueChange`).
+  - anti-pattern: `<Slider.Root onValueChange={setValue}><Slider.Track /><Slider.Thumb /></Slider.Root>`
+  - fix: `<Slider.Root onChange={setValue}><Slider.Control><Slider.Track><Slider.Indicator /><Slider.Thumb /></Slider.Track></Slider.Control></Slider.Root>`
+
+<!-- cross-pitfall-ref: minvalue-maxvalue-not-min-max -->
+
 ## Notes
 
 - Built on React Aria `Slider`, `SliderTrack`, `SliderThumb`, and `SliderOutput`.

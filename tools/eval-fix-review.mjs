@@ -25,7 +25,7 @@ import { tmpdir } from 'os';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
-const SNIPPET_PATH = join(ROOT, 'docs/consumer-claude-md-snippet.md');
+const SNIPPET_PATH = join(__dirname, '.eval-context.md');
 const EVAL_SCRIPT = join(__dirname, 'eval-golden-prompts.mjs');
 const REVIEW_COMPONENT = join(ROOT, 'playground/vite-app/src/demos/EvalReview.tsx');
 const ROUTES_FILE = join(ROOT, 'playground/vite-app/src/routes.tsx');
@@ -52,6 +52,7 @@ const SKIP_VALIDATE = hasFlag('--skip-validate');
 const NO_CACHE = hasFlag('--no-cache');
 const FRESH = hasFlag('--fresh');
 const UNTIL_PASS = hasFlag('--until-pass');
+const SKIP_PITFALL_TRUTH = hasFlag('--skip-pitfall-truth');
 const MAX_ITER = UNTIL_PASS
   ? (getArg('--max-iter') ? parseInt(getArg('--max-iter'), 10) : Infinity)
   : parseInt(getArg('--max-iter') ?? '3', 10);
@@ -128,7 +129,7 @@ if (PROVIDER === 'claude' || FIX_PROVIDER === 'claude') {
 
 /* ─── Run eval ────────────────────────────────────────────────────────────── */
 
-function runEval(slugs = null) {
+function runEval(slugs = null, { skipGenerate = false } = {}) {
   const extraArgs = [];
   extraArgs.push('--model', MODEL);
   extraArgs.push('--provider', PROVIDER);
@@ -137,6 +138,7 @@ function runEval(slugs = null) {
   if (slugs?.length) extraArgs.push('--slugs', slugs.join(','));
   if (NO_CACHE) extraArgs.push('--no-cache');
   if (FRESH) extraArgs.push('--fresh');
+  if (skipGenerate) extraArgs.push('--skip-generate');
 
   // Progress lines go to stderr (visible in terminal), JSON result to stdout.
   // Timeout: 90s per prompt / concurrency=5 * prompts, plus buffer. Use 15 min max.
@@ -149,6 +151,15 @@ function runEval(slugs = null) {
   if (proc.error) throw new Error(`Eval script failed: ${proc.error.message}`);
   if (!proc.stdout?.trim()) throw new Error('Eval script produced no output — it may have timed out or crashed.');
   return JSON.parse(proc.stdout);
+}
+
+function runPitfallTruthAudit() {
+  execFileSync(process.execPath, [join(__dirname, 'audit-pitfall-truth.mjs')], {
+    cwd: ROOT,
+    timeout: 30000,
+    encoding: 'utf8',
+    stdio: 'inherit',
+  });
 }
 
 /* ─── Fix loop ────────────────────────────────────────────────────────────── */
@@ -165,7 +176,7 @@ async function getFix(result, failedOlds = []) {
   const snippet = readFileSync(SNIPPET_PATH, 'utf8');
 
   // Extract just the pitfalls section to keep the prompt short
-  const pitfallsMatch = snippet.match(/5\. \*\*Common pitfalls[\s\S]*?(?=\n\d+\.|\n---|\n#)/);
+  const pitfallsMatch = snippet.match(/5\. \*\*Common pitfalls\*\*[\s\S]*?(?=\n\d+\. \*\*|\n---|$)/);
   const pitfallsSection = pitfallsMatch ? pitfallsMatch[0] : snippet;
 
   const failedHint = failedOlds.length > 0
@@ -689,6 +700,19 @@ async function main() {
   const providerLabel = FIX_PROVIDER !== PROVIDER ? `${PROVIDER} / fix: ${FIX_PROVIDER}` : PROVIDER;
   console.log(`\n=== Eval → Fix → Review (${modelLabel}, ${providerLabel}) ===\n`);
 
+  /* ── Step 0: Pitfall truth preflight + eval context ── */
+  if (SKIP_PITFALL_TRUTH) {
+    console.log('  Skipping pitfall truth audit (--skip-pitfall-truth).');
+  } else {
+    console.log('  Running pitfall truth audit...');
+    runPitfallTruthAudit();
+  }
+
+  console.log('  Generating eval context from registries...');
+  execFileSync(process.execPath, [join(__dirname, 'generate-eval-context.js')], {
+    cwd: ROOT, timeout: 10000, encoding: 'utf8', stdio: 'pipe',
+  });
+
   /* ── Step 1: Initial eval ── */
   console.log('Step 1/4  Running initial eval against all golden prompts...');
   let evalResult = runEval();
@@ -742,7 +766,7 @@ async function main() {
             continue;
           }
           console.log(`    [${attemptLabel}] Fix applied — re-evaluating...`);
-          const reEval = runEval([current.slug]);
+          const reEval = runEval([current.slug], { skipGenerate: true });
           const reResult = { ...reEval.results[0], prompt: promptMap.get(current.slug)?.prompt ?? '' };
           if (reResult.allPass && reResult.code) {
             passingCode.set(current.slug, reResult);
@@ -782,7 +806,7 @@ async function main() {
 
   /* ── Step 2b: Final fresh eval ── */
   console.log('\nStep 2b/4  Running fresh eval for final review generations...');
-  const finalEval = runEval();
+  const finalEval = runEval(null, { skipGenerate: true });
   for (const r of finalEval.results) {
     const withPrompt = { ...r, prompt: promptMap.get(r.slug)?.prompt ?? '' };
     if (r.allPass && r.code) passingCode.set(r.slug, withPrompt);
@@ -839,8 +863,8 @@ async function main() {
 
   console.log('\nDone. Browser opened to eval review page.');
   if (failing.length > 0) {
-    console.log(`\nNote: consumer snippet was patched during the fix loop.`);
-    console.log(`Run \`git diff docs/consumer-claude-md-snippet.md\` to review changes.`);
+    console.log(`\nNote: fixes were applied to tools/.eval-context.md (gitignored — ephemeral).`);
+    console.log(`To persist: port changes to docs/pitfalls.md and run: pnpm generate-docs`);
   }
   console.log();
 }

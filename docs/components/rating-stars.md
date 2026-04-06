@@ -59,6 +59,11 @@ Also accepts all standard `<div>` HTML attributes except `children`.
 - `.tale-rating-stars__star--half` -- Half-filled star
 - `.tale-rating-stars__star-overlay` -- Overlay element for half-star effect
 
+## Pitfalls
+
+<!-- pitfall: rating-stars-requires-value-prop -->
+- **Requires a `value` prop (number)** — do NOT pass the rating as children text; `RatingStars` does not accept `children`.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

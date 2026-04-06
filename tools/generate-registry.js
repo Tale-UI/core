@@ -494,6 +494,64 @@ function extractDocExamples(docContent) {
   return examples;
 }
 
+// ─── Pitfall extraction from docs ───────────────────────────────────────────
+
+function extractPitfalls(docContent) {
+  if (!docContent) return { pitfalls: [], crossPitfallRefs: [] };
+  const normalized = docContent.replace(/\r\n/g, '\n');
+
+  // Find ## Pitfalls section using indexOf for reliability
+  const sectionMarker = '\n## Pitfalls\n';
+  const start = normalized.indexOf(sectionMarker);
+  if (start === -1) return { pitfalls: [], crossPitfallRefs: [] };
+
+  // Find the end: next ## heading or EOF
+  const contentStart = start + sectionMarker.length;
+  const nextHeading = normalized.indexOf('\n## ', contentStart);
+  const section = normalized.slice(contentStart, nextHeading === -1 ? undefined : nextHeading);
+
+  const pitfalls = [];
+  const crossPitfallRefs = [];
+
+  // Split section into blocks separated by blank lines or comment boundaries
+  // Find each <!-- pitfall: slug --> followed by a bullet
+  const pitfallRegex = /<!-- pitfall: ([\w-]+) -->\n([\s\S]*?)(?=<!-- pitfall:|<!-- cross-pitfall-ref:|$)/g;
+  let m;
+  while ((m = pitfallRegex.exec(section)) !== null) {
+    const id = m[1];
+    const block = m[2].trim();
+    // First line is the bullet: "- **Summary** — detail"
+    const bulletMatch = block.match(/^- \*\*(.+?)\*\*(?:\s*[—–-]\s*(.*))?/s);
+    if (!bulletMatch) continue;
+
+    const summary = bulletMatch[1].replace(/`/g, '').trim();
+    let detail = bulletMatch[2] ? bulletMatch[2].trim() : '';
+
+    // Parse sub-bullets: "  - anti-pattern: `...`" and "  - fix: `...`"
+    const antiPatterns = [...block.matchAll(/^\s+- anti-pattern:\s*`([^`]+)`/mg)].map(x => x[1]);
+    const fixes = [...block.matchAll(/^\s+- fix:\s*`([^`]+)`/mg)].map(x => x[1]);
+
+    // Strip sub-bullets from detail
+    detail = detail.replace(/\n\s+- anti-pattern:.*$/mg, '').replace(/\n\s+- fix:.*$/mg, '').trim();
+
+    pitfalls.push({
+      id,
+      summary,
+      detail,
+      ...(antiPatterns.length > 0 ? { antiPatterns } : {}),
+      ...(fixes.length > 0 ? { fixes } : {}),
+    });
+  }
+
+  // Parse cross-pitfall refs: <!-- cross-pitfall-ref: slug -->
+  const refRegex = /<!-- cross-pitfall-ref: ([\w-]+) -->/g;
+  while ((m = refRegex.exec(section)) !== null) {
+    crossPitfallRefs.push(m[1]);
+  }
+
+  return { pitfalls, crossPitfallRefs };
+}
+
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 function generateRegistry() {
@@ -574,6 +632,9 @@ function generateRegistry() {
     // Status
     const { status, deprecationNote } = extractStatus(styledContent);
 
+    // Pitfalls
+    const { pitfalls, crossPitfallRefs } = extractPitfalls(docContent);
+
     components.push({
       name: pascal,
       slug,
@@ -587,11 +648,13 @@ function generateRegistry() {
       parts,
       examples: examples.length > 0 ? examples : null,
       cssClasses: cssClasses.length > 0 ? cssClasses : null,
+      pitfalls: pitfalls.length > 0 ? pitfalls : null,
+      crossPitfallRefs: crossPitfallRefs.length > 0 ? crossPitfallRefs : null,
     });
   }
 
   return {
-    schemaVersion: '1.0.0',
+    schemaVersion: '1.1.0',
     taleUiVersion: reactPkg.version,
     components,
   };

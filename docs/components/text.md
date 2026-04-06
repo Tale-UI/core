@@ -81,6 +81,26 @@ Also accepts all standard HTML attributes for the rendered element.
 - `.tale-text--accent` -- Accent color variant
 - Typography is applied via `text--{variant}-{size}` foundation classes (e.g. `text--heading-l`, `text--label-s`)
 
+## Pitfalls
+
+<!-- pitfall: text-size-valid-values -->
+- **`size` only accepts `'xs'`, `'s'`, `'m'`, `'l'`** — no other size tokens are valid.
+
+<!-- pitfall: text-mono-not-code -->
+- **Monospace variant is `"mono"`, NOT `"code"`** — use `variant="mono"` for monospace text.
+
+<!-- pitfall: text-no-invalid-variants -->
+- **No `'link'`, `'code'`, or `'caption'` variant** — valid values are `'display'`, `'heading'`, `'title'`, `'label'`, `'text'`, `'mono'`.
+
+<!-- pitfall: text-no-html-for-prop -->
+- **No `htmlFor` prop** — if you need a label with `htmlFor`, use `as="label"` and add `htmlFor` as a standard HTML attribute.
+
+<!-- pitfall: text-as-prop-valid-elements -->
+- **`as` prop only accepts `'p'`, `'span'`, `'div'`, `'h1'`–`'h6'`, `'label'`** — NOT `'strong'`, `'code'`, `'pre'`, or other HTML elements.
+
+<!-- pitfall: text-color-valid-values -->
+- **`color` only accepts `'default'`, `'muted'`, `'accent'`** — no other color values are valid.
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

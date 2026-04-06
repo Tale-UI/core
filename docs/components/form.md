@@ -52,6 +52,16 @@ Accepts all React Aria `Form` props plus an optional `className`. See the `@exam
 
 - `.tale-form` — Base
 
+## Pitfalls
+
+<!-- pitfall: form-no-sub-parts -->
+- **`Form` is a simple component with no sub-parts** — There is no `Form.Submit`, `Form.Field`, or `Form.Label`. Use `<Form>` directly and compose `Button`, `Field`, and other components as children.
+
+<!-- pitfall: form-method-lowercase -->
+- **`method` prop requires lowercase values** — Valid values are `"get"`, `"post"`, and `"dialog"`. Uppercase values like `"GET"` or `"POST"` are not valid.
+  - anti-pattern: `<Form method="POST">`
+  - fix: `<Form method="post">`
+
 ## Notes
 
 - This is a simple (non-compound) component -- use `<Form>` directly.

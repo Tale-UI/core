@@ -70,6 +70,13 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 - `.tale-payment-input__description` — Description text
 - `.tale-payment-input__error` — Error message
 
+## Pitfalls
+
+<!-- pitfall: payment-input-no-phantom-sub-parts -->
+- **No `PaymentInput.Number`, `PaymentInput.CardNumber`, or `PaymentInput.NumberInput`** — the card number input is `PaymentInput.Input`.
+  - anti-pattern: `<PaymentInput.CardNumber />`
+  - fix: `<PaymentInput.Input />`
+
 ## Notes
 
 - CardIcon auto-detects card type — use self-closing inside Group, no value prop needed.

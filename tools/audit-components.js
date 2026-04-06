@@ -391,10 +391,15 @@ function auditComponent(name) {
   }
 
   // 18. Doc examples import path check
+  // Exclude anti-pattern sub-bullets (lines starting with "  - anti-pattern:") from this check
+  // since they deliberately show invalid imports as examples of what NOT to do.
   if (docContent) {
+    const docWithoutAntiPatterns = docContent.split('\n')
+      .filter(line => !/^\s+- anti-pattern:/.test(line))
+      .join('\n');
     const importRegex = /from\s+['"](@tale-ui\/react\/[\w-]+)['"]/g;
     let m;
-    while ((m = importRegex.exec(docContent)) !== null) {
+    while ((m = importRegex.exec(docWithoutAntiPatterns)) !== null) {
       const importPath = m[1].replace('@tale-ui/react/', './');
       if (!reactPkgJson.exports[importPath]) {
         issues.push(`Doc has invalid import path: ${m[1]}`);
@@ -411,6 +416,20 @@ function auditComponent(name) {
       if (!/^## (Migration|Deprecated)/m.test(docContent)) {
         issues.push('Deprecated component is missing a ## Migration or ## Deprecated section in its doc');
       }
+    }
+  }
+
+  // 21. Component docs with registry pitfalls must have a ## Pitfalls section
+  // (If registry has pitfalls but doc is missing the section, registry:generate is stale or doc is incomplete)
+  if (docContent) {
+    // Look up the registry entry for this component to check if pitfalls exist
+    // We check the doc directly since the registry is generated from it
+    const hasPitfallsInDoc = /^## Pitfalls$/m.test(docContent);
+    // Components known to not require pitfalls (no sub-parts, no common mistakes)
+    const noPitfallsExpected = new Set(['csp-provider', 'i18n-provider', 'merge-props', 'container',
+      'color-mode-toggle', 'menubar', 'social-button-group', 'input']);
+    if (!hasPitfallsInDoc && !noPitfallsExpected.has(name)) {
+      warnings.push('Missing ## Pitfalls section in doc (add component-specific pitfalls or cross-pitfall-refs)');
     }
   }
 

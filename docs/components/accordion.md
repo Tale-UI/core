@@ -114,6 +114,20 @@ Accepts all React Aria `DisclosureGroup` props plus an optional `className`. See
 - `.tale-accordion__trigger-icon` — Chevron SVG icon inside the trigger
 - `.tale-accordion__panel` — Collapsible content area
 
+## Pitfalls
+
+<!-- pitfall: accordion-trigger-inside-header -->
+- **`Accordion.Trigger` must go inside `Accordion.Header`** — `Accordion.Header` renders an `<h3>` heading element; it does not produce an interactive button on its own. The trigger button is separate.
+
+<!-- pitfall: accordion-no-content-sub-part -->
+- **Use `Accordion.Panel` for content, NOT `Accordion.Content`** — there is no `Accordion.Content` sub-part.
+
+<!-- pitfall: accordion-no-type-prop -->
+- **Does NOT accept a `type` prop** — use `allowsMultipleExpanded` on `Accordion.Root` to allow multiple panels open simultaneously.
+
+<!-- pitfall: accordion-default-expanded-keys -->
+- **Uses `defaultExpandedKeys` (array), NOT `defaultOpen`, `defaultValue`, or `defaultSelectedKey`** — pass an array of item `id` strings to set the initially expanded panels.
+
 ## Notes
 
 - Built on React Aria `DisclosureGroup` and `Disclosure` components.

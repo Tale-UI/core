@@ -67,6 +67,17 @@ Accepts all React Aria `Toolbar` props plus an optional `className`. See the `@e
 - `.tale-toolbar__input` — Text input (also applies `.tale-input`)
 - `.tale-toolbar__separator` — Divider
 
+## Pitfalls
+
+<!-- pitfall: toolbar-button-html-attrs-only -->
+- **`Toolbar.Button` only accepts standard HTML button attributes** — `Toolbar.Button` does not accept `onPress`, `isSelected`, `onChange`, or `defaultSelected`. Use `onClick`, `aria-label`, and `disabled` instead.
+
+<!-- pitfall: toolbar-no-standalone-toolbar-button -->
+- **No standalone `ToolbarButton` named export** — There is no top-level `ToolbarButton` export. Always use `Toolbar.Button` accessed through the namespace.
+
+<!-- pitfall: toolbar-toggle-use-toggle-button -->
+- **For toggleable toolbar buttons, use `<ToggleButton>` from `@tale-ui/react/toggle-button`** — Place a `ToggleButton` inside the toolbar instead of `Toolbar.Button` when toggling state is needed.
+
 ## Notes
 
 - `Toolbar.Root` wraps React Aria `Toolbar`, providing arrow-key navigation between focusable children.

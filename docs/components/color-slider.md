@@ -54,6 +54,18 @@ import { parseColor } from 'react-aria-components';
 - `.tale-color-slider__label` — Label
 - `.tale-color-slider__output` — Value output
 
+## Pitfalls
+
+<!-- pitfall: color-slider-no-color-picker-context -->
+- **Do NOT nest `ColorSlider` inside `ColorPicker.Root`** — React Aria's `ColorPicker` context does not propagate the shared color value to a nested `ColorSlider`, causing a runtime error: `Uncaught Error: Unknown color channel: hue`. Use `ColorSlider` as a standalone component with its own `value`/`onChange`.
+
+<!-- pitfall: color-slider-composition-with-color-area -->
+- **When composing with `ColorArea`, wrap both in a single parent element** — Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container.
+
+<!-- cross-pitfall-ref: color-imports-from-rac -->
+<!-- cross-pitfall-ref: no-color-extract-channel -->
+<!-- cross-pitfall-ref: no-color-pojo-state -->
+
 ## Notes
 
 - The `channel` prop on Root is required and determines which color channel the slider controls (e.g. `"hue"`, `"saturation"`, `"lightness"`, `"alpha"`).

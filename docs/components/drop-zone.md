@@ -66,6 +66,19 @@ function FileUpload() {
 
 - `.tale-drop-zone` — Base element
 
+## Pitfalls
+
+<!-- pitfall: drop-zone-no-sub-parts -->
+- **No `DropZone.Content`, `DropZone.Icon`, or `DropZone.Title` sub-parts** — `DropZone` is a simple component. Pass children (text, icons, buttons) directly inside `<DropZone>`.
+
+<!-- pitfall: drop-zone-ondrop-not-filelist -->
+- **`onDrop` receives a `DropEvent` object, not a `FileList`** — Access dropped files via `e.items.filter(item => item.kind === 'file')`, not as a `FileList`.
+  - anti-pattern: `onDrop={(files) => files.forEach(...)}`
+  - fix: `onDrop={(e) => e.items.filter(item => item.kind === 'file').forEach(...)}`
+
+<!-- pitfall: drop-zone-file-drop-item-not-file -->
+- **Do NOT cast `FileDropItem` to `File`** — `FileDropItem` is not a native `File` object. Access `item.name` and call `item.getFile()` (returns a `Promise<File>`) to get the actual file data. Do not use `as File`.
+
 ## Notes
 
 - This is a simple (non-compound) component exported directly as `DropZone`.

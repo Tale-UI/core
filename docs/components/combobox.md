@@ -177,10 +177,28 @@ Accepts all React Aria `ComboBox` props plus an optional `className`. See the `@
 - `.tale-combobox__chip-remove` -- Chip remove button
 - `.tale-combobox__separator` -- Divider
 
+## Pitfalls
+
+<!-- pitfall: combobox-placeholder-on-input -->
+- **`Combobox.Input` owns `placeholder`** — do NOT put it on `Combobox.Root`.
+  - anti-pattern: `<Combobox.Root placeholder="Type to search...">`
+  - fix: `<Combobox.Input placeholder="Type to search..." />`
+
+<!-- pitfall: combobox-no-icon-prop-on-input -->
+- **`Combobox.Input` does NOT accept an `icon` prop** — place `<Icon>` inside `Combobox.InputGroup`.
+  - anti-pattern: `<Combobox.Input icon={Search} />`
+  - fix: `<Combobox.InputGroup><Icon icon={Search} size="sm" /><Combobox.Input /><Combobox.Trigger /></Combobox.InputGroup>`
+
+<!-- cross-pitfall-ref: selectedkey-not-value -->
+
+<!-- pitfall: combobox-no-phantom-imports -->
+- **Never import list data from local modules that don't exist in the consumer project.** Define item arrays inline or import from real project data sources.
+
 ## Notes
 
 - Each `Combobox.Item` should have both an `id` and a `textValue` prop for accessibility and filtering.
 - `Combobox.InputGroup` wraps both the input and trigger to form a single visual control.
+- `Combobox.Trigger` renders a chevron by default. Pass children only if you need a custom trigger icon.
 - `Combobox.Empty` is displayed when filtering yields no matches.
 - For multi-select, use `selectionMode="multiple"` on `Combobox.Root` with `Combobox.Chips`, `Combobox.Chip`, and `Combobox.ChipRemove` to display selected values as tags.
 - Use `inputValue` and `onInputChange` on `Combobox.Root` for controlled text input.

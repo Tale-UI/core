@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "taleUiVersion": "1.3.42",
   "components": [
     {
@@ -53,7 +53,30 @@
         "tale-accordion__panel",
         "tale-accordion__trigger",
         "tale-accordion__trigger-icon"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "accordion-trigger-inside-header",
+          "summary": "Accordion.Trigger must go inside Accordion.Header",
+          "detail": "`Accordion.Header` renders an `<h3>` heading element; it does not produce an interactive button on its own. The trigger button is separate."
+        },
+        {
+          "id": "accordion-no-content-sub-part",
+          "summary": "Use Accordion.Panel for content, NOT Accordion.Content",
+          "detail": "there is no `Accordion.Content` sub-part."
+        },
+        {
+          "id": "accordion-no-type-prop",
+          "summary": "Does NOT accept a type prop",
+          "detail": "use `allowsMultipleExpanded` on `Accordion.Root` to allow multiple panels open simultaneously."
+        },
+        {
+          "id": "accordion-default-expanded-keys",
+          "summary": "Uses defaultExpandedKeys (array), NOT defaultOpen, defaultValue, or defaultSelectedKey",
+          "detail": "pass an array of item `id` strings to set the initially expanded panels."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "AlertDialog",
@@ -96,6 +119,56 @@
       "cssClasses": [
         "tale-alert-dialog__content",
         "tale-alert-dialog__popup"
+      ],
+      "pitfalls": [
+        {
+          "id": "alert-dialog-isopen-not-open",
+          "summary": "Controlled state uses isOpen/onOpenChange, not open.",
+          "detail": "",
+          "antiPatterns": [
+            "<AlertDialog.Root open={open} onOpenChange={setOpen}>"
+          ],
+          "fixes": [
+            "<AlertDialog.Root isOpen={open} onOpenChange={setOpen}>"
+          ]
+        },
+        {
+          "id": "alert-dialog-backdrop-wraps-popup",
+          "summary": "AlertDialog.Backdrop must wrap AlertDialog.Popup, not be a sibling.",
+          "detail": "",
+          "antiPatterns": [
+            "<AlertDialog.Backdrop /><AlertDialog.Popup>...</AlertDialog.Popup>"
+          ],
+          "fixes": [
+            "<AlertDialog.Backdrop><AlertDialog.Popup>...</AlertDialog.Popup></AlertDialog.Backdrop>"
+          ]
+        },
+        {
+          "id": "alert-dialog-no-cancel-action-parts",
+          "summary": "There are no AlertDialog.Cancel or AlertDialog.Action sub-parts.",
+          "detail": "",
+          "antiPatterns": [
+            "<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>"
+          ],
+          "fixes": [
+            "<Button variant=\"neutral\" onPress={() => setOpen(false)}>Cancel</Button>"
+          ]
+        },
+        {
+          "id": "alert-dialog-content-required",
+          "summary": "AlertDialog.Content is required inside AlertDialog.Popup.",
+          "detail": "",
+          "antiPatterns": [
+            "<AlertDialog.Popup><AlertDialog.Title>...</AlertDialog.Title></AlertDialog.Popup>"
+          ],
+          "fixes": [
+            "<AlertDialog.Popup><AlertDialog.Content><AlertDialog.Title>...</AlertDialog.Title></AlertDialog.Content></AlertDialog.Popup>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-asChild-on-triggers",
+        "no-button-inside-trigger"
       ]
     },
     {
@@ -144,7 +217,21 @@
         "tale-app-store-button--lg",
         "tale-app-store-button--md",
         "tale-app-store-button--sm"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "app-store-button-store-values",
+          "summary": "store accepts 'apple' or 'google' only",
+          "detail": "Do not use `'app-store'` or `'play-store'`. The valid values are `'apple'` and `'google'`.",
+          "antiPatterns": [
+            "<AppStoreButton store=\"app-store\" />"
+          ],
+          "fixes": [
+            "<AppStoreButton store=\"apple\" />"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Autocomplete",
@@ -184,6 +271,30 @@
         "tale-autocomplete__listbox",
         "tale-autocomplete__popover",
         "tale-autocomplete__search-field"
+      ],
+      "pitfalls": [
+        {
+          "id": "autocomplete-no-phantom-sub-parts",
+          "summary": "No Autocomplete.Label, Autocomplete.Popover, Autocomplete.Trigger, Autocomplete.Value sub-parts.",
+          "detail": "anti-pattern: `<Autocomplete.Root><Autocomplete.Label>Search</Autocomplete.Label><Autocomplete.Popover>...</Autocomplete.Popover></Autocomplete.Root>`",
+          "antiPatterns": [
+            "<Autocomplete.Root><Autocomplete.Label>Search</Autocomplete.Label><Autocomplete.Popover>...</Autocomplete.Popover></Autocomplete.Root>"
+          ]
+        },
+        {
+          "id": "autocomplete-no-controlled-props",
+          "summary": "No controlled-state props on Autocomplete.Root.",
+          "detail": "",
+          "antiPatterns": [
+            "<Autocomplete.Root inputValue={query} onInputChange={setQuery}>"
+          ],
+          "fixes": [
+            "<Autocomplete.Root filter={contains}>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "usefilter-from-rac-not-react-aria"
       ]
     },
     {
@@ -259,7 +370,25 @@
         "tale-avatar-label-group__title",
         "tale-avatar__fallback",
         "tale-avatar__image"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "avatar-indicator-outside-root",
+          "summary": "Avatar.Indicator must wrap OUTSIDE Avatar.Root",
+          "detail": "`Avatar.Root` has `overflow: hidden`, so placing `Avatar.Indicator` inside it will clip the indicator badge."
+        },
+        {
+          "id": "avatar-group-propagates-size",
+          "summary": "Avatar.Group propagates size to children",
+          "detail": "do not set `size` on individual `Avatar.Root` inside a Group unless intentionally overriding the group size."
+        },
+        {
+          "id": "avatar-size-full-values",
+          "summary": "size accepts 'xs', 'sm', 'md', 'lg', 'xl', '2xl'",
+          "detail": "NOT the short forms `'s'`, `'m'`, or `'l'`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Badge",
@@ -320,7 +449,20 @@
         "tale-badge--neutral",
         "tale-badge--rounded",
         "tale-badge--sm"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "badge-no-danger-variant",
+          "summary": "'danger' is NOT a valid variant",
+          "detail": "use `variant=\"error\"` instead."
+        },
+        {
+          "id": "badge-no-color-prop",
+          "summary": "No color prop",
+          "detail": "use the `variant` prop to control color."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Banner",
@@ -384,7 +526,25 @@
         "tale-button--ghost",
         "tale-icon-button--sm",
         "tale-link"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "banner-always-use-root",
+          "summary": "Banner is a namespace component",
+          "detail": "always use `<Banner.Root>`, never `<Banner>` directly."
+        },
+        {
+          "id": "banner-no-brand-or-neutral-variant",
+          "summary": "No 'brand' or 'neutral' variant",
+          "detail": "valid values are `'info'` (default), `'success'`, `'warning'`, and `'error'`."
+        },
+        {
+          "id": "banner-use-title-and-description",
+          "summary": "Pass content via Banner.Title and Banner.Description",
+          "detail": "do NOT pass raw `<Text>` children directly to `Banner.Root`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Breadcrumbs",
@@ -408,7 +568,21 @@
         "tale-breadcrumbs",
         "tale-breadcrumbs__item",
         "tale-breadcrumbs__link"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "breadcrumbs-use-breadcrumbs-link",
+          "summary": "Use Breadcrumbs.Link inside Breadcrumbs.Item, not a standalone Link.",
+          "detail": "",
+          "antiPatterns": [
+            "import { Link } from '@tale-ui/react/link'; ... <Breadcrumbs.Item><Link href=\"#\">Home</Link></Breadcrumbs.Item>"
+          ],
+          "fixes": [
+            "<Breadcrumbs.Item><Breadcrumbs.Link href=\"#\">Home</Breadcrumbs.Link></Breadcrumbs.Item>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Button",
@@ -497,7 +671,36 @@
         "tale-button__spinner--inline",
         "tale-spinner__arc",
         "tale-spinner__track"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "button-no-link-variant",
+          "summary": "No 'link' variant",
+          "detail": "The valid variants are `'primary'`, `'neutral'`, `'ghost'`, `'danger'`, `'danger-neutral'`, `'danger-ghost'`, and `'inverse'`. There is no `'link'` variant. For link-styled text, use the `Link` component."
+        },
+        {
+          "id": "button-no-xs-size",
+          "summary": "size accepts 'sm', 'md', 'lg' only — no 'xs'",
+          "detail": "There is no `'xs'` size. The smallest available size is `'sm'`."
+        },
+        {
+          "id": "button-no-asChild",
+          "summary": "No asChild prop",
+          "detail": "`Button` does not support `asChild`. To render a button as a link, use the `Link` component or wrap with a router link adapter."
+        },
+        {
+          "id": "button-no-icon-prop",
+          "summary": "No icon, leftIcon, rightIcon, or startIcon prop",
+          "detail": "Place an `<Icon>` component (or any icon) directly as a child of `Button`. Position before or after the label text as needed.",
+          "antiPatterns": [
+            "<Button leftIcon={<PlusIcon />}>Add</Button>"
+          ],
+          "fixes": [
+            "<Button><PlusIcon />Add</Button>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Calendar",
@@ -555,6 +758,30 @@
         "tale-calendar__grid-header-cell",
         "tale-calendar__header",
         "tale-icon-button"
+      ],
+      "pitfalls": [
+        {
+          "id": "calendar-header-required",
+          "summary": "Navigation buttons and heading must be inside Calendar.Header",
+          "detail": "`Calendar.PreviousButton`, `Calendar.Heading`, and `Calendar.NextButton` must be placed inside `Calendar.Header`. Placing them directly in `Calendar.Root` without the `Header` wrapper loses the flex layout."
+        },
+        {
+          "id": "calendar-grid-header-cell-not-cell",
+          "summary": "Use Calendar.GridHeaderCell in GridHeader, not Calendar.Cell",
+          "detail": "`Calendar.GridHeader` passes day name strings (e.g. `\"Mon\"`) to its render prop. Using `Calendar.Cell` there crashes with `TypeError: can't access property \"calendar\", date is undefined` because `Cell` expects a `date` prop. Reserve `Calendar.Cell` for `GridBody`."
+        },
+        {
+          "id": "calendar-heading-no-margin",
+          "summary": "Calendar.Heading must have no vertical margin or padding",
+          "detail": "Do not add `margin-top`, `margin-bottom`, or vertical `padding` to `Calendar.Heading`. It is sized and positioned by `Calendar.Header`'s flex layout."
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-locale-prop-on-calendar",
+        "no-native-date",
+        "derive-date-type-from-props",
+        "no-null-state-without-type",
+        "no-internationalized-date-import"
       ]
     },
     {
@@ -616,7 +843,25 @@
         "tale-card__body",
         "tale-card__footer",
         "tale-card__header"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "card-no-elevated-boolean",
+          "summary": "No elevated boolean prop",
+          "detail": "use `variant=\"elevated\"`. There is also no `variant=\"raised\"`."
+        },
+        {
+          "id": "card-header-no-title-props",
+          "summary": "Card.Header has NO title or description props",
+          "detail": "place `<Text>` or other components directly inside `Card.Header` as children."
+        },
+        {
+          "id": "card-body-footer-no-gap",
+          "summary": "Card.Body and Card.Footer do NOT accept a gap prop",
+          "detail": "wrap children in `<Column gap=\"...\">` inside these parts."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Carousel",
@@ -684,7 +929,25 @@
         "tale-carousel__item",
         "tale-carousel__next",
         "tale-carousel__previous"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "carousel-correct-trigger-names",
+          "summary": "Uses Carousel.PreviousTrigger and Carousel.NextTrigger",
+          "detail": "NOT `PreviousButton` or `NextButton`."
+        },
+        {
+          "id": "carousel-no-slide-index-props",
+          "summary": "No selectedIndex, onSelectedIndexChange, currentSlide, or onSlideChange props",
+          "detail": "navigation is handled internally via Embla. Use `Carousel.Indicator` with an `index` prop for dot navigation."
+        },
+        {
+          "id": "carousel-no-dom-query",
+          "summary": "Never use document.querySelector in carousel code",
+          "detail": "all carousel interaction is managed through the component API and context internally."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Checkbox",
@@ -746,6 +1009,44 @@
         "tale-checkbox--lg",
         "tale-checkbox--sm",
         "tale-checkbox__indicator"
+      ],
+      "pitfalls": [
+        {
+          "id": "checkbox-always-use-namespace",
+          "summary": "Checkbox is a namespace component — always use <Checkbox.Root value=\"...\">, never <Checkbox> directly.",
+          "detail": "",
+          "antiPatterns": [
+            "<Checkbox value=\"agree\">Accept terms</Checkbox>"
+          ],
+          "fixes": [
+            "<Checkbox.Root value=\"agree\"><Checkbox.Indicator>...</Checkbox.Indicator> Accept terms</Checkbox.Root>"
+          ]
+        },
+        {
+          "id": "checkbox-value-not-id",
+          "summary": "Each checkbox item uses value prop (not id) matching the parent CheckboxGroup's value array.",
+          "detail": "anti-pattern: `<Checkbox.Root id=\"apple\">Apple</Checkbox.Root>`",
+          "antiPatterns": [
+            "<Checkbox.Root id=\"apple\">Apple</Checkbox.Root>"
+          ],
+          "fixes": [
+            "<Checkbox.Root value=\"apple\">Apple</Checkbox.Root>"
+          ]
+        },
+        {
+          "id": "checkbox-indicator-needs-icon",
+          "summary": "Checkbox.Indicator does NOT render a checkmark on its own",
+          "detail": "provide `<Icon icon={Check} size=\"sm\" />` as a child.",
+          "antiPatterns": [
+            "<Checkbox.Indicator />"
+          ],
+          "fixes": [
+            "<Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-visual-exports-for-interactive-ui"
       ]
     },
     {
@@ -801,7 +1102,23 @@
         "import { Field } from '@tale-ui/react/field';\n\n<CheckboxGroup label=\"Notification preferences\">\n  <Field.Description>Select how you would like to be notified.</Field.Description>\n  <Checkbox.Root value=\"email\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Email\n  </Checkbox.Root>\n  <Checkbox.Root value=\"sms\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    SMS\n  </Checkbox.Root>\n  <Checkbox.Root value=\"push\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Push notification\n  </Checkbox.Root>\n</CheckboxGroup>",
         "<CheckboxGroup label=\"Pick toppings\" orientation=\"horizontal\">\n  <Checkbox.Root value=\"cheese\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Cheese\n  </Checkbox.Root>\n  <Checkbox.Root value=\"pepperoni\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Pepperoni\n  </Checkbox.Root>\n</CheckboxGroup>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "checkbox-group-string-array-not-set",
+          "summary": "CheckboxGroup controlled-state uses string[] (plain array), NOT Set<string>.",
+          "detail": "anti-pattern: `<CheckboxGroup value={new Set(['apple'])} onChange={(v) => setSelected(v)} />`",
+          "antiPatterns": [
+            "<CheckboxGroup value={new Set(['apple'])} onChange={(v) => setSelected(v)} />"
+          ],
+          "fixes": [
+            "<CheckboxGroup value={['apple']} onChange={(v) => setSelected(v)} />"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-cross-import-checkbox-group"
+      ]
     },
     {
       "name": "ColorArea",
@@ -829,6 +1146,23 @@
       ],
       "cssClasses": [
         "tale-color-area"
+      ],
+      "pitfalls": [
+        {
+          "id": "color-area-no-gradient-sub-part",
+          "summary": "Only Root and Thumb sub-parts — no ColorArea.Gradient",
+          "detail": "There is no `ColorArea.Gradient` sub-part. The gradient background is rendered automatically by `ColorArea.Root`."
+        },
+        {
+          "id": "color-area-y-channel-value",
+          "summary": "yChannel value depends on color space",
+          "detail": "Use `yChannel=\"lightness\"` for HSL color space and `yChannel=\"brightness\"` for HSB color space. Mixing these causes incorrect color rendering."
+        }
+      ],
+      "crossPitfallRefs": [
+        "color-imports-from-rac",
+        "no-color-pojo-state",
+        "no-color-extract-channel"
       ]
     },
     {
@@ -855,6 +1189,21 @@
         "tale-color-field__description",
         "tale-color-field__error",
         "tale-color-field__input"
+      ],
+      "pitfalls": [
+        {
+          "id": "color-field-no-hex-color-field",
+          "summary": "There is no HexColorField component",
+          "detail": "The hex color text input is `ColorField` from `@tale-ui/react/color-field`. There is no separate `HexColorField` export."
+        },
+        {
+          "id": "color-field-onchange-returns-color-object",
+          "summary": "ColorField.Root onChange returns a Color object, not a string",
+          "detail": "The `onChange` callback receives a `Color` object from `react-aria-components`, not a raw hex string. Call `.toString('hex')` or similar on the value if you need a string."
+        }
+      ],
+      "crossPitfallRefs": [
+        "color-imports-from-rac"
       ]
     },
     {
@@ -894,7 +1243,9 @@
       ],
       "cssClasses": [
         "tale-color-mode-toggle"
-      ]
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "ColorPicker",
@@ -933,7 +1284,29 @@
       "examples": [
         "import { useState } from 'react';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\nimport { parseColor } from 'react-aria-components';\n\nconst [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));\n\n<ColorArea.Root value={color} onChange={setColor}>\n  <ColorArea.Thumb />\n</ColorArea.Root>\n\n<ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "color-picker-no-label-prop",
+          "summary": "ColorPicker.Root does not accept a label prop",
+          "detail": "There is no `label` prop on `ColorPicker.Root`. It is a headless state provider only."
+        },
+        {
+          "id": "color-picker-sub-components-not-exported",
+          "summary": "Sub-components are NOT exported from @tale-ui/react/color-picker",
+          "detail": "`ColorArea`, `ColorSwatch`, `ColorSlider`, and other color components each have their own import path. Import them individually.",
+          "antiPatterns": [
+            "import { ColorArea, ColorSlider } from '@tale-ui/react/color-picker'"
+          ],
+          "fixes": [
+            "import { ColorArea } from '@tale-ui/react/color-area'"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "color-imports-from-rac",
+        "no-color-pojo-state"
+      ]
     },
     {
       "name": "ColorSlider",
@@ -976,6 +1349,23 @@
         "tale-color-slider__output",
         "tale-color-slider__thumb",
         "tale-color-slider__track"
+      ],
+      "pitfalls": [
+        {
+          "id": "color-slider-no-color-picker-context",
+          "summary": "Do NOT nest ColorSlider inside ColorPicker.Root",
+          "detail": "React Aria's `ColorPicker` context does not propagate the shared color value to a nested `ColorSlider`, causing a runtime error: `Uncaught Error: Unknown color channel: hue`. Use `ColorSlider` as a standalone component with its own `value`/`onChange`."
+        },
+        {
+          "id": "color-slider-composition-with-color-area",
+          "summary": "When composing with ColorArea, wrap both in a single parent element",
+          "detail": "Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container."
+        }
+      ],
+      "crossPitfallRefs": [
+        "color-imports-from-rac",
+        "no-color-extract-channel",
+        "no-color-pojo-state"
       ]
     },
     {
@@ -993,6 +1383,27 @@
       ],
       "cssClasses": [
         "tale-color-swatch"
+      ],
+      "pitfalls": [
+        {
+          "id": "color-swatch-prop-is-string",
+          "summary": "color prop accepts a plain CSS string, not a Color object",
+          "detail": "Pass a CSS color string directly (e.g. `color=\"#ff0000\"`). Do not use `parseColor()` or pass a `Color` object. Also, the prop is `color`, not `value`.",
+          "antiPatterns": [
+            "<ColorSwatch color={parseColor('#ff0000')} />"
+          ],
+          "fixes": [
+            "<ColorSwatch color=\"#ff0000\" />"
+          ]
+        },
+        {
+          "id": "color-swatch-no-size-prop",
+          "summary": "No size prop",
+          "detail": "`ColorSwatch` does not accept a `size` prop. Use CSS to control dimensions."
+        }
+      ],
+      "crossPitfallRefs": [
+        "color-swatch-string-only"
       ]
     },
     {
@@ -1014,6 +1425,38 @@
       "cssClasses": [
         "tale-color-swatch-picker",
         "tale-color-swatch-picker__item"
+      ],
+      "pitfalls": [
+        {
+          "id": "color-swatch-picker-import-swatch-separately",
+          "summary": "ColorSwatch is NOT exported from @tale-ui/react/color-swatch-picker",
+          "detail": "Import `ColorSwatch` from `@tale-ui/react/color-swatch`, not from the swatch picker package.",
+          "antiPatterns": [
+            "import { ColorSwatch } from '@tale-ui/react/color-swatch-picker'"
+          ],
+          "fixes": [
+            "import { ColorSwatch } from '@tale-ui/react/color-swatch'"
+          ]
+        },
+        {
+          "id": "color-swatch-picker-value-not-selection",
+          "summary": "Uses value/onChange, not onSelectionChange",
+          "detail": "The controlled API uses `value` and `onChange`. There is no `onSelectionChange` prop."
+        },
+        {
+          "id": "color-swatch-picker-value-not-nullable",
+          "summary": "value does NOT accept null or undefined",
+          "detail": "`ColorSwatchPicker.Root` requires a non-nullable color value when controlled. Use `defaultValue` for uncontrolled usage without an initial value."
+        },
+        {
+          "id": "color-swatch-picker-no-list-sub-part",
+          "summary": "No ColorSwatchPicker.List",
+          "detail": "There is no `List` sub-part. Place `ColorSwatchPicker.Item` elements directly inside `ColorSwatchPicker.Root`."
+        }
+      ],
+      "crossPitfallRefs": [
+        "color-swatch-string-only",
+        "color-imports-from-rac"
       ]
     },
     {
@@ -1058,6 +1501,22 @@
       "cssClasses": [
         "tale-color-wheel",
         "tale-color-wheel__track"
+      ],
+      "pitfalls": [
+        {
+          "id": "color-wheel-track-required",
+          "summary": "ColorWheel.Track is required",
+          "detail": "Omitting `ColorWheel.Track` inside `ColorWheel.Root` will render a blank element with no visible color ring."
+        },
+        {
+          "id": "color-wheel-radius-required",
+          "summary": "outerRadius and innerRadius are required props",
+          "detail": "Both props must be provided on `ColorWheel.Root`. Omitting either will cause incorrect rendering or a runtime error."
+        }
+      ],
+      "crossPitfallRefs": [
+        "color-imports-from-rac",
+        "no-color-pojo-state"
       ]
     },
     {
@@ -1125,6 +1584,10 @@
       ],
       "cssClasses": [
         "tale-column"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": [
+        "column-needs-explicit-import"
       ]
     },
     {
@@ -1192,6 +1655,38 @@
         "tale-combobox__item",
         "tale-combobox__listbox",
         "tale-combobox__popover"
+      ],
+      "pitfalls": [
+        {
+          "id": "combobox-placeholder-on-input",
+          "summary": "Combobox.Input owns placeholder",
+          "detail": "do NOT put it on `Combobox.Root`.",
+          "antiPatterns": [
+            "<Combobox.Root placeholder=\"Type to search...\">"
+          ],
+          "fixes": [
+            "<Combobox.Input placeholder=\"Type to search...\" />"
+          ]
+        },
+        {
+          "id": "combobox-no-icon-prop-on-input",
+          "summary": "Combobox.Input does NOT accept an icon prop",
+          "detail": "place `<Icon>` inside `Combobox.InputGroup`.",
+          "antiPatterns": [
+            "<Combobox.Input icon={Search} />"
+          ],
+          "fixes": [
+            "<Combobox.InputGroup><Icon icon={Search} size=\"sm\" /><Combobox.Input /><Combobox.Trigger /></Combobox.InputGroup>"
+          ]
+        },
+        {
+          "id": "combobox-no-phantom-imports",
+          "summary": "Never import list data from local modules that don't exist in the consumer project.",
+          "detail": ""
+        }
+      ],
+      "crossPitfallRefs": [
+        "selectedkey-not-value"
       ]
     },
     {
@@ -1218,7 +1713,9 @@
         "<Container color=\"random\">\n  <p style={{ color: 'var(--color-60)' }}>Random colour.</p>\n</Container>",
         "<Container color=\"brand\">\n  <p>Same as not using Container at all.</p>\n</Container>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "ContextMenu",
@@ -1242,7 +1739,55 @@
         "import { ContextMenu } from '@tale-ui/react/context-menu';\n\n<ContextMenu.Root>\n  <ContextMenu.Trigger>Right-click here</ContextMenu.Trigger>\n  <ContextMenu.Popup>\n    <ContextMenu.MenuList>\n      <ContextMenu.Item id=\"cut\">Cut</ContextMenu.Item>\n      <ContextMenu.Item id=\"copy\">Copy</ContextMenu.Item>\n      <ContextMenu.Separator />\n      <ContextMenu.Item id=\"paste\">Paste</ContextMenu.Item>\n    </ContextMenu.MenuList>\n  </ContextMenu.Popup>\n</ContextMenu.Root>",
         "<ContextMenu.Root>\n  <ContextMenu.Trigger>\n    <div style={{\n      padding: 'var(--space-xl)',\n      border: '2px dashed var(--neutral-30)',\n      borderRadius: 'var(--space-2xs)',\n      textAlign: 'center',\n    }}>\n      Right-click this area\n    </div>\n  </ContextMenu.Trigger>\n  <ContextMenu.Popup>\n    <ContextMenu.MenuList>\n      <ContextMenu.Group>\n        <ContextMenu.Item id=\"cut\">Cut</ContextMenu.Item>\n        <ContextMenu.Item id=\"copy\">Copy</ContextMenu.Item>\n        <ContextMenu.Item id=\"paste\">Paste</ContextMenu.Item>\n      </ContextMenu.Group>\n      <ContextMenu.Separator />\n      <ContextMenu.Group>\n        <ContextMenu.Item id=\"select-all\">Select All</ContextMenu.Item>\n        <ContextMenu.Item id=\"find\">Find...</ContextMenu.Item>\n      </ContextMenu.Group>\n      <ContextMenu.Separator />\n      <ContextMenu.Group>\n        <ContextMenu.Item id=\"inspect\">Inspect Element</ContextMenu.Item>\n      </ContextMenu.Group>\n    </ContextMenu.MenuList>\n  </ContextMenu.Popup>\n</ContextMenu.Root>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "context-menu-no-controlled-state",
+          "summary": "ContextMenu.Root does not accept controlled state props.",
+          "detail": ""
+        },
+        {
+          "id": "context-menu-no-right-click-prop",
+          "summary": "ContextMenu.Trigger does not accept a rightClick prop.",
+          "detail": "",
+          "antiPatterns": [
+            "<ContextMenu.Trigger rightClick>"
+          ],
+          "fixes": [
+            "<ContextMenu.Trigger>"
+          ]
+        },
+        {
+          "id": "context-menu-uses-popup-not-popover",
+          "summary": "Use ContextMenu.Popup, not ContextMenu.Popover.",
+          "detail": "",
+          "antiPatterns": [
+            "<ContextMenu.Popover>...</ContextMenu.Popover>"
+          ],
+          "fixes": [
+            "<ContextMenu.Popup>...</ContextMenu.Popup>"
+          ]
+        },
+        {
+          "id": "context-menu-menulist-required",
+          "summary": "ContextMenu.MenuList is required between ContextMenu.Popup and ContextMenu.Item.",
+          "detail": "",
+          "antiPatterns": [
+            "<ContextMenu.Popup><ContextMenu.Item id=\"a\">A</ContextMenu.Item></ContextMenu.Popup>"
+          ],
+          "fixes": [
+            "<ContextMenu.Popup><ContextMenu.MenuList><ContextMenu.Item id=\"a\">A</ContextMenu.Item></ContextMenu.MenuList></ContextMenu.Popup>"
+          ]
+        },
+        {
+          "id": "context-menu-item-no-tone",
+          "summary": "ContextMenu.Item does not accept tone, color, intent, or variant props.",
+          "detail": ""
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-asChild-on-triggers"
+      ]
     },
     {
       "name": "CSPProvider",
@@ -1273,7 +1818,9 @@
         "import { CSPProvider } from '@tale-ui/react/csp-provider';\n\n<CSPProvider nonce={myNonceValue}>\n  <App />\n</CSPProvider>",
         "<CSPProvider disableStyleElements>\n  <App />\n</CSPProvider>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "DateField",
@@ -1296,7 +1843,25 @@
         "<DateField.Root>\n  <DateField.DateInput style={{ display: 'flex' }}>\n    {(segment) => <DateField.Segment segment={segment} />}\n  </DateField.DateInput>\n</DateField.Root>",
         "<DateField.Root>\n  <DateField.Label>Date</DateField.Label>\n  <DateField.DateInput style={{ display: 'flex' }}>\n    {(segment) => <DateField.Segment segment={segment} />}\n  </DateField.DateInput>\n</DateField.Root>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "date-field-dateinput-not-input",
+          "summary": "The input sub-part is DateField.DateInput, not DateField.Input",
+          "detail": "There is no `DateField.Input`. The correct sub-part for the segmented input container is `DateField.DateInput`.",
+          "antiPatterns": [
+            "<DateField.Input>"
+          ],
+          "fixes": [
+            "<DateField.DateInput>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-native-date",
+        "derive-date-type-from-props",
+        "no-internationalized-date-import"
+      ]
     },
     {
       "name": "DatePicker",
@@ -1323,7 +1888,31 @@
         "import { DatePicker } from '@tale-ui/react/date-picker';\nimport { Calendar } from '@tale-ui/react/calendar';\n\n<DatePicker.Root>\n  <DatePicker.Group>\n    <DatePicker.DateInput>\n      {(segment) => <DatePicker.Segment segment={segment} />}\n    </DatePicker.DateInput>\n    <DatePicker.Trigger />\n  </DatePicker.Group>\n  <DatePicker.Popover>\n    <DatePicker.Dialog>\n      <Calendar.Root>\n        <Calendar.Header>\n          <Calendar.PreviousButton />\n          <Calendar.Heading />\n          <Calendar.NextButton />\n        </Calendar.Header>\n        <Calendar.Grid>\n          <Calendar.GridHeader>\n            {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n          </Calendar.GridHeader>\n          <Calendar.GridBody>\n            {(date) => <Calendar.Cell date={date} />}\n          </Calendar.GridBody>\n        </Calendar.Grid>\n      </Calendar.Root>\n    </DatePicker.Dialog>\n  </DatePicker.Popover>\n</DatePicker.Root>",
         "<DatePicker.Root>\n  <DatePicker.Label>Date</DatePicker.Label>\n  <DatePicker.Group>\n    <DatePicker.DateInput>\n      {(segment) => <DatePicker.Segment segment={segment} />}\n    </DatePicker.DateInput>\n    <DatePicker.Trigger />\n  </DatePicker.Group>\n  <DatePicker.Popover>\n    <DatePicker.Dialog>\n      {/* Calendar content same as above */}\n    </DatePicker.Dialog>\n  </DatePicker.Popover>\n</DatePicker.Root>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "date-picker-no-calendar-sub-parts",
+          "summary": "No Calendar sub-parts on the DatePicker namespace",
+          "detail": "`DatePicker.Dialog` does not auto-render a calendar. You must compose a full `Calendar.Root` (imported from `@tale-ui/react/calendar`) as children inside `DatePicker.Dialog`."
+        },
+        {
+          "id": "date-picker-no-label-prop",
+          "summary": "No label prop on Root",
+          "detail": "`DatePicker.Root` does not accept a `label` prop. Use `DatePicker.Label` as a separate sub-part.",
+          "antiPatterns": [
+            "<DatePicker.Root label=\"Date\">"
+          ],
+          "fixes": [
+            "<DatePicker.Label>Date</DatePicker.Label>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-native-date",
+        "derive-date-type-from-props",
+        "no-internationalized-date-import",
+        "no-null-state-without-type"
+      ]
     },
     {
       "name": "DateRangePicker",
@@ -1350,7 +1939,36 @@
       "examples": [
         "import { DateRangePicker } from '@tale-ui/react/date-range-picker';\nimport { RangeCalendar } from '@tale-ui/react/range-calendar';\n\n<DateRangePicker.Root>\n  <DateRangePicker.Label>Date range</DateRangePicker.Label>\n  <DateRangePicker.Group>\n    <DateRangePicker.StartDate>\n      {(segment) => <DateRangePicker.Segment segment={segment} />}\n    </DateRangePicker.StartDate>\n    <span aria-hidden=\"true\">&ndash;</span>\n    <DateRangePicker.EndDate>\n      {(segment) => <DateRangePicker.Segment segment={segment} />}\n    </DateRangePicker.EndDate>\n    <DateRangePicker.Trigger />\n  </DateRangePicker.Group>\n  <DateRangePicker.Popover>\n    <DateRangePicker.Dialog>\n      <RangeCalendar.Root>\n        <RangeCalendar.Header>\n          <RangeCalendar.PreviousButton />\n          <RangeCalendar.Heading />\n          <RangeCalendar.NextButton />\n        </RangeCalendar.Header>\n        <RangeCalendar.Grid>\n          <RangeCalendar.GridHeader>\n            {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n          </RangeCalendar.GridHeader>\n          <RangeCalendar.GridBody>\n            {(date) => <RangeCalendar.Cell date={date} />}\n          </RangeCalendar.GridBody>\n        </RangeCalendar.Grid>\n      </RangeCalendar.Root>\n    </DateRangePicker.Dialog>\n  </DateRangePicker.Popover>\n</DateRangePicker.Root>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "date-range-picker-start-end-sub-parts",
+          "summary": "Uses StartDate and EndDate sub-parts, not DateInput",
+          "detail": "There is no `DateRangePicker.DateInput`. Use `DateRangePicker.StartDate` and `DateRangePicker.EndDate` for the two segmented inputs.",
+          "antiPatterns": [
+            "<DateRangePicker.DateInput>"
+          ],
+          "fixes": [
+            "<DateRangePicker.StartDate>"
+          ]
+        },
+        {
+          "id": "date-range-picker-dialog-no-auto-calendar",
+          "summary": "DateRangePicker.Dialog does not auto-render a calendar",
+          "detail": "You must compose a full `RangeCalendar` (imported from `@tale-ui/react/range-calendar`) as children inside `DateRangePicker.Dialog`."
+        },
+        {
+          "id": "date-range-picker-no-date-value-type-import",
+          "summary": "Do not import DateValueType from @tale-ui/react/date-range-picker",
+          "detail": "`DateValueType` is not exported from this package. Derive the value type from the component props using `DateRangePicker` types from `react-aria-components` or `@internationalized/date`."
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-native-date",
+        "derive-date-type-from-props",
+        "no-internationalized-date-import",
+        "no-null-state-without-type"
+      ]
     },
     {
       "name": "Dialog",
@@ -1394,6 +2012,45 @@
       "cssClasses": [
         "tale-dialog__close",
         "tale-dialog__popup"
+      ],
+      "pitfalls": [
+        {
+          "id": "dialog-isopen-not-open",
+          "summary": "Controlled state uses isOpen/onOpenChange, not open.",
+          "detail": "",
+          "antiPatterns": [
+            "<Dialog.Root open={open} onOpenChange={setOpen}>"
+          ],
+          "fixes": [
+            "<Dialog.Root isOpen={open} onOpenChange={setOpen}>"
+          ]
+        },
+        {
+          "id": "dialog-backdrop-wraps-popup",
+          "summary": "Dialog.Backdrop must wrap Dialog.Popup, not be a sibling.",
+          "detail": "",
+          "antiPatterns": [
+            "<Dialog.Backdrop /><Dialog.Popup>...</Dialog.Popup>"
+          ],
+          "fixes": [
+            "<Dialog.Backdrop><Dialog.Popup>...</Dialog.Popup></Dialog.Backdrop>"
+          ]
+        },
+        {
+          "id": "dialog-no-header-body-parts",
+          "summary": "There are no Header or Body sub-parts.",
+          "detail": "",
+          "antiPatterns": [
+            "<Dialog.Header><Dialog.Title>...</Dialog.Title></Dialog.Header>"
+          ],
+          "fixes": [
+            "<Dialog.Title>...</Dialog.Title>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-asChild-on-triggers",
+        "no-button-inside-trigger"
       ]
     },
     {
@@ -1449,7 +2106,25 @@
         "tale-disclosure",
         "tale-disclosure__panel",
         "tale-disclosure__trigger"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "disclosure-no-content-sub-part",
+          "summary": "Use Disclosure.Panel for content, NOT Disclosure.Content",
+          "detail": "there is no `Disclosure.Content` sub-part."
+        },
+        {
+          "id": "disclosure-no-header-or-icon-parts",
+          "summary": "No Content, Header, or Icon sub-parts",
+          "detail": "the only parts are `Root`, `Trigger`, and `Panel`."
+        },
+        {
+          "id": "disclosure-controlled-state-props",
+          "summary": "Controlled state uses isExpanded/onExpandedChange",
+          "detail": "NOT `open`/`onOpenChange`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "DotIcon",
@@ -1503,7 +2178,15 @@
         "tale-dot-icon--sm",
         "tale-dot-icon--success",
         "tale-dot-icon--warning"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "dot-icon-color-semantic-only",
+          "summary": "color accepts semantic tokens only",
+          "detail": "valid values are `'neutral'`, `'brand'`, `'error'`, `'warning'`, `'success'`. Raw color names or hex values are not accepted."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Drawer",
@@ -1556,6 +2239,50 @@
         "tale-drawer__handle",
         "tale-drawer__popup",
         "tale-drawer__swipe-area"
+      ],
+      "pitfalls": [
+        {
+          "id": "drawer-open-not-isopen",
+          "summary": "Drawer.Root uses open/onOpenChange, not isOpen.",
+          "detail": "",
+          "antiPatterns": [
+            "<Drawer.Root isOpen={open} onOpenChange={setOpen}>"
+          ],
+          "fixes": [
+            "<Drawer.Root open={open} onOpenChange={setOpen}>"
+          ]
+        },
+        {
+          "id": "drawer-backdrop-sibling",
+          "summary": "Drawer.Backdrop must be a self-closing sibling of Drawer.Popup, not a wrapper.",
+          "detail": "",
+          "antiPatterns": [
+            "<Drawer.Backdrop><Drawer.Popup>...</Drawer.Popup></Drawer.Backdrop>"
+          ],
+          "fixes": [
+            "<Drawer.Backdrop /><Drawer.Popup>...</Drawer.Popup>"
+          ]
+        },
+        {
+          "id": "drawer-no-layout-parts",
+          "summary": "There are no Drawer.Actions, Drawer.Body, Drawer.Header, or Drawer.Footer sub-parts.",
+          "detail": "",
+          "antiPatterns": [
+            "<Drawer.Footer>...</Drawer.Footer>"
+          ],
+          "fixes": [
+            "<div style={{ display: 'flex', gap: 'var(--space-xs)' }}>...</div>"
+          ]
+        },
+        {
+          "id": "drawer-no-placement-prop",
+          "summary": "There is no placement prop on Drawer.Root or Drawer.Popup.",
+          "detail": ""
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-asChild-on-triggers",
+        "no-button-inside-trigger"
       ]
     },
     {
@@ -1574,7 +2301,31 @@
       ],
       "cssClasses": [
         "tale-drop-zone"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "drop-zone-no-sub-parts",
+          "summary": "No DropZone.Content, DropZone.Icon, or DropZone.Title sub-parts",
+          "detail": "`DropZone` is a simple component. Pass children (text, icons, buttons) directly inside `<DropZone>`."
+        },
+        {
+          "id": "drop-zone-ondrop-not-filelist",
+          "summary": "onDrop receives a DropEvent object, not a FileList",
+          "detail": "Access dropped files via `e.items.filter(item => item.kind === 'file')`, not as a `FileList`.",
+          "antiPatterns": [
+            "onDrop={(files) => files.forEach(...)}"
+          ],
+          "fixes": [
+            "onDrop={(e) => e.items.filter(item => item.kind === 'file').forEach(...)}"
+          ]
+        },
+        {
+          "id": "drop-zone-file-drop-item-not-file",
+          "summary": "Do NOT cast FileDropItem to File",
+          "detail": "`FileDropItem` is not a native `File` object. Access `item.name` and call `item.getFile()` (returns a `Promise<File>`) to get the actual file data. Do not use `as File`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "EmptyState",
@@ -1620,7 +2371,15 @@
         "tale-empty-state__description",
         "tale-empty-state__icon",
         "tale-empty-state__title"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "empty-state-no-header-or-content-parts",
+          "summary": "No EmptyState.Header or EmptyState.Content",
+          "detail": "the available sub-parts are `Root`, `Icon`, `Title`, `Description`, and `Actions` only."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "FeaturedIcon",
@@ -1710,7 +2469,21 @@
         "tale-featured-icon--success",
         "tale-featured-icon--warning",
         "tale-featured-icon--xl"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "featured-icon-no-icon-prop",
+          "summary": "Does NOT accept an icon prop",
+          "detail": "takes an `<Icon>` child. Both `FeaturedIcon` and the lucide icon must be imported separately.",
+          "antiPatterns": [
+            "<FeaturedIcon icon={Bell} />"
+          ],
+          "fixes": [
+            "<FeaturedIcon size=\"lg\"><Icon icon={Bell} /></FeaturedIcon>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Field",
@@ -1738,7 +2511,20 @@
         "tale-field",
         "tale-field__control",
         "tale-field__item"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "field-root-no-validation-props",
+          "summary": "Field.Root does not accept validation state props",
+          "detail": "`Field.Root` is a plain layout container. It does not accept `isInvalid`, `isRequired`, `isDisabled`, or `isReadOnly`. For validated fields, use a component like `Input.Root` that has React Aria field context built in."
+        },
+        {
+          "id": "field-no-standalone-exports",
+          "summary": "No standalone FieldLabel, FieldError, FieldControl, or FieldDescription exports",
+          "detail": "All sub-parts are accessed through the `Field` namespace: `Field.Label`, `Field.Error`, `Field.Control`, `Field.Description`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Fieldset",
@@ -1768,7 +2554,15 @@
       "cssClasses": [
         "tale-fieldset",
         "tale-fieldset__legend"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "fieldset-only-root-and-legend",
+          "summary": "Only Root and Legend sub-parts",
+          "detail": "There is no `Fieldset.Label` or `Fieldset.Description`. The only sub-parts are `Fieldset.Root` and `Fieldset.Legend`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "FileTrigger",
@@ -1783,7 +2577,32 @@
       "examples": [
         "import { Button } from '@tale-ui/react/button';\nimport { useState } from 'react';\n\nfunction FileUpload() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <>\n      <FileTrigger\n        onSelect={(fileList) => {\n          if (fileList) {\n            setFileName(Array.from(fileList).map((f) => f.name).join(', '));\n          }\n        }}\n      >\n        <Button>Upload file</Button>\n      </FileTrigger>\n      {fileName && <p>Selected: {fileName}</p>}\n    </>\n  );\n}"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "file-trigger-no-root",
+          "summary": "No FileTrigger.Root",
+          "detail": "`FileTrigger` is a simple (non-compound) component used directly. There is no namespace structure.",
+          "antiPatterns": [
+            "<FileTrigger.Root>"
+          ],
+          "fixes": [
+            "<FileTrigger>"
+          ]
+        },
+        {
+          "id": "file-trigger-onselect-nullable",
+          "summary": "onSelect receives FileList | null — always null-check",
+          "detail": "The callback may receive `null` (e.g. when the user cancels the dialog). Guard before accessing the list.",
+          "antiPatterns": [
+            "onSelect={(list) => Array.from(list).map(...)}"
+          ],
+          "fixes": [
+            "onSelect={(list) => { if (list) { Array.from(list).map(...) } }}"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Form",
@@ -1803,7 +2622,26 @@
         "tale-button",
         "tale-form",
         "tale-row"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "form-no-sub-parts",
+          "summary": "Form is a simple component with no sub-parts",
+          "detail": "There is no `Form.Submit`, `Form.Field`, or `Form.Label`. Use `<Form>` directly and compose `Button`, `Field`, and other components as children."
+        },
+        {
+          "id": "form-method-lowercase",
+          "summary": "method prop requires lowercase values",
+          "detail": "Valid values are `\"get\"`, `\"post\"`, and `\"dialog\"`. Uppercase values like `\"GET\"` or `\"POST\"` are not valid.",
+          "antiPatterns": [
+            "<Form method=\"POST\">"
+          ],
+          "fixes": [
+            "<Form method=\"post\">"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "GridList",
@@ -1841,7 +2679,20 @@
       "cssClasses": [
         "tale-grid-list",
         "tale-grid-list__item"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "grid-list-no-is-selected-on-item",
+          "summary": "GridList.Item does NOT accept isSelected",
+          "detail": "use `selectedKeys` and `onSelectionChange` on `GridList.Root` instead."
+        },
+        {
+          "id": "grid-list-on-selection-change-set",
+          "summary": "Do NOT annotate onSelectionChange parameter as Set<string>",
+          "detail": "the parameter type is `Selection`; cast inside the handler if needed."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "I18nProvider",
@@ -1866,7 +2717,9 @@
         "<I18nProvider locale=\"ar-AE\">\n  <App />\n</I18nProvider>",
         "import { useLocale } from '@tale-ui/react/i18n-provider';\n\nfunction LocaleDisplay() {\n  const { locale, direction } = useLocale();\n  return <p>Locale: {locale}, Direction: {direction}</p>;\n}"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "Icon",
@@ -1917,7 +2770,37 @@
         "tale-icon--lg",
         "tale-icon--sm",
         "tale-icon--xl"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "icon-prop-is-component-not-instance",
+          "summary": "icon prop takes a component reference, not an instance",
+          "detail": "pass the icon class itself, not `<Bell />`.",
+          "antiPatterns": [
+            "<Icon icon={<Bell />} />"
+          ],
+          "fixes": [
+            "<Icon icon={Bell} />"
+          ]
+        },
+        {
+          "id": "icon-import-from-root",
+          "summary": "Import lucide icons from lucide-react root, not deep subpaths",
+          "detail": "deep imports like `lucide-react/dist/esm/icons/bell` are not part of the public API and break on package updates.",
+          "antiPatterns": [
+            "import Bell from 'lucide-react/dist/esm/icons/bell';"
+          ],
+          "fixes": [
+            "import { Bell } from 'lucide-react';"
+          ]
+        },
+        {
+          "id": "icon-size-values",
+          "summary": "size accepts 'sm', 'md', 'lg', 'xl' only",
+          "detail": "NOT the token-style `'s'`/`'m'`/`'l'` suffixes used in CSS tokens."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "IconButton",
@@ -1984,7 +2867,26 @@
         "tale-icon-button--lg",
         "tale-icon-button--md",
         "tale-icon-button--sm"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "icon-button-aria-label-required",
+          "summary": "aria-label is required",
+          "detail": "without visible text the button is inaccessible. Omitting it causes a screen reader to announce nothing useful."
+        },
+        {
+          "id": "icon-button-no-nested-in-trigger",
+          "summary": "Do not nest <IconButton> inside a trigger component",
+          "detail": "triggers render their own `<button>` element; nesting an `IconButton` creates a `<button>` inside a `<button>`, which is invalid HTML.",
+          "antiPatterns": [
+            "<Tooltip.Trigger><IconButton aria-label=\"Info\"><Icon icon={Info} /></IconButton></Tooltip.Trigger>"
+          ],
+          "fixes": [
+            "<Tooltip.Trigger aria-label=\"Info\" className=\"tale-icon-button tale-icon-button--md\"><Icon icon={Info} /></Tooltip.Trigger>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Image",
@@ -2047,7 +2949,25 @@
         "tale-image--md",
         "tale-image--none",
         "tale-image--sm"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "image-radius-not-border-radius",
+          "summary": "Uses radius (NOT borderRadius) for rounded corners",
+          "detail": "`borderRadius` is not a valid prop."
+        },
+        {
+          "id": "image-no-size-prop",
+          "summary": "Does NOT accept a size prop",
+          "detail": "use the standard `width` and `height` HTML attributes instead."
+        },
+        {
+          "id": "image-radius-valid-values",
+          "summary": "radius accepts 'none', 'sm', 'md', 'lg', 'full'",
+          "detail": "NOT the short forms `'s'`, `'m'`, or `'l'`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Input",
@@ -2113,7 +3033,9 @@
         "tale-input--lg",
         "tale-input--sm",
         "tale-input__root"
-      ]
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "Link",
@@ -2132,7 +3054,21 @@
       ],
       "cssClasses": [
         "tale-link"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "link-no-isexternal-prop",
+          "summary": "There is no isExternal prop.",
+          "detail": "",
+          "antiPatterns": [
+            "<Link href=\"https://example.com\" isExternal>"
+          ],
+          "fixes": [
+            "<Link href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "List",
@@ -2184,7 +3120,15 @@
         "tale-list--divided",
         "tale-list--spacious",
         "tale-list__item"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "list-variant-valid-values",
+          "summary": "variant accepts 'plain' or 'divided' only",
+          "detail": "`'item'` is NOT a valid value."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Menu",
@@ -2263,6 +3207,45 @@
         "tale-menu__trigger",
         "tale-menubar",
         "tale-menubar__item"
+      ],
+      "pitfalls": [
+        {
+          "id": "menu-menulist-required",
+          "summary": "Menu.MenuList is required between Menu.Popover and Menu.Item.",
+          "detail": "",
+          "antiPatterns": [
+            "<Menu.Popover><Menu.Item id=\"a\">A</Menu.Item></Menu.Popover>"
+          ],
+          "fixes": [
+            "<Menu.Popover><Menu.MenuList><Menu.Item id=\"a\">A</Menu.Item></Menu.MenuList></Menu.Popover>"
+          ]
+        },
+        {
+          "id": "menu-separator-inside-menulist",
+          "summary": "Menu.Separator goes inside Menu.MenuList, not as a sibling of it.",
+          "detail": "",
+          "antiPatterns": [
+            "<Menu.MenuList>...</Menu.MenuList><Menu.Separator /><Menu.MenuList>...</Menu.MenuList>"
+          ],
+          "fixes": [
+            "<Menu.MenuList>...<Menu.Separator />...</Menu.MenuList>"
+          ]
+        },
+        {
+          "id": "menu-root-no-onaction-open",
+          "summary": "Menu.Root does not accept onAction or open.",
+          "detail": "",
+          "antiPatterns": [
+            "<Menu.Root onAction={handleAction} open={isOpen}>"
+          ],
+          "fixes": [
+            "<Menu.Item id=\"a\" onAction={handleAction}>A</Menu.Item>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-asChild-on-triggers",
+        "no-button-inside-trigger"
       ]
     },
     {
@@ -2281,7 +3264,9 @@
       "examples": [
         "import { Menubar } from '@tale-ui/react/menubar';\nimport { Menu } from '@tale-ui/react/menu';\n\n<Menubar.Root>\n  <Menubar.Item>\n    <Menu.Root>\n      <Menu.Trigger>File</Menu.Trigger>\n      <Menu.Popover>\n        <Menu.MenuList>\n          <Menu.Item id=\"new\">New</Menu.Item>\n          <Menu.Item id=\"open\">Open</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"save\">Save</Menu.Item>\n          <Menu.Item id=\"save-as\">Save As...</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  </Menubar.Item>\n  <Menubar.Item>\n    <Menu.Root>\n      <Menu.Trigger>Edit</Menu.Trigger>\n      <Menu.Popover>\n        <Menu.MenuList>\n          <Menu.Item id=\"undo\">Undo</Menu.Item>\n          <Menu.Item id=\"redo\">Redo</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"cut\">Cut</Menu.Item>\n          <Menu.Item id=\"copy\">Copy</Menu.Item>\n          <Menu.Item id=\"paste\">Paste</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  </Menubar.Item>\n  <Menubar.Item>\n    <Menu.Root>\n      <Menu.Trigger>View</Menu.Trigger>\n      <Menu.Popover>\n        <Menu.MenuList>\n          <Menu.Item id=\"zoom-in\">Zoom In</Menu.Item>\n          <Menu.Item id=\"zoom-out\">Zoom Out</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"fullscreen\">Fullscreen</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  </Menubar.Item>\n</Menubar.Root>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "mergeProps",
@@ -2299,7 +3284,9 @@
         "const a = { onClick: () => console.log('a') };\nconst b = { onClick: (e) => { e.preventTaleUIHandler(); console.log('b only'); } };\n\nconst merged = mergeProps(a, b);\n// Clicking calls: b handler only — a handler is skipped",
         "import { mergeProps, mergePropsN } from '@tale-ui/react/merge-props';"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "Meter",
@@ -2345,7 +3332,27 @@
         "<Meter.Root value={60} minValue={0} maxValue={100}>\n  <Meter.Header>\n    <Meter.Label>Storage</Meter.Label>\n    <Meter.Value>60%</Meter.Value>\n  </Meter.Header>\n  <Meter.Track>\n    <Meter.Indicator value={60} />\n  </Meter.Track>\n</Meter.Root>",
         "<div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>\n  {[10, 40, 70, 90].map((value) => (\n    <Meter.Root key={value} value={value} minValue={0} maxValue={100}>\n      <Meter.Header>\n        <Meter.Label>Usage</Meter.Label>\n        <Meter.Value>{value}%</Meter.Value>\n      </Meter.Header>\n      <Meter.Track>\n        <Meter.Indicator value={value} />\n      </Meter.Track>\n    </Meter.Root>\n  ))}\n</div>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "meter-value-needs-children",
+          "summary": "Meter.Value needs children text",
+          "detail": "use `<Meter.Value>60%</Meter.Value>`, not self-closing `<Meter.Value />`, which renders an empty span."
+        },
+        {
+          "id": "meter-indicator-own-value-prop",
+          "summary": "Meter.Indicator requires its own value prop",
+          "detail": "it does not inherit from `Meter.Root`. Always pass matching values to both."
+        },
+        {
+          "id": "meter-no-output-sub-part",
+          "summary": "No Meter.Output sub-part",
+          "detail": "use `Meter.Value` for displaying the current value text."
+        }
+      ],
+      "crossPitfallRefs": [
+        "minvalue-maxvalue-not-min-max"
+      ]
     },
     {
       "name": "NavigationMenu",
@@ -2380,7 +3387,32 @@
         "tale-navigation-menu__popup",
         "tale-navigation-menu__trigger",
         "tale-navigation-menu__viewport"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "navigation-menu-list-required",
+          "summary": "NavigationMenu.List is required between NavigationMenu.Root and NavigationMenu.Item.",
+          "detail": "",
+          "antiPatterns": [
+            "<NavigationMenu.Root><NavigationMenu.Item>...</NavigationMenu.Item></NavigationMenu.Root>"
+          ],
+          "fixes": [
+            "<NavigationMenu.Root><NavigationMenu.List><NavigationMenu.Item>...</NavigationMenu.Item></NavigationMenu.List></NavigationMenu.Root>"
+          ]
+        },
+        {
+          "id": "navigation-menu-no-nav-component",
+          "summary": "There is no Nav component in Tale UI.",
+          "detail": "",
+          "antiPatterns": [
+            "import { Nav } from '@tale-ui/react/nav';"
+          ],
+          "fixes": [
+            "import { NavigationMenu } from '@tale-ui/react/navigation-menu';"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "NumberField",
@@ -2458,6 +3490,33 @@
         "tale-number-field__group",
         "tale-number-field__increment",
         "tale-number-field__input"
+      ],
+      "pitfalls": [
+        {
+          "id": "number-field-no-null-value",
+          "summary": "NumberField.Root value prop accepts number | undefined, NOT number | null.",
+          "detail": "anti-pattern: `<NumberField.Root value={count ?? null}>`",
+          "antiPatterns": [
+            "<NumberField.Root value={count ?? null}>"
+          ],
+          "fixes": [
+            "<NumberField.Root value={count ?? undefined}>"
+          ]
+        },
+        {
+          "id": "number-field-no-phantom-sub-parts",
+          "summary": "No NumberField.Step or NumberField.HintText sub-parts.",
+          "detail": "",
+          "antiPatterns": [
+            "<NumberField.HintText>Between 0 and 100</NumberField.HintText>"
+          ],
+          "fixes": [
+            "<NumberField.Description>Between 0 and 100</NumberField.Description>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "minvalue-maxvalue-not-min-max"
       ]
     },
     {
@@ -2505,7 +3564,15 @@
         "tale-pagination__line--current",
         "tale-pagination__next",
         "tale-pagination__previous"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "pagination-no-page-control-props-on-root",
+          "summary": "Root does NOT accept currentPage, totalPages, or onPageChange",
+          "detail": "render each page as `Pagination.Item` and mark the active page with the `current` prop. Pagination is stateless and fully declarative."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "PaymentInput",
@@ -2543,7 +3610,21 @@
         "tale-payment-input__card-icon",
         "tale-payment-input__group",
         "tale-payment-input__input"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "payment-input-no-phantom-sub-parts",
+          "summary": "No PaymentInput.Number, PaymentInput.CardNumber, or PaymentInput.NumberInput",
+          "detail": "the card number input is `PaymentInput.Input`.",
+          "antiPatterns": [
+            "<PaymentInput.CardNumber />"
+          ],
+          "fixes": [
+            "<PaymentInput.Input />"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "PinInput",
@@ -2601,7 +3682,21 @@
         "tale-pin-input__group",
         "tale-pin-input__separator",
         "tale-pin-input__slot"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "pin-input-slot-not-input",
+          "summary": "Uses PinInput.Slot (NOT PinInput.Input).",
+          "detail": "",
+          "antiPatterns": [
+            "<PinInput.Root><PinInput.Input /><PinInput.Input /></PinInput.Root>"
+          ],
+          "fixes": [
+            "<PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Popover",
@@ -2631,6 +3726,11 @@
         "tale-popover__description",
         "tale-popover__popup",
         "tale-popover__title"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": [
+        "no-asChild-on-triggers",
+        "no-button-inside-trigger"
       ]
     },
     {
@@ -2686,6 +3786,22 @@
         "tale-preview-card",
         "tale-preview-card__arrow",
         "tale-preview-card__popup"
+      ],
+      "pitfalls": [
+        {
+          "id": "preview-card-content-in-popup",
+          "summary": "PreviewCard.Content must be inside PreviewCard.Popup and requires aria-label.",
+          "detail": "",
+          "antiPatterns": [
+            "<PreviewCard.Popup><p>Preview text</p></PreviewCard.Popup>"
+          ],
+          "fixes": [
+            "<PreviewCard.Popup><PreviewCard.Content aria-label=\"Preview\">...</PreviewCard.Content></PreviewCard.Popup>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-asChild-on-triggers"
       ]
     },
     {
@@ -2765,6 +3881,26 @@
         "tale-progress-bar__label",
         "tale-progress-bar__track",
         "tale-progress-bar__value"
+      ],
+      "pitfalls": [
+        {
+          "id": "progress-bar-value-needs-children",
+          "summary": "ProgressBar.Value needs children text",
+          "detail": "use `<ProgressBar.Value>60%</ProgressBar.Value>`, not self-closing `<ProgressBar.Value />`, which renders an empty span."
+        },
+        {
+          "id": "progress-bar-indicator-own-value-prop",
+          "summary": "ProgressBar.Indicator requires its own value prop",
+          "detail": "it does not inherit from `ProgressBar.Root`. Always pass matching values to both."
+        },
+        {
+          "id": "progress-bar-no-output-sub-part",
+          "summary": "No ProgressBar.Output sub-part",
+          "detail": "use `ProgressBar.Value` for displaying the current value text."
+        }
+      ],
+      "crossPitfallRefs": [
+        "minvalue-maxvalue-not-min-max"
       ]
     },
     {
@@ -2818,7 +3954,20 @@
         "tale-progress-circle__rail",
         "tale-progress-circle__track",
         "tale-progress-circle__value"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "progress-circle-no-text-inside-root",
+          "summary": "Do NOT place <Text> inside ProgressCircle.Root",
+          "detail": "use `ProgressCircle.Label` for labelling and `ProgressCircle.Value` for the percentage display."
+        },
+        {
+          "id": "progress-circle-size-valid-values",
+          "summary": "size only accepts 'sm', 'md', 'lg'",
+          "detail": "NOT the short forms `'s'`, `'m'`, `'l'`, and NOT `'xl'`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Radio",
@@ -2867,7 +4016,26 @@
         "tale-radio--sm",
         "tale-radio__dot",
         "tale-radio__indicator"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "radio-separate-imports",
+          "summary": "Radio and RadioGroup are separate components with separate imports",
+          "detail": "`RadioGroup` from `@tale-ui/react/radio-group` has NO sub-parts (no `.Radios`, `.Item`, `.Indicator`). `Radio.Group` is the primary grouping sub-part of the `Radio` namespace."
+        },
+        {
+          "id": "radio-no-native-input-props",
+          "summary": "Radio.Root does NOT accept checked, onChange, or native HTML input props",
+          "detail": "selection state is managed by `Radio.Group` via `value`/`onChange` props. Passing `checked` causes TypeScript errors.",
+          "antiPatterns": [
+            "<Radio.Root value=\"a\" checked={isSelected} onChange={setSelected} />"
+          ],
+          "fixes": [
+            "<Radio.Group value={selected} onChange={setSelected}><Radio.Root value=\"a\">...</Radio.Root></Radio.Group>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "RadioGroup",
@@ -2882,7 +4050,23 @@
       "examples": [
         "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { Radio } from '@tale-ui/react/radio';\n\n<RadioGroup label=\"Favorite color\">\n  <Radio.Root value=\"red\">\n    <Radio.Indicator />\n    Red\n  </Radio.Root>\n  <Radio.Root value=\"blue\">\n    <Radio.Indicator />\n    Blue\n  </Radio.Root>\n</RadioGroup>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "radio-group-no-sub-parts",
+          "summary": "RadioGroup (from @tale-ui/react/radio-group) has NO sub-parts",
+          "detail": "using `<RadioGroup.Radios>`, `<RadioGroup.Item>`, or `<RadioGroup.Indicator>` causes 'Property does not exist' TypeScript errors. For grouping radios, prefer `Radio.Group` (sub-part of the `Radio` namespace).",
+          "antiPatterns": [
+            "<RadioGroup.Item value=\"a\">...</RadioGroup.Item>"
+          ],
+          "fixes": [
+            "<Radio.Group label=\"...\"><Radio.Root value=\"a\">...</Radio.Root></Radio.Group>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-cross-import-checkbox-group"
+      ]
     },
     {
       "name": "RangeCalendar",
@@ -2914,6 +4098,25 @@
         "tale-range-calendar__grid-body",
         "tale-range-calendar__grid-header",
         "tale-range-calendar__header"
+      ],
+      "pitfalls": [
+        {
+          "id": "range-calendar-no-footer",
+          "summary": "No Footer sub-part",
+          "detail": "`RangeCalendar` has no `Footer` sub-part. To display the selected range below the calendar, place a `<Text>` component outside `RangeCalendar.Root` and update it from `onChange`."
+        },
+        {
+          "id": "range-calendar-unavailable-prop",
+          "summary": "Use isDateUnavailable to disable dates, not isOutsideRange",
+          "detail": "The correct prop for disabling specific dates is `isDateUnavailable` (a function that returns `true` for dates to disable). There is no `isOutsideRange` prop."
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-locale-prop-on-calendar",
+        "no-native-date",
+        "derive-date-type-from-props",
+        "no-null-state-without-type",
+        "no-internationalized-date-import"
       ]
     },
     {
@@ -2956,7 +4159,15 @@
         "tale-rating-badge--lg",
         "tale-rating-badge--md",
         "tale-rating-badge--sm"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "rating-badge-requires-value-prop",
+          "summary": "Requires a value prop (number)",
+          "detail": "do NOT pass the rating as children text; `RatingBadge` does not accept `children`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "RatingStars",
@@ -3011,7 +4222,15 @@
         "tale-rating-stars__star--filled",
         "tale-rating-stars__star--half",
         "tale-rating-stars__star-overlay"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "rating-stars-requires-value-prop",
+          "summary": "Requires a value prop (number)",
+          "detail": "do NOT pass the rating as children text; `RatingStars` does not accept `children`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Row",
@@ -3087,6 +4306,11 @@
       "cssClasses": [
         "tale-row",
         "tale-row--wrap"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": [
+        "row-justify-shorthand",
+        "row-no-css-flex-props"
       ]
     },
     {
@@ -3118,7 +4342,20 @@
         "tale-scroll-area__scrollbar",
         "tale-scroll-area__thumb",
         "tale-scroll-area__viewport"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "scroll-area-orientation-is-string",
+          "summary": "Scrollbar orientation is a string, not a boolean",
+          "detail": "pass `orientation=\"vertical\"` or `orientation=\"horizontal\"` explicitly; do not omit it or treat it as a flag."
+        },
+        {
+          "id": "scroll-area-required-nesting",
+          "summary": "Requires a specific nested structure",
+          "detail": "the correct hierarchy is `Root > Viewport > Content > your content`, with `Scrollbar` (containing `Thumb`) as a sibling of `Viewport` inside `Root`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "SearchField",
@@ -3154,7 +4391,43 @@
         "tale-search-field",
         "tale-search-field__clear",
         "tale-search-field__input"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "search-field-clear-button-needs-icon",
+          "summary": "SearchField.ClearButton does NOT auto-render an icon",
+          "detail": "pass `<Icon icon={X}>` as a child.",
+          "antiPatterns": [
+            "<SearchField.ClearButton />"
+          ],
+          "fixes": [
+            "<SearchField.ClearButton><Icon icon={X} size=\"sm\" /></SearchField.ClearButton>"
+          ]
+        },
+        {
+          "id": "search-field-no-input-group",
+          "summary": "No SearchField.InputGroup sub-part.",
+          "detail": "",
+          "antiPatterns": [
+            "<SearchField.InputGroup><SearchField.Input /></SearchField.InputGroup>"
+          ],
+          "fixes": [
+            "<SearchField.Root><SearchField.Input /><SearchField.ClearButton>...</SearchField.ClearButton></SearchField.Root>"
+          ]
+        },
+        {
+          "id": "search-field-default-value-on-root",
+          "summary": "SearchField.Root owns defaultValue.",
+          "detail": "",
+          "antiPatterns": [
+            "<SearchField.Input defaultValue=\"React\" />"
+          ],
+          "fixes": [
+            "<SearchField.Root defaultValue=\"React\"><SearchField.Input /></SearchField.Root>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Select",
@@ -3224,6 +4497,33 @@
         "tale-select__trigger--lg",
         "tale-select__trigger--sm",
         "tale-select__value"
+      ],
+      "pitfalls": [
+        {
+          "id": "select-placeholder-on-root",
+          "summary": "Select.Root owns the placeholder prop",
+          "detail": "do NOT put `placeholder` on `Select.Value`.",
+          "antiPatterns": [
+            "<Select.Value placeholder=\"Pick one...\" />"
+          ],
+          "fixes": [
+            "<Select.Root placeholder=\"Pick one...\"><Select.Trigger><Select.Value /><Select.Icon /></Select.Trigger>...</Select.Root>"
+          ]
+        },
+        {
+          "id": "select-no-option-sub-part",
+          "summary": "No Select.Option — use Select.Item.",
+          "detail": "",
+          "antiPatterns": [
+            "<Select.Option id=\"a\">A</Select.Option>"
+          ],
+          "fixes": [
+            "<Select.Item id=\"a\" textValue=\"A\">A</Select.Item>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "selectedkey-not-value"
       ]
     },
     {
@@ -3258,6 +4558,22 @@
         "tale-select-native",
         "tale-select-native--md",
         "tale-select-native--sm"
+      ],
+      "pitfalls": [
+        {
+          "id": "select-native-no-sub-parts",
+          "summary": "SelectNative has NO sub-parts",
+          "detail": "no `.Root`, `.Label`, `.Trigger`, `.Value`, etc. Use `<SelectNative>` directly with plain HTML `<label>` and `<option>` children.",
+          "antiPatterns": [
+            "<SelectNative.Root><SelectNative.Label>Size</SelectNative.Label><SelectNative.Trigger /></SelectNative.Root>"
+          ],
+          "fixes": [
+            "<label>Size<SelectNative><option value=\"sm\">Small</option></SelectNative></label>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-label-component"
       ]
     },
     {
@@ -3278,7 +4594,20 @@
       "cssClasses": [
         "tale-separator",
         "tale-separator--vertical"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "separator-no-margin-padding-props",
+          "summary": "Does NOT accept margin, padding, or other CSS shorthand as direct props",
+          "detail": "use the `style` prop or a custom `className` for spacing adjustments."
+        },
+        {
+          "id": "separator-only-orientation-and-html-attrs",
+          "summary": "Only accepts orientation and standard HTML attributes",
+          "detail": "no additional Tale UI-specific props exist."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Slider",
@@ -3345,6 +4674,22 @@
         "tale-slider__output--top",
         "tale-slider__thumb",
         "tale-slider__track"
+      ],
+      "pitfalls": [
+        {
+          "id": "slider-nested-structure",
+          "summary": "Requires nested structure: Root > Control > Track > Indicator + Thumb.",
+          "detail": "",
+          "antiPatterns": [
+            "<Slider.Root onValueChange={setValue}><Slider.Track /><Slider.Thumb /></Slider.Root>"
+          ],
+          "fixes": [
+            "<Slider.Root onChange={setValue}><Slider.Control><Slider.Track><Slider.Indicator /><Slider.Thumb /></Slider.Track></Slider.Control></Slider.Root>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "minvalue-maxvalue-not-min-max"
       ]
     },
     {
@@ -3399,7 +4744,15 @@
         "tale-social-button--x",
         "tale-social-button-group",
         "tale-social-button__icon"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "social-button-provider-required",
+          "summary": "provider prop is required",
+          "detail": "`SocialButton` requires a `provider` value (`'google'`, `'github'`, `'apple'`, `'x'`, or `'facebook'`). Omitting it will render no icon and may cause a runtime error."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "SocialButtonGroup",
@@ -3415,7 +4768,9 @@
         "import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';\n\n<SocialButtonGroup>\n  <SocialButton provider=\"google\">Sign in with Google</SocialButton>\n  <SocialButton provider=\"github\">Continue with GitHub</SocialButton>\n  <SocialButton provider=\"apple\">Sign in with Apple</SocialButton>\n</SocialButtonGroup>",
         "<SocialButtonGroup size=\"lg\">\n  <SocialButton provider=\"google\">Sign in with Google</SocialButton>\n  <SocialButton provider=\"github\">Continue with GitHub</SocialButton>\n  <SocialButton provider=\"apple\">Sign in with Apple</SocialButton>\n</SocialButtonGroup>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "Spinner",
@@ -3478,7 +4833,15 @@
         "tale-spinner__line-track",
         "tale-spinner__svg",
         "tale-spinner__track"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "spinner-label-is-aria-not-visible",
+          "summary": "label prop sets aria-label — it does NOT render visible text",
+          "detail": "for a visible loading message alongside the spinner, wrap `<Spinner>` and `<Text>` together in a `<Row>`."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Switch",
@@ -3519,6 +4882,19 @@
       "cssClasses": [
         "tale-switch",
         "tale-switch__thumb"
+      ],
+      "pitfalls": [
+        {
+          "id": "switch-no-label-indicator-sub-parts",
+          "summary": "No Label or Indicator sub-parts — only Root and Thumb",
+          "detail": "`Switch` has only `Switch.Root` and `Switch.Thumb`. Label text is placed as a direct child of `Switch.Root`, not in a sub-part.",
+          "antiPatterns": [
+            "<Switch.Label>Enable</Switch.Label>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-visual-exports-for-interactive-ui"
       ]
     },
     {
@@ -3579,7 +4955,20 @@
         "tale-table__column",
         "tale-table__header",
         "tale-table__row"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "table-no-column-header-part",
+          "summary": "No Table.ColumnHeader",
+          "detail": "use `Table.Column` for column header cells."
+        },
+        {
+          "id": "table-no-status-part",
+          "summary": "No Table.Status sub-part",
+          "detail": "render a `<Badge>` inside a `Table.Cell` to show status."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Tabs",
@@ -3648,7 +5037,20 @@
         "tale-tabs__tab--enclosed",
         "tale-tabs__tab--pills",
         "tale-tabs__tab--sm"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "tabs-no-trigger-or-content",
+          "summary": "No Tabs.Trigger or Tabs.Content",
+          "detail": "the correct sub-parts are `Tabs.Tab` and `Tabs.Panel`."
+        },
+        {
+          "id": "tabs-default-selected-key",
+          "summary": "Uses defaultSelectedKey, NOT defaultValue",
+          "detail": "pass the `id` of the tab that should be selected by default."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "TagGroup",
@@ -3692,7 +5094,25 @@
         "tale-tag-group__label",
         "tale-tag-group__list",
         "tale-tag-group__tag"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "tag-group-no-item-sub-part",
+          "summary": "Uses TagGroup.Tag, NOT TagGroup.Item",
+          "detail": "there is no `TagGroup.Item` sub-part."
+        },
+        {
+          "id": "tag-group-root-no-label-prop",
+          "summary": "TagGroup.Root does NOT accept a label prop",
+          "detail": "use `<TagGroup.Label>` as a child element."
+        },
+        {
+          "id": "tag-group-tag-no-on-remove",
+          "summary": "TagGroup.Tag does NOT accept onRemove",
+          "detail": "put `onRemove` on `TagGroup.Root` instead."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Text",
@@ -3776,7 +5196,40 @@
         "tale-text",
         "tale-text--accent",
         "tale-text--muted"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "text-size-valid-values",
+          "summary": "size only accepts 'xs', 's', 'm', 'l'",
+          "detail": "no other size tokens are valid."
+        },
+        {
+          "id": "text-mono-not-code",
+          "summary": "Monospace variant is \"mono\", NOT \"code\"",
+          "detail": "use `variant=\"mono\"` for monospace text."
+        },
+        {
+          "id": "text-no-invalid-variants",
+          "summary": "No 'link', 'code', or 'caption' variant",
+          "detail": "valid values are `'display'`, `'heading'`, `'title'`, `'label'`, `'text'`, `'mono'`."
+        },
+        {
+          "id": "text-no-html-for-prop",
+          "summary": "No htmlFor prop",
+          "detail": "if you need a label with `htmlFor`, use `as=\"label\"` and add `htmlFor` as a standard HTML attribute."
+        },
+        {
+          "id": "text-as-prop-valid-elements",
+          "summary": "as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'",
+          "detail": "NOT `'strong'`, `'code'`, `'pre'`, or other HTML elements."
+        },
+        {
+          "id": "text-color-valid-values",
+          "summary": "color only accepts 'default', 'muted', 'accent'",
+          "detail": "no other color values are valid."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "TextArea",
@@ -3818,6 +5271,22 @@
       "cssClasses": [
         "tale-text-area",
         "tale-text-area__textarea"
+      ],
+      "pitfalls": [
+        {
+          "id": "text-area-pascal-case-sub-part",
+          "summary": "TextArea.TextArea sub-part is PascalCase — NOT TextArea.Textarea (lowercase 'a').",
+          "detail": "",
+          "antiPatterns": [
+            "<TextArea.Textarea placeholder=\"...\" />"
+          ],
+          "fixes": [
+            "<TextArea.TextArea placeholder=\"...\" />"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "textarea-hyphenated-path"
       ]
     },
     {
@@ -3859,7 +5328,32 @@
       ],
       "cssClasses": [
         "tale-text-field__input"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "text-field-input-attrs-on-input",
+          "summary": "TextField.Root accepts name — HTML input attributes (type, minLength, maxLength, placeholder) go on TextField.Input.",
+          "detail": "anti-pattern: `<TextField.Root placeholder=\"Enter name\" type=\"email\">`",
+          "antiPatterns": [
+            "<TextField.Root placeholder=\"Enter name\" type=\"email\">"
+          ],
+          "fixes": [
+            "<TextField.Root name=\"email\"><TextField.Input placeholder=\"Enter name\" type=\"email\" /></TextField.Root>"
+          ]
+        },
+        {
+          "id": "no-password-input-component",
+          "summary": "There is NO PasswordInput component",
+          "detail": "for password fields, use `TextField` with `type=\"password\"` on `TextField.Input`.",
+          "antiPatterns": [
+            "<PasswordInput name=\"password\" />"
+          ],
+          "fixes": [
+            "<TextField.Root><TextField.Label>Password</TextField.Label><TextField.Input name=\"password\" type=\"password\" /></TextField.Root>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "TimeField",
@@ -3882,7 +5376,40 @@
         "<TimeField.Root>\n  <TimeField.DateInput style={{ display: 'flex' }}>\n    {(segment) => <TimeField.Segment segment={segment} />}\n  </TimeField.DateInput>\n</TimeField.Root>",
         "<TimeField.Root>\n  <TimeField.Label>Time</TimeField.Label>\n  <TimeField.DateInput style={{ display: 'flex' }}>\n    {(segment) => <TimeField.Segment segment={segment} />}\n  </TimeField.DateInput>\n</TimeField.Root>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "time-field-no-extra-sub-parts",
+          "summary": "No TimeField.Group, TimeField.Trigger, TimeField.Input, TimeField.Popover, or TimeField.Dialog sub-parts",
+          "detail": "`TimeField` is a segmented inline input only; it has no trigger or popover anatomy."
+        },
+        {
+          "id": "time-field-dateinput-not-input",
+          "summary": "The input sub-part is TimeField.DateInput, not TimeField.Input",
+          "detail": "There is no `TimeField.Input`. The correct sub-part for the segmented time input is `TimeField.DateInput`.",
+          "antiPatterns": [
+            "<TimeField.Input>"
+          ],
+          "fixes": [
+            "<TimeField.DateInput>"
+          ]
+        },
+        {
+          "id": "time-field-hour-singular",
+          "summary": "Property is hour (singular), not hours",
+          "detail": "React Aria uses `hour` (singular) for the hour segment value. Using `hours` will be silently ignored.",
+          "antiPatterns": [
+            "granularity=\"hours\""
+          ],
+          "fixes": [
+            "granularity=\"hour\""
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-native-date",
+        "derive-date-type-from-props"
+      ]
     },
     {
       "name": "ToggleButton",
@@ -3920,7 +5447,32 @@
         "tale-toggle-button--md",
         "tale-toggle-button--sm",
         "tale-toggle-button-group"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "toggle-button-isselected-not-pressed",
+          "summary": "Uses isSelected/defaultSelected for toggle state, NOT pressed.",
+          "detail": "anti-pattern: `<ToggleButton pressed={isOn} onPressedChange={setOn}>Bold</ToggleButton>`",
+          "antiPatterns": [
+            "<ToggleButton pressed={isOn} onPressedChange={setOn}>Bold</ToggleButton>"
+          ],
+          "fixes": [
+            "<ToggleButton isSelected={isOn} onChange={setOn}>Bold</ToggleButton>"
+          ]
+        },
+        {
+          "id": "toggle-button-no-value-prop",
+          "summary": "Does NOT accept a value prop.",
+          "detail": "anti-pattern: `<ToggleButton value=\"bold\">Bold</ToggleButton>`",
+          "antiPatterns": [
+            "<ToggleButton value=\"bold\">Bold</ToggleButton>"
+          ],
+          "fixes": [
+            "<ToggleButton defaultSelected>Bold</ToggleButton>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "ToggleButtonGroup",
@@ -3935,7 +5487,28 @@
       "examples": [
         "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';\nimport { ToggleButton } from '@tale-ui/react/toggle-button';\n\n<ToggleButtonGroup aria-label=\"Text formatting\">\n  <ToggleButton>Bold</ToggleButton>\n  <ToggleButton>Italic</ToggleButton>\n  <ToggleButton>Underline</ToggleButton>\n</ToggleButtonGroup>"
       ],
-      "cssClasses": null
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "toggle-group-no-radix-props",
+          "summary": "Does NOT accept type, value, or onValueChange (Radix-style).",
+          "detail": "",
+          "antiPatterns": [
+            "<ToggleButtonGroup type=\"single\" value={sel} onValueChange={setSel}>"
+          ],
+          "fixes": [
+            "<ToggleButtonGroup selectionMode=\"single\" selectedKeys={sel} onSelectionChange={setSel}>"
+          ]
+        },
+        {
+          "id": "toggle-group-requires-aria-label",
+          "summary": "Requires aria-label or aria-labelledby.",
+          "detail": ""
+        }
+      ],
+      "crossPitfallRefs": [
+        "toggle-button-group-import-path"
+      ]
     },
     {
       "name": "Toolbar",
@@ -3973,7 +5546,25 @@
         "tale-toolbar__input",
         "tale-toolbar__link",
         "tale-toolbar__separator"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "toolbar-button-html-attrs-only",
+          "summary": "Toolbar.Button only accepts standard HTML button attributes",
+          "detail": "`Toolbar.Button` does not accept `onPress`, `isSelected`, `onChange`, or `defaultSelected`. Use `onClick`, `aria-label`, and `disabled` instead."
+        },
+        {
+          "id": "toolbar-no-standalone-toolbar-button",
+          "summary": "No standalone ToolbarButton named export",
+          "detail": "There is no top-level `ToolbarButton` export. Always use `Toolbar.Button` accessed through the namespace."
+        },
+        {
+          "id": "toolbar-toggle-use-toggle-button",
+          "summary": "For toggleable toolbar buttons, use <ToggleButton> from @tale-ui/react/toggle-button",
+          "detail": "Place a `ToggleButton` inside the toolbar instead of `Toolbar.Button` when toggling state is needed."
+        }
+      ],
+      "crossPitfallRefs": null
     },
     {
       "name": "Tooltip",
@@ -4011,6 +5602,22 @@
         "tale-tooltip__description",
         "tale-tooltip__popup",
         "tale-tooltip__title"
+      ],
+      "pitfalls": [
+        {
+          "id": "tooltip-text-in-popup",
+          "summary": "Tooltip text goes in Tooltip.Popup, not as children of Tooltip.Trigger.",
+          "detail": "",
+          "antiPatterns": [
+            "<Tooltip.Trigger>Hover me — This is a tooltip</Tooltip.Trigger>"
+          ],
+          "fixes": [
+            "<Tooltip.Trigger>Hover me</Tooltip.Trigger><Tooltip.Popup>This is a tooltip</Tooltip.Popup>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-asChild-on-triggers"
       ]
     },
     {
@@ -4050,7 +5657,25 @@
         "tale-tree",
         "tale-tree__item",
         "tale-tree__item-content"
-      ]
+      ],
+      "pitfalls": [
+        {
+          "id": "tree-sub-parts-only",
+          "summary": "Sub-parts are Root, Item, and ItemContent only",
+          "detail": "there is no `Tree.Node`, `Tree.Header`, or `Tree.ExpandTrigger`."
+        },
+        {
+          "id": "tree-root-requires-aria-label",
+          "summary": "Tree.Root requires aria-label",
+          "detail": "omitting it leaves the tree without an accessible name."
+        },
+        {
+          "id": "tree-item-requires-id-and-text-value",
+          "summary": "Each Tree.Item requires both id and textValue",
+          "detail": "`id` identifies the node, `textValue` provides the screen reader label."
+        }
+      ],
+      "crossPitfallRefs": null
     }
   ]
 }

@@ -96,6 +96,15 @@ import { PreviewCard } from '@tale-ui/react/preview-card';
 - `.tale-preview-card__arrow` — Arrow element
 - `.tale-preview-card` — Dialog content
 
+## Pitfalls
+
+<!-- pitfall: preview-card-content-in-popup -->
+- **`PreviewCard.Content` must be inside `PreviewCard.Popup` and requires `aria-label`.** Do not place content directly inside `PreviewCard.Popup`, and always supply `aria-label` on `Content` since there is no built-in Title part.
+  - anti-pattern: `<PreviewCard.Popup><p>Preview text</p></PreviewCard.Popup>`
+  - fix: `<PreviewCard.Popup><PreviewCard.Content aria-label="Preview">...</PreviewCard.Content></PreviewCard.Popup>`
+
+<!-- cross-pitfall-ref: no-asChild-on-triggers -->
+
 ## Notes
 
 - **Trigger needs explicit styling.** `PreviewCard.Trigger` applies `tale-preview-card__trigger` (no visual styling). Add `className="tale-button tale-button--{variant}"` for button styling, or style it as a link.

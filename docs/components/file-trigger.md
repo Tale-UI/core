@@ -38,6 +38,18 @@ function FileUpload() {
 
 None -- `FileTrigger` is a headless wrapper that renders no DOM element of its own.
 
+## Pitfalls
+
+<!-- pitfall: file-trigger-no-root -->
+- **No `FileTrigger.Root`** — `FileTrigger` is a simple (non-compound) component used directly. There is no namespace structure.
+  - anti-pattern: `<FileTrigger.Root>`
+  - fix: `<FileTrigger>`
+
+<!-- pitfall: file-trigger-onselect-nullable -->
+- **`onSelect` receives `FileList | null` — always null-check** — The callback may receive `null` (e.g. when the user cancels the dialog). Guard before accessing the list.
+  - anti-pattern: `onSelect={(list) => Array.from(list).map(...)}`
+  - fix: `onSelect={(list) => { if (list) { Array.from(list).map(...) } }}`
+
 ## Notes
 
 - Wrap a `Button` (or any pressable element) as the child; clicking it opens the native file dialog.

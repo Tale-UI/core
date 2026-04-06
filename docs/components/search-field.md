@@ -60,6 +60,23 @@ import { X } from 'lucide-react';
 - `.tale-search-field__error` — Error message
 - `.tale-search-field__clear` — Clear button
 
+## Pitfalls
+
+<!-- pitfall: search-field-clear-button-needs-icon -->
+- **`SearchField.ClearButton` does NOT auto-render an icon** — pass `<Icon icon={X}>` as a child.
+  - anti-pattern: `<SearchField.ClearButton />`
+  - fix: `<SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>`
+
+<!-- pitfall: search-field-no-input-group -->
+- **No `SearchField.InputGroup` sub-part.** Place `SearchField.Input` and `SearchField.ClearButton` directly inside `SearchField.Root`.
+  - anti-pattern: `<SearchField.InputGroup><SearchField.Input /></SearchField.InputGroup>`
+  - fix: `<SearchField.Root><SearchField.Input /><SearchField.ClearButton>...</SearchField.ClearButton></SearchField.Root>`
+
+<!-- pitfall: search-field-default-value-on-root -->
+- **`SearchField.Root` owns `defaultValue`.** Do not put it on `SearchField.Input`.
+  - anti-pattern: `<SearchField.Input defaultValue="React" />`
+  - fix: `<SearchField.Root defaultValue="React"><SearchField.Input /></SearchField.Root>`
+
 ## Notes
 
 - `ClearButton` clears the field value on press; pass custom children for the button content.
