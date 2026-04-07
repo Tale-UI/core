@@ -110,7 +110,7 @@ pnpm registry:generate      # regenerate registry/components.json from source
 pnpm registry:check         # verify registry is up-to-date (CI mode)
 pnpm validate:generated     # validate generated .tsx against registry + tsc
 pnpm golden:validate        # validate all golden prompt references
-pnpm golden:eval            # run prompts against Claude (via Claude Code CLI) and score L1–L3
+pnpm golden:eval            # run prompts against Claude and score L1–L3 (add --mcp for agentic MCP mode)
 pnpm golden:fix-review      # eval → auto-fix consumer snippet → open visual review in playground
 pnpm a2ui:generate-docs     # regenerate A2UI catalog tables in system-prompt.md + integration guide
 pnpm a2ui:generate-catalog  # regenerate registry/a2ui-catalog.json for MCP server

@@ -2,14 +2,14 @@
 /**
  * eval-golden-prompts.mjs
  *
- * Runs each golden prompt against Claude (via the Claude Code CLI) and scores
+ * Runs each golden prompt against an LLM provider and scores
  * the output across three automated checks:
  *
  *   L1 — Validity:    output passes validate-generated.mjs (registry + TypeScript)
  *   L2 — Components:  all expected `tags` components appear in the output
  *   L3 — Imports:     no imports from packages outside the allowed set
  *
- * Requires: Claude Code CLI installed (~/.local/bin/claude or on PATH)
+ * Requires: a provider CLI/API configured for the selected provider
  *
  * Usage:
  * Provider: Claude Code CLI (default) or Straico API
@@ -35,6 +35,21 @@
  *   node tools/eval-golden-prompts.mjs --provider lm-studio --model llama3.2
  *   node tools/eval-golden-prompts.mjs --provider local --model llama3.2                         # same as --provider ollama
  *   node tools/eval-golden-prompts.mjs --provider local --model llama3.2 --local-url http://localhost:1234/v1
+ *
+ * Codex CLI provider (OpenAI Codex — requires `codex` on PATH or CODEX_PATH env var):
+ *   node tools/eval-golden-prompts.mjs --provider codex                          # default model: o4-mini
+ *   node tools/eval-golden-prompts.mjs --provider codex --model o3
+ *   node tools/eval-golden-prompts.mjs --provider codex --model gpt-4.1
+ *   node tools/eval-golden-prompts.mjs --provider codex --slug primary-button --no-cache
+ *
+ * MCP mode (Claude CLI or Codex CLI) — agentic mode with the Tale UI MCP server:
+ *   Uses the lightweight consumer snippet (~1,300 tokens) instead of the full eval context.
+ *   The model calls plan_ui / get_component for just-in-time pitfall delivery.
+ *   node tools/eval-golden-prompts.mjs --mcp
+ *   node tools/eval-golden-prompts.mjs --mcp --model sonnet
+ *   node tools/eval-golden-prompts.mjs --provider codex --model gpt-5.4 --mcp
+ *   node tools/eval-golden-prompts.mjs --mcp --slug primary-button --no-cache
+ *   node tools/eval-golden-prompts.mjs --mcp --mcp-max-turns 8      # raise agent turn cap (default: 5)
  */
 
 import { readFileSync, readdirSync, existsSync, writeFileSync, unlinkSync } from 'fs';
@@ -43,6 +58,7 @@ import { fileURLToPath } from 'url';
 import { execFileSync, spawn } from 'child_process';
 import { tmpdir } from 'os';
 import { createHash } from 'crypto';
+import { buildCodexExecArgs, buildCodexMcpConfigOverride } from './eval-golden-prompts-lib.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -50,7 +66,7 @@ const GOLDEN_DIR = join(__dirname, 'golden-prompts');
 const EVAL_CONTEXT_PATH = join(__dirname, '.eval-context.md');
 const SNIPPET_FALLBACK_PATH = join(ROOT, 'docs/consumer-claude-md-snippet.md');
 
-/* ─── Claude CLI resolution ───────────────────────────────────────────────── */
+/* ─── CLI binary resolution ───────────────────────────────────────────────── */
 
 function findClaude() {
   const candidates = [
@@ -68,7 +84,31 @@ function findClaude() {
   try {
     const result = execFileSync('which', ['claude'], { encoding: 'utf8' }).trim();
     if (result) return result;
-  } catch { /* not on PATH */ }
+  } catch {
+    /* not on PATH */
+  }
+
+  return null;
+}
+
+function findCodex() {
+  const candidates = [
+    process.env.CODEX_PATH,
+    join(process.env.HOME ?? '', '.local/bin/codex'),
+    '/usr/local/bin/codex',
+    '/opt/homebrew/bin/codex',
+  ].filter(Boolean);
+
+  for (const p of candidates) {
+    if (existsSync(p)) return p;
+  }
+
+  try {
+    const result = execFileSync('which', ['codex'], { encoding: 'utf8' }).trim();
+    if (result) return result;
+  } catch {
+    /* not on PATH */
+  }
 
   return null;
 }
@@ -76,74 +116,107 @@ function findClaude() {
 /* ─── CLI args ────────────────────────────────────────────────────────────── */
 
 const args = process.argv.slice(2);
-const getArg = (flag) => { const i = args.indexOf(flag); return i !== -1 ? args[i + 1] : null; };
+const getArg = (flag) => {
+  const i = args.indexOf(flag);
+  return i !== -1 ? args[i + 1] : null;
+};
 const hasFlag = (flag) => args.includes(flag);
 
-const rawProvider = getArg('--provider') ?? 'claude'; // 'claude' | 'straico' | 'local' | 'ollama' | 'lm-studio'
-const PROVIDER = (rawProvider === 'ollama' || rawProvider === 'lm-studio') ? 'local' : rawProvider;
-const LOCAL_URL = getArg('--local-url') ?? (rawProvider === 'lm-studio' ? 'http://localhost:1234/v1' : 'http://localhost:11434/v1');
+const rawProvider = getArg('--provider') ?? 'claude'; // 'claude' | 'straico' | 'local' | 'ollama' | 'lm-studio' | 'codex'
+const PROVIDER = rawProvider === 'ollama' || rawProvider === 'lm-studio' ? 'local' : rawProvider;
+const LOCAL_URL =
+  getArg('--local-url') ??
+  (rawProvider === 'lm-studio' ? 'http://localhost:1234/v1' : 'http://localhost:11434/v1');
 const LOCAL_API_KEY = process.env.LOCAL_API_KEY ?? 'ollama'; // some servers require a non-empty key
 const FILTER_DIFFICULTY = getArg('--difficulty');
 const FILTER_SLUG = getArg('--slug');
-const FILTER_SLUGS = getArg('--slugs')?.split(',').map(s => s.trim()) ?? null;
+const FILTER_SLUGS =
+  getArg('--slugs')
+    ?.split(',')
+    .map((s) => s.trim()) ?? null;
 const JSON_OUTPUT = hasFlag('--json');
-const CONCURRENCY = parseInt(getArg('--concurrency') ?? '5', 10);
 const NO_CACHE = hasFlag('--no-cache') || hasFlag('--fresh');
 const SKIP_GENERATE = hasFlag('--skip-generate');
 const FRESH = hasFlag('--fresh'); // bypass both caches
+const MCP_MODE = hasFlag('--mcp');
+const MCP_CONFIG_PATH = join(ROOT, '.mcp.json');
+const MCP_MAX_TURNS = parseInt(getArg('--mcp-max-turns') ?? '5', 10);
+// MCP mode spawns an MCP server per invocation — default to lower concurrency
+const CONCURRENCY = parseInt(getArg('--concurrency') ?? (MCP_MODE ? '3' : '5'), 10);
 
 /* ─── Model resolution ────────────────────────────────────────────────────── */
 
 // Claude shorthands → full model IDs used by the Claude Code CLI
 const CLAUDE_MODEL_ALIASES = {
   sonnet: 'claude-sonnet-4-6',
-  opus:   'claude-opus-4-6',
-  haiku:  'claude-haiku-4-5-20251001',
+  opus: 'claude-opus-4-6',
+  haiku: 'claude-haiku-4-5-20251001',
 };
 
 // Straico shorthands → Straico model strings (provider/model-name format)
 // Full model list: https://straico.com/multimodel/
 const STRAICO_MODEL_ALIASES = {
   // Anthropic
-  sonnet:           'anthropic/claude-sonnet-4.5',
-  'sonnet-4':       'anthropic/claude-sonnet-4',
-  'sonnet-4.5':     'anthropic/claude-sonnet-4.5',
-  opus:             'claude-opus-4-5',
-  'opus-4':         'anthropic/claude-opus-4',
-  'opus-4.5':       'claude-opus-4-5',
-  haiku:            'claude-haiku-4-5-5',
+  sonnet: 'anthropic/claude-sonnet-4.5',
+  'sonnet-4': 'anthropic/claude-sonnet-4',
+  'sonnet-4.5': 'anthropic/claude-sonnet-4.5',
+  opus: 'claude-opus-4-5',
+  'opus-4': 'anthropic/claude-opus-4',
+  'opus-4.5': 'claude-opus-4-5',
+  haiku: 'claude-haiku-4-5-5',
   // OpenAI
-  'gpt-4o':         'openai/gpt-4o-2024-11-20',
-  'gpt-4o-mini':    'openai/gpt-4o-mini',
-  'gpt-4.1':        'openai/gpt-4.1',
-  'gpt-4.1-mini':   'openai/gpt-4.1-mini',
-  'gpt-4.1-nano':   'openai/gpt-4.1-nano',
-  'gpt-5':          'openai/gpt-5',
-  'gpt-5-mini':     'openai/gpt-5-mini',
-  'o3':             'o3-2025-04-16',
-  'o4-mini':        'openai/o4-mini',
+  'gpt-4o': 'openai/gpt-4o-2024-11-20',
+  'gpt-4o-mini': 'openai/gpt-4o-mini',
+  'gpt-4.1': 'openai/gpt-4.1',
+  'gpt-4.1-mini': 'openai/gpt-4.1-mini',
+  'gpt-4.1-nano': 'openai/gpt-4.1-nano',
+  'gpt-5': 'openai/gpt-5',
+  'gpt-5-mini': 'openai/gpt-5-mini',
+  o3: 'o3-2025-04-16',
+  'o4-mini': 'openai/o4-mini',
   // Google
-  'gemini-flash':   'google/gemini-2.5-flash-lite',
-  'gemini-pro':     'google/gemini-3.1-pro-preview',
+  'gemini-flash': 'google/gemini-2.5-flash-lite',
+  'gemini-pro': 'google/gemini-3.1-pro-preview',
   // DeepSeek
-  'deepseek':       'deepseek/deepseek-chat-v3.1',
-  'deepseek-r1':    'deepseek/deepseek-r1',
+  deepseek: 'deepseek/deepseek-chat-v3.1',
+  'deepseek-r1': 'deepseek/deepseek-r1',
   // Meta
-  'llama4':         'meta-llama/llama-4-maverick',
+  llama4: 'meta-llama/llama-4-maverick',
   // xAI
-  'grok4':          'x-ai/grok-4',
-  'grok3':          'x-ai/grok-3-beta',
+  grok4: 'x-ai/grok-4',
+  grok3: 'x-ai/grok-3-beta',
 };
 
-const rawModel = getArg('--model') ?? 'sonnet';
-const MODEL = PROVIDER === 'straico'
-  ? (STRAICO_MODEL_ALIASES[rawModel] ?? rawModel)
-  : (CLAUDE_MODEL_ALIASES[rawModel] ?? rawModel);
+// Codex shorthands → OpenAI model IDs used by the Codex CLI
+const CODEX_MODEL_ALIASES = {
+  'o4-mini': 'o4-mini',
+  o3: 'o3',
+  'o3-mini': 'o3-mini',
+  'gpt-4.1': 'gpt-4.1',
+  'gpt-4.1-mini': 'gpt-4.1-mini',
+  'gpt-4.1-nano': 'gpt-4.1-nano',
+  'gpt-4o': 'gpt-4o',
+  'gpt-4o-mini': 'gpt-4o-mini',
+  'gpt-5': 'gpt-5',
+  'gpt-5-mini': 'gpt-5-mini',
+  'gpt-5.4': 'gpt-5.4',
+  'gpt-5.4-mini': 'gpt-5.4-mini',
+};
+
+const rawModel = getArg('--model') ?? (PROVIDER === 'codex' ? 'o4-mini' : 'sonnet');
+const MODEL =
+  PROVIDER === 'straico'
+    ? (STRAICO_MODEL_ALIASES[rawModel] ?? rawModel)
+    : PROVIDER === 'codex'
+      ? (CODEX_MODEL_ALIASES[rawModel] ?? rawModel)
+      : (CLAUDE_MODEL_ALIASES[rawModel] ?? rawModel);
 
 /* ─── Provider setup ─────────────────────────────────────────────────────── */
 
 let CLAUDE_BIN = null;
+let CODEX_BIN = null;
 let STRAICO_API_KEY = null;
+let CODEX_MCP_CONFIG_OVERRIDE = null;
 
 if (PROVIDER === 'straico') {
   STRAICO_API_KEY = process.env.STRAICO_API_KEY;
@@ -155,11 +228,38 @@ if (PROVIDER === 'straico') {
 } else if (PROVIDER === 'local') {
   // No validation needed — local servers need no API key.
   // Connection errors will surface naturally on first call.
+} else if (PROVIDER === 'codex') {
+  CODEX_BIN = findCodex();
+  if (!CODEX_BIN) {
+    console.error('ERROR: Codex CLI not found.');
+    console.error(
+      'Install it from https://github.com/openai/codex or set CODEX_PATH to the binary location.',
+    );
+    process.exit(1);
+  }
 } else {
   CLAUDE_BIN = findClaude();
   if (!CLAUDE_BIN) {
     console.error('ERROR: Claude Code CLI not found.');
-    console.error('Install it from https://claude.ai/download or set CLAUDE_PATH to the binary location.');
+    console.error(
+      'Install it from https://claude.ai/download or set CLAUDE_PATH to the binary location.',
+    );
+    process.exit(1);
+  }
+}
+
+// MCP mode uses the lightweight consumer snippet as system prompt.
+// Claude attaches the MCP server via --mcp-config/--allowedTools.
+// Codex attaches the repo-local Tale UI MCP server via per-run config overrides.
+if (MCP_MODE && (PROVIDER === 'claude' || PROVIDER === 'codex') && !existsSync(MCP_CONFIG_PATH)) {
+  console.error(`ERROR: --mcp mode requires ${MCP_CONFIG_PATH} to exist.`);
+  process.exit(1);
+}
+if (MCP_MODE && PROVIDER === 'codex') {
+  try {
+    CODEX_MCP_CONFIG_OVERRIDE = buildCodexMcpConfigOverride(MCP_CONFIG_PATH);
+  } catch (err) {
+    console.error(`ERROR: ${err.message}`);
     process.exit(1);
   }
 }
@@ -177,10 +277,15 @@ const ALLOWED_IMPORT_PREFIXES = [
 
 /* ─── Eval context (auto-generated, includes expanded pitfalls) ───────────── */
 
-if (!SKIP_GENERATE) {
+// MCP mode uses the consumer snippet directly (it already says "call plan_ui first").
+// Generating the full eval context would override the MCP pointer with front-loaded pitfalls.
+if (!SKIP_GENERATE && !MCP_MODE) {
   try {
     execFileSync(process.execPath, [join(__dirname, 'generate-eval-context.js')], {
-      cwd: ROOT, timeout: 10000, encoding: 'utf8', stdio: 'pipe',
+      cwd: ROOT,
+      timeout: 10000,
+      encoding: 'utf8',
+      stdio: 'pipe',
     });
   } catch (err) {
     // Non-fatal: fall back to the consumer snippet if generation fails
@@ -190,7 +295,13 @@ if (!SKIP_GENERATE) {
 
 /* ─── System prompt ───────────────────────────────────────────────────────── */
 
-const snippetPath = existsSync(EVAL_CONTEXT_PATH) ? EVAL_CONTEXT_PATH : SNIPPET_FALLBACK_PATH;
+// MCP mode: use the lightweight consumer snippet so the provider can call MCP tools for JIT pitfalls.
+// Non-MCP mode: use the expanded eval context (~11k tokens of pre-loaded pitfall knowledge).
+const snippetPath = MCP_MODE
+  ? SNIPPET_FALLBACK_PATH
+  : existsSync(EVAL_CONTEXT_PATH)
+    ? EVAL_CONTEXT_PATH
+    : SNIPPET_FALLBACK_PATH;
 const snippetRaw = readFileSync(snippetPath, 'utf8');
 const snippetContent = snippetRaw.replace(/^[\s\S]*?(?=^## UI Components)/m, '');
 
@@ -264,7 +375,9 @@ const registryHash = existsSync(REGISTRY_PATH)
   : 'no-registry';
 
 function makeCallCacheKey(slug, promptText) {
-  return `${MODEL}:${snippetHash}:${registryHash}:${hashString(slug + promptText)}`;
+  // MCP and non-MCP runs use different system prompts → keep separate cache buckets
+  const modePrefix = MCP_MODE ? 'mcp:' : '';
+  return `${modePrefix}${MODEL}:${snippetHash}:${registryHash}:${hashString(slug + promptText)}`;
 }
 
 function makeCheckCacheKey(code) {
@@ -274,38 +387,54 @@ function makeCheckCacheKey(code) {
 // Load call cache (bypassed by --no-cache / --fresh)
 let callCache = {};
 if (!NO_CACHE && existsSync(CALL_CACHE_FILE)) {
-  try { callCache = JSON.parse(readFileSync(CALL_CACHE_FILE, 'utf8')); } catch { callCache = {}; }
+  try {
+    callCache = JSON.parse(readFileSync(CALL_CACHE_FILE, 'utf8'));
+  } catch {
+    callCache = {};
+  }
 }
 
 // Load check cache (bypassed by --fresh only)
 let checkCache = {};
 if (!FRESH && existsSync(CHECK_CACHE_FILE)) {
-  try { checkCache = JSON.parse(readFileSync(CHECK_CACHE_FILE, 'utf8')); } catch { checkCache = {}; }
+  try {
+    checkCache = JSON.parse(readFileSync(CHECK_CACHE_FILE, 'utf8'));
+  } catch {
+    checkCache = {};
+  }
 }
 
 function saveCallCache(key, code) {
   if (NO_CACHE) return;
   callCache[key] = code;
-  try { writeFileSync(CALL_CACHE_FILE, JSON.stringify(callCache, null, 2), 'utf8'); } catch { /* ignore */ }
+  try {
+    writeFileSync(CALL_CACHE_FILE, JSON.stringify(callCache, null, 2), 'utf8');
+  } catch {
+    /* ignore */
+  }
 }
 
 function saveCheckCache(key, checks) {
   if (FRESH) return;
   checkCache[key] = checks;
-  try { writeFileSync(CHECK_CACHE_FILE, JSON.stringify(checkCache, null, 2), 'utf8'); } catch { /* ignore */ }
+  try {
+    writeFileSync(CHECK_CACHE_FILE, JSON.stringify(checkCache, null, 2), 'utf8');
+  } catch {
+    /* ignore */
+  }
 }
 
 /* ─── Load prompts ────────────────────────────────────────────────────────── */
 
 const files = readdirSync(GOLDEN_DIR)
-  .filter(f => f.endsWith('.json') && f !== 'index.json')
+  .filter((f) => f.endsWith('.json') && f !== 'index.json')
   .sort();
 
-let prompts = files.map(f => JSON.parse(readFileSync(join(GOLDEN_DIR, f), 'utf8')));
+let prompts = files.map((f) => JSON.parse(readFileSync(join(GOLDEN_DIR, f), 'utf8')));
 
-if (FILTER_DIFFICULTY) prompts = prompts.filter(p => p.difficulty === FILTER_DIFFICULTY);
-if (FILTER_SLUG) prompts = prompts.filter(p => p.slug === FILTER_SLUG);
-if (FILTER_SLUGS) prompts = prompts.filter(p => FILTER_SLUGS.includes(p.slug));
+if (FILTER_DIFFICULTY) prompts = prompts.filter((p) => p.difficulty === FILTER_DIFFICULTY);
+if (FILTER_SLUG) prompts = prompts.filter((p) => p.slug === FILTER_SLUG);
+if (FILTER_SLUGS) prompts = prompts.filter((p) => FILTER_SLUGS.includes(p.slug));
 
 if (prompts.length === 0) {
   console.error('No prompts matched the given filters.');
@@ -318,44 +447,85 @@ if (prompts.length === 0) {
 const SYSTEM_PROMPT_FILE = join(tmpdir(), `tale-ui-eval-system-${process.pid}.md`);
 if (PROVIDER === 'claude') {
   writeFileSync(SYSTEM_PROMPT_FILE, SYSTEM_PROMPT, 'utf8');
-  process.on('exit', () => { try { unlinkSync(SYSTEM_PROMPT_FILE); } catch { /* ignore */ } });
+  process.on('exit', () => {
+    try {
+      unlinkSync(SYSTEM_PROMPT_FILE);
+    } catch {
+      /* ignore */
+    }
+  });
 }
 
 function callClaude(userPrompt) {
   return new Promise((resolve, reject) => {
-    const proc = spawn(
-      CLAUDE_BIN,
-      [
-        '--print',
-        '--no-session-persistence',
-        '--model', MODEL,
-        '--append-system-prompt-file', SYSTEM_PROMPT_FILE,
-        '--output-format', 'json',
-        userPrompt,
-      ],
-      { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] }
-    );
+    const cliArgs = [
+      '--print',
+      '--no-session-persistence',
+      '--model',
+      MODEL,
+      '--append-system-prompt-file',
+      SYSTEM_PROMPT_FILE,
+      '--output-format',
+      'json',
+    ];
+
+    if (MCP_MODE) {
+      // Enable the tale-ui MCP server and pre-approve all its read-only tools.
+      // '--allowedTools' is variadic — it consumes subsequent positional args as tool names
+      // unless we terminate flag parsing with '--' before the user prompt.
+      cliArgs.push(
+        '--mcp-config',
+        MCP_CONFIG_PATH,
+        '--max-turns',
+        String(MCP_MAX_TURNS),
+        '--allowedTools',
+        'mcp__tale-ui__plan_ui',
+        '--allowedTools',
+        'mcp__tale-ui__get_component',
+        '--allowedTools',
+        'mcp__tale-ui__search_components',
+        '--allowedTools',
+        'mcp__tale-ui__list_components',
+        '--allowedTools',
+        'mcp__tale-ui__get_recipe',
+        '--allowedTools',
+        'mcp__tale-ui__search_docs',
+        '--', // terminate flag parsing so userPrompt is not consumed as another tool name
+      );
+    }
+
+    cliArgs.push(userPrompt);
+
+    const proc = spawn(CLAUDE_BIN, cliArgs, { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] });
 
     let stdout = '';
-    proc.stdout.on('data', d => { stdout += d; });
+    proc.stdout.on('data', (d) => {
+      stdout += d;
+    });
 
+    // MCP mode takes longer: each tool call round-trip adds latency
+    const timeoutMs = MCP_MODE ? 180000 : 90000;
     const timer = setTimeout(() => {
       proc.kill();
-      reject(new Error('Claude CLI timed out after 90s'));
-    }, 90000);
+      reject(new Error(`Claude CLI timed out after ${timeoutMs / 1000}s`));
+    }, timeoutMs);
 
     proc.on('close', () => {
       clearTimeout(timer);
       try {
         const parsed = JSON.parse(stdout);
-        if (parsed.is_error) return reject(new Error(parsed.result ?? 'Claude CLI returned an error'));
+        if (parsed.is_error)
+          return reject(new Error(parsed.result ?? 'Claude CLI returned an error'));
         resolve(parsed.result ?? '');
       } catch {
         reject(new Error(`Failed to parse Claude output: ${stdout.slice(0, 200)}`));
       }
     });
 
-    proc.on('error', (err) => { clearTimeout(timer); reject(err); });
+    proc.on('error', (err) => {
+      clearTimeout(timer);
+      reject(err);
+    });
   });
 }
 
@@ -369,7 +539,7 @@ async function callStraico(userPrompt, { retries = 3 } = {}) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${STRAICO_API_KEY}`,
+          Authorization: `Bearer ${STRAICO_API_KEY}`,
         },
         body: JSON.stringify({
           model: MODEL,
@@ -386,12 +556,19 @@ async function callStraico(userPrompt, { retries = 3 } = {}) {
         const body = await response.text();
         // 500 with "Excessively long" = context overflow — no point retrying
         if (response.status === 500 && body.includes('Excessively l')) {
-          throw new Error(`Straico: system prompt exceeds context window for ${MODEL}. The eval context with pitfalls is ~11k tokens — use a model with ≥32k context (e.g. --model sonnet, --model gpt-4o) or use --provider claude.`);
+          throw new Error(
+            `Straico: system prompt exceeds context window for ${MODEL}. The eval context with pitfalls is ~11k tokens — use a model with ≥32k context (e.g. --model sonnet, --model gpt-4o) or use --provider claude.`,
+          );
         }
         // 502/503/504 are transient — retry with backoff
-        if ((response.status === 502 || response.status === 503 || response.status === 504) && attempt < retries) {
-          lastErr = new Error(`Straico API error (${response.status}) — retrying (${attempt}/${retries})`);
-          await new Promise(r => setTimeout(r, attempt * 2000));
+        if (
+          (response.status === 502 || response.status === 503 || response.status === 504) &&
+          attempt < retries
+        ) {
+          lastErr = new Error(
+            `Straico API error (${response.status}) — retrying (${attempt}/${retries})`,
+          );
+          await new Promise((r) => setTimeout(r, attempt * 2000));
           continue;
         }
         throw new Error(`Straico API error (${response.status}): ${body.slice(0, 200)}`);
@@ -400,16 +577,22 @@ async function callStraico(userPrompt, { retries = 3 } = {}) {
       const json = await response.json();
       const completion = json.data?.completion ?? json.completion ?? json;
       const content = completion?.choices?.[0]?.message?.content ?? '';
-      if (!content) throw new Error(`Straico returned an empty response: ${JSON.stringify(json).slice(0, 200)}`);
+      if (!content)
+        throw new Error(
+          `Straico returned an empty response: ${JSON.stringify(json).slice(0, 200)}`,
+        );
       return content;
     } catch (err) {
       if (err.name === 'AbortError') throw new Error('Straico timed out after 120s');
       // Non-retryable errors bubble immediately
-      if (!err.message.startsWith('Straico API error (502') &&
-          !err.message.startsWith('Straico API error (503') &&
-          !err.message.startsWith('Straico API error (504')) throw err;
+      if (
+        !err.message.startsWith('Straico API error (502') &&
+        !err.message.startsWith('Straico API error (503') &&
+        !err.message.startsWith('Straico API error (504')
+      )
+        throw err;
       lastErr = err;
-      if (attempt < retries) await new Promise(r => setTimeout(r, attempt * 2000));
+      if (attempt < retries) await new Promise((r) => setTimeout(r, attempt * 2000));
     } finally {
       clearTimeout(timer);
     }
@@ -427,7 +610,7 @@ async function callLocal(userPrompt, { retries = 2 } = {}) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${LOCAL_API_KEY}`,
+          Authorization: `Bearer ${LOCAL_API_KEY}`,
         },
         body: JSON.stringify({
           model: MODEL,
@@ -447,15 +630,21 @@ async function callLocal(userPrompt, { retries = 2 } = {}) {
 
       const json = await response.json();
       const content = json.choices?.[0]?.message?.content ?? '';
-      if (!content) throw new Error(`Local model returned an empty response: ${JSON.stringify(json).slice(0, 200)}`);
+      if (!content)
+        throw new Error(
+          `Local model returned an empty response: ${JSON.stringify(json).slice(0, 200)}`,
+        );
       return content;
     } catch (err) {
-      if (err.name === 'AbortError') throw new Error(`Local model timed out after 180s — model may be too slow or not loaded`);
+      if (err.name === 'AbortError')
+        throw new Error(`Local model timed out after 180s — model may be too slow or not loaded`);
       if (err.message.includes('ECONNREFUSED') || err.message.includes('fetch failed')) {
-        throw new Error(`Cannot connect to local server at ${LOCAL_URL} — is Ollama/LM Studio running?`);
+        throw new Error(
+          `Cannot connect to local server at ${LOCAL_URL} — is Ollama/LM Studio running?`,
+        );
       }
       lastErr = err;
-      if (attempt < retries) await new Promise(r => setTimeout(r, 2000));
+      if (attempt < retries) await new Promise((r) => setTimeout(r, 2000));
     } finally {
       clearTimeout(timer);
     }
@@ -463,9 +652,65 @@ async function callLocal(userPrompt, { retries = 2 } = {}) {
   throw lastErr;
 }
 
+function callCodex(userPrompt) {
+  return new Promise((resolve, reject) => {
+    const outputFile = join(tmpdir(), `tale-ui-eval-codex-${process.pid}-${Date.now()}.txt`);
+
+    // Codex has no --system flag; prepend the system prompt as a leading section.
+    // Pipe via stdin (using `-` prompt arg) to avoid OS arg length limits with large prompts.
+    const fullPrompt = `${SYSTEM_PROMPT}\n\n---\n\n${userPrompt}`;
+
+    const proc = spawn(
+      CODEX_BIN,
+      buildCodexExecArgs({
+        model: MODEL,
+        outputFile,
+        mcpConfigOverride: MCP_MODE ? CODEX_MCP_CONFIG_OVERRIDE : null,
+      }),
+      { cwd: ROOT, stdio: ['pipe', 'pipe', 'pipe'] },
+    );
+
+    proc.stdin.write(fullPrompt);
+    proc.stdin.end();
+
+    const timeoutMs = MCP_MODE ? 180000 : 120000;
+    const timer = setTimeout(() => {
+      proc.kill();
+      reject(new Error(`Codex CLI timed out after ${timeoutMs / 1000}s`));
+    }, timeoutMs);
+
+    proc.on('close', () => {
+      clearTimeout(timer);
+      try {
+        if (!existsSync(outputFile)) {
+          return reject(
+            new Error('Codex did not write output — it may have failed or produced no response'),
+          );
+        }
+        const content = readFileSync(outputFile, 'utf8').trim();
+        try {
+          unlinkSync(outputFile);
+        } catch {
+          /* ignore */
+        }
+        if (!content) return reject(new Error('Codex returned an empty response'));
+        resolve(content);
+      } catch (err) {
+        reject(err);
+      }
+    });
+
+    proc.on('error', (err) => {
+      clearTimeout(timer);
+      reject(err);
+    });
+  });
+}
+
 function callProvider(userPrompt) {
   if (PROVIDER === 'straico') return callStraico(userPrompt);
   if (PROVIDER === 'local') return callLocal(userPrompt);
+  if (PROVIDER === 'codex') return callCodex(userPrompt);
   return callClaude(userPrompt);
 }
 
@@ -486,12 +731,12 @@ function checkL1(code) {
     const result = execFileSync(
       process.execPath,
       [join(__dirname, 'validate-generated.mjs'), '--code', code, '--json'],
-      { cwd: ROOT, timeout: 30000, encoding: 'utf8', stdio: 'pipe' }
+      { cwd: ROOT, timeout: 30000, encoding: 'utf8', stdio: 'pipe' },
     );
     const parsed = JSON.parse(result);
     const errors = [
       ...(parsed.registryErrors ?? []),
-      ...(parsed.typescriptErrors ?? []).map(e => `Line ${e.line}: ${e.message}`),
+      ...(parsed.typescriptErrors ?? []).map((e) => `Line ${e.line}: ${e.message}`),
     ];
     return { pass: errors.length === 0, errors };
   } catch (err) {
@@ -499,7 +744,7 @@ function checkL1(code) {
       const parsed = JSON.parse(err.stdout || '{}');
       const errors = [
         ...(parsed.registryErrors ?? []),
-        ...(parsed.typescriptErrors ?? []).map(e => `Line ${e.line}: ${e.message}`),
+        ...(parsed.typescriptErrors ?? []).map((e) => `Line ${e.line}: ${e.message}`),
       ];
       return { pass: errors.length === 0, errors };
     } catch {
@@ -511,7 +756,7 @@ function checkL1(code) {
 /* ─── L2: Component coverage ──────────────────────────────────────────────── */
 
 function checkL2(code, tags) {
-  const missing = tags.filter(tag => !code.includes(tag));
+  const missing = tags.filter((tag) => !code.includes(tag));
   return { pass: missing.length === 0, missing };
 }
 
@@ -520,8 +765,8 @@ function checkL2(code, tags) {
 function checkL3(code) {
   const importLines = [...code.matchAll(/^import\s+.*?\s+from\s+['"]([^'"]+)['"]/gm)];
   const forbidden = importLines
-    .map(m => m[1])
-    .filter(pkg => !ALLOWED_IMPORT_PREFIXES.some(prefix => pkg.startsWith(prefix)));
+    .map((m) => m[1])
+    .filter((pkg) => !ALLOWED_IMPORT_PREFIXES.some((prefix) => pkg.startsWith(prefix)));
   return { pass: forbidden.length === 0, forbidden };
 }
 
@@ -532,9 +777,7 @@ function checkL3(code) {
 const log = JSON_OUTPUT
   ? (...args) => process.stderr.write(args.join(' ') + '\n')
   : (...args) => process.stdout.write(args.join(' ') + '\n');
-const logInline = JSON_OUTPUT
-  ? (s) => process.stderr.write(s)
-  : (s) => process.stdout.write(s);
+const logInline = JSON_OUTPUT ? (s) => process.stderr.write(s) : (s) => process.stdout.write(s);
 
 async function evalPrompt(prompt, nth, total) {
   const callKey = makeCallCacheKey(prompt.slug, prompt.prompt);
@@ -609,7 +852,9 @@ async function evalPrompt(prompt, nth, total) {
     slug: prompt.slug,
     difficulty: prompt.difficulty,
     allPass,
-    l1, l2, l3,
+    l1,
+    l2,
+    l3,
     _callCached: callCacheHit,
     _checkCached: checkCacheHit,
     ...(JSON_OUTPUT ? { code } : {}),
@@ -632,14 +877,24 @@ async function runPool(items, concurrency, fn) {
 }
 
 async function main() {
-  log(`\n=== Golden Prompt Eval — ${MODEL} ===\n`);
+  log(`\n=== Golden Prompt Eval — ${MODEL}${MCP_MODE ? ' (MCP)' : ''} ===\n`);
   if (FILTER_DIFFICULTY) log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);
   if (FILTER_SLUG) log(`  Filter: slug=${FILTER_SLUG}`);
   log(`  Prompts:     ${prompts.length}`);
   log(`  Concurrency: ${CONCURRENCY}`);
-  const providerLabel = PROVIDER === 'straico' ? `straico (${MODEL})`
-    : PROVIDER === 'local' ? `local @ ${LOCAL_URL} (${MODEL})`
-    : `claude cli (${CLAUDE_BIN})`;
+  const mcpSuffix = MCP_MODE
+    ? PROVIDER === 'claude' || PROVIDER === 'codex'
+      ? ' + MCP'
+      : ' (snippet-only)'
+    : '';
+  const providerLabel =
+    PROVIDER === 'straico'
+      ? `straico (${MODEL})${mcpSuffix}`
+      : PROVIDER === 'local'
+        ? `local @ ${LOCAL_URL} (${MODEL})${mcpSuffix}`
+        : PROVIDER === 'codex'
+          ? `codex cli (${CODEX_BIN}) — ${MODEL}${mcpSuffix}`
+          : `claude cli (${CLAUDE_BIN})${mcpSuffix}`;
   log(`  Provider:    ${providerLabel}\n`);
 
   const results = await runPool(prompts, CONCURRENCY, evalPrompt);
@@ -647,12 +902,12 @@ async function main() {
   /* ── Summary ── */
 
   const total = results.length;
-  const passed = results.filter(r => r.allPass).length;
-  const l1Pass = results.filter(r => r.l1.pass).length;
-  const l2Pass = results.filter(r => r.l2.pass).length;
-  const l3Pass = results.filter(r => r.l3.pass).length;
-  const callCacheHits = results.filter(r => r._callCached).length;
-  const checkCacheHits = results.filter(r => !r._callCached && r._checkCached).length;
+  const passed = results.filter((r) => r.allPass).length;
+  const l1Pass = results.filter((r) => r.l1.pass).length;
+  const l2Pass = results.filter((r) => r.l2.pass).length;
+  const l3Pass = results.filter((r) => r.l3.pass).length;
+  const callCacheHits = results.filter((r) => r._callCached).length;
+  const checkCacheHits = results.filter((r) => !r._callCached && r._checkCached).length;
 
   log(`\n${'─'.repeat(52)}`);
   log(`  Model:          ${MODEL}`);
@@ -663,15 +918,18 @@ async function main() {
   log(`  L2 components:  ${l2Pass}/${total}`);
   log(`  L3 imports:     ${l3Pass}/${total}`);
   for (const diff of ['simple', 'medium', 'complex']) {
-    const group = results.filter(r => r.difficulty === diff);
+    const group = results.filter((r) => r.difficulty === diff);
     if (group.length === 0) continue;
-    const gPassed = group.filter(r => r.allPass).length;
+    const gPassed = group.filter((r) => r.allPass).length;
     log(`  ${diff.padEnd(8)}: ${gPassed}/${group.length}`);
   }
   log('');
 
   if (JSON_OUTPUT) {
-    process.stdout.write(JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2) + '\n');
+    process.stdout.write(
+      JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2) +
+        '\n',
+    );
   }
 }
 

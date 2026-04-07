@@ -504,6 +504,18 @@
       ]
     },
     {
+      "id": "always-generate-code-directly-never",
+      "summary": "Always generate code directly — never ask for clarification or present options",
+      "detail": "when given a prompt describing a UI, always produce a complete, working code example immediately. Do not respond with questions, numbered option lists, or requests for more information.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "typescript",
+      "antiPatterns": [
+        "I need clarification: Are you asking me to: 1. Show the actual file structure..."
+      ]
+    },
+    {
       "id": "token-size-suffixes",
       "summary": "CSS design tokens use -s/-m/-l suffixes; component size props use -sm/-md/-lg",
       "detail": "e.g. `--space-s` is a token, but `size=\"sm\"` is a prop value. Token scale: `4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl`.",
@@ -514,18 +526,18 @@
     },
     {
       "id": "gap-max-is-2xl",
-      "summary": "Max gap value for Row/Column is '2xl'",
-      "detail": "there is no `'3xl'` or `'4xl'` gap token. Using them produces no visible spacing (token is undefined).",
+      "summary": "Row/Column gap uses token-scale values, not component size values",
+      "detail": "valid gap values follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`. Never use `'sm'`, `'md'`, or `'lg'` for gap; those are component `size` prop values and are not valid gap tokens.",
       "appliesTo": [
         "Row",
         "Column"
       ],
       "category": "typescript",
       "antiPatterns": [
-        "<Row gap=\"3xl\">"
+        "<Column gap=\"lg\">"
       ],
       "fixes": [
-        "<Row gap=\"2xl\">"
+        "<Column gap=\"l\">"
       ]
     },
     {

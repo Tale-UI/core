@@ -271,6 +271,13 @@ explicit BEM class names:
   - anti-pattern: `export const MyComponent: React.FC = () => { ... }`
   - fix: `export function MyComponent() { ... }`
 
+<!-- pitfall: always-generate-code-directly-never -->
+<!-- applies-to: * -->
+<!-- category: typescript -->
+- **Always generate code directly — never ask for clarification or present options** — when given a prompt describing a UI, always produce a complete, working code example immediately. Do not respond with questions, numbered option lists, or requests for more information.
+  - anti-pattern: `I need clarification: Are you asking me to: 1. Show the actual file structure...`
+  - fix: generate the component code directly based on the most reasonable interpretation of the prompt
+
 <!-- pitfall: token-size-suffixes -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
@@ -279,7 +286,10 @@ explicit BEM class names:
 <!-- pitfall: gap-max-is-2xl -->
 <!-- applies-to: Row, Column -->
 <!-- category: typescript -->
-- **Max `gap` value for `Row`/`Column` is `'2xl'`** — there is no `'3xl'` or `'4xl'` gap token. Using them produces no visible spacing (token is undefined).
+- **Row/Column gap uses token-scale values, not component size values** — valid gap values follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`. Never use `'sm'`, `'md'`, or `'lg'` for gap; those are component `size` prop values and are not valid gap tokens.
+  - anti-pattern: `<Column gap="lg">`
+  - fix: `<Column gap="l">`
+- **Max gap value for Row/Column is '2xl'** — there is no `'3xl'` or `'4xl'` gap token. Using them produces no visible spacing (token is undefined).
   - anti-pattern: `<Row gap="3xl">`
   - fix: `<Row gap="2xl">`
 

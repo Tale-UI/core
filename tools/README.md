@@ -30,39 +30,39 @@ pnpm audit:snippet-kinds     # verify consumer snippet is correct
 
 **CI runs 17 automated checks** on every PR across 4 jobs:
 
-| Job | Check | pnpm command | What it catches |
-| --- | ----- | ------------ | --------------- |
-| check-css | BEM classes | `pnpm audit:bem` | `cx()` classes without matching CSS |
-| check-css | Brand tokens | `pnpm audit:brand` | `--brand-*` in component CSS (breaks dark mode) |
-| check-css | Doc props | `pnpm audit:docs` | Props added to code but not documented |
-| check-css | Component completeness | `pnpm audit:components` | Missing artifacts (19-point check) |
-| check-css | Registry freshness | `pnpm registry:check` | Registry out of sync with source |
-| check-css | Cursor rules freshness | `pnpm cursorrules:check` | .cursorrules out of sync with registry |
-| check-css | Snippet consistency | `pnpm audit:snippet-kinds` | Consumer snippet namespace/simple lists wrong |
-| check-css | Golden prompts | `pnpm golden:validate` | Reference implementations broken by API changes |
-| check-css | CSS build | `pnpm --filter @tale-ui/core build` | dist/style.css out of date |
-| check-code | TypeScript | `pnpm typescript` | Type errors across all packages |
-| check-code | ESLint | `pnpm eslint:ci` | JS/TS lint violations |
-| check-code | Unit tests | `pnpm test:jsdom` | Test failures in jsdom environment |
-| check-a2ui | A2UI catalog docs | `pnpm a2ui:check-docs` | Catalog tables in docs drift from catalog.ts |
-| check-a2ui | A2UI examples | `pnpm a2ui:validate-examples` | Few-shot examples reference stale types/icons |
-| check-a2ui | A2UI docs audit | `pnpm a2ui:audit-docs` | Counts and type lists in docs go stale |
-| check-a2ui | A2UI golden prompts | `pnpm a2ui:golden:validate` | Reference A2UI JSON broken by catalog or prop value changes |
-| check-formatting | Markdown lint | `pnpm markdownlint` | Broken markdown tables, missing blank lines |
-| check-formatting | Prettier | `pnpm prettier` | Formatting drift |
+| Job              | Check                  | pnpm command                        | What it catches                                             |
+| ---------------- | ---------------------- | ----------------------------------- | ----------------------------------------------------------- |
+| check-css        | BEM classes            | `pnpm audit:bem`                    | `cx()` classes without matching CSS                         |
+| check-css        | Brand tokens           | `pnpm audit:brand`                  | `--brand-*` in component CSS (breaks dark mode)             |
+| check-css        | Doc props              | `pnpm audit:docs`                   | Props added to code but not documented                      |
+| check-css        | Component completeness | `pnpm audit:components`             | Missing artifacts (19-point check)                          |
+| check-css        | Registry freshness     | `pnpm registry:check`               | Registry out of sync with source                            |
+| check-css        | Cursor rules freshness | `pnpm cursorrules:check`            | .cursorrules out of sync with registry                      |
+| check-css        | Snippet consistency    | `pnpm audit:snippet-kinds`          | Consumer snippet namespace/simple lists wrong               |
+| check-css        | Golden prompts         | `pnpm golden:validate`              | Reference implementations broken by API changes             |
+| check-css        | CSS build              | `pnpm --filter @tale-ui/core build` | dist/style.css out of date                                  |
+| check-code       | TypeScript             | `pnpm typescript`                   | Type errors across all packages                             |
+| check-code       | ESLint                 | `pnpm eslint:ci`                    | JS/TS lint violations                                       |
+| check-code       | Unit tests             | `pnpm test:jsdom`                   | Test failures in jsdom environment                          |
+| check-a2ui       | A2UI catalog docs      | `pnpm a2ui:check-docs`              | Catalog tables in docs drift from catalog.ts                |
+| check-a2ui       | A2UI examples          | `pnpm a2ui:validate-examples`       | Few-shot examples reference stale types/icons               |
+| check-a2ui       | A2UI docs audit        | `pnpm a2ui:audit-docs`              | Counts and type lists in docs go stale                      |
+| check-a2ui       | A2UI golden prompts    | `pnpm a2ui:golden:validate`         | Reference A2UI JSON broken by catalog or prop value changes |
+| check-formatting | Markdown lint          | `pnpm markdownlint`                 | Broken markdown tables, missing blank lines                 |
+| check-formatting | Prettier               | `pnpm prettier`                     | Formatting drift                                            |
 
 ## Audit Tools
 
-| Script | pnpm command | CI | Purpose |
-|--------|-------------|-----|---------|
-| `audit-bem.js` | `pnpm audit:bem` | Yes | Verifies every `cx()` class in styled components has matching CSS |
-| `audit-brand.js` | `pnpm audit:brand` | Yes | Verifies component CSS never uses `--brand-*` tokens |
-| `audit-docs.js` | `pnpm audit:docs` | Yes | Verifies component markdown docs list all Tale UI-specific props |
-| `audit-components.js` | `pnpm audit:components` | Yes | Comprehensive 19-check component completeness audit |
-| `audit-coverage.js` | `pnpm audit:coverage` | `pnpm audit:coverage:check` | Reports components missing from ComponentAudit, Storybook, or A2UI full-showcase |
-| `audit-pitfall-coverage.js` | `pnpm pitfalls:audit` | No | Reports which component docs are still missing pitfall sections |
-| `audit-pitfall-consistency.js` | `pnpm pitfalls:audit` | No | Verifies component pitfall markers match the generated registry |
-| `audit-pitfall-truth.mjs` | `pnpm pitfalls:truth` | No | Verifies pitfall wording is supported by the current implementation |
+| Script                         | pnpm command            | CI                          | Purpose                                                                          |
+| ------------------------------ | ----------------------- | --------------------------- | -------------------------------------------------------------------------------- |
+| `audit-bem.js`                 | `pnpm audit:bem`        | Yes                         | Verifies every `cx()` class in styled components has matching CSS                |
+| `audit-brand.js`               | `pnpm audit:brand`      | Yes                         | Verifies component CSS never uses `--brand-*` tokens                             |
+| `audit-docs.js`                | `pnpm audit:docs`       | Yes                         | Verifies component markdown docs list all Tale UI-specific props                 |
+| `audit-components.js`          | `pnpm audit:components` | Yes                         | Comprehensive 19-check component completeness audit                              |
+| `audit-coverage.js`            | `pnpm audit:coverage`   | `pnpm audit:coverage:check` | Reports components missing from ComponentAudit, Storybook, or A2UI full-showcase |
+| `audit-pitfall-coverage.js`    | `pnpm pitfalls:audit`   | No                          | Reports which component docs are still missing pitfall sections                  |
+| `audit-pitfall-consistency.js` | `pnpm pitfalls:audit`   | No                          | Verifies component pitfall markers match the generated registry                  |
+| `audit-pitfall-truth.mjs`      | `pnpm pitfalls:truth`   | No                          | Verifies pitfall wording is supported by the current implementation              |
 
 ### audit-bem.js
 
@@ -133,10 +133,10 @@ node tools/audit-coverage.js --json   # machine-readable JSON
 
 ## Build Tools
 
-| Script | pnpm command | Purpose |
-|--------|-------------|---------|
-| `build-css.js` | `pnpm build:css` | Concatenates `@tale-ui/core` CSS source into `dist/style.css` |
-| `build-package.mjs` | _(internal)_ | Produces CJS + ESM bundles for `@tale-ui/react` and `@tale-ui/utils` |
+| Script              | pnpm command     | Purpose                                                              |
+| ------------------- | ---------------- | -------------------------------------------------------------------- |
+| `build-css.js`      | `pnpm build:css` | Concatenates `@tale-ui/core` CSS source into `dist/style.css`        |
+| `build-package.mjs` | _(internal)_     | Produces CJS + ESM bundles for `@tale-ui/react` and `@tale-ui/utils` |
 
 ### build-css.js
 
@@ -148,8 +148,8 @@ Used internally by `packages/react/package.json` and `packages/utils/package.jso
 
 ## Release Tools
 
-| Script | pnpm command | Purpose |
-|--------|-------------|---------|
+| Script           | pnpm command       | Purpose                                                    |
+| ---------------- | ------------------ | ---------------------------------------------------------- |
 | `release-css.js` | `pnpm release:css` | Version bump, git tag, and npm publish for `@tale-ui/core` |
 
 ### release-css.js
@@ -165,12 +165,12 @@ pnpm release:css:dry-run    # patch bump without publishing
 
 ## Registry & Generators
 
-| Script | pnpm command | CI | Purpose |
-|--------|-------------|-----|---------|
-| `generate-registry.js` | `pnpm registry:generate` | `pnpm registry:check` | Generates `registry/components.json` from source |
-| `generate-pitfalls-registry.js` | `pnpm pitfalls:generate` | `pnpm pitfalls:check` | Generates `registry/pitfalls.json` from shared pitfall docs |
-| `generate-cursorrules.js` | `pnpm cursorrules:generate` | `pnpm cursorrules:check` | Generates `.cursorrules` from registry + consumer snippet |
-| `audit-snippet-kinds.js` | `pnpm audit:snippet-kinds` | Yes | Validates consumer snippet namespace/simple lists match registry |
+| Script                          | pnpm command                | CI                       | Purpose                                                          |
+| ------------------------------- | --------------------------- | ------------------------ | ---------------------------------------------------------------- |
+| `generate-registry.js`          | `pnpm registry:generate`    | `pnpm registry:check`    | Generates `registry/components.json` from source                 |
+| `generate-pitfalls-registry.js` | `pnpm pitfalls:generate`    | `pnpm pitfalls:check`    | Generates `registry/pitfalls.json` from shared pitfall docs      |
+| `generate-cursorrules.js`       | `pnpm cursorrules:generate` | `pnpm cursorrules:check` | Generates `.cursorrules` from registry + consumer snippet        |
+| `audit-snippet-kinds.js`        | `pnpm audit:snippet-kinds`  | Yes                      | Validates consumer snippet namespace/simple lists match registry |
 
 ### generate-registry.js
 
@@ -249,8 +249,8 @@ Parses the namespace/simple component lists in `docs/consumer-claude-md-snippet.
 
 ## MCP Server
 
-| Script | Purpose |
-|--------|---------|
+| Script           | Purpose                                                      |
+| ---------------- | ------------------------------------------------------------ |
 | `mcp-server.mjs` | Model Context Protocol server exposing Tale UI data as tools |
 
 ### mcp-server.mjs
@@ -259,17 +259,17 @@ A stdio-based MCP server that exposes the component registry, recipe docs, and f
 
 **Tools:**
 
-| Tool | Description |
-|------|-------------|
-| `list_components` | List all 90 components with name, import, category, description, kind |
-| `get_component` | Get full details for one component (props, parts, examples, CSS classes) |
-| `search_components` | Fuzzy search by intent (e.g. "date input", "navigation sidebar") |
-| `list_recipes` | List all 12 recipes (form validation, data table, sidebar, etc.) |
-| `get_recipe` | Get a recipe's full markdown content by slug |
-| `search_docs` | Keyword search across all 121 documentation files |
-| `list_a2ui_types` | List all A2UI catalog types with descriptions |
-| `get_a2ui_type` | Get details for one A2UI type (props, allowed values) |
-| `get_a2ui_example` | Get a few-shot A2UI example by name |
+| Tool                | Description                                                              |
+| ------------------- | ------------------------------------------------------------------------ |
+| `list_components`   | List all 90 components with name, import, category, description, kind    |
+| `get_component`     | Get full details for one component (props, parts, examples, CSS classes) |
+| `search_components` | Fuzzy search by intent (e.g. "date input", "navigation sidebar")         |
+| `list_recipes`      | List all 12 recipes (form validation, data table, sidebar, etc.)         |
+| `get_recipe`        | Get a recipe's full markdown content by slug                             |
+| `search_docs`       | Keyword search across all 121 documentation files                        |
+| `list_a2ui_types`   | List all A2UI catalog types with descriptions                            |
+| `get_a2ui_type`     | Get details for one A2UI type (props, allowed values)                    |
+| `get_a2ui_example`  | Get a few-shot A2UI example by name                                      |
 
 **How agents use it:** Claude Code auto-discovers the server via `.mcp.json` and prompts for one-time approval. After that, agents can call these tools during code generation to look up correct imports, props, and patterns instead of guessing.
 
@@ -288,16 +288,16 @@ A stdio-based MCP server that exposes the component registry, recipe docs, and f
 
 ## Validation & Evaluation
 
-| Script | pnpm command | CI | Purpose |
-|--------|-------------|-----|---------|
-| `validate-generated.mjs` | `pnpm validate:generated` | No | Validates any `.tsx` against registry + TypeScript |
-| `validate-golden-prompts.mjs` | `pnpm golden:validate` | Yes | Validates all golden prompt reference implementations |
-| `eval-golden-prompts.mjs` | `pnpm golden:eval` | No | Runs golden prompts against Claude (via Claude Code CLI) and scores L1–L3 |
-| `eval-fix-review.mjs` | `pnpm golden:fix-review` | No | Full pipeline: eval → auto-fix consumer snippet → visual review in playground |
-| `run-validator-tests.mjs` | `pnpm validate:test` | No | Tests the validator itself against known-good and known-bad samples |
-| `validate-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:validate` | Yes | Validates all A2UI golden prompt reference implementations against live catalog |
-| `eval-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:eval` | No | Runs A2UI golden prompts against a model and scores L1–L3 |
-| `eval-a2ui-fix-review.mjs` | `pnpm a2ui:golden:fix-review` | No | Full pipeline: eval → auto-fix A2UI system prompt based on failures |
+| Script                             | pnpm command                  | CI  | Purpose                                                                         |
+| ---------------------------------- | ----------------------------- | --- | ------------------------------------------------------------------------------- |
+| `validate-generated.mjs`           | `pnpm validate:generated`     | No  | Validates any `.tsx` against registry + TypeScript                              |
+| `validate-golden-prompts.mjs`      | `pnpm golden:validate`        | Yes | Validates all golden prompt reference implementations                           |
+| `eval-golden-prompts.mjs`          | `pnpm golden:eval`            | No  | Runs golden prompts against Claude (via Claude Code CLI) and scores L1–L3       |
+| `eval-fix-review.mjs`              | `pnpm golden:fix-review`      | No  | Full pipeline: eval → auto-fix consumer snippet → visual review in playground   |
+| `run-validator-tests.mjs`          | `pnpm validate:test`          | No  | Tests the validator itself against known-good and known-bad samples             |
+| `validate-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:validate`   | Yes | Validates all A2UI golden prompt reference implementations against live catalog |
+| `eval-a2ui-golden-prompts.mjs`     | `pnpm a2ui:golden:eval`       | No  | Runs A2UI golden prompts against a model and scores L1–L3                       |
+| `eval-a2ui-fix-review.mjs`         | `pnpm a2ui:golden:fix-review` | No  | Full pipeline: eval → auto-fix A2UI system prompt based on failures             |
 
 ### validate-generated.mjs
 
@@ -325,11 +325,11 @@ Runs `validate-generated.mjs` against every golden prompt reference implementati
 
 Runs each golden prompt against an LLM and scores the generated code across three automated levels:
 
-| Level | What it checks | How |
-|-------|---------------|-----|
-| L1 — Validity | Output passes `validate-generated.mjs` (registry + TypeScript) | Subprocess call |
-| L2 — Components | All expected `tags` components appear in the output | String search |
-| L3 — Imports | No imports from packages outside the allowed set | Import parsing |
+| Level           | What it checks                                                 | How             |
+| --------------- | -------------------------------------------------------------- | --------------- |
+| L1 — Validity   | Output passes `validate-generated.mjs` (registry + TypeScript) | Subprocess call |
+| L2 — Components | All expected `tags` components appear in the output            | String search   |
+| L3 — Imports    | No imports from packages outside the allowed set               | Import parsing  |
 
 Supports three providers. Not run in CI — intended for manual runs before releases or model upgrades.
 
@@ -348,6 +348,26 @@ pnpm golden:eval -- --no-cache                # skip call cache, always call pro
 pnpm golden:eval -- --fresh                   # skip both caches (true benchmark run)
 ```
 
+**MCP mode (Claude CLI or Codex CLI):** Runs the selected CLI in agentic mode with the Tale UI MCP server active. Instead of front-loading all pitfalls in the system prompt (~11k tokens), MCP mode uses the lightweight consumer snippet (~1,300 tokens) and lets the model call `plan_ui` and `get_component` for just-in-time pitfall delivery. This tests the real consumer experience end-to-end.
+
+Requires `.mcp.json` in the repo root (already committed). Claude reads it directly; Codex converts the repo-local `tale-ui` server entry into a per-run `codex exec -c mcp_servers=...` override, so no global `codex mcp add` setup is needed.
+
+| Flag              | Default | Description                                                                             |
+| ----------------- | ------- | --------------------------------------------------------------------------------------- |
+| `--mcp`           | off     | Enable real MCP mode — Claude or Codex calls `plan_ui`/`get_component` for JIT pitfalls |
+| `--mcp-max-turns` | `5`     | Max agent turns (each MCP tool call counts as one turn)                                 |
+
+```bash
+pnpm golden:eval -- --mcp                                      # MCP mode, default model (sonnet)
+pnpm golden:eval -- --mcp --model opus                         # MCP mode with opus
+pnpm golden:eval -- --provider codex --model gpt-5.4 --mcp    # MCP mode with Codex (repo-local config)
+pnpm golden:eval -- --mcp --slug primary-button --no-cache     # single prompt, skip call cache
+pnpm golden:eval -- --mcp --difficulty simple --no-cache       # all simple prompts, skip call cache
+pnpm golden:eval -- --mcp --mcp-max-turns 8                    # allow more agent turns (default: 5)
+```
+
+MCP runs are cached separately from non-MCP runs (different cache key prefix). Use `--no-cache` or `--fresh` as usual to bypass.
+
 **Straico provider:** Requires `STRAICO_API_KEY` environment variable (get it at https://platform.straico.com/user-settings). Straico is a multi-provider proxy — any model it supports can be used, including OpenAI, Google Gemini, Meta Llama, Mistral, and Anthropic models.
 
 ```bash
@@ -362,40 +382,40 @@ STRAICO_API_KEY=xxx pnpm golden:eval -- --provider straico --model anthropic/cla
 
 Model shorthands for `--provider straico` (full list: https://straico.com/multimodel/):
 
-| Shorthand | Straico model ID |
-|-----------|-----------------|
-| `sonnet` (default) | `anthropic/claude-sonnet-4.5` |
-| `sonnet-4` | `anthropic/claude-sonnet-4` |
-| `sonnet-4.5` | `anthropic/claude-sonnet-4.5` |
-| `opus` | `claude-opus-4-5` |
-| `opus-4` | `anthropic/claude-opus-4` |
-| `opus-4.5` | `claude-opus-4-5` |
-| `haiku` | `claude-haiku-4-5-5` |
-| `gpt-4o` | `openai/gpt-4o-2024-11-20` |
-| `gpt-4o-mini` | `openai/gpt-4o-mini` |
-| `gpt-4.1` | `openai/gpt-4.1` |
-| `gpt-4.1-mini` | `openai/gpt-4.1-mini` |
-| `gpt-4.1-nano` | `openai/gpt-4.1-nano` |
-| `gpt-5` | `openai/gpt-5` |
-| `gpt-5-mini` | `openai/gpt-5-mini` |
-| `o3` | `o3-2025-04-16` |
-| `o4-mini` | `openai/o4-mini` |
-| `gemini-flash` | `google/gemini-2.5-flash-lite` |
-| `gemini-pro` | `google/gemini-3.1-pro-preview` |
-| `deepseek` | `deepseek/deepseek-chat-v3.1` |
-| `deepseek-r1` | `deepseek/deepseek-r1` |
-| `llama4` | `meta-llama/llama-4-maverick` |
-| `grok4` | `x-ai/grok-4` |
-| `grok3` | `x-ai/grok-3-beta` |
+| Shorthand          | Straico model ID                |
+| ------------------ | ------------------------------- |
+| `sonnet` (default) | `anthropic/claude-sonnet-4.5`   |
+| `sonnet-4`         | `anthropic/claude-sonnet-4`     |
+| `sonnet-4.5`       | `anthropic/claude-sonnet-4.5`   |
+| `opus`             | `claude-opus-4-5`               |
+| `opus-4`           | `anthropic/claude-opus-4`       |
+| `opus-4.5`         | `claude-opus-4-5`               |
+| `haiku`            | `claude-haiku-4-5-5`            |
+| `gpt-4o`           | `openai/gpt-4o-2024-11-20`      |
+| `gpt-4o-mini`      | `openai/gpt-4o-mini`            |
+| `gpt-4.1`          | `openai/gpt-4.1`                |
+| `gpt-4.1-mini`     | `openai/gpt-4.1-mini`           |
+| `gpt-4.1-nano`     | `openai/gpt-4.1-nano`           |
+| `gpt-5`            | `openai/gpt-5`                  |
+| `gpt-5-mini`       | `openai/gpt-5-mini`             |
+| `o3`               | `o3-2025-04-16`                 |
+| `o4-mini`          | `openai/o4-mini`                |
+| `gemini-flash`     | `google/gemini-2.5-flash-lite`  |
+| `gemini-pro`       | `google/gemini-3.1-pro-preview` |
+| `deepseek`         | `deepseek/deepseek-chat-v3.1`   |
+| `deepseek-r1`      | `deepseek/deepseek-r1`          |
+| `llama4`           | `meta-llama/llama-4-maverick`   |
+| `grok4`            | `x-ai/grok-4`                   |
+| `grok3`            | `x-ai/grok-3-beta`              |
 
 Any model ID not in the shorthand table passes through as-is, so you can use the full Straico model string directly (e.g. `--model openai/gpt-5-pro`).
 
 **Local provider (Ollama / LM Studio):** Requires a locally running OpenAI-compatible server. Pass the model name as-is (no alias lookup is done for local models).
 
-| Server                            | Provider shorthand     | Default URL                  |
-|-----------------------------------|------------------------|------------------------------|
-| [Ollama](https://ollama.com)      | `--provider ollama`    | `http://localhost:11434/v1`  |
-| [LM Studio](https://lmstudio.ai)  | `--provider lm-studio` | `http://localhost:1234/v1`   |
+| Server                           | Provider shorthand     | Default URL                 |
+| -------------------------------- | ---------------------- | --------------------------- |
+| [Ollama](https://ollama.com)     | `--provider ollama`    | `http://localhost:11434/v1` |
+| [LM Studio](https://lmstudio.ai) | `--provider lm-studio` | `http://localhost:1234/v1`  |
 
 ```bash
 # Ollama (shorthand — uses http://localhost:11434/v1 automatically)
@@ -409,12 +429,39 @@ pnpm golden:eval -- --provider lm-studio --model llama3.2
 pnpm golden:eval -- --provider local --local-url http://localhost:8080/v1 --model custom-model
 ```
 
+**Codex CLI provider:** Requires the `codex` binary on PATH (or set `CODEX_PATH` env var). Uses `codex exec` non-interactively with `-s read-only`. The system prompt is prepended to the user message (Codex has no `--system` flag). Defaults to `o4-mini` when no `--model` is specified. With `--mcp`, the script wires the repo-local `tale-ui` MCP server from `.mcp.json` into the run automatically and hard-fails if that wiring cannot be established.
+
+| Shorthand      | Codex model ID |
+| -------------- | -------------- |
+| (default)      | `o4-mini`      |
+| `o3`           | `o3`           |
+| `o3-mini`      | `o3-mini`      |
+| `gpt-4.1`      | `gpt-4.1`      |
+| `gpt-4.1-mini` | `gpt-4.1-mini` |
+| `gpt-4.1-nano` | `gpt-4.1-nano` |
+| `gpt-4o`       | `gpt-4o`       |
+| `gpt-4o-mini`  | `gpt-4o-mini`  |
+| `gpt-5`        | `gpt-5`        |
+| `gpt-5-mini`   | `gpt-5-mini`   |
+| `gpt-5.4`      | `gpt-5.4`      |
+| `gpt-5.4-mini` | `gpt-5.4-mini` |
+
+```bash
+pnpm golden:eval -- --provider codex                          # default model: o4-mini
+pnpm golden:eval -- --provider codex --model o3
+pnpm golden:eval -- --provider codex --model gpt-4.1
+pnpm golden:eval -- --provider codex --model gpt-5.4 --mcp    # real Tale UI MCP, repo-local
+pnpm golden:eval -- --provider codex --slug primary-button --no-cache
+# Mix providers: codex for eval, Claude for fixes
+pnpm golden:fix-review -- --provider codex --fix-provider claude --fix-model sonnet
+```
+
 **Two-level cache** (`tools/.eval-call-cache.json`, `tools/.eval-check-cache.json` — both gitignored):
 
-| Cache       | Key                                                | Value           | Accurate?                                                        | Bypassed by           |
-|-------------|----------------------------------------------------|-----------------|------------------------------------------------------------------|-----------------------|
-| Call cache  | model + snippet hash + registry hash + prompt hash | generated code  | No — same inputs can produce different LLM output               | `--no-cache`, `--fresh` |
-| Check cache | code hash + registry hash                          | L1/L2/L3 results | Yes — same code + same registry always produces the same result | `--fresh` only        |
+| Cache       | Key                                                | Value            | Accurate?                                                       | Bypassed by             |
+| ----------- | -------------------------------------------------- | ---------------- | --------------------------------------------------------------- | ----------------------- |
+| Call cache  | model + snippet hash + registry hash + prompt hash | generated code   | No — same inputs can produce different LLM output               | `--no-cache`, `--fresh` |
+| Check cache | code hash + registry hash                          | L1/L2/L3 results | Yes — same code + same registry always produces the same result | `--fresh` only          |
 
 The call cache is an **iteration shortcut**, not a benchmark. When patching `consumer-claude-md-snippet.md` and re-running to confirm a fix worked, prompts that were already passing don't need to call Claude again. But because LLMs are non-deterministic, a cached pass doesn't guarantee the prompt would pass on every run.
 
@@ -431,6 +478,10 @@ pnpm golden:eval -- --slugs color-wheel-hue,autocomplete-search
 
 # Accurate benchmark score (bypasses both caches — full re-run)
 pnpm golden:eval -- --fresh
+
+# Compare front-loaded pitfalls (default) vs MCP just-in-time delivery
+pnpm golden:eval -- --difficulty simple --no-cache --json > /tmp/no-mcp.json
+pnpm golden:eval -- --mcp --difficulty simple --no-cache --json > /tmp/mcp.json
 ```
 
 **Example output:**
@@ -511,23 +562,23 @@ Runs deep multi-source validation on every A2UI golden prompt reference implemen
 
 **Validation pipeline (6 sources of truth):**
 
-| Source | What it validates |
-|--------|-------------------|
-| `registry/a2ui-catalog.json` | Component type names and per-type allowed prop names |
-| `tools/a2ui-catalog-metadata.js` `PROP_ALLOWED_VALUES` | Enum prop values with type-specific overrides (e.g. `Button.variant`) |
-| `packages/a2ui/src/icon-registry.ts` | Valid Lucide icon names for `Icon` and `EmptyState` icon props |
-| `packages/a2ui/src/catalog.ts` `mapTextHint()` | Valid `usageHint` values for `Text` components |
-| Protocol structure | `beginRendering` ordering, `rootComponentId` exists, no orphaned children, no duplicate IDs |
+| Source                                                 | What it validates                                                                           |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| `registry/a2ui-catalog.json`                           | Component type names and per-type allowed prop names                                        |
+| `tools/a2ui-catalog-metadata.js` `PROP_ALLOWED_VALUES` | Enum prop values with type-specific overrides (e.g. `Button.variant`)                       |
+| `packages/a2ui/src/icon-registry.ts`                   | Valid Lucide icon names for `Icon` and `EmptyState` icon props                              |
+| `packages/a2ui/src/catalog.ts` `mapTextHint()`         | Valid `usageHint` values for `Text` components                                              |
+| Protocol structure                                     | `beginRendering` ordering, `rootComponentId` exists, no orphaned children, no duplicate IDs |
 
 ### eval-a2ui-golden-prompts.mjs
 
 Runs each A2UI golden prompt against an LLM and scores the generated A2UI JSON across three automated levels:
 
-| Level | What it checks | How |
-|-------|---------------|-----|
-| L1 — Validity | Output passes multi-source catalog validation | Same 6-source check as validate script |
-| L2 — Types | All expected `tags` component types appear in `surfaceUpdate` | Type key search in components array |
-| L3 — Structure | Protocol correctness (ordering, rootComponentId, no orphans, no duplicates) | Message structure parse |
+| Level          | What it checks                                                              | How                                    |
+| -------------- | --------------------------------------------------------------------------- | -------------------------------------- |
+| L1 — Validity  | Output passes multi-source catalog validation                               | Same 6-source check as validate script |
+| L2 — Types     | All expected `tags` component types appear in `surfaceUpdate`               | Type key search in components array    |
+| L3 — Structure | Protocol correctness (ordering, rootComponentId, no orphans, no duplicates) | Message structure parse                |
 
 Supports the same three providers (Claude CLI, Straico, local) and the same flags as `eval-golden-prompts.mjs`. Not run in CI — intended for manual runs before releases or model upgrades. Uses separate cache files (`.eval-a2ui-call-cache.json`, `.eval-a2ui-check-cache.json`) so A2UI and TSX eval runs do not interfere.
 
@@ -615,26 +666,26 @@ The `reference.messages` array must pass `pnpm a2ui:golden:validate` — run it 
 
 The `@tale-ui/a2ui` package (`packages/a2ui/`) provides an A2UI protocol renderer that maps agent messages to Tale UI components. It includes:
 
-| Artifact | Path | Purpose |
-|----------|------|---------|
-| Protocol types | `packages/a2ui/src/types.ts` | TypeScript types for A2UI messages, components, catalog |
-| Catalog | `packages/a2ui/src/catalog.ts` | Maps 85 A2UI types to Tale UI components |
-| Icon registry | `packages/a2ui/src/icon-registry.ts` | 65 lucide-react icons resolvable by name string |
-| Renderer | `packages/a2ui/src/renderer/` | React provider, surface renderer, tree reconstruction |
-| Validator | `packages/a2ui/src/validation/validate.ts` | Message + catalog validation with structured errors |
-| Agent prompt | `packages/a2ui/src/agent/system-prompt.md` | LLM system prompt documenting the Tale UI A2UI catalog |
-| Few-shot examples | `packages/a2ui/src/agent/examples/` | 5 example A2UI message sequences |
+| Artifact          | Path                                       | Purpose                                                 |
+| ----------------- | ------------------------------------------ | ------------------------------------------------------- |
+| Protocol types    | `packages/a2ui/src/types.ts`               | TypeScript types for A2UI messages, components, catalog |
+| Catalog           | `packages/a2ui/src/catalog.ts`             | Maps 85 A2UI types to Tale UI components                |
+| Icon registry     | `packages/a2ui/src/icon-registry.ts`       | 65 lucide-react icons resolvable by name string         |
+| Renderer          | `packages/a2ui/src/renderer/`              | React provider, surface renderer, tree reconstruction   |
+| Validator         | `packages/a2ui/src/validation/validate.ts` | Message + catalog validation with structured errors     |
+| Agent prompt      | `packages/a2ui/src/agent/system-prompt.md` | LLM system prompt documenting the Tale UI A2UI catalog  |
+| Few-shot examples | `packages/a2ui/src/agent/examples/`        | 5 example A2UI message sequences                        |
 
 **Anti-drift tooling:**
 
-| Script | pnpm command | CI | Purpose |
-|--------|-------------|-----|---------|
-| `generate-a2ui-catalog-docs.js` | `pnpm a2ui:generate-docs` | `pnpm a2ui:check-docs` | Regenerates catalog tables in system-prompt.md and a2ui-integration.md from catalog.ts source |
-| `validate-a2ui-examples.js` | `pnpm a2ui:validate-examples` | Yes | Validates few-shot example JSON against live catalog (types, icons, usageHints, child refs) |
-| `audit-a2ui-catalog-docs.js` | `pnpm a2ui:audit-docs` | Yes | Cross-checks counts, type lists, and icon counts in all A2UI docs against source |
-| `validate-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:validate` | Yes | Validates all 41 golden prompt references against live catalog (6-source deep check) |
-| `eval-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:eval` | No | Runs golden prompts against an LLM and scores generated A2UI JSON L1–L3 |
-| `eval-a2ui-fix-review.mjs` | `pnpm a2ui:golden:fix-review` | No | Automated fix loop: eval → patch system-prompt.md → re-eval → repeat |
+| Script                             | pnpm command                  | CI                     | Purpose                                                                                       |
+| ---------------------------------- | ----------------------------- | ---------------------- | --------------------------------------------------------------------------------------------- |
+| `generate-a2ui-catalog-docs.js`    | `pnpm a2ui:generate-docs`     | `pnpm a2ui:check-docs` | Regenerates catalog tables in system-prompt.md and a2ui-integration.md from catalog.ts source |
+| `validate-a2ui-examples.js`        | `pnpm a2ui:validate-examples` | Yes                    | Validates few-shot example JSON against live catalog (types, icons, usageHints, child refs)   |
+| `audit-a2ui-catalog-docs.js`       | `pnpm a2ui:audit-docs`        | Yes                    | Cross-checks counts, type lists, and icon counts in all A2UI docs against source              |
+| `validate-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:validate`   | Yes                    | Validates all 41 golden prompt references against live catalog (6-source deep check)          |
+| `eval-a2ui-golden-prompts.mjs`     | `pnpm a2ui:golden:eval`       | No                     | Runs golden prompts against an LLM and scores generated A2UI JSON L1–L3                       |
+| `eval-a2ui-fix-review.mjs`         | `pnpm a2ui:golden:fix-review` | No                     | Automated fix loop: eval → patch system-prompt.md → re-eval → repeat                          |
 
 **When you change `catalog.ts` or `icon-registry.ts`**, run:
 
@@ -656,11 +707,11 @@ pnpm playground:dev                        # open http://localhost:5173/a2ui for
 
 ## AI Rules & Prompts
 
-| File | Purpose |
-|------|---------|
-| `prompts/self-critique.md` | Second-pass validation checklist for AI-generated code |
-| `eslint-restrict-imports.mjs` | Shareable ESLint config blocking non-Tale UI imports |
-| `component-audit-prompt.md` | AI agent guide for deep component quality auditing |
+| File                          | Purpose                                                |
+| ----------------------------- | ------------------------------------------------------ |
+| `prompts/self-critique.md`    | Second-pass validation checklist for AI-generated code |
+| `eslint-restrict-imports.mjs` | Shareable ESLint config blocking non-Tale UI imports   |
+| `component-audit-prompt.md`   | AI agent guide for deep component quality auditing     |
 
 ### prompts/self-critique.md
 
@@ -679,8 +730,5 @@ A shareable ESLint flat config that warns when importing from competing componen
 ```js
 import taleUiRestrictions from './path/to/eslint-restrict-imports.mjs';
 
-export default [
-  ...yourConfig,
-  taleUiRestrictions,
-];
+export default [...yourConfig, taleUiRestrictions];
 ```
