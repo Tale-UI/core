@@ -31,5 +31,7 @@ export default {
     'docs/public/**',
     'docs/export/**',
     'analysis/**',
+    'plans/**',
+    'tools/.eval-context.md',
   ],
 };

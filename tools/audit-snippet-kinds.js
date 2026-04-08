@@ -25,27 +25,33 @@ function extractNames(text, startMarker, endMarker) {
   const start = text.indexOf(startMarker);
   if (start === -1) return null;
   const after = text.slice(start + startMarker.length);
-  const end = endMarker ? after.indexOf(endMarker) : after.indexOf('\n');
-  const segment = end === -1 ? after : after.slice(0, end);
+  const end = endMarker ? after.indexOf(endMarker) : after.indexOf('\n\n');
+  const segment = (end === -1 ? after : after.slice(0, end)).trim();
   const names = [];
-  const regex = /`(\w+)`/g;
-  let m;
-  while ((m = regex.exec(segment)) !== null) {
-    names.push(m[1]);
+  // Support both backtick-wrapped (`Name`) and plain comma-separated (Name,) formats
+  if (segment.includes('`')) {
+    const regex = /`(\w+)`/g;
+    let m;
+    while ((m = regex.exec(segment)) !== null) names.push(m[1]);
+  } else {
+    for (const tok of segment.split(/[\s,]+/)) {
+      const name = tok.trim().replace(/[.,;]$/, '');
+      if (/^[A-Z]\w*$/.test(name) || name === 'mergeProps') names.push(name);
+    }
   }
   return names;
 }
 
 const snippetNamespace = extractNames(
   snippet,
-  '**Namespace components** (use `<Component.Root>`',
-  '**Simple components**',
+  '**Namespace** (use `<Component.Root>`, never `<Component>` directly):\n',
+  '\n\n',
 );
 
 const snippetSimple = extractNames(
   snippet,
-  '**Simple components** (direct use',
-  '\n',
+  '**Simple** (direct use, no `.Root`):\n',
+  '\n\n',
 );
 
 if (!snippetNamespace || !snippetSimple) {

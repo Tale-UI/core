@@ -289,15 +289,19 @@ Tale UI uses consistent naming: `size: 'sm' | 'md' | 'lg'`, `variant: 'primary' 
 All 4 previously identified gaps have been resolved.
 
 ### ~~1. No Component-Level Token Layer~~ (Strategy 3.1) — **Resolved**
+
 43 category-level CSS tokens (`--field-*`, `--popup-*`, `--item-*`, `--group-label-*`, `--modal-*`, `--progress-*`) were added to `packages/styles/src/_primitives.css`. They form a third token layer (palette → semantic → category) and let consumers retheme entire component families with a single `:root` override. Full token table in `packages/css/docs/ai-reference.md` § 1.6. Variant-specific per-component tokens (e.g., `--button-primary-bg`) remain a deliberate non-goal.
 
 ### ~~2. No Pixel-Level Visual Regression~~ (Strategy 4.2) — **Resolved**
+
 `test/visual/` added: `playwright.config.mts` + `storybook.spec.ts` with 44 Playwright `toHaveScreenshot()` snapshot tests covering one Default story per component. Baselines committed to `test/visual/snapshots/`. `pnpm test:visual` and `pnpm test:visual:update` scripts added. No external service required.
 
 ### ~~3. No Explicit Component Deprecation/Versioning~~ (Strategy 7.3) — **Resolved**
+
 `status: 'stable' | 'experimental' | 'deprecated'` field added to all 90 entries in `registry/components.json`, sourced from `@status` JSDoc tags in component styled files. `list_components` MCP tool surfaces deprecated components with a ⚠️ prefix. `audit:components` check #20 requires `## Migration` or `## Deprecated` documentation section for deprecated components.
 
 ### ~~4. Direct JSX Generation Lacks Plan/Render Split~~ (Strategy 5.1) — **Resolved**
+
 `plan_ui` MCP tool added: given a plain-language UI description, returns recommended components, nearest matching recipe, and relevant pitfall notes — giving LLMs a structured planning step before JSX generation. `docs/consumer-claude-md-snippet.md` step 0 and `tools/prompts/self-critique.md` Step 0 both recommend calling `plan_ui` first.
 
 ---
