@@ -16,12 +16,13 @@
  *   node tools/eval-fix-review.mjs --no-serve      # generate review page but don't start server
  */
 
-import { readFileSync, writeFileSync, existsSync, readdirSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync, unlinkSync } from 'fs';
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { execFileSync, spawnSync, spawn } from 'child_process';
 import { connect } from 'net';
 import { tmpdir } from 'os';
+import { buildCodexExecArgs } from './eval-golden-prompts-lib.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -455,34 +456,38 @@ Output a JSON fix in this exact format (no other text, just the JSON):
     if (lastErr) throw lastErr;
   } else if (FIX_PROVIDER === 'codex') {
     const codexFixModel = CODEX_MODEL_ALIASES[FIX_MODEL] ?? FIX_MODEL;
-    const outputFile = join(tmpdir(), `tale-ui-fix-codex-${process.pid}-${Date.now()}.txt`);
     const fullPrompt = `${fixPrompt}\n\n---\n\nOutput only the JSON fix object as instructed. No explanation, no markdown fences.`;
     const MAX_RETRIES = 3;
     let lastErr;
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      const outputFile = join(
+        tmpdir(),
+        `tale-ui-fix-codex-${process.pid}-${Date.now()}-${attempt}.txt`,
+      );
       try {
-        const proc = spawnSync(
-          CODEX_BIN,
-          [
-            'exec',
-            '--model',
-            codexFixModel,
-            '--output-last-message',
-            outputFile,
-            '--ephemeral',
-            '-s',
-            'read-only',
-            '-',
-          ],
-          { cwd: tmpdir(), timeout: 120000, encoding: 'utf8', input: fullPrompt },
-        );
+        const proc = spawnSync(CODEX_BIN, buildCodexExecArgs({ model: codexFixModel, outputFile }), {
+          cwd: ROOT,
+          timeout: 180000,
+          encoding: 'utf8',
+          input: fullPrompt,
+        });
         if (proc.error) throw proc.error;
-        if (!existsSync(outputFile)) throw new Error('Codex did not write output file');
-        text = readFileSync(outputFile, 'utf8').trim();
+        const outputText = existsSync(outputFile) ? readFileSync(outputFile, 'utf8').trim() : '';
+        const stdoutText = proc.stdout?.trim() ?? '';
+        const stderrText = proc.stderr?.trim() ?? '';
         try {
-          execFileSync('rm', [outputFile]);
+          unlinkSync(outputFile);
         } catch {
           /* ignore */
+        }
+        text = outputText || stdoutText;
+        if (!text) {
+          const details = stderrText || stdoutText;
+          if (proc.status && details) {
+            throw new Error(`Codex CLI exited with status ${proc.status}: ${details.slice(0, 400)}`);
+          }
+          if (details) throw new Error(`Codex did not produce a fix payload: ${details.slice(0, 400)}`);
+          throw new Error('Codex did not write output file');
         }
         lastErr = null;
         break;
