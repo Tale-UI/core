@@ -11,3 +11,5 @@ export type {
   EmptyProps as AutocompleteEmptyProps,
   SeparatorProps as AutocompleteSeparatorProps,
 } from './Autocomplete.styled';
+
+export { useFilter } from 'react-aria-components';

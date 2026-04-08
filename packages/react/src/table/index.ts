@@ -8,3 +8,5 @@ export type {
   RowProps as TableRowProps,
   CellProps as TableCellProps,
 } from './Table.styled';
+
+export type { Selection, Key, SortDescriptor } from 'react-aria-components';

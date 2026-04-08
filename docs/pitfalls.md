@@ -88,9 +88,9 @@ explicit BEM class names:
 <!-- pitfall: color-imports-from-rac -->
 <!-- applies-to: ColorArea, ColorSlider, ColorWheel, ColorField, ColorPicker, ColorSwatchPicker -->
 <!-- category: color-state -->
-- **Import `parseColor` and `Color` from `react-aria-components`, not `@internationalized/color`** — `@internationalized/color` is an internal dependency not available in consumer projects. Always use the `react-aria-components` exports.
+- **Import `parseColor` and `Color` from `@tale-ui/react`, not `@internationalized/color`** — `@internationalized/color` is an internal dependency not available in consumer projects. Import from the relevant color sub-path or the shared `@tale-ui/react/aria` bucket.
   - anti-pattern: `import { parseColor } from '@internationalized/color';`
-  - fix: `import { parseColor } from 'react-aria-components'; import type { Color } from 'react-aria-components';`
+  - fix: `import { parseColor } from '@tale-ui/react/color-area'; import type { Color } from '@tale-ui/react/color-area';`
 
 <!-- pitfall: color-swatch-string-only -->
 <!-- applies-to: ColorSwatch -->
@@ -114,6 +114,12 @@ explicit BEM class names:
   - fix: `useState(parseColor('hsl(200, 100%, 50%)'))`
 
 ---
+<!-- pitfall: never-import-parsecolor-or-color -->
+<!-- applies-to: * -->
+<!-- category: color-state -->
+- **Never import parseColor or Color from 'react-aria-components'** — `react-aria-components` is an internal peer dependency not available in consumer projects. Importing from it causes "Cannot find module 'react-aria-components'" TypeScript errors. Import `parseColor` and `Color` from the relevant Tale UI color sub-path instead.
+  - anti-pattern: `import { parseColor, type Color } from 'react-aria-components';`
+  - fix: `import { parseColor } from '@tale-ui/react/color-area'; import type { Color } from '@tale-ui/react/color-area';`
 
 ## React Aria Conventions
 
@@ -159,9 +165,9 @@ explicit BEM class names:
 <!-- pitfall: usefilter-from-rac-not-react-aria -->
 <!-- applies-to: Autocomplete -->
 <!-- category: imports -->
-- **Import `useFilter` from `react-aria-components`, not `react-aria`** — the two packages export different things. Using `react-aria` causes "Module has no exported member 'useFilter'" TypeScript errors.
+- **Import `useFilter` from `@tale-ui/react/autocomplete`, not `react-aria`** — `react-aria` and `react-aria-components` export different things. Using `react-aria` causes "Module has no exported member 'useFilter'" TypeScript errors.
   - anti-pattern: `import { useFilter } from 'react-aria';`
-  - fix: `import { useFilter } from 'react-aria-components';`
+  - fix: `import { useFilter } from '@tale-ui/react/autocomplete';`
 
 <!-- pitfall: no-cross-import-checkbox-group -->
 <!-- applies-to: Checkbox, CheckboxGroup -->
@@ -281,14 +287,21 @@ explicit BEM class names:
 <!-- pitfall: token-size-suffixes -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-- **CSS design tokens use `-s`/`-m`/`-l` suffixes; component `size` props use `-sm`/`-md`/`-lg`** — e.g. `--space-s` is a token, but `size="sm"` is a prop value. Token scale: `4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl`.
+- **CSS design tokens use -s/-m/-l suffixes; component size props use 'sm'/'md'/'lg' (no leading dash)** — e.g. `--space-s` is a token, but `size="sm"` is a prop value. Token scale: `4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl`. Never write `size="-sm"`, `size="-md"`, or `size="-lg"` — the dash in the token-scale notation is a suffix separator in prose, not a character that appears in the prop value string.
+  - anti-pattern: `<Button size="-md">` or `<Text size="-sm">`
+  - fix: `<Button size="md">` or `<Text size="s">`
 
 <!-- pitfall: gap-max-is-2xl -->
-<!-- applies-to: Row, Column -->
+<!-- applies-to: Row, Column - **Text color only accepts 'default', 'muted', 'accent' — never 'secondary', 'primary', or 'brand'** — these are token names from other design systems and are not valid values for the `color` prop on `Text`. The TypeScript type `Color` (on `Text`) does not include them; passing them causes `Type '"secondary"' is not assignable to type 'Color | undefined'`. Use `'muted'` whenever you need subdued or secondary-style text.
+  - anti-pattern: `<Text color="secondary">Selected: {fileName}</Text>`
+  - fix: `<Text color="muted">Selected: {fileName}</Text>`
+- **Row/Column gap and Text size use token-scale values, not component size values** — `Row`/`Column` `gap` and `Text` `size` both follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`. Never use `'sm'`, `'md'`, or `'lg'` for either of these props; those are component `size` prop values (valid on Button, Icon, Avatar, etc.) and are not valid here. The TypeScript types `Gap` and `Size` (on Text) do not include `'sm'`/`'md'`/`'lg'`. The mapping is: `'sm'` → `'s'`, `'md'` → `'m'`, `'lg'` → `'l'`. This applies even in uncontrolled/defaultValue-only components — always use token-scale gap values regardless of whether the component has state.
+  - anti-pattern: `<Column gap="sm">` or `<Column gap="md">` or `<Column gap="lg">` or `<Text size="lg">`
+  - fix: `<Column gap="s">` or `<Column gap="m">` or `<Column gap="l">` or `<Text size="l">`
 <!-- category: typescript -->
-- **Row/Column gap uses token-scale values, not component size values** — valid gap values follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`. Never use `'sm'`, `'md'`, or `'lg'` for gap; those are component `size` prop values and are not valid gap tokens.
-  - anti-pattern: `<Column gap="lg">`
-  - fix: `<Column gap="l">`
+- **Row/Column gap uses token-scale values, not component size values** — valid gap values follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`. Never use `'sm'`, `'md'`, or `'lg'` for gap; those are component `size` prop values and are not valid gap tokens. The TypeScript type is `Gap`, which does not include `'sm'`/`'md'`/`'lg'`. The mapping is: `'sm'` → `'s'`, `'md'` → `'m'`, `'lg'` → `'l'`.
+  - anti-pattern: `<Column gap="sm">` or `<Column gap="md">` or `<Row gap="lg">`
+  - fix: `<Column gap="s">` or `<Column gap="m">` or `<Row gap="l">`
 - **Max gap value for Row/Column is '2xl'** — there is no `'3xl'` or `'4xl'` gap token. Using them produces no visible spacing (token is undefined).
   - anti-pattern: `<Row gap="3xl">`
   - fix: `<Row gap="2xl">`
@@ -308,6 +321,11 @@ explicit BEM class names:
 <!-- pitfall: no-heading-component -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-- **There is no `Heading` component in Tale UI** — for headings, use `<Text variant="heading" as="h2">`. Importing `{ Heading }` from any `@tale-ui/react/*` path causes "has no exported member 'Heading'" TypeScript errors.
+- **There is no Heading component in Tale UI — and do not use plain `<h1>`–`<h6>` elements either** — always use `<Text variant="heading" as="h2">` (or the appropriate heading level via `as`). Importing `{ Heading }` from any `@tale-ui/react/*` path causes "has no exported member 'Heading'" TypeScript errors. Using a bare `<h2>` (or any heading tag) without `Text` skips Tale UI's typography tokens and requires an explicit `import { Text } from '@tale-ui/react/text'`. This applies even when the heading is the only text element on the page — `Text` must always be imported and used.
   - anti-pattern: `import { Heading } from '@tale-ui/react';`
+  - anti-pattern: `<h2>Frequently Asked Questions</h2>` (missing Text import and component)
   - fix: `import { Text } from '@tale-ui/react/text'; ... <Text variant="heading" as="h2">Title</Text>`
+  - common mistake: generating all other imports correctly but forgetting to add `Text` to the import list when the only heading in the component is a plain HTML element — always audit every `<h1>`–`<h6>` in generated code and replace with `<Text>`
+  - common mistake: when composing a page with `Accordion`, `Banner`, `Column`, or other layout/content components but no explicit typography component, forgetting that a bare `<h2>` (or any heading tag) still requires `import { Text } from '@tale-ui/react/text'` and must be replaced with `<Text variant="heading" as="h2">` — the `Text` import is mandatory even when it is the only typography component on the page
+  - common mistake: when all other imports are generated correctly (e.g. `Accordion`, `Banner`, `Column`, `Link`) but the only heading is a plain `<h2>`, the `Text` import is silently omitted because there is no other typography component to trigger the import — always scan the full import list before finalising and confirm `Text` is present whenever any `<h1>`–`<h6>` appears in the JSX, regardless of what other components are imported
+  - enforcement rule: before emitting the final import block, perform an explicit audit step — count every `<h1>`–`<h6>` tag in the generated JSX; if any exist and `Text` is not already in the import list, add `import { Text } from '@tale-ui/react/text';` and replace each heading tag with `<Text variant="heading" as="hN">`. This audit is mandatory even when the heading appears to be the only text element on the page and even when the surrounding components (e.g. `Accordion`, `Banner`, `Column`) have no typography sub-parts of their own.`

@@ -19,7 +19,7 @@ Accepts all React Aria `ColorWheel` props plus an optional `className`. See the 
 ## Basic Usage
 
 ```tsx
-import { parseColor } from 'react-aria-components';
+import { ColorWheel, parseColor } from '@tale-ui/react/color-wheel';
 
 <ColorWheel.Root
   defaultValue={parseColor('hsl(0, 100%, 50%)')}
@@ -51,4 +51,4 @@ import { parseColor } from 'react-aria-components';
 ## Notes
 
 - `outerRadius` and `innerRadius` control the wheel dimensions and ring thickness.
-- Use `parseColor()` from `react-aria-components` to create color values.
+- Use `parseColor()` from `@tale-ui/react/color-wheel` (or `@tale-ui/react/aria`) to create color values.

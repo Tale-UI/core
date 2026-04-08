@@ -39,7 +39,7 @@ Accepts all React Aria `TagGroup` props plus an optional `className`. See the `@
 
 ```tsx
 import { useState } from 'react';
-import type { Selection } from 'react-aria-components';
+import type { Selection } from '@tale-ui/react/tag-group';
 
 function RemovableTags() {
   const [tags, setTags] = useState([

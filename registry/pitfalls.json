@@ -138,8 +138,8 @@
     },
     {
       "id": "color-imports-from-rac",
-      "summary": "Import parseColor and Color from react-aria-components, not @internationalized/color",
-      "detail": "`@internationalized/color` is an internal dependency not available in consumer projects. Always use the `react-aria-components` exports.",
+      "summary": "Import parseColor and Color from @tale-ui/react, not @internationalized/color",
+      "detail": "`@internationalized/color` is an internal dependency not available in consumer projects. Import from the relevant color sub-path or the shared `@tale-ui/react/aria` bucket.",
       "appliesTo": [
         "ColorArea",
         "ColorSlider",
@@ -153,7 +153,7 @@
         "import { parseColor } from '@internationalized/color';"
       ],
       "fixes": [
-        "import { parseColor } from 'react-aria-components'; import type { Color } from 'react-aria-components';"
+        "import { parseColor } from '@tale-ui/react/color-area'; import type { Color } from '@tale-ui/react/color-area';"
       ]
     },
     {
@@ -288,8 +288,8 @@
     },
     {
       "id": "usefilter-from-rac-not-react-aria",
-      "summary": "Import useFilter from react-aria-components, not react-aria",
-      "detail": "the two packages export different things. Using `react-aria` causes \"Module has no exported member 'useFilter'\" TypeScript errors.",
+      "summary": "Import useFilter from @tale-ui/react/autocomplete, not react-aria",
+      "detail": "`react-aria` and `react-aria-components` export different things. Using `react-aria` causes \"Module has no exported member 'useFilter'\" TypeScript errors.",
       "appliesTo": [
         "Autocomplete"
       ],
@@ -298,7 +298,7 @@
         "import { useFilter } from 'react-aria';"
       ],
       "fixes": [
-        "import { useFilter } from 'react-aria-components';"
+        "import { useFilter } from '@tale-ui/react/autocomplete';"
       ]
     },
     {
@@ -527,17 +527,17 @@
     {
       "id": "gap-max-is-2xl",
       "summary": "Row/Column gap uses token-scale values, not component size values",
-      "detail": "valid gap values follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`. Never use `'sm'`, `'md'`, or `'lg'` for gap; those are component `size` prop values and are not valid gap tokens.",
+      "detail": "valid gap values follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`. Never use `'sm'`, `'md'`, or `'lg'` for gap; those are component `size` prop values and are not valid gap tokens. The TypeScript type is `Gap`, which does not include `'sm'`/`'md'`/`'lg'`. The mapping is: `'sm'` → `'s'`, `'md'` → `'m'`, `'lg'` → `'l'`.",
       "appliesTo": [
         "Row",
         "Column"
       ],
       "category": "typescript",
       "antiPatterns": [
-        "<Column gap=\"lg\">"
+        "<Column gap=\"sm\">"
       ],
       "fixes": [
-        "<Column gap=\"l\">"
+        "<Column gap=\"s\">"
       ]
     },
     {

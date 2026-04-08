@@ -8,3 +8,5 @@ export type {
   DescriptionProps as TagGroupDescriptionProps,
   ErrorMessageProps as TagGroupErrorMessageProps,
 } from './TagGroup.styled';
+
+export type { Selection, Key } from 'react-aria-components';

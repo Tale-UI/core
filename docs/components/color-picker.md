@@ -20,7 +20,7 @@ Use `ColorArea` and `ColorSlider` as **standalone** components, each with their 
 import { useState } from 'react';
 import { ColorArea } from '@tale-ui/react/color-area';
 import { ColorSlider } from '@tale-ui/react/color-slider';
-import { parseColor } from 'react-aria-components';
+import { parseColor } from '@tale-ui/react/color-picker';
 
 const [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));
 

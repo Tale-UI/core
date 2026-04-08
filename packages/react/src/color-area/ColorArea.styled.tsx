@@ -18,8 +18,7 @@ export type RootProps = Omit<AriaColorAreaProps, 'className'> & {
  *
  * @example
  * ```tsx
- * import { ColorArea } from '@tale-ui/react/color-area';
- * import { parseColor } from 'react-aria-components';
+ * import { ColorArea, parseColor } from '@tale-ui/react/color-area';
  *
  * <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>
  *   <ColorArea.Thumb />

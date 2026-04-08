@@ -7,3 +7,5 @@ export type {
   DescriptionProps as DateFieldDescriptionProps,
   ErrorMessageProps as DateFieldErrorMessageProps,
 } from './DateField.styled';
+
+export type { DateValue } from 'react-aria-components';

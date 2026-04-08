@@ -7,3 +7,6 @@ export type {
   DescriptionProps as ColorFieldDescriptionProps,
   ErrorMessageProps as ColorFieldErrorMessageProps,
 } from './ColorField.styled';
+
+export { parseColor } from 'react-aria-components';
+export type { Color } from 'react-aria-components';

@@ -20,8 +20,7 @@ export type RootProps = Omit<AriaColorWheelProps, 'className'> & {
  *
  * @example
  * ```tsx
- * import { ColorWheel } from '@tale-ui/react/color-wheel';
- * import { parseColor } from 'react-aria-components';
+ * import { ColorWheel, parseColor } from '@tale-ui/react/color-wheel';
  *
  * <ColorWheel.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} outerRadius={100} innerRadius={70}>
  *   <ColorWheel.Track />

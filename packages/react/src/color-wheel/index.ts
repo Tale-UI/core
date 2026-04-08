@@ -5,3 +5,6 @@ export type {
   TrackProps as ColorWheelTrackProps,
   ThumbProps as ColorWheelThumbProps,
 } from './ColorWheel.styled';
+
+export { parseColor } from 'react-aria-components';
+export type { Color } from 'react-aria-components';

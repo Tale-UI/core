@@ -270,7 +270,6 @@ const ALLOWED_IMPORT_PREFIXES = [
   '@tale-ui/react',
   '@tale-ui/charts',
   'react',
-  'react-aria-components',
   'lucide-react',
   '@internationalized/',
 ];
@@ -329,6 +328,7 @@ When asked to create UI, generate a single self-contained TypeScript/TSX code bl
 Rules:
 - Return ONLY the code block, no explanation before or after.
 - Use Tale UI components exclusively — no raw HTML layout elements like <div> where a Tale UI layout component exists.
+- Do not include app-level global stylesheet imports such as '@tale-ui/react/styles' or '@tale-ui/react-styles' unless the prompt is specifically about app setup or styling infrastructure.
 - Follow all import, composition, and pitfall rules listed above exactly.`;
 }
 

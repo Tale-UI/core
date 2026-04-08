@@ -4,3 +4,5 @@ export type {
   RootProps as GridListRootProps,
   ItemProps as GridListItemProps,
 } from './GridList.styled';
+
+export type { Selection, Key } from 'react-aria-components';

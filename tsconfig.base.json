@@ -16,6 +16,7 @@
     "noUncheckedSideEffectImports": true,
     "paths": {
       "@tale-ui/react": ["./packages/react/src"],
+      "@tale-ui/react/styles": ["./packages/react/src/styles.css"],
       "@tale-ui/react/*": ["./packages/react/src/*"],
       "@tale-ui/utils/*": ["./packages/utils/src/*"],
       "@tale-ui/a2ui": ["./packages/a2ui/src"],

@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.generated.json",
+  "files": [".generated-scratch/temp-styles-test.tsx"]
+}

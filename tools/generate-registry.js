@@ -32,7 +32,7 @@ const checkMode = args.includes('--check');
 const SKIP_DIRS = new Set([
   'types', 'utils', 'react-aria-adapters',
   'temporal-adapter-date-fns', 'temporal-adapter-luxon', 'temporal-adapter-provider',
-  'unstable-use-media-query',
+  'unstable-use-media-query', 'aria',
 ]);
 
 const PASCAL_OVERRIDES = {

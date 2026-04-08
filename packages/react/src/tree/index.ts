@@ -5,3 +5,5 @@ export type {
   ItemProps as TreeItemProps,
   ItemContentProps as TreeItemContentProps,
 } from './Tree.styled';
+
+export type { Selection, Key } from 'react-aria-components';

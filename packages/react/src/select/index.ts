@@ -13,3 +13,5 @@ export type {
   LabelProps as SelectLabelProps,
   SeparatorProps as SelectSeparatorProps,
 } from './Select.styled';
+
+export type { Key } from 'react-aria-components';

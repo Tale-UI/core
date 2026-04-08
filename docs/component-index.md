@@ -11,7 +11,7 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Checkbox | Checkbox with visual indicator | `@tale-ui/react/checkbox` | Root, Indicator |
 | CheckboxGroup | Groups multiple checkboxes with validation | `@tale-ui/react/checkbox-group` | -- |
 | Radio | Radio button with group support | `@tale-ui/react/radio` | Group, Root, Indicator, Dot |
-| RadioGroup | Convenience re-export of `Radio.Group` | `@tale-ui/react/radio-group` | -- |
+| RadioGroup | Group of mutually exclusive radio buttons with label and validation | `@tale-ui/react/radio-group` | -- |
 | Switch | Toggle switch with sliding thumb | `@tale-ui/react/switch` | Root, Thumb |
 | ToggleButton | Pressable toggle with selected/unselected state | `@tale-ui/react/toggle-button` | -- |
 | ToggleButtonGroup | Group of toggle buttons | `@tale-ui/react/toggle-group` | -- |
@@ -42,23 +42,23 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
-| ColorArea | 2D color picker surface | `@tale-ui/react/color-area` | Root, Thumb |
+| ColorArea | Interactive saturation/brightness canvas for picking a color value | `@tale-ui/react/color-area` | Root, Thumb |
 | ColorSlider | Single-channel color slider | `@tale-ui/react/color-slider` | Root, Track, Thumb, Label, Output |
 | ColorWheel | Circular hue selector | `@tale-ui/react/color-wheel` | Root, Track, Thumb |
-| ColorSwatch | Color preview element | `@tale-ui/react/color-swatch` | -- |
+| ColorSwatch | Small colored circle or square showing a color value | `@tale-ui/react/color-swatch` | -- |
 | ColorSwatchPicker | Selectable swatch grid | `@tale-ui/react/color-swatch-picker` | Root, Item |
 | ColorField | Text input for color values | `@tale-ui/react/color-field` | Root, Input, Label, Description, ErrorMessage |
-| ColorPicker | Headless color state provider | `@tale-ui/react/color-picker` | -- |
+| ColorPicker | Composable color picker that provides shared color state to ColorArea, ColorSlider, and ColorWheel | `@tale-ui/react/color-picker` | -- |
 
 ## Overlay (6)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | Dialog | Modal dialog with backdrop | `@tale-ui/react/dialog` | Root, Trigger, Backdrop, Popup, Title, Description, Close, Actions |
-| AlertDialog | Confirmation dialog | `@tale-ui/react/alert-dialog` | Root, Trigger, Backdrop, Popup, Content, Title, Description, Close, Actions |
-| Popover | Anchored popup | `@tale-ui/react/popover` | Root, Trigger, Popup, Arrow, Title, Description, Close |
-| PreviewCard | Hover preview card | `@tale-ui/react/preview-card` | Root, Trigger, Popup, Content, Arrow |
-| Drawer | Slide-in panel | `@tale-ui/react/drawer` | Root, Trigger, Backdrop, Popup, Title, Description, Close, Handle, SwipeArea |
+| AlertDialog | Blocking dialog for destructive or irreversible actions requiring explicit user confirmation | `@tale-ui/react/alert-dialog` | Root, Trigger, Backdrop, Popup, Content, Title, Description, Close, Actions |
+| Popover | Floating panel anchored to a trigger element, for pickers, tooltips, and contextual content | `@tale-ui/react/popover` | Root, Trigger, Popup, Arrow, Title, Description, Close |
+| PreviewCard | Floating preview panel that appears when hovering a link or trigger element | `@tale-ui/react/preview-card` | Root, Trigger, Popup, Content, Arrow |
+| Drawer | Panel that slides in from the screen edge, for navigation drawers and detail views | `@tale-ui/react/drawer` | Root, Trigger, Backdrop, Popup, Title, Description, Close, Handle, SwipeArea |
 | Tooltip | Hover tooltip | `@tale-ui/react/tooltip` | Root, Trigger, Popup, Arrow, Title, Description |
 
 ## Navigation (7)
@@ -86,7 +86,7 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | ScrollArea | Custom scrollbar container | `@tale-ui/react/scroll-area` | Root, Viewport, Content, Scrollbar, Thumb, Corner |
 | Separator | Horizontal or vertical divider | `@tale-ui/react/separator` | -- |
 | Tabs | Tabbed content with indicator | `@tale-ui/react/tabs` | Root, List, Tab, Panel, Indicator |
-| Toolbar | Grouped action bar | `@tale-ui/react/toolbar` | Root, Group, Button, Link, Input, Separator |
+| Toolbar | Horizontal bar of buttons, toggles, or controls for a related set of actions | `@tale-ui/react/toolbar` | Root, Group, Button, Link, Input, Separator |
 
 ## Feedback (5)
 
@@ -95,7 +95,7 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Banner | Inline notification banner | `@tale-ui/react/banner` | Root, BannerIcon, Title, Description, Actions, Close |
 | ProgressBar | Determinate/indeterminate linear progress | `@tale-ui/react/progress-bar` | Root, Header, Label, Value, Track, Indicator |
 | ProgressCircle | Determinate/indeterminate circular progress | `@tale-ui/react/progress-circle` | Root, Track, Label, Value |
-| Meter | Scalar measurement display | `@tale-ui/react/meter` | Root, Header, Label, Value, Track, Indicator |
+| Meter | Gauge showing a known-range value such as storage used, battery level, or capacity | `@tale-ui/react/meter` | Root, Header, Label, Value, Track, Indicator |
 | Spinner | Indeterminate loading indicator | `@tale-ui/react/spinner` | -- |
 
 ## Display (13)
@@ -106,7 +106,7 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Badge | Small status label with semantic variants | `@tale-ui/react/badge` | -- |
 | DotIcon | Small colored circle status indicator | `@tale-ui/react/dot-icon` | -- |
 | EmptyState | Placeholder for empty content areas | `@tale-ui/react/empty-state` | Root, EmptyStateIcon, Title, Description, Actions |
-| FeaturedIcon | Themed background wrapper for icons | `@tale-ui/react/featured-icon` | -- |
+| FeaturedIcon | Icon with a colored background shape (circle or square); used for feature highlights and empty states | `@tale-ui/react/featured-icon` | -- |
 | GridList | Selectable grid of items | `@tale-ui/react/grid-list` | Root, Item |
 | Image | Styled image wrapper with radius and fit props | `@tale-ui/react/image` | -- |
 | List | Simple non-interactive list with optional dividers | `@tale-ui/react/list` | Root, Item |
@@ -142,7 +142,7 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | ColorModeToggle | Light/dark mode toggle with persistence | `@tale-ui/react/color-mode-toggle` | -- |
-| Container | Colour palette override wrapper | `@tale-ui/react/container` | -- |
+| Container | Wraps children in a different color theme (e.g. dark section inside a light page, or brand-colored panel) | `@tale-ui/react/container` | -- |
 | CSPProvider | Content Security Policy nonce provider | `@tale-ui/react/csp-provider` | -- |
 | I18nProvider | Locale and text direction provider | `@tale-ui/react/i18n-provider` | -- |
 | Icon | Lucide-react icon wrapper with BEM sizing | `@tale-ui/react/icon` | -- |

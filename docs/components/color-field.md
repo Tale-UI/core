@@ -41,7 +41,7 @@ Accepts all React Aria `ColorField` props plus an optional `className`. See the 
 - **There is no `HexColorField` component** — The hex color text input is `ColorField` from `@tale-ui/react/color-field`. There is no separate `HexColorField` export.
 
 <!-- pitfall: color-field-onchange-returns-color-object -->
-- **`ColorField.Root` `onChange` returns a `Color` object, not a string** — The `onChange` callback receives a `Color` object from `react-aria-components`, not a raw hex string. Call `.toString('hex')` or similar on the value if you need a string.
+- **`ColorField.Root` `onChange` returns a `Color` object, not a string** — The `onChange` callback receives a `Color` object (see `@tale-ui/react/color-field`), not a raw hex string. Call `.toString('hex')` or similar on the value if you need a string.
 
 <!-- cross-pitfall-ref: color-imports-from-rac -->
 

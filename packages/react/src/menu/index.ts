@@ -10,3 +10,5 @@ export type {
   HeaderProps as MenuHeaderProps,
   SeparatorProps as MenuSeparatorProps,
 } from './Menu.styled';
+
+export type { Selection, Key } from 'react-aria-components';

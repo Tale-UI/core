@@ -68,7 +68,7 @@ Accepts all React Aria `Table` props plus an optional `className`. See the `@exa
 
 ```tsx
 import { useState } from 'react';
-import type { SortDescriptor } from 'react-aria-components';
+import type { SortDescriptor } from '@tale-ui/react/table';
 
 function SortableTable() {
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({

@@ -83,7 +83,7 @@
       "slug": "alert-dialog",
       "import": "@tale-ui/react/alert-dialog",
       "category": "Overlay",
-      "description": "Confirmation dialog",
+      "description": "Blocking dialog for destructive or irreversible actions requiring explicit user confirmation",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -262,8 +262,8 @@
         "Separator"
       ],
       "examples": [
-        "import { useFilter } from 'react-aria-components';\n\nfunction SearchPanel() {\n  let { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search fruits\">\n        <Autocomplete.Input placeholder=\"Search fruits...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Fruits\">\n        <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n        <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        <Autocomplete.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Autocomplete.Item>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}",
-        "import { useFilter } from 'react-aria-components';\n\nfunction ProduceSearch() {\n  let { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search produce\">\n        <Autocomplete.Input placeholder=\"Search produce...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Produce\">\n        <Autocomplete.Section>\n          <Autocomplete.Header>Fruits</Autocomplete.Header>\n          <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n          <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        </Autocomplete.Section>\n        <Autocomplete.Section>\n          <Autocomplete.Header>Vegetables</Autocomplete.Header>\n          <Autocomplete.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Autocomplete.Item>\n          <Autocomplete.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Autocomplete.Item>\n        </Autocomplete.Section>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}"
+        "import { useFilter } from '@tale-ui/react/autocomplete';\n\nfunction SearchPanel() {\n  let { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search fruits\">\n        <Autocomplete.Input placeholder=\"Search fruits...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Fruits\">\n        <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n        <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        <Autocomplete.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Autocomplete.Item>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}",
+        "import { useFilter } from '@tale-ui/react/autocomplete';\n\nfunction ProduceSearch() {\n  let { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search produce\">\n        <Autocomplete.Input placeholder=\"Search produce...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Produce\">\n        <Autocomplete.Section>\n          <Autocomplete.Header>Fruits</Autocomplete.Header>\n          <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n          <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        </Autocomplete.Section>\n        <Autocomplete.Section>\n          <Autocomplete.Header>Vegetables</Autocomplete.Header>\n          <Autocomplete.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Autocomplete.Item>\n          <Autocomplete.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Autocomplete.Item>\n        </Autocomplete.Section>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}"
       ],
       "cssClasses": [
         "tale-autocomplete__input",
@@ -1125,7 +1125,7 @@
       "slug": "color-area",
       "import": "@tale-ui/react/color-area",
       "category": "Color",
-      "description": "2D color picker surface",
+      "description": "Interactive saturation/brightness canvas for picking a color value",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -1142,7 +1142,7 @@
         "Thumb"
       ],
       "examples": [
-        "import { parseColor } from 'react-aria-components';\n\n<ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorArea.Thumb />\n</ColorArea.Root>"
+        "import { ColorArea, parseColor } from '@tale-ui/react/color-area';\n\n<ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorArea.Thumb />\n</ColorArea.Root>"
       ],
       "cssClasses": [
         "tale-color-area"
@@ -1199,7 +1199,7 @@
         {
           "id": "color-field-onchange-returns-color-object",
           "summary": "ColorField.Root onChange returns a Color object, not a string",
-          "detail": "The `onChange` callback receives a `Color` object from `react-aria-components`, not a raw hex string. Call `.toString('hex')` or similar on the value if you need a string."
+          "detail": "The `onChange` callback receives a `Color` object (see `@tale-ui/react/color-field`), not a raw hex string. Call `.toString('hex')` or similar on the value if you need a string."
         }
       ],
       "crossPitfallRefs": [
@@ -1252,7 +1252,7 @@
       "slug": "color-picker",
       "import": "@tale-ui/react/color-picker",
       "category": "Color",
-      "description": "Headless color state provider",
+      "description": "Composable color picker that provides shared color state to ColorArea, ColorSlider, and ColorWheel",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -1282,7 +1282,7 @@
         "Root"
       ],
       "examples": [
-        "import { useState } from 'react';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\nimport { parseColor } from 'react-aria-components';\n\nconst [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));\n\n<ColorArea.Root value={color} onChange={setColor}>\n  <ColorArea.Thumb />\n</ColorArea.Root>\n\n<ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>"
+        "import { useState } from 'react';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\nimport { parseColor } from '@tale-ui/react/color-picker';\n\nconst [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));\n\n<ColorArea.Root value={color} onChange={setColor}>\n  <ColorArea.Thumb />\n</ColorArea.Root>\n\n<ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>"
       ],
       "cssClasses": null,
       "pitfalls": [
@@ -1340,7 +1340,7 @@
         "Output"
       ],
       "examples": [
-        "import { parseColor } from 'react-aria-components';\n\n<ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
+        "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n\n<ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
         "<ColorSlider.Root channel=\"saturation\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Saturation</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>"
       ],
       "cssClasses": [
@@ -1373,13 +1373,13 @@
       "slug": "color-swatch",
       "import": "@tale-ui/react/color-swatch",
       "category": "Color",
-      "description": "Color preview element",
+      "description": "Small colored circle or square showing a color value",
       "kind": "simple",
       "status": "stable",
       "props": [],
       "parts": null,
       "examples": [
-        "import { parseColor } from 'react-aria-components';\n\n<ColorSwatch color={parseColor('#ff0000')} />"
+        "import { ColorSwatch } from '@tale-ui/react/color-swatch';\n\n<ColorSwatch color=\"#ff0000\" />"
       ],
       "cssClasses": [
         "tale-color-swatch"
@@ -1496,7 +1496,7 @@
         "Thumb"
       ],
       "examples": [
-        "import { parseColor } from 'react-aria-components';\n\n<ColorWheel.Root\n  defaultValue={parseColor('hsl(0, 100%, 50%)')}\n  outerRadius={100}\n  innerRadius={70}\n>\n  <ColorWheel.Track />\n  <ColorWheel.Thumb />\n</ColorWheel.Root>"
+        "import { ColorWheel, parseColor } from '@tale-ui/react/color-wheel';\n\n<ColorWheel.Root\n  defaultValue={parseColor('hsl(0, 100%, 50%)')}\n  outerRadius={100}\n  innerRadius={70}\n>\n  <ColorWheel.Track />\n  <ColorWheel.Thumb />\n</ColorWheel.Root>"
       ],
       "cssClasses": [
         "tale-color-wheel",
@@ -1694,7 +1694,7 @@
       "slug": "container",
       "import": "@tale-ui/react/container",
       "category": "Utility",
-      "description": "Colour palette override wrapper",
+      "description": "Wraps children in a different color theme (e.g. dark section inside a light page, or brand-colored panel)",
       "kind": "simple",
       "status": "stable",
       "props": [
@@ -1960,7 +1960,7 @@
         {
           "id": "date-range-picker-no-date-value-type-import",
           "summary": "Do not import DateValueType from @tale-ui/react/date-range-picker",
-          "detail": "`DateValueType` is not exported from this package. Derive the value type from the component props using `DateRangePicker` types from `react-aria-components` or `@internationalized/date`."
+          "detail": "`DateValueType` is not exported. Use `DateValue` instead: `import type { DateValue } from '@tale-ui/react/date-range-picker'`."
         }
       ],
       "crossPitfallRefs": [
@@ -2193,7 +2193,7 @@
       "slug": "drawer",
       "import": "@tale-ui/react/drawer",
       "category": "Overlay",
-      "description": "Slide-in panel",
+      "description": "Panel that slides in from the screen edge, for navigation drawers and detail views",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -2386,7 +2386,7 @@
       "slug": "featured-icon",
       "import": "@tale-ui/react/featured-icon",
       "category": "Display",
-      "description": "Themed background wrapper for icons",
+      "description": "Icon with a colored background shape (circle or square); used for feature highlights and empty states",
       "kind": "simple",
       "status": "stable",
       "props": [
@@ -3293,7 +3293,7 @@
       "slug": "meter",
       "import": "@tale-ui/react/meter",
       "category": "Feedback",
-      "description": "Scalar measurement display",
+      "description": "Gauge showing a known-range value such as storage used, battery level, or capacity",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -3703,7 +3703,7 @@
       "slug": "popover",
       "import": "@tale-ui/react/popover",
       "category": "Overlay",
-      "description": "Anchored popup",
+      "description": "Floating panel anchored to a trigger element, for pickers, tooltips, and contextual content",
       "kind": "compound",
       "status": "stable",
       "props": [],
@@ -3738,7 +3738,7 @@
       "slug": "preview-card",
       "import": "@tale-ui/react/preview-card",
       "category": "Overlay",
-      "description": "Hover preview card",
+      "description": "Floating preview panel that appears when hovering a link or trigger element",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -4042,7 +4042,7 @@
       "slug": "radio-group",
       "import": "@tale-ui/react/radio-group",
       "category": "Form Controls",
-      "description": "Convenience re-export of `Radio.Group`",
+      "description": "Group of mutually exclusive radio buttons with label and validation",
       "kind": "simple",
       "status": "stable",
       "props": [],
@@ -4946,7 +4946,7 @@
       "examples": [
         "<Table.Root aria-label=\"People\">\n  <Table.Header>\n    <Table.Column isRowHeader>Name</Table.Column>\n    <Table.Column>Email</Table.Column>\n    <Table.Column>Role</Table.Column>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row id=\"1\">\n      <Table.Cell>Alice</Table.Cell>\n      <Table.Cell>alice@example.com</Table.Cell>\n      <Table.Cell>Admin</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>",
         "<Table.Root aria-label=\"People\" selectionMode=\"multiple\">\n  <Table.Header>\n    <Table.Column isRowHeader>Name</Table.Column>\n    <Table.Column>Email</Table.Column>\n    <Table.Column>Role</Table.Column>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row id=\"1\">\n      <Table.Cell>Alice</Table.Cell>\n      <Table.Cell>alice@example.com</Table.Cell>\n      <Table.Cell>Admin</Table.Cell>\n    </Table.Row>\n    <Table.Row id=\"2\">\n      <Table.Cell>Bob</Table.Cell>\n      <Table.Cell>bob@example.com</Table.Cell>\n      <Table.Cell>Editor</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>",
-        "import { useState } from 'react';\nimport type { SortDescriptor } from 'react-aria-components';\n\nfunction SortableTable() {\n  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({\n    column: 'name',\n    direction: 'ascending',\n  });\n\n  const rows = [\n    { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Admin' },\n    { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Editor' },\n  ];\n\n  const sorted = [...rows].sort((a, b) => {\n    const col = sortDescriptor.column as keyof typeof a;\n    const cmp = a[col].localeCompare(b[col]);\n    return sortDescriptor.direction === 'descending' ? -cmp : cmp;\n  });\n\n  return (\n    <Table.Root\n      aria-label=\"People\"\n      sortDescriptor={sortDescriptor}\n      onSortChange={setSortDescriptor}\n    >\n      <Table.Header>\n        <Table.Column id=\"name\" isRowHeader allowsSorting>Name</Table.Column>\n        <Table.Column id=\"email\" allowsSorting>Email</Table.Column>\n        <Table.Column id=\"role\" allowsSorting>Role</Table.Column>\n      </Table.Header>\n      <Table.Body>\n        {sorted.map((row) => (\n          <Table.Row key={row.id} id={row.id}>\n            <Table.Cell>{row.name}</Table.Cell>\n            <Table.Cell>{row.email}</Table.Cell>\n            <Table.Cell>{row.role}</Table.Cell>\n          </Table.Row>\n        ))}\n      </Table.Body>\n    </Table.Root>\n  );\n}"
+        "import { useState } from 'react';\nimport type { SortDescriptor } from '@tale-ui/react/table';\n\nfunction SortableTable() {\n  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({\n    column: 'name',\n    direction: 'ascending',\n  });\n\n  const rows = [\n    { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Admin' },\n    { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Editor' },\n  ];\n\n  const sorted = [...rows].sort((a, b) => {\n    const col = sortDescriptor.column as keyof typeof a;\n    const cmp = a[col].localeCompare(b[col]);\n    return sortDescriptor.direction === 'descending' ? -cmp : cmp;\n  });\n\n  return (\n    <Table.Root\n      aria-label=\"People\"\n      sortDescriptor={sortDescriptor}\n      onSortChange={setSortDescriptor}\n    >\n      <Table.Header>\n        <Table.Column id=\"name\" isRowHeader allowsSorting>Name</Table.Column>\n        <Table.Column id=\"email\" allowsSorting>Email</Table.Column>\n        <Table.Column id=\"role\" allowsSorting>Role</Table.Column>\n      </Table.Header>\n      <Table.Body>\n        {sorted.map((row) => (\n          <Table.Row key={row.id} id={row.id}>\n            <Table.Cell>{row.name}</Table.Cell>\n            <Table.Cell>{row.email}</Table.Cell>\n            <Table.Cell>{row.role}</Table.Cell>\n          </Table.Row>\n        ))}\n      </Table.Body>\n    </Table.Root>\n  );\n}"
       ],
       "cssClasses": [
         "tale-table",
@@ -5086,7 +5086,7 @@
       ],
       "examples": [
         "<TagGroup.Root>\n  <TagGroup.Label>Categories</TagGroup.Label>\n  <TagGroup.List>\n    <TagGroup.Tag id=\"react\">React</TagGroup.Tag>\n    <TagGroup.Tag id=\"vue\">Vue</TagGroup.Tag>\n    <TagGroup.Tag id=\"angular\">Angular</TagGroup.Tag>\n  </TagGroup.List>\n  <TagGroup.Description>Select your frameworks</TagGroup.Description>\n</TagGroup.Root>",
-        "import { useState } from 'react';\nimport type { Selection } from 'react-aria-components';\n\nfunction RemovableTags() {\n  const [tags, setTags] = useState([\n    { id: 'react', name: 'React' },\n    { id: 'vue', name: 'Vue' },\n    { id: 'angular', name: 'Angular' },\n    { id: 'svelte', name: 'Svelte' },\n  ]);\n\n  const handleRemove = (keys: Selection) => {\n    setTags((prev) => prev.filter((tag) => !(keys as Set<string>).has(tag.id)));\n  };\n\n  return (\n    <TagGroup.Root onRemove={handleRemove}>\n      <TagGroup.Label>Frameworks</TagGroup.Label>\n      <TagGroup.List>\n        {tags.map((tag) => (\n          <TagGroup.Tag key={tag.id} id={tag.id}>{tag.name}</TagGroup.Tag>\n        ))}\n      </TagGroup.List>\n    </TagGroup.Root>\n  );\n}",
+        "import { useState } from 'react';\nimport type { Selection } from '@tale-ui/react/tag-group';\n\nfunction RemovableTags() {\n  const [tags, setTags] = useState([\n    { id: 'react', name: 'React' },\n    { id: 'vue', name: 'Vue' },\n    { id: 'angular', name: 'Angular' },\n    { id: 'svelte', name: 'Svelte' },\n  ]);\n\n  const handleRemove = (keys: Selection) => {\n    setTags((prev) => prev.filter((tag) => !(keys as Set<string>).has(tag.id)));\n  };\n\n  return (\n    <TagGroup.Root onRemove={handleRemove}>\n      <TagGroup.Label>Frameworks</TagGroup.Label>\n      <TagGroup.List>\n        {tags.map((tag) => (\n          <TagGroup.Tag key={tag.id} id={tag.id}>{tag.name}</TagGroup.Tag>\n        ))}\n      </TagGroup.List>\n    </TagGroup.Root>\n  );\n}",
         "<TagGroup.Root selectionMode=\"multiple\">\n  <TagGroup.Label>Skills</TagGroup.Label>\n  <TagGroup.List>\n    <TagGroup.Tag id=\"typescript\">TypeScript</TagGroup.Tag>\n    <TagGroup.Tag id=\"rust\">Rust</TagGroup.Tag>\n    <TagGroup.Tag id=\"python\">Python</TagGroup.Tag>\n    <TagGroup.Tag id=\"go\">Go</TagGroup.Tag>\n  </TagGroup.List>\n  <TagGroup.Description>Select all that apply</TagGroup.Description>\n</TagGroup.Root>"
       ],
       "cssClasses": [
@@ -5515,7 +5515,7 @@
       "slug": "toolbar",
       "import": "@tale-ui/react/toolbar",
       "category": "Layout",
-      "description": "Grouped action bar",
+      "description": "Horizontal bar of buttons, toggles, or controls for a related set of actions",
       "kind": "compound",
       "status": "stable",
       "props": [

@@ -526,6 +526,8 @@ pnpm golden:fix-review -- --skip-validate                     # skip pre-flight 
 pnpm golden:fix-review -- --difficulty simple                 # only simple prompts (faster)
 pnpm golden:fix-review -- --model sonnet                      # model for both eval and fix
 pnpm golden:fix-review -- --model haiku --fix-model sonnet    # haiku for eval, sonnet for fixes
+pnpm golden:fix-review -- --concurrency 2                    # lower eval concurrency (useful for slower providers/MCP)
+pnpm golden:fix-review -- --mcp --mcp-max-turns 8            # allow more agent turns during MCP evals
 pnpm golden:fix-review -- --until-pass                        # fix each prompt until it passes (no attempt cap)
 pnpm golden:fix-review -- --until-pass --max-iter 20          # fix each prompt until it passes, max 20 attempts each
 pnpm golden:fix-review -- --max-iter 10                       # raise per-prompt attempt cap (default: 3)

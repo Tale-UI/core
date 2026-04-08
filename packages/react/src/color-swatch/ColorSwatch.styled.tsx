@@ -16,8 +16,7 @@ export type ColorSwatchProps = Omit<AriaColorSwatchProps, 'className'> & {
  *
  * @example
  * ```tsx
- * import { ColorSwatch } from '@tale-ui/react/color-swatch';
- * import { parseColor } from 'react-aria-components';
+ * import { ColorSwatch, parseColor } from '@tale-ui/react/color-swatch';
  *
  * <ColorSwatch color={parseColor('#ff0000')} />
  * ```

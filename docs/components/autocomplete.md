@@ -25,7 +25,7 @@ Accepts all React Aria `Autocomplete` props plus an optional `className`. See th
 ## Basic Usage
 
 ```tsx
-import { useFilter } from 'react-aria-components';
+import { useFilter } from '@tale-ui/react/autocomplete';
 
 function SearchPanel() {
   let { contains } = useFilter({ sensitivity: 'base' });
@@ -49,7 +49,7 @@ function SearchPanel() {
 ### With Sections
 
 ```tsx
-import { useFilter } from 'react-aria-components';
+import { useFilter } from '@tale-ui/react/autocomplete';
 
 function ProduceSearch() {
   let { contains } = useFilter({ sensitivity: 'base' });
@@ -103,6 +103,6 @@ function ProduceSearch() {
 ## Notes
 
 - Unlike Combobox, Autocomplete renders the list inline (no popover). It is suited for command palettes, sidebar filters, and embedded search panels.
-- You must provide a `filter` function to `Autocomplete.Root`. Use `useFilter` from `react-aria-components` for locale-aware filtering.
+- You must provide a `filter` function to `Autocomplete.Root`. Use `useFilter` from `@tale-ui/react/autocomplete` for locale-aware filtering.
 - Each `Autocomplete.Item` needs both `id` and `textValue` for filtering and accessibility.
 - `Autocomplete.SearchField` requires an `aria-label` when no visible label is present.

@@ -24,8 +24,7 @@ export type RootProps = Omit<AriaColorSliderProps, 'className'> & {
  *
  * @example
  * ```tsx
- * import { ColorSlider } from '@tale-ui/react/color-slider';
- * import { parseColor } from 'react-aria-components';
+ * import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
  *
  * <ColorSlider.Root channel="hue" defaultValue={parseColor('hsl(0, 100%, 50%)')}>
  *   <ColorSlider.Label>Hue</ColorSlider.Label>

@@ -7,3 +7,5 @@ export type {
   DescriptionProps as TimeFieldDescriptionProps,
   ErrorMessageProps as TimeFieldErrorMessageProps,
 } from './TimeField.styled';
+
+export type { TimeValue } from 'react-aria-components';

@@ -12,3 +12,5 @@ export type {
   DescriptionProps as DateRangePickerDescriptionProps,
   ErrorMessageProps as DateRangePickerErrorMessageProps,
 } from './DateRangePicker.styled';
+
+export type { DateValue } from 'react-aria-components';

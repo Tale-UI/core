@@ -11,9 +11,9 @@ Accepts all React Aria `ColorSwatch` props plus an optional `className`. See the
 ## Basic Usage
 
 ```tsx
-import { parseColor } from 'react-aria-components';
+import { ColorSwatch } from '@tale-ui/react/color-swatch';
 
-<ColorSwatch color={parseColor('#ff0000')} />
+<ColorSwatch color="#ff0000" />
 ```
 
 ## CSS Classes
@@ -35,5 +35,4 @@ import { parseColor } from 'react-aria-components';
 ## Notes
 
 - This is a simple (non-compound) component exported directly as `ColorSwatch`.
-- Accepts a `color` prop as a parsed color value.
-- The `color` prop accepts a parsed Color object from `react-aria-components` (e.g. `parseColor('#ff0000')`), not a plain string.
+- The `color` prop accepts a plain CSS color string (e.g. `"#ff0000"`), not a `Color` object. Do not use `parseColor()` here.

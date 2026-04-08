@@ -21,7 +21,7 @@ Accepts all React Aria `ColorSlider` props plus an optional `className`. See the
 ## Basic Usage
 
 ```tsx
-import { parseColor } from 'react-aria-components';
+import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
 
 <ColorSlider.Root channel="hue" defaultValue={parseColor('hsl(0, 100%, 50%)')}>
   <ColorSlider.Label>Hue</ColorSlider.Label>
@@ -69,4 +69,4 @@ import { parseColor } from 'react-aria-components';
 ## Notes
 
 - The `channel` prop on Root is required and determines which color channel the slider controls (e.g. `"hue"`, `"saturation"`, `"lightness"`, `"alpha"`).
-- Use `parseColor()` from `react-aria-components` to create color values.
+- Use `parseColor()` from `@tale-ui/react/color-slider` (or `@tale-ui/react/aria`) to create color values.

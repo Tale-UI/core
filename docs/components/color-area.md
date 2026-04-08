@@ -18,7 +18,7 @@ Accepts all React Aria `ColorArea` props plus an optional `className`. See the `
 ## Basic Usage
 
 ```tsx
-import { parseColor } from 'react-aria-components';
+import { ColorArea, parseColor } from '@tale-ui/react/color-area';
 
 <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>
   <ColorArea.Thumb />
@@ -44,5 +44,5 @@ import { parseColor } from 'react-aria-components';
 
 ## Notes
 
-- Use `parseColor()` from `react-aria-components` to create color values.
+- Use `parseColor()` from `@tale-ui/react/color-area` (or `@tale-ui/react/aria`) to create color values.
 - Commonly paired with `ColorSlider` for a complete color picker.

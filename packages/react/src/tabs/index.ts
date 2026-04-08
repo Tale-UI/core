@@ -7,3 +7,5 @@ export type {
   PanelProps as TabsPanelProps,
   IndicatorProps as TabsIndicatorProps,
 } from './Tabs.styled';
+
+export type { Key } from 'react-aria-components';

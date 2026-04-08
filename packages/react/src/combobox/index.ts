@@ -17,3 +17,6 @@ export type {
   ChipRemoveProps as ComboboxChipRemoveProps,
   SeparatorProps as ComboboxSeparatorProps,
 } from './Combobox.styled';
+
+export { useFilter } from 'react-aria-components';
+export type { Key } from 'react-aria-components';

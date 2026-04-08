@@ -20,6 +20,7 @@ const CATALOG_PATH = path.join(ROOT, 'packages/a2ui/src/catalog.ts');
 const ICON_REGISTRY_PATH = path.join(ROOT, 'packages/a2ui/src/icon-registry.ts');
 const EXAMPLES_DIR = path.join(ROOT, 'packages/a2ui/src/agent/examples');
 const OUTPUT_PATH = path.join(ROOT, 'registry/a2ui-catalog.json');
+const COMPONENTS_REGISTRY_PATH = path.join(ROOT, 'registry/components.json');
 
 const isCheck = process.argv.includes('--check');
 
@@ -101,6 +102,31 @@ function loadExamples() {
 
 /* ─── Main ────────────────────────────────────────────────────────────────── */
 
+function loadComponentDescriptions() {
+  // Build a name → description map from registry/components.json.
+  // Used as a fallback when TYPE_DESCRIPTIONS has no entry for an A2UI type.
+  try {
+    const reg = JSON.parse(fs.readFileSync(COMPONENTS_REGISTRY_PATH, 'utf8'));
+    const map = new Map();
+    for (const c of reg.components) {
+      map.set(c.name, c.description);
+    }
+    return map;
+  } catch {
+    return new Map();
+  }
+}
+
+function resolveDescription(typeName, component, componentDescriptions) {
+  // 1. Explicit A2UI override wins.
+  if (TYPE_DESCRIPTIONS[typeName]) return TYPE_DESCRIPTIONS[typeName];
+  // 2. Fall back to the registry description for the underlying component.
+  //    component may be "Card.Root", "List.Item" etc — strip the sub-part suffix
+  //    to get the component name ("Card", "List").
+  const baseName = component.replace(/\.\w+$/, '');
+  return componentDescriptions.get(baseName) || componentDescriptions.get(component) || '';
+}
+
 function main() {
   const catalogSource = fs.readFileSync(CATALOG_PATH, 'utf8');
   const iconSource = fs.readFileSync(ICON_REGISTRY_PATH, 'utf8');
@@ -109,6 +135,7 @@ function main() {
   const iconNames = extractIconNames(iconSource);
   const usageHints = extractUsageHints(catalogSource);
   const examples = loadExamples();
+  const componentDescriptions = loadComponentDescriptions();
 
   const types = entries.map((e) => ({
     name: e.typeName,
@@ -124,7 +151,7 @@ function main() {
       return { name: p, hint, allowedValues };
     }),
     isSubPart: SUB_PARTS.has(e.typeName),
-    description: TYPE_DESCRIPTIONS[e.typeName] || '',
+    description: resolveDescription(e.typeName, e.component, componentDescriptions),
   }));
 
   const catalog = {

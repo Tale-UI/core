@@ -89,7 +89,7 @@ import { RangeCalendar } from '@tale-ui/react/range-calendar';
 - **`DateRangePicker.Dialog` does not auto-render a calendar** — You must compose a full `RangeCalendar` (imported from `@tale-ui/react/range-calendar`) as children inside `DateRangePicker.Dialog`.
 
 <!-- pitfall: date-range-picker-no-date-value-type-import -->
-- **Do not import `DateValueType` from `@tale-ui/react/date-range-picker`** — `DateValueType` is not exported from this package. Derive the value type from the component props using `DateRangePicker` types from `react-aria-components` or `@internationalized/date`.
+- **Do not import `DateValueType` from `@tale-ui/react/date-range-picker`** — `DateValueType` is not exported. Use `DateValue` instead: `import type { DateValue } from '@tale-ui/react/date-range-picker'`.
 
 <!-- cross-pitfall-ref: no-native-date -->
 <!-- cross-pitfall-ref: derive-date-type-from-props -->

@@ -24,8 +24,9 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 ## Critical pitfalls
 
 - Never annotate component return types as JSX.Element or use React.FC — this project uses the new JSX transform. Write plain functions with no return type annotation. Always include a space between export and function.
+- Always generate code directly — never ask for clarification or present options — when given a prompt describing a UI, always produce a complete, working code example immediately. Do not respond with questions, numbered option lists, or requests for more information.
 - CSS design tokens use -s/-m/-l suffixes; component size props use -sm/-md/-lg — e.g. --space-s is a token, but size="sm" is a prop value. Token scale: 4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl.
-- Max gap value for Row/Column is '2xl' — there is no '3xl' or '4xl' gap token. Using them produces no visible spacing (token is undefined).
+- Row/Column gap uses token-scale values, not component size values — valid gap values follow the CSS token scale: 'xs', 's', 'm', 'l', 'xl', '2xl'. Never use 'sm', 'md', or 'lg' for gap; those are component size prop values and are not valid gap tokens. The TypeScript type is Gap, which does not include 'sm'/'md'/'lg'. The mapping is: 'sm' → 's', 'md' → 'm', 'lg' → 'l'.
 - Do not add variant, size, or color props to native HTML elements — these props only exist on Tale UI components. They are silently ignored on <div>, <p>, <span>, etc.
 - Use <Image> from @tale-ui/react/image instead of <img> — Image applies radius, lazy loading, and correct CSS. Use its radius prop (not borderRadius) and width/height (not size).
 - There is no Heading component in Tale UI — for headings, use <Text variant="heading" as="h2">. Importing { Heading } from any @tale-ui/react/* path causes "has no exported member 'Heading'" TypeScript errors.
