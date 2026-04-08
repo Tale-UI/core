@@ -2,6 +2,15 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.42 — 2026-04-04
+
+### Added
+
+- **Re-exports from react-aria-components**: Color component packages now re-export `parseColor` and `Color` type so consumers no longer need a direct `react-aria-components` import. Affected packages: `@tale-ui/react/color-area`, `/color-slider`, `/color-wheel`, `/color-swatch`, `/color-picker`.
+- **`@tale-ui/react/aria` barrel**: New entry point re-exporting all consumer-facing helpers: `parseColor`, `useFilter`, and types `Color`, `Key`, `Selection`, `SortDescriptor`, `DateValue`, `TimeValue`.
+- **`useFilter` re-export**: Available from `@tale-ui/react/autocomplete` and `@tale-ui/react/combobox`.
+- **Type re-exports**: `Selection`, `Key`, `SortDescriptor` from `@tale-ui/react/table`; `DateValue`/`TimeValue` from date/time packages.
+
 ## v1.3.41 — 2026-03-31
 
 ### Changed
