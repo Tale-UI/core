@@ -97,9 +97,23 @@ Accepts all React Aria `Switch` props plus:
 ## Pitfalls
 
 <!-- pitfall: switch-no-label-indicator-sub-parts -->
+<!-- multi-idea-ok -->
 - **No `Label` or `Indicator` sub-parts — only `Root` and `Thumb`** — `Switch` has only `Switch.Root` and `Switch.Thumb`. Label text is placed as a direct child of `Switch.Root`, not in a sub-part.
   - anti-pattern: `<Switch.Label>Enable</Switch.Label>`
-  - fix: place label text as a text child of `Switch.Root`: `<Switch.Root><Switch.Thumb />Enable</Switch.Root>`
+  - fix: `<Switch.Root><Switch.Thumb />Enable</Switch.Root>`
+  - complete example:
+    ```tsx
+    import { Switch } from '@tale-ui/react/switch';
+    
+    export function Example() {
+      return (
+        <Switch.Root>
+          <Switch.Thumb />
+          Enable notifications
+        </Switch.Root>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: no-visual-exports-for-interactive-ui -->
 

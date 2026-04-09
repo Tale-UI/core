@@ -89,9 +89,34 @@ Accepts all standard `<div>` HTML attributes plus an optional `className`. See t
 
 <!-- pitfall: scroll-area-orientation-is-string -->
 - **`Scrollbar` `orientation` is a string, not a boolean** — pass `orientation="vertical"` or `orientation="horizontal"` explicitly; do not omit it or treat it as a flag.
+  - anti-pattern: `<ScrollArea.Scrollbar vertical><ScrollArea.Thumb /></ScrollArea.Scrollbar>`
+  - fix: `<ScrollArea.Scrollbar orientation="vertical"><ScrollArea.Thumb /></ScrollArea.Scrollbar>`
+  - complete example:
+    ```tsx
+    import { ScrollArea } from '@tale-ui/react/scroll-area';
+    
+    export function Example() {
+      return (
+        <>
+          <ScrollArea.Root style={{ height: 200 }}>
+            <ScrollArea.Viewport>
+              <ScrollArea.Content>
+                <p>Scrollable content here...</p>
+              </ScrollArea.Content>
+            </ScrollArea.Viewport>
+            <ScrollArea.Scrollbar orientation="vertical">
+              <ScrollArea.Thumb />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
+        </>
+      );
+    }
+    ```
 
 <!-- pitfall: scroll-area-required-nesting -->
 - **Requires a specific nested structure** — the correct hierarchy is `Root > Viewport > Content > your content`, with `Scrollbar` (containing `Thumb`) as a sibling of `Viewport` inside `Root`.
+  - anti-pattern: `<ScrollArea.Root><ScrollArea.Content>{items}</ScrollArea.Content></ScrollArea.Root>`
+  - fix: `<ScrollArea.Root><ScrollArea.Viewport><ScrollArea.Content>{items}</ScrollArea.Content></ScrollArea.Viewport><ScrollArea.Scrollbar orientation="vertical"><ScrollArea.Thumb /></ScrollArea.Scrollbar></ScrollArea.Root>`
 
 ## Notes
 

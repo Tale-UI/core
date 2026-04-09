@@ -94,12 +94,34 @@ function RemovableTags() {
 
 <!-- pitfall: tag-group-no-item-sub-part -->
 - **Uses `TagGroup.Tag`, NOT `TagGroup.Item`** — there is no `TagGroup.Item` sub-part.
+  - anti-pattern: `<TagGroup.Root><TagGroup.Item key="a">Design</TagGroup.Item></TagGroup.Root>`
+  - fix: `<TagGroup.Root><TagGroup.Tag id="a">Design</TagGroup.Tag></TagGroup.Root>`
+  - complete example:
+    ```tsx
+    import { TagGroup } from '@tale-ui/react/tag-group';
+    
+    export function Example() {
+      return (
+        <TagGroup.Root>
+          <TagGroup.Label>Categories</TagGroup.Label>
+          <TagGroup.List>
+            <TagGroup.Tag id="react">React</TagGroup.Tag>
+            <TagGroup.Tag id="vue">Vue</TagGroup.Tag>
+          </TagGroup.List>
+        </TagGroup.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: tag-group-root-no-label-prop -->
 - **`TagGroup.Root` does NOT accept a `label` prop** — use `<TagGroup.Label>` as a child element.
+  - anti-pattern: `<TagGroup.Root label="Technologies">...</TagGroup.Root>`
+  - fix: `<TagGroup.Root><TagGroup.Label>Technologies</TagGroup.Label>...</TagGroup.Root>`
 
 <!-- pitfall: tag-group-tag-no-on-remove -->
 - **`TagGroup.Tag` does NOT accept `onRemove`** — put `onRemove` on `TagGroup.Root` instead.
+  - anti-pattern: `<TagGroup.Tag id="a" onRemove={() => remove('a')}>Design</TagGroup.Tag>`
+  - fix: `<TagGroup.Root onRemove={(keys) => setTags(tags.filter(t => !keys.has(t.id)))}><TagGroup.Tag id="a">Design</TagGroup.Tag></TagGroup.Root>`
 
 ## Notes
 

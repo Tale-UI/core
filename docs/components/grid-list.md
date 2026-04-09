@@ -60,9 +60,29 @@ import { Star, Heart, Bell } from 'lucide-react';
 
 <!-- pitfall: grid-list-no-is-selected-on-item -->
 - **`GridList.Item` does NOT accept `isSelected`** — use `selectedKeys` and `onSelectionChange` on `GridList.Root` instead.
+  - anti-pattern: `<GridList.Item isSelected={selectedIds.includes(item.id)}>`
+  - fix: `<GridList.Root selectedKeys={selectedIds} onSelectionChange={setSelectedIds}>`
+  - complete example:
+    ```tsx
+    import { GridList } from '@tale-ui/react/grid-list';
+    import { Icon } from '@tale-ui/react/icon';
+    import { Star, Heart, Bell } from 'lucide-react';
+    
+    export function Example() {
+      return (
+        <GridList.Root aria-label="Items" selectionMode="multiple">
+          <GridList.Item id="1" textValue="Favorites"><Icon icon={Star} size="sm" />Favorites</GridList.Item>
+          <GridList.Item id="2" textValue="Liked"><Icon icon={Heart} size="sm" />Liked</GridList.Item>
+          <GridList.Item id="3" textValue="Alerts"><Icon icon={Bell} size="sm" />Alerts</GridList.Item>
+        </GridList.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: grid-list-on-selection-change-set -->
 - **Do NOT annotate `onSelectionChange` parameter as `Set<string>`** — the parameter type is `Selection`; cast inside the handler if needed.
+  - anti-pattern: `onSelectionChange={(keys: Set<string>) => setSelected(keys)}`
+  - fix: `onSelectionChange={(keys: Selection) => setSelected(keys)}`
 
 ## Notes
 

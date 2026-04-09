@@ -58,8 +58,25 @@ import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
 
 <!-- pitfall: color-slider-no-color-picker-context -->
 - **Do NOT nest `ColorSlider` inside `ColorPicker.Root`** — React Aria's `ColorPicker` context does not propagate the shared color value to a nested `ColorSlider`, causing a runtime error: `Uncaught Error: Unknown color channel: hue`. Use `ColorSlider` as a standalone component with its own `value`/`onChange`.
+  - anti-pattern: `<ColorPicker.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}><ColorSlider.Root channel="hue"><ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track></ColorSlider.Root></ColorPicker.Root>`
+  - fix: `<ColorSlider.Root channel="hue" value={color} onChange={setColor}><ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track></ColorSlider.Root>`
+  - complete example:
+    ```tsx
+    import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
+    
+    export function Example() {
+      return (
+        <ColorSlider.Root channel="hue" defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+          <ColorSlider.Label>Hue</ColorSlider.Label>
+          <ColorSlider.Output />
+          <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>
+        </ColorSlider.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: color-slider-composition-with-color-area -->
+<!-- prose-only -->
 - **When composing with `ColorArea`, wrap both in a single parent element** — Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container.
 
 <!-- cross-pitfall-ref: color-imports-from-rac -->

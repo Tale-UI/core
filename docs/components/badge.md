@@ -90,10 +90,27 @@ Also accepts all standard `<span>` HTML attributes.
 ## Pitfalls
 
 <!-- pitfall: badge-no-danger-variant -->
-- **`'danger'` is NOT a valid variant** — use `variant="error"` instead.
+- **'danger' is NOT a valid variant** — use `variant="error"` instead.
+  - anti-pattern: `<Badge variant="danger">Failed</Badge>`
+  - fix: `<Badge variant="error">Failed</Badge>`
+  - complete example:
+    ```tsx
+    import { Badge } from '@tale-ui/react/badge';
+    
+    export function Example() {
+      return (
+        <>
+          <Badge variant="success">Active</Badge>
+          <Badge variant="error" size="sm">Failed</Badge>
+        </>
+      );
+    }
+    ```
 
 <!-- pitfall: badge-no-color-prop -->
 - **No `color` prop** — use the `variant` prop to control color.
+  - anti-pattern: `<Badge color="blue">New</Badge>`
+  - fix: `<Badge variant="info">New</Badge>`
 
 ## Notes
 

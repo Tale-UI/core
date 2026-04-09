@@ -65,13 +65,40 @@ Accepts all React Aria `Tree` props plus an optional `className`. See the `@exam
 ## Pitfalls
 
 <!-- pitfall: tree-sub-parts-only -->
+<!-- multi-idea-ok -->
 - **Sub-parts are Root, Item, and ItemContent only** — there is no `Tree.Node`, `Tree.Header`, or `Tree.ExpandTrigger`.
+  - anti-pattern: `<Tree.Node>...</Tree.Node>`
+  - fix: `<Tree.Item id="node-1" textValue="Node"><Tree.ItemContent>Node</Tree.ItemContent></Tree.Item>`
+  - complete example:
+    ```tsx
+    import { Tree } from '@tale-ui/react/tree';
+    
+    export function Example() {
+      return (
+        <Tree.Root aria-label="Files">
+          <Tree.Item id="src" textValue="src">
+            <Tree.ItemContent>src/</Tree.ItemContent>
+            <Tree.Item id="app" textValue="App.tsx">
+              <Tree.ItemContent>App.tsx</Tree.ItemContent>
+            </Tree.Item>
+          </Tree.Item>
+          <Tree.Item id="pkg" textValue="package.json">
+            <Tree.ItemContent>package.json</Tree.ItemContent>
+          </Tree.Item>
+        </Tree.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: tree-root-requires-aria-label -->
+<!-- prose-only -->
 - **`Tree.Root` requires `aria-label`** — omitting it leaves the tree without an accessible name.
 
 <!-- pitfall: tree-item-requires-id-and-text-value -->
+<!-- multi-idea-ok -->
 - **Each `Tree.Item` requires both `id` and `textValue`** — `id` identifies the node, `textValue` provides the screen reader label.
+  - anti-pattern: `<Tree.Item><Tree.ItemContent>Node</Tree.ItemContent></Tree.Item>`
+  - fix: `<Tree.Item id="node-1" textValue="Node"><Tree.ItemContent>Node</Tree.ItemContent></Tree.Item>`
 
 ## Notes
 

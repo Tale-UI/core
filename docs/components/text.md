@@ -83,23 +83,54 @@ Also accepts all standard HTML attributes for the rendered element.
 
 ## Pitfalls
 
+<!-- pitfall: text-no-bare-paragraph-tags -->
+- **Never use bare `<p>` paragraph tags or `<span>` for visible text** — Tale UI's typography tokens (color, size, variant) are only applied through `Text`; bare paragraph tags are forbidden just like bare heading tags.
+  - anti-pattern: `<p style={{ color: 'gray' }}>This action cannot be undone.</p>`
+  - fix: `<Text color="muted">This action cannot be undone.</Text>`
+  - complete example:
+    ```tsx
+    import { Text } from '@tale-ui/react/text';
+    
+    export function Example() {
+      return (
+        <>
+          <Text variant="heading" size="l" as="h1">Page title</Text>
+          <Text variant="text" color="muted">Secondary info</Text>
+          <Text variant="mono" size="s" as="code">const x = 1;</Text>
+        </>
+      );
+    }
+    ```
+
 <!-- pitfall: text-size-valid-values -->
 - **`size` only accepts `'xs'`, `'s'`, `'m'`, `'l'`** — no other size tokens are valid.
+  - anti-pattern: `<Text size="sm">Hello</Text>`
+  - fix: `<Text size="s">Hello</Text>`
 
 <!-- pitfall: text-mono-not-code -->
 - **Monospace variant is `"mono"`, NOT `"code"`** — use `variant="mono"` for monospace text.
+  - anti-pattern: `<Text variant="code">console.log(x)</Text>`
+  - fix: `<Text variant="mono">console.log(x)</Text>`
 
 <!-- pitfall: text-no-invalid-variants -->
 - **No `'link'`, `'code'`, or `'caption'` variant** — valid values are `'display'`, `'heading'`, `'title'`, `'label'`, `'text'`, `'mono'`.
+  - anti-pattern: `<Text variant="caption">Fine print</Text>`
+  - fix: `<Text variant="label">Fine print</Text>`
 
 <!-- pitfall: text-no-html-for-prop -->
-- **No `htmlFor` prop** — if you need a label with `htmlFor`, use `as="label"` and add `htmlFor` as a standard HTML attribute.
+- **No `htmlFor` prop on `Text`** — use `as="label"` and pass `htmlFor` as a standard HTML attribute.
+  - anti-pattern: `<Text htmlFor="email">Email</Text>`
+  - fix: `<Text as="label" htmlFor="email">Email</Text>`
 
 <!-- pitfall: text-as-prop-valid-elements -->
-- **`as` prop only accepts `'p'`, `'span'`, `'div'`, `'h1'`–`'h6'`, `'label'`** — NOT `'strong'`, `'code'`, `'pre'`, or other HTML elements.
+- **`as` prop only accepts `'p'`, `'span'`, `'div'`, `'h1'`–`'h6'`, `'label'`** — not `'strong'`, `'code'`, `'pre'`, or other elements.
+  - anti-pattern: `<Text as="strong">Bold</Text>`
+  - fix: `<Text variant="label">Bold</Text>`
 
 <!-- pitfall: text-color-valid-values -->
 - **`color` only accepts `'default'`, `'muted'`, `'accent'`** — no other color values are valid.
+  - anti-pattern: `<Text color="secondary">Note</Text>`
+  - fix: `<Text color="muted">Note</Text>`
 
 ## Notes
 

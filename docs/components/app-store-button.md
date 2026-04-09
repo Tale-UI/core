@@ -49,9 +49,22 @@ Also accepts all standard `<a>` HTML attributes except `children`. Set `href` to
 ## Pitfalls
 
 <!-- pitfall: app-store-button-store-values -->
-- **`store` accepts `'apple'` or `'google'` only** — Do not use `'app-store'` or `'play-store'`. The valid values are `'apple'` and `'google'`.
+- **store accepts 'apple' or 'google' only** — Do not use `'app-store'`, `'play-store'`, `'ios'`, or `'android'`. The valid values are `'apple'` and `'google'`.
   - anti-pattern: `<AppStoreButton store="app-store" />`
   - fix: `<AppStoreButton store="apple" />`
+  - complete example:
+    ```tsx
+    import { AppStoreButton } from '@tale-ui/react/app-store-button';
+    
+    export function Example() {
+      return (
+        <>
+          <AppStoreButton store="apple" href="https://apps.apple.com/..." />
+          <AppStoreButton store="google" href="https://play.google.com/..." />
+        </>
+      );
+    }
+    ```
 
 ## Notes
 

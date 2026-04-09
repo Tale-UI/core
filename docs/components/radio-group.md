@@ -36,6 +36,26 @@ import { Radio } from '@tale-ui/react/radio';
 - **`RadioGroup` (from `@tale-ui/react/radio-group`) has NO sub-parts** — using `<RadioGroup.Radios>`, `<RadioGroup.Item>`, or `<RadioGroup.Indicator>` causes 'Property does not exist' TypeScript errors. For grouping radios, prefer `Radio.Group` (sub-part of the `Radio` namespace).
   - anti-pattern: `<RadioGroup.Item value="a">...</RadioGroup.Item>`
   - fix: `<Radio.Group label="..."><Radio.Root value="a">...</Radio.Root></Radio.Group>`
+  - complete example:
+    ```tsx
+    import { RadioGroup } from '@tale-ui/react/radio-group';
+    import { Radio } from '@tale-ui/react/radio';
+    
+    export function Example() {
+      return (
+        <RadioGroup label="Favorite color">
+          <Radio.Root value="red">
+            <Radio.Indicator />
+            Red
+          </Radio.Root>
+          <Radio.Root value="blue">
+            <Radio.Indicator />
+            Blue
+          </Radio.Root>
+        </RadioGroup>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: no-cross-import-checkbox-group -->
 

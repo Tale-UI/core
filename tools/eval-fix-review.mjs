@@ -3,10 +3,12 @@
  * eval-fix-review.mjs
  *
  * Full pipeline:
- *   1. Eval    — run all golden prompts, collect failures + generated code
- *   2. Fix     — for each failure, ask Claude to diagnose and patch the consumer snippet
- *   3. Re-eval — re-run only the failing prompts; repeat up to MAX_ITER times
- *   4. Review  — write EvalReview.tsx, register the route, start playground, open browser
+ *   1. Eval     — run all golden prompts, collect failures + generated code
+ *   2. Fix      — for each failure, ask Claude to diagnose and patch the consumer snippet;
+ *                 the fix model also returns a corrected code sample which is re-scored
+ *                 deterministically (L1/L2/L3) — no fresh LLM generation per fix attempt
+ *   3. Re-score — repeat fix+score up to MAX_ITER times until the corrected code passes
+ *   4. Review   — write EvalReview.tsx, register the route, start playground, open browser
  *
  * Usage:
  *   node tools/eval-fix-review.mjs
@@ -22,7 +24,7 @@ import { fileURLToPath } from 'url';
 import { execFileSync, spawnSync, spawn } from 'child_process';
 import { connect } from 'net';
 import { tmpdir } from 'os';
-import { buildCodexExecArgs } from './eval-golden-prompts-lib.mjs';
+import { buildCodexExecArgs, scoreCode } from './eval-golden-prompts-lib.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -99,6 +101,31 @@ const MAX_ITER = UNTIL_PASS
   : parseInt(getArg('--max-iter') ?? '3', 10);
 // Use a port outside the dev:all range (5173 = playground, 5174 = scale, 6006 = storybook)
 const PREFERRED_PORT = 5190;
+
+/* ─── Terminal colors ─────────────────────────────────────────────────────── */
+
+const NO_COLOR = process.env.NO_COLOR !== undefined || !process.stdout.isTTY;
+const C = NO_COLOR
+  ? {
+      bold: (s) => s,
+      dim: (s) => s,
+      red: (s) => s,
+      green: (s) => s,
+      yellow: (s) => s,
+      cyan: (s) => s,
+      magenta: (s) => s,
+      blue: (s) => s,
+    }
+  : {
+      bold: (s) => `\x1b[1m${s}\x1b[22m`,
+      dim: (s) => `\x1b[2m${s}\x1b[22m`,
+      red: (s) => `\x1b[31m${s}\x1b[39m`,
+      green: (s) => `\x1b[32m${s}\x1b[39m`,
+      yellow: (s) => `\x1b[33m${s}\x1b[39m`,
+      cyan: (s) => `\x1b[36m${s}\x1b[39m`,
+      magenta: (s) => `\x1b[35m${s}\x1b[39m`,
+      blue: (s) => `\x1b[34m${s}\x1b[39m`,
+    };
 
 function loadGoldenPrompts() {
   return readdirSync(join(__dirname, 'golden-prompts'))
@@ -242,7 +269,7 @@ function getEvalPromptCount(slugs = null) {
 }
 
 function getPerPromptEvalBudgetMs() {
-  if (PROVIDER === 'local') return 365000;
+  if (PROVIDER === 'local') return MCP_MODE ? 600000 : 365000; // 10 min with MCP tool loop, 6 min without
   if (PROVIDER === 'straico') return 370000;
   if (PROVIDER === 'codex') return MCP_MODE ? 180000 : 120000;
   return MCP_MODE ? 180000 : 90000;
@@ -267,6 +294,7 @@ function runEval(slugs = null, { skipGenerate = false } = {}) {
   if (NO_CACHE) extraArgs.push('--no-cache');
   if (FRESH) extraArgs.push('--fresh');
   if (skipGenerate) extraArgs.push('--skip-generate');
+  extraArgs.push('--quiet-passing'); // hide passing one-liners; fix-review only cares about failures
   if (MCP_MODE) {
     extraArgs.push('--mcp');
     extraArgs.push('--mcp-max-turns', String(MCP_MAX_TURNS));
@@ -297,6 +325,15 @@ function runPitfallTruthAudit() {
   });
 }
 
+function runPitfallShapeAudit() {
+  execFileSync(process.execPath, [join(__dirname, 'audit-pitfall-shape.mjs')], {
+    cwd: ROOT,
+    timeout: 30000,
+    encoding: 'utf8',
+    stdio: 'inherit',
+  });
+}
+
 /* ─── Fix loop ────────────────────────────────────────────────────────────── */
 
 function buildErrorSummary(result) {
@@ -310,7 +347,7 @@ function buildErrorSummary(result) {
   return lines.join('\n');
 }
 
-async function getFix(result, failedOlds = []) {
+async function getFix(result, failedOlds = [], tags = []) {
   const snippet = readFileSync(SNIPPET_PATH, 'utf8');
 
   // Extract just the pitfalls section to keep the prompt short
@@ -322,6 +359,11 @@ async function getFix(result, failedOlds = []) {
   const failedHint =
     failedOlds.length > 0
       ? `\nIMPORTANT: Previous fix attempts used these "old" strings which were NOT found verbatim in the documentation — do NOT use them again:\n${failedOlds.map((s) => `  - "${s}"`).join('\n')}\nIf you cannot find an exact string to replace, set "old" to empty string "" to append a new bullet instead.\n`
+      : '';
+
+  const tagsHint =
+    tags.length > 0
+      ? `\nRequired components (L2 — these must appear in the code): ${tags.join(', ')}`
       : '';
 
   const fixPrompt = `You are improving Tale UI documentation to prevent AI code generation errors.
@@ -336,6 +378,9 @@ ${result.code ?? ''}
 
 The following errors were detected:
 ${buildErrorSummary(result)}
+${tagsHint}
+Allowed import prefixes (L3 — all imports must start with one of these):
+  @tale-ui/react, @tale-ui/charts, react, lucide-react, @internationalized/
 
 Current documentation (pitfalls section):
 ${pitfallsSection}
@@ -343,12 +388,17 @@ ${failedHint}
 Identify the exact rule that is missing or unclear in the pitfalls section that caused this error.
 The "old" value MUST be a substring that appears verbatim in the documentation above, or empty string "" to append a new bullet.
 The "section" field identifies which documentation area the fix targets: "general" for general conventions, "cross:{category}" (e.g. "cross:trigger-styling") for cross-component pitfalls, or "component:{Name}" (e.g. "component:Dialog") for per-component pitfalls.
+The "scope" field classifies whether the rule applies broadly or narrowly:
+  - "cross-cutting": the rule applies to many or all components (e.g. Row/Column gap values, namespace vs simple, trigger styling, import path conventions). These go in the general conventions or cross-component sections of docs/pitfalls.md.
+  - "component-specific": the rule only applies to one component's API (e.g. "TextArea uses TextArea.TextArea not TextArea.Textarea"). These go in the per-component section.
 Output a JSON fix in this exact format (no other text, just the JSON):
 {
   "diagnosis": "one sentence explaining the root cause",
+  "scope": "cross-cutting | component-specific",
   "section": "general | cross:{category} | component:{ComponentName}",
   "old": "exact verbatim substring from the documentation above, or empty string to append",
-  "new": "the replacement text (or new bullet to append if old is empty string)"
+  "new": "the replacement text (or new bullet to append if old is empty string)",
+  "fixedCode": "a complete corrected version of the code above that addresses the diagnosed root cause — valid TSX with all necessary imports, no markdown fences"
 }`;
 
   let text;
@@ -553,23 +603,6 @@ Output a JSON fix in this exact format (no other text, just the JSON):
   return JSON.parse(jsonMatch[0]);
 }
 
-function applyFix(fix) {
-  const snippet = readFileSync(SNIPPET_PATH, 'utf8');
-  let updated;
-  if (!fix.old) {
-    // Append as new bullet before the closing of the pitfalls section
-    const insertBefore = '\n6. **Charts';
-    updated = snippet.replace(insertBefore, `\n   - ${fix.new}${insertBefore}`);
-  } else {
-    if (!snippet.includes(fix.old)) {
-      console.log(`      ⚠ Fix not applied — old string not found in snippet`);
-      return false;
-    }
-    updated = snippet.replace(fix.old, fix.new);
-  }
-  writeFileSync(SNIPPET_PATH, updated, 'utf8');
-  return true;
-}
 
 /* ─── Source-aware pitfall patching ─────────────────────────────────────── */
 
@@ -583,27 +616,52 @@ function applyFix(fix) {
 function resolveSourceTarget(fix, evalContextContent) {
   let headingLabel = null;
   let parentHeading = null;
+  // When fix.old is provided but not found verbatim, we still resolve the target
+  // via fix.section and use append mode in applySourceFix.
+  let appendFallback = false;
 
   if (fix.old) {
     const pos = evalContextContent.indexOf(fix.old);
-    if (pos === -1) return null;
+    if (pos === -1) {
+      // fix.old not found verbatim — fall through to section-based resolution
+      // and signal append mode (can't reliably match text that isn't in the source).
+      appendFallback = true;
+    } else {
+      // If fix.old itself starts with a heading (the model often includes the component
+      // heading as part of the replaced block), extract the name from that heading directly.
+      // Searching backward would find the PREVIOUS component's heading instead.
+      // Handles both "   #### Name" (3-space indent) and "#### Name" (no indent).
+      const headingInOld = fix.old.match(/^\s*#{3,4}\s+(.+)/);
+      if (headingInOld) {
+        headingLabel = headingInOld[1].trim();
+        // Resolve the parent ### by searching backward from pos
+        const before = evalContextContent.slice(0, pos);
+        const h3Before = [...before.matchAll(/^   ### (.+)$/gm)];
+        if (h3Before.length > 0) {
+          parentHeading = h3Before[h3Before.length - 1][1].trim();
+        }
+      } else {
+        // Search backward for the nearest ### or #### heading.
+        // In the eval-context ALL headings are 3-space indented, e.g.:
+        //   ### Cross-component pitfalls
+        //   #### Layout
+        const before = evalContextContent.slice(0, pos);
+        const h4Match = [...before.matchAll(/^   #### (.+)$/gm)];
+        const h3Match = [...before.matchAll(/^   ### (.+)$/gm)];
 
-    // Search backward for the nearest ### or #### heading
-    const before = evalContextContent.slice(0, pos);
-    const h4Match = [...before.matchAll(/^#### (.+)$/gm)];
-    const h3Match = [...before.matchAll(/^   ### (.+)$/gm)];
-
-    if (h4Match.length > 0) {
-      headingLabel = h4Match[h4Match.length - 1][1].trim();
-      // Find the ### parent of this ####
-      const h4Pos = before.lastIndexOf(h4Match[h4Match.length - 1][0]);
-      const beforeH4 = before.slice(0, h4Pos);
-      const h3Before = [...beforeH4.matchAll(/^   ### (.+)$/gm)];
-      if (h3Before.length > 0) {
-        parentHeading = h3Before[h3Before.length - 1][1].trim();
+        if (h4Match.length > 0) {
+          headingLabel = h4Match[h4Match.length - 1][1].trim();
+          // Find the ### parent of this ####
+          const h4Pos = before.lastIndexOf(h4Match[h4Match.length - 1][0]);
+          const beforeH4 = before.slice(0, h4Pos);
+          const h3Before = [...beforeH4.matchAll(/^   ### (.+)$/gm)];
+          if (h3Before.length > 0) {
+            parentHeading = h3Before[h3Before.length - 1][1].trim();
+          }
+        } else if (h3Match.length > 0) {
+          headingLabel = h3Match[h3Match.length - 1][1].trim();
+        }
       }
-    } else if (h3Match.length > 0) {
-      headingLabel = h3Match[h3Match.length - 1][1].trim();
     }
   }
 
@@ -634,14 +692,17 @@ function resolveSourceTarget(fix, evalContextContent) {
 
   if (!headingLabel) return null;
 
-  // Classify: general conventions or per-component or cross-component
+  // Classify: general conventions or per-component or cross-component.
+  // A cross-cutting scope overrides per-component routing — the rule belongs in pitfalls.md.
+  const isCrossCutting = fix.scope === 'cross-cutting';
   const isGeneral =
     headingLabel === 'General conventions' ||
     (parentHeading == null &&
       EVAL_HEADING_TO_SOURCE_HEADING[headingLabel] === 'General Conventions');
   const isPerComponent =
-    parentHeading === 'Per-component pitfalls' ||
-    (!isGeneral && !EVAL_HEADING_TO_SOURCE_HEADING[headingLabel] && nameToSlug.has(headingLabel));
+    !isCrossCutting &&
+    (parentHeading === 'Per-component pitfalls' ||
+      (!isGeneral && !EVAL_HEADING_TO_SOURCE_HEADING[headingLabel] && nameToSlug.has(headingLabel)));
 
   if (isPerComponent) {
     const slug = nameToSlug.get(headingLabel);
@@ -651,17 +712,22 @@ function resolveSourceTarget(fix, evalContextContent) {
       sectionHeading: 'Pitfalls',
       isComponent: true,
       componentName: headingLabel,
+      appendOnly: appendFallback,
     };
   }
 
-  // Cross-component or general → docs/pitfalls.md
-  const sourceHeading = EVAL_HEADING_TO_SOURCE_HEADING[headingLabel];
+  // Cross-component or general → docs/pitfalls.md.
+  // If the fix model used a component heading but marked scope=cross-cutting,
+  // route to General Conventions so the rule is surfaced on every plan_ui call.
+  const sourceHeading = EVAL_HEADING_TO_SOURCE_HEADING[headingLabel]
+    ?? (isCrossCutting ? 'General Conventions' : null);
   if (!sourceHeading) return null;
 
   return {
     filePath: PITFALLS_DOC_PATH,
     sectionHeading: sourceHeading,
     isComponent: false,
+    appendOnly: appendFallback,
   };
 }
 
@@ -752,10 +818,23 @@ function findInSection(sectionText, sourceOld) {
     );
     const idx3 = normSection.search(bulletPattern);
     if (idx3 !== -1) {
-      // Replace the entire bullet block (to the next blank line or next <!-- or next -)
+      // Replace the entire bullet block: the bullet header line + all nested sub-lines
+      // (lines starting with whitespace or "  - "), stopping at the next top-level
+      // "- **" bullet, a "<!-- " comment, or end of section.
+      // This prevents successive runs from appending more sub-lines to the same bullet.
       const afterMatch = sectionText.slice(idx3);
-      const blockEnd = afterMatch.search(/\n(?=\n|<!--|^- \*\*)/m);
-      const endOffset = blockEnd === -1 ? afterMatch.length : blockEnd;
+      const lines = afterMatch.split('\n');
+      let endLine = 1; // always include at least the header line
+      while (endLine < lines.length) {
+        const line = lines[endLine];
+        // Sub-content of the bullet: indented lines or "  - ..." lines
+        if (line === '' || /^\s/.test(line) || /^  - /.test(line)) {
+          endLine++;
+        } else {
+          break;
+        }
+      }
+      const endOffset = lines.slice(0, endLine).join('\n').length;
       return { matchStart: idx3, matchEnd: idx3 + endOffset };
     }
   }
@@ -779,21 +858,57 @@ function normalizeSourcePatchBlock(text) {
  */
 function applySourceFix(fix, evalContextContent) {
   const target = resolveSourceTarget(fix, evalContextContent);
-  if (!target) return false;
-  if (!existsSync(target.filePath)) return false;
+  if (!target) {
+    console.log(
+      `      ${C.yellow('⚠ Source: could not resolve target')} (section=${fix.section ?? 'none'}, old=${JSON.stringify((fix.old ?? '').slice(0, 60))})`,
+    );
+    return false;
+  }
+  if (!existsSync(target.filePath)) {
+    console.log(`      ${C.yellow('⚠ Source: file not found:')} ${target.filePath}`);
+    return false;
+  }
+
+  // Sanitise the fix text before writing: the model sometimes produces a trailing
+  // double-backtick like `<Row justify="between">`` (closing backtick + stray backtick).
+  // Replace any `...`` end-of-line pattern with `...` to keep sub-bullets valid.
+  if (fix.new) fix.new = fix.new.replace(/``(\s*)$/gm, '`$1');
 
   const fileContent = readFileSync(target.filePath, 'utf8');
   const section = extractSection(fileContent, target.sectionHeading);
-  if (!section) return false;
+  if (!section) {
+    console.log(
+      `      ${C.yellow(`⚠ Source: no '## ${target.sectionHeading}' section in`)} ${target.filePath}`,
+    );
+    return false;
+  }
 
-  // Strip 3-space indent from eval-context text to get source-format text
-  if (fix.old) {
+  // Strip 3-space indent from eval-context text to get source-format text.
+  // If fix.old wasn't found in the eval-context (appendOnly), treat as a new pitfall
+  // rather than trying to match text that was never there.
+  if (fix.old && !target.appendOnly) {
     // Patch existing pitfall
     const sourceOld = normalizeSourcePatchBlock(fix.old);
     const found = findInSection(section.sectionText, sourceOld);
-    if (!found) return false;
+    if (!found) {
+      console.log(
+        `      ${C.yellow(`⚠ Source: old text not found in '## ${target.sectionHeading}' of`)} ${target.filePath}`,
+      );
+      console.log(`        ${C.dim('Looking for:')} ${JSON.stringify(sourceOld.slice(0, 80))}`);
+      return false;
+    }
 
     const sourceNew = normalizeSourcePatchBlock(fix.new);
+    // Guard: reject replacement blocks that introduce multiple top-level bullets
+    // (- ** lines). A pitfall slug must have exactly one bullet; the diagnosis model
+    // sometimes prepends an "Always generate..." meta-bullet before the real fix.
+    const topLevelBullets = sourceNew.split('\n').filter((l) => /^- \*\*/.test(l));
+    if (topLevelBullets.length > 1) {
+      console.log(
+        `      ${C.yellow(`⚠ Source: replacement would introduce ${topLevelBullets.length} top-level bullets`)} (one per slug allowed) — skipping patch`,
+      );
+      return false;
+    }
     const updatedSection =
       section.sectionText.slice(0, found.matchStart) +
       sourceNew +
@@ -803,12 +918,20 @@ function applySourceFix(fix, evalContextContent) {
       updatedSection +
       fileContent.slice(section.sectionEnd);
     writeFileSync(target.filePath, updatedFile, 'utf8');
-    return true;
+    return target.filePath;
   } else {
-    // New pitfall — append before end of section
+    // New pitfall — append before end of section (with dedup check)
     const newBullet = normalizeSourcePatchBlock(fix.new);
     const summary = newBullet.match(/\*\*(.+?)\*\*/)?.[1] ?? 'new-pitfall';
     const slug = summaryToSlug(summary);
+
+    // Dedup: skip if a pitfall with the same slug already exists in this section
+    if (section.sectionText.includes(`<!-- pitfall: ${slug} -->`)) {
+      console.log(
+        `      ${C.yellow(`⚠ Source: pitfall '${slug}' already present in`)} ${target.filePath} — skipping append`,
+      );
+      return false;
+    }
 
     let commentBlock;
     if (target.isComponent) {
@@ -843,8 +966,44 @@ function applySourceFix(fix, evalContextContent) {
       updatedSection +
       fileContent.slice(section.sectionEnd);
     writeFileSync(target.filePath, updatedFile, 'utf8');
-    return true;
+    return target.filePath;
   }
+}
+
+/* ─── Docs diff display ──────────────────────────────────────────────────── */
+
+/**
+ * Show what changed in the documentation files during this run.
+ * Only diffs files that were actually written by this run's fix loop.
+ * Source docs are tracked by git — use `git diff` for colour output.
+ */
+function showDocsPatch(modifiedFiles = new Set()) {
+  const separator = C.dim('─'.repeat(64));
+  console.log(`\n${separator}`);
+
+  if (modifiedFiles.size === 0) {
+    console.log(C.dim('  No documentation changes.'));
+    console.log(C.dim('  (All source patches were skipped — check the ⚠ lines above for details.)'));
+    console.log(separator);
+    return;
+  }
+
+  // Only diff the specific files touched this run, not the entire docs tree.
+  const sourceDiff = spawnSync(
+    'git',
+    ['diff', '--color=always', '--', ...modifiedFiles],
+    { cwd: ROOT, encoding: 'utf8', timeout: 10000 },
+  ).stdout?.trim() ?? '';
+
+  if (!sourceDiff) {
+    console.log(C.dim('  No documentation changes.'));
+    console.log(C.dim('  (All source patches were skipped — check the ⚠ lines above for details.)'));
+  } else {
+    console.log(C.bold('  Source docs changed this run:'));
+    console.log('');
+    console.log(sourceDiff);
+  }
+  console.log(separator);
 }
 
 /* ─── EvalReview.tsx generation ──────────────────────────────────────────── */
@@ -1253,26 +1412,27 @@ async function startPlayground() {
 async function main() {
   const modelLabel = FIX_MODEL !== MODEL ? `${MODEL} / fix: ${FIX_MODEL}` : MODEL;
   const providerLabel = FIX_PROVIDER !== PROVIDER ? `${PROVIDER} / fix: ${FIX_PROVIDER}` : PROVIDER;
-  console.log(`\n=== Eval → Fix → Review (${modelLabel}, ${providerLabel}) ===\n`);
+  console.log(C.bold(`\n=== Eval → Fix → Review (${modelLabel}, ${providerLabel}) ===\n`));
 
   /* ── Step 0: Pitfall truth preflight + eval context ── */
   if (SKIP_PITFALL_TRUTH) {
-    console.log('  Skipping pitfall truth audit (--skip-pitfall-truth).');
+    console.log(C.dim('  Skipping pitfall truth audit (--skip-pitfall-truth).'));
   } else {
-    console.log('  Running pitfall truth audit...');
+    console.log(C.dim('  Running pitfall truth audit...'));
     runPitfallTruthAudit();
+    console.log(C.dim('  Running pitfall shape audit...'));
+    runPitfallShapeAudit();
   }
 
-  console.log('  Generating eval context from registries...');
+  console.log(C.dim('  Generating eval context from registries...'));
   execFileSync(process.execPath, [join(__dirname, 'generate-eval-context.js')], {
     cwd: ROOT,
     timeout: 10000,
     encoding: 'utf8',
     stdio: 'pipe',
   });
-
   /* ── Step 1: Initial eval ── */
-  console.log('Step 1/4  Running initial eval against all golden prompts...');
+  console.log(C.bold('Step 1/4') + '  Running initial eval against all golden prompts...');
   let evalResult = runEval();
 
   // Load prompt text for fix loop
@@ -1292,75 +1452,109 @@ async function main() {
   }
 
   let failing = results.filter((r) => !r.allPass);
-  console.log(
-    `  ${results.length - failing.length}/${results.length} passed initially. ${failing.length} to fix.\n`,
-  );
+  const passCount = results.length - failing.length;
+  const initialSummary = failing.length === 0
+    ? C.green(`  ${passCount}/${results.length} passed initially.`)
+    : C.yellow(`  ${passCount}/${results.length} passed initially. ${failing.length} to fix.`);
+  console.log(initialSummary + '\n');
+
+  const runModifiedFiles = new Set();
 
   /* ── Step 2: Fix loop ── */
   if (!NO_FIX && failing.length > 0) {
     const attemptsLabel = UNTIL_PASS
       ? 'unlimited attempts per prompt'
       : `max ${MAX_ITER} attempts per prompt`;
-    console.log(`Step 2/4  Fix loop (${attemptsLabel})...`);
-
+    console.log(C.bold('Step 2/4') + `  Fix loop (${attemptsLabel})...`);
     const stillFailing = [];
     for (const failure of failing) {
-      console.log(`\n  Diagnosing: ${failure.slug}`);
+      console.log(`\n  ${C.cyan(C.bold('Diagnosing:'))} ${C.bold(failure.slug)}`);
       let current = failure;
       let passed = false;
       const failedOlds = [];
       for (let attempt = 1; attempt <= MAX_ITER; attempt++) {
         const attemptLabel = isFinite(MAX_ITER) ? `${attempt}/${MAX_ITER}` : `${attempt}`;
         try {
-          const fix = await getFix(current, failedOlds);
-          console.log(`    [${attemptLabel}] Diagnosis: ${fix.diagnosis}`);
-          const evalContextBeforeFix = readFileSync(SNIPPET_PATH, 'utf8');
-          const applied = applyFix(fix);
-          if (!applied) {
-            if (fix.old) failedOlds.push(fix.old);
-            console.log(
-              `    [${attemptLabel}] Fix string not found in snippet — retrying with context`,
-            );
-            continue;
+          const fix = await getFix(current, failedOlds, promptMap.get(current.slug)?.tags ?? []);
+          console.log(`    [${attemptLabel}] ${C.cyan('Diagnosis:')} ${fix.diagnosis}`);
+          if (fix.new) {
+            const target = fix.section ?? 'unknown';
+            const oldHint = fix.old ? JSON.stringify(fix.old.slice(0, 60)) : 'append';
+            const fixPreview = fix.new.split('\n').map((l) => C.dim(`      | `) + l).join('\n');
+            console.log(`    [${attemptLabel}] ${C.magenta('Fix')} → ${C.bold(target)} ${C.dim(`(old=${oldHint})`)}:\n${fixPreview}`);
           }
+          const evalContextBeforeFix = readFileSync(SNIPPET_PATH, 'utf8');
+          let sourceApplied = false;
           if (!NO_SOURCE_PATCH) {
             try {
-              const sourceApplied = applySourceFix(fix, evalContextBeforeFix);
+              const patchedPath = applySourceFix(fix, evalContextBeforeFix);
+              sourceApplied = !!patchedPath;
+              if (patchedPath) runModifiedFiles.add(patchedPath);
               if (sourceApplied) {
-                console.log(`    [${attemptLabel}] Source file also patched`);
+                console.log(`    [${attemptLabel}] ${C.green('Source file patched')} — regenerating registries...`);
+                try {
+                  execFileSync(process.execPath, [join(__dirname, 'generate-pitfalls-registry.js')], {
+                    cwd: ROOT, timeout: 30000, encoding: 'utf8', stdio: 'pipe',
+                  });
+                  execFileSync(process.execPath, [join(__dirname, 'generate-registry.js')], {
+                    cwd: ROOT, timeout: 60000, encoding: 'utf8', stdio: 'pipe',
+                  });
+                  execFileSync(process.execPath, [join(__dirname, 'generate-eval-context.js')], {
+                    cwd: ROOT, timeout: 10000, encoding: 'utf8', stdio: 'pipe',
+                  });
+                  console.log(`    [${attemptLabel}] ${C.dim('Registries updated')}`);
+                } catch (regenErr) {
+                  console.log(`    [${attemptLabel}] ${C.yellow('⚠ Registry regen failed:')} ${regenErr.message}`);
+                }
               } else {
                 console.log(
-                  `    [${attemptLabel}] ⚠ Source patch skipped (no match in source file)`,
+                  `    [${attemptLabel}] ${C.yellow('⚠ Source patch skipped')} (no match in source file)`,
                 );
               }
             } catch (err) {
-              console.log(`    [${attemptLabel}] ⚠ Source patch failed: ${err.message}`);
+              console.log(`    [${attemptLabel}] ${C.yellow('⚠ Source patch failed:')} ${err.message}`);
             }
           }
-          console.log(`    [${attemptLabel}] Fix applied — re-evaluating...`);
-          const reEval = runEval([current.slug], { skipGenerate: true });
+          const fixedCode = fix.fixedCode ?? '';
+          if (!fixedCode.trim()) {
+            console.log(`    [${attemptLabel}] ${C.yellow('⚠ Fix did not include fixedCode')} — retrying`);
+            continue;
+          }
+          console.log(`    [${attemptLabel}] ${C.dim('Fix applied — scoring corrected code...')}`);
+          const score = scoreCode(fixedCode, {
+            tags: promptMap.get(current.slug)?.tags ?? [],
+            root: ROOT,
+            validatorPath: join(__dirname, 'validate-generated.mjs'),
+          });
           const reResult = {
-            ...reEval.results[0],
+            slug: current.slug,
+            difficulty: current.difficulty,
+            allPass: score.allPass,
+            l1: score.l1,
+            l2: score.l2,
+            l3: score.l3,
+            code: fixedCode,
             prompt: promptMap.get(current.slug)?.prompt ?? '',
           };
-          if (reResult.allPass && reResult.code) {
+          if (reResult.allPass) {
             passingCode.set(current.slug, reResult);
-            console.log(`    [${attemptLabel}] ✓ Passing`);
+            console.log(`    [${attemptLabel}] ${C.green('✓ Passing')}`);
             passed = true;
             break;
           }
-          console.log(
-            `    [${attemptLabel}] ✗ Still failing: L1=${reResult.l1.pass ? '✓' : '✗'} L2=${reResult.l2.pass ? '✓' : '✗'} L3=${reResult.l3.pass ? '✓' : '✗'}`,
-          );
+          const l1 = reResult.l1.pass ? C.green('✓') : C.red('✗');
+          const l2 = reResult.l2.pass ? C.green('✓') : C.red('✗');
+          const l3 = reResult.l3.pass ? C.green('✓') : C.red('✗');
+          console.log(`    [${attemptLabel}] ${C.red('✗ Still failing:')} L1=${l1} L2=${l2} L3=${l3}`);
           current = reResult; // use fresh result for next attempt's diagnosis
           failedOlds.length = 0; // reset — new failure context, old hints no longer relevant
         } catch (err) {
           if (err instanceof SyntaxError) {
             // Malformed JSON from the model — retryable
-            console.log(`    [${attemptLabel}] ⚠ Malformed JSON response — retrying`);
+            console.log(`    [${attemptLabel}] ${C.yellow('⚠ Malformed JSON response')} — retrying`);
             continue;
           }
-          console.log(`    [${attemptLabel}] ⚠ Could not get fix: ${err.message}`);
+          console.log(`    [${attemptLabel}] ${C.yellow('⚠ Could not get fix:')} ${err.message}`);
           break;
         }
       }
@@ -1368,68 +1562,33 @@ async function main() {
     }
 
     const fixed = failing.length - stillFailing.length;
-    console.log(
-      `\n  Fixed ${fixed}/${failing.length} prompts. ${stillFailing.length} still failing.`,
-    );
+    const fixSummary = stillFailing.length === 0
+      ? C.green(`\n  Fixed ${fixed}/${failing.length} prompts.`)
+      : C.yellow(`\n  Fixed ${fixed}/${failing.length} prompts. ${stillFailing.length} still failing.`);
+    console.log(fixSummary);
     failing = stillFailing;
 
     if (!NO_SOURCE_PATCH && fixed > 0) {
-      console.log('\n  Regenerating registries from patched source files...');
-      try {
-        execFileSync(process.execPath, [join(__dirname, 'generate-pitfalls-registry.js')], {
-          cwd: ROOT,
-          timeout: 30000,
-          encoding: 'utf8',
-          stdio: 'pipe',
-        });
-        execFileSync(process.execPath, [join(__dirname, 'generate-registry.js')], {
-          cwd: ROOT,
-          timeout: 60000,
-          encoding: 'utf8',
-          stdio: 'pipe',
-        });
-        execFileSync(process.execPath, [join(__dirname, 'generate-eval-context.js')], {
-          cwd: ROOT,
-          timeout: 10000,
-          encoding: 'utf8',
-          stdio: 'pipe',
-        });
-        console.log('  Registries regenerated. MCP server will reflect fixes on next restart.');
-      } catch (err) {
-        console.log(`  ⚠ Registry regeneration failed: ${err.message}`);
-      }
+      console.log(C.dim('  Registries updated per fix attempt. MCP server will reflect fixes on next restart.'));
     }
   } else if (NO_FIX) {
-    console.log('Step 2/4  Fix loop skipped (--no-fix).');
+    console.log(C.bold('Step 2/4') + C.dim('  Fix loop skipped (--no-fix).'));
   } else {
-    console.log('Step 2/4  No failures — fix loop not needed.');
+    console.log(C.bold('Step 2/4') + C.green('  No failures — fix loop not needed.'));
   }
 
   if (failing.length > 0) {
-    console.log(`\n  ⚠ ${failing.length} prompt(s) still failing after fix loop:`);
-    for (const f of failing)
-      console.log(
-        `    - ${f.slug}: L1=${f.l1.pass ? '✓' : '✗'} L2=${f.l2.pass ? '✓' : '✗'} L3=${f.l3.pass ? '✓' : '✗'}`,
-      );
+    console.log(C.red(`\n  ⚠ ${failing.length} prompt(s) still failing after fix loop:`));
+    for (const f of failing) {
+      const l1 = f.l1.pass ? C.green('✓') : C.red('✗');
+      const l2 = f.l2.pass ? C.green('✓') : C.red('✗');
+      const l3 = f.l3.pass ? C.green('✓') : C.red('✗');
+      console.log(`    - ${C.bold(f.slug)}: L1=${l1} L2=${l2} L3=${l3}`);
+    }
   }
-
-  /* ── Step 2b: Final fresh eval ── */
-  console.log('\nStep 2b/4  Running fresh eval for final review generations...');
-  // If source patching ran, registries were just regenerated — let eval-golden-prompts
-  // re-generate the eval context from the fresh registries so scores reflect sources.
-  // If NO_SOURCE_PATCH, keep skipGenerate:true to preserve .eval-context.md patches.
-  const finalEval = runEval(null, { skipGenerate: NO_SOURCE_PATCH });
-  for (const r of finalEval.results) {
-    const withPrompt = { ...r, prompt: promptMap.get(r.slug)?.prompt ?? '' };
-    if (r.allPass && r.code) passingCode.set(r.slug, withPrompt);
-  }
-  const finalFailing = finalEval.results.filter((r) => !r.allPass);
-  console.log(
-    `  ${finalEval.results.length - finalFailing.length}/${finalEval.results.length} passing in final eval.`,
-  );
 
   /* ── Step 3: Generate review page ── */
-  console.log('\nStep 3/4  Generating EvalReview.tsx...');
+  console.log(C.bold('\nStep 3/4') + '  Generating EvalReview.tsx...');
   const passingResults = [...passingCode.values()];
 
   if (passingResults.length === 0) {
@@ -1445,15 +1604,15 @@ async function main() {
   process.stdout.write('  Validating EvalReview.tsx...');
   const validation = validateReviewFile();
   if (validation.pass) {
-    console.log(' ✓');
+    console.log(C.green(' ✓'));
   } else if (SKIP_VALIDATE) {
-    console.log(` ⚠ errors found (--skip-validate, continuing anyway)`);
+    console.log(C.yellow(` ⚠ errors found (--skip-validate, continuing anyway)`));
     for (const e of validation.errors.slice(0, 10)) console.error(`    ${e}`);
     if (validation.errors.length > 10)
       console.error(`    ... and ${validation.errors.length - 10} more`);
   } else {
-    console.log(' ✗');
-    console.error('\n  EvalReview.tsx has errors — not starting playground:\n');
+    console.log(C.red(' ✗'));
+    console.error(C.red('\n  EvalReview.tsx has errors — not starting playground:\n'));
     for (const e of validation.errors.slice(0, 20)) console.error(`    ${e}`);
     if (validation.errors.length > 20)
       console.error(`    ... and ${validation.errors.length - 20} more`);
@@ -1465,29 +1624,24 @@ async function main() {
     console.log(
       `\nStep 4/4  Skipped (--no-serve). Open playground manually: http://localhost:${PREFERRED_PORT}/eval-review`,
     );
+    showDocsPatch(runModifiedFiles);
     return;
   }
 
   /* ── Step 4: Serve and open ── */
-  console.log('\nStep 4/4  Starting playground...');
+  console.log(C.bold('\nStep 4/4') + '  Starting playground...');
   const port = await startPlayground();
 
   const url = `http://localhost:${port}/eval-review`;
-  console.log(`  Opening ${url}`);
+  console.log(`  Opening ${C.cyan(url)}`);
   execFileSync('open', [url]);
 
-  console.log('\nDone. Browser opened to eval review page.');
-  if (failing.length > 0) {
-    if (NO_SOURCE_PATCH) {
-      console.log(`\nNote: fixes were applied to tools/.eval-context.md only (--no-source-patch).`);
-      console.log(`To persist: port changes to docs/pitfalls.md and run: pnpm generate-docs`);
-    } else {
-      console.log(
-        `\nFixes applied to source docs (docs/pitfalls.md, docs/components/*.md) and registries regenerated.`,
-      );
-      console.log(`Run \`git diff docs/\` to review source changes before committing.`);
-    }
+  console.log(C.green('\nDone.') + ' Browser opened to eval review page.');
+  if (failing.length > 0 && NO_SOURCE_PATCH) {
+    console.log(C.yellow(`\nNote: fixes were applied to tools/.eval-context.md only (--no-source-patch).`));
+    console.log(`To persist: port changes to docs/pitfalls.md and run: pnpm generate-docs`);
   }
+  showDocsPatch(runModifiedFiles);
   console.log();
 }
 

@@ -88,20 +88,13 @@ Also accepts all standard `<div>` HTML attributes.
 
 ## Pitfalls
 
-<!-- pitfall: meter-value-needs-children -->
-- **`Meter.Value` needs children text** — use `<Meter.Value>60%</Meter.Value>`, not self-closing `<Meter.Value />`, which renders an empty span.
-
 <!-- cross-pitfall-ref: minvalue-maxvalue-not-min-max -->
-
-<!-- pitfall: meter-indicator-own-value-prop -->
-- **`Meter.Indicator` requires its own `value` prop** — it does not inherit from `Meter.Root`. Always pass matching values to both.
-
-<!-- pitfall: meter-no-output-sub-part -->
-- **No `Meter.Output` sub-part** — use `Meter.Value` for displaying the current value text.
+<!-- cross-pitfall-ref: meter-progress-value-needs-children -->
+<!-- cross-pitfall-ref: meter-progress-indicator-needs-value -->
+<!-- cross-pitfall-ref: meter-progress-no-output-sub-part -->
 
 ## Notes
 
 - Built on React Aria `Meter`.
-- **`Meter.Indicator` requires its own `value` prop** — it does not inherit from `Meter.Root`. React Aria's Meter exposes `percentage` via render props, not context, so the indicator computes its width independently from `value` (default 0), `min` (default 0), and `max` (default 100). Always pass matching values to both Root and Indicator.
-- **`Meter.Value` requires children to display text.** It is a plain `<span>` (`aria-hidden`) that renders whatever you pass as children. Using it self-closing (`<Meter.Value />`) renders an empty span. Always provide display text: `<Meter.Value>60%</Meter.Value>`.
+- `Meter.Indicator` computes width from its own `value`, `min`, and `max` props rather than reading those values from `Meter.Root`.
 - Meter differs from ProgressBar semantically: use Meter for measurements within a known range (disk usage, battery level), and ProgressBar for task completion.

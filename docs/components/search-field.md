@@ -66,14 +66,33 @@ import { X } from 'lucide-react';
 - **`SearchField.ClearButton` does NOT auto-render an icon** — pass `<Icon icon={X}>` as a child.
   - anti-pattern: `<SearchField.ClearButton />`
   - fix: `<SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>`
+  - complete example:
+    ```tsx
+    import { SearchField } from '@tale-ui/react/search-field';
+    import { Icon } from '@tale-ui/react/icon';
+    import { X } from 'lucide-react';
+    
+    export function Example() {
+      return (
+        <SearchField.Root>
+          <SearchField.Label>Search</SearchField.Label>
+          <SearchField.Input placeholder="Search..." />
+          <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
+          <SearchField.Description>Search by name or keyword.</SearchField.Description>
+          // For validation errors, use isInvalid on Root:
+          // <SearchField.ErrorMessage>No results found.</SearchField.ErrorMessage>
+        </SearchField.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: search-field-no-input-group -->
-- **No `SearchField.InputGroup` sub-part.** Place `SearchField.Input` and `SearchField.ClearButton` directly inside `SearchField.Root`.
+- **No `SearchField.InputGroup` sub-part** — place `SearchField.Input` and `SearchField.ClearButton` directly inside `SearchField.Root`.
   - anti-pattern: `<SearchField.InputGroup><SearchField.Input /></SearchField.InputGroup>`
   - fix: `<SearchField.Root><SearchField.Input /><SearchField.ClearButton>...</SearchField.ClearButton></SearchField.Root>`
 
 <!-- pitfall: search-field-default-value-on-root -->
-- **`SearchField.Root` owns `defaultValue`.** Do not put it on `SearchField.Input`.
+- **`SearchField.Root` owns `defaultValue`** — do not put it on `SearchField.Input`.
   - anti-pattern: `<SearchField.Input defaultValue="React" />`
   - fix: `<SearchField.Root defaultValue="React"><SearchField.Input /></SearchField.Root>`
 

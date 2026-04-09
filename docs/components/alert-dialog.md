@@ -70,33 +70,23 @@ function Example() {
 
 ## Pitfalls
 
-<!-- pitfall: alert-dialog-isopen-not-open -->
-- **Controlled state uses `isOpen`/`onOpenChange`, not `open`.** Pass `isOpen={open} onOpenChange={setOpen}` to `AlertDialog.Root`.
-  - anti-pattern: `<AlertDialog.Root open={open} onOpenChange={setOpen}>`
-  - fix: `<AlertDialog.Root isOpen={open} onOpenChange={setOpen}>`
-
-<!-- pitfall: alert-dialog-backdrop-wraps-popup -->
-- **`AlertDialog.Backdrop` must wrap `AlertDialog.Popup`, not be a sibling.** Using them as siblings leaves the backdrop stuck after closing.
-  - anti-pattern: `<AlertDialog.Backdrop /><AlertDialog.Popup>...</AlertDialog.Popup>`
-  - fix: `<AlertDialog.Backdrop><AlertDialog.Popup>...</AlertDialog.Popup></AlertDialog.Backdrop>`
-
 <!-- pitfall: alert-dialog-no-cancel-action-parts -->
-- **There are no `AlertDialog.Cancel` or `AlertDialog.Action` sub-parts.** Use `<Button>` components inside `AlertDialog.Actions` for Cancel and Confirm actions.
+- **No `AlertDialog.Cancel` or `AlertDialog.Action` sub-parts** — use `<Button>` inside `AlertDialog.Actions` for Cancel and Confirm.
   - anti-pattern: `<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>`
   - fix: `<Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>`
 
 <!-- pitfall: alert-dialog-content-required -->
-- **`AlertDialog.Content` is required inside `AlertDialog.Popup`.** It provides the `role="alertdialog"` element. Do not place `Title` and `Description` directly inside `Popup`.
+- **`AlertDialog.Content` is required inside `AlertDialog.Popup`** — it provides `role="alertdialog"`; do not place `Title` and `Description` directly inside `Popup`.
   - anti-pattern: `<AlertDialog.Popup><AlertDialog.Title>...</AlertDialog.Title></AlertDialog.Popup>`
   - fix: `<AlertDialog.Popup><AlertDialog.Content><AlertDialog.Title>...</AlertDialog.Title></AlertDialog.Content></AlertDialog.Popup>`
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 <!-- cross-pitfall-ref: no-button-inside-trigger -->
+<!-- cross-pitfall-ref: isopen-on-dialog-and-alert-dialog -->
+<!-- cross-pitfall-ref: backdrop-wraps-popup-on-dialog-and-alert-dialog -->
 
 ## Notes
 
-- **Controlled state uses `isOpen`, not `open`.** Pass `isOpen={open} onOpenChange={setOpen}` to `AlertDialog.Root`. This follows the React Aria Components convention.
-- **Backdrop must wrap Popup.** `<AlertDialog.Backdrop>` must contain `<AlertDialog.Popup>` as a child — not a sibling. Using them as siblings leaves the backdrop stuck after closing.
 - **Trigger needs explicit `tale-button`.** Unlike `Dialog.Trigger`, `AlertDialog.Trigger` applies `tale-alert-dialog__trigger` as its base class, not `tale-button`. Add both classes for button styling: `className="tale-button tale-button--danger"`.
 - **Popup and Content are separate.** `Popup` is the Modal container, `Content` is the alertdialog element inside it. Always nest `Content` inside `Popup`.
 - Unlike `Dialog`, AlertDialog renders with `role="alertdialog"` for screen reader announcements.

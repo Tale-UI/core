@@ -69,7 +69,24 @@ Also accepts all standard `<div>` HTML attributes except `children`.
 ## Pitfalls
 
 <!-- pitfall: spinner-label-is-aria-not-visible -->
-- **`label` prop sets `aria-label` — it does NOT render visible text** — for a visible loading message alongside the spinner, wrap `<Spinner>` and `<Text>` together in a `<Row>`.
+- **`label` prop sets `aria-label` — it does NOT render visible text** — for a visible loading message alongside the spinner, wrap `<Spinner>` and `<Text>` together in a `<Row>`. When using `<Row>` for this layout, use token-scale gap values (`'s'`, `'m'`, etc.) — NOT component-size values like `'sm'`.
+  - anti-pattern: `<Row gap="sm" alignItems="center"><Spinner label="Loading data..." /><Text>Loading data...</Text></Row>`
+  - anti-pattern: `<Row gap="s" alignItems="center"><Spinner label="Loading data..." /><Text>Loading data...</Text></Row>`
+  - fix: `<Row gap="s" style={{ alignItems: 'center' }}><Spinner label="Loading data..." /><Text>Loading data...</Text></Row>`
+  - complete example:
+    ```tsx
+    import { Spinner } from '@tale-ui/react/spinner';
+    
+    export function Example() {
+      return (
+        <>
+          <Spinner />
+          <Spinner variant="dots" size="lg" />
+          <Spinner variant="line" label="Saving…" />
+        </>
+      );
+    }
+    ```
 
 ## Notes
 

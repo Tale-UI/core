@@ -105,13 +105,29 @@ Also accepts all standard `<img>` HTML attributes (`src`, `width`, `height`, `lo
 ## Pitfalls
 
 <!-- pitfall: image-radius-not-border-radius -->
-- **Uses `radius` (NOT `borderRadius`) for rounded corners** — `borderRadius` is not a valid prop.
+- **Use `radius` for rounded corners, NOT `borderRadius`** — `borderRadius` is not a valid prop on `Image`.
+  - anti-pattern: `<Image src="…" borderRadius="lg" />`
+  - fix: `<Image src="…" radius="lg" />`
+  - complete example:
+    ```tsx
+    import { Image } from '@tale-ui/react/image';
+    
+    export function Example() {
+      return (
+        <Image src="/photo.jpg" alt="A landscape" radius="md" fit="cover" />
+      );
+    }
+    ```
 
 <!-- pitfall: image-no-size-prop -->
-- **Does NOT accept a `size` prop** — use the standard `width` and `height` HTML attributes instead.
+- **No `size` prop** — use the standard `width` and `height` HTML attributes instead.
+  - anti-pattern: `<Image src="…" size={200} />`
+  - fix: `<Image src="…" width={200} height={150} />`
 
 <!-- pitfall: image-radius-valid-values -->
-- **`radius` accepts `'none'`, `'sm'`, `'md'`, `'lg'`, `'full'`** — NOT the short forms `'s'`, `'m'`, or `'l'`.
+- **`radius` accepts `'none'`, `'sm'`, `'md'`, `'lg'`, `'full'`** — NOT short forms `'s'`, `'m'`, or `'l'`.
+  - anti-pattern: `<Image src="…" radius="m" />`
+  - fix: `<Image src="…" radius="md" />`
 
 ## Notes
 

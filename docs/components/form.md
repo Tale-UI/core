@@ -56,6 +56,26 @@ Accepts all React Aria `Form` props plus an optional `className`. See the `@exam
 
 <!-- pitfall: form-no-sub-parts -->
 - **`Form` is a simple component with no sub-parts** — There is no `Form.Submit`, `Form.Field`, or `Form.Label`. Use `<Form>` directly and compose `Button`, `Field`, and other components as children.
+  - anti-pattern: `<Form.Root onSubmit={handleSubmit}>`
+  - fix: `<Form onSubmit={handleSubmit}>`
+  - complete example:
+    ```tsx
+    import { Form } from '@tale-ui/react/form';
+    import { TextField } from '@tale-ui/react/text-field';
+    import { Button } from '@tale-ui/react/button';
+    
+    export function Example() {
+      return (
+        <Form onSubmit={(e) => { e.preventDefault(); }}>
+          <TextField.Root isRequired>
+            <TextField.Label>Username</TextField.Label>
+            <TextField.Input />
+          </TextField.Root>
+          <Button type="submit" variant="primary">Submit</Button>
+        </Form>
+      );
+    }
+    ```
 
 <!-- pitfall: form-method-lowercase -->
 - **`method` prop requires lowercase values** — Valid values are `"get"`, `"post"`, and `"dialog"`. Uppercase values like `"GET"` or `"POST"` are not valid.

@@ -65,9 +65,23 @@ Accepts all React Aria `Breadcrumbs` props plus an optional `className`. See the
 ## Pitfalls
 
 <!-- pitfall: breadcrumbs-use-breadcrumbs-link -->
-- **Use `Breadcrumbs.Link` inside `Breadcrumbs.Item`, not a standalone `Link`.** Importing `Link` from `@tale-ui/react/link` produces a plain anchor without the breadcrumb separator and `data-current` styling that `Breadcrumbs.Link` provides.
-  - anti-pattern: `import { Link } from '@tale-ui/react/link'; ... <Breadcrumbs.Item><Link href="#">Home</Link></Breadcrumbs.Item>`
-  - fix: `<Breadcrumbs.Item><Breadcrumbs.Link href="#">Home</Breadcrumbs.Link></Breadcrumbs.Item>`
+- **Use `Breadcrumbs.Link` inside `Breadcrumbs.Item`, not a standalone `<Link>`** — `Breadcrumbs.Link` provides separator and `data-current` styling that bare `<Link>` lacks.
+  - anti-pattern: `import { Link } from '@tale-ui/react/link'; <Breadcrumbs.Item><Link href="/">Home</Link></Breadcrumbs.Item>`
+  - fix: `<Breadcrumbs.Item><Breadcrumbs.Link href="/">Home</Breadcrumbs.Link></Breadcrumbs.Item>`
+  - complete example:
+    ```tsx
+    import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';
+    
+    export function Example() {
+      return (
+        <Breadcrumbs.Root>
+          <Breadcrumbs.Item><Breadcrumbs.Link href="#">Home</Breadcrumbs.Link></Breadcrumbs.Item>
+          <Breadcrumbs.Item><Breadcrumbs.Link href="#">Products</Breadcrumbs.Link></Breadcrumbs.Item>
+          <Breadcrumbs.Item><Breadcrumbs.Link>Current Page</Breadcrumbs.Link></Breadcrumbs.Item>
+        </Breadcrumbs.Root>
+      );
+    }
+    ```
 
 ## Notes
 

@@ -162,21 +162,14 @@ A floating tooltip appears below the bar, anchored to the fill point.
 
 ## Pitfalls
 
-<!-- pitfall: progress-bar-value-needs-children -->
-- **`ProgressBar.Value` needs children text** — use `<ProgressBar.Value>60%</ProgressBar.Value>`, not self-closing `<ProgressBar.Value />`, which renders an empty span.
-
 <!-- cross-pitfall-ref: minvalue-maxvalue-not-min-max -->
-
-<!-- pitfall: progress-bar-indicator-own-value-prop -->
-- **`ProgressBar.Indicator` requires its own `value` prop** — it does not inherit from `ProgressBar.Root`. Always pass matching values to both.
-
-<!-- pitfall: progress-bar-no-output-sub-part -->
-- **No `ProgressBar.Output` sub-part** — use `ProgressBar.Value` for displaying the current value text.
+<!-- cross-pitfall-ref: meter-progress-value-needs-children -->
+<!-- cross-pitfall-ref: meter-progress-indicator-needs-value -->
+<!-- cross-pitfall-ref: meter-progress-no-output-sub-part -->
 
 ## Notes
 
 - Built on React Aria `ProgressBar`.
-- The `Indicator` computes its width as a percentage from `value`, `min` (default 0), and `max` (default 100).
-- **`ProgressBar.Value` requires children to display text.** It is a plain `<span>` (`aria-hidden`) that renders whatever you pass as children. Using it self-closing (`<ProgressBar.Value />`) renders an empty span. Always provide display text: `<ProgressBar.Value>60%</ProgressBar.Value>`.
+- `ProgressBar.Indicator` computes width as a percentage from its own `value`, `min`, and `max` props.
 - For indeterminate state, pass `isIndeterminate` on `Root` and omit `value` on `Indicator`. The indicator receives a `data-indeterminate` attribute for CSS animation targeting.
 - For floating label positions (`top-floating`, `bottom-floating`), the `Value` is positioned absolutely relative to `Root` using the fill percentage. Floating tooltips are hidden when the bar is indeterminate. The `Header` wrapper uses `display: contents` in non-top layouts so Label and Value participate directly in Root's flex flow.

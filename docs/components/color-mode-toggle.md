@@ -94,6 +94,21 @@ The toggle uses pure CSS `box-shadow` to render a sun (with rays) in light mode 
 - The inline `<script>` in `<head>` (from the setup guide) prevents a flash of wrong theme on page load
 - The component reads `localStorage` on mount, so the toggle always reflects the persisted state
 
+## Pitfalls
+
+<!-- pitfall: color-mode-toggle-no-props-needed -->
+- **`ColorModeToggle` needs no props — it is self-managing** — the component reads `localStorage` and `data-color-mode` internally; passing `isSelected`/`onChange` silently does nothing.
+  - anti-pattern: `<ColorModeToggle isSelected={isDark} onChange={setIsDark} />`
+  - fix: `<ColorModeToggle />`
+  - complete example:
+
+    ```tsx
+    import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
+    export function Example() {
+      return <ColorModeToggle />;
+    }
+    ```
+
 ## Notes
 
 - Built on React Aria's `Switch` component for full accessibility (keyboard, ARIA, focus management)

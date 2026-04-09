@@ -83,11 +83,20 @@ import { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-reac
 ## Pitfalls
 
 <!-- pitfall: featured-icon-no-icon-prop -->
-- **Does NOT accept an `icon` prop** — takes an `<Icon>` child. Both `FeaturedIcon` and the lucide icon must be imported separately.
+- **Does NOT accept an `icon` prop — takes an `<Icon>` child, with no `.Root` variant** — pass an `<Icon>` component as children; import both `FeaturedIcon` from `@tale-ui/react/featured-icon` and the lucide icon from `lucide-react`.
   - anti-pattern: `<FeaturedIcon icon={Bell} />`
+  - anti-pattern: `<FeaturedIcon />`
   - fix: `<FeaturedIcon size="lg"><Icon icon={Bell} /></FeaturedIcon>`
+  - complete example:
 
-## Notes
+    ```tsx
+    import { FeaturedIcon } from '@tale-ui/react/featured-icon';
+    import { Icon } from '@tale-ui/react/icon';
+    import { Bell } from 'lucide-react';
+    export function MyComponent() {
+      return <FeaturedIcon size="lg"><Icon icon={Bell} /></FeaturedIcon>;
+    }
+    ```## Notes
 
 - Custom component -- not built on a React Aria primitive.
 - Pass an `<Icon>` component as children.

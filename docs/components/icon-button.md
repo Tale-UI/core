@@ -85,7 +85,28 @@ Variant styles (`.tale-button--primary`, etc.) are inherited from the Button com
 ## Pitfalls
 
 <!-- pitfall: icon-button-aria-label-required -->
-- **`aria-label` is required** — without visible text the button is inaccessible. Omitting it causes a screen reader to announce nothing useful.
+- **aria-label is required** — without visible text the button is inaccessible. Omitting it causes a screen reader to announce nothing useful.
+  - anti-pattern: `<IconButton variant="danger"><Icon icon={Trash} /></IconButton>`
+  - fix: `<IconButton variant="danger" aria-label="Delete item"><Icon icon={Trash} /></IconButton>`
+  - complete example:
+    ```tsx
+    import { IconButton } from '@tale-ui/react/icon-button';
+    import { Icon } from '@tale-ui/react/icon';
+    import { Search } from 'lucide-react';
+    
+    export function Example() {
+      return (
+        <>
+          <IconButton variant="ghost" aria-label="Search">
+            <Icon icon={Search} />
+          </IconButton>
+          <IconButton variant="ghost" aria-label="Loading" isPending>
+            <Icon icon={Search} />
+          </IconButton>
+        </>
+      );
+    }
+    ```
 
 <!-- pitfall: icon-button-no-nested-in-trigger -->
 - **Do not nest `<IconButton>` inside a trigger component** — triggers render their own `<button>` element; nesting an `IconButton` creates a `<button>` inside a `<button>`, which is invalid HTML.

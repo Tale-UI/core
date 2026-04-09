@@ -132,7 +132,24 @@ Also accepts all React Aria `RadioGroup` props.
 ## Pitfalls
 
 <!-- pitfall: radio-separate-imports -->
+<!-- multi-idea-ok -->
 - **`Radio` and `RadioGroup` are separate components with separate imports** — `RadioGroup` from `@tale-ui/react/radio-group` has NO sub-parts (no `.Radios`, `.Item`, `.Indicator`). `Radio.Group` is the primary grouping sub-part of the `Radio` namespace.
+  - anti-pattern: `<RadioGroup><RadioGroup.Item value="a">Option</RadioGroup.Item></RadioGroup>`
+  - fix: `<Radio.Group label="Choose"><Radio.Root value="a"><Radio.Indicator /><Radio.Label>Option</Radio.Label></Radio.Root></Radio.Group>`
+  - complete example:
+    ```tsx
+    import { Radio } from '@tale-ui/react/radio';
+    
+    export function Example() {
+      return (
+        <Radio.Group label="Favorite color">
+          <Radio.Root value="red"><Radio.Indicator /> Red</Radio.Root>
+          <Radio.Root value="green"><Radio.Indicator /> Green</Radio.Root>
+          <Radio.Root value="blue"><Radio.Indicator /> Blue</Radio.Root>
+        </Radio.Group>
+      );
+    }
+    ```
 
 <!-- pitfall: radio-no-native-input-props -->
 - **`Radio.Root` does NOT accept `checked`, `onChange`, or native HTML input props** — selection state is managed by `Radio.Group` via `value`/`onChange` props. Passing `checked` causes TypeScript errors.

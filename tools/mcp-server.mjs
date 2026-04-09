@@ -227,7 +227,25 @@ const SYNONYMS = {
   grid: ['GridList', 'Table'],
   avatar: ['Avatar'],
   image: ['Image', 'Avatar'],
-  icon: ['Icon', 'IconButton'],
+  icon: ['Icon', 'IconButton', 'FeaturedIcon'],
+  'icon button': ['IconButton', 'Button'],
+  iconbutton: ['IconButton'],
+  'featured icon': ['FeaturedIcon'],
+  'notification icon': ['FeaturedIcon', 'Icon'],
+  'themed icon': ['FeaturedIcon'],
+  rating: ['RatingStars', 'RatingBadge'],
+  'star rating': ['RatingStars'],
+  stars: ['RatingStars'],
+  'color mode': ['ColorModeToggle'],
+  'dark mode': ['ColorModeToggle'],
+  'theme toggle': ['ColorModeToggle'],
+  'light dark': ['ColorModeToggle'],
+  destructive: ['Button', 'IconButton'],
+  delete: ['IconButton', 'Button'],
+  trash: ['IconButton'],
+  spinner: ['Spinner', 'ProgressCircle'],
+  'primary button': ['Button'],
+  'secondary button': ['Button'],
   progress: ['ProgressBar', 'ProgressCircle', 'Meter'],
   meter: ['Meter', 'ProgressBar'],
   slider: ['Slider'],
@@ -656,14 +674,40 @@ server.tool(
       lines.push('Call `get_recipe` with this slug for a copy-paste starting point.\n');
     }
 
-    // Gather pitfall summaries from structured data for matched components
+    // Gather full pitfall details from structured data for matched components
     const pitfallLines = [];
     const seenCrossRefs = new Set();
     for (const c of componentResults) {
       const fullEntry = registry.components.find(comp => comp.name === c.name);
       if (fullEntry?.pitfalls?.length > 0) {
         for (const p of fullEntry.pitfalls) {
-          pitfallLines.push(`- **${c.name}**: ${p.summary}`);
+          pitfallLines.push(`- **${c.name}: ${p.summary}**`);
+          if (p.detail) {
+            // Indent the detail lines so they read as sub-content of the bullet
+            for (const line of p.detail.split('\n')) {
+              pitfallLines.push(`  ${line}`);
+            }
+          }
+          if (p.antiPatterns?.length > 0) {
+            for (const ap of p.antiPatterns) {
+              pitfallLines.push(`  - anti-pattern: \`${ap}\``);
+            }
+          }
+          if (p.fixes?.length > 0) {
+            for (const fx of p.fixes) {
+              pitfallLines.push(`  - fix: \`${fx}\``);
+            }
+          }
+          if (p.completeExample) {
+            pitfallLines.push('  - complete example:');
+            pitfallLines.push('');
+            pitfallLines.push('    ```tsx');
+            for (const line of p.completeExample.split('\n')) {
+              pitfallLines.push(`    ${line}`);
+            }
+            pitfallLines.push('    ```');
+          }
+          pitfallLines.push('');
         }
       }
       if (fullEntry?.crossPitfallRefs?.length > 0) {
@@ -671,20 +715,69 @@ server.tool(
           if (seenCrossRefs.has(refId)) continue;
           seenCrossRefs.add(refId);
           const cp = pitfallData.crossComponentPitfalls.find(p => p.id === refId);
-          if (cp) pitfallLines.push(`- **Cross-component**: ${cp.summary}`);
+          if (!cp) continue;
+          pitfallLines.push(`- **Cross-component: ${cp.summary}**`);
+          if (cp.detail) {
+            for (const line of cp.detail.split('\n')) {
+              pitfallLines.push(`  ${line}`);
+            }
+          }
+          if (cp.antiPatterns?.length > 0) {
+            for (const ap of cp.antiPatterns) {
+              pitfallLines.push(`  - anti-pattern: \`${ap}\``);
+            }
+          }
+          if (cp.fixes?.length > 0) {
+            for (const fx of cp.fixes) {
+              pitfallLines.push(`  - fix: \`${fx}\``);
+            }
+          }
+          if (cp.completeExample) {
+            pitfallLines.push('  - complete example:');
+            pitfallLines.push('');
+            pitfallLines.push('    ```tsx');
+            for (const line of cp.completeExample.split('\n')) {
+              pitfallLines.push(`    ${line}`);
+            }
+            pitfallLines.push('    ```');
+          }
+          pitfallLines.push('');
         }
       }
     }
-    // Add general conventions (always relevant)
+    // Add general conventions (always relevant — includes cross-cutting rules like Row/Column gap)
     for (const gc of pitfallData.generalConventions) {
-      pitfallLines.push(`- **Convention**: ${gc.summary}`);
+      pitfallLines.push(`- **Convention: ${gc.summary}**`);
+      if (gc.detail) {
+        for (const line of gc.detail.split('\n')) {
+          pitfallLines.push(`  ${line}`);
+        }
+      }
+      if (gc.antiPatterns?.length > 0) {
+        for (const ap of gc.antiPatterns) {
+          pitfallLines.push(`  - anti-pattern: \`${ap}\``);
+        }
+      }
+      if (gc.fixes?.length > 0) {
+        for (const fx of gc.fixes) {
+          pitfallLines.push(`  - fix: \`${fx}\``);
+        }
+      }
+      if (gc.completeExample) {
+        pitfallLines.push('  - complete example:');
+        pitfallLines.push('');
+        pitfallLines.push('    ```tsx');
+        for (const line of gc.completeExample.split('\n')) {
+          pitfallLines.push(`    ${line}`);
+        }
+        pitfallLines.push('    ```');
+      }
+      pitfallLines.push('');
     }
 
     if (pitfallLines.length > 0) {
       lines.push('### Pitfalls to avoid\n');
       lines.push(...pitfallLines);
-      lines.push('');
-      lines.push('Call `get_component` for full pitfall details with anti-patterns and fixes.\n');
     }
 
     // Relevant docs (searchDocs as fallback for non-pitfall documentation)
@@ -699,9 +792,10 @@ server.tool(
     }
 
     lines.push('### Next steps\n');
-    lines.push('1. Call `get_component` on each component above to read exact props, examples, and pitfalls.');
-    lines.push('2. If a recipe was found, call `get_recipe` for the complete pattern.');
-    lines.push('3. Generate JSX using only the components listed. Call `validate_code` afterwards.');
+    lines.push('1. Call `get_component` on each component above for exact props, allowed values, and sub-parts — even if a complete example is shown, `get_component` is the authoritative API reference.');
+    lines.push('2. If a pitfall has a `complete example:` block that matches your prompt, use it as the starting point for the JSX, but verify the import path and props against `get_component` output first.');
+    lines.push('3. If a recipe was found, call `get_recipe` for the complete pattern.');
+    lines.push('4. Generate JSX using only the components listed. Call `validate_code` afterwards.');
 
     return {
       content: [{ type: 'text', text: lines.join('\n') }],

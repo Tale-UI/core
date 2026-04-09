@@ -35,9 +35,22 @@ Accepts all React Aria `Link` props plus an optional `className`. See the `@exam
 ## Pitfalls
 
 <!-- pitfall: link-no-isexternal-prop -->
-- **There is no `isExternal` prop.** Use standard HTML `target` and `rel` attributes to open links in a new tab.
+<!-- multi-idea-ok -->
+- **There is no isExternal prop — use target and rel directly** — To open in a new tab, pass `target="_blank" rel="noopener noreferrer"` directly on `<Link>`. Never use a bare `<a>` tag for navigation — always use `<Link>` from `@tale-ui/react/link`.
+  - anti-pattern: `<a href="https://example.com" target="_blank">Visit Example</a>`
   - anti-pattern: `<Link href="https://example.com" isExternal>`
-  - fix: `<Link href="https://example.com" target="_blank" rel="noopener noreferrer">`
+  - fix: `<Link href="https://example.com" target="_blank" rel="noopener noreferrer">Visit Example</Link>`
+  - complete example for new-tab link:
+
+    ```tsx
+    import { Link } from '@tale-ui/react/link';
+    
+    export function VisitExample() {
+      return (
+        <Link href="https://example.com" target="_blank" rel="noopener noreferrer">Visit Example</Link>
+      );
+    }
+    ```
 
 ## Notes
 

@@ -41,7 +41,46 @@ function readFile(filePath) {
 
 // ─── Parse a single pitfall entry block ─────────────────────────────────────
 
-function parsePitfallBlock(commentBlock, bulletLine, restLines) {
+/**
+ * Extract a `- complete example:` fenced block from raw (including blank) lines.
+ * Handles both the fenced form (```tsx block) and the legacy inline backtick form.
+ * @param {string[]} rawLines — all lines in the block (may include blank lines)
+ * @returns {string|null}
+ */
+function extractCompleteExample(rawLines) {
+  let inCE = false;
+  let inFence = false;
+  const fenceLines = [];
+  for (const line of rawLines) {
+    // Inline form: "  - complete example: `code`"
+    if (!inCE && !inFence) {
+      const inlineMatch = line.match(/^\s{2}- complete example:\s*`([^`]+)`\s*$/);
+      if (inlineMatch) return inlineMatch[1];
+    }
+    // Start of complete example sub-bullet (fenced form)
+    if (!inCE && /^\s{2}- complete example:\s*$/.test(line)) {
+      inCE = true;
+      continue;
+    }
+    // Opening fence (4 spaces + ```)
+    if (inCE && !inFence && /^\s{4}```/.test(line)) {
+      inFence = true;
+      continue;
+    }
+    // Inside fenced block
+    if (inFence) {
+      if (/^\s{4}```/.test(line)) {
+        // Closing fence — done
+        return fenceLines.join('\n');
+      }
+      // Strip exactly 4 leading spaces
+      fenceLines.push(line.replace(/^    /, ''));
+    }
+  }
+  return null;
+}
+
+function parsePitfallBlock(commentBlock, bulletLine, restLines, completeExample = null) {
   const idMatch = commentBlock.match(/<!-- pitfall: ([\w-]+) -->/);
   if (!idMatch) return null;
 
@@ -61,9 +100,10 @@ function parsePitfallBlock(commentBlock, bulletLine, restLines) {
   const summary = bulletMatch[1].replace(/`/g, '');
   let detail = bulletMatch[2] ? bulletMatch[2].trim() : '';
 
-  // Collect any continuation lines (indented)
+  // Collect any continuation lines (indented, not sub-bullets)
   for (const line of restLines) {
-    if (/^\s+- (anti-pattern|fix):/.test(line)) continue; // handled below
+    if (/^\s+- (anti-pattern|fix|complete example):/.test(line)) continue;
+    if (/^\s{4}```/.test(line)) continue; // fence lines
     if (/^\s/.test(line)) {
       detail += ' ' + line.trim();
     } else {
@@ -89,6 +129,7 @@ function parsePitfallBlock(commentBlock, bulletLine, restLines) {
     ...(category ? { category } : {}),
     ...(antiPatterns.length > 0 ? { antiPatterns } : {}),
     ...(fixes.length > 0 ? { fixes } : {}),
+    ...(completeExample ? { completeExample } : {}),
   };
 }
 
@@ -165,15 +206,19 @@ function parsePitfallsDoc(content) {
         continue;
       }
 
-      // Collect rest lines (sub-bullets and continuation)
-      const restLines = [];
+      // Collect raw block lines (including blank) for complete example extraction
+      const rawBlockLines = [];
       let k = j + 1;
       while (k < lines.length && (lines[k].startsWith('  ') || lines[k] === '')) {
-        if (lines[k] !== '') restLines.push(lines[k]);
+        rawBlockLines.push(lines[k]);
         k++;
       }
 
-      const pitfall = parsePitfallBlock(commentBlock, bulletLine, restLines);
+      // Build restLines (non-blank) for sub-bullet parsing
+      const restLines = rawBlockLines.filter(l => l !== '');
+
+      const completeExample = extractCompleteExample(rawBlockLines);
+      const pitfall = parsePitfallBlock(commentBlock, bulletLine, restLines, completeExample);
       if (pitfall) {
         // Only classify as generalConventions if the section is explicitly "General Conventions"
         // or "General" — other sections with "convention" in their name (e.g. "React Aria Conventions")
@@ -206,7 +251,7 @@ const docContent = readFile(PITFALLS_DOC_PATH);
 const parsed = parsePitfallsDoc(docContent);
 
 const output = JSON.stringify({
-  schemaVersion: '1.1.0',
+  schemaVersion: '1.2.0',
   taleUiVersion: reactPkg.version || null,
   ...parsed,
 }, null, 2) + '\n';

@@ -57,6 +57,21 @@ Accepts all React Aria `DateField` props plus an optional `className`. See the `
 - **The input sub-part is `DateField.DateInput`, not `DateField.Input`** — There is no `DateField.Input`. The correct sub-part for the segmented input container is `DateField.DateInput`.
   - anti-pattern: `<DateField.Input>`
   - fix: `<DateField.DateInput>`
+  - complete example:
+    ```tsx
+    import { DateField } from '@tale-ui/react/date-field';
+    
+    export function Example() {
+      return (
+        <DateField.Root>
+          <DateField.Label>Date</DateField.Label>
+          <DateField.DateInput>
+            {(segment) => <DateField.Segment segment={segment} />}
+          </DateField.DateInput>
+        </DateField.Root>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: no-native-date -->
 <!-- cross-pitfall-ref: derive-date-type-from-props -->

@@ -44,10 +44,28 @@ Accepts all React Aria `Separator` props plus an optional `className`. See the `
 ## Pitfalls
 
 <!-- pitfall: separator-no-margin-padding-props -->
-- **Does NOT accept `margin`, `padding`, or other CSS shorthand as direct props** — use the `style` prop or a custom `className` for spacing adjustments.
+- **Does NOT accept margin, padding, or other CSS shorthand as direct props** — use the `style` prop or a custom `className` for spacing adjustments.
+  - anti-pattern: `<Separator margin="16px" />`
+  - fix: `<Separator style={{ margin: '16px' }} />`
+  - complete example:
+    ```tsx
+    import { Separator } from '@tale-ui/react/separator';
+    
+    export function Example() {
+      return (
+        <>
+          <Separator />
+          <Separator orientation="vertical" />
+        </>
+      );
+    }
+    ```
 
 <!-- pitfall: separator-only-orientation-and-html-attrs -->
+<!-- multi-idea-ok -->
 - **Only accepts `orientation` and standard HTML attributes** — no additional Tale UI-specific props exist.
+  - anti-pattern: `<Separator gap="16px" />`
+  - fix: `<Separator style={{ margin: '16px' }} />`
 
 ## Notes
 

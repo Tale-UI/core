@@ -57,7 +57,27 @@ Accepts all native `<fieldset>` element props plus an optional `className`. See 
 ## Pitfalls
 
 <!-- pitfall: fieldset-only-root-and-legend -->
+<!-- multi-idea-ok -->
 - **Only `Root` and `Legend` sub-parts** — There is no `Fieldset.Label` or `Fieldset.Description`. The only sub-parts are `Fieldset.Root` and `Fieldset.Legend`.
+  - anti-pattern: `<Fieldset.Label>Shipping address</Fieldset.Label>`
+  - fix: `<Fieldset.Legend>Shipping address</Fieldset.Legend>`
+  - complete example:
+    ```tsx
+    import { Fieldset } from '@tale-ui/react/fieldset';
+    import { TextField } from '@tale-ui/react/text-field';
+    
+    export function Example() {
+      return (
+        <Fieldset.Root>
+          <Fieldset.Legend>Shipping Address</Fieldset.Legend>
+          <TextField.Root>
+            <TextField.Label>Street</TextField.Label>
+            <TextField.Input />
+          </TextField.Root>
+        </Fieldset.Root>
+      );
+    }
+    ```
 
 ## Notes
 

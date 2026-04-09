@@ -71,6 +71,22 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 - **`TextField.Root` accepts `name` — HTML input attributes (`type`, `minLength`, `maxLength`, `placeholder`) go on `TextField.Input`.**
   - anti-pattern: `<TextField.Root placeholder="Enter name" type="email">`
   - fix: `<TextField.Root name="email"><TextField.Input placeholder="Enter name" type="email" /></TextField.Root>`
+  - complete example:
+    ```tsx
+    import { TextField } from '@tale-ui/react/text-field';
+    
+    export function Example() {
+      return (
+        <TextField.Root>
+          <TextField.Label>Name</TextField.Label>
+          <TextField.Input placeholder="Enter your name" />
+          <TextField.Description>Your full legal name.</TextField.Description>
+          // For validation errors, use isInvalid on Root:
+          // <TextField.ErrorMessage>Name is required.</TextField.ErrorMessage>
+        </TextField.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: no-password-input-component -->
 - **There is NO `PasswordInput` component** — for password fields, use `TextField` with `type="password"` on `TextField.Input`.

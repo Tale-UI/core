@@ -90,22 +90,42 @@ import { Drawer } from '@tale-ui/react/drawer';
 ## Pitfalls
 
 <!-- pitfall: drawer-open-not-isopen -->
-- **`Drawer.Root` uses `open`/`onOpenChange`, not `isOpen`.** This is the opposite of `Dialog` and `AlertDialog`, which use `isOpen`.
+- **`Drawer.Root` uses `open`/`onOpenChange`, not `isOpen`** — this is the opposite of `Dialog` and `AlertDialog`.
   - anti-pattern: `<Drawer.Root isOpen={open} onOpenChange={setOpen}>`
   - fix: `<Drawer.Root open={open} onOpenChange={setOpen}>`
+  - complete example:
+    ```tsx
+    import { Drawer } from '@tale-ui/react/drawer';
+    
+    export function Example() {
+      return (
+        <Drawer.Root>
+          <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+          <Drawer.Backdrop />
+          <Drawer.Popup>
+            <Drawer.Title>Drawer Title</Drawer.Title>
+            <Drawer.Description>Drawer content here.</Drawer.Description>
+            <Drawer.Close className="tale-button tale-button--neutral">Cancel</Drawer.Close>
+            <Drawer.Close className="tale-button tale-button--primary">Confirm</Drawer.Close>
+          </Drawer.Popup>
+        </Drawer.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: drawer-backdrop-sibling -->
-- **`Drawer.Backdrop` must be a self-closing sibling of `Drawer.Popup`, not a wrapper.** Wrapping Popup inside Backdrop changes the React hook execution order and causes a "Rendered more hooks than during the previous render" crash. This is the opposite of Dialog where Backdrop wraps Popup.
+- **`Drawer.Backdrop` must be a self-closing sibling of `Drawer.Popup`, not a wrapper** — wrapping Popup inside Backdrop crashes with "Rendered more hooks than during the previous render".
   - anti-pattern: `<Drawer.Backdrop><Drawer.Popup>...</Drawer.Popup></Drawer.Backdrop>`
   - fix: `<Drawer.Backdrop /><Drawer.Popup>...</Drawer.Popup>`
 
 <!-- pitfall: drawer-no-layout-parts -->
-- **There are no `Drawer.Actions`, `Drawer.Body`, `Drawer.Header`, or `Drawer.Footer` sub-parts.** Use plain `<div>` elements with inline flex layout for action rows and content sections.
+- **No layout sub-parts (`Drawer.Actions`, `Drawer.Body`, `Drawer.Header`, `Drawer.Footer`)** — use plain `<div>` elements with flex layout for content sections.
   - anti-pattern: `<Drawer.Footer>...</Drawer.Footer>`
   - fix: `<div style={{ display: 'flex', gap: 'var(--space-xs)' }}>...</div>`
 
 <!-- pitfall: drawer-no-placement-prop -->
-- **There is no `placement` prop on `Drawer.Root` or `Drawer.Popup`.** Drawer slides in from a fixed edge; placement is controlled via CSS.
+<!-- prose-only -->
+- **No `placement` prop on `Drawer.Root` or `Drawer.Popup`** — placement is controlled via CSS only.
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 <!-- cross-pitfall-ref: no-button-inside-trigger -->
@@ -116,7 +136,4 @@ import { Drawer } from '@tale-ui/react/drawer';
 - `Drawer.Root` supports controlled (`open` / `onOpenChange`) and uncontrolled (`defaultOpen`) modes.
 - The Popup and Backdrop use transition status data attributes (`data-entering`, `data-exiting`) for CSS animations.
 - Clicking the `Backdrop` closes the drawer automatically.
-- **`Drawer.Backdrop` must be a self-closing sibling, not a wrapper.** Use `<Drawer.Backdrop />` as a sibling of `<Drawer.Popup>`, never wrap Popup inside Backdrop. Wrapping changes the React hook execution order and causes a "Rendered more hooks than during the previous render" crash.
 - Unlike Dialog, this is a custom implementation (not built on React Aria's Modal).
-- **Controlled state uses `open`, not `isOpen`.** Pass `open={open} onOpenChange={setOpen}` to `Drawer.Root`. This differs from Dialog and AlertDialog which use `isOpen`.
-- **There is no `Drawer.Actions` part** (unlike `Dialog.Actions`). Wrap action buttons in a plain `<div>` with flex layout instead.

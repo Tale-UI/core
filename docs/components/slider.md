@@ -157,9 +157,30 @@ Use `position="top"` for a floating tooltip-style label above the thumb.
 ## Pitfalls
 
 <!-- pitfall: slider-nested-structure -->
-- **Requires nested structure: Root > Control > Track > Indicator + Thumb.** Use `onChange` (NOT `onValueChange`).
+- **Requires nested structure: Root > Control > Track > Indicator + Thumb** — use `onChange` (NOT `onValueChange`).
   - anti-pattern: `<Slider.Root onValueChange={setValue}><Slider.Track /><Slider.Thumb /></Slider.Root>`
   - fix: `<Slider.Root onChange={setValue}><Slider.Control><Slider.Track><Slider.Indicator /><Slider.Thumb /></Slider.Track></Slider.Control></Slider.Root>`
+  - complete example:
+    ```tsx
+    import { Slider } from '@tale-ui/react/slider';
+    
+    export function Example() {
+      return (
+        <Slider.Root defaultValue={50}>
+          <Slider.Header>
+            <Slider.Label>Volume</Slider.Label>
+            <Slider.Output />
+          </Slider.Header>
+          <Slider.Control>
+            <Slider.Track>
+              <Slider.Indicator />
+              <Slider.Thumb />
+            </Slider.Track>
+          </Slider.Control>
+        </Slider.Root>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: minvalue-maxvalue-not-min-max -->
 

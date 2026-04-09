@@ -44,6 +44,19 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
 - **No `FileTrigger.Root`** — `FileTrigger` is a simple (non-compound) component used directly. There is no namespace structure.
   - anti-pattern: `<FileTrigger.Root>`
   - fix: `<FileTrigger>`
+  - complete example:
+    ```tsx
+    import { FileTrigger } from '@tale-ui/react/file-trigger';
+    import { Button } from '@tale-ui/react/button';
+    
+    export function Example() {
+      return (
+        <FileTrigger onSelect={(files) => console.log(files)}>
+          <Button>Upload file</Button>
+        </FileTrigger>
+      );
+    }
+    ```
 
 <!-- pitfall: file-trigger-onselect-nullable -->
 - **`onSelect` receives `FileList | null` — always null-check** — The callback may receive `null` (e.g. when the user cancels the dialog). Guard before accessing the list.

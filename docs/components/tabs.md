@@ -192,9 +192,31 @@ const [selectedKey, setSelectedKey] = useState<string>('tab1');
 
 <!-- pitfall: tabs-no-trigger-or-content -->
 - **No `Tabs.Trigger` or `Tabs.Content`** — the correct sub-parts are `Tabs.Tab` and `Tabs.Panel`.
+  - anti-pattern: `<Tabs.List><Tabs.Trigger id="a">Tab A</Tabs.Trigger></Tabs.List><Tabs.Content id="a">...</Tabs.Content>`
+  - fix: `<Tabs.List><Tabs.Tab id="a">Tab A</Tabs.Tab></Tabs.List><Tabs.Panel id="a">...</Tabs.Panel>`
+  - complete example:
+    ```tsx
+    import { Tabs } from '@tale-ui/react/tabs';
+    
+    export function Example() {
+      return (
+        <Tabs.Root defaultSelectedKey="tab1">
+          <Tabs.List>
+            <Tabs.Tab id="tab1">Account</Tabs.Tab>
+            <Tabs.Tab id="tab2">Settings</Tabs.Tab>
+            <Tabs.Indicator />
+          </Tabs.List>
+          <Tabs.Panel id="tab1">Account settings here.</Tabs.Panel>
+          <Tabs.Panel id="tab2">App settings here.</Tabs.Panel>
+        </Tabs.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: tabs-default-selected-key -->
 - **Uses `defaultSelectedKey`, NOT `defaultValue`** — pass the `id` of the tab that should be selected by default.
+  - anti-pattern: `<Tabs.Root defaultValue="photos">...</Tabs.Root>`
+  - fix: `<Tabs.Root defaultSelectedKey="photos">...</Tabs.Root>`
 
 ## Notes
 

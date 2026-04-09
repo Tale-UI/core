@@ -85,9 +85,31 @@ Also accepts all React Aria `ProgressBar` props.
 
 <!-- pitfall: progress-circle-no-text-inside-root -->
 - **Do NOT place `<Text>` inside `ProgressCircle.Root`** — use `ProgressCircle.Label` for labelling and `ProgressCircle.Value` for the percentage display.
+  - anti-pattern: `<ProgressCircle.Root value={60}><Text>Loading</Text></ProgressCircle.Root>`
+  - fix: `<ProgressCircle.Root value={60}><ProgressCircle.Label>Loading</ProgressCircle.Label><ProgressCircle.Value /></ProgressCircle.Root>`
+  - complete example:
+    ```tsx
+    import { ProgressCircle } from '@tale-ui/react/progress-circle';
+    
+    export function Example() {
+      return (
+        <>
+          <ProgressCircle.Root value={60}>
+            <ProgressCircle.Track />
+          </ProgressCircle.Root>
+          
+          <ProgressCircle.Root value={null}>
+            <ProgressCircle.Track />
+          </ProgressCircle.Root>
+        </>
+      );
+    }
+    ```
 
 <!-- pitfall: progress-circle-size-valid-values -->
 - **`size` only accepts `'sm'`, `'md'`, `'lg'`** — NOT the short forms `'s'`, `'m'`, `'l'`, and NOT `'xl'`.
+  - anti-pattern: `<ProgressCircle.Root size="m" />`
+  - fix: `<ProgressCircle.Root size="md" />`
 
 ## Notes
 

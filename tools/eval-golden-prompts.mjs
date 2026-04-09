@@ -58,7 +58,18 @@ import { fileURLToPath } from 'url';
 import { execFileSync, spawn } from 'child_process';
 import { tmpdir } from 'os';
 import { createHash } from 'crypto';
-import { buildCodexExecArgs, buildCodexMcpConfigOverride } from './eval-golden-prompts-lib.mjs';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import {
+  buildCodexExecArgs,
+  buildCodexMcpConfigOverride,
+  loadTaleUiMcpServerSpec,
+  ALLOWED_IMPORT_PREFIXES,
+  extractCode,
+  checkL1,
+  checkL2,
+  checkL3,
+} from './eval-golden-prompts-lib.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -135,6 +146,7 @@ const FILTER_SLUGS =
     ?.split(',')
     .map((s) => s.trim()) ?? null;
 const JSON_OUTPUT = hasFlag('--json');
+const QUIET_PASSING = hasFlag('--quiet-passing'); // suppress one-liners for passing prompts
 const NO_CACHE = hasFlag('--no-cache') || hasFlag('--fresh');
 const SKIP_GENERATE = hasFlag('--skip-generate');
 const FRESH = hasFlag('--fresh'); // bypass both caches
@@ -217,6 +229,8 @@ let CLAUDE_BIN = null;
 let CODEX_BIN = null;
 let STRAICO_API_KEY = null;
 let CODEX_MCP_CONFIG_OVERRIDE = null;
+let LOCAL_MCP_CLIENT = null;
+let LOCAL_MCP_TOOLS = [];
 
 if (PROVIDER === 'straico') {
   STRAICO_API_KEY = process.env.STRAICO_API_KEY;
@@ -251,7 +265,7 @@ if (PROVIDER === 'straico') {
 // MCP mode uses the lightweight consumer snippet as system prompt.
 // Claude attaches the MCP server via --mcp-config/--allowedTools.
 // Codex attaches the repo-local Tale UI MCP server via per-run config overrides.
-if (MCP_MODE && (PROVIDER === 'claude' || PROVIDER === 'codex') && !existsSync(MCP_CONFIG_PATH)) {
+if (MCP_MODE && (PROVIDER === 'claude' || PROVIDER === 'codex' || PROVIDER === 'local') && !existsSync(MCP_CONFIG_PATH)) {
   console.error(`ERROR: --mcp mode requires ${MCP_CONFIG_PATH} to exist.`);
   process.exit(1);
 }
@@ -264,15 +278,7 @@ if (MCP_MODE && PROVIDER === 'codex') {
   }
 }
 
-/* ─── Allowed imports (L3) ────────────────────────────────────────────────── */
-
-const ALLOWED_IMPORT_PREFIXES = [
-  '@tale-ui/react',
-  '@tale-ui/charts',
-  'react',
-  'lucide-react',
-  '@internationalized/',
-];
+// ALLOWED_IMPORT_PREFIXES imported from eval-golden-prompts-lib.mjs
 
 /* ─── Eval context (auto-generated, includes expanded pitfalls) ───────────── */
 
@@ -499,9 +505,9 @@ function callClaude(userPrompt) {
     const proc = spawn(CLAUDE_BIN, cliArgs, { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] });
 
     let stdout = '';
-    proc.stdout.on('data', (d) => {
-      stdout += d;
-    });
+    let stderr = '';
+    proc.stdout.on('data', (d) => { stdout += d; });
+    proc.stderr.on('data', (d) => { stderr += d; });
 
     // MCP mode takes longer: each tool call round-trip adds latency
     const timeoutMs = MCP_MODE ? 180000 : 90000;
@@ -510,15 +516,31 @@ function callClaude(userPrompt) {
       reject(new Error(`Claude CLI timed out after ${timeoutMs / 1000}s`));
     }, timeoutMs);
 
-    proc.on('close', () => {
+    proc.on('close', (code) => {
       clearTimeout(timer);
+      if (code !== 0) {
+        return reject(
+          new Error(
+            `Claude CLI exited with code ${code}\nstderr: ${stderr.slice(0, 500)}\nstdout: ${stdout.slice(0, 500)}`,
+          ),
+        );
+      }
       try {
         const parsed = JSON.parse(stdout);
-        if (parsed.is_error)
-          return reject(new Error(parsed.result ?? 'Claude CLI returned an error'));
+        if (parsed.is_error) {
+          return reject(
+            new Error(
+              `Claude CLI reported is_error: ${parsed.result ?? 'no message'}\nstderr: ${stderr.slice(0, 500)}`,
+            ),
+          );
+        }
         resolve(parsed.result ?? '');
       } catch {
-        reject(new Error(`Failed to parse Claude output: ${stdout.slice(0, 200)}`));
+        reject(
+          new Error(
+            `Failed to parse Claude output (exit ${code})\nstderr: ${stderr.slice(0, 500)}\nstdout: ${stdout.slice(0, 500)}`,
+          ),
+        );
       }
     });
 
@@ -600,7 +622,18 @@ async function callStraico(userPrompt, { retries = 3 } = {}) {
   throw lastErr;
 }
 
-async function callLocal(userPrompt, { retries = 2 } = {}) {
+class LocalToolsUnsupportedError extends Error {
+  constructor(model, detail) {
+    super(
+      `Local model "${model}" does not support tool calling${detail ? `: ${detail}` : ''}`,
+    );
+    this.name = 'LocalToolsUnsupportedError';
+  }
+}
+
+// Low-level: POST to the local OpenAI-compatible chat completions endpoint.
+// Retries on transient errors; throws LocalToolsUnsupportedError immediately on capability failures.
+async function postLocalChat(body, { retries = 2 } = {}) {
   let lastErr;
   for (let attempt = 1; attempt <= retries; attempt++) {
     const controller = new AbortController();
@@ -612,30 +645,28 @@ async function callLocal(userPrompt, { retries = 2 } = {}) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${LOCAL_API_KEY}`,
         },
-        body: JSON.stringify({
-          model: MODEL,
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            { role: 'user', content: userPrompt },
-          ],
-          stream: false,
-        }),
+        body: JSON.stringify(body),
         signal: controller.signal,
       });
 
       if (!response.ok) {
-        const body = await response.text();
-        throw new Error(`Local API error (${response.status}): ${body.slice(0, 200)}`);
+        const respBody = await response.text();
+        // Hard-fail immediately — model categorically cannot do tool calling; retrying won't help.
+        if (
+          response.status === 400 &&
+          (respBody.includes('does not support tools') ||
+            respBody.includes('does not support tool') ||
+            (respBody.toLowerCase().includes('tools') &&
+              respBody.toLowerCase().includes('not support')))
+        ) {
+          throw new LocalToolsUnsupportedError(MODEL, respBody.slice(0, 200));
+        }
+        throw new Error(`Local API error (${response.status}): ${respBody.slice(0, 200)}`);
       }
 
-      const json = await response.json();
-      const content = json.choices?.[0]?.message?.content ?? '';
-      if (!content)
-        throw new Error(
-          `Local model returned an empty response: ${JSON.stringify(json).slice(0, 200)}`,
-        );
-      return content;
+      return await response.json();
     } catch (err) {
+      if (err instanceof LocalToolsUnsupportedError) throw err; // never retry
       if (err.name === 'AbortError')
         throw new Error(`Local model timed out after 180s — model may be too slow or not loaded`);
       if (err.message.includes('ECONNREFUSED') || err.message.includes('fetch failed')) {
@@ -650,6 +681,190 @@ async function callLocal(userPrompt, { retries = 2 } = {}) {
     }
   }
   throw lastErr;
+}
+
+// Execute one MCP tool call and flatten the result to a string for the tool message.
+async function runLocalMcpTool(call) {
+  const toolName = call.function?.name;
+  let toolArgs;
+  try {
+    toolArgs = JSON.parse(call.function?.arguments ?? '{}');
+  } catch {
+    return `[tool error] Could not parse arguments for ${toolName}: ${call.function?.arguments}`;
+  }
+  try {
+    const result = await LOCAL_MCP_CLIENT.callTool({ name: toolName, arguments: toolArgs });
+    const text = (result.content ?? [])
+      .filter((c) => c.type === 'text')
+      .map((c) => c.text)
+      .join('\n\n');
+    return result.isError ? `[tool error] ${text}` : text || '[tool returned no text]';
+  } catch (err) {
+    return `[tool error] ${err.message}`;
+  }
+}
+
+// Single-turn local call (non-MCP path) — identical to the previous callLocal implementation.
+async function callLocalSingleTurn(userPrompt, { retries = 2 } = {}) {
+  const json = await postLocalChat(
+    {
+      model: MODEL,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt },
+      ],
+      stream: false,
+    },
+    { retries },
+  );
+  const content = json.choices?.[0]?.message?.content ?? '';
+  if (!content)
+    throw new Error(
+      `Local model returned an empty response: ${JSON.stringify(json).slice(0, 200)}`,
+    );
+  return content;
+}
+
+async function callLocal(userPrompt, { retries = 2 } = {}) {
+  if (!MCP_MODE) return callLocalSingleTurn(userPrompt, { retries });
+
+  // MCP path: agentic tool-use loop bounded by MCP_MAX_TURNS.
+  const messages = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    { role: 'user', content: userPrompt },
+  ];
+
+  for (let turn = 0; turn < MCP_MAX_TURNS; turn++) {
+    const json = await postLocalChat({
+      model: MODEL,
+      messages,
+      tools: LOCAL_MCP_TOOLS,
+      tool_choice: 'auto',
+      stream: false,
+    });
+
+    const msg = json.choices?.[0]?.message ?? {};
+    const toolCalls =
+      Array.isArray(msg.tool_calls) && msg.tool_calls.length > 0 ? msg.tool_calls : null;
+
+    if (!toolCalls) {
+      // Model finished — return the final text response.
+      const content = msg.content ?? '';
+      if (!content)
+        throw new Error(
+          `Local model returned empty response: ${JSON.stringify(json).slice(0, 200)}`,
+        );
+      return content;
+    }
+
+    // Append assistant message with tool calls, then execute each tool.
+    messages.push({ role: 'assistant', content: msg.content ?? '', tool_calls: toolCalls });
+    for (const call of toolCalls) {
+      const result = await runLocalMcpTool(call);
+      messages.push({ role: 'tool', tool_call_id: call.id, content: result });
+    }
+  }
+
+  throw new Error(
+    `Local MCP tool loop exceeded ${MCP_MAX_TURNS} turns for model "${MODEL}" — aborting.`,
+  );
+}
+
+// Bootstrap: connect the MCP client, list tools, and run a capability probe.
+// Called from main() before the worker pool starts.
+async function bootstrapLocalMcp() {
+  // 1. Load and validate the tale-ui server spec from .mcp.json.
+  let spec;
+  try {
+    spec = loadTaleUiMcpServerSpec(MCP_CONFIG_PATH);
+  } catch (err) {
+    console.error(`ERROR: ${err.message}`);
+    process.exit(1);
+  }
+
+  // 2. Connect the MCP client as a singleton for the lifetime of this eval run.
+  const transport = new StdioClientTransport({
+    command: spec.command,
+    args: spec.args,
+    cwd: ROOT,
+    env: { ...process.env, ...(spec.env ?? {}) },
+  });
+  const client = new Client({ name: 'tale-ui-eval', version: '1.0.0' });
+  try {
+    await client.connect(transport);
+  } catch (err) {
+    console.error(`ERROR: Failed to start Tale UI MCP server: ${err.message}`);
+    process.exit(1);
+  }
+  LOCAL_MCP_CLIENT = client;
+
+  // 3. List tools and filter to the same 6-tool set that Claude MCP uses.
+  const ALLOWED_MCP_TOOL_NAMES = new Set([
+    'plan_ui',
+    'get_component',
+    'search_components',
+    'list_components',
+    'get_recipe',
+    'search_docs',
+  ]);
+  const { tools } = await client.listTools();
+  LOCAL_MCP_TOOLS = tools
+    .filter((t) => ALLOWED_MCP_TOOL_NAMES.has(t.name))
+    .map((t) => ({
+      type: 'function',
+      function: {
+        name: t.name,
+        description: t.description,
+        parameters: t.inputSchema,
+      },
+    }));
+
+  if (LOCAL_MCP_TOOLS.length === 0) {
+    console.error(
+      `ERROR: MCP server exposed no recognized tools. Check ${MCP_CONFIG_PATH} and tools/mcp-server.mjs.`,
+    );
+    await client.close().catch(() => {});
+    process.exit(1);
+  }
+
+  // 4. Capability probe — a cheap one-shot request that will 400 immediately if the model
+  //    cannot handle tool calling at all, before we waste time running every prompt.
+  try {
+    await postLocalChat(
+      {
+        model: MODEL,
+        messages: [{ role: 'user', content: 'ping' }],
+        tools: LOCAL_MCP_TOOLS,
+        tool_choice: 'auto',
+        max_tokens: 1,
+        stream: false,
+      },
+      { retries: 1 },
+    );
+  } catch (err) {
+    await client.close().catch(() => {});
+    if (err instanceof LocalToolsUnsupportedError || err.message.includes('tool')) {
+      console.error(`ERROR: ${err.message}`);
+      console.error(
+        `  Pick a tool-capable model (e.g. qwen3-coder, qwen2.5-coder, llama3.1, llama3.2).`,
+      );
+    } else {
+      console.error(`ERROR: Local capability probe failed: ${err.message}`);
+    }
+    process.exit(1);
+  }
+
+  // 5. Tear down cleanly when the process exits.
+  const cleanup = () => client.close().catch(() => {});
+  process.on('exit', cleanup);
+  process.on('SIGINT', () => {
+    cleanup();
+    process.exit(130);
+  });
+  process.on('SIGTERM', () => {
+    cleanup();
+    process.exit(143);
+  });
 }
 
 function callCodex(userPrompt) {
@@ -714,61 +929,7 @@ function callProvider(userPrompt) {
   return callClaude(userPrompt);
 }
 
-/* ─── Code extraction ─────────────────────────────────────────────────────── */
-
-function extractCode(text) {
-  const fenced = text.match(/```(?:tsx?|jsx?)\n([\s\S]*?)```/);
-  if (fenced) return fenced[1].trim();
-  const importIdx = text.indexOf('import ');
-  if (importIdx !== -1) return text.slice(importIdx).trim();
-  return text.trim();
-}
-
-/* ─── L1: Validity ────────────────────────────────────────────────────────── */
-
-function checkL1(code) {
-  try {
-    const result = execFileSync(
-      process.execPath,
-      [join(__dirname, 'validate-generated.mjs'), '--code', code, '--json'],
-      { cwd: ROOT, timeout: 30000, encoding: 'utf8', stdio: 'pipe' },
-    );
-    const parsed = JSON.parse(result);
-    const errors = [
-      ...(parsed.registryErrors ?? []),
-      ...(parsed.typescriptErrors ?? []).map((e) => `Line ${e.line}: ${e.message}`),
-    ];
-    return { pass: errors.length === 0, errors };
-  } catch (err) {
-    try {
-      const parsed = JSON.parse(err.stdout || '{}');
-      const errors = [
-        ...(parsed.registryErrors ?? []),
-        ...(parsed.typescriptErrors ?? []).map((e) => `Line ${e.line}: ${e.message}`),
-      ];
-      return { pass: errors.length === 0, errors };
-    } catch {
-      return { pass: false, errors: [(err.stdout || err.message || 'Validator failed').trim()] };
-    }
-  }
-}
-
-/* ─── L2: Component coverage ──────────────────────────────────────────────── */
-
-function checkL2(code, tags) {
-  const missing = tags.filter((tag) => !code.includes(tag));
-  return { pass: missing.length === 0, missing };
-}
-
-/* ─── L3: Import cleanliness ──────────────────────────────────────────────── */
-
-function checkL3(code) {
-  const importLines = [...code.matchAll(/^import\s+.*?\s+from\s+['"]([^'"]+)['"]/gm)];
-  const forbidden = importLines
-    .map((m) => m[1])
-    .filter((pkg) => !ALLOWED_IMPORT_PREFIXES.some((prefix) => pkg.startsWith(prefix)));
-  return { pass: forbidden.length === 0, forbidden };
-}
+// extractCode, checkL1, checkL2, checkL3 imported from eval-golden-prompts-lib.mjs
 
 /* ─── Main ────────────────────────────────────────────────────────────────── */
 
@@ -798,6 +959,7 @@ async function evalPrompt(prompt, nth, total) {
     try {
       const rawOutput = await callProvider(prompt.prompt);
       code = extractCode(rawOutput);
+      if (!code) callError = 'Model returned no code block';
     } catch (err) {
       callError = err.message;
     }
@@ -821,7 +983,7 @@ async function evalPrompt(prompt, nth, total) {
       ({ l1, l2, l3 } = cachedChecks);
       checkCacheHit = true;
     } else {
-      l1 = checkL1(code);
+      l1 = checkL1(code, { root: ROOT, validatorPath: join(__dirname, 'validate-generated.mjs') });
       l2 = checkL2(code, prompt.tags ?? []);
       l3 = checkL3(code);
       saveCheckCache(checkKey, { l1, l2, l3 });
@@ -840,7 +1002,9 @@ async function evalPrompt(prompt, nth, total) {
     l3.pass ? '✓ L3' : '✗ L3',
   ].join('  ');
   const cacheLabel = callCacheHit ? '  (call cached)' : checkCacheHit ? '  (checks cached)' : '';
-  log(`  ${counter}  ${prompt.slug.padEnd(30)} [${prompt.difficulty}]  ${checks}${cacheLabel}`);
+  if (!allPass || !QUIET_PASSING) {
+    log(`  ${counter}  ${prompt.slug.padEnd(30)} [${prompt.difficulty}]  ${checks}${cacheLabel}`);
+  }
   if (!l1.pass) {
     for (const e of l1.errors.slice(0, 3)) log(`      L1: ${e}`);
     if (l1.errors.length > 3) log(`      L1: ... and ${l1.errors.length - 3} more`);
@@ -877,13 +1041,17 @@ async function runPool(items, concurrency, fn) {
 }
 
 async function main() {
+  if (MCP_MODE && PROVIDER === 'local') {
+    await bootstrapLocalMcp();
+  }
+
   log(`\n=== Golden Prompt Eval — ${MODEL}${MCP_MODE ? ' (MCP)' : ''} ===\n`);
   if (FILTER_DIFFICULTY) log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);
   if (FILTER_SLUG) log(`  Filter: slug=${FILTER_SLUG}`);
   log(`  Prompts:     ${prompts.length}`);
   log(`  Concurrency: ${CONCURRENCY}`);
   const mcpSuffix = MCP_MODE
-    ? PROVIDER === 'claude' || PROVIDER === 'codex'
+    ? PROVIDER === 'claude' || PROVIDER === 'codex' || PROVIDER === 'local'
       ? ' + MCP'
       : ' (snippet-only)'
     : '';

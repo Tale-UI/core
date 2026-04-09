@@ -68,6 +68,25 @@ Also accepts all standard `<select>` HTML attributes. Pass `<option>` elements a
 - **`SelectNative` has NO sub-parts** — no `.Root`, `.Label`, `.Trigger`, `.Value`, etc. Use `<SelectNative>` directly with plain HTML `<label>` and `<option>` children.
   - anti-pattern: `<SelectNative.Root><SelectNative.Label>Size</SelectNative.Label><SelectNative.Trigger /></SelectNative.Root>`
   - fix: `<label>Size<SelectNative><option value="sm">Small</option></SelectNative></label>`
+  - complete example:
+    ```tsx
+    import { SelectNative } from '@tale-ui/react/select-native';
+    
+    export function Example() {
+      return (
+        <>
+          <SelectNative>
+            <option value="a">Option A</option>
+            <option value="b">Option B</option>
+          </SelectNative>
+          
+          <SelectNative disabled>
+            <option>Disabled</option>
+          </SelectNative>
+        </>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: no-label-component -->
 

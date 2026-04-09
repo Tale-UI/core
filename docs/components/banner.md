@@ -109,13 +109,36 @@ Also accepts all standard `<div>` HTML attributes.
 ## Pitfalls
 
 <!-- pitfall: banner-always-use-root -->
-- **`Banner` is a namespace component** — always use `<Banner.Root>`, never `<Banner>` directly.
+- **Always use `<Banner.Root>`, never bare `<Banner>`** — `Banner` is a namespace component; calling `<Banner>` directly renders nothing.
+  - anti-pattern: `<Banner variant="info">Alert</Banner>`
+  - fix: `<Banner.Root variant="info"><Banner.Title>Alert</Banner.Title></Banner.Root>`
+  - complete example:
+    ```tsx
+    import { Banner } from '@tale-ui/react/banner';
+    import { Icon } from '@tale-ui/react/icon';
+    import { InfoIcon } from 'lucide-react';
+    
+    export function Example() {
+      return (
+        <Banner.Root variant="info">
+          <Banner.Icon><Icon icon={InfoIcon} size="sm" /></Banner.Icon>
+          <Banner.Title>Heads up</Banner.Title>
+          <Banner.Description>Your trial expires in 3 days.</Banner.Description>
+        </Banner.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: banner-no-brand-or-neutral-variant -->
-- **No `'brand'` or `'neutral'` variant** — valid values are `'info'` (default), `'success'`, `'warning'`, and `'error'`.
+- **No `'brand'` or `'neutral'` variant** — valid values are `'info'` (default), `'success'`, `'warning'`, `'error'`.
+  - anti-pattern: `<Banner.Root variant="brand">`
+  - fix: `<Banner.Root variant="info">`
 
 <!-- pitfall: banner-use-title-and-description -->
+<!-- multi-idea-ok -->
 - **Pass content via `Banner.Title` and `Banner.Description`** — do NOT pass raw `<Text>` children directly to `Banner.Root`.
+  - anti-pattern: `<Banner.Root><Text>Something went wrong.</Text></Banner.Root>`
+  - fix: `<Banner.Root><Banner.Title>Something went wrong.</Banner.Title></Banner.Root>`
 
 ## Notes
 

@@ -144,9 +144,26 @@ import { Check, Minus } from 'lucide-react';
 ## Pitfalls
 
 <!-- pitfall: checkbox-always-use-namespace -->
-- **`Checkbox` is a namespace component — always use `<Checkbox.Root value="...">`, never `<Checkbox>` directly.** Using `<Checkbox>` causes "'Checkbox' cannot be used as a JSX component" errors.
-  - anti-pattern: `<Checkbox value="agree">Accept terms</Checkbox>`
-  - fix: `<Checkbox.Root value="agree"><Checkbox.Indicator>...</Checkbox.Indicator> Accept terms</Checkbox.Root>`
+- **Always use the `Checkbox` namespace via `<Checkbox.Root>`, never bare `<Checkbox>` directly** — calling `<Checkbox>` directly causes "cannot be used as a JSX component" errors.
+  - anti-pattern: `<Checkbox>Label</Checkbox>`
+  - fix: `<Checkbox.Root value="option">Label</Checkbox.Root>`
+  - complete example:
+    ```tsx
+    import { Checkbox } from '@tale-ui/react/checkbox';
+    import { Icon } from '@tale-ui/react/icon';
+    import { Check } from 'lucide-react';
+    
+    export function Example() {
+      return (
+        <Checkbox.Root>
+          <Checkbox.Indicator>
+            <Icon icon={Check} size="sm" />
+          </Checkbox.Indicator>
+          Accept terms and conditions
+        </Checkbox.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: checkbox-value-not-id -->
 - **Each checkbox item uses `value` prop (not `id`) matching the parent CheckboxGroup's `value` array.**
@@ -154,7 +171,7 @@ import { Check, Minus } from 'lucide-react';
   - fix: `<Checkbox.Root value="apple">Apple</Checkbox.Root>`
 
 <!-- pitfall: checkbox-indicator-needs-icon -->
-- **`Checkbox.Indicator` does NOT render a checkmark on its own** — provide `<Icon icon={Check} size="sm" />` as a child.
+- **`Checkbox.Indicator` needs an `<Icon>` child — it does not render a checkmark automatically** — provide `<Icon icon={Check} size="sm" />` as a child.
   - anti-pattern: `<Checkbox.Indicator />`
   - fix: `<Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>`
 

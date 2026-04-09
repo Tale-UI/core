@@ -33,10 +33,27 @@ import { ColorArea, parseColor } from '@tale-ui/react/color-area';
 ## Pitfalls
 
 <!-- pitfall: color-area-no-gradient-sub-part -->
+<!-- multi-idea-ok -->
 - **Only `Root` and `Thumb` sub-parts — no `ColorArea.Gradient`** — There is no `ColorArea.Gradient` sub-part. The gradient background is rendered automatically by `ColorArea.Root`.
+  - anti-pattern: `<ColorArea.Root><ColorArea.Gradient /><ColorArea.Thumb /></ColorArea.Root>`
+  - fix: `<ColorArea.Root><ColorArea.Thumb /></ColorArea.Root>`
+  - complete example:
+    ```tsx
+    import { ColorArea, parseColor } from '@tale-ui/react/color-area';
+    
+    export function Example() {
+      return (
+        <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+          <ColorArea.Thumb />
+        </ColorArea.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: color-area-y-channel-value -->
 - **`yChannel` value depends on color space** — Use `yChannel="lightness"` for HSL color space and `yChannel="brightness"` for HSB color space. Mixing these causes incorrect color rendering.
+  - anti-pattern: `<ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} yChannel="brightness" />`
+  - fix: `<ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} yChannel="lightness" />`
 
 <!-- cross-pitfall-ref: color-imports-from-rac -->
 <!-- cross-pitfall-ref: no-color-pojo-state -->

@@ -41,6 +41,18 @@ const UNSUPPORTED_ABSOLUTES = {
     'This is layout guidance, but the current `Row` and `Card.Root` implementations do not enforce or reject this pattern.',
 };
 
+/**
+ * Hard-coded slug → required summary token table.
+ * Each entry asserts that the named slug's summary MUST contain the given token
+ * (case-insensitive). Used to catch cases where the summary has been replaced
+ * by an injected "Import X from..." bullet that doesn't match the slug's intent.
+ */
+const SLUG_SUMMARY_TOKENS = {
+  'icon-button-aria-label-required': 'aria-label',
+  'link-no-isexternal-prop': 'isExternal',
+  'spinner-label-is-aria-not-visible': 'label',
+};
+
 function readFile(filePath) {
   try {
     return fs.readFileSync(filePath, 'utf8');
@@ -300,6 +312,24 @@ for (const entry of [...pitfalls.crossComponentPitfalls, ...pitfalls.generalConv
         id: entry.id,
         file: SHARED_PITFALLS_DOC,
         message: `Reasoning assumes button triggers, but these triggers are not buttons: ${nonButtonTriggers.join(', ')}.`,
+      });
+    }
+  }
+}
+
+// ── Slug/summary token assertions (SLUG_SUMMARY_TOKENS table) ───────────────
+for (const component of registry.components) {
+  for (const pitfall of (component.pitfalls || [])) {
+    const expectedToken = SLUG_SUMMARY_TOKENS[pitfall.id];
+    if (!expectedToken) continue;
+    const summaryLower = (pitfall.summary || '').toLowerCase();
+    if (!summaryLower.includes(expectedToken.toLowerCase())) {
+      const docFile = path.join(DOCS_COMPONENTS_DIR, `${component.name.replace(/[A-Z]/g, c => `-${c.toLowerCase()}`).replace(/^-/, '')}.md`);
+      recordIssue({
+        kind: 'slug-summary-mismatch',
+        id: pitfall.id,
+        file: docFile,
+        message: `Summary "${pitfall.summary.slice(0, 80)}" does not contain expected token "${expectedToken}" implied by slug.`,
       });
     }
   }

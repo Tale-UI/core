@@ -71,12 +71,38 @@ Accepts all React Aria `Toolbar` props plus an optional `className`. See the `@e
 
 <!-- pitfall: toolbar-button-html-attrs-only -->
 - **`Toolbar.Button` only accepts standard HTML button attributes** — `Toolbar.Button` does not accept `onPress`, `isSelected`, `onChange`, or `defaultSelected`. Use `onClick`, `aria-label`, and `disabled` instead.
+  - anti-pattern: `<Toolbar.Button onPress={handlePress} isSelected={active} />`
+  - fix: `<Toolbar.Button onClick={handlePress} aria-pressed={active} />`
+  - complete example:
+    ```tsx
+    import { Toolbar } from '@tale-ui/react/toolbar';
+    
+    export function Example() {
+      return (
+        <Toolbar.Root aria-label="Formatting">
+          <Toolbar.Group>
+            <Toolbar.Button>Bold</Toolbar.Button>
+            <Toolbar.Button>Italic</Toolbar.Button>
+          </Toolbar.Group>
+          <Toolbar.Separator />
+          <Toolbar.Group>
+            <Toolbar.Button>Left</Toolbar.Button>
+            <Toolbar.Button>Center</Toolbar.Button>
+          </Toolbar.Group>
+        </Toolbar.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: toolbar-no-standalone-toolbar-button -->
 - **No standalone `ToolbarButton` named export** — There is no top-level `ToolbarButton` export. Always use `Toolbar.Button` accessed through the namespace.
+  - anti-pattern: `import { ToolbarButton } from '@tale-ui/react/toolbar';`
+  - fix: `import { Toolbar } from '@tale-ui/react/toolbar'`
 
 <!-- pitfall: toolbar-toggle-use-toggle-button -->
 - **For toggleable toolbar buttons, use `<ToggleButton>` from `@tale-ui/react/toggle-button`** — Place a `ToggleButton` inside the toolbar instead of `Toolbar.Button` when toggling state is needed.
+  - anti-pattern: `<Toolbar.Button isSelected={bold} onChange={setBold}>Bold</Toolbar.Button>`
+  - fix: `<ToggleButton isSelected={bold} onChange={setBold}>Bold</ToggleButton>`
 
 ## Notes
 

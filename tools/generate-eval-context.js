@@ -54,6 +54,15 @@ function renderPitfallBullet(pitfall, indent = '') {
       lines.push(`${indent}  - fix: \`${fix}\``);
     }
   }
+  if (pitfall.completeExample) {
+    lines.push(`${indent}  - complete example:`);
+    lines.push('');
+    lines.push(`${indent}    \`\`\`tsx`);
+    for (const line of pitfall.completeExample.split('\n')) {
+      lines.push(`${indent}    ${line}`);
+    }
+    lines.push(`${indent}    \`\`\``);
+  }
   return lines.join('\n');
 }
 

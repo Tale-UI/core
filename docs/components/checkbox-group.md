@@ -101,6 +101,28 @@ import { Field } from '@tale-ui/react/field';
 - **`CheckboxGroup` controlled-state uses `string[]` (plain array), NOT `Set<string>`.**
   - anti-pattern: `<CheckboxGroup value={new Set(['apple'])} onChange={(v) => setSelected(v)} />`
   - fix: `<CheckboxGroup value={['apple']} onChange={(v) => setSelected(v)} />`
+  - complete example:
+    ```tsx
+    import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
+    import { Checkbox } from '@tale-ui/react/checkbox';
+    import { Icon } from '@tale-ui/react/icon';
+    import { Check } from 'lucide-react';
+    
+    export function Example() {
+      return (
+        <CheckboxGroup label="Favorite fruits">
+          <Checkbox.Root value="apple">
+            <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+            Apple
+          </Checkbox.Root>
+          <Checkbox.Root value="banana">
+            <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+            Banana
+          </Checkbox.Root>
+        </CheckboxGroup>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: no-cross-import-checkbox-group -->
 

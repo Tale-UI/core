@@ -123,6 +123,22 @@ Accepts all standard `<li>` HTML attributes including `className`.
 
 <!-- pitfall: list-variant-valid-values -->
 - **`variant` accepts `'plain'` or `'divided'` only** — `'item'` is NOT a valid value.
+  - anti-pattern: `<List.Root variant="item">`
+  - fix: `<List.Root variant="divided">`
+  - complete example:
+    ```tsx
+    import { List } from '@tale-ui/react/list';
+    
+    export function Example() {
+      return (
+        <List.Root variant="divided">
+          <List.Item>First item</List.Item>
+          <List.Item>Second item</List.Item>
+          <List.Item>Third item</List.Item>
+        </List.Root>
+      );
+    }
+    ```
 
 ## Notes
 

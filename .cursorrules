@@ -23,63 +23,63 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 
 ## Critical pitfalls
 
-- Never annotate component return types as JSX.Element or use React.FC — this project uses the new JSX transform. Write plain functions with no return type annotation. Always include a space between export and function.
-- Always generate code directly — never ask for clarification or present options — when given a prompt describing a UI, always produce a complete, working code example immediately. Do not respond with questions, numbered option lists, or requests for more information.
-- CSS design tokens use -s/-m/-l suffixes; component size props use -sm/-md/-lg — e.g. --space-s is a token, but size="sm" is a prop value. Token scale: 4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl.
-- Row/Column gap uses token-scale values, not component size values — valid gap values follow the CSS token scale: 'xs', 's', 'm', 'l', 'xl', '2xl'. Never use 'sm', 'md', or 'lg' for gap; those are component size prop values and are not valid gap tokens. The TypeScript type is Gap, which does not include 'sm'/'md'/'lg'. The mapping is: 'sm' → 's', 'md' → 'm', 'lg' → 'l'.
-- Do not add variant, size, or color props to native HTML elements — these props only exist on Tale UI components. They are silently ignored on <div>, <p>, <span>, etc.
-- Use <Image> from @tale-ui/react/image instead of <img> — Image applies radius, lazy loading, and correct CSS. Use its radius prop (not borderRadius) and width/height (not size).
-- There is no Heading component in Tale UI — for headings, use <Text variant="heading" as="h2">. Importing { Heading } from any @tale-ui/react/* path causes "has no exported member 'Heading'" TypeScript errors.
+- Never annotate component return types as JSX.Element or use React.FC — the new JSX transform is in use; write plain functions with no return type annotation.
+- Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all. - fix (for 'Create a primary button that says Save'): import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant="primary">Save</Button>; } - fix (for 'Create a success badge that displays Active'): import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant="success">Active</Badge>; }
+- Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash — the dash in --space-s is CSS token notation; prop value strings never start with a dash.
+- Max gap value for Row/Column is '2xl' — there is no '3xl' or '4xl' gap token — using out-of-range gap values produces no visible spacing because the token is undefined.
+- Do not add variant, size, or color props to native HTML elements — these props only exist on Tale UI components and are silently ignored on <div>, <p>, <span>, etc.
+- Use <Image> from @tale-ui/react/image instead of a bare <img> — Image applies radius, lazy loading, and correct CSS; use its radius prop (not borderRadius) and width/height (not size).
+- There is no Heading component — use <Text variant="heading" as="h2"> instead of bare <h2> — importing { Heading } from any @tale-ui/react/* path causes "has no exported member" TypeScript errors; bare heading tags bypass Tale UI typography tokens.
+- Never use bare <p> or <span> for text content — always use <Text> from @tale-ui/react/text — bare paragraph and span tags bypass Tale UI typography tokens and cannot accept color or variant props.
 - Never use asChild on any Tale UI trigger — Tale UI trigger components expose their own public structure and do not support asChild. Passing it causes TypeScript errors.
 - Never nest <Button> or <IconButton> inside a trigger — this creates a <button> inside a <button> (invalid HTML) and breaks keyboard/pointer interactions. Style the trigger directly with BEM class names.
 - [Accordion] Accordion.Trigger must go inside Accordion.Header
 - [Accordion] Use Accordion.Panel for content, NOT Accordion.Content
-- [Accordion] Does NOT accept a type prop
+- [Accordion] No type prop
 - [Accordion] Uses defaultExpandedKeys (array), NOT defaultOpen, defaultValue, or defaultSelectedKey
-- [AlertDialog] Controlled state uses isOpen/onOpenChange, not open.
-- [AlertDialog] AlertDialog.Backdrop must wrap AlertDialog.Popup, not be a sibling.
-- [AlertDialog] There are no AlertDialog.Cancel or AlertDialog.Action sub-parts.
-- [AlertDialog] AlertDialog.Content is required inside AlertDialog.Popup.
+- [AlertDialog] No AlertDialog.Cancel or AlertDialog.Action sub-parts
+- [AlertDialog] AlertDialog.Content is required inside AlertDialog.Popup
 - [AppStoreButton] store accepts 'apple' or 'google' only
-- [Autocomplete] No Autocomplete.Label, Autocomplete.Popover, Autocomplete.Trigger, Autocomplete.Value sub-parts.
-- [Autocomplete] No controlled-state props on Autocomplete.Root.
+- [Autocomplete] No phantom sub-parts: no Autocomplete.Label, Autocomplete.Popover, Autocomplete.Trigger, or Autocomplete.Value
+- [Autocomplete] No controlled state props on Autocomplete.Root
 - [Avatar] Avatar.Indicator must wrap OUTSIDE Avatar.Root
 - [Avatar] Avatar.Group propagates size to children
 - [Avatar] size accepts 'xs', 'sm', 'md', 'lg', 'xl', '2xl'
 - [Badge] 'danger' is NOT a valid variant
 - [Badge] No color prop
-- [Banner] Banner is a namespace component
+- [Banner] Always use <Banner.Root>, never bare <Banner>
 - [Banner] No 'brand' or 'neutral' variant
 - [Banner] Pass content via Banner.Title and Banner.Description
-- [Breadcrumbs] Use Breadcrumbs.Link inside Breadcrumbs.Item, not a standalone Link.
+- [Breadcrumbs] Use Breadcrumbs.Link inside Breadcrumbs.Item, not a standalone <Link>
 - [Button] No 'link' variant
 - [Button] size accepts 'sm', 'md', 'lg' only — no 'xs'
 - [Button] No asChild prop
 - [Button] No icon, leftIcon, rightIcon, or startIcon prop
 - [Calendar] Navigation buttons and heading must be inside Calendar.Header
 - [Calendar] Use Calendar.GridHeaderCell in GridHeader, not Calendar.Cell
-- [Calendar] Calendar.Heading must have no vertical margin or padding
+- [Calendar] Do not add vertical margin or padding to Calendar.Heading
 - [Card] No elevated boolean prop
-- [Card] Card.Header has NO title or description props
+- [Card] Card.Header has no title or description props
 - [Card] Card.Body and Card.Footer do NOT accept a gap prop
 - [Carousel] Uses Carousel.PreviousTrigger and Carousel.NextTrigger
 - [Carousel] No selectedIndex, onSelectedIndexChange, currentSlide, or onSlideChange props
 - [Carousel] Never use document.querySelector in carousel code
-- [Checkbox] Checkbox is a namespace component — always use <Checkbox.Root value="...">, never <Checkbox> directly.
+- [Checkbox] Always use the Checkbox namespace via <Checkbox.Root>, never bare <Checkbox> directly
 - [Checkbox] Each checkbox item uses value prop (not id) matching the parent CheckboxGroup's value array.
-- [Checkbox] Checkbox.Indicator does NOT render a checkmark on its own
+- [Checkbox] Checkbox.Indicator needs an <Icon> child — it does not render a checkmark automatically
 - [CheckboxGroup] CheckboxGroup controlled-state uses string[] (plain array), NOT Set<string>.
 - [ColorArea] Only Root and Thumb sub-parts — no ColorArea.Gradient
 - [ColorArea] yChannel value depends on color space
 - [ColorField] There is no HexColorField component
 - [ColorField] ColorField.Root onChange returns a Color object, not a string
+- [ColorModeToggle] ColorModeToggle needs no props — it is self-managing
 - [ColorPicker] ColorPicker.Root does not accept a label prop
 - [ColorPicker] Sub-components are NOT exported from @tale-ui/react/color-picker
 - [ColorSlider] Do NOT nest ColorSlider inside ColorPicker.Root
 - [ColorSlider] When composing with ColorArea, wrap both in a single parent element
 - [ColorSwatch] color prop accepts a plain CSS string, not a Color object
 - [ColorSwatch] No size prop
-- [ColorSwatchPicker] ColorSwatch is NOT exported from @tale-ui/react/color-swatch-picker
+- [ColorSwatchPicker] Import ColorSwatch separately from @tale-ui/react/color-swatch
 - [ColorSwatchPicker] Uses value/onChange, not onSelectionChange
 - [ColorSwatchPicker] value does NOT accept null or undefined
 - [ColorSwatchPicker] No ColorSwatchPicker.List
@@ -87,33 +87,32 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ColorWheel] outerRadius and innerRadius are required props
 - [Combobox] Combobox.Input owns placeholder
 - [Combobox] Combobox.Input does NOT accept an icon prop
-- [Combobox] Never import list data from local modules that don't exist in the consumer project.
-- [ContextMenu] ContextMenu.Root does not accept controlled state props.
-- [ContextMenu] ContextMenu.Trigger does not accept a rightClick prop.
-- [ContextMenu] Use ContextMenu.Popup, not ContextMenu.Popover.
-- [ContextMenu] ContextMenu.MenuList is required between ContextMenu.Popup and ContextMenu.Item.
-- [ContextMenu] ContextMenu.Item does not accept tone, color, intent, or variant props.
+- [Combobox] Never import list data from non-existent local modules
+- [ContextMenu] No controlled state props on ContextMenu.Root
+- [ContextMenu] No rightClick prop on ContextMenu.Trigger
+- [ContextMenu] Use ContextMenu.Popup, not ContextMenu.Popover
+- [ContextMenu] ContextMenu.MenuList is required between ContextMenu.Popup and ContextMenu.Item
+- [ContextMenu] ContextMenu.Item has no tone, color, intent, or variant props
 - [DateField] The input sub-part is DateField.DateInput, not DateField.Input
 - [DatePicker] No Calendar sub-parts on the DatePicker namespace
 - [DatePicker] No label prop on Root
 - [DateRangePicker] Uses StartDate and EndDate sub-parts, not DateInput
 - [DateRangePicker] DateRangePicker.Dialog does not auto-render a calendar
 - [DateRangePicker] Do not import DateValueType from @tale-ui/react/date-range-picker
-- [Dialog] Dialog.Backdrop must wrap Dialog.Popup, not be a sibling.
-- [Dialog] There are no Header or Body sub-parts.
+- [Dialog] No Dialog.Header or Dialog.Body sub-parts
 - [Disclosure] Use Disclosure.Panel for content, NOT Disclosure.Content
 - [Disclosure] No Content, Header, or Icon sub-parts
 - [Disclosure] Controlled state uses isExpanded/onExpandedChange
 - [DotIcon] color accepts semantic tokens only
-- [Drawer] Drawer.Root uses open/onOpenChange, not isOpen.
-- [Drawer] Drawer.Backdrop must be a self-closing sibling of Drawer.Popup, not a wrapper.
-- [Drawer] There are no Drawer.Actions, Drawer.Body, Drawer.Header, or Drawer.Footer sub-parts.
-- [Drawer] There is no placement prop on Drawer.Root or Drawer.Popup.
+- [Drawer] Drawer.Root uses open/onOpenChange, not isOpen
+- [Drawer] Drawer.Backdrop must be a self-closing sibling of Drawer.Popup, not a wrapper
+- [Drawer] No layout sub-parts (Drawer.Actions, Drawer.Body, Drawer.Header, Drawer.Footer)
+- [Drawer] No placement prop on Drawer.Root or Drawer.Popup
 - [DropZone] No DropZone.Content, DropZone.Icon, or DropZone.Title sub-parts
 - [DropZone] onDrop receives a DropEvent object, not a FileList
 - [DropZone] Do NOT cast FileDropItem to File
 - [EmptyState] No EmptyState.Header or EmptyState.Content
-- [FeaturedIcon] Does NOT accept an icon prop
+- [FeaturedIcon] Does NOT accept an icon prop — takes an <Icon> child, with no .Root variant
 - [Field] Field.Root does not accept validation state props
 - [Field] No standalone FieldLabel, FieldError, FieldControl, or FieldDescription exports
 - [Fieldset] Only Root and Legend sub-parts
@@ -128,28 +127,21 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Icon] size accepts 'sm', 'md', 'lg', 'xl' only
 - [IconButton] aria-label is required
 - [IconButton] Do not nest <IconButton> inside a trigger component
-- [Image] Uses radius (NOT borderRadius) for rounded corners
-- [Image] Does NOT accept a size prop
+- [Image] Use radius for rounded corners, NOT borderRadius
 - [Image] radius accepts 'none', 'sm', 'md', 'lg', 'full'
-- [Link] There is no isExternal prop.
+- [Link] There is no isExternal prop — use target and rel directly
 - [List] variant accepts 'plain' or 'divided' only
-- [Menu] Menu.MenuList is required between Menu.Popover and Menu.Item.
-- [Menu] Menu.Separator goes inside Menu.MenuList, not as a sibling of it.
-- [Menu] Menu.Root does not accept onAction or open.
-- [Meter] Meter.Value needs children text
-- [Meter] Meter.Indicator requires its own value prop
-- [Meter] No Meter.Output sub-part
-- [NavigationMenu] NavigationMenu.List is required between NavigationMenu.Root and NavigationMenu.Item.
-- [NavigationMenu] There is no Nav component in Tale UI.
+- [Menu] Menu.MenuList is required between Menu.Popover and Menu.Item
+- [Menu] Menu.Separator goes inside Menu.MenuList, not as a sibling
+- [Menu] Menu.Root does not accept onAction or open
+- [NavigationMenu] NavigationMenu.List is required between NavigationMenu.Root and NavigationMenu.Item
+- [NavigationMenu] No standalone Nav component in Tale UI
 - [NumberField] NumberField.Root value prop accepts number | undefined, NOT number | null.
-- [NumberField] No NumberField.Step or NumberField.HintText sub-parts.
+- [NumberField] No phantom sub-parts: NumberField.Step and NumberField.HintText do not exist
 - [Pagination] Root does NOT accept currentPage, totalPages, or onPageChange
-- [PaymentInput] No PaymentInput.Number, PaymentInput.CardNumber, or PaymentInput.NumberInput
-- [PinInput] Uses PinInput.Slot (NOT PinInput.Input).
-- [PreviewCard] PreviewCard.Content must be inside PreviewCard.Popup and requires aria-label.
-- [ProgressBar] ProgressBar.Value needs children text
-- [ProgressBar] ProgressBar.Indicator requires its own value prop
-- [ProgressBar] No ProgressBar.Output sub-part
+- [PaymentInput] No phantom sub-parts: PaymentInput.Number, PaymentInput.CardNumber, and PaymentInput.NumberInput do not exist
+- [PinInput] Uses PinInput.Slot (NOT PinInput.Input)
+- [PreviewCard] PreviewCard.Content must be inside PreviewCard.Popup and requires aria-label
 - [ProgressCircle] Do NOT place <Text> inside ProgressCircle.Root
 - [ProgressCircle] size only accepts 'sm', 'md', 'lg'
 - [Radio] Radio and RadioGroup are separate components with separate imports
@@ -157,18 +149,19 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [RadioGroup] RadioGroup (from @tale-ui/react/radio-group) has NO sub-parts
 - [RangeCalendar] No Footer sub-part
 - [RangeCalendar] Use isDateUnavailable to disable dates, not isOutsideRange
-- [RatingBadge] Requires a value prop (number)
+- [RatingBadge] The value prop is required
+- [RatingStars] value prop is required
 - [ScrollArea] Scrollbar orientation is a string, not a boolean
 - [ScrollArea] Requires a specific nested structure
 - [SearchField] SearchField.ClearButton does NOT auto-render an icon
-- [SearchField] No SearchField.InputGroup sub-part.
-- [SearchField] SearchField.Root owns defaultValue.
+- [SearchField] No SearchField.InputGroup sub-part
+- [SearchField] SearchField.Root owns defaultValue
 - [Select] Select.Root owns the placeholder prop
-- [Select] No Select.Option — use Select.Item.
+- [Select] No Select.Option — use Select.Item
 - [SelectNative] SelectNative has NO sub-parts
 - [Separator] Does NOT accept margin, padding, or other CSS shorthand as direct props
 - [Separator] Only accepts orientation and standard HTML attributes
-- [Slider] Requires nested structure: Root > Control > Track > Indicator + Thumb.
+- [Slider] Requires nested structure: Root > Control > Track > Indicator + Thumb
 - [SocialButton] provider prop is required
 - [Spinner] label prop sets aria-label — it does NOT render visible text
 - [Switch] No Label or Indicator sub-parts — only Root and Thumb
@@ -179,26 +172,27 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [TagGroup] Uses TagGroup.Tag, NOT TagGroup.Item
 - [TagGroup] TagGroup.Root does NOT accept a label prop
 - [TagGroup] TagGroup.Tag does NOT accept onRemove
+- [Text] Never use bare <p> paragraph tags or <span> for visible text
 - [Text] size only accepts 'xs', 's', 'm', 'l'
 - [Text] Monospace variant is "mono", NOT "code"
 - [Text] No 'link', 'code', or 'caption' variant
-- [Text] No htmlFor prop
+- [Text] No htmlFor prop on Text
 - [Text] as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'
 - [Text] color only accepts 'default', 'muted', 'accent'
-- [TextArea] TextArea.TextArea sub-part is PascalCase — NOT TextArea.Textarea (lowercase 'a').
+- [TextArea] TextArea.TextArea sub-part is PascalCase, NOT TextArea.Textarea
 - [TextField] TextField.Root accepts name — HTML input attributes (type, minLength, maxLength, placeholder) go on TextField.Input.
 - [TextField] There is NO PasswordInput component
-- [TimeField] No TimeField.Group, TimeField.Trigger, TimeField.Input, TimeField.Popover, or TimeField.Dialog sub-parts
+- [TimeField] No extra sub-parts: TimeField.Group, TimeField.Trigger, TimeField.Input, TimeField.Popover, TimeField.Dialog do not exist
 - [TimeField] The input sub-part is TimeField.DateInput, not TimeField.Input
 - [TimeField] Property is hour (singular), not hours
-- [ToggleButton] Uses isSelected/defaultSelected for toggle state, NOT pressed.
+- [ToggleButton] Uses isSelected/defaultSelected for toggle state, not pressed
 - [ToggleButton] Does NOT accept a value prop.
-- [ToggleButtonGroup] Does NOT accept type, value, or onValueChange (Radix-style).
-- [ToggleButtonGroup] Requires aria-label or aria-labelledby.
+- [ToggleButtonGroup] No Radix-style type, value, or onValueChange props
+- [ToggleButtonGroup] Requires aria-label or aria-labelledby
 - [Toolbar] Toolbar.Button only accepts standard HTML button attributes
 - [Toolbar] No standalone ToolbarButton named export
 - [Toolbar] For toggleable toolbar buttons, use <ToggleButton> from @tale-ui/react/toggle-button
-- [Tooltip] Tooltip text goes in Tooltip.Popup, not as children of Tooltip.Trigger.
+- [Tooltip] Tooltip text goes in Tooltip.Popup, not as children of Tooltip.Trigger
 - [Tree] Sub-parts are Root, Item, and ItemContent only
 - [Tree] Tree.Root requires aria-label
 - [Tree] Each Tree.Item requires both id and textValue

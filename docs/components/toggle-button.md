@@ -76,10 +76,19 @@ No Tale UI-specific props. Also accepts all React Aria `ToggleButtonGroup` props
 ## Pitfalls
 
 <!-- pitfall: toggle-button-isselected-not-pressed -->
-- **Uses `isSelected`/`defaultSelected` for toggle state, NOT `pressed`.**
+- **Uses `isSelected`/`defaultSelected` for toggle state, not `pressed`** — `pressed` and `onPressedChange` are not valid props; use `isSelected`/`onChange` for controlled state.
   - anti-pattern: `<ToggleButton pressed={isOn} onPressedChange={setOn}>Bold</ToggleButton>`
   - fix: `<ToggleButton isSelected={isOn} onChange={setOn}>Bold</ToggleButton>`
-
+  - complete example:
+    ```tsx
+    import { ToggleButton } from '@tale-ui/react/toggle-button';
+    
+    export function Example() {
+      return (
+        <ToggleButton size="md">Toggle me</ToggleButton>
+      );
+    }
+    ```
 <!-- pitfall: toggle-button-no-value-prop -->
 - **Does NOT accept a `value` prop.**
   - anti-pattern: `<ToggleButton value="bold">Bold</ToggleButton>`

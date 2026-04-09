@@ -199,11 +199,34 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
 - **`Select.Root` owns the `placeholder` prop** — do NOT put `placeholder` on `Select.Value`.
   - anti-pattern: `<Select.Value placeholder="Pick one..." />`
   - fix: `<Select.Root placeholder="Pick one..."><Select.Trigger><Select.Value /><Select.Icon /></Select.Trigger>...</Select.Root>`
+  - complete example:
+    ```tsx
+    import { Select } from '@tale-ui/react/select';
+    
+    export function Example() {
+      return (
+        <Select.Root placeholder="Select...">
+          <Select.Label>Fruit</Select.Label>
+          <Select.Trigger>
+            <Select.Value />
+            <Select.Icon />
+          </Select.Trigger>
+          <Select.Popover>
+            <Select.ListBox>
+              <Select.Item id="apple">Apple</Select.Item>
+              <Select.Item id="banana">Banana</Select.Item>
+            </Select.ListBox>
+          </Select.Popover>
+        </Select.Root>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: selectedkey-not-value -->
 
 <!-- pitfall: select-no-option-sub-part -->
-- **No `Select.Option` — use `Select.Item`.** `Select.Trigger` requires `<Select.Icon />` after `<Select.Value />`.
+<!-- multi-idea-ok -->
+- **No `Select.Option` — use `Select.Item`** — `Select.Trigger` also requires `<Select.Icon />` placed after `<Select.Value />`.
   - anti-pattern: `<Select.Option id="a">A</Select.Option>`
   - fix: `<Select.Item id="a" textValue="A">A</Select.Item>`
 

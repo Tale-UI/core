@@ -109,9 +109,32 @@ const [value, setValue] = React.useState('');
 ## Pitfalls
 
 <!-- pitfall: pin-input-slot-not-input -->
-- **Uses `PinInput.Slot` (NOT `PinInput.Input`).** Each `Slot` requires an `index` prop. Requires `maxLength` on Root.
+<!-- multi-idea-ok -->
+- **Uses `PinInput.Slot` (NOT `PinInput.Input`)** — each `Slot` requires an `index` prop; `maxLength` is required on `PinInput.Root`.
   - anti-pattern: `<PinInput.Root><PinInput.Input /><PinInput.Input /></PinInput.Root>`
   - fix: `<PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root>`
+  - complete example:
+    ```tsx
+    import { PinInput } from '@tale-ui/react/pin-input';
+    
+    export function Example() {
+      return (
+        <PinInput.Root maxLength={6}>
+          <PinInput.Group>
+            <PinInput.Slot index={0} />
+            <PinInput.Slot index={1} />
+            <PinInput.Slot index={2} />
+          </PinInput.Group>
+          <PinInput.Separator />
+          <PinInput.Group>
+            <PinInput.Slot index={3} />
+            <PinInput.Slot index={4} />
+            <PinInput.Slot index={5} />
+          </PinInput.Group>
+        </PinInput.Root>
+      );
+    }
+    ```
 
 ## Notes
 

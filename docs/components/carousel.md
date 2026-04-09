@@ -110,13 +110,37 @@ All other parts accept only an optional `className`.
 ## Pitfalls
 
 <!-- pitfall: carousel-correct-trigger-names -->
+<!-- multi-idea-ok -->
 - **Uses `Carousel.PreviousTrigger` and `Carousel.NextTrigger`** — NOT `PreviousButton` or `NextButton`.
+  - anti-pattern: `<Carousel.PreviousButton />`
+  - fix: `<Carousel.PreviousTrigger />`
+  - complete example:
+    ```tsx
+    import { Carousel } from '@tale-ui/react/carousel';
+    
+    export function Example() {
+      return (
+        <Carousel.Root loop>
+          <Carousel.Content>
+            <Carousel.Item>Slide 1</Carousel.Item>
+            <Carousel.Item>Slide 2</Carousel.Item>
+            <Carousel.Item>Slide 3</Carousel.Item>
+          </Carousel.Content>
+          <Carousel.PreviousTrigger />
+          <Carousel.NextTrigger />
+        </Carousel.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: carousel-no-slide-index-props -->
-- **No `selectedIndex`, `onSelectedIndexChange`, `currentSlide`, or `onSlideChange` props** — navigation is handled internally via Embla. Use `Carousel.Indicator` with an `index` prop for dot navigation.
+<!-- prose-only -->
+- **No `selectedIndex`, `onSelectedIndexChange`, `currentSlide`, or `onSlideChange` props** — navigation is handled internally via Embla; use `Carousel.Indicator` with an `index` prop for dot navigation.
 
 <!-- pitfall: carousel-no-dom-query -->
 - **Never use `document.querySelector` in carousel code** — all carousel interaction is managed through the component API and context internally.
+  - anti-pattern: `document.querySelector('.carousel-slide').scrollIntoView()`
+  - fix: `// Use Carousel.Indicator or Carousel.PreviousTrigger/NextTrigger`
 
 ## Notes
 

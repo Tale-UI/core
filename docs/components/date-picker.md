@@ -96,11 +96,51 @@ import { Calendar } from '@tale-ui/react/calendar';
 
 <!-- pitfall: date-picker-no-calendar-sub-parts -->
 - **No Calendar sub-parts on the `DatePicker` namespace** — `DatePicker.Dialog` does not auto-render a calendar. You must compose a full `Calendar.Root` (imported from `@tale-ui/react/calendar`) as children inside `DatePicker.Dialog`.
+  - anti-pattern: `<DatePicker.Dialog />`
+  - fix: `<DatePicker.Dialog><Calendar.Root>...</Calendar.Root></DatePicker.Dialog>`
+  - complete example:
+    ```tsx
+    import { DatePicker } from '@tale-ui/react/date-picker';
+    import { Calendar } from '@tale-ui/react/calendar';
+    
+    export function Example() {
+      return (
+        <DatePicker.Root>
+          <DatePicker.Label>Date</DatePicker.Label>
+          <DatePicker.Group>
+            <DatePicker.DateInput>
+              {(segment) => <DatePicker.Segment segment={segment} />}
+            </DatePicker.DateInput>
+            <DatePicker.Trigger />
+          </DatePicker.Group>
+          <DatePicker.Popover>
+            <DatePicker.Dialog>
+              <Calendar.Root>
+                <Calendar.Header>
+                  <Calendar.PreviousButton />
+                  <Calendar.Heading />
+                  <Calendar.NextButton />
+                </Calendar.Header>
+                <Calendar.Grid>
+                  <Calendar.GridHeader>
+                    {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+                  </Calendar.GridHeader>
+                  <Calendar.GridBody>
+                    {(date) => <Calendar.Cell date={date} />}
+                  </Calendar.GridBody>
+                </Calendar.Grid>
+              </Calendar.Root>
+            </DatePicker.Dialog>
+          </DatePicker.Popover>
+        </DatePicker.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: date-picker-no-label-prop -->
 - **No `label` prop on Root** — `DatePicker.Root` does not accept a `label` prop. Use `DatePicker.Label` as a separate sub-part.
   - anti-pattern: `<DatePicker.Root label="Date">`
-  - fix: `<DatePicker.Label>Date</DatePicker.Label>` inside the root
+  - fix: `<DatePicker.Label>Date</DatePicker.Label>`
 
 <!-- cross-pitfall-ref: no-native-date -->
 <!-- cross-pitfall-ref: derive-date-type-from-props -->

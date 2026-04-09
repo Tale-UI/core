@@ -125,9 +125,34 @@ function SortableTable() {
 
 <!-- pitfall: table-no-column-header-part -->
 - **No `Table.ColumnHeader`** — use `Table.Column` for column header cells.
+  - anti-pattern: `<Table.ColumnHeader>Name</Table.ColumnHeader>`
+  - fix: `<Table.Column>Name</Table.Column>`
+  - complete example:
+    ```tsx
+    import { Table } from '@tale-ui/react/table';
+    
+    export function Example() {
+      return (
+        <Table.Root aria-label="People">
+          <Table.Header>
+            <Table.Column isRowHeader>Name</Table.Column>
+            <Table.Column>Email</Table.Column>
+          </Table.Header>
+          <Table.Body>
+            <Table.Row id="1">
+              <Table.Cell>Alice</Table.Cell>
+              <Table.Cell>alice@example.com</Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: table-no-status-part -->
 - **No `Table.Status` sub-part** — render a `<Badge>` inside a `Table.Cell` to show status.
+  - anti-pattern: `<Table.Status variant="success">Active</Table.Status>`
+  - fix: `<Table.Cell><Badge variant="success">Active</Badge></Table.Cell>`
 
 ## Notes
 

@@ -93,9 +93,25 @@ import { Tooltip } from '@tale-ui/react/tooltip';
 ## Pitfalls
 
 <!-- pitfall: tooltip-text-in-popup -->
-- **Tooltip text goes in `Tooltip.Popup`, not as children of `Tooltip.Trigger`.** Placing content inside `Tooltip.Trigger` renders it as part of the interactive element, not the tooltip.
-  - anti-pattern: `<Tooltip.Trigger>Hover me — This is a tooltip</Tooltip.Trigger>`
-  - fix: `<Tooltip.Trigger>Hover me</Tooltip.Trigger><Tooltip.Popup>This is a tooltip</Tooltip.Popup>`
+- **Tooltip text goes in `Tooltip.Popup`, not as children of `Tooltip.Trigger`** — content inside `Trigger` renders as part of the interactive element, not the tooltip.
+  - anti-pattern: `<Tooltip.Trigger>Click me<span>Tooltip text</span></Tooltip.Trigger>`
+  - fix: `<Tooltip.Trigger>Click me</Tooltip.Trigger><Tooltip.Popup>Tooltip text</Tooltip.Popup>`
+  - complete example:
+    ```tsx
+    import { Tooltip } from '@tale-ui/react/tooltip';
+    
+    export function Example() {
+      return (
+        <Tooltip.Root>
+          <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Hover me</Tooltip.Trigger>
+          <Tooltip.Popup placement="top" offset={8}>
+            <Tooltip.Arrow />
+            Tooltip text
+          </Tooltip.Popup>
+        </Tooltip.Root>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 

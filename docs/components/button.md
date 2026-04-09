@@ -111,12 +111,37 @@ All buttons on a given surface should share the same size. Mixing `sm` and `md` 
 ## Pitfalls
 
 <!-- pitfall: button-no-link-variant -->
-- **No `'link'` variant** — The valid variants are `'primary'`, `'neutral'`, `'ghost'`, `'danger'`, `'danger-neutral'`, `'danger-ghost'`, and `'inverse'`. There is no `'link'` variant. For link-styled text, use the `Link` component.
+- **No 'link' variant** — The valid variants are `'primary'`, `'neutral'`, `'ghost'`, `'danger'`, `'danger-neutral'`, `'danger-ghost'`, and `'inverse'`. There is no `'link'` variant. For link-styled text, use the `Link` component.
+  - anti-pattern: `<Button variant="link">Go back</Button>`
+  - fix: `<Button variant="neutral">Go back</Button>`
+  - complete example:
+    ```tsx
+    import { Button } from '@tale-ui/react/button';
+    
+    export function Example() {
+      return (
+        <>
+          <Button variant="primary" size="md">Click me</Button>
+          <Button variant="neutral">Neutral</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="danger">Danger</Button>
+          <Button variant="danger-neutral">Outlined danger</Button>
+          <Button variant="danger-ghost">Ghost danger</Button>
+          <Button variant="inverse">Inverse</Button>
+          <Button variant="primary" isPending>Saving…</Button>
+          <Button variant="primary" isPending showTextWhileLoading>Saving…</Button>
+        </>
+      );
+    }
+    ```
 
 <!-- pitfall: button-no-xs-size -->
 - **`size` accepts `'sm'`, `'md'`, `'lg'` only — no `'xs'`** — There is no `'xs'` size. The smallest available size is `'sm'`.
+  - anti-pattern: `<Button size="xs">Save</Button>`
+  - fix: `<Button size="sm">Save</Button>`
 
 <!-- pitfall: button-no-asChild -->
+<!-- prose-only -->
 - **No `asChild` prop** — `Button` does not support `asChild`. To render a button as a link, use the `Link` component or wrap with a router link adapter.
 
 <!-- pitfall: button-no-icon-prop -->

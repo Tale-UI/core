@@ -170,19 +170,39 @@ import { Menu } from '@tale-ui/react/menu';
 ## Pitfalls
 
 <!-- pitfall: menu-menulist-required -->
-- **`Menu.MenuList` is required between `Menu.Popover` and `Menu.Item`.** Placing `Menu.Item` directly inside `Menu.Popover` causes TypeScript errors because `Popover` does not accept `Item` children.
+<!-- multi-idea-ok -->
+- **`Menu.MenuList` is required between `Menu.Popover` and `Menu.Item`** — placing items directly inside `Popover` causes TypeScript errors.
   - anti-pattern: `<Menu.Popover><Menu.Item id="a">A</Menu.Item></Menu.Popover>`
   - fix: `<Menu.Popover><Menu.MenuList><Menu.Item id="a">A</Menu.Item></Menu.MenuList></Menu.Popover>`
+  - complete example:
+    ```tsx
+    import { Menu } from '@tale-ui/react/menu';
+    
+    export function Example() {
+      return (
+        <Menu.Root>
+          <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options</Menu.Trigger>
+          <Menu.Popover>
+            <Menu.MenuList>
+              <Menu.Item id="edit">Edit</Menu.Item>
+              <Menu.Item id="duplicate">Duplicate</Menu.Item>
+              <Menu.Separator />
+              <Menu.Item id="delete">Delete</Menu.Item>
+            </Menu.MenuList>
+          </Menu.Popover>
+        </Menu.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: menu-separator-inside-menulist -->
-- **`Menu.Separator` goes inside `Menu.MenuList`, not as a sibling of it.** A separator outside the list renders outside the `role="menu"` boundary.
+- **`Menu.Separator` goes inside `Menu.MenuList`, not as a sibling** — a separator outside the list renders outside `role="menu"`.
   - anti-pattern: `<Menu.MenuList>...</Menu.MenuList><Menu.Separator /><Menu.MenuList>...</Menu.MenuList>`
   - fix: `<Menu.MenuList>...<Menu.Separator />...</Menu.MenuList>`
 
 <!-- pitfall: menu-root-no-onaction-open -->
-- **`Menu.Root` does not accept `onAction` or `open`.** Pass `onAction` to `Menu.Item`, and use uncontrolled open state (Menu.Root manages it internally via React Aria's MenuTrigger).
-  - anti-pattern: `<Menu.Root onAction={handleAction} open={isOpen}>`
-  - fix: `<Menu.Item id="a" onAction={handleAction}>A</Menu.Item>`
+<!-- prose-only -->
+- **`Menu.Root` does not accept `onAction` or `open`** — pass `onAction` to `Menu.Item`; open state is managed internally.
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 <!-- cross-pitfall-ref: no-button-inside-trigger -->

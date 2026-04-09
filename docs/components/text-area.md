@@ -70,9 +70,25 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 <!-- cross-pitfall-ref: textarea-hyphenated-path -->
 
 <!-- pitfall: text-area-pascal-case-sub-part -->
-- **`TextArea.TextArea` sub-part is PascalCase — NOT `TextArea.Textarea` (lowercase 'a').** Causes 'Property does not exist' TypeScript errors.
+- **`TextArea.TextArea` sub-part is PascalCase, NOT `TextArea.Textarea`** — the lowercase 'a' variant causes 'Property does not exist' TypeScript errors.
   - anti-pattern: `<TextArea.Textarea placeholder="..." />`
   - fix: `<TextArea.TextArea placeholder="..." />`
+  - complete example:
+    ```tsx
+    import { TextArea } from '@tale-ui/react/text-area';
+    
+    export function Example() {
+      return (
+        <TextArea.Root>
+          <TextArea.Label>Bio</TextArea.Label>
+          <TextArea.TextArea placeholder="Tell us about yourself..." />
+          <TextArea.Description>Max 500 characters.</TextArea.Description>
+          // For validation errors, use isInvalid on Root:
+          // <TextArea.ErrorMessage>Bio is required.</TextArea.ErrorMessage>
+        </TextArea.Root>
+      );
+    }
+    ```
 
 ## Notes
 

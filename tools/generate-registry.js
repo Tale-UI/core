@@ -519,7 +519,8 @@ function extractPitfalls(docContent) {
   let m;
   while ((m = pitfallRegex.exec(section)) !== null) {
     const id = m[1];
-    const block = m[2].trim();
+    // Strip leading modifier comments (<!-- prose-only -->, <!-- multi-idea-ok -->) before the bullet
+    const block = m[2].trim().replace(/^(<!--[^>]*-->\s*)+/, '').trim();
     // First line is the bullet: "- **Summary** — detail"
     const bulletMatch = block.match(/^- \*\*(.+?)\*\*(?:\s*[—–-]\s*(.*))?/s);
     if (!bulletMatch) continue;
@@ -531,8 +532,27 @@ function extractPitfalls(docContent) {
     const antiPatterns = [...block.matchAll(/^\s+- anti-pattern:\s*`([^`]+)`/mg)].map(x => x[1]);
     const fixes = [...block.matchAll(/^\s+- fix:\s*`([^`]+)`/mg)].map(x => x[1]);
 
+    // Extract complete example — fenced block form:
+    //   - complete example:
+    //     ```tsx
+    //     ...
+    //     ```
+    let completeExample = null;
+    const ceFencedMatch = block.match(/ {2}- complete example:\s*\n {4}```[^\n]*\n([\s\S]*?)\n {4}```/);
+    if (ceFencedMatch) {
+      completeExample = ceFencedMatch[1].replace(/^ {4}/mg, '');
+    } else {
+      // Legacy inline form: "  - complete example: `code`"
+      const ceInlineMatch = block.match(/ {2}- complete example:\s*`([^`]+)`/);
+      if (ceInlineMatch) { completeExample = ceInlineMatch[1]; }
+    }
+
     // Strip sub-bullets from detail
-    detail = detail.replace(/\n\s+- anti-pattern:.*$/mg, '').replace(/\n\s+- fix:.*$/mg, '').trim();
+    detail = detail
+      .replace(/\n\s+- anti-pattern:.*$/mg, '')
+      .replace(/\n\s+- fix:.*$/mg, '')
+      .replace(/\n\s+- complete example:[\s\S]*?(?=\n\s+- |\n<!-- |$)/m, '')
+      .trim();
 
     pitfalls.push({
       id,
@@ -540,6 +560,7 @@ function extractPitfalls(docContent) {
       detail,
       ...(antiPatterns.length > 0 ? { antiPatterns } : {}),
       ...(fixes.length > 0 ? { fixes } : {}),
+      ...(completeExample ? { completeExample } : {}),
     });
   }
 

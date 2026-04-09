@@ -73,9 +73,26 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 ## Pitfalls
 
 <!-- pitfall: payment-input-no-phantom-sub-parts -->
-- **No `PaymentInput.Number`, `PaymentInput.CardNumber`, or `PaymentInput.NumberInput`** — the card number input is `PaymentInput.Input`.
+<!-- multi-idea-ok -->
+- **No phantom sub-parts: `PaymentInput.Number`, `PaymentInput.CardNumber`, and `PaymentInput.NumberInput` do not exist** — the card number input sub-part is `PaymentInput.Input`.
   - anti-pattern: `<PaymentInput.CardNumber />`
   - fix: `<PaymentInput.Input />`
+  - complete example:
+    ```tsx
+    import { PaymentInput } from '@tale-ui/react/payment-input';
+    
+    export function Example() {
+      return (
+        <PaymentInput.Root>
+          <PaymentInput.Label>Card number</PaymentInput.Label>
+          <PaymentInput.Group>
+            <PaymentInput.Input placeholder="1234 5678 9012 3456" />
+            <PaymentInput.CardIcon />
+          </PaymentInput.Group>
+        </PaymentInput.Root>
+      );
+    }
+    ```
 
 ## Notes
 

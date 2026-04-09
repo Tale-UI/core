@@ -69,9 +69,24 @@ All other SVG attributes are forwarded to the underlying `<svg>` element.
 ## Pitfalls
 
 <!-- pitfall: icon-prop-is-component-not-instance -->
-- **`icon` prop takes a component reference, not an instance** — pass the icon class itself, not `<Bell />`.
+- **icon prop takes a component reference, not an instance** — pass the icon class itself, not `<Bell />`. The prop is named `icon`, not `svg`, `component`, or any other alias; using `svg={...}` causes a TypeScript 'not assignable to type IconProps' error.
   - anti-pattern: `<Icon icon={<Bell />} />`
+  - anti-pattern: `<Icon svg={Bell} />`
   - fix: `<Icon icon={Bell} />`
+  - complete example:
+    ```tsx
+    import { Icon } from '@tale-ui/react/icon';
+    import { Heart } from 'lucide-react';
+    
+    export function Example() {
+      return (
+        <>
+          <Icon icon={Heart} size="md" />
+          <Icon icon={Heart} size="lg" label="Favorite" />
+        </>
+      );
+    }
+    ```
 
 <!-- pitfall: icon-import-from-root -->
 - **Import lucide icons from `lucide-react` root, not deep subpaths** — deep imports like `lucide-react/dist/esm/icons/bell` are not part of the public API and break on package updates.
@@ -80,6 +95,8 @@ All other SVG attributes are forwarded to the underlying `<svg>` element.
 
 <!-- pitfall: icon-size-values -->
 - **`size` accepts `'sm'`, `'md'`, `'lg'`, `'xl'` only** — NOT the token-style `'s'`/`'m'`/`'l'` suffixes used in CSS tokens.
+  - anti-pattern: `<Icon icon={Bell} size="m" />`
+  - fix: `<Icon icon={Bell} size="md" />`
 
 ## Notes
 

@@ -49,11 +49,37 @@ None — `ColorPicker.Root` is a state-only wrapper with no DOM element or BEM c
 
 <!-- pitfall: color-picker-no-label-prop -->
 - **`ColorPicker.Root` does not accept a `label` prop** — There is no `label` prop on `ColorPicker.Root`. It is a headless state provider only.
+  - anti-pattern: `<ColorPicker.Root label="Pick a color" defaultValue={parseColor('hsl(0, 100%, 50%)')}>`
+  - fix: `<ColorPicker.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>`
+  - complete example:
+    ```tsx
+    import { useState } from 'react';
+    import { ColorArea } from '@tale-ui/react/color-area';
+    import { ColorSlider } from '@tale-ui/react/color-slider';
+    import { parseColor } from '@tale-ui/react/color-picker';
+    
+    export function Example() {
+      const [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));
+      return (
+        <>
+          <ColorArea.Root value={color} onChange={setColor}>
+            <ColorArea.Thumb />
+          </ColorArea.Root>
+          
+          <ColorSlider.Root channel="hue" value={color} onChange={setColor}>
+            <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>
+          </ColorSlider.Root>
+        </>
+      );
+    }
+    ```
 
+<!-- multi-idea-ok -->
 <!-- pitfall: color-picker-sub-components-not-exported -->
 - **Sub-components are NOT exported from `@tale-ui/react/color-picker`** — `ColorArea`, `ColorSwatch`, `ColorSlider`, and other color components each have their own import path. Import them individually.
   - anti-pattern: `import { ColorArea, ColorSlider } from '@tale-ui/react/color-picker'`
-  - fix: `import { ColorArea } from '@tale-ui/react/color-area'` and `import { ColorSlider } from '@tale-ui/react/color-slider'`
+  - fix: `import { ColorArea } from '@tale-ui/react/color-area'`
+  - fix: `import { ColorSlider } from '@tale-ui/react/color-slider'`
 
 <!-- cross-pitfall-ref: color-imports-from-rac -->
 <!-- cross-pitfall-ref: no-color-pojo-state -->

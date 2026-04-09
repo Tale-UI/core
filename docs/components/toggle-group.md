@@ -28,12 +28,28 @@ import { ToggleButton } from '@tale-ui/react/toggle-button';
 ## Pitfalls
 
 <!-- pitfall: toggle-group-no-radix-props -->
-- **Does NOT accept `type`, `value`, or `onValueChange` (Radix-style).** Uses `selectionMode`, `selectedKeys`, `defaultSelectedKeys`, `onSelectionChange`.
+- **No Radix-style `type`, `value`, or `onValueChange` props** — use `selectionMode`, `selectedKeys`, `defaultSelectedKeys`, `onSelectionChange` instead.
   - anti-pattern: `<ToggleButtonGroup type="single" value={sel} onValueChange={setSel}>`
   - fix: `<ToggleButtonGroup selectionMode="single" selectedKeys={sel} onSelectionChange={setSel}>`
+  - complete example:
+    ```tsx
+    import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';
+    import { ToggleButton } from '@tale-ui/react/toggle-button';
+    
+    export function Example() {
+      return (
+        <ToggleButtonGroup aria-label="Text formatting">
+          <ToggleButton>Bold</ToggleButton>
+          <ToggleButton>Italic</ToggleButton>
+          <ToggleButton>Underline</ToggleButton>
+        </ToggleButtonGroup>
+      );
+    }
+    ```
 
 <!-- pitfall: toggle-group-requires-aria-label -->
-- **Requires `aria-label` or `aria-labelledby`.** React Aria logs a console warning at runtime if neither is provided.
+<!-- prose-only -->
+- **Requires `aria-label` or `aria-labelledby`** — React Aria logs a console warning at runtime if neither is provided.
 
 <!-- cross-pitfall-ref: toggle-button-group-import-path -->
 

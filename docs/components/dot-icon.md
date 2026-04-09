@@ -48,7 +48,22 @@ Also accepts all standard `<span>` HTML attributes except `children`.
 ## Pitfalls
 
 <!-- pitfall: dot-icon-color-semantic-only -->
-- **`color` accepts semantic tokens only** — valid values are `'neutral'`, `'brand'`, `'error'`, `'warning'`, `'success'`. Raw color names or hex values are not accepted.
+- **color accepts semantic tokens only** — valid values are `'neutral'`, `'brand'`, `'error'`, `'warning'`, `'success'`. Raw color names or hex values are not accepted.
+  - anti-pattern: `<DotIcon color="green" />`
+  - fix: `<DotIcon color="success" />`
+  - complete example:
+    ```tsx
+    import { DotIcon } from '@tale-ui/react/dot-icon';
+    
+    export function Example() {
+      return (
+        <>
+          <DotIcon color="success" />
+          <DotIcon color="error" size="lg" />
+        </>
+      );
+    }
+    ```
 
 ## Notes
 

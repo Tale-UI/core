@@ -41,9 +41,27 @@ import { ColorWheel, parseColor } from '@tale-ui/react/color-wheel';
 
 <!-- pitfall: color-wheel-track-required -->
 - **`ColorWheel.Track` is required** — Omitting `ColorWheel.Track` inside `ColorWheel.Root` will render a blank element with no visible color ring.
+  - anti-pattern: `<ColorWheel.Root outerRadius={100} innerRadius={70}><ColorWheel.Thumb /></ColorWheel.Root>`
+  - fix: `<ColorWheel.Root outerRadius={100} innerRadius={70}><ColorWheel.Track /><ColorWheel.Thumb /></ColorWheel.Root>`
+  - complete example:
+    ```tsx
+    import { ColorWheel, parseColor } from '@tale-ui/react/color-wheel';
+    
+    export function Example() {
+      return (
+        <ColorWheel.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} outerRadius={100} innerRadius={70}>
+          <ColorWheel.Track />
+          <ColorWheel.Thumb />
+        </ColorWheel.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: color-wheel-radius-required -->
+<!-- multi-idea-ok -->
 - **`outerRadius` and `innerRadius` are required props** — Both props must be provided on `ColorWheel.Root`. Omitting either will cause incorrect rendering or a runtime error.
+  - anti-pattern: `<ColorWheel.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}><ColorWheel.Track /><ColorWheel.Thumb /></ColorWheel.Root>`
+  - fix: `<ColorWheel.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} outerRadius={100} innerRadius={70}><ColorWheel.Track /><ColorWheel.Thumb /></ColorWheel.Root>`
 
 <!-- cross-pitfall-ref: color-imports-from-rac -->
 <!-- cross-pitfall-ref: no-color-pojo-state -->

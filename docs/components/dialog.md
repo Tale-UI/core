@@ -112,28 +112,18 @@ const [open, setOpen] = useState(false);
 
 ## Pitfalls
 
-<!-- pitfall: dialog-isopen-not-open -->
-- **Controlled state uses `isOpen`/`onOpenChange`, not `open`.** Pass `isOpen={open} onOpenChange={setOpen}` to `Dialog.Root`.
-  - anti-pattern: `<Dialog.Root open={open} onOpenChange={setOpen}>`
-  - fix: `<Dialog.Root isOpen={open} onOpenChange={setOpen}>`
-
-<!-- pitfall: dialog-backdrop-wraps-popup -->
-- **`Dialog.Backdrop` must wrap `Dialog.Popup`, not be a sibling.** Using them as siblings creates two independent overlay portals; the backdrop will not be cleaned up on close.
-  - anti-pattern: `<Dialog.Backdrop /><Dialog.Popup>...</Dialog.Popup>`
-  - fix: `<Dialog.Backdrop><Dialog.Popup>...</Dialog.Popup></Dialog.Backdrop>`
-
 <!-- pitfall: dialog-no-header-body-parts -->
-- **There are no `Header` or `Body` sub-parts.** Place `Dialog.Title` and `Dialog.Description` directly inside `Dialog.Popup` — do not wrap them in a `Dialog.Header` or `Dialog.Body`.
+- **No `Dialog.Header` or `Dialog.Body` sub-parts** — place `Dialog.Title` and `Dialog.Description` directly inside `Dialog.Popup`.
   - anti-pattern: `<Dialog.Header><Dialog.Title>...</Dialog.Title></Dialog.Header>`
   - fix: `<Dialog.Title>...</Dialog.Title>`
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 <!-- cross-pitfall-ref: no-button-inside-trigger -->
+<!-- cross-pitfall-ref: isopen-on-dialog-and-alert-dialog -->
+<!-- cross-pitfall-ref: backdrop-wraps-popup-on-dialog-and-alert-dialog -->
 
 ## Notes
 
-- **Controlled state uses `isOpen`, not `open`.** Pass `isOpen={open} onOpenChange={setOpen}` to `Dialog.Root`. This follows the React Aria Components convention.
-- **Backdrop must wrap Popup.** `<Dialog.Backdrop>` must contain `<Dialog.Popup>` as a child — not a sibling. This produces the correct React Aria structure (`ModalOverlay > Modal > Dialog`). Using them as siblings creates two independent overlay portals and the backdrop will not be cleaned up on close.
 - **Trigger variant class.** `Dialog.Trigger` auto-applies `tale-button` — add the variant yourself: `className="tale-button--primary"`.
 - **Use `<Button>` for actions.** `Dialog.Close` applies `tale-dialog__close` CSS (absolutely positioned in the corner) — reserve it for the icon-only X button. For Cancel/Confirm, use `<Button variant="..." onPress={() => setOpen(false)}>`.
 - **Wrap actions in `Dialog.Actions`.** This applies the correct flexbox layout for the button row.

@@ -49,6 +49,21 @@ Also accepts all standard `<button>` HTML attributes.
 
 <!-- pitfall: social-button-provider-required -->
 - **`provider` prop is required** — `SocialButton` requires a `provider` value (`'google'`, `'github'`, `'apple'`, `'x'`, or `'facebook'`). Omitting it will render no icon and may cause a runtime error.
+  - anti-pattern: `<SocialButton>Sign in with Google</SocialButton>`
+  - fix: `<SocialButton provider="google">Sign in with Google</SocialButton>`
+  - complete example:
+    ```tsx
+    import { SocialButton } from '@tale-ui/react/social-button';
+    
+    export function Example() {
+      return (
+        <>
+          <SocialButton provider="google">Sign in with Google</SocialButton>
+          <SocialButton provider="github" size="sm">Continue with GitHub</SocialButton>
+        </>
+      );
+    }
+    ```
 
 ## Notes
 

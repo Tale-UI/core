@@ -60,9 +60,37 @@ Accepts all React Aria `RangeCalendar` props plus an optional `className`. See t
 
 <!-- pitfall: range-calendar-no-footer -->
 - **No `Footer` sub-part** — `RangeCalendar` has no `Footer` sub-part. To display the selected range below the calendar, place a `<Text>` component outside `RangeCalendar.Root` and update it from `onChange`.
+  - anti-pattern: `<RangeCalendar.Root><RangeCalendar.Footer>{range}</RangeCalendar.Footer></RangeCalendar.Root>`
+  - fix: `<RangeCalendar.Root onChange={setRange} />{range && <Text>{range.start} – {range.end}</Text>}`
+  - complete example:
+    ```tsx
+    import { RangeCalendar } from '@tale-ui/react/range-calendar';
+    
+    export function Example() {
+      return (
+        <RangeCalendar.Root>
+          <RangeCalendar.Header>
+            <RangeCalendar.PreviousButton />
+            <RangeCalendar.Heading />
+            <RangeCalendar.NextButton />
+          </RangeCalendar.Header>
+          <RangeCalendar.Grid>
+            <RangeCalendar.GridHeader>
+              {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
+            </RangeCalendar.GridHeader>
+            <RangeCalendar.GridBody>
+              {(date) => <RangeCalendar.Cell date={date} />}
+            </RangeCalendar.GridBody>
+          </RangeCalendar.Grid>
+        </RangeCalendar.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: range-calendar-unavailable-prop -->
 - **Use `isDateUnavailable` to disable dates, not `isOutsideRange`** — The correct prop for disabling specific dates is `isDateUnavailable` (a function that returns `true` for dates to disable). There is no `isOutsideRange` prop.
+  - anti-pattern: `<RangeCalendar.Root isOutsideRange={(date) => date.day === 1} />`
+  - fix: `<RangeCalendar.Root isDateUnavailable={(date) => date.day === 1} />`
 
 <!-- cross-pitfall-ref: no-locale-prop-on-calendar -->
 <!-- cross-pitfall-ref: no-native-date -->

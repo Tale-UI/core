@@ -44,6 +44,24 @@ explicit BEM class names:
 
 ---
 
+## Overlay State
+
+<!-- pitfall: isopen-on-dialog-and-alert-dialog -->
+<!-- applies-to: Dialog, AlertDialog -->
+<!-- category: overlay-state -->
+- **Use `isOpen`/`onOpenChange` on `Dialog.Root` / `AlertDialog.Root`, not `open`** — React Aria overlay roots use `isOpen`; passing `open` causes TypeScript errors.
+  - anti-pattern: `<Dialog.Root open={open} onOpenChange={setOpen}>`
+  - fix: `<Dialog.Root isOpen={open} onOpenChange={setOpen}>`
+
+<!-- pitfall: backdrop-wraps-popup-on-dialog-and-alert-dialog -->
+<!-- applies-to: Dialog, AlertDialog -->
+<!-- category: overlay-state -->
+- **`Dialog.Backdrop` / `AlertDialog.Backdrop` must wrap `Popup`, not render as siblings** — sibling overlay trees leave the backdrop mounted after close.
+  - anti-pattern: `<Dialog.Backdrop /><Dialog.Popup>...</Dialog.Popup>`
+  - fix: `<Dialog.Backdrop><Dialog.Popup>...</Dialog.Popup></Dialog.Backdrop>`
+
+---
+
 ## Controlled State Patterns
 
 <!-- pitfall: no-null-state-without-type -->
@@ -63,21 +81,22 @@ explicit BEM class names:
 <!-- pitfall: no-native-date -->
 <!-- applies-to: Calendar, RangeCalendar, DatePicker, DateRangePicker, DateField, TimeField -->
 <!-- category: controlled-state -->
-- **Never use native JavaScript `Date` objects with date components** — React Aria uses `DateValue` (an international date type), not native `Date`. Passing a `Date` object or a `[Date, Date]` tuple causes type errors and runtime failures.
+- **Never pass a native `Date` object to date components** — React Aria uses `DateValue`, not `Date`. Passing a `Date` object causes type errors and runtime failures.
   - anti-pattern: `<Calendar.Root value={new Date()} />`
-  - fix: Use uncontrolled (`defaultValue` only) or derive the type from the component's `onChange` prop.
+  - fix: `<Calendar.Root defaultValue={parseDate('2024-01-15')} />`
 
 <!-- pitfall: no-internationalized-date-import -->
 <!-- applies-to: Calendar, RangeCalendar, DatePicker, DateRangePicker, DateField, TimeField -->
 <!-- category: controlled-state -->
-- **Do not import `parseDate` from `@internationalized/date` unless it is a direct project dependency** — it is an internal package not available in consumer projects. Importing it causes "Cannot find module" TypeScript errors.
+- **Do not import from `@internationalized/date` unless it is a direct project dependency** — it is an internal package not available in consumer projects; importing it causes "Cannot find module" TypeScript errors.
   - anti-pattern: `import { parseDate } from '@internationalized/date';`
-  - fix: Use `defaultValue` with a plain date string, or install `@internationalized/date` explicitly as a dependency.
+  - fix: `import { parseDate } from '@tale-ui/react/calendar';`
 
 <!-- pitfall: no-locale-prop-on-calendar -->
 <!-- applies-to: Calendar, RangeCalendar -->
 <!-- category: controlled-state -->
-- **Do not pass a `locale` prop to `Calendar.Root` or `RangeCalendar.Root`** — that prop does not exist and causes TypeScript errors. For locale support, wrap the component tree in `<I18nProvider locale="en-US">` from `@tale-ui/react/i18n-provider`.
+<!-- multi-idea-ok -->
+- **`Calendar.Root` and `RangeCalendar.Root` have no `locale` prop** — for locale support, wrap the tree in `<I18nProvider locale="en-US">` from `@tale-ui/react/i18n-provider`.
   - anti-pattern: `<Calendar.Root locale="en-US" />`
   - fix: `<I18nProvider locale="en-US"><Calendar.Root /></I18nProvider>`
 
@@ -88,9 +107,9 @@ explicit BEM class names:
 <!-- pitfall: color-imports-from-rac -->
 <!-- applies-to: ColorArea, ColorSlider, ColorWheel, ColorField, ColorPicker, ColorSwatchPicker -->
 <!-- category: color-state -->
-- **Import `parseColor` and `Color` from `@tale-ui/react`, not `@internationalized/color`** — `@internationalized/color` is an internal dependency not available in consumer projects. Import from the relevant color sub-path or the shared `@tale-ui/react/aria` bucket.
+- **Import `parseColor` from a `@tale-ui/react` color sub-path, not `@internationalized/color`** — `@internationalized/color` is an internal dependency not available in consumer projects; importing it causes "Cannot find module" TypeScript errors.
   - anti-pattern: `import { parseColor } from '@internationalized/color';`
-  - fix: `import { parseColor } from '@tale-ui/react/color-area'; import type { Color } from '@tale-ui/react/color-area';`
+  - fix: `import { parseColor } from '@tale-ui/react/color-area';`
 
 <!-- pitfall: color-swatch-string-only -->
 <!-- applies-to: ColorSwatch -->
@@ -102,8 +121,8 @@ explicit BEM class names:
 <!-- pitfall: no-color-extract-channel -->
 <!-- applies-to: ColorArea, ColorSlider, ColorWheel -->
 <!-- category: color-state -->
-- **Do not extract a numeric channel value and pass it as `value`** — color components expect a full `Color` object for `value`, not a number extracted from it (e.g. `color.hue`). Do not write a separate handler that reconstructs color from a number.
-  - anti-pattern: `<ColorSlider.Root value={color.hue} onChange={h => setColor(parseColor(\`hsl(\${h}, 100%, 50%)\`))} />`
+- **Pass the full `Color` object as `value`, not a channel number like `color.hue`** — color components expect a `Color` instance; passing a number causes type errors. Use the `channel` prop to specify which channel to display.
+  - anti-pattern: `<ColorSlider.Root value={color.hue} onChange={h => setColor(parseColor('hsl(' + h + ', 100%, 50%)'))} />`
   - fix: `<ColorSlider.Root value={color} onChange={setColor} channel="hue" />`
 
 <!-- pitfall: no-color-pojo-state -->
@@ -113,13 +132,14 @@ explicit BEM class names:
   - anti-pattern: `useState({ h: 200, s: 100, v: 100, alpha: 1 })`
   - fix: `useState(parseColor('hsl(200, 100%, 50%)'))`
 
----
 <!-- pitfall: never-import-parsecolor-or-color -->
 <!-- applies-to: * -->
 <!-- category: color-state -->
-- **Never import parseColor or Color from 'react-aria-components'** — `react-aria-components` is an internal peer dependency not available in consumer projects. Importing from it causes "Cannot find module 'react-aria-components'" TypeScript errors. Import `parseColor` and `Color` from the relevant Tale UI color sub-path instead.
+- **Never import `parseColor` or `Color` from `react-aria-components`** — `react-aria-components` is an internal peer dependency not available in consumer projects; importing from it causes "Cannot find module" TypeScript errors.
   - anti-pattern: `import { parseColor, type Color } from 'react-aria-components';`
-  - fix: `import { parseColor } from '@tale-ui/react/color-area'; import type { Color } from '@tale-ui/react/color-area';`
+  - fix: `import { parseColor } from '@tale-ui/react/color-area';`
+
+---
 
 ## React Aria Conventions
 
@@ -153,12 +173,37 @@ explicit BEM class names:
 
 ---
 
+## Value Display Patterns
+
+<!-- pitfall: meter-progress-value-needs-children -->
+<!-- applies-to: Meter, ProgressBar -->
+<!-- category: value-display -->
+- **`Meter.Value` / `ProgressBar.Value` require children text** — self-closing value parts render empty spans.
+  - anti-pattern: `<ProgressBar.Value />`
+  - fix: `<ProgressBar.Value>60%</ProgressBar.Value>`
+
+<!-- pitfall: meter-progress-indicator-needs-value -->
+<!-- applies-to: Meter, ProgressBar -->
+<!-- category: value-display -->
+- **`Meter.Indicator` / `ProgressBar.Indicator` require their own `value` prop** — they do not inherit `value` from `Root`; pass the same value to both parts.
+  - anti-pattern: `<Meter.Root value={60}><Meter.Indicator /></Meter.Root>`
+  - fix: `<Meter.Root value={60}><Meter.Indicator value={60} /></Meter.Root>`
+
+<!-- pitfall: meter-progress-no-output-sub-part -->
+<!-- applies-to: Meter, ProgressBar -->
+<!-- category: value-display -->
+- **There is no `Meter.Output` or `ProgressBar.Output` sub-part** — use the matching `Value` part for visible numeric text.
+  - anti-pattern: `<Meter.Output>60%</Meter.Output>`
+  - fix: `<Meter.Value>60%</Meter.Value>`
+
+---
+
 ## Import Path Patterns
 
 <!-- pitfall: no-deep-subpath-imports -->
 <!-- applies-to: * -->
 <!-- category: imports -->
-- **Never import from nested paths like `@tale-ui/react/button/Button.styled`** — only the package-level path (`@tale-ui/react/button`) is valid. Deep subpath imports cause "Cannot find module" TypeScript errors.
+- **Only import from the package-level path — never from internal subpaths like `.../button/Button.styled`** — deep subpath imports bypass the public API and cause "Cannot find module" TypeScript errors.
   - anti-pattern: `import { Button } from '@tale-ui/react/button/Button.styled';`
   - fix: `import { Button } from '@tale-ui/react/button';`
 
@@ -172,7 +217,7 @@ explicit BEM class names:
 <!-- pitfall: no-cross-import-checkbox-group -->
 <!-- applies-to: Checkbox, CheckboxGroup -->
 <!-- category: imports -->
-- **`CheckboxGroup` and `Checkbox` have separate import paths — do not cross-import** — `CheckboxGroup` is at `@tale-ui/react/checkbox-group`; `Checkbox` is at `@tale-ui/react/checkbox`. Cross-importing causes "Module has no exported member" TypeScript errors.
+- **`CheckboxGroup` is not exported from `@tale-ui/react/checkbox`** — `CheckboxGroup` has its own path `@tale-ui/react/checkbox-group`; cross-importing causes "Module has no exported member" TypeScript errors.
   - anti-pattern: `import { CheckboxGroup } from '@tale-ui/react/checkbox';`
   - fix: `import { CheckboxGroup } from '@tale-ui/react/checkbox-group';`
 
@@ -200,7 +245,7 @@ explicit BEM class names:
 <!-- pitfall: no-label-component -->
 <!-- applies-to: SelectNative -->
 <!-- category: imports -->
-- **There is no `@tale-ui/react/label` module and no `Label` component in Tale UI** — use a native `<label htmlFor="...">` HTML element instead.
+- **There is no `@tale-ui/react/label` module or `Label` component** — use a native `<label htmlFor="...">` HTML element instead.
   - anti-pattern: `import { Label } from '@tale-ui/react/label';`
   - fix: `<label htmlFor="country">Country</label>`
 
@@ -211,21 +256,29 @@ explicit BEM class names:
 <!-- pitfall: use-row-not-flex-div -->
 <!-- applies-to: Row, Column -->
 <!-- category: layout -->
-- **Use `<Row>` for horizontal layouts instead of `<div style={{ display: 'flex' }}>`** — `Row` (from `@tale-ui/react/row`) applies the correct gap tokens and is the Tale UI convention. Similarly use `<Column>` for vertical stacks.
+<!-- multi-idea-ok -->
+- **Use `<Row>` and `<Column>` instead of `<div style={{ display: 'flex' }}>`** — `Row` and `Column` apply correct gap tokens and are the Tale UI layout convention; raw flex divs bypass design-system spacing.
   - anti-pattern: `<div style={{ display: 'flex', gap: '8px' }}>`
   - fix: `<Row gap="s">`
 
 <!-- pitfall: column-needs-explicit-import -->
 <!-- applies-to: Column -->
 <!-- category: layout -->
-- **`Column` is never globally available — always import it explicitly** — `Column` is not re-exported from `@tale-ui/react/row` or any other module. Omitting the import causes "Cannot find name 'Column'" TypeScript errors.
-  - anti-pattern: `<Column gap="m">` (without importing)
+- **`Column` must be imported explicitly — it is not re-exported from `@tale-ui/react/row`** — omitting the import causes "Cannot find name 'Column'" TypeScript errors.
+  - anti-pattern: `<Column gap="m">`
   - fix: `import { Column } from '@tale-ui/react/column';`
+
+<!-- pitfall: row-column-gap-uses-token-scale -->
+<!-- applies-to: Row, Column -->
+<!-- category: layout -->
+- **`Row`/`Column` `gap` uses spacing token values (`'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`), not component size names** — `'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes TypeScript errors.
+  - anti-pattern: `<Row gap="sm">`
+  - fix: `<Row gap="s">`
 
 <!-- pitfall: row-justify-shorthand -->
 <!-- applies-to: Row -->
 <!-- category: layout -->
-- **`Row` `justify` prop uses shorthand tokens, not CSS property values** — `'space-between'` is not valid. Use `'between'`.
+- **Row justify prop uses shorthand tokens, not CSS property values** — `'space-between'`, `'space-around'`, and `'space-evenly'` are not valid `justify` values; use `'between'`, `'around'`, and `'evenly'` respectively.
   - anti-pattern: `<Row justify="space-between">`
   - fix: `<Row justify="between">`
 
@@ -239,12 +292,14 @@ explicit BEM class names:
 <!-- pitfall: container-is-not-layout -->
 <!-- applies-to: Container -->
 <!-- category: layout -->
-- **`Container` is a colour palette wrapper, not a layout component** — do not use it as a `<div>` replacement. Use `<Column>` for vertical stacks and `<Row>` for horizontal layouts.
+<!-- prose-only -->
+- **`Container` is a colour palette wrapper, not a layout component** — do not use it as a `<div>` replacement; use `<Column>` for vertical stacks and `<Row>` for horizontal layouts.
 
 <!-- pitfall: no-global-styles-on-semantic-html -->
 <!-- applies-to: * -->
 <!-- category: layout -->
-- **Do not apply global styles to semantic HTML elements** — Tale UI components render `<section>`, `<header>`, `<button>`, etc. internally. Global rules targeting those elements will leak into overlays and popovers.
+<!-- prose-only -->
+- **Do not apply global styles to semantic HTML elements** — Tale UI components render `<section>`, `<header>`, `<button>`, etc. internally, so global CSS rules targeting those elements will leak into overlays and popovers.
 
 ---
 
@@ -253,7 +308,8 @@ explicit BEM class names:
 <!-- pitfall: no-visual-exports-for-interactive-ui -->
 <!-- applies-to: Checkbox, Radio, Switch, ToggleButton -->
 <!-- category: visual-exports -->
-- **Never use `.Visual` exports for interactive UI** — `Checkbox.Visual`, `Radio.Visual`, `Switch.Visual`, and `ToggleButtonVisual` are `aria-hidden` building blocks for custom composition only. They have no keyboard/pointer interaction and no accessible labelling.
+<!-- prose-only -->
+- **Never use `.Visual` exports for interactive UI** — `Checkbox.Visual`, `Radio.Visual`, `Switch.Visual`, and `ToggleButtonVisual` are `aria-hidden` building blocks for custom composition only; they have no keyboard/pointer interaction and no accessible labelling.
 
 ---
 
@@ -262,7 +318,26 @@ explicit BEM class names:
 <!-- pitfall: dark-mode-attribute-required -->
 <!-- applies-to: * -->
 <!-- category: dark-mode -->
-- **Always set `data-color-mode` to `"dark"` or `"light"` on `<html>` — never remove the attribute** — removing the attribute (instead of switching its value) causes all `--color-*` and `--neutral-*` tokens to revert to their light defaults even in dark mode.
+- **Use `<ColorModeToggle>` for dark/light toggling — it has no `value` or `onChange` props** — `ColorModeToggle` manages `data-color-mode` on `<html>` internally; passing `value` or `onChange` causes TypeScript errors.
+  - anti-pattern: `<ColorModeToggle value={mode} onChange={setMode} />`
+  - fix: `import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle'; ... <ColorModeToggle />`
+  - complete example:
+    ```tsx
+    import { useEffect } from 'react';
+    import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
+    export function App() {
+      useEffect(() => {
+        const saved = localStorage.getItem('color-mode');
+        if (saved) document.documentElement.setAttribute('data-color-mode', saved);
+      }, []);
+      return <ColorModeToggle />;
+    }
+    ```
+
+<!-- pitfall: dark-mode-never-remove-attribute -->
+<!-- applies-to: * -->
+<!-- category: dark-mode -->
+- **Never remove `data-color-mode` — switch its value instead** — removing the attribute causes all `--color-*` and `--neutral-*` tokens to revert to light defaults.
   - anti-pattern: `document.documentElement.removeAttribute('data-color-mode');`
   - fix: `document.documentElement.setAttribute('data-color-mode', 'light');`
 
@@ -273,59 +348,57 @@ explicit BEM class names:
 <!-- pitfall: no-jsx-element-return-type -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-- **Never annotate component return types as `JSX.Element` or use `React.FC`** — this project uses the new JSX transform. Write plain functions with no return type annotation. Always include a space between `export` and `function`.
+- **Never annotate component return types as `JSX.Element` or use `React.FC`** — the new JSX transform is in use; write plain functions with no return type annotation.
   - anti-pattern: `export const MyComponent: React.FC = () => { ... }`
   - fix: `export function MyComponent() { ... }`
 
 <!-- pitfall: always-generate-code-directly-never -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-- **Always generate code directly — never ask for clarification or present options** — when given a prompt describing a UI, always produce a complete, working code example immediately. Do not respond with questions, numbered option lists, or requests for more information.
-  - anti-pattern: `I need clarification: Are you asking me to: 1. Show the actual file structure...`
-  - fix: generate the component code directly based on the most reasonable interpretation of the prompt
+- **Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block** — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all.
+  - anti-pattern: `export function MyComponent() {}`
+  - fix: `import { Text } from '@tale-ui/react/text'; export function MyComponent() { return <Text>Hello</Text>; }`
+  - fix (for 'Create a primary button that says Save'): `import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant="primary">Save</Button>; }`
+  - fix (for 'Create a success badge that displays Active'): `import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant="success">Active</Badge>; }`
 
 <!-- pitfall: token-size-suffixes -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-- **CSS design tokens use -s/-m/-l suffixes; component size props use 'sm'/'md'/'lg' (no leading dash)** — e.g. `--space-s` is a token, but `size="sm"` is a prop value. Token scale: `4xs, 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl`. Never write `size="-sm"`, `size="-md"`, or `size="-lg"` — the dash in the token-scale notation is a suffix separator in prose, not a character that appears in the prop value string.
-  - anti-pattern: `<Button size="-md">` or `<Text size="-sm">`
-  - fix: `<Button size="md">` or `<Text size="s">`
+- **Size token suffixes (`-s`, `-m`, `-l`) are CSS names — component size props use `'sm'`/`'md'`/`'lg'` without a dash** — the dash in `--space-s` is CSS token notation; prop value strings never start with a dash.
+  - anti-pattern: `<Button size="-md">`
+  - fix: `<Button size="md">`
 
 <!-- pitfall: gap-max-is-2xl -->
-<!-- applies-to: Row, Column - **Text color only accepts 'default', 'muted', 'accent' — never 'secondary', 'primary', or 'brand'** — these are token names from other design systems and are not valid values for the `color` prop on `Text`. The TypeScript type `Color` (on `Text`) does not include them; passing them causes `Type '"secondary"' is not assignable to type 'Color | undefined'`. Use `'muted'` whenever you need subdued or secondary-style text.
-  - anti-pattern: `<Text color="secondary">Selected: {fileName}</Text>`
-  - fix: `<Text color="muted">Selected: {fileName}</Text>`
-- **Row/Column gap and Text size use token-scale values, not component size values** — `Row`/`Column` `gap` and `Text` `size` both follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`. Never use `'sm'`, `'md'`, or `'lg'` for either of these props; those are component `size` prop values (valid on Button, Icon, Avatar, etc.) and are not valid here. The TypeScript types `Gap` and `Size` (on Text) do not include `'sm'`/`'md'`/`'lg'`. The mapping is: `'sm'` → `'s'`, `'md'` → `'m'`, `'lg'` → `'l'`. This applies even in uncontrolled/defaultValue-only components — always use token-scale gap values regardless of whether the component has state.
-  - anti-pattern: `<Column gap="sm">` or `<Column gap="md">` or `<Column gap="lg">` or `<Text size="lg">`
-  - fix: `<Column gap="s">` or `<Column gap="m">` or `<Column gap="l">` or `<Text size="l">`
-<!-- category: typescript -->
-- **Row/Column gap uses token-scale values, not component size values** — valid gap values follow the CSS token scale: `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`. Never use `'sm'`, `'md'`, or `'lg'` for gap; those are component `size` prop values and are not valid gap tokens. The TypeScript type is `Gap`, which does not include `'sm'`/`'md'`/`'lg'`. The mapping is: `'sm'` → `'s'`, `'md'` → `'m'`, `'lg'` → `'l'`.
-  - anti-pattern: `<Column gap="sm">` or `<Column gap="md">` or `<Row gap="lg">`
-  - fix: `<Column gap="s">` or `<Column gap="m">` or `<Row gap="l">`
-- **Max gap value for Row/Column is '2xl'** — there is no `'3xl'` or `'4xl'` gap token. Using them produces no visible spacing (token is undefined).
+<!-- applies-to: Row, Column -->
+<!-- category: layout -->
+- **Max `gap` value for `Row`/`Column` is `'2xl'` — there is no `'3xl'` or `'4xl'` gap token** — using out-of-range gap values produces no visible spacing because the token is undefined.
   - anti-pattern: `<Row gap="3xl">`
   - fix: `<Row gap="2xl">`
 
 <!-- pitfall: no-variant-on-html-elements -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-- **Do not add `variant`, `size`, or `color` props to native HTML elements** — these props only exist on Tale UI components. They are silently ignored on `<div>`, `<p>`, `<span>`, etc.
+<!-- prose-only -->
+- **Do not add `variant`, `size`, or `color` props to native HTML elements** — these props only exist on Tale UI components and are silently ignored on `<div>`, `<p>`, `<span>`, etc.
 
 <!-- pitfall: use-image-not-img -->
 <!-- applies-to: Image -->
 <!-- category: typescript -->
-- **Use `<Image>` from `@tale-ui/react/image` instead of `<img>`** — `Image` applies radius, lazy loading, and correct CSS. Use its `radius` prop (not `borderRadius`) and `width`/`height` (not `size`).
+- **Use `<Image>` from `@tale-ui/react/image` instead of a bare `<img>`** — `Image` applies radius, lazy loading, and correct CSS; use its `radius` prop (not `borderRadius`) and `width`/`height` (not `size`).
   - anti-pattern: `<img src="..." style={{ borderRadius: '50%' }} />`
   - fix: `<Image src="..." radius="full" width={40} height={40} />`
 
 <!-- pitfall: no-heading-component -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-- **There is no Heading component in Tale UI — and do not use plain `<h1>`–`<h6>` elements either** — always use `<Text variant="heading" as="h2">` (or the appropriate heading level via `as`). Importing `{ Heading }` from any `@tale-ui/react/*` path causes "has no exported member 'Heading'" TypeScript errors. Using a bare `<h2>` (or any heading tag) without `Text` skips Tale UI's typography tokens and requires an explicit `import { Text } from '@tale-ui/react/text'`. This applies even when the heading is the only text element on the page — `Text` must always be imported and used.
+- **There is no `Heading` component — use `<Text variant="heading" as="h2">` instead of bare `<h2>`** — importing `{ Heading }` from any `@tale-ui/react/*` path causes "has no exported member" TypeScript errors; bare heading tags bypass Tale UI typography tokens.
   - anti-pattern: `import { Heading } from '@tale-ui/react';`
-  - anti-pattern: `<h2>Frequently Asked Questions</h2>` (missing Text import and component)
+  - anti-pattern: `<h2>Frequently Asked Questions</h2>`
   - fix: `import { Text } from '@tale-ui/react/text'; ... <Text variant="heading" as="h2">Title</Text>`
-  - common mistake: generating all other imports correctly but forgetting to add `Text` to the import list when the only heading in the component is a plain HTML element — always audit every `<h1>`–`<h6>` in generated code and replace with `<Text>`
-  - common mistake: when composing a page with `Accordion`, `Banner`, `Column`, or other layout/content components but no explicit typography component, forgetting that a bare `<h2>` (or any heading tag) still requires `import { Text } from '@tale-ui/react/text'` and must be replaced with `<Text variant="heading" as="h2">` — the `Text` import is mandatory even when it is the only typography component on the page
-  - common mistake: when all other imports are generated correctly (e.g. `Accordion`, `Banner`, `Column`, `Link`) but the only heading is a plain `<h2>`, the `Text` import is silently omitted because there is no other typography component to trigger the import — always scan the full import list before finalising and confirm `Text` is present whenever any `<h1>`–`<h6>` appears in the JSX, regardless of what other components are imported
-  - enforcement rule: before emitting the final import block, perform an explicit audit step — count every `<h1>`–`<h6>` tag in the generated JSX; if any exist and `Text` is not already in the import list, add `import { Text } from '@tale-ui/react/text';` and replace each heading tag with `<Text variant="heading" as="hN">`. This audit is mandatory even when the heading appears to be the only text element on the page and even when the surrounding components (e.g. `Accordion`, `Banner`, `Column`) have no typography sub-parts of their own.`
+
+<!-- pitfall: no-bare-p-or-span -->
+<!-- applies-to: * -->
+<!-- category: typescript -->
+- **Never use bare `<p>` or `<span>` for text content — always use `<Text>` from `@tale-ui/react/text`** — bare paragraph and span tags bypass Tale UI typography tokens and cannot accept `color` or `variant` props.
+  - anti-pattern: `<p style={{ color: 'gray' }}>This action cannot be undone.</p>`
+  - fix: `<Text color="muted">This action cannot be undone.</Text>`

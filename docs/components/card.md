@@ -144,13 +144,34 @@ All parts accept standard `<div>` HTML attributes including `className`.
 ## Pitfalls
 
 <!-- pitfall: card-no-elevated-boolean -->
-- **No `elevated` boolean prop** — use `variant="elevated"`. There is also no `variant="raised"`.
+- **No `elevated` boolean prop** — use `variant="elevated"`; there is also no `variant="raised"`.
+  - anti-pattern: `<Card.Root elevated>`
+  - fix: `<Card.Root variant="elevated">`
+  - complete example:
+    ```tsx
+    import { Card } from '@tale-ui/react/card';
+    
+    export function Example() {
+      return (
+        <Card.Root variant="elevated">
+          <Card.Header>Title</Card.Header>
+          <Card.Body>Content goes here.</Card.Body>
+          <Card.Footer>Footer actions</Card.Footer>
+        </Card.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: card-header-no-title-props -->
-- **`Card.Header` has NO `title` or `description` props** — place `<Text>` or other components directly inside `Card.Header` as children.
+- **`Card.Header` has no `title` or `description` props** — place `<Text>` or other components directly inside `Card.Header` as children.
+  - anti-pattern: `<Card.Header title="Card Title" />`
+  - fix: `<Card.Header><Text variant="heading">Card Title</Text></Card.Header>`
 
 <!-- pitfall: card-body-footer-no-gap -->
+<!-- multi-idea-ok -->
 - **`Card.Body` and `Card.Footer` do NOT accept a `gap` prop** — wrap children in `<Column gap="...">` inside these parts.
+  - anti-pattern: `<Card.Body gap="m">`
+  - fix: `<Card.Body><Column gap="m">…</Column></Card.Body>`
 
 ## Notes
 

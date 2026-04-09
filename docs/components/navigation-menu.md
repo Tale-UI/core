@@ -96,12 +96,32 @@ function NavWithDropdown() {
 ## Pitfalls
 
 <!-- pitfall: navigation-menu-list-required -->
-- **`NavigationMenu.List` is required between `NavigationMenu.Root` and `NavigationMenu.Item`.** Placing items directly inside `Root` skips the `<ul>` semantic wrapper.
+<!-- multi-idea-ok -->
+- **`NavigationMenu.List` is required between `NavigationMenu.Root` and `NavigationMenu.Item`** — placing items directly in `Root` skips the `<ul>` semantic wrapper.
   - anti-pattern: `<NavigationMenu.Root><NavigationMenu.Item>...</NavigationMenu.Item></NavigationMenu.Root>`
   - fix: `<NavigationMenu.Root><NavigationMenu.List><NavigationMenu.Item>...</NavigationMenu.Item></NavigationMenu.List></NavigationMenu.Root>`
+  - complete example:
+    ```tsx
+    import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+    
+    export function Example() {
+      return (
+        <NavigationMenu.Root>
+          <NavigationMenu.List>
+            <NavigationMenu.Item>
+              <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+            </NavigationMenu.Item>
+            <NavigationMenu.Item>
+              <NavigationMenu.Link href="#">About</NavigationMenu.Link>
+            </NavigationMenu.Item>
+          </NavigationMenu.List>
+        </NavigationMenu.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: navigation-menu-no-nav-component -->
-- **There is no `Nav` component in Tale UI.** Use `NavigationMenu.Root` as the `<nav>` wrapper — do not import or render a separate `Nav` component.
+- **No standalone `Nav` component in Tale UI** — use `NavigationMenu.Root` as the `<nav>` wrapper.
   - anti-pattern: `import { Nav } from '@tale-ui/react/nav';`
   - fix: `import { NavigationMenu } from '@tale-ui/react/navigation-menu';`
 

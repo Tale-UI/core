@@ -70,6 +70,24 @@ function FileUpload() {
 
 <!-- pitfall: drop-zone-no-sub-parts -->
 - **No `DropZone.Content`, `DropZone.Icon`, or `DropZone.Title` sub-parts** — `DropZone` is a simple component. Pass children (text, icons, buttons) directly inside `<DropZone>`.
+  - anti-pattern: `<DropZone><DropZone.Icon /><DropZone.Title>Drop files</DropZone.Title></DropZone>`
+  - fix: `<DropZone><Icon /><Text>Drop files here</Text></DropZone>`
+  - complete example:
+    ```tsx
+    import { DropZone } from '@tale-ui/react/drop-zone';
+    import { FileTrigger } from '@tale-ui/react/file-trigger';
+    import { Button } from '@tale-ui/react/button';
+    
+    export function Example() {
+      return (
+        <DropZone onDrop={(e) => console.log('Dropped:', e.items)}>
+          <FileTrigger onSelect={(files) => console.log(files)}>
+            <Button>Drop files here or click to browse</Button>
+          </FileTrigger>
+        </DropZone>
+      );
+    }
+    ```
 
 <!-- pitfall: drop-zone-ondrop-not-filelist -->
 - **`onDrop` receives a `DropEvent` object, not a `FileList`** — Access dropped files via `e.items.filter(item => item.kind === 'file')`, not as a `FileList`.
@@ -78,6 +96,8 @@ function FileUpload() {
 
 <!-- pitfall: drop-zone-file-drop-item-not-file -->
 - **Do NOT cast `FileDropItem` to `File`** — `FileDropItem` is not a native `File` object. Access `item.name` and call `item.getFile()` (returns a `Promise<File>`) to get the actual file data. Do not use `as File`.
+  - anti-pattern: `const file = item as File; console.log(file.size);`
+  - fix: `const file = await item.getFile(); console.log(file.size);`
 
 ## Notes
 

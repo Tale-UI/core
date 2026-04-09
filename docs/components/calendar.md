@@ -105,13 +105,44 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 ## Pitfalls
 
 <!-- pitfall: calendar-header-required -->
-- **Navigation buttons and heading must be inside `Calendar.Header`** — `Calendar.PreviousButton`, `Calendar.Heading`, and `Calendar.NextButton` must be placed inside `Calendar.Header`. Placing them directly in `Calendar.Root` without the `Header` wrapper loses the flex layout.
+<!-- multi-idea-ok -->
+- **Navigation buttons and heading must be inside `Calendar.Header`** — `Calendar.PreviousButton`, `Calendar.Heading`, and `Calendar.NextButton` must be placed inside `Calendar.Header`; placing them directly in `Calendar.Root` loses the flex layout.
+  - anti-pattern: `<Calendar.Root><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Root>`
+  - fix: `<Calendar.Root><Calendar.Header><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Header></Calendar.Root>`
+  - complete example:
+    ```tsx
+    import { Calendar } from '@tale-ui/react/calendar';
+    
+    export function Example() {
+      return (
+        <Calendar.Root>
+          <Calendar.Header>
+            <Calendar.PreviousButton />
+            <Calendar.Heading />
+            <Calendar.NextButton />
+          </Calendar.Header>
+          <Calendar.Grid>
+            <Calendar.GridHeader>
+              {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+            </Calendar.GridHeader>
+            <Calendar.GridBody>
+              {(date) => <Calendar.Cell date={date} />}
+            </Calendar.GridBody>
+          </Calendar.Grid>
+        </Calendar.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: calendar-grid-header-cell-not-cell -->
-- **Use `Calendar.GridHeaderCell` in `GridHeader`, not `Calendar.Cell`** — `Calendar.GridHeader` passes day name strings (e.g. `"Mon"`) to its render prop. Using `Calendar.Cell` there crashes with `TypeError: can't access property "calendar", date is undefined` because `Cell` expects a `date` prop. Reserve `Calendar.Cell` for `GridBody`.
+- **Use `Calendar.GridHeaderCell` in `GridHeader`, not `Calendar.Cell`** — `GridHeader` passes day name strings to its render prop; `Cell` expects a date object and crashes with `TypeError` if used here.
+  - anti-pattern: `<Calendar.GridHeader>{(day) => <Calendar.Cell>{day}</Calendar.Cell>}</Calendar.GridHeader>`
+  - fix: `<Calendar.GridHeader>{(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}</Calendar.GridHeader>`
 
 <!-- pitfall: calendar-heading-no-margin -->
-- **`Calendar.Heading` must have no vertical margin or padding** — Do not add `margin-top`, `margin-bottom`, or vertical `padding` to `Calendar.Heading`. It is sized and positioned by `Calendar.Header`'s flex layout.
+- **Do not add vertical margin or padding to `Calendar.Heading`** — it is positioned by `Calendar.Header`'s flex layout; extra margin breaks alignment.
+  - anti-pattern: `<Calendar.Heading style={{ marginBottom: '8px' }} />`
+  - fix: `<Calendar.Heading />`
 
 <!-- cross-pitfall-ref: no-locale-prop-on-calendar -->
 <!-- cross-pitfall-ref: no-native-date -->

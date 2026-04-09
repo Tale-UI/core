@@ -99,9 +99,27 @@ import { PreviewCard } from '@tale-ui/react/preview-card';
 ## Pitfalls
 
 <!-- pitfall: preview-card-content-in-popup -->
-- **`PreviewCard.Content` must be inside `PreviewCard.Popup` and requires `aria-label`.** Do not place content directly inside `PreviewCard.Popup`, and always supply `aria-label` on `Content` since there is no built-in Title part.
+<!-- multi-idea-ok -->
+- **`PreviewCard.Content` must be inside `PreviewCard.Popup` and requires `aria-label`** — do not place content directly inside `Popup`; always supply `aria-label` on `Content` since there is no built-in Title part.
   - anti-pattern: `<PreviewCard.Popup><p>Preview text</p></PreviewCard.Popup>`
   - fix: `<PreviewCard.Popup><PreviewCard.Content aria-label="Preview">...</PreviewCard.Content></PreviewCard.Popup>`
+  - complete example:
+    ```tsx
+    import { PreviewCard } from '@tale-ui/react/preview-card';
+    
+    export function Example() {
+      return (
+        <PreviewCard.Root>
+          <PreviewCard.Trigger>Hover to preview</PreviewCard.Trigger>
+          <PreviewCard.Popup placement="bottom" offset={8}>
+            <PreviewCard.Content aria-label="Preview">
+              <p>Preview content here</p>
+            </PreviewCard.Content>
+          </PreviewCard.Popup>
+        </PreviewCard.Root>
+      );
+    }
+    ```
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 

@@ -104,6 +104,26 @@ Also accepts all standard `<div>` HTML attributes.
 
 <!-- pitfall: empty-state-no-header-or-content-parts -->
 - **No `EmptyState.Header` or `EmptyState.Content`** — the available sub-parts are `Root`, `Icon`, `Title`, `Description`, and `Actions` only.
+  - anti-pattern: `<EmptyState.Root><EmptyState.Header><EmptyState.Title>No results</EmptyState.Title></EmptyState.Header></EmptyState.Root>`
+  - fix: `<EmptyState.Root><EmptyState.Title>No results</EmptyState.Title></EmptyState.Root>`
+  - complete example:
+    ```tsx
+    import { EmptyState } from '@tale-ui/react/empty-state';
+    import { Icon } from '@tale-ui/react/icon';
+    import { Button } from '@tale-ui/react/button';
+    import { InboxIcon } from 'lucide-react';
+    
+    export function Example() {
+      return (
+        <EmptyState.Root>
+          <EmptyState.Icon><Icon icon={InboxIcon} size="lg" /></EmptyState.Icon>
+          <EmptyState.Title>No messages</EmptyState.Title>
+          <EmptyState.Description>Your inbox is empty.</EmptyState.Description>
+          <EmptyState.Actions><Button variant="primary">Compose</Button></EmptyState.Actions>
+        </EmptyState.Root>
+      );
+    }
+    ```
 
 ## Notes
 

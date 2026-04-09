@@ -183,6 +183,28 @@ Accepts all React Aria `ComboBox` props plus an optional `className`. See the `@
 - **`Combobox.Input` owns `placeholder`** — do NOT put it on `Combobox.Root`.
   - anti-pattern: `<Combobox.Root placeholder="Type to search...">`
   - fix: `<Combobox.Input placeholder="Type to search..." />`
+  - complete example:
+    ```tsx
+    import { Combobox } from '@tale-ui/react/combobox';
+    
+    export function Example() {
+      return (
+        <Combobox.Root>
+          <Combobox.Label>Country</Combobox.Label>
+          <Combobox.InputGroup>
+            <Combobox.Input placeholder="Search..." />
+            <Combobox.Trigger />
+          </Combobox.InputGroup>
+          <Combobox.Popover>
+            <Combobox.ListBox>
+              <Combobox.Item id="us" textValue="United States">United States</Combobox.Item>
+              <Combobox.Item id="uk" textValue="United Kingdom">United Kingdom</Combobox.Item>
+            </Combobox.ListBox>
+          </Combobox.Popover>
+        </Combobox.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: combobox-no-icon-prop-on-input -->
 - **`Combobox.Input` does NOT accept an `icon` prop** — place `<Icon>` inside `Combobox.InputGroup`.
@@ -192,7 +214,8 @@ Accepts all React Aria `ComboBox` props plus an optional `className`. See the `@
 <!-- cross-pitfall-ref: selectedkey-not-value -->
 
 <!-- pitfall: combobox-no-phantom-imports -->
-- **Never import list data from local modules that don't exist in the consumer project.** Define item arrays inline or import from real project data sources.
+<!-- prose-only -->
+- **Never import list data from non-existent local modules** — define item arrays inline or import from real project data sources.
 
 ## Notes
 

@@ -45,7 +45,17 @@ Also accepts all standard `<span>` HTML attributes except `children`.
 ## Pitfalls
 
 <!-- pitfall: rating-badge-requires-value-prop -->
-- **Requires a `value` prop (number)** — do NOT pass the rating as children text; `RatingBadge` does not accept `children`.
+- **The `value` prop is required** — `RatingBadge` does not accept children text; pass the numeric score via the `value` prop.
+  - anti-pattern: `<RatingBadge>4.8</RatingBadge>`
+  - anti-pattern: `import { RatingBadge } from '@tale-ui/react';`
+  - fix: `import { RatingBadge } from '@tale-ui/react/rating-badge'; ... <RatingBadge value={4.8} />`
+  - complete example:
+    ```tsx
+    import { RatingBadge } from '@tale-ui/react/rating-badge';
+    export function Example() {
+      return <RatingBadge value={4.8} />;
+    }
+    ```
 
 ## Notes
 

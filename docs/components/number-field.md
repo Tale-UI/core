@@ -120,11 +120,29 @@ Accepts all React Aria `NumberField` props plus an optional `className`. See the
 - **`NumberField.Root` `value` prop accepts `number | undefined`, NOT `number | null`.**
   - anti-pattern: `<NumberField.Root value={count ?? null}>`
   - fix: `<NumberField.Root value={count ?? undefined}>`
+  - complete example:
+    ```tsx
+    import { NumberField } from '@tale-ui/react/number-field';
+    
+    export function Example() {
+      return (
+        <NumberField.Root defaultValue={0}>
+          <NumberField.Label>Quantity</NumberField.Label>
+          <NumberField.Group>
+            <NumberField.Decrement />
+            <NumberField.Input />
+            <NumberField.Increment />
+          </NumberField.Group>
+        </NumberField.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: number-field-no-phantom-sub-parts -->
-- **No `NumberField.Step` or `NumberField.HintText` sub-parts.** Use `NumberField.Description` for help text.
-  - anti-pattern: `<NumberField.HintText>Between 0 and 100</NumberField.HintText>`
-  - fix: `<NumberField.Description>Between 0 and 100</NumberField.Description>`
+<!-- multi-idea-ok -->
+- **No phantom sub-parts: `NumberField.Step` and `NumberField.HintText` do not exist** — use `NumberField.Description` for help text.
+  - anti-pattern: `<NumberField.HintText>Enter a number between 1 and 100</NumberField.HintText>`
+  - fix: `<NumberField.Description>Enter a number between 1 and 100</NumberField.Description>`
 
 <!-- cross-pitfall-ref: minvalue-maxvalue-not-min-max -->
 

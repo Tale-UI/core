@@ -131,6 +131,24 @@ import { Icon } from '@tale-ui/react/icon';
 
 <!-- pitfall: pagination-no-page-control-props-on-root -->
 - **Root does NOT accept `currentPage`, `totalPages`, or `onPageChange`** — render each page as `Pagination.Item` and mark the active page with the `current` prop. Pagination is stateless and fully declarative.
+  - anti-pattern: `<Pagination.Root currentPage={2} totalPages={5} onPageChange={setPage} />`
+  - fix: `<Pagination.Root aria-label="Pagination"><Pagination.Item page={1} /><Pagination.Item page={2} current /><Pagination.Item page={3} /></Pagination.Root>`
+  - complete example:
+    ```tsx
+    import { Pagination } from '@tale-ui/react/pagination';
+    
+    export function Example() {
+      return (
+        <Pagination.Root aria-label="Pagination">
+          <Pagination.PreviousTrigger />
+          <Pagination.Item page={1} />
+          <Pagination.Item page={2} current />
+          <Pagination.Item page={3} />
+          <Pagination.NextTrigger />
+        </Pagination.Root>
+      );
+    }
+    ```
 
 ## Notes
 

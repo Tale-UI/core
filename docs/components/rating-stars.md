@@ -62,7 +62,17 @@ Also accepts all standard `<div>` HTML attributes except `children`.
 ## Pitfalls
 
 <!-- pitfall: rating-stars-requires-value-prop -->
-- **Requires a `value` prop (number)** — do NOT pass the rating as children text; `RatingStars` does not accept `children`.
+- **`value` prop is required** — without it ratings are always empty; do NOT pass the rating as children text.
+  - anti-pattern: `<RatingStars>4</RatingStars>`
+  - anti-pattern: `import { RatingStars } from '@tale-ui/react';`
+  - fix: `import { RatingStars } from '@tale-ui/react/rating-stars'; ... <RatingStars value={4} />`
+  - complete example:
+    ```tsx
+    import { RatingStars } from '@tale-ui/react/rating-stars';
+    export function MyComponent() {
+      return <RatingStars value={4} />;
+    }
+    ```
 
 ## Notes
 

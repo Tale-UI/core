@@ -208,12 +208,31 @@ import { DotIcon } from '@tale-ui/react/dot-icon';
 
 <!-- pitfall: avatar-indicator-outside-root -->
 - **`Avatar.Indicator` must wrap OUTSIDE `Avatar.Root`** — `Avatar.Root` has `overflow: hidden`, so placing `Avatar.Indicator` inside it will clip the indicator badge.
+  - anti-pattern: `<Avatar.Root><Avatar.Image /><Avatar.Indicator><Badge /></Avatar.Indicator></Avatar.Root>`
+  - fix: `<Avatar.Indicator><Avatar.Root><Avatar.Image /></Avatar.Root><Badge /></Avatar.Indicator>`
+  - complete example:
+    ```tsx
+    import { Avatar } from '@tale-ui/react/avatar';
+    
+    export function Example() {
+      return (
+        <Avatar.Group size="md">
+          <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
+          <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
+          <Avatar.Count>+3</Avatar.Count>
+        </Avatar.Group>
+      );
+    }
+    ```
 
 <!-- pitfall: avatar-group-propagates-size -->
+<!-- prose-only -->
 - **`Avatar.Group` propagates `size` to children** — do not set `size` on individual `Avatar.Root` inside a Group unless intentionally overriding the group size.
 
 <!-- pitfall: avatar-size-full-values -->
 - **`size` accepts `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'2xl'`** — NOT the short forms `'s'`, `'m'`, or `'l'`.
+  - anti-pattern: `<Avatar.Root size="m">`
+  - fix: `<Avatar.Root size="md">`
 
 ## Notes
 

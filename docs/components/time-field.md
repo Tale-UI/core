@@ -54,7 +54,24 @@ Accepts all React Aria `TimeField` props plus an optional `className`. See the `
 ## Pitfalls
 
 <!-- pitfall: time-field-no-extra-sub-parts -->
-- **No `TimeField.Group`, `TimeField.Trigger`, `TimeField.Input`, `TimeField.Popover`, or `TimeField.Dialog` sub-parts** — `TimeField` is a segmented inline input only; it has no trigger or popover anatomy.
+- **No extra sub-parts: `TimeField.Group`, `TimeField.Trigger`, `TimeField.Input`, `TimeField.Popover`, `TimeField.Dialog` do not exist** — `TimeField` is a segmented inline input only; it has no trigger or popover anatomy.
+  - anti-pattern: `<TimeField.Root><TimeField.Trigger /><TimeField.Popover><TimeField.DateInput /></TimeField.Popover></TimeField.Root>`
+  - fix: `<TimeField.Root><TimeField.Label>Time</TimeField.Label><TimeField.DateInput /></TimeField.Root>`
+  - complete example:
+    ```tsx
+    import { TimeField } from '@tale-ui/react/time-field';
+    
+    export function Example() {
+      return (
+        <TimeField.Root>
+          <TimeField.Label>Time</TimeField.Label>
+          <TimeField.DateInput>
+            {(segment) => <TimeField.Segment segment={segment} />}
+          </TimeField.DateInput>
+        </TimeField.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: time-field-dateinput-not-input -->
 - **The input sub-part is `TimeField.DateInput`, not `TimeField.Input`** — There is no `TimeField.Input`. The correct sub-part for the segmented time input is `TimeField.DateInput`.

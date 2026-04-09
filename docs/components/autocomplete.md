@@ -91,14 +91,31 @@ function ProduceSearch() {
 <!-- cross-pitfall-ref: usefilter-from-rac-not-react-aria -->
 
 <!-- pitfall: autocomplete-no-phantom-sub-parts -->
-- **No `Autocomplete.Label`, `Autocomplete.Popover`, `Autocomplete.Trigger`, `Autocomplete.Value` sub-parts.**
+- **No phantom sub-parts: no `Autocomplete.Label`, `Autocomplete.Popover`, `Autocomplete.Trigger`, or `Autocomplete.Value`** — use `Autocomplete.SearchField` with an `aria-label`; Autocomplete renders inline with no popover.
   - anti-pattern: `<Autocomplete.Root><Autocomplete.Label>Search</Autocomplete.Label><Autocomplete.Popover>...</Autocomplete.Popover></Autocomplete.Root>`
-  - fix: Use `Autocomplete.SearchField` with `aria-label` prop; Autocomplete renders inline — there is no popover.
+  - fix: `<Autocomplete.SearchField aria-label="Search"><Autocomplete.Input /></Autocomplete.SearchField>`
+  - complete example:
+    ```tsx
+    import { Autocomplete } from '@tale-ui/react/autocomplete';
+    
+    export function Example() {
+      return (
+        <Autocomplete.Root>
+          <Autocomplete.SearchField>
+            <Autocomplete.Input placeholder="Search..." />
+          </Autocomplete.SearchField>
+          <Autocomplete.ListBox>
+            <Autocomplete.Item id="apple">Apple</Autocomplete.Item>
+            <Autocomplete.Item id="banana">Banana</Autocomplete.Item>
+          </Autocomplete.ListBox>
+        </Autocomplete.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: autocomplete-no-controlled-props -->
-- **No controlled-state props on `Autocomplete.Root`.** Filter state is derived from the `filter` function and the input value managed by `Autocomplete.SearchField`/`Autocomplete.Input`.
-  - anti-pattern: `<Autocomplete.Root inputValue={query} onInputChange={setQuery}>`
-  - fix: `<Autocomplete.Root filter={contains}>` — the input manages its own value internally.
+<!-- prose-only -->
+- **No controlled state props on `Autocomplete.Root`** — filter state is derived from the `filter` function and the input value managed internally.
 
 ## Notes
 

@@ -117,16 +117,42 @@ Accepts all React Aria `DisclosureGroup` props plus an optional `className`. See
 ## Pitfalls
 
 <!-- pitfall: accordion-trigger-inside-header -->
-- **`Accordion.Trigger` must go inside `Accordion.Header`** — `Accordion.Header` renders an `<h3>` heading element; it does not produce an interactive button on its own. The trigger button is separate.
+- **`Accordion.Trigger` must go inside `Accordion.Header`** — `Accordion.Header` renders an `<h3>` wrapper; the trigger button is a separate child.
+  - anti-pattern: `<Accordion.Item><Accordion.Trigger>Title</Accordion.Trigger><Accordion.Panel>…</Accordion.Panel></Accordion.Item>`
+  - fix: `<Accordion.Item><Accordion.Header><Accordion.Trigger>Title</Accordion.Trigger></Accordion.Header><Accordion.Panel>…</Accordion.Panel></Accordion.Item>`
+  - complete example:
+    ```tsx
+    import { Accordion } from '@tale-ui/react/accordion';
+    
+    export function Example() {
+      return (
+        <Accordion.Root>
+          <Accordion.Item id="a">
+            <Accordion.Header>
+              <Accordion.Trigger>Question</Accordion.Trigger>
+            </Accordion.Header>
+            <Accordion.Panel>Answer</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: accordion-no-content-sub-part -->
 - **Use `Accordion.Panel` for content, NOT `Accordion.Content`** — there is no `Accordion.Content` sub-part.
+  - anti-pattern: `<Accordion.Content>Body text</Accordion.Content>`
+  - fix: `<Accordion.Panel>Body text</Accordion.Panel>`
 
 <!-- pitfall: accordion-no-type-prop -->
-- **Does NOT accept a `type` prop** — use `allowsMultipleExpanded` on `Accordion.Root` to allow multiple panels open simultaneously.
+- **No `type` prop** — use `allowsMultipleExpanded` on `Accordion.Root` to allow multiple panels open simultaneously.
+  - anti-pattern: `<Accordion.Root type="multiple">`
+  - fix: `<Accordion.Root allowsMultipleExpanded>`
 
 <!-- pitfall: accordion-default-expanded-keys -->
+<!-- multi-idea-ok -->
 - **Uses `defaultExpandedKeys` (array), NOT `defaultOpen`, `defaultValue`, or `defaultSelectedKey`** — pass an array of item `id` strings to set the initially expanded panels.
+  - anti-pattern: `<Accordion.Root defaultOpen="item-1">`
+  - fix: `<Accordion.Root defaultExpandedKeys={['item-1']}>`
 
 ## Notes
 

@@ -74,12 +74,31 @@ const [isExpanded, setIsExpanded] = useState(false);
 
 <!-- pitfall: disclosure-no-content-sub-part -->
 - **Use `Disclosure.Panel` for content, NOT `Disclosure.Content`** — there is no `Disclosure.Content` sub-part.
+  - anti-pattern: `<Disclosure.Content>Details here</Disclosure.Content>`
+  - fix: `<Disclosure.Panel>Details here</Disclosure.Panel>`
+  - complete example:
+    ```tsx
+    import { Disclosure } from '@tale-ui/react/disclosure';
+    
+    export function Example() {
+      return (
+        <Disclosure.Root>
+          <Disclosure.Trigger>Show more</Disclosure.Trigger>
+          <Disclosure.Panel>Hidden content revealed on expand.</Disclosure.Panel>
+        </Disclosure.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: disclosure-no-header-or-icon-parts -->
 - **No `Content`, `Header`, or `Icon` sub-parts** — the only parts are `Root`, `Trigger`, and `Panel`.
+  - anti-pattern: `<Disclosure.Header><Disclosure.Trigger>...</Disclosure.Trigger></Disclosure.Header>`
+  - fix: `<Disclosure.Trigger>...</Disclosure.Trigger>`
 
 <!-- pitfall: disclosure-controlled-state-props -->
 - **Controlled state uses `isExpanded`/`onExpandedChange`** — NOT `open`/`onOpenChange`.
+  - anti-pattern: `<Disclosure.Root open={isOpen} onOpenChange={setIsOpen}>`
+  - fix: `<Disclosure.Root isExpanded={isOpen} onExpandedChange={setIsOpen}>`
 
 ## Notes
 
