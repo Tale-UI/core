@@ -232,6 +232,17 @@ let CODEX_MCP_CONFIG_OVERRIDE = null;
 let LOCAL_MCP_CLIENT = null;
 let LOCAL_MCP_TOOLS = [];
 
+async function closeLocalMcpClient() {
+  if (!LOCAL_MCP_CLIENT) return;
+  const client = LOCAL_MCP_CLIENT;
+  LOCAL_MCP_CLIENT = null;
+  try {
+    await client.close();
+  } catch {
+    /* ignore cleanup errors */
+  }
+}
+
 if (PROVIDER === 'straico') {
   STRAICO_API_KEY = process.env.STRAICO_API_KEY;
   if (!STRAICO_API_KEY) {
@@ -1045,59 +1056,63 @@ async function main() {
     await bootstrapLocalMcp();
   }
 
-  log(`\n=== Golden Prompt Eval — ${MODEL}${MCP_MODE ? ' (MCP)' : ''} ===\n`);
-  if (FILTER_DIFFICULTY) log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);
-  if (FILTER_SLUG) log(`  Filter: slug=${FILTER_SLUG}`);
-  log(`  Prompts:     ${prompts.length}`);
-  log(`  Concurrency: ${CONCURRENCY}`);
-  const mcpSuffix = MCP_MODE
-    ? PROVIDER === 'claude' || PROVIDER === 'codex' || PROVIDER === 'local'
-      ? ' + MCP'
-      : ' (snippet-only)'
-    : '';
-  const providerLabel =
-    PROVIDER === 'straico'
-      ? `straico (${MODEL})${mcpSuffix}`
-      : PROVIDER === 'local'
-        ? `local @ ${LOCAL_URL} (${MODEL})${mcpSuffix}`
-        : PROVIDER === 'codex'
-          ? `codex cli (${CODEX_BIN}) — ${MODEL}${mcpSuffix}`
-          : `claude cli (${CLAUDE_BIN})${mcpSuffix}`;
-  log(`  Provider:    ${providerLabel}\n`);
+  try {
+    log(`\n=== Golden Prompt Eval — ${MODEL}${MCP_MODE ? ' (MCP)' : ''} ===\n`);
+    if (FILTER_DIFFICULTY) log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);
+    if (FILTER_SLUG) log(`  Filter: slug=${FILTER_SLUG}`);
+    log(`  Prompts:     ${prompts.length}`);
+    log(`  Concurrency: ${CONCURRENCY}`);
+    const mcpSuffix = MCP_MODE
+      ? PROVIDER === 'claude' || PROVIDER === 'codex' || PROVIDER === 'local'
+        ? ' + MCP'
+        : ' (snippet-only)'
+      : '';
+    const providerLabel =
+      PROVIDER === 'straico'
+        ? `straico (${MODEL})${mcpSuffix}`
+        : PROVIDER === 'local'
+          ? `local @ ${LOCAL_URL} (${MODEL})${mcpSuffix}`
+          : PROVIDER === 'codex'
+            ? `codex cli (${CODEX_BIN}) — ${MODEL}${mcpSuffix}`
+            : `claude cli (${CLAUDE_BIN})${mcpSuffix}`;
+    log(`  Provider:    ${providerLabel}\n`);
 
-  const results = await runPool(prompts, CONCURRENCY, evalPrompt);
+    const results = await runPool(prompts, CONCURRENCY, evalPrompt);
 
-  /* ── Summary ── */
+    /* ── Summary ── */
 
-  const total = results.length;
-  const passed = results.filter((r) => r.allPass).length;
-  const l1Pass = results.filter((r) => r.l1.pass).length;
-  const l2Pass = results.filter((r) => r.l2.pass).length;
-  const l3Pass = results.filter((r) => r.l3.pass).length;
-  const callCacheHits = results.filter((r) => r._callCached).length;
-  const checkCacheHits = results.filter((r) => !r._callCached && r._checkCached).length;
+    const total = results.length;
+    const passed = results.filter((r) => r.allPass).length;
+    const l1Pass = results.filter((r) => r.l1.pass).length;
+    const l2Pass = results.filter((r) => r.l2.pass).length;
+    const l3Pass = results.filter((r) => r.l3.pass).length;
+    const callCacheHits = results.filter((r) => r._callCached).length;
+    const checkCacheHits = results.filter((r) => !r._callCached && r._checkCached).length;
 
-  log(`\n${'─'.repeat(52)}`);
-  log(`  Model:          ${MODEL}`);
-  log(`  Overall:        ${passed}/${total} passed all checks`);
-  if (callCacheHits > 0) log(`  Call cache:     ${callCacheHits}/${total} skipped Claude calls`);
-  if (checkCacheHits > 0) log(`  Check cache:    ${checkCacheHits}/${total} skipped tsc checks`);
-  log(`  L1 validity:    ${l1Pass}/${total}`);
-  log(`  L2 components:  ${l2Pass}/${total}`);
-  log(`  L3 imports:     ${l3Pass}/${total}`);
-  for (const diff of ['simple', 'medium', 'complex']) {
-    const group = results.filter((r) => r.difficulty === diff);
-    if (group.length === 0) continue;
-    const gPassed = group.filter((r) => r.allPass).length;
-    log(`  ${diff.padEnd(8)}: ${gPassed}/${group.length}`);
-  }
-  log('');
+    log(`\n${'─'.repeat(52)}`);
+    log(`  Model:          ${MODEL}`);
+    log(`  Overall:        ${passed}/${total} passed all checks`);
+    if (callCacheHits > 0) log(`  Call cache:     ${callCacheHits}/${total} skipped Claude calls`);
+    if (checkCacheHits > 0) log(`  Check cache:    ${checkCacheHits}/${total} skipped tsc checks`);
+    log(`  L1 validity:    ${l1Pass}/${total}`);
+    log(`  L2 components:  ${l2Pass}/${total}`);
+    log(`  L3 imports:     ${l3Pass}/${total}`);
+    for (const diff of ['simple', 'medium', 'complex']) {
+      const group = results.filter((r) => r.difficulty === diff);
+      if (group.length === 0) continue;
+      const gPassed = group.filter((r) => r.allPass).length;
+      log(`  ${diff.padEnd(8)}: ${gPassed}/${group.length}`);
+    }
+    log('');
 
-  if (JSON_OUTPUT) {
-    process.stdout.write(
-      JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2) +
-        '\n',
-    );
+    if (JSON_OUTPUT) {
+      process.stdout.write(
+        JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2) +
+          '\n',
+      );
+    }
+  } finally {
+    await closeLocalMcpClient();
   }
 }
 

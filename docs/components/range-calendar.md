@@ -87,6 +87,11 @@ Accepts all React Aria `RangeCalendar` props plus an optional `className`. See t
     }
     ```
 
+<!-- pitfall: range-calendar-column-gap-token -->
+- **When wrapping RangeCalendar in a Column to show the selected range, use spacing-token gap values, not component-size names** — the typical pattern places `<RangeCalendar.Root>` and a `<Text>` inside a `<Column>`; Column gap must be a spacing token (`'s'`, `'m'`, `'l'`), never a size name (`'sm'`, `'md'`, `'lg'`).
+  - anti-pattern: `<Column gap="md"><RangeCalendar.Root /><Text>...</Text></Column>`
+  - fix: `<Column gap="m"><RangeCalendar.Root /><Text>...</Text></Column>`
+
 <!-- pitfall: range-calendar-unavailable-prop -->
 - **Use `isDateUnavailable` to disable dates, not `isOutsideRange`** — The correct prop for disabling specific dates is `isDateUnavailable` (a function that returns `true` for dates to disable). There is no `isOutsideRange` prop.
   - anti-pattern: `<RangeCalendar.Root isOutsideRange={(date) => date.day === 1} />`
@@ -96,7 +101,7 @@ Accepts all React Aria `RangeCalendar` props plus an optional `className`. See t
 <!-- cross-pitfall-ref: no-native-date -->
 <!-- cross-pitfall-ref: derive-date-type-from-props -->
 <!-- cross-pitfall-ref: no-null-state-without-type -->
-<!-- cross-pitfall-ref: no-internationalized-date-import -->
+<!-- cross-pitfall-ref: parse-date-import-from-internationalized-date -->
 
 ## Notes
 

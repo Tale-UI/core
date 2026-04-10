@@ -24,6 +24,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 ## Critical pitfalls
 
 - Never annotate component return types as JSX.Element or use React.FC — the new JSX transform is in use; write plain functions with no return type annotation.
+- Use default visual props when the prompt does not request styling — inventing non-default variant, theme, size, shape, color, or decorative modifiers makes underspecified prompts non-deterministic and drifts from the canonical component design.
 - Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all. - fix (for 'Create a primary button that says Save'): import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant="primary">Save</Button>; } - fix (for 'Create a success badge that displays Active'): import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant="success">Active</Badge>; }
 - Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash — the dash in --space-s is CSS token notation; prop value strings never start with a dash.
 - Max gap value for Row/Column is '2xl' — there is no '3xl' or '4xl' gap token — using out-of-range gap values produces no visible spacing because the token is undefined.
@@ -31,6 +32,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - Use <Image> from @tale-ui/react/image instead of a bare <img> — Image applies radius, lazy loading, and correct CSS; use its radius prop (not borderRadius) and width/height (not size).
 - There is no Heading component — use <Text variant="heading" as="h2"> instead of bare <h2> — importing { Heading } from any @tale-ui/react/* path causes "has no exported member" TypeScript errors; bare heading tags bypass Tale UI typography tokens.
 - Never use bare <p> or <span> for text content — always use <Text> from @tale-ui/react/text — bare paragraph and span tags bypass Tale UI typography tokens and cannot accept color or variant props.
+- Component names must be valid PascalCase identifiers with no spaces — exported React component names must be a single valid JavaScript/TypeScript identifier; spaces, hyphens, or other invalid characters in the function name cause parser errors before JSX is checked.
 - Never use asChild on any Tale UI trigger — Tale UI trigger components expose their own public structure and do not support asChild. Passing it causes TypeScript errors.
 - Never nest <Button> or <IconButton> inside a trigger — this creates a <button> inside a <button> (invalid HTML) and breaks keyboard/pointer interactions. Style the trigger directly with BEM class names.
 - [Accordion] Accordion.Trigger must go inside Accordion.Header
@@ -104,6 +106,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Disclosure] No Content, Header, or Icon sub-parts
 - [Disclosure] Controlled state uses isExpanded/onExpandedChange
 - [DotIcon] color accepts semantic tokens only
+- [DotIcon] Use the color prop, not type, variant, or status
 - [Drawer] Drawer.Root uses open/onOpenChange, not isOpen
 - [Drawer] Drawer.Backdrop must be a self-closing sibling of Drawer.Popup, not a wrapper
 - [Drawer] No layout sub-parts (Drawer.Actions, Drawer.Body, Drawer.Header, Drawer.Footer)
@@ -113,20 +116,25 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [DropZone] Do NOT cast FileDropItem to File
 - [EmptyState] No EmptyState.Header or EmptyState.Content
 - [FeaturedIcon] Does NOT accept an icon prop — takes an <Icon> child, with no .Root variant
+- [FeaturedIcon] Use default FeaturedIcon visual props for generic prompts
 - [Field] Field.Root does not accept validation state props
 - [Field] No standalone FieldLabel, FieldError, FieldControl, or FieldDescription exports
 - [Fieldset] Only Root and Legend sub-parts
+- [Fieldset] When stacking fields inside Fieldset.Root with Column, use spacing-token gap values, not component size names
 - [FileTrigger] No FileTrigger.Root
 - [FileTrigger] onSelect receives FileList | null — always null-check
 - [Form] Form is a simple component with no sub-parts
 - [Form] method prop requires lowercase values
 - [GridList] GridList.Item does NOT accept isSelected
-- [GridList] Do NOT annotate onSelectionChange parameter as Set<string>
+- [GridList] Do NOT annotate onSelectionChange parameter as Set<string> or import Selection from react-aria-components
+- [GridList] When wrapping GridList in a Column or Row layout container, use spacing-token gap values — never component-size names
 - [Icon] icon prop takes a component reference, not an instance
 - [Icon] Import lucide icons from lucide-react root, not deep subpaths
+- [Icon] Avoid Icon Image name collisions
 - [Icon] size accepts 'sm', 'md', 'lg', 'xl' only
 - [IconButton] aria-label is required
 - [IconButton] Do not nest <IconButton> inside a trigger component
+- [IconButton] Use <IconButton> for icon-only actions, not <Button> or a native <button>
 - [Image] Use radius for rounded corners, NOT borderRadius
 - [Image] radius accepts 'none', 'sm', 'md', 'lg', 'full'
 - [Link] There is no isExternal prop — use target and rel directly
@@ -148,6 +156,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Radio] Radio.Root does NOT accept checked, onChange, or native HTML input props
 - [RadioGroup] RadioGroup (from @tale-ui/react/radio-group) has NO sub-parts
 - [RangeCalendar] No Footer sub-part
+- [RangeCalendar] When wrapping RangeCalendar in a Column to show the selected range, use spacing-token gap values, not component-size names
 - [RangeCalendar] Use isDateUnavailable to disable dates, not isOutsideRange
 - [RatingBadge] The value prop is required
 - [RatingStars] value prop is required
@@ -163,6 +172,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Separator] Only accepts orientation and standard HTML attributes
 - [Slider] Requires nested structure: Root > Control > Track > Indicator + Thumb
 - [SocialButton] provider prop is required
+- [SocialButton] Use SocialButton for any social sign-in, sign-up, or OAuth button prompt
 - [Spinner] label prop sets aria-label — it does NOT render visible text
 - [Switch] No Label or Indicator sub-parts — only Root and Thumb
 - [Table] No Table.ColumnHeader
@@ -179,6 +189,8 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Text] No htmlFor prop on Text
 - [Text] as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'
 - [Text] color only accepts 'default', 'muted', 'accent'
+- [Text] Text has no boolean muted prop — use color="muted" for secondary text, plus separate variant/size props when needed
+- [Text] Use color="muted" for muted secondary paragraph copy
 - [TextArea] TextArea.TextArea sub-part is PascalCase, NOT TextArea.Textarea
 - [TextField] TextField.Root accepts name — HTML input attributes (type, minLength, maxLength, placeholder) go on TextField.Input.
 - [TextField] There is NO PasswordInput component
@@ -187,6 +199,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [TimeField] Property is hour (singular), not hours
 - [ToggleButton] Uses isSelected/defaultSelected for toggle state, not pressed
 - [ToggleButton] Does NOT accept a value prop.
+- [ToggleButton] Use <ToggleButton> for any prompt that asks for a toggle button or formatting toggle
 - [ToggleButtonGroup] No Radix-style type, value, or onValueChange props
 - [ToggleButtonGroup] Requires aria-label or aria-labelledby
 - [Toolbar] Toolbar.Button only accepts standard HTML button attributes

@@ -77,7 +77,9 @@ import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
 
 <!-- pitfall: color-slider-composition-with-color-area -->
 <!-- prose-only -->
-- **When composing with `ColorArea`, wrap both in a single parent element** — Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container.
+- **When composing with ColorArea, wrap both in a single parent element** — Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container. When using `<Column>`, use spacing-token gap values (`'s'`, `'m'`, `'l'`), not component-size values (`'sm'`, `'md'`, `'lg'`).
+  - anti-pattern: `<Column gap="md"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>`
+  - fix: `<Column gap="m"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>`
 
 <!-- cross-pitfall-ref: color-imports-from-rac -->
 <!-- cross-pitfall-ref: no-color-extract-channel -->

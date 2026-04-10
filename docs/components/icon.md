@@ -72,6 +72,7 @@ All other SVG attributes are forwarded to the underlying `<svg>` element.
 - **icon prop takes a component reference, not an instance** — pass the icon class itself, not `<Bell />`. The prop is named `icon`, not `svg`, `component`, or any other alias; using `svg={...}` causes a TypeScript 'not assignable to type IconProps' error.
   - anti-pattern: `<Icon icon={<Bell />} />`
   - anti-pattern: `<Icon svg={Bell} />`
+  - anti-pattern: `<Icon><svg>...</svg></Icon>`
   - fix: `<Icon icon={Bell} />`
   - complete example:
     ```tsx
@@ -92,6 +93,12 @@ All other SVG attributes are forwarded to the underlying `<svg>` element.
 - **Import lucide icons from `lucide-react` root, not deep subpaths** — deep imports like `lucide-react/dist/esm/icons/bell` are not part of the public API and break on package updates.
   - anti-pattern: `import Bell from 'lucide-react/dist/esm/icons/bell';`
   - fix: `import { Bell } from 'lucide-react';`
+
+<!-- pitfall: icon-image-name-collision -->
+- **Avoid Icon Image name collisions** — `Icon` expects an SVG icon component, not the `Image` component from `@tale-ui/react/image`. When a file-tree or favicon row needs an image glyph, import a lucide icon with a non-conflicting name such as `ImageIcon` or `FileImage`.
+  - anti-pattern: `import { Image } from '@tale-ui/react/image'; <Icon icon={Image} />`
+  - anti-pattern: `import { Image } from 'lucide-react'; import { Image } from '@tale-ui/react/image';`
+  - fix: `import { ImageIcon } from 'lucide-react'; <Icon icon={ImageIcon} />`
 
 <!-- pitfall: icon-size-values -->
 - **`size` accepts `'sm'`, `'md'`, `'lg'`, `'xl'` only** — NOT the token-style `'s'`/`'m'`/`'l'` suffixes used in CSS tokens.

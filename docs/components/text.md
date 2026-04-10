@@ -132,6 +132,18 @@ Also accepts all standard HTML attributes for the rendered element.
   - anti-pattern: `<Text color="secondary">Note</Text>`
   - fix: `<Text color="muted">Note</Text>`
 
+<!-- pitfall: text-uses-separate-variant-size-color-props -->
+- **Text has no boolean `muted` prop — use `color="muted"` for secondary text, plus separate `variant`/`size` props when needed** — `muted` is a common shorthand in other libraries, but Tale UI `Text` controls tone only through the `color` prop; using `<Text muted>` causes a TypeScript error.
+  - anti-pattern: `<Text muted>This action cannot be undone.</Text>`
+  - anti-pattern: `<Text muted variant="body-sm">This action cannot be undone.</Text>`
+  - fix: `<Text as="p" color="muted">This action cannot be undone.</Text>`
+  - fix: `<Text as="p" variant="text" size="s" color="muted">This action cannot be undone.</Text>`
+
+<!-- pitfall: for-muted-or-secondary-paragraph -->
+- **Use `color="muted"` for muted secondary paragraph copy** — prompts that ask for subdued body text should not be translated into generic component tokens like `'md'` or neutral color names; on `Text`, the muted tone is `color="muted"` and paragraph sizing should usually stay implicit unless the prompt asks for a specific text scale.
+  - anti-pattern: `<Text size="md" color="neutral">This action cannot be undone.</Text>`
+  - fix: `<Text as="p" color="muted">This action cannot be undone.</Text>`
+
 ## Notes
 
 - Custom component -- not built on a React Aria primitive.

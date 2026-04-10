@@ -80,9 +80,40 @@ import { Star, Heart, Bell } from 'lucide-react';
     ```
 
 <!-- pitfall: grid-list-on-selection-change-set -->
-- **Do NOT annotate `onSelectionChange` parameter as `Set<string>`** — the parameter type is `Selection`; cast inside the handler if needed.
+- **Do NOT annotate `onSelectionChange` parameter as `Set<string>` or import `Selection` from `react-aria-components`** — consumers do not depend on `react-aria-components` directly, so that import causes "Cannot find module" errors. Derive the selection type from `GridList.Root` props with `React.ComponentProps`, or omit the callback parameter annotation.
   - anti-pattern: `onSelectionChange={(keys: Set<string>) => setSelected(keys)}`
-  - fix: `onSelectionChange={(keys: Selection) => setSelected(keys)}`
+  - anti-pattern: `import type { Selection } from 'react-aria-components';`
+  - fix: `type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];`
+  - fix: `onSelectionChange={(keys) => setSelected(keys)}`
+  - complete example:
+    ```tsx
+    import * as React from 'react';
+    import { useState } from 'react';
+    import { GridList } from '@tale-ui/react/grid-list';
+    
+    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];
+    
+    export function Example() {
+      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());
+    
+      return (
+        <GridList.Root
+          aria-label="Items"
+          selectionMode="multiple"
+          selectedKeys={selectedKeys}
+          onSelectionChange={setSelectedKeys}
+        >
+          <GridList.Item id="1" textValue="Item 1">Item 1</GridList.Item>
+          <GridList.Item id="2" textValue="Item 2">Item 2</GridList.Item>
+        </GridList.Root>
+      );
+    }
+    ```
+
+<!-- pitfall: grid-list-column-gap-token -->
+- **When wrapping GridList in a Column or Row layout container, use spacing-token gap values — never component-size names** — `gap="md"` on an outer `<Column>` or `<Row>` causes `Type '"md"' is not assignable to type 'Gap | undefined'`; always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to the outermost page-level Column wrapper and to any Column used inside `GridList.Item` children.
+  - anti-pattern: `<Column gap="md"><GridList.Root aria-label="Items" selectionMode="multiple">...</GridList.Root></Column>`
+  - fix: `<Column gap="m"><GridList.Root aria-label="Items" selectionMode="multiple">...</GridList.Root></Column>`
 
 ## Notes
 

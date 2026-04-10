@@ -148,7 +148,7 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 <!-- cross-pitfall-ref: no-native-date -->
 <!-- cross-pitfall-ref: derive-date-type-from-props -->
 <!-- cross-pitfall-ref: no-null-state-without-type -->
-<!-- cross-pitfall-ref: no-internationalized-date-import -->
+<!-- cross-pitfall-ref: parse-date-import-from-internationalized-date -->
 
 ## Notes
 

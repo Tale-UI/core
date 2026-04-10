@@ -75,7 +75,7 @@ Accepts all React Aria `DateField` props plus an optional `className`. See the `
 
 <!-- cross-pitfall-ref: no-native-date -->
 <!-- cross-pitfall-ref: derive-date-type-from-props -->
-<!-- cross-pitfall-ref: no-internationalized-date-import -->
+<!-- cross-pitfall-ref: parse-date-import-from-internationalized-date -->
 
 ## Notes
 

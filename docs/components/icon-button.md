@@ -112,6 +112,10 @@ Variant styles (`.tale-button--primary`, etc.) are inherited from the Button com
 - **Do not nest `<IconButton>` inside a trigger component** — triggers render their own `<button>` element; nesting an `IconButton` creates a `<button>` inside a `<button>`, which is invalid HTML.
   - anti-pattern: `<Tooltip.Trigger><IconButton aria-label="Info"><Icon icon={Info} /></IconButton></Tooltip.Trigger>`
   - fix: `<Tooltip.Trigger aria-label="Info" className="tale-icon-button tale-icon-button--md"><Icon icon={Info} /></Tooltip.Trigger>`
+<!-- pitfall: use-iconbutton-for-icononly-actions -->
+- **Use `<IconButton>` for icon-only actions, not `<Button>` or a native `<button>`** — when a prompt asks for an "icon button", render the `IconButton` component itself and include an `<Icon>` child for the glyph. Do not substitute `Button` with an icon, and do not omit the `Icon` child.
+  - anti-pattern: `import { Button } from '@tale-ui/react/button'; import { Trash } from 'lucide-react'; export function DeleteButton() { return <Button variant="danger" aria-label="Delete item"><Trash /></Button>; }`
+  - fix: `import { IconButton } from '@tale-ui/react/icon-button'; import { Icon } from '@tale-ui/react/icon'; import { Trash } from 'lucide-react'; export function DeleteButton() { return <IconButton variant="danger" aria-label="Delete item"><Icon icon={Trash} /></IconButton>; }`
 
 ## Notes
 

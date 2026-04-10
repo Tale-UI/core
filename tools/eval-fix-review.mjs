@@ -391,6 +391,10 @@ The "section" field identifies which documentation area the fix targets: "genera
 The "scope" field classifies whether the rule applies broadly or narrowly:
   - "cross-cutting": the rule applies to many or all components (e.g. Row/Column gap values, namespace vs simple, trigger styling, import path conventions). These go in the general conventions or cross-component sections of docs/pitfalls.md.
   - "component-specific": the rule only applies to one component's API (e.g. "TextArea uses TextArea.TextArea not TextArea.Textarea"). These go in the per-component section.
+Markdown formatting rules for the "new" field:
+  - Every \`- anti-pattern:\` or \`- fix:\` sub-bullet must contain exactly one backtick-wrapped inline code snippet.
+  - Do not leave any trailing characters after the closing backtick.
+  - Valid example: \`  - fix: \\\`<Text color="muted">Note</Text>\\\`\`
 Output a JSON fix in this exact format (no other text, just the JSON):
 {
   "diagnosis": "one sentence explaining the root cause",
@@ -852,6 +856,45 @@ function normalizeSourcePatchBlock(text) {
   return lines.slice(firstContentLine).join('\n').trimEnd();
 }
 
+function hasMalformedInlineSnippets(blockText) {
+  const snippetLines = [
+    ...blockText.matchAll(/^\s+- anti-pattern:\s*(.+)$/gm),
+    ...blockText.matchAll(/^\s+- fix:\s*(.+)$/gm),
+  ].map((match) => match[1].trim());
+
+  return snippetLines.some((snippet) => {
+    if (!snippet) return false;
+    if (snippet.startsWith('```')) return false;
+    return !/^`[^`]+`$/.test(snippet);
+  });
+}
+
+function getPitfallSummary(blockText) {
+  return blockText.match(/^- \*\*(.+?)\*\*/m)?.[1] ?? '';
+}
+
+function hasMultiIdeaSummary(blockText) {
+  const summary = getPitfallSummary(blockText);
+  if (!summary) return true;
+  const stripped = summary.replace(/`[^`]*`/g, '');
+  const dashCount = (stripped.match(/[—–]/g) || []).length;
+  return dashCount >= 2 || /\band\b/.test(stripped) || /;/.test(stripped);
+}
+
+function validatePitfallPatchBlock(blockText) {
+  const topLevelBullets = blockText.split('\n').filter((line) => /^- \*\*/.test(line));
+  if (topLevelBullets.length !== 1) {
+    return `expected exactly one top-level pitfall bullet, found ${topLevelBullets.length}`;
+  }
+  if (hasMultiIdeaSummary(blockText)) {
+    return 'summary appears multi-idea';
+  }
+  if (hasMalformedInlineSnippets(blockText)) {
+    return 'malformed anti-pattern/fix inline snippets';
+  }
+  return null;
+}
+
 /**
  * Apply a fix to the actual pitfall source file.
  * Returns true if the source file was patched, false if skipped.
@@ -871,8 +914,9 @@ function applySourceFix(fix, evalContextContent) {
 
   // Sanitise the fix text before writing: the model sometimes produces a trailing
   // double-backtick like `<Row justify="between">`` (closing backtick + stray backtick).
-  // Replace any `...`` end-of-line pattern with `...` to keep sub-bullets valid.
-  if (fix.new) fix.new = fix.new.replace(/``(\s*)$/gm, '`$1');
+  // Collapse any repeated trailing backticks to a single closing backtick to keep
+  // anti-pattern/fix sub-bullets valid when the model over-closes inline code.
+  if (fix.new) fix.new = fix.new.replace(/`{2,}(\s*)$/gm, '`$1');
 
   const fileContent = readFileSync(target.filePath, 'utf8');
   const section = extractSection(fileContent, target.sectionHeading);
@@ -899,13 +943,10 @@ function applySourceFix(fix, evalContextContent) {
     }
 
     const sourceNew = normalizeSourcePatchBlock(fix.new);
-    // Guard: reject replacement blocks that introduce multiple top-level bullets
-    // (- ** lines). A pitfall slug must have exactly one bullet; the diagnosis model
-    // sometimes prepends an "Always generate..." meta-bullet before the real fix.
-    const topLevelBullets = sourceNew.split('\n').filter((l) => /^- \*\*/.test(l));
-    if (topLevelBullets.length > 1) {
+    const replacementViolation = validatePitfallPatchBlock(sourceNew);
+    if (replacementViolation) {
       console.log(
-        `      ${C.yellow(`⚠ Source: replacement would introduce ${topLevelBullets.length} top-level bullets`)} (one per slug allowed) — skipping patch`,
+        `      ${C.yellow(`⚠ Source: replacement violates pitfall shape: ${replacementViolation}`)} — skipping patch`,
       );
       return false;
     }
@@ -922,6 +963,13 @@ function applySourceFix(fix, evalContextContent) {
   } else {
     // New pitfall — append before end of section (with dedup check)
     const newBullet = normalizeSourcePatchBlock(fix.new);
+    const appendViolation = validatePitfallPatchBlock(newBullet);
+    if (appendViolation) {
+      console.log(
+        `      ${C.yellow(`⚠ Source: new pitfall violates pitfall shape: ${appendViolation}`)} — skipping append`,
+      );
+      return false;
+    }
     const summary = newBullet.match(/\*\*(.+?)\*\*/)?.[1] ?? 'new-pitfall';
     const slug = summaryToSlug(summary);
 
@@ -1048,6 +1096,163 @@ function parseImports(code) {
   return results;
 }
 
+function parseImportSpec(spec) {
+  const trimmed = spec.trim();
+  const aliasMatch = trimmed.match(/^([A-Za-z_$][\w$]*)\s+as\s+([A-Za-z_$][\w$]*)$/);
+  if (aliasMatch) {
+    return { imported: aliasMatch[1], local: aliasMatch[2], raw: trimmed };
+  }
+  return { imported: trimmed, local: trimmed, raw: trimmed };
+}
+
+function makeImportAlias(pkg, imported, usedNames) {
+  const base =
+    pkg === 'lucide-react'
+      ? `Lucide${imported}`
+      : `${pkg
+          .split('/')
+          .filter(Boolean)
+          .at(-1)
+          .replace(/[^a-zA-Z0-9_$]/g, '')
+          .replace(/^\w/, (c) => c.toUpperCase())}${imported}`;
+  let alias = base;
+  let suffix = 2;
+  while (usedNames.has(alias)) {
+    alias = `${base}${suffix}`;
+    suffix += 1;
+  }
+  usedNames.add(alias);
+  return alias;
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function replaceIdentifier(body, from, to) {
+  return body.replace(new RegExp(`\\b${escapeRegExp(from)}\\b`, 'g'), to);
+}
+
+function rewriteImportBlock(block, replacements) {
+  const namesMatch = block.match(/\{([\s\S]*?)\}/);
+  if (!namesMatch) {
+    return block;
+  }
+
+  const rewrittenNames = namesMatch[1]
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((spec) => {
+      const parsed = parseImportSpec(spec);
+      const alias = replacements.get(`${parsed.imported}:${parsed.local}`);
+      return alias ? `${parsed.imported} as ${alias}` : spec;
+    });
+
+  return block.replace(/\{([\s\S]*?)\}/, `{ ${rewrittenNames.join(', ')} }`);
+}
+
+/**
+ * Generated snippets are validated individually, but EvalReview.tsx merges all
+ * snippets into one module. If two snippets import the same local name from
+ * different packages, the merged module can accidentally bind usages to the
+ * wrong component (e.g. lucide-react `Image` versus Tale UI `Image`). Alias the
+ * losing import and rewrite that snippet's body before merging.
+ */
+function aliasImportNameCollisions(codeBlocks) {
+  const importsByLocalName = new Map();
+  const usedNames = new Set();
+
+  for (const [blockIndex, code] of codeBlocks.entries()) {
+    for (const { names, pkg, isType } of parseImports(code)) {
+      if (isType) {
+        continue;
+      }
+      for (const rawSpec of names) {
+        const spec = parseImportSpec(rawSpec);
+        usedNames.add(spec.local);
+        if (!importsByLocalName.has(spec.local)) {
+          importsByLocalName.set(spec.local, []);
+        }
+        importsByLocalName.get(spec.local).push({
+          blockIndex,
+          pkg,
+          imported: spec.imported,
+          local: spec.local,
+        });
+      }
+    }
+  }
+
+  const replacementsByBlock = new Map();
+  for (const imports of importsByLocalName.values()) {
+    const packages = new Set(imports.map((item) => item.pkg));
+    if (packages.size < 2) {
+      continue;
+    }
+
+    // Keep the same binding mergeImports would have kept before this aliasing
+    // pass, so existing output stays stable except for the conflicting imports.
+    const keepPkg = [...packages].reduce((a, b) => (b.length > a.length ? b : a));
+
+    for (const item of imports) {
+      if (item.pkg === keepPkg) {
+        continue;
+      }
+      const alias = makeImportAlias(item.pkg, item.imported, usedNames);
+      if (!replacementsByBlock.has(item.blockIndex)) {
+        replacementsByBlock.set(item.blockIndex, new Map());
+      }
+      replacementsByBlock
+        .get(item.blockIndex)
+        .set(`${item.imported}:${item.local}`, { from: item.local, to: alias });
+    }
+  }
+
+  if (replacementsByBlock.size === 0) {
+    return codeBlocks;
+  }
+
+  return codeBlocks.map((code, blockIndex) => {
+    const replacements = replacementsByBlock.get(blockIndex);
+    if (!replacements) {
+      return code;
+    }
+
+    const importReplacementMap = new Map(
+      [...replacements.entries()].map(([key, value]) => [key, value.to]),
+    );
+    const out = [];
+    const lines = code.split('\n');
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i];
+      if (/^import\s+\{/.test(line)) {
+        let block = '';
+        while (i < lines.length) {
+          block = `${block}${lines[i]}\n`;
+          if (/from\s+['"][^'"]+['"]\s*;?\s*$/.test(lines[i])) {
+            i += 1;
+            break;
+          }
+          i += 1;
+        }
+        out.push(rewriteImportBlock(block.trimEnd(), importReplacementMap));
+      } else {
+        let rewritten = line;
+        for (const { from, to } of replacements.values()) {
+          rewritten = replaceIdentifier(rewritten, from, to);
+        }
+        out.push(rewritten);
+        i += 1;
+      }
+    }
+
+    return out.join('\n');
+  });
+}
+
 function mergeImports(codeBlocks) {
   const named = new Map(); // pkg → Set<string>
   const typed = new Map(); // pkg → Set<string>
@@ -1067,16 +1272,20 @@ function mergeImports(codeBlocks) {
     const nameToPackages = new Map(); // name → [pkg, ...]
     for (const [pkg, names] of map) {
       for (const name of names) {
-        if (!nameToPackages.has(name)) nameToPackages.set(name, []);
-        nameToPackages.get(name).push(pkg);
+        const localName = parseImportSpec(name).local;
+        if (!nameToPackages.has(localName)) nameToPackages.set(localName, []);
+        nameToPackages.get(localName).push(pkg);
       }
     }
-    for (const [name, pkgs] of nameToPackages) {
+    for (const [localName, pkgs] of nameToPackages) {
       if (pkgs.length < 2) continue;
       // Prefer the most specific (longest) path — deep imports over barrel
       const keep = pkgs.reduce((a, b) => (b.length > a.length ? b : a));
       for (const pkg of pkgs) {
-        if (pkg !== keep) map.get(pkg).delete(name);
+        if (pkg === keep) continue;
+        for (const spec of [...map.get(pkg)]) {
+          if (parseImportSpec(spec).local === localName) map.get(pkg).delete(spec);
+        }
       }
     }
     // Drop packages whose Set became empty
@@ -1109,7 +1318,11 @@ function pruneUnusedImports(importBlock, bodyText) {
       const usedNames = namesMatch[1]
         .split(',')
         .map((s) => s.trim())
-        .filter((n) => n && new RegExp(`\\b${n}\\b`).test(bodyText));
+        .filter((n) => {
+          if (!n) return false;
+          const localName = parseImportSpec(n).local;
+          return new RegExp(`\\b${escapeRegExp(localName)}\\b`).test(bodyText);
+        });
       if (usedNames.length === 0) return null;
       return line.replace(/\{[\s\S]*?\}/, `{ ${usedNames.join(', ')} }`);
     })
@@ -1251,6 +1464,8 @@ function validateReviewFile() {
 
 function generateEvalReview(passingResults, allPrompts) {
   const promptMap = new Map(allPrompts.map((p) => [p.slug, p]));
+  const codeBlocks = aliasImportNameCollisions(passingResults.map((r) => r.code).filter(Boolean));
+  let codeBlockIndex = 0;
 
   // Build component bodies first so the assembled text is available for
   // import pruning. Apply suppressUnusedLocals to each block so that
@@ -1259,7 +1474,7 @@ function generateEvalReview(passingResults, allPrompts) {
   const componentDefs = passingResults
     .filter((r) => r.code)
     .map((r) => {
-      const body = suppressUnusedLocals(renameExport(stripImports(r.code), r.slug));
+      const body = suppressUnusedLocals(renameExport(stripImports(codeBlocks[codeBlockIndex++]), r.slug));
       return `// ── ${r.slug} ${'─'.repeat(Math.max(0, 46 - r.slug.length))}\n${body}`;
     })
     .join('\n\n');
@@ -1267,7 +1482,6 @@ function generateEvalReview(passingResults, allPrompts) {
   // Merge imports from all code blocks, then drop any name that is not
   // actually referenced in the assembled component bodies to avoid TS6133
   // ("declared but its value is never read") from unused icon imports etc.
-  const codeBlocks = passingResults.map((r) => r.code).filter(Boolean);
   const mergedImports = pruneUnusedImports(mergeImports(codeBlocks), componentDefs);
   const reactNamespaceImport = /\bReact\./.test(componentDefs) ? "import * as React from 'react';\n" : '';
 
@@ -1475,6 +1689,7 @@ async function main() {
       for (let attempt = 1; attempt <= MAX_ITER; attempt++) {
         const attemptLabel = isFinite(MAX_ITER) ? `${attempt}/${MAX_ITER}` : `${attempt}`;
         try {
+          console.log(`    [${attemptLabel}] ${C.dim(`Requesting fix from ${FIX_PROVIDER}:${FIX_MODEL}...`)}`);
           const fix = await getFix(current, failedOlds, promptMap.get(current.slug)?.tags ?? []);
           console.log(`    [${attemptLabel}] ${C.cyan('Diagnosis:')} ${fix.diagnosis}`);
           if (fix.new) {

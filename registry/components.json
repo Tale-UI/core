@@ -872,7 +872,7 @@
         "no-native-date",
         "derive-date-type-from-props",
         "no-null-state-without-type",
-        "no-internationalized-date-import"
+        "parse-date-import-from-internationalized-date"
       ]
     },
     {
@@ -1547,7 +1547,13 @@
         {
           "id": "color-slider-composition-with-color-area",
           "summary": "When composing with ColorArea, wrap both in a single parent element",
-          "detail": "Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container."
+          "detail": "Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container. When using `<Column>`, use spacing-token gap values (`'s'`, `'m'`, `'l'`), not component-size values (`'sm'`, `'md'`, `'lg'`).",
+          "antiPatterns": [
+            "<Column gap=\"md\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>"
+          ],
+          "fixes": [
+            "<Column gap=\"m\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -2096,7 +2102,7 @@
       "crossPitfallRefs": [
         "no-native-date",
         "derive-date-type-from-props",
-        "no-internationalized-date-import"
+        "parse-date-import-from-internationalized-date"
       ]
     },
     {
@@ -2154,7 +2160,7 @@
       "crossPitfallRefs": [
         "no-native-date",
         "derive-date-type-from-props",
-        "no-internationalized-date-import",
+        "parse-date-import-from-internationalized-date",
         "no-null-state-without-type"
       ]
     },
@@ -2224,7 +2230,7 @@
       "crossPitfallRefs": [
         "no-native-date",
         "derive-date-type-from-props",
-        "no-internationalized-date-import",
+        "parse-date-import-from-internationalized-date",
         "no-null-state-without-type"
       ]
     },
@@ -2450,6 +2456,17 @@
             "<DotIcon color=\"success\" />"
           ],
           "completeExample": "import { DotIcon } from '@tale-ui/react/dot-icon';\n\nexport function Example() {\n  return (\n    <>\n      <DotIcon color=\"success\" />\n      <DotIcon color=\"error\" size=\"lg\" />\n    </>\n  );\n}"
+        },
+        {
+          "id": "use-the-color-prop-not",
+          "summary": "Use the color prop, not type, variant, or status",
+          "detail": "`DotIcon` has no `type` prop; passing `type=\"success\"` causes a TypeScript error. Use the semantic `color` prop instead.",
+          "antiPatterns": [
+            "<DotIcon type=\"success\" />"
+          ],
+          "fixes": [
+            "<DotIcon color=\"success\" />"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -2736,7 +2753,7 @@
       ],
       "parts": null,
       "examples": [
-        "import { Icon } from '@tale-ui/react/icon';\nimport { AlertCircle } from 'lucide-react';\n\n<FeaturedIcon variant=\"error\">\n  <Icon icon={AlertCircle} />\n</FeaturedIcon>",
+        "import { FeaturedIcon } from '@tale-ui/react/featured-icon';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Bell } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <FeaturedIcon variant=\"brand\">\n      <Icon icon={Bell} />\n    </FeaturedIcon>\n  );\n}",
         "import { Icon } from '@tale-ui/react/icon';\nimport { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-react';\n\n<FeaturedIcon variant=\"brand\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"error\"><Icon icon={AlertCircle} /></FeaturedIcon>\n<FeaturedIcon variant=\"warning\"><Icon icon={AlertTriangle} /></FeaturedIcon>\n<FeaturedIcon variant=\"success\"><Icon icon={CheckCircle} /></FeaturedIcon>\n<FeaturedIcon variant=\"neutral\"><Icon icon={Info} /></FeaturedIcon>",
         "<FeaturedIcon variant=\"brand\" shape=\"circle\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon variant=\"brand\" shape=\"square\"><Icon icon={Star} /></FeaturedIcon>",
         "<FeaturedIcon size=\"sm\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon size=\"md\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon size=\"lg\"><Icon icon={Star} /></FeaturedIcon>\n<FeaturedIcon size=\"xl\"><Icon icon={Star} /></FeaturedIcon>",
@@ -2765,7 +2782,7 @@
         {
           "id": "featured-icon-no-icon-prop",
           "summary": "Does NOT accept an icon prop — takes an <Icon> child, with no .Root variant",
-          "detail": "pass an `<Icon>` component as children; import both `FeaturedIcon` from `@tale-ui/react/featured-icon` and the lucide icon from `lucide-react`.\n\n    ```tsx\n    import { FeaturedIcon } from '@tale-ui/react/featured-icon';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Bell } from 'lucide-react';\n    export function MyComponent() {\n      return <FeaturedIcon size=\"lg\"><Icon icon={Bell} /></FeaturedIcon>;\n    }\n    ```## Notes\n\n- Custom component -- not built on a React Aria primitive.\n- Pass an `<Icon>` component as children.\n- Default shape is `circle`, default variant is `brand`, default size is `md`.",
+          "detail": "pass an `<Icon>` component as children; import both `FeaturedIcon` from `@tale-ui/react/featured-icon` and the lucide icon from `lucide-react`.\n\n    ```tsx\n    import { FeaturedIcon } from '@tale-ui/react/featured-icon';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Bell } from 'lucide-react';\n    export function MyComponent() {\n      return <FeaturedIcon size=\"lg\"><Icon icon={Bell} /></FeaturedIcon>;\n    }\n    ```",
           "antiPatterns": [
             "<FeaturedIcon icon={Bell} />",
             "<FeaturedIcon />"
@@ -2774,6 +2791,17 @@
             "<FeaturedIcon size=\"lg\"><Icon icon={Bell} /></FeaturedIcon>"
           ],
           "completeExample": "import { FeaturedIcon } from '@tale-ui/react/featured-icon';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Bell } from 'lucide-react';\nexport function MyComponent() {\n  return <FeaturedIcon size=\"lg\"><Icon icon={Bell} /></FeaturedIcon>;\n}"
+        },
+        {
+          "id": "featured-icon-generic-prompts-use-default-visual-props",
+          "summary": "Use default FeaturedIcon visual props for generic prompts",
+          "detail": "adding non-default `theme`, `size`, `shape`, or decorative styling when the prompt only asks for a generic featured icon makes generations non-deterministic and drifts from the canonical design.",
+          "antiPatterns": [
+            "<FeaturedIcon variant=\"brand\" theme=\"gradient\" size=\"lg\"><Icon icon={Bell} /></FeaturedIcon>"
+          ],
+          "fixes": [
+            "<FeaturedIcon variant=\"brand\"><Icon icon={Bell} /></FeaturedIcon>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -2875,6 +2903,17 @@
             "<Fieldset.Legend>Shipping address</Fieldset.Legend>"
           ],
           "completeExample": "import { Fieldset } from '@tale-ui/react/fieldset';\nimport { TextField } from '@tale-ui/react/text-field';\n\nexport function Example() {\n  return (\n    <Fieldset.Root>\n      <Fieldset.Legend>Shipping Address</Fieldset.Legend>\n      <TextField.Root>\n        <TextField.Label>Street</TextField.Label>\n        <TextField.Input />\n      </TextField.Root>\n    </Fieldset.Root>\n  );\n}"
+        },
+        {
+          "id": "fieldset-column-gap-token",
+          "summary": "When stacking fields inside Fieldset.Root with Column, use spacing-token gap values, not component size names",
+          "detail": "`gap=\"md\"` is not a valid `Gap` value and causes a TypeScript error; use `gap=\"m\"` instead.",
+          "antiPatterns": [
+            "<Column gap=\"md\">"
+          ],
+          "fixes": [
+            "<Column gap=\"m\">"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -2990,6 +3029,20 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "selectedKeys",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
@@ -3000,7 +3053,8 @@
         "<GridList.Root aria-label=\"Items\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">Item 3</GridList.Item>\n</GridList.Root>",
         "<GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">Item 3</GridList.Item>\n</GridList.Root>",
         "import { GridList } from '@tale-ui/react/grid-list';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Star, Heart, Bell } from 'lucide-react';\n\n<GridList.Root aria-label=\"Items\" selectionMode=\"single\">\n  <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n</GridList.Root>",
-        "import { GridList } from '@tale-ui/react/grid-list';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Star, Heart, Bell } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n          <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n          <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n        </GridList.Root>\n      );\n    }"
+        "import { GridList } from '@tale-ui/react/grid-list';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Star, Heart, Bell } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n          <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n          <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n        </GridList.Root>\n      );\n    }",
+        "import * as React from 'react';\n    import { useState } from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    export function Example() {\n      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Items\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n        >\n          <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n        </GridList.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-grid-list",
@@ -3021,13 +3075,27 @@
         },
         {
           "id": "grid-list-on-selection-change-set",
-          "summary": "Do NOT annotate onSelectionChange parameter as Set<string>",
-          "detail": "the parameter type is `Selection`; cast inside the handler if needed.",
+          "summary": "Do NOT annotate onSelectionChange parameter as Set<string> or import Selection from react-aria-components",
+          "detail": "consumers do not depend on `react-aria-components` directly, so that import causes \"Cannot find module\" errors. Derive the selection type from `GridList.Root` props with `React.ComponentProps`, or omit the callback parameter annotation.\n    ```tsx\n    import * as React from 'react';\n    import { useState } from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    export function Example() {\n      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Items\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n        >\n          <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n        </GridList.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
-            "onSelectionChange={(keys: Set<string>) => setSelected(keys)}"
+            "onSelectionChange={(keys: Set<string>) => setSelected(keys)}",
+            "import type { Selection } from 'react-aria-components';"
           ],
           "fixes": [
-            "onSelectionChange={(keys: Selection) => setSelected(keys)}"
+            "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];",
+            "onSelectionChange={(keys) => setSelected(keys)}"
+          ],
+          "completeExample": "import * as React from 'react';\nimport { useState } from 'react';\nimport { GridList } from '@tale-ui/react/grid-list';\n\ntype SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n\nexport function Example() {\n  const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n\n  return (\n    <GridList.Root\n      aria-label=\"Items\"\n      selectionMode=\"multiple\"\n      selectedKeys={selectedKeys}\n      onSelectionChange={setSelectedKeys}\n    >\n      <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n      <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n    </GridList.Root>\n  );\n}"
+        },
+        {
+          "id": "grid-list-column-gap-token",
+          "summary": "When wrapping GridList in a Column or Row layout container, use spacing-token gap values — never component-size names",
+          "detail": "`gap=\"md\"` on an outer `<Column>` or `<Row>` causes `Type '\"md\"' is not assignable to type 'Gap | undefined'`; always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to the outermost page-level Column wrapper and to any Column used inside `GridList.Item` children.",
+          "antiPatterns": [
+            "<Column gap=\"md\"><GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">...</GridList.Root></Column>"
+          ],
+          "fixes": [
+            "<Column gap=\"m\"><GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">...</GridList.Root></Column>"
           ]
         }
       ],
@@ -3118,7 +3186,8 @@
           "detail": "pass the icon class itself, not `<Bell />`. The prop is named `icon`, not `svg`, `component`, or any other alias; using `svg={...}` causes a TypeScript 'not assignable to type IconProps' error.\n    ```tsx\n    import { Icon } from '@tale-ui/react/icon';\n    import { Heart } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <>\n          <Icon icon={Heart} size=\"md\" />\n          <Icon icon={Heart} size=\"lg\" label=\"Favorite\" />\n        </>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Icon icon={<Bell />} />",
-            "<Icon svg={Bell} />"
+            "<Icon svg={Bell} />",
+            "<Icon><svg>...</svg></Icon>"
           ],
           "fixes": [
             "<Icon icon={Bell} />"
@@ -3134,6 +3203,18 @@
           ],
           "fixes": [
             "import { Bell } from 'lucide-react';"
+          ]
+        },
+        {
+          "id": "icon-image-name-collision",
+          "summary": "Avoid Icon Image name collisions",
+          "detail": "`Icon` expects an SVG icon component, not the `Image` component from `@tale-ui/react/image`. When a file-tree or favicon row needs an image glyph, import a lucide icon with a non-conflicting name such as `ImageIcon` or `FileImage`.",
+          "antiPatterns": [
+            "import { Image } from '@tale-ui/react/image'; <Icon icon={Image} />",
+            "import { Image } from 'lucide-react'; import { Image } from '@tale-ui/react/image';"
+          ],
+          "fixes": [
+            "import { ImageIcon } from 'lucide-react'; <Icon icon={ImageIcon} />"
           ]
         },
         {
@@ -3239,6 +3320,17 @@
           ],
           "fixes": [
             "<Tooltip.Trigger aria-label=\"Info\" className=\"tale-icon-button tale-icon-button--md\"><Icon icon={Info} /></Tooltip.Trigger>"
+          ]
+        },
+        {
+          "id": "use-iconbutton-for-icononly-actions",
+          "summary": "Use <IconButton> for icon-only actions, not <Button> or a native <button>",
+          "detail": "when a prompt asks for an \"icon button\", render the `IconButton` component itself and include an `<Icon>` child for the glyph. Do not substitute `Button` with an icon, and do not omit the `Icon` child.",
+          "antiPatterns": [
+            "import { Button } from '@tale-ui/react/button'; import { Trash } from 'lucide-react'; export function DeleteButton() { return <Button variant=\"danger\" aria-label=\"Delete item\"><Trash /></Button>; }"
+          ],
+          "fixes": [
+            "import { IconButton } from '@tale-ui/react/icon-button'; import { Icon } from '@tale-ui/react/icon'; import { Trash } from 'lucide-react'; export function DeleteButton() { return <IconButton variant=\"danger\" aria-label=\"Delete item\"><Icon icon={Trash} /></IconButton>; }"
           ]
         }
       ],
@@ -4512,6 +4604,17 @@
           "completeExample": "import { RangeCalendar } from '@tale-ui/react/range-calendar';\n\nexport function Example() {\n  return (\n    <RangeCalendar.Root>\n      <RangeCalendar.Header>\n        <RangeCalendar.PreviousButton />\n        <RangeCalendar.Heading />\n        <RangeCalendar.NextButton />\n      </RangeCalendar.Header>\n      <RangeCalendar.Grid>\n        <RangeCalendar.GridHeader>\n          {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n        </RangeCalendar.GridHeader>\n        <RangeCalendar.GridBody>\n          {(date) => <RangeCalendar.Cell date={date} />}\n        </RangeCalendar.GridBody>\n      </RangeCalendar.Grid>\n    </RangeCalendar.Root>\n  );\n}"
         },
         {
+          "id": "range-calendar-column-gap-token",
+          "summary": "When wrapping RangeCalendar in a Column to show the selected range, use spacing-token gap values, not component-size names",
+          "detail": "the typical pattern places `<RangeCalendar.Root>` and a `<Text>` inside a `<Column>`; Column gap must be a spacing token (`'s'`, `'m'`, `'l'`), never a size name (`'sm'`, `'md'`, `'lg'`).",
+          "antiPatterns": [
+            "<Column gap=\"md\"><RangeCalendar.Root /><Text>...</Text></Column>"
+          ],
+          "fixes": [
+            "<Column gap=\"m\"><RangeCalendar.Root /><Text>...</Text></Column>"
+          ]
+        },
+        {
           "id": "range-calendar-unavailable-prop",
           "summary": "Use isDateUnavailable to disable dates, not isOutsideRange",
           "detail": "The correct prop for disabling specific dates is `isDateUnavailable` (a function that returns `true` for dates to disable). There is no `isOutsideRange` prop.",
@@ -4528,7 +4631,7 @@
         "no-native-date",
         "derive-date-type-from-props",
         "no-null-state-without-type",
-        "no-internationalized-date-import"
+        "parse-date-import-from-internationalized-date"
       ]
     },
     {
@@ -5224,6 +5327,18 @@
             "<SocialButton provider=\"google\">Sign in with Google</SocialButton>"
           ],
           "completeExample": "import { SocialButton } from '@tale-ui/react/social-button';\n\nexport function Example() {\n  return (\n    <>\n      <SocialButton provider=\"google\">Sign in with Google</SocialButton>\n      <SocialButton provider=\"github\" size=\"sm\">Continue with GitHub</SocialButton>\n    </>\n  );\n}"
+        },
+        {
+          "id": "use-socialbutton-for-any-social",
+          "summary": "Use SocialButton for any social sign-in, sign-up, or OAuth button prompt",
+          "detail": "when a prompt asks for a Google, GitHub, Apple, X, or Facebook auth button, render the `SocialButton` component itself instead of a generic `Button`, custom markup, or an empty placeholder. This ensures the correct built-in provider styling and icon are used.",
+          "antiPatterns": [
+            "import { Button } from '@tale-ui/react/button'; export function SignInWithGoogle() { return <Button>Sign in with Google</Button>; }",
+            "// empty file"
+          ],
+          "fixes": [
+            "import { SocialButton } from '@tale-ui/react/social-button'; export function SignInWithGoogle() { return <SocialButton provider=\"google\">Sign in with Google</SocialButton>; }"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -5812,6 +5927,30 @@
           "fixes": [
             "<Text color=\"muted\">Note</Text>"
           ]
+        },
+        {
+          "id": "text-uses-separate-variant-size-color-props",
+          "summary": "Text has no boolean muted prop — use color=\"muted\" for secondary text, plus separate variant/size props when needed",
+          "detail": "`muted` is a common shorthand in other libraries, but Tale UI `Text` controls tone only through the `color` prop; using `<Text muted>` causes a TypeScript error.",
+          "antiPatterns": [
+            "<Text muted>This action cannot be undone.</Text>",
+            "<Text muted variant=\"body-sm\">This action cannot be undone.</Text>"
+          ],
+          "fixes": [
+            "<Text as=\"p\" color=\"muted\">This action cannot be undone.</Text>",
+            "<Text as=\"p\" variant=\"text\" size=\"s\" color=\"muted\">This action cannot be undone.</Text>"
+          ]
+        },
+        {
+          "id": "for-muted-or-secondary-paragraph",
+          "summary": "Use color=\"muted\" for muted secondary paragraph copy",
+          "detail": "prompts that ask for subdued body text should not be translated into generic component tokens like `'md'` or neutral color names; on `Text`, the muted tone is `color=\"muted\"` and paragraph sizing should usually stay implicit unless the prompt asks for a specific text scale.",
+          "antiPatterns": [
+            "<Text size=\"md\" color=\"neutral\">This action cannot be undone.</Text>"
+          ],
+          "fixes": [
+            "<Text as=\"p\" color=\"muted\">This action cannot be undone.</Text>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -6032,8 +6171,8 @@
       ],
       "parts": null,
       "examples": [
-        "<ToggleButton size=\"md\">Toggle me</ToggleButton>",
-        "<ToggleButton defaultSelected>Pressed</ToggleButton>",
+        "import { ToggleButton } from '@tale-ui/react/toggle-button';\n\nexport function Example() {\n  return <ToggleButton size=\"md\">Toggle me</ToggleButton>;\n}",
+        "import { ToggleButton } from '@tale-ui/react/toggle-button';\n\nexport function PressedToggleButton() {\n  return <ToggleButton defaultSelected>Pressed</ToggleButton>;\n}",
         "<ToggleButton isDisabled>Disabled</ToggleButton>",
         "<ToggleButtonGroup aria-label=\"Text formatting\">\n  <ToggleButton>Bold</ToggleButton>\n  <ToggleButton>Italic</ToggleButton>\n  <ToggleButton>Underline</ToggleButton>\n</ToggleButtonGroup>",
         "<ToggleButton size=\"sm\">Small</ToggleButton>\n<ToggleButton size=\"md\">Medium</ToggleButton>\n<ToggleButton size=\"lg\">Large</ToggleButton>",
@@ -6068,6 +6207,18 @@
           ],
           "fixes": [
             "<ToggleButton defaultSelected>Bold</ToggleButton>"
+          ]
+        },
+        {
+          "id": "use-togglebutton-for-any-prompt",
+          "summary": "Use <ToggleButton> for any prompt that asks for a toggle button or formatting toggle",
+          "detail": "when the request is for a toggleable action such as bold, italic, underline, mute, favorite, or similar on/off formatting/state controls, render the `ToggleButton` component itself instead of a generic `Button`, `Toolbar.Button`, custom button markup, or an empty placeholder.",
+          "antiPatterns": [
+            "import { Button } from '@tale-ui/react/button'; export function BoldToggle() { return <Button>Bold</Button>; }",
+            "// empty file"
+          ],
+          "fixes": [
+            "import { ToggleButton } from '@tale-ui/react/toggle-button'; export function BoldToggle() { return <ToggleButton>Bold</ToggleButton>; }"
           ]
         }
       ],

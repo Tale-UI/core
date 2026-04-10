@@ -64,6 +64,11 @@ Also accepts all standard `<button>` HTML attributes.
       );
     }
     ```
+<!-- pitfall: use-socialbutton-for-any-social -->
+- **Use `SocialButton` for any social sign-in, sign-up, or OAuth button prompt** — when a prompt asks for a Google, GitHub, Apple, X, or Facebook auth button, render the `SocialButton` component itself instead of a generic `Button`, custom markup, or an empty placeholder. This ensures the correct built-in provider styling and icon are used.
+  - anti-pattern: `import { Button } from '@tale-ui/react/button'; export function SignInWithGoogle() { return <Button>Sign in with Google</Button>; }`
+  - anti-pattern: `// empty file`
+  - fix: `import { SocialButton } from '@tale-ui/react/social-button'; export function SignInWithGoogle() { return <SocialButton provider="google">Sign in with Google</SocialButton>; }`
 
 ## Notes
 

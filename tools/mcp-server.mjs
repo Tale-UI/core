@@ -204,6 +204,10 @@ const SYNONYMS = {
   overlay: ['Dialog', 'AlertDialog', 'Drawer', 'Popover'],
   sidebar: ['Drawer', 'NavigationMenu'],
   toggle: ['Switch', 'ToggleButton', 'ToggleButtonGroup'],
+  'toggle button': ['ToggleButton'],
+  'formatting toggle': ['ToggleButton'],
+  'text formatting': ['ToggleButton', 'ToggleButtonGroup'],
+  bold: ['ToggleButton'],
   toast: ['Banner'],
   notification: ['Banner'],
   alert: ['Banner', 'AlertDialog'],
@@ -331,7 +335,7 @@ server.tool(
 // Tool: get_component
 server.tool(
   'get_component',
-  'Get full details for a specific Tale UI component including props (with allowedValues arrays for enum props), parts, examples, and CSS classes. ALWAYS call this before generating code with any component — props include exact allowed strings for variant/size/etc so you never guess values.',
+  'Get full details for a specific Tale UI component including props (with allowedValues arrays for enum props), parts, examples, and CSS classes. ALWAYS call this before generating code with any component — props include exact allowed strings for variant/size/etc so you never guess values. If the prompt does not request bespoke styling, use the component\'s default visual props and basic example as the baseline instead of inventing a nicer-looking variant, theme, size, shape, or color.',
   { name: z.string().describe('Component name (PascalCase like "Button" or kebab-case like "date-picker")') },
   async ({ name }) => {
     const registry = loadRegistry();
@@ -633,7 +637,7 @@ server.tool(
 // Tool: plan_ui
 server.tool(
   'plan_ui',
-  'Given a plain-language description of UI to build, return a structured component plan: which Tale UI components to use, how they nest, which recipe (if any) applies, and key pitfalls to avoid. Call this BEFORE generating any JSX so you choose the right components first.',
+  'Given a plain-language description of UI to build, return a structured component plan: which Tale UI components to use, how they nest, which recipe (if any) applies, and key pitfalls to avoid. Call this BEFORE generating any JSX so you choose the right components first. Unless the prompt explicitly requests a stylistic variation, assume default visual props and canonical basic composition.',
   { prompt: z.string().describe('Plain-language description of the UI you want to build (e.g. "a settings form with text fields and a save button")') },
   async ({ prompt }) => {
     const registry = loadRegistry();
@@ -673,6 +677,11 @@ server.tool(
       lines.push(`**${recipeMatch.title}** — \`${recipeMatch.slug}\``);
       lines.push('Call `get_recipe` with this slug for a copy-paste starting point.\n');
     }
+
+    lines.push('### Default visual style\n');
+    lines.push('- Use each component\'s default visual props when the prompt does not ask for a specific appearance.');
+    lines.push('- Do not invent non-default `variant`, `theme`, `size`, `shape`, `color`, or decorative modifiers just to make the UI look nicer.');
+    lines.push('- Prefer the component\'s basic example/default composition as the canonical baseline.\n');
 
     // Gather full pitfall details from structured data for matched components
     const pitfallLines = [];
@@ -793,9 +802,10 @@ server.tool(
 
     lines.push('### Next steps\n');
     lines.push('1. Call `get_component` on each component above for exact props, allowed values, and sub-parts — even if a complete example is shown, `get_component` is the authoritative API reference.');
-    lines.push('2. If a pitfall has a `complete example:` block that matches your prompt, use it as the starting point for the JSX, but verify the import path and props against `get_component` output first.');
-    lines.push('3. If a recipe was found, call `get_recipe` for the complete pattern.');
-    lines.push('4. Generate JSX using only the components listed. Call `validate_code` afterwards.');
+    lines.push('2. If the prompt is underspecified visually, start from the component\'s basic example and keep default visual props; do not add non-default `variant`, `theme`, `size`, `shape`, `color`, or decorative modifiers unless requested.');
+    lines.push('3. If a pitfall has a `complete example:` block that matches your prompt, use it as the starting point for the JSX, but verify the import path and props against `get_component` output first.');
+    lines.push('4. If a recipe was found, call `get_recipe` for the complete pattern.');
+    lines.push('5. Generate JSX using only the components listed. Call `validate_code` afterwards.');
 
     return {
       content: [{ type: 'text', text: lines.join('\n') }],

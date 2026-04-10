@@ -64,6 +64,10 @@ Also accepts all standard `<span>` HTML attributes except `children`.
       );
     }
     ```
+<!-- pitfall: use-the-color-prop-not -->
+- **Use the `color` prop, not `type`, `variant`, or `status`** — `DotIcon` has no `type` prop; passing `type="success"` causes a TypeScript error. Use the semantic `color` prop instead.
+  - anti-pattern: `<DotIcon type="success" />`
+  - fix: `<DotIcon color="success" />`
 
 ## Notes
 

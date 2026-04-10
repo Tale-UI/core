@@ -85,12 +85,12 @@ explicit BEM class names:
   - anti-pattern: `<Calendar.Root value={new Date()} />`
   - fix: `<Calendar.Root defaultValue={parseDate('2024-01-15')} />`
 
-<!-- pitfall: no-internationalized-date-import -->
+<!-- pitfall: parse-date-import-from-internationalized-date -->
 <!-- applies-to: Calendar, RangeCalendar, DatePicker, DateRangePicker, DateField, TimeField -->
 <!-- category: controlled-state -->
-- **Do not import from `@internationalized/date` unless it is a direct project dependency** — it is an internal package not available in consumer projects; importing it causes "Cannot find module" TypeScript errors.
-  - anti-pattern: `import { parseDate } from '@internationalized/date';`
-  - fix: `import { parseDate } from '@tale-ui/react/calendar';`
+- **Import parseDate from @internationalized/date, not from @tale-ui/react component modules** — `parseDate` is NOT exported from `@tale-ui/react/calendar` or any other `@tale-ui/react/*` path; importing it there causes "has no exported member" TypeScript errors. Use `@internationalized/date` directly — it is available in consumer projects and is an allowed import prefix.
+  - anti-pattern: `import { parseDate } from '@tale-ui/react/calendar';`
+  - fix: `import { parseDate } from '@internationalized/date';`
 
 <!-- pitfall: no-locale-prop-on-calendar -->
 <!-- applies-to: Calendar, RangeCalendar -->
@@ -271,9 +271,15 @@ explicit BEM class names:
 <!-- pitfall: row-column-gap-uses-token-scale -->
 <!-- applies-to: Row, Column -->
 <!-- category: layout -->
-- **`Row`/`Column` `gap` uses spacing token values (`'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`), not component size names** — `'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes TypeScript errors.
+- **Row/Column gap uses spacing token values ('xs', 's', 'm', 'l', 'xl', '2xl'), not component size names — this is the most common layout error** — `'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes a TypeScript error `Type '"md"' is not assignable to type 'Gap | undefined'`. Always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as `GridList.Item` or `Carousel.Item`, calendar wrappers, or any other slot.
   - anti-pattern: `<Row gap="sm">`
+  - anti-pattern: `<Column gap="md">`
+  - anti-pattern: `<Column gap="lg">`
+  - anti-pattern: `<Carousel.Item><Column gap="sm">...</Column></Carousel.Item>`
   - fix: `<Row gap="s">`
+  - fix: `<Column gap="m">`
+  - fix: `<Column gap="l">`
+  - fix: `<Carousel.Item><Column gap="s">...</Column></Carousel.Item>`
 
 <!-- pitfall: row-justify-shorthand -->
 <!-- applies-to: Row -->
@@ -352,10 +358,18 @@ explicit BEM class names:
   - anti-pattern: `export const MyComponent: React.FC = () => { ... }`
   - fix: `export function MyComponent() { ... }`
 
+<!-- pitfall: use-default-visual-props-when-styling-is-unspecified -->
+<!-- applies-to: * -->
+<!-- category: visual-defaults -->
+- **Use default visual props when the prompt does not request styling** — inventing non-default `variant`, `theme`, `size`, `shape`, `color`, or decorative modifiers makes underspecified prompts non-deterministic and drifts from the canonical component design.
+  - anti-pattern: `<FeaturedIcon variant="brand" theme="gradient" size="lg"><Icon icon={Bell} /></FeaturedIcon>`
+  - fix: `<FeaturedIcon variant="brand"><Icon icon={Bell} /></FeaturedIcon>`
+
 <!-- pitfall: always-generate-code-directly-never -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
 - **Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block** — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all.
+  - anti-pattern: `// empty file`
   - anti-pattern: `export function MyComponent() {}`
   - fix: `import { Text } from '@tale-ui/react/text'; export function MyComponent() { return <Text>Hello</Text>; }`
   - fix (for 'Create a primary button that says Save'): `import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant="primary">Save</Button>; }`
@@ -402,3 +416,9 @@ explicit BEM class names:
 - **Never use bare `<p>` or `<span>` for text content — always use `<Text>` from `@tale-ui/react/text`** — bare paragraph and span tags bypass Tale UI typography tokens and cannot accept `color` or `variant` props.
   - anti-pattern: `<p style={{ color: 'gray' }}>This action cannot be undone.</p>`
   - fix: `<Text color="muted">This action cannot be undone.</Text>`
+<!-- pitfall: component-names-must-be-valid -->
+<!-- applies-to: * -->
+<!-- category: typescript -->
+- **Component names must be valid PascalCase identifiers with no spaces** — exported React component names must be a single valid JavaScript/TypeScript identifier; spaces, hyphens, or other invalid characters in the function name cause parser errors before JSX is checked.
+  - anti-pattern: `export function Notification bell() {}`
+  - fix: `export function NotificationBell() {}`

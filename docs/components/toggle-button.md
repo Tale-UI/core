@@ -30,7 +30,11 @@ No Tale UI-specific props. Also accepts all React Aria `ToggleButtonGroup` props
 ## Basic Usage
 
 ```tsx
-<ToggleButton size="md">Toggle me</ToggleButton>
+import { ToggleButton } from '@tale-ui/react/toggle-button';
+
+export function Example() {
+  return <ToggleButton size="md">Toggle me</ToggleButton>;
+}
 ```
 
 ## Examples
@@ -38,7 +42,11 @@ No Tale UI-specific props. Also accepts all React Aria `ToggleButtonGroup` props
 ### Pressed by Default
 
 ```tsx
-<ToggleButton defaultSelected>Pressed</ToggleButton>
+import { ToggleButton } from '@tale-ui/react/toggle-button';
+
+export function PressedToggleButton() {
+  return <ToggleButton defaultSelected>Pressed</ToggleButton>;
+}
 ```
 
 ### Disabled
@@ -93,6 +101,11 @@ No Tale UI-specific props. Also accepts all React Aria `ToggleButtonGroup` props
 - **Does NOT accept a `value` prop.**
   - anti-pattern: `<ToggleButton value="bold">Bold</ToggleButton>`
   - fix: `<ToggleButton defaultSelected>Bold</ToggleButton>`
+<!-- pitfall: use-togglebutton-for-any-prompt -->
+- **Use <ToggleButton> for any prompt that asks for a toggle button or formatting toggle** — when the request is for a toggleable action such as bold, italic, underline, mute, favorite, or similar on/off formatting/state controls, render the `ToggleButton` component itself instead of a generic `Button`, `Toolbar.Button`, custom button markup, or an empty placeholder.
+  - anti-pattern: `import { Button } from '@tale-ui/react/button'; export function BoldToggle() { return <Button>Bold</Button>; }`
+  - anti-pattern: `// empty file`
+  - fix: `import { ToggleButton } from '@tale-ui/react/toggle-button'; export function BoldToggle() { return <ToggleButton>Bold</ToggleButton>; }`
 
 ## Notes
 

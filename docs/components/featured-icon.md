@@ -18,12 +18,17 @@ Also accepts all standard `<span>` HTML attributes.
 ## Basic Usage
 
 ```tsx
+import { FeaturedIcon } from '@tale-ui/react/featured-icon';
 import { Icon } from '@tale-ui/react/icon';
-import { AlertCircle } from 'lucide-react';
+import { Bell } from 'lucide-react';
 
-<FeaturedIcon variant="error">
-  <Icon icon={AlertCircle} />
-</FeaturedIcon>
+export function Example() {
+  return (
+    <FeaturedIcon variant="brand">
+      <Icon icon={Bell} />
+    </FeaturedIcon>
+  );
+}
 ```
 
 ## Examples
@@ -96,7 +101,14 @@ import { Star, AlertCircle, AlertTriangle, CheckCircle, Info } from 'lucide-reac
     export function MyComponent() {
       return <FeaturedIcon size="lg"><Icon icon={Bell} /></FeaturedIcon>;
     }
-    ```## Notes
+    ```
+
+<!-- pitfall: featured-icon-generic-prompts-use-default-visual-props -->
+- **Use default `FeaturedIcon` visual props for generic prompts** — adding non-default `theme`, `size`, `shape`, or decorative styling when the prompt only asks for a generic featured icon makes generations non-deterministic and drifts from the canonical design.
+  - anti-pattern: `<FeaturedIcon variant="brand" theme="gradient" size="lg"><Icon icon={Bell} /></FeaturedIcon>`
+  - fix: `<FeaturedIcon variant="brand"><Icon icon={Bell} /></FeaturedIcon>`
+
+## Notes
 
 - Custom component -- not built on a React Aria primitive.
 - Pass an `<Icon>` component as children.
