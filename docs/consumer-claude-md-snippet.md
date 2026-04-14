@@ -10,7 +10,7 @@ This project uses `@tale-ui/react` for all UI components.
 
 Before generating or modifying component code, you MUST:
 
-0. **Plan before generating JSX.** If the Tale UI MCP server is available, call the `plan_ui` tool with the UI description first. It returns which components to use, a matching recipe if one exists, and key pitfalls — so you choose the right components before writing a single line of JSX. Skip this step only if you are making a trivial single-component change.
+0. **Plan before generating JSX.** Call the `plan_ui` tool with the UI description first. It returns which components to use, a matching recipe if one exists, and key pitfalls — so you choose the right components before writing a single line of JSX. Skip this step only if you are making a trivial single-component change.
 
 1. **Read the setup guide** in `node_modules/@tale-ui/react/README.md` — it contains critical configuration (font-size base, style imports, dark mode, theme overrides) that will produce broken output if skipped.
 
@@ -32,7 +32,7 @@ Before generating or modifying component code, you MUST:
 
 4. **Do not guess component APIs.** Always check the `@example` block first. Incorrect usage (wrong sub-part names, missing wrapper components, wrong import paths) causes build failures.
 
-5. **Component pitfalls:** Each component has known pitfalls documented in `node_modules/@tale-ui/react/docs/components/{name}.md` under `## Pitfalls`. If the Tale UI MCP server is available, call `get_component("{Name}")` — it returns the component's full pitfall list including anti-patterns and fixes. Cross-component pitfalls (trigger styling, date types, import paths) are surfaced by `plan_ui` automatically.
+5. **Component pitfalls:** Call `get_component("{Name}")` for each component you intend to use — it returns the full pitfall list including anti-patterns and fixes. Cross-component pitfalls (trigger styling, date types, import paths) are surfaced by `plan_ui` automatically.
 
 ## Namespace vs Simple components
 
