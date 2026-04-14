@@ -346,6 +346,7 @@ Rules:
 - Return ONLY the code block, no explanation before or after.
 - Use Tale UI components exclusively — no raw HTML layout elements like <div> where a Tale UI layout component exists.
 - Do not include app-level global stylesheet imports such as '@tale-ui/react/styles' or '@tale-ui/react-styles' unless the prompt is specifically about app setup or styling infrastructure.
+- Do not add inline styles to Tale UI components unless they are strictly layout-related (for example width, height, spacing, or positioning). Never use inline styles for visual treatment like colors, backgrounds, borders, shadows, or radii on components.
 - Follow all import, composition, and pitfall rules listed above exactly.`;
 }
 
@@ -397,8 +398,8 @@ function makeCallCacheKey(slug, promptText) {
   return `${modePrefix}${MODEL}:${snippetHash}:${registryHash}:${hashString(slug + promptText)}`;
 }
 
-function makeCheckCacheKey(code) {
-  return `${registryHash}:${hashString(code)}`;
+function makeCheckCacheKey(code, promptText = '') {
+  return `${registryHash}:${hashString(promptText)}:${hashString(code)}`;
 }
 
 // Load call cache (bypassed by --no-cache / --fresh)
@@ -987,14 +988,18 @@ async function evalPrompt(prompt, nth, total) {
     l2 = { pass: false, missing: prompt.tags ?? [] };
     l3 = { pass: false, forbidden: [] };
   } else {
-    const checkKey = makeCheckCacheKey(code);
+    const checkKey = makeCheckCacheKey(code, prompt.prompt ?? '');
     const cachedChecks = checkCache[checkKey];
 
     if (cachedChecks) {
       ({ l1, l2, l3 } = cachedChecks);
       checkCacheHit = true;
     } else {
-      l1 = checkL1(code, { root: ROOT, validatorPath: join(__dirname, 'validate-generated.mjs') });
+      l1 = checkL1(code, {
+        root: ROOT,
+        validatorPath: join(__dirname, 'validate-generated.mjs'),
+        prompt: prompt.prompt ?? '',
+      });
       l2 = checkL2(code, prompt.tags ?? []);
       l3 = checkL3(code);
       saveCheckCache(checkKey, { l1, l2, l3 });

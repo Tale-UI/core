@@ -206,6 +206,11 @@ import { Menu } from '@tale-ui/react/menu';
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 <!-- cross-pitfall-ref: no-button-inside-trigger -->
+<!-- pitfall: use-menu-for-any-prompt -->
+- **Use `<Menu>` for any prompt that asks for a dropdown menu, action menu, or options menu** — when the request is for a button-triggered list of actions, render the `Menu` component itself instead of a plain `Button`, custom popover markup, or an empty placeholder.
+  - anti-pattern: `import { Button } from '@tale-ui/react/button'; export function FileActions() { return <Button>File</Button>; }`
+  - anti-pattern: `// empty file`
+  - fix: `import { Menu } from '@tale-ui/react/menu'; export function FileActions() { return <Menu.Root><Menu.Trigger className="tale-button tale-button--neutral tale-button--md">File</Menu.Trigger><Menu.Popover><Menu.MenuList><Menu.Item id="new">New</Menu.Item><Menu.Separator /><Menu.Item id="close">Close</Menu.Item></Menu.MenuList></Menu.Popover></Menu.Root>; }`
 
 ## Notes
 

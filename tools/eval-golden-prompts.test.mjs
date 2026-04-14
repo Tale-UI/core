@@ -4,7 +4,11 @@ import { mkdtempSync, rmSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
 
-import { buildCodexExecArgs, buildCodexMcpConfigOverride } from './eval-golden-prompts-lib.mjs';
+import {
+  buildCodexExecArgs,
+  buildCodexMcpConfigOverride,
+  checkComponentStylePolicy,
+} from './eval-golden-prompts-lib.mjs';
 
 function withTempMcpConfig(config, fn) {
   const dir = mkdtempSync(join(tmpdir(), 'tale-ui-codex-mcp-'));
@@ -107,4 +111,43 @@ test('buildCodexExecArgs includes MCP config overrides only for MCP runs', () =>
     'mcp_servers={"tale-ui" = {command = "node", args = ["tools/mcp-server.mjs"]}}',
     '-',
   ]);
+});
+
+test('checkComponentStylePolicy allows layout-only inline styles on components', () => {
+  const result = checkComponentStylePolicy(`
+    export function Example() {
+      return (
+        <ScrollArea.Root style={{ width: 300, height: 200 }}>
+          <TimeField.DateInput style={{ display: 'flex' }}>
+            {() => null}
+          </TimeField.DateInput>
+        </ScrollArea.Root>
+      );
+    }
+  `);
+
+  assert.equal(result.pass, true);
+  assert.deepEqual(result.errors, []);
+});
+
+test('checkComponentStylePolicy rejects visual inline styles on components', () => {
+  const result = checkComponentStylePolicy(`
+    export function Example() {
+      return (
+        <Drawer.Popup
+          style={{
+            position: 'absolute',
+            right: 0,
+            background: 'white',
+            borderLeft: '1px solid black',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+          }}
+        />
+      );
+    }
+  `);
+
+  assert.equal(result.pass, false);
+  assert.match(result.errors[0], /Drawer\.Popup has non-layout inline styles/);
+  assert.match(result.errors[0], /background, borderLeft, boxShadow/);
 });

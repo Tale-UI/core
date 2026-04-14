@@ -243,11 +243,27 @@ if (await fileExists(binDir)) {
   copied++;
 }
 
-// Copy component docs (docs/components/*.md) into build/docs/ for local agent access
-const componentDocsDir = path.join(repoRoot, 'docs', 'components');
-if (await fileExists(componentDocsDir)) {
-  const destDocsDir = path.join(buildDir, 'docs');
-  await fs.cp(componentDocsDir, destDocsDir, { recursive: true });
+// Copy full docs tree into build/docs/ (component guides, recipes, pitfalls, etc.)
+// Consumers reference docs/components/{name}.md; the MCP server uses docs/recipes/ etc.
+const docsDir = path.join(repoRoot, 'docs');
+if (await fileExists(docsDir)) {
+  await fs.cp(docsDir, path.join(buildDir, 'docs'), { recursive: true });
+  copied++;
+}
+
+// Copy registry data files (components.json, pitfalls.json, a2ui-catalog.json)
+// The MCP server reads these at runtime from __dirname/registry/ in consumer mode.
+const registryDir = path.join(repoRoot, 'registry');
+if (await fileExists(registryDir)) {
+  await fs.cp(registryDir, path.join(buildDir, 'registry'), { recursive: true });
+  copied++;
+}
+
+// Copy the MCP server — single source file, no separate consumer copy.
+// IS_MONOREPO detection inside the script handles path differences at runtime.
+const mcpServerSrc = path.join(repoRoot, 'tools', 'mcp-server.mjs');
+if (await fileExists(mcpServerSrc)) {
+  await fs.cp(mcpServerSrc, path.join(buildDir, 'mcp-server.mjs'));
   copied++;
 }
 

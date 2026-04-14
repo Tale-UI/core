@@ -143,6 +143,11 @@ Also accepts all standard HTML attributes for the rendered element.
 - **Use `color="muted"` for muted secondary paragraph copy** — prompts that ask for subdued body text should not be translated into generic component tokens like `'md'` or neutral color names; on `Text`, the muted tone is `color="muted"` and paragraph sizing should usually stay implicit unless the prompt asks for a specific text scale.
   - anti-pattern: `<Text size="md" color="neutral">This action cannot be undone.</Text>`
   - fix: `<Text as="p" color="muted">This action cannot be undone.</Text>`
+<!-- pitfall: color-only-accepts-default-muted -->
+- **color only accepts 'default', 'muted', 'accent'** — no other color values are valid. Common wrong values from other design systems include 'secondary', 'neutral', 'gray', and 'dim'; all map to 'muted'.
+  - anti-pattern: `<Text color="neutral">Note</Text>`
+  - anti-pattern: `<Text color="secondary">Note</Text>`
+  - fix: `<Text color="muted">Note</Text>`
 
 ## Notes
 

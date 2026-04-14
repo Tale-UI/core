@@ -119,6 +119,88 @@ export const ALLOWED_IMPORT_PREFIXES = [
   '@internationalized/',
 ];
 
+const ALLOWED_LAYOUT_STYLE_PROPS = new Set([
+  'alignContent',
+  'alignItems',
+  'alignSelf',
+  'aspectRatio',
+  'bottom',
+  'display',
+  'flex',
+  'flexBasis',
+  'flexDirection',
+  'flexGrow',
+  'flexShrink',
+  'flexWrap',
+  'gap',
+  'gridArea',
+  'gridAutoColumns',
+  'gridAutoFlow',
+  'gridAutoRows',
+  'gridColumn',
+  'gridColumnEnd',
+  'gridColumnStart',
+  'gridRow',
+  'gridRowEnd',
+  'gridRowStart',
+  'gridTemplateAreas',
+  'gridTemplateColumns',
+  'gridTemplateRows',
+  'height',
+  'inset',
+  'insetBlock',
+  'insetBlockEnd',
+  'insetBlockStart',
+  'insetInline',
+  'insetInlineEnd',
+  'insetInlineStart',
+  'justifyContent',
+  'justifyItems',
+  'justifySelf',
+  'left',
+  'margin',
+  'marginBlock',
+  'marginBlockEnd',
+  'marginBlockStart',
+  'marginBottom',
+  'marginInline',
+  'marginInlineEnd',
+  'marginInlineStart',
+  'marginLeft',
+  'marginRight',
+  'marginTop',
+  'maxHeight',
+  'maxWidth',
+  'minHeight',
+  'minWidth',
+  'overflow',
+  'overflowX',
+  'overflowY',
+  'padding',
+  'paddingBlock',
+  'paddingBlockEnd',
+  'paddingBlockStart',
+  'paddingBottom',
+  'paddingInline',
+  'paddingInlineEnd',
+  'paddingInlineStart',
+  'paddingLeft',
+  'paddingRight',
+  'paddingTop',
+  'placeContent',
+  'placeItems',
+  'placeSelf',
+  'position',
+  'right',
+  'top',
+  'whiteSpace',
+  'width',
+  'zIndex',
+]);
+
+const INLINE_STYLE_PROMPT_BYPASS_RE =
+  /\b(inline styles?|style prop|style props|style=\{|custom css|custom styles?|custom classes?|className)\b/i;
+
 /**
  * Extract the first fenced code block (tsx/ts/jsx/js) from text,
  * or fall back to everything from the first `import` onwards.
@@ -139,11 +221,57 @@ export function extractCode(text) {
 }
 
 /**
+ * L1 policy supplement: disallow non-layout inline styles on JSX components.
+ * Layout-only sizing/positioning styles remain allowed.
+ * @param {string} code
+ * @param {{ prompt?: string }} opts
+ */
+export function checkComponentStylePolicy(code, { prompt = '' } = {}) {
+  if (INLINE_STYLE_PROMPT_BYPASS_RE.test(prompt)) {
+    return { pass: true, errors: [] };
+  }
+
+  const errors = [];
+  const componentStyleRegex =
+    /<([A-Z][A-Za-z0-9]*(?:\.[A-Z][A-Za-z0-9]*)?)[^>]*?\bstyle=\{\{([\s\S]*?)\}\}[^>]*?>/g;
+
+  for (const match of code.matchAll(componentStyleRegex)) {
+    const tag = match[1];
+    const styleBody = match[2];
+    const styleProps = [
+      ...new Set(
+        [...styleBody.matchAll(/(?:['"])?([A-Za-z_$][\w$-]*)(?:['"])?\s*:/g)].map((m) => m[1]),
+      ),
+    ];
+
+    if (styleProps.length === 0) {
+      continue;
+    }
+
+    const disallowedProps = styleProps.filter((prop) => !ALLOWED_LAYOUT_STYLE_PROPS.has(prop));
+
+    if (disallowedProps.length === 0) {
+      continue;
+    }
+
+    const line = code.slice(0, match.index ?? 0).split('\n').length;
+    errors.push(
+      `Line ${line}: ${tag} has non-layout inline styles (${disallowedProps.join(', ')}). ` +
+        'Use Tale UI defaults, variants, or wrapper CSS instead.',
+    );
+  }
+
+  return { pass: errors.length === 0, errors };
+}
+
+/**
  * L1: Validity — run validate-generated.mjs on the code.
  * @param {string} code
- * @param {{ root: string, validatorPath: string }} opts
+ * @param {{ root: string, validatorPath: string, prompt?: string }} opts
  */
-export function checkL1(code, { root, validatorPath }) {
+export function checkL1(code, { root, validatorPath, prompt = '' }) {
+  const stylePolicy = checkComponentStylePolicy(code, { prompt });
+
   try {
     const result = execFileSync(
       process.execPath,
@@ -154,6 +282,7 @@ export function checkL1(code, { root, validatorPath }) {
     const errors = [
       ...(parsed.registryErrors ?? []),
       ...(parsed.typescriptErrors ?? []).map((e) => `Line ${e.line}: ${e.message}`),
+      ...stylePolicy.errors,
     ];
     return { pass: errors.length === 0, errors };
   } catch (err) {
@@ -162,10 +291,14 @@ export function checkL1(code, { root, validatorPath }) {
       const errors = [
         ...(parsed.registryErrors ?? []),
         ...(parsed.typescriptErrors ?? []).map((e) => `Line ${e.line}: ${e.message}`),
+        ...stylePolicy.errors,
       ];
       return { pass: errors.length === 0, errors };
     } catch {
-      return { pass: false, errors: [(err.stdout || err.message || 'Validator failed').trim()] };
+      return {
+        pass: false,
+        errors: [...stylePolicy.errors, (err.stdout || err.message || 'Validator failed').trim()],
+      };
     }
   }
 }
@@ -196,11 +329,11 @@ export function checkL3(code, { allowedPrefixes = ALLOWED_IMPORT_PREFIXES } = {}
 /**
  * Run all three deterministic checks against a code string.
  * @param {string} code
- * @param {{ tags: string[], root: string, validatorPath: string }} opts
+ * @param {{ tags: string[], root: string, validatorPath: string, prompt?: string }} opts
  * @returns {{ allPass: boolean, l1: object, l2: object, l3: object }}
  */
-export function scoreCode(code, { tags, root, validatorPath }) {
-  const l1 = checkL1(code, { root, validatorPath });
+export function scoreCode(code, { tags, root, validatorPath, prompt = '' }) {
+  const l1 = checkL1(code, { root, validatorPath, prompt });
   const l2 = checkL2(code, tags);
   const l3 = checkL3(code);
   return { allPass: l1.pass && l2.pass && l3.pass, l1, l2, l3 };

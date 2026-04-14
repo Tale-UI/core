@@ -70,6 +70,42 @@ body {
   padding-block: var(--space-s);
 }
 
+.eval-review__preview--drawer {
+  position: relative;
+  min-height: 28rem;
+  overflow: hidden;
+  border: 1px solid var(--neutral-22);
+  border-radius: var(--radius-m);
+  background-color: var(--neutral-8);
+  padding: var(--space-s);
+}
+
+.eval-review__preview--drawer .tale-drawer__backdrop {
+  position: absolute;
+  inset: 0;
+  transition: none;
+}
+
+.eval-review__preview--drawer .tale-drawer__popup {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: min(40rem, 100%);
+  max-height: none;
+  border-radius: 0;
+  transform: none;
+  transition: none;
+}
+
+.eval-review__preview--drawer .tale-drawer__popup[data-starting-style],
+.eval-review__preview--drawer .tale-drawer__popup[data-ending-style],
+.eval-review__preview--drawer .tale-drawer__popup[data-entering],
+.eval-review__preview--drawer .tale-drawer__popup[data-exiting] {
+  transform: none;
+}
+
 /* ─── Logo ──────────────────────────────────────────────────────────────────── */
 
 .pg-logo {

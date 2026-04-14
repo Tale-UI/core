@@ -284,9 +284,11 @@ explicit BEM class names:
 <!-- pitfall: row-justify-shorthand -->
 <!-- applies-to: Row -->
 <!-- category: layout -->
-- **Row justify prop uses shorthand tokens, not CSS property values** — `'space-between'`, `'space-around'`, and `'space-evenly'` are not valid `justify` values; use `'between'`, `'around'`, and `'evenly'` respectively.
+- **Row justify prop uses shorthand tokens, not CSS property values** — `'space-between'`, `'space-around'`, `'space-evenly'`, `'flex-end'`, and `'flex-start'` are not valid `justify` values. The full set of valid values is: `'start'`, `'end'`, `'center'`, `'between'`, `'around'`, `'evenly'`. Use `justify="end"` to right-align content.
   - anti-pattern: `<Row justify="space-between">`
+  - anti-pattern: `<Row justify="flex-end">`
   - fix: `<Row justify="between">`
+  - fix: `<Row justify="end">`
 
 <!-- pitfall: row-no-css-flex-props -->
 <!-- applies-to: Row -->

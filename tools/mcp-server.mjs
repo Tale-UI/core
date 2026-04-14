@@ -33,12 +33,19 @@ import { fileURLToPath } from 'url';
 import { execFileSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = resolve(__dirname, '..');
+
+// Detect whether we are running from the monorepo (tools/) or from a
+// consumer's node_modules (@tale-ui/react/).  validate-generated.mjs only
+// exists in the monorepo, so it is the most specific signal we can use.
+const IS_MONOREPO = existsSync(join(__dirname, '../tools/validate-generated.mjs'));
+const ROOT = IS_MONOREPO ? resolve(__dirname, '..') : __dirname;
+
 const REGISTRY_PATH = join(ROOT, 'registry/components.json');
 const A2UI_CATALOG_PATH = join(ROOT, 'registry/a2ui-catalog.json');
 const PITFALLS_PATH = join(ROOT, 'registry/pitfalls.json');
 const RECIPES_DIR = join(ROOT, 'docs/recipes');
 const DOCS_DIR = join(ROOT, 'docs');
+// STORIES_DIR is only used when running from the monorepo
 const STORIES_DIR = join(ROOT, 'playground/storybook/src/stories');
 
 // ─── Load data ──────────────────────────────────────────────────────────────
@@ -555,6 +562,11 @@ server.tool(
   },
 );
 
+// validate_code and get_component_stories require monorepo-only tooling
+// (validate-generated.mjs, Storybook source).  They are registered only when
+// running from the monorepo so the consumer npm package stays self-contained.
+if (IS_MONOREPO) {
+
 // Tool: validate_code
 server.tool(
   'validate_code',
@@ -633,6 +645,8 @@ server.tool(
     };
   },
 );
+
+} // end IS_MONOREPO
 
 // Tool: plan_ui
 server.tool(
@@ -805,7 +819,11 @@ server.tool(
     lines.push('2. If the prompt is underspecified visually, start from the component\'s basic example and keep default visual props; do not add non-default `variant`, `theme`, `size`, `shape`, `color`, or decorative modifiers unless requested.');
     lines.push('3. If a pitfall has a `complete example:` block that matches your prompt, use it as the starting point for the JSX, but verify the import path and props against `get_component` output first.');
     lines.push('4. If a recipe was found, call `get_recipe` for the complete pattern.');
-    lines.push('5. Generate JSX using only the components listed. Call `validate_code` afterwards.');
+    if (IS_MONOREPO) {
+      lines.push('5. Generate JSX using only the components listed. Call `validate_code` afterwards.');
+    } else {
+      lines.push('5. Generate JSX using only the components listed.');
+    }
 
     return {
       content: [{ type: 'text', text: lines.join('\n') }],

@@ -27,12 +27,12 @@ Before generating or modifying component code, you MUST:
 3. **For deeper details** (all props, all variants, advanced patterns), read the local component doc:
 
    ```text
-   node_modules/@tale-ui/react/docs/{name}.md
+   node_modules/@tale-ui/react/docs/components/{name}.md
    ```
 
 4. **Do not guess component APIs.** Always check the `@example` block first. Incorrect usage (wrong sub-part names, missing wrapper components, wrong import paths) causes build failures.
 
-5. **Component pitfalls:** Each component has known pitfalls documented in `node_modules/@tale-ui/react/docs/{name}.md` under `## Pitfalls`. If the Tale UI MCP server is available, call `get_component("{Name}")` — it returns the component's full pitfall list including anti-patterns and fixes. Cross-component pitfalls (trigger styling, date types, import paths) are surfaced by `plan_ui` automatically.
+5. **Component pitfalls:** Each component has known pitfalls documented in `node_modules/@tale-ui/react/docs/components/{name}.md` under `## Pitfalls`. If the Tale UI MCP server is available, call `get_component("{Name}")` — it returns the component's full pitfall list including anti-patterns and fixes. Cross-component pitfalls (trigger styling, date types, import paths) are surfaced by `plan_ui` automatically.
 
 ## Namespace vs Simple components
 

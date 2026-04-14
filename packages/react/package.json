@@ -129,7 +129,8 @@
     "#formatErrorMessage": "@tale-ui/utils/formatErrorMessage"
   },
   "bin": {
-    "tale-ui-setup": "./bin/setup.mjs"
+    "tale-ui-setup": "./bin/setup.mjs",
+    "tale-ui-mcp": "./mcp-server.mjs"
   },
   "type": "commonjs",
   "scripts": {
@@ -144,10 +145,12 @@
   "dependencies": {
     "@babel/runtime": "^7.28.6",
     "@internationalized/date": "^3.8.0",
+    "@modelcontextprotocol/sdk": "^1.28.0",
     "@tale-ui/core": "workspace:*",
     "@tale-ui/react-styles": "workspace:*",
     "@tale-ui/utils": "workspace:*",
-    "react-aria-components": "^1.16.0"
+    "react-aria-components": "^1.16.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@date-fns/tz": "^1.4.1",

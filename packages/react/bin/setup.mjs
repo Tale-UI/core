@@ -32,7 +32,7 @@ Before generating or modifying component code, you MUST:
 3. **For deeper details** (all props, all variants, advanced patterns), read the local component doc:
 
    \`\`\`
-   node_modules/@tale-ui/react/docs/{name}.md
+   node_modules/@tale-ui/react/docs/components/{name}.md
    \`\`\`
 
 4. **Do not guess component APIs.** Always check the \`@example\` block first. Incorrect usage (wrong sub-part names, missing wrapper components, wrong import paths) causes build failures.
@@ -122,18 +122,44 @@ if (fs.existsSync(claudeMdPath)) {
   const existing = fs.readFileSync(claudeMdPath, 'utf8');
 
   if (existing.includes(MARKER)) {
-    console.log('✓ CLAUDE.md already contains Tale UI instructions. Nothing to do.');
-    process.exit(0);
+    console.log('✓ CLAUDE.md already contains Tale UI instructions. Skipping.');
+  } else {
+    // Append to existing file
+    const separator = existing.endsWith('\n') ? '\n' : '\n\n';
+    fs.writeFileSync(claudeMdPath, existing + separator + SNIPPET);
+    console.log('✓ Appended Tale UI instructions to existing CLAUDE.md');
+    console.log(`  → ${claudeMdPath}`);
   }
-
-  // Append to existing file
-  const separator = existing.endsWith('\n') ? '\n' : '\n\n';
-  fs.writeFileSync(claudeMdPath, existing + separator + SNIPPET);
-  console.log('✓ Appended Tale UI instructions to existing CLAUDE.md');
 } else {
   // Create new file
   fs.writeFileSync(claudeMdPath, `# Project Instructions\n\n${SNIPPET}`);
   console.log('✓ Created CLAUDE.md with Tale UI instructions');
+  console.log(`  → ${claudeMdPath}`);
 }
 
-console.log(`  → ${claudeMdPath}`);
+// ── Write .mcp.json ──────────────────────────────────────────────────────────
+
+const MCP_SERVER_KEY = 'tale-ui';
+const MCP_SERVER_CONFIG = {
+  command: 'node',
+  args: ['./node_modules/@tale-ui/react/mcp-server.mjs'],
+};
+
+const mcpJsonPath = path.join(projectRoot, '.mcp.json');
+
+let mcpJson = { mcpServers: {} };
+if (fs.existsSync(mcpJsonPath)) {
+  try {
+    mcpJson = JSON.parse(fs.readFileSync(mcpJsonPath, 'utf8'));
+    if (!mcpJson.mcpServers) mcpJson.mcpServers = {};
+  } catch { /* ignore parse errors, overwrite */ }
+}
+
+if (mcpJson.mcpServers[MCP_SERVER_KEY]) {
+  console.log('✓ .mcp.json already contains the tale-ui MCP server. Nothing to do.');
+} else {
+  mcpJson.mcpServers[MCP_SERVER_KEY] = MCP_SERVER_CONFIG;
+  fs.writeFileSync(mcpJsonPath, JSON.stringify(mcpJson, null, 2) + '\n');
+  console.log('✓ Configured tale-ui MCP server in .mcp.json');
+  console.log(`  → ${mcpJsonPath}`);
+}

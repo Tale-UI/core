@@ -340,7 +340,7 @@ function buildErrorSummary(result) {
   const lines = [];
   if (!result.l1.pass)
     lines.push(
-      `L1 (TypeScript/registry errors):\n${result.l1.errors.map((e) => `  - ${e}`).join('\n')}`,
+      `L1 (validation/policy errors):\n${result.l1.errors.map((e) => `  - ${e}`).join('\n')}`,
     );
   if (!result.l2.pass) lines.push(`L2 (missing components): ${result.l2.missing.join(', ')}`);
   if (!result.l3.pass) lines.push(`L3 (forbidden imports): ${result.l3.forbidden.join(', ')}`);
@@ -1387,6 +1387,20 @@ function toFuncName(slug) {
   );
 }
 
+function normalizeEvalReviewCode(slug, code) {
+  if (slug !== 'drawer-with-backdrop') {
+    return code;
+  }
+
+  let normalized = code;
+
+  if (!/<Drawer\.Root\b[^>]*\b(defaultOpen|open)\b/.test(normalized)) {
+    normalized = normalized.replace(/<Drawer\.Root(?=[\s>])/, '<Drawer.Root defaultOpen');
+  }
+
+  return normalized;
+}
+
 function renameExport(code, slug) {
   const name = toFuncName(slug);
   // Handle: export function X, export default function X, export const X =
@@ -1464,7 +1478,11 @@ function validateReviewFile() {
 
 function generateEvalReview(passingResults, allPrompts) {
   const promptMap = new Map(allPrompts.map((p) => [p.slug, p]));
-  const codeBlocks = aliasImportNameCollisions(passingResults.map((r) => r.code).filter(Boolean));
+  const codeBlocks = aliasImportNameCollisions(
+    passingResults
+      .map((r) => (r.code ? normalizeEvalReviewCode(r.slug, r.code) : r.code))
+      .filter(Boolean),
+  );
   let codeBlockIndex = 0;
 
   // Build component bodies first so the assembled text is available for
@@ -1490,13 +1508,17 @@ function generateEvalReview(passingResults, allPrompts) {
     .map((r) => {
       const prompt = promptMap.get(r.slug);
       const funcName = toFuncName(r.slug);
+      const previewClass =
+        r.slug === 'drawer-with-backdrop'
+          ? 'eval-review__preview eval-review__preview--drawer'
+          : 'eval-review__preview';
       return `      <section className="eval-review__section">
         <div className="eval-review__meta">
           <code className="eval-review__slug">{r.slug}</code>
           <span className="eval-review__difficulty">[${r.difficulty}]</span>
         </div>
         <p className="eval-review__prompt">${(prompt?.prompt ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</p>
-        <div className="eval-review__preview">
+        <div className="${previewClass}">
           <${funcName} />
         </div>
       </section>`
@@ -1740,6 +1762,7 @@ async function main() {
             tags: promptMap.get(current.slug)?.tags ?? [],
             root: ROOT,
             validatorPath: join(__dirname, 'validate-generated.mjs'),
+            prompt: promptMap.get(current.slug)?.prompt ?? '',
           });
           const reResult = {
             slug: current.slug,

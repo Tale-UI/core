@@ -3715,6 +3715,18 @@
           "id": "menu-root-no-onaction-open",
           "summary": "Menu.Root does not accept onAction or open",
           "detail": "pass `onAction` to `Menu.Item`; open state is managed internally."
+        },
+        {
+          "id": "use-menu-for-any-prompt",
+          "summary": "Use <Menu> for any prompt that asks for a dropdown menu, action menu, or options menu",
+          "detail": "when the request is for a button-triggered list of actions, render the `Menu` component itself instead of a plain `Button`, custom popover markup, or an empty placeholder.",
+          "antiPatterns": [
+            "import { Button } from '@tale-ui/react/button'; export function FileActions() { return <Button>File</Button>; }",
+            "// empty file"
+          ],
+          "fixes": [
+            "import { Menu } from '@tale-ui/react/menu'; export function FileActions() { return <Menu.Root><Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">File</Menu.Trigger><Menu.Popover><Menu.MenuList><Menu.Item id=\"new\">New</Menu.Item><Menu.Separator /><Menu.Item id=\"close\">Close</Menu.Item></Menu.MenuList></Menu.Popover></Menu.Root>; }"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -4204,7 +4216,19 @@
         "tale-popover__popup",
         "tale-popover__title"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "use-popover-for-any-prompt",
+          "summary": "Use Popover for any prompt that asks for an info button, help popover, or button-triggered explanatory overlay",
+          "detail": "render `Popover.Root` with `Popover.Trigger` and `Popover.Popup`; do not leave the file empty or substitute a different overlay.",
+          "antiPatterns": [
+            "// empty file"
+          ],
+          "fixes": [
+            "import { Popover } from '@tale-ui/react/popover'; import { Icon } from '@tale-ui/react/icon'; import { HelpCircle } from 'lucide-react'; export function FeatureHelpPopover() { return <Popover.Root><Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\"><Icon icon={HelpCircle} size=\"sm\" /></Popover.Trigger><Popover.Popup placement=\"bottom\" offset={8}><Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description></Popover.Popup></Popover.Root>; }"
+          ]
+        }
+      ],
       "crossPitfallRefs": [
         "no-asChild-on-triggers",
         "no-button-inside-trigger"
@@ -5950,6 +5974,18 @@
           ],
           "fixes": [
             "<Text as=\"p\" color=\"muted\">This action cannot be undone.</Text>"
+          ]
+        },
+        {
+          "id": "color-only-accepts-default-muted",
+          "summary": "color only accepts 'default', 'muted', 'accent'",
+          "detail": "no other color values are valid. Common wrong values from other design systems include 'secondary', 'neutral', 'gray', and 'dim'; all map to 'muted'.",
+          "antiPatterns": [
+            "<Text color=\"neutral\">Note</Text>",
+            "<Text color=\"secondary\">Note</Text>"
+          ],
+          "fixes": [
+            "<Text color=\"muted\">Note</Text>"
           ]
         }
       ],

@@ -537,16 +537,18 @@
     {
       "id": "row-justify-shorthand",
       "summary": "Row justify prop uses shorthand tokens, not CSS property values",
-      "detail": "`'space-between'`, `'space-around'`, and `'space-evenly'` are not valid `justify` values; use `'between'`, `'around'`, and `'evenly'` respectively.",
+      "detail": "`'space-between'`, `'space-around'`, `'space-evenly'`, `'flex-end'`, and `'flex-start'` are not valid `justify` values. The full set of valid values is: `'start'`, `'end'`, `'center'`, `'between'`, `'around'`, `'evenly'`. Use `justify=\"end\"` to right-align content.",
       "appliesTo": [
         "Row"
       ],
       "category": "layout",
       "antiPatterns": [
-        "<Row justify=\"space-between\">"
+        "<Row justify=\"space-between\">",
+        "<Row justify=\"flex-end\">"
       ],
       "fixes": [
-        "<Row justify=\"between\">"
+        "<Row justify=\"between\">",
+        "<Row justify=\"end\">"
       ]
     },
     {
