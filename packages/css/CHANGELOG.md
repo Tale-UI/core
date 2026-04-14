@@ -2,6 +2,16 @@
 
 All notable changes to the CSS design system are documented in this file.
 
+## v1.1.17 — 2026-04-08
+
+### Added
+
+- **System colour themes:** Added `.color-error`, `.color-warning`, and `.color-success` theme classes, mapping `--brand-*` tokens to the corresponding semantic colour scale for Banner and Badge variants.
+
+### Changed
+
+- **Typography:** Commented out default `color` overrides on `:where(p, span)` and `:where(pre)` to prevent global element colour rules from leaking into component layouts.
+
 ## v1.1.16 — 2026-03-25
 
 ### Docs
