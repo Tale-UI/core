@@ -2,6 +2,12 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.44 — 2026-04-14
+
+### Changed
+
+- **`setup.mjs`**: Added step 0 to the consumer CLAUDE.md snippet — instructs Claude Code to use `ToolSearch` to load deferred MCP tool schemas before invoking `mcp__tale-ui__plan_ui` and `mcp__tale-ui__get_component`.
+
 ## v1.3.43 — 2026-04-14
 
 ### Added
