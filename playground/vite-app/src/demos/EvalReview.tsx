@@ -14,6 +14,7 @@ import { ColorField } from '@tale-ui/react/color-field';
 import { ColorPicker } from '@tale-ui/react/color-picker';
 import { ColorSwatch } from '@tale-ui/react/color-swatch';
 import { ColorSwatchPicker, parseColor } from '@tale-ui/react/color-swatch-picker';
+import type { Color } from '@tale-ui/react/color-area';
 import { ColorWheel } from '@tale-ui/react/color-wheel';
 import { Column } from '@tale-ui/react/column';
 import { Combobox } from '@tale-ui/react/combobox';
