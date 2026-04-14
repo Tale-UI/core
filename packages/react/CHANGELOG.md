@@ -2,6 +2,19 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.43 — 2026-04-14
+
+### Added
+
+- **MCP server bundled**: `mcp-server.mjs` is now included in the published package with a `tale-ui-mcp` bin entry. Run `npx tale-ui-mcp` or configure it directly in `.mcp.json`.
+- **`setup.mjs` auto-configures `.mcp.json`**: Running `npx tale-ui-setup` now also writes the Tale UI MCP server entry into `.mcp.json` (creating the file if needed).
+- **Dependencies**: Added `@modelcontextprotocol/sdk` and `zod` as runtime dependencies for the bundled MCP server.
+
+### Fixed
+
+- **`setup.mjs`**: Fixed early-exit bug — script was exiting without writing when the snippet was already present, rather than skipping the write and continuing to configure `.mcp.json`.
+- **`setup.mjs`**: Fixed doc path reference (`docs/components/{name}.md`).
+
 ## v1.3.42 — 2026-04-04
 
 ### Added
