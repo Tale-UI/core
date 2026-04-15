@@ -1,0 +1,7 @@
+{
+  "slug": "badge-group-basic",
+  "difficulty": "simple",
+  "prompt": "Show a badge with a pinned trailing 'v2.0' addon, using the brand color and light theme.",
+  "reference": "import { BadgeGroup } from '@tale-ui/react/badge-group';\n\nexport function Example() {\n  return (\n    <BadgeGroup.Root color=\"brand\" addonText=\"v2.0\">\n      New release\n    </BadgeGroup.Root>\n  );\n}",
+  "tags": ["BadgeGroup"]
+}

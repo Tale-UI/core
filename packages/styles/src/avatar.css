@@ -287,3 +287,173 @@
   position: relative;
   bottom: 10%;
 }
+
+/* ─── AddButton — dashed circle "add" affordance ─────────────────────────── */
+
+.tale-avatar-add-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1.5px dashed var(--neutral-40);
+  background: transparent;
+  color: var(--neutral-50);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  /* Default size: md */
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.tale-avatar-add-button:hover:not(:disabled) {
+  border-color: var(--neutral-60);
+  color: var(--neutral-70);
+  background-color: var(--neutral-14);
+}
+
+.tale-avatar-add-button:focus-visible {
+  outline: 2px solid var(--color-60);
+  outline-offset: 2px;
+}
+
+.tale-avatar-add-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tale-avatar-add-button__icon {
+  width: 40%;
+  height: 40%;
+}
+
+.tale-avatar-add-button--xs {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.tale-avatar-add-button--sm {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.tale-avatar-add-button--md {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+/* ─── CompanyIcon — small company logo badge at avatar corner ───────────── */
+
+.tale-avatar-company-icon {
+  position: relative;
+  display: inline-flex;
+}
+
+.tale-avatar-company-icon__badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1.5px var(--neutral-10);
+  background-color: var(--neutral-10);
+}
+
+.tale-avatar-company-icon--xs .tale-avatar-company-icon__badge {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.tale-avatar-company-icon--sm .tale-avatar-company-icon__badge {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.tale-avatar-company-icon--md .tale-avatar-company-icon__badge {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.tale-avatar-company-icon--lg .tale-avatar-company-icon__badge {
+  width: 2rem;
+  height: 2rem;
+}
+
+.tale-avatar-company-icon--xl .tale-avatar-company-icon__badge {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.tale-avatar-company-icon--2xl .tale-avatar-company-icon__badge {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+/* ─── VerifiedTick — SVG seal badge with checkmark ───────────────────────── */
+
+.tale-avatar-verified-tick {
+  display: inline-block;
+  flex-shrink: 0;
+  /* Default size: md */
+  width: 2rem;
+  height: 2rem;
+}
+
+.tale-avatar-verified-tick--xs {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.tale-avatar-verified-tick--sm {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.tale-avatar-verified-tick--md {
+  width: 2rem;
+  height: 2rem;
+}
+
+.tale-avatar-verified-tick--lg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.tale-avatar-verified-tick--xl {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+
+.tale-avatar-verified-tick--2xl {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+.tale-avatar-verified-tick--3xl {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.tale-avatar-verified-tick--4xl {
+  width: 4rem;
+  height: 4rem;
+}
+
+/* ─── ProfilePhoto — enhanced display avatar with ring + badge slot ──────── */
+
+.tale-avatar-profile-photo {
+  position: relative;
+  display: inline-flex;
+}
+
+.tale-avatar-profile-photo__inner {
+  box-shadow: 0 0 0 3px var(--neutral-10), 0 2px 8px 0 rgb(0 0 0 / 0.10);
+}
+
+.tale-avatar-profile-photo__badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}

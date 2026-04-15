@@ -1,0 +1,108 @@
+/*
+ * InputGroup — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component (pure HTML). No React Aria dependency.
+ *
+ * Usage:
+ *   <div class="tale-input-group">
+ *     <span class="tale-input-group__addon tale-input-group__addon--leading">https://</span>
+ *     <div class="tale-input__root">
+ *       <input class="tale-input" />
+ *     </div>
+ *   </div>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-input-group {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: stretch;
+  width: 100%;
+}
+
+/*
+ * Flatten Input.Root so its label, input, and messages can occupy separate grid rows
+ * while the addons stay aligned to the actual control row.
+ */
+.tale-input-group > .tale-input__root {
+  display: contents;
+}
+
+.tale-input-group > .tale-input__root > .tale-input__label {
+  order: -1;
+  grid-column: 1 / -1;
+}
+
+.tale-input-group > .tale-input__root > .tale-input__description,
+.tale-input-group > .tale-input__root > .tale-input__error {
+  order: 1;
+  grid-column: 1 / -1;
+}
+
+.tale-input-group > .tale-input__root > .tale-input,
+.tale-input-group > .tale-input {
+  grid-column: 2;
+  min-width: 0;
+}
+
+/* ─── Addon ─────────────────────────────────────────────────────────────────── */
+
+.tale-input-group__addon {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--space-3xs);
+  min-height: var(--field-min-height);
+  padding: 0 var(--space-xs);
+  border: 1px solid var(--field-border-color);
+  background-color: var(--neutral-12);
+  color: var(--neutral-60);
+  font-family: var(--field-font-family);
+  font-size: var(--field-font-size);
+  line-height: 1.5;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tale-input-group__addon--leading {
+  grid-column: 1;
+  border-right: none;
+  border-top-left-radius: var(--field-radius);
+  border-bottom-left-radius: var(--field-radius);
+}
+
+.tale-input-group__addon--trailing {
+  grid-column: 3;
+  border-left: none;
+  border-top-right-radius: var(--field-radius);
+  border-bottom-right-radius: var(--field-radius);
+}
+
+/* ─── Adjacent radius adjustments ──────────────────────────────────────────── */
+
+/*
+ * Remove the left border-radius of an Input that directly follows a leading addon.
+ * Uses the general sibling combinator so it works regardless of label/description wrappers.
+ */
+.tale-input-group__addon--leading ~ .tale-input__root .tale-input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/*
+ * Remove the right border-radius of an Input that is followed by a trailing addon.
+ * Uses :has() to detect the sibling without requiring JavaScript.
+ */
+.tale-input-group > .tale-input__root:has(~ .tale-input-group__addon--trailing) .tale-input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* ─── Dark mode ─────────────────────────────────────────────────────────────── */
+
+[data-color-mode='dark'] .tale-input-group__addon {
+  background-color: var(--neutral-18);
+}

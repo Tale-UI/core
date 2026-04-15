@@ -1,0 +1,214 @@
+/*
+ * InputTags — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria Group exposes:
+ *   [data-focus-within] [data-focus-visible-within] [data-disabled] [data-invalid]
+ * React Aria Tag exposes:
+ *   [data-hovered] [data-pressed] [data-focused] [data-focus-visible] [data-disabled]
+ *
+ * Usage:
+ *   <InputTags.Root label="Skills" placeholder="Add a skill…" onChange={setTags} />
+ */
+
+/* ─── Root container ────────────────────────────────────────────────────── */
+
+.tale-input-tags {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+}
+
+/* ─── Group (the "field" surface) ───────────────────────────────────────── */
+
+.tale-input-tags__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3xs);
+  min-height: var(--field-min-height);
+  padding: var(--space-4xs) var(--field-padding-inline);
+  border: 1px solid var(--field-border-color);
+  border-radius: var(--field-radius);
+  background-color: var(--field-bg);
+  box-sizing: border-box;
+  cursor: text;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* Hover */
+.tale-input-tags__group:not([data-focus-within], [data-disabled], [data-invalid]):hover {
+  border-color: var(--neutral-40);
+}
+
+/* Focus ring */
+.tale-input-tags__group[data-focus-within] {
+  border-color: var(--field-focus-border);
+  box-shadow: var(--field-focus-glow);
+}
+
+/* Invalid */
+.tale-input-tags__group[data-invalid] {
+  border-color: var(--red-60);
+}
+
+.tale-input-tags__group[data-invalid][data-focus-within] {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--red-60) 20%, transparent);
+}
+
+/* Disabled */
+.tale-input-tags__group[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Tag wrapper (holds TagGroup for keyboard nav) ─────────────────────── */
+
+.tale-input-tags__tag-wrapper {
+  display: contents;
+}
+
+.tale-input-tags__tag-group {
+  display: contents;
+}
+
+/* ─── Tag list ──────────────────────────────────────────────────────────── */
+
+.tale-input-tags__tag-list {
+  display: contents;
+}
+
+/* ─── Tag chip ──────────────────────────────────────────────────────────── */
+
+.tale-input-tags__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4xs);
+  padding: var(--space-4xs) var(--space-2xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: var(--radius-full);
+  background-color: var(--neutral-14);
+  color: var(--neutral-80);
+  font-family: var(--field-font-family);
+  font-size: var(--text-s-font-size);
+  line-height: 1;
+  outline: none;
+  cursor: default;
+  user-select: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.1s ease,
+    border-color 0.1s ease;
+}
+
+.tale-input-tags__tag[data-hovered]:not([data-disabled]) {
+  background-color: var(--neutral-18);
+  border-color: var(--neutral-30);
+}
+
+.tale-input-tags__tag[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+}
+
+.tale-input-tags__tag[data-disabled] {
+  opacity: 0.45;
+}
+
+/* Remove button auto-rendered by React Aria when onRemove is set on TagGroup */
+.tale-input-tags__tag [slot="remove"],
+.tale-input-tags__tag button[aria-label*="remove" i],
+.tale-input-tags__tag button[aria-label*="Remove" i] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--neutral-60);
+  cursor: pointer;
+  outline: none;
+  line-height: 1;
+  font-size: 1.1rem;
+}
+
+.tale-input-tags__tag [slot="remove"]:hover,
+.tale-input-tags__tag button[aria-label*="remove" i]:hover,
+.tale-input-tags__tag button[aria-label*="Remove" i]:hover {
+  background-color: var(--neutral-22);
+  color: var(--neutral-80);
+}
+
+/* ─── Native text input inside the group ───────────────────────────────── */
+
+.tale-input-tags__input {
+  flex: 1;
+  min-width: 8rem;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--field-color);
+  font-family: var(--field-font-family);
+  font-size: var(--field-font-size);
+  line-height: 1.5;
+  caret-color: currentcolor;
+}
+
+.tale-input-tags__input::placeholder {
+  color: var(--field-placeholder-color);
+}
+
+.tale-input-tags__input:disabled {
+  cursor: not-allowed;
+}
+
+/* ─── Below-placement tag container ────────────────────────────────────── */
+
+.tale-input-tags__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs);
+}
+
+/* In below mode, the group behaves like a standard single-line input */
+.tale-input-tags--below .tale-input-tags__group {
+  flex-wrap: nowrap;
+  min-height: var(--field-min-height);
+}
+
+/* ─── Size modifiers ────────────────────────────────────────────────────── */
+
+.tale-input-tags--sm .tale-input-tags__group {
+  min-height: var(--space-m);
+  padding: var(--space-4xs) var(--space-3xs);
+}
+
+.tale-input-tags--sm .tale-input-tags__input {
+  font-size: var(--text-s-font-size);
+}
+
+.tale-input-tags--sm .tale-input-tags__tag {
+  font-size: var(--text-xs-font-size, var(--text-s-font-size));
+  padding: 0.1rem var(--space-3xs);
+}
+
+.tale-input-tags--lg .tale-input-tags__group {
+  min-height: 4.4rem;
+  padding: var(--space-2xs) var(--space-s);
+}
+
+.tale-input-tags--lg .tale-input-tags__input {
+  font-size: var(--text-l-font-size);
+}
+
+/* ─── Label — disabled / invalid state ─────────────────────────────────── */
+
+.tale-input-tags[data-disabled] .tale-input-tags__label {
+  opacity: 0.45;
+}

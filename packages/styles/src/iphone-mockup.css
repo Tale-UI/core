@@ -1,0 +1,35 @@
+/*
+ * IPhoneMockup — @tale-ui/react
+ *
+ * Decorative SVG iPhone frame with an embedded screenshot pattern.
+ * Supports light/dark theme switching and an optional second dark-mode image.
+ *
+ * The component itself is a plain SVG — no size classes are needed; scale via
+ * width/height props or CSS on the wrapper element.
+ */
+
+.tale-iphone-mockup {
+  display: block;
+  overflow: visible;
+}
+
+/*
+ * Image visibility helpers for light/dark mode switching.
+ * .tale-iphone-mockup__image       = shown in light mode, hidden in dark mode
+ * .tale-iphone-mockup__image--dark = shown in dark mode, hidden in light mode
+ */
+.tale-iphone-mockup__image {
+  display: block;
+}
+
+.tale-iphone-mockup__image--dark {
+  display: none;
+}
+
+[data-color-mode='dark'] .tale-iphone-mockup__image {
+  display: none;
+}
+
+[data-color-mode='dark'] .tale-iphone-mockup__image--dark {
+  display: block;
+}

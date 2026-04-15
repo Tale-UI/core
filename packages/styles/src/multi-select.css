@@ -1,0 +1,382 @@
+/*
+ * MultiSelect — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria Popover exposes:  [data-entering] [data-exiting] [data-placement]
+ * React Aria Button exposes:   [data-hovered] [data-pressed] [data-disabled] [data-focus-visible]
+ * React Aria ListBoxItem exposes: [data-hovered] [data-selected] [data-focused] [data-focus-visible] [data-disabled]
+ *
+ * Usage:
+ *   <MultiSelect.Root label="..." items={opts} onSelectionChange={...}>
+ *     {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}
+ *   </MultiSelect.Root>
+ */
+
+/* ─── Root container ────────────────────────────────────────────────────── */
+
+.tale-multi-select {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+}
+
+/* ─── Trigger button ────────────────────────────────────────────────────── */
+
+.tale-multi-select__trigger {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--field-border-color);
+  border-radius: var(--field-radius);
+  background-color: var(--field-bg);
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  outline: none;
+}
+
+.tale-multi-select__trigger:hover:not([data-disabled]) {
+  border-color: var(--neutral-40);
+}
+
+.tale-multi-select__trigger[data-focus-visible] {
+  border-color: var(--field-focus-border);
+  box-shadow: var(--field-focus-glow);
+}
+
+.tale-multi-select__trigger[data-pressed] {
+  border-color: var(--field-focus-border);
+  box-shadow: var(--field-focus-glow);
+}
+
+.tale-multi-select__trigger--invalid {
+  border-color: var(--red-60);
+}
+
+.tale-multi-select__trigger--invalid[data-focus-visible],
+.tale-multi-select__trigger--invalid[data-pressed] {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--red-60) 20%, transparent);
+}
+
+.tale-multi-select__trigger[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Trigger inner (layout row) ────────────────────────────────────────── */
+
+.tale-multi-select__trigger-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  min-height: var(--field-min-height);
+  padding: var(--field-padding-block) var(--field-padding-inline);
+  box-sizing: border-box;
+}
+
+.tale-multi-select__trigger-inner--sm {
+  min-height: var(--space-m);
+  padding: var(--space-4xs) var(--space-3xs);
+  font-size: var(--text-s-font-size);
+}
+
+.tale-multi-select__trigger-inner--lg {
+  min-height: 4.4rem;
+  padding: var(--space-2xs) var(--space-s);
+  font-size: var(--text-l-font-size);
+}
+
+/* ─── Trigger value text ────────────────────────────────────────────────── */
+
+.tale-multi-select__value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--field-font-family);
+  font-size: var(--field-font-size);
+  line-height: 1.5;
+}
+
+.tale-multi-select__value--placeholder {
+  color: var(--field-placeholder-color);
+}
+
+.tale-multi-select__value--selected {
+  color: var(--field-color);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-multi-select__supporting-text {
+  margin-inline-start: var(--space-3xs);
+  color: var(--neutral-60);
+  font-weight: var(--text-font-weight, 400);
+}
+
+/* ─── Chevron icon ──────────────────────────────────────────────────────── */
+
+.tale-multi-select__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--neutral-60);
+  margin-inline-start: auto;
+}
+
+/* ─── Popup ─────────────────────────────────────────────────────────────── */
+
+.tale-multi-select__popup {
+  background-color: var(--popup-bg);
+  border: 1px solid var(--popup-border-color);
+  border-radius: var(--popup-radius);
+  box-shadow: var(--popup-shadow);
+  outline: none;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.tale-multi-select__popup[data-entering] {
+  animation: multi-select-in 0.12s ease-out;
+}
+
+.tale-multi-select__popup[data-exiting] {
+  animation: multi-select-out 0.08s ease-in;
+}
+
+@keyframes multi-select-in {
+  from { opacity: 0; transform: translateY(-0.4rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes multi-select-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-0.4rem); }
+}
+
+.tale-multi-select__dialog {
+  outline: none;
+}
+
+/* ─── Search area ───────────────────────────────────────────────────────── */
+
+.tale-multi-select__search-wrapper {
+  padding: var(--space-3xs);
+  border-bottom: 1px solid var(--popup-border-color);
+}
+
+.tale-multi-select__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-4xs) var(--space-xs);
+  border: 1px solid var(--field-border-color);
+  border-radius: var(--field-radius);
+  background-color: var(--field-bg);
+}
+
+.tale-multi-select__search[data-focused] {
+  border-color: var(--field-focus-border);
+  box-shadow: var(--field-focus-glow);
+}
+
+.tale-multi-select__search-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--neutral-60);
+}
+
+.tale-multi-select__search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--field-color);
+  font-family: var(--field-font-family);
+  font-size: var(--field-font-size);
+  line-height: 1.5;
+}
+
+.tale-multi-select__search-input::placeholder {
+  color: var(--field-placeholder-color);
+}
+
+/* ─── Listbox ────────────────────────────────────────────────────────────── */
+
+.tale-multi-select__listbox {
+  max-height: 28rem;
+  overflow-y: auto;
+  padding: var(--space-3xs) 0;
+  outline: none;
+}
+
+.tale-multi-select__popup--sm .tale-multi-select__listbox {
+  max-height: 24rem;
+}
+
+.tale-multi-select__popup--lg .tale-multi-select__listbox {
+  max-height: 34rem;
+}
+
+/* ─── List item ─────────────────────────────────────────────────────────── */
+
+.tale-multi-select__item {
+  display: flex;
+  align-items: center;
+  gap: var(--item-gap);
+  padding: var(--item-padding-block) var(--item-padding-inline);
+  border-radius: 0;
+  color: var(--item-color);
+  font-family: var(--field-font-family);
+  font-size: var(--item-font-size);
+  line-height: 1.4;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tale-multi-select__item[data-hovered],
+.tale-multi-select__item[data-focused] {
+  background-color: var(--item-focus-bg);
+  color: var(--item-focus-color);
+}
+
+.tale-multi-select__item[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tale-multi-select__item[data-focus-visible] {
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color);
+}
+
+/* ─── Item check indicator ──────────────────────────────────────────────── */
+
+.tale-multi-select__item-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1.5px solid var(--neutral-30);
+  border-radius: var(--radius-s);
+  background-color: transparent;
+  color: var(--color-60-fg);
+  transition:
+    background-color 0.1s ease,
+    border-color 0.1s ease;
+}
+
+.tale-multi-select__item[data-selected] .tale-multi-select__item-check {
+  background-color: var(--color-60);
+  border-color: var(--color-60);
+}
+
+/* ─── Item text ─────────────────────────────────────────────────────────── */
+
+.tale-multi-select__item-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+
+.tale-multi-select__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xs) var(--space-s);
+  border-top: 1px solid var(--popup-border-color);
+}
+
+.tale-multi-select__footer-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4xs) var(--space-3xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: var(--item-radius);
+  background-color: transparent;
+  color: var(--neutral-70);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: 1;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.1s ease,
+    border-color 0.1s ease,
+    color 0.1s ease;
+}
+
+.tale-multi-select__footer-btn:hover {
+  background-color: var(--neutral-14);
+  border-color: var(--neutral-30);
+  color: var(--neutral-90);
+}
+
+.tale-multi-select__footer-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+}
+
+/* ─── Empty state ────────────────────────────────────────────────────────── */
+
+.tale-multi-select__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-m) var(--space-s);
+  text-align: center;
+}
+
+.tale-multi-select__empty-title {
+  margin: 0;
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+}
+
+.tale-multi-select__empty-description {
+  margin: 0;
+  color: var(--neutral-60);
+  font-family: var(--text-font-family);
+  font-size: var(--text-s-font-size);
+}
+
+.tale-multi-select__empty-clear {
+  border: none;
+  background: none;
+  color: var(--color-60);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  cursor: pointer;
+  outline: none;
+}
+
+.tale-multi-select__empty-clear:hover {
+  color: var(--color-50);
+  text-decoration: underline;
+}
+
+.tale-multi-select__empty-clear:focus-visible {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  border-radius: var(--radius-s);
+}
+
+/* ─── Label / description / error (via _primitives.css group 2/8/9) ──────── */
+/* .tale-multi-select__label, .tale-multi-select__description, .tale-multi-select__error
+   are declared in _primitives.css so all field components share the same style. */
+
+/* Label disabled state */
+.tale-multi-select[data-disabled] .tale-multi-select__label {
+  opacity: 0.45;
+}

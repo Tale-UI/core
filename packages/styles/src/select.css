@@ -59,7 +59,7 @@
 
 .tale-select__trigger--lg {
   min-height: 4.4rem;
-  padding: var(--space-2xs) var(--space-s);
+  padding: var(--space-2xs) var(--field-padding-inline);
 }
 
 /* ─── Value / placeholder ──────────────────────────────────────────────────── */

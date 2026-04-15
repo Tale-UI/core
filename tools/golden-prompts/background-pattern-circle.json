@@ -1,0 +1,7 @@
+{
+  "slug": "background-pattern-circle",
+  "difficulty": "simple",
+  "prompt": "Show a decorative circular background pattern at large size.",
+  "reference": "import { BackgroundPattern } from '@tale-ui/react/background-pattern';\n\nexport function Example() {\n  return <BackgroundPattern pattern=\"circle\" size=\"lg\" />;\n}",
+  "tags": ["BackgroundPattern"]
+}

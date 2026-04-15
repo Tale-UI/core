@@ -47,7 +47,7 @@ function AgentConnection() {
 
 ## Catalog
 
-The default catalog maps all 135 A2UI standard component types:
+The default catalog maps all 142 A2UI standard component types:
 
 | A2UI Type | Tale UI Component |
 |-----------|-------------------|
@@ -155,6 +155,7 @@ The default catalog maps all 135 A2UI standard component types:
 | Fieldset | Fieldset.Root |
 | DropZone | DropZone |
 | FileTrigger | FileTrigger |
+| FileUpload | FileUpload.Root |
 | RatingStars | RatingStars |
 | RatingBadge | RatingBadge |
 | FeaturedIcon | FeaturedIcon |
@@ -168,6 +169,12 @@ The default catalog maps all 135 A2UI standard component types:
 | ColorSwatch | ColorSwatch |
 | ColorSwatchPicker | ColorSwatchPicker.Root |
 | ColorPicker | ColorPicker.Root |
+| BadgeGroup | BadgeGroup.Root |
+| InputGroup | InputGroup.Root |
+| InputTags | InputTags.Root |
+| MultiSelect | MultiSelect.Root |
+| SectionDivider | SectionDivider |
+| TagSelect | TagSelect.Root |
 
 ### Custom Catalog
 
@@ -207,7 +214,7 @@ if (!result.valid) {
 ```
 packages/a2ui/src/
 ├── types.ts              # A2UI protocol types
-├── catalog.ts            # 135 standard + custom catalog entries
+├── catalog.ts            # 142 standard + custom catalog entries
 ├── icon-registry.ts      # Icon name → lucide-react component
 ├── index.ts              # Public API
 ├── renderer/

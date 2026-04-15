@@ -136,7 +136,7 @@ When clicked, your `onAction` callback receives `("main", { name: "save", contex
 
 ## Catalog Reference
 
-The default catalog maps all 135 A2UI standard component types to Tale UI.
+The default catalog maps all 142 A2UI standard component types to Tale UI.
 
 <!-- BEGIN:A2UI_CATALOG_TABLES -->
 | A2UI Type | Tale UI Component | Key A2UI Props |
@@ -267,6 +267,7 @@ The default catalog maps all 135 A2UI standard component types to Tale UI.
 | `IconButton` | `IconButton` | `variant`, `size`, `disabled`, `label`, `action` |
 | `DropZone` | `DropZone` | `action` |
 | `FileTrigger` | `FileTrigger` | `acceptedFileTypes`, `allowsMultiple`, `action` |
+| `FileUpload` | `FileUpload.Root` | -- |
 | `PaymentInput` | `PaymentInput.Root` | `label`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `placeholder`, `description`, `errorMessage` |
 | `Autocomplete` | `Autocomplete.Root` | `label`, `placeholder` |
 | `AutocompleteItem` | `Autocomplete.Item` | `id`, `textValue`, `disabled`, `label` |
@@ -276,6 +277,12 @@ The default catalog maps all 135 A2UI standard component types to Tale UI.
 | `ColorPicker` | `ColorPicker.Root` | -- |
 | `AppStoreButton` | `AppStoreButton` | `store`, `size`, `href` |
 | `SocialButton` | `SocialButton` | `provider`, `size`, `href`, `label` |
+| `BadgeGroup` | `BadgeGroup.Root` | `addonText`, `size`, `color`, `theme`, `align`, `label` |
+| `SectionDivider` | `SectionDivider` | -- |
+| `InputGroup` | `InputGroup.Root` | -- |
+| `InputTags` | `InputTags.Root` | `label`, `placeholder`, `description`, `defaultValue`, `tagPlacement`, `isDisabled`, `isRequired`, `isInvalid` |
+| `MultiSelect` | `MultiSelect.Root` | `label`, `placeholder`, `description`, `isDisabled`, `isRequired`, `isInvalid`, `showSearch`, `showFooter` |
+| `TagSelect` | `TagSelect.Root` | `label`, `placeholder`, `description`, `isDisabled`, `isRequired`, `isInvalid` |
 
 **Text `usageHint` values:**
 

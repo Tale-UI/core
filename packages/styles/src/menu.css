@@ -121,3 +121,38 @@
   box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
+
+/* ─── DotsButton ─────────────────────────────────────────────────────────── */
+
+.tale-menu__dots-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-s);
+  background-color: transparent;
+  color: var(--neutral-50);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tale-menu__dots-button[data-hovered],
+.tale-menu__dots-button[data-pressed] {
+  background-color: var(--neutral-14);
+  color: var(--neutral-70);
+}
+
+.tale-menu__dots-button[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--neutral-5), 0 0 0 4px var(--focus-ring-color);
+}
+
+.tale-menu__dots-button-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  stroke-width: 2;
+  pointer-events: none;
+}

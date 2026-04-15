@@ -1,0 +1,7 @@
+{
+  "slug": "iphone-mockup-screenshot",
+  "difficulty": "simple",
+  "prompt": "Show an iPhone mockup displaying a screenshot, scaled to 260 px wide.",
+  "reference": "import { IPhoneMockup } from '@tale-ui/react/iphone-mockup';\n\nexport function Example() {\n  return (\n    <IPhoneMockup\n      image=\"/screenshots/app-home.png\"\n      width={260}\n      height={530}\n    />\n  );\n}",
+  "tags": ["IPhoneMockup"]
+}

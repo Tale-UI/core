@@ -1,0 +1,277 @@
+/*
+ * TagSelect — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria Group exposes:     [data-focus-within] [data-disabled] [data-invalid]
+ * React Aria Popover exposes:   [data-entering] [data-exiting] [data-placement]
+ * React Aria ListBoxItem exposes: [data-hovered] [data-focused] [data-focus-visible] [data-disabled]
+ *
+ * Usage:
+ *   <TagSelect.Root label="..." items={opts} onSelectionChange={...}>
+ *     {(item) => <TagSelect.Item id={item.id} textValue={item.name}>{item.name}</TagSelect.Item>}
+ *   </TagSelect.Root>
+ */
+
+/* ─── Root container ────────────────────────────────────────────────────── */
+
+.tale-tag-select {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+}
+
+/* ─── ComboBox wrapper (react-aria ComboBox renders a div) ──────────────── */
+
+.tale-tag-select__combobox {
+  display: block;
+  width: 100%;
+}
+
+/* ─── Group — the visual field surface ──────────────────────────────────── */
+
+.tale-tag-select__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3xs);
+  width: 100%;
+  min-height: var(--field-min-height);
+  padding: var(--field-padding-block) var(--field-padding-inline);
+  border: 1px solid var(--field-border-color);
+  border-radius: var(--field-radius);
+  background-color: var(--field-bg);
+  box-sizing: border-box;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  cursor: text;
+}
+
+.tale-tag-select__group[data-focus-within] {
+  border-color: var(--field-focus-border);
+  box-shadow: var(--field-focus-glow);
+  outline: none;
+}
+
+.tale-tag-select__group--invalid {
+  border-color: var(--red-60);
+}
+
+.tale-tag-select__group--invalid[data-focus-within] {
+  border-color: var(--red-60);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--red-60) 20%, transparent);
+}
+
+.tale-tag-select__group[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Size modifiers ────────────────────────────────────────────────────── */
+
+.tale-tag-select__group--sm {
+  min-height: var(--space-m);
+  padding: var(--space-4xs) var(--space-3xs);
+  gap: var(--space-4xs);
+}
+
+.tale-tag-select__group--lg {
+  min-height: 4.4rem;
+  padding: var(--space-2xs) var(--field-padding-inline);
+}
+
+/* ─── Text input ────────────────────────────────────────────────────────── */
+
+.tale-tag-select__input {
+  flex: 1;
+  min-width: 8rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--field-color);
+  font-family: var(--field-font-family);
+  font-size: var(--field-font-size);
+  line-height: 1.5;
+  caret-color: var(--field-color);
+}
+
+.tale-tag-select__input::placeholder {
+  color: var(--field-placeholder-color);
+}
+
+.tale-tag-select__input:disabled {
+  cursor: not-allowed;
+}
+
+.tale-tag-select__group--sm .tale-tag-select__input {
+  font-size: var(--text-s-font-size);
+}
+
+.tale-tag-select__group--lg .tale-tag-select__input {
+  font-size: var(--text-l-font-size);
+}
+
+/* ─── Tag chips ─────────────────────────────────────────────────────────── */
+
+.tale-tag-select__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4xs);
+  padding: 0 0 0 var(--space-3xs);
+  border: 1px solid var(--neutral-26);
+  border-radius: var(--radius-s);
+  background-color: var(--neutral-14);
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  white-space: nowrap;
+  max-width: 18rem;
+}
+
+.tale-tag-select__tag--sm {
+  font-size: var(--label-xs-font-size, var(--text-xs-font-size, 1.1rem));
+  border-radius: var(--radius-xs, var(--radius-s));
+}
+
+.tale-tag-select__tag--lg {
+  font-size: var(--label-m-font-size);
+  border-radius: var(--radius-m, var(--radius-s));
+}
+
+.tale-tag-select__tag-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Tag remove button ──────────────────────────────────────────────────── */
+
+.tale-tag-select__tag-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--neutral-60);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.1s ease,
+    color 0.1s ease;
+}
+
+.tale-tag-select__tag-remove:hover:not(:disabled) {
+  background-color: var(--neutral-26);
+  color: var(--neutral-90);
+}
+
+.tale-tag-select__tag-remove:focus-visible {
+  box-shadow: 0 0 0 2px var(--focus-ring-color);
+}
+
+.tale-tag-select__tag-remove:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Popup ──────────────────────────────────────────────────────────────── */
+
+.tale-tag-select__popup {
+  background-color: var(--popup-bg);
+  border: 1px solid var(--popup-border-color);
+  border-radius: var(--popup-radius);
+  box-shadow: var(--popup-shadow);
+  outline: none;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.tale-tag-select__popup[data-entering] {
+  animation: tag-select-in 0.12s ease-out;
+}
+
+.tale-tag-select__popup[data-exiting] {
+  animation: tag-select-out 0.08s ease-in;
+}
+
+@keyframes tag-select-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tag-select-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+}
+
+/* ─── Listbox ─────────────────────────────────────────────────────────────── */
+
+.tale-tag-select__listbox {
+  max-height: 28rem;
+  overflow-y: auto;
+  padding: var(--space-3xs) 0;
+  outline: none;
+}
+
+/* ─── List item ──────────────────────────────────────────────────────────── */
+
+.tale-tag-select__item {
+  display: flex;
+  align-items: center;
+  gap: var(--item-gap);
+  padding: var(--item-padding-block) var(--item-padding-inline);
+  border-radius: 0;
+  color: var(--item-color);
+  font-family: var(--field-font-family);
+  font-size: var(--item-font-size);
+  line-height: 1.4;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tale-tag-select__item[data-hovered],
+.tale-tag-select__item[data-focused] {
+  background-color: var(--item-focus-bg);
+  color: var(--item-focus-color);
+}
+
+.tale-tag-select__item[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tale-tag-select__item[data-focus-visible] {
+  box-shadow: inset 0 0 0 2px var(--focus-ring-color);
+}
+
+/* ─── Label / description / error (via _primitives.css group 2/8/9) ──────── */
+/* .tale-tag-select__label, .tale-tag-select__description, .tale-tag-select__error
+   are declared in _primitives.css so all field components share the same style. */
+
+/* Label disabled state */
+.tale-tag-select[data-disabled] .tale-tag-select__label {
+  opacity: 0.45;
+}

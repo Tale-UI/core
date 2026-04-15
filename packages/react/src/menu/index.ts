@@ -9,6 +9,7 @@ export type {
   GroupProps as MenuGroupProps,
   HeaderProps as MenuHeaderProps,
   SeparatorProps as MenuSeparatorProps,
+  DotsButtonProps as MenuDotsButtonProps,
 } from './Menu.styled';
 
 export type { Selection, Key } from 'react-aria-components';

@@ -1,0 +1,7 @@
+{
+  "slug": "header-nav-basic",
+  "difficulty": "simple",
+  "prompt": "Show a horizontal header with logo, nav links, and login/signup buttons.",
+  "reference": "import { HeaderNav } from '@tale-ui/react/header-nav';\n\nexport function HeaderNavBasic() {\n  return (\n    <HeaderNav.Root>\n      <HeaderNav.Logo href=\"/\">MyApp</HeaderNav.Logo>\n      <HeaderNav.Secondary>\n        <HeaderNav.NavButton href=\"/features\" current>Features</HeaderNav.NavButton>\n        <HeaderNav.NavButton href=\"/pricing\">Pricing</HeaderNav.NavButton>\n        <HeaderNav.NavButton href=\"/docs\">Docs</HeaderNav.NavButton>\n      </HeaderNav.Secondary>\n      <HeaderNav.Actions>\n        <a href=\"/login\" className=\"tale-button tale-button--neutral tale-button--md\">Log in</a>\n        <a href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Sign up</a>\n      </HeaderNav.Actions>\n    </HeaderNav.Root>\n  );\n}\n",
+  "tags": ["HeaderNav"]
+}

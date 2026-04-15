@@ -1,0 +1,42 @@
+/*
+ * PaginationLine — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component. Uses Pagination.Root + Pagination.Line internally.
+ *
+ * Usage:
+ *   <nav class="tale-pagination-line [tale-pagination-line--lg] [tale-pagination-line--framed]">
+ *     <button class="tale-pagination__line [tale-pagination__line--current]" />
+ *   </nav>
+ *
+ * Note: line styles (.tale-pagination__line, .tale-pagination__line--current) are
+ * defined in pagination.css. This file only adds wrapper and size/framed variants.
+ */
+
+/* ─── Root wrapper ───────────────────────────────────────────────────────────── */
+
+.tale-pagination-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  width: max-content;
+}
+
+/* ─── Large size modifier ────────────────────────────────────────────────────── */
+
+.tale-pagination-line--lg .tale-pagination__line {
+  height: 0.4rem;
+}
+
+/* ─── Framed variant — frosted-glass background ──────────────────────────────── */
+
+.tale-pagination-line--framed {
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-full);
+  background-color: color-mix(in srgb, var(--neutral-5) 90%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.tale-pagination-line--framed.tale-pagination-line--lg {
+  padding: var(--space-2xs) var(--space-s);
+}

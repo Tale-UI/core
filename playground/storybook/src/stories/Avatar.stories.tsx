@@ -217,6 +217,131 @@ export const LabelGroupWithIndicator: Story = {
   ),
 };
 
+export const AddButtonSizes: Story = {
+  name: 'AddButton — Sizes',
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-row story-row--m" style={{ alignItems: 'center' }}>
+        <Avatar.AddButton size="xs" aria-label="Add (xs)" />
+        <Avatar.AddButton size="sm" aria-label="Add (sm)" />
+        <Avatar.AddButton size="md" aria-label="Add (md)" />
+      </div>
+    );
+  },
+};
+
+export const AddButtonInGroup: Story = {
+  name: 'AddButton — In Group',
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <Avatar.Group size="md">
+        <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
+        <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
+        <Avatar.Root><Avatar.Fallback>EF</Avatar.Fallback></Avatar.Root>
+        <Avatar.AddButton size="md" aria-label="Add team member" />
+      </Avatar.Group>
+    );
+  },
+};
+
+export const CompanyIconSizes: Story = {
+  name: 'CompanyIcon — Sizes',
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-row story-row--m" style={{ alignItems: 'center' }}>
+        {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+          <Avatar.CompanyIcon key={size} src="https://placehold.co/64x64/6366f1/ffffff" alt="Company" size={size}>
+            <Avatar.Root size={size}>
+              <Avatar.Fallback>JD</Avatar.Fallback>
+            </Avatar.Root>
+          </Avatar.CompanyIcon>
+        ))}
+      </div>
+    );
+  },
+};
+
+export const VerifiedTickSizes: Story = {
+  name: 'VerifiedTick — Sizes',
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-row story-row--m" style={{ alignItems: 'center' }}>
+        {(['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'] as const).map((size) => (
+          <div key={size} className="story-col" style={{ alignItems: 'center' }}>
+            <Avatar.VerifiedTick size={size} />
+            <span style={{ fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{size}</span>
+          </div>
+        ))}
+      </div>
+    );
+  },
+};
+
+export const VerifiedTickOnIndicator: Story = {
+  name: 'VerifiedTick — On Indicator',
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-row story-row--m" style={{ alignItems: 'center' }}>
+        <Avatar.Indicator badge={<Avatar.VerifiedTick size="xs" />}>
+          <Avatar.Root size="sm"><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
+        </Avatar.Indicator>
+        <Avatar.Indicator badge={<Avatar.VerifiedTick size="sm" />}>
+          <Avatar.Root size="md"><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
+        </Avatar.Indicator>
+        <Avatar.Indicator badge={<Avatar.VerifiedTick size="md" />}>
+          <Avatar.Root size="lg"><Avatar.Fallback>EF</Avatar.Fallback></Avatar.Root>
+        </Avatar.Indicator>
+      </div>
+    );
+  },
+};
+
+export const ProfilePhotoSizes: Story = {
+  name: 'ProfilePhoto — Sizes',
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-row story-row--m" style={{ alignItems: 'center' }}>
+        {(['sm', 'md', 'lg'] as const).map((size) => (
+          <div key={size} className="story-col" style={{ alignItems: 'center' }}>
+            <Avatar.ProfilePhoto size={size}>
+              <Avatar.Image src="https://placehold.co/160x160" alt="User" />
+              <Avatar.Fallback>JD</Avatar.Fallback>
+            </Avatar.ProfilePhoto>
+            <span style={{ fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{size}</span>
+          </div>
+        ))}
+      </div>
+    );
+  },
+};
+
+export const ProfilePhotoWithBadge: Story = {
+  name: 'ProfilePhoto — With VerifiedTick',
+  parameters: { controls: { disable: true } },
+  render() {
+    return (
+      <div className="story-row story-row--m" style={{ alignItems: 'center' }}>
+        <Avatar.ProfilePhoto size="sm" badge={<Avatar.VerifiedTick size="xs" />}>
+          <Avatar.Fallback>AB</Avatar.Fallback>
+        </Avatar.ProfilePhoto>
+        <Avatar.ProfilePhoto size="md" badge={<Avatar.VerifiedTick size="sm" />}>
+          <Avatar.Fallback>CD</Avatar.Fallback>
+        </Avatar.ProfilePhoto>
+        <Avatar.ProfilePhoto size="lg" badge={<Avatar.VerifiedTick size="md" />}>
+          <Avatar.Image src="https://placehold.co/160x160" alt="User" />
+          <Avatar.Fallback>JD</Avatar.Fallback>
+        </Avatar.ProfilePhoto>
+      </div>
+    );
+  },
+};
+
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {

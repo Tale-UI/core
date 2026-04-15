@@ -135,8 +135,27 @@ import { RatingBadge } from '@tale-ui/react/rating-badge';
 import { SelectNative } from '@tale-ui/react/select-native';
 import { AppStoreButton } from '@tale-ui/react/app-store-button';
 import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';
+import { BadgeGroup } from '@tale-ui/react/badge-group';
+import { SectionDivider } from '@tale-ui/react/section-divider';
+import { BackgroundPattern } from '@tale-ui/react/background-pattern';
+import { Illustration } from '@tale-ui/react/illustration';
+import { IPhoneMockup } from '@tale-ui/react/iphone-mockup';
+import { CreditCard } from '@tale-ui/react/credit-card';
+import { InputGroup } from '@tale-ui/react/input-group';
+import { InputTags } from '@tale-ui/react/input-tags';
+import { MultiSelect } from '@tale-ui/react/multi-select';
+import { TagSelect } from '@tale-ui/react/tag-select';
+import { PaginationDot } from '@tale-ui/react/pagination-dot';
+import { PaginationLine } from '@tale-ui/react/pagination-line';
 import { PaymentInput } from '@tale-ui/react/payment-input';
 import { Text } from '@tale-ui/react/text';
+import { QRCode } from '@tale-ui/react/qr-code';
+import { ImageCropper } from '@tale-ui/react/image-cropper';
+import { VideoPlayer } from '@tale-ui/react/video-player';
+import { FileUpload } from '@tale-ui/react/file-upload';
+import { TextEditor } from '@tale-ui/react/text-editor';
+import { Sidebar } from '@tale-ui/react/sidebar';
+import { HeaderNav } from '@tale-ui/react/header-nav';
 
 
 // ---------------------------------------------------------------------------
@@ -206,6 +225,10 @@ const TOC = [
     { id: 'button', label: 'Button' },
     { id: 'icon-button', label: 'IconButton' },
     { id: 'input', label: 'Input' },
+    { id: 'input-group', label: 'InputGroup' },
+    { id: 'input-tags', label: 'InputTags' },
+    { id: 'multi-select', label: 'MultiSelect' },
+    { id: 'tag-select', label: 'TagSelect' },
     { id: 'checkbox', label: 'Checkbox' },
     { id: 'checkbox-group', label: 'CheckboxGroup' },
     { id: 'radio', label: 'Radio' },
@@ -258,6 +281,10 @@ const TOC = [
     { id: 'breadcrumbs', label: 'Breadcrumbs' },
     { id: 'link', label: 'Link' },
     { id: 'pagination', label: 'Pagination' },
+    { id: 'pagination-dot', label: 'PaginationDot' },
+    { id: 'pagination-line', label: 'PaginationLine' },
+    { id: 'sidebar', label: 'Sidebar' },
+    { id: 'header-nav', label: 'HeaderNav' },
   ]},
   { category: 'Layout', items: [
     { id: 'carousel', label: 'Carousel' },
@@ -292,6 +319,8 @@ const TOC = [
     { id: 'tree', label: 'Tree' },
     { id: 'image', label: 'Image' },
     { id: 'list', label: 'List' },
+    { id: 'qr-code', label: 'QRCode' },
+    { id: 'video-player', label: 'VideoPlayer' },
   ]},
   { category: 'Form Structure', items: [
     { id: 'field', label: 'Field' },
@@ -301,6 +330,9 @@ const TOC = [
   { category: 'Interaction', items: [
     { id: 'drop-zone', label: 'DropZone' },
     { id: 'file-trigger', label: 'FileTrigger' },
+    { id: 'file-upload', label: 'FileUpload' },
+    { id: 'image-cropper', label: 'ImageCropper' },
+    { id: 'text-editor', label: 'TextEditor' },
   ]},
   { category: 'Typography', items: [
     { id: 'text', label: 'Text' },
@@ -309,6 +341,12 @@ const TOC = [
     { id: 'app-store-button', label: 'AppStoreButton' },
     { id: 'social-button', label: 'SocialButton' },
     { id: 'social-button-group', label: 'SocialButtonGroup' },
+    { id: 'badge-group', label: 'BadgeGroup' },
+    { id: 'section-divider', label: 'SectionDivider' },
+    { id: 'background-pattern', label: 'BackgroundPattern' },
+    { id: 'illustration', label: 'Illustration' },
+    { id: 'iphone-mockup', label: 'IphoneMockup' },
+    { id: 'credit-card', label: 'CreditCard' },
   ]},
   { category: 'Utility', items: [
     { id: 'color-mode-toggle', label: 'ColorModeToggle' },
@@ -384,6 +422,118 @@ function CalendarSection() {
 // ColorPicker section (needs shared state — ColorSlider must NOT nest inside
 // ColorPicker.Root, so we use standalone components with useState)
 // ---------------------------------------------------------------------------
+
+const multiSelectItems = [
+  { id: 'react', name: 'React' },
+  { id: 'vue', name: 'Vue' },
+  { id: 'angular', name: 'Angular' },
+  { id: 'svelte', name: 'Svelte' },
+  { id: 'solid', name: 'SolidJS' },
+];
+
+function MultiSelectAuditDemo({ size = 'md' as 'sm' | 'md' | 'lg', label = 'Frameworks' } = {}) {
+  const [selected, setSelected] = React.useState<Set<string>>(new Set());
+  return (
+    <MultiSelect.Root
+      label={label}
+      size={size}
+      placeholder="Select frameworks"
+      items={multiSelectItems}
+      selectedKeys={selected}
+      onSelectionChange={(keys) => setSelected(keys as Set<string>)}
+      onReset={() => setSelected(new Set())}
+      onSelectAll={() => setSelected(new Set(multiSelectItems.map((i) => i.id)))}
+    >
+      {(item: { id: string; name: string }) => (
+        <MultiSelect.Item id={item.id} textValue={item.name}>
+          {item.name}
+        </MultiSelect.Item>
+      )}
+    </MultiSelect.Root>
+  );
+}
+
+const tagSelectPeople = [
+  { id: 'alice', name: 'Alice Johnson' },
+  { id: 'bob', name: 'Bob Smith' },
+  { id: 'carol', name: 'Carol Davis' },
+  { id: 'dave', name: 'Dave Wilson' },
+  { id: 'eve', name: 'Eve Martinez' },
+  { id: 'frank', name: 'Frank Lee' },
+];
+
+function TagSelectAuditSection() {
+  const [selected, setSelected] = React.useState<Set<import('react-aria-components').Key>>(new Set(['alice', 'bob']));
+  return (
+    <>
+      <SubHeading>Default</SubHeading>
+      <div className="audit__demo-narrow audit__demo-spaced">
+        <TagSelect.Root
+          label="Team members"
+          placeholder="Search members…"
+          description="Select everyone who should have access."
+          items={tagSelectPeople}
+          selectedKeys={selected}
+          onSelectionChange={setSelected}
+        >
+          {(person: { id: string; name: string }) => (
+            <TagSelect.Item id={person.id} textValue={person.name}>
+              {person.name}
+            </TagSelect.Item>
+          )}
+        </TagSelect.Root>
+      </div>
+      <SubHeading>Sizes</SubHeading>
+      <div className="audit__demo-narrow audit__demo-spaced">
+        {(['sm', 'md', 'lg'] as const).map((size) => (
+          <TagSelect.Root
+            key={size}
+            size={size}
+            label={`${size.toUpperCase()} size`}
+            placeholder="Search…"
+            items={tagSelectPeople}
+            defaultSelectedKeys={new Set(['alice'])}
+          >
+            {(person: { id: string; name: string }) => (
+              <TagSelect.Item id={person.id} textValue={person.name}>
+                {person.name}
+              </TagSelect.Item>
+            )}
+          </TagSelect.Root>
+        ))}
+      </div>
+      <SubHeading>States</SubHeading>
+      <div className="audit__demo-narrow audit__demo-spaced">
+        <TagSelect.Root
+          label="Invalid"
+          isInvalid
+          isRequired
+          errorMessage="Please select at least one member."
+          items={tagSelectPeople}
+          defaultSelectedKeys={new Set()}
+        >
+          {(person: { id: string; name: string }) => (
+            <TagSelect.Item id={person.id} textValue={person.name}>
+              {person.name}
+            </TagSelect.Item>
+          )}
+        </TagSelect.Root>
+        <TagSelect.Root
+          label="Disabled"
+          isDisabled
+          items={tagSelectPeople}
+          defaultSelectedKeys={new Set(['alice', 'carol'])}
+        >
+          {(person: { id: string; name: string }) => (
+            <TagSelect.Item id={person.id} textValue={person.name}>
+              {person.name}
+            </TagSelect.Item>
+          )}
+        </TagSelect.Root>
+      </div>
+    </>
+  );
+}
 
 function NavMenuDropdownDemo() {
   const [open, setOpen] = React.useState(false);
@@ -707,6 +857,116 @@ function SortableTableDemo() {
 }
 
 // ---------------------------------------------------------------------------
+// FileUpload section (needs state for live upload simulation)
+// ---------------------------------------------------------------------------
+
+function FileUploadAuditSection() {
+  const [files, setFiles] = React.useState<File[]>([]);
+  const [progress, setProgress] = React.useState<Record<number, number>>({});
+
+  const addFiles = (fl: FileList) => {
+    const arr = Array.from(fl);
+    setFiles((prev) => {
+      const next = [...prev, ...arr];
+      arr.forEach((_, i) => {
+        const idx = prev.length + i;
+        let pct = 0;
+        const timer = setInterval(() => {
+          pct += 10;
+          setProgress((p) => ({ ...p, [idx]: pct }));
+          if (pct >= 100) clearInterval(timer);
+        }, 200);
+      });
+      return next;
+    });
+  };
+
+  return (
+    <>
+      <SubHeading>Default (ProgressBar)</SubHeading>
+      <div style={{ maxWidth: 480 }}>
+        <FileUpload.Root>
+          <FileUpload.DropZone
+            hint="PNG, JPG, PDF (max 5 MB)"
+            accept="image/*,.pdf"
+            maxSize={5 * 1024 * 1024}
+            onDropFiles={addFiles}
+          />
+          {files.length > 0 && (
+            <FileUpload.List>
+              {files.map((f, i) => (
+                <FileUpload.ListItemProgressBar
+                  key={`${f.name}-${i}`}
+                  name={f.name}
+                  size={f.size}
+                  progress={progress[i] ?? 0}
+                  onDelete={() => {
+                    setFiles((p) => p.filter((_, j) => j !== i));
+                    setProgress((p) => { const n = { ...p }; delete n[i]; return n; });
+                  }}
+                />
+              ))}
+            </FileUpload.List>
+          )}
+        </FileUpload.Root>
+      </div>
+      <SubHeading>ProgressFill Variant</SubHeading>
+      <div style={{ maxWidth: 480 }}>
+        <FileUpload.Root>
+          <FileUpload.DropZone hint="Any file type accepted" />
+          <FileUpload.List>
+            <FileUpload.ListItemProgressFill name="design-system.fig" size={2_400_000} progress={65} onDelete={() => {}} />
+            <FileUpload.ListItemProgressFill name="brand-assets.zip" size={8_100_000} progress={100} onDelete={() => {}} />
+          </FileUpload.List>
+        </FileUpload.Root>
+      </div>
+      <SubHeading>Error States</SubHeading>
+      <div style={{ maxWidth: 480 }}>
+        <FileUpload.List>
+          <FileUpload.ListItemProgressBar name="huge-video.mp4" size={500_000_000} progress={0} failed onDelete={() => {}} onRetry={() => {}} />
+          <FileUpload.ListItemProgressFill name="corrupt.psd" size={1_200_000} progress={0} failed onDelete={() => {}} onRetry={() => {}} />
+        </FileUpload.List>
+      </div>
+      <SubHeading>Disabled DropZone</SubHeading>
+      <div style={{ maxWidth: 480 }}>
+        <FileUpload.Root>
+          <FileUpload.DropZone hint="Uploads are disabled" isDisabled />
+        </FileUpload.Root>
+      </div>
+    </>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// ImageCropper section (needs state)
+// ---------------------------------------------------------------------------
+
+function ImageCropperAuditSection() {
+  const [crop1, setCrop1] = React.useState<import('@tale-ui/react/image-cropper').Crop>();
+  const [crop2, setCrop2] = React.useState<import('@tale-ui/react/image-cropper').Crop>();
+
+  return (
+    <>
+      <SubHeading>Free crop</SubHeading>
+      <div style={{ maxWidth: 480 }}>
+        <ImageCropper.Root crop={crop1} onChange={setCrop1}>
+          <ImageCropper.Img src="https://placehold.co/600x400/6366f1/ffffff?text=Crop+Me" alt="Demo" />
+        </ImageCropper.Root>
+      </div>
+      <SubHeading>Circular 1:1 (avatar)</SubHeading>
+      <div style={{ maxWidth: 360 }}>
+        <ImageCropper.Root crop={crop2} onChange={setCrop2} aspect={1} circularCrop>
+          <ImageCropper.Img
+            src="https://placehold.co/400x400/6366f1/ffffff?text=Avatar"
+            alt="Avatar crop"
+          />
+        </ImageCropper.Root>
+      </div>
+    </>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Main audit page
 // ---------------------------------------------------------------------------
 
@@ -986,6 +1246,200 @@ export default function ComponentAudit() {
               <Input.Input defaultValue="acct_12345" />
             </Input.Root>
           </div>
+        </Section>
+
+        <Section
+          id="input-group"
+          title="InputGroup"
+          classes={[
+            'tale-input-group',
+            'tale-input-group__addon',
+            'tale-input-group__addon--leading',
+            'tale-input-group__addon--trailing',
+          ]}
+        >
+          <SubHeading>Leading addon</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <InputGroup.Root>
+              <InputGroup.Addon position="leading">https://</InputGroup.Addon>
+              <Input.Root>
+                <Input.Label>Website URL</Input.Label>
+                <Input.Input placeholder="example.com" />
+              </Input.Root>
+            </InputGroup.Root>
+          </div>
+          <SubHeading>Trailing addon</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <InputGroup.Root>
+              <Input.Root>
+                <Input.Label>Duration</Input.Label>
+                <Input.Input type="number" placeholder="30" />
+              </Input.Root>
+              <InputGroup.Addon position="trailing">minutes</InputGroup.Addon>
+            </InputGroup.Root>
+          </div>
+          <SubHeading>Both addons</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <InputGroup.Root>
+              <InputGroup.Addon position="leading">$</InputGroup.Addon>
+              <Input.Root>
+                <Input.Label>Amount</Input.Label>
+                <Input.Input type="number" placeholder="0.00" />
+              </Input.Root>
+              <InputGroup.Addon position="trailing">USD</InputGroup.Addon>
+            </InputGroup.Root>
+          </div>
+        </Section>
+
+        <Section
+          id="input-tags"
+          title="InputTags"
+          classes={[
+            'tale-input-tags',
+            'tale-input-tags--sm',
+            'tale-input-tags--lg',
+            'tale-input-tags--below',
+            'tale-input-tags__label',
+            'tale-input-tags__group',
+            'tale-input-tags__tag-list',
+            'tale-input-tags__tag',
+            'tale-input-tags__input',
+            'tale-input-tags__tags',
+            'tale-input-tags__description',
+            'tale-input-tags__error',
+          ]}
+        >
+          <SubHeading>Inline placement (default)</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <InputTags.Root
+              label="Skills"
+              placeholder="Add a skill…"
+              description="Press Enter to add."
+              defaultValue={['React', 'TypeScript']}
+            />
+          </div>
+          <SubHeading>Below placement</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <InputTags.Root
+              label="Tags"
+              placeholder="Add a tag…"
+              tagPlacement="below"
+              defaultValue={['design', 'ui']}
+            />
+          </div>
+          <SubHeading>Sizes</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <InputTags.Root size="sm" label="Small" placeholder="Add tag…" />
+            <InputTags.Root size="md" label="Medium" placeholder="Add tag…" />
+            <InputTags.Root size="lg" label="Large" placeholder="Add tag…" />
+          </div>
+          <SubHeading>States</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <InputTags.Root
+              label="Invalid"
+              isInvalid
+              isRequired
+              errorMessage="At least one skill is required."
+            />
+            <InputTags.Root
+              label="Disabled"
+              isDisabled
+              defaultValue={['React', 'TypeScript']}
+            />
+          </div>
+        </Section>
+
+        <Section
+          id="multi-select"
+          title="MultiSelect"
+          classes={[
+            'tale-multi-select',
+            'tale-multi-select__label',
+            'tale-multi-select__trigger',
+            'tale-multi-select__trigger--invalid',
+            'tale-multi-select__trigger-inner',
+            'tale-multi-select__value',
+            'tale-multi-select__value--selected',
+            'tale-multi-select__value--placeholder',
+            'tale-multi-select__icon',
+            'tale-multi-select__popup',
+            'tale-multi-select__search-wrapper',
+            'tale-multi-select__search',
+            'tale-multi-select__search-input',
+            'tale-multi-select__listbox',
+            'tale-multi-select__item',
+            'tale-multi-select__item-check',
+            'tale-multi-select__item-text',
+            'tale-multi-select__footer',
+            'tale-multi-select__footer-btn',
+            'tale-multi-select__empty',
+            'tale-multi-select__description',
+            'tale-multi-select__error',
+          ]}
+        >
+          <SubHeading>Default (with search + footer)</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <MultiSelectAuditDemo />
+          </div>
+          <SubHeading>Sizes</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <MultiSelectAuditDemo size="sm" label="Small" />
+            <MultiSelectAuditDemo size="md" label="Medium" />
+            <MultiSelectAuditDemo size="lg" label="Large" />
+          </div>
+          <SubHeading>States</SubHeading>
+          <div className="audit__demo-narrow audit__demo-spaced">
+            <MultiSelect.Root
+              label="Invalid"
+              isInvalid
+              isRequired
+              errorMessage="Please select at least one option."
+              items={[{ id: 'react', name: 'React' }]}
+              onSelectionChange={() => {}}
+            >
+              {(item: {id: string; name: string}) => (
+                <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>
+              )}
+            </MultiSelect.Root>
+            <MultiSelect.Root
+              label="Disabled"
+              isDisabled
+              items={[{ id: 'react', name: 'React' }]}
+              defaultSelectedKeys={new Set(['react'])}
+              onSelectionChange={() => {}}
+            >
+              {(item: {id: string; name: string}) => (
+                <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>
+              )}
+            </MultiSelect.Root>
+          </div>
+        </Section>
+
+        <Section
+          id="tag-select"
+          title="TagSelect"
+          classes={[
+            'tale-tag-select',
+            'tale-tag-select__combobox',
+            'tale-tag-select__group',
+            'tale-tag-select__group--invalid',
+            'tale-tag-select__group--sm',
+            'tale-tag-select__group--lg',
+            'tale-tag-select__input',
+            'tale-tag-select__tag',
+            'tale-tag-select__tag--sm',
+            'tale-tag-select__tag--lg',
+            'tale-tag-select__tag-text',
+            'tale-tag-select__tag-remove',
+            'tale-tag-select__popup',
+            'tale-tag-select__listbox',
+            'tale-tag-select__item',
+            'tale-tag-select__label',
+            'tale-tag-select__description',
+            'tale-tag-select__error',
+          ]}
+        >
+          <TagSelectAuditSection />
         </Section>
 
         <Section id="checkbox" title="Checkbox" classes={['tale-checkbox', 'tale-checkbox--sm', 'tale-checkbox__indicator']}>
@@ -2010,6 +2464,52 @@ export default function ComponentAudit() {
           </Pagination.Root>
         </Section>
 
+        <Section
+          id="pagination-dot"
+          title="PaginationDot"
+          classes={[
+            'tale-pagination-dot',
+            'tale-pagination-dot--lg',
+            'tale-pagination-dot--framed',
+          ]}
+        >
+          <SubHeading>Default (md)</SubHeading>
+          <PaginationDot page={2} total={5} />
+          <SubHeading>Large</SubHeading>
+          <PaginationDot page={1} total={4} size="lg" />
+          <SubHeading>Framed</SubHeading>
+          <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: 8, display: 'inline-block' }}>
+            <PaginationDot page={2} total={5} framed />
+          </div>
+          <SubHeading>Framed + Large</SubHeading>
+          <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', borderRadius: 8, display: 'inline-block' }}>
+            <PaginationDot page={1} total={3} size="lg" framed />
+          </div>
+        </Section>
+
+        <Section
+          id="pagination-line"
+          title="PaginationLine"
+          classes={[
+            'tale-pagination-line',
+            'tale-pagination-line--lg',
+            'tale-pagination-line--framed',
+          ]}
+        >
+          <SubHeading>Default (md)</SubHeading>
+          <PaginationLine page={2} total={5} style={{ width: 240 }} />
+          <SubHeading>Large</SubHeading>
+          <PaginationLine page={1} total={4} size="lg" style={{ width: 240 }} />
+          <SubHeading>Framed</SubHeading>
+          <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: 8, display: 'inline-block', width: 240 }}>
+            <PaginationLine page={2} total={5} framed style={{ width: '100%' }} />
+          </div>
+          <SubHeading>Framed + Large</SubHeading>
+          <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', borderRadius: 8, display: 'inline-block', width: 240 }}>
+            <PaginationLine page={1} total={3} size="lg" framed style={{ width: '100%' }} />
+          </div>
+        </Section>
+
         <Section id="pin-input" title="PinInput" classes={['tale-pin-input', 'tale-pin-input__group', 'tale-pin-input__slot', 'tale-pin-input__separator', 'tale-pin-input__caret']}>
           <SubHeading>4-digit</SubHeading>
           <PinInput.Root maxLength={4}>
@@ -2634,7 +3134,7 @@ export default function ComponentAudit() {
         {/* DISPLAY */}
         {/* ============================================================= */}
 
-        <Section id="avatar" title="Avatar" classes={['tale-avatar', 'tale-avatar--xs', 'tale-avatar--sm', 'tale-avatar--md', 'tale-avatar--lg', 'tale-avatar--xl', 'tale-avatar--2xl', 'tale-avatar__image', 'tale-avatar__fallback', 'tale-avatar-group', 'tale-avatar-count', 'tale-avatar-count--xs', 'tale-avatar-count--2xl', 'tale-avatar-indicator', 'tale-avatar-indicator--bottom-right', 'tale-avatar-indicator--top-right', 'tale-avatar-indicator__badge', 'tale-avatar-label-group', 'tale-avatar-label-group--sm', 'tale-avatar-label-group--md', 'tale-avatar-label-group--lg', 'tale-avatar-label-group__title', 'tale-avatar-label-group__subtitle']}>
+        <Section id="avatar" title="Avatar" classes={['tale-avatar', 'tale-avatar--xs', 'tale-avatar--sm', 'tale-avatar--md', 'tale-avatar--lg', 'tale-avatar--xl', 'tale-avatar--2xl', 'tale-avatar__image', 'tale-avatar__fallback', 'tale-avatar-group', 'tale-avatar-count', 'tale-avatar-count--xs', 'tale-avatar-count--2xl', 'tale-avatar-indicator', 'tale-avatar-indicator--bottom-right', 'tale-avatar-indicator--top-right', 'tale-avatar-indicator__badge', 'tale-avatar-label-group', 'tale-avatar-label-group--sm', 'tale-avatar-label-group--md', 'tale-avatar-label-group--lg', 'tale-avatar-label-group__title', 'tale-avatar-label-group__subtitle', 'tale-avatar-add-button', 'tale-avatar-add-button--xs', 'tale-avatar-add-button--sm', 'tale-avatar-add-button--md', 'tale-avatar-add-button__icon', 'tale-avatar-company-icon', 'tale-avatar-company-icon--md', 'tale-avatar-company-icon--lg', 'tale-avatar-company-icon__badge', 'tale-avatar-verified-tick', 'tale-avatar-verified-tick--xs', 'tale-avatar-verified-tick--sm', 'tale-avatar-verified-tick--md', 'tale-avatar-verified-tick--lg', 'tale-avatar-profile-photo', 'tale-avatar-profile-photo--sm', 'tale-avatar-profile-photo--md', 'tale-avatar-profile-photo--lg', 'tale-avatar-profile-photo__inner', 'tale-avatar-profile-photo__badge']}>
           <SubHeading>Sizes (fallback)</SubHeading>
           <Row>
             {(['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const).map((size) => (
@@ -2719,6 +3219,67 @@ export default function ComponentAudit() {
               <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>
               <Avatar.LabelGroupSubtitle>Online</Avatar.LabelGroupSubtitle>
             </Avatar.LabelGroup>
+          </Row>
+          <SubHeading>AddButton sizes</SubHeading>
+          <Row>
+            {(['xs', 'sm', 'md'] as const).map((size) => (
+              <Avatar.AddButton key={size} size={size} aria-label={`Add member (${size})`} />
+            ))}
+          </Row>
+          <SubHeading>AddButton in Group</SubHeading>
+          <Row>
+            <Avatar.Group size="md">
+              <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
+              <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
+              <Avatar.AddButton size="md" aria-label="Add team member" />
+            </Avatar.Group>
+          </Row>
+          <SubHeading>CompanyIcon sizes</SubHeading>
+          <Row>
+            {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+              <Avatar.CompanyIcon key={size} src="https://placehold.co/64x64/6366f1/ffffff" alt="Company" size={size}>
+                <Avatar.Root size={size}>
+                  <Avatar.Fallback>JD</Avatar.Fallback>
+                </Avatar.Root>
+              </Avatar.CompanyIcon>
+            ))}
+          </Row>
+          <SubHeading>VerifiedTick sizes</SubHeading>
+          <Row>
+            {(['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'] as const).map((size) => (
+              <Avatar.VerifiedTick key={size} size={size} />
+            ))}
+          </Row>
+          <SubHeading>VerifiedTick on Indicator</SubHeading>
+          <Row>
+            {(['sm', 'md', 'lg'] as const).map((size) => (
+              <Avatar.Indicator key={size} badge={<Avatar.VerifiedTick size="sm" />}>
+                <Avatar.Root size={size}>
+                  <Avatar.Fallback>JD</Avatar.Fallback>
+                </Avatar.Root>
+              </Avatar.Indicator>
+            ))}
+          </Row>
+          <SubHeading>ProfilePhoto sizes</SubHeading>
+          <Row>
+            {(['sm', 'md', 'lg'] as const).map((size) => (
+              <Avatar.ProfilePhoto key={size} size={size}>
+                <Avatar.Fallback>JD</Avatar.Fallback>
+              </Avatar.ProfilePhoto>
+            ))}
+          </Row>
+          <SubHeading>ProfilePhoto with VerifiedTick badge</SubHeading>
+          <Row>
+            <Avatar.ProfilePhoto size="sm" badge={<Avatar.VerifiedTick size="xs" />}>
+              <Avatar.Fallback>AB</Avatar.Fallback>
+            </Avatar.ProfilePhoto>
+            <Avatar.ProfilePhoto size="md" badge={<Avatar.VerifiedTick size="sm" />}>
+              <Avatar.Fallback>CD</Avatar.Fallback>
+            </Avatar.ProfilePhoto>
+            <Avatar.ProfilePhoto size="lg" badge={<Avatar.VerifiedTick size="md" />}>
+              <Avatar.Image src="https://placehold.co/160x160" alt="User" />
+              <Avatar.Fallback>EF</Avatar.Fallback>
+            </Avatar.ProfilePhoto>
           </Row>
         </Section>
 
@@ -2845,6 +3406,42 @@ export default function ComponentAudit() {
             <List.Item>Spacious two</List.Item>
             <List.Item>Spacious three</List.Item>
           </List.Root>
+        </Section>
+
+        <Section id="qr-code" title="QRCode" classes={['tale-qr-code', 'tale-qr-code--md', 'tale-qr-code--lg', 'tale-qr-code__canvas', 'tale-qr-code__handle', 'tale-qr-code__handle--tl', 'tale-qr-code__handle--tr', 'tale-qr-code__handle--br', 'tale-qr-code__handle--bl', 'tale-qr-code-scan']}>
+          <SubHeading>Sizes</SubHeading>
+          <LayoutRow gap="l">
+            <div>
+              <p style={{ marginBottom: '0.4rem', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>md</p>
+              <QRCode.Root value="https://example.com" size="md" />
+            </div>
+            <div>
+              <p style={{ marginBottom: '0.4rem', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>lg</p>
+              <QRCode.Root value="https://example.com" size="lg" />
+            </div>
+          </LayoutRow>
+          <SubHeading>With Scan Overlay</SubHeading>
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            <QRCode.Root value="https://example.com" size="lg" />
+            <QRCode.Scan />
+          </div>
+        </Section>
+
+        <Section id="video-player" title="VideoPlayer" classes={['tale-video-player', 'tale-video-player--sm', 'tale-video-player--md', 'tale-video-player--lg', 'tale-video-player__video', 'tale-video-player__thumbnail', 'tale-video-player__thumbnail--visible', 'tale-video-player__thumbnail-img', 'tale-video-player__thumbnail-play', 'tale-video-player__controls', 'tale-video-player__controls--visible', 'tale-video-player__btn', 'tale-video-player__btn-icon', 'tale-video-player__progress-area', 'tale-video-player__progress', 'tale-video-player__progress-fill', 'tale-video-player__progress-buffered', 'tale-video-player__progress-thumb', 'tale-video-player__time', 'tale-video-player__volume', 'tale-video-player__volume-slider']}>
+          <SubHeading>Sizes</SubHeading>
+          <Column gap="l" style={{ maxWidth: 640 }}>
+            {(['sm', 'md', 'lg'] as const).map((size) => (
+              <div key={size}>
+                <p style={{ marginBottom: '0.4rem', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{size}</p>
+                <VideoPlayer.Root
+                  src="https://www.w3schools.com/html/mov_bbb.mp4"
+                  size={size}
+                  thumbnailUrl="https://placehold.co/640x360/1e293b/ffffff?text=▶+Play"
+                  thumbnailAlt="Play video"
+                />
+              </div>
+            ))}
+          </Column>
         </Section>
 
         {/* ============================================================= */}
@@ -3520,6 +4117,108 @@ export default function ComponentAudit() {
           </SocialButtonGroup>
         </Section>
 
+        <Section id="badge-group" title="BadgeGroup" classes={['tale-badge-group', 'tale-badge-group--md', 'tale-badge-group--lg', 'tale-badge-group--light', 'tale-badge-group--modern', 'tale-badge-group--brand', 'tale-badge-group--success', 'tale-badge-group--warning', 'tale-badge-group--error', 'tale-badge-group--gray', 'tale-badge-group--leading', 'tale-badge-group--trailing', 'tale-badge-group__addon', 'tale-badge-group__dot', 'tale-badge-group__icon']}>
+          <SubHeading>Colors (light theme)</SubHeading>
+          <Row>
+            {(['brand', 'success', 'warning', 'error', 'gray'] as const).map((c) => (
+              <BadgeGroup.Root key={c} color={c} addonText="v1.0">{c}</BadgeGroup.Root>
+            ))}
+          </Row>
+          <SubHeading>Colors (modern theme)</SubHeading>
+          <Row>
+            {(['brand', 'success', 'warning', 'error', 'gray'] as const).map((c) => (
+              <BadgeGroup.Root key={c} color={c} theme="modern" addonText="v1.0">{c}</BadgeGroup.Root>
+            ))}
+          </Row>
+          <SubHeading>Sizes</SubHeading>
+          <Row>
+            <BadgeGroup.Root size="md" addonText="md">Medium</BadgeGroup.Root>
+            <BadgeGroup.Root size="lg" addonText="lg">Large</BadgeGroup.Root>
+          </Row>
+          <SubHeading>Leading addon</SubHeading>
+          <Row>
+            <BadgeGroup.Root align="leading" addonText="PRO">Unlock all features</BadgeGroup.Root>
+          </Row>
+        </Section>
+
+        <Section id="section-divider" title="SectionDivider" classes={['tale-section-divider', 'tale-section-divider__rule']}>
+          <SubHeading>Default</SubHeading>
+          <div style={{ width: '100%' }}>
+            <p style={{ margin: '1rem 0' }}>Content above</p>
+            <SectionDivider />
+            <p style={{ margin: '1rem 0' }}>Content below</p>
+          </div>
+        </Section>
+
+        <Section id="background-pattern" title="BackgroundPattern" classes={['tale-background-pattern']}>
+          <SubHeading>All patterns (md size)</SubHeading>
+          <Row>
+            {(['circle', 'square', 'grid'] as const).map((p) => (
+              <div key={p} style={{ textAlign: 'center' }}>
+                <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem' }}>{p}</p>
+                <BackgroundPattern pattern={p} size="md" />
+              </div>
+            ))}
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem' }}>grid-check</p>
+              <BackgroundPattern pattern="grid-check" size="md" />
+            </div>
+          </Row>
+          <SubHeading>Custom color</SubHeading>
+          <BackgroundPattern pattern="circle" size="sm" style={{ color: 'var(--color-30)' }} />
+        </Section>
+
+        <Section id="illustration" title="Illustration" classes={['tale-illustration', 'tale-illustration__svg', 'tale-illustration__overlay']}>
+          <SubHeading>All types (md)</SubHeading>
+          <Row>
+            {(['box', 'cloud', 'documents', 'credit-card'] as const).map((t) => (
+              <div key={t} style={{ textAlign: 'center' }}>
+                <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem' }}>{t}</p>
+                <Illustration type={t} size="md" />
+              </div>
+            ))}
+          </Row>
+          <SubHeading>Sizes (box)</SubHeading>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem' }}>
+            {(['sm', 'md', 'lg'] as const).map((s) => (
+              <div key={s} style={{ textAlign: 'center' }}>
+                <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem' }}>{s}</p>
+                <Illustration type="box" size={s} />
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section id="iphone-mockup" title="IphoneMockup" classes={['tale-iphone-mockup', 'tale-iphone-mockup__image', 'tale-iphone-mockup__image--dark']}>
+          <SubHeading>Default (scaled to 200 px)</SubHeading>
+          <IPhoneMockup
+            image="https://placehold.co/750x1624/e2e8f0/64748b?text=Screenshot"
+            width={200}
+            height={408}
+          />
+        </Section>
+
+        <Section id="credit-card" title="CreditCard" classes={['tale-credit-card', 'tale-credit-card__inner', 'tale-credit-card__inner--brand-dark', 'tale-credit-card__inner--brand-light', 'tale-credit-card__inner--gray-dark', 'tale-credit-card__inner--gray-light', 'tale-credit-card__inner--transparent', 'tale-credit-card__inner--gradient-strip', 'tale-credit-card__header', 'tale-credit-card__company', 'tale-credit-card__paypass', 'tale-credit-card__footer', 'tale-credit-card__number', 'tale-credit-card__holder', 'tale-credit-card__expiration', 'tale-credit-card__logo-wrap', 'tale-credit-card__strip', 'tale-credit-card__strip-vertical']}>
+          <SubHeading>Normal variants</SubHeading>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+            {(['brand-dark', 'brand-light', 'gray-dark', 'gray-light', 'transparent', 'transparent-gradient'] as const).map((t) => (
+              <CreditCard.Root key={t} type={t} width={200} />
+            ))}
+          </div>
+          <SubHeading>Strip variants</SubHeading>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+            {(['transparent-strip', 'gray-strip', 'gradient-strip', 'salmon-strip'] as const).map((t) => (
+              <CreditCard.Root key={t} type={t} width={200} />
+            ))}
+          </div>
+          <SubHeading>Vertical strip variants</SubHeading>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+            {(['gray-strip-vertical', 'gradient-strip-vertical', 'salmon-strip-vertical'] as const).map((t) => (
+              <CreditCard.Root key={t} type={t} width={200} />
+            ))}
+          </div>
+        </Section>
+
         {/* ============================================================= */}
         {/* INTERACTION                                                    */}
         {/* ============================================================= */}
@@ -3546,6 +4245,83 @@ export default function ComponentAudit() {
               <Button variant="neutral">Choose file…</Button>
             </FileTrigger>
           </Row>
+        </Section>
+
+        <Section id="file-upload" title="FileUpload" classes={['tale-file-upload', 'tale-file-upload-drop-zone', 'tale-file-upload-drop-zone--drag-over', 'tale-file-upload-drop-zone--disabled', 'tale-file-upload-drop-zone__icon-wrap', 'tale-file-upload-drop-zone__icon', 'tale-file-upload-drop-zone__body', 'tale-file-upload-drop-zone__trigger-row', 'tale-file-upload-drop-zone__trigger', 'tale-file-upload-drop-zone__or', 'tale-file-upload-drop-zone__hint', 'tale-file-upload-drop-zone__hint--invalid', 'tale-file-upload-list', 'tale-file-upload-list-item', 'tale-file-upload-item', 'tale-file-upload-item--bar', 'tale-file-upload-item--fill', 'tale-file-upload-item--failed', 'tale-file-upload-item__icon', 'tale-file-upload-item__content', 'tale-file-upload-item__name', 'tale-file-upload-item__size', 'tale-file-upload-item__actions', 'tale-file-upload-item__progress', 'tale-file-upload-item__progress-fill', 'tale-file-upload-item__fill-bg']}>
+          <FileUploadAuditSection />
+        </Section>
+
+        <Section id="image-cropper" title="ImageCropper" classes={['tale-image-cropper', 'tale-image-cropper__img']}>
+          <ImageCropperAuditSection />
+        </Section>
+
+        <Section id="text-editor" title="TextEditor" classes={['tale-text-editor', 'tale-text-editor__label', 'tale-text-editor__hint', 'tale-text-editor__hint--invalid', 'tale-text-editor__content', 'tale-text-editor__toolbar', 'tale-text-editor__toolbar--floating', 'tale-text-editor__toolbar--advanced', 'tale-text-editor__separator', 'tale-text-editor__btn', 'tale-text-editor__btn--active', 'tale-text-editor__bubble-menu', 'tale-text-editor__color-popup', 'tale-text-editor__color-swatches', 'tale-text-editor__color-swatch', 'tale-text-editor__color-field', 'tale-text-editor__select']}>
+          <SubHeading>Simple toolbar</SubHeading>
+          <TextEditor.Root>
+            <TextEditor.Label>Body</TextEditor.Label>
+            <TextEditor.Toolbar type="simple" />
+            <TextEditor.Content />
+          </TextEditor.Root>
+          <SubHeading>Advanced toolbar</SubHeading>
+          <TextEditor.Root limit={300}>
+            <TextEditor.Label>Description</TextEditor.Label>
+            <TextEditor.Toolbar type="advanced" />
+            <TextEditor.Content />
+            <TextEditor.HintText />
+          </TextEditor.Root>
+          <SubHeading>Disabled</SubHeading>
+          <TextEditor.Root isDisabled>
+            <TextEditor.Toolbar type="simple" />
+            <TextEditor.Content />
+          </TextEditor.Root>
+          <SubHeading>Invalid</SubHeading>
+          <TextEditor.Root isInvalid>
+            <TextEditor.Toolbar type="simple" />
+            <TextEditor.Content />
+            <TextEditor.HintText>This field is required</TextEditor.HintText>
+          </TextEditor.Root>
+        </Section>
+
+        {/* ============================================================= */}
+        {/* NAVIGATION: Sidebar + HeaderNav                                */}
+        {/* ============================================================= */}
+
+        <Section id="sidebar" title="Sidebar" classes={['tale-sidebar', 'tale-sidebar--no-border', 'tale-sidebar__header', 'tale-sidebar__search', 'tale-sidebar__search-input', 'tale-sidebar__search-icon', 'tale-sidebar__divider', 'tale-sidebar__nav-list', 'tale-sidebar__nav-item', 'tale-sidebar__nav-link', 'tale-sidebar__nav-link--current', 'tale-sidebar__nav-icon', 'tale-sidebar__nav-btn', 'tale-sidebar__nav-btn--current', 'tale-sidebar__account-card', 'tale-sidebar__account-avatar', 'tale-sidebar__account-info', 'tale-sidebar__account-name', 'tale-sidebar__account-email', 'tale-sidebar__account-trigger', 'tale-sidebar__account-menu', 'tale-sidebar__feature-card', 'tale-sidebar__mobile-header', 'tale-sidebar__mobile-menu-btn']}>
+          <SubHeading>Basic sidebar</SubHeading>
+          <div style={{ height: 400, display: 'flex', border: '1px solid var(--neutral-90)', borderRadius: 8, overflow: 'hidden' }}>
+            <Sidebar.Root style={{ width: 280 }}>
+              <Sidebar.Header>
+                <strong style={{ fontSize: 16 }}>MyApp</strong>
+              </Sidebar.Header>
+              <Sidebar.Search placeholder="Search..." />
+              <Sidebar.NavList>
+                <Sidebar.NavItem href="/dashboard" current>Dashboard</Sidebar.NavItem>
+                <Sidebar.NavItem href="/team">Team</Sidebar.NavItem>
+                <Sidebar.NavItem href="/settings">Settings</Sidebar.NavItem>
+                <Sidebar.Divider />
+                <Sidebar.NavItem href="/help">Help &amp; Support</Sidebar.NavItem>
+              </Sidebar.NavList>
+              <Sidebar.AccountCard name="Alex Chen" email="alex@example.com" />
+            </Sidebar.Root>
+          </div>
+        </Section>
+
+        <Section id="header-nav" title="HeaderNav" classes={['tale-header-nav', 'tale-header-nav__logo', 'tale-header-nav__secondary', 'tale-header-nav__nav-btn', 'tale-header-nav__nav-btn--current', 'tale-header-nav__actions', 'tale-header-nav__mobile-trigger']}>
+          <SubHeading>Basic header</SubHeading>
+          <div style={{ border: '1px solid var(--neutral-90)', borderRadius: 8, overflow: 'hidden' }}>
+            <HeaderNav.Root>
+              <HeaderNav.Logo href="/">MyApp</HeaderNav.Logo>
+              <HeaderNav.Secondary>
+                <HeaderNav.NavButton href="/features" current>Features</HeaderNav.NavButton>
+                <HeaderNav.NavButton href="/pricing">Pricing</HeaderNav.NavButton>
+                <HeaderNav.NavButton href="/docs">Docs</HeaderNav.NavButton>
+              </HeaderNav.Secondary>
+              <HeaderNav.Actions>
+                <a href="/login" className="tale-button tale-button--neutral tale-button--sm">Log in</a>
+                <a href="/signup" className="tale-button tale-button--primary tale-button--sm">Sign up</a>
+              </HeaderNav.Actions>
+            </HeaderNav.Root>
+          </div>
         </Section>
 
         {/* ============================================================= */}

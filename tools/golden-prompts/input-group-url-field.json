@@ -1,0 +1,7 @@
+{
+  "slug": "input-group-url-field",
+  "difficulty": "simple",
+  "prompt": "Show a website URL input field with 'https://' as a leading addon prefix, labelled 'Website URL' with placeholder 'example.com'.",
+  "reference": "import { InputGroup } from '@tale-ui/react/input-group';\nimport { Input } from '@tale-ui/react/input';\n\nexport function WebsiteUrlField() {\n  return (\n    <InputGroup.Root>\n      <InputGroup.Addon position=\"leading\">https://</InputGroup.Addon>\n      <Input.Root>\n        <Input.Label>Website URL</Input.Label>\n        <Input.Input placeholder=\"example.com\" />\n      </Input.Root>\n    </InputGroup.Root>\n  );\n}",
+  "tags": ["InputGroup"]
+}

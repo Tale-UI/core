@@ -1,0 +1,7 @@
+{
+  "slug": "sidebar-basic",
+  "difficulty": "simple",
+  "prompt": "Show a sidebar with a logo, three nav items (Dashboard, Team, Settings), and an account card at the bottom.",
+  "reference": "import { LayoutDashboard, Settings, Users } from 'lucide-react';\nimport { Sidebar } from '@tale-ui/react/sidebar';\n\nexport function SidebarBasic() {\n  return (\n    <div style={{ height: '100vh', display: 'flex' }}>\n      <Sidebar.Root>\n        <Sidebar.Header>\n          <strong>MyApp</strong>\n        </Sidebar.Header>\n        <Sidebar.NavList>\n          <Sidebar.NavItem href=\"/dashboard\" icon={LayoutDashboard} current>\n            Dashboard\n          </Sidebar.NavItem>\n          <Sidebar.NavItem href=\"/team\" icon={Users}>\n            Team\n          </Sidebar.NavItem>\n          <Sidebar.NavItem href=\"/settings\" icon={Settings}>\n            Settings\n          </Sidebar.NavItem>\n        </Sidebar.NavList>\n        <Sidebar.AccountCard name=\"Alex Chen\" email=\"alex@example.com\" />\n      </Sidebar.Root>\n    </div>\n  );\n}\n",
+  "tags": ["Sidebar"]
+}

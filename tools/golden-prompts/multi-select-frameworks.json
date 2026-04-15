@@ -1,0 +1,7 @@
+{
+  "slug": "multi-select-frameworks",
+  "difficulty": "medium",
+  "prompt": "Show a MultiSelect for choosing JavaScript frameworks. Include a label, placeholder, description, and show the selected count in the trigger. Include Reset and Select All footer buttons.",
+  "reference": "import * as React from 'react';\nimport { MultiSelect } from '@tale-ui/react/multi-select';\n\nconst frameworks = [\n  { id: 'react', name: 'React' },\n  { id: 'vue', name: 'Vue' },\n  { id: 'angular', name: 'Angular' },\n  { id: 'svelte', name: 'Svelte' },\n  { id: 'solid', name: 'SolidJS' },\n];\n\nexport function FrameworkMultiSelect() {\n  const [selected, setSelected] = React.useState(new Set<string>());\n\n  return (\n    <MultiSelect.Root\n      label=\"Frameworks\"\n      placeholder=\"Select frameworks\"\n      description=\"Choose all that apply.\"\n      items={frameworks}\n      selectedKeys={selected}\n      onSelectionChange={(keys) => setSelected(keys as Set<string>)}\n      onReset={() => setSelected(new Set())}\n      onSelectAll={() => setSelected(new Set(frameworks.map((f) => f.id)))}\n    >\n      {(item) => (\n        <MultiSelect.Item id={item.id} textValue={item.name}>\n          {item.name}\n        </MultiSelect.Item>\n      )}\n    </MultiSelect.Root>\n  );\n}",
+  "tags": ["MultiSelect"]
+}

@@ -1,0 +1,17 @@
+/*
+ * BackgroundPattern — @tale-ui/react
+ *
+ * Decorative SVG patterns rendered at fixed sizes with a radial-gradient fade mask.
+ * Uses `currentColor` for all strokes/fills so the pattern colour is controlled via
+ * the `color` CSS property. Default colour is set via .tale-background-pattern.
+ *
+ * Patterns: circle | square | grid | grid-check
+ * Sizes:    sm | md | lg  (grid-check supports sm and md only)
+ */
+
+.tale-background-pattern {
+  display: block;
+  pointer-events: none;
+  color: var(--neutral-20);
+  flex-shrink: 0;
+}

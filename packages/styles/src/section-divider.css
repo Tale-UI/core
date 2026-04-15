@@ -1,0 +1,27 @@
+/*
+ * SectionDivider — @tale-ui/react
+ *
+ * Decorative full-width horizontal divider for separating page sections.
+ * Constrained by a max-width container with responsive horizontal padding.
+ */
+
+.tale-section-divider {
+  margin-inline: auto;
+  max-width: var(--container-max-width, 120rem);
+  padding-inline: var(--space-m);
+}
+
+@media (min-width: 768px) {
+  .tale-section-divider {
+    padding-inline: var(--space-2xl);
+  }
+}
+
+.tale-section-divider__rule {
+  display: block;
+  height: 1px;
+  width: 100%;
+  border: none;
+  background-color: var(--neutral-20);
+  margin: 0;
+}

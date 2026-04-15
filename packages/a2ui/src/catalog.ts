@@ -89,12 +89,19 @@ import { FeaturedIcon } from '@tale-ui/react/featured-icon';
 import { DotIcon } from '@tale-ui/react/dot-icon';
 import { AppStoreButton } from '@tale-ui/react/app-store-button';
 import { SocialButton } from '@tale-ui/react/social-button';
+import { BadgeGroup } from '@tale-ui/react/badge-group';
+import { SectionDivider } from '@tale-ui/react/section-divider';
+import { InputGroup } from '@tale-ui/react/input-group';
+import { InputTags } from '@tale-ui/react/input-tags';
+import { MultiSelect } from '@tale-ui/react/multi-select';
+import { TagSelect } from '@tale-ui/react/tag-select';
 import { PaymentInput } from '@tale-ui/react/payment-input';
 import { Autocomplete } from '@tale-ui/react/autocomplete';
 import { ColorWheel } from '@tale-ui/react/color-wheel';
 import { ColorSwatch } from '@tale-ui/react/color-swatch';
 import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';
 import { ColorPicker } from '@tale-ui/react/color-picker';
+import { FileUpload } from '@tale-ui/react/file-upload';
 import { Check, X } from 'lucide-react';
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
@@ -1783,6 +1790,16 @@ export const taleUICatalog: Catalog = {
     }),
   } as CatalogEntry,
 
+  FileUpload: {
+    component: FileUpload.Root,
+    adapter: (_props, ctx) => ({
+      children: h(React.Fragment, null,
+        h(FileUpload.DropZone, {}),
+        ctx.children ? h(FileUpload.List, null, ctx.children) : null,
+      ),
+    }),
+  } as CatalogEntry,
+
   /* ── Additional Specialized Inputs ─────────────────────────────────── */
 
   PaymentInput: {
@@ -1889,6 +1906,70 @@ export const taleUICatalog: Catalog = {
       size: props.size as string | undefined,
       href: props.href as string | undefined,
       children: props.label as string | undefined,
+    }),
+  } as CatalogEntry,
+
+  BadgeGroup: {
+    component: BadgeGroup.Root,
+    adapter: (props, ctx) => ({
+      addonText: props.addonText as string | undefined,
+      size: props.size as 'md' | 'lg' | undefined,
+      color: props.color as 'brand' | 'warning' | 'error' | 'gray' | 'success' | undefined,
+      theme: props.theme as 'light' | 'modern' | undefined,
+      align: props.align as 'leading' | 'trailing' | undefined,
+      children: props.label ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  SectionDivider: {
+    component: SectionDivider,
+    adapter: () => ({}),
+  } as CatalogEntry,
+
+  InputGroup: {
+    component: InputGroup.Root,
+    adapter: (_props, ctx) => ({
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  InputTags: {
+    component: InputTags.Root,
+    adapter: (props) => ({
+      label: props.label as string | undefined,
+      placeholder: props.placeholder as string | undefined,
+      description: props.description as string | undefined,
+      defaultValue: props.defaultValue as string[] | undefined,
+      tagPlacement: props.tagPlacement as 'inline' | 'below' | undefined,
+      isDisabled: props.isDisabled as boolean | undefined,
+      isRequired: props.isRequired as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+    }),
+  } as CatalogEntry,
+
+  MultiSelect: {
+    component: MultiSelect.Root,
+    adapter: (props) => ({
+      label: props.label as string | undefined,
+      placeholder: props.placeholder as string | undefined,
+      description: props.description as string | undefined,
+      isDisabled: props.isDisabled as boolean | undefined,
+      isRequired: props.isRequired as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
+      showSearch: props.showSearch as boolean | undefined,
+      showFooter: props.showFooter as boolean | undefined,
+    }),
+  } as CatalogEntry,
+
+  TagSelect: {
+    component: TagSelect.Root,
+    adapter: (props) => ({
+      label: props.label as string | undefined,
+      placeholder: props.placeholder as string | undefined,
+      description: props.description as string | undefined,
+      isDisabled: props.isDisabled as boolean | undefined,
+      isRequired: props.isRequired as boolean | undefined,
+      isInvalid: props.isInvalid as boolean | undefined,
     }),
   } as CatalogEntry,
 };

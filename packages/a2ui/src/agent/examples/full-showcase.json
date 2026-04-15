@@ -1,5 +1,5 @@
 {
-  "description": "Full showcase — all 135 A2UI types, all prop variations (AllVariations pattern)",
+  "description": "Full showcase — all 141 A2UI types, all prop variations (AllVariations pattern)",
   "messages": [
     {
       "type": "beginRendering",
@@ -91,10 +91,17 @@
                 "sec-icnb",
                 "sec-drzn",
                 "sec-ftrig",
+                "sec-fupload",
                 "sec-payi",
                 "sec-acmp",
                 "sec-asb",
-                "sec-socb"
+                "sec-socb",
+                "sec-bdgg",
+                "sec-igrp",
+                "sec-itags",
+                "sec-msel",
+                "sec-sdiv",
+                "sec-tsel"
               ]
             }
           }
@@ -11495,6 +11502,53 @@
           }
         },
         {
+          "id": "sec-fupload",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": [
+                "sec-fupload-h",
+                "sec-fupload-b"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-fupload-h",
+          "component": {
+            "CardHeader": {
+              "children": [
+                "sec-fupload-title"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-fupload-title",
+          "component": {
+            "Text": {
+              "content": "74. FileUpload — drag-and-drop file upload area",
+              "usageHint": "heading-m"
+            }
+          }
+        },
+        {
+          "id": "sec-fupload-b",
+          "component": {
+            "CardBody": {
+              "children": [
+                "fupload-1"
+              ]
+            }
+          }
+        },
+        {
+          "id": "fupload-1",
+          "component": {
+            "FileUpload": {}
+          }
+        },
+        {
           "id": "sec-payi",
           "component": {
             "Card": {
@@ -11910,6 +11964,423 @@
             "Button": {
               "label": "Upload images",
               "variant": "neutral"
+            }
+          }
+        },
+        {
+          "id": "sec-bdgg",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": [
+                "sec-bdgg-h",
+                "sec-bdgg-b"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-bdgg-h",
+          "component": {
+            "CardHeader": {
+              "children": [
+                "sec-bdgg-title"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-bdgg-title",
+          "component": {
+            "Text": {
+              "content": "78. BadgeGroup — badge with pinned addon text",
+              "usageHint": "heading-m"
+            }
+          }
+        },
+        {
+          "id": "sec-bdgg-b",
+          "component": {
+            "CardBody": {
+              "children": [
+                "bdgg-1",
+                "bdgg-2",
+                "bdgg-3",
+                "bdgg-4",
+                "bdgg-5"
+              ]
+            }
+          }
+        },
+        {
+          "id": "bdgg-1",
+          "component": {
+            "BadgeGroup": {
+              "label": "New feature",
+              "addonText": "v2.0"
+            }
+          }
+        },
+        {
+          "id": "bdgg-2",
+          "component": {
+            "BadgeGroup": {
+              "label": "Pro plan",
+              "addonText": "PRO",
+              "color": "accent"
+            }
+          }
+        },
+        {
+          "id": "bdgg-3",
+          "component": {
+            "BadgeGroup": {
+              "label": "Muted badge",
+              "addonText": "v3",
+              "color": "muted"
+            }
+          }
+        },
+        {
+          "id": "bdgg-4",
+          "component": {
+            "BadgeGroup": {
+              "label": "Trailing addon",
+              "addonText": "99+",
+              "align": "trailing"
+            }
+          }
+        },
+        {
+          "id": "bdgg-5",
+          "component": {
+            "BadgeGroup": {
+              "label": "Modern theme",
+              "addonText": "v1.1",
+              "theme": "modern"
+            }
+          }
+        },
+        {
+          "id": "sec-igrp",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": [
+                "sec-igrp-h",
+                "sec-igrp-b"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-igrp-h",
+          "component": {
+            "CardHeader": {
+              "children": [
+                "sec-igrp-title"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-igrp-title",
+          "component": {
+            "Text": {
+              "content": "79. InputGroup — input with attached addons",
+              "usageHint": "heading-m"
+            }
+          }
+        },
+        {
+          "id": "sec-igrp-b",
+          "component": {
+            "CardBody": {
+              "children": [
+                "igrp-1"
+              ]
+            }
+          }
+        },
+        {
+          "id": "igrp-1",
+          "component": {
+            "InputGroup": {
+              "children": [
+                "igrp-1-prefix",
+                "igrp-1-input"
+              ]
+            }
+          }
+        },
+        {
+          "id": "igrp-1-prefix",
+          "component": {
+            "Text": {
+              "content": "https://",
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "igrp-1-input",
+          "component": {
+            "TextInput": {
+              "label": "Website",
+              "placeholder": "example.com"
+            }
+          }
+        },
+        {
+          "id": "sec-itags",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": [
+                "sec-itags-h",
+                "sec-itags-b"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-itags-h",
+          "component": {
+            "CardHeader": {
+              "children": [
+                "sec-itags-title"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-itags-title",
+          "component": {
+            "Text": {
+              "content": "80. InputTags — type-to-add tag chip input",
+              "usageHint": "heading-m"
+            }
+          }
+        },
+        {
+          "id": "sec-itags-b",
+          "component": {
+            "CardBody": {
+              "children": [
+                "itags-1",
+                "itags-2"
+              ]
+            }
+          }
+        },
+        {
+          "id": "itags-1",
+          "component": {
+            "InputTags": {
+              "label": "Skills",
+              "placeholder": "Add a skill…",
+              "description": "Press Enter to add each skill."
+            }
+          }
+        },
+        {
+          "id": "itags-2",
+          "component": {
+            "InputTags": {
+              "label": "Tags (below placement)",
+              "placeholder": "Add a tag…",
+              "tagPlacement": "below"
+            }
+          }
+        },
+        {
+          "id": "sec-msel",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": [
+                "sec-msel-h",
+                "sec-msel-b"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-msel-h",
+          "component": {
+            "CardHeader": {
+              "children": [
+                "sec-msel-title"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-msel-title",
+          "component": {
+            "Text": {
+              "content": "81. MultiSelect — multi-value dropdown with search",
+              "usageHint": "heading-m"
+            }
+          }
+        },
+        {
+          "id": "sec-msel-b",
+          "component": {
+            "CardBody": {
+              "children": [
+                "msel-1",
+                "msel-2"
+              ]
+            }
+          }
+        },
+        {
+          "id": "msel-1",
+          "component": {
+            "MultiSelect": {
+              "label": "Frameworks",
+              "placeholder": "Select frameworks"
+            }
+          }
+        },
+        {
+          "id": "msel-2",
+          "component": {
+            "MultiSelect": {
+              "label": "Required field",
+              "placeholder": "Select options",
+              "isRequired": true,
+              "showFooter": false
+            }
+          }
+        },
+        {
+          "id": "sec-sdiv",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": [
+                "sec-sdiv-h",
+                "sec-sdiv-b"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-sdiv-h",
+          "component": {
+            "CardHeader": {
+              "children": [
+                "sec-sdiv-title"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-sdiv-title",
+          "component": {
+            "Text": {
+              "content": "82. SectionDivider — decorative horizontal rule",
+              "usageHint": "heading-m"
+            }
+          }
+        },
+        {
+          "id": "sec-sdiv-b",
+          "component": {
+            "CardBody": {
+              "children": [
+                "sdiv-above",
+                "sdiv-1",
+                "sdiv-below"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sdiv-above",
+          "component": {
+            "Text": {
+              "content": "Content above the divider",
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "sdiv-1",
+          "component": {
+            "SectionDivider": {}
+          }
+        },
+        {
+          "id": "sdiv-below",
+          "component": {
+            "Text": {
+              "content": "Content below the divider",
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "sec-tsel",
+          "component": {
+            "Card": {
+              "variant": "outlined",
+              "children": [
+                "sec-tsel-h",
+                "sec-tsel-b"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-tsel-h",
+          "component": {
+            "CardHeader": {
+              "children": [
+                "sec-tsel-title"
+              ]
+            }
+          }
+        },
+        {
+          "id": "sec-tsel-title",
+          "component": {
+            "Text": {
+              "content": "83. TagSelect — combobox with inline selected tag chips",
+              "usageHint": "heading-m"
+            }
+          }
+        },
+        {
+          "id": "sec-tsel-b",
+          "component": {
+            "CardBody": {
+              "children": [
+                "tsel-1",
+                "tsel-2"
+              ]
+            }
+          }
+        },
+        {
+          "id": "tsel-1",
+          "component": {
+            "TagSelect": {
+              "label": "Team members",
+              "placeholder": "Add member…",
+              "description": "Select one or more team members."
+            }
+          }
+        },
+        {
+          "id": "tsel-2",
+          "component": {
+            "TagSelect": {
+              "label": "Skills (disabled)",
+              "placeholder": "Add skill…",
+              "isDisabled": true
             }
           }
         }

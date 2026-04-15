@@ -1,0 +1,30 @@
+/*
+ * Illustration — @tale-ui/react
+ *
+ * Decorative marketing illustrations (box, cloud, documents, credit-card).
+ * Each illustration renders an SVG with a radial-gradient mask plus an optional
+ * centred children overlay slot.
+ *
+ * Types:  box | cloud | documents | credit-card
+ * Sizes:  sm | md | lg
+ */
+
+.tale-illustration {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+}
+
+.tale-illustration__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tale-illustration__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

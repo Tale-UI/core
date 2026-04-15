@@ -214,6 +214,9 @@
 
 .tale-input__label,
 .tale-field__label,
+.tale-input-tags__label,
+.tale-multi-select__label,
+.tale-tag-select__label,
 .tale-select__label,
 .tale-combobox__label,
 .tale-text-field__label,
@@ -521,6 +524,9 @@
 .tale-date-range-picker__description,
 .tale-time-field__description,
 .tale-number-field__description,
+.tale-input-tags__description,
+.tale-multi-select__description,
+.tale-tag-select__description,
 .tale-tag-group__description,
 .tale-payment-input__description {
   color: var(--field-description-color);
@@ -543,6 +549,9 @@
 .tale-date-range-picker__error,
 .tale-time-field__error,
 .tale-number-field__error,
+.tale-input-tags__error,
+.tale-multi-select__error,
+.tale-tag-select__error,
 .tale-tag-group__error,
 .tale-payment-input__error {
   color: var(--field-error-color);

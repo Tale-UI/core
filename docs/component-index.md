@@ -1,13 +1,18 @@
 # Component Index
 
-Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/charts` components. For detailed usage, see the per-component docs in [docs/components/](components/index.md).
+Quick-reference table for all 109 `@tale-ui/react` components plus 6 `@tale-ui/charts` components.
+ For detailed usage, see the per-component docs in [docs/components/](components/index.md).
 
-## Form Controls (20)
+## Form Controls (24)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | Button | Action button with variant and size props | `@tale-ui/react/button` | -- |
 | Input | Text input with label, description, and validation | `@tale-ui/react/input` | Root, Input, Label, Description, ErrorMessage |
+| InputGroup | Horizontal group container attaching addons to an input field | `@tale-ui/react/input-group` | Root, Addon |
+| InputTags | Tag chip input — type to add tags, press Enter to commit, Backspace to remove | `@tale-ui/react/input-tags` | Root |
+| MultiSelect | Multi-value dropdown with inline search and optional footer actions | `@tale-ui/react/multi-select` | Root, Item, Footer, EmptyState |
+| TagSelect | Combobox that renders selected items as inline tag chips in the field | `@tale-ui/react/tag-select` | Root, Item |
 | Checkbox | Checkbox with visual indicator | `@tale-ui/react/checkbox` | Root, Indicator |
 | CheckboxGroup | Groups multiple checkboxes with validation | `@tale-ui/react/checkbox-group` | -- |
 | Radio | Radio button with group support | `@tale-ui/react/radio` | Group, Root, Indicator, Dot |
@@ -61,7 +66,7 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Drawer | Panel that slides in from the screen edge, for navigation drawers and detail views | `@tale-ui/react/drawer` | Root, Trigger, Backdrop, Popup, Title, Description, Close, Handle, SwipeArea |
 | Tooltip | Hover tooltip | `@tale-ui/react/tooltip` | Root, Trigger, Popup, Arrow, Title, Description |
 
-## Navigation (7)
+## Navigation (11)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
@@ -72,6 +77,10 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Breadcrumbs | Breadcrumb navigation | `@tale-ui/react/breadcrumbs` | Root, Item, Link |
 | Link | Styled anchor link | `@tale-ui/react/link` | -- |
 | Pagination | Page navigation controls | `@tale-ui/react/pagination` | Root, PreviousTrigger, NextTrigger, Item, Ellipsis, Dot, Line |
+| PaginationDot | Auto-rendering dot indicators for carousel/slide pagination | `@tale-ui/react/pagination-dot` | -- |
+| PaginationLine | Auto-rendering line indicators for carousel/slide pagination | `@tale-ui/react/pagination-line` | -- |
+| Sidebar | Sidebar navigation primitives for composing simple, dual-tier, slim, and section-divided sidebars | `@tale-ui/react/sidebar` | Root, Header, Search, Divider, NavList, NavItem, NavButton, AccountCard, AccountMenu, MobileTrigger, FeatureCard |
+| HeaderNav | Horizontal header navigation primitives | `@tale-ui/react/header-nav` | Root, Logo, NavButton, Actions, Secondary, MobileTrigger |
 
 ## Layout (10)
 
@@ -98,11 +107,11 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Meter | Gauge showing a known-range value such as storage used, battery level, or capacity | `@tale-ui/react/meter` | Root, Header, Label, Value, Track, Indicator |
 | Spinner | Indeterminate loading indicator | `@tale-ui/react/spinner` | -- |
 
-## Display (13)
+## Display (15)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
-| Avatar | User avatar with image, fallback, group, count, indicator, and label group | `@tale-ui/react/avatar` | Root, Image, Fallback, Group, Count, Indicator, LabelGroup, LabelGroupTitle, LabelGroupSubtitle |
+| Avatar | User avatar with image, fallback, group, count, indicator, and label group | `@tale-ui/react/avatar` | Root, Image, Fallback, Group, Count, Indicator, LabelGroup, LabelGroupTitle, LabelGroupSubtitle, AddButton, CompanyIcon, VerifiedTick, ProfilePhoto |
 | Badge | Small status label with semantic variants | `@tale-ui/react/badge` | -- |
 | DotIcon | Small colored circle status indicator | `@tale-ui/react/dot-icon` | -- |
 | EmptyState | Placeholder for empty content areas | `@tale-ui/react/empty-state` | Root, EmptyStateIcon, Title, Description, Actions |
@@ -110,11 +119,13 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | GridList | Selectable grid of items | `@tale-ui/react/grid-list` | Root, Item |
 | Image | Styled image wrapper with radius and fit props | `@tale-ui/react/image` | -- |
 | List | Simple non-interactive list with optional dividers | `@tale-ui/react/list` | Root, Item |
+| QRCode | QR code generator with size variants and decorative scan overlay | `@tale-ui/react/qr-code` | Root, Scan |
 | RatingBadge | Pill badge with star icon and numeric rating | `@tale-ui/react/rating-badge` | -- |
 | RatingStars | Read-only star rating display | `@tale-ui/react/rating-stars` | -- |
 | Table | Data table with sorting | `@tale-ui/react/table` | Root, Header, Column, Body, Row, Cell |
 | TagGroup | Tag list with optional removal | `@tale-ui/react/tag-group` | Root, Label, List, Tag, Description, ErrorMessage |
 | Tree | Hierarchical tree view | `@tale-ui/react/tree` | Root, Item, ItemContent |
+| VideoPlayer | Native video player with custom controls, keyboard shortcuts, and trickplay | `@tale-ui/react/video-player` | Root |
 
 ## Form Structure (3)
 
@@ -124,12 +135,15 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | Fieldset | Grouped fields with legend | `@tale-ui/react/fieldset` | Root, Legend |
 | Form | Form element with validation | `@tale-ui/react/form` | -- |
 
-## Interaction (2)
+## Interaction (5)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | DropZone | Drag-and-drop target | `@tale-ui/react/drop-zone` | -- |
 | FileTrigger | Native file picker trigger | `@tale-ui/react/file-trigger` | -- |
+| FileUpload | Drop zone + animated upload list with progress bars | `@tale-ui/react/file-upload` | Root, DropZone, List, ListItem, ListItemProgressBar, ListItemProgressFill |
+| ImageCropper | Interactive image crop region with aspect ratio and circular crop support | `@tale-ui/react/image-cropper` | Root, Img |
+| TextEditor | Rich-text editor built on Tiptap v3 with simple and advanced toolbars | `@tale-ui/react/text-editor` | Root, Label, HintText, Content, Toolbar, BubbleMenu, Bold, Italic, Underline, BulletList, AlignLeft, AlignCenter, AlignRight, AlignJustify, Link, Image, Color, FontFamily, FontSize, Generate |
 
 ## Typography (1)
 
@@ -149,13 +163,19 @@ Quick-reference table for all 90 `@tale-ui/react` components plus 6 `@tale-ui/ch
 | IconButton | Square button for icon-only use | `@tale-ui/react/icon-button` | -- |
 | mergeProps | Smart React props merging utility | `@tale-ui/react/merge-props` | -- |
 
-## Marketing (3)
+## Marketing (9)
 
 | Component | Description | Import | Parts |
 |-----------|-------------|--------|-------|
 | AppStoreButton | App store download button (Apple/Google) | `@tale-ui/react/app-store-button` | -- |
 | SocialButton | Social login button with provider icon | `@tale-ui/react/social-button` | -- |
 | SocialButtonGroup | Equal-width vertical group for social login buttons | `@tale-ui/react/social-button` | -- |
+| BadgeGroup | Badge with pinned leading or trailing addon text | `@tale-ui/react/badge-group` | Root |
+| SectionDivider | Decorative full-width horizontal rule with section spacing | `@tale-ui/react/section-divider` | -- |
+| BackgroundPattern | Decorative SVG pattern background (circle, square, grid, grid-check) | `@tale-ui/react/background-pattern` | -- |
+| Illustration | Decorative marketing illustration SVG with optional children overlay | `@tale-ui/react/illustration` | -- |
+| IPhoneMockup | Decorative iPhone SVG frame with embedded screenshot | `@tale-ui/react/iphone-mockup` | -- |
+| CreditCard | Visual credit-card display with 13 style variants | `@tale-ui/react/credit-card` | Root |
 
 ## Charts (6)
 

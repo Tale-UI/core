@@ -81,7 +81,7 @@ import { Checkbox } from '@tale-ui/react/checkbox';
 
 ### Form Controls
 
-Autocomplete · Button · Checkbox · Checkbox Group · Combobox · Input · Number Field · Payment Input · Pin Input · Radio · Radio Group · Search Field · Select · Select Native · Slider · Switch · Text Area · Text Field · Toggle Button · Toggle Button Group
+Autocomplete · Button · Checkbox · Checkbox Group · Combobox · Input · Input Group · Input Tags · Multi Select · Number Field · Payment Input · Pin Input · Radio · Radio Group · Search Field · Select · Select Native · Slider · Switch · Tag Select · Text Area · Text Field · Toggle Button · Toggle Button Group
 
 ### Date & Time
 
@@ -97,7 +97,7 @@ Alert Dialog · Dialog · Drawer · Popover · Preview Card · Tooltip
 
 ### Navigation
 
-Breadcrumbs · Context Menu · Link · Menu · Menubar · Navigation Menu · Pagination
+Breadcrumbs · Context Menu · Header Nav · Link · Menu · Menubar · Navigation Menu · Pagination · Pagination Dot · Pagination Line · Sidebar
 
 ### Layout
 
@@ -109,7 +109,7 @@ Banner · Meter · Progress Bar · Progress Circle · Spinner
 
 ### Display
 
-Avatar (with Group, Count, Indicator, and LabelGroup) · Badge · Dot Icon · Empty State · Featured Icon · Grid List · Image · List · Rating Badge · Rating Stars · Table · Tag Group · Tree
+Avatar (with Group, Count, Indicator, and LabelGroup) · Badge · Dot Icon · Empty State · Featured Icon · Grid List · Image · List · QR Code · Rating Badge · Rating Stars · Table · Tag Group · Tree · Video Player
 
 ### Form Structure
 
@@ -117,11 +117,11 @@ Field · Fieldset · Form
 
 ### Interaction
 
-Drop Zone · File Trigger
+Drop Zone · File Trigger · File Upload · Image Cropper · Text Editor
 
 ### Marketing
 
-App Store Button · Social Button · Social Button Group
+App Store Button · Social Button · Social Button Group · Badge Group · Section Divider · Background Pattern · Illustration · Iphone Mockup · Credit Card
 
 ### Typography
 

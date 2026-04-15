@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { MoreVertical } from 'lucide-react';
 import {
   MenuTrigger as AriaMenuTrigger,
   Button as AriaButton,
@@ -278,3 +279,43 @@ export const SubmenuTrigger = React.forwardRef<HTMLDivElement, SubmenuTriggerPro
   ),
 );
 SubmenuTrigger.displayName = 'Menu.SubmenuTrigger';
+
+/* ─── DotsButton ─────────────────────────────────────────────────────────── */
+
+export type DotsButtonProps = Omit<AriaButtonProps, 'className'> & {
+  /** Accessible label for the button. Defaults to "Open menu". */
+  'aria-label'?: string;
+  className?: string | undefined;
+};
+
+/**
+ * A vertical-dots icon button intended as a compact menu trigger.
+ *
+ * @example
+ * ```tsx
+ * import { Menu } from '@tale-ui/react/menu';
+ *
+ * <Menu.Root>
+ *   <Menu.DotsButton />
+ *   <Menu.Popover>
+ *     <Menu.MenuList>
+ *       <Menu.Item id="edit">Edit</Menu.Item>
+ *       <Menu.Item id="delete">Delete</Menu.Item>
+ *     </Menu.MenuList>
+ *   </Menu.Popover>
+ * </Menu.Root>
+ * ```
+ */
+export const DotsButton = React.forwardRef<HTMLButtonElement, DotsButtonProps>(
+  ({ 'aria-label': ariaLabel = 'Open menu', className, ...props }, ref) => (
+    <AriaButton
+      ref={ref}
+      aria-label={ariaLabel}
+      className={cx('tale-menu__dots-button', className)}
+      {...props}
+    >
+      <MoreVertical className="tale-menu__dots-button-icon" aria-hidden />
+    </AriaButton>
+  ),
+);
+DotsButton.displayName = 'Menu.DotsButton';

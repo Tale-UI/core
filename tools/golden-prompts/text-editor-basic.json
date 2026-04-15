@@ -1,0 +1,7 @@
+{
+  "slug": "text-editor-basic",
+  "difficulty": "simple",
+  "prompt": "Show a rich text editor with a simple toolbar, a label, and a character limit of 300.",
+  "reference": "import { TextEditor } from '@tale-ui/react/text-editor';\n\nexport function Example() {\n  return (\n    <TextEditor.Root limit={300}>\n      <TextEditor.Label>Body</TextEditor.Label>\n      <TextEditor.Toolbar type=\"simple\" />\n      <TextEditor.Content />\n      <TextEditor.HintText />\n    </TextEditor.Root>\n  );\n}",
+  "tags": ["TextEditor"]
+}

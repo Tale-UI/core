@@ -1,0 +1,43 @@
+/*
+ * PaginationDot — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component. Uses Pagination.Root + Pagination.Dot internally.
+ *
+ * Usage:
+ *   <nav class="tale-pagination-dot [tale-pagination-dot--lg] [tale-pagination-dot--framed]">
+ *     <button class="tale-pagination__dot [tale-pagination__dot--current]" />
+ *   </nav>
+ *
+ * Note: dot styles (.tale-pagination__dot, .tale-pagination__dot--current) are
+ * defined in pagination.css. This file only adds wrapper and size/framed variants.
+ */
+
+/* ─── Root wrapper ───────────────────────────────────────────────────────────── */
+
+.tale-pagination-dot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  width: max-content;
+}
+
+/* ─── Large size modifier ────────────────────────────────────────────────────── */
+
+.tale-pagination-dot--lg .tale-pagination__dot {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ─── Framed variant — frosted-glass background ──────────────────────────────── */
+
+.tale-pagination-dot--framed {
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-full);
+  background-color: color-mix(in srgb, var(--neutral-5) 90%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.tale-pagination-dot--framed.tale-pagination-dot--lg {
+  padding: var(--space-2xs) var(--space-s);
+}

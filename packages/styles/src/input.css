@@ -29,6 +29,7 @@
     border-color 0.15s ease,
     box-shadow 0.15s ease,
     background-color 0.15s ease;
+  background-color: color-mix(in srgb, var(--neutral-10) 40%, var(--neutral-5) 60%);
 }
 
 /* ─── Hover ───────────────────────────────────────────────────────────────── */

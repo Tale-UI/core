@@ -1,0 +1,232 @@
+/*
+ * BadgeGroup — @tale-ui/react
+ *
+ * A badge with a pinned addon text slot and optional trailing icon.
+ *
+ * Themes:    .tale-badge-group--light    (default: coloured ring-inset)
+ *            .tale-badge-group--modern   (neutral card + coloured dot)
+ *
+ * Colors:    .tale-badge-group--brand
+ *            .tale-badge-group--success
+ *            .tale-badge-group--warning
+ *            .tale-badge-group--error
+ *            .tale-badge-group--gray
+ *
+ * Sizes:     .tale-badge-group--md  (default)
+ *            .tale-badge-group--lg
+ *
+ * Align:     .tale-badge-group--leading   (addon on left, default)
+ *            .tale-badge-group--trailing  (addon on right)
+ */
+
+.tale-badge-group {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────────────────── */
+
+.tale-badge-group--md {
+  font-size: var(--text-xs-font-size);
+  font-weight: 500;
+  line-height: 1.8rem;
+}
+
+.tale-badge-group--lg {
+  font-size: var(--text-s-font-size);
+  font-weight: 500;
+  line-height: 2rem;
+}
+
+/* ─── Theme: light ───────────────────────────────────────────────────────── */
+
+.tale-badge-group--light {
+  box-shadow: inset 0 0 0 1px var(--neutral-22);
+}
+
+.tale-badge-group--light.tale-badge-group--leading {
+  padding: var(--space-4xs) var(--space-xs) var(--space-4xs) var(--space-4xs);
+}
+
+.tale-badge-group--light.tale-badge-group--trailing {
+  padding: var(--space-4xs) var(--space-4xs) var(--space-4xs) var(--space-xs);
+}
+
+/* Addon inside light theme */
+.tale-badge-group--light .tale-badge-group__addon {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-full);
+  box-shadow: inset 0 0 0 1px var(--neutral-22);
+  background-color: var(--neutral-5);
+  font-weight: 600;
+}
+
+.tale-badge-group--light.tale-badge-group--md .tale-badge-group__addon {
+  padding: 0 var(--space-2xs);
+}
+
+.tale-badge-group--light.tale-badge-group--lg .tale-badge-group__addon {
+  padding: 0 var(--space-xs);
+}
+
+.tale-badge-group--light .tale-badge-group__addon--leading {
+  margin-right: var(--space-2xs);
+}
+
+.tale-badge-group--light .tale-badge-group__addon--trailing {
+  margin-left: var(--space-2xs);
+}
+
+/* Trailing icon in light theme */
+.tale-badge-group--light .tale-badge-group__icon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--space-3xs);
+}
+
+/* ─── Theme: modern ──────────────────────────────────────────────────────── */
+
+.tale-badge-group--modern {
+  background-color: var(--neutral-5);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), inset 0 0 0 1px var(--neutral-18);
+  border-radius: var(--radius-m);
+  gap: var(--space-3xs);
+}
+
+.tale-badge-group--modern.tale-badge-group--leading {
+  padding: var(--space-4xs) var(--space-xs) var(--space-4xs) var(--space-3xs);
+}
+
+.tale-badge-group--modern.tale-badge-group--trailing {
+  padding: var(--space-4xs) var(--space-3xs) var(--space-4xs) var(--space-xs);
+}
+
+/* Addon inside modern theme */
+.tale-badge-group--modern .tale-badge-group__addon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  border-radius: var(--radius-s);
+  background-color: var(--neutral-5);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05), inset 0 0 0 1px var(--neutral-18);
+  font-weight: 600;
+}
+
+.tale-badge-group--modern.tale-badge-group--md .tale-badge-group__addon {
+  padding: 0 var(--space-3xs);
+}
+
+.tale-badge-group--modern.tale-badge-group--lg .tale-badge-group__addon {
+  padding: 0 var(--space-2xs);
+}
+
+.tale-badge-group--modern .tale-badge-group__addon--leading {
+  margin-right: var(--space-3xs);
+}
+
+.tale-badge-group--modern .tale-badge-group__addon--trailing {
+  margin-left: var(--space-3xs);
+}
+
+/* Dot indicator in modern theme */
+.tale-badge-group--modern .tale-badge-group__dot {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  outline: 3px solid transparent;
+  outline-offset: -1px;
+}
+
+/* ─── Color variants (light theme) ──────────────────────────────────────── */
+
+.tale-badge-group--light.tale-badge-group--brand {
+  background-color: color-mix(in srgb, var(--color-60) 12%, var(--neutral-5));
+  color: var(--color-70);
+}
+
+.tale-badge-group--light.tale-badge-group--brand .tale-badge-group__addon {
+  box-shadow: inset 0 0 0 1px var(--color-30);
+  color: inherit;
+}
+
+.tale-badge-group--light.tale-badge-group--success {
+  background-color: color-mix(in srgb, var(--color-60) 12%, var(--neutral-5));
+  color: var(--color-70);
+}
+
+.tale-badge-group--light.tale-badge-group--success .tale-badge-group__addon {
+  box-shadow: inset 0 0 0 1px var(--color-30);
+  color: inherit;
+}
+
+.tale-badge-group--light.tale-badge-group--warning {
+  background-color: color-mix(in srgb, var(--color-60) 12%, var(--neutral-5));
+  color: var(--color-70);
+}
+
+.tale-badge-group--light.tale-badge-group--warning .tale-badge-group__addon {
+  box-shadow: inset 0 0 0 1px var(--color-30);
+  color: inherit;
+}
+
+.tale-badge-group--light.tale-badge-group--error {
+  background-color: color-mix(in srgb, var(--color-60) 12%, var(--neutral-5));
+  color: var(--color-70);
+}
+
+.tale-badge-group--light.tale-badge-group--error .tale-badge-group__addon {
+  box-shadow: inset 0 0 0 1px var(--color-30);
+  color: inherit;
+}
+
+.tale-badge-group--light.tale-badge-group--gray {
+  background-color: var(--neutral-10);
+  color: var(--neutral-70);
+}
+
+.tale-badge-group--light.tale-badge-group--gray .tale-badge-group__addon {
+  box-shadow: inset 0 0 0 1px var(--neutral-22);
+  color: inherit;
+}
+
+/* ─── Color variants (modern dot) ────────────────────────────────────────── */
+
+.tale-badge-group--modern.tale-badge-group--brand .tale-badge-group__dot {
+  background-color: var(--color-60);
+  outline-color: color-mix(in srgb, var(--color-60) 20%, transparent);
+}
+
+.tale-badge-group--modern.tale-badge-group--success .tale-badge-group__dot {
+  background-color: var(--color-60);
+  outline-color: color-mix(in srgb, var(--color-60) 20%, transparent);
+}
+
+.tale-badge-group--modern.tale-badge-group--warning .tale-badge-group__dot {
+  background-color: var(--color-60);
+  outline-color: color-mix(in srgb, var(--color-60) 20%, transparent);
+}
+
+.tale-badge-group--modern.tale-badge-group--error .tale-badge-group__dot {
+  background-color: var(--color-60);
+  outline-color: color-mix(in srgb, var(--color-60) 20%, transparent);
+}
+
+.tale-badge-group--modern.tale-badge-group--gray .tale-badge-group__dot {
+  background-color: var(--neutral-50);
+  outline-color: color-mix(in srgb, var(--neutral-50) 20%, transparent);
+}
+
+/* Color classes applied by consumer for light variants */
+.tale-badge-group--light.tale-badge-group--brand,
+.tale-badge-group--light.tale-badge-group--success,
+.tale-badge-group--light.tale-badge-group--warning,
+.tale-badge-group--light.tale-badge-group--error {
+  /* --color-* tokens are already the system palette for each semantic color */
+}

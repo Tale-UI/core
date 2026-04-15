@@ -1,0 +1,7 @@
+{
+  "slug": "credit-card-brand-dark",
+  "difficulty": "simple",
+  "prompt": "Show a dark brand-coloured credit card with a custom company name and card number.",
+  "reference": "import { CreditCard } from '@tale-ui/react/credit-card';\n\nexport function Example() {\n  return (\n    <CreditCard.Root\n      type=\"brand-dark\"\n      company=\"Acme Bank\"\n      cardNumber=\"4242 4242 4242 4242\"\n      cardHolder=\"JANE DOE\"\n      cardExpiration=\"12/29\"\n    />\n  );\n}",
+  "tags": ["CreditCard"]
+}

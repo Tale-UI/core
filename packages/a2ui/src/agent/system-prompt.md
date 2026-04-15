@@ -577,6 +577,7 @@ All container components accept a `children` array of child component IDs. This 
 | **FileTrigger** | `acceptedFileTypes` | array of MIME type strings (e.g. `["image/png", "image/jpeg"]`) |
 |  | `allowsMultiple` | boolean |
 |  | `action` | `{ "name": "...", "context": { ... } }` |
+| **FileUpload** | (none) | |
 
 ### Additional Specialized Inputs
 
@@ -620,6 +621,36 @@ All container components accept a `children` array of child component IDs. This 
 |  | `size` | `sm`, `md`, `lg` |
 |  | `href` | URL string |
 |  | `label` | string |
+| **BadgeGroup** | `addonText` |  |
+|  | `size` | `sm`, `md`, `lg` |
+|  | `color` | `default`, `muted`, `accent` |
+|  | `theme` |  |
+|  | `align` |  |
+|  | `label` | string |
+| **SectionDivider** | (none) | |
+| **InputGroup** | (none) | |
+| **InputTags** | `label` | string |
+|  | `placeholder` | string |
+|  | `description` | string (helper text) |
+|  | `defaultValue` | string or number |
+|  | `tagPlacement` |  |
+|  | `isDisabled` | boolean |
+|  | `isRequired` | boolean |
+|  | `isInvalid` | boolean |
+| **MultiSelect** | `label` | string |
+|  | `placeholder` | string |
+|  | `description` | string (helper text) |
+|  | `isDisabled` | boolean |
+|  | `isRequired` | boolean |
+|  | `isInvalid` | boolean |
+|  | `showSearch` |  |
+|  | `showFooter` |  |
+| **TagSelect** | `label` | string |
+|  | `placeholder` | string |
+|  | `description` | string (helper text) |
+|  | `isDisabled` | boolean |
+|  | `isRequired` | boolean |
+|  | `isInvalid` | boolean |
 <!-- END:A2UI_CATALOG_TABLES -->
 
 ## Built-in Icon Names

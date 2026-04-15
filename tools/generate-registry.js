@@ -40,6 +40,7 @@ const PASCAL_OVERRIDES = {
   'i18n-provider': 'I18nProvider',
   'toggle-group': 'ToggleButtonGroup',
   'merge-props': 'mergeProps',
+  'qr-code': 'QRCode',
 };
 
 function kebabToPascal(kebab) {

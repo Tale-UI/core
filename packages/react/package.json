@@ -33,6 +33,8 @@
     "./autocomplete": "./src/autocomplete/index.ts",
     "./avatar": "./src/avatar/index.ts",
     "./badge": "./src/badge/index.ts",
+    "./badge-group": "./src/badge-group/index.ts",
+    "./background-pattern": "./src/background-pattern/index.ts",
     "./banner": "./src/banner/index.ts",
     "./breadcrumbs": "./src/breadcrumbs/index.ts",
     "./button": "./src/button/index.ts",
@@ -43,6 +45,7 @@
     "./checkbox-group": "./src/checkbox-group/index.ts",
     "./column": "./src/column/index.ts",
     "./color-area": "./src/color-area/index.ts",
+    "./credit-card": "./src/credit-card/index.ts",
     "./color-mode-toggle": "./src/color-mode-toggle/index.ts",
     "./color-field": "./src/color-field/index.ts",
     "./color-picker": "./src/color-picker/index.ts",
@@ -65,15 +68,22 @@
     "./empty-state": "./src/empty-state/index.ts",
     "./featured-icon": "./src/featured-icon/index.ts",
     "./field": "./src/field/index.ts",
+    "./file-upload": "./src/file-upload/index.ts",
     "./fieldset": "./src/fieldset/index.ts",
     "./file-trigger": "./src/file-trigger/index.ts",
     "./form": "./src/form/index.ts",
     "./grid-list": "./src/grid-list/index.ts",
     "./icon": "./src/icon/index.ts",
     "./icon-button": "./src/icon-button/index.ts",
+    "./illustration": "./src/illustration/index.ts",
     "./image": "./src/image/index.ts",
+    "./image-cropper": "./src/image-cropper/index.ts",
+    "./iphone-mockup": "./src/iphone-mockup/index.ts",
     "./i18n-provider": "./src/i18n-provider/index.ts",
     "./input": "./src/input/index.ts",
+    "./input-group": "./src/input-group/index.ts",
+    "./input-tags": "./src/input-tags/index.ts",
+    "./multi-select": "./src/multi-select/index.ts",
     "./link": "./src/link/index.ts",
     "./list": "./src/list/index.ts",
     "./menu": "./src/menu/index.ts",
@@ -83,12 +93,15 @@
     "./navigation-menu": "./src/navigation-menu/index.ts",
     "./number-field": "./src/number-field/index.ts",
     "./pagination": "./src/pagination/index.ts",
+    "./pagination-dot": "./src/pagination-dot/index.ts",
+    "./pagination-line": "./src/pagination-line/index.ts",
     "./payment-input": "./src/payment-input/index.ts",
     "./pin-input": "./src/pin-input/index.ts",
     "./popover": "./src/popover/index.ts",
     "./preview-card": "./src/preview-card/index.ts",
     "./progress-bar": "./src/progress-bar/index.ts",
     "./progress-circle": "./src/progress-circle/index.ts",
+    "./qr-code": "./src/qr-code/index.ts",
     "./radio": "./src/radio/index.ts",
     "./row": "./src/row/index.ts",
     "./radio-group": "./src/radio-group/index.ts",
@@ -99,6 +112,7 @@
     "./search-field": "./src/search-field/index.ts",
     "./select": "./src/select/index.ts",
     "./select-native": "./src/select-native/index.ts",
+    "./section-divider": "./src/section-divider/index.ts",
     "./separator": "./src/separator/index.ts",
     "./slider": "./src/slider/index.ts",
     "./social-button": "./src/social-button/index.ts",
@@ -108,8 +122,12 @@
     "./table": "./src/table/index.ts",
     "./tabs": "./src/tabs/index.ts",
     "./tag-group": "./src/tag-group/index.ts",
+    "./tag-select": "./src/tag-select/index.ts",
+    "./header-nav": "./src/header-nav/index.ts",
+    "./sidebar": "./src/sidebar/index.ts",
     "./text": "./src/text/index.ts",
     "./text-area": "./src/text-area/index.ts",
+    "./text-editor": "./src/text-editor/index.ts",
     "./text-field": "./src/text-field/index.ts",
     "./time-field": "./src/time-field/index.ts",
     "./toggle-button": "./src/toggle-button/index.ts",
@@ -117,6 +135,7 @@
     "./toolbar": "./src/toolbar/index.ts",
     "./tooltip": "./src/tooltip/index.ts",
     "./tree": "./src/tree/index.ts",
+    "./video-player": "./src/video-player/index.ts",
     "./styles": {
       "types": "./src/styles.css.d.ts",
       "default": "./src/styles.css"
@@ -157,6 +176,14 @@
     "@tale-ui/monorepo-tests": "workspace:*",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",
+    "@tiptap/core": "^3.22.3",
+    "@tiptap/extension-image": "^3.22.3",
+    "@tiptap/extension-placeholder": "^3.22.3",
+    "@tiptap/extension-text-align": "^3.22.3",
+    "@tiptap/extension-text-style": "^3.22.3",
+    "@tiptap/pm": "^3.22.3",
+    "@tiptap/react": "^3.22.3",
+    "@tiptap/starter-kit": "^3.22.3",
     "@types/chai": "5.2.3",
     "@types/chai-dom": "1.11.3",
     "@types/luxon": "^3.7.1",
@@ -172,8 +199,11 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^1.6.0",
     "luxon": "^3.7.2",
+    "motion": "^12.37.0",
+    "qr-code-styling": "^1.9.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-image-crop": "^11.0.10",
     "react-router": "7.13.1",
     "sinon": "21.0.2",
     "typescript": "5.9.3",
@@ -181,13 +211,24 @@
   },
   "peerDependencies": {
     "@date-fns/tz": "^1.2.0",
+    "@tiptap/core": ">=3.0.0",
+    "@tiptap/extension-image": ">=3.0.0",
+    "@tiptap/extension-placeholder": ">=3.0.0",
+    "@tiptap/extension-text-align": ">=3.0.0",
+    "@tiptap/extension-text-style": ">=3.0.0",
+    "@tiptap/pm": ">=3.0.0",
+    "@tiptap/react": ">=3.0.0",
+    "@tiptap/starter-kit": ">=3.0.0",
     "@types/react": "^17 || ^18 || ^19",
     "date-fns": "^4.0.0",
     "embla-carousel-react": ">=8.0.0",
     "input-otp": ">=1.0.0",
     "lucide-react": ">=0.400.0",
+    "motion": ">=11.0.0",
+    "qr-code-styling": ">=1.0.0",
     "react": "^17 || ^18 || ^19",
-    "react-dom": "^17 || ^18 || ^19"
+    "react-dom": "^17 || ^18 || ^19",
+    "react-image-crop": ">=11.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -206,6 +247,39 @@
       "optional": true
     },
     "embla-carousel-react": {
+      "optional": true
+    },
+    "motion": {
+      "optional": true
+    },
+    "qr-code-styling": {
+      "optional": true
+    },
+    "react-image-crop": {
+      "optional": true
+    },
+    "@tiptap/core": {
+      "optional": true
+    },
+    "@tiptap/extension-image": {
+      "optional": true
+    },
+    "@tiptap/extension-placeholder": {
+      "optional": true
+    },
+    "@tiptap/extension-text-align": {
+      "optional": true
+    },
+    "@tiptap/extension-text-style": {
+      "optional": true
+    },
+    "@tiptap/pm": {
+      "optional": true
+    },
+    "@tiptap/react": {
+      "optional": true
+    },
+    "@tiptap/starter-kit": {
       "optional": true
     }
   },

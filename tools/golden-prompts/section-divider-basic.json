@@ -1,0 +1,7 @@
+{
+  "slug": "section-divider-basic",
+  "difficulty": "simple",
+  "prompt": "Show a decorative section divider between two content sections.",
+  "reference": "import { SectionDivider } from '@tale-ui/react/section-divider';\n\nexport function Example() {\n  return (\n    <div>\n      <section>\n        <h2>Features</h2>\n        <p>Everything you need.</p>\n      </section>\n      <SectionDivider />\n      <section>\n        <h2>Pricing</h2>\n        <p>Simple, transparent pricing.</p>\n      </section>\n    </div>\n  );\n}",
+  "tags": ["SectionDivider"]
+}

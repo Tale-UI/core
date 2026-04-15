@@ -1,0 +1,7 @@
+{
+  "slug": "pagination-dot-carousel",
+  "difficulty": "simple",
+  "prompt": "Show a carousel slide indicator with 5 dots where the 2nd dot is active. Clicking a dot should change the active one.",
+  "reference": "import * as React from 'react';\nimport { PaginationDot } from '@tale-ui/react/pagination-dot';\n\nexport function CarouselDots() {\n  const [page, setPage] = React.useState(2);\n  return <PaginationDot page={page} total={5} onPageChange={setPage} />;\n}",
+  "tags": ["PaginationDot"]
+}

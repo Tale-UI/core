@@ -23,6 +23,10 @@
 @import './switch.css';
 @import './toggle-button.css';
 @import './input.css';
+@import './input-group.css';
+@import './input-tags.css';
+@import './multi-select.css';
+@import './tag-select.css';
 @import './text-field.css';
 @import './text-area.css';
 @import './search-field.css';
@@ -55,11 +59,15 @@
 @import './preview-card.css';
 
 /* ─── Navigation ────────────────────────────────────────────────────────────── */
+@import './sidebar.css';
+@import './header-nav.css';
 @import './breadcrumbs.css';
 @import './link.css';
 @import './menu.css';
 @import './navigation-menu.css';
 @import './pagination.css';
+@import './pagination-dot.css';
+@import './pagination-line.css';
 
 /* ─── Typography ───────────────────────────────────────────────────────────── */
 @import './text.css';
@@ -104,14 +112,27 @@
 /* ─── File / DnD ───────────────────────────────────────────────────────────── */
 @import './drop-zone.css';
 @import './file-trigger.css';
+@import './file-upload.css';
 
 /* ─── Icons ─────────────────────────────────────────────────────────────────── */
 @import './icon.css';
 @import './icon-button.css';
 
-/* ─── Marketing ────────────────────────────────────────────────────────────── */
+/* ─── Rich media ────────────────────────────────────────────────────────────── */
+@import './qr-code.css';
+@import './image-cropper.css';
+@import './video-player.css';
+@import './text-editor.css';
+
+/* ─── Marketing / decorative ────────────────────────────────────────────────── */
 @import './app-store-button.css';
 @import './social-button.css';
+@import './badge-group.css';
+@import './section-divider.css';
+@import './background-pattern.css';
+@import './illustration.css';
+@import './iphone-mockup.css';
+@import './credit-card.css';
 
 /* ─── Utilities ─────────────────────────────────────────────────────────────── */
 @import './toolbar.css';

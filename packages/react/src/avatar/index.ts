@@ -6,4 +6,8 @@ export type {
   RootProps as AvatarRootProps,
   IndicatorProps as AvatarIndicatorProps,
   LabelGroupProps as AvatarLabelGroupProps,
+  AddButtonProps as AvatarAddButtonProps,
+  CompanyIconProps as AvatarCompanyIconProps,
+  VerifiedTickProps as AvatarVerifiedTickProps,
+  ProfilePhotoProps as AvatarProfilePhotoProps,
 } from './Avatar.styled';

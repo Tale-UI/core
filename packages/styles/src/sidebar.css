@@ -1,0 +1,562 @@
+/*
+ * Sidebar — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * All layout / positioning left to the consumer (fixed, sticky, flex-child, etc.)
+ *
+ * Usage:
+ *   <Sidebar.Root>
+ *     <Sidebar.Header>…</Sidebar.Header>
+ *     <Sidebar.NavList>
+ *       <Sidebar.NavItem href="/" current icon={HomeIcon}>Home</Sidebar.NavItem>
+ *     </Sidebar.NavList>
+ *     <Sidebar.AccountCard name="Alex" email="alex@example.com" />
+ *   </Sidebar.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--neutral-100);
+  border-right: 1px solid var(--neutral-90);
+}
+
+.tale-sidebar--no-border {
+  border-right: none;
+}
+
+/* ─── Header ───────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-s);
+}
+
+/* ─── Search ───────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tale-sidebar__search-icon {
+  position: absolute;
+  left: 10px;
+  width: 16px;
+  height: 16px;
+  color: var(--neutral-40);
+  pointer-events: none;
+}
+
+.tale-sidebar__search-input {
+  width: 100%;
+  padding: 6px 10px 6px 34px;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 0 0 1px var(--neutral-88) inset;
+  background: var(--neutral-100);
+  font-size: var(--text-s-font-size);
+  color: var(--neutral-10);
+  line-height: 1.4;
+}
+
+.tale-sidebar__search-input::placeholder {
+  color: var(--neutral-40);
+}
+
+.tale-sidebar__search-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-60);
+}
+
+/* ─── Divider ──────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__divider {
+  height: 1px;
+  border: none;
+  background: var(--neutral-90);
+  margin: var(--space-3xs) 0;
+}
+
+/* ─── NavList ──────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__nav-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-xs) var(--space-s);
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  overflow-y: auto;
+}
+
+/* ─── NavItem ──────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__nav-item {
+  list-style: none;
+}
+
+/* ─── NavLink ──────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: 6px;
+  font-size: var(--text-s-font-size);
+  font-weight: 600;
+  color: var(--neutral-20);
+  text-decoration: none;
+  transition: background 100ms, color 100ms;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+.tale-sidebar__nav-link:hover {
+  background: var(--neutral-96);
+  color: var(--neutral-10);
+}
+
+.tale-sidebar__nav-link--current {
+  background: var(--neutral-94);
+  color: var(--neutral-10);
+}
+
+.tale-sidebar__nav-link:focus-visible {
+  outline: 2px solid var(--color-60);
+  outline-offset: 2px;
+}
+
+/* Remove <details> <summary> marker */
+.tale-sidebar__nav-link::-webkit-details-marker {
+  display: none;
+}
+
+.tale-sidebar__nav-link::marker {
+  display: none;
+}
+
+/* ─── NavIcon ──────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--neutral-40);
+}
+
+.tale-sidebar__nav-link:hover .tale-sidebar__nav-icon,
+.tale-sidebar__nav-link--current .tale-sidebar__nav-icon {
+  color: var(--neutral-20);
+}
+
+/* ─── NavLabel ─────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__nav-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── NavBadge ─────────────────────────────────────────────────────────────── */
+
+.tale-sidebar__nav-badge {
+  margin-left: auto;
+  font-size: var(--text-xs-font-size);
+  font-weight: 500;
+  color: var(--neutral-40);
+}
+
+/* ─── NavExternal / NavChevron ─────────────────────────────────────────────── */
+
+.tale-sidebar__nav-external {
+  width: 14px;
+  height: 14px;
+  color: var(--neutral-40);
+  flex-shrink: 0;
+}
+
+.tale-sidebar__nav-chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--neutral-40);
+  transition: transform 100ms;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+details[open] > summary .tale-sidebar__nav-chevron {
+  transform: rotate(-180deg);
+}
+
+/* ─── Sub-nav children ─────────────────────────────────────────────────────── */
+
+.tale-sidebar__nav-children {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3xs) 0 0 var(--space-m);
+  margin: 2px 0 0;
+  list-style: none;
+}
+
+.tale-sidebar__nav-child-link {
+  font-weight: 500;
+  font-size: var(--text-xs-font-size);
+}
+
+/* ─── NavButton (slim / icon-only sidebar) ─────────────────────────────────── */
+
+.tale-sidebar__nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  color: var(--neutral-40);
+  text-decoration: none;
+  transition: background 100ms, color 100ms;
+  cursor: pointer;
+}
+
+.tale-sidebar__nav-btn:hover {
+  background: var(--neutral-96);
+  color: var(--neutral-20);
+}
+
+.tale-sidebar__nav-btn--current {
+  background: var(--neutral-94);
+  color: var(--neutral-10);
+}
+
+.tale-sidebar__nav-btn-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ─── AccountCard ──────────────────────────────────────────────────────────── */
+
+.tale-sidebar__account-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  border-radius: 10px;
+  padding: var(--space-2xs);
+  box-shadow: 0 0 0 1px var(--neutral-88) inset;
+  position: relative;
+  margin: var(--space-xs) var(--space-s) var(--space-s);
+}
+
+.tale-sidebar__account-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.tale-sidebar__account-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tale-sidebar__account-avatar--placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-90);
+  color: var(--color-90-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-s-font-size);
+  font-weight: 600;
+}
+
+.tale-sidebar__account-status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--neutral-100);
+}
+
+.tale-sidebar__account-status--online {
+  background: var(--color-50);
+}
+
+.tale-sidebar__account-status--offline {
+  background: var(--neutral-40);
+}
+
+.tale-sidebar__account-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.tale-sidebar__account-name {
+  font-size: var(--text-s-font-size);
+  font-weight: 600;
+  color: var(--neutral-10);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tale-sidebar__account-email {
+  font-size: var(--text-xs-font-size);
+  color: var(--neutral-40);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tale-sidebar__account-trigger {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--neutral-40);
+  cursor: pointer;
+  padding: 0;
+}
+
+.tale-sidebar__account-trigger:hover {
+  background: var(--neutral-96);
+  color: var(--neutral-20);
+}
+
+.tale-sidebar__account-trigger-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─── AccountMenu ──────────────────────────────────────────────────────────── */
+
+.tale-sidebar__account-menu {
+  min-width: 264px;
+  border-radius: 12px;
+  background: var(--neutral-98);
+  box-shadow: 0 4px 24px rgb(0 0 0 / 0.12);
+  border: 1px solid var(--neutral-90);
+  overflow: hidden;
+}
+
+/* ─── FeatureCard ──────────────────────────────────────────────────────────── */
+
+.tale-sidebar__feature-card {
+  border-radius: 10px;
+  padding: var(--space-s);
+  background: var(--neutral-98);
+  border: 1px solid var(--neutral-90);
+  margin: 0 var(--space-s) var(--space-xs);
+}
+
+.tale-sidebar__feature-card-title {
+  font-size: var(--text-s-font-size);
+  font-weight: 600;
+  color: var(--neutral-10);
+}
+
+.tale-sidebar__feature-card-description {
+  font-size: var(--text-xs-font-size);
+  color: var(--neutral-40);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.tale-sidebar__feature-card-dismiss {
+  margin-top: var(--space-xs);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--neutral-88);
+  background: transparent;
+  font-size: var(--text-xs-font-size);
+  color: var(--neutral-20);
+  cursor: pointer;
+  transition: background 100ms;
+}
+
+.tale-sidebar__feature-card-dismiss:hover {
+  background: var(--neutral-96);
+}
+
+/* ─── Mobile — header bar ──────────────────────────────────────────────────── */
+
+.tale-sidebar__mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--space-s);
+  border-bottom: 1px solid var(--neutral-90);
+  background: var(--neutral-100);
+}
+
+.tale-sidebar__mobile-logo {
+  display: flex;
+  align-items: center;
+}
+
+.tale-sidebar__mobile-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--neutral-20);
+  cursor: pointer;
+  padding: 0;
+}
+
+.tale-sidebar__mobile-menu-btn:hover {
+  background: var(--neutral-96);
+}
+
+/* ─── Mobile — overlay + drawer ────────────────────────────────────────────── */
+
+.tale-sidebar__mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(0 0 0 / 0.5);
+  display: flex;
+}
+
+.tale-sidebar__mobile-drawer {
+  width: 280px;
+  max-width: 90vw;
+  height: 100%;
+  background: var(--neutral-100);
+  box-shadow: 4px 0 24px rgb(0 0 0 / 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.tale-sidebar__mobile-dialog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  outline: none;
+}
+
+.tale-sidebar__mobile-close-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-xs);
+}
+
+.tale-sidebar__mobile-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--neutral-20);
+  cursor: pointer;
+  padding: 0;
+}
+
+.tale-sidebar__mobile-close-btn:hover {
+  background: var(--neutral-96);
+}
+
+/* ─── Dark mode ────────────────────────────────────────────────────────────── */
+
+[data-color-mode="dark"] .tale-sidebar {
+  background: var(--neutral-14);
+  border-color: var(--neutral-22);
+}
+
+[data-color-mode="dark"] .tale-sidebar__search-input {
+  background: var(--neutral-16);
+  box-shadow: 0 0 0 1px var(--neutral-22) inset;
+  color: var(--neutral-96);
+}
+
+[data-color-mode="dark"] .tale-sidebar__nav-link:hover {
+  background: var(--neutral-20);
+}
+
+[data-color-mode="dark"] .tale-sidebar__nav-link--current {
+  background: var(--neutral-22);
+}
+
+[data-color-mode="dark"] .tale-sidebar__nav-btn:hover {
+  background: var(--neutral-20);
+}
+
+[data-color-mode="dark"] .tale-sidebar__nav-btn--current {
+  background: var(--neutral-22);
+}
+
+[data-color-mode="dark"] .tale-sidebar__account-card {
+  box-shadow: 0 0 0 1px var(--neutral-22) inset;
+}
+
+[data-color-mode="dark"] .tale-sidebar__account-avatar--placeholder {
+  background: var(--color-20);
+  color: var(--color-20-fg);
+}
+
+[data-color-mode="dark"] .tale-sidebar__account-trigger:hover {
+  background: var(--neutral-20);
+}
+
+[data-color-mode="dark"] .tale-sidebar__account-menu {
+  background: var(--neutral-16);
+  border-color: var(--neutral-22);
+}
+
+[data-color-mode="dark"] .tale-sidebar__feature-card {
+  background: var(--neutral-16);
+  border-color: var(--neutral-22);
+}
+
+[data-color-mode="dark"] .tale-sidebar__feature-card-dismiss:hover {
+  background: var(--neutral-20);
+}
+
+[data-color-mode="dark"] .tale-sidebar__mobile-header {
+  background: var(--neutral-14);
+  border-color: var(--neutral-22);
+}
+
+[data-color-mode="dark"] .tale-sidebar__mobile-drawer {
+  background: var(--neutral-14);
+}
+
+[data-color-mode="dark"] .tale-sidebar__mobile-menu-btn:hover {
+  background: var(--neutral-20);
+}
+
+[data-color-mode="dark"] .tale-sidebar__mobile-close-btn:hover {
+  background: var(--neutral-20);
+}

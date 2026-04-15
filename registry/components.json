@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1.0",
-  "taleUiVersion": "1.3.43",
+  "taleUiVersion": "1.3.44",
   "components": [
     {
       "name": "Accordion",
@@ -338,7 +338,11 @@
         "Indicator",
         "LabelGroup",
         "LabelGroupTitle",
-        "LabelGroupSubtitle"
+        "LabelGroupSubtitle",
+        "AddButton",
+        "CompanyIcon",
+        "VerifiedTick",
+        "ProfilePhoto"
       ],
       "examples": [
         "<Avatar.Root size=\"md\">\n  <Avatar.Fallback>JD</Avatar.Fallback>\n</Avatar.Root>",
@@ -349,6 +353,10 @@
         "import { DotIcon } from '@tale-ui/react/dot-icon';\n\n<Avatar.Indicator badge={<DotIcon color=\"success\" />}>\n  <Avatar.Root size=\"lg\">\n    <Avatar.Image src=\"/photo.jpg\" alt=\"User\" />\n    <Avatar.Fallback>JD</Avatar.Fallback>\n  </Avatar.Root>\n</Avatar.Indicator>",
         "<Avatar.LabelGroup size=\"md\">\n  <Avatar.Root>\n    <Avatar.Image src=\"/photo.jpg\" alt=\"User\" />\n    <Avatar.Fallback>JD</Avatar.Fallback>\n  </Avatar.Root>\n  <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>\n  <Avatar.LabelGroupSubtitle>Product Designer</Avatar.LabelGroupSubtitle>\n</Avatar.LabelGroup>",
         "<Avatar.LabelGroup size=\"md\">\n  <Avatar.Indicator badge={<DotIcon color=\"success\" />}>\n    <Avatar.Root>\n      <Avatar.Image src=\"/photo.jpg\" alt=\"User\" />\n      <Avatar.Fallback>JD</Avatar.Fallback>\n    </Avatar.Root>\n  </Avatar.Indicator>\n  <Avatar.LabelGroupTitle>Jane Doe</Avatar.LabelGroupTitle>\n  <Avatar.LabelGroupSubtitle>Online</Avatar.LabelGroupSubtitle>\n</Avatar.LabelGroup>",
+        "<Avatar.Group size=\"md\">\n  <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>\n  <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>\n  <Avatar.AddButton size=\"md\" aria-label=\"Add team member\" />\n</Avatar.Group>",
+        "<Avatar.CompanyIcon src=\"/logos/acme.png\" alt=\"Acme Corp\" size=\"md\">\n  <Avatar.Root>\n    <Avatar.Image src=\"/photo.jpg\" alt=\"Jane Doe\" />\n    <Avatar.Fallback>JD</Avatar.Fallback>\n  </Avatar.Root>\n</Avatar.CompanyIcon>",
+        "{/* As badge on Indicator */}\n<Avatar.Indicator badge={<Avatar.VerifiedTick size=\"sm\" />}>\n  <Avatar.Root size=\"md\">\n    <Avatar.Image src=\"/photo.jpg\" alt=\"User\" />\n    <Avatar.Fallback>JD</Avatar.Fallback>\n  </Avatar.Root>\n</Avatar.Indicator>",
+        "{/* With verified badge */}\n<Avatar.ProfilePhoto size=\"lg\" badge={<Avatar.VerifiedTick size=\"md\" />}>\n  <Avatar.Image src=\"/photo.jpg\" alt=\"Jane Doe\" />\n  <Avatar.Fallback>JD</Avatar.Fallback>\n</Avatar.ProfilePhoto>\n\n{/* Without badge */}\n<Avatar.ProfilePhoto size=\"md\">\n  <Avatar.Fallback>JD</Avatar.Fallback>\n</Avatar.ProfilePhoto>",
         "import { Avatar } from '@tale-ui/react/avatar';\n    \n    export function Example() {\n      return (\n        <Avatar.Group size=\"md\">\n          <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>\n          <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>\n          <Avatar.Count>+3</Avatar.Count>\n        </Avatar.Group>\n      );\n    }"
       ],
       "cssClasses": [
@@ -359,6 +367,19 @@
         "tale-avatar--sm",
         "tale-avatar--xl",
         "tale-avatar--xs",
+        "tale-avatar-add-button",
+        "tale-avatar-add-button--md",
+        "tale-avatar-add-button--sm",
+        "tale-avatar-add-button--xs",
+        "tale-avatar-add-button__icon",
+        "tale-avatar-company-icon",
+        "tale-avatar-company-icon--2xl",
+        "tale-avatar-company-icon--lg",
+        "tale-avatar-company-icon--md",
+        "tale-avatar-company-icon--sm",
+        "tale-avatar-company-icon--xl",
+        "tale-avatar-company-icon--xs",
+        "tale-avatar-company-icon__badge",
         "tale-avatar-count",
         "tale-avatar-count--2xl",
         "tale-avatar-count--lg",
@@ -376,6 +397,18 @@
         "tale-avatar-label-group--sm",
         "tale-avatar-label-group__subtitle",
         "tale-avatar-label-group__title",
+        "tale-avatar-profile-photo",
+        "tale-avatar-profile-photo__badge",
+        "tale-avatar-profile-photo__inner",
+        "tale-avatar-verified-tick",
+        "tale-avatar-verified-tick--2xl",
+        "tale-avatar-verified-tick--3xl",
+        "tale-avatar-verified-tick--4xl",
+        "tale-avatar-verified-tick--lg",
+        "tale-avatar-verified-tick--md",
+        "tale-avatar-verified-tick--sm",
+        "tale-avatar-verified-tick--xl",
+        "tale-avatar-verified-tick--xs",
         "tale-avatar__fallback",
         "tale-avatar__image"
       ],
@@ -406,6 +439,100 @@
           ],
           "fixes": [
             "<Avatar.Root size=\"md\">"
+          ]
+        },
+        {
+          "id": "avatar-company-icon-outside-root",
+          "summary": "Avatar.CompanyIcon must wrap Avatar.Root from outside",
+          "detail": "like `Avatar.Indicator`, the badge is absolutely positioned on the wrapper. Placing it inside `Avatar.Root` will clip it.",
+          "antiPatterns": [
+            "<Avatar.Root><Avatar.CompanyIcon src=\"...\" /></Avatar.Root>"
+          ],
+          "fixes": [
+            "<Avatar.CompanyIcon src=\"...\" size=\"md\"><Avatar.Root>...</Avatar.Root></Avatar.CompanyIcon>"
+          ]
+        },
+        {
+          "id": "avatar-profile-photo-children",
+          "summary": "Avatar.ProfilePhoto children are Avatar.Image and Avatar.Fallback directly",
+          "detail": "do not nest `Avatar.Root` inside `ProfilePhoto`; it renders its own inner avatar element.",
+          "antiPatterns": [
+            "<Avatar.ProfilePhoto><Avatar.Root><Avatar.Image /></Avatar.Root></Avatar.ProfilePhoto>"
+          ],
+          "fixes": [
+            "<Avatar.ProfilePhoto><Avatar.Image src=\"...\" alt=\"...\" /><Avatar.Fallback>JD</Avatar.Fallback></Avatar.ProfilePhoto>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "BackgroundPattern",
+      "slug": "background-pattern",
+      "import": "@tale-ui/react/background-pattern",
+      "category": "Marketing",
+      "description": "Decorative SVG pattern background (circle, square, grid, grid-check)",
+      "kind": "simple",
+      "status": "stable",
+      "props": [
+        {
+          "name": "pattern",
+          "type": "Pattern",
+          "required": true,
+          "description": "The decorative pattern to render.",
+          "default": null,
+          "allowedValues": [
+            "circle",
+            "square",
+            "grid",
+            "grid-check"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the SVG canvas. Note: `grid-check` only supports `'sm'` and `'md'`. @default 'lg'",
+          "default": "'lg'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { BackgroundPattern } from '@tale-ui/react/background-pattern';\n\n<BackgroundPattern pattern=\"circle\" size=\"lg\" />",
+        "<BackgroundPattern pattern=\"circle\" />\n<BackgroundPattern pattern=\"square\" />\n<BackgroundPattern pattern=\"grid\" />\n<BackgroundPattern pattern=\"grid-check\" size=\"md\" />",
+        "<BackgroundPattern pattern=\"grid\" size=\"sm\" />\n<BackgroundPattern pattern=\"grid\" size=\"md\" />\n<BackgroundPattern pattern=\"grid\" size=\"lg\" />",
+        "{/* Brand color */}\n<BackgroundPattern pattern=\"circle\" style={{ color: 'var(--color-30)' }} />\n\n{/* Arbitrary color */}\n<BackgroundPattern pattern=\"square\" style={{ color: '#e0e0e0' }} />",
+        "<div className=\"relative overflow-hidden\">\n  <BackgroundPattern\n    pattern=\"grid\"\n    size=\"lg\"\n    className=\"absolute inset-0 w-full h-full\"\n  />\n  <div className=\"relative z-10\">Content on top</div>\n</div>"
+      ],
+      "cssClasses": [
+        "tale-background-pattern"
+      ],
+      "pitfalls": [
+        {
+          "id": "background-pattern-grid-check-lg",
+          "summary": "grid-check does not support size=\"lg\"",
+          "detail": "only `sm` and `md` are available for the `grid-check` pattern. Passing `size=\"lg\"` will render nothing.",
+          "antiPatterns": [
+            "<BackgroundPattern pattern=\"grid-check\" size=\"lg\" />"
+          ],
+          "fixes": [
+            "<BackgroundPattern pattern=\"grid-check\" size=\"md\" />"
+          ]
+        },
+        {
+          "id": "background-pattern-color-via-css",
+          "summary": "Control color with CSS color, not with fill/stroke props",
+          "detail": "all strokes use `currentColor`. Use the `style` or `className` prop to override `color`.",
+          "antiPatterns": [
+            "<BackgroundPattern fill=\"var(--neutral-30)\" />"
+          ],
+          "fixes": [
+            "<BackgroundPattern style={{ color: 'var(--neutral-30)' }} />"
           ]
         }
       ],
@@ -494,6 +621,133 @@
           ],
           "fixes": [
             "<Badge variant=\"info\">New</Badge>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "BadgeGroup",
+      "slug": "badge-group",
+      "import": "@tale-ui/react/badge-group",
+      "category": "Marketing",
+      "description": "Badge with pinned leading or trailing addon text",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "addonText",
+          "type": "string",
+          "required": true,
+          "description": "Text displayed inside the pinned addon slot.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the badge group. @default 'md'",
+          "default": "'md'",
+          "allowedValues": [
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "required": false,
+          "description": "Color variant. @default 'brand'",
+          "default": "'brand'",
+          "allowedValues": [
+            "brand",
+            "warning",
+            "error",
+            "gray",
+            "success"
+          ]
+        },
+        {
+          "name": "theme",
+          "type": "Theme",
+          "required": false,
+          "description": "Visual theme. - `'light'` — coloured ring-inset variant (default) - `'modern'` — neutral card style with a coloured dot @default 'light'",
+          "default": "'light'",
+          "allowedValues": [
+            "light",
+            "modern"
+          ]
+        },
+        {
+          "name": "align",
+          "type": "Align",
+          "required": false,
+          "description": "Which side the addon slot is pinned to. @default 'leading'",
+          "default": "'leading'",
+          "allowedValues": [
+            "leading",
+            "trailing"
+          ]
+        },
+        {
+          "name": "iconTrailing",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Icon or component rendered at the trailing edge of the addon. Defaults to a right-arrow chevron.",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root"
+      ],
+      "examples": [
+        "import { BadgeGroup } from '@tale-ui/react/badge-group';\n\n<BadgeGroup.Root addonText=\"v1.0\">New feature</BadgeGroup.Root>",
+        "<BadgeGroup.Root color=\"brand\" addonText=\"New\">Latest release</BadgeGroup.Root>\n<BadgeGroup.Root color=\"success\" addonText=\"+12%\">Revenue</BadgeGroup.Root>\n<BadgeGroup.Root color=\"warning\" addonText=\"3\">Pending</BadgeGroup.Root>\n<BadgeGroup.Root color=\"error\" addonText=\"!\">Critical</BadgeGroup.Root>\n<BadgeGroup.Root color=\"gray\" addonText=\"v2\">Beta</BadgeGroup.Root>",
+        "<BadgeGroup.Root size=\"md\" addonText=\"md\">Medium</BadgeGroup.Root>\n<BadgeGroup.Root size=\"lg\" addonText=\"lg\">Large</BadgeGroup.Root>",
+        "<BadgeGroup.Root theme=\"light\" addonText=\"light\">Light theme</BadgeGroup.Root>\n<BadgeGroup.Root theme=\"modern\" addonText=\"modern\">Modern theme</BadgeGroup.Root>",
+        "<BadgeGroup.Root align=\"leading\" addonText=\"PRO\">Unlock all features</BadgeGroup.Root>",
+        "import { ArrowRight } from 'lucide-react';\n\n<BadgeGroup.Root addonText=\"v2\" iconTrailing={<ArrowRight className=\"size-3\" />}>\n  See what's new\n</BadgeGroup.Root>"
+      ],
+      "cssClasses": [
+        "tale-badge-group",
+        "tale-badge-group--brand",
+        "tale-badge-group--error",
+        "tale-badge-group--gray",
+        "tale-badge-group--leading",
+        "tale-badge-group--lg",
+        "tale-badge-group--light",
+        "tale-badge-group--md",
+        "tale-badge-group--modern",
+        "tale-badge-group--success",
+        "tale-badge-group--trailing",
+        "tale-badge-group--warning",
+        "tale-badge-group__addon",
+        "tale-badge-group__addon--leading",
+        "tale-badge-group__addon--trailing",
+        "tale-badge-group__dot",
+        "tale-badge-group__icon"
+      ],
+      "pitfalls": [
+        {
+          "id": "badge-group-compound-root",
+          "summary": "Always use BadgeGroup.Root",
+          "detail": "`BadgeGroup` is a namespace. Rendering `<BadgeGroup>` directly is a TypeScript error.",
+          "antiPatterns": [
+            "<BadgeGroup addonText=\"v1\">New</BadgeGroup>"
+          ],
+          "fixes": [
+            "<BadgeGroup.Root addonText=\"v1\">New</BadgeGroup.Root>"
+          ]
+        },
+        {
+          "id": "badge-group-addon-required",
+          "summary": "addonText is the primary distinguishing feature",
+          "detail": "omitting it renders a plain badge with no addon segment.",
+          "antiPatterns": [
+            "<BadgeGroup.Root>New</BadgeGroup.Root>"
+          ],
+          "fixes": [
+            "<BadgeGroup.Root addonText=\"v1.0\">New</BadgeGroup.Root>"
           ]
         }
       ],
@@ -2030,6 +2284,131 @@
       ]
     },
     {
+      "name": "CreditCard",
+      "slug": "credit-card",
+      "import": "@tale-ui/react/credit-card",
+      "category": "Marketing",
+      "description": "Visual credit-card display with 13 style variants",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "company",
+          "type": "string",
+          "required": false,
+          "description": "The company name shown in the top-left corner. @default 'Company'",
+          "default": "'Company'"
+        },
+        {
+          "name": "cardNumber",
+          "type": "string",
+          "required": false,
+          "description": "The 16-digit card number. @default '1234 1234 1234 1234'",
+          "default": null
+        },
+        {
+          "name": "cardHolder",
+          "type": "string",
+          "required": false,
+          "description": "The cardholder name. @default 'OLIVIA RHYE'",
+          "default": null
+        },
+        {
+          "name": "cardExpiration",
+          "type": "string",
+          "required": false,
+          "description": "Expiration date string. @default '06/28'",
+          "default": null
+        },
+        {
+          "name": "type",
+          "type": "CreditCardType",
+          "required": false,
+          "description": "Visual style of the card. @default 'brand-dark'",
+          "default": "'brand-dark'"
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "required": false,
+          "description": "Desired rendered width in pixels. Height is automatically calculated to maintain the 316 × 190 aspect ratio. Defaults to the native 316 px width.",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root"
+      ],
+      "examples": [
+        "import { CreditCard } from '@tale-ui/react/credit-card';\n\n<CreditCard.Root company=\"Acme Inc.\" />",
+        "<CreditCard.Root type=\"brand-dark\" />\n<CreditCard.Root type=\"brand-light\" />\n<CreditCard.Root type=\"gray-dark\" />\n<CreditCard.Root type=\"gray-light\" />\n<CreditCard.Root type=\"transparent\" />\n<CreditCard.Root type=\"transparent-gradient\" />",
+        "<CreditCard.Root type=\"gray-strip\" />\n<CreditCard.Root type=\"gradient-strip\" />\n<CreditCard.Root type=\"salmon-strip\" />",
+        "<CreditCard.Root type=\"gradient-strip-vertical\" />\n<CreditCard.Root type=\"salmon-strip-vertical\" />",
+        "<CreditCard.Root\n  type=\"brand-dark\"\n  company=\"Acme Bank\"\n  cardNumber=\"4242 4242 4242 4242\"\n  cardHolder=\"JOHN DOE\"\n  cardExpiration=\"12/29\"\n/>",
+        "{/* Renders at 240 × 144 px (maintains 316:190 ratio) */}\n<CreditCard.Root type=\"brand-dark\" width={240} />"
+      ],
+      "cssClasses": [
+        "tale-credit-card",
+        "tale-credit-card__blob",
+        "tale-credit-card__blob--blue",
+        "tale-credit-card__blob--green",
+        "tale-credit-card__blob--orange",
+        "tale-credit-card__blob--pink",
+        "tale-credit-card__company",
+        "tale-credit-card__details",
+        "tale-credit-card__expiration",
+        "tale-credit-card__footer",
+        "tale-credit-card__gradient-diffusor",
+        "tale-credit-card__header",
+        "tale-credit-card__holder",
+        "tale-credit-card__inner",
+        "tale-credit-card__inner--brand-dark",
+        "tale-credit-card__inner--brand-light",
+        "tale-credit-card__inner--gradient-strip",
+        "tale-credit-card__inner--gradient-strip-vertical",
+        "tale-credit-card__inner--gray-dark",
+        "tale-credit-card__inner--gray-light",
+        "tale-credit-card__inner--gray-strip",
+        "tale-credit-card__inner--gray-strip-vertical",
+        "tale-credit-card__inner--salmon-strip",
+        "tale-credit-card__inner--salmon-strip-vertical",
+        "tale-credit-card__inner--transparent",
+        "tale-credit-card__inner--transparent-gradient",
+        "tale-credit-card__inner--transparent-strip",
+        "tale-credit-card__logo-wrap",
+        "tale-credit-card__name-row",
+        "tale-credit-card__number",
+        "tale-credit-card__number-placeholder",
+        "tale-credit-card__paypass",
+        "tale-credit-card__strip",
+        "tale-credit-card__strip-vertical"
+      ],
+      "pitfalls": [
+        {
+          "id": "credit-card-compound-root",
+          "summary": "Always use CreditCard.Root",
+          "detail": "`CreditCard` is a namespace; it cannot be rendered directly.",
+          "antiPatterns": [
+            "<CreditCard type=\"brand-dark\" />"
+          ],
+          "fixes": [
+            "<CreditCard.Root type=\"brand-dark\" />"
+          ]
+        },
+        {
+          "id": "credit-card-width-prop",
+          "summary": "Use the width prop to scale, not CSS width",
+          "detail": "CSS `width` only resizes the outer wrapper, not the inner card chrome. Use the `width` prop to scale the whole card uniformly.",
+          "antiPatterns": [
+            "<CreditCard.Root style={{ width: '240px' }} />"
+          ],
+          "fixes": [
+            "<CreditCard.Root width={240} />"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
       "name": "CSPProvider",
       "slug": "csp-provider",
       "import": "@tale-ui/react/csp-provider",
@@ -2961,6 +3340,131 @@
       "crossPitfallRefs": null
     },
     {
+      "name": "FileUpload",
+      "slug": "file-upload",
+      "import": "@tale-ui/react/file-upload",
+      "category": "Interaction",
+      "description": "Drop zone + animated upload list with progress bars",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "allowsMultiple",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onDropFiles",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onDropUnacceptedFiles",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onSizeLimitExceed",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onDelete",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onRetry",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "DropZone",
+        "List",
+        "ListItem",
+        "ListItemProgressBar",
+        "ListItemProgressFill"
+      ],
+      "examples": [
+        "import { FileUpload } from '@tale-ui/react/file-upload';\nimport { useState } from 'react';\n\nfunction Example() {\n  const [files, setFiles] = useState<File[]>([]);\n\n  return (\n    <FileUpload.Root>\n      <FileUpload.DropZone\n        hint=\"PNG, JPG or PDF (max 5 MB)\"\n        accept=\"image/*,.pdf\"\n        maxSize={5 * 1024 * 1024}\n        onDropFiles={(fl) => setFiles((p) => [...p, ...Array.from(fl)])}\n      />\n      <FileUpload.List>\n        {files.map((f, i) => (\n          <FileUpload.ListItemProgressBar\n            key={`${f.name}-${i}`}\n            name={f.name}\n            size={f.size}\n            progress={100}\n            onDelete={() => setFiles((p) => p.filter((_, j) => j !== i))}\n          />\n        ))}\n      </FileUpload.List>\n    </FileUpload.Root>\n  );\n}",
+        "<FileUpload.List>\n  <FileUpload.ListItemProgressFill\n    name=\"design.fig\"\n    size={2_400_000}\n    progress={65}\n    onDelete={() => {}}\n  />\n  <FileUpload.ListItemProgressFill\n    name=\"assets.zip\"\n    size={8_100_000}\n    progress={100}\n    onDelete={() => {}}\n  />\n</FileUpload.List>",
+        "{/* Using @untitledui/file-icons */}\nimport { FileIcon } from '@untitledui/file-icons';\n\n<FileUpload.ListItemProgressBar\n  name=\"report.pdf\"\n  size={1_200_000}\n  progress={45}\n  icon={<FileIcon type=\"pdf\" theme=\"light\" className=\"tale-file-upload-item__icon\" />}\n  onDelete={() => {}}\n/>",
+        "<FileUpload.ListItemProgressBar\n  name=\"large-video.mp4\"\n  size={500_000_000}\n  progress={0}\n  failed\n  onDelete={() => {}}\n  onRetry={() => restartUpload()}\n/>"
+      ],
+      "cssClasses": [
+        "tale-file-upload",
+        "tale-file-upload-drop-zone",
+        "tale-file-upload-drop-zone--disabled",
+        "tale-file-upload-drop-zone--drag-over",
+        "tale-file-upload-drop-zone__body",
+        "tale-file-upload-drop-zone__hint",
+        "tale-file-upload-drop-zone__hint--invalid",
+        "tale-file-upload-drop-zone__icon",
+        "tale-file-upload-drop-zone__icon--disabled",
+        "tale-file-upload-drop-zone__icon-wrap",
+        "tale-file-upload-drop-zone__input",
+        "tale-file-upload-drop-zone__or",
+        "tale-file-upload-drop-zone__trigger",
+        "tale-file-upload-drop-zone__trigger-row",
+        "tale-file-upload-item",
+        "tale-file-upload-item--bar",
+        "tale-file-upload-item--failed",
+        "tale-file-upload-item--fill",
+        "tale-file-upload-item__content",
+        "tale-file-upload-item__content--fill",
+        "tale-file-upload-item__delete-btn",
+        "tale-file-upload-item__delete-icon",
+        "tale-file-upload-item__fill-bg",
+        "tale-file-upload-item__fill-bg--complete",
+        "tale-file-upload-item__fill-ring",
+        "tale-file-upload-item__fill-ring--failed",
+        "tale-file-upload-item__header",
+        "tale-file-upload-item__icon",
+        "tale-file-upload-item__info",
+        "tale-file-upload-item__inner",
+        "tale-file-upload-item__meta",
+        "tale-file-upload-item__meta-sep",
+        "tale-file-upload-item__name",
+        "tale-file-upload-item__progress-fill",
+        "tale-file-upload-item__progress-track",
+        "tale-file-upload-item__retry-btn",
+        "tale-file-upload-item__size",
+        "tale-file-upload-item__status",
+        "tale-file-upload-item__status-icon",
+        "tale-file-upload-item__status-icon--error",
+        "tale-file-upload-item__status-icon--success",
+        "tale-file-upload-item__status-icon--uploading",
+        "tale-file-upload-item__status-label",
+        "tale-file-upload-item__status-label--error",
+        "tale-file-upload-item__status-label--success",
+        "tale-file-upload-list",
+        "tale-file-upload-list-item"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
+    },
+    {
       "name": "Form",
       "slug": "form",
       "import": "@tale-ui/react/form",
@@ -3099,6 +3603,46 @@
           ]
         }
       ],
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "HeaderNav",
+      "slug": "header-nav",
+      "import": "@tale-ui/react/header-nav",
+      "category": "Navigation",
+      "description": "Horizontal header navigation primitives",
+      "kind": "compound",
+      "status": "stable",
+      "props": [],
+      "parts": [
+        "Root",
+        "Logo",
+        "NavButton",
+        "Actions",
+        "Secondary",
+        "MobileTrigger"
+      ],
+      "examples": [
+        "import { HeaderNav } from '@tale-ui/react/header-nav';\n\n<HeaderNav.Root>\n  <HeaderNav.Logo href=\"/\">MyApp</HeaderNav.Logo>\n  <HeaderNav.Secondary>\n    <HeaderNav.NavButton href=\"/features\" current>Features</HeaderNav.NavButton>\n    <HeaderNav.NavButton href=\"/pricing\">Pricing</HeaderNav.NavButton>\n    <HeaderNav.NavButton href=\"/docs\">Docs</HeaderNav.NavButton>\n  </HeaderNav.Secondary>\n  <HeaderNav.Actions>\n    <a href=\"/login\" className=\"tale-button tale-button--neutral tale-button--md\">Log in</a>\n    <a href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Sign up</a>\n  </HeaderNav.Actions>\n</HeaderNav.Root>",
+        "<HeaderNav.Root>\n  <HeaderNav.Logo href=\"/\">MyBrand</HeaderNav.Logo>\n  <HeaderNav.Actions>\n    <a href=\"/login\" className=\"tale-button tale-button--ghost tale-button--md\">Log in</a>\n    <a href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Get started</a>\n  </HeaderNav.Actions>\n</HeaderNav.Root>",
+        "<HeaderNav.Root>\n  <HeaderNav.Logo href=\"/\">MyApp</HeaderNav.Logo>\n  <HeaderNav.Secondary>\n    <HeaderNav.NavButton href=\"/features\" current>Features</HeaderNav.NavButton>\n    <HeaderNav.NavButton href=\"/pricing\">Pricing</HeaderNav.NavButton>\n  </HeaderNav.Secondary>\n  <HeaderNav.Actions>\n    <a href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Sign up</a>\n    <HeaderNav.MobileTrigger>\n      <nav style={{ padding: 'var(--space-m)' }}>\n        <a href=\"/features\">Features</a>\n        <a href=\"/pricing\">Pricing</a>\n      </nav>\n    </HeaderNav.MobileTrigger>\n  </HeaderNav.Actions>\n</HeaderNav.Root>"
+      ],
+      "cssClasses": [
+        "tale-header-nav",
+        "tale-header-nav__actions",
+        "tale-header-nav__logo",
+        "tale-header-nav__logo-link",
+        "tale-header-nav__mobile-close-btn",
+        "tale-header-nav__mobile-close-row",
+        "tale-header-nav__mobile-dialog",
+        "tale-header-nav__mobile-drawer",
+        "tale-header-nav__mobile-overlay",
+        "tale-header-nav__mobile-trigger",
+        "tale-header-nav__nav-btn",
+        "tale-header-nav__nav-btn--current",
+        "tale-header-nav__secondary"
+      ],
+      "pitfalls": null,
       "crossPitfallRefs": null
     },
     {
@@ -3337,6 +3881,88 @@
       "crossPitfallRefs": null
     },
     {
+      "name": "Illustration",
+      "slug": "illustration",
+      "import": "@tale-ui/react/illustration",
+      "category": "Marketing",
+      "description": "Decorative marketing illustration SVG with optional children overlay",
+      "kind": "simple",
+      "status": "stable",
+      "props": [
+        {
+          "name": "type",
+          "type": "IllustrationType",
+          "required": true,
+          "description": "The illustration to render.",
+          "default": null,
+          "allowedValues": [
+            "box",
+            "cloud",
+            "documents",
+            "credit-card"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Canvas size. @default 'lg'",
+          "default": "'lg'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "svgClassName",
+          "type": "string",
+          "required": false,
+          "description": "Extra className applied to the inner SVG element.",
+          "default": null
+        },
+        {
+          "name": "childrenClassName",
+          "type": "string",
+          "required": false,
+          "description": "Extra className applied to the children overlay container.",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { Illustration } from '@tale-ui/react/illustration';\n\n<Illustration type=\"box\" size=\"lg\" />",
+        "<Illustration type=\"box\" />\n<Illustration type=\"cloud\" />\n<Illustration type=\"documents\" />\n<Illustration type=\"credit-card\" />",
+        "<Illustration type=\"box\" size=\"sm\" />\n<Illustration type=\"box\" size=\"md\" />\n<Illustration type=\"box\" size=\"lg\" />",
+        "import { UploadCloud } from 'lucide-react';\n\n<Illustration type=\"box\" size=\"lg\">\n  <UploadCloud className=\"w-8 h-8 text-color-60\" />\n</Illustration>",
+        "<Illustration type=\"cloud\" size=\"md\" childrenClassName=\"gap-2 flex-col\">\n  <span className=\"text-sm font-medium\">Drag files here</span>\n</Illustration>"
+      ],
+      "cssClasses": [
+        "tale-illustration",
+        "tale-illustration__overlay",
+        "tale-illustration__svg"
+      ],
+      "pitfalls": [
+        {
+          "id": "illustration-size-sm-md-lg",
+          "summary": "Size is 'sm' | 'md' | 'lg'",
+          "detail": "there is no `'xs'` or `'xl'` size.",
+          "antiPatterns": [
+            "<Illustration type=\"box\" size=\"xl\" />"
+          ],
+          "fixes": [
+            "<Illustration type=\"box\" size=\"lg\" />"
+          ]
+        },
+        {
+          "id": "illustration-children-overlay",
+          "summary": "Children are displayed as a centred overlay",
+          "detail": "they float above the SVG via `position: absolute`. If you need children to stack below the illustration, do not use the `children` prop; compose manually."
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
       "name": "Image",
       "slug": "image",
       "import": "@tale-ui/react/image",
@@ -3438,6 +4064,69 @@
       "crossPitfallRefs": null
     },
     {
+      "name": "ImageCropper",
+      "slug": "image-cropper",
+      "import": "@tale-ui/react/image-cropper",
+      "category": "Interaction",
+      "description": "Interactive image crop region with aspect ratio and circular crop support",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "crop",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onComplete",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "aspect",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "circularCrop",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Img"
+      ],
+      "examples": [
+        "import { ImageCropper } from '@tale-ui/react/image-cropper';\nimport { useState } from 'react';\nimport type { Crop, PixelCrop } from '@tale-ui/react/image-cropper';\n\nfunction AvatarCropper() {\n  const [crop, setCrop] = useState<Crop>();\n  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();\n\n  return (\n    <ImageCropper.Root\n      crop={crop}\n      onChange={setCrop}\n      onComplete={setCompletedCrop}\n      aspect={1}\n    >\n      <ImageCropper.Img src=\"/photo.jpg\" alt=\"Crop your photo\" />\n    </ImageCropper.Root>\n  );\n}",
+        "<ImageCropper.Root crop={crop} onChange={setCrop} aspect={16 / 9}>\n  <ImageCropper.Img src=\"/landscape.jpg\" alt=\"Crop\" />\n</ImageCropper.Root>",
+        "<ImageCropper.Root crop={crop} onChange={setCrop} aspect={1} circularCrop>\n  <ImageCropper.Img src=\"/photo.jpg\" alt=\"Crop avatar\" />\n</ImageCropper.Root>",
+        "import { ImageCropper, cropToFile } from '@tale-ui/react/image-cropper';\n\nasync function handleSave() {\n  if (completedCrop && imageSrc) {\n    const file = await cropToFile(imageSrc, completedCrop);\n    if (file) {\n      // upload or preview the file\n    }\n  }\n}",
+        "import { ImageCropper, makeAspectCrop, centerCrop } from '@tale-ui/react/image-cropper';\n\nfunction onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {\n  const { naturalWidth: width, naturalHeight: height } = e.currentTarget;\n  const initialCrop = centerCrop(\n    makeAspectCrop({ unit: '%', width: 80 }, 16 / 9, width, height),\n    width,\n    height,\n  );\n  setCrop(initialCrop);\n}"
+      ],
+      "cssClasses": [
+        "tale-image-cropper",
+        "tale-image-cropper__img"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
+    },
+    {
       "name": "Input",
       "slug": "input",
       "import": "@tale-ui/react/input",
@@ -3503,6 +4192,248 @@
         "tale-input__root"
       ],
       "pitfalls": null,
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "InputGroup",
+      "slug": "input-group",
+      "import": "@tale-ui/react/input-group",
+      "category": "Form Controls",
+      "description": "Horizontal group container attaching addons to an input field",
+      "kind": "compound",
+      "status": "stable",
+      "props": [],
+      "parts": [
+        "Root",
+        "Addon"
+      ],
+      "examples": [
+        "import { InputGroup } from '@tale-ui/react/input-group';\nimport { Input } from '@tale-ui/react/input';\n\n<InputGroup.Root>\n  <InputGroup.Addon position=\"leading\">https://</InputGroup.Addon>\n  <Input.Root>\n    <Input.Label>Website</Input.Label>\n    <Input.Input placeholder=\"example.com\" />\n  </Input.Root>\n</InputGroup.Root>",
+        "<InputGroup.Root>\n  <InputGroup.Addon position=\"leading\">https://</InputGroup.Addon>\n  <Input.Root>\n    <Input.Label>Website URL</Input.Label>\n    <Input.Input placeholder=\"example.com\" />\n  </Input.Root>\n</InputGroup.Root>",
+        "<InputGroup.Root>\n  <Input.Root>\n    <Input.Label>Duration</Input.Label>\n    <Input.Input type=\"number\" placeholder=\"30\" />\n  </Input.Root>\n  <InputGroup.Addon position=\"trailing\">minutes</InputGroup.Addon>\n</InputGroup.Root>",
+        "<InputGroup.Root>\n  <InputGroup.Addon position=\"leading\">$</InputGroup.Addon>\n  <Input.Root>\n    <Input.Label>Amount</Input.Label>\n    <Input.Input type=\"number\" placeholder=\"0.00\" />\n  </Input.Root>\n  <InputGroup.Addon position=\"trailing\">USD</InputGroup.Addon>\n</InputGroup.Root>",
+        "<InputGroup.Root>\n  <Input.Root>\n    <Input.Label>Referral code</Input.Label>\n    <Input.Input placeholder=\"TALE-XYZ123\" />\n  </Input.Root>\n  <InputGroup.Addon position=\"trailing\">\n    <button type=\"button\" className=\"tale-button tale-button--secondary tale-button--sm\">Copy</button>\n  </InputGroup.Addon>\n</InputGroup.Root>",
+        "import { Field } from '@tale-ui/react/field';\n\n<Field.Root>\n  <Field.Label>API endpoint</Field.Label>\n  <InputGroup.Root>\n    <InputGroup.Addon position=\"leading\">https://api.</InputGroup.Addon>\n    <Input.Root>\n      <Input.Input placeholder=\"example.com/v1\" />\n    </Input.Root>\n  </InputGroup.Root>\n  <Field.Description>Must be a valid HTTPS URL.</Field.Description>\n</Field.Root>"
+      ],
+      "cssClasses": [
+        "tale-input",
+        "tale-input-group",
+        "tale-input-group__addon",
+        "tale-input-group__addon--leading",
+        "tale-input-group__addon--trailing",
+        "tale-input__root"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "InputTags",
+      "slug": "input-tags",
+      "import": "@tale-ui/react/input-tags",
+      "category": "Form Controls",
+      "description": "Tag chip input — type to add tags, press Enter to commit, Backspace to remove",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "tagPlacement",
+          "type": "'inline' | 'below'",
+          "required": false,
+          "description": "Where to render the tag chips — inside the input area (`'inline'`) or below it in a separate row (`'below'`). @default 'inline'",
+          "default": "'inline'",
+          "allowedValues": [
+            "inline",
+            "below"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "required": false,
+          "description": "Size variant. @default 'md'",
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder text for the text input.",
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the field is disabled.",
+          "default": null
+        },
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the field is in an error state.",
+          "default": null
+        },
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the field is required.",
+          "default": null
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled value — array of tag strings.",
+          "default": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial tags for uncontrolled mode.",
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "(tags: string[]) => void",
+          "required": false,
+          "description": "Called whenever the tag list changes.",
+          "default": null
+        },
+        {
+          "name": "onTagAdded",
+          "type": "(tag: string) => void",
+          "required": false,
+          "description": "Called when a tag is successfully added.",
+          "default": null
+        },
+        {
+          "name": "onTagRemoved",
+          "type": "(tag: string) => void",
+          "required": false,
+          "description": "Called when a tag is removed.",
+          "default": null
+        },
+        {
+          "name": "allowDuplicates",
+          "type": "boolean",
+          "required": false,
+          "description": "Allow duplicate tag values. @default false",
+          "default": "false"
+        },
+        {
+          "name": "maxTags",
+          "type": "number",
+          "required": false,
+          "description": "Maximum number of tags allowed.",
+          "default": null
+        },
+        {
+          "name": "validate",
+          "type": "(value: string) => boolean",
+          "required": false,
+          "description": "Validation function — return `true` to accept a new tag, `false` to reject it.",
+          "default": null
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Label text displayed above the field.",
+          "default": null
+        },
+        {
+          "name": "description",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Helper text displayed below the field.",
+          "default": null
+        },
+        {
+          "name": "errorMessage",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Error message shown when `isInvalid` is true.",
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root"
+      ],
+      "examples": [
+        "import { InputTags } from '@tale-ui/react/input-tags';",
+        "import { InputTags } from '@tale-ui/react/input-tags';\n\nfunction Example() {\n  const [tags, setTags] = React.useState<string[]>([]);\n\n  return (\n    <InputTags.Root\n      label=\"Skills\"\n      placeholder=\"Add a skill…\"\n      description=\"Press Enter to add each skill.\"\n      onChange={setTags}\n    />\n  );\n}",
+        "<InputTags.Root\n  label=\"Technologies\"\n  placeholder=\"Add a technology…\"\n  tagPlacement=\"inline\"\n  defaultValue={['React', 'TypeScript']}\n  onChange={setTags}\n/>",
+        "<InputTags.Root\n  label=\"Tags\"\n  placeholder=\"Add a tag…\"\n  tagPlacement=\"below\"\n  defaultValue={['design', 'ui']}\n  onChange={setTags}\n/>",
+        "<InputTags.Root size=\"sm\" label=\"Small\" placeholder=\"Add tag…\" />\n<InputTags.Root size=\"md\" label=\"Medium\" placeholder=\"Add tag…\" />\n<InputTags.Root size=\"lg\" label=\"Large\" placeholder=\"Add tag…\" />",
+        "{/* Invalid with error message */}\n<InputTags.Root\n  label=\"Required skills\"\n  isInvalid\n  errorMessage=\"At least one skill is required.\"\n  isRequired\n/>\n\n{/* Disabled */}\n<InputTags.Root\n  label=\"Skills\"\n  isDisabled\n  defaultValue={['React', 'TypeScript']}\n/>",
+        "<InputTags.Root\n  label=\"Hashtags\"\n  placeholder=\"#tag\"\n  validate={(value) => value.startsWith('#') && value.length > 1}\n  description=\"Each tag must start with #\"\n/>",
+        "<InputTags.Root\n  label=\"Up to 3 tags\"\n  maxTags={3}\n  description=\"Maximum 3 tags allowed.\"\n/>",
+        "function ControlledExample() {\n  const [tags, setTags] = React.useState(['React', 'TypeScript']);\n\n  return (\n    <InputTags.Root\n      label=\"Skills\"\n      value={tags}\n      onChange={setTags}\n      onTagAdded={(tag) => console.log('added:', tag)}\n      onTagRemoved={(tag) => console.log('removed:', tag)}\n    />\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-input-tags",
+        "tale-input-tags--below",
+        "tale-input-tags--lg",
+        "tale-input-tags--sm",
+        "tale-input-tags__group",
+        "tale-input-tags__input",
+        "tale-input-tags__label",
+        "tale-input-tags__tag",
+        "tale-input-tags__tag-list",
+        "tale-input-tags__tag-wrapper",
+        "tale-input-tags__tags"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "IphoneMockup",
+      "slug": "iphone-mockup",
+      "import": "@tale-ui/react/iphone-mockup",
+      "category": null,
+      "description": null,
+      "kind": "simple",
+      "status": "stable",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { IPhoneMockup } from '@tale-ui/react/iphone-mockup';\n\n<IPhoneMockup image=\"/screenshots/home.png\" />",
+        "<IPhoneMockup\n  image=\"/screenshots/home-light.png\"\n  imageDark=\"/screenshots/home-dark.png\"\n/>",
+        "{/* The SVG viewBox is 314 × 640; set width and height scales proportionally */}\n<IPhoneMockup image=\"/screenshots/home.png\" width={240} height={490} />",
+        "<IPhoneMockup image=\"/screenshots/dark-home.png\" theme=\"dark\" />",
+        "<div className=\"flex gap-8 justify-center\">\n  <IPhoneMockup image=\"/screenshots/onboarding.png\" width={200} height={408} />\n  <IPhoneMockup image=\"/screenshots/dashboard.png\" width={200} height={408} />\n</div>"
+      ],
+      "cssClasses": [
+        "tale-iphone-mockup",
+        "tale-iphone-mockup__image",
+        "tale-iphone-mockup__image--dark"
+      ],
+      "pitfalls": [
+        {
+          "id": "iphone-mockup-image-required",
+          "summary": "image is required",
+          "detail": "omitting it causes the screen area to be empty.",
+          "antiPatterns": [
+            "<IPhoneMockup />"
+          ],
+          "fixes": [
+            "<IPhoneMockup image=\"/screenshot.png\" />"
+          ]
+        },
+        {
+          "id": "iphone-mockup-image-size",
+          "summary": "Screenshot should ideally be 750 × 1624 px",
+          "detail": "the SVG pattern is sized to this resolution. Other resolutions will be stretched or compressed."
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -3659,7 +4590,8 @@
         "CheckboxItem",
         "RadioItem",
         "LinkItem",
-        "SubmenuTrigger"
+        "SubmenuTrigger",
+        "DotsButton"
       ],
       "examples": [
         "import { Menu } from '@tale-ui/react/menu';\n\n<Menu.Root>\n  <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Options ▾</Menu.Trigger>\n  <Menu.Popover placement=\"bottom\" offset={4}>\n    <Menu.MenuList>\n      <Menu.Item id=\"new\">New File</Menu.Item>\n      <Menu.Item id=\"open\">Open</Menu.Item>\n      <Menu.Separator />\n      <Menu.Item id=\"save\">Save</Menu.Item>\n      <Menu.Item id=\"save-as\">Save As...</Menu.Item>\n      <Menu.Separator />\n      <Menu.Item id=\"close\">Close</Menu.Item>\n    </Menu.MenuList>\n  </Menu.Popover>\n</Menu.Root>",
@@ -3676,6 +4608,8 @@
         "tale-context-menu__item",
         "tale-context-menu__list",
         "tale-menu__checkbox-item",
+        "tale-menu__dots-button",
+        "tale-menu__dots-button-icon",
         "tale-menu__item",
         "tale-menu__item-indicator",
         "tale-menu__link-item",
@@ -3826,6 +4760,215 @@
         "meter-progress-indicator-needs-value",
         "meter-progress-no-output-sub-part"
       ]
+    },
+    {
+      "name": "MultiSelect",
+      "slug": "multi-select",
+      "import": "@tale-ui/react/multi-select",
+      "category": "Form Controls",
+      "description": "Multi-value dropdown with inline search and optional footer actions",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "items",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "selectedKeys",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "showSearch",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "showFooter",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "selectedCountFormatter",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "skill",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "count",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "s",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "chosen",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultSelectedKeys",
+          "type": "Iterable<Key>",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onReset",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onSelectAll",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onClearSearch",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Item",
+        "Footer",
+        "EmptyState"
+      ],
+      "examples": [
+        "import { MultiSelect } from '@tale-ui/react/multi-select';",
+        "import { MultiSelect } from '@tale-ui/react/multi-select';\nimport type { Selection } from 'react-aria-components';\n\nconst options = [\n  { id: 'react', name: 'React' },\n  { id: 'vue', name: 'Vue' },\n  { id: 'angular', name: 'Angular' },\n  { id: 'svelte', name: 'Svelte' },\n];\n\nfunction Example() {\n  const [selected, setSelected] = React.useState<Selection>(new Set());\n\n  return (\n    <MultiSelect.Root\n      label=\"Frameworks\"\n      placeholder=\"Select frameworks\"\n      items={options}\n      selectedKeys={selected}\n      onSelectionChange={setSelected}\n    >\n      {(item) => (\n        <MultiSelect.Item id={item.id} textValue={item.name}>\n          {item.name}\n        </MultiSelect.Item>\n      )}\n    </MultiSelect.Root>\n  );\n}",
+        "<MultiSelect.Root\n  label=\"Options\"\n  showSearch={false}\n  items={options}\n  onSelectionChange={setSelected}\n>\n  {(item) => (\n    <MultiSelect.Item id={item.id} textValue={item.name}>\n      {item.name}\n    </MultiSelect.Item>\n  )}\n</MultiSelect.Root>",
+        "<MultiSelect.Root\n  label=\"Options\"\n  showFooter={false}\n  items={options}\n  onSelectionChange={setSelected}\n>\n  {(item) => (\n    <MultiSelect.Item id={item.id} textValue={item.name}>\n      {item.name}\n    </MultiSelect.Item>\n  )}\n</MultiSelect.Root>",
+        "<MultiSelect.Root\n  label=\"Skills\"\n  selectedKeys={selected}\n  onSelectionChange={setSelected}\n  selectedCountFormatter={(count) => `${count} skill${count === 1 ? '' : 's'} chosen`}\n  items={options}\n>\n  {(item) => (\n    <MultiSelect.Item id={item.id} textValue={item.name}>\n      {item.name}\n    </MultiSelect.Item>\n  )}\n</MultiSelect.Root>",
+        "<MultiSelect.Root size=\"sm\" label=\"Small\" items={options} onSelectionChange={setSelected}>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>\n\n<MultiSelect.Root size=\"md\" label=\"Medium\" items={options} onSelectionChange={setSelected}>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>\n\n<MultiSelect.Root size=\"lg\" label=\"Large\" items={options} onSelectionChange={setSelected}>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>",
+        "<MultiSelect.Root\n  label=\"Required field\"\n  isRequired\n  isInvalid\n  errorMessage=\"Please select at least one option.\"\n  items={options}\n  onSelectionChange={setSelected}\n>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>"
+      ],
+      "cssClasses": [
+        "tale-multi-select",
+        "tale-multi-select__description",
+        "tale-multi-select__dialog",
+        "tale-multi-select__empty",
+        "tale-multi-select__empty-clear",
+        "tale-multi-select__empty-description",
+        "tale-multi-select__empty-title",
+        "tale-multi-select__error",
+        "tale-multi-select__footer",
+        "tale-multi-select__footer-btn",
+        "tale-multi-select__icon",
+        "tale-multi-select__item",
+        "tale-multi-select__item-check",
+        "tale-multi-select__item-text",
+        "tale-multi-select__label",
+        "tale-multi-select__listbox",
+        "tale-multi-select__popup",
+        "tale-multi-select__popup--lg",
+        "tale-multi-select__popup--sm",
+        "tale-multi-select__search",
+        "tale-multi-select__search-icon",
+        "tale-multi-select__search-input",
+        "tale-multi-select__search-wrapper",
+        "tale-multi-select__supporting-text",
+        "tale-multi-select__trigger",
+        "tale-multi-select__trigger--invalid",
+        "tale-multi-select__trigger-inner",
+        "tale-multi-select__trigger-inner--lg",
+        "tale-multi-select__trigger-inner--sm",
+        "tale-multi-select__value",
+        "tale-multi-select__value--placeholder",
+        "tale-multi-select__value--selected"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "NavigationMenu",
@@ -4057,6 +5200,140 @@
           "completeExample": "import { Pagination } from '@tale-ui/react/pagination';\n\nexport function Example() {\n  return (\n    <Pagination.Root aria-label=\"Pagination\">\n      <Pagination.PreviousTrigger />\n      <Pagination.Item page={1} />\n      <Pagination.Item page={2} current />\n      <Pagination.Item page={3} />\n      <Pagination.NextTrigger />\n    </Pagination.Root>\n  );\n}"
         }
       ],
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "PaginationDot",
+      "slug": "pagination-dot",
+      "import": "@tale-ui/react/pagination-dot",
+      "category": "Navigation",
+      "description": "Auto-rendering dot indicators for carousel/slide pagination",
+      "kind": "simple",
+      "status": "stable",
+      "props": [
+        {
+          "name": "page",
+          "type": "number",
+          "required": true,
+          "description": "Current active page (1-indexed).",
+          "default": null
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "required": true,
+          "description": "Total number of pages / slides.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "'md' | 'lg'",
+          "required": false,
+          "description": "Size of each dot indicator. @default 'md'",
+          "default": "'md'",
+          "allowedValues": [
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "framed",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether to render a frosted-glass frame around the indicators. Useful when overlaid on images or video.",
+          "default": null
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page: number) => void",
+          "required": false,
+          "description": "Callback fired when the user clicks a dot. Receives the 1-indexed page number.",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { PaginationDot } from '@tale-ui/react/pagination-dot';\n\nfunction Carousel() {\n  const [page, setPage] = React.useState(1);\n\n  return (\n    <>\n      {/* ...slide content... */}\n      <PaginationDot page={page} total={5} onPageChange={setPage} />\n    </>\n  );\n}",
+        "<PaginationDot page={2} total={5} onPageChange={setPage} />",
+        "<PaginationDot page={1} total={4} size=\"lg\" onPageChange={setPage} />",
+        "<div style={{ position: 'relative' }}>\n  <img src=\"/hero.jpg\" alt=\"Hero\" />\n  <div style={{ position: 'absolute', bottom: '1rem', left: '50%', transform: 'translateX(-50%)' }}>\n    <PaginationDot page={page} total={5} onPageChange={setPage} framed />\n  </div>\n</div>",
+        "<PaginationDot page={3} total={6} />"
+      ],
+      "cssClasses": [
+        "tale-pagination-dot",
+        "tale-pagination-dot--framed",
+        "tale-pagination-dot--lg",
+        "tale-pagination__dot",
+        "tale-pagination__dot--current"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "PaginationLine",
+      "slug": "pagination-line",
+      "import": "@tale-ui/react/pagination-line",
+      "category": "Navigation",
+      "description": "Auto-rendering line indicators for carousel/slide pagination",
+      "kind": "simple",
+      "status": "stable",
+      "props": [
+        {
+          "name": "page",
+          "type": "number",
+          "required": true,
+          "description": "Current active page (1-indexed).",
+          "default": null
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "required": true,
+          "description": "Total number of pages / slides.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "'md' | 'lg'",
+          "required": false,
+          "description": "Size of each line indicator. @default 'md'",
+          "default": "'md'",
+          "allowedValues": [
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "framed",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether to render a frosted-glass frame around the indicators. Useful when overlaid on images or video.",
+          "default": null
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page: number) => void",
+          "required": false,
+          "description": "Callback fired when the user clicks a line. Receives the 1-indexed page number.",
+          "default": null
+        }
+      ],
+      "parts": null,
+      "examples": [
+        "import { PaginationLine } from '@tale-ui/react/pagination-line';\n\nfunction Carousel() {\n  const [page, setPage] = React.useState(1);\n\n  return (\n    <>\n      {/* ...slide content... */}\n      <PaginationLine page={page} total={5} onPageChange={setPage} />\n    </>\n  );\n}",
+        "<PaginationLine page={2} total={5} onPageChange={setPage} />",
+        "<PaginationLine page={1} total={4} size=\"lg\" onPageChange={setPage} />",
+        "<div style={{ position: 'relative', width: '100%' }}>\n  <img src=\"/hero.jpg\" alt=\"Hero\" style={{ width: '100%' }} />\n  <div style={{ position: 'absolute', bottom: '1rem', left: '50%', transform: 'translateX(-50%)', width: '80%' }}>\n    <PaginationLine page={page} total={5} onPageChange={setPage} framed style={{ width: '100%' }} />\n  </div>\n</div>",
+        "<PaginationLine page={3} total={6} />"
+      ],
+      "cssClasses": [
+        "tale-pagination-line",
+        "tale-pagination-line--framed",
+        "tale-pagination-line--lg",
+        "tale-pagination__line",
+        "tale-pagination__line--current"
+      ],
+      "pitfalls": null,
       "crossPitfallRefs": null
     },
     {
@@ -4471,6 +5748,66 @@
           ]
         }
       ],
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "QRCode",
+      "slug": "qr-code",
+      "import": "@tale-ui/react/qr-code",
+      "category": "Display",
+      "description": "QR code generator with size variants and decorative scan overlay",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "The value to encode in the QR code.",
+          "default": null
+        },
+        {
+          "name": "options",
+          "type": "QRCodeStylingOptions",
+          "required": false,
+          "description": "Additional options to pass to qr-code-styling.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "QRCodeSize",
+          "required": false,
+          "description": "Size of the QR code. @default 'md'",
+          "default": "'md'",
+          "allowedValues": [
+            "md",
+            "lg"
+          ]
+        }
+      ],
+      "parts": [
+        "Root",
+        "Scan"
+      ],
+      "examples": [
+        "import { QRCode } from '@tale-ui/react/qr-code';\n\n<QRCode.Root value=\"https://example.com\" size=\"md\" />",
+        "<div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>\n  <QRCode.Root value=\"https://example.com\" size=\"md\" />\n  <QRCode.Root value=\"https://example.com\" size=\"lg\" />\n</div>",
+        "<div style={{ position: 'relative', display: 'inline-flex' }}>\n  <QRCode.Root value=\"https://example.com\" size=\"lg\" />\n  <QRCode.Scan />\n</div>",
+        "<QRCode.Root\n  value=\"https://example.com\"\n  size=\"lg\"\n  options={{\n    dotsOptions: { color: '#7c3aed', type: 'rounded' },\n    backgroundOptions: { color: '#f3f0ff' },\n  }}\n/>"
+      ],
+      "cssClasses": [
+        "tale-qr-code",
+        "tale-qr-code--lg",
+        "tale-qr-code--md",
+        "tale-qr-code-scan",
+        "tale-qr-code__canvas",
+        "tale-qr-code__handle",
+        "tale-qr-code__handle--bl",
+        "tale-qr-code__handle--br",
+        "tale-qr-code__handle--tl",
+        "tale-qr-code__handle--tr"
+      ],
+      "pitfalls": null,
       "crossPitfallRefs": null
     },
     {
@@ -5003,6 +6340,40 @@
       "crossPitfallRefs": null
     },
     {
+      "name": "SectionDivider",
+      "slug": "section-divider",
+      "import": "@tale-ui/react/section-divider",
+      "category": "Marketing",
+      "description": "Decorative full-width horizontal rule with section spacing",
+      "kind": "simple",
+      "status": "stable",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { SectionDivider } from '@tale-ui/react/section-divider';\n\n<SectionDivider />",
+        "<section>\n  <h2>Features</h2>\n  <p>...</p>\n</section>\n<SectionDivider />\n<section>\n  <h2>Pricing</h2>\n  <p>...</p>\n</section>",
+        "<SectionDivider style={{ '--section-divider-color': 'var(--color-20)' } as React.CSSProperties} />"
+      ],
+      "cssClasses": [
+        "tale-section-divider",
+        "tale-section-divider__rule"
+      ],
+      "pitfalls": [
+        {
+          "id": "section-divider-not-separator",
+          "summary": "SectionDivider is for page-level section breaks",
+          "detail": "for UI dividers inside components (menus, cards, lists) use `Separator` instead.",
+          "antiPatterns": [
+            "<Menu><SectionDivider /></Menu>"
+          ],
+          "fixes": [
+            "<Menu.Separator />"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
       "name": "Select",
       "slug": "select",
       "import": "@tale-ui/react/select",
@@ -5198,6 +6569,115 @@
           ]
         }
       ],
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "Sidebar",
+      "slug": "sidebar",
+      "import": "@tale-ui/react/sidebar",
+      "category": "Navigation",
+      "description": "Sidebar navigation primitives for composing simple, dual-tier, slim, and section-divided sidebars",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "hideBorder",
+          "type": "boolean",
+          "required": false,
+          "description": "Remove the right border. Useful when the sidebar is borderless or uses a shadow layout.",
+          "default": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onDismiss",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Header",
+        "Search",
+        "Divider",
+        "NavList",
+        "NavItem",
+        "NavButton",
+        "AccountCard",
+        "AccountMenu",
+        "MobileTrigger",
+        "FeatureCard"
+      ],
+      "examples": [
+        "import { LayoutDashboard, Settings, Users } from 'lucide-react';\nimport { Sidebar } from '@tale-ui/react/sidebar';\n\n<Sidebar.Root>\n  <Sidebar.Header>\n    <img src=\"/logo.svg\" alt=\"MyApp\" />\n  </Sidebar.Header>\n  <Sidebar.NavList>\n    <Sidebar.NavItem href=\"/dashboard\" icon={LayoutDashboard} current>\n      Dashboard\n    </Sidebar.NavItem>\n    <Sidebar.NavItem href=\"/team\" icon={Users}>\n      Team\n    </Sidebar.NavItem>\n    <Sidebar.NavItem href=\"/settings\" icon={Settings}>\n      Settings\n    </Sidebar.NavItem>\n  </Sidebar.NavList>\n  <Sidebar.AccountCard name=\"Alex Chen\" email=\"alex@example.com\" />\n</Sidebar.Root>",
+        "<Sidebar.Root>\n  <Sidebar.Header>\n    <strong>MyApp</strong>\n    <Sidebar.Search placeholder=\"Search…\" />\n  </Sidebar.Header>\n  <Sidebar.NavList>\n    <Sidebar.NavItem href=\"/dashboard\" icon={LayoutDashboard} current>\n      Dashboard\n    </Sidebar.NavItem>\n  </Sidebar.NavList>\n  <Sidebar.AccountCard name=\"Alex Chen\" email=\"alex@example.com\" status=\"online\" />\n</Sidebar.Root>",
+        "<Sidebar.NavItem\n  icon={Users}\n  items={[\n    { href: '/team/members', label: 'Members' },\n    { href: '/team/invites', label: 'Invitations' },\n  ]}\n>\n  Team\n</Sidebar.NavItem>",
+        "<Sidebar.Root>\n  <Sidebar.Header>…</Sidebar.Header>\n  <Sidebar.NavList>\n    <Sidebar.NavItem href=\"/dashboard\" icon={LayoutDashboard}>Dashboard</Sidebar.NavItem>\n  </Sidebar.NavList>\n  <Sidebar.Divider />\n  <Sidebar.NavList>\n    <Sidebar.NavItem href=\"/settings\" icon={Settings}>Settings</Sidebar.NavItem>\n  </Sidebar.NavList>\n  <Sidebar.AccountCard name=\"Alex Chen\" email=\"alex@example.com\" />\n</Sidebar.Root>",
+        "<Sidebar.MobileTrigger logo={<img src=\"/logo.svg\" alt=\"MyApp\" />}>\n  <Sidebar.NavList>\n    <Sidebar.NavItem href=\"/dashboard\" icon={LayoutDashboard}>Dashboard</Sidebar.NavItem>\n  </Sidebar.NavList>\n</Sidebar.MobileTrigger>"
+      ],
+      "cssClasses": [
+        "tale-sidebar",
+        "tale-sidebar--no-border",
+        "tale-sidebar__account-avatar",
+        "tale-sidebar__account-avatar--placeholder",
+        "tale-sidebar__account-avatar-wrap",
+        "tale-sidebar__account-card",
+        "tale-sidebar__account-email",
+        "tale-sidebar__account-info",
+        "tale-sidebar__account-menu",
+        "tale-sidebar__account-name",
+        "tale-sidebar__account-status",
+        "tale-sidebar__account-status--offline",
+        "tale-sidebar__account-status--online",
+        "tale-sidebar__account-trigger",
+        "tale-sidebar__account-trigger-icon",
+        "tale-sidebar__divider",
+        "tale-sidebar__feature-card",
+        "tale-sidebar__feature-card-description",
+        "tale-sidebar__feature-card-dismiss",
+        "tale-sidebar__feature-card-title",
+        "tale-sidebar__header",
+        "tale-sidebar__mobile-close-btn",
+        "tale-sidebar__mobile-close-row",
+        "tale-sidebar__mobile-dialog",
+        "tale-sidebar__mobile-drawer",
+        "tale-sidebar__mobile-header",
+        "tale-sidebar__mobile-logo",
+        "tale-sidebar__mobile-menu-btn",
+        "tale-sidebar__mobile-overlay",
+        "tale-sidebar__nav-badge",
+        "tale-sidebar__nav-btn",
+        "tale-sidebar__nav-btn--current",
+        "tale-sidebar__nav-btn-icon",
+        "tale-sidebar__nav-chevron",
+        "tale-sidebar__nav-child-link",
+        "tale-sidebar__nav-children",
+        "tale-sidebar__nav-external",
+        "tale-sidebar__nav-icon",
+        "tale-sidebar__nav-item",
+        "tale-sidebar__nav-label",
+        "tale-sidebar__nav-link",
+        "tale-sidebar__nav-link--current",
+        "tale-sidebar__nav-list",
+        "tale-sidebar__search",
+        "tale-sidebar__search-icon",
+        "tale-sidebar__search-input"
+      ],
+      "pitfalls": null,
       "crossPitfallRefs": null
     },
     {
@@ -5790,6 +7270,156 @@
       "crossPitfallRefs": null
     },
     {
+      "name": "TagSelect",
+      "slug": "tag-select",
+      "import": "@tale-ui/react/tag-select",
+      "category": "Form Controls",
+      "description": "Combobox that renders selected items as inline tag chips in the field",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "items",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "selectedKeys",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": "'md'"
+        },
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultSelectedKeys",
+          "type": "Iterable<Key>",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "getItemLabel",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "u",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "lastName",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Item"
+      ],
+      "examples": [
+        "import { TagSelect } from '@tale-ui/react/tag-select';",
+        "import * as React from 'react';\nimport type { Key } from 'react-aria-components';\nimport { TagSelect } from '@tale-ui/react/tag-select';\n\nconst people = [\n  { id: 'alice', name: 'Alice' },\n  { id: 'bob', name: 'Bob' },\n  { id: 'carol', name: 'Carol' },\n  { id: 'dave', name: 'Dave' },\n];\n\nexport function TeamPicker() {\n  const [selected, setSelected] = React.useState<Set<Key>>(new Set());\n\n  return (\n    <TagSelect.Root\n      label=\"Team members\"\n      placeholder=\"Search members…\"\n      description=\"Select everyone who should have access.\"\n      items={people}\n      selectedKeys={selected}\n      onSelectionChange={setSelected}\n    >\n      {(person) => (\n        <TagSelect.Item id={person.id} textValue={person.name}>\n          {person.name}\n        </TagSelect.Item>\n      )}\n    </TagSelect.Root>\n  );\n}",
+        "<TagSelect.Root size=\"sm\" label=\"Small\" items={people} onSelectionChange={...}>\n  {(p) => <TagSelect.Item id={p.id} textValue={p.name}>{p.name}</TagSelect.Item>}\n</TagSelect.Root>\n\n<TagSelect.Root size=\"md\" label=\"Medium\" items={people} onSelectionChange={...}>\n  {(p) => <TagSelect.Item id={p.id} textValue={p.name}>{p.name}</TagSelect.Item>}\n</TagSelect.Root>\n\n<TagSelect.Root size=\"lg\" label=\"Large\" items={people} onSelectionChange={...}>\n  {(p) => <TagSelect.Item id={p.id} textValue={p.name}>{p.name}</TagSelect.Item>}\n</TagSelect.Root>",
+        "<TagSelect.Root\n  label=\"Reviewers\"\n  isRequired\n  isInvalid\n  errorMessage=\"Please select at least one reviewer.\"\n  items={people}\n  onSelectionChange={...}\n>\n  {(p) => <TagSelect.Item id={p.id} textValue={p.name}>{p.name}</TagSelect.Item>}\n</TagSelect.Root>",
+        "<TagSelect.Root\n  label=\"Collaborators\"\n  isDisabled\n  defaultSelectedKeys={new Set(['alice'])}\n  items={people}\n>\n  {(p) => <TagSelect.Item id={p.id} textValue={p.name}>{p.name}</TagSelect.Item>}\n</TagSelect.Root>",
+        "const users = [\n  { id: 'u1', firstName: 'Alice', lastName: 'Smith' },\n  { id: 'u2', firstName: 'Bob',   lastName: 'Jones' },\n];\n\n<TagSelect.Root\n  label=\"Users\"\n  items={users}\n  getItemLabel={(u) => `${u.firstName} ${u.lastName}`}\n  onSelectionChange={...}\n>\n  {(u) => (\n    <TagSelect.Item id={u.id} textValue={`${u.firstName} ${u.lastName}`}>\n      {u.firstName} {u.lastName}\n    </TagSelect.Item>\n  )}\n</TagSelect.Root>"
+      ],
+      "cssClasses": [
+        "tale-tag-select",
+        "tale-tag-select__combobox",
+        "tale-tag-select__description",
+        "tale-tag-select__error",
+        "tale-tag-select__group",
+        "tale-tag-select__group--invalid",
+        "tale-tag-select__group--lg",
+        "tale-tag-select__group--sm",
+        "tale-tag-select__input",
+        "tale-tag-select__item",
+        "tale-tag-select__label",
+        "tale-tag-select__listbox",
+        "tale-tag-select__popup",
+        "tale-tag-select__tag",
+        "tale-tag-select__tag--lg",
+        "tale-tag-select__tag--sm",
+        "tale-tag-select__tag-remove",
+        "tale-tag-select__tag-text"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
+    },
+    {
       "name": "Text",
       "slug": "text",
       "import": "@tale-ui/react/text",
@@ -6050,6 +7680,121 @@
       "crossPitfallRefs": [
         "textarea-hyphenated-path"
       ]
+    },
+    {
+      "name": "TextEditor",
+      "slug": "text-editor",
+      "import": "@tale-ui/react/text-editor",
+      "category": "Interaction",
+      "description": "Rich-text editor built on Tiptap v3 with simple and advanced toolbars",
+      "kind": "compound",
+      "status": "experimental",
+      "props": [
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onUpdate",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Content",
+        "Label",
+        "HintText",
+        "Toolbar",
+        "BubbleMenu",
+        "TextEditorBold",
+        "TextEditorItalic",
+        "TextEditorUnderline",
+        "TextEditorBulletList",
+        "TextEditorAlignLeft",
+        "TextEditorAlignCenter",
+        "TextEditorAlignRight",
+        "TextEditorAlignJustify",
+        "TextEditorLink",
+        "TextEditorImage",
+        "TextEditorColor",
+        "TextEditorFontFamily",
+        "TextEditorFontSize",
+        "TextEditorGenerate",
+        "TextEditor",
+        "Bold",
+        "Italic",
+        "Underline",
+        "BulletList",
+        "AlignLeft",
+        "AlignCenter",
+        "AlignRight",
+        "AlignJustify",
+        "Link",
+        "Image",
+        "Color",
+        "FontFamily",
+        "FontSize",
+        "Generate"
+      ],
+      "examples": [
+        "import { TextEditor } from '@tale-ui/react/text-editor';\n\nexport function BasicEditor() {\n  return (\n    <TextEditor.Root placeholder=\"Start writing…\">\n      <TextEditor.Label>Body</TextEditor.Label>\n      <TextEditor.Toolbar type=\"simple\" />\n      <TextEditor.Content />\n      <TextEditor.HintText>Use Markdown shortcuts like ** for bold.</TextEditor.HintText>\n    </TextEditor.Root>\n  );\n}",
+        "import { TextEditor } from '@tale-ui/react/text-editor';\n\nexport function AdvancedEditor() {\n  return (\n    <TextEditor.Root limit={500}>\n      <TextEditor.Label>Description</TextEditor.Label>\n      <TextEditor.Toolbar type=\"advanced\" />\n      <TextEditor.Content />\n      <TextEditor.HintText />\n    </TextEditor.Root>\n  );\n}",
+        "import { TextEditor } from '@tale-ui/react/text-editor';\n\nexport function EditorWithBubble() {\n  return (\n    <TextEditor.Root>\n      <TextEditor.Label>Notes</TextEditor.Label>\n      <TextEditor.Content />\n      <TextEditor.BubbleMenu>\n        <TextEditor.Bold />\n        <TextEditor.Italic />\n        <TextEditor.Underline />\n        <TextEditor.Link />\n      </TextEditor.BubbleMenu>\n    </TextEditor.Root>\n  );\n}",
+        "<TextEditor.Root isDisabled>\n  <TextEditor.Label>Read-only content</TextEditor.Label>\n  <TextEditor.Toolbar type=\"simple\" />\n  <TextEditor.Content />\n</TextEditor.Root>",
+        "<TextEditor.Root isInvalid>\n  <TextEditor.Label>Required field</TextEditor.Label>\n  <TextEditor.Toolbar type=\"simple\" />\n  <TextEditor.Content />\n  <TextEditor.HintText>This field is required.</TextEditor.HintText>\n</TextEditor.Root>",
+        "import { TextEditor } from '@tale-ui/react/text-editor';\n\nexport function CustomToolbar() {\n  return (\n    <TextEditor.Root>\n      <TextEditor.Label>Editor</TextEditor.Label>\n      <div style={{ display: 'flex', gap: 4 }}>\n        <TextEditor.Bold />\n        <TextEditor.Italic />\n        <TextEditor.Color />\n      </div>\n      <TextEditor.Content />\n    </TextEditor.Root>\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-text-editor",
+        "tale-text-editor__btn",
+        "tale-text-editor__btn--active",
+        "tale-text-editor__bubble-menu",
+        "tale-text-editor__color-dialog",
+        "tale-text-editor__color-field",
+        "tale-text-editor__color-field-label",
+        "tale-text-editor__color-field-row",
+        "tale-text-editor__color-popup",
+        "tale-text-editor__color-swatch",
+        "tale-text-editor__color-swatches",
+        "tale-text-editor__content",
+        "tale-text-editor__hint",
+        "tale-text-editor__hint--invalid",
+        "tale-text-editor__label",
+        "tale-text-editor__select",
+        "tale-text-editor__separator",
+        "tale-text-editor__toolbar",
+        "tale-text-editor__toolbar--advanced",
+        "tale-text-editor__toolbar--floating"
+      ],
+      "pitfalls": null,
+      "crossPitfallRefs": null
     },
     {
       "name": "TextField",
@@ -6499,6 +8244,114 @@
           ]
         }
       ],
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "VideoPlayer",
+      "slug": "video-player",
+      "import": "@tale-ui/react/video-player",
+      "category": "Display",
+      "description": "Native video player with custom controls, keyboard shortcuts, and trickplay",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "URL of the video to play.",
+          "default": null
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "required": false,
+          "description": "MIME type of the video. @default 'video/mp4'",
+          "default": null
+        },
+        {
+          "name": "autoPlay",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the video should auto-play on load.",
+          "default": "false"
+        },
+        {
+          "name": "thumbnailUrl",
+          "type": "string",
+          "required": false,
+          "description": "URL of a thumbnail image shown before playback starts.",
+          "default": null
+        },
+        {
+          "name": "thumbnailAlt",
+          "type": "string",
+          "required": false,
+          "description": "Alt text for the thumbnail image.",
+          "default": null
+        },
+        {
+          "name": "showThumbnailOverlay",
+          "type": "boolean",
+          "required": false,
+          "description": "Show a semi-transparent overlay over the thumbnail.",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "required": false,
+          "description": "Size of the video player. - `'sm'` — compact; hides progress bar - `'md'` — standard controls - `'lg'` — full controls including volume slider and playback speed @default 'md'",
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      ],
+      "parts": [
+        "Root"
+      ],
+      "examples": [
+        "import { VideoPlayer } from '@tale-ui/react/video-player';\n\n<VideoPlayer.Root src=\"/intro.mp4\" size=\"md\" />",
+        "<VideoPlayer.Root\n  src=\"/demo.mp4\"\n  thumbnailUrl=\"/thumb.jpg\"\n  thumbnailAlt=\"Product demo\"\n  size=\"lg\"\n/>",
+        "import { VideoPlayer } from '@tale-ui/react/video-player';\nimport type { VideoPlayerRef } from '@tale-ui/react/video-player';\nimport { useRef } from 'react';\n\nfunction Example() {\n  const playerRef = useRef<VideoPlayerRef>(null);\n\n  return (\n    <>\n      <VideoPlayer.Root ref={playerRef} src=\"/clip.mp4\" size=\"md\" />\n      <button onClick={() => playerRef.current?.play()}>Play</button>\n      <button onClick={() => playerRef.current?.pause()}>Pause</button>\n    </>\n  );\n}",
+        "<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"sm\" />\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"md\" />\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"lg\" />\n</div>"
+      ],
+      "cssClasses": [
+        "tale-video-player",
+        "tale-video-player--lg",
+        "tale-video-player--md",
+        "tale-video-player--sm",
+        "tale-video-player__btn",
+        "tale-video-player__btn-icon",
+        "tale-video-player__controls",
+        "tale-video-player__controls--visible",
+        "tale-video-player__controls-inner",
+        "tale-video-player__progress",
+        "tale-video-player__progress-area",
+        "tale-video-player__progress-area--hidden",
+        "tale-video-player__progress-bar",
+        "tale-video-player__progress-buffered",
+        "tale-video-player__progress-fill",
+        "tale-video-player__progress-hover-line",
+        "tale-video-player__progress-hover-time",
+        "tale-video-player__speed-btn",
+        "tale-video-player__speed-label",
+        "tale-video-player__speed-x",
+        "tale-video-player__thumbnail",
+        "tale-video-player__thumbnail--visible",
+        "tale-video-player__thumbnail-img",
+        "tale-video-player__thumbnail-overlay",
+        "tale-video-player__thumbnail-play",
+        "tale-video-player__thumbnail-play-icon",
+        "tale-video-player__time",
+        "tale-video-player__video",
+        "tale-video-player__volume",
+        "tale-video-player__volume-slider"
+      ],
+      "pitfalls": null,
       "crossPitfallRefs": null
     }
   ]

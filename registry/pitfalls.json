@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.2.0",
-  "taleUiVersion": "1.3.42",
+  "taleUiVersion": "1.3.44",
   "crossComponentPitfalls": [
     {
       "id": "no-asChild-on-triggers",

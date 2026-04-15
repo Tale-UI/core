@@ -1,0 +1,7 @@
+{
+  "slug": "illustration-box-with-icon",
+  "difficulty": "simple",
+  "prompt": "Show the box marketing illustration at large size with an upload cloud icon centred over it.",
+  "reference": "import { Illustration } from '@tale-ui/react/illustration';\nimport { UploadCloud } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <Illustration type=\"box\" size=\"lg\">\n      <UploadCloud style={{ width: 32, height: 32, color: 'var(--color-60)' }} />\n    </Illustration>\n  );\n}",
+  "tags": ["Illustration"]
+}

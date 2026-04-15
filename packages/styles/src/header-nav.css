@@ -1,0 +1,190 @@
+/*
+ * HeaderNav — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Horizontal header navigation bar.
+ *
+ * Usage:
+ *   <HeaderNav.Root>
+ *     <HeaderNav.Logo href="/">MyApp</HeaderNav.Logo>
+ *     <HeaderNav.Secondary>
+ *       <HeaderNav.NavButton href="/features" current>Features</HeaderNav.NavButton>
+ *       <HeaderNav.NavButton href="/pricing">Pricing</HeaderNav.NavButton>
+ *     </HeaderNav.Secondary>
+ *     <HeaderNav.Actions>
+ *       <Button variant="primary">Sign up</Button>
+ *     </HeaderNav.Actions>
+ *   </HeaderNav.Root>
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-header-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  height: 64px;
+  padding: 0 var(--space-m);
+  background: var(--neutral-100);
+  border-bottom: 1px solid var(--neutral-90);
+}
+
+/* ─── Logo ─────────────────────────────────────────────────────────────────── */
+
+.tale-header-nav__logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+
+.tale-header-nav__logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ─── Secondary nav ────────────────────────────────────────────────────────── */
+
+.tale-header-nav__secondary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4xs);
+}
+
+/* ─── NavButton ────────────────────────────────────────────────────────────── */
+
+.tale-header-nav__nav-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: 6px;
+  font-size: var(--text-s-font-size);
+  font-weight: 600;
+  color: var(--neutral-20);
+  text-decoration: none;
+  transition: background 100ms, color 100ms;
+  cursor: pointer;
+}
+
+.tale-header-nav__nav-btn:hover {
+  background: var(--neutral-96);
+  color: var(--neutral-10);
+}
+
+.tale-header-nav__nav-btn--current {
+  background: var(--neutral-94);
+  color: var(--neutral-10);
+}
+
+.tale-header-nav__nav-btn:focus-visible {
+  outline: 2px solid var(--color-60);
+  outline-offset: 2px;
+}
+
+/* ─── Actions ──────────────────────────────────────────────────────────────── */
+
+.tale-header-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  margin-left: auto;
+}
+
+/* ─── Mobile trigger ───────────────────────────────────────────────────────── */
+
+.tale-header-nav__mobile-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--neutral-20);
+  cursor: pointer;
+  padding: 0;
+}
+
+.tale-header-nav__mobile-trigger:hover {
+  background: var(--neutral-96);
+}
+
+/* ─── Mobile overlay + drawer ──────────────────────────────────────────────── */
+
+.tale-header-nav__mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(0 0 0 / 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.tale-header-nav__mobile-drawer {
+  width: 100%;
+  background: var(--neutral-100);
+  box-shadow: 0 4px 24px rgb(0 0 0 / 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.tale-header-nav__mobile-dialog {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+.tale-header-nav__mobile-close-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-xs);
+}
+
+.tale-header-nav__mobile-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--neutral-20);
+  cursor: pointer;
+  padding: 0;
+}
+
+.tale-header-nav__mobile-close-btn:hover {
+  background: var(--neutral-96);
+}
+
+/* ─── Dark mode ────────────────────────────────────────────────────────────── */
+
+[data-color-mode="dark"] .tale-header-nav {
+  background: var(--neutral-14);
+  border-color: var(--neutral-22);
+}
+
+[data-color-mode="dark"] .tale-header-nav__nav-btn:hover {
+  background: var(--neutral-20);
+}
+
+[data-color-mode="dark"] .tale-header-nav__nav-btn--current {
+  background: var(--neutral-22);
+}
+
+[data-color-mode="dark"] .tale-header-nav__mobile-trigger:hover {
+  background: var(--neutral-20);
+}
+
+[data-color-mode="dark"] .tale-header-nav__mobile-drawer {
+  background: var(--neutral-14);
+}
+
+[data-color-mode="dark"] .tale-header-nav__mobile-close-btn:hover {
+  background: var(--neutral-20);
+}

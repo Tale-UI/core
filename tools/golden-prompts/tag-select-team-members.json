@@ -1,0 +1,7 @@
+{
+  "slug": "tag-select-team-members",
+  "difficulty": "medium",
+  "prompt": "Show a TagSelect for picking team members. Include a label, placeholder, and description. Pre-select two members.",
+  "reference": "import * as React from 'react';\nimport { TagSelect } from '@tale-ui/react/tag-select';\n\nconst people = [\n  { id: 'alice', name: 'Alice Johnson' },\n  { id: 'bob', name: 'Bob Smith' },\n  { id: 'carol', name: 'Carol Davis' },\n  { id: 'dave', name: 'Dave Wilson' },\n  { id: 'eve', name: 'Eve Martinez' },\n];\n\nexport function TeamPicker() {\n  const [selected, setSelected] = React.useState(new Set<string>(['alice', 'bob']));\n\n  return (\n    <TagSelect.Root\n      label=\"Team members\"\n      placeholder=\"Search members…\"\n      description=\"Select everyone who should have access.\"\n      items={people}\n      selectedKeys={selected}\n      onSelectionChange={(keys) => setSelected(keys as Set<string>)}\n    >\n      {(person) => (\n        <TagSelect.Item id={person.id} textValue={person.name}>\n          {person.name}\n        </TagSelect.Item>\n      )}\n    </TagSelect.Root>\n  );\n}",
+  "tags": ["TagSelect"]
+}

@@ -1,0 +1,7 @@
+{
+  "slug": "qr-code-basic",
+  "difficulty": "simple",
+  "prompt": "Show a QR code encoding \"https://example.com\" at medium size.",
+  "reference": "import { QRCode } from '@tale-ui/react/qr-code';\n\nexport function QRCodeExample() {\n  return <QRCode.Root value=\"https://example.com\" size=\"md\" />;\n}\n",
+  "tags": ["QRCode"]
+}

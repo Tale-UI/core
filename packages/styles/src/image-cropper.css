@@ -1,0 +1,283 @@
+/* ─── ImageCropper ──────────────────────────────────────────────────────────── */
+/* Includes all necessary ReactCrop styles themed with Tale UI tokens.          */
+/* Consumers do NOT need to import react-image-crop/dist/ReactCrop.css.         */
+
+.tale-image-cropper.ReactCrop {
+  position: relative;
+  display: inline-block;
+  cursor: crosshair;
+  max-width: 100%;
+  background-image:
+    linear-gradient(45deg, #808080 25%, transparent 25%),
+    linear-gradient(-45deg, #808080 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #808080 75%),
+    linear-gradient(-45deg, transparent 75%, #808080 75%);
+  background-size: 30px 30px;
+  background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+  backdrop-filter: brightness(0.7);
+  border-radius: var(--radius-lg, 8px);
+}
+
+.tale-image-cropper.ReactCrop *,
+.tale-image-cropper.ReactCrop *::before,
+.tale-image-cropper.ReactCrop *::after {
+  box-sizing: border-box;
+}
+
+.tale-image-cropper.ReactCrop--disabled,
+.tale-image-cropper.ReactCrop--locked {
+  cursor: inherit;
+}
+
+.tale-image-cropper .ReactCrop__child-wrapper {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+}
+
+.tale-image-cropper.ReactCrop:not(.ReactCrop--disabled) .ReactCrop__child-wrapper > img,
+.tale-image-cropper.ReactCrop:not(.ReactCrop--disabled) .ReactCrop__child-wrapper > video {
+  touch-action: none;
+}
+
+.tale-image-cropper.ReactCrop:not(.ReactCrop--disabled) .ReactCrop__crop-selection {
+  touch-action: none;
+}
+
+.tale-image-cropper .ReactCrop__crop-mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.tale-image-cropper .ReactCrop__crop-selection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate3d(0, 0, 0);
+  cursor: move;
+  border: 1px solid var(--color-60);
+  box-shadow: 0 0 0 1px inset var(--color-60);
+  background-size: 10px 1px, 10px 1px, 1px 10px, 1px 10px;
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+}
+
+.tale-image-cropper .ReactCrop__crop-selection:focus {
+  outline: 2px solid var(--color-60);
+  outline-offset: -1px;
+}
+
+.tale-image-cropper.ReactCrop--disabled .ReactCrop__crop-selection {
+  cursor: inherit;
+}
+
+.tale-image-cropper.ReactCrop--circular-crop .ReactCrop__crop-selection {
+  border-radius: 50%;
+}
+
+.tale-image-cropper.ReactCrop--circular-crop .ReactCrop__crop-selection::after {
+  pointer-events: none;
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+  border: 2px solid var(--color-60);
+}
+
+.tale-image-cropper.ReactCrop--invisible-crop .ReactCrop__crop-mask,
+.tale-image-cropper.ReactCrop--invisible-crop .ReactCrop__crop-selection {
+  display: none;
+}
+
+/* Rule of thirds guides */
+.tale-image-cropper .ReactCrop__rule-of-thirds-vt::before,
+.tale-image-cropper .ReactCrop__rule-of-thirds-vt::after,
+.tale-image-cropper .ReactCrop__rule-of-thirds-hz::before,
+.tale-image-cropper .ReactCrop__rule-of-thirds-hz::after {
+  content: '';
+  display: block;
+  position: absolute;
+  background-color: rgb(255 255 255 / 0.4);
+}
+
+.tale-image-cropper .ReactCrop__rule-of-thirds-vt::before,
+.tale-image-cropper .ReactCrop__rule-of-thirds-vt::after {
+  width: 1px;
+  height: 100%;
+}
+
+.tale-image-cropper .ReactCrop__rule-of-thirds-vt::before {
+  left: calc(100% / 3);
+}
+
+.tale-image-cropper .ReactCrop__rule-of-thirds-vt::after {
+  left: calc(100% / 3 * 2);
+}
+
+.tale-image-cropper .ReactCrop__rule-of-thirds-hz::before,
+.tale-image-cropper .ReactCrop__rule-of-thirds-hz::after {
+  width: 100%;
+  height: 1px;
+}
+
+.tale-image-cropper .ReactCrop__rule-of-thirds-hz::before {
+  top: calc(100% / 3);
+}
+
+.tale-image-cropper .ReactCrop__rule-of-thirds-hz::after {
+  top: calc(100% / 3 * 2);
+}
+
+/* Drag handles */
+.tale-image-cropper .ReactCrop__drag-handle {
+  position: absolute;
+  width: var(--rc-drag-handle-size, 12px);
+  height: var(--rc-drag-handle-size, 12px);
+  background-color: #ffffff;
+  border: 2px solid var(--color-60);
+}
+
+.tale-image-cropper .ReactCrop .ord-nw {
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  cursor: nw-resize;
+}
+
+.tale-image-cropper .ReactCrop .ord-n {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: n-resize;
+}
+
+.tale-image-cropper .ReactCrop .ord-ne {
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  cursor: ne-resize;
+}
+
+.tale-image-cropper .ReactCrop .ord-e {
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%);
+  cursor: e-resize;
+}
+
+.tale-image-cropper .ReactCrop .ord-se {
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%);
+  cursor: se-resize;
+}
+
+.tale-image-cropper .ReactCrop .ord-s {
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  cursor: s-resize;
+}
+
+.tale-image-cropper .ReactCrop .ord-sw {
+  bottom: 0;
+  left: 0;
+  transform: translate(-50%, 50%);
+  cursor: sw-resize;
+}
+
+.tale-image-cropper .ReactCrop .ord-w {
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  cursor: w-resize;
+}
+
+.tale-image-cropper .ReactCrop__disabled .ReactCrop__drag-handle {
+  cursor: inherit;
+}
+
+/* Drag bars */
+.tale-image-cropper .ReactCrop__drag-bar {
+  position: absolute;
+}
+
+.tale-image-cropper .ReactCrop__drag-bar.ord-n {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  transform: translateY(-50%);
+}
+
+.tale-image-cropper .ReactCrop__drag-bar.ord-e {
+  right: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  transform: translateX(50%);
+}
+
+.tale-image-cropper .ReactCrop__drag-bar.ord-s {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  transform: translateY(50%);
+}
+
+.tale-image-cropper .ReactCrop__drag-bar.ord-w {
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.tale-image-cropper.ReactCrop--new-crop .ReactCrop__drag-bar,
+.tale-image-cropper.ReactCrop--new-crop .ReactCrop__drag-handle,
+.tale-image-cropper.ReactCrop--fixed-aspect .ReactCrop__drag-bar {
+  display: none;
+}
+
+.tale-image-cropper.ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-n,
+.tale-image-cropper.ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-e,
+.tale-image-cropper.ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-s,
+.tale-image-cropper.ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-w {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .tale-image-cropper .ReactCrop .ord-n,
+  .tale-image-cropper .ReactCrop .ord-e,
+  .tale-image-cropper .ReactCrop .ord-s,
+  .tale-image-cropper .ReactCrop .ord-w {
+    display: none;
+  }
+
+  .tale-image-cropper .ReactCrop__drag-handle {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ─── ImageCropper.Img ──────────────────────────────────────────────────────── */
+
+.tale-image-cropper__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transition: all 0.2s linear;
+}

@@ -1,0 +1,370 @@
+/* ─── FileUpload ────────────────────────────────────────────────────────────── */
+
+.tale-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ─── DropZone ──────────────────────────────────────────────────────────────── */
+
+.tale-file-upload-drop-zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  border-radius: var(--radius-xl, 12px);
+  background: var(--neutral-100);
+  padding: var(--space-md) var(--space-lg);
+  color: var(--neutral-60);
+  box-shadow: inset 0 0 0 1px var(--neutral-88);
+  transition:
+    background 100ms linear,
+    box-shadow 100ms linear;
+}
+
+.tale-file-upload-drop-zone--drag-over {
+  box-shadow: inset 0 0 0 2px var(--color-60);
+}
+
+.tale-file-upload-drop-zone--disabled {
+  cursor: not-allowed;
+  background: var(--neutral-96);
+}
+
+.tale-file-upload-drop-zone__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md, 8px);
+  background: var(--neutral-96);
+  box-shadow: inset 0 0 0 1px var(--neutral-88);
+}
+
+.tale-file-upload-drop-zone__icon {
+  width: 20px;
+  height: 20px;
+  color: var(--neutral-40);
+}
+
+.tale-file-upload-drop-zone__icon--disabled {
+  opacity: 0.5;
+}
+
+.tale-file-upload-drop-zone__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3xs);
+  text-align: center;
+}
+
+.tale-file-upload-drop-zone__trigger-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tale-file-upload-drop-zone__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tale-file-upload-drop-zone__trigger {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: var(--label-sm-font-size, 0.875rem);
+  font-weight: 600;
+  color: var(--color-60);
+  transition: color 100ms linear;
+}
+
+.tale-file-upload-drop-zone__trigger:hover {
+  color: var(--color-70);
+}
+
+.tale-file-upload-drop-zone__trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.tale-file-upload-drop-zone__or {
+  font-size: var(--label-sm-font-size, 0.875rem);
+  color: var(--neutral-60);
+}
+
+.tale-file-upload-drop-zone__hint {
+  font-size: var(--label-xs-font-size, 0.75rem);
+  color: var(--neutral-60);
+  transition: color 100ms linear;
+}
+
+.tale-file-upload-drop-zone__hint--invalid {
+  color: var(--error-60, var(--red-60));
+}
+
+/* ─── List ──────────────────────────────────────────────────────────────────── */
+
+.tale-file-upload-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── ListItem (base) ───────────────────────────────────────────────────────── */
+
+.tale-file-upload-list-item {
+  display: flex;
+  gap: var(--space-xs);
+  border-radius: var(--radius-xl, 12px);
+  background: var(--neutral-100);
+  padding: var(--space-md);
+  box-shadow: inset 0 0 0 1px var(--neutral-88);
+  transition: box-shadow 100ms linear;
+}
+
+/* ─── Compound list items ───────────────────────────────────────────────────── */
+
+.tale-file-upload-item {
+  position: relative;
+  display: flex;
+  gap: var(--space-xs);
+  border-radius: var(--radius-xl, 12px);
+  background: var(--neutral-100);
+  padding: var(--space-md);
+}
+
+.tale-file-upload-item--bar {
+  box-shadow: inset 0 0 0 1px var(--neutral-88);
+  transition: box-shadow 100ms linear;
+}
+
+.tale-file-upload-item--bar.tale-file-upload-item--failed {
+  box-shadow: inset 0 0 0 2px var(--error-60, var(--red-60));
+}
+
+.tale-file-upload-item--fill {
+  overflow: hidden;
+}
+
+.tale-file-upload-item--fill.tale-file-upload-item--failed {
+  box-shadow: inset 0 0 0 2px var(--error-60, var(--red-60));
+}
+
+/* File icon slot */
+.tale-file-upload-item__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Content flex column */
+.tale-file-upload-item__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.tale-file-upload-item__content--fill {
+  flex-direction: row;
+  align-items: flex-start;
+  position: relative;
+}
+
+.tale-file-upload-item__header {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+}
+
+.tale-file-upload-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.tale-file-upload-item__inner {
+  flex: 1;
+  min-width: 0;
+}
+
+.tale-file-upload-item__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--label-sm-font-size, 0.875rem);
+  font-weight: 500;
+  color: var(--neutral-20);
+  margin: 0;
+}
+
+.tale-file-upload-item__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: 2px;
+}
+
+.tale-file-upload-item__size {
+  font-size: var(--label-sm-font-size, 0.875rem);
+  color: var(--neutral-50);
+  white-space: nowrap;
+}
+
+.tale-file-upload-item__meta-sep {
+  display: block;
+  width: 1px;
+  height: 12px;
+  background: var(--neutral-70);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.tale-file-upload-item__status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+}
+
+.tale-file-upload-item__status-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  stroke-width: 2.5;
+}
+
+.tale-file-upload-item__status-icon--success {
+  color: var(--success-60, var(--green-60));
+}
+
+.tale-file-upload-item__status-icon--error {
+  color: var(--error-60, var(--red-60));
+}
+
+.tale-file-upload-item__status-icon--uploading {
+  color: var(--neutral-60);
+}
+
+.tale-file-upload-item__status-label {
+  font-size: var(--label-sm-font-size, 0.875rem);
+  font-weight: 500;
+  color: var(--neutral-50);
+}
+
+.tale-file-upload-item__status-label--success {
+  color: var(--success-60, var(--green-60));
+}
+
+.tale-file-upload-item__status-label--error {
+  color: var(--error-60, var(--red-60));
+}
+
+/* Delete button */
+.tale-file-upload-item__delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: -4px;
+  margin-right: -4px;
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  background: transparent;
+  color: var(--neutral-50);
+  cursor: pointer;
+  transition: background 100ms linear, color 100ms linear;
+}
+
+.tale-file-upload-item__delete-btn:hover {
+  background: var(--neutral-94);
+  color: var(--neutral-20);
+}
+
+.tale-file-upload-item__delete-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Retry button */
+.tale-file-upload-item__retry-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: var(--space-xs);
+  cursor: pointer;
+  font-size: var(--label-sm-font-size, 0.875rem);
+  font-weight: 600;
+  color: var(--error-60, var(--red-60));
+  transition: color 100ms linear;
+}
+
+.tale-file-upload-item__retry-btn:hover {
+  color: var(--error-70, var(--red-70));
+}
+
+/* Progress bar track */
+.tale-file-upload-item__progress-track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  margin-top: var(--space-xs);
+  border-radius: 3px;
+  background: var(--neutral-92);
+  overflow: hidden;
+}
+
+.tale-file-upload-item__progress-fill {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  border-radius: 3px;
+  background: var(--color-60);
+  transition: width 75ms linear;
+}
+
+/* Fill variant: background progress fill */
+.tale-file-upload-item__fill-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--neutral-96);
+  transition: transform 75ms linear, opacity 100ms linear;
+}
+
+.tale-file-upload-item__fill-bg--complete {
+  opacity: 0;
+}
+
+.tale-file-upload-item__fill-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--neutral-88);
+  transition: box-shadow 100ms linear;
+  pointer-events: none;
+}
+
+.tale-file-upload-item__fill-ring--failed {
+  box-shadow: inset 0 0 0 2px var(--error-60, var(--red-60));
+}

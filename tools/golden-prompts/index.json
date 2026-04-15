@@ -13,6 +13,14 @@
       "difficulty": "simple"
     },
     {
+      "slug": "background-pattern-circle",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "badge-group-basic",
+      "difficulty": "simple"
+    },
+    {
       "slug": "autocomplete-search",
       "difficulty": "medium"
     },
@@ -54,6 +62,10 @@
     },
     {
       "slug": "color-mode-toggle",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "credit-card-brand-dark",
       "difficulty": "simple"
     },
     {
@@ -161,7 +173,31 @@
       "difficulty": "simple"
     },
     {
+      "slug": "illustration-box-with-icon",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "iphone-mockup-screenshot",
+      "difficulty": "simple"
+    },
+    {
       "slug": "input-field",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "input-group-url-field",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "input-tags-skills",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "multi-select-frameworks",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "tag-select-team-members",
       "difficulty": "medium"
     },
     {
@@ -191,6 +227,14 @@
     {
       "slug": "pagination-control",
       "difficulty": "medium"
+    },
+    {
+      "slug": "pagination-dot-carousel",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "pagination-line-carousel",
+      "difficulty": "simple"
     },
     {
       "slug": "payment-input-card",
@@ -239,6 +283,10 @@
     {
       "slug": "scroll-area-list",
       "difficulty": "medium"
+    },
+    {
+      "slug": "section-divider-basic",
+      "difficulty": "simple"
     },
     {
       "slug": "search-field",
@@ -319,6 +367,34 @@
     {
       "slug": "user-profile-card",
       "difficulty": "complex"
+    },
+    {
+      "slug": "file-upload-basic",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "image-cropper-basic",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "qr-code-basic",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "video-player-basic",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "text-editor-basic",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "sidebar-basic",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "header-nav-basic",
+      "difficulty": "simple"
     }
   ]
 }

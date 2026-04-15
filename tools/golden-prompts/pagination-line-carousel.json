@@ -1,0 +1,7 @@
+{
+  "slug": "pagination-line-carousel",
+  "difficulty": "simple",
+  "prompt": "Show a carousel slide indicator with 4 horizontal line bars where the 1st bar is active. Clicking a bar should change the active one.",
+  "reference": "import * as React from 'react';\nimport { PaginationLine } from '@tale-ui/react/pagination-line';\n\nexport function CarouselLines() {\n  const [page, setPage] = React.useState(1);\n  return <PaginationLine page={page} total={4} onPageChange={setPage} style={{ width: '200px' }} />;\n}",
+  "tags": ["PaginationLine"]
+}

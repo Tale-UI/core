@@ -17,6 +17,10 @@ A circular avatar displaying a user image or fallback initials.
 | `Avatar.LabelGroup` | Combines an avatar with title + subtitle in a grid row. Accepts `size` (`sm`, `md`, `lg`). Propagates size to children. |
 | `Avatar.LabelGroupTitle` | Primary text label inside a LabelGroup. |
 | `Avatar.LabelGroupSubtitle` | Secondary text label inside a LabelGroup. Truncates on overflow. |
+| `Avatar.AddButton` | Dashed-border circular "+" button. Sizes `xs`, `sm`, `md`. |
+| `Avatar.CompanyIcon` | Overlays a company logo badge at the bottom-right corner. Wraps `Avatar.Root`. |
+| `Avatar.VerifiedTick` | Decorative SVG seal badge with a checkmark. Eight sizes (`xs`–`4xl`). |
+| `Avatar.ProfilePhoto` | Enhanced display avatar with a contrast ring and optional badge slot. Sizes `sm`, `md`, `lg`. |
 
 ## Props
 
@@ -54,6 +58,41 @@ Also accepts all standard `<span>` HTML attributes.
 Also accepts all standard `<figure>` HTML attributes.
 
 `Avatar.LabelGroupTitle` and `Avatar.LabelGroupSubtitle` accept all standard `<span>` HTML attributes.
+
+### AddButton
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'xs' \| 'sm' \| 'md'` | `'md'` | Size of the button — matches avatar xs–md dimensions |
+
+Also accepts all standard `<button>` HTML attributes.
+
+### CompanyIcon
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Avatar size being decorated — controls badge image dimensions |
+| `src` | `string` | required | URL of the company logo image |
+| `alt` | `string` | `''` | Accessible alt text for the company logo |
+
+Also accepts all standard `<span>` HTML attributes.
+
+### VerifiedTick
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| '3xl' \| '4xl'` | `'md'` | Size of the SVG badge |
+
+Also accepts all standard SVG attributes.
+
+### ProfilePhoto
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Display size — maps to avatar md / lg / xl dimensions respectively |
+| `badge` | `ReactNode` | — | Badge element shown at bottom-right (e.g. `Avatar.VerifiedTick`) |
+
+Also accepts all standard `<span>` HTML attributes.
 
 ## Basic Usage
 
@@ -187,6 +226,54 @@ import { DotIcon } from '@tale-ui/react/dot-icon';
 </Avatar.LabelGroup>
 ```
 
+### AddButton
+
+```tsx
+<Avatar.Group size="md">
+  <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
+  <Avatar.AddButton size="md" aria-label="Add team member" />
+</Avatar.Group>
+```
+
+### CompanyIcon
+
+```tsx
+<Avatar.CompanyIcon src="/logos/acme.png" alt="Acme Corp" size="md">
+  <Avatar.Root>
+    <Avatar.Image src="/photo.jpg" alt="Jane Doe" />
+    <Avatar.Fallback>JD</Avatar.Fallback>
+  </Avatar.Root>
+</Avatar.CompanyIcon>
+```
+
+### VerifiedTick
+
+```tsx
+{/* As badge on Indicator */}
+<Avatar.Indicator badge={<Avatar.VerifiedTick size="sm" />}>
+  <Avatar.Root size="md">
+    <Avatar.Image src="/photo.jpg" alt="User" />
+    <Avatar.Fallback>JD</Avatar.Fallback>
+  </Avatar.Root>
+</Avatar.Indicator>
+```
+
+### ProfilePhoto
+
+```tsx
+{/* With verified badge */}
+<Avatar.ProfilePhoto size="lg" badge={<Avatar.VerifiedTick size="md" />}>
+  <Avatar.Image src="/photo.jpg" alt="Jane Doe" />
+  <Avatar.Fallback>JD</Avatar.Fallback>
+</Avatar.ProfilePhoto>
+
+{/* Without badge */}
+<Avatar.ProfilePhoto size="md">
+  <Avatar.Fallback>JD</Avatar.Fallback>
+</Avatar.ProfilePhoto>
+```
+
 ## CSS Classes
 
 - `.tale-avatar` — Base
@@ -203,6 +290,18 @@ import { DotIcon } from '@tale-ui/react/dot-icon';
 - `.tale-avatar-label-group--sm` / `--md` / `--lg` — LabelGroup size modifiers
 - `.tale-avatar-label-group__title` — Primary text
 - `.tale-avatar-label-group__subtitle` — Secondary text (truncated)
+- `.tale-avatar-add-button` — Dashed circle add button
+- `.tale-avatar-add-button--xs` / `--sm` / `--md` — AddButton size modifiers
+- `.tale-avatar-add-button__icon` — Plus icon SVG inside AddButton
+- `.tale-avatar-company-icon` — CompanyIcon wrapper
+- `.tale-avatar-company-icon--xs` / `--sm` / `--md` / `--lg` / `--xl` / `--2xl` — CompanyIcon size modifiers
+- `.tale-avatar-company-icon__badge` — The small circular company logo image
+- `.tale-avatar-verified-tick` — VerifiedTick SVG element
+- `.tale-avatar-verified-tick--xs` / `--sm` / `--md` / `--lg` / `--xl` / `--2xl` / `--3xl` / `--4xl` — VerifiedTick size modifiers
+- `.tale-avatar-profile-photo` — ProfilePhoto outer wrapper
+- `.tale-avatar-profile-photo--sm` / `--md` / `--lg` — ProfilePhoto size modifiers
+- `.tale-avatar-profile-photo__inner` — Inner avatar with contrast ring (also carries `.tale-avatar` + size class)
+- `.tale-avatar-profile-photo__badge` — Positioned badge container (bottom-right)
 
 ## Pitfalls
 
@@ -233,6 +332,16 @@ import { DotIcon } from '@tale-ui/react/dot-icon';
 - **`size` accepts `'xs'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'2xl'`** — NOT the short forms `'s'`, `'m'`, or `'l'`.
   - anti-pattern: `<Avatar.Root size="m">`
   - fix: `<Avatar.Root size="md">`
+
+<!-- pitfall: avatar-company-icon-outside-root -->
+- **`Avatar.CompanyIcon` must wrap `Avatar.Root` from outside** — like `Avatar.Indicator`, the badge is absolutely positioned on the wrapper. Placing it inside `Avatar.Root` will clip it.
+  - anti-pattern: `<Avatar.Root><Avatar.CompanyIcon src="..." /></Avatar.Root>`
+  - fix: `<Avatar.CompanyIcon src="..." size="md"><Avatar.Root>...</Avatar.Root></Avatar.CompanyIcon>`
+
+<!-- pitfall: avatar-profile-photo-children -->
+- **`Avatar.ProfilePhoto` children are `Avatar.Image` and `Avatar.Fallback` directly** — do not nest `Avatar.Root` inside `ProfilePhoto`; it renders its own inner avatar element.
+  - anti-pattern: `<Avatar.ProfilePhoto><Avatar.Root><Avatar.Image /></Avatar.Root></Avatar.ProfilePhoto>`
+  - fix: `<Avatar.ProfilePhoto><Avatar.Image src="..." alt="..." /><Avatar.Fallback>JD</Avatar.Fallback></Avatar.ProfilePhoto>`
 
 ## Notes
 

@@ -1,0 +1,7 @@
+{
+  "slug": "video-player-basic",
+  "difficulty": "simple",
+  "prompt": "Show a medium-sized video player with a thumbnail image.",
+  "reference": "import { VideoPlayer } from '@tale-ui/react/video-player';\n\nexport function VideoExample() {\n  return (\n    <div style={{ maxWidth: 640 }}>\n      <VideoPlayer.Root\n        src=\"/video/demo.mp4\"\n        size=\"md\"\n        thumbnailUrl=\"/video/thumbnail.jpg\"\n        thumbnailAlt=\"Play demo video\"\n      />\n    </div>\n  );\n}\n",
+  "tags": ["VideoPlayer"]
+}

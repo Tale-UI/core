@@ -1,0 +1,7 @@
+{
+  "slug": "image-cropper-basic",
+  "difficulty": "medium",
+  "prompt": "Show an image cropper for a user avatar photo with a 1:1 aspect ratio.",
+  "reference": "import { ImageCropper } from '@tale-ui/react/image-cropper';\nimport { useState } from 'react';\nimport type { Crop } from '@tale-ui/react/image-cropper';\n\nexport function AvatarCropper() {\n  const [crop, setCrop] = useState<Crop>();\n  return (\n    <div style={{ maxWidth: 400 }}>\n      <ImageCropper.Root\n        crop={crop}\n        onChange={setCrop}\n        aspect={1}\n        circularCrop\n      >\n        <ImageCropper.Img src=\"/photo.jpg\" alt=\"Crop your avatar\" />\n      </ImageCropper.Root>\n    </div>\n  );\n}\n",
+  "tags": ["ImageCropper"]
+}
