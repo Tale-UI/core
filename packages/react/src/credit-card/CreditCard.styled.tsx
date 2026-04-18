@@ -157,7 +157,12 @@ export const Root = React.forwardRef<HTMLDivElement, RootProps>(
     const { scale, scaledWidth, scaledHeight } = React.useMemo(() => {
       if (!width) { return { scale: 1, scaledWidth: originalWidth, scaledHeight: originalHeight }; }
       const s = width / originalWidth;
-      return { scale: s, scaledWidth: width, scaledHeight: originalHeight * s };
+      return {
+        scale: s,
+        // Round up so the wrapper always fully contains the scaled visual.
+        scaledWidth: Math.ceil(width),
+        scaledHeight: Math.ceil(originalHeight * s),
+      };
     }, [width]);
 
     const isStrip = STRIP_TYPES.includes(type);

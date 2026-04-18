@@ -34,7 +34,7 @@
 
 :root {
   --focus-ring-color: var(--neutral-50);
-  --focus-ring-glow: color-mix(in srgb, var(--neutral-60) 20%, transparent);
+  --focus-ring-glow: color-mix(in srgb, var(--neutral-60) 30%, transparent);
 }
 
 /* ─── Category tokens — consumer-overridable shared primitives ─────────── */
@@ -806,8 +806,8 @@
   flex-direction: column;
   gap: var(--space-xs);
   padding: var(--space-s);
-  background: var(--neutral-5);
-  border: 1px solid var(--neutral-14);
+  background: var(--neutral-90);
+  border: 1px solid var(--neutral-100);
   border-radius: var(--radius-m);
   user-select: none;
   width: max-content;
@@ -872,25 +872,29 @@
   box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
 }
 
-/* Month navigation buttons — override tale-button--ghost for calendar look */
-.tale-calendar__prev-button,
-.tale-calendar__next-button,
-.tale-range-calendar__prev-button,
-.tale-range-calendar__next-button {
+/* Month navigation buttons — override tale-button / tale-button--ghost defaults */
+.tale-button.tale-button--ghost.tale-calendar__prev-button,
+.tale-button.tale-button--ghost.tale-calendar__next-button,
+.tale-button.tale-button--ghost.tale-range-calendar__prev-button,
+.tale-button.tale-button--ghost.tale-range-calendar__next-button {
+  box-sizing: border-box;
   width: var(--space-m);
   height: var(--space-m);
+  min-height: 0;
+  padding: 0;
   border-radius: var(--radius-s);
-  border: 1px solid var(--neutral-14);
-  background: var(--neutral-5);
-  color: var(--neutral-70);
+  border: 1px solid var(--neutral-90);
+  background: var(--neutral-80);
+  color: var(--neutral-20);
 }
 
-.tale-calendar__prev-button:hover:not([data-disabled]),
-.tale-calendar__next-button:hover:not([data-disabled]),
-.tale-range-calendar__prev-button:hover:not([data-disabled]),
-.tale-range-calendar__next-button:hover:not([data-disabled]) {
-  background: var(--neutral-10);
-  border-color: var(--neutral-20);
+.tale-button.tale-button--ghost.tale-calendar__prev-button:hover:not([data-disabled]),
+.tale-button.tale-button--ghost.tale-calendar__next-button:hover:not([data-disabled]),
+.tale-button.tale-button--ghost.tale-range-calendar__prev-button:hover:not([data-disabled]),
+.tale-button.tale-button--ghost.tale-range-calendar__next-button:hover:not([data-disabled]) {
+  background: var(--neutral-60);
+  border-color: var(--neutral-60);
+  color: var(--neutral-5);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -910,7 +914,7 @@
   font-weight: var(--label-font-weight);
   line-height: inherit;
   letter-spacing: inherit;
-  color: var(--neutral-90);
+  color: var(--neutral-20);
   border: none;
 }
 

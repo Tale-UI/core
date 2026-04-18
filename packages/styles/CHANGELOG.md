@@ -2,6 +2,16 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.45 — 2026-04-18
+
+### Fixed
+
+- **Calendar / RangeCalendar**: Scoped prev/next button overrides to full `.tale-button.tale-button--ghost.tale-calendar__*` selector chain to prevent unintended resets. Updated hover/active token values.
+- **FileUpload**: Layout, min-height, and spacing corrections; `box-sizing: border-box` added to key elements.
+- **NumberField**, **Slider**, **PaginationLine**: Minor token and layout fixes.
+- **Banner**, **Tabs**: Token corrections.
+- **`_primitives.css`**: Increased focus-ring glow opacity (20% → 30%); updated `--field-*` and `--popup-*` background/border tokens for dark-mode correctness.
+
 ## v1.3.44 — 2026-04-14
 
 No changes — version bump for coordinated release.

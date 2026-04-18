@@ -20,6 +20,7 @@
 .tale-number-field {
   display: inline-flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-3xs);
   width: fit-content;
 }
@@ -29,6 +30,8 @@
 .tale-number-field__group {
   display: inline-flex;
   align-items: stretch;
+  width: max-content;
+  max-width: 100%;
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
   overflow: hidden;
@@ -47,7 +50,11 @@
 /* ─── Input ───────────────────────────────────────────────────────────────── */
 
 .tale-number-field__input {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 6rem;
   min-height: 3.6rem;
+  min-width: 0;
   padding: var(--space-3xs) var(--space-xs);
   border: none;
   background-color: transparent;

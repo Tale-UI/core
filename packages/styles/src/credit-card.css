@@ -22,6 +22,7 @@
 /* ─── Inner card (always 316 × 190, scaled via transform) ─────────────────── */
 
 .tale-credit-card__inner {
+  box-sizing: border-box;
   position: absolute;
   top: 0;
   left: 0;

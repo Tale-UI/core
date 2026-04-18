@@ -4155,12 +4155,12 @@ export default function ComponentAudit() {
           <Row>
             {(['circle', 'square', 'grid'] as const).map((p) => (
               <div key={p} style={{ textAlign: 'center' }}>
-                <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem' }}>{p}</p>
+                <p style={{ margin: '0 0 0.5rem' }}>{p}</p>
                 <BackgroundPattern pattern={p} size="md" />
               </div>
             ))}
             <div style={{ textAlign: 'center' }}>
-              <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem' }}>grid-check</p>
+              <p style={{ margin: '0 0 0.5rem' }}>grid-check</p>
               <BackgroundPattern pattern="grid-check" size="md" />
             </div>
           </Row>
@@ -4173,7 +4173,7 @@ export default function ComponentAudit() {
           <Row>
             {(['box', 'cloud', 'documents', 'credit-card'] as const).map((t) => (
               <div key={t} style={{ textAlign: 'center' }}>
-                <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem' }}>{t}</p>
+                <p style={{ margin: '0 0 0.5rem' }}>{t}</p>
                 <Illustration type={t} size="md" />
               </div>
             ))}
@@ -4182,7 +4182,7 @@ export default function ComponentAudit() {
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem' }}>
             {(['sm', 'md', 'lg'] as const).map((s) => (
               <div key={s} style={{ textAlign: 'center' }}>
-                <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem' }}>{s}</p>
+                <p style={{ margin: '0 0 0.5rem' }}>{s}</p>
                 <Illustration type="box" size={s} />
               </div>
             ))}

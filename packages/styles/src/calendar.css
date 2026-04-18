@@ -74,17 +74,17 @@
   cursor: pointer;
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
-  color: var(--neutral-90);
+  color: var(--neutral-20);
   transition: background 0.1s ease, color 0.1s ease;
 }
 
 .tale-calendar__cell:hover {
-  background: var(--neutral-12);
+  background: var(--neutral-80);
 }
 
 .tale-calendar__cell[data-selected] {
-  background: var(--color-60);
-  color: var(--color-60-fg);
+  background: var(--color-20);
+  color: var(--color-20-fg);
   font-weight: var(--label-font-weight);
 }
 
@@ -99,7 +99,7 @@
 }
 
 .tale-calendar__cell[data-outside-month] {
-  color: var(--neutral-40);
+  color: var(--neutral-10);
 }
 
 .tale-calendar__cell[data-disabled],

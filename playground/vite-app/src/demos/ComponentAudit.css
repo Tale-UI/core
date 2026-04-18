@@ -313,11 +313,6 @@
   padding-top: 1.2rem;
 }
 
-
-.audit__slider-vertical {
-  height: 16rem;
-}
-
 .audit__controlled-tab-label {
   font-family: var(--label-font-family);
   font-size: var(--label-s-font-size);

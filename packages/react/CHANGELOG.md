@@ -2,6 +2,21 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.45 — 2026-04-18
+
+### Fixed
+
+- **`CreditCard`**: Round scaled dimensions with `Math.ceil` so the wrapper fully contains the scaled visual at fractional widths.
+- **`Calendar` / `RangeCalendar`**: Tightened prev/next button selectors to `.tale-button.tale-button--ghost.tale-calendar__*` to avoid leaking `box-sizing`, `padding`, and `min-height` resets onto unrelated buttons.
+- **`FileUpload`**: Layout, sizing, and spacing improvements; added `box-sizing: border-box` and minimum height.
+- **`NumberField`**, **`Slider`**, **`PaginationLine`**: Minor CSS corrections.
+- **`Banner`**, **`Tabs`**: Token and layout fixes.
+- **`_primitives.css`**: Strengthened focus-ring glow opacity; updated field/popup background and border tokens.
+
+### Added
+
+- Unit tests for `Calendar`, `CreditCard`, `FileUpload`, `NumberField`, `PaginationLine`, and `Slider`.
+
 ## v1.3.44 — 2026-04-14
 
 ### Changed

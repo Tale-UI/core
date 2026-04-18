@@ -55,24 +55,52 @@
 
 /* ─── Cell ─────────────────────────────────────────────────────────────────── */
 
+.tale-range-calendar__cell {
+  color: var(--neutral-20);
+}
+
+.tale-range-calendar__cell:hover {
+  background: var(--neutral-80);
+}
+
+.tale-range-calendar__cell[data-today] {
+  font-weight: var(--label-font-weight);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tale-range-calendar__cell[data-outside-month] {
+  color: var(--neutral-10);
+}
+
+.tale-range-calendar__cell[data-disabled],
+.tale-range-calendar__cell[data-unavailable] {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.tale-range-calendar__cell[data-focus-visible] {
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+}
+
 /* Range selection: middle cells */
 .tale-range-calendar__cell[data-selected] {
-  background: color-mix(in srgb, var(--color-60) 20%, transparent);
-  color: var(--neutral-90);
+  background: var(--color-30);
+  color: var(--color-30-fg);
   border-radius: 0;
 }
 
 /* Range selection: start and end cells */
 .tale-range-calendar__cell[data-selection-start] {
-  background: var(--color-60);
-  color: var(--color-60-fg);
+  background: var(--color-20);
+  color: var(--color-20-fg);
   font-weight: var(--label-font-weight);
   border-radius: var(--radius-full) 0 0 var(--radius-full);
 }
 
 .tale-range-calendar__cell[data-selection-end] {
-  background: var(--color-60);
-  color: var(--color-60-fg);
+  background: var(--color-20);
+  color: var(--color-20-fg);
   font-weight: var(--label-font-weight);
   border-radius: 0 var(--radius-full) var(--radius-full) 0;
 }
@@ -84,8 +112,7 @@
 
 .tale-range-calendar__cell[data-selection-start]:hover,
 .tale-range-calendar__cell[data-selection-end]:hover {
-  background: var(--color-70);
+  background: var(--color-30);
 }
 
 /* ─── Navigation buttons ───────────────────────────────────────────────────── */
-

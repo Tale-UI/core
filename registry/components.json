@@ -4221,6 +4221,9 @@
         "tale-input-group__addon",
         "tale-input-group__addon--leading",
         "tale-input-group__addon--trailing",
+        "tale-input__description",
+        "tale-input__error",
+        "tale-input__label",
         "tale-input__root"
       ],
       "pitfalls": null,
@@ -4387,6 +4390,7 @@
         "tale-input-tags__input",
         "tale-input-tags__label",
         "tale-input-tags__tag",
+        "tale-input-tags__tag-group",
         "tale-input-tags__tag-list",
         "tale-input-tags__tag-wrapper",
         "tale-input-tags__tags"
@@ -6741,6 +6745,7 @@
       "cssClasses": [
         "tale-slider",
         "tale-slider__control",
+        "tale-slider__header",
         "tale-slider__indicator",
         "tale-slider__output--bottom",
         "tale-slider__output--top",

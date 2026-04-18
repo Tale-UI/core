@@ -29,6 +29,18 @@
   touch-action: none;
 }
 
+.tale-slider[data-orientation="vertical"] {
+  align-items: flex-start;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.tale-slider[data-orientation="vertical"] .tale-slider__header {
+  width: max-content;
+  justify-content: flex-start;
+  gap: var(--space-xs);
+}
+
 /* ─── Control — touch-active area ────────────────────────────────────────── */
 
 .tale-slider__control {
