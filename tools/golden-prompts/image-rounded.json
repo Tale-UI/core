@@ -1,0 +1,7 @@
+{
+  "slug": "image-rounded",
+  "difficulty": "simple",
+  "prompt": "Show a rounded image using a placeholder photo with medium border radius, 300px wide and 200px tall.",
+  "reference": "import { Image } from '@tale-ui/react/image';\n\nexport function Example() {\n  return (\n    <Image\n      src=\"https://picsum.photos/300/200\"\n      alt=\"A landscape photo\"\n      radius=\"md\"\n      width={300}\n      height={200}\n    />\n  );\n}",
+  "tags": ["Image"]
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1.0",
-  "taleUiVersion": "1.3.44",
+  "taleUiVersion": "1.3.46",
   "components": [
     {
       "name": "Accordion",
@@ -298,6 +298,18 @@
           "id": "autocomplete-no-controlled-props",
           "summary": "No controlled state props on Autocomplete.Root",
           "detail": "filter state is derived from the `filter` function and the input value managed internally."
+        },
+        {
+          "id": "use-autocomplete-for-any-prompt",
+          "summary": "Use <Autocomplete> for any prompt that asks for an autocomplete, inline search, or a filtered list of options",
+          "detail": "when the request is to search/filter items such as fruits, countries, commands, or members, render `Autocomplete.Root` with `useFilter`, `Autocomplete.SearchField`, `Autocomplete.Input`, and `Autocomplete.ListBox` instead of leaving the file empty or substituting `SearchField` or `Combobox`.",
+          "antiPatterns": [
+            "// empty file",
+            "import { SearchField } from '@tale-ui/react/search-field'; export function FruitSearch() { return <SearchField.Root><SearchField.Input placeholder=\"Search fruits...\" /></SearchField.Root>; }"
+          ],
+          "fixes": [
+            "import { Autocomplete, useFilter } from '@tale-ui/react/autocomplete'; export function FruitAutocomplete() { const { contains } = useFilter({ sensitivity: 'base' }); return <Autocomplete.Root filter={contains}><Autocomplete.SearchField aria-label=\"Search fruits\"><Autocomplete.Input placeholder=\"Search fruits...\" /></Autocomplete.SearchField><Autocomplete.ListBox aria-label=\"Fruits\"><Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item></Autocomplete.ListBox></Autocomplete.Root>; }"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -454,13 +466,36 @@
         },
         {
           "id": "avatar-profile-photo-children",
-          "summary": "Avatar.ProfilePhoto children are Avatar.Image and Avatar.Fallback directly",
+          "summary": "Avatar.ProfilePhoto accepts Avatar.Image then Avatar.Fallback as direct children",
           "detail": "do not nest `Avatar.Root` inside `ProfilePhoto`; it renders its own inner avatar element.",
           "antiPatterns": [
             "<Avatar.ProfilePhoto><Avatar.Root><Avatar.Image /></Avatar.Root></Avatar.ProfilePhoto>"
           ],
           "fixes": [
             "<Avatar.ProfilePhoto><Avatar.Image src=\"...\" alt=\"...\" /><Avatar.Fallback>JD</Avatar.Fallback></Avatar.ProfilePhoto>"
+          ]
+        },
+        {
+          "id": "avatarcount-accepts-children-text-not",
+          "summary": "Avatar.Count accepts children text, not a count prop",
+          "detail": "pass the overflow label string (e.g. `\"+5\"`) as children; there is no `count` prop and passing one causes a TypeScript error.",
+          "antiPatterns": [
+            "<Avatar.Count count={5} />"
+          ],
+          "fixes": [
+            "<Avatar.Count>+5</Avatar.Count>"
+          ]
+        },
+        {
+          "id": "avatarprofilephoto-size-does-not-accept",
+          "summary": "Avatar.ProfilePhoto size does not accept 'xl' or '2xl' — valid values are 'xs', 'sm', 'md', 'lg'",
+          "detail": "`ProfilePhotoSize` is a narrower type than `Avatar.Root` size; passing `size=\"xl\"` or `size=\"2xl\"` causes `Type '\"xl\"' is not assignable to type 'ProfilePhotoSize | undefined'`. Use `size=\"lg\"` for the largest profile photo.",
+          "antiPatterns": [
+            "<Avatar.ProfilePhoto size=\"xl\">",
+            "<Avatar.ProfilePhoto size=\"2xl\">"
+          ],
+          "fixes": [
+            "<Avatar.ProfilePhoto size=\"lg\">"
           ]
         }
       ],
@@ -987,12 +1022,16 @@
       "pitfalls": [
         {
           "id": "button-no-link-variant",
-          "summary": "No 'link' variant",
-          "detail": "The valid variants are `'primary'`, `'neutral'`, `'ghost'`, `'danger'`, `'danger-neutral'`, `'danger-ghost'`, and `'inverse'`. There is no `'link'` variant. For link-styled text, use the `Link` component.\n    ```tsx\n    import { Button } from '@tale-ui/react/button';\n    \n    export function Example() {\n      return (\n        <>\n          <Button variant=\"primary\" size=\"md\">Click me</Button>\n          <Button variant=\"neutral\">Neutral</Button>\n          <Button variant=\"ghost\">Ghost</Button>\n          <Button variant=\"danger\">Danger</Button>\n          <Button variant=\"danger-neutral\">Outlined danger</Button>\n          <Button variant=\"danger-ghost\">Ghost danger</Button>\n          <Button variant=\"inverse\">Inverse</Button>\n          <Button variant=\"primary\" isPending>Saving…</Button>\n          <Button variant=\"primary\" isPending showTextWhileLoading>Saving…</Button>\n        </>\n      );\n    }\n    ```",
+          "summary": "No 'link' or 'secondary' variant — for Cancel or secondary-action buttons always use variant=\"neutral\"",
+          "detail": "The valid variants are `'primary'`, `'neutral'`, `'ghost'`, `'danger'`, `'danger-neutral'`, `'danger-ghost'`, and `'inverse'`. There is no `'link'` variant (use the `Link` component instead) and no `'secondary'` variant; when a prompt asks for a Cancel button or any secondary-action button, use `'neutral'` — never `'secondary'`.\n    ```tsx\n    import { Button } from '@tale-ui/react/button';\n    \n    export function Example() {\n      return (\n        <>\n          <Button variant=\"primary\" size=\"md\">Click me</Button>\n          <Button variant=\"neutral\">Neutral</Button>\n          <Button variant=\"ghost\">Ghost</Button>\n          <Button variant=\"danger\">Danger</Button>\n          <Button variant=\"danger-neutral\">Outlined danger</Button>\n          <Button variant=\"danger-ghost\">Ghost danger</Button>\n          <Button variant=\"inverse\">Inverse</Button>\n          <Button variant=\"primary\" isPending>Saving…</Button>\n          <Button variant=\"primary\" isPending showTextWhileLoading>Saving…</Button>\n        </>\n      );\n    }\n    ```",
           "antiPatterns": [
+            "<Button variant=\"link\">Go back</Button>",
+            "<Button variant=\"secondary\">Cancel</Button>",
             "<Button variant=\"link\">Go back</Button>"
           ],
           "fixes": [
+            "<Button variant=\"neutral\">Go back</Button>",
+            "<Button variant=\"neutral\">Cancel</Button>",
             "<Button variant=\"neutral\">Go back</Button>"
           ],
           "completeExample": "import { Button } from '@tale-ui/react/button';\n\nexport function Example() {\n  return (\n    <>\n      <Button variant=\"primary\" size=\"md\">Click me</Button>\n      <Button variant=\"neutral\">Neutral</Button>\n      <Button variant=\"ghost\">Ghost</Button>\n      <Button variant=\"danger\">Danger</Button>\n      <Button variant=\"danger-neutral\">Outlined danger</Button>\n      <Button variant=\"danger-ghost\">Ghost danger</Button>\n      <Button variant=\"inverse\">Inverse</Button>\n      <Button variant=\"primary\" isPending>Saving…</Button>\n      <Button variant=\"primary\" isPending showTextWhileLoading>Saving…</Button>\n    </>\n  );\n}"
@@ -1022,6 +1061,17 @@
           ],
           "fixes": [
             "<Button><PlusIcon />Add</Button>"
+          ]
+        },
+        {
+          "id": "button-no-href-prop",
+          "summary": "Button has no href prop — it renders a <button>, not a link",
+          "detail": "passing `href` causes a TypeScript assignability error. For navigational links styled as buttons, use `Link` from `@tale-ui/react/link` with BEM class names.",
+          "antiPatterns": [
+            "<Button variant=\"primary\" size=\"md\" href=\"/signup\">Sign up</Button>"
+          ],
+          "fixes": [
+            "<Link href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Sign up</Link>"
           ]
         }
       ],
@@ -1118,6 +1168,17 @@
           ],
           "fixes": [
             "<Calendar.Heading />"
+          ]
+        },
+        {
+          "id": "use-calendar-for-date-picker",
+          "summary": "Use Calendar for any prompt that asks for a date calendar picker, standalone calendar, or single date selection",
+          "detail": "when the request is to display a calendar for picking a single date, render `Calendar.Root` with the full header and grid structure instead of leaving the file empty or substituting `DatePicker`.",
+          "antiPatterns": [
+            "// empty file"
+          ],
+          "fixes": [
+            "import { Calendar } from '@tale-ui/react/calendar'; export function DateCalendarPicker() { return <Calendar.Root><Calendar.Header><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Header><Calendar.Grid><Calendar.GridHeader>{(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}</Calendar.GridHeader><Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody></Calendar.Grid></Calendar.Root>; }"
           ]
         }
       ],
@@ -1217,12 +1278,27 @@
         {
           "id": "card-body-footer-no-gap",
           "summary": "Card.Body and Card.Footer do NOT accept a gap prop",
-          "detail": "wrap children in `<Column gap=\"...\">` inside these parts.",
+          "detail": "for stacked content in Card.Body use `<Column gap=\"...\">`, and for side-by-side actions in Card.Footer use `<Row gap=\"...\">` inside these parts.",
           "antiPatterns": [
-            "<Card.Body gap=\"m\">"
+            "<Card.Body gap=\"m\">",
+            "<Card.Footer gap=\"s\">"
           ],
           "fixes": [
-            "<Card.Body><Column gap=\"m\">…</Column></Card.Body>"
+            "<Card.Body><Column gap=\"s\">…</Column></Card.Body>",
+            "<Card.Footer><Row gap=\"s\">…</Row></Card.Footer>"
+          ]
+        },
+        {
+          "id": "for-stat-cards-label-value",
+          "summary": "For stat cards, render <Text color=\"muted\"> inside Card.Header — wrap value/badge in <Column> inside Card.Body",
+          "detail": "`Card.Header` has no `title` prop; place a `<Text color=\"muted\">` child directly. `Card.Body` has no `gap` prop; wrap contents in `<Column gap=\"s\">`. Use `<Row gap=\"m\">` to lay out multiple stat cards side by side.",
+          "antiPatterns": [
+            "<Card.Header title=\"Revenue\" />",
+            "<Card.Body gap=\"s\">"
+          ],
+          "fixes": [
+            "<Card.Header><Text color=\"muted\">Revenue</Text></Card.Header>",
+            "<Card.Body><Column gap=\"s\"><Text variant=\"display\">$48,200</Text><Badge variant=\"success\">+12%</Badge></Column></Card.Body>"
           ]
         }
       ],
@@ -1928,6 +2004,29 @@
           "fixes": [
             "<ColorSwatchPicker.Root><ColorSwatchPicker.Item color=\"#ff0000\"><ColorSwatch /></ColorSwatchPicker.Item></ColorSwatchPicker.Root>"
           ]
+        },
+        {
+          "id": "valueonchange-use-color-objects-not",
+          "summary": "value/onChange use Color objects, not plain strings — initialize state with parseColor()",
+          "detail": "`onChange` receives a `Color` object; passing a `Dispatch<SetStateAction<string>>` setter directly causes `Type 'Dispatch<SetStateAction<string>>' is not assignable to type '(value: Color) => void'`. Initialize state with `parseColor()` so the inferred type matches. Import `parseColor` from `@tale-ui/react/color-area`. To display the selected color as a string, call `.toString('css')` on the Color value.",
+          "antiPatterns": [
+            "const [color, setColor] = useState('#3b82f6'); ... <ColorSwatchPicker.Root value={color} onChange={setColor}>"
+          ],
+          "fixes": [
+            "const [color, setColor] = useState(parseColor('#3b82f6')); ... <ColorSwatchPicker.Root value={color} onChange={setColor}>"
+          ]
+        },
+        {
+          "id": "use-colorswatchpickerroot-for-any-prompt",
+          "summary": "Use <ColorSwatchPicker.Root> for any prompt that asks for selectable color swatches, a color palette, or a swatch picker",
+          "detail": "when the request is to choose from a visible set of color options, render `ColorSwatchPicker.Root` with direct `ColorSwatchPicker.Item` children and a nested `ColorSwatch` for each option instead of leaving the file empty or substituting `ColorSwatch`, `ColorPicker`, or custom buttons.",
+          "antiPatterns": [
+            "// empty file",
+            "import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatch color=\"#3b82f6\" />; }"
+          ],
+          "fixes": [
+            "import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker'; import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatchPicker.Root defaultValue=\"#3b82f6\"><ColorSwatchPicker.Item color=\"#3b82f6\"><ColorSwatch /></ColorSwatchPicker.Item></ColorSwatchPicker.Root>; }"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -2075,7 +2174,19 @@
       "cssClasses": [
         "tale-column"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "column-form-gap-too-large",
+          "summary": "Use gap=\"s\" when stacking form fields",
+          "detail": "the default `gap=\"m\"` is too large for tight field stacks inside forms or cards",
+          "antiPatterns": [
+            "<Column gap=\"m\">"
+          ],
+          "fixes": [
+            "<Column gap=\"s\">"
+          ]
+        }
+      ],
       "crossPitfallRefs": [
         "column-needs-explicit-import"
       ]
@@ -2846,6 +2957,17 @@
           "fixes": [
             "<DotIcon color=\"success\" />"
           ]
+        },
+        {
+          "id": "when-pairing-doticon-with-text",
+          "summary": "When pairing DotIcon with Text in a status indicator, use Text's single-letter size tokens — not component-size names",
+          "detail": "the canonical status-indicator pattern wraps `<DotIcon>` and `<Text>` in a `<Row>`, but `Text` is the only component whose `size` prop uses spacing-token values (`'xs'`/`'s'`/`'m'`/`'l'`); passing `size=\"sm\"` to `Text` causes `Type '\"sm\"' is not assignable to type 'Size | undefined'`.",
+          "antiPatterns": [
+            "<Text size=\"sm\">Online</Text>"
+          ],
+          "fixes": [
+            "<Text size=\"s\">Online</Text>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -2940,8 +3062,26 @@
         },
         {
           "id": "drawer-no-placement-prop",
-          "summary": "No placement prop on Drawer.Root or Drawer.Popup",
-          "detail": "placement is controlled via CSS only."
+          "summary": "No placement prop on Drawer.Root or Drawer.Popup — use only layout inline styles on Drawer.Popup",
+          "detail": "placement is controlled via CSS, but keep `Drawer.Popup` inline styles limited to layout-only properties such as positioning and sizing; move visual styles like `background`, `boxSizing`, `border`, and `boxShadow` to Tale UI defaults, variants, or wrapper CSS.",
+          "antiPatterns": [
+            "<Drawer.Popup style={{ marginLeft: 'auto', background: 'var(--color-background)', boxSizing: 'border-box' }} />"
+          ],
+          "fixes": [
+            "<Drawer.Popup style={{ marginLeft: 'auto', width: 360, minHeight: '100vh', padding: 'var(--space-m)' }} />"
+          ]
+        },
+        {
+          "id": "use-drawer-for-any-prompt",
+          "summary": "Use <Drawer> for any prompt that asks for a drawer, side drawer, side sheet, or slide-over panel",
+          "detail": "when the request is for an overlay panel that slides in from a screen edge, render `Drawer.Root` with `Drawer.Backdrop`, `Drawer.Popup`, `Drawer.Title`, and a `Drawer.Close` button instead of leaving the file empty or substituting `Dialog`. Use CSS on `Drawer.Popup` to position it on the right or left because `Drawer` has no placement prop.",
+          "antiPatterns": [
+            "// empty file",
+            "import { Dialog } from '@tale-ui/react/dialog'; export function SettingsDrawer() { return <Dialog.Root />; }"
+          ],
+          "fixes": [
+            "import * as React from 'react'; import { Drawer } from '@tale-ui/react/drawer'; export function SettingsDrawer() { const [open, setOpen] = React.useState(true); return <Drawer.Root open={open} onOpenChange={setOpen}><Drawer.Backdrop /><Drawer.Popup style={{ marginLeft: 'auto' }}><Drawer.Title>Settings</Drawer.Title><Drawer.Close className=\"tale-button tale-button--neutral tale-button--md\">Close</Drawer.Close></Drawer.Popup></Drawer.Root>; }"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -3335,6 +3475,17 @@
           "fixes": [
             "onSelect={(list) => { if (list) { Array.from(list).map(...) } }}"
           ]
+        },
+        {
+          "id": "when-displaying-the-selected-filename",
+          "summary": "When displaying the selected filename with Text, use color=\"muted\" — never variant=\"body-m\" or color=\"secondary\"",
+          "detail": "`variant=\"body-m\"` is a compound token string that does not exist as a `Variant`; `color=\"secondary\"` is not a valid `Color` on `Text`. For supporting text such as a filename label, use `<Text color=\"muted\">`.",
+          "antiPatterns": [
+            "<Text variant=\"body-m\" color=\"secondary\">{fileName}</Text>"
+          ],
+          "fixes": [
+            "<Text color=\"muted\">{fileName}</Text>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -3461,7 +3612,55 @@
         "tale-file-upload-list",
         "tale-file-upload-list-item"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "use-fileuploaddropzone-capital-z-not",
+          "summary": "Use FileUpload.DropZone (capital Z), not FileUpload.Dropzone",
+          "detail": "the sub-part uses PascalCase with a capital Z; the lowercase form causes 'Property does not exist' TypeScript errors.",
+          "antiPatterns": [
+            "<FileUpload.Dropzone />"
+          ],
+          "fixes": [
+            "<FileUpload.DropZone />"
+          ]
+        },
+        {
+          "id": "fileupload-props-on-dropzone-not-root",
+          "summary": "All upload config props (accept, maxSize, allowsMultiple, onDropFiles) belong on FileUpload.DropZone, not FileUpload.Root",
+          "detail": "`FileUpload.Root` is a plain `<div>` wrapper with no file-upload-specific props; passing any of these there causes `is not assignable to type 'IntrinsicAttributes & RootProps'` TypeScript errors. Every configuration prop lives on `FileUpload.DropZone`.",
+          "antiPatterns": [
+            "<FileUpload.Root accept=\"image/*\" maxSize={5 * 1024 * 1024}>",
+            "<FileUpload.Root allowsMultiple>"
+          ],
+          "fixes": [
+            "<FileUpload.Root><FileUpload.DropZone accept=\"image/*\" maxSize={5 * 1024 * 1024} /></FileUpload.Root>",
+            "<FileUpload.Root><FileUpload.DropZone accept=\"image/*,application/pdf\" maxSize={5 * 1024 * 1024} allowsMultiple /></FileUpload.Root>"
+          ]
+        },
+        {
+          "id": "fileuploaddropzone-accept-takes-string",
+          "summary": "FileUpload.DropZone accept takes a comma-separated string, not an array",
+          "detail": "passing `accept={['image/*', 'application/pdf']}` causes `Type 'string[]' is not assignable to type 'string'`; use a plain comma-separated string matching the HTML `accept` attribute format instead.",
+          "antiPatterns": [
+            "<FileUpload.DropZone accept={['image/*', 'application/pdf']} />"
+          ],
+          "fixes": [
+            "<FileUpload.DropZone accept=\"image/*,application/pdf\" />"
+          ]
+        },
+        {
+          "id": "use-fileupload-for-any-prompt",
+          "summary": "Use FileUpload for any prompt that asks for a file upload area, dropzone uploader, or uploaded-file list with progress",
+          "detail": "when the request is to accept files and show uploaded items, render `FileUpload.Root` with `FileUpload.DropZone` and `FileUpload.List`, and use `FileUpload.ListItemProgressBar` or `FileUpload.ListItemProgressFill` for each file instead of leaving the file empty or substituting `DropZone` or `FileTrigger` alone.",
+          "antiPatterns": [
+            "// empty file",
+            "import { DropZone } from '@tale-ui/react/drop-zone'; export function UploadArea() { return <DropZone />; }"
+          ],
+          "fixes": [
+            "import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept=\"image/*,.pdf\" maxSize={5 * 1024 * 1024} /><FileUpload.List><FileUpload.ListItemProgressBar name=\"photo.png\" size={1200000} progress={60} /></FileUpload.List></FileUpload.Root>; }"
+          ]
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -3601,6 +3800,17 @@
           "fixes": [
             "<Column gap=\"m\"><GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">...</GridList.Root></Column>"
           ]
+        },
+        {
+          "id": "grid-list-root-layout-only-style",
+          "summary": "Never apply non-layout inline styles (listStyle, padding, margin) to GridList.Root",
+          "detail": "`GridList.Root` resets list chrome (listStyle, padding, margin) internally; passing them via `style` is redundant and triggers a validation error. Only layout properties (`display`, `gridTemplateColumns`, `gap`) belong on the `style` prop.",
+          "antiPatterns": [
+            "<GridList.Root style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)', listStyle: 'none', padding: 0, margin: 0 }}>"
+          ],
+          "fixes": [
+            "<GridList.Root style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -3625,7 +3835,8 @@
       "examples": [
         "import { HeaderNav } from '@tale-ui/react/header-nav';\n\n<HeaderNav.Root>\n  <HeaderNav.Logo href=\"/\">MyApp</HeaderNav.Logo>\n  <HeaderNav.Secondary>\n    <HeaderNav.NavButton href=\"/features\" current>Features</HeaderNav.NavButton>\n    <HeaderNav.NavButton href=\"/pricing\">Pricing</HeaderNav.NavButton>\n    <HeaderNav.NavButton href=\"/docs\">Docs</HeaderNav.NavButton>\n  </HeaderNav.Secondary>\n  <HeaderNav.Actions>\n    <a href=\"/login\" className=\"tale-button tale-button--neutral tale-button--md\">Log in</a>\n    <a href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Sign up</a>\n  </HeaderNav.Actions>\n</HeaderNav.Root>",
         "<HeaderNav.Root>\n  <HeaderNav.Logo href=\"/\">MyBrand</HeaderNav.Logo>\n  <HeaderNav.Actions>\n    <a href=\"/login\" className=\"tale-button tale-button--ghost tale-button--md\">Log in</a>\n    <a href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Get started</a>\n  </HeaderNav.Actions>\n</HeaderNav.Root>",
-        "<HeaderNav.Root>\n  <HeaderNav.Logo href=\"/\">MyApp</HeaderNav.Logo>\n  <HeaderNav.Secondary>\n    <HeaderNav.NavButton href=\"/features\" current>Features</HeaderNav.NavButton>\n    <HeaderNav.NavButton href=\"/pricing\">Pricing</HeaderNav.NavButton>\n  </HeaderNav.Secondary>\n  <HeaderNav.Actions>\n    <a href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Sign up</a>\n    <HeaderNav.MobileTrigger>\n      <nav style={{ padding: 'var(--space-m)' }}>\n        <a href=\"/features\">Features</a>\n        <a href=\"/pricing\">Pricing</a>\n      </nav>\n    </HeaderNav.MobileTrigger>\n  </HeaderNav.Actions>\n</HeaderNav.Root>"
+        "<HeaderNav.Root>\n  <HeaderNav.Logo href=\"/\">MyApp</HeaderNav.Logo>\n  <HeaderNav.Secondary>\n    <HeaderNav.NavButton href=\"/features\" current>Features</HeaderNav.NavButton>\n    <HeaderNav.NavButton href=\"/pricing\">Pricing</HeaderNav.NavButton>\n  </HeaderNav.Secondary>\n  <HeaderNav.Actions>\n    <a href=\"/signup\" className=\"tale-button tale-button--primary tale-button--md\">Sign up</a>\n    <HeaderNav.MobileTrigger>\n      <nav style={{ padding: 'var(--space-m)' }}>\n        <a href=\"/features\">Features</a>\n        <a href=\"/pricing\">Pricing</a>\n      </nav>\n    </HeaderNav.MobileTrigger>\n  </HeaderNav.Actions>\n</HeaderNav.Root>",
+        "import { HeaderNav } from '@tale-ui/react/header-nav';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Menu } from 'lucide-react';\n\n    export function SiteHeader() {\n      return (\n        <HeaderNav.Root>\n          <HeaderNav.Actions>\n            <HeaderNav.MobileTrigger><Icon icon={Menu} size=\"sm\" /></HeaderNav.MobileTrigger>\n          </HeaderNav.Actions>\n        </HeaderNav.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-header-nav",
@@ -3642,7 +3853,31 @@
         "tale-header-nav__nav-btn--current",
         "tale-header-nav__secondary"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "header-nav-mobile-trigger-requires-children",
+          "summary": "HeaderNav.MobileTrigger requires children — omitting them causes a TypeScript error 'Property children is missing in type {} but required in type HeaderNavMobileTriggerProps'",
+          "detail": "it does not render any content automatically; pass an `<Icon>` child (e.g. a hamburger menu icon) so the button has visible and accessible content. Import `Icon` from `@tale-ui/react/icon` and the icon (e.g. `Menu`) from `lucide-react`.",
+          "antiPatterns": [
+            "<HeaderNav.MobileTrigger />"
+          ],
+          "fixes": [
+            "<HeaderNav.MobileTrigger><Icon icon={Menu} size=\"sm\" /></HeaderNav.MobileTrigger>"
+          ]
+        },
+        {
+          "id": "header-nav-text-needs-separate-import",
+          "summary": "Always import Text from @tale-ui/react/text when rendering text inside HeaderNav sub-parts such as HeaderNav.Logo",
+          "detail": "`Text` is not re-exported from `@tale-ui/react/header-nav`; using `<Text>` without a separate import causes 'cannot be used as a JSX component' TypeScript errors.\n\n    ```tsx\n    import { HeaderNav } from '@tale-ui/react/header-nav';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Menu } from 'lucide-react';\n\n    export function SiteHeader() {\n      return (\n        <HeaderNav.Root>\n          <HeaderNav.Actions>\n            <HeaderNav.MobileTrigger><Icon icon={Menu} size=\"sm\" /></HeaderNav.MobileTrigger>\n          </HeaderNav.Actions>\n        </HeaderNav.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<HeaderNav.Logo href=\"/\"><Text variant=\"heading\" as=\"span\">Acme</Text></HeaderNav.Logo>"
+          ],
+          "fixes": [
+            "import { Text } from '@tale-ui/react/text'; ... <HeaderNav.Logo href=\"/\"><Text variant=\"heading\" as=\"span\">Acme</Text></HeaderNav.Logo>"
+          ],
+          "completeExample": "import { HeaderNav } from '@tale-ui/react/header-nav';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Menu } from 'lucide-react';\n\nexport function SiteHeader() {\n  return (\n    <HeaderNav.Root>\n      <HeaderNav.Actions>\n        <HeaderNav.MobileTrigger><Icon icon={Menu} size=\"sm\" /></HeaderNav.MobileTrigger>\n      </HeaderNav.Actions>\n    </HeaderNav.Root>\n  );\n}"
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -4123,7 +4358,31 @@
         "tale-image-cropper",
         "tale-image-cropper__img"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "never-apply-nonlayout-inline-styles",
+          "summary": "Never apply non-layout inline styles (objectFit, objectPosition) to ImageCropper.Img — use a wrapper element for those CSS overrides instead",
+          "detail": "`ImageCropper.Img` only accepts layout styles (`maxHeight`, `width`) directly on its `style` prop; passing visual rendering styles like `objectFit` causes a validation error.",
+          "antiPatterns": [
+            "<ImageCropper.Img style={{ maxHeight: 400, width: '100%', objectFit: 'contain' }} />"
+          ],
+          "fixes": [
+            "<div style={{ maxHeight: 400, width: '100%' }}><ImageCropper.Img style={{ maxHeight: 400, width: '100%' }} /></div>"
+          ]
+        },
+        {
+          "id": "use-imagecropper-for-any-prompt",
+          "summary": "Use <ImageCropper> for any prompt that asks for image cropping, avatar photo cropping, or a fixed-aspect crop area",
+          "detail": "when the request is to crop a profile photo, avatar, or other image, render `ImageCropper.Root` with an `ImageCropper.Img` child instead of leaving the file empty or substituting `Image`. For square avatar crops, set `aspect={1}`.",
+          "antiPatterns": [
+            "// empty file",
+            "import { Image } from '@tale-ui/react/image'; export function AvatarCropper() { return <Image src=\"/avatar.jpg\" alt=\"User avatar\" />; }"
+          ],
+          "fixes": [
+            "import * as React from 'react'; import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper'; import type { Crop } from '@tale-ui/react/image-cropper'; function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) { return centerCrop(makeAspectCrop({ unit: '%', width: 80 }, aspect, mediaWidth, mediaHeight), mediaWidth, mediaHeight); } export function AvatarCropper() { const [crop, setCrop] = React.useState<Crop>(); function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) { const { width, height } = event.currentTarget; setCrop(centerAspectCrop(width, height, 1)); } return <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}><ImageCropper.Img src=\"/avatar.jpg\" alt=\"User avatar to crop\" onLoad={handleImageLoad} style={{ maxHeight: 320, width: '100%' }} /></ImageCropper.Root>; }"
+          ]
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -4226,7 +4485,23 @@
         "tale-input__label",
         "tale-input__root"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "label-placement",
+          "summary": "Place Input.Label inside Input.Root",
+          "detail": "the label is semantically associated with the input via React Aria's `TextField`, so it must remain inside `Input.Root`, not outside the `InputGroup.Root`."
+        },
+        {
+          "id": "addon-buttons",
+          "summary": "Buttons inside InputGroup.Addon may conflict with addon styles",
+          "detail": "Tale UI buttons carry their own border-radius and box-shadow that can conflict with the addon's flush layout. Adjust via `className` overrides or use a plain `<button>`."
+        },
+        {
+          "id": "no-double-label",
+          "summary": "Use a single Input.Label inside Input.Root",
+          "detail": "`InputGroup.Root` keeps the label associated with the input while aligning the addons to the input control row."
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -4395,7 +4670,35 @@
         "tale-input-tags__tag-wrapper",
         "tale-input-tags__tags"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "keyboard-nav-inline-only",
+          "summary": "Backspace/ArrowLeft keyboard navigation applies to inline mode only",
+          "detail": "in `tagPlacement=\"below\"` mode, pressing Backspace when the input is empty does not focus the last tag."
+        },
+        {
+          "id": "no-form-field-context",
+          "summary": "InputTags does not integrate with React Aria form contexts",
+          "detail": "it renders a plain `<div>` container. For form validation, use the `isInvalid`/`errorMessage` props directly rather than wrapping in a `Field`."
+        },
+        {
+          "id": "controlled-value-identity",
+          "summary": "In controlled mode, pass a stable array reference when the value hasn't changed",
+          "detail": "the ID reconciliation logic uses reference equality (`===`) to skip re-reconciliation. Creating a new array on every render forces re-reconciliation on every render (though it remains functionally correct)."
+        },
+        {
+          "id": "use-input-tags-for-tag-entry-prompts",
+          "summary": "Use InputTags.Root for any prompt that asks for a tag-entry field, skills input, chip input, or add-tags UI",
+          "detail": "when the request is specifically to let users enter multiple tags such as skills, render `InputTags.Root` directly with `label`, `placeholder`, `description`, and `maxTags` as needed instead of leaving the file empty or substituting a different field component.",
+          "antiPatterns": [
+            "// empty file",
+            "<TextField.Root><TextField.Label>Skills</TextField.Label><TextField.Input placeholder=\"Add a skill...\" /></TextField.Root>"
+          ],
+          "fixes": [
+            "import { InputTags } from '@tale-ui/react/input-tags'; export function SkillsField() { return <InputTags.Root label=\"Skills\" placeholder=\"Add a skill...\" description=\"Enter up to 5 skills. Press Enter to add each one.\" maxTags={5} />; }"
+          ]
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -4434,8 +4737,19 @@
         },
         {
           "id": "iphone-mockup-image-size",
-          "summary": "Screenshot should ideally be 750 × 1624 px",
+          "summary": "Image size should ideally be 750 × 1624 px",
           "detail": "the SVG pattern is sized to this resolution. Other resolutions will be stretched or compressed."
+        },
+        {
+          "id": "the-exported-name-is-iphonemockup",
+          "summary": "The exported name is IPhoneMockup (capital P), not IphoneMockup",
+          "detail": "the import destructure and JSX tag must use `IPhoneMockup`; `IphoneMockup` (lowercase 'p') does not exist as an export and causes a missing-component error.",
+          "antiPatterns": [
+            "import { IphoneMockup } from '@tale-ui/react/iphone-mockup';"
+          ],
+          "fixes": [
+            "import { IPhoneMockup } from '@tale-ui/react/iphone-mockup';"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -4971,7 +5285,30 @@
         "tale-multi-select__value--placeholder",
         "tale-multi-select__value--selected"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "textvalue-required-for-search",
+          "summary": "textValue is required on items when search is enabled",
+          "detail": "the React Aria `Autocomplete` component uses `textValue` to filter items. Without it, the search won't filter items correctly."
+        },
+        {
+          "id": "selection-type",
+          "summary": "Never import Selection from react-aria-components for MultiSelect state — derive the type from the component's props",
+          "detail": "`react-aria-components` is not available in consumer projects; importing from it causes \"Cannot find module\" TypeScript errors. Derive the selection type from `MultiSelect.Root` props instead.",
+          "antiPatterns": [
+            "import type { Selection } from 'react-aria-components';"
+          ],
+          "fixes": [
+            "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>>[0];",
+            "const [selected, setSelected] = React.useState<SelectionValue>(new Set());"
+          ]
+        },
+        {
+          "id": "popover-width",
+          "summary": "The popover width matches the trigger width at open time",
+          "detail": "it is captured on trigger click using `getBoundingClientRect()`. If the trigger resizes after the popover opens, the widths may diverge."
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -5031,6 +5368,17 @@
           ],
           "fixes": [
             "import { NavigationMenu } from '@tale-ui/react/navigation-menu';"
+          ]
+        },
+        {
+          "id": "use-navigationmenu-for-any-prompt",
+          "summary": "Use <NavigationMenu> for any prompt that asks for a site navigation bar or a list of nav links — never substitute HeaderNav",
+          "detail": "when the request is to show a navigation bar with page links (e.g. Home, Products, About), render `NavigationMenu.Root` with `NavigationMenu.List`, `NavigationMenu.Item`, and `NavigationMenu.Link` instead of leaving the file empty or using `HeaderNav`. `HeaderNav` is an app-shell header component, not a semantic site navigation menu.",
+          "antiPatterns": [
+            "import { HeaderNav } from '@tale-ui/react/header-nav'; <HeaderNav.Root><HeaderNav.Secondary><HeaderNav.NavButton href=\"/\">Home</HeaderNav.NavButton></HeaderNav.Secondary></HeaderNav.Root>"
+          ],
+          "fixes": [
+            "import { NavigationMenu } from '@tale-ui/react/navigation-menu'; <NavigationMenu.Root><NavigationMenu.List><NavigationMenu.Item><NavigationMenu.Link href=\"/\">Home</NavigationMenu.Link></NavigationMenu.Item></NavigationMenu.List></NavigationMenu.Root>"
           ]
         }
       ],
@@ -5886,6 +6234,17 @@
           "fixes": [
             "<Radio.Group value={selected} onChange={setSelected}><Radio.Root value=\"a\">...</Radio.Root></Radio.Group>"
           ]
+        },
+        {
+          "id": "for-any-radio-group-prompt",
+          "summary": "For any radio group prompt, wrap Radio items in RadioGroup from @tale-ui/react/radio-group — do not use only Radio.Group",
+          "detail": "when a prompt asks for a radio group, both `Radio` (from `@tale-ui/react/radio`) and `RadioGroup` (from `@tale-ui/react/radio-group`) must appear in the code; using `Radio.Group` alone omits the required `RadioGroup` component.",
+          "antiPatterns": [
+            "import { Radio } from '@tale-ui/react/radio'; ... <Radio.Group label=\"Plan\"><Radio.Root value=\"free\"><Radio.Indicator />Free</Radio.Root></Radio.Group>"
+          ],
+          "fixes": [
+            "import { RadioGroup } from '@tale-ui/react/radio-group'; import { Radio } from '@tale-ui/react/radio'; ... <RadioGroup label=\"Plan\"><Radio.Root value=\"free\"><Radio.Indicator />Free</Radio.Root></RadioGroup>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -5914,7 +6273,7 @@
             "<RadioGroup.Item value=\"a\">...</RadioGroup.Item>"
           ],
           "fixes": [
-            "<Radio.Group label=\"...\"><Radio.Root value=\"a\">...</Radio.Root></Radio.Group>"
+            "<RadioGroup label=\"...\"><Radio.Root value=\"a\"><Radio.Indicator />Option</Radio.Root></RadioGroup>"
           ],
           "completeExample": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { Radio } from '@tale-ui/react/radio';\n\nexport function Example() {\n  return (\n    <RadioGroup label=\"Favorite color\">\n      <Radio.Root value=\"red\">\n        <Radio.Indicator />\n        Red\n      </Radio.Root>\n      <Radio.Root value=\"blue\">\n        <Radio.Indicator />\n        Blue\n      </Radio.Root>\n    </RadioGroup>\n  );\n}"
         }
@@ -6365,8 +6724,8 @@
       "pitfalls": [
         {
           "id": "section-divider-not-separator",
-          "summary": "SectionDivider is for page-level section breaks",
-          "detail": "for UI dividers inside components (menus, cards, lists) use `Separator` instead.",
+          "summary": "Use Separator not SectionDivider for in-component dividers",
+          "detail": "`SectionDivider` is for page-level section breaks only. For UI dividers inside components (menus, cards, lists) use `Separator` instead.",
           "antiPatterns": [
             "<Menu><SectionDivider /></Menu>"
           ],
@@ -6848,6 +7207,17 @@
           "fixes": [
             "import { SocialButton } from '@tale-ui/react/social-button'; export function SignInWithGoogle() { return <SocialButton provider=\"google\">Sign in with Google</SocialButton>; }"
           ]
+        },
+        {
+          "id": "socialbutton-size-sm-md-only",
+          "summary": "size only accepts 'sm' or 'md' — 'lg' does not exist",
+          "detail": "passing `size=\"lg\"` causes `Type '\"lg\"' is not assignable to type 'Size | undefined'`. When the prompt does not request a specific size, omit the prop and use the default.",
+          "antiPatterns": [
+            "<SocialButton provider=\"google\" size=\"lg\">Sign in with Google</SocialButton>"
+          ],
+          "fixes": [
+            "<SocialButton provider=\"google\">Sign in with Google</SocialButton>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -6946,6 +7316,18 @@
             "<Row gap=\"s\" style={{ alignItems: 'center' }}><Spinner label=\"Loading data...\" /><Text>Loading data...</Text></Row>"
           ],
           "completeExample": "import { Spinner } from '@tale-ui/react/spinner';\n\nexport function Example() {\n  return (\n    <>\n      <Spinner />\n      <Spinner variant=\"dots\" size=\"lg\" />\n      <Spinner variant=\"line\" label=\"Saving…\" />\n    </>\n  );\n}"
+        },
+        {
+          "id": "use-spinner-for-any-prompt",
+          "summary": "Use Spinner for any prompt that asks for a loading spinner, loading indicator, or loading state",
+          "detail": "when the request is specifically for a spinner, render the Spinner component itself instead of leaving the file empty, returning `null`, or substituting another progress component. If the prompt includes visible label text, compose `Spinner` with `Text` in a `Row` and pass the same string to the `label` prop for accessibility.",
+          "antiPatterns": [
+            "// empty file",
+            "export function LoadingState() { return null; }"
+          ],
+          "fixes": [
+            "import { Row } from '@tale-ui/react/row'; import { Spinner } from '@tale-ui/react/spinner'; import { Text } from '@tale-ui/react/text'; export function LoadingState() { return <Row gap=\"s\" style={{ alignItems: 'center' }}><Spinner label=\"Loading data...\" /><Text>Loading data...</Text></Row>; }"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -7545,13 +7927,17 @@
         },
         {
           "id": "text-no-invalid-variants",
-          "summary": "No 'link', 'code', or 'caption' variant",
-          "detail": "valid values are `'display'`, `'heading'`, `'title'`, `'label'`, `'text'`, `'mono'`.",
+          "summary": "variant+size compound strings like 'heading-m' or 'body-m' are not valid — always pass them as two separate props",
+          "detail": "compound strings fail TypeScript; there is also no `'body'` variant, use `variant=\"text\"` for body copy. When generating heading+body content-section pairs, also use `color=\"muted\"` (not `color=\"secondary\"`) for supporting text.",
           "antiPatterns": [
-            "<Text variant=\"caption\">Fine print</Text>"
+            "<Text variant=\"heading-m\">Title</Text>",
+            "<Text variant=\"body-m\">Description</Text>",
+            "<Text variant=\"body-m\" color=\"secondary\">Description</Text>"
           ],
           "fixes": [
-            "<Text variant=\"label\">Fine print</Text>"
+            "<Text variant=\"heading\">Title</Text>",
+            "<Text variant=\"text\" size=\"m\">Description</Text>",
+            "<Text variant=\"text\" size=\"m\" color=\"muted\">Description</Text>"
           ]
         },
         {
@@ -7568,12 +7954,14 @@
         {
           "id": "text-as-prop-valid-elements",
           "summary": "as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'",
-          "detail": "not `'strong'`, `'code'`, `'pre'`, or other elements.",
+          "detail": "not `'strong'`, `'code'`, `'pre'`, `'kbd'`, or other elements. For keyboard shortcut markup use a native `<kbd>` HTML element directly.",
           "antiPatterns": [
-            "<Text as=\"strong\">Bold</Text>"
+            "<Text as=\"strong\">Bold</Text>",
+            "<Text as=\"kbd\">⌘ S</Text>"
           ],
           "fixes": [
-            "<Text variant=\"label\">Bold</Text>"
+            "<Text variant=\"label\">Bold</Text>",
+            "<kbd>⌘ S</kbd>"
           ]
         },
         {
@@ -7614,13 +8002,49 @@
         {
           "id": "color-only-accepts-default-muted",
           "summary": "color only accepts 'default', 'muted', 'accent'",
-          "detail": "no other color values are valid. Common wrong values from other design systems include 'secondary', 'neutral', 'gray', and 'dim'; all map to 'muted'.",
+          "detail": "no other color values are valid. Common wrong values include 'secondary', 'neutral', 'gray', 'dim', and status tokens like 'success', 'error', 'warning' (which are valid on DotIcon/Badge but not on Text); all map to 'muted'.",
           "antiPatterns": [
             "<Text color=\"neutral\">Note</Text>",
-            "<Text color=\"secondary\">Note</Text>"
+            "<Text color=\"secondary\">Note</Text>",
+            "<Text color=\"success\">Online</Text>"
           ],
           "fixes": [
             "<Text color=\"muted\">Note</Text>"
+          ]
+        },
+        {
+          "id": "no-link-code-or-caption",
+          "summary": "No 'link', 'code', or 'caption' variant",
+          "detail": "valid values are `'display'`, `'heading'`, `'title'`, `'label'`, `'text'`, `'mono'`.",
+          "antiPatterns": [
+            "<Text variant=\"caption\">Fine print</Text>"
+          ],
+          "fixes": [
+            "<Text variant=\"label\">Fine print</Text>"
+          ]
+        },
+        {
+          "id": "never-apply-nonlayout-inline-styles",
+          "summary": "Never apply non-layout inline styles (fontWeight, fontSize, textDecoration, fontStyle) to Text",
+          "detail": "use `variant` and `size` props for typography control; for bold labels inside buttons or icon-only toggles, use a plain text node rather than a `<Text>` wrapper with `style={{ fontWeight: ... }}`.",
+          "antiPatterns": [
+            "<Text as=\"span\" style={{ fontWeight: 700 }}>B</Text>"
+          ],
+          "fixes": [
+            "B"
+          ]
+        },
+        {
+          "id": "text-has-no-weight-prop",
+          "summary": "Text has no weight prop — use variant=\"label\" for label-weight text",
+          "detail": "there is no `weight` prop on `Text`; passing `weight=\"medium\"` or any weight string causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. To render bold or label-weight text use `variant=\"label\"`.",
+          "antiPatterns": [
+            "<Text weight=\"medium\">Plan Name</Text>",
+            "<Text size=\"m\" weight=\"medium\">Plan Name</Text>"
+          ],
+          "fixes": [
+            "<Text variant=\"label\">Plan Name</Text>",
+            "<Text size=\"m\" variant=\"label\">Plan Name</Text>"
           ]
         }
       ],
@@ -7798,7 +8222,19 @@
         "tale-text-editor__toolbar--advanced",
         "tale-text-editor__toolbar--floating"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "texteditorroot-does-not-accept-label",
+          "summary": "TextEditor.Root does not accept label or maxLength props",
+          "detail": "`label` and `maxLength` are not valid on `TextEditor.Root`; use `TextEditor.Label` for the visible label and place `maxLength` on `TextEditor.Content`.",
+          "antiPatterns": [
+            "<TextEditor.Root label=\"Content\" maxLength={300}>"
+          ],
+          "fixes": [
+            "<TextEditor.Root><TextEditor.Label>Content</TextEditor.Label><TextEditor.Toolbar /><TextEditor.Content maxLength={300} /></TextEditor.Root>"
+          ]
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -8042,6 +8478,17 @@
           "id": "toggle-group-requires-aria-label",
           "summary": "Requires aria-label or aria-labelledby",
           "detail": "React Aria logs a console warning at runtime if neither is provided."
+        },
+        {
+          "id": "use-togglebuttongroup-for-any-prompt",
+          "summary": "Use <ToggleButtonGroup> for any prompt that asks for a toggle button group, segmented alignment control, or mutually exclusive option set",
+          "detail": "when the request is for grouped toggles such as text alignment (Left / Center / Right), view mode switchers, or any set of options where one or more can be selected, render `ToggleButtonGroup` (from `@tale-ui/react/toggle-group`) wrapping individual `ToggleButton` children instead of leaving the file empty or substituting a different component. Always pass `aria-label` and `selectionMode`.",
+          "antiPatterns": [
+            "// empty file"
+          ],
+          "fixes": [
+            "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group'; import { ToggleButton } from '@tale-ui/react/toggle-button'; export function TextAlignmentGroup() { return <ToggleButtonGroup aria-label=\"Text alignment\" selectionMode=\"single\"><ToggleButton>Left</ToggleButton><ToggleButton>Center</ToggleButton><ToggleButton>Right</ToggleButton></ToggleButtonGroup>; }"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -8356,7 +8803,19 @@
         "tale-video-player__volume",
         "tale-video-player__volume-slider"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "videoplayerroot-does-not-accept-a",
+          "summary": "VideoPlayer.Root does NOT accept a style prop — wrap it in a layout element to control width or maxWidth",
+          "detail": "`VideoPlayer.Root` only supports its documented component props plus `className`; passing inline layout styles directly to it causes a TypeScript error because `style` is not part of `VideoPlayerProps`.",
+          "antiPatterns": [
+            "<VideoPlayer.Root src=\"/demo.mp4\" size=\"md\" thumbnailUrl=\"/thumb.jpg\" thumbnailAlt=\"Product demo\" style={{ width: '64rem', maxWidth: '100%' }} />"
+          ],
+          "fixes": [
+            "<div style={{ width: '64rem', maxWidth: '100%' }}><VideoPlayer.Root src=\"/demo.mp4\" size=\"md\" thumbnailUrl=\"/thumb.jpg\" thumbnailAlt=\"Product demo\" /></div>"
+          ]
+        }
+      ],
       "crossPitfallRefs": null
     }
   ]

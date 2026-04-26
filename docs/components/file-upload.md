@@ -186,3 +186,26 @@ import { FileIcon } from '@untitledui/file-icons';
 - Requires `motion` to be installed: `npm install motion`
 - `FileUpload.List` uses `AnimatePresence` from `motion/react` — list items animate in/out automatically.
 - `getReadableFileSize` is also available as a named export: `import { getReadableFileSize } from '@tale-ui/react/file-upload'`.
+
+## Pitfalls
+
+<!-- pitfall: use-fileuploaddropzone-capital-z-not -->
+- **Use FileUpload.DropZone (capital Z), not FileUpload.Dropzone** — the sub-part uses PascalCase with a capital Z; the lowercase form causes 'Property does not exist' TypeScript errors.
+  - anti-pattern: `<FileUpload.Dropzone />`
+  - fix: `<FileUpload.DropZone />`
+<!-- pitfall: fileupload-props-on-dropzone-not-root -->
+- **All upload config props (accept, maxSize, allowsMultiple, onDropFiles) belong on FileUpload.DropZone, not FileUpload.Root** — `FileUpload.Root` is a plain `<div>` wrapper with no file-upload-specific props; passing any of these there causes `is not assignable to type 'IntrinsicAttributes & RootProps'` TypeScript errors. Every configuration prop lives on `FileUpload.DropZone`.
+  - anti-pattern: `<FileUpload.Root accept="image/*" maxSize={5 * 1024 * 1024}>`
+  - anti-pattern: `<FileUpload.Root allowsMultiple>`
+  - fix: `<FileUpload.Root><FileUpload.DropZone accept="image/*" maxSize={5 * 1024 * 1024} /></FileUpload.Root>`
+  - fix: `<FileUpload.Root><FileUpload.DropZone accept="image/*,application/pdf" maxSize={5 * 1024 * 1024} allowsMultiple /></FileUpload.Root>`
+<!-- pitfall: fileuploaddropzone-accept-takes-string -->
+- **`FileUpload.DropZone` `accept` takes a comma-separated string, not an array** — passing `accept={['image/*', 'application/pdf']}` causes `Type 'string[]' is not assignable to type 'string'`; use a plain comma-separated string matching the HTML `accept` attribute format instead.
+  - anti-pattern: `<FileUpload.DropZone accept={['image/*', 'application/pdf']} />`
+  - fix: `<FileUpload.DropZone accept="image/*,application/pdf" />`
+<!-- pitfall: use-fileupload-for-any-prompt -->
+- **Use `FileUpload` for any prompt that asks for a file upload area, dropzone uploader, or uploaded-file list with progress** — when the request is to accept files and show uploaded items, render `FileUpload.Root` with `FileUpload.DropZone` and `FileUpload.List`, and use `FileUpload.ListItemProgressBar` or `FileUpload.ListItemProgressFill` for each file instead of leaving the file empty or substituting `DropZone` or `FileTrigger` alone.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `import { DropZone } from '@tale-ui/react/drop-zone'; export function UploadArea() { return <DropZone />; }`
+  - fix: `import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept="image/*,.pdf" maxSize={5 * 1024 * 1024} /><FileUpload.List><FileUpload.ListItemProgressBar name="photo.png" size={1200000} progress={60} /></FileUpload.List></FileUpload.Root>; }`
+

@@ -121,9 +121,13 @@ function NavWithDropdown() {
     ```
 
 <!-- pitfall: navigation-menu-no-nav-component -->
-- **No standalone `Nav` component in Tale UI** — use `NavigationMenu.Root` as the `<nav>` wrapper.
+- **No standalone Nav component in Tale UI** — use `NavigationMenu.Root` as the `<nav>` wrapper.
   - anti-pattern: `import { Nav } from '@tale-ui/react/nav';`
   - fix: `import { NavigationMenu } from '@tale-ui/react/navigation-menu';`
+<!-- pitfall: use-navigationmenu-for-any-prompt -->
+- **Use <NavigationMenu> for any prompt that asks for a site navigation bar or a list of nav links — never substitute HeaderNav** — when the request is to show a navigation bar with page links (e.g. Home, Products, About), render `NavigationMenu.Root` with `NavigationMenu.List`, `NavigationMenu.Item`, and `NavigationMenu.Link` instead of leaving the file empty or using `HeaderNav`. `HeaderNav` is an app-shell header component, not a semantic site navigation menu.
+  - anti-pattern: `import { HeaderNav } from '@tale-ui/react/header-nav'; <HeaderNav.Root><HeaderNav.Secondary><HeaderNav.NavButton href="/">Home</HeaderNav.NavButton></HeaderNav.Secondary></HeaderNav.Root>`
+  - fix: `import { NavigationMenu } from '@tale-ui/react/navigation-menu'; <NavigationMenu.Root><NavigationMenu.List><NavigationMenu.Item><NavigationMenu.Link href="/">Home</NavigationMenu.Link></NavigationMenu.Item></NavigationMenu.List></NavigationMenu.Root>`
 
 ## Notes
 

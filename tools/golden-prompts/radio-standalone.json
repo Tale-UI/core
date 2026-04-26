@@ -1,0 +1,7 @@
+{
+  "slug": "radio-standalone",
+  "difficulty": "simple",
+  "prompt": "Show a radio group labeled 'Subscription plan' with three options: Free, Pro, and Enterprise.",
+  "reference": "import { Radio } from '@tale-ui/react/radio';\n\nexport function Example() {\n  return (\n    <Radio.Group label=\"Subscription plan\">\n      <Radio.Root value=\"free\">\n        <Radio.Indicator />\n        Free\n      </Radio.Root>\n      <Radio.Root value=\"pro\">\n        <Radio.Indicator />\n        Pro\n      </Radio.Root>\n      <Radio.Root value=\"enterprise\">\n        <Radio.Indicator />\n        Enterprise\n      </Radio.Root>\n    </Radio.Group>\n  );\n}",
+  "tags": ["Radio"]
+}

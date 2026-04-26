@@ -115,6 +115,11 @@ import { Star, Heart, Bell } from 'lucide-react';
   - anti-pattern: `<Column gap="md"><GridList.Root aria-label="Items" selectionMode="multiple">...</GridList.Root></Column>`
   - fix: `<Column gap="m"><GridList.Root aria-label="Items" selectionMode="multiple">...</GridList.Root></Column>`
 
+<!-- pitfall: grid-list-root-layout-only-style -->
+- **Never apply non-layout inline styles (listStyle, padding, margin) to GridList.Root** — `GridList.Root` resets list chrome (listStyle, padding, margin) internally; passing them via `style` is redundant and triggers a validation error. Only layout properties (`display`, `gridTemplateColumns`, `gap`) belong on the `style` prop.
+  - anti-pattern: `<GridList.Root style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)', listStyle: 'none', padding: 0, margin: 0 }}>`
+  - fix: `<GridList.Root style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}>`
+
 ## Notes
 
 - `selectionMode` can be `"none"`, `"single"`, or `"multiple"`.

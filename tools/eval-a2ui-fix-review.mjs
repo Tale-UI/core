@@ -51,6 +51,7 @@ const NO_FIX = hasFlag('--no-fix');
 const NO_CACHE = hasFlag('--no-cache');
 const FRESH = hasFlag('--fresh');
 const UNTIL_PASS = hasFlag('--until-pass');
+const EVAL_CONCURRENCY = parseInt(getArg('--concurrency') ?? '5', 10);
 const MAX_ITER = UNTIL_PASS
   ? (getArg('--max-iter') ? parseInt(getArg('--max-iter'), 10) : Infinity)
   : parseInt(getArg('--max-iter') ?? '3', 10);
@@ -108,6 +109,7 @@ function runEval(slugs = null) {
   const extraArgs = [];
   extraArgs.push('--model', MODEL);
   extraArgs.push('--provider', rawProvider);
+  extraArgs.push('--concurrency', String(EVAL_CONCURRENCY));
   if (PROVIDER === 'local') extraArgs.push('--local-url', LOCAL_URL);
   if (FILTER_DIFFICULTY) extraArgs.push('--difficulty', FILTER_DIFFICULTY);
   if (slugs?.length) extraArgs.push('--slugs', slugs.join(','));
@@ -313,6 +315,58 @@ function applyFix(fix) {
   return true;
 }
 
+/* ─── Per-prompt fix helper ───────────────────────────────────────────────── */
+
+async function fixFailingPrompt(failure, promptMap) {
+  console.log(`\n  Diagnosing: ${failure.slug}`);
+  let current = failure;
+  let passed = false;
+  const failedOlds = [];
+
+  for (let attempt = 1; attempt <= MAX_ITER; attempt++) {
+    const attemptLabel = isFinite(MAX_ITER) ? `${attempt}/${MAX_ITER}` : `${attempt}`;
+    try {
+      const fix = await getFix(current, failedOlds);
+      console.log(`    [${attemptLabel}] Diagnosis: ${fix.diagnosis}`);
+
+      if (fix.fixable === false) {
+        console.log(`    [${attemptLabel}] Non-determinism — skipping (not fixable in system prompt)`);
+        break;
+      }
+
+      const applied = applyFix(fix);
+      if (!applied) {
+        if (fix.old) failedOlds.push(fix.old);
+        console.log(`    [${attemptLabel}] Fix string not found — retrying with context`);
+        continue;
+      }
+
+      console.log(`    [${attemptLabel}] Fix applied — re-evaluating...`);
+      const reEval = runEval([current.slug]);
+      const reResult = { ...reEval.results[0], prompt: promptMap.get(current.slug)?.prompt ?? '' };
+
+      if (reResult.allPass) {
+        console.log(`    [${attemptLabel}] ✓ Passing`);
+        passed = true;
+        break;
+      }
+
+      const checks = `L1=${reResult.l1.pass ? '✓' : '✗'} L2=${reResult.l2.pass ? '✓' : '✗'} L3=${reResult.l3.pass ? '✓' : '✗'}`;
+      console.log(`    [${attemptLabel}] ✗ Still failing: ${checks}`);
+      current = reResult;
+      failedOlds.length = 0;
+    } catch (err) {
+      if (err instanceof SyntaxError) {
+        console.log(`    [${attemptLabel}] ⚠ Malformed JSON response — retrying`);
+        continue;
+      }
+      console.log(`    [${attemptLabel}] ⚠ Could not get fix: ${err.message}`);
+      break;
+    }
+  }
+  return { passed, final: current };
+}
+
 /* ─── Main ────────────────────────────────────────────────────────────────── */
 
 async function main() {
@@ -320,11 +374,7 @@ async function main() {
   const providerLabel = FIX_PROVIDER !== PROVIDER ? `${rawProvider} / fix: ${rawFixProvider}` : rawProvider;
   console.log(`\n=== A2UI Eval → Fix (${modelLabel}, ${providerLabel}) ===\n`);
 
-  /* ── Step 1: Initial eval ── */
-  console.log('Step 1/2  Running initial A2UI eval...');
-  let evalResult = runEval();
-
-  // Load prompt text for fix loop
+  /* ── Build prompt map ── */
   const { readdirSync } = await import('fs');
   const promptMap = new Map(
     readdirSync(GOLDEN_DIR)
@@ -335,88 +385,60 @@ async function main() {
       })
   );
 
-  let results = evalResult.results.map(r => ({
-    ...r,
-    prompt: promptMap.get(r.slug)?.prompt ?? '',
-  }));
+  const allSlugs = [...promptMap.keys()]
+    .filter(s => !FILTER_DIFFICULTY || promptMap.get(s).difficulty === FILTER_DIFFICULTY);
 
-  let failing = results.filter(r => !r.allPass);
-  const initialPassCount = results.length - failing.length;
-  console.log(`  ${initialPassCount}/${results.length} passed initially. ${failing.length} to fix.\n`);
+  const chunkSize = Math.max(EVAL_CONCURRENCY, 1);
+  const totalChunks = Math.ceil(allSlugs.length / chunkSize);
+  const attemptsLabel = NO_FIX
+    ? 'eval only'
+    : UNTIL_PASS
+    ? 'fix: unlimited attempts per prompt'
+    : `fix: max ${MAX_ITER} attempts per prompt`;
+  console.log(
+    `Steps 1–2/2  Streaming eval + fix — ${totalChunks} chunk(s) of ≤${chunkSize} (${attemptsLabel})...`,
+  );
 
-  /* ── Step 2: Fix loop ── */
-  if (!NO_FIX && failing.length > 0) {
-    const attemptsLabel = UNTIL_PASS ? 'unlimited' : `max ${MAX_ITER} attempts per prompt`;
-    console.log(`Step 2/2  Fix loop (${attemptsLabel})...`);
+  let totalInitialPassCount = 0;
+  let totalInitialFailCount = 0;
+  const stillFailing = [];
 
-    const stillFailing = [];
-    for (const failure of failing) {
-      console.log(`\n  Diagnosing: ${failure.slug}`);
-      let current = failure;
-      let passed = false;
-      const failedOlds = [];
+  for (let i = 0; i < allSlugs.length; i += chunkSize) {
+    const chunk = allSlugs.slice(i, i + chunkSize);
+    const chunkNum = Math.floor(i / chunkSize) + 1;
+    console.log(`\n  [Chunk ${chunkNum}/${totalChunks}]  Evaluating: ${chunk.join(', ')}`);
 
-      for (let attempt = 1; attempt <= MAX_ITER; attempt++) {
-        const attemptLabel = isFinite(MAX_ITER) ? `${attempt}/${MAX_ITER}` : `${attempt}`;
-        try {
-          const fix = await getFix(current, failedOlds);
-          console.log(`    [${attemptLabel}] Diagnosis: ${fix.diagnosis}`);
+    const evalResult = runEval(chunk);
+    const annotated = evalResult.results.map(r => ({
+      ...r,
+      prompt: promptMap.get(r.slug)?.prompt ?? '',
+    }));
 
-          if (fix.fixable === false) {
-            console.log(`    [${attemptLabel}] Non-determinism — skipping (not fixable in system prompt)`);
-            break;
-          }
-
-          const applied = applyFix(fix);
-          if (!applied) {
-            if (fix.old) failedOlds.push(fix.old);
-            console.log(`    [${attemptLabel}] Fix string not found — retrying with context`);
-            continue;
-          }
-
-          console.log(`    [${attemptLabel}] Fix applied — re-evaluating...`);
-          const reEval = runEval([current.slug]);
-          const reResult = { ...reEval.results[0], prompt: promptMap.get(current.slug)?.prompt ?? '' };
-
-          if (reResult.allPass) {
-            console.log(`    [${attemptLabel}] ✓ Passing`);
-            passed = true;
-            break;
-          }
-
-          const checks = `L1=${reResult.l1.pass ? '✓' : '✗'} L2=${reResult.l2.pass ? '✓' : '✗'} L3=${reResult.l3.pass ? '✓' : '✗'}`;
-          console.log(`    [${attemptLabel}] ✗ Still failing: ${checks}`);
-          current = reResult;
-          failedOlds.length = 0;
-        } catch (err) {
-          if (err instanceof SyntaxError) {
-            console.log(`    [${attemptLabel}] ⚠ Malformed JSON response — retrying`);
-            continue;
-          }
-          console.log(`    [${attemptLabel}] ⚠ Could not get fix: ${err.message}`);
-          break;
+    for (const r of annotated) {
+      if (r.allPass) {
+        totalInitialPassCount++;
+      } else {
+        totalInitialFailCount++;
+        if (NO_FIX) {
+          stillFailing.push(r);
+        } else {
+          const { passed, final } = await fixFailingPrompt(r, promptMap);
+          if (!passed) stillFailing.push(final);
         }
       }
-
-      if (!passed) stillFailing.push(current);
     }
-
-    const fixed = failing.length - stillFailing.length;
-    console.log(`\n  Fixed ${fixed}/${failing.length} prompts. ${stillFailing.length} still failing.`);
-    failing = stillFailing;
-  } else if (NO_FIX) {
-    console.log('Step 2/2  Fix loop skipped (--no-fix).');
-  } else {
-    console.log('Step 2/2  No failures — fix loop not needed.');
   }
+
+  const totalEvaluated = totalInitialPassCount + totalInitialFailCount;
+  const fixedCount = totalInitialFailCount - stillFailing.length;
+  const failing = stillFailing;
 
   /* ── Summary ── */
   console.log('\n' + '─'.repeat(52));
-  console.log(`  Initial:   ${initialPassCount}/${results.length} passed`);
+  console.log(`  Initial:   ${totalInitialPassCount}/${totalEvaluated} passed`);
   if (!NO_FIX) {
-    const finalPassCount = results.length - failing.length;
-    console.log(`  After fix: ${finalPassCount}/${results.length} passed`);
-    console.log(`  Fixed:     ${initialPassCount < finalPassCount ? finalPassCount - initialPassCount : 0} prompts`);
+    console.log(`  After fix: ${totalEvaluated - failing.length}/${totalEvaluated} passed`);
+    console.log(`  Fixed:     ${fixedCount} prompts`);
   }
 
   if (failing.length > 0) {
@@ -427,7 +449,7 @@ async function main() {
     }
   }
 
-  if (!NO_FIX && failing.length < results.filter(r => !r.allPass).length) {
+  if (!NO_FIX && fixedCount > 0) {
     console.log(`\nSystem prompt was patched. Review changes:`);
     console.log(`  git diff packages/a2ui/src/agent/system-prompt.md`);
     console.log(`\nRegenerate dependent docs after reviewing:`);

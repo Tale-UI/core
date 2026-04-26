@@ -231,8 +231,9 @@ explicit BEM class names:
 <!-- pitfall: toggle-button-group-import-path -->
 <!-- applies-to: ToggleButtonGroup -->
 <!-- category: imports -->
-- **`ToggleButtonGroup` is exported from `@tale-ui/react/toggle-button`, not `@tale-ui/react/toggle-button-group`** — there is no `toggle-button-group` module; importing from it causes "Cannot find module" TypeScript errors. Also valid: `@tale-ui/react/toggle-group`.
+- **ToggleButtonGroup is exported from @tale-ui/react/toggle-group — never import from @tale-ui/react/toggle-button-group** — there is no `toggle-button-group` module; importing from it causes "Cannot find module" TypeScript errors. Also valid: `@tale-ui/react/toggle-button`.
   - anti-pattern: `import { ToggleButtonGroup } from '@tale-ui/react/toggle-button-group';`
+  - fix: `import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';`
   - fix: `import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';`
 
 <!-- pitfall: textarea-hyphenated-path -->
@@ -245,11 +246,59 @@ explicit BEM class names:
 <!-- pitfall: no-label-component -->
 <!-- applies-to: SelectNative -->
 <!-- category: imports -->
-- **There is no `@tale-ui/react/label` module or `Label` component** — use a native `<label htmlFor="...">` HTML element instead.
+- **There is no @tale-ui/react/label module or Label component** — use a native `<label htmlFor="...">` HTML element instead.
   - anti-pattern: `import { Label } from '@tale-ui/react/label';`
   - fix: `<label htmlFor="country">Country</label>`
 
 ---
+<!-- pitfall: never-import-key-from-reactariacomponents -->
+<!-- applies-to: * -->
+<!-- category: imports -->
+- **Never import Key from react-aria-components for selection state — derive the type from the component's props** — `react-aria-components` is not available in consumer projects; importing from it causes "Cannot find module" TypeScript errors. Derive the key type from the component's `onSelectionChange` prop using `React.ComponentProps` instead.
+  - anti-pattern: `import type { Key } from 'react-aria-components';`
+  - fix: `type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];`
+  - fix: `const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'bob']));`
+  - complete example:
+
+    ```tsx
+    import * as React from 'react';
+    import { TagSelect } from '@tale-ui/react/tag-select';
+
+    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];
+
+    const members = [
+      { id: 'alice', name: 'Alice Chen' },
+      { id: 'bob', name: 'Bob Martínez' },
+    ];
+
+    export function TeamMemberPicker() {
+      const [selected, setSelected] = React.useState<SelectionValue>(
+        new Set(['alice', 'bob'])
+      );
+      return (
+        <TagSelect.Root
+          label="Team members"
+          placeholder="Search members…"
+          description="Select everyone who should have access."
+          items={members}
+          selectedKeys={selected}
+          onSelectionChange={setSelected}
+        >
+          {(member) => (
+            <TagSelect.Item id={member.id} textValue={member.name}>
+              {member.name}
+            </TagSelect.Item>
+          )}
+        </TagSelect.Root>
+      );
+    }
+    ```
+<!-- pitfall: do-not-import-taleuichartsstyles-inside -->
+<!-- applies-to: * -->
+<!-- category: imports -->
+- **Do not import `@tale-ui/charts/styles` inside generated chart component snippets** — chart styling setup may be handled separately at the app level, and this CSS side-effect import can fail validation in standalone generated TSX because it is treated like an unresolved module import. For AI-generated examples, keep chart imports limited to the chart components themselves.
+  - anti-pattern: `import '@tale-ui/charts/styles';`
+  - fix: `import { ChartContainer } from '@tale-ui/charts';`
 
 ## Layout Patterns
 
@@ -271,14 +320,16 @@ explicit BEM class names:
 <!-- pitfall: row-column-gap-uses-token-scale -->
 <!-- applies-to: Row, Column -->
 <!-- category: layout -->
-- **Row/Column gap uses spacing token values ('xs', 's', 'm', 'l', 'xl', '2xl'), not component size names — this is the most common layout error** — `'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes a TypeScript error `Type '"md"' is not assignable to type 'Gap | undefined'`. Always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as `GridList.Item` or `Carousel.Item`, calendar wrappers, or any other slot.
+- **Row/Column gap uses spacing token values ('xs', 's', 'm', 'l', 'xl', '2xl'), not component size names — this is the most common layout error** — `'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes a TypeScript error `Type '"md"' is not assignable to type 'Gap | undefined'`. `'none'` is also not a valid Gap value — omit the `gap` prop entirely to produce no gap. Always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as `GridList.Item` or `Carousel.Item`, calendar wrappers, or any other slot.
   - anti-pattern: `<Row gap="sm">`
   - anti-pattern: `<Column gap="md">`
   - anti-pattern: `<Column gap="lg">`
+  - anti-pattern: `<Column gap="none">`
   - anti-pattern: `<Carousel.Item><Column gap="sm">...</Column></Carousel.Item>`
   - fix: `<Row gap="s">`
   - fix: `<Column gap="m">`
   - fix: `<Column gap="l">`
+  - fix: `<Column>`
   - fix: `<Carousel.Item><Column gap="s">...</Column></Carousel.Item>`
 
 <!-- pitfall: row-justify-shorthand -->
@@ -289,11 +340,10 @@ explicit BEM class names:
   - anti-pattern: `<Row justify="flex-end">`
   - fix: `<Row justify="between">`
   - fix: `<Row justify="end">`
-
 <!-- pitfall: row-no-css-flex-props -->
 <!-- applies-to: Row -->
 <!-- category: layout -->
-- **`Row` does not accept raw CSS flex properties like `alignItems`, `flexDirection`, or `flexWrap`** — passing these causes TypeScript errors. Use `style` for one-off overrides.
+- **Row does not accept raw CSS flex properties like alignItems, flexDirection, or flexWrap** — passing these causes TypeScript errors. Use `style` for one-off overrides.
   - anti-pattern: `<Row alignItems="center">`
   - fix: `<Row style={{ alignItems: 'center' }}>`
 
@@ -310,6 +360,26 @@ explicit BEM class names:
 - **Do not apply global styles to semantic HTML elements** — Tale UI components render `<section>`, `<header>`, `<button>`, etc. internally, so global CSS rules targeting those elements will leak into overlays and popovers.
 
 ---
+<!-- pitfall: when-a-prompt-asks-for -->
+<!-- applies-to: * -->
+<!-- category: layout -->
+- **When a prompt asks for stacked text-only content, use `Column` with `Text`** — when a prompt asks for a page title, section heading, and supporting paragraph, import both `Text` and `Column` and render the copy as `Text` children inside `Column`. Map the prompt directly: page title to `variant="display" as="h1"`, section heading to `variant="heading" as="h2"`, and supporting paragraph copy to `variant="text" as="p"` (use `color="muted"` when the copy is described as supporting or secondary). This makes the required components explicit and prevents blank outputs for simple typography prompts.
+  - anti-pattern: `export function PageIntro() {}`
+  - fix: `import { Column } from '@tale-ui/react/column'; import { Text } from '@tale-ui/react/text'; export function PageIntro() { return <Column gap="s"><Text variant="display" as="h1">Page title</Text><Text variant="heading" as="h2">Section heading</Text><Text variant="text" as="p" color="muted">Supporting description.</Text></Column>; }`
+<!-- pitfall: row-column-no-as-prop -->
+<!-- applies-to: * -->
+<!-- category: layout -->
+- **Row/Column do not accept an `as` prop — they always render as `<div>` elements** — passing `as="section"` or any other element name is not in `ColumnProps`/`RowProps` and causes `Type '{ as: string; ... }' is not assignable to type 'ColumnProps'`. To use a semantic wrapper element, place the native HTML element outside `Column` or `Row`.
+  - anti-pattern: `<Column gap="s" as="section">`
+  - fix: `<section><Column gap="s">`
+<!-- pitfall: column-and-row-align-prop -->
+<!-- applies-to: * -->
+<!-- category: layout -->
+- **`Column`/`Row` `align` uses shorthand tokens, not CSS flex values** — `'flex-start'` and `'flex-end'` are not valid `align` values; use `'start'`, `'end'`, `'center'`, `'stretch'`, or `'baseline'` instead. Omit the prop entirely to use the default alignment.
+  - anti-pattern: `<Column align="flex-start">`
+  - anti-pattern: `<Row align="flex-end">`
+  - fix: `<Column align="start">`
+  - fix: `<Row align="end">`
 
 ## Visual Exports
 
@@ -380,9 +450,11 @@ explicit BEM class names:
 <!-- pitfall: token-size-suffixes -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-- **Size token suffixes (`-s`, `-m`, `-l`) are CSS names — component size props use `'sm'`/`'md'`/`'lg'` without a dash** — the dash in `--space-s` is CSS token notation; prop value strings never start with a dash.
+- **Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash, EXCEPT `Text` which uses 'xs'/'s'/'m'/'l'** — the dash in `--space-s` is CSS token notation; prop value strings never start with a dash. `Text` is the only component whose `size` prop uses single-letter spacing-token values instead of the doubled component-size names; passing `size="sm"` to `Text` causes `Type '"sm"' is not assignable to type 'Size | undefined'`.
   - anti-pattern: `<Button size="-md">`
   - fix: `<Button size="md">`
+  - anti-pattern: `<Text size="sm">Online</Text>`
+  - fix: `<Text size="s">Online</Text>`
 
 <!-- pitfall: gap-max-is-2xl -->
 <!-- applies-to: Row, Column -->

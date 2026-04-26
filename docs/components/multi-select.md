@@ -215,10 +215,16 @@ function Example() {
 ## Pitfalls
 
 <!-- pitfall: textvalue-required-for-search -->
-**`textValue` is required on items when search is enabled.** The React Aria `Autocomplete` component uses `textValue` to filter items. Without it, the search won't filter items correctly.
+<!-- prose-only -->
+- **`textValue` is required on items when search is enabled** — the React Aria `Autocomplete` component uses `textValue` to filter items. Without it, the search won't filter items correctly.
 
 <!-- pitfall: selection-type -->
-**`selectedKeys` is a `Selection` type, not an array.** Import `Selection` from `'react-aria-components'` to type your state: `const [selected, setSelected] = React.useState<Selection>(new Set());`
+<!-- prose-only -->
+- **Never import Selection from react-aria-components for MultiSelect state — derive the type from the component's props** — `react-aria-components` is not available in consumer projects; importing from it causes "Cannot find module" TypeScript errors. Derive the selection type from `MultiSelect.Root` props instead.
+  - anti-pattern: `import type { Selection } from 'react-aria-components';`
+  - fix: `type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>>[0];`
+  - fix: `const [selected, setSelected] = React.useState<SelectionValue>(new Set());`
 
 <!-- pitfall: popover-width -->
-**The popover width matches the trigger width at open time.** It is captured on trigger click using `getBoundingClientRect()`. If the trigger resizes after the popover opens, the widths may diverge.
+<!-- prose-only -->
+- **The popover width matches the trigger width at open time** — it is captured on trigger click using `getBoundingClientRect()`. If the trigger resizes after the popover opens, the widths may diverge.

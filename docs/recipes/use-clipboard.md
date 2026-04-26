@@ -78,3 +78,11 @@ function CopyButton({ text }: { text: string }) {
 - `navigator.clipboard.writeText` requires a secure context (HTTPS or localhost).
 - The `execCommand('copy')` fallback works in older browsers but is deprecated.
 - The `copied` state auto-resets after `timeout` ms (default 2000).
+
+## Preview
+
+```tsx
+export function Example() {
+  return <CopyButton text="npm install @tale-ui/react" />;
+}
+```

@@ -93,3 +93,11 @@ export function BreadcrumbAccountDropdown({ page }: { page: string }) {
 - `aria-current="page"` goes on the last (current) breadcrumb item, not on the workspace switcher.
 - Keep the workspace list short (under 8 items). For teams with many workspaces, add a `SearchField` above the `Menu.MenuList`.
 - The `Check` icon with `marginInlineStart: 'auto'` is a right-aligned selection indicator — it shows which workspace is currently active without relying solely on color.
+
+## Preview
+
+```tsx
+export function Example() {
+  return <BreadcrumbAccountDropdown page="Overview" />;
+}
+```

@@ -62,3 +62,5 @@ None — Container renders a plain `<div>` with inline `--color-*` custom proper
 - `color="random"` computes a palette once on page load and reuses it for the session. A hard refresh generates a new random colour.
 - The override applies to all `--color-*` shades (5 through 100), so any component using `--color-*` tokens inside the Container will adopt the new palette.
 - `--brand-*` tokens are NOT affected — only `--color-*` tokens change.
+
+## Pitfalls

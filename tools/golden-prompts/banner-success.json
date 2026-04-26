@@ -1,0 +1,7 @@
+{
+  "slug": "banner-success",
+  "difficulty": "simple",
+  "prompt": "Show a success banner with the title 'Changes saved' and description 'Your profile has been updated successfully.'",
+  "reference": "import { Banner } from '@tale-ui/react/banner';\n\nexport function Example() {\n  return (\n    <Banner.Root variant=\"success\">\n      <Banner.Title>Changes saved</Banner.Title>\n      <Banner.Description>Your profile has been updated successfully.</Banner.Description>\n    </Banner.Root>\n  );\n}",
+  "tags": ["Banner"]
+}

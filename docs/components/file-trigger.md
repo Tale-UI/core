@@ -59,9 +59,13 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
     ```
 
 <!-- pitfall: file-trigger-onselect-nullable -->
-- **`onSelect` receives `FileList | null` — always null-check** — The callback may receive `null` (e.g. when the user cancels the dialog). Guard before accessing the list.
+- **onSelect receives FileList | null — always null-check** — The callback may receive `null` (e.g. when the user cancels the dialog). Guard before accessing the list.
   - anti-pattern: `onSelect={(list) => Array.from(list).map(...)}`
   - fix: `onSelect={(list) => { if (list) { Array.from(list).map(...) } }}`
+<!-- pitfall: when-displaying-the-selected-filename -->
+- **When displaying the selected filename with Text, use `color="muted"` — never `variant="body-m"` or `color="secondary"`** — `variant="body-m"` is a compound token string that does not exist as a `Variant`; `color="secondary"` is not a valid `Color` on `Text`. For supporting text such as a filename label, use `<Text color="muted">`.
+  - anti-pattern: `<Text variant="body-m" color="secondary">{fileName}</Text>`
+  - fix: `<Text color="muted">{fileName}</Text>`
 
 ## Notes
 

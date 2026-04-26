@@ -27,7 +27,7 @@ import { Separator } from '@tale-ui/react/separator';
 
 function SettingsPage() {
   return (
-    <Form.Root onSubmit={(e) => { e.preventDefault(); /* save settings */ }}>
+    <Form onSubmit={(e) => { e.preventDefault(); /* save settings */ }}>
       <h2>Settings</h2>
 
       <Fieldset.Root>
@@ -95,7 +95,7 @@ function SettingsPage() {
         <Button type="reset" variant="ghost">Cancel</Button>
         <Button type="submit" variant="primary">Save Changes</Button>
       </div>
-    </Form.Root>
+    </Form>
   );
 }
 ```

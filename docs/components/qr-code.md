@@ -82,3 +82,5 @@ import { QRCode } from '@tale-ui/react/qr-code';
 - Requires `qr-code-styling` to be installed: `npm install qr-code-styling`
 - The QR code SVG is rendered by appending to a DOM node via `qr-code-styling`; it updates automatically when `value` or `options` change.
 - `options.data` and `options.type` are overridden internally — use `value` and `size` instead.
+
+## Pitfalls

@@ -84,3 +84,5 @@ function Carousel() {
 - Inactive lines fire `onPageChange` on click; the current line has `pointer-events: none` and cannot be re-clicked.
 - For standalone line sub-parts (manually controlled per-slide), see `Pagination.Line` in `@tale-ui/react/pagination`.
 - The `framed` variant uses `backdrop-filter: blur(8px)` — ensure a modern browser target or add a fallback.
+
+## Pitfalls

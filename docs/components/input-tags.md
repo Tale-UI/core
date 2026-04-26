@@ -174,10 +174,20 @@ function ControlledExample() {
 ## Pitfalls
 
 <!-- pitfall: keyboard-nav-inline-only -->
-**Backspace/ArrowLeft navigate to tags only in inline mode.** In `tagPlacement="below"` mode, pressing Backspace when the input is empty does not focus the last tag.
+<!-- prose-only -->
+- **Backspace/ArrowLeft keyboard navigation applies to inline mode only** — in `tagPlacement="below"` mode, pressing Backspace when the input is empty does not focus the last tag.
 
 <!-- pitfall: no-form-field-context -->
-**InputTags does not integrate with React Aria form contexts.** It renders a plain `<div>` container. For form validation, use the `isInvalid`/`errorMessage` props directly rather than wrapping in a `Field`.
+<!-- prose-only -->
+- **`InputTags` does not integrate with React Aria form contexts** — it renders a plain `<div>` container. For form validation, use the `isInvalid`/`errorMessage` props directly rather than wrapping in a `Field`.
 
 <!-- pitfall: controlled-value-identity -->
-**In controlled mode, pass a stable array reference when the value hasn't changed.** The ID reconciliation logic uses reference equality (`===`) to skip re-reconciliation. Creating a new array on every render forces re-reconciliation on every render (though it remains functionally correct).
+<!-- prose-only -->
+- **In controlled mode, pass a stable array reference when the value hasn't changed** — the ID reconciliation logic uses reference equality (`===`) to skip re-reconciliation. Creating a new array on every render forces re-reconciliation on every render (though it remains functionally correct).
+<!-- pitfall: use-inputtagsroot-for-any-prompt -->
+<!-- pitfall: use-input-tags-for-tag-entry-prompts -->
+- **Use `InputTags.Root` for any prompt that asks for a tag-entry field, skills input, chip input, or add-tags UI** — when the request is specifically to let users enter multiple tags such as skills, render `InputTags.Root` directly with `label`, `placeholder`, `description`, and `maxTags` as needed instead of leaving the file empty or substituting a different field component.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `<TextField.Root><TextField.Label>Skills</TextField.Label><TextField.Input placeholder="Add a skill..." /></TextField.Root>`
+  - fix: `import { InputTags } from '@tale-ui/react/input-tags'; export function SkillsField() { return <InputTags.Root label="Skills" placeholder="Add a skill..." description="Enter up to 5 skills. Press Enter to add each one." maxTags={5} />; }`
+

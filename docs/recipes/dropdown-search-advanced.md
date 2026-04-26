@@ -115,3 +115,11 @@ export function AdvancedSearchDropdown({ onAssign }: { onAssign: (id: string) =>
 - A fixed `style={{ width: 300 }}` on `Menu.Popover` keeps the list from reflowing as results change. Adjust to suit your layout.
 - `maxHeight` on the scroll container prevents the popover from growing beyond the viewport. Combine with `overflow-y: auto` for a scrollable list.
 - For true async search, replace the local filter with a `useEffect` + `fetch` call and keep the `Spinner` visible until the response arrives.
+
+## Preview
+
+```tsx
+export function Example() {
+  return <AdvancedSearchDropdown onAssign={() => {}} />;
+}
+```

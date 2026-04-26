@@ -82,3 +82,17 @@ export function AccountCardSM({ user }: { user: User }) {
 - `Avatar.Root size="sm"` is 32 × 32 px. At this size, initials are readable but avatars with fine details (e.g., photographs) may look blurry on standard-DPI screens.
 - `minWidth: 220` on `Menu.Popover` matches the trigger width in a 240 px sidebar. Set it to match your sidebar width to avoid a narrower-than-trigger popover.
 - This is the most commonly used size. See [XS](dropdown-account-card-xs.md) for denser layouts and [MD](dropdown-account-card-md.md) for a richer card with a larger avatar.
+
+## Preview
+
+```tsx
+const demoUser = { name: 'Alex Chen', email: 'alex@acme.com' };
+
+export function Example() {
+  return (
+    <div style={{ width: 240, padding: 'var(--space-m)' }}>
+      <AccountCardSM user={demoUser} />
+    </div>
+  );
+}
+```

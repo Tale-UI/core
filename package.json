@@ -20,6 +20,8 @@
     "scale:build": "pnpm -C playground/scale build",
     "storybook": "pnpm -C playground/storybook dev",
     "storybook:build": "pnpm -C playground/storybook build",
+    "studio:dev": "pnpm -C apps/mcp-studio dev",
+    "studio:build": "pnpm -C apps/mcp-studio build",
     "open:dev-urls": "node -e \"const { exec } = require('node:child_process'); const urls = ['http://localhost:5174', 'http://localhost:5173']; const openCmd = process.platform === 'win32' ? 'start \\\"\\\" ' : process.platform === 'darwin' ? 'open ' : 'xdg-open '; for (const url of urls) exec(openCmd + url);\"",
     "dev:all": "pnpm open:dev-urls && concurrently -k -n storybook,scale,playground \"pnpm storybook\" \"pnpm scale:dev -- --port 5174 --strictPort\" \"pnpm playground:dev -- --port 5173 --strictPort\"",
     "eslint": "pnpm -r --if-present lint && eslint . --cache --report-unused-disable-directives --max-warnings 0",
@@ -69,6 +71,7 @@
     "pitfalls:truth": "node tools/audit-pitfall-truth.mjs",
     "pitfalls:shape": "node tools/audit-pitfall-shape.mjs",
     "pitfalls:audit": "node tools/audit-pitfall-coverage.js && node tools/audit-pitfall-consistency.js && node tools/audit-pitfall-truth.mjs && node tools/audit-pitfall-shape.mjs",
+    "audit:golden-patchability": "node tools/audit-golden-patchability.mjs",
     "snippet:generate": "node tools/generate-consumer-snippet.js",
     "snippet:check": "node tools/generate-consumer-snippet.js --check",
     "cursorrules:generate": "node tools/generate-cursorrules.js",
@@ -179,5 +182,8 @@
     "@types/node": "22.18.13",
     "@types/react": "19.2.14",
     "@types/react-dom": "^19.2.3"
+  },
+  "dependencies": {
+    "react-hook-form": "^7.72.1"
   }
 }

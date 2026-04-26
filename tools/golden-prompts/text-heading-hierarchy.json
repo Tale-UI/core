@@ -1,0 +1,7 @@
+{
+  "slug": "text-heading-hierarchy",
+  "difficulty": "simple",
+  "prompt": "Show a page title using display variant, a section heading, and a supporting description paragraph using the Text component's different variants and semantic elements.",
+  "reference": "import { Text } from '@tale-ui/react/text';\nimport { Column } from '@tale-ui/react/column';\n\nexport function Example() {\n  return (\n    <Column gap=\"s\">\n      <Text as=\"h1\" variant=\"display\" size=\"l\">Welcome to Tale UI</Text>\n      <Text as=\"h2\" variant=\"heading\" size=\"m\">Get started in minutes</Text>\n      <Text as=\"p\" variant=\"text\" size=\"m\" color=\"muted\">\n        A comprehensive design system and accessible component library built with React.\n      </Text>\n    </Column>\n  );\n}",
+  "tags": ["Text", "Column"]
+}

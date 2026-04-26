@@ -1,0 +1,7 @@
+{
+  "slug": "dialog-destructive",
+  "difficulty": "medium",
+  "prompt": "Show a destructive dialog triggered by a 'Delete Account' button. The dialog should have a title 'Delete account', a warning description that this action is permanent, and Cancel + Delete action buttons.",
+  "reference": "import { useState } from 'react';\nimport { Dialog } from '@tale-ui/react/dialog';\nimport { Button } from '@tale-ui/react/button';\n\nexport function Example() {\n  const [open, setOpen] = useState(false);\n  return (\n    <Dialog.Root isOpen={open} onOpenChange={setOpen}>\n      <Dialog.Trigger className=\"tale-button--danger\">Delete Account</Dialog.Trigger>\n      <Dialog.Backdrop>\n        <Dialog.Popup>\n          <Dialog.Close aria-label=\"Close\" />\n          <Dialog.Title>Delete account</Dialog.Title>\n          <Dialog.Description>\n            This action is permanent and cannot be undone. All your data will be lost.\n          </Dialog.Description>\n          <Dialog.Actions>\n            <Button variant=\"neutral\" onPress={() => setOpen(false)}>Cancel</Button>\n            <Button variant=\"danger\" onPress={() => setOpen(false)}>Delete</Button>\n          </Dialog.Actions>\n        </Dialog.Popup>\n      </Dialog.Backdrop>\n    </Dialog.Root>\n  );\n}",
+  "tags": ["Dialog", "Button"]
+}

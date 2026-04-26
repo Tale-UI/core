@@ -1,0 +1,7 @@
+{
+  "slug": "pie-chart-traffic",
+  "difficulty": "medium",
+  "prompt": "Show a pie chart breaking down website traffic sources: Direct (40%), Organic (30%), Referral (20%), and Social (10%), with a legend and tooltip.",
+  "reference": "import { PieChart } from '@tale-ui/charts/pie-chart';\n\nconst data = [\n  { name: 'Direct', value: 400 },\n  { name: 'Organic', value: 300 },\n  { name: 'Referral', value: 200 },\n  { name: 'Social', value: 100 },\n];\n\nexport function Example() {\n  return (\n    <PieChart.Root width={400} height={300}>\n      <PieChart.Pie data={data} dataKey=\"value\" nameKey=\"name\" />\n      <PieChart.Tooltip />\n      <PieChart.Legend />\n    </PieChart.Root>\n  );\n}",
+  "tags": ["PieChart"]
+}

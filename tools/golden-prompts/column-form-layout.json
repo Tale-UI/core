@@ -1,0 +1,7 @@
+{
+  "slug": "column-form-layout",
+  "difficulty": "medium",
+  "prompt": "Show a vertical form layout using Column with a Name field, an Email field, and a submit button row right-aligned.",
+  "reference": "import { Column } from '@tale-ui/react/column';\nimport { Row } from '@tale-ui/react/row';\nimport { TextField } from '@tale-ui/react/text-field';\nimport { Button } from '@tale-ui/react/button';\n\nexport function Example() {\n  return (\n    <Column gap=\"m\">\n      <TextField.Root>\n        <TextField.Label>Name</TextField.Label>\n        <TextField.Input placeholder=\"Enter your name\" />\n      </TextField.Root>\n      <TextField.Root>\n        <TextField.Label>Email</TextField.Label>\n        <TextField.Input type=\"email\" placeholder=\"Enter your email\" />\n      </TextField.Root>\n      <Row gap=\"s\" justify=\"end\">\n        <Button variant=\"neutral\">Cancel</Button>\n        <Button variant=\"primary\" type=\"submit\">Submit</Button>\n      </Row>\n    </Column>\n  );\n}",
+  "tags": ["Column", "Row", "TextField", "Button"]
+}

@@ -83,3 +83,5 @@ function Carousel() {
 - Inactive dots fire `onPageChange` on click; the current dot has `pointer-events: none` and cannot be re-clicked.
 - For standalone dot/line sub-parts (manually controlled per-slide), see `Pagination.Dot` in `@tale-ui/react/pagination`.
 - The `framed` variant uses `backdrop-filter: blur(8px)` — ensure a modern browser target or add a fallback.
+
+## Pitfalls

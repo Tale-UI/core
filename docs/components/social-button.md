@@ -69,6 +69,10 @@ Also accepts all standard `<button>` HTML attributes.
   - anti-pattern: `import { Button } from '@tale-ui/react/button'; export function SignInWithGoogle() { return <Button>Sign in with Google</Button>; }`
   - anti-pattern: `// empty file`
   - fix: `import { SocialButton } from '@tale-ui/react/social-button'; export function SignInWithGoogle() { return <SocialButton provider="google">Sign in with Google</SocialButton>; }`
+<!-- pitfall: socialbutton-size-sm-md-only -->
+- **`size` only accepts `'sm'` or `'md'` — `'lg'` does not exist** — passing `size="lg"` causes `Type '"lg"' is not assignable to type 'Size | undefined'`. When the prompt does not request a specific size, omit the prop and use the default.
+  - anti-pattern: `<SocialButton provider="google" size="lg">Sign in with Google</SocialButton>`
+  - fix: `<SocialButton provider="google">Sign in with Google</SocialButton>`
 
 ## Notes
 

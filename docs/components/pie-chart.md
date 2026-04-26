@@ -108,3 +108,13 @@ import { ChartContainer } from '@tale-ui/charts';
 - Set `innerRadius` > 0 to create a donut chart.
 - Default `paddingAngle={2}` adds a small gap between slices for visual clarity.
 - All Tale UI design tokens are used for tooltip styling — dark mode works automatically.
+
+## Pitfalls
+
+<!-- pitfall: use-piechart-for-any-prompt -->
+<!-- pitfall: use-piechart-for-any-prompt -->
+- **Use `PieChart` for any prompt that asks for a pie chart, donut chart, or traffic-source breakdown** — when the request explicitly asks for a pie chart, render `PieChart.Root` with `PieChart.Pie`; if the prompt asks for a legend or tooltip, include `PieChart.Legend` and `PieChart.Tooltip` instead of leaving the file blank or substituting another chart type.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `<BarChart.Root data={data}><BarChart.Bar dataKey="value" /></BarChart.Root>`
+  - fix: `<PieChart.Root width={400} height={300}><PieChart.Pie data={data} dataKey="value" nameKey="name" /><PieChart.Tooltip /><PieChart.Legend /></PieChart.Root>`
+

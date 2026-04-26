@@ -82,3 +82,17 @@ export function AccountButton({ user }: { user: User }) {
 - `width: 100%` on the inner button allows `AccountButton` to span the full sidebar width; the parent layout controls the outer width.
 - Text truncation (`overflow: hidden; text-overflow: ellipsis`) on name and email prevents overflow for long values — always apply these when rendering user content in constrained widths.
 - This component pairs directly with `Sidebar.AccountCard` — swap one for the other depending on whether you need the built-in card styling or a fully custom button.
+
+## Preview
+
+```tsx
+const demoUser = { name: 'Alex Chen', email: 'alex@acme.com' };
+
+export function Example() {
+  return (
+    <div style={{ width: 240, padding: 'var(--space-m)' }}>
+      <AccountButton user={demoUser} />
+    </div>
+  );
+}
+```

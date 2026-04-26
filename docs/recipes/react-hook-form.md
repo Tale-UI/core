@@ -49,7 +49,7 @@ function SignUpForm() {
   };
 
   return (
-    <Form.Root onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Fieldset.Root>
         <Fieldset.Legend>Account Details</Fieldset.Legend>
 
@@ -164,7 +164,7 @@ function SignUpForm() {
         </Button>
         <Button type="reset" variant="ghost">Reset</Button>
       </div>
-    </Form.Root>
+    </Form>
   );
 }
 ```

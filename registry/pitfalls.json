@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.2.0",
-  "taleUiVersion": "1.3.44",
+  "taleUiVersion": "1.3.45",
   "crossComponentPitfalls": [
     {
       "id": "no-asChild-on-triggers",
@@ -438,8 +438,8 @@
     },
     {
       "id": "toggle-button-group-import-path",
-      "summary": "ToggleButtonGroup is exported from @tale-ui/react/toggle-button, not @tale-ui/react/toggle-button-group",
-      "detail": "there is no `toggle-button-group` module; importing from it causes \"Cannot find module\" TypeScript errors. Also valid: `@tale-ui/react/toggle-group`.",
+      "summary": "ToggleButtonGroup is exported from @tale-ui/react/toggle-group — never import from @tale-ui/react/toggle-button-group",
+      "detail": "there is no `toggle-button-group` module; importing from it causes \"Cannot find module\" TypeScript errors. Also valid: `@tale-ui/react/toggle-button`.",
       "appliesTo": [
         "ToggleButtonGroup"
       ],
@@ -448,6 +448,7 @@
         "import { ToggleButtonGroup } from '@tale-ui/react/toggle-button-group';"
       ],
       "fixes": [
+        "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';",
         "import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';"
       ]
     },
@@ -479,6 +480,38 @@
       ],
       "fixes": [
         "<label htmlFor=\"country\">Country</label>"
+      ]
+    },
+    {
+      "id": "never-import-key-from-reactariacomponents",
+      "summary": "Never import Key from react-aria-components for selection state — derive the type from the component's props",
+      "detail": "`react-aria-components` is not available in consumer projects; importing from it causes \"Cannot find module\" TypeScript errors. Derive the key type from the component's `onSelectionChange` prop using `React.ComponentProps` instead. import * as React from 'react'; import { TagSelect } from '@tale-ui/react/tag-select'; type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0]; const members = [ { id: 'alice', name: 'Alice Chen' }, { id: 'bob', name: 'Bob Martínez' }, ]; export function TeamMemberPicker() { const [selected, setSelected] = React.useState<SelectionValue>( new Set(['alice', 'bob']) ); return ( <TagSelect.Root label=\"Team members\" placeholder=\"Search members…\" description=\"Select everyone who should have access.\" items={members} selectedKeys={selected} onSelectionChange={setSelected} > {(member) => ( <TagSelect.Item id={member.id} textValue={member.name}> {member.name} </TagSelect.Item> )} </TagSelect.Root> ); }",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import type { Key } from 'react-aria-components';"
+      ],
+      "fixes": [
+        "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];",
+        "const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'bob']));"
+      ],
+      "completeExample": "import * as React from 'react';\nimport { TagSelect } from '@tale-ui/react/tag-select';\n\ntype SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];\n\nconst members = [\n  { id: 'alice', name: 'Alice Chen' },\n  { id: 'bob', name: 'Bob Martínez' },\n];\n\nexport function TeamMemberPicker() {\n  const [selected, setSelected] = React.useState<SelectionValue>(\n    new Set(['alice', 'bob'])\n  );\n  return (\n    <TagSelect.Root\n      label=\"Team members\"\n      placeholder=\"Search members…\"\n      description=\"Select everyone who should have access.\"\n      items={members}\n      selectedKeys={selected}\n      onSelectionChange={setSelected}\n    >\n      {(member) => (\n        <TagSelect.Item id={member.id} textValue={member.name}>\n          {member.name}\n        </TagSelect.Item>\n      )}\n    </TagSelect.Root>\n  );\n}"
+    },
+    {
+      "id": "do-not-import-taleuichartsstyles-inside",
+      "summary": "Do not import @tale-ui/charts/styles inside generated chart component snippets",
+      "detail": "chart styling setup may be handled separately at the app level, and this CSS side-effect import can fail validation in standalone generated TSX because it is treated like an unresolved module import. For AI-generated examples, keep chart imports limited to the chart components themselves.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "imports",
+      "antiPatterns": [
+        "import '@tale-ui/charts/styles';"
+      ],
+      "fixes": [
+        "import { ChartContainer } from '@tale-ui/charts';"
       ]
     },
     {
@@ -515,7 +548,7 @@
     {
       "id": "row-column-gap-uses-token-scale",
       "summary": "Row/Column gap uses spacing token values ('xs', 's', 'm', 'l', 'xl', '2xl'), not component size names — this is the most common layout error",
-      "detail": "`'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes a TypeScript error `Type '\"md\"' is not assignable to type 'Gap | undefined'`. Always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as `GridList.Item` or `Carousel.Item`, calendar wrappers, or any other slot.",
+      "detail": "`'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes a TypeScript error `Type '\"md\"' is not assignable to type 'Gap | undefined'`. `'none'` is also not a valid Gap value — omit the `gap` prop entirely to produce no gap. Always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as `GridList.Item` or `Carousel.Item`, calendar wrappers, or any other slot.",
       "appliesTo": [
         "Row",
         "Column"
@@ -525,12 +558,14 @@
         "<Row gap=\"sm\">",
         "<Column gap=\"md\">",
         "<Column gap=\"lg\">",
+        "<Column gap=\"none\">",
         "<Carousel.Item><Column gap=\"sm\">...</Column></Carousel.Item>"
       ],
       "fixes": [
         "<Row gap=\"s\">",
         "<Column gap=\"m\">",
         "<Column gap=\"l\">",
+        "<Column>",
         "<Carousel.Item><Column gap=\"s\">...</Column></Carousel.Item>"
       ]
     },
@@ -583,6 +618,53 @@
         "*"
       ],
       "category": "layout"
+    },
+    {
+      "id": "when-a-prompt-asks-for",
+      "summary": "When a prompt asks for stacked text-only content, use Column with Text",
+      "detail": "when a prompt asks for a page title, section heading, and supporting paragraph, import both `Text` and `Column` and render the copy as `Text` children inside `Column`. Map the prompt directly: page title to `variant=\"display\" as=\"h1\"`, section heading to `variant=\"heading\" as=\"h2\"`, and supporting paragraph copy to `variant=\"text\" as=\"p\"` (use `color=\"muted\"` when the copy is described as supporting or secondary). This makes the required components explicit and prevents blank outputs for simple typography prompts.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "layout",
+      "antiPatterns": [
+        "export function PageIntro() {}"
+      ],
+      "fixes": [
+        "import { Column } from '@tale-ui/react/column'; import { Text } from '@tale-ui/react/text'; export function PageIntro() { return <Column gap=\"s\"><Text variant=\"display\" as=\"h1\">Page title</Text><Text variant=\"heading\" as=\"h2\">Section heading</Text><Text variant=\"text\" as=\"p\" color=\"muted\">Supporting description.</Text></Column>; }"
+      ]
+    },
+    {
+      "id": "row-column-no-as-prop",
+      "summary": "Row/Column do not accept an as prop — they always render as <div> elements",
+      "detail": "passing `as=\"section\"` or any other element name is not in `ColumnProps`/`RowProps` and causes `Type '{ as: string; ... }' is not assignable to type 'ColumnProps'`. To use a semantic wrapper element, place the native HTML element outside `Column` or `Row`.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "layout",
+      "antiPatterns": [
+        "<Column gap=\"s\" as=\"section\">"
+      ],
+      "fixes": [
+        "<section><Column gap=\"s\">"
+      ]
+    },
+    {
+      "id": "column-and-row-align-prop",
+      "summary": "Column/Row align uses shorthand tokens, not CSS flex values",
+      "detail": "`'flex-start'` and `'flex-end'` are not valid `align` values; use `'start'`, `'end'`, `'center'`, `'stretch'`, or `'baseline'` instead. Omit the prop entirely to use the default alignment.",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "layout",
+      "antiPatterns": [
+        "<Column align=\"flex-start\">",
+        "<Row align=\"flex-end\">"
+      ],
+      "fixes": [
+        "<Column align=\"start\">",
+        "<Row align=\"end\">"
+      ]
     },
     {
       "id": "no-visual-exports-for-interactive-ui",
@@ -677,17 +759,19 @@
     },
     {
       "id": "token-size-suffixes",
-      "summary": "Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash",
-      "detail": "the dash in `--space-s` is CSS token notation; prop value strings never start with a dash.",
+      "summary": "Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash, EXCEPT Text which uses 'xs'/'s'/'m'/'l'",
+      "detail": "the dash in `--space-s` is CSS token notation; prop value strings never start with a dash. `Text` is the only component whose `size` prop uses single-letter spacing-token values instead of the doubled component-size names; passing `size=\"sm\"` to `Text` causes `Type '\"sm\"' is not assignable to type 'Size | undefined'`.",
       "appliesTo": [
         "*"
       ],
       "category": "typescript",
       "antiPatterns": [
-        "<Button size=\"-md\">"
+        "<Button size=\"-md\">",
+        "<Text size=\"sm\">Online</Text>"
       ],
       "fixes": [
-        "<Button size=\"md\">"
+        "<Button size=\"md\">",
+        "<Text size=\"s\">Online</Text>"
       ]
     },
     {

@@ -113,9 +113,13 @@ Also accepts all standard HTML attributes for the rendered element.
   - fix: `<Text variant="mono">console.log(x)</Text>`
 
 <!-- pitfall: text-no-invalid-variants -->
-- **No `'link'`, `'code'`, or `'caption'` variant** — valid values are `'display'`, `'heading'`, `'title'`, `'label'`, `'text'`, `'mono'`.
-  - anti-pattern: `<Text variant="caption">Fine print</Text>`
-  - fix: `<Text variant="label">Fine print</Text>`
+- **variant+size compound strings like 'heading-m' or 'body-m' are not valid — always pass them as two separate props** — compound strings fail TypeScript; there is also no `'body'` variant, use `variant="text"` for body copy. When generating heading+body content-section pairs, also use `color="muted"` (not `color="secondary"`) for supporting text.
+  - anti-pattern: `<Text variant="heading-m">Title</Text>`
+  - anti-pattern: `<Text variant="body-m">Description</Text>`
+  - anti-pattern: `<Text variant="body-m" color="secondary">Description</Text>`
+  - fix: `<Text variant="heading">Title</Text>`
+  - fix: `<Text variant="text" size="m">Description</Text>`
+  - fix: `<Text variant="text" size="m" color="muted">Description</Text>`
 
 <!-- pitfall: text-no-html-for-prop -->
 - **No `htmlFor` prop on `Text`** — use `as="label"` and pass `htmlFor` as a standard HTML attribute.
@@ -123,9 +127,11 @@ Also accepts all standard HTML attributes for the rendered element.
   - fix: `<Text as="label" htmlFor="email">Email</Text>`
 
 <!-- pitfall: text-as-prop-valid-elements -->
-- **`as` prop only accepts `'p'`, `'span'`, `'div'`, `'h1'`–`'h6'`, `'label'`** — not `'strong'`, `'code'`, `'pre'`, or other elements.
+- **as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'** — not `'strong'`, `'code'`, `'pre'`, `'kbd'`, or other elements. For keyboard shortcut markup use a native `<kbd>` HTML element directly.
   - anti-pattern: `<Text as="strong">Bold</Text>`
+  - anti-pattern: `<Text as="kbd">⌘ S</Text>`
   - fix: `<Text variant="label">Bold</Text>`
+  - fix: `<kbd>⌘ S</kbd>`
 
 <!-- pitfall: text-color-valid-values -->
 - **`color` only accepts `'default'`, `'muted'`, `'accent'`** — no other color values are valid.
@@ -144,10 +150,25 @@ Also accepts all standard HTML attributes for the rendered element.
   - anti-pattern: `<Text size="md" color="neutral">This action cannot be undone.</Text>`
   - fix: `<Text as="p" color="muted">This action cannot be undone.</Text>`
 <!-- pitfall: color-only-accepts-default-muted -->
-- **color only accepts 'default', 'muted', 'accent'** — no other color values are valid. Common wrong values from other design systems include 'secondary', 'neutral', 'gray', and 'dim'; all map to 'muted'.
+- **color only accepts 'default', 'muted', 'accent'** — no other color values are valid. Common wrong values include 'secondary', 'neutral', 'gray', 'dim', and status tokens like 'success', 'error', 'warning' (which are valid on DotIcon/Badge but not on Text); all map to 'muted'.
   - anti-pattern: `<Text color="neutral">Note</Text>`
   - anti-pattern: `<Text color="secondary">Note</Text>`
+  - anti-pattern: `<Text color="success">Online</Text>`
   - fix: `<Text color="muted">Note</Text>`
+<!-- pitfall: no-link-code-or-caption -->
+- **No 'link', 'code', or 'caption' variant** — valid values are `'display'`, `'heading'`, `'title'`, `'label'`, `'text'`, `'mono'`.
+  - anti-pattern: `<Text variant="caption">Fine print</Text>`
+  - fix: `<Text variant="label">Fine print</Text>`
+<!-- pitfall: never-apply-nonlayout-inline-styles -->
+- **Never apply non-layout inline styles (fontWeight, fontSize, textDecoration, fontStyle) to Text** — use `variant` and `size` props for typography control; for bold labels inside buttons or icon-only toggles, use a plain text node rather than a `<Text>` wrapper with `style={{ fontWeight: ... }}`.
+  - anti-pattern: `<Text as="span" style={{ fontWeight: 700 }}>B</Text>`
+  - fix: `B`
+<!-- pitfall: text-has-no-weight-prop -->
+- **Text has no weight prop — use variant="label" for label-weight text** — there is no `weight` prop on `Text`; passing `weight="medium"` or any weight string causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. To render bold or label-weight text use `variant="label"`.
+  - anti-pattern: `<Text weight="medium">Plan Name</Text>`
+  - anti-pattern: `<Text size="m" weight="medium">Plan Name</Text>`
+  - fix: `<Text variant="label">Plan Name</Text>`
+  - fix: `<Text size="m" variant="label">Plan Name</Text>`
 
 ## Notes
 

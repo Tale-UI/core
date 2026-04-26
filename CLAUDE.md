@@ -12,6 +12,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [packages/utils](packages/utils/) | `@tale-ui/utils` | Shared utilities |
 | [packages/charts](packages/charts/CLAUDE.md) | `@tale-ui/charts` | Recharts-based chart components themed with design tokens |
 | [packages/a2ui](packages/a2ui/) | `@tale-ui/a2ui` | A2UI protocol renderer — maps agent messages to Tale UI components |
+| [apps/mcp-studio](apps/mcp-studio/) | `@tale-ui/mcp-studio` | Visual maintainer tool: prompt → plan_ui → rendered preview → pitfall authoring |
 
 ## Documentation
 

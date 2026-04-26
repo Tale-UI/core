@@ -70,3 +70,17 @@ export function AccountCardXS({ user }: { user: User }) {
 - `Avatar.Root size="xs"` renders a 24 × 24 px circle. Use `size="sm"` (32 px) if you have space — it improves legibility on high-DPI screens.
 - `padding: var(--space-3xs) var(--space-2xs)` gives just enough touch target on mobile while staying visually compact. Ensure the total height is at least 44 px for touch targets — verify with the axe tool.
 - Compare with [Account Card SM](dropdown-account-card-sm.md) and [Account Card MD](dropdown-account-card-md.md) for progressively larger variants.
+
+## Preview
+
+```tsx
+const demoUser = { name: 'Alex Chen', email: 'alex@acme.com' };
+
+export function Example() {
+  return (
+    <div style={{ width: 200, padding: 'var(--space-m)' }}>
+      <AccountCardXS user={demoUser} />
+    </div>
+  );
+}
+```

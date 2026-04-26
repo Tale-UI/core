@@ -1,0 +1,7 @@
+{
+  "slug": "radar-chart-skills",
+  "difficulty": "medium",
+  "prompt": "Show a radar chart displaying a developer's skill scores across 5 subjects: Math (80), Science (90), English (70), History (65), and Art (85), with a polar grid and tooltip.",
+  "reference": "import { RadarChart } from '@tale-ui/charts/radar-chart';\n\nconst data = [\n  { subject: 'Math', score: 80 },\n  { subject: 'Science', score: 90 },\n  { subject: 'English', score: 70 },\n  { subject: 'History', score: 65 },\n  { subject: 'Art', score: 85 },\n];\n\nexport function Example() {\n  return (\n    <RadarChart.Root data={data} width={500} height={400}>\n      <RadarChart.PolarGrid />\n      <RadarChart.PolarAngleAxis dataKey=\"subject\" />\n      <RadarChart.PolarRadiusAxis />\n      <RadarChart.Tooltip />\n      <RadarChart.Radar dataKey=\"score\" />\n    </RadarChart.Root>\n  );\n}",
+  "tags": ["RadarChart"]
+}

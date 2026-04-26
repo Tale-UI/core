@@ -17,16 +17,16 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 
 ## Namespace vs simple
 
-**Namespace** (use `.Root`): Accordion, AlertDialog, Autocomplete, Avatar, Banner, Breadcrumbs, Calendar, Card, Carousel, Checkbox, ColorArea, ColorField, ColorPicker, ColorSlider, ColorSwatchPicker, ColorWheel, Combobox, ContextMenu, DateField, DatePicker, DateRangePicker, Dialog, Disclosure, Drawer, EmptyState, Field, Fieldset, GridList, Input, List, Menu, Menubar, Meter, NavigationMenu, NumberField, Pagination, PaymentInput, PinInput, Popover, PreviewCard, ProgressBar, ProgressCircle, Radio, RangeCalendar, ScrollArea, SearchField, Select, Slider, Switch, Table, Tabs, TagGroup, TextArea, TextField, TimeField, Toolbar, Tooltip, Tree.
+**Namespace** (use `.Root`): Accordion, AlertDialog, Autocomplete, Avatar, BadgeGroup, Banner, Breadcrumbs, Calendar, Card, Carousel, Checkbox, ColorArea, ColorField, ColorPicker, ColorSlider, ColorSwatchPicker, ColorWheel, Combobox, ContextMenu, CreditCard, DateField, DatePicker, DateRangePicker, Dialog, Disclosure, Drawer, EmptyState, Field, Fieldset, FileUpload, GridList, HeaderNav, ImageCropper, Input, InputGroup, InputTags, List, Menu, Menubar, Meter, MultiSelect, NavigationMenu, NumberField, Pagination, PaymentInput, PinInput, Popover, PreviewCard, ProgressBar, ProgressCircle, QRCode, Radio, RangeCalendar, ScrollArea, SearchField, Select, Sidebar, Slider, Switch, Table, Tabs, TagGroup, TagSelect, TextArea, TextEditor, TextField, TimeField, Toolbar, Tooltip, Tree, VideoPlayer.
 
-**Simple** (direct use): AppStoreButton, Badge, Button, CSPProvider, CheckboxGroup, ColorModeToggle, ColorSwatch, Column, Container, DotIcon, DropZone, FeaturedIcon, FileTrigger, Form, I18nProvider, Icon, IconButton, Image, Link, RadioGroup, RatingBadge, RatingStars, Row, SelectNative, Separator, SocialButton, SocialButtonGroup, Spinner, Text, ToggleButton, ToggleButtonGroup, mergeProps.
+**Simple** (direct use): AppStoreButton, BackgroundPattern, Badge, Button, CSPProvider, CheckboxGroup, ColorModeToggle, ColorSwatch, Column, Container, DotIcon, DropZone, FeaturedIcon, FileTrigger, Form, I18nProvider, Icon, IconButton, Illustration, Image, IphoneMockup, Link, PaginationDot, PaginationLine, RadioGroup, RatingBadge, RatingStars, Row, SectionDivider, SelectNative, Separator, SocialButton, SocialButtonGroup, Spinner, Text, ToggleButton, ToggleButtonGroup, mergeProps.
 
 ## Critical pitfalls
 
 - Never annotate component return types as JSX.Element or use React.FC — the new JSX transform is in use; write plain functions with no return type annotation.
 - Use default visual props when the prompt does not request styling — inventing non-default variant, theme, size, shape, color, or decorative modifiers makes underspecified prompts non-deterministic and drifts from the canonical component design.
 - Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all. - fix (for 'Create a primary button that says Save'): import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant="primary">Save</Button>; } - fix (for 'Create a success badge that displays Active'): import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant="success">Active</Badge>; }
-- Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash — the dash in --space-s is CSS token notation; prop value strings never start with a dash.
+- Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash, EXCEPT Text which uses 'xs'/'s'/'m'/'l' — the dash in --space-s is CSS token notation; prop value strings never start with a dash. Text is the only component whose size prop uses single-letter spacing-token values instead of the doubled component-size names; passing size="sm" to Text causes Type '"sm"' is not assignable to type 'Size | undefined'.
 - Max gap value for Row/Column is '2xl' — there is no '3xl' or '4xl' gap token — using out-of-range gap values produces no visible spacing because the token is undefined.
 - Do not add variant, size, or color props to native HTML elements — these props only exist on Tale UI components and are silently ignored on <div>, <p>, <span>, etc.
 - Use <Image> from @tale-ui/react/image instead of a bare <img> — Image applies radius, lazy loading, and correct CSS; use its radius prop (not borderRadius) and width/height (not size).
@@ -44,25 +44,37 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [AppStoreButton] store accepts 'apple' or 'google' only
 - [Autocomplete] No phantom sub-parts: no Autocomplete.Label, Autocomplete.Popover, Autocomplete.Trigger, or Autocomplete.Value
 - [Autocomplete] No controlled state props on Autocomplete.Root
+- [Autocomplete] Use <Autocomplete> for any prompt that asks for an autocomplete, inline search, or a filtered list of options
 - [Avatar] Avatar.Indicator must wrap OUTSIDE Avatar.Root
 - [Avatar] Avatar.Group propagates size to children
 - [Avatar] size accepts 'xs', 'sm', 'md', 'lg', 'xl', '2xl'
+- [Avatar] Avatar.CompanyIcon must wrap Avatar.Root from outside
+- [Avatar] Avatar.ProfilePhoto accepts Avatar.Image then Avatar.Fallback as direct children
+- [Avatar] Avatar.Count accepts children text, not a count prop
+- [Avatar] Avatar.ProfilePhoto size does not accept 'xl' or '2xl' — valid values are 'xs', 'sm', 'md', 'lg'
+- [BackgroundPattern] grid-check does not support size="lg"
+- [BackgroundPattern] Control color with CSS color, not with fill/stroke props
 - [Badge] 'danger' is NOT a valid variant
 - [Badge] No color prop
+- [BadgeGroup] Always use BadgeGroup.Root
+- [BadgeGroup] addonText is the primary distinguishing feature
 - [Banner] Always use <Banner.Root>, never bare <Banner>
 - [Banner] No 'brand' or 'neutral' variant
 - [Banner] Pass content via Banner.Title and Banner.Description
 - [Breadcrumbs] Use Breadcrumbs.Link inside Breadcrumbs.Item, not a standalone <Link>
-- [Button] No 'link' variant
+- [Button] No 'link' or 'secondary' variant — for Cancel or secondary-action buttons always use variant="neutral"
 - [Button] size accepts 'sm', 'md', 'lg' only — no 'xs'
 - [Button] No asChild prop
 - [Button] No icon, leftIcon, rightIcon, or startIcon prop
+- [Button] Button has no href prop — it renders a <button>, not a link
 - [Calendar] Navigation buttons and heading must be inside Calendar.Header
 - [Calendar] Use Calendar.GridHeaderCell in GridHeader, not Calendar.Cell
 - [Calendar] Do not add vertical margin or padding to Calendar.Heading
+- [Calendar] Use Calendar for any prompt that asks for a date calendar picker, standalone calendar, or single date selection
 - [Card] No elevated boolean prop
 - [Card] Card.Header has no title or description props
 - [Card] Card.Body and Card.Footer do NOT accept a gap prop
+- [Card] For stat cards, render <Text color="muted"> inside Card.Header — wrap value/badge in <Column> inside Card.Body
 - [Carousel] Uses Carousel.PreviousTrigger and Carousel.NextTrigger
 - [Carousel] No selectedIndex, onSelectedIndexChange, currentSlide, or onSlideChange props
 - [Carousel] Never use document.querySelector in carousel code
@@ -85,8 +97,11 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ColorSwatchPicker] Uses value/onChange, not onSelectionChange
 - [ColorSwatchPicker] value does NOT accept null or undefined
 - [ColorSwatchPicker] No ColorSwatchPicker.List
+- [ColorSwatchPicker] value/onChange use Color objects, not plain strings — initialize state with parseColor()
+- [ColorSwatchPicker] Use <ColorSwatchPicker.Root> for any prompt that asks for selectable color swatches, a color palette, or a swatch picker
 - [ColorWheel] ColorWheel.Track is required
 - [ColorWheel] outerRadius and innerRadius are required props
+- [Column] Use gap="s" when stacking form fields
 - [Combobox] Combobox.Input owns placeholder
 - [Combobox] Combobox.Input does NOT accept an icon prop
 - [Combobox] Never import list data from non-existent local modules
@@ -95,6 +110,8 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ContextMenu] Use ContextMenu.Popup, not ContextMenu.Popover
 - [ContextMenu] ContextMenu.MenuList is required between ContextMenu.Popup and ContextMenu.Item
 - [ContextMenu] ContextMenu.Item has no tone, color, intent, or variant props
+- [CreditCard] Always use CreditCard.Root
+- [CreditCard] Use the width prop to scale, not CSS width
 - [DateField] The input sub-part is DateField.DateInput, not DateField.Input
 - [DatePicker] No Calendar sub-parts on the DatePicker namespace
 - [DatePicker] No label prop on Root
@@ -107,10 +124,12 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Disclosure] Controlled state uses isExpanded/onExpandedChange
 - [DotIcon] color accepts semantic tokens only
 - [DotIcon] Use the color prop, not type, variant, or status
+- [DotIcon] When pairing DotIcon with Text in a status indicator, use Text's single-letter size tokens — not component-size names
 - [Drawer] Drawer.Root uses open/onOpenChange, not isOpen
 - [Drawer] Drawer.Backdrop must be a self-closing sibling of Drawer.Popup, not a wrapper
 - [Drawer] No layout sub-parts (Drawer.Actions, Drawer.Body, Drawer.Header, Drawer.Footer)
-- [Drawer] No placement prop on Drawer.Root or Drawer.Popup
+- [Drawer] No placement prop on Drawer.Root or Drawer.Popup — use only layout inline styles on Drawer.Popup
+- [Drawer] Use <Drawer> for any prompt that asks for a drawer, side drawer, side sheet, or slide-over panel
 - [DropZone] No DropZone.Content, DropZone.Icon, or DropZone.Title sub-parts
 - [DropZone] onDrop receives a DropEvent object, not a FileList
 - [DropZone] Do NOT cast FileDropItem to File
@@ -123,11 +142,19 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Fieldset] When stacking fields inside Fieldset.Root with Column, use spacing-token gap values, not component size names
 - [FileTrigger] No FileTrigger.Root
 - [FileTrigger] onSelect receives FileList | null — always null-check
+- [FileTrigger] When displaying the selected filename with Text, use color="muted" — never variant="body-m" or color="secondary"
+- [FileUpload] Use FileUpload.DropZone (capital Z), not FileUpload.Dropzone
+- [FileUpload] All upload config props (accept, maxSize, allowsMultiple, onDropFiles) belong on FileUpload.DropZone, not FileUpload.Root
+- [FileUpload] FileUpload.DropZone accept takes a comma-separated string, not an array
+- [FileUpload] Use FileUpload for any prompt that asks for a file upload area, dropzone uploader, or uploaded-file list with progress
 - [Form] Form is a simple component with no sub-parts
 - [Form] method prop requires lowercase values
 - [GridList] GridList.Item does NOT accept isSelected
 - [GridList] Do NOT annotate onSelectionChange parameter as Set<string> or import Selection from react-aria-components
 - [GridList] When wrapping GridList in a Column or Row layout container, use spacing-token gap values — never component-size names
+- [GridList] Never apply non-layout inline styles (listStyle, padding, margin) to GridList.Root
+- [HeaderNav] HeaderNav.MobileTrigger requires children — omitting them causes a TypeScript error 'Property children is missing in type {} but required in type HeaderNavMobileTriggerProps'
+- [HeaderNav] Always import Text from @tale-ui/react/text when rendering text inside HeaderNav sub-parts such as HeaderNav.Logo
 - [Icon] icon prop takes a component reference, not an instance
 - [Icon] Import lucide icons from lucide-react root, not deep subpaths
 - [Icon] Avoid Icon Image name collisions
@@ -135,16 +162,34 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [IconButton] aria-label is required
 - [IconButton] Do not nest <IconButton> inside a trigger component
 - [IconButton] Use <IconButton> for icon-only actions, not <Button> or a native <button>
+- [Illustration] Size is 'sm' | 'md' | 'lg'
+- [Illustration] Children are displayed as a centred overlay
 - [Image] Use radius for rounded corners, NOT borderRadius
 - [Image] radius accepts 'none', 'sm', 'md', 'lg', 'full'
+- [ImageCropper] Never apply non-layout inline styles (objectFit, objectPosition) to ImageCropper.Img — use a wrapper element for those CSS overrides instead
+- [ImageCropper] Use <ImageCropper> for any prompt that asks for image cropping, avatar photo cropping, or a fixed-aspect crop area
+- [InputGroup] Place Input.Label inside Input.Root
+- [InputGroup] Buttons inside InputGroup.Addon may conflict with addon styles
+- [InputGroup] Use a single Input.Label inside Input.Root
+- [InputTags] Backspace/ArrowLeft keyboard navigation applies to inline mode only
+- [InputTags] InputTags does not integrate with React Aria form contexts
+- [InputTags] In controlled mode, pass a stable array reference when the value hasn't changed
+- [InputTags] Use InputTags.Root for any prompt that asks for a tag-entry field, skills input, chip input, or add-tags UI
+- [IphoneMockup] image is required
+- [IphoneMockup] Image size should ideally be 750 × 1624 px
+- [IphoneMockup] The exported name is IPhoneMockup (capital P), not IphoneMockup
 - [Link] There is no isExternal prop — use target and rel directly
 - [List] variant accepts 'plain' or 'divided' only
 - [Menu] Menu.MenuList is required between Menu.Popover and Menu.Item
 - [Menu] Menu.Separator goes inside Menu.MenuList, not as a sibling
 - [Menu] Menu.Root does not accept onAction or open
 - [Menu] Use <Menu> for any prompt that asks for a dropdown menu, action menu, or options menu
+- [MultiSelect] textValue is required on items when search is enabled
+- [MultiSelect] Never import Selection from react-aria-components for MultiSelect state — derive the type from the component's props
+- [MultiSelect] The popover width matches the trigger width at open time
 - [NavigationMenu] NavigationMenu.List is required between NavigationMenu.Root and NavigationMenu.Item
 - [NavigationMenu] No standalone Nav component in Tale UI
+- [NavigationMenu] Use <NavigationMenu> for any prompt that asks for a site navigation bar or a list of nav links — never substitute HeaderNav
 - [NumberField] NumberField.Root value prop accepts number | undefined, NOT number | null.
 - [NumberField] No phantom sub-parts: NumberField.Step and NumberField.HintText do not exist
 - [Pagination] Root does NOT accept currentPage, totalPages, or onPageChange
@@ -156,6 +201,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ProgressCircle] size only accepts 'sm', 'md', 'lg'
 - [Radio] Radio and RadioGroup are separate components with separate imports
 - [Radio] Radio.Root does NOT accept checked, onChange, or native HTML input props
+- [Radio] For any radio group prompt, wrap Radio items in RadioGroup from @tale-ui/react/radio-group — do not use only Radio.Group
 - [RadioGroup] RadioGroup (from @tale-ui/react/radio-group) has NO sub-parts
 - [RangeCalendar] No Footer sub-part
 - [RangeCalendar] When wrapping RangeCalendar in a Column to show the selected range, use spacing-token gap values, not component-size names
@@ -167,6 +213,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [SearchField] SearchField.ClearButton does NOT auto-render an icon
 - [SearchField] No SearchField.InputGroup sub-part
 - [SearchField] SearchField.Root owns defaultValue
+- [SectionDivider] Use Separator not SectionDivider for in-component dividers
 - [Select] Select.Root owns the placeholder prop
 - [Select] No Select.Option — use Select.Item
 - [SelectNative] SelectNative has NO sub-parts
@@ -175,7 +222,9 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Slider] Requires nested structure: Root > Control > Track > Indicator + Thumb
 - [SocialButton] provider prop is required
 - [SocialButton] Use SocialButton for any social sign-in, sign-up, or OAuth button prompt
+- [SocialButton] size only accepts 'sm' or 'md' — 'lg' does not exist
 - [Spinner] label prop sets aria-label — it does NOT render visible text
+- [Spinner] Use Spinner for any prompt that asks for a loading spinner, loading indicator, or loading state
 - [Switch] No Label or Indicator sub-parts — only Root and Thumb
 - [Table] No Table.ColumnHeader
 - [Table] No Table.Status sub-part
@@ -187,13 +236,17 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Text] Never use bare <p> paragraph tags or <span> for visible text
 - [Text] size only accepts 'xs', 's', 'm', 'l'
 - [Text] Monospace variant is "mono", NOT "code"
-- [Text] No 'link', 'code', or 'caption' variant
+- [Text] variant+size compound strings like 'heading-m' or 'body-m' are not valid — always pass them as two separate props
 - [Text] No htmlFor prop on Text
 - [Text] as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'
 - [Text] color only accepts 'default', 'muted', 'accent'
 - [Text] Text has no boolean muted prop — use color="muted" for secondary text, plus separate variant/size props when needed
 - [Text] Use color="muted" for muted secondary paragraph copy
+- [Text] No 'link', 'code', or 'caption' variant
+- [Text] Never apply non-layout inline styles (fontWeight, fontSize, textDecoration, fontStyle) to Text
+- [Text] Text has no weight prop — use variant="label" for label-weight text
 - [TextArea] TextArea.TextArea sub-part is PascalCase, NOT TextArea.Textarea
+- [TextEditor] TextEditor.Root does not accept label or maxLength props
 - [TextField] TextField.Root accepts name — HTML input attributes (type, minLength, maxLength, placeholder) go on TextField.Input.
 - [TextField] There is NO PasswordInput component
 - [TimeField] No extra sub-parts: TimeField.Group, TimeField.Trigger, TimeField.Input, TimeField.Popover, TimeField.Dialog do not exist
@@ -204,6 +257,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ToggleButton] Use <ToggleButton> for any prompt that asks for a toggle button or formatting toggle
 - [ToggleButtonGroup] No Radix-style type, value, or onValueChange props
 - [ToggleButtonGroup] Requires aria-label or aria-labelledby
+- [ToggleButtonGroup] Use <ToggleButtonGroup> for any prompt that asks for a toggle button group, segmented alignment control, or mutually exclusive option set
 - [Toolbar] Toolbar.Button only accepts standard HTML button attributes
 - [Toolbar] No standalone ToolbarButton named export
 - [Toolbar] For toggleable toolbar buttons, use <ToggleButton> from @tale-ui/react/toggle-button
@@ -211,6 +265,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Tree] Sub-parts are Root, Item, and ItemContent only
 - [Tree] Tree.Root requires aria-label
 - [Tree] Each Tree.Item requires both id and textValue
+- [VideoPlayer] VideoPlayer.Root does NOT accept a style prop — wrap it in a layout element to control width or maxWidth
 
 ## CSS tokens
 

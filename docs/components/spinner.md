@@ -87,6 +87,11 @@ Also accepts all standard `<div>` HTML attributes except `children`.
       );
     }
     ```
+<!-- pitfall: use-spinner-for-any-prompt -->
+- **Use `Spinner` for any prompt that asks for a loading spinner, loading indicator, or loading state** — when the request is specifically for a spinner, render the Spinner component itself instead of leaving the file empty, returning `null`, or substituting another progress component. If the prompt includes visible label text, compose `Spinner` with `Text` in a `Row` and pass the same string to the `label` prop for accessibility.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `export function LoadingState() { return null; }`
+  - fix: `import { Row } from '@tale-ui/react/row'; import { Spinner } from '@tale-ui/react/spinner'; import { Text } from '@tale-ui/react/text'; export function LoadingState() { return <Row gap="s" style={{ alignItems: 'center' }}><Spinner label="Loading data..." /><Text>Loading data...</Text></Row>; }`
 
 ## Notes
 

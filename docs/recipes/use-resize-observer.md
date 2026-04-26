@@ -60,3 +60,39 @@ function ResponsiveComponent() {
 - `ResizeObserver` is supported in all modern browsers (Chrome 64+, Firefox 69+, Safari 13.1+).
 - The callback ref pattern ensures the latest `onResize` is always called without re-subscribing the observer.
 - The observer is automatically disconnected on unmount.
+
+## Preview
+
+```tsx
+import { useRef, useState } from 'react';
+
+export function Example() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useResizeObserver({
+    ref,
+    onResize(entry) {
+      setSize({ width: Math.round(entry.contentRect.width), height: Math.round(entry.contentRect.height) });
+    },
+  });
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        padding: 'var(--space-l)',
+        border: '1px dashed var(--neutral-30)',
+        borderRadius: 'var(--radius-m)',
+        resize: 'both',
+        overflow: 'auto',
+        minWidth: 160,
+        minHeight: 80,
+      }}
+    >
+      <div style={{ fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-50)' }}>Resize me ↘</div>
+      <div style={{ fontWeight: 600 }}>{size.width} × {size.height}px</div>
+    </div>
+  );
+}
+```

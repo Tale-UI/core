@@ -219,3 +219,5 @@ import { Sidebar } from '@tale-ui/react/sidebar';
 - `Sidebar.NavList` has `flex: 1` and `overflow-y: auto` — place multiple lists to create sections.
 - Collapsible items use the native `<details>`/`<summary>` pattern for zero-JS expand/collapse.
 - `Sidebar.MobileTrigger` uses React Aria `DialogTrigger`, `ModalOverlay`, `Modal`, and `Dialog` for accessible modal behaviour.
+
+## Pitfalls

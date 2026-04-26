@@ -132,3 +132,34 @@ import { HeaderNav } from '@tale-ui/react/header-nav';
 - `HeaderNav.Actions` has `margin-left: auto`, pushing it to the right end of the header.
 - `HeaderNav.MobileTrigger` uses React Aria `DialogTrigger`, `ModalOverlay`, `Modal`, and `Dialog` for accessible modal behaviour on small screens.
 - To hide the `Secondary` nav on mobile and show `MobileTrigger` instead, use CSS media queries on the consumer side.
+
+## Pitfalls
+
+<!-- pitfall: header-nav-mobile-trigger-requires-children -->
+<!-- applies-to: HeaderNav -->
+- **HeaderNav.MobileTrigger requires children — omitting them causes a TypeScript error 'Property children is missing in type {} but required in type HeaderNavMobileTriggerProps'** — it does not render any content automatically; pass an `<Icon>` child (e.g. a hamburger menu icon) so the button has visible and accessible content. Import `Icon` from `@tale-ui/react/icon` and the icon (e.g. `Menu`) from `lucide-react`.
+  - anti-pattern: `<HeaderNav.MobileTrigger />`
+  - fix: `<HeaderNav.MobileTrigger><Icon icon={Menu} size="sm" /></HeaderNav.MobileTrigger>`
+
+<!-- pitfall: header-nav-text-needs-separate-import -->
+<!-- applies-to: HeaderNav -->
+- **Always import Text from @tale-ui/react/text when rendering text inside HeaderNav sub-parts such as HeaderNav.Logo** — `Text` is not re-exported from `@tale-ui/react/header-nav`; using `<Text>` without a separate import causes 'cannot be used as a JSX component' TypeScript errors.
+  - anti-pattern: `<HeaderNav.Logo href="/"><Text variant="heading" as="span">Acme</Text></HeaderNav.Logo>`
+  - fix: `import { Text } from '@tale-ui/react/text'; ... <HeaderNav.Logo href="/"><Text variant="heading" as="span">Acme</Text></HeaderNav.Logo>`
+  - complete example:
+
+    ```tsx
+    import { HeaderNav } from '@tale-ui/react/header-nav';
+    import { Icon } from '@tale-ui/react/icon';
+    import { Menu } from 'lucide-react';
+
+    export function SiteHeader() {
+      return (
+        <HeaderNav.Root>
+          <HeaderNav.Actions>
+            <HeaderNav.MobileTrigger><Icon icon={Menu} size="sm" /></HeaderNav.MobileTrigger>
+          </HeaderNav.Actions>
+        </HeaderNav.Root>
+      );
+    }
+    ```

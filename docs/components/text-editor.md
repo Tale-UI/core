@@ -213,3 +213,11 @@ export function CustomToolbar() {
 - The `TextEditor.Image` button creates an object URL from the uploaded file. The URL is not persisted — consumers must handle upload to a server inside the `onUpdate` callback or similar.
 - `TextEditor.Generate` is a no-op placeholder. Implement AI generation by consuming `useEditorContext()` and calling `editor.commands.insertContent()`.
 - All button sub-parts can be placed outside `TextEditor.Toolbar` — they read the editor from `EditorContext` via `useEditorContext()`.
+
+## Pitfalls
+
+<!-- pitfall: texteditorroot-does-not-accept-label -->
+- **TextEditor.Root does not accept label or maxLength props** — `label` and `maxLength` are not valid on `TextEditor.Root`; use `TextEditor.Label` for the visible label and place `maxLength` on `TextEditor.Content`.
+  - anti-pattern: `<TextEditor.Root label="Content" maxLength={300}>`
+  - fix: `<TextEditor.Root><TextEditor.Label>Content</TextEditor.Label><TextEditor.Toolbar /><TextEditor.Content maxLength={300} /></TextEditor.Root>`
+

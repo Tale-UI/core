@@ -71,12 +71,21 @@ import { ColorSwatch } from '@tale-ui/react/color-swatch';
   - fix: `<ColorSwatchPicker.Root defaultValue="#ff0000">`
 
 <!-- pitfall: color-swatch-picker-no-list-sub-part -->
-- **No `ColorSwatchPicker.List`** — There is no `List` sub-part. Place `ColorSwatchPicker.Item` elements directly inside `ColorSwatchPicker.Root`.
+- **No ColorSwatchPicker.List** — There is no `List` sub-part. Place `ColorSwatchPicker.Item` elements directly inside `ColorSwatchPicker.Root`.
   - anti-pattern: `<ColorSwatchPicker.Root><ColorSwatchPicker.List><ColorSwatchPicker.Item color="#ff0000"><ColorSwatch /></ColorSwatchPicker.Item></ColorSwatchPicker.List></ColorSwatchPicker.Root>`
   - fix: `<ColorSwatchPicker.Root><ColorSwatchPicker.Item color="#ff0000"><ColorSwatch /></ColorSwatchPicker.Item></ColorSwatchPicker.Root>`
 
 <!-- cross-pitfall-ref: color-swatch-string-only -->
 <!-- cross-pitfall-ref: color-imports-from-rac -->
+<!-- pitfall: valueonchange-use-color-objects-not -->
+- **value/onChange use Color objects, not plain strings — initialize state with parseColor()** — `onChange` receives a `Color` object; passing a `Dispatch<SetStateAction<string>>` setter directly causes `Type 'Dispatch<SetStateAction<string>>' is not assignable to type '(value: Color) => void'`. Initialize state with `parseColor()` so the inferred type matches. Import `parseColor` from `@tale-ui/react/color-area`. To display the selected color as a string, call `.toString('css')` on the Color value.
+  - anti-pattern: `const [color, setColor] = useState('#3b82f6'); ... <ColorSwatchPicker.Root value={color} onChange={setColor}>`
+  - fix: `const [color, setColor] = useState(parseColor('#3b82f6')); ... <ColorSwatchPicker.Root value={color} onChange={setColor}>`
+<!-- pitfall: use-colorswatchpickerroot-for-any-prompt -->
+- **Use <ColorSwatchPicker.Root> for any prompt that asks for selectable color swatches, a color palette, or a swatch picker** — when the request is to choose from a visible set of color options, render `ColorSwatchPicker.Root` with direct `ColorSwatchPicker.Item` children and a nested `ColorSwatch` for each option instead of leaving the file empty or substituting `ColorSwatch`, `ColorPicker`, or custom buttons.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatch color="#3b82f6" />; }`
+  - fix: `import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker'; import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatchPicker.Root defaultValue="#3b82f6"><ColorSwatchPicker.Item color="#3b82f6"><ColorSwatch /></ColorSwatchPicker.Item></ColorSwatchPicker.Root>; }`
 
 ## Notes
 

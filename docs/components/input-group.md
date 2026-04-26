@@ -124,19 +124,16 @@ import { Field } from '@tale-ui/react/field';
 ## Pitfalls
 
 <!-- pitfall: label-placement -->
-### Label placement
-
-Place the `Input.Label` inside `Input.Root`, not outside the `InputGroup.Root`. The label is semantically associated with the input via React Aria's `TextField`, so it must remain inside `Input.Root`.
+<!-- prose-only -->
+- **Place `Input.Label` inside `Input.Root`** — the label is semantically associated with the input via React Aria's `TextField`, so it must remain inside `Input.Root`, not outside the `InputGroup.Root`.
 
 <!-- pitfall: addon-buttons -->
-### Action buttons in addons
-
-When placing a `<Button>` inside an `InputGroup.Addon`, use a raw class string or a `tale-button` element rather than nesting a `<Button>` JSX import — Tale UI buttons carry their own border-radius and box-shadow that may conflict with the addon's flush layout. Adjust via `className` overrides or use a plain `<button>`.
+<!-- prose-only -->
+- **Buttons inside `InputGroup.Addon` may conflict with addon styles** — Tale UI buttons carry their own border-radius and box-shadow that can conflict with the addon's flush layout. Adjust via `className` overrides or use a plain `<button>`.
 
 <!-- pitfall: no-double-label -->
-### Only one label
-
-Use a single `Input.Label` inside `Input.Root`. `InputGroup.Root` keeps the label associated with the input while aligning the addons to the input control row.
+<!-- prose-only -->
+- **Use a single `Input.Label` inside `Input.Root`** — `InputGroup.Root` keeps the label associated with the input while aligning the addons to the input control row.
 
 ## Notes
 

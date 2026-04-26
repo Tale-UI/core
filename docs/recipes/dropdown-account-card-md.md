@@ -115,3 +115,22 @@ export function AccountCardMD({ user }: { user: UserProfile }) {
 - The popover header repeats the avatar at `size="md"` (40 × 40 px) so the user can confirm their identity at a glance before taking account actions.
 - `role` and `email` combined in a single line with `·` as a separator keeps it compact. Split onto separate lines if your roles are long (> 20 characters).
 - Use this size when user identity is a primary app concept — e.g., multi-account apps, admin panels, or dashboards where the active user's role affects what they see.
+
+## Preview
+
+```tsx
+const demoUser = {
+  name: 'Alex Chen',
+  email: 'alex@acme.com',
+  role: 'Admin',
+  plan: 'pro' as const,
+};
+
+export function Example() {
+  return (
+    <div style={{ width: 280, padding: 'var(--space-m)' }}>
+      <AccountCardMD user={demoUser} />
+    </div>
+  );
+}
+```

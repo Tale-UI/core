@@ -90,3 +90,5 @@ import { ChartContainer } from '@tale-ui/charts';
 - Series colours are auto-assigned from the palette. Override per-Bar with `fill`.
 - Bars have rounded top corners by default (`radius={[4, 4, 0, 0]}`).
 - All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
+
+## Pitfalls

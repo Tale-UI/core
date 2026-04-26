@@ -1,0 +1,7 @@
+{
+  "slug": "select-dropdown",
+  "difficulty": "medium",
+  "prompt": "Show a country selector dropdown with a label 'Country', a placeholder 'Select a country', and four options: United States, Canada, United Kingdom, and Australia.",
+  "reference": "import { Select } from '@tale-ui/react/select';\n\nexport function Example() {\n  return (\n    <Select.Root placeholder=\"Select a country\">\n      <Select.Label>Country</Select.Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Icon />\n      </Select.Trigger>\n      <Select.Popover>\n        <Select.ListBox>\n          <Select.Item id=\"us\" textValue=\"United States\">United States</Select.Item>\n          <Select.Item id=\"ca\" textValue=\"Canada\">Canada</Select.Item>\n          <Select.Item id=\"gb\" textValue=\"United Kingdom\">United Kingdom</Select.Item>\n          <Select.Item id=\"au\" textValue=\"Australia\">Australia</Select.Item>\n        </Select.ListBox>\n      </Select.Popover>\n    </Select.Root>\n  );\n}",
+  "tags": ["Select"]
+}

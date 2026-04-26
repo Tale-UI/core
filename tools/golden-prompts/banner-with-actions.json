@@ -1,0 +1,7 @@
+{
+  "slug": "banner-with-actions",
+  "difficulty": "medium",
+  "prompt": "Show a warning banner with title 'Update available', description 'A new version is ready to install.', and two action buttons: 'Later' (ghost) and 'Update now' (primary).",
+  "reference": "import { Banner } from '@tale-ui/react/banner';\nimport { Button } from '@tale-ui/react/button';\n\nexport function Example() {\n  return (\n    <Banner.Root variant=\"warning\">\n      <Banner.Title>Update available</Banner.Title>\n      <Banner.Description>A new version is ready to install.</Banner.Description>\n      <Banner.Actions>\n        <Button variant=\"ghost\" size=\"sm\">Later</Button>\n        <Button variant=\"primary\" size=\"sm\">Update now</Button>\n      </Banner.Actions>\n    </Banner.Root>\n  );\n}",
+  "tags": ["Banner", "Button"]
+}

@@ -74,6 +74,7 @@ import { UploadCloud } from 'lucide-react';
   - fix: `<Illustration type="box" size="lg" />`
 
 <!-- pitfall: illustration-children-overlay -->
+<!-- prose-only -->
 - **Children are displayed as a centred overlay** — they float above the SVG via `position: absolute`. If you need children to stack below the illustration, do not use the `children` prop; compose manually.
 
 ## Notes

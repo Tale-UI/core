@@ -1,0 +1,7 @@
+{
+  "slug": "select-with-sections",
+  "difficulty": "medium",
+  "prompt": "Show a food category selector with sections: a 'Fruits' section with Apple and Banana, and a 'Vegetables' section with Carrot and Broccoli.",
+  "reference": "import { Select } from '@tale-ui/react/select';\n\nexport function Example() {\n  return (\n    <Select.Root placeholder=\"Select a food...\">\n      <Select.Label>Food</Select.Label>\n      <Select.Trigger>\n        <Select.Value />\n        <Select.Icon />\n      </Select.Trigger>\n      <Select.Popover>\n        <Select.ListBox>\n          <Select.Section>\n            <Select.Header>Fruits</Select.Header>\n            <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n            <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n          </Select.Section>\n          <Select.Section>\n            <Select.Header>Vegetables</Select.Header>\n            <Select.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Select.Item>\n            <Select.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Select.Item>\n          </Select.Section>\n        </Select.ListBox>\n      </Select.Popover>\n    </Select.Root>\n  );\n}",
+  "tags": ["Select"]
+}

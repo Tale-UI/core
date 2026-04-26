@@ -1,0 +1,7 @@
+{
+  "slug": "line-chart-visitors",
+  "difficulty": "medium",
+  "prompt": "Show a line chart displaying weekly website visitor counts over 5 weeks with a grid, axes, and tooltip.",
+  "reference": "import { LineChart } from '@tale-ui/charts/line-chart';\n\nconst data = [\n  { week: 'Week 1', visitors: 2400 },\n  { week: 'Week 2', visitors: 3100 },\n  { week: 'Week 3', visitors: 2800 },\n  { week: 'Week 4', visitors: 4200 },\n  { week: 'Week 5', visitors: 3900 },\n];\n\nexport function Example() {\n  return (\n    <LineChart.Root data={data} width={600} height={300}>\n      <LineChart.Grid />\n      <LineChart.XAxis dataKey=\"week\" />\n      <LineChart.YAxis />\n      <LineChart.Tooltip />\n      <LineChart.Line dataKey=\"visitors\" />\n    </LineChart.Root>\n  );\n}",
+  "tags": ["LineChart"]
+}

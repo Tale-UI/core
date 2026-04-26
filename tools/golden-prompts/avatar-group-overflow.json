@@ -1,0 +1,7 @@
+{
+  "slug": "avatar-group-overflow",
+  "difficulty": "medium",
+  "prompt": "Show a group of 3 stacked overlapping avatars with a '+5' overflow count indicator.",
+  "reference": "import { Avatar } from '@tale-ui/react/avatar';\n\nexport function Example() {\n  return (\n    <Avatar.Group size=\"md\">\n      <Avatar.Root>\n        <Avatar.Image src=\"/user1.jpg\" alt=\"Alice\" />\n        <Avatar.Fallback>AL</Avatar.Fallback>\n      </Avatar.Root>\n      <Avatar.Root>\n        <Avatar.Image src=\"/user2.jpg\" alt=\"Bob\" />\n        <Avatar.Fallback>BO</Avatar.Fallback>\n      </Avatar.Root>\n      <Avatar.Root>\n        <Avatar.Image src=\"/user3.jpg\" alt=\"Carol\" />\n        <Avatar.Fallback>CA</Avatar.Fallback>\n      </Avatar.Root>\n      <Avatar.Count>+5</Avatar.Count>\n    </Avatar.Group>\n  );\n}",
+  "tags": ["Avatar"]
+}

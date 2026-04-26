@@ -1,0 +1,7 @@
+{
+  "slug": "row-button-group",
+  "difficulty": "simple",
+  "prompt": "Show a row of Cancel and Save buttons, right-aligned using Row's justify prop.",
+  "reference": "import { Row } from '@tale-ui/react/row';\nimport { Button } from '@tale-ui/react/button';\n\nexport function Example() {\n  return (\n    <Row gap=\"s\" justify=\"end\">\n      <Button variant=\"neutral\">Cancel</Button>\n      <Button variant=\"primary\">Save</Button>\n    </Row>\n  );\n}",
+  "tags": ["Row", "Button"]
+}

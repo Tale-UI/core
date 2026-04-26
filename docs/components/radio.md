@@ -152,9 +152,13 @@ Also accepts all React Aria `RadioGroup` props.
     ```
 
 <!-- pitfall: radio-no-native-input-props -->
-- **`Radio.Root` does NOT accept `checked`, `onChange`, or native HTML input props** — selection state is managed by `Radio.Group` via `value`/`onChange` props. Passing `checked` causes TypeScript errors.
+- **Radio.Root does NOT accept checked, onChange, or native HTML input props** — selection state is managed by `Radio.Group` via `value`/`onChange` props. Passing `checked` causes TypeScript errors.
   - anti-pattern: `<Radio.Root value="a" checked={isSelected} onChange={setSelected} />`
   - fix: `<Radio.Group value={selected} onChange={setSelected}><Radio.Root value="a">...</Radio.Root></Radio.Group>`
+<!-- pitfall: for-any-radio-group-prompt -->
+- **For any radio group prompt, wrap Radio items in `RadioGroup` from `@tale-ui/react/radio-group` — do not use only `Radio.Group`** — when a prompt asks for a radio group, both `Radio` (from `@tale-ui/react/radio`) and `RadioGroup` (from `@tale-ui/react/radio-group`) must appear in the code; using `Radio.Group` alone omits the required `RadioGroup` component.
+  - anti-pattern: `import { Radio } from '@tale-ui/react/radio'; ... <Radio.Group label="Plan"><Radio.Root value="free"><Radio.Indicator />Free</Radio.Root></Radio.Group>`
+  - fix: `import { RadioGroup } from '@tale-ui/react/radio-group'; import { Radio } from '@tale-ui/react/radio'; ... <RadioGroup label="Plan"><Radio.Root value="free"><Radio.Indicator />Free</Radio.Root></RadioGroup>`
 
 ## Notes
 

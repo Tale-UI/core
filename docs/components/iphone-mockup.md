@@ -69,7 +69,12 @@ import { IPhoneMockup } from '@tale-ui/react/iphone-mockup';
   - fix: `<IPhoneMockup image="/screenshot.png" />`
 
 <!-- pitfall: iphone-mockup-image-size -->
-- **Screenshot should ideally be 750 × 1624 px** — the SVG pattern is sized to this resolution. Other resolutions will be stretched or compressed.
+<!-- prose-only -->
+- **Image size should ideally be 750 × 1624 px** — the SVG pattern is sized to this resolution. Other resolutions will be stretched or compressed.
+<!-- pitfall: the-exported-name-is-iphonemockup -->
+- **The exported name is IPhoneMockup (capital P), not IphoneMockup** — the import destructure and JSX tag must use `IPhoneMockup`; `IphoneMockup` (lowercase 'p') does not exist as an export and causes a missing-component error.
+  - anti-pattern: `import { IphoneMockup } from '@tale-ui/react/iphone-mockup';`
+  - fix: `import { IPhoneMockup } from '@tale-ui/react/iphone-mockup';`
 
 ## Notes
 

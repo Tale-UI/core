@@ -143,6 +143,10 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 - **Do not add vertical margin or padding to `Calendar.Heading`** — it is positioned by `Calendar.Header`'s flex layout; extra margin breaks alignment.
   - anti-pattern: `<Calendar.Heading style={{ marginBottom: '8px' }} />`
   - fix: `<Calendar.Heading />`
+<!-- pitfall: use-calendar-for-date-picker -->
+- **Use `Calendar` for any prompt that asks for a date calendar picker, standalone calendar, or single date selection** — when the request is to display a calendar for picking a single date, render `Calendar.Root` with the full header and grid structure instead of leaving the file empty or substituting `DatePicker`.
+  - anti-pattern: `// empty file`
+  - fix: `import { Calendar } from '@tale-ui/react/calendar'; export function DateCalendarPicker() { return <Calendar.Root><Calendar.Header><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Header><Calendar.Grid><Calendar.GridHeader>{(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}</Calendar.GridHeader><Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody></Calendar.Grid></Calendar.Root>; }`
 
 <!-- cross-pitfall-ref: no-locale-prop-on-calendar -->
 <!-- cross-pitfall-ref: no-native-date -->

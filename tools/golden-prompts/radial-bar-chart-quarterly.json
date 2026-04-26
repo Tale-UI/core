@@ -1,0 +1,7 @@
+{
+  "slug": "radial-bar-chart-quarterly",
+  "difficulty": "medium",
+  "prompt": "Show a radial bar chart displaying quarterly performance values (Q1: 80, Q2: 60, Q3: 90, Q4: 70) with a legend and tooltip.",
+  "reference": "import { RadialBarChart } from '@tale-ui/charts/radial-bar-chart';\n\nconst data = [\n  { name: 'Q1', value: 80 },\n  { name: 'Q2', value: 60 },\n  { name: 'Q3', value: 90 },\n  { name: 'Q4', value: 70 },\n];\n\nexport function Example() {\n  return (\n    <RadialBarChart.Root data={data} width={400} height={300}>\n      <RadialBarChart.RadialBar dataKey=\"value\" />\n      <RadialBarChart.Tooltip />\n      <RadialBarChart.Legend />\n    </RadialBarChart.Root>\n  );\n}",
+  "tags": ["RadialBarChart"]
+}

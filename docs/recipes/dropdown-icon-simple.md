@@ -44,3 +44,11 @@ export function IconDropdown({ itemId }: { itemId: string }) {
 - `aria-label="Row actions"` is required on the `IconButton` — icon-only controls must have an accessible name.
 - `placement="bottom end"` aligns the popover's right edge with the trigger's right edge — ideal for table row actions near the right side of the viewport.
 - `MoreVertical` (vertical dots) is an alternative icon; use whichever is consistent with your design language.
+
+## Preview
+
+```tsx
+export function Example() {
+  return <IconDropdown itemId="demo-1" />;
+}
+```

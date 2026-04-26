@@ -1,0 +1,7 @@
+{
+  "slug": "bar-chart-sales",
+  "difficulty": "medium",
+  "prompt": "Show a bar chart comparing sales and profit for Q1 through Q4 with a legend and tooltip.",
+  "reference": "import { BarChart } from '@tale-ui/charts/bar-chart';\n\nconst data = [\n  { quarter: 'Q1', sales: 12000, profit: 3200 },\n  { quarter: 'Q2', sales: 15000, profit: 4100 },\n  { quarter: 'Q3', sales: 18000, profit: 5600 },\n  { quarter: 'Q4', sales: 22000, profit: 7800 },\n];\n\nexport function Example() {\n  return (\n    <BarChart.Root data={data} width={600} height={300}>\n      <BarChart.Grid strokeDasharray=\"3 3\" />\n      <BarChart.XAxis dataKey=\"quarter\" />\n      <BarChart.YAxis />\n      <BarChart.Tooltip />\n      <BarChart.Legend />\n      <BarChart.Bar dataKey=\"sales\" />\n      <BarChart.Bar dataKey=\"profit\" />\n    </BarChart.Root>\n  );\n}",
+  "tags": ["BarChart"]
+}

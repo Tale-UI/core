@@ -85,6 +85,11 @@ Also accepts all standard `<div>` HTML attributes.
 
 ## Pitfalls
 
+<!-- pitfall: column-form-gap-too-large -->
+- **Use `gap="s"` when stacking form fields** — the default `gap="m"` is too large for tight field stacks inside forms or cards
+  - anti-pattern: `<Column gap="m">`
+  - fix: `<Column gap="s">`
+
 <!-- cross-pitfall-ref: column-needs-explicit-import -->
 
 ## Notes

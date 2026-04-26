@@ -116,6 +116,11 @@ function ProduceSearch() {
 <!-- pitfall: autocomplete-no-controlled-props -->
 <!-- prose-only -->
 - **No controlled state props on `Autocomplete.Root`** — filter state is derived from the `filter` function and the input value managed internally.
+<!-- pitfall: use-autocomplete-for-any-prompt -->
+- **Use `<Autocomplete>` for any prompt that asks for an autocomplete, inline search, or a filtered list of options** — when the request is to search/filter items such as fruits, countries, commands, or members, render `Autocomplete.Root` with `useFilter`, `Autocomplete.SearchField`, `Autocomplete.Input`, and `Autocomplete.ListBox` instead of leaving the file empty or substituting `SearchField` or `Combobox`.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `import { SearchField } from '@tale-ui/react/search-field'; export function FruitSearch() { return <SearchField.Root><SearchField.Input placeholder="Search fruits..." /></SearchField.Root>; }`
+  - fix: `import { Autocomplete, useFilter } from '@tale-ui/react/autocomplete'; export function FruitAutocomplete() { const { contains } = useFilter({ sensitivity: 'base' }); return <Autocomplete.Root filter={contains}><Autocomplete.SearchField aria-label="Search fruits"><Autocomplete.Input placeholder="Search fruits..." /></Autocomplete.SearchField><Autocomplete.ListBox aria-label="Fruits"><Autocomplete.Item id="apple" textValue="Apple">Apple</Autocomplete.Item></Autocomplete.ListBox></Autocomplete.Root>; }`
 
 ## Notes
 

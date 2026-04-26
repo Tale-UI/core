@@ -50,7 +50,7 @@ import { SectionDivider } from '@tale-ui/react/section-divider';
 ## Pitfalls
 
 <!-- pitfall: section-divider-not-separator -->
-- **`SectionDivider` is for page-level section breaks** — for UI dividers inside components (menus, cards, lists) use `Separator` instead.
+- **Use `Separator` not `SectionDivider` for in-component dividers** — `SectionDivider` is for page-level section breaks only. For UI dividers inside components (menus, cards, lists) use `Separator` instead.
   - anti-pattern: `<Menu><SectionDivider /></Menu>`
   - fix: `<Menu.Separator />`
 

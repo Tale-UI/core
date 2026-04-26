@@ -8,7 +8,6 @@ Field-level validation errors with `isInvalid` and `ErrorMessage`.
 import { useState } from 'react';
 import { Form } from '@tale-ui/react/form';
 import { TextField } from '@tale-ui/react/text-field';
-import { Select } from '@tale-ui/react/select';
 import { Button } from '@tale-ui/react/button';
 
 interface FormErrors {
@@ -40,7 +39,7 @@ export function ValidatedForm() {
   }
 
   return (
-    <Form.Root onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <TextField.Root name="name" isRequired isInvalid={!!errors.name}>
         <TextField.Label>Name</TextField.Label>
         <TextField.Input />
@@ -55,7 +54,7 @@ export function ValidatedForm() {
       </TextField.Root>
 
       <Button type="submit" variant="primary">Submit</Button>
-    </Form.Root>
+    </Form>
   );
 }
 ```

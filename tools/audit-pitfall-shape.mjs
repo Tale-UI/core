@@ -24,7 +24,7 @@
  *  12. Notes bullets must not restate local pitfall rules
  */
 
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve, join, basename } from 'node:path';
 
 const ROOT = resolve(import.meta.dirname, '..');
@@ -374,6 +374,24 @@ function checkNotesAgainstPitfalls(filePath, content, blocks, violations) {
   }
 }
 
+// ─── Auto-fix (--fix mode) ────────────────────────────────────────────────────
+
+const FIX_MODE = process.argv.includes('--fix');
+
+function autoFixFile(filePath) {
+  const before = readFileSync(filePath, 'utf8');
+  // Only repair trailing double-backticks inside anti-pattern / fix sub-bullets.
+  const after = before.replace(
+    /^(\s+- (?:anti-pattern|fix):\s*.*?)``(?!`)(\s*)$/gm,
+    '$1`$2',
+  );
+  if (after !== before) {
+    writeFileSync(filePath, after, 'utf8');
+    return true;
+  }
+  return false;
+}
+
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 function auditFile(filePath, isPitfallsDoc) {
@@ -412,22 +430,31 @@ function auditFile(filePath, isPitfallsDoc) {
   return violations;
 }
 
+// Report helper (needed by auto-fix output too)
+const relPath = p => p.replace(`${ROOT}/`, '');
+
+const componentFiles = readdirSync(COMPONENTS_DIR)
+  .filter(f => f.endsWith('.md') && f !== 'index.md')
+  .map(f => join(COMPONENTS_DIR, f));
+
+// Auto-fix pass (--fix): repair trailing double-backticks in anti-pattern/fix bullets
+if (FIX_MODE) {
+  for (const f of [PITFALLS_DOC, ...componentFiles]) {
+    if (autoFixFile(f)) {
+      process.stdout.write(`  auto-repaired trailing \`\` in ${relPath(f)}\n`);
+    }
+  }
+}
+
 const allViolations = [];
 
 // Audit pitfalls.md
 allViolations.push(...auditFile(PITFALLS_DOC, true));
 
 // Audit component docs
-const componentFiles = readdirSync(COMPONENTS_DIR)
-  .filter(f => f.endsWith('.md') && f !== 'index.md')
-  .map(f => join(COMPONENTS_DIR, f));
-
 for (const f of componentFiles) {
   allViolations.push(...auditFile(f, false));
 }
-
-// Report
-const relPath = p => p.replace(`${ROOT}/`, '');
 
 if (allViolations.length === 0) {
   process.stdout.write(`✅ audit-pitfall-shape: no violations found (${componentFiles.length + 1} files checked)\n`);

@@ -169,9 +169,17 @@ All parts accept standard `<div>` HTML attributes including `className`.
 
 <!-- pitfall: card-body-footer-no-gap -->
 <!-- multi-idea-ok -->
-- **`Card.Body` and `Card.Footer` do NOT accept a `gap` prop** — wrap children in `<Column gap="...">` inside these parts.
+- **Card.Body and Card.Footer do NOT accept a gap prop** — for stacked content in Card.Body use `<Column gap="...">`, and for side-by-side actions in Card.Footer use `<Row gap="...">` inside these parts.
   - anti-pattern: `<Card.Body gap="m">`
-  - fix: `<Card.Body><Column gap="m">…</Column></Card.Body>`
+  - anti-pattern: `<Card.Footer gap="s">`
+  - fix: `<Card.Body><Column gap="s">…</Column></Card.Body>`
+  - fix: `<Card.Footer><Row gap="s">…</Row></Card.Footer>`
+<!-- pitfall: for-stat-cards-label-value -->
+- **For stat cards, render `<Text color="muted">` inside `Card.Header` — wrap value/badge in `<Column>` inside `Card.Body`** — `Card.Header` has no `title` prop; place a `<Text color="muted">` child directly. `Card.Body` has no `gap` prop; wrap contents in `<Column gap="s">`. Use `<Row gap="m">` to lay out multiple stat cards side by side.
+  - anti-pattern: `<Card.Header title="Revenue" />`
+  - anti-pattern: `<Card.Body gap="s">`
+  - fix: `<Card.Header><Text color="muted">Revenue</Text></Card.Header>`
+  - fix: `<Card.Body><Column gap="s"><Text variant="display">$48,200</Text><Badge variant="success">+12%</Badge></Column></Card.Body>`
 
 ## Notes
 

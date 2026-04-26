@@ -27,7 +27,7 @@ import { Check } from 'lucide-react';
 
 function SignUpForm() {
   return (
-    <Form.Root onSubmit={(e) => { e.preventDefault(); /* handle submit */ }}>
+    <Form onSubmit={(e) => { e.preventDefault(); /* handle submit */ }}>
       <Fieldset.Root>
         <Fieldset.Legend>Personal Information</Fieldset.Legend>
 
@@ -67,7 +67,7 @@ function SignUpForm() {
         <Button type="submit" variant="primary">Sign Up</Button>
         <Button type="reset" variant="ghost">Reset</Button>
       </div>
-    </Form.Root>
+    </Form>
   );
 }
 ```
@@ -78,4 +78,4 @@ function SignUpForm() {
 - Add more fields to the `Fieldset` as needed.
 - Use `isRequired` on any field to enable built-in React Aria validation.
 - `ErrorMessage` parts only display when the field is invalid.
-- Wrap multiple fieldsets in the same `Form.Root` for multi-section forms.
+- Wrap multiple fieldsets in the same `Form` for multi-section forms.

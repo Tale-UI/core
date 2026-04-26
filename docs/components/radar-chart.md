@@ -114,3 +114,5 @@ import { ChartContainer } from '@tale-ui/charts';
 - Radar areas default to `fillOpacity={0.15}` for a subtle shaded effect.
 - `PolarAngleAxis` labels the spokes; `PolarRadiusAxis` labels the concentric rings.
 - All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
+
+## Pitfalls

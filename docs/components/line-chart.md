@@ -104,3 +104,12 @@ import { ChartContainer } from '@tale-ui/charts';
 - Series colours are auto-assigned from the palette. Override per-Line with `stroke`.
 - Lines default to `strokeWidth={2}` and `dot={false}` for a clean appearance.
 - All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
+
+## Pitfalls
+
+<!-- pitfall: use-linechart-for-any-prompt -->
+- **Use `LineChart` for any prompt that asks for a line chart, trend chart, or time-series chart** — when the request explicitly asks for a line chart, render `LineChart.Root` with at least one `LineChart.Line`; if the prompt asks for a grid, axes, or a tooltip, include `LineChart.Grid`, `LineChart.XAxis`, `LineChart.YAxis`, and `LineChart.Tooltip` instead of leaving the file blank or substituting another chart type.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `<BarChart.Root data={data}><BarChart.Bar dataKey="visitors" /></BarChart.Root>`
+  - fix: `<LineChart.Root data={data} width={600} height={300}><LineChart.Grid /><LineChart.XAxis dataKey="week" /><LineChart.YAxis /><LineChart.Tooltip /><LineChart.Line dataKey="visitors" /></LineChart.Root>`
+

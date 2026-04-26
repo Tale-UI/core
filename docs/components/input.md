@@ -109,3 +109,5 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 - `size` defaults to `"md"`. The `--md` modifier class is omitted from the DOM (it is the default).
 - Set `isInvalid` on `Input.Root` to display error styling and reveal `Input.ErrorMessage`.
 - `isDisabled` and `isReadOnly` are set on `Input.Root` and propagate to the inner input.
+
+## Pitfalls

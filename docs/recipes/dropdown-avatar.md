@@ -62,3 +62,13 @@ export function AvatarDropdown({ user }: { user: User }) {
 - The non-interactive user info header at the top of the popover is a `<div>`, not a `Menu.Item`. This is intentional — it provides context without being focusable or selectable.
 - `placement="bottom end"` aligns the popover's right edge with the trigger's right edge — keeps the menu within the viewport when the avatar is near the right edge.
 - `Menu.Indicator` (from `Avatar.Indicator`) can be composed over the avatar to show online/offline status independently of this menu.
+
+## Preview
+
+```tsx
+const demoUser = { name: 'Alex Chen', email: 'alex@acme.com' };
+
+export function Example() {
+  return <AvatarDropdown user={demoUser} />;
+}
+```

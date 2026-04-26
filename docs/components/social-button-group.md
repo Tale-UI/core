@@ -46,3 +46,5 @@ import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';
 - Buttons inside a group get `width: 100%` and centered content, overriding the standalone left-aligned layout.
 - The `size` prop on the group propagates to all child SocialButton components via context. Individual buttons can still override with their own `size` prop.
 - See [SocialButton](social-button.md) for the full button API, props, and examples.
+
+## Pitfalls

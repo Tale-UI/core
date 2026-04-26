@@ -395,6 +395,110 @@
     {
       "slug": "header-nav-basic",
       "difficulty": "simple"
+    },
+    {
+      "slug": "select-dropdown",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "select-with-sections",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "menubar-editor",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "banner-success",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "banner-with-actions",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "image-rounded",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "container-color-theme",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "social-button-group-login",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "checkbox-standalone",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "radio-standalone",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "color-slider-hue",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "row-button-group",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "column-form-layout",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "list-with-badges",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "area-chart-revenue",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "bar-chart-sales",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "line-chart-visitors",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "pie-chart-traffic",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "radar-chart-skills",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "radial-bar-chart-quarterly",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "tabs-pills-variant",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "avatar-group-overflow",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "button-danger",
+      "difficulty": "simple"
+    },
+    {
+      "slug": "dialog-destructive",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "switch-settings-list",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "text-heading-hierarchy",
+      "difficulty": "simple"
     }
   ]
 }

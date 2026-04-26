@@ -89,3 +89,5 @@ import { ChartContainer } from '@tale-ui/charts';
 - Bar colours can be set via `palette` on Root, `fill` on RadialBar, or `fill` on each data entry.
 - The simplest chart type — no axes or grid needed.
 - All Tale UI design tokens are used for tooltip styling — dark mode works automatically.
+
+## Pitfalls

@@ -1,0 +1,7 @@
+{
+  "slug": "checkbox-standalone",
+  "difficulty": "simple",
+  "prompt": "Show a standalone checkbox with the label 'Accept terms and conditions'.",
+  "reference": "import { Checkbox } from '@tale-ui/react/checkbox';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <Checkbox.Root>\n      <Checkbox.Indicator>\n        <Icon icon={Check} size=\"sm\" />\n      </Checkbox.Indicator>\n      Accept terms and conditions\n    </Checkbox.Root>\n  );\n}",
+  "tags": ["Checkbox"]
+}

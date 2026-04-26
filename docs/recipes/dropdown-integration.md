@@ -45,10 +45,10 @@ export function IntegrationDropdown() {
     >
       <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
         {activeIntegration ? (
-          <React.Fragment>
+          <>
             <img src={activeIntegration.logoSrc} alt="" width={16} height={16} aria-hidden="true" />
             {activeIntegration.name}
-          </React.Fragment>
+          </>
         ) : 'Select integration'}
         {' ▾'}
       </Menu.Trigger>

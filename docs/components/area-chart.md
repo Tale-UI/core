@@ -104,3 +104,5 @@ import { ChartContainer } from '@tale-ui/charts';
 - Series colours are auto-assigned from the palette. Override per-Area with `stroke` and `fill`.
 - Areas default to `fillOpacity={0.15}` for a subtle shaded effect beneath the line.
 - All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
+
+## Pitfalls

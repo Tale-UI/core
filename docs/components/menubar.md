@@ -78,3 +78,5 @@ import { Menu } from '@tale-ui/react/menu';
 - Menubar itself has only two parts (`Root` and `Item`). Each `Item` wraps a full `Menu` compound component.
 - See the [Menu documentation](./menu.md) for details on `Menu.Root`, `Menu.Trigger`, `Menu.Popover`, `Menu.MenuList`, etc.
 - The root renders with `role="menubar"` for accessibility.
+
+## Pitfalls

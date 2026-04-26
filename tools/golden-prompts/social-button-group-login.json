@@ -1,0 +1,7 @@
+{
+  "slug": "social-button-group-login",
+  "difficulty": "simple",
+  "prompt": "Show a vertical group of social login buttons for Google, GitHub, and Apple, all equal width.",
+  "reference": "import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';\n\nexport function Example() {\n  return (\n    <SocialButtonGroup>\n      <SocialButton provider=\"google\">Sign in with Google</SocialButton>\n      <SocialButton provider=\"github\">Continue with GitHub</SocialButton>\n      <SocialButton provider=\"apple\">Sign in with Apple</SocialButton>\n    </SocialButtonGroup>\n  );\n}",
+  "tags": ["SocialButtonGroup", "SocialButton"]
+}

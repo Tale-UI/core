@@ -65,9 +65,13 @@ Also accepts all standard `<span>` HTML attributes except `children`.
     }
     ```
 <!-- pitfall: use-the-color-prop-not -->
-- **Use the `color` prop, not `type`, `variant`, or `status`** — `DotIcon` has no `type` prop; passing `type="success"` causes a TypeScript error. Use the semantic `color` prop instead.
+- **Use the color prop, not type, variant, or status** — `DotIcon` has no `type` prop; passing `type="success"` causes a TypeScript error. Use the semantic `color` prop instead.
   - anti-pattern: `<DotIcon type="success" />`
   - fix: `<DotIcon color="success" />`
+<!-- pitfall: when-pairing-doticon-with-text -->
+- **When pairing DotIcon with Text in a status indicator, use Text's single-letter size tokens — not component-size names** — the canonical status-indicator pattern wraps `<DotIcon>` and `<Text>` in a `<Row>`, but `Text` is the only component whose `size` prop uses spacing-token values (`'xs'`/`'s'`/`'m'`/`'l'`); passing `size="sm"` to `Text` causes `Type '"sm"' is not assignable to type 'Size | undefined'`.
+  - anti-pattern: `<Text size="sm">Online</Text>`
+  - fix: `<Text size="s">Online</Text>`
 
 ## Notes
 

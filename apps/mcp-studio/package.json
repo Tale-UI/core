@@ -1,0 +1,26 @@
+{
+  "name": "@tale-ui/mcp-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "^1.6.0",
+    "marked": "^15.0.12",
+    "react": "19.2.4",
+    "react-aria-components": "^1.16.0",
+    "react-dom": "19.2.4",
+    "sucrase": "^3.35.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.13",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.4",
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
+  }
+}

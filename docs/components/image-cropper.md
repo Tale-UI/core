@@ -135,3 +135,16 @@ The full `ReactCrop` CSS is included in `@tale-ui/react-styles`. Consumers do **
 
 - Requires `react-image-crop` to be installed: `npm install react-image-crop`
 - Do **not** import `react-image-crop/dist/ReactCrop.css` — Tale UI's styles already include the necessary CSS themed with `--color-60` tokens.
+
+## Pitfalls
+
+<!-- pitfall: never-apply-nonlayout-inline-styles -->
+- **Never apply non-layout inline styles (objectFit, objectPosition) to ImageCropper.Img — use a wrapper element for those CSS overrides instead** — `ImageCropper.Img` only accepts layout styles (`maxHeight`, `width`) directly on its `style` prop; passing visual rendering styles like `objectFit` causes a validation error.
+  - anti-pattern: `<ImageCropper.Img style={{ maxHeight: 400, width: '100%', objectFit: 'contain' }} />`
+  - fix: `<div style={{ maxHeight: 400, width: '100%' }}><ImageCropper.Img style={{ maxHeight: 400, width: '100%' }} /></div>`
+<!-- pitfall: use-imagecropper-for-any-prompt -->
+- **Use <ImageCropper> for any prompt that asks for image cropping, avatar photo cropping, or a fixed-aspect crop area** — when the request is to crop a profile photo, avatar, or other image, render `ImageCropper.Root` with an `ImageCropper.Img` child instead of leaving the file empty or substituting `Image`. For square avatar crops, set `aspect={1}`.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `import { Image } from '@tale-ui/react/image'; export function AvatarCropper() { return <Image src="/avatar.jpg" alt="User avatar" />; }`
+  - fix: `import * as React from 'react'; import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper'; import type { Crop } from '@tale-ui/react/image-cropper'; function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) { return centerCrop(makeAspectCrop({ unit: '%', width: 80 }, aspect, mediaWidth, mediaHeight), mediaWidth, mediaHeight); } export function AvatarCropper() { const [crop, setCrop] = React.useState<Crop>(); function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) { const { width, height } = event.currentTarget; setCrop(centerAspectCrop(width, height, 1)); } return <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}><ImageCropper.Img src="/avatar.jpg" alt="User avatar to crop" onLoad={handleImageLoad} style={{ maxHeight: 320, width: '100%' }} /></ImageCropper.Root>; }`
+

@@ -2,6 +2,13 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.46 — 2026-04-26
+
+### Changed
+
+- **MCP server**: Refactored `mcp-server.mjs` into a thin protocol wrapper around new `mcp-core.mjs`. Build script now bundles both files so the consumer-installed `tale-ui-mcp` binary works correctly.
+- **Pitfall content**: Expanded pitfall coverage across most components and recipes (sourced from canonicalized docs).
+
 ## v1.3.45 — 2026-04-18
 
 ### Fixed

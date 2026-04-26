@@ -9,6 +9,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@tale-ui/charts": "workspace:*",
     "@tale-ui/playground-scale": "workspace:*",
     "lucide-react": "^1.6.0",
     "motion": "^12.38.0",

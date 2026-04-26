@@ -1,0 +1,7 @@
+{
+  "slug": "color-slider-hue",
+  "difficulty": "medium",
+  "prompt": "Show a hue color slider with a label and a live value output.",
+  "reference": "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n\nexport function Example() {\n  return (\n    <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n      <ColorSlider.Label>Hue</ColorSlider.Label>\n      <ColorSlider.Output />\n      <ColorSlider.Track>\n        <ColorSlider.Thumb />\n      </ColorSlider.Track>\n    </ColorSlider.Root>\n  );\n}",
+  "tags": ["ColorSlider"]
+}

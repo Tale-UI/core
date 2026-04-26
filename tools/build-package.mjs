@@ -259,12 +259,14 @@ if (await fileExists(registryDir)) {
   copied++;
 }
 
-// Copy the MCP server — single source file, no separate consumer copy.
-// IS_MONOREPO detection inside the script handles path differences at runtime.
-const mcpServerSrc = path.join(repoRoot, 'tools', 'mcp-server.mjs');
-if (await fileExists(mcpServerSrc)) {
-  await fs.cp(mcpServerSrc, path.join(buildDir, 'mcp-server.mjs'));
-  copied++;
+// Copy the MCP server and its core module — IS_MONOREPO detection inside
+// the scripts handles path differences at runtime.
+for (const file of ['mcp-server.mjs', 'mcp-core.mjs']) {
+  const src = path.join(repoRoot, 'tools', file);
+  if (await fileExists(src)) {
+    await fs.cp(src, path.join(buildDir, file));
+    copied++;
+  }
 }
 
 // Copy extra files (e.g., .npmignore)

@@ -111,7 +111,11 @@ All buttons on a given surface should share the same size. Mixing `sm` and `md` 
 ## Pitfalls
 
 <!-- pitfall: button-no-link-variant -->
-- **No 'link' variant** — The valid variants are `'primary'`, `'neutral'`, `'ghost'`, `'danger'`, `'danger-neutral'`, `'danger-ghost'`, and `'inverse'`. There is no `'link'` variant. For link-styled text, use the `Link` component.
+- **No 'link' or 'secondary' variant — for Cancel or secondary-action buttons always use `variant="neutral"`** — The valid variants are `'primary'`, `'neutral'`, `'ghost'`, `'danger'`, `'danger-neutral'`, `'danger-ghost'`, and `'inverse'`. There is no `'link'` variant (use the `Link` component instead) and no `'secondary'` variant; when a prompt asks for a Cancel button or any secondary-action button, use `'neutral'` — never `'secondary'`.
+  - anti-pattern: `<Button variant="link">Go back</Button>`
+  - anti-pattern: `<Button variant="secondary">Cancel</Button>`
+  - fix: `<Button variant="neutral">Go back</Button>`
+  - fix: `<Button variant="neutral">Cancel</Button>`
   - anti-pattern: `<Button variant="link">Go back</Button>`
   - fix: `<Button variant="neutral">Go back</Button>`
   - complete example:
@@ -148,6 +152,10 @@ All buttons on a given surface should share the same size. Mixing `sm` and `md` 
 - **No `icon`, `leftIcon`, `rightIcon`, or `startIcon` prop** — Place an `<Icon>` component (or any icon) directly as a child of `Button`. Position before or after the label text as needed.
   - anti-pattern: `<Button leftIcon={<PlusIcon />}>Add</Button>`
   - fix: `<Button><PlusIcon />Add</Button>`
+<!-- pitfall: button-no-href-prop -->
+- **`Button` has no `href` prop — it renders a `<button>`, not a link** — passing `href` causes a TypeScript assignability error. For navigational links styled as buttons, use `Link` from `@tale-ui/react/link` with BEM class names.
+  - anti-pattern: `<Button variant="primary" size="md" href="/signup">Sign up</Button>`
+  - fix: `<Link href="/signup" className="tale-button tale-button--primary tale-button--md">Sign up</Link>`
 
 ## Notes
 

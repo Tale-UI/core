@@ -1,0 +1,7 @@
+{
+  "slug": "tabs-pills-variant",
+  "difficulty": "medium",
+  "prompt": "Show a settings page with pill-style tabs: Account, Security, and Notifications, each with a content panel describing that section.",
+  "reference": "import { Tabs } from '@tale-ui/react/tabs';\n\nexport function Example() {\n  return (\n    <Tabs.Root defaultSelectedKey=\"account\">\n      <Tabs.List variant=\"pills\">\n        <Tabs.Tab id=\"account\">Account</Tabs.Tab>\n        <Tabs.Tab id=\"security\">Security</Tabs.Tab>\n        <Tabs.Tab id=\"notifications\">Notifications</Tabs.Tab>\n        <Tabs.Indicator />\n      </Tabs.List>\n      <Tabs.Panel id=\"account\">\n        <p>Manage your account details, email address, and profile photo.</p>\n      </Tabs.Panel>\n      <Tabs.Panel id=\"security\">\n        <p>Update your password, enable two-factor authentication, and review login sessions.</p>\n      </Tabs.Panel>\n      <Tabs.Panel id=\"notifications\">\n        <p>Control how and when you receive email, push, and in-app notifications.</p>\n      </Tabs.Panel>\n    </Tabs.Root>\n  );\n}",
+  "tags": ["Tabs"]
+}

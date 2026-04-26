@@ -337,11 +337,19 @@ import { DotIcon } from '@tale-ui/react/dot-icon';
 - **`Avatar.CompanyIcon` must wrap `Avatar.Root` from outside** — like `Avatar.Indicator`, the badge is absolutely positioned on the wrapper. Placing it inside `Avatar.Root` will clip it.
   - anti-pattern: `<Avatar.Root><Avatar.CompanyIcon src="..." /></Avatar.Root>`
   - fix: `<Avatar.CompanyIcon src="..." size="md"><Avatar.Root>...</Avatar.Root></Avatar.CompanyIcon>`
-
 <!-- pitfall: avatar-profile-photo-children -->
-- **`Avatar.ProfilePhoto` children are `Avatar.Image` and `Avatar.Fallback` directly** — do not nest `Avatar.Root` inside `ProfilePhoto`; it renders its own inner avatar element.
+- **`Avatar.ProfilePhoto` accepts `Avatar.Image` then `Avatar.Fallback` as direct children** — do not nest `Avatar.Root` inside `ProfilePhoto`; it renders its own inner avatar element.
   - anti-pattern: `<Avatar.ProfilePhoto><Avatar.Root><Avatar.Image /></Avatar.Root></Avatar.ProfilePhoto>`
   - fix: `<Avatar.ProfilePhoto><Avatar.Image src="..." alt="..." /><Avatar.Fallback>JD</Avatar.Fallback></Avatar.ProfilePhoto>`
+<!-- pitfall: avatarcount-accepts-children-text-not -->
+- **Avatar.Count accepts children text, not a count prop** — pass the overflow label string (e.g. `"+5"`) as children; there is no `count` prop and passing one causes a TypeScript error.
+  - anti-pattern: `<Avatar.Count count={5} />`
+  - fix: `<Avatar.Count>+5</Avatar.Count>`
+<!-- pitfall: avatarprofilephoto-size-does-not-accept -->
+- **Avatar.ProfilePhoto size does not accept 'xl' or '2xl' — valid values are 'xs', 'sm', 'md', 'lg'** — `ProfilePhotoSize` is a narrower type than `Avatar.Root` size; passing `size="xl"` or `size="2xl"` causes `Type '"xl"' is not assignable to type 'ProfilePhotoSize | undefined'`. Use `size="lg"` for the largest profile photo.
+  - anti-pattern: `<Avatar.ProfilePhoto size="xl">`
+  - anti-pattern: `<Avatar.ProfilePhoto size="2xl">`
+  - fix: `<Avatar.ProfilePhoto size="lg">`
 
 ## Notes
 

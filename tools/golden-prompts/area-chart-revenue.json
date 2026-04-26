@@ -1,0 +1,7 @@
+{
+  "slug": "area-chart-revenue",
+  "difficulty": "medium",
+  "prompt": "Show an area chart displaying monthly revenue data for 6 months (Jan through Jun) with a grid, axes, and tooltip.",
+  "reference": "import { AreaChart } from '@tale-ui/charts/area-chart';\n\nconst data = [\n  { month: 'Jan', revenue: 4000 },\n  { month: 'Feb', revenue: 5200 },\n  { month: 'Mar', revenue: 4800 },\n  { month: 'Apr', revenue: 6100 },\n  { month: 'May', revenue: 7300 },\n  { month: 'Jun', revenue: 6800 },\n];\n\nexport function Example() {\n  return (\n    <AreaChart.Root data={data} width={600} height={300}>\n      <AreaChart.Grid />\n      <AreaChart.XAxis dataKey=\"month\" />\n      <AreaChart.YAxis />\n      <AreaChart.Tooltip />\n      <AreaChart.Area dataKey=\"revenue\" />\n    </AreaChart.Root>\n  );\n}",
+  "tags": ["AreaChart"]
+}

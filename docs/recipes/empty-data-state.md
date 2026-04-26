@@ -80,3 +80,31 @@ export function ItemList({ items }: { items: string[] }) {
 - `EmptyState` has three sizes: `sm`, `md`, `lg` — use `sm` for inline contexts, `md` for page sections.
 - Always provide a `Title`; `Description` and `Icon` are optional but recommended.
 - Pass a Lucide icon component reference to `EmptyState.Icon` (e.g., `icon={Inbox}`, not `icon={<Inbox />}`).
+
+## Preview
+
+```tsx
+export function Example() {
+  const sampleRows = [
+    { id: '1', name: 'Project Alpha', status: 'Active' },
+    { id: '2', name: 'Project Beta', status: 'Paused' },
+  ];
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)', padding: 'var(--space-l)' }}>
+      <div>
+        <p style={{ marginBottom: 'var(--space-s)', fontWeight: 600 }}>Table with data</p>
+        <DataTable rows={sampleRows} />
+      </div>
+      <div>
+        <p style={{ marginBottom: 'var(--space-s)', fontWeight: 600 }}>Table — empty state</p>
+        <DataTable rows={[]} />
+      </div>
+      <div>
+        <p style={{ marginBottom: 'var(--space-s)', fontWeight: 600 }}>List — empty state</p>
+        <ItemList items={[]} />
+      </div>
+    </div>
+  );
+}
+```

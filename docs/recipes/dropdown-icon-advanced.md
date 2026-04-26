@@ -77,3 +77,50 @@ export function AdvancedIconDropdown({ itemId }: { itemId: string }) {
 - Submenus are keyboard-navigable: `ArrowRight` opens the submenu, `ArrowLeft` or `Escape` closes it and returns focus to the parent.
 - Keep submenus shallow — maximum one level deep. Deeper nesting is hard to use with a keyboard and nearly impossible on touch.
 - Icons in menu items should be 16 × 16 px (`size="sm"` on `<Icon>`); they should have `aria-hidden` which the `<Icon>` wrapper applies automatically.
+
+## Preview
+
+```tsx
+import { Menu } from '@tale-ui/react/menu';
+import { IconButton } from '@tale-ui/react/icon-button';
+import { Icon } from '@tale-ui/react/icon';
+import { MoreHorizontal, Pencil, Copy, Share2, Trash2 } from 'lucide-react';
+
+function PreviewDropdown() {
+  return (
+    <Menu.Root onAction={(key) => { console.log('demo-1', key); }}>
+      <Menu.Trigger>
+        <IconButton aria-label="Item actions" variant="ghost" size="sm">
+          <Icon icon={MoreHorizontal} size="sm" />
+        </IconButton>
+      </Menu.Trigger>
+      <Menu.Popover placement="bottom end" offset={4}>
+        <Menu.MenuList>
+          <Menu.Item id="edit">
+            <Icon icon={Pencil} size="sm" />
+            Edit
+          </Menu.Item>
+          <Menu.Item id="duplicate">
+            <Icon icon={Copy} size="sm" />
+            Duplicate
+          </Menu.Item>
+          <Menu.Separator />
+          <Menu.Item id="share">
+            <Icon icon={Share2} size="sm" />
+            Share
+          </Menu.Item>
+          <Menu.Separator />
+          <Menu.Item id="delete">
+            <Icon icon={Trash2} size="sm" />
+            Delete
+          </Menu.Item>
+        </Menu.MenuList>
+      </Menu.Popover>
+    </Menu.Root>
+  );
+}
+
+export function Example() {
+  return <PreviewDropdown />;
+}
+```

@@ -125,10 +125,17 @@ import { Drawer } from '@tale-ui/react/drawer';
 
 <!-- pitfall: drawer-no-placement-prop -->
 <!-- prose-only -->
-- **No `placement` prop on `Drawer.Root` or `Drawer.Popup`** — placement is controlled via CSS only.
+- **No placement prop on Drawer.Root or Drawer.Popup — use only layout inline styles on Drawer.Popup** — placement is controlled via CSS, but keep `Drawer.Popup` inline styles limited to layout-only properties such as positioning and sizing; move visual styles like `background`, `boxSizing`, `border`, and `boxShadow` to Tale UI defaults, variants, or wrapper CSS.
+  - anti-pattern: `<Drawer.Popup style={{ marginLeft: 'auto', background: 'var(--color-background)', boxSizing: 'border-box' }} />`
+  - fix: `<Drawer.Popup style={{ marginLeft: 'auto', width: 360, minHeight: '100vh', padding: 'var(--space-m)' }} />`
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 <!-- cross-pitfall-ref: no-button-inside-trigger -->
+<!-- pitfall: use-drawer-for-any-prompt -->
+- **Use <Drawer> for any prompt that asks for a drawer, side drawer, side sheet, or slide-over panel** — when the request is for an overlay panel that slides in from a screen edge, render `Drawer.Root` with `Drawer.Backdrop`, `Drawer.Popup`, `Drawer.Title`, and a `Drawer.Close` button instead of leaving the file empty or substituting `Dialog`. Use CSS on `Drawer.Popup` to position it on the right or left because `Drawer` has no placement prop.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `import { Dialog } from '@tale-ui/react/dialog'; export function SettingsDrawer() { return <Dialog.Root />; }`
+  - fix: `import * as React from 'react'; import { Drawer } from '@tale-ui/react/drawer'; export function SettingsDrawer() { const [open, setOpen] = React.useState(true); return <Drawer.Root open={open} onOpenChange={setOpen}><Drawer.Backdrop /><Drawer.Popup style={{ marginLeft: 'auto' }}><Drawer.Title>Settings</Drawer.Title><Drawer.Close className="tale-button tale-button--neutral tale-button--md">Close</Drawer.Close></Drawer.Popup></Drawer.Root>; }`
 
 ## Notes
 

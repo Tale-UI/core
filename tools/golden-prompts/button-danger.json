@@ -1,0 +1,7 @@
+{
+  "slug": "button-danger",
+  "difficulty": "simple",
+  "prompt": "Show a danger button labeled 'Delete account' and a neutral button labeled 'Cancel' side by side.",
+  "reference": "import { Row } from '@tale-ui/react/row';\nimport { Button } from '@tale-ui/react/button';\n\nexport function Example() {\n  return (\n    <Row gap=\"s\">\n      <Button variant=\"neutral\">Cancel</Button>\n      <Button variant=\"danger\">Delete account</Button>\n    </Row>\n  );\n}",
+  "tags": ["Button", "Row"]
+}

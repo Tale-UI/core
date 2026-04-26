@@ -10,7 +10,7 @@ A two-region layout with a fixed sidebar, top header bar, and scrollable main co
 - `Icon` from `@tale-ui/react/icon`
 - `Separator` from `@tale-ui/react/separator`
 - `Button` from `@tale-ui/react/button`
-- `Menu2`, `Home`, `Settings`, `Users`, `FileText`, `Bell` from `lucide-react`
+- `Menu`, `Home`, `Settings`, `Users`, `FileText`, `Bell` from `lucide-react`
 
 ## Code
 
@@ -21,7 +21,7 @@ import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
 import { Separator } from '@tale-ui/react/separator';
 import { Button } from '@tale-ui/react/button';
-import { Menu2, Home, Settings, Users, FileText, Bell } from 'lucide-react';
+import { Menu, Home, Settings, Users, FileText, Bell } from 'lucide-react';
 import { useState } from 'react';
 
 const navItems = [
@@ -71,7 +71,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
           <Drawer.Root open={drawerOpen} onOpenChange={setDrawerOpen}>
             <Drawer.Trigger className="mobile-menu-trigger">
               <IconButton aria-label="Open menu" variant="ghost">
-                <Icon icon={Menu2} />
+                <Icon icon={Menu} />
               </IconButton>
             </Drawer.Trigger>
             <Drawer.Backdrop />
