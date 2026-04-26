@@ -190,4 +190,3 @@ function ControlledExample() {
   - anti-pattern: `// empty file`
   - anti-pattern: `<TextField.Root><TextField.Label>Skills</TextField.Label><TextField.Input placeholder="Add a skill..." /></TextField.Root>`
   - fix: `import { InputTags } from '@tale-ui/react/input-tags'; export function SkillsField() { return <InputTags.Root label="Skills" placeholder="Add a skill..." description="Enter up to 5 skills. Press Enter to add each one." maxTags={5} />; }`
-

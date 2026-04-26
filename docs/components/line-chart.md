@@ -112,4 +112,3 @@ import { ChartContainer } from '@tale-ui/charts';
   - anti-pattern: `// empty file`
   - anti-pattern: `<BarChart.Root data={data}><BarChart.Bar dataKey="visitors" /></BarChart.Root>`
   - fix: `<LineChart.Root data={data} width={600} height={300}><LineChart.Grid /><LineChart.XAxis dataKey="week" /><LineChart.YAxis /><LineChart.Tooltip /><LineChart.Line dataKey="visitors" /></LineChart.Root>`
-

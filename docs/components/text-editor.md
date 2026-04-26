@@ -220,4 +220,3 @@ export function CustomToolbar() {
 - **TextEditor.Root does not accept label or maxLength props** — `label` and `maxLength` are not valid on `TextEditor.Root`; use `TextEditor.Label` for the visible label and place `maxLength` on `TextEditor.Content`.
   - anti-pattern: `<TextEditor.Root label="Content" maxLength={300}>`
   - fix: `<TextEditor.Root><TextEditor.Label>Content</TextEditor.Label><TextEditor.Toolbar /><TextEditor.Content maxLength={300} /></TextEditor.Root>`
-

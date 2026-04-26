@@ -208,4 +208,3 @@ import { FileIcon } from '@untitledui/file-icons';
   - anti-pattern: `// empty file`
   - anti-pattern: `import { DropZone } from '@tale-ui/react/drop-zone'; export function UploadArea() { return <DropZone />; }`
   - fix: `import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept="image/*,.pdf" maxSize={5 * 1024 * 1024} /><FileUpload.List><FileUpload.ListItemProgressBar name="photo.png" size={1200000} progress={60} /></FileUpload.List></FileUpload.Root>; }`
-

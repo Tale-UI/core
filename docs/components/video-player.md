@@ -146,4 +146,3 @@ function Example() {
 - **VideoPlayer.Root does NOT accept a style prop — wrap it in a layout element to control width or maxWidth** — `VideoPlayer.Root` only supports its documented component props plus `className`; passing inline layout styles directly to it causes a TypeScript error because `style` is not part of `VideoPlayerProps`.
   - anti-pattern: `<VideoPlayer.Root src="/demo.mp4" size="md" thumbnailUrl="/thumb.jpg" thumbnailAlt="Product demo" style={{ width: '64rem', maxWidth: '100%' }} />`
   - fix: `<div style={{ width: '64rem', maxWidth: '100%' }}><VideoPlayer.Root src="/demo.mp4" size="md" thumbnailUrl="/thumb.jpg" thumbnailAlt="Product demo" /></div>`
-

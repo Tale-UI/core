@@ -117,4 +117,3 @@ import { ChartContainer } from '@tale-ui/charts';
   - anti-pattern: `// empty file`
   - anti-pattern: `<BarChart.Root data={data}><BarChart.Bar dataKey="value" /></BarChart.Root>`
   - fix: `<PieChart.Root width={400} height={300}><PieChart.Pie data={data} dataKey="value" nameKey="name" /><PieChart.Tooltip /><PieChart.Legend /></PieChart.Root>`
-
