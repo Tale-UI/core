@@ -70,6 +70,7 @@
     "pitfalls:check": "node tools/generate-pitfalls-registry.js --check",
     "pitfalls:truth": "node tools/audit-pitfall-truth.mjs",
     "pitfalls:shape": "node tools/audit-pitfall-shape.mjs",
+    "pitfalls:patch": "node tools/apply-pitfall-patch.mjs",
     "pitfalls:audit": "node tools/audit-pitfall-coverage.js && node tools/audit-pitfall-consistency.js && node tools/audit-pitfall-truth.mjs && node tools/audit-pitfall-shape.mjs",
     "audit:golden-patchability": "node tools/audit-golden-patchability.mjs",
     "snippet:generate": "node tools/generate-consumer-snippet.js",

@@ -63,6 +63,7 @@ pnpm audit:snippet-kinds     # verify consumer snippet is correct
 | `audit-pitfall-coverage.js`    | `pnpm pitfalls:audit`   | No                          | Reports which component docs are still missing pitfall sections                  |
 | `audit-pitfall-consistency.js` | `pnpm pitfalls:audit`   | No                          | Verifies component pitfall markers match the generated registry                  |
 | `audit-pitfall-truth.mjs`      | `pnpm pitfalls:truth`   | No                          | Verifies pitfall wording is supported by the current implementation              |
+| `apply-pitfall-patch.mjs`      | `pnpm pitfalls:patch`   | No                          | Validates and dry-runs or writes one structured pitfall patch payload            |
 
 ### audit-bem.js
 
@@ -220,12 +221,14 @@ The pitfall tooling has three layers:
 - `pnpm pitfalls:audit` runs coverage, consistency, and truth audits together
 - `pnpm pitfalls:check` verifies the generated shared pitfalls registry is up to date
 - `pnpm pitfalls:truth` checks that pitfall wording is supported by the current implementation
+- `pnpm pitfalls:patch -- --json path/to/fix.json --dry-run` validates and previews one structured patch payload
 
 The underlying scripts are:
 
 - `tools/audit-pitfall-coverage.js`
 - `tools/audit-pitfall-consistency.js`
 - `tools/audit-pitfall-truth.mjs`
+- `tools/apply-pitfall-patch.mjs`
 
 Current truth-audit checks catch contradictions such as:
 
@@ -237,6 +240,7 @@ Current truth-audit checks catch contradictions such as:
 ```bash
 pnpm pitfalls:audit
 pnpm pitfalls:truth
+pnpm pitfalls:patch -- --json /tmp/fix.json --dry-run
 ```
 
 ### audit-snippet-kinds.js
@@ -522,6 +526,10 @@ Before eval starts, the pipeline runs pitfall truth, pitfall shape, and golden p
 
 Source patching is intentionally structured. The fix payload must name `section`, `targetFile`, `operation`, and either `targetPitfallSlug` for updates or `newPitfallSlug` for appends. The payload also supplies `summary`, `details`, `antiPatterns`, `fixes`, and optional `completeExample`; the script serializes canonical markdown itself and validates the changed section before writing. Deprecated raw markdown in `new` is ignored by the successful patch path.
 
+The deterministic markdown patcher lives in `tools/pitfall-patch-lib.mjs`, with pure unit coverage in `tools/pitfall-patch-lib.test.mjs`. Keep parsing, serialization, payload validation, and section patching behavior there so `eval-fix-review.mjs` remains responsible for orchestration and source-target routing. Patch operation requirements are declared in `PITFALL_FIX_OPERATION_SPECS`; both the payload validator and the fix-model prompt render their operation rules from that exported spec.
+
+During each run, `golden:fix-review` writes patch replay artifacts under `tools/.golden-patches/{timestamp}/`. Rejected payloads go in `rejected/` and successful source patches go in `applied/`. Rejected patch logs include a replay command so the exact payload can be debugged without rerunning eval chunks.
+
 After the run, check `git diff docs/pitfalls.md docs/components` to review documentation changes before committing.
 
 ```bash
@@ -553,15 +561,29 @@ pnpm golden:fix-review -- --provider ollama --model llama3.2 --fix-provider clau
 
 Structured patch operations:
 
-| Operation             | Required target fields                       | Behavior                                                                 |
-| --------------------- | -------------------------------------------- | ------------------------------------------------------------------------ |
-| `append_pitfall`      | `targetFile`, `newPitfallSlug`               | Appends one new canonical `<!-- pitfall: ... -->` block                  |
-| `replace_pitfall`     | `targetFile`, `targetPitfallSlug`            | Rewrites exactly one existing pitfall block by slug                      |
-| `replace_subbullets`  | `targetFile`, `targetPitfallSlug`, optional `old` | Rewrites the structured content inside one existing pitfall block   |
+| Operation            | Required target fields                            | Behavior                                                          |
+| -------------------- | ------------------------------------------------- | ----------------------------------------------------------------- |
+| `append_pitfall`     | `targetFile`, `newPitfallSlug`                    | Appends one new canonical `<!-- pitfall: ... -->` block           |
+| `replace_pitfall`    | `targetFile`, `targetPitfallSlug`                 | Rewrites exactly one existing pitfall block by slug               |
+| `replace_subbullets` | `targetFile`, `targetPitfallSlug`, optional `old` | Rewrites the structured content inside one existing pitfall block |
+
+When operation rules change, update `PITFALL_FIX_OPERATION_SPECS` first; the prompt instructions, validator behavior, and tests should then follow the same source of truth.
+
+To debug a rejected patch without rerunning the LLM eval loop, use the replay command printed by `golden:fix-review`, or point the deterministic patch CLI at any saved JSON payload:
+
+```bash
+pnpm pitfalls:patch -- --json tools/.golden-patches/2026-05-02T10-20-30-000Z/rejected/image-cropper-basic-02.json --dry-run
+pnpm pitfalls:patch -- --json /tmp/fix.json --dry-run  # validate, resolve target, print diff
+pnpm pitfalls:patch -- --json /tmp/fix.json --write    # write docs and regenerate registries
+```
+
+`apply-pitfall-patch.mjs` shares the same source-target resolver as `golden:fix-review` via `tools/pitfall-source-target-lib.mjs`, so target-file/section conflicts reproduce the runner behavior.
 
 ### eval-golden-harden.mjs
 
 Runs the `eval-fix-review.mjs` pipeline repeatedly for each selected golden prompt until that prompt gets `--passes N` clean fresh generations in a row. A clean pass means the prompt passed on the initial eval for that round with no documentation fix needed. If a round fails, `golden:fix-review` applies the structured pitfall documentation fix loop, the streak resets to zero, and hardening retries the same prompt before moving on.
+
+`golden:harden` does not implement its own source patcher; it inherits deterministic patching by shelling through `golden:fix-review` with `--no-review` and a temporary summary file.
 
 This is intended for cheap repeated local-model hardening, where one or two passing runs are not enough signal. By default it passes `--fresh` to bypass both eval caches so each round calls the model again. Use `--allow-cache` only when debugging the runner itself.
 
@@ -578,14 +600,14 @@ pnpm golden:harden -- --allow-cache --slug primary-button --passes 1
 
 Useful flags:
 
-| Flag             | Default       | Description                                                        |
-| ---------------- | ------------- | ------------------------------------------------------------------ |
-| `--passes`       | `3`           | Required clean-pass streak before moving to the next prompt        |
-| `--max-rounds`   | `passes * 10` | Safety cap per prompt                                              |
-| `--slug`         | all prompts   | Harden one prompt                                                  |
-| `--slugs`        | all prompts   | Harden a comma-separated prompt list                               |
-| `--difficulty`   | all prompts   | Harden one difficulty group                                        |
-| `--allow-cache`  | off           | Do not inject `--fresh`; useful only for runner debugging          |
+| Flag             | Default       | Description                                                                                     |
+| ---------------- | ------------- | ----------------------------------------------------------------------------------------------- |
+| `--passes`       | `3`           | Required clean-pass streak before moving to the next prompt                                     |
+| `--max-rounds`   | `passes * 10` | Safety cap per prompt                                                                           |
+| `--slug`         | all prompts   | Harden one prompt                                                                               |
+| `--slugs`        | all prompts   | Harden a comma-separated prompt list                                                            |
+| `--difficulty`   | all prompts   | Harden one difficulty group                                                                     |
+| `--allow-cache`  | off           | Do not inject `--fresh`; useful only for runner debugging                                       |
 | provider options | Claude        | Passed through to `golden:fix-review`; structured source patching is inherited from that script |
 
 ### golden-prompts/

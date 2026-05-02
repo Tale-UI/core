@@ -80,3 +80,4 @@ next-env.d.ts
 tools/.eval-call-cache.json
 tools/.eval-check-cache.json
 tools/.eval-context.md
+tools/.golden-patches/
