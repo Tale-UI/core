@@ -20,6 +20,7 @@
       "@tale-ui/react/*": ["./packages/react/src/*"],
       "@tale-ui/utils/*": ["./packages/utils/src/*"],
       "@tale-ui/charts": ["./packages/charts/src"],
+      "@tale-ui/charts/styles": ["./packages/charts/src/chart.css"],
       "@tale-ui/charts/*": ["./packages/charts/src/*"],
       "@tale-ui/a2ui": ["./packages/a2ui/src"],
       "@tale-ui/a2ui/*": ["./packages/a2ui/src/*"],

@@ -329,51 +329,6 @@ explicit BEM class names:
         }
         ```
 
-<!-- pitfall: do-not-import-taleuichartsstyles-inside -->
-<!-- applies-to: * -->
-<!-- category: imports -->
-
-- **Never import @tale-ui/charts/styles in generated chart component snippets — omit this line entirely** — this CSS side-effect import causes "Cannot find module" validation errors in standalone generated TSX because chart styling is handled at the app level. Do not add this import even when other valid chart imports such as `ChartContainer` are already present in the same file; all chart imports must be component-only imports.
-  - anti-pattern: `import '@tale-ui/charts/styles';`
-  - fix: `import { ChartContainer } from '@tale-ui/charts';`
-  - fix: `import { AreaChart } from '@tale-ui/charts/area-chart';`
-  - fix: `import { BarChart } from '@tale-ui/charts/bar-chart';`
-  - fix: `import { PieChart } from '@tale-ui/charts/pie-chart';`
-  - complete example:
-
-        ```tsx
-        import { PieChart } from '@tale-ui/charts/pie-chart';
-        import { ChartContainer } from '@tale-ui/charts';
-        import { Card } from '@tale-ui/react/card';
-        import { Text } from '@tale-ui/react/text';
-
-        const data = [
-          { name: 'Direct', value: 40 },
-          { name: 'Organic', value: 30 },
-          { name: 'Referral', value: 20 },
-          { name: 'Social', value: 10 },
-        ];
-
-        export function TrafficSourcesChart() {
-          return (
-            <Card.Root>
-              <Card.Header>
-                <Text variant="heading" as="h2">Website Traffic Sources</Text>
-              </Card.Header>
-              <Card.Body>
-                <ChartContainer height={300}>
-                  <PieChart.Root>
-                    <PieChart.Pie data={data} dataKey="value" nameKey="name" outerRadius={100} paddingAngle={2} />
-                    <PieChart.Tooltip />
-                    <PieChart.Legend />
-                  </PieChart.Root>
-                </ChartContainer>
-              </Card.Body>
-            </Card.Root>
-          );
-        }
-        ```
-
 <!-- pitfall: never-import-key-or-any -->
 <!-- applies-to: * -->
 <!-- category: imports -->

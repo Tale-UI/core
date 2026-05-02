@@ -63,10 +63,43 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
   - anti-pattern: `onSelect={(list) => Array.from(list).map(...)}`
   - fix: `onSelect={(list) => { if (list) { Array.from(list).map(...) } }}`
 <!-- pitfall: when-displaying-the-selected-filename -->
-- **When displaying the selected filename with `Text`, use `color="muted"` plus `size="s"`** — `color="secondary"` and `variant="body-m"` do not exist on `Text`, and `size="sm"` is invalid because `Text` size uses single-letter tokens (`'xs'`, `'s'`, `'m'`, `'l'`).
+- **When displaying the selected filename with Text, use color="muted" plus size="s"** — `color="secondary"` and `variant="body-m"` do not exist on `Text`, and `size="sm"` is invalid because `Text` size uses single-letter tokens (`'xs'`, `'s'`, `'m'`, `'l'`). When building a FileTrigger with filename display, also use `gap="s"` on the Column wrapper and `variant="neutral"` on the Button — not `gap="sm"` or `variant="secondary"`.
   - anti-pattern: `<Text size="sm" color="secondary">{fileName}</Text>`
   - anti-pattern: `<Text variant="body-m">{fileName}</Text>`
+  - anti-pattern: `<Column gap="sm"><FileTrigger><Button variant="secondary">Upload file</Button></FileTrigger></Column>`
   - fix: `<Text size="s" color="muted">{fileName}</Text>`
+  - fix: `<Column gap="s"><FileTrigger><Button variant="neutral">Upload file</Button></FileTrigger></Column>`
+  - complete example:
+    ```tsx
+    import { useState } from 'react';
+    import { FileTrigger } from '@tale-ui/react/file-trigger';
+    import { Button } from '@tale-ui/react/button';
+    import { Column } from '@tale-ui/react/column';
+    import { Text } from '@tale-ui/react/text';
+    
+    export function FileUploadButton() {
+      const [fileName, setFileName] = useState<string | null>(null);
+    
+      return (
+        <Column gap="s" align="start">
+          <FileTrigger
+            onSelect={(files) => {
+              if (files && files.length > 0) {
+                setFileName(files[0].name);
+              }
+            }}
+          >
+            <Button variant="neutral">Upload file</Button>
+          </FileTrigger>
+          {fileName && (
+            <Text size="s" color="muted">
+              Selected: {fileName}
+            </Text>
+          )}
+        </Column>
+      );
+    }
+    ```
 
 <!-- pitfall: file-trigger-upload-button-uses-neutral-variant -->
 - **For FileTrigger upload actions, use `Button variant="neutral"` instead of `variant="secondary"`** — `Button` has no `"secondary"` variant; use `"neutral"` for secondary-action upload buttons.

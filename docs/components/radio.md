@@ -156,32 +156,47 @@ Also accepts all React Aria `RadioGroup` props.
   - anti-pattern: `<Radio.Root value="a" checked={isSelected} onChange={setSelected} />`
   - fix: `<Radio.Group value={selected} onChange={setSelected}><Radio.Root value="a">...</Radio.Root></Radio.Group>`
 <!-- pitfall: for-any-radio-group-prompt -->
-- **For any radio group prompt, wrap Radio items in `RadioGroup` from `@tale-ui/react/radio-group` — do not use only `Radio.Group`** — when a prompt asks for a radio group, both `Radio` (from `@tale-ui/react/radio`) and `RadioGroup` (from `@tale-ui/react/radio-group`) must appear in the code; using `Radio.Group` alone omits the required `RadioGroup` component.
-  - anti-pattern: `// empty file`
+- **For any radio group prompt, wrap Radio items in RadioGroup from @tale-ui/react/radio-group — do not use only Radio.Group** — For any radio group prompt, both Radio (from @tale-ui/react/radio) and RadioGroup (from @tale-ui/react/radio-group) must appear in the code; using Radio.Group alone omits the required RadioGroup component. When radio items contain rich content with nested Column and Text, use spacing-token gap values (xs, s, m, l) on every Column — never component-size names (sm, md, lg) — and use Text variant='label' instead of the invalid weight='medium' prop for label-weight option names.
   - anti-pattern: `import { Radio } from '@tale-ui/react/radio'; ... <Radio.Group label="Plan"><Radio.Root value="free"><Radio.Indicator />Free</Radio.Root></Radio.Group>`
+  - anti-pattern: `<Column gap="sm">`
+  - anti-pattern: `<Text weight="medium">Free</Text>`
   - fix: `import { RadioGroup } from '@tale-ui/react/radio-group'; import { Radio } from '@tale-ui/react/radio'; ... <RadioGroup label="Plan"><Radio.Root value="free"><Radio.Indicator />Free</Radio.Root></RadioGroup>`
+  - fix: `<Column gap="s"> or <Column gap="xs">`
+  - fix: `<Text variant="label">Free</Text>`
   - complete example:
-
     ```tsx
     import { RadioGroup } from '@tale-ui/react/radio-group';
     import { Radio } from '@tale-ui/react/radio';
+    import { Column } from '@tale-ui/react/column';
+    import { Text } from '@tale-ui/react/text';
     
-    export function PlanSelection() {
+    export function PlanSelector() {
       return (
-        <RadioGroup label="Select a plan">
-          <Radio.Root value="free">
-            <Radio.Indicator />
-            Free
-          </Radio.Root>
-          <Radio.Root value="pro">
-            <Radio.Indicator />
-            Pro
-          </Radio.Root>
-          <Radio.Root value="enterprise">
-            <Radio.Indicator />
-            Enterprise
-          </Radio.Root>
-        </RadioGroup>
+        <Column gap="s">
+          <RadioGroup label="Select a plan">
+            <Radio.Root value="free">
+              <Radio.Indicator />
+              <Column gap="xs">
+                <Text variant="label">Free</Text>
+                <Text size="s" color="muted">Get started at no cost</Text>
+              </Column>
+            </Radio.Root>
+            <Radio.Root value="pro">
+              <Radio.Indicator />
+              <Column gap="xs">
+                <Text variant="label">Pro</Text>
+                <Text size="s" color="muted">For individuals and small teams</Text>
+              </Column>
+            </Radio.Root>
+            <Radio.Root value="enterprise">
+              <Radio.Indicator />
+              <Column gap="xs">
+                <Text variant="label">Enterprise</Text>
+                <Text size="s" color="muted">Advanced features for large organizations</Text>
+              </Column>
+            </Radio.Root>
+          </RadioGroup>
+        </Column>
       );
     }
     ```
