@@ -97,4 +97,3 @@ import { ChartContainer } from '@tale-ui/charts';
 - **Do not import `@tale-ui/charts/styles` — chart styles are bundled automatically** — there is no separate styles entry point; adding this side-effect import causes `Cannot find module '@tale-ui/charts/styles'` TypeScript errors.
   - anti-pattern: `import '@tale-ui/charts/styles'`
   - fix: `import { BarChart } from '@tale-ui/charts/bar-chart'`
-

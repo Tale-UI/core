@@ -145,7 +145,6 @@ const [value, setValue] = React.useState('');
   - anti-pattern: `<Column gap="md"><PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root></Column>`
   - fix: `<Column gap="m"><PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root></Column>`
 
-#### Popover
 <!-- pitfall: when-labeling-a-pininput-with -->
 - **When labeling a PinInput with Text, use variant="label" — Text has no weight prop** — passing `weight="medium"` on a `<Text>` label causes `Type '{ children: string; weight: string; }' is not assignable to type 'TextProps'`. Use `variant="label"` for label-weight text instead.
   - anti-pattern: `<Text weight="medium">Verification code</Text>`

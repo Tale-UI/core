@@ -513,18 +513,22 @@ pnpm golden:harden -- --provider ollama --model qwen3.6 --passes 3 --slug primar
 Full pipeline combining eval, automated fixing, and visual review:
 
 1. **Eval** — runs all golden prompts, collects failures and generated code
-2. **Fix loop** — for each failure, Claude diagnoses the root cause and patches `docs/consumer-claude-md-snippet.md` with a targeted rule addition or correction; re-evals the failing prompts; repeats up to 3 times
-3. **Review page** — generates `playground/vite-app/src/demos/EvalReview.tsx` with all passing components rendered, registers the route at `/eval-review`
-4. **Serve** — starts the Vite playground and opens `http://localhost:5173/eval-review` in the browser for visual L4 inspection
+2. **Fix loop** — for each failure, the fix model diagnoses the root cause, returns a corrected `fixedCode`, and proposes a structured pitfall-doc patch; the corrected code is scored deterministically without a fresh generation
+3. **Documentation patching** — source fixes are applied to `docs/pitfalls.md` or `docs/components/{slug}.md ## Pitfalls` through slug-targeted operations: `append_pitfall`, `replace_pitfall`, or `replace_subbullets`
+4. **Review page** — generates `playground/vite-app/src/demos/EvalReview.tsx` with all passing components rendered, registers the route at `/eval-review`
+5. **Serve** — starts the Vite playground and opens `http://localhost:5173/eval-review` in the browser for visual L4 inspection
 
-Before eval starts, the pipeline now runs `pnpm pitfalls:truth` as a preflight check so incorrect component pitfall docs do not silently feed the golden prompt workflow. Use `--skip-pitfall-truth` only when you are intentionally debugging the eval loop against a known-bad pitfall catalog.
+Before eval starts, the pipeline runs pitfall truth, pitfall shape, and golden patchability preflights so bad source documentation does not silently feed the golden prompt workflow. After the fix loop, it reruns the pitfall audits before creating `EvalReview.tsx`; if docs were corrupted by a fix attempt, the script fails closed before opening the review page.
 
-After the run, check `git diff docs/consumer-claude-md-snippet.md` to review any documentation changes before committing.
+Source patching is intentionally structured. The fix payload must name `section`, `targetFile`, `operation`, and either `targetPitfallSlug` for updates or `newPitfallSlug` for appends. The payload also supplies `summary`, `details`, `antiPatterns`, `fixes`, and optional `completeExample`; the script serializes canonical markdown itself and validates the changed section before writing. Deprecated raw markdown in `new` is ignored by the successful patch path.
+
+After the run, check `git diff docs/pitfalls.md docs/components` to review documentation changes before committing.
 
 ```bash
 pnpm golden:fix-review                                         # full pipeline
 pnpm golden:fix-review -- --skip-pitfall-truth                 # skip pitfall truth preflight
 pnpm golden:fix-review -- --no-fix                            # skip fix loop, go straight to review
+pnpm golden:fix-review -- --no-source-patch                   # score fixed code without writing pitfall docs
 pnpm golden:fix-review -- --slug primary-button               # single prompt
 pnpm golden:fix-review -- --slugs a,b,c                       # specific prompts (comma-separated)
 pnpm golden:fix-review -- --no-review                         # skip EvalReview.tsx generation and server
@@ -547,9 +551,17 @@ pnpm golden:fix-review -- --provider lm-studio --model llama3.2               # 
 pnpm golden:fix-review -- --provider ollama --model llama3.2 --fix-provider claude --fix-model sonnet  # local eval, Claude fixes
 ```
 
+Structured patch operations:
+
+| Operation             | Required target fields                       | Behavior                                                                 |
+| --------------------- | -------------------------------------------- | ------------------------------------------------------------------------ |
+| `append_pitfall`      | `targetFile`, `newPitfallSlug`               | Appends one new canonical `<!-- pitfall: ... -->` block                  |
+| `replace_pitfall`     | `targetFile`, `targetPitfallSlug`            | Rewrites exactly one existing pitfall block by slug                      |
+| `replace_subbullets`  | `targetFile`, `targetPitfallSlug`, optional `old` | Rewrites the structured content inside one existing pitfall block   |
+
 ### eval-golden-harden.mjs
 
-Runs the `eval-fix-review.mjs` pipeline repeatedly for each selected golden prompt until that prompt gets `--passes N` clean fresh generations in a row. A clean pass means the prompt passed on the initial eval for that round with no documentation fix needed. If a round fails, `golden:fix-review` applies the usual documentation fix loop, the streak resets to zero, and hardening retries the same prompt before moving on.
+Runs the `eval-fix-review.mjs` pipeline repeatedly for each selected golden prompt until that prompt gets `--passes N` clean fresh generations in a row. A clean pass means the prompt passed on the initial eval for that round with no documentation fix needed. If a round fails, `golden:fix-review` applies the structured pitfall documentation fix loop, the streak resets to zero, and hardening retries the same prompt before moving on.
 
 This is intended for cheap repeated local-model hardening, where one or two passing runs are not enough signal. By default it passes `--fresh` to bypass both eval caches so each round calls the model again. Use `--allow-cache` only when debugging the runner itself.
 
@@ -574,15 +586,15 @@ Useful flags:
 | `--slugs`        | all prompts   | Harden a comma-separated prompt list                               |
 | `--difficulty`   | all prompts   | Harden one difficulty group                                        |
 | `--allow-cache`  | off           | Do not inject `--fresh`; useful only for runner debugging          |
-| provider options | Claude        | Passed through to `golden:fix-review` and `golden:eval` underneath |
+| provider options | Claude        | Passed through to `golden:fix-review`; structured source patching is inherited from that script |
 
 ### golden-prompts/
 
-74 reference prompts with validated implementations covering all Tale UI components:
+125 reference prompts with validated implementations covering Tale UI React and chart components:
 
-- **18 simple** — Button, Badge, Text, Image, Spinner, Separator, Link, IconButton, Icon, ColorSwatch, DotIcon, FeaturedIcon, RatingStars, RatingBadge, AppStoreButton, SocialButton, ToggleButton, ColorModeToggle
-- **36 medium** — Card, Input, Tabs, Checkbox group, AlertDialog, SearchField, ProgressBar, List, Switch, RadioGroup, NumberField, Slider, SelectNative, ToggleButtonGroup, ProgressCircle, Disclosure, Tooltip, Popover, Breadcrumbs, Pagination, TagGroup, TextArea, Field, EmptyState, ScrollArea, Toolbar, Autocomplete, PinInput, ColorField, PreviewCard, DropZone, FileTrigger, Combobox, Drawer, Meter, Dialog
-- **20 complex** — Settings page, data display cards, FAQ accordion, user profile card, Table, Tree, GridList, NavigationMenu, ContextMenu, Carousel, Calendar, DatePicker, ColorArea+ColorSlider, PaymentInput, RangeCalendar, DateRangePicker, TimeField, DateField, Fieldset, ColorWheel
+- **41 simple** prompts
+- **64 medium** prompts
+- **20 complex** prompts
 
 Each file (`{slug}.json`) contains:
 

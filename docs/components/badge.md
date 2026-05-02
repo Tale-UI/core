@@ -107,18 +107,15 @@ Also accepts all standard `<span>` HTML attributes.
     }
     ```
 
-<!-- pitfall: badge-no-col- **No color prop** — use the `variant` prop to control color.
-  - anti-pattern: `<Badge color="blue">New</Badge>`
-  - fix: `<Badge variant="info">New</Badge>`
+<!-- pitfall: badge-no-color-prop -->
 - **No `color` prop** — use the `variant` prop to control color.
   - anti-pattern: `<Badge color="blue">New</Badge>`
   - fix: `<Badge variant="info">New</Badge>`
+
 <!-- pitfall: use-badge-for-any-prompt -->
 - **Use Badge for any prompt that asks for a badge, status label, or status indicator** — when the request is to display a short status or category label such as "Active", "Failed", or "New", render `<Badge>` with the appropriate `variant` (`'success'`, `'error'`, `'warning'`, `'info'`, `'neutral'`) instead of leaving the file empty or substituting another component.
   - anti-pattern: `// empty file`
   - fix: `<Badge variant="success">Active</Badge>`
-
-#### BadgeGroup
 
 ## Notes
 

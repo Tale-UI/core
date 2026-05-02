@@ -437,7 +437,6 @@ function buildErrorSummary(result) {
 
 function fixHasStructuredSourcePatch(fix) {
   return (
-    !!fix.new?.trim() ||
     !!fix.summary?.trim() ||
     !!fix.details?.trim() ||
     normalizeStringList(fix.antiPatterns).length > 0 ||
@@ -446,7 +445,7 @@ function fixHasStructuredSourcePatch(fix) {
   );
 }
 
-async function getFix(result, failedOlds = [], tags = []) {
+async function getFix(result, failedPatchReasons = [], tags = []) {
   const snippet = readFileSync(SNIPPET_PATH, 'utf8');
 
   // Extract just the pitfalls section to keep the prompt short
@@ -456,8 +455,8 @@ async function getFix(result, failedOlds = [], tags = []) {
   const pitfallsSection = pitfallsMatch ? pitfallsMatch[0] : snippet;
 
   const failedHint =
-    failedOlds.length > 0
-      ? `\nIMPORTANT: Previous fix attempts used these "old" strings which were NOT found verbatim in the documentation — do NOT use them again:\n${failedOlds.map((s) => `  - "${s}"`).join('\n')}\nIf you cannot find an exact string to replace, set "old" to empty string "" to append a new bullet instead.\n`
+    failedPatchReasons.length > 0
+      ? `\nIMPORTANT: Previous fix payloads were rejected for these reasons — correct them in the next JSON response:\n${failedPatchReasons.map((s) => `  - ${s}`).join('\n')}\n`
       : '';
 
   const tagsHint =
@@ -501,7 +500,7 @@ Structured pitfall content rules:
   - "details" must be plain text only, without the leading em dash.
   - Each entry in "antiPatterns" and "fixes" must be a single inline code snippet string with no surrounding markdown backticks.
   - "completeExample" must be plain TSX code only, with no markdown fences. Use empty string if there is no example.
-  - Use "new" only as a legacy fallback when you cannot express the fix through the structured fields.
+  - The "new" field is deprecated. Leave it as an empty string; markdown in "new" is ignored by the patcher.
 Output a JSON fix in this exact format (no other text, just the JSON):
 {
   "diagnosis": "one sentence explaining the root cause",
@@ -517,7 +516,7 @@ Output a JSON fix in this exact format (no other text, just the JSON):
   "antiPatterns": ["inline code snippet string 1", "inline code snippet string 2"],
   "fixes": ["inline code snippet string 1", "inline code snippet string 2"],
   "completeExample": "optional TSX code only, no markdown fences",
-  "new": "legacy fallback markdown replacement text; prefer leaving this empty when structured fields are provided",
+  "new": "",
   "fixedCode": "a complete corrected version of the code above that addresses the diagnosed root cause — valid TSX with all necessary imports, no markdown fences"
 }`;
 
@@ -1335,13 +1334,9 @@ function validatePitfallPatchBlocks(blocks, contextLabel) {
 }
 
 function buildPitfallBlockTextFromFix(fix, options = {}) {
-  const fallbackBlockText =
-    typeof fix.new === 'string' && fix.new.trim()
-      ? normalizeSourcePatchBlock(sanitizeTrailingDoubleBackticks(fix.new)).replace(/([^\n])(- \*\*)/g, '$1\n$2')
-      : '';
   const pitfall = buildStructuredPitfallFromFix(fix, {
     comments: options.comments,
-    fallbackBlockText,
+    fallbackBlockText: options.fallbackBlockText ?? '',
     preserveProse: options.preserveProse,
   });
   if (!pitfall.summary) {
@@ -1358,6 +1353,71 @@ function buildPitfallBlockTextFromFix(fix, options = {}) {
   }
 
   return { blockText, pitfall };
+}
+
+function validateFixPayload(fix) {
+  const errors = [];
+  const operation = fix.operation;
+  if (!PITFALL_FIX_OPERATIONS.has(operation)) {
+    errors.push(`operation must be one of ${[...PITFALL_FIX_OPERATIONS].join(', ')}`);
+  }
+  if (typeof fix.section !== 'string' || !fix.section.trim()) {
+    errors.push('section is required');
+  }
+  if (typeof fix.targetFile !== 'string' || !fix.targetFile.trim()) {
+    errors.push('targetFile is required');
+  }
+
+  const summary = typeof fix.summary === 'string' ? fix.summary.trim() : '';
+  const details = typeof fix.details === 'string' ? fix.details.trim() : '';
+  const antiPatternEntries = normalizeStringList(fix.antiPatterns);
+  const fixEntries = normalizeStringList(fix.fixes);
+  const antiPatterns = antiPatternEntries.map(unwrapInlineCode);
+  const fixes = fixEntries.map(unwrapInlineCode);
+  const completeExample = typeof fix.completeExample === 'string' ? fix.completeExample.trim() : '';
+  const targetPitfallSlug = typeof fix.targetPitfallSlug === 'string' ? fix.targetPitfallSlug.trim() : '';
+  const newPitfallSlug = typeof fix.newPitfallSlug === 'string' ? fix.newPitfallSlug.trim() : '';
+
+  if (!summary) errors.push('summary is required');
+  if (summary.includes('**')) errors.push('summary must not include markdown bold markers');
+  if (summary.length > 180) errors.push('summary must be 180 characters or fewer');
+  if (!details) errors.push('details is required');
+  if (details.startsWith('—') || details.startsWith('-')) {
+    errors.push('details must not include the leading dash');
+  }
+  if (antiPatterns.length === 0) errors.push('antiPatterns must contain at least one snippet');
+  if (fixes.length === 0) errors.push('fixes must contain at least one snippet');
+  if (completeExample.includes('```')) errors.push('completeExample must not include markdown fences');
+
+  for (const [label, snippets] of [
+    ['antiPatterns', antiPatternEntries],
+    ['fixes', fixEntries],
+  ]) {
+    for (const snippet of snippets) {
+      if (!snippet.trim()) errors.push(`${label} entries must be non-empty strings`);
+      if (/^`|`$/.test(snippet.trim())) errors.push(`${label} entries must not include markdown backticks`);
+      if (snippet.includes('\n')) errors.push(`${label} entries must be single-line snippets`);
+    }
+  }
+
+  if (operation === 'append_pitfall') {
+    if (targetPitfallSlug) errors.push('append_pitfall requires targetPitfallSlug to be empty');
+    if (!newPitfallSlug) errors.push('append_pitfall requires newPitfallSlug');
+    if (newPitfallSlug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(newPitfallSlug)) {
+      errors.push('newPitfallSlug must be kebab-case');
+    }
+    if (newPitfallSlug && summary && summaryToSlug(summary) !== newPitfallSlug) {
+      errors.push(`newPitfallSlug '${newPitfallSlug}' must match derived summary slug '${summaryToSlug(summary)}'`);
+    }
+  } else if (operation === 'replace_pitfall' || operation === 'replace_subbullets') {
+    if (!targetPitfallSlug) errors.push(`${operation} requires targetPitfallSlug`);
+    if (newPitfallSlug) errors.push(`${operation} requires newPitfallSlug to be empty`);
+  }
+
+  return {
+    pass: errors.length === 0,
+    errors,
+  };
 }
 
 function validateUpdatedPitfallSection(sectionText, expectedSlug) {
@@ -1391,9 +1451,6 @@ function validateUpdatedPitfallSection(sectionText, expectedSlug) {
 }
 
 function buildFixPreviewText(fix) {
-  if (typeof fix.new === 'string' && fix.new.trim()) {
-    return fix.new;
-  }
   const builtBlock = buildPitfallBlockTextFromFix(fix);
   return builtBlock.blockText ?? '';
 }
@@ -1495,14 +1552,17 @@ function applyPitfallFixToSectionText(sectionText, fix, target, filePath = '<mem
  * Returns true if the source file was patched, false if skipped.
  */
 function applySourceFix(fix, evalContextContent) {
+  applySourceFix.lastError = '';
   const target = resolveSourceTarget(fix, evalContextContent);
   if (!target) {
+    applySourceFix.lastError = `could not resolve target (section=${fix.section ?? 'none'}, targetFile=${fix.targetFile ?? 'none'})`;
     console.log(
       `      ${C.yellow('⚠ Source: could not resolve target')} (section=${fix.section ?? 'none'}, old=${JSON.stringify((fix.old ?? '').slice(0, 60))})`,
     );
     return false;
   }
   if (!existsSync(target.filePath)) {
+    applySourceFix.lastError = `file not found: ${target.filePath}`;
     console.log(`      ${C.yellow('⚠ Source: file not found:')} ${target.filePath}`);
     return false;
   }
@@ -1523,6 +1583,7 @@ function applySourceFix(fix, evalContextContent) {
       section = extractSection(fileContent, 'Pitfalls');
     }
     if (!section) {
+      applySourceFix.lastError = `no '## ${target.sectionHeading}' section in ${target.filePath}`;
       console.log(
         `      ${C.yellow(`⚠ Source: no '## ${target.sectionHeading}' section in`)} ${target.filePath}`,
       );
@@ -1538,6 +1599,7 @@ function applySourceFix(fix, evalContextContent) {
     );
   const result = applyPitfallFixToSectionText(section.sectionText, fix, target, target.filePath);
   if (result.error) {
+    applySourceFix.lastError = result.error;
     const [message, ...detailLines] = result.error.split('\n');
     console.log(`      ${C.yellow(`⚠ Source: ${message}`)}`);
     if (detailLines.length > 0) {
@@ -2221,15 +2283,22 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
   console.log(`\n  ${C.cyan(C.bold('Diagnosing:'))} ${C.bold(failure.slug)}`);
   let current = failure;
   let passed = false;
-  const failedOlds = [];
+  const failedPatchReasons = [];
   for (let attempt = 1; attempt <= MAX_ITER; attempt++) {
     const attemptLabel = isFinite(MAX_ITER) ? `${attempt}/${MAX_ITER}` : `${attempt}`;
     try {
       console.log(
         `    [${attemptLabel}] ${C.dim(`Requesting fix from ${FIX_PROVIDER}:${FIX_MODEL}...`)}`,
       );
-      const fix = await getFix(current, failedOlds, promptMap.get(current.slug)?.tags ?? []);
+      const fix = await getFix(current, failedPatchReasons, promptMap.get(current.slug)?.tags ?? []);
       console.log(`    [${attemptLabel}] ${C.cyan('Diagnosis:')} ${fix.diagnosis}`);
+      const payloadValidation = validateFixPayload(fix);
+      if (!payloadValidation.pass) {
+        const reason = payloadValidation.errors.join('; ');
+        failedPatchReasons.push(reason);
+        console.log(`    [${attemptLabel}] ${C.yellow('⚠ Fix payload rejected:')} ${reason}`);
+        continue;
+      }
       const fixPreviewText = buildFixPreviewText(fix);
       if (fixPreviewText) {
         const target = fix.section ?? 'unknown';
@@ -2244,7 +2313,7 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
       }
       const evalContextBeforeFix = readFileSync(SNIPPET_PATH, 'utf8');
       let sourcePatchApplied = false;
-      const sourcePatchRequired = !NO_SOURCE_PATCH && fixHasStructuredSourcePatch(fix);
+      const sourcePatchRequired = !NO_SOURCE_PATCH;
       if (!NO_SOURCE_PATCH) {
         try {
           const patchedPath = applySourceFix(fix, evalContextBeforeFix);
@@ -2280,11 +2349,13 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
               );
             }
           } else {
+            failedPatchReasons.push(applySourceFix.lastError || 'source patch did not apply cleanly');
             console.log(
               `    [${attemptLabel}] ${C.yellow('⚠ Source patch not applied')} (see ⚠ above for reason)`,
             );
           }
         } catch (err) {
+          failedPatchReasons.push(err.message);
           console.log(`    [${attemptLabel}] ${C.yellow('⚠ Source patch failed:')} ${err.message}`);
         }
       }
@@ -2296,6 +2367,7 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
       }
       const fixedCode = fix.fixedCode ?? '';
       if (!fixedCode.trim()) {
+        failedPatchReasons.push('fixedCode is required');
         console.log(
           `    [${attemptLabel}] ${C.yellow('⚠ Fix did not include fixedCode')} — retrying`,
         );
@@ -2329,7 +2401,7 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
       const l3 = reResult.l3.pass ? C.green('✓') : C.red('✗');
       console.log(`    [${attemptLabel}] ${C.red('✗ Still failing:')} L1=${l1} L2=${l2} L3=${l3}`);
       current = reResult;
-      failedOlds.length = 0;
+      failedPatchReasons.length = 0;
     } catch (err) {
       if (err instanceof SyntaxError) {
         console.log(`    [${attemptLabel}] ${C.yellow('⚠ Malformed JSON response')} — retrying`);
@@ -2572,6 +2644,7 @@ export const __test__ = {
   serializePitfallBlock,
   summaryReflectsPitfallSlug,
   summaryToSlug,
+  validateFixPayload,
   validatePitfallPatchBlock,
   validateUpdatedPitfallSection,
 };

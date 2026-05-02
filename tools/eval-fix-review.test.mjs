@@ -52,6 +52,66 @@ test('append_pitfall requires newPitfallSlug', () => {
   assert.match(result.error, /append_pitfall requires newPitfallSlug/);
 });
 
+test('validateFixPayload rejects legacy raw markdown without structured fields', () => {
+  const result = __test__.validateFixPayload({
+    operation: 'append_pitfall',
+    section: 'component:Text',
+    targetFile: 'text',
+    targetPitfallSlug: '',
+    newPitfallSlug: '',
+    new: '- **Use gamma label text** — keep gamma copy stable.\n  - anti-pattern: `<Text weight="medium">Gamma</Text>`\n  - fix: `<Text variant="label">Gamma</Text>`',
+  });
+
+  assert.equal(result.pass, false);
+  assert.match(result.errors.join('; '), /summary is required/);
+  assert.match(result.errors.join('; '), /append_pitfall requires newPitfallSlug/);
+});
+
+test('validateFixPayload accepts structured append payloads', () => {
+  const result = __test__.validateFixPayload({
+    operation: 'append_pitfall',
+    section: 'component:Text',
+    targetFile: 'text',
+    targetPitfallSlug: '',
+    newPitfallSlug: 'use-gamma-label-text',
+    summary: 'Use gamma label text',
+    details: 'keep gamma copy stable.',
+    antiPatterns: ['<Text weight="medium">Gamma</Text>'],
+    fixes: ['<Text variant="label">Gamma</Text>'],
+    completeExample: '',
+  });
+
+  assert.equal(result.pass, true);
+  assert.deepEqual(result.errors, []);
+});
+
+test('validateFixPayload rejects markdown-wrapped structured snippets', () => {
+  const result = __test__.validateFixPayload({
+    operation: 'append_pitfall',
+    section: 'component:Text',
+    targetFile: 'text',
+    targetPitfallSlug: '',
+    newPitfallSlug: 'use-gamma-label-text',
+    summary: 'Use gamma label text',
+    details: 'keep gamma copy stable.',
+    antiPatterns: ['`<Text weight="medium">Gamma</Text>`'],
+    fixes: ['<Text variant="label">Gamma</Text>'],
+    completeExample: '',
+  });
+
+  assert.equal(result.pass, false);
+  assert.match(result.errors.join('; '), /antiPatterns entries must not include markdown backticks/);
+});
+
+test('fixHasStructuredSourcePatch ignores deprecated raw markdown field', () => {
+  assert.equal(
+    __test__.fixHasStructuredSourcePatch({
+      new: '- **Use gamma label text** — keep gamma copy stable.',
+    }),
+    false,
+  );
+});
+
 test('replace operations require targetPitfallSlug', () => {
   const result = __test__.applyPitfallFixToSectionText(
     baseSection,

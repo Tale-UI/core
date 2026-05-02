@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD046 -->
+
 # Cross-Component Pitfalls
 
 Common mistakes that span multiple Tale UI components. Component-specific pitfalls live in
