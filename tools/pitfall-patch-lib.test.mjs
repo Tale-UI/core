@@ -27,6 +27,30 @@ const baseSection = `
   - fix: \`<Text variant="label">Label</Text>\`
 `.trim();
 
+const recoverySection = `
+<!-- pitfall: use-alpha-label-text -->
+- **Use alpha label text** — keep alpha copy stable.
+  - anti-pattern: \`<Text weight="medium">Alpha</Text>\`
+  - fix: \`<Text variant="label">Alpha</Text>\`
+
+<!-- pitfall: use-beta-helper-text -->
+- **Use beta helper text** — keep beta copy stable.
+  - anti-pattern: \`<Text weight="medium">Beta</Text>\`
+  - fix: \`<Text variant="label">Beta</Text>\`
+`.trim();
+
+const duplicateSummarySection = `
+<!-- pitfall: use-alpha-label-text -->
+- **Use shared label text** — keep alpha copy stable.
+  - anti-pattern: \`<Text weight="medium">Alpha</Text>\`
+  - fix: \`<Text variant="label">Alpha</Text>\`
+
+<!-- pitfall: use-beta-label-text -->
+- **Use shared label text** — keep beta copy stable.
+  - anti-pattern: \`<Text weight="medium">Beta</Text>\`
+  - fix: \`<Text variant="label">Beta</Text>\`
+`.trim();
+
 test('operation specs define required and forbidden target fields for every operation', () => {
   assert.deepEqual(PITFALL_FIX_OPERATION_SPECS.append_pitfall.requiredFields, [
     'section',
@@ -98,6 +122,24 @@ test('validateFixPayload accepts structured append payloads', () => {
     targetFile: 'text',
     targetPitfallSlug: '',
     newPitfallSlug: 'use-gamma-label-text',
+    summary: 'Use gamma label text',
+    details: 'keep gamma copy stable.',
+    antiPatterns: ['<Text weight="medium">Gamma</Text>'],
+    fixes: ['<Text variant="label">Gamma</Text>'],
+    completeExample: '',
+  });
+
+  assert.equal(result.pass, true);
+  assert.deepEqual(result.errors, []);
+});
+
+test('validateFixPayload accepts append slugs that reflect summary without exactly matching summaryToSlug', () => {
+  const result = validateFixPayload({
+    operation: 'append_pitfall',
+    section: 'component:Text',
+    targetFile: 'text',
+    targetPitfallSlug: '',
+    newPitfallSlug: 'gamma-label-text-pattern',
     summary: 'Use gamma label text',
     details: 'keep gamma copy stable.',
     antiPatterns: ['<Text weight="medium">Gamma</Text>'],
@@ -225,6 +267,90 @@ test('replace_pitfall rejects content whose summary no longer matches the target
   assert.match(result.error, /summary does not match slug 'use-beta-helper-text'/);
 });
 
+test('replace_pitfall recovers a wrong target slug when old text uniquely identifies a block', () => {
+  const result = applyPitfallFixToSectionText(
+    recoverySection,
+    {
+      operation: 'replace_pitfall',
+      targetPitfallSlug: 'invented-beta-slug',
+      old: '- anti-pattern: `<Text weight="medium">Beta</Text>`',
+      summary: 'Use beta helper text',
+      details: 'render beta labels with the label variant.',
+      antiPatterns: ['<Text weight="medium">Beta</Text>'],
+      fixes: ['<Text variant="label">Recovered beta</Text>'],
+    },
+    componentTarget,
+  );
+
+  assert.equal(result.error, undefined);
+  assert.equal(result.expectedSlug, 'use-beta-helper-text');
+  assert.match(
+    result.updatedSection,
+    /<!-- pitfall: use-beta-helper-text -->[\s\S]*<Text variant="label">Recovered beta<\/Text>/,
+  );
+});
+
+test('replace_pitfall recovers a wrong target slug when summary uniquely identifies a block', () => {
+  const result = applyPitfallFixToSectionText(
+    recoverySection,
+    {
+      operation: 'replace_pitfall',
+      targetPitfallSlug: 'invented-beta-slug',
+      old: '',
+      summary: 'Use beta helper text',
+      details: 'render beta labels with the label variant.',
+      antiPatterns: ['<Text weight="medium">Beta</Text>'],
+      fixes: ['<Text variant="label">Recovered beta</Text>'],
+    },
+    componentTarget,
+  );
+
+  assert.equal(result.error, undefined);
+  assert.equal(result.expectedSlug, 'use-beta-helper-text');
+});
+
+test('replace_pitfall rejects wrong slugs when old text matches multiple blocks', () => {
+  const result = applyPitfallFixToSectionText(
+    baseSection,
+    {
+      operation: 'replace_pitfall',
+      targetPitfallSlug: 'invented-label-slug',
+      old: '- anti-pattern: `<Text weight="medium">Label</Text>`',
+      summary: 'Use missing label text',
+      details: 'render labels with the label variant.',
+      antiPatterns: ['<Text weight="medium">Label</Text>'],
+      fixes: ['<Text variant="label">Label</Text>'],
+    },
+    componentTarget,
+  );
+
+  assert.match(
+    result.error,
+    /old text matched multiple pitfall slugs: use-alpha-label-text, use-beta-helper-text/,
+  );
+});
+
+test('replace_pitfall rejects wrong slugs when summary matches multiple blocks', () => {
+  const result = applyPitfallFixToSectionText(
+    duplicateSummarySection,
+    {
+      operation: 'replace_pitfall',
+      targetPitfallSlug: 'invented-shared-slug',
+      old: '',
+      summary: 'Use shared label text',
+      details: 'render labels with the label variant.',
+      antiPatterns: ['<Text weight="medium">Label</Text>'],
+      fixes: ['<Text variant="label">Label</Text>'],
+    },
+    componentTarget,
+  );
+
+  assert.match(
+    result.error,
+    /summary matched multiple pitfall slugs: use-alpha-label-text, use-beta-label-text/,
+  );
+});
+
 test('replace_subbullets rewrites one named block without merging in a second pitfall', () => {
   const result = applyPitfallFixToSectionText(
     baseSection,
@@ -272,4 +398,43 @@ test('append_pitfall adds a fresh canonical block with the requested slug', () =
   const blocks = getPitfallBlocks(result.updatedSection);
   assert.equal(blocks.length, 3);
   assert.match(result.updatedSection, /<!-- pitfall: use-gamma-label-text -->/);
+});
+
+test('append_pitfall accepts a kebab slug that reflects summary without exact derivation', () => {
+  const result = applyPitfallFixToSectionText(
+    baseSection,
+    {
+      operation: 'append_pitfall',
+      newPitfallSlug: 'gamma-label-text-pattern',
+      summary: 'Use gamma label text',
+      details: 'keep gamma copy stable.',
+      antiPatterns: ['<Text weight="medium">Gamma</Text>'],
+      fixes: ['<Text variant="label">Gamma</Text>'],
+    },
+    componentTarget,
+  );
+
+  assert.equal(result.error, undefined);
+  assert.match(result.updatedSection, /<!-- pitfall: gamma-label-text-pattern -->/);
+});
+
+test('append_pitfall rejects duplicate summaries and points to replace_subbullets', () => {
+  const result = applyPitfallFixToSectionText(
+    baseSection,
+    {
+      operation: 'append_pitfall',
+      newPitfallSlug: 'beta-helper-text-pattern',
+      summary: 'Use beta helper text',
+      details: 'keep beta copy stable.',
+      antiPatterns: ['<Text weight="medium">Beta</Text>'],
+      fixes: ['<Text variant="label">Beta</Text>'],
+    },
+    componentTarget,
+  );
+
+  assert.match(result.error, /duplicates existing slug\(s\): use-beta-helper-text/);
+  assert.match(
+    result.error,
+    /Use replace_subbullets with targetPitfallSlug 'use-beta-helper-text'/,
+  );
 });

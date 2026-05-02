@@ -3,59 +3,475 @@
   "taleUiVersion": "1.3.46",
   "crossComponentPitfalls": [
     {
+      "id": "no-asChild-on-triggers",
+      "summary": "Never use asChild on any Tale UI trigger",
+      "detail": "Tale UI trigger components expose their own public structure and do not support `asChild`. Passing it causes TypeScript errors.",
+      "appliesTo": [
+        "Menu",
+        "Popover",
+        "Dialog",
+        "AlertDialog",
+        "Drawer",
+        "Tooltip",
+        "PreviewCard",
+        "ContextMenu"
+      ],
+      "category": "trigger-styling",
+      "antiPatterns": [
+        "<Menu.Trigger asChild><Button variant=\"primary\">File</Button></Menu.Trigger>"
+      ],
+      "fixes": [
+        "<Menu.Trigger className=\"tale-button tale-button--primary tale-button--md\">File</Menu.Trigger>"
+      ]
+    },
+    {
+      "id": "no-button-inside-trigger",
+      "summary": "Never nest <Button> or <IconButton> inside a trigger",
+      "detail": "this creates a `<button>` inside a `<button>` (invalid HTML) and breaks keyboard/pointer interactions. Style the trigger directly with BEM class names.",
+      "appliesTo": ["Menu", "Popover", "Dialog", "AlertDialog", "Drawer", "Tooltip"],
+      "category": "trigger-styling",
+      "antiPatterns": [
+        "<Dialog.Trigger><Button variant=\"neutral\">Open</Button></Dialog.Trigger>"
+      ],
+      "fixes": [
+        "<Dialog.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open</Dialog.Trigger>"
+      ]
+    },
+    {
+      "id": "isopen-on-dialog-and-alert-dialog",
+      "summary": "Use isOpen/onOpenChange on Dialog.Root / AlertDialog.Root, not open",
+      "detail": "React Aria overlay roots use `isOpen`; passing `open` causes TypeScript errors.",
+      "appliesTo": ["Dialog", "AlertDialog"],
+      "category": "overlay-state",
+      "antiPatterns": ["<Dialog.Root open={open} onOpenChange={setOpen}>"],
+      "fixes": ["<Dialog.Root isOpen={open} onOpenChange={setOpen}>"]
+    },
+    {
+      "id": "backdrop-wraps-popup-on-dialog-and-alert-dialog",
+      "summary": "Dialog.Backdrop / AlertDialog.Backdrop must wrap Popup, not render as siblings",
+      "detail": "sibling overlay trees leave the backdrop mounted after close.",
+      "appliesTo": ["Dialog", "AlertDialog"],
+      "category": "overlay-state",
+      "antiPatterns": ["<Dialog.Backdrop /><Dialog.Popup>...</Dialog.Popup>"],
+      "fixes": ["<Dialog.Backdrop><Dialog.Popup>...</Dialog.Popup></Dialog.Backdrop>"]
+    },
+    {
+      "id": "no-null-state-without-type",
+      "summary": "Never write useState(null) without a type annotation for date/color components",
+      "detail": "TypeScript infers the literal `null` type, making the setter incompatible with the component's `onChange` prop. Always annotate: `useState<Type | null>(null)`.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar",
+        "DatePicker",
+        "DateRangePicker",
+        "ColorArea",
+        "ColorSlider",
+        "ColorWheel",
+        "ColorPicker"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": ["const [value, setValue] = useState(null);"],
+      "fixes": [
+        "type T = Parameters<NonNullable<React.ComponentProps<typeof RangeCalendar.Root>['onChange']>>[0]; const [value, setValue] = useState<T | null>(null);"
+      ]
+    },
+    {
+      "id": "derive-date-type-from-props",
+      "summary": "Derive date value types from component props, not third-party imports",
+      "detail": "`DateValue`, `RangeValue`, and `ZonedDateTime` are not exported from any `@tale-ui/react/*` module. Importing them causes \"has no exported member\" TypeScript errors. Use the prop-derived pattern instead.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar",
+        "DatePicker",
+        "DateRangePicker",
+        "DateField",
+        "TimeField"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": ["import type { DateValue } from '@tale-ui/react/calendar';"],
+      "fixes": [
+        "type DateVal = Parameters<NonNullable<React.ComponentProps<typeof Calendar.Root>['onChange']>>[0];"
+      ]
+    },
+    {
+      "id": "no-native-date",
+      "summary": "Never pass a native Date object to date components",
+      "detail": "React Aria uses `DateValue`, not `Date`. Passing a `Date` object causes type errors and runtime failures.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar",
+        "DatePicker",
+        "DateRangePicker",
+        "DateField",
+        "TimeField"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": ["<Calendar.Root value={new Date()} />"],
+      "fixes": ["<Calendar.Root defaultValue={parseDate('2024-01-15')} />"]
+    },
+    {
+      "id": "parse-date-import-from-internationalized-date",
+      "summary": "Import parseDate from @internationalized/date, not from @tale-ui/react component modules",
+      "detail": "`parseDate` is NOT exported from `@tale-ui/react/calendar` or any other `@tale-ui/react/*` path; importing it there causes \"has no exported member\" TypeScript errors. Use `@internationalized/date` directly — it is available in consumer projects and is an allowed import prefix.",
+      "appliesTo": [
+        "Calendar",
+        "RangeCalendar",
+        "DatePicker",
+        "DateRangePicker",
+        "DateField",
+        "TimeField"
+      ],
+      "category": "controlled-state",
+      "antiPatterns": ["import { parseDate } from '@tale-ui/react/calendar';"],
+      "fixes": ["import { parseDate } from '@internationalized/date';"]
+    },
+    {
+      "id": "no-locale-prop-on-calendar",
+      "summary": "Calendar.Root and RangeCalendar.Root have no locale prop",
+      "detail": "for locale support, wrap the tree in `<I18nProvider locale=\"en-US\">` from `@tale-ui/react/i18n-provider`.",
+      "appliesTo": ["Calendar", "RangeCalendar"],
+      "category": "controlled-state",
+      "antiPatterns": ["<Calendar.Root locale=\"en-US\" />"],
+      "fixes": ["<I18nProvider locale=\"en-US\"><Calendar.Root /></I18nProvider>"]
+    },
+    {
+      "id": "color-imports-from-rac",
+      "summary": "Import parseColor from a @tale-ui/react color sub-path, not @internationalized/color",
+      "detail": "`@internationalized/color` is an internal dependency not available in consumer projects; importing it causes \"Cannot find module\" TypeScript errors.",
+      "appliesTo": [
+        "ColorArea",
+        "ColorSlider",
+        "ColorWheel",
+        "ColorField",
+        "ColorPicker",
+        "ColorSwatchPicker"
+      ],
+      "category": "color-state",
+      "antiPatterns": ["import { parseColor } from '@internationalized/color';"],
+      "fixes": ["import { parseColor } from '@tale-ui/react/color-area';"]
+    },
+    {
+      "id": "color-swatch-string-only",
+      "summary": "ColorSwatch always accepts a plain CSS string, not a Color object",
+      "detail": "when `ColorSwatch` is driven by shared color state (a `Color` object from `useState`), serialize it first. Passing a raw `Color` object causes a TypeScript error.",
+      "appliesTo": ["ColorSwatch"],
+      "category": "color-state",
+      "antiPatterns": ["<ColorSwatch color={colorObject} />"],
+      "fixes": ["<ColorSwatch color={colorObject.toString('css')} />"]
+    },
+    {
+      "id": "no-color-extract-channel",
+      "summary": "Pass the full Color object as value, not a channel number like color.hue",
+      "detail": "color components expect a `Color` instance; passing a number causes type errors. Use the `channel` prop to specify which channel to display.",
+      "appliesTo": ["ColorArea", "ColorSlider", "ColorWheel"],
+      "category": "color-state",
+      "antiPatterns": [
+        "<ColorSlider.Root value={color.hue} onChange={h => setColor(parseColor('hsl(' + h + ', 100%, 50%)'))} />"
+      ],
+      "fixes": ["<ColorSlider.Root value={color} onChange={setColor} channel=\"hue\" />"]
+    },
+    {
+      "id": "no-color-pojo-state",
+      "summary": "Do not initialize color state with a plain JS object",
+      "detail": "`{ h: 200, s: 100, v: 100 }` is not a valid `Color` instance. Use `parseColor('hsl(200, 100%, 50%)')` to create a proper initial value.",
+      "appliesTo": ["ColorArea", "ColorSlider", "ColorWheel", "ColorPicker"],
+      "category": "color-state",
+      "antiPatterns": ["useState({ h: 200, s: 100, v: 100, alpha: 1 })"],
+      "fixes": ["useState(parseColor('hsl(200, 100%, 50%)'))"]
+    },
+    {
+      "id": "never-import-parsecolor-or-color",
+      "summary": "Never import parseColor or Color from react-aria-components",
+      "detail": "`react-aria-components` is an internal peer dependency not available in consumer projects; importing from it causes \"Cannot find module\" TypeScript errors.",
+      "appliesTo": ["*"],
+      "category": "color-state",
+      "antiPatterns": ["import { parseColor, type Color } from 'react-aria-components';"],
+      "fixes": ["import { parseColor } from '@tale-ui/react/color-area';"]
+    },
+    {
+      "id": "minvalue-maxvalue-not-min-max",
+      "summary": "Use minValue/maxValue props, not min/max",
+      "detail": "React Aria uses camelCase prop names. Passing `min={0} max={100}` causes \"is not assignable to type RootProps\" TypeScript errors.",
+      "appliesTo": ["Meter", "ProgressBar", "Slider", "NumberField"],
+      "category": "react-aria",
+      "antiPatterns": ["<Meter.Root value={75} min={0} max={100}>"],
+      "fixes": ["<Meter.Root value={75} minValue={0} maxValue={100}>"]
+    },
+    {
+      "id": "selectedkey-not-value",
+      "summary": "Use selectedKey/onSelectionChange for controlled selection, not value/onChange",
+      "detail": "passing `value` to `Select.Root`, `Combobox.Root`, or `Tabs.Root` causes \"is not assignable to type\" TypeScript errors. React Aria uses selection keys.",
+      "appliesTo": ["Select", "Combobox", "Tabs"],
+      "category": "react-aria",
+      "antiPatterns": ["<Select.Root value={selected} onChange={setSelected}>"],
+      "fixes": [
+        "<Select.Root selectedKey={selected} onSelectionChange={(key) => setSelected(key as string)}>"
+      ]
+    },
+    {
+      "id": "defaultexpandedkeys-not-defaultopen",
+      "summary": "Accordion.Root uses defaultExpandedKeys (an array), not defaultOpen or defaultValue",
+      "detail": "both `defaultOpen` and `defaultValue` are common React/HTML patterns that do not exist on `AccordionRootProps`; using them causes TypeScript errors.",
+      "appliesTo": ["Accordion"],
+      "category": "react-aria",
+      "antiPatterns": ["<Accordion.Root defaultOpen={true}>"],
+      "fixes": ["<Accordion.Root defaultExpandedKeys={['item-id']}>"]
+    },
+    {
+      "id": "defaultselectedkey-not-defaultvalue-tabs",
+      "summary": "Tabs.Root uses defaultSelectedKey, not defaultValue",
+      "detail": "passing `defaultValue` causes \"is not assignable to type RootProps\" TypeScript errors.",
+      "appliesTo": ["Tabs"],
+      "category": "react-aria",
+      "antiPatterns": ["<Tabs.Root defaultValue=\"overview\">"],
+      "fixes": ["<Tabs.Root defaultSelectedKey=\"overview\">"]
+    },
+    {
+      "id": "meter-progress-value-needs-children",
+      "summary": "Meter.Value / ProgressBar.Value require children text",
+      "detail": "self-closing value parts render empty spans.",
+      "appliesTo": ["Meter", "ProgressBar"],
+      "category": "value-display",
+      "antiPatterns": ["<ProgressBar.Value />"],
+      "fixes": ["<ProgressBar.Value>60%</ProgressBar.Value>"]
+    },
+    {
+      "id": "meter-progress-indicator-needs-value",
+      "summary": "Meter.Indicator / ProgressBar.Indicator require their own value prop",
+      "detail": "they do not inherit `value` from `Root`; pass the same value to both parts.",
+      "appliesTo": ["Meter", "ProgressBar"],
+      "category": "value-display",
+      "antiPatterns": ["<Meter.Root value={60}><Meter.Indicator /></Meter.Root>"],
+      "fixes": ["<Meter.Root value={60}><Meter.Indicator value={60} /></Meter.Root>"]
+    },
+    {
+      "id": "meter-progress-no-output-sub-part",
+      "summary": "There is no Meter.Output or ProgressBar.Output sub-part",
+      "detail": "use the matching `Value` part for visible numeric text.",
+      "appliesTo": ["Meter", "ProgressBar"],
+      "category": "value-display",
+      "antiPatterns": ["<Meter.Output>60%</Meter.Output>"],
+      "fixes": ["<Meter.Value>60%</Meter.Value>"]
+    },
+    {
+      "id": "no-deep-subpath-imports",
+      "summary": "Only import from the package-level path — never from internal subpaths like .../button/Button.styled",
+      "detail": "deep subpath imports bypass the public API and cause \"Cannot find module\" TypeScript errors.",
+      "appliesTo": ["*"],
+      "category": "imports",
+      "antiPatterns": ["import { Button } from '@tale-ui/react/button/Button.styled';"],
+      "fixes": ["import { Button } from '@tale-ui/react/button';"]
+    },
+    {
+      "id": "usefilter-from-rac-not-react-aria",
+      "summary": "Import useFilter from @tale-ui/react/autocomplete, not react-aria",
+      "detail": "`react-aria` and `react-aria-components` export different things. Using `react-aria` causes \"Module has no exported member 'useFilter'\" TypeScript errors.",
+      "appliesTo": ["Autocomplete"],
+      "category": "imports",
+      "antiPatterns": ["import { useFilter } from 'react-aria';"],
+      "fixes": ["import { useFilter } from '@tale-ui/react/autocomplete';"]
+    },
+    {
+      "id": "no-cross-import-checkbox-group",
+      "summary": "CheckboxGroup is not exported from @tale-ui/react/checkbox",
+      "detail": "`CheckboxGroup` has its own path `@tale-ui/react/checkbox-group`; cross-importing causes \"Module has no exported member\" TypeScript errors.",
+      "appliesTo": ["Checkbox", "CheckboxGroup"],
+      "category": "imports",
+      "antiPatterns": ["import { CheckboxGroup } from '@tale-ui/react/checkbox';"],
+      "fixes": ["import { CheckboxGroup } from '@tale-ui/react/checkbox-group';"]
+    },
+    {
+      "id": "no-color-component-from-color-picker",
+      "summary": "Color sub-components are not exported from @tale-ui/react/color-picker",
+      "detail": "each has its own import path. Importing from `color-picker` causes \"has no exported member\" TypeScript errors.",
+      "appliesTo": ["ColorArea", "ColorSlider", "ColorSwatch", "ColorSwatchPicker"],
+      "category": "imports",
+      "antiPatterns": ["import { ColorArea, ColorSwatch } from '@tale-ui/react/color-picker';"],
+      "fixes": [
+        "import { ColorArea } from '@tale-ui/react/color-area'; import { ColorSwatch } from '@tale-ui/react/color-swatch';"
+      ]
+    },
+    {
+      "id": "toggle-button-group-import-path",
+      "summary": "ToggleButtonGroup is exported from @tale-ui/react/toggle-group — never import from @tale-ui/react/toggle-button-group",
+      "detail": "there is no `toggle-button-group` module; importing from it causes \"Cannot find module\" TypeScript errors. Also valid: `@tale-ui/react/toggle-button`.",
+      "appliesTo": ["ToggleButtonGroup"],
+      "category": "imports",
+      "antiPatterns": ["import { ToggleButtonGroup } from '@tale-ui/react/toggle-button-group';"],
+      "fixes": [
+        "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';",
+        "import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';"
+      ]
+    },
+    {
+      "id": "textarea-hyphenated-path",
+      "summary": "TextArea import path is hyphenated: @tale-ui/react/text-area",
+      "detail": "using `@tale-ui/react/textarea` (no hyphen) causes \"Cannot find module\" TypeScript errors.",
+      "appliesTo": ["TextArea"],
+      "category": "imports",
+      "antiPatterns": ["import { TextArea } from '@tale-ui/react/textarea';"],
+      "fixes": ["import { TextArea } from '@tale-ui/react/text-area';"]
+    },
+    {
+      "id": "no-label-component",
+      "summary": "There is no @tale-ui/react/label module or Label component",
+      "detail": "use a native `<label htmlFor=\"...\">` HTML element instead.",
+      "appliesTo": ["SelectNative"],
+      "category": "imports",
+      "antiPatterns": ["import { Label } from '@tale-ui/react/label';"],
+      "fixes": ["<label htmlFor=\"country\">Country</label>"]
+    },
+    {
+      "id": "never-import-key-from-reactariacomponents",
+      "summary": "Never import Key from react-aria-components for selection state — derive the type from the component's props",
+      "detail": "`react-aria-components` is not available in consumer projects; importing from it causes \"Cannot find module\" TypeScript errors. Derive the key type from the component's `onSelectionChange` prop using `React.ComponentProps` instead. ```tsx import * as React from 'react'; import { TagSelect } from '@tale-ui/react/tag-select'; type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0]; const members = [ { id: 'alice', name: 'Alice Chen' }, { id: 'bob', name: 'Bob Martínez' }, ]; export function TeamMemberPicker() { const [selected, setSelected] = React.useState<SelectionValue>( new Set(['alice', 'bob']) ); return ( <TagSelect.Root label=\"Team members\" placeholder=\"Search members…\" description=\"Select everyone who should have access.\" items={members} selectedKeys={selected} onSelectionChange={setSelected} > {(member) => ( <TagSelect.Item id={member.id} textValue={member.name}> {member.name} </TagSelect.Item> )} </TagSelect.Root> ); } ```",
+      "appliesTo": ["*"],
+      "category": "imports",
+      "antiPatterns": [
+        "import type { Key } from 'react-aria-components';",
+        "const [selected, setSelected] = React.useState<Set<Key>>(new Set(['alice', 'carol']));"
+      ],
+      "fixes": [
+        "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];",
+        "const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'carol']));"
+      ]
+    },
+    {
+      "id": "do-not-import-taleuichartsstyles-inside",
+      "summary": "Never import @tale-ui/charts/styles in generated chart component snippets — omit this line entirely",
+      "detail": "this CSS side-effect import causes \"Cannot find module\" validation errors in standalone generated TSX because chart styling is handled at the app level. Do not add this import even when other valid chart imports such as `ChartContainer` are already present in the same file; all chart imports must be component-only imports. ```tsx import { PieChart } from '@tale-ui/charts/pie-chart'; import { ChartContainer } from '@tale-ui/charts'; import { Card } from '@tale-ui/react/card'; import { Text } from '@tale-ui/react/text'; const data = [ { name: 'Direct', value: 40 }, { name: 'Organic', value: 30 }, { name: 'Referral', value: 20 }, { name: 'Social', value: 10 }, ]; export function TrafficSourcesChart() { return ( <Card.Root> <Card.Header> <Text variant=\"heading\" as=\"h2\">Website Traffic Sources</Text> </Card.Header> <Card.Body> <ChartContainer height={300}> <PieChart.Root> <PieChart.Pie data={data} dataKey=\"value\" nameKey=\"name\" outerRadius={100} paddingAngle={2} /> <PieChart.Tooltip /> <PieChart.Legend /> </PieChart.Root> </ChartContainer> </Card.Body> </Card.Root> ); } ```",
+      "appliesTo": ["*"],
+      "category": "imports",
+      "antiPatterns": ["import '@tale-ui/charts/styles';"],
+      "fixes": [
+        "import { ChartContainer } from '@tale-ui/charts';",
+        "import { AreaChart } from '@tale-ui/charts/area-chart';",
+        "import { BarChart } from '@tale-ui/charts/bar-chart';",
+        "import { PieChart } from '@tale-ui/charts/pie-chart';"
+      ]
+    },
+    {
+      "id": "never-import-key-or-any",
+      "summary": "Never import Key or any type from react-aria-components for selection state",
+      "detail": "`react-aria-components` is an internal peer dependency unavailable in consumer projects, so importing its types causes \"Cannot find module 'react-aria-components'\" TypeScript errors. Derive selection key types from the component's own props via `React.ComponentProps` instead. import * as React from 'react'; import { TagSelect } from '@tale-ui/react/tag-select'; type SelectionValue = Parameters< NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']> >[0]; const members = [ { id: 'alice', name: 'Alice Chen' }, { id: 'bob', name: 'Bob Martínez' }, ]; export function TeamMemberPicker() { const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'bob'])); return ( <TagSelect.Root label=\"Team members\" placeholder=\"Search members…\" description=\"Select everyone who should have access.\" items={members} selectedKeys={selected} onSelectionChange={setSelected} > {(member) => ( <TagSelect.Item id={member.id} textValue={member.name}> {member.name} </TagSelect.Item> )} </TagSelect.Root> ); }",
+      "appliesTo": ["*"],
+      "category": "imports",
+      "antiPatterns": [
+        "import type { Key } from 'react-aria-components';",
+        "const [selected, setSelected] = React.useState<Set<Key>>(new Set(['alice', 'carol']));"
+      ],
+      "fixes": [
+        "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];",
+        "const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'carol']));"
+      ],
+      "completeExample": "import * as React from 'react';\nimport { TagSelect } from '@tale-ui/react/tag-select';\n\ntype SelectionValue = Parameters<\n  NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>\n>[0];\n\nconst members = [\n  { id: 'alice', name: 'Alice Chen' },\n  { id: 'bob', name: 'Bob Martínez' },\n];\n\nexport function TeamMemberPicker() {\n  const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'bob']));\n  return (\n    <TagSelect.Root\n      label=\"Team members\"\n      placeholder=\"Search members…\"\n      description=\"Select everyone who should have access.\"\n      items={members}\n      selectedKeys={selected}\n      onSelectionChange={setSelected}\n    >\n      {(member) => (\n        <TagSelect.Item id={member.id} textValue={member.name}>\n          {member.name}\n        </TagSelect.Item>\n      )}\n    </TagSelect.Root>\n  );\n}"
+    },
+    {
+      "id": "use-row-not-flex-div",
+      "summary": "Use <Row> and <Column> instead of <div style={{ display: 'flex' }}>",
+      "detail": "`Row` and `Column` apply correct gap tokens and are the Tale UI layout convention; raw flex divs bypass design-system spacing.",
+      "appliesTo": ["Row", "Column"],
+      "category": "layout",
+      "antiPatterns": ["<div style={{ display: 'flex', gap: '8px' }}>"],
+      "fixes": ["<Row gap=\"s\">"]
+    },
+    {
+      "id": "column-needs-explicit-import",
+      "summary": "Column must be imported explicitly — it is not re-exported from @tale-ui/react/row",
+      "detail": "omitting the import causes \"Cannot find name 'Column'\" TypeScript errors.",
+      "appliesTo": ["Column"],
+      "category": "layout",
+      "antiPatterns": ["<Column gap=\"m\">"],
+      "fixes": ["import { Column } from '@tale-ui/react/column';"]
+    },
+    {
+      "id": "row-column-gap-uses-token-scale",
+      "summary": "Row/Column gap uses spacing token values ('xs', 's', 'm', 'l', 'xl', '2xl'), not component size names — this is the most common layout error",
+      "detail": "`'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes a TypeScript error `Type '\"sm\"' is not assignable to type 'Gap | undefined'` (or `\"md\"`, `\"lg\"` — any component-size name). `'none'` is also not a valid Gap value — omit the `gap` prop entirely to produce no gap. Always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as `GridList.Item` or `Carousel.Item`, calendar wrappers, or any other slot. import { Button } from '@tale-ui/react/button'; import { Row } from '@tale-ui/react/row'; export function ActionButtons() { return ( <Row gap=\"s\"> <Button variant=\"neutral\">Cancel</Button> <Button variant=\"danger\">Delete account</Button> </Row> ); }",
+      "appliesTo": ["Row", "Column"],
+      "category": "layout",
+      "antiPatterns": [
+        "<Row gap=\"sm\">",
+        "<Column gap=\"md\">",
+        "<Column gap=\"lg\">",
+        "<Column gap=\"none\">",
+        "<Carousel.Item><Column gap=\"sm\">...</Column></Carousel.Item>"
+      ],
+      "fixes": [
+        "<Row gap=\"s\">",
+        "<Column gap=\"m\">",
+        "<Column gap=\"l\">",
+        "<Column>",
+        "<Carousel.Item><Column gap=\"s\">...</Column></Carousel.Item>"
+      ],
+      "completeExample": "import { Button } from '@tale-ui/react/button';\nimport { Row } from '@tale-ui/react/row';\n\nexport function ActionButtons() {\n  return (\n    <Row gap=\"s\">\n      <Button variant=\"neutral\">Cancel</Button>\n      <Button variant=\"danger\">Delete account</Button>\n    </Row>\n  );\n}"
+    },
+    {
+      "id": "row-justify-shorthand",
+      "summary": "Row justify prop uses shorthand tokens, not CSS property values",
+      "detail": "`'space-between'`, `'space-around'`, `'space-evenly'`, `'flex-end'`, and `'flex-start'` are not valid `justify` values. The full set of valid values is: `'start'`, `'end'`, `'center'`, `'between'`, `'around'`, `'evenly'`. Use `justify=\"end\"` to right-align content.",
+      "appliesTo": ["Row"],
+      "category": "layout",
+      "antiPatterns": ["<Row justify=\"space-between\">", "<Row justify=\"flex-end\">"],
+      "fixes": ["<Row justify=\"between\">", "<Row justify=\"end\">"]
+    },
+    {
       "id": "row-no-css-flex-props",
       "summary": "Row does not accept raw CSS flex properties like alignItems, flexDirection, or flexWrap",
       "detail": "passing these causes TypeScript errors. Use `style` for one-off overrides.",
-      "appliesTo": [
-        "Row"
-      ],
+      "appliesTo": ["Row"],
       "category": "layout",
-      "antiPatterns": [
-        "<Row alignItems=\"center\">"
-      ],
+      "antiPatterns": ["<Row alignItems=\"center\">"],
+      "fixes": ["<Row style={{ alignItems: 'center' }}>"]
+    },
+    {
+      "id": "container-is-not-layout",
+      "summary": "Container is a colour palette wrapper, not a layout component",
+      "detail": "do not use it as a `<div>` replacement; use `<Column>` for vertical stacks and `<Row>` for horizontal layouts.",
+      "appliesTo": ["Container"],
+      "category": "layout"
+    },
+    {
+      "id": "no-global-styles-on-semantic-html",
+      "summary": "Do not apply global styles to semantic HTML elements",
+      "detail": "Tale UI components render `<section>`, `<header>`, `<button>`, etc. internally, so global CSS rules targeting those elements will leak into overlays and popovers.",
+      "appliesTo": ["*"],
+      "category": "layout"
+    },
+    {
+      "id": "when-a-prompt-asks-for",
+      "summary": "When a prompt asks for stacked text-only content, use Column with Text",
+      "detail": "when a prompt asks for a page title, section heading, and supporting paragraph, import both `Text` and `Column` and render the copy as `Text` children inside `Column`. Map the prompt directly: page title to `variant=\"display\" as=\"h1\"`, section heading to `variant=\"heading\" as=\"h2\"`, and supporting paragraph copy to `variant=\"text\" as=\"p\"` (use `color=\"muted\"` when the copy is described as supporting or secondary). This makes the required components explicit and prevents blank outputs for simple typography prompts.",
+      "appliesTo": ["*"],
+      "category": "layout",
+      "antiPatterns": ["export function PageIntro() {}"],
       "fixes": [
-        "<Row style={{ alignItems: 'center' }}>"
+        "import { Column } from '@tale-ui/react/column'; import { Text } from '@tale-ui/react/text'; export function PageIntro() { return <Column gap=\"s\"><Text variant=\"display\" as=\"h1\">Page title</Text><Text variant=\"heading\" as=\"h2\">Section heading</Text><Text variant=\"text\" as=\"p\" color=\"muted\">Supporting description.</Text></Column>; }"
       ]
     },
     {
       "id": "row-column-no-as-prop",
       "summary": "Row/Column do not accept an as prop — they always render as <div> elements",
       "detail": "passing `as=\"section\"` or any other element name is not in `ColumnProps`/`RowProps` and causes `Type '{ as: string; ... }' is not assignable to type 'ColumnProps'`. To use a semantic wrapper element, place the native HTML element outside `Column` or `Row`.",
-      "appliesTo": [
-        "*"
-      ],
+      "appliesTo": ["*"],
       "category": "layout",
-      "antiPatterns": [
-        "<Column gap=\"s\" as=\"section\">"
-      ],
-      "fixes": [
-        "<section><Column gap=\"s\">"
-      ]
+      "antiPatterns": ["<Column gap=\"s\" as=\"section\">"],
+      "fixes": ["<section><Column gap=\"s\">"]
     },
     {
       "id": "column-and-row-align-prop",
       "summary": "Column/Row align uses shorthand tokens, not CSS flex values",
       "detail": "`'flex-start'` and `'flex-end'` are not valid `align` values; use `'start'`, `'end'`, `'center'`, `'stretch'`, or `'baseline'` instead. Omit the prop entirely to use the default alignment.",
-      "appliesTo": [
-        "*"
-      ],
+      "appliesTo": ["*"],
       "category": "layout",
-      "antiPatterns": [
-        "<Column align=\"flex-start\">",
-        "<Row align=\"flex-end\">"
-      ],
-      "fixes": [
-        "<Column align=\"start\">",
-        "<Row align=\"end\">"
-      ]
+      "antiPatterns": ["<Column align=\"flex-start\">", "<Row align=\"flex-end\">"],
+      "fixes": ["<Column align=\"start\">", "<Row align=\"end\">"]
     },
     {
       "id": "columnrow-gap-uses-spacingtoken-values",
       "summary": "Column/Row gap uses spacing-token values, not component-size names",
       "detail": "`'sm'`, `'md'`, and `'lg'` are not valid `Gap` values and cause `Type '\"sm\"' is not assignable to type 'Gap | undefined'`; use `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, or `'2xl'` instead. import { Button } from '@tale-ui/react/button'; import { Row } from '@tale-ui/react/row';  export function AccountActions() { return ( <Row gap=\"s\"> <Button variant=\"neutral\">Cancel</Button> <Button variant=\"danger\">Delete account</Button> </Row> ); }",
-      "appliesTo": [
-        "*"
-      ],
+      "appliesTo": ["*"],
       "category": "layout",
       "antiPatterns": [
         "<Column gap=\"sm\">",
@@ -74,31 +490,137 @@
         "<Row gap=\"l\">"
       ],
       "completeExample": "import { Button } from '@tale-ui/react/button';\nimport { Row } from '@tale-ui/react/row';\n\nexport function AccountActions() {\n  return (\n    <Row gap=\"s\">\n      <Button variant=\"neutral\">Cancel</Button>\n      <Button variant=\"danger\">Delete account</Button>\n    </Row>\n  );\n}"
+    },
+    {
+      "id": "no-visual-exports-for-interactive-ui",
+      "summary": "Never use .Visual exports for interactive UI",
+      "detail": "`Checkbox.Visual`, `Radio.Visual`, `Switch.Visual`, and `ToggleButtonVisual` are `aria-hidden` building blocks for custom composition only; they have no keyboard/pointer interaction and no accessible labelling.",
+      "appliesTo": ["Checkbox", "Radio", "Switch", "ToggleButton"],
+      "category": "visual-exports"
+    },
+    {
+      "id": "dark-mode-attribute-required",
+      "summary": "Use <ColorModeToggle> for dark/light toggling — it has no value or onChange props",
+      "detail": "`ColorModeToggle` manages `data-color-mode` on `<html>` internally; passing `value` or `onChange` causes TypeScript errors. import { useEffect } from 'react'; import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle'; export function App() { useEffect(() => { const saved = localStorage.getItem('color-mode'); if (saved) document.documentElement.setAttribute('data-color-mode', saved); }, []); return <ColorModeToggle />; }",
+      "appliesTo": ["*"],
+      "category": "dark-mode",
+      "antiPatterns": ["<ColorModeToggle value={mode} onChange={setMode} />"],
+      "fixes": [
+        "import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle'; ... <ColorModeToggle />"
+      ],
+      "completeExample": "import { useEffect } from 'react';\nimport { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';\nexport function App() {\n  useEffect(() => {\n    const saved = localStorage.getItem('color-mode');\n    if (saved) document.documentElement.setAttribute('data-color-mode', saved);\n  }, []);\n  return <ColorModeToggle />;\n}"
+    },
+    {
+      "id": "dark-mode-never-remove-attribute",
+      "summary": "Never remove data-color-mode — switch its value instead",
+      "detail": "removing the attribute causes all `--color-*` and `--neutral-*` tokens to revert to light defaults.",
+      "appliesTo": ["*"],
+      "category": "dark-mode",
+      "antiPatterns": ["document.documentElement.removeAttribute('data-color-mode');"],
+      "fixes": ["document.documentElement.setAttribute('data-color-mode', 'light');"]
     }
   ],
   "generalConventions": [
     {
+      "id": "no-jsx-element-return-type",
+      "summary": "Never annotate component return types as JSX.Element or use React.FC",
+      "detail": "the new JSX transform is in use; write plain functions with no return type annotation.",
+      "appliesTo": ["*"],
+      "category": "typescript",
+      "antiPatterns": ["export const MyComponent: React.FC = () => { ... }"],
+      "fixes": ["export function MyComponent() { ... }"]
+    },
+    {
+      "id": "use-default-visual-props-when-styling-is-unspecified",
+      "summary": "Use default visual props when the prompt does not request styling",
+      "detail": "inventing non-default `variant`, `theme`, `size`, `shape`, `color`, or decorative modifiers makes underspecified prompts non-deterministic and drifts from the canonical component design.",
+      "appliesTo": ["*"],
+      "category": "visual-defaults",
+      "antiPatterns": [
+        "<FeaturedIcon variant=\"brand\" theme=\"gradient\" size=\"lg\"><Icon icon={Bell} /></FeaturedIcon>"
+      ],
+      "fixes": ["<FeaturedIcon variant=\"brand\"><Icon icon={Bell} /></FeaturedIcon>"]
+    },
+    {
+      "id": "always-generate-code-directly-never",
+      "summary": "Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block",
+      "detail": "when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all. - fix (for 'Create a primary button that says Save'): `import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant=\"primary\">Save</Button>; }` - fix (for 'Create a success badge that displays Active'): `import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant=\"success\">Active</Badge>; }`",
+      "appliesTo": ["*"],
+      "category": "typescript",
+      "antiPatterns": ["// empty file", "export function MyComponent() {}"],
+      "fixes": [
+        "import { Text } from '@tale-ui/react/text'; export function MyComponent() { return <Text>Hello</Text>; }"
+      ]
+    },
+    {
+      "id": "token-size-suffixes",
+      "summary": "Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash, EXCEPT Text which uses 'xs'/'s'/'m'/'l'",
+      "detail": "the dash in `--space-s` is CSS token notation; prop value strings never start with a dash. `Text` is the only component whose `size` prop uses single-letter spacing-token values instead of the doubled component-size names; passing `size=\"sm\"` to `Text` causes `Type '\"sm\"' is not assignable to type 'Size | undefined'`.",
+      "appliesTo": ["*"],
+      "category": "typescript",
+      "antiPatterns": ["<Button size=\"-md\">", "<Text size=\"sm\">Online</Text>"],
+      "fixes": ["<Button size=\"md\">", "<Text size=\"s\">Online</Text>"]
+    },
+    {
+      "id": "gap-max-is-2xl",
+      "summary": "Max gap value for Row/Column is '2xl' — there is no '3xl' or '4xl' gap token",
+      "detail": "using out-of-range gap values produces no visible spacing because the token is undefined.",
+      "appliesTo": ["Row", "Column"],
+      "category": "layout",
+      "antiPatterns": ["<Row gap=\"3xl\">"],
+      "fixes": ["<Row gap=\"2xl\">"]
+    },
+    {
+      "id": "no-variant-on-html-elements",
+      "summary": "Do not add variant, size, or color props to native HTML elements",
+      "detail": "these props only exist on Tale UI components and are silently ignored on `<div>`, `<p>`, `<span>`, etc.",
+      "appliesTo": ["*"],
+      "category": "typescript"
+    },
+    {
+      "id": "use-image-not-img",
+      "summary": "Use <Image> from @tale-ui/react/image instead of a bare <img>",
+      "detail": "`Image` applies radius, lazy loading, and correct CSS; use its `radius` prop (not `borderRadius`) and `width`/`height` (not `size`).",
+      "appliesTo": ["Image"],
+      "category": "typescript",
+      "antiPatterns": ["<img src=\"...\" style={{ borderRadius: '50%' }} />"],
+      "fixes": ["<Image src=\"...\" radius=\"full\" width={40} height={40} />"]
+    },
+    {
+      "id": "no-heading-component",
+      "summary": "There is no Heading component — use <Text variant=\"heading\" as=\"h2\"> instead of bare <h2>",
+      "detail": "importing `{ Heading }` from any `@tale-ui/react/*` path causes \"has no exported member\" TypeScript errors; bare heading tags bypass Tale UI typography tokens.",
+      "appliesTo": ["*"],
+      "category": "typescript",
+      "antiPatterns": [
+        "import { Heading } from '@tale-ui/react';",
+        "<h2>Frequently Asked Questions</h2>"
+      ],
+      "fixes": [
+        "import { Text } from '@tale-ui/react/text'; ... <Text variant=\"heading\" as=\"h2\">Title</Text>"
+      ]
+    },
+    {
+      "id": "no-bare-p-or-span",
+      "summary": "Never use bare <p> or <span> for text content — always use <Text> from @tale-ui/react/text",
+      "detail": "bare paragraph and span tags bypass Tale UI typography tokens and cannot accept `color` or `variant` props.",
+      "appliesTo": ["*"],
+      "category": "typescript",
+      "antiPatterns": ["<p style={{ color: 'gray' }}>This action cannot be undone.</p>"],
+      "fixes": ["<Text color=\"muted\">This action cannot be undone.</Text>"]
+    },
+    {
       "id": "component-names-must-be-valid",
       "summary": "Component names must be valid PascalCase identifiers with no spaces",
       "detail": "exported React component names must be a single valid JavaScript/TypeScript identifier; spaces, hyphens, or other invalid characters in the function name cause parser errors before JSX is checked.",
-      "appliesTo": [
-        "*"
-      ],
+      "appliesTo": ["*"],
       "category": "typescript",
-      "antiPatterns": [
-        "export function Notification bell() {}"
-      ],
-      "fixes": [
-        "export function NotificationBell() {}"
-      ]
+      "antiPatterns": ["export function Notification bell() {}"],
+      "fixes": ["export function NotificationBell() {}"]
     }
   ],
   "triggerStylingTable": {
-    "headers": [
-      "Trigger",
-      "Auto-applies tale-button",
-      "Notes"
-    ],
+    "headers": ["Trigger", "Auto-applies tale-button", "Notes"],
     "entries": [
       {
         "Trigger": "`Dialog.Trigger`",

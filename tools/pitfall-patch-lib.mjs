@@ -382,6 +382,102 @@ export function getPitfallSummary(blockText) {
   return blockText.match(/^- \*\*(.+?)\*\*/m)?.[1] ?? '';
 }
 
+export function normalizePitfallSummaryForMatch(summary) {
+  return summary
+    .toLowerCase()
+    .replace(/`([^`]*)`/g, '$1')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
+}
+
+export function findPitfallBlocksByOldText(sectionText, sourceOld) {
+  const normalizedOld = typeof sourceOld === 'string' ? sourceOld.trim() : '';
+  if (!normalizedOld) return [];
+  return getPitfallBlocks(sectionText).filter((block) => findInSection(block.text, normalizedOld));
+}
+
+export function findPitfallBlocksBySummary(sectionText, summary) {
+  const normalizedSummary = normalizePitfallSummaryForMatch(summary ?? '');
+  if (!normalizedSummary) return [];
+  return getPitfallBlocks(sectionText).filter((block) => {
+    const blockSummary = normalizePitfallSummaryForMatch(getPitfallSummary(block.text));
+    return blockSummary === normalizedSummary;
+  });
+}
+
+export function findPitfallBlocksByNearDuplicateSummary(sectionText, summary) {
+  const normalizedSummary = normalizePitfallSummaryForMatch(summary ?? '');
+  if (!normalizedSummary) return [];
+  const summaryTokens = new Set(normalizedSummary.split(' ').filter(Boolean));
+  return getPitfallBlocks(sectionText).filter((block) => {
+    const blockSummary = normalizePitfallSummaryForMatch(getPitfallSummary(block.text));
+    if (!blockSummary) return false;
+    if (blockSummary === normalizedSummary) return true;
+
+    const shorterLength = Math.min(blockSummary.length, normalizedSummary.length);
+    if (
+      shorterLength >= 40 &&
+      (blockSummary.includes(normalizedSummary) || normalizedSummary.includes(blockSummary))
+    ) {
+      return true;
+    }
+
+    const blockTokens = new Set(blockSummary.split(' ').filter(Boolean));
+    const unionSize = new Set([...summaryTokens, ...blockTokens]).size;
+    if (unionSize === 0) return false;
+    const sharedCount = [...summaryTokens].filter((token) => blockTokens.has(token)).length;
+    return sharedCount / unionSize >= 0.86 && Math.min(summaryTokens.size, blockTokens.size) >= 5;
+  });
+}
+
+function formatPitfallSlugList(blocks) {
+  return blocks.map((block) => block.slug).join(', ');
+}
+
+function resolvePitfallTargetBlock(sectionText, fix, targetPitfallSlug, sourceOld, filePath) {
+  const directBlock = findPitfallBlockBySlug(sectionText, targetPitfallSlug);
+  if (directBlock) return { block: directBlock };
+
+  const oldMatches = findPitfallBlocksByOldText(sectionText, sourceOld);
+  if (oldMatches.length === 1) {
+    return {
+      block: oldMatches[0],
+      recoveredBy: 'old text',
+    };
+  }
+  if (oldMatches.length > 1) {
+    return {
+      error: `target pitfall slug '${targetPitfallSlug}' not found in ${filePath}; old text matched multiple pitfall slugs: ${formatPitfallSlugList(oldMatches)}`,
+    };
+  }
+
+  const summaryMatches = findPitfallBlocksBySummary(sectionText, fix.summary ?? '');
+  if (summaryMatches.length === 1) {
+    return {
+      block: summaryMatches[0],
+      recoveredBy: 'summary',
+    };
+  }
+  if (summaryMatches.length > 1) {
+    return {
+      error: `target pitfall slug '${targetPitfallSlug}' not found in ${filePath}; summary matched multiple pitfall slugs: ${formatPitfallSlugList(summaryMatches)}`,
+    };
+  }
+
+  const candidates = [
+    ...new Set(
+      getPitfallBlocks(sectionText)
+        .map((block) => block.slug)
+        .filter(Boolean),
+    ),
+  ].join(', ');
+  return {
+    error: `target pitfall slug '${targetPitfallSlug}' not found in ${filePath}; no unique old text or summary match found${candidates ? `. Candidate slugs: ${candidates}` : ''}`,
+  };
+}
+
 export function hasMultiIdeaSummary(blockText) {
   const summary = getPitfallSummary(blockText);
   if (!summary) return true;
@@ -532,11 +628,6 @@ export function validateFixPayload(fix) {
     if (newPitfallSlug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(newPitfallSlug)) {
       errors.push('newPitfallSlug must be kebab-case');
     }
-    if (newPitfallSlug && summary && summaryToSlug(summary) !== newPitfallSlug) {
-      errors.push(
-        `newPitfallSlug '${newPitfallSlug}' must match derived summary slug '${summaryToSlug(summary)}'`,
-      );
-    }
   }
 
   return {
@@ -612,10 +703,14 @@ export function applyPitfallFixToSectionText(sectionText, fix, target, filePath 
     if (builtBlock.error) {
       return fail(`new pitfall block is invalid - ${builtBlock.error}`);
     }
-    const derivedSlug = summaryToSlug(builtBlock.pitfall.summary);
-    if (derivedSlug !== newPitfallSlug) {
+
+    const duplicateSummaryBlocks = findPitfallBlocksByNearDuplicateSummary(
+      sectionText,
+      builtBlock.pitfall.summary,
+    );
+    if (duplicateSummaryBlocks.length > 0) {
       return fail(
-        `newPitfallSlug '${newPitfallSlug}' does not match derived slug '${derivedSlug}'`,
+        `new pitfall summary duplicates existing slug(s): ${formatPitfallSlugList(duplicateSummaryBlocks)}. Use replace_subbullets with targetPitfallSlug '${duplicateSummaryBlocks[0].slug}' instead of append_pitfall.`,
       );
     }
     if (!summaryReflectsPitfallSlug(newPitfallSlug, builtBlock.blockText)) {
@@ -635,16 +730,24 @@ export function applyPitfallFixToSectionText(sectionText, fix, target, filePath 
     return fail(`${operation} requires targetPitfallSlug`);
   }
 
-  const targetBlock = findPitfallBlockBySlug(sectionText, targetPitfallSlug);
-  if (!targetBlock) {
-    return fail(`target pitfall slug '${targetPitfallSlug}' not found in ${filePath}`);
+  const targetResolution = resolvePitfallTargetBlock(
+    sectionText,
+    fix,
+    targetPitfallSlug,
+    sourceOld,
+    filePath,
+  );
+  if (targetResolution.error) {
+    return fail(targetResolution.error);
   }
+  const targetBlock = targetResolution.block;
+  const resolvedPitfallSlug = targetBlock.slug;
 
   if (sourceOld) {
     const oldMatch = findInSection(targetBlock.text, sourceOld);
     if (!oldMatch) {
       return fail(
-        `old text not found in pitfall '${targetPitfallSlug}' of ${filePath}`,
+        `old text not found in pitfall '${resolvedPitfallSlug}' of ${filePath}`,
         `Looking for: ${JSON.stringify(sourceOld.slice(0, 80))}`,
       );
     }
@@ -652,7 +755,7 @@ export function applyPitfallFixToSectionText(sectionText, fix, target, filePath 
 
   const existingPitfall = parsePitfallBlock(targetBlock.text);
   if (!existingPitfall) {
-    return fail(`could not parse existing pitfall '${targetPitfallSlug}'`);
+    return fail(`could not parse existing pitfall '${resolvedPitfallSlug}'`);
   }
 
   const builtBlock = buildPitfallBlockTextFromFix(fix, {
@@ -662,19 +765,19 @@ export function applyPitfallFixToSectionText(sectionText, fix, target, filePath 
   if (builtBlock.error) {
     return fail(`replacement pitfall block is invalid - ${builtBlock.error}`);
   }
-  if (!summaryReflectsPitfallSlug(targetPitfallSlug, builtBlock.blockText)) {
-    return fail(`replacement pitfall summary does not match slug '${targetPitfallSlug}'`);
+  if (!summaryReflectsPitfallSlug(resolvedPitfallSlug, builtBlock.blockText)) {
+    return fail(`replacement pitfall summary does not match slug '${resolvedPitfallSlug}'`);
   }
 
   const updatedSection = replaceRange(
     sectionText,
     targetBlock.start,
     targetBlock.end,
-    builtBlock.blockText,
+    builtBlock.blockText + (targetBlock.text.match(/\s*$/)?.[0] ?? ''),
   );
-  const validation = validateUpdatedPitfallSection(updatedSection, targetPitfallSlug);
+  const validation = validateUpdatedPitfallSection(updatedSection, resolvedPitfallSlug);
   if (validation.error) {
     return fail(validation.error);
   }
-  return { updatedSection, expectedSlug: targetPitfallSlug };
+  return { updatedSection, expectedSlug: resolvedPitfallSlug };
 }

@@ -59,7 +59,7 @@ test-results/
 
 # Analysis (local research notes)
 /analysis/
-/plans/
+# /plans/
 /research/
 
 # Misc

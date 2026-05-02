@@ -414,7 +414,62 @@ function fixHasStructuredSourcePatch(fix) {
   );
 }
 
-async function getFix(result, failedPatchReasons = [], tags = []) {
+function readJsonFile(filePath, fallback) {
+  try {
+    return JSON.parse(readFileSync(filePath, 'utf8'));
+  } catch {
+    return fallback;
+  }
+}
+
+function formatPatchTargetIndexEntry({ id, section, targetFile, summary }) {
+  return `  - id: ${id} | section: ${section} | targetFile: ${targetFile} | summary: ${summary}`;
+}
+
+function buildPatchTargetIndex() {
+  const entries = [];
+  const sharedRegistry = readJsonFile(join(ROOT, 'registry/pitfalls.json'), {});
+
+  for (const pitfall of sharedRegistry.crossComponentPitfalls ?? []) {
+    if (!pitfall?.id || !pitfall?.summary) continue;
+    entries.push({
+      id: pitfall.id,
+      section: `cross:${pitfall.category ?? 'general'}`,
+      targetFile: 'docs/pitfalls.md',
+      summary: pitfall.summary,
+    });
+  }
+
+  for (const pitfall of sharedRegistry.generalConventions ?? []) {
+    if (!pitfall?.id || !pitfall?.summary) continue;
+    entries.push({
+      id: pitfall.id,
+      section: 'general',
+      targetFile: 'docs/pitfalls.md',
+      summary: pitfall.summary,
+    });
+  }
+
+  const componentRegistry = readJsonFile(join(ROOT, 'registry/components.json'), {});
+  for (const component of componentRegistry.components ?? []) {
+    for (const pitfall of component.pitfalls ?? []) {
+      if (!component?.name || !component?.slug || !pitfall?.id || !pitfall?.summary) continue;
+      entries.push({
+        id: pitfall.id,
+        section: `component:${component.name}`,
+        targetFile: component.slug,
+        summary: pitfall.summary,
+      });
+    }
+  }
+
+  return entries
+    .sort((a, b) => `${a.section}:${a.id}`.localeCompare(`${b.section}:${b.id}`))
+    .map(formatPatchTargetIndexEntry)
+    .join('\n');
+}
+
+function buildFixPrompt(result, failedPatchReasons = [], tags = []) {
   const snippet = readFileSync(SNIPPET_PATH, 'utf8');
 
   // Extract just the pitfalls section to keep the prompt short
@@ -433,8 +488,9 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
       ? `\nRequired components (L2 — these must appear in the code): ${tags.join(', ')}`
       : '';
   const patchOperationRules = formatPitfallOperationSpecsForPrompt();
+  const patchTargetIndex = buildPatchTargetIndex();
 
-  const fixPrompt = `You are improving Tale UI documentation to prevent AI code generation errors.
+  return `You are improving Tale UI documentation to prevent AI code generation errors.
 
 A prompt was given to an AI agent:
 "${result.prompt ?? ''}"
@@ -453,6 +509,9 @@ Allowed import prefixes (L3 — all imports must start with one of these):
 Current documentation (pitfalls section):
 ${pitfallsSection}
 ${failedHint}
+Patch target index (copy existing IDs exactly; do not derive or invent targetPitfallSlug values):
+${patchTargetIndex}
+
 Identify the exact rule that is missing or unclear in the pitfalls section that caused this error.
 The "old" value MUST be a substring that appears verbatim in the documentation above, or empty string "" to append a new bullet.
 The "section" field identifies which documentation area the fix targets: "general" for general conventions, "cross:{category}" (e.g. "cross:trigger-styling") for cross-component pitfalls, or "component:{Name}" (e.g. "component:Dialog") for per-component pitfalls.
@@ -462,6 +521,8 @@ The "scope" field classifies whether the rule applies broadly or narrowly:
 Patch-shape rules:
 ${patchOperationRules}
   - "targetFile" must agree with "section". For per-component fixes, "targetFile" must be the component doc slug (for example "image-cropper").
+  - For "replace_pitfall" and "replace_subbullets", "targetPitfallSlug" must be copied from the Patch target index "id" field.
+  - Only use "append_pitfall" when no existing Patch target index entry covers the rule. Do not append a near-duplicate of an existing summary.
 Structured pitfall content rules:
   - Fill "summary", "details", "antiPatterns", "fixes", and "completeExample" with structured content for the resulting pitfall block.
   - "summary" must be plain text only, without markdown bold markers.
@@ -487,6 +548,10 @@ Output a JSON fix in this exact format (no other text, just the JSON):
   "new": "",
   "fixedCode": "a complete corrected version of the code above that addresses the diagnosed root cause — valid TSX with all necessary imports, no markdown fences"
 }`;
+}
+
+async function getFix(result, failedPatchReasons = [], tags = []) {
+  const fixPrompt = buildFixPrompt(result, failedPatchReasons, tags);
 
   let text;
 
@@ -1866,7 +1931,9 @@ async function main() {
 
 export const __test__ = {
   applyPitfallFixToSectionText,
+  buildFixPrompt,
   buildPitfallBlockTextFromFix,
+  buildPatchTargetIndex,
   buildStructuredPitfallFromFix,
   buildFixPreviewText,
   extractSection,

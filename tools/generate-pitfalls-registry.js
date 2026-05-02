@@ -36,7 +36,11 @@ const args = process.argv.slice(2);
 const checkMode = args.includes('--check');
 
 function readFile(filePath) {
-  try { return fs.readFileSync(filePath, 'utf8'); } catch { return null; }
+  try {
+    return fs.readFileSync(filePath, 'utf8');
+  } catch {
+    return null;
+  }
 }
 
 // ─── Parse a single pitfall entry block ─────────────────────────────────────
@@ -89,7 +93,10 @@ function parsePitfallBlock(commentBlock, bulletLine, restLines, completeExample 
   const categoryMatch = commentBlock.match(/<!-- category: ([\w-]+) -->/);
 
   const appliesTo = appliesToMatch
-    ? appliesToMatch[1].split(',').map(s => s.trim()).filter(Boolean)
+    ? appliesToMatch[1]
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
     : [];
   const category = categoryMatch ? categoryMatch[1].trim() : null;
 
@@ -136,22 +143,34 @@ function parsePitfallBlock(commentBlock, bulletLine, restLines, completeExample 
 // ─── Parse the trigger styling table ────────────────────────────────────────
 
 function parseTriggerTable(content) {
-  const tableMatch = content.match(/<!-- trigger-table-start -->([\s\S]*?)<!-- trigger-table-end -->/);
+  const tableMatch = content.match(
+    /<!-- trigger-table-start -->([\s\S]*?)<!-- trigger-table-end -->/,
+  );
   if (!tableMatch) return null;
 
   const tableText = tableMatch[1].trim();
-  const rows = tableText.split('\n').filter(line => line.startsWith('|') && !line.match(/^\|\s*[-:]+/));
+  const rows = tableText
+    .split('\n')
+    .filter((line) => line.startsWith('|') && !line.match(/^\|\s*[-:]+/));
 
   if (rows.length < 2) return null;
 
-  const headers = rows[0].split('|').map(h => h.trim()).filter(Boolean);
+  const headers = rows[0]
+    .split('|')
+    .map((h) => h.trim())
+    .filter(Boolean);
   const entries = [];
 
   for (const row of rows.slice(1)) {
-    const cells = row.split('|').map(c => c.trim()).filter(Boolean);
+    const cells = row
+      .split('|')
+      .map((c) => c.trim())
+      .filter(Boolean);
     if (cells.length < headers.length) continue;
     const entry = {};
-    headers.forEach((h, i) => { entry[h] = cells[i] || ''; });
+    headers.forEach((h, i) => {
+      entry[h] = cells[i] || '';
+    });
     entries.push(entry);
   }
 
@@ -199,7 +218,10 @@ function parsePitfallsDoc(content) {
       }
       const commentBlock = commentLines.join('\n');
 
-      // Next non-comment line should be the bullet
+      // Next non-comment line should be the bullet (skip blank separator lines)
+      while (j < lines.length && lines[j] === '') {
+        j++;
+      }
       const bulletLine = lines[j] || '';
       if (!bulletLine.startsWith('- **')) {
         i = j;
@@ -215,7 +237,7 @@ function parsePitfallsDoc(content) {
       }
 
       // Build restLines (non-blank) for sub-bullet parsing
-      const restLines = rawBlockLines.filter(l => l !== '');
+      const restLines = rawBlockLines.filter((l) => l !== '');
 
       const completeExample = extractCompleteExample(rawBlockLines);
       const pitfall = parsePitfallBlock(commentBlock, bulletLine, restLines, completeExample);
@@ -250,11 +272,16 @@ const reactPkg = JSON.parse(readFile(REACT_PKG_PATH) || '{}');
 const docContent = readFile(PITFALLS_DOC_PATH);
 const parsed = parsePitfallsDoc(docContent);
 
-const output = JSON.stringify({
-  schemaVersion: '1.2.0',
-  taleUiVersion: reactPkg.version || null,
-  ...parsed,
-}, null, 2) + '\n';
+const output =
+  JSON.stringify(
+    {
+      schemaVersion: '1.2.0',
+      taleUiVersion: reactPkg.version || null,
+      ...parsed,
+    },
+    null,
+    2,
+  ) + '\n';
 
 if (checkMode) {
   const existing = readFile(PITFALLS_JSON_PATH);
@@ -272,5 +299,7 @@ if (checkMode) {
   }
   fs.writeFileSync(PITFALLS_JSON_PATH, output);
   const total = parsed.crossComponentPitfalls.length + parsed.generalConventions.length;
-  console.log(`✅ Generated registry/pitfalls.json (${total} pitfalls: ${parsed.crossComponentPitfalls.length} cross-component, ${parsed.generalConventions.length} general conventions)`);
+  console.log(
+    `✅ Generated registry/pitfalls.json (${total} pitfalls: ${parsed.crossComponentPitfalls.length} cross-component, ${parsed.generalConventions.length} general conventions)`,
+  );
 }
