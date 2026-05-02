@@ -294,6 +294,7 @@ A stdio-based MCP server that exposes the component registry, recipe docs, and f
 | `validate-golden-prompts.mjs`      | `pnpm golden:validate`        | Yes | Validates all golden prompt reference implementations                           |
 | `eval-golden-prompts.mjs`          | `pnpm golden:eval`            | No  | Runs golden prompts against Claude (via Claude Code CLI) and scores L1–L3       |
 | `eval-fix-review.mjs`              | `pnpm golden:fix-review`      | No  | Full pipeline: eval → auto-fix consumer snippet → visual review in playground   |
+| `eval-golden-harden.mjs`           | `pnpm golden:harden`          | No  | Re-runs prompts until each gets N fresh clean passes in a row                   |
 | `run-validator-tests.mjs`          | `pnpm validate:test`          | No  | Tests the validator itself against known-good and known-bad samples             |
 | `validate-a2ui-golden-prompts.mjs` | `pnpm a2ui:golden:validate`   | Yes | Validates all A2UI golden prompt reference implementations against live catalog |
 | `eval-a2ui-golden-prompts.mjs`     | `pnpm a2ui:golden:eval`       | No  | Runs A2UI golden prompts against a model and scores L1–L3                       |
@@ -482,6 +483,9 @@ pnpm golden:eval -- --fresh
 # Compare front-loaded pitfalls (default) vs MCP just-in-time delivery
 pnpm golden:eval -- --difficulty simple --no-cache --json > /tmp/no-mcp.json
 pnpm golden:eval -- --mcp --difficulty simple --no-cache --json > /tmp/mcp.json
+
+# Hardening documentation with repeated fresh local-model generations
+pnpm golden:harden -- --provider ollama --model qwen3.6 --passes 3 --slug primary-button
 ```
 
 **Example output:**
@@ -521,7 +525,12 @@ After the run, check `git diff docs/consumer-claude-md-snippet.md` to review any
 pnpm golden:fix-review                                         # full pipeline
 pnpm golden:fix-review -- --skip-pitfall-truth                 # skip pitfall truth preflight
 pnpm golden:fix-review -- --no-fix                            # skip fix loop, go straight to review
+pnpm golden:fix-review -- --slug primary-button               # single prompt
+pnpm golden:fix-review -- --slugs a,b,c                       # specific prompts (comma-separated)
+pnpm golden:fix-review -- --no-review                         # skip EvalReview.tsx generation and server
 pnpm golden:fix-review -- --no-serve                          # generate review page without starting server
+pnpm golden:fix-review -- --summary-file /tmp/fix.json        # write machine-readable run summary
+pnpm golden:fix-review -- --exit-code-on-fail                 # exit non-zero when prompts still fail
 pnpm golden:fix-review -- --skip-validate                     # skip pre-flight tsc check (open playground even if EvalReview.tsx has errors)
 pnpm golden:fix-review -- --difficulty simple                 # only simple prompts (faster)
 pnpm golden:fix-review -- --model sonnet                      # model for both eval and fix
@@ -537,6 +546,35 @@ pnpm golden:fix-review -- --provider ollama --model llama3.2                  # 
 pnpm golden:fix-review -- --provider lm-studio --model llama3.2               # LM Studio (port 1234)
 pnpm golden:fix-review -- --provider ollama --model llama3.2 --fix-provider claude --fix-model sonnet  # local eval, Claude fixes
 ```
+
+### eval-golden-harden.mjs
+
+Runs the `eval-fix-review.mjs` pipeline repeatedly for each selected golden prompt until that prompt gets `--passes N` clean fresh generations in a row. A clean pass means the prompt passed on the initial eval for that round with no documentation fix needed. If a round fails, `golden:fix-review` applies the usual documentation fix loop, the streak resets to zero, and hardening retries the same prompt before moving on.
+
+This is intended for cheap repeated local-model hardening, where one or two passing runs are not enough signal. By default it passes `--fresh` to bypass both eval caches so each round calls the model again. Use `--allow-cache` only when debugging the runner itself.
+
+```bash
+pnpm golden:harden -- --provider ollama --model qwen3.6 --passes 3
+pnpm golden:harden -- --provider lm-studio --model qwen3.6 --passes 5
+pnpm golden:harden -- --provider local --local-url http://localhost:8080/v1 --model custom-model --passes 3
+pnpm golden:harden -- --slug primary-button --passes 3
+pnpm golden:harden -- --slugs color-wheel-hue,autocomplete-search --passes 3 --max-rounds 30
+pnpm golden:harden -- --difficulty simple --passes 2 --concurrency 1
+pnpm golden:harden -- --provider ollama --model qwen3.6 --fix-provider claude --fix-model sonnet --passes 3
+pnpm golden:harden -- --allow-cache --slug primary-button --passes 1
+```
+
+Useful flags:
+
+| Flag             | Default       | Description                                                        |
+| ---------------- | ------------- | ------------------------------------------------------------------ |
+| `--passes`       | `3`           | Required clean-pass streak before moving to the next prompt        |
+| `--max-rounds`   | `passes * 10` | Safety cap per prompt                                              |
+| `--slug`         | all prompts   | Harden one prompt                                                  |
+| `--slugs`        | all prompts   | Harden a comma-separated prompt list                               |
+| `--difficulty`   | all prompts   | Harden one difficulty group                                        |
+| `--allow-cache`  | off           | Do not inject `--fresh`; useful only for runner debugging          |
+| provider options | Claude        | Passed through to `golden:fix-review` and `golden:eval` underneath |
 
 ### golden-prompts/
 

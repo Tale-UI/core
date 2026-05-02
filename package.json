@@ -84,6 +84,7 @@
     "golden:validate": "node tools/validate-golden-prompts.mjs",
     "golden:eval": "node tools/eval-golden-prompts.mjs",
     "golden:fix-review": "node tools/eval-fix-review.mjs",
+    "golden:harden": "node tools/eval-golden-harden.mjs",
     "validate:imports": "node tools/validate-imports.mjs",
     "generate-docs": "pnpm registry:generate && pnpm pitfalls:generate && pnpm snippet:generate && pnpm cursorrules:generate && pnpm eval-context:generate && pnpm a2ui:generate-docs && pnpm a2ui:generate-catalog",
     "generate-docs:check": "pnpm registry:check && pnpm pitfalls:check && pnpm snippet:check && pnpm cursorrules:check && pnpm eval-context:check && pnpm a2ui:check-docs && pnpm a2ui:check-catalog && pnpm a2ui:audit-docs && pnpm a2ui:validate-examples",

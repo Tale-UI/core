@@ -14,7 +14,9 @@
  *   node tools/eval-fix-review.mjs
  *   node tools/eval-fix-review.mjs --model sonnet
  *   node tools/eval-fix-review.mjs --difficulty simple
+ *   node tools/eval-fix-review.mjs --slug primary-button
  *   node tools/eval-fix-review.mjs --no-fix        # skip fix loop, go straight to review
+ *   node tools/eval-fix-review.mjs --no-review     # skip EvalReview.tsx generation + server
  *   node tools/eval-fix-review.mjs --no-serve      # generate review page but don't start server
  */
 
@@ -28,6 +30,7 @@ import { buildCodexExecArgs, scoreCode } from './eval-golden-prompts-lib.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
+const IS_DIRECT_RUN = !!process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const SNIPPET_PATH = join(__dirname, '.eval-context.md');
 const EVAL_SCRIPT = join(__dirname, 'eval-golden-prompts.mjs');
 const REVIEW_COMPONENT = join(ROOT, 'playground/vite-app/src/demos/EvalReview.tsx');
@@ -52,7 +55,10 @@ try {
   for (const file of readdirSync(join(ROOT, 'docs/components'))) {
     if (!file.endsWith('.md') || file === 'index.md') continue;
     const slug = file.slice(0, -3);
-    const name = slug.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join('');
+    const name = slug
+      .split('-')
+      .map((w) => w[0].toUpperCase() + w.slice(1))
+      .join('');
     if (!nameToSlug.has(name)) nameToSlug.set(name, slug);
   }
 } catch {
@@ -90,6 +96,8 @@ const EVAL_HEADING_TO_SOURCE_HEADING = {
   'General conventions': 'General Conventions',
 };
 
+const PITFALL_FIX_OPERATIONS = new Set(['replace_pitfall', 'replace_subbullets', 'append_pitfall']);
+
 /* ─── CLI args ────────────────────────────────────────────────────────────── */
 
 const args = process.argv.slice(2);
@@ -114,11 +122,20 @@ const FIX_LOCAL_URL =
   (rawFixProvider === 'lm-studio' ? 'http://localhost:1234/v1' : 'http://localhost:11434/v1');
 const LOCAL_API_KEY = process.env.LOCAL_API_KEY ?? 'ollama';
 const FILTER_DIFFICULTY = getArg('--difficulty');
+const FILTER_SLUG = getArg('--slug');
+const FILTER_SLUGS =
+  getArg('--slugs')
+    ?.split(',')
+    .map((s) => s.trim())
+    .filter(Boolean) ?? null;
 const NO_FIX = hasFlag('--no-fix');
+const NO_REVIEW = hasFlag('--no-review');
 const NO_SERVE = hasFlag('--no-serve');
 const SKIP_VALIDATE = hasFlag('--skip-validate');
 const NO_CACHE = hasFlag('--no-cache');
 const FRESH = hasFlag('--fresh');
+const SUMMARY_FILE = getArg('--summary-file');
+const EXIT_CODE_ON_FAIL = hasFlag('--exit-code-on-fail');
 const UNTIL_PASS = hasFlag('--until-pass');
 const SKIP_PITFALL_TRUTH = hasFlag('--skip-pitfall-truth');
 const NO_SOURCE_PATCH = hasFlag('--no-source-patch');
@@ -291,7 +308,13 @@ if (PROVIDER === 'codex' || FIX_PROVIDER === 'codex') {
 
 function getEvalPromptCount(slugs = null) {
   let prompts = GOLDEN_PROMPTS;
-  if (FILTER_DIFFICULTY) prompts = prompts.filter((prompt) => prompt.difficulty === FILTER_DIFFICULTY);
+  if (FILTER_DIFFICULTY)
+    prompts = prompts.filter((prompt) => prompt.difficulty === FILTER_DIFFICULTY);
+  if (FILTER_SLUG) prompts = prompts.filter((prompt) => prompt.slug === FILTER_SLUG);
+  if (FILTER_SLUGS?.length) {
+    const filterSlugSet = new Set(FILTER_SLUGS);
+    prompts = prompts.filter((prompt) => filterSlugSet.has(prompt.slug));
+  }
   if (slugs?.length) {
     const slugSet = new Set(slugs);
     prompts = prompts.filter((prompt) => slugSet.has(prompt.slug));
@@ -321,7 +344,13 @@ function runEval(slugs = null, { skipGenerate = false } = {}) {
   extraArgs.push('--concurrency', String(EVAL_CONCURRENCY));
   if (PROVIDER === 'local') extraArgs.push('--local-url', LOCAL_URL);
   if (FILTER_DIFFICULTY) extraArgs.push('--difficulty', FILTER_DIFFICULTY);
-  if (slugs?.length) extraArgs.push('--slugs', slugs.join(','));
+  if (slugs?.length) {
+    extraArgs.push('--slugs', slugs.join(','));
+  } else if (FILTER_SLUGS?.length) {
+    extraArgs.push('--slugs', FILTER_SLUGS.join(','));
+  } else if (FILTER_SLUG) {
+    extraArgs.push('--slug', FILTER_SLUG);
+  }
   if (NO_CACHE) extraArgs.push('--no-cache');
   if (FRESH) extraArgs.push('--fresh');
   if (skipGenerate) extraArgs.push('--skip-generate');
@@ -406,6 +435,17 @@ function buildErrorSummary(result) {
   return lines.join('\n');
 }
 
+function fixHasStructuredSourcePatch(fix) {
+  return (
+    !!fix.new?.trim() ||
+    !!fix.summary?.trim() ||
+    !!fix.details?.trim() ||
+    normalizeStringList(fix.antiPatterns).length > 0 ||
+    normalizeStringList(fix.fixes).length > 0 ||
+    !!fix.completeExample?.trim()
+  );
+}
+
 async function getFix(result, failedOlds = [], tags = []) {
   const snippet = readFileSync(SNIPPET_PATH, 'utf8');
 
@@ -450,17 +490,34 @@ The "section" field identifies which documentation area the fix targets: "genera
 The "scope" field classifies whether the rule applies broadly or narrowly:
   - "cross-cutting": the rule applies to many or all components (e.g. Row/Column gap values, namespace vs simple, trigger styling, import path conventions). These go in the general conventions or cross-component sections of docs/pitfalls.md.
   - "component-specific": the rule only applies to one component's API (e.g. "TextArea uses TextArea.TextArea not TextArea.Textarea"). These go in the per-component section.
-Markdown formatting rules for the "new" field:
-  - Every \`- anti-pattern:\` or \`- fix:\` sub-bullet must contain exactly one backtick-wrapped inline code snippet.
-  - Do not leave any trailing characters after the closing backtick.
-  - Valid example: \`  - fix: \\\`<Text color="muted">Note</Text>\\\`\`
+Patch-shape rules:
+  - Use "append_pitfall" only when adding a brand-new pitfall block. In that case set "old" to "", "targetPitfallSlug" to "", and provide "newPitfallSlug".
+  - Use "replace_pitfall" only when rewriting exactly one existing pitfall block. Set "targetPitfallSlug" to the slug of that existing block.
+  - Use "replace_subbullets" only when editing existing anti-pattern/fix/example content inside one pitfall block. Set "targetPitfallSlug" to the slug of that existing block.
+  - "targetFile" must agree with "section". For per-component fixes, "targetFile" must be the component doc slug (for example "image-cropper").
+Structured pitfall content rules:
+  - Fill "summary", "details", "antiPatterns", "fixes", and "completeExample" with structured content for the resulting pitfall block.
+  - "summary" must be plain text only, without markdown bold markers.
+  - "details" must be plain text only, without the leading em dash.
+  - Each entry in "antiPatterns" and "fixes" must be a single inline code snippet string with no surrounding markdown backticks.
+  - "completeExample" must be plain TSX code only, with no markdown fences. Use empty string if there is no example.
+  - Use "new" only as a legacy fallback when you cannot express the fix through the structured fields.
 Output a JSON fix in this exact format (no other text, just the JSON):
 {
   "diagnosis": "one sentence explaining the root cause",
   "scope": "cross-cutting | component-specific",
   "section": "general | cross:{category} | component:{ComponentName}",
-  "old": "exact verbatim substring from the documentation above, or empty string to append",
-  "new": "the replacement text (or new bullet to append if old is empty string)",
+  "targetFile": "docs/pitfalls.md | component doc slug like image-cropper",
+  "targetPitfallSlug": "existing pitfall slug being updated, or empty string when appending a new pitfall",
+  "newPitfallSlug": "slug for append_pitfall, or empty string for non-append operations",
+  "operation": "replace_pitfall | replace_subbullets | append_pitfall",
+  "old": "exact verbatim substring from the documentation above, used only as a verification hint for replace operations, or empty string for append",
+  "summary": "plain summary text for the resulting pitfall",
+  "details": "plain explanatory text that appears after the summary em dash",
+  "antiPatterns": ["inline code snippet string 1", "inline code snippet string 2"],
+  "fixes": ["inline code snippet string 1", "inline code snippet string 2"],
+  "completeExample": "optional TSX code only, no markdown fences",
+  "new": "legacy fallback markdown replacement text; prefer leaving this empty when structured fields are provided",
   "fixedCode": "a complete corrected version of the code above that addresses the diagnosed root cause — valid TSX with all necessary imports, no markdown fences"
 }`;
 
@@ -578,12 +635,16 @@ Output a JSON fix in this exact format (no other text, just the JSON):
         `tale-ui-fix-codex-${process.pid}-${Date.now()}-${attempt}.txt`,
       );
       try {
-        const proc = spawnSync(CODEX_BIN, buildCodexExecArgs({ model: codexFixModel, outputFile }), {
-          cwd: ROOT,
-          timeout: 180000,
-          encoding: 'utf8',
-          input: fullPrompt,
-        });
+        const proc = spawnSync(
+          CODEX_BIN,
+          buildCodexExecArgs({ model: codexFixModel, outputFile }),
+          {
+            cwd: ROOT,
+            timeout: 180000,
+            encoding: 'utf8',
+            input: fullPrompt,
+          },
+        );
         if (proc.error) throw proc.error;
         const outputText = existsSync(outputFile) ? readFileSync(outputFile, 'utf8').trim() : '';
         const stdoutText = proc.stdout?.trim() ?? '';
@@ -597,9 +658,12 @@ Output a JSON fix in this exact format (no other text, just the JSON):
         if (!text) {
           const details = stderrText || stdoutText;
           if (proc.status && details) {
-            throw new Error(`Codex CLI exited with status ${proc.status}: ${details.slice(0, 400)}`);
+            throw new Error(
+              `Codex CLI exited with status ${proc.status}: ${details.slice(0, 400)}`,
+            );
           }
-          if (details) throw new Error(`Codex did not produce a fix payload: ${details.slice(0, 400)}`);
+          if (details)
+            throw new Error(`Codex did not produce a fix payload: ${details.slice(0, 400)}`);
           throw new Error('Codex did not write output file');
         }
         lastErr = null;
@@ -663,9 +727,20 @@ Output a JSON fix in this exact format (no other text, just the JSON):
   // Extract JSON from the response (may be wrapped in fences)
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error('No JSON found in response');
-  return JSON.parse(jsonMatch[0]);
+  const parsedFix = JSON.parse(jsonMatch[0]);
+  if (typeof parsedFix.targetFile !== 'string') parsedFix.targetFile = '';
+  if (typeof parsedFix.targetPitfallSlug !== 'string') parsedFix.targetPitfallSlug = '';
+  if (typeof parsedFix.newPitfallSlug !== 'string') parsedFix.newPitfallSlug = '';
+  if (typeof parsedFix.summary !== 'string') parsedFix.summary = '';
+  if (typeof parsedFix.details !== 'string') parsedFix.details = '';
+  if (!Array.isArray(parsedFix.antiPatterns)) parsedFix.antiPatterns = [];
+  if (!Array.isArray(parsedFix.fixes)) parsedFix.fixes = [];
+  if (typeof parsedFix.completeExample !== 'string') parsedFix.completeExample = '';
+  if (!PITFALL_FIX_OPERATIONS.has(parsedFix.operation)) {
+    parsedFix.operation = parsedFix.old?.trim() ? 'replace_pitfall' : 'append_pitfall';
+  }
+  return parsedFix;
 }
-
 
 /* ─── Source-aware pitfall patching ─────────────────────────────────────── */
 
@@ -676,87 +751,93 @@ Output a JSON fix in this exact format (no other text, just the JSON):
  *
  * Returns { filePath, sectionHeading, isComponent } or null.
  */
-function resolveSourceTarget(fix, evalContextContent) {
+function normalizeTargetFileSlug(targetFile) {
+  const normalized = targetFile?.trim();
+  if (!normalized) return null;
+  if (normalized === 'docs/pitfalls.md' || normalized.endsWith('/docs/pitfalls.md')) {
+    return { kind: 'shared' };
+  }
+  const componentMatch = normalized.match(/(?:^|\/)docs\/components\/([a-z0-9-]+)\.md$/);
+  if (componentMatch) {
+    return { kind: 'component', slug: componentMatch[1] };
+  }
+  if (/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(normalized)) {
+    return { kind: 'component', slug: normalized };
+  }
+  return null;
+}
+
+function resolveSectionTarget(fix) {
+  if (!fix.section) return null;
+  if (fix.section === 'general') {
+    return { kind: 'shared', sectionHeading: 'General Conventions' };
+  }
+  if (fix.section.startsWith('cross:')) {
+    const cat = fix.section.slice(6);
+    const catToHeading = {
+      'trigger-styling': 'Trigger Styling',
+      'controlled-state': 'Controlled State Patterns',
+      'color-state': 'Color State Imports',
+      'react-aria': 'React Aria Conventions',
+      imports: 'Import Path Patterns',
+      layout: 'Layout Patterns',
+      'visual-exports': 'Visual Exports',
+      'dark-mode': 'Dark Mode',
+    };
+    return {
+      kind: 'shared',
+      sectionHeading: catToHeading[cat] ?? null,
+    };
+  }
+  if (fix.section.startsWith('component:')) {
+    const componentName = fix.section.slice(10).trim();
+    const slug = resolveSlug(componentName);
+    if (!slug) return null;
+    return {
+      kind: 'component',
+      slug,
+      componentName,
+    };
+  }
+  return null;
+}
+
+function inferTargetFromOldHeading(fix, evalContextContent) {
+  if (!fix.old) return null;
+
   let headingLabel = null;
   let parentHeading = null;
-  // When fix.old is provided but not found verbatim, we still resolve the target
-  // via fix.section and use append mode in applySourceFix.
-  let appendFallback = false;
+  const pos = evalContextContent.indexOf(fix.old);
+  if (pos === -1) return null;
 
-  if (fix.old) {
-    const pos = evalContextContent.indexOf(fix.old);
-    if (pos === -1) {
-      // fix.old not found verbatim — fall through to section-based resolution
-      // and signal append mode (can't reliably match text that isn't in the source).
-      appendFallback = true;
-    } else {
-      // If fix.old itself starts with a heading (the model often includes the component
-      // heading as part of the replaced block), extract the name from that heading directly.
-      // Searching backward would find the PREVIOUS component's heading instead.
-      // Handles both "   #### Name" (3-space indent) and "#### Name" (no indent).
-      const headingInOld = fix.old.match(/^\s*#{3,4}\s+(.+)/);
-      if (headingInOld) {
-        headingLabel = headingInOld[1].trim();
-        // Resolve the parent ### by searching backward from pos
-        const before = evalContextContent.slice(0, pos);
-        const h3Before = [...before.matchAll(/^   ### (.+)$/gm)];
-        if (h3Before.length > 0) {
-          parentHeading = h3Before[h3Before.length - 1][1].trim();
-        }
-      } else {
-        // Search backward for the nearest ### or #### heading.
-        // In the eval-context ALL headings are 3-space indented, e.g.:
-        //   ### Cross-component pitfalls
-        //   #### Layout
-        const before = evalContextContent.slice(0, pos);
-        const h4Match = [...before.matchAll(/^   #### (.+)$/gm)];
-        const h3Match = [...before.matchAll(/^   ### (.+)$/gm)];
-
-        if (h4Match.length > 0) {
-          headingLabel = h4Match[h4Match.length - 1][1].trim();
-          // Find the ### parent of this ####
-          const h4Pos = before.lastIndexOf(h4Match[h4Match.length - 1][0]);
-          const beforeH4 = before.slice(0, h4Pos);
-          const h3Before = [...beforeH4.matchAll(/^   ### (.+)$/gm)];
-          if (h3Before.length > 0) {
-            parentHeading = h3Before[h3Before.length - 1][1].trim();
-          }
-        } else if (h3Match.length > 0) {
-          headingLabel = h3Match[h3Match.length - 1][1].trim();
-        }
-      }
+  const headingInOld = fix.old.match(/^\s*#{3,4}\s+(.+)/);
+  if (headingInOld) {
+    headingLabel = headingInOld[1].trim();
+    const before = evalContextContent.slice(0, pos);
+    const h3Before = [...before.matchAll(/^   ### (.+)$/gm)];
+    if (h3Before.length > 0) {
+      parentHeading = h3Before[h3Before.length - 1][1].trim();
     }
-  }
+  } else {
+    const before = evalContextContent.slice(0, pos);
+    const h4Match = [...before.matchAll(/^   #### (.+)$/gm)];
+    const h3Match = [...before.matchAll(/^   ### (.+)$/gm)];
 
-  // Fall back to section hint for new pitfalls or failed position resolution
-  if (!headingLabel && fix.section) {
-    if (fix.section === 'general') {
-      headingLabel = 'General conventions';
-    } else if (fix.section.startsWith('cross:')) {
-      const cat = fix.section.slice(6);
-      // Map category slug to eval-context label
-      const catToLabel = {
-        'trigger-styling': 'Trigger styling',
-        'controlled-state': 'Controlled state',
-        'color-state': 'Color state',
-        'react-aria': 'React Aria conventions',
-        imports: 'Imports',
-        layout: 'Layout',
-        'visual-exports': 'Visual exports',
-        'dark-mode': 'Dark mode',
-      };
-      headingLabel = catToLabel[cat] ?? cat;
-      parentHeading = 'Cross-component pitfalls';
-    } else if (fix.section.startsWith('component:')) {
-      headingLabel = fix.section.slice(10);
-      parentHeading = 'Per-component pitfalls';
+    if (h4Match.length > 0) {
+      headingLabel = h4Match[h4Match.length - 1][1].trim();
+      const h4Pos = before.lastIndexOf(h4Match[h4Match.length - 1][0]);
+      const beforeH4 = before.slice(0, h4Pos);
+      const h3Before = [...beforeH4.matchAll(/^   ### (.+)$/gm)];
+      if (h3Before.length > 0) {
+        parentHeading = h3Before[h3Before.length - 1][1].trim();
+      }
+    } else if (h3Match.length > 0) {
+      headingLabel = h3Match[h3Match.length - 1][1].trim();
     }
   }
 
   if (!headingLabel) return null;
 
-  // Classify: general conventions or per-component or cross-component.
-  // A cross-cutting scope overrides per-component routing — the rule belongs in pitfalls.md.
   const isCrossCutting = fix.scope === 'cross-cutting';
   const isGeneral =
     headingLabel === 'General conventions' ||
@@ -765,33 +846,61 @@ function resolveSourceTarget(fix, evalContextContent) {
   const isPerComponent =
     !isCrossCutting &&
     (parentHeading === 'Per-component pitfalls' ||
-      (!isGeneral && !EVAL_HEADING_TO_SOURCE_HEADING[headingLabel] && resolveSlug(headingLabel) !== null));
+      (!isGeneral &&
+        !EVAL_HEADING_TO_SOURCE_HEADING[headingLabel] &&
+        resolveSlug(headingLabel) !== null));
 
   if (isPerComponent) {
     const slug = resolveSlug(headingLabel);
     if (!slug) return null;
     return {
-      filePath: join(ROOT, `docs/components/${slug}.md`),
-      sectionHeading: 'Pitfalls',
-      isComponent: true,
+      kind: 'component',
+      slug,
       componentName: headingLabel,
-      appendOnly: appendFallback,
     };
   }
 
-  // Cross-component or general → docs/pitfalls.md.
-  // If the fix model used a component heading but marked scope=cross-cutting,
-  // route to General Conventions so the rule is surfaced on every plan_ui call.
-  const sourceHeading = EVAL_HEADING_TO_SOURCE_HEADING[headingLabel]
-    ?? (isCrossCutting ? 'General Conventions' : null);
+  const sourceHeading =
+    EVAL_HEADING_TO_SOURCE_HEADING[headingLabel] ?? (isCrossCutting ? 'General Conventions' : null);
   if (!sourceHeading) return null;
-
   return {
-    filePath: PITFALLS_DOC_PATH,
+    kind: 'shared',
     sectionHeading: sourceHeading,
-    isComponent: false,
-    appendOnly: appendFallback,
   };
+}
+
+function resolveSourceTarget(fix, evalContextContent) {
+  const explicitTarget = normalizeTargetFileSlug(fix.targetFile);
+  const sectionTarget = resolveSectionTarget(fix);
+  const inferredTarget = sectionTarget ?? inferTargetFromOldHeading(fix, evalContextContent);
+
+  if (sectionTarget && explicitTarget) {
+    if (sectionTarget.kind !== explicitTarget.kind) {
+      return null;
+    }
+    if (sectionTarget.kind === 'component' && sectionTarget.slug !== explicitTarget.slug) {
+      return null;
+    }
+  }
+
+  const target = inferredTarget ?? explicitTarget;
+  if (!target) return null;
+  if (target.kind === 'shared' && !target.sectionHeading) return null;
+
+  return target.kind === 'component'
+    ? {
+        filePath: join(ROOT, `docs/components/${target.slug}.md`),
+        sectionHeading: 'Pitfalls',
+        isComponent: true,
+        componentName: target.componentName ?? '',
+        appendOnly: fix.operation === 'append_pitfall' || !fix.old?.trim(),
+      }
+    : {
+        filePath: PITFALLS_DOC_PATH,
+        sectionHeading: target.sectionHeading,
+        isComponent: false,
+        appendOnly: fix.operation === 'append_pitfall' || !fix.old?.trim(),
+      };
 }
 
 /**
@@ -806,6 +915,218 @@ function summaryToSlug(summary) {
     .split(/\s+/)
     .slice(0, 5)
     .join('-');
+}
+
+function normalizeStringList(value) {
+  if (Array.isArray(value)) {
+    return value
+      .filter((item) => typeof item === 'string')
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+  if (typeof value === 'string' && value.trim()) {
+    return [value.trim()];
+  }
+  return [];
+}
+
+function unwrapInlineCode(snippet) {
+  const trimmed = snippet.trim();
+  const match = trimmed.match(/^`([^`]+)`$/);
+  return match ? match[1] : trimmed;
+}
+
+function normalizeSnippetList(value) {
+  return normalizeStringList(value).map(unwrapInlineCode);
+}
+
+function parsePitfallHeader(line) {
+  const headerMatch = line.match(/^- \*\*(.+?)\*\*(?: — (.+))?$/);
+  if (!headerMatch) return null;
+  return {
+    summary: headerMatch[1].trim(),
+    details: headerMatch[2]?.trim() ?? '',
+  };
+}
+
+function parsePitfallBlock(blockText) {
+  const normalized = normalizeSourcePatchBlock(blockText).trimEnd();
+  if (!normalized) return null;
+
+  const lines = normalized.split('\n');
+  const comments = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index];
+    if (/^<!-- .* -->$/.test(line.trim())) {
+      comments.push(line.trim());
+      index++;
+      continue;
+    }
+    if (line.trim() === '') {
+      index++;
+      continue;
+    }
+    break;
+  }
+
+  if (index >= lines.length) return null;
+
+  const header = parsePitfallHeader(lines[index]);
+  if (!header) return null;
+  index++;
+
+  const antiPatterns = [];
+  const fixes = [];
+  const proseLines = [];
+  let completeExample = '';
+  let completeExampleLanguage = 'tsx';
+
+  while (index < lines.length) {
+    const line = lines[index];
+
+    const antiPatternMatch = line.match(/^  - anti-pattern:\s*(.+)$/);
+    if (antiPatternMatch) {
+      antiPatterns.push(unwrapInlineCode(antiPatternMatch[1]));
+      index++;
+      continue;
+    }
+
+    const fixMatch = line.match(/^  - fix:\s*(.+)$/);
+    if (fixMatch) {
+      fixes.push(unwrapInlineCode(fixMatch[1]));
+      index++;
+      continue;
+    }
+
+    if (/^  - complete example:\s*$/.test(line)) {
+      index++;
+      const exampleLines = [];
+      while (index < lines.length) {
+        exampleLines.push(lines[index]);
+        index++;
+      }
+      const dedented = exampleLines.map((exampleLine) => exampleLine.replace(/^    /, ''));
+      const openFence = dedented.find((exampleLine) => /^```/.test(exampleLine));
+      if (openFence) {
+        completeExampleLanguage = openFence.replace(/^```/, '').trim() || 'tsx';
+      }
+      const openFenceIndex = dedented.findIndex((exampleLine) => /^```/.test(exampleLine));
+      const closeFenceIndex =
+        openFenceIndex === -1
+          ? -1
+          : dedented.findIndex((exampleLine, lineIndex) => lineIndex > openFenceIndex && /^```$/.test(exampleLine));
+      if (openFenceIndex !== -1 && closeFenceIndex !== -1) {
+        completeExample = dedented.slice(openFenceIndex + 1, closeFenceIndex).join('\n').trimEnd();
+      } else {
+        completeExample = dedented.join('\n').trimEnd();
+      }
+      break;
+    }
+
+    proseLines.push(line);
+    index++;
+  }
+
+  return {
+    comments,
+    summary: header.summary,
+    details: header.details,
+    antiPatterns,
+    fixes,
+    completeExample,
+    completeExampleLanguage,
+    proseLines,
+  };
+}
+
+function serializePitfallBlock(data) {
+  const lines = [];
+  if (data.comments?.length) {
+    lines.push(...data.comments.map((line) => line.trim()));
+  }
+  const header = `- **${data.summary.trim()}**${data.details?.trim() ? ` — ${data.details.trim()}` : ''}`;
+  lines.push(header);
+
+  for (const antiPattern of normalizeSnippetList(data.antiPatterns)) {
+    lines.push(`  - anti-pattern: \`${antiPattern}\``);
+  }
+  for (const fix of normalizeSnippetList(data.fixes)) {
+    lines.push(`  - fix: \`${fix}\``);
+  }
+
+  if (Array.isArray(data.proseLines) && data.proseLines.length > 0) {
+    lines.push(...data.proseLines);
+  }
+
+  const completeExample = typeof data.completeExample === 'string' ? data.completeExample.trimEnd() : '';
+  if (completeExample) {
+    lines.push('  - complete example:');
+    lines.push(`    \`\`\`${data.completeExampleLanguage?.trim() || 'tsx'}`);
+    for (const exampleLine of completeExample.split('\n')) {
+      lines.push(`    ${exampleLine}`);
+    }
+    lines.push('    ```');
+  }
+
+  return lines.join('\n').trimEnd();
+}
+
+function buildStructuredPitfallFromFix(fix, options = {}) {
+  const fallbackBlock = options.fallbackBlockText ? parsePitfallBlock(options.fallbackBlockText) : null;
+  const summary =
+    typeof fix.summary === 'string' && fix.summary.trim()
+      ? fix.summary.trim()
+      : fallbackBlock?.summary ?? '';
+  const details =
+    typeof fix.details === 'string' && fix.details.trim()
+      ? fix.details.trim()
+      : fallbackBlock?.details ?? '';
+  const antiPatterns = normalizeSnippetList(fix.antiPatterns);
+  const fixes = normalizeSnippetList(fix.fixes);
+  const completeExample =
+    typeof fix.completeExample === 'string' && fix.completeExample.trim()
+      ? fix.completeExample.trimEnd()
+      : fallbackBlock?.completeExample ?? '';
+
+  return {
+    comments: options.comments ?? fallbackBlock?.comments ?? [],
+    summary,
+    details,
+    antiPatterns: antiPatterns.length > 0 ? antiPatterns : fallbackBlock?.antiPatterns ?? [],
+    fixes: fixes.length > 0 ? fixes : fallbackBlock?.fixes ?? [],
+    completeExample,
+    completeExampleLanguage: fallbackBlock?.completeExampleLanguage ?? 'tsx',
+    proseLines: options.preserveProse ? (fallbackBlock?.proseLines ?? []) : [],
+  };
+}
+
+function getPitfallBlocks(sectionText) {
+  const blocks = [];
+  const pattern =
+    /<!--\s*pitfall:\s*([a-z0-9-]+)\s*-->[\s\S]*?(?=(?:\n<!--\s*pitfall:\s*[a-z0-9-]+\s*-->)|$)/g;
+  let match;
+  while ((match = pattern.exec(sectionText)) !== null) {
+    blocks.push({
+      slug: match[1],
+      start: match.index,
+      end: pattern.lastIndex,
+      text: match[0],
+    });
+  }
+  return blocks;
+}
+
+function findPitfallBlockBySlug(sectionText, slug) {
+  return getPitfallBlocks(sectionText).find((block) => block.slug === slug) ?? null;
+}
+
+function findContainingPitfallBlock(sectionText, offset) {
+  return (
+    getPitfallBlocks(sectionText).find((block) => offset >= block.start && offset < block.end) ??
+    null
+  );
 }
 
 /**
@@ -830,10 +1151,9 @@ function extractSection(fileContent, sectionHeading) {
 }
 
 /**
- * Try to find sourceOld in sectionText using three progressive passes:
+ * Try to find sourceOld in sectionText using two progressive passes:
  * 1. Exact match
  * 2. Backtick-normalized match (strip backticks from both)
- * 3. Summary-only match (match just the **bold** summary)
  *
  * Returns { matchStart, matchEnd } (offsets within sectionText) or null.
  */
@@ -870,36 +1190,6 @@ function findInSection(sectionText, sourceOld) {
       if (i === sectionText.length - 1) realEnd = sectionText.length;
     }
     return { matchStart: realStart, matchEnd: realEnd };
-  }
-
-  // Pass 3: summary-only — match just the **...**  bold text
-  const summaryMatch = sourceOld.match(/\*\*(.+?)\*\*/);
-  if (summaryMatch) {
-    const summary = norm(summaryMatch[1]);
-    const bulletPattern = new RegExp(
-      `- \\*\\*[^*]*${summary.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').slice(0, 30)}[^*]*\\*\\*`,
-    );
-    const idx3 = normSection.search(bulletPattern);
-    if (idx3 !== -1) {
-      // Replace the entire bullet block: the bullet header line + all nested sub-lines
-      // (lines starting with whitespace or "  - "), stopping at the next top-level
-      // "- **" bullet, a "<!-- " comment, or end of section.
-      // This prevents successive runs from appending more sub-lines to the same bullet.
-      const afterMatch = sectionText.slice(idx3);
-      const lines = afterMatch.split('\n');
-      let endLine = 1; // always include at least the header line
-      while (endLine < lines.length) {
-        const line = lines[endLine];
-        // Sub-content of the bullet: indented lines or "  - ..." lines
-        if (line === '' || /^\s/.test(line) || /^  - /.test(line)) {
-          endLine++;
-        } else {
-          break;
-        }
-      }
-      const endOffset = lines.slice(0, endLine).join('\n').length;
-      return { matchStart: idx3, matchEnd: idx3 + endOffset };
-    }
   }
 
   return null;
@@ -983,12 +1273,48 @@ function hasMultiIdeaSummary(blockText) {
   return dashCount >= 2 || /\band\b/.test(stripped) || /;/.test(stripped);
 }
 
+function containsDisallowedPitfallStructure(text) {
+  return /^\s*#{2,6}\s+/m.test(text) || /<!--\s*pitfall:\s*[a-z0-9-]+\s*-->/m.test(text);
+}
+
+function summaryReflectsPitfallSlug(slug, blockText) {
+  const summary = getPitfallSummary(blockText).toLowerCase().replace(/`/g, '');
+  if (!summary) return false;
+
+  const stopWords = new Set([
+    'a',
+    'an',
+    'and',
+    'any',
+    'for',
+    'no',
+    'not',
+    'of',
+    'or',
+    'the',
+    'to',
+    'use',
+    'when',
+    'with',
+  ]);
+  const tokens = [...new Set(slug.split('-').filter((token) => token && !stopWords.has(token)))];
+  if (tokens.length === 0) return true;
+
+  const matchedCount = tokens.filter((token) => summary.includes(token)).length;
+  const requiredMatches = tokens.length >= 4 ? 3 : tokens.length >= 2 ? 2 : 1;
+  return matchedCount >= Math.min(tokens.length, requiredMatches);
+}
+
+function hasMultiIdeaOptOut(blockText) {
+  return /<!--\s*multi-idea-ok\s*-->/.test(blockText);
+}
+
 function validatePitfallPatchBlock(blockText) {
   const topLevelBullets = blockText.split('\n').filter((line) => /^- \*\*/.test(line));
   if (topLevelBullets.length !== 1) {
     return `expected exactly one top-level pitfall bullet, found ${topLevelBullets.length}`;
   }
-  if (hasMultiIdeaSummary(blockText)) {
+  if (!hasMultiIdeaOptOut(blockText) && hasMultiIdeaSummary(blockText)) {
     return 'summary appears multi-idea';
   }
   if (hasMalformedInlineSnippets(blockText)) {
@@ -1006,6 +1332,162 @@ function validatePitfallPatchBlocks(blocks, contextLabel) {
     }
   }
   return true;
+}
+
+function buildPitfallBlockTextFromFix(fix, options = {}) {
+  const fallbackBlockText =
+    typeof fix.new === 'string' && fix.new.trim()
+      ? normalizeSourcePatchBlock(sanitizeTrailingDoubleBackticks(fix.new)).replace(/([^\n])(- \*\*)/g, '$1\n$2')
+      : '';
+  const pitfall = buildStructuredPitfallFromFix(fix, {
+    comments: options.comments,
+    fallbackBlockText,
+    preserveProse: options.preserveProse,
+  });
+  if (!pitfall.summary) {
+    return { error: 'missing pitfall summary' };
+  }
+  if (!pitfall.details && !pitfall.completeExample && pitfall.antiPatterns.length === 0 && pitfall.fixes.length === 0) {
+    return { error: 'structured pitfall content is empty' };
+  }
+
+  const blockText = serializePitfallBlock(pitfall);
+  const validationError = validatePitfallPatchBlock(blockText);
+  if (validationError) {
+    return { error: validationError };
+  }
+
+  return { blockText, pitfall };
+}
+
+function validateUpdatedPitfallSection(sectionText, expectedSlug) {
+  const blocks = getPitfallBlocks(sectionText);
+  if (blocks.length === 0) return { error: 'section contains no pitfall blocks after patching' };
+
+  for (const block of blocks) {
+    const parsed = parsePitfallBlock(block.text);
+    if (!parsed) {
+      return { error: `could not parse pitfall '${block.slug}' after patching` };
+    }
+    const normalizedBlock = serializePitfallBlock(parsed);
+    const validationError = validatePitfallPatchBlock(normalizedBlock);
+    if (validationError) {
+      return { error: `pitfall '${block.slug}' is invalid — ${validationError}` };
+    }
+  }
+
+  if (expectedSlug) {
+    const targetBlock = findPitfallBlockBySlug(sectionText, expectedSlug);
+    if (!targetBlock) {
+      return { error: `pitfall '${expectedSlug}' is missing after patching` };
+    }
+    const normalizedTargetBlock = serializePitfallBlock(parsePitfallBlock(targetBlock.text));
+    if (!summaryReflectsPitfallSlug(expectedSlug, normalizedTargetBlock)) {
+      return { error: `pitfall '${expectedSlug}' no longer matches its slug` };
+    }
+  }
+
+  return { error: null };
+}
+
+function buildFixPreviewText(fix) {
+  if (typeof fix.new === 'string' && fix.new.trim()) {
+    return fix.new;
+  }
+  const builtBlock = buildPitfallBlockTextFromFix(fix);
+  return builtBlock.blockText ?? '';
+}
+
+function applyPitfallFixToSectionText(sectionText, fix, target, filePath = '<memory>') {
+  const operation = PITFALL_FIX_OPERATIONS.has(fix.operation)
+    ? fix.operation
+    : fix.old?.trim()
+      ? 'replace_pitfall'
+      : 'append_pitfall';
+  const sourceOld = normalizeSourcePatchBlock(fix.old ?? '');
+  const targetPitfallSlug = fix.targetPitfallSlug?.trim() ?? '';
+  const newPitfallSlug = fix.newPitfallSlug?.trim() ?? '';
+
+  const fail = (message, detail = '') => ({
+    error: detail ? `${message}\n${detail}` : message,
+  });
+
+  const replaceRange = (text, start, end, replacement) =>
+    text.slice(0, start) + replacement + text.slice(end);
+
+  if (operation === 'append_pitfall' || target.appendOnly) {
+    if (targetPitfallSlug) {
+      return fail('append_pitfall must not set targetPitfallSlug');
+    }
+    if (!newPitfallSlug) {
+      return fail('append_pitfall requires newPitfallSlug');
+    }
+    if (sectionText.includes(`<!-- pitfall: ${newPitfallSlug} -->`)) {
+      return fail(`pitfall '${newPitfallSlug}' already present in ${filePath} — skipping append`);
+    }
+
+    const builtBlock = buildPitfallBlockTextFromFix(fix);
+    if (builtBlock.error) {
+      return fail(`new pitfall block is invalid — ${builtBlock.error}`);
+    }
+    const derivedSlug = summaryToSlug(builtBlock.pitfall.summary);
+    if (derivedSlug !== newPitfallSlug) {
+      return fail(`newPitfallSlug '${newPitfallSlug}' does not match derived slug '${derivedSlug}'`);
+    }
+    if (!summaryReflectsPitfallSlug(newPitfallSlug, builtBlock.blockText)) {
+      return fail(`pitfall summary does not match new slug '${newPitfallSlug}'`);
+    }
+
+    const commentBlock = buildCommentBlock(target, newPitfallSlug, builtBlock.blockText);
+    const updatedSection = sectionText.trimEnd() + commentBlock + '\n';
+    const validation = validateUpdatedPitfallSection(updatedSection, newPitfallSlug);
+    if (validation.error) {
+      return fail(validation.error);
+    }
+    return { updatedSection, expectedSlug: newPitfallSlug };
+  }
+
+  if (!targetPitfallSlug) {
+    return fail(`${operation} requires targetPitfallSlug`);
+  }
+
+  const targetBlock = findPitfallBlockBySlug(sectionText, targetPitfallSlug);
+  if (!targetBlock) {
+    return fail(`target pitfall slug '${targetPitfallSlug}' not found in ${filePath}`);
+  }
+
+  if (sourceOld) {
+    const oldMatch = findInSection(targetBlock.text, sourceOld);
+    if (!oldMatch) {
+      return fail(
+        `old text not found in pitfall '${targetPitfallSlug}' of ${filePath}`,
+        `Looking for: ${JSON.stringify(sourceOld.slice(0, 80))}`,
+      );
+    }
+  }
+
+  const existingPitfall = parsePitfallBlock(targetBlock.text);
+  if (!existingPitfall) {
+    return fail(`could not parse existing pitfall '${targetPitfallSlug}'`);
+  }
+
+  const builtBlock = buildPitfallBlockTextFromFix(fix, {
+    comments: existingPitfall.comments,
+    preserveProse: operation === 'replace_subbullets',
+  });
+  if (builtBlock.error) {
+    return fail(`replacement pitfall block is invalid — ${builtBlock.error}`);
+  }
+  if (!summaryReflectsPitfallSlug(targetPitfallSlug, builtBlock.blockText)) {
+    return fail(`replacement pitfall summary does not match slug '${targetPitfallSlug}'`);
+  }
+
+  const updatedSection = replaceRange(sectionText, targetBlock.start, targetBlock.end, builtBlock.blockText);
+  const validation = validateUpdatedPitfallSection(updatedSection, targetPitfallSlug);
+  if (validation.error) {
+    return fail(validation.error);
+  }
+  return { updatedSection, expectedSlug: targetPitfallSlug };
 }
 
 /**
@@ -1048,147 +1530,24 @@ function applySourceFix(fix, evalContextContent) {
     }
   }
 
-  // Strip 3-space indent from eval-context text to get source-format text.
-  // If fix.old wasn't found in the eval-context (appendOnly), treat as a new pitfall
-  // rather than trying to match text that was never there.
-  if (fix.old && !target.appendOnly) {
-    // Patch existing pitfall
-    const sourceOld = normalizeSourcePatchBlock(fix.old);
-    const found = findInSection(section.sectionText, sourceOld);
-    if (!found) {
-      console.log(
-        `      ${C.yellow(`⚠ Source: old text not found in '## ${target.sectionHeading}' of`)} ${target.filePath}`,
-      );
-      console.log(`        ${C.dim('Looking for:')} ${JSON.stringify(sourceOld.slice(0, 80))}`);
-      return false;
-    }
-
-    const sourceNew = normalizeSourcePatchBlock(fix.new).replace(/([^\n])(- \*\*)/g, '$1\n$2');
-    const topLevelBullets = sourceNew.split('\n').filter((l) => /^- \*\*/.test(l));
-    const isSubBlockReplacement = !sourceOld.trimStart().startsWith('- **');
-
-    let firstBlock = sourceNew;
-    let extraBlocks = [];
-    if (topLevelBullets.length === 0 && isSubBlockReplacement) {
-      // Sub-block replacement: model is updating anti-pattern/fix sub-bullets within an existing pitfall
-    } else if (topLevelBullets.length > 1) {
-      // Multi-bullet: split — first replaces old, rest get appended as new pitfalls
-      const blocks = splitPitfallBlocks(sourceNew);
-      if (!validatePitfallPatchBlocks(blocks, 'replacement pitfall block')) {
-        return false;
-      }
-      firstBlock = blocks[0];
-      extraBlocks = blocks.slice(1);
-    } else {
-      if (!isSubBlockReplacement) {
-        const error = validatePitfallPatchBlock(sourceNew);
-        if (error) {
-          console.log(`      ${C.yellow('⚠ Source: replacement pitfall block is invalid')} — ${error}`);
-          return false;
-        }
-      }
-    }
-
-    const updatedSection =
-      section.sectionText.slice(0, found.matchStart) +
-      firstBlock +
-      section.sectionText.slice(found.matchEnd);
-    const updatedFile =
+  const buildUpdatedFile = (updatedSection) =>
+    sanitizeTrailingDoubleBackticks(
       fileContent.slice(0, section.sectionStart) +
-      updatedSection +
-      fileContent.slice(section.sectionEnd);
-    writeFileSync(target.filePath, sanitizeTrailingDoubleBackticks(updatedFile), 'utf8');
-
-    for (const extraBlock of extraBlocks) {
-      const extraSummary = extraBlock.match(/\*\*(.+?)\*\*/)?.[1] ?? 'new-pitfall';
-      const extraSlug = summaryToSlug(extraSummary);
-      const latestContent = readFileSync(target.filePath, 'utf8');
-      const latestSection = extractSection(latestContent, target.sectionHeading);
-      if (!latestSection) break;
-      if (latestSection.sectionText.includes(`<!-- pitfall: ${extraSlug} -->`)) {
-        console.log(`      ${C.dim(`Pitfall '${extraSlug}' already present — skipping extra block`)}`);
-        continue;
-      }
-      const extraCommentBlock = buildCommentBlock(target, extraSlug, extraBlock);
-      const trimmedLatest = latestSection.sectionText.trimEnd();
-      writeFileSync(
-        target.filePath,
-        sanitizeTrailingDoubleBackticks(
-          latestContent.slice(0, latestSection.sectionStart) +
-          trimmedLatest + extraCommentBlock + '\n' +
-          latestContent.slice(latestSection.sectionEnd),
-        ),
-        'utf8',
-      );
+        updatedSection +
+        fileContent.slice(section.sectionEnd),
+    );
+  const result = applyPitfallFixToSectionText(section.sectionText, fix, target, target.filePath);
+  if (result.error) {
+    const [message, ...detailLines] = result.error.split('\n');
+    console.log(`      ${C.yellow(`⚠ Source: ${message}`)}`);
+    if (detailLines.length > 0) {
+      console.log(`        ${C.dim(detailLines.join('\n'))}`);
     }
-
-    return target.filePath;
-  } else {
-    // New pitfall — append before end of section (with dedup check)
-    const newBullet = normalizeSourcePatchBlock(fix.new).replace(/([^\n])(- \*\*)/g, '$1\n$2');
-    const newTopLevelBullets = newBullet.split('\n').filter((l) => /^- \*\*/.test(l));
-
-    if (newTopLevelBullets.length > 1) {
-      // Multi-bullet append: split and append each block separately
-      const blocks = splitPitfallBlocks(newBullet);
-      if (!validatePitfallPatchBlocks(blocks, 'new pitfall block')) {
-        return false;
-      }
-      let anyWritten = false;
-      for (const block of blocks) {
-        const blkSummary = block.match(/\*\*(.+?)\*\*/)?.[1] ?? 'new-pitfall';
-        const blkSlug = summaryToSlug(blkSummary);
-        const latestContent = readFileSync(target.filePath, 'utf8');
-        const latestSection = extractSection(latestContent, target.sectionHeading);
-        if (!latestSection) break;
-        if (latestSection.sectionText.includes(`<!-- pitfall: ${blkSlug} -->`)) {
-          console.log(`      ${C.yellow(`⚠ Source: pitfall '${blkSlug}' already present`)} — skipping`);
-          continue;
-        }
-        const blkCommentBlock = buildCommentBlock(target, blkSlug, block);
-        const trimmed = latestSection.sectionText.trimEnd();
-        writeFileSync(
-          target.filePath,
-          sanitizeTrailingDoubleBackticks(
-            latestContent.slice(0, latestSection.sectionStart) +
-            trimmed + blkCommentBlock + '\n' +
-            latestContent.slice(latestSection.sectionEnd),
-          ),
-          'utf8',
-        );
-        anyWritten = true;
-      }
-      return anyWritten ? target.filePath : false;
-    }
-
-    const newBulletError = validatePitfallPatchBlock(newBullet);
-    if (newBulletError) {
-      console.log(`      ${C.yellow('⚠ Source: new pitfall block is invalid')} — ${newBulletError}`);
-      return false;
-    }
-    const summary = newBullet.match(/\*\*(.+?)\*\*/)?.[1] ?? 'new-pitfall';
-    const slug = summaryToSlug(summary);
-
-    // Dedup: skip if a pitfall with the same slug already exists in this section
-    if (section.sectionText.includes(`<!-- pitfall: ${slug} -->`)) {
-      console.log(
-        `      ${C.yellow(`⚠ Source: pitfall '${slug}' already present in`)} ${target.filePath} — skipping append`,
-      );
-      return false;
-    }
-
-    const commentBlock = buildCommentBlock(target, slug, newBullet);
-
-    // Insert before the end of the section (trim trailing newlines, then append)
-    const trimmedSection = section.sectionText.trimEnd();
-    const updatedSection = trimmedSection + commentBlock + '\n';
-    const updatedFile =
-      fileContent.slice(0, section.sectionStart) +
-      updatedSection +
-      fileContent.slice(section.sectionEnd);
-    writeFileSync(target.filePath, sanitizeTrailingDoubleBackticks(updatedFile), 'utf8');
-    return target.filePath;
+    return false;
   }
+
+  writeFileSync(target.filePath, buildUpdatedFile(result.updatedSection), 'utf8');
+  return target.filePath;
 }
 
 /* ─── Docs diff display ──────────────────────────────────────────────────── */
@@ -1204,27 +1563,37 @@ function showDocsPatch(modifiedFiles = new Set()) {
 
   if (modifiedFiles.size === 0) {
     console.log(C.dim('  No documentation changes.'));
-    console.log(C.dim('  (All source patches were skipped — check the ⚠ lines above for details.)'));
+    console.log(
+      C.dim('  (All source patches were skipped — check the ⚠ lines above for details.)'),
+    );
     console.log(separator);
     return;
   }
 
   // Only diff the specific files touched this run, not the entire docs tree.
-  const sourceDiff = spawnSync(
-    'git',
-    ['diff', '--color=always', '--', ...modifiedFiles],
-    { cwd: ROOT, encoding: 'utf8', timeout: 10000 },
-  ).stdout?.trim() ?? '';
+  const sourceDiff =
+    spawnSync('git', ['diff', '--color=always', '--', ...modifiedFiles], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      timeout: 10000,
+    }).stdout?.trim() ?? '';
 
   if (!sourceDiff) {
     console.log(C.dim('  No documentation changes.'));
-    console.log(C.dim('  (All source patches were skipped — check the ⚠ lines above for details.)'));
+    console.log(
+      C.dim('  (All source patches were skipped — check the ⚠ lines above for details.)'),
+    );
   } else {
     console.log(C.bold('  Source docs changed this run:'));
     console.log('');
     console.log(sourceDiff);
   }
   console.log(separator);
+}
+
+function writeSummaryFile(summary) {
+  if (!SUMMARY_FILE) return;
+  writeFileSync(SUMMARY_FILE, `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
 }
 
 /* ─── EvalReview.tsx generation ──────────────────────────────────────────── */
@@ -1307,10 +1676,7 @@ function replaceIdentifier(body, from, to) {
 }
 
 function replaceIdentifierReference(body, from, to) {
-  return body.replace(
-    new RegExp(`\\b${escapeRegExp(from)}\\b(?!\\s*[=:])`, 'g'),
-    to,
-  );
+  return body.replace(new RegExp(`\\b${escapeRegExp(from)}\\b(?!\\s*[=:])`, 'g'), to);
 }
 
 function rewriteImportBlock(block, replacements) {
@@ -1612,8 +1978,10 @@ function renameExport(code, slug) {
   });
   for (const helperName of helperNames) {
     const unique = `${name}${helperName}`;
-    renamed = renamed
-      .replace(new RegExp(`^((?:function|const)\\s+)${helperName}\\b`, 'm'), `$1${unique}`)
+    renamed = renamed.replace(
+      new RegExp(`^((?:function|const)\\s+)${helperName}\\b`, 'm'),
+      `$1${unique}`,
+    );
     renamed = replaceIdentifierReference(renamed, helperName, unique);
   }
 
@@ -1672,7 +2040,9 @@ function generateEvalReview(passingResults, allPrompts) {
   const componentDefs = passingResults
     .filter((r) => r.code)
     .map((r) => {
-      const body = suppressUnusedLocals(renameExport(stripImports(codeBlocks[codeBlockIndex++]), r.slug));
+      const body = suppressUnusedLocals(
+        renameExport(stripImports(codeBlocks[codeBlockIndex++]), r.slug),
+      );
       return `// ── ${r.slug} ${'─'.repeat(Math.max(0, 46 - r.slug.length))}\n${body}`;
     })
     .join('\n\n');
@@ -1681,7 +2051,9 @@ function generateEvalReview(passingResults, allPrompts) {
   // actually referenced in the assembled component bodies to avoid TS6133
   // ("declared but its value is never read") from unused icon imports etc.
   const mergedImports = pruneUnusedImports(mergeImports(codeBlocks), componentDefs);
-  const reactNamespaceImport = /\bReact\./.test(componentDefs) ? "import * as React from 'react';\n" : '';
+  const reactNamespaceImport = /\bReact\./.test(componentDefs)
+    ? "import * as React from 'react';\n"
+    : '';
 
   const sections = passingResults
     .filter((r) => r.code)
@@ -1853,38 +2225,59 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
   for (let attempt = 1; attempt <= MAX_ITER; attempt++) {
     const attemptLabel = isFinite(MAX_ITER) ? `${attempt}/${MAX_ITER}` : `${attempt}`;
     try {
-      console.log(`    [${attemptLabel}] ${C.dim(`Requesting fix from ${FIX_PROVIDER}:${FIX_MODEL}...`)}`);
+      console.log(
+        `    [${attemptLabel}] ${C.dim(`Requesting fix from ${FIX_PROVIDER}:${FIX_MODEL}...`)}`,
+      );
       const fix = await getFix(current, failedOlds, promptMap.get(current.slug)?.tags ?? []);
       console.log(`    [${attemptLabel}] ${C.cyan('Diagnosis:')} ${fix.diagnosis}`);
-      if (fix.new) {
+      const fixPreviewText = buildFixPreviewText(fix);
+      if (fixPreviewText) {
         const target = fix.section ?? 'unknown';
         const oldHint = fix.old ? JSON.stringify(fix.old.slice(0, 60)) : 'append';
-        const fixPreview = fix.new.split('\n').map((l) => C.dim(`      | `) + l).join('\n');
-        console.log(`    [${attemptLabel}] ${C.magenta('Fix')} → ${C.bold(target)} ${C.dim(`(old=${oldHint})`)}:\n${fixPreview}`);
+        const fixPreview = fixPreviewText
+          .split('\n')
+          .map((l) => C.dim(`      | `) + l)
+          .join('\n');
+        console.log(
+          `    [${attemptLabel}] ${C.magenta('Fix')} → ${C.bold(target)} ${C.dim(`(old=${oldHint})`)}:\n${fixPreview}`,
+        );
       }
       const evalContextBeforeFix = readFileSync(SNIPPET_PATH, 'utf8');
       let sourcePatchApplied = false;
-      const sourcePatchRequired = !NO_SOURCE_PATCH && !!fix.new?.trim();
+      const sourcePatchRequired = !NO_SOURCE_PATCH && fixHasStructuredSourcePatch(fix);
       if (!NO_SOURCE_PATCH) {
         try {
           const patchedPath = applySourceFix(fix, evalContextBeforeFix);
           if (patchedPath) runModifiedFiles.add(patchedPath);
           if (patchedPath) {
             sourcePatchApplied = true;
-            console.log(`    [${attemptLabel}] ${C.green('Source file patched')} — regenerating registries...`);
+            console.log(
+              `    [${attemptLabel}] ${C.green('Source file patched')} — regenerating registries...`,
+            );
             try {
               execFileSync(process.execPath, [join(__dirname, 'generate-pitfalls-registry.js')], {
-                cwd: ROOT, timeout: 30000, encoding: 'utf8', stdio: 'pipe',
+                cwd: ROOT,
+                timeout: 30000,
+                encoding: 'utf8',
+                stdio: 'pipe',
               });
               execFileSync(process.execPath, [join(__dirname, 'generate-registry.js')], {
-                cwd: ROOT, timeout: 60000, encoding: 'utf8', stdio: 'pipe',
+                cwd: ROOT,
+                timeout: 60000,
+                encoding: 'utf8',
+                stdio: 'pipe',
               });
               execFileSync(process.execPath, [join(__dirname, 'generate-eval-context.js')], {
-                cwd: ROOT, timeout: 10000, encoding: 'utf8', stdio: 'pipe',
+                cwd: ROOT,
+                timeout: 10000,
+                encoding: 'utf8',
+                stdio: 'pipe',
               });
               console.log(`    [${attemptLabel}] ${C.dim('Registries updated')}`);
             } catch (regenErr) {
-              console.log(`    [${attemptLabel}] ${C.yellow('⚠ Registry regen failed:')} ${regenErr.message}`);
+              console.log(
+                `    [${attemptLabel}] ${C.yellow('⚠ Registry regen failed:')} ${regenErr.message}`,
+              );
             }
           } else {
             console.log(
@@ -1896,12 +2289,16 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
         }
       }
       if (sourcePatchRequired && !sourcePatchApplied) {
-        console.log(`    [${attemptLabel}] ${C.yellow('⚠ Source patch did not apply cleanly')} — retrying`);
+        console.log(
+          `    [${attemptLabel}] ${C.yellow('⚠ Source patch did not apply cleanly')} — retrying`,
+        );
         continue;
       }
       const fixedCode = fix.fixedCode ?? '';
       if (!fixedCode.trim()) {
-        console.log(`    [${attemptLabel}] ${C.yellow('⚠ Fix did not include fixedCode')} — retrying`);
+        console.log(
+          `    [${attemptLabel}] ${C.yellow('⚠ Fix did not include fixedCode')} — retrying`,
+        );
         continue;
       }
       console.log(`    [${attemptLabel}] ${C.dim('Fix applied — scoring corrected code...')}`);
@@ -1975,20 +2372,27 @@ async function main() {
   });
   /* ── Steps 1–2: Streaming eval + fix (chunk by chunk) ── */
   const promptMap = new Map(GOLDEN_PROMPTS.map((p) => [p.slug, p]));
-  const allSlugs = GOLDEN_PROMPTS
-    .filter((p) => !FILTER_DIFFICULTY || p.difficulty === FILTER_DIFFICULTY)
+  const allSlugs = GOLDEN_PROMPTS.filter(
+    (p) => !FILTER_DIFFICULTY || p.difficulty === FILTER_DIFFICULTY,
+  )
+    .filter((p) => !FILTER_SLUG || p.slug === FILTER_SLUG)
+    .filter((p) => !FILTER_SLUGS?.length || FILTER_SLUGS.includes(p.slug))
     .map((p) => p.slug);
+
+  if (allSlugs.length === 0) {
+    throw new Error('No golden prompts matched the selected filters.');
+  }
 
   const chunkSize = Math.max(EVAL_CONCURRENCY, 1);
   const totalChunks = Math.ceil(allSlugs.length / chunkSize);
   const attemptsLabel = NO_FIX
     ? 'eval only'
     : UNTIL_PASS
-    ? 'fix: unlimited attempts per prompt'
-    : `fix: max ${MAX_ITER} attempts per prompt`;
+      ? 'fix: unlimited attempts per prompt'
+      : `fix: max ${MAX_ITER} attempts per prompt`;
   console.log(
     C.bold('Steps 1–2/4') +
-    `  Streaming eval + fix — ${totalChunks} chunk(s) of ≤${chunkSize} (${attemptsLabel})...`,
+      `  Streaming eval + fix — ${totalChunks} chunk(s) of ≤${chunkSize} (${attemptsLabel})...`,
   );
 
   const passingCode = new Map();
@@ -2020,7 +2424,12 @@ async function main() {
         if (NO_FIX) {
           stillFailing.push(r);
         } else {
-          const { passed, final } = await fixFailingPrompt(r, promptMap, runModifiedFiles, passingCode);
+          const { passed, final } = await fixFailingPrompt(
+            r,
+            promptMap,
+            runModifiedFiles,
+            passingCode,
+          );
           if (!passed) stillFailing.push(final);
         }
       }
@@ -2029,13 +2438,20 @@ async function main() {
 
   const totalEvaluated = initialPassCount + initialFailCount;
   const fixedCount = initialFailCount - stillFailing.length;
-  const streamSummary = stillFailing.length === 0
-    ? C.green(`\n  ${initialPassCount}/${totalEvaluated} passed initially${fixedCount > 0 ? `, ${fixedCount} fixed` : ''}.`)
-    : C.yellow(`\n  ${initialPassCount}/${totalEvaluated} passed initially. ${fixedCount > 0 ? `${fixedCount} fixed. ` : ''}${stillFailing.length} still failing.`);
+  const streamSummary =
+    stillFailing.length === 0
+      ? C.green(
+          `\n  ${initialPassCount}/${totalEvaluated} passed initially${fixedCount > 0 ? `, ${fixedCount} fixed` : ''}.`,
+        )
+      : C.yellow(
+          `\n  ${initialPassCount}/${totalEvaluated} passed initially. ${fixedCount > 0 ? `${fixedCount} fixed. ` : ''}${stillFailing.length} still failing.`,
+        );
   console.log(streamSummary);
 
   if (!NO_SOURCE_PATCH && fixedCount > 0) {
-    console.log(C.dim('  Registries updated per fix attempt. MCP server will reflect fixes on next restart.'));
+    console.log(
+      C.dim('  Registries updated per fix attempt. MCP server will reflect fixes on next restart.'),
+    );
   }
 
   let failing = stillFailing;
@@ -2058,12 +2474,32 @@ async function main() {
     }
   }
 
+  const summary = {
+    prompts: allSlugs,
+    totalEvaluated,
+    initialPassCount,
+    initialFailCount,
+    fixedCount,
+    stillFailingCount: failing.length,
+    stillFailingSlugs: failing.map((f) => f.slug),
+    modifiedFiles: [...runModifiedFiles],
+  };
+  writeSummaryFile(summary);
+
+  if (NO_REVIEW) {
+    console.log(C.bold('\nStep 3/4') + '  Skipped review generation (--no-review).');
+    showDocsPatch(runModifiedFiles);
+    if (EXIT_CODE_ON_FAIL && failing.length > 0) process.exit(1);
+    return;
+  }
+
   /* ── Step 3: Generate review page ── */
   console.log(C.bold('\nStep 3/4') + '  Generating EvalReview.tsx...');
   const passingResults = [...passingCode.values()];
 
   if (passingResults.length === 0) {
     console.log('  No passing results — nothing to review.');
+    if (EXIT_CODE_ON_FAIL && failing.length > 0) process.exit(1);
     process.exit(0);
   }
 
@@ -2096,6 +2532,7 @@ async function main() {
       `\nStep 4/4  Skipped (--no-serve). Open playground manually: http://localhost:${PREFERRED_PORT}/eval-review`,
     );
     showDocsPatch(runModifiedFiles);
+    if (EXIT_CODE_ON_FAIL && failing.length > 0) process.exit(1);
     return;
   }
 
@@ -2109,14 +2546,39 @@ async function main() {
 
   console.log(C.green('\nDone.') + ' Browser opened to eval review page.');
   if (failing.length > 0 && NO_SOURCE_PATCH) {
-    console.log(C.yellow(`\nNote: fixes were applied to tools/.eval-context.md only (--no-source-patch).`));
+    console.log(
+      C.yellow(`\nNote: fixes were applied to tools/.eval-context.md only (--no-source-patch).`),
+    );
     console.log(`To persist: port changes to docs/pitfalls.md and run: pnpm generate-docs`);
   }
   showDocsPatch(runModifiedFiles);
   console.log();
+  if (EXIT_CODE_ON_FAIL && failing.length > 0) process.exit(1);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+export const __test__ = {
+  applyPitfallFixToSectionText,
+  buildPitfallBlockTextFromFix,
+  buildStructuredPitfallFromFix,
+  buildFixPreviewText,
+  extractSection,
+  findPitfallBlockBySlug,
+  fixHasStructuredSourcePatch,
+  getPitfallBlocks,
+  normalizeTargetFileSlug,
+  parsePitfallBlock,
+  resolveSectionTarget,
+  resolveSourceTarget,
+  serializePitfallBlock,
+  summaryReflectsPitfallSlug,
+  summaryToSlug,
+  validatePitfallPatchBlock,
+  validateUpdatedPitfallSection,
+};
+
+if (IS_DIRECT_RUN) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
