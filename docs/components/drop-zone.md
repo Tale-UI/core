@@ -95,9 +95,23 @@ function FileUpload() {
   - fix: `onDrop={(e) => e.items.filter(item => item.kind === 'file').forEach(...)}`
 
 <!-- pitfall: drop-zone-file-drop-item-not-file -->
-- **Do NOT cast `FileDropItem` to `File`** — `FileDropItem` is not a native `File` object. Access `item.name` and call `item.getFile()` (returns a `Promise<File>`) to get the actual file data. Do not use `as File`.
+- **Do NOT cast FileDropItem to File** — `FileDropItem` is not a native `File` object. Access `item.name` and call `item.getFile()` (returns a `Promise<File>`) to get the actual file data. Do not use `as File`.
   - anti-pattern: `const file = item as File; console.log(file.size);`
   - fix: `const file = await item.getFile(); console.log(file.size);`
+<!-- pitfall: never-import-filedropitem-from-reactariacomponents -->
+- **Never import FileDropItem from react-aria-components — use FileUpload instead for upload-with-progress use cases** — `react-aria-components` is not an allowed import prefix; importing `FileDropItem` causes 'Cannot find module' TypeScript errors. Whenever you need file drop + a displayed file list with progress bars, use `FileUpload` from `@tale-ui/react/file-upload` (see FileUpload pitfalls) rather than composing `DropZone` with manual progress state. If you must use `DropZone` directly and need to narrow the item kind, use inline narrowing without a type annotation — never import the type.
+  - anti-pattern: `import type { FileDropItem } from 'react-aria-components';`
+  - fix: `onDrop={async (e) => { const fileItems = e.items.filter(item => item.kind === 'file'); }}`
+
+<!-- pitfall: drop-zone-browse-button-uses-neutral-variant -->
+- **Inside DropZone browse actions, use `Button variant="neutral"` instead of `variant="secondary"`** — there is no `'secondary'` variant on `Button`; for secondary-action browse buttons use `variant="neutral"` instead.
+  - anti-pattern: `<Button variant="secondary">or click to browse</Button>`
+  - fix: `<Button variant="neutral">or click to browse</Button>`
+
+<!-- pitfall: drop-zone-column-gap-uses-spacing-tokens -->
+- **When wrapping DropZone content in `Column`, use spacing-token gap values** — `gap="sm"` is not a valid `Gap` value and causes `Type '"sm"' is not assignable to type 'Gap | undefined'`; use `gap="s"` instead.
+  - anti-pattern: `<Column gap="sm"><Text>Drop files here</Text></Column>`
+  - fix: `<Column gap="s"><Text>Drop files here</Text></Column>`
 
 ## Notes
 

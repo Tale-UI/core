@@ -157,8 +157,34 @@ Also accepts all React Aria `RadioGroup` props.
   - fix: `<Radio.Group value={selected} onChange={setSelected}><Radio.Root value="a">...</Radio.Root></Radio.Group>`
 <!-- pitfall: for-any-radio-group-prompt -->
 - **For any radio group prompt, wrap Radio items in `RadioGroup` from `@tale-ui/react/radio-group` — do not use only `Radio.Group`** — when a prompt asks for a radio group, both `Radio` (from `@tale-ui/react/radio`) and `RadioGroup` (from `@tale-ui/react/radio-group`) must appear in the code; using `Radio.Group` alone omits the required `RadioGroup` component.
+  - anti-pattern: `// empty file`
   - anti-pattern: `import { Radio } from '@tale-ui/react/radio'; ... <Radio.Group label="Plan"><Radio.Root value="free"><Radio.Indicator />Free</Radio.Root></Radio.Group>`
   - fix: `import { RadioGroup } from '@tale-ui/react/radio-group'; import { Radio } from '@tale-ui/react/radio'; ... <RadioGroup label="Plan"><Radio.Root value="free"><Radio.Indicator />Free</Radio.Root></RadioGroup>`
+  - complete example:
+
+    ```tsx
+    import { RadioGroup } from '@tale-ui/react/radio-group';
+    import { Radio } from '@tale-ui/react/radio';
+    
+    export function PlanSelection() {
+      return (
+        <RadioGroup label="Select a plan">
+          <Radio.Root value="free">
+            <Radio.Indicator />
+            Free
+          </Radio.Root>
+          <Radio.Root value="pro">
+            <Radio.Indicator />
+            Pro
+          </Radio.Root>
+          <Radio.Root value="enterprise">
+            <Radio.Indicator />
+            Enterprise
+          </Radio.Root>
+        </RadioGroup>
+      );
+    }
+    ```
 
 ## Notes
 

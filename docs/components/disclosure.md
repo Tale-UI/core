@@ -96,9 +96,13 @@ const [isExpanded, setIsExpanded] = useState(false);
   - fix: `<Disclosure.Trigger>...</Disclosure.Trigger>`
 
 <!-- pitfall: disclosure-controlled-state-props -->
-- **Controlled state uses `isExpanded`/`onExpandedChange`** — NOT `open`/`onOpenChange`.
+- **Controlled state uses isExpanded/onExpandedChange** — NOT `open`/`onOpenChange`.
   - anti-pattern: `<Disclosure.Root open={isOpen} onOpenChange={setIsOpen}>`
   - fix: `<Disclosure.Root isExpanded={isOpen} onExpandedChange={setIsOpen}>`
+<!-- pitfall: text-inside-disclosuretrigger-has-no -->
+- **Text inside Disclosure.Trigger has no weight prop — use variant="label" for label-weight trigger text** — `Text` does not accept a `weight` prop; passing `weight="medium"` inside `Disclosure.Trigger` causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. Use `variant="label"` instead.
+  - anti-pattern: `<Disclosure.Trigger><Text weight="medium">What is included?</Text></Disclosure.Trigger>`
+  - fix: `<Disclosure.Trigger><Text variant="label">What is included?</Text></Disclosure.Trigger>`
 
 ## Notes
 

@@ -6,14 +6,14 @@ A generic field wrapper providing label, description, error, and control layout 
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `Field.Root` | Outer container div. |
-| `Field.Label` | The field label. |
-| `Field.Control` | Wrapper around the input element. |
-| `Field.Description` | Help text below the input. |
-| `Field.Error` | Validation error message. |
-| `Field.Item` | Optional item container for grouped content. |
+| Part                | Description                                  |
+| ------------------- | -------------------------------------------- |
+| `Field.Root`        | Outer container div.                         |
+| `Field.Label`       | The field label.                             |
+| `Field.Control`     | Wrapper around the input element.            |
+| `Field.Description` | Help text below the input.                   |
+| `Field.Error`       | Validation error message.                    |
+| `Field.Item`        | Optional item container for grouped content. |
 
 ## Props
 
@@ -56,7 +56,7 @@ import { Input } from '@tale-ui/react/input';
   <Input.Input type="password" />
   <Input.Description>Must be at least 8 characters long.</Input.Description>
   <Input.ErrorMessage>This field is required.</Input.ErrorMessage>
-</Input.Root>
+</Input.Root>;
 ```
 
 ## CSS Classes
@@ -71,13 +71,15 @@ import { Input } from '@tale-ui/react/input';
 ## Pitfalls
 
 <!-- pitfall: field-root-no-validation-props -->
+
 - **`Field.Root` does not accept validation state props** — `Field.Root` is a plain layout container. It does not accept `isInvalid`, `isRequired`, `isDisabled`, or `isReadOnly`. For validated fields, use a component like `Input.Root` that has React Aria field context built in.
   - anti-pattern: `<Field.Root isInvalid={hasError}>`
   - fix: `<Field.Root><Input.Root isInvalid={hasError} /></Field.Root>`
   - complete example:
+
     ```tsx
     import { Field } from '@tale-ui/react/field';
-    
+
     export function Example() {
       return (
         <>
@@ -87,10 +89,8 @@ import { Input } from '@tale-ui/react/input';
               <input className="tale-input" placeholder="you@example.com" />
             </Field.Control>
             <Field.Description>We'll never share your email.</Field.Description>
-            // For validation errors:
-            // <Field.Error>Please enter a valid email.</Field.Error>
+            // For validation errors: // <Field.Error>Please enter a valid email.</Field.Error>
           </Field.Root>
-          
           // Field.Item wraps multiple controls in a row:
           <Field.Root>
             <Field.Label>Phone</Field.Label>
@@ -105,9 +105,15 @@ import { Input } from '@tale-ui/react/input';
     ```
 
 <!-- pitfall: field-no-standalone-exports -->
+
 - **No standalone `FieldLabel`, `FieldError`, `FieldControl`, or `FieldDescription` exports** — All sub-parts are accessed through the `Field` namespace: `Field.Label`, `Field.Error`, `Field.Control`, `Field.Description`.
   - anti-pattern: `import { FieldLabel } from '@tale-ui/react/field'`
   - fix: `import { Field } from '@tale-ui/react/field'`
+
+<!-- pitfall: field-control-uses-plain-input -->
+- **Inside Field.Control, use a plain `<input className="tale-input">` — never `Input.Root > Input.Field`** — `Input.Field` is not a valid sub-part of the `Input` namespace; using it causes "Property 'Field' does not exist" TypeScript errors. Place a native `<input className="tale-input">` directly inside `Field.Control`.
+  - anti-pattern: `<Field.Control><Input.Root><Input.Field placeholder="..." /></Input.Root></Field.Control>`
+  - fix: `<Field.Control><input className="tale-input" placeholder="..." /></Field.Control>`
 
 ## Notes
 

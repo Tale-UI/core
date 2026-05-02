@@ -50,9 +50,43 @@ import { SectionDivider } from '@tale-ui/react/section-divider';
 ## Pitfalls
 
 <!-- pitfall: section-divider-not-separator -->
-- **Use `Separator` not `SectionDivider` for in-component dividers** — `SectionDivider` is for page-level section breaks only. For UI dividers inside components (menus, cards, lists) use `Separator` instead.
+- **Use Separator not SectionDivider for in-component dividers** — `SectionDivider` is for page-level section breaks only. For UI dividers inside components (menus, cards, lists) use `Separator` instead.
   - anti-pattern: `<Menu><SectionDivider /></Menu>`
   - fix: `<Menu.Separator />`
+<!-- pitfall: sectiondivider-shorthand-tokens-no-compounds -->
+- **Column gap/Text variant props around SectionDivider use shorthand tokens, never compounds like 'sm', 'md', 'heading-m', or 'text-m'** — Column gap must be a spacing token (`'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`), not a component-size name (`'sm'`, `'md'`, `'lg'`); Text variant must be a standalone token like `'heading'` or `'text'`, never a compound string like `'heading-m'`, `'text-m'`, or `'body-m'`.
+  - anti-pattern: `<Column gap="sm"><Text variant="heading-m">Title</Text><Text variant="text-m">Body</Text></Column>`
+  - anti-pattern: `<Column gap="md"><Text variant="heading-m">Title</Text><Text variant="body-m">Body</Text></Column>`
+  - fix: `<Column gap="m"><Text variant="heading">Title</Text><Text variant="text">Body</Text></Column>`
+  - complete example:
+
+    ```tsx
+    import { SectionDivider } from '@tale-ui/react/section-divider';
+    import { Column } from '@tale-ui/react/column';
+    import { Text } from '@tale-ui/react/text';
+
+    export function SectionDividerExample() {
+      return (
+        <Column gap="xl">
+          <Column gap="m">
+            <Text variant="heading">Our Features</Text>
+            <Text variant="text" color="muted">
+              Discover everything our platform has to offer.
+            </Text>
+          </Column>
+
+          <SectionDivider />
+
+          <Column gap="m">
+            <Text variant="heading">Pricing</Text>
+            <Text variant="text" color="muted">
+              Simple, transparent pricing with no hidden fees.
+            </Text>
+          </Column>
+        </Column>
+      );
+    }
+    ```
 
 ## Notes
 

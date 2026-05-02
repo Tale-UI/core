@@ -78,9 +78,13 @@ Accepts all React Aria `Form` props plus an optional `className`. See the `@exam
     ```
 
 <!-- pitfall: form-method-lowercase -->
-- **`method` prop requires lowercase values** — Valid values are `"get"`, `"post"`, and `"dialog"`. Uppercase values like `"GET"` or `"POST"` are not valid.
+- **method prop requires lowercase values** — Valid values are `"get"`, `"post"`, and `"dialog"`. Uppercase values like `"GET"` or `"POST"` are not valid.
   - anti-pattern: `<Form method="POST">`
   - fix: `<Form method="post">`
+<!-- pitfall: when-wrapping-form-fields-in -->
+- **When wrapping form fields in Column, use spacing-token gap values, not component-size names** — `gap="md"` is not a valid `Gap` value and causes `Type '"md"' is not assignable to type 'Gap | undefined'`; use `gap="s"` for tight field stacks (recommended for forms) or `gap="m"` for looser spacing.
+  - anti-pattern: `<Column gap="md">`
+  - fix: `<Column gap="s">`
 
 ## Notes
 

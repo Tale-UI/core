@@ -107,9 +107,31 @@ Also accepts all React Aria `ProgressBar` props.
     ```
 
 <!-- pitfall: progress-circle-size-valid-values -->
-- **`size` only accepts `'sm'`, `'md'`, `'lg'`** — NOT the short forms `'s'`, `'m'`, `'l'`, and NOT `'xl'`.
+- **size only accepts 'sm', 'md', 'lg'** — NOT the short forms `'s'`, `'m'`, `'l'`, and NOT `'xl'`.
   - anti-pattern: `<ProgressCircle.Root size="m" />`
   - fix: `<ProgressCircle.Root size="md" />`
+<!-- pitfall: progress-circle-shorthand-tokens-in-column -->
+- **`Column`/`Text` props around `ProgressCircle` use shorthand tokens — `gap="s"`, `size="s"`, `color="muted"`** — `Column gap="sm"` is not a valid `Gap` value (use `gap="s"`); `Text size="sm"` is not valid for `Text` (use `size="s"`); `Text color="secondary"` is not a valid `Color` on `Text` (use `color="muted"` for supporting copy).
+  - anti-pattern: `<Column gap="sm"><ProgressCircle.Root value={65}><ProgressCircle.Track /></ProgressCircle.Root><Text size="sm" color="secondary">65%</Text></Column>`
+  - fix: `<Column gap="s"><ProgressCircle.Root value={65}><ProgressCircle.Track /></ProgressCircle.Root><Text size="s" color="muted">65%</Text></Column>`
+  - complete example:
+
+    ```tsx
+    import { ProgressCircle } from '@tale-ui/react/progress-circle';
+    import { Column } from '@tale-ui/react/column';
+    import { Text } from '@tale-ui/react/text';
+    
+    export function UploadProgress() {
+      return (
+        <Column gap="s" align="center">
+          <ProgressCircle.Root value={65} size="lg" aria-label="Upload progress">
+            <ProgressCircle.Track />
+          </ProgressCircle.Root>
+          <Text size="s" color="muted">Uploading… 65%</Text>
+        </Column>
+      );
+    }
+    ```
 
 ## Notes
 

@@ -135,6 +135,21 @@ const [value, setValue] = React.useState('');
       );
     }
     ```
+<!-- pitfall: when-showing-conditional-feedback-text -->
+- **When showing conditional feedback text after PIN entry, use `Text color="muted"` plus `size="s"`** — `Text` only accepts `'default'`, `'muted'`, and `'accent'` as color values, and status tokens such as `'success'` are not valid on `Text`. `size="sm"` is also invalid because `Text` size uses single-letter tokens.
+  - anti-pattern: `<Text size="sm" color="success">Code entered: {value}</Text>`
+  - fix: `<Text size="s" color="muted">Code entered: {value}</Text>`
+
+<!-- pitfall: pin-input-column-gap-uses-spacing-tokens -->
+- **When wrapping PinInput in a Column, use spacing-token gap values** — use `gap="m"` or another spacing token, not a component-size name such as `gap="md"`.
+  - anti-pattern: `<Column gap="md"><PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root></Column>`
+  - fix: `<Column gap="m"><PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root></Column>`
+
+#### Popover
+<!-- pitfall: when-labeling-a-pininput-with -->
+- **When labeling a PinInput with Text, use variant="label" — Text has no weight prop** — passing `weight="medium"` on a `<Text>` label causes `Type '{ children: string; weight: string; }' is not assignable to type 'TextProps'`. Use `variant="label"` for label-weight text instead.
+  - anti-pattern: `<Text weight="medium">Verification code</Text>`
+  - fix: `<Text variant="label">Verification code</Text>`
 
 ## Notes
 

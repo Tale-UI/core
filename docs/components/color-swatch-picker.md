@@ -87,6 +87,13 @@ import { ColorSwatch } from '@tale-ui/react/color-swatch';
   - anti-pattern: `import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatch color="#3b82f6" />; }`
   - fix: `import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker'; import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatchPicker.Root defaultValue="#3b82f6"><ColorSwatchPicker.Item color="#3b82f6"><ColorSwatch /></ColorSwatchPicker.Item></ColorSwatchPicker.Root>; }`
 
+<!-- pitfall: color-swatch-picker-text-uses-label-and-muted -->
+- **Use Tale UI `Text` props for ColorSwatchPicker labels plus selected-color output** — `Text` has no `weight` prop; passing `weight="medium"` causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. Use `variant="label"` for the label, and use `color="muted"` instead of an inline `style={{ color: ... }}` for selected-color display text.
+  - anti-pattern: `<Text weight="medium">Color palette</Text>`
+  - anti-pattern: `<Text size="s" style={{ color: 'var(--neutral-60)' }}>Selected: {color.toString('css')}</Text>`
+  - fix: `<Text variant="label">Color palette</Text>`
+  - fix: `<Text size="s" color="muted">Selected: {color.toString('css')}</Text>`
+
 ## Notes
 
 - Each `Item` accepts a `color` prop specifying the swatch color.

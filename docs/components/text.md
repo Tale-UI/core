@@ -103,9 +103,13 @@ Also accepts all standard HTML attributes for the rendered element.
     ```
 
 <!-- pitfall: text-size-valid-values -->
-- **`size` only accepts `'xs'`, `'s'`, `'m'`, `'l'`** — no other size tokens are valid.
+- **size only accepts 'xs', 's', 'm', 'l'** — no other size tokens are valid.
   - anti-pattern: `<Text size="sm">Hello</Text>`
+  - anti-pattern: `<Text size="md">Hello</Text>`
+  - anti-pattern: `<Text size="lg">Hello</Text>`
   - fix: `<Text size="s">Hello</Text>`
+  - fix: `<Text size="m">Hello</Text>`
+  - fix: `<Text size="l">Hello</Text>`
 
 <!-- pitfall: text-mono-not-code -->
 - **Monospace variant is `"mono"`, NOT `"code"`** — use `variant="mono"` for monospace text.
@@ -113,13 +117,22 @@ Also accepts all standard HTML attributes for the rendered element.
   - fix: `<Text variant="mono">console.log(x)</Text>`
 
 <!-- pitfall: text-no-invalid-variants -->
-- **variant+size compound strings like 'heading-m' or 'body-m' are not valid — always pass them as two separate props** — compound strings fail TypeScript; there is also no `'body'` variant, use `variant="text"` for body copy. When generating heading+body content-section pairs, also use `color="muted"` (not `color="secondary"`) for supporting text.
+- **variant+size compound strings like 'heading-m', 'heading-l', 'heading-xl', 'body-m', 'label-m', or 'label-l' are not valid — always pass them as two separate props** — compound strings fail TypeScript; there is also no `'body'` variant, use `variant="text"` for body copy. When generating heading+body content-section pairs, also use `color="muted"` (not `color="secondary"`) for supporting text.
+  - anti-pattern: `<Text variant="heading-xl">Title</Text>`
+  - anti-pattern: `<Text variant="heading-l">Title</Text>`
   - anti-pattern: `<Text variant="heading-m">Title</Text>`
   - anti-pattern: `<Text variant="body-m">Description</Text>`
   - anti-pattern: `<Text variant="body-m" color="secondary">Description</Text>`
+  - anti-pattern: `<Text variant="label-l">Label</Text>`
+  - anti-pattern: `<Text variant="label-m">Label</Text>`
+  - fix: `<Text variant="heading" size="l">Title</Text>`
+  - fix: `<Text variant="heading" size="m">Title</Text>`
   - fix: `<Text variant="heading">Title</Text>`
   - fix: `<Text variant="text" size="m">Description</Text>`
   - fix: `<Text variant="text" size="m" color="muted">Description</Text>`
+  - fix: `<Text variant="label">Label</Text>`
+  - fix: `<Text variant="label" size="l">Label</Text>`
+  - fix: `<Text variant="label" size="m">Label</Text>`
 
 <!-- pitfall: text-no-html-for-prop -->
 - **No `htmlFor` prop on `Text`** — use `as="label"` and pass `htmlFor` as a standard HTML attribute.
@@ -127,11 +140,13 @@ Also accepts all standard HTML attributes for the rendered element.
   - fix: `<Text as="label" htmlFor="email">Email</Text>`
 
 <!-- pitfall: text-as-prop-valid-elements -->
-- **as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'** — not `'strong'`, `'code'`, `'pre'`, `'kbd'`, or other elements. For keyboard shortcut markup use a native `<kbd>` HTML element directly.
+- **as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'** — not `'strong'`, `'code'`, `'pre'`, `'kbd'`, or other elements. For keyboard shortcut markup use a native `<kbd>` HTML element directly. For inline monospace/code snippets, use `variant="mono"` without `as="code"` — `"code"` is not a valid TextElement and causes a TypeScript error.
   - anti-pattern: `<Text as="strong">Bold</Text>`
   - anti-pattern: `<Text as="kbd">⌘ S</Text>`
+  - anti-pattern: `<Text variant="mono" as="code">pnpm install</Text>`
   - fix: `<Text variant="label">Bold</Text>`
   - fix: `<kbd>⌘ S</kbd>`
+  - fix: `<Text variant="mono" as="span">pnpm install</Text>`
 
 <!-- pitfall: text-color-valid-values -->
 - **`color` only accepts `'default'`, `'muted'`, `'accent'`** — no other color values are valid.
@@ -154,21 +169,30 @@ Also accepts all standard HTML attributes for the rendered element.
   - anti-pattern: `<Text color="neutral">Note</Text>`
   - anti-pattern: `<Text color="secondary">Note</Text>`
   - anti-pattern: `<Text color="success">Online</Text>`
+  - anti-pattern: `<Text color="danger">Error message</Text>`
   - fix: `<Text color="muted">Note</Text>`
 <!-- pitfall: no-link-code-or-caption -->
 - **No 'link', 'code', or 'caption' variant** — valid values are `'display'`, `'heading'`, `'title'`, `'label'`, `'text'`, `'mono'`.
   - anti-pattern: `<Text variant="caption">Fine print</Text>`
   - fix: `<Text variant="label">Fine print</Text>`
 <!-- pitfall: never-apply-nonlayout-inline-styles -->
-- **Never apply non-layout inline styles (fontWeight, fontSize, textDecoration, fontStyle) to Text** — use `variant` and `size` props for typography control; for bold labels inside buttons or icon-only toggles, use a plain text node rather than a `<Text>` wrapper with `style={{ fontWeight: ... }}`.
+- **Never apply non-layout inline styles (color, fontWeight, fontSize, textDecoration, fontStyle) to Text** — use `variant`, `size`, and `color` props for typography control; for bold labels inside buttons or icon-only toggles, use a plain text node rather than a `<Text>` wrapper with `style={{ fontWeight: ... }}`. For tinted or muted text, use the `color` prop (`'default'`, `'muted'`, or `'accent'`) — never a CSS `color` inline style.
+  - anti-pattern: `<Text style={{ color: 'var(--neutral-60)' }}>Note</Text>`
+  - fix: `<Text color="muted">Note</Text>`
   - anti-pattern: `<Text as="span" style={{ fontWeight: 700 }}>B</Text>`
   - fix: `B`
 <!-- pitfall: text-has-no-weight-prop -->
-- **Text has no weight prop — use variant="label" for label-weight text** — there is no `weight` prop on `Text`; passing `weight="medium"` or any weight string causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. To render bold or label-weight text use `variant="label"`.
+- **Text has no weight prop — use variant="label" for label-weight text** — there is no `weight` prop on `Text`; passing `weight="medium"` or any weight string causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. To render bold or label-weight text use `variant="label"`. This applies everywhere Text appears, including inside Disclosure.Trigger, accordion headers, and other trigger labels.
   - anti-pattern: `<Text weight="medium">Plan Name</Text>`
+  - anti-pattern: `<Text weight="semibold">Color Palette</Text>`
+  - anti-pattern: `<Text weight="medium">What is included?</Text>`
   - anti-pattern: `<Text size="m" weight="medium">Plan Name</Text>`
+  - anti-pattern: `<Text weight="semibold" size="lg">Title</Text>`
   - fix: `<Text variant="label">Plan Name</Text>`
+  - fix: `<Text variant="label">Color Palette</Text>`
+  - fix: `<Text variant="label">What is included?</Text>`
   - fix: `<Text size="m" variant="label">Plan Name</Text>`
+  - fix: `<Text variant="label" size="l">Title</Text>`
 
 ## Notes
 

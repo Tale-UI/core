@@ -106,3 +106,20 @@ import { ChartContainer } from '@tale-ui/charts';
 - All Tale UI design tokens are used for grid, axis, tooltip styling — dark mode works automatically.
 
 ## Pitfalls
+
+<!-- pitfall: areachart-has-no-cartesiangrid-xaxis -->
+- **AreaChart exposes only `Root`, `Area`, `Tooltip` sub-parts — never use `CartesianGrid`, `XAxis`, or `YAxis` members** — using `AreaChart.CartesianGrid`, `AreaChart.XAxis`, or `AreaChart.YAxis` causes `Property 'CartesianGrid' does not exist` TypeScript errors because these recharts-style children are not exposed on the AreaChart namespace. Grid and axis display are built-in to `AreaChart.Root`; pass `showGrid`, `showXAxis`, and `showYAxis` as boolean props on `AreaChart.Root` to enable them.
+  - anti-pattern: `<AreaChart.CartesianGrid strokeDasharray="3 3" />`
+  - anti-pattern: `<AreaChart.XAxis dataKey="month" />`
+  - anti-pattern: `<AreaChart.YAxis />`
+  - fix: `<AreaChart.Root data={data} showGrid showXAxis showYAxis>`
+  - fix: `<AreaChart.Area dataKey="revenue" />`
+  - fix: `<AreaChart.Tooltip />`
+<!-- pitfall: areachartroot-does-not-accept-data -->
+- **AreaChart.Root does not accept `showGrid`, `showXAxis`, or `showYAxis` props — keep `data` on `AreaChart.Root` only** — `data`, `showGrid`, `showXAxis`, and `showYAxis` are not part of `RootProps`; passing them on `AreaChart.Root` causes `Type '{ children: Element[]; data: ...; showGrid: true; ... }' is not assignable to type 'IntrinsicAttributes & RootProps'`. Pass `data` to `AreaChart.Area` and use `AreaChart.Grid`, `AreaChart.XAxis`, and `AreaChart.YAxis` as explicit child components inside `AreaChart.Root`.
+  - anti-pattern: `<AreaChart.Root data={data} showGrid showXAxis showYAxis>`
+  - fix: `<AreaChart.Root><AreaChart.Grid /><AreaChart.XAxis dataKey="month" /><AreaChart.YAxis /><AreaChart.Area data={data} dataKey="revenue" /><AreaChart.Tooltip /></AreaChart.Root>`
+<!-- pitfall: data-prop-belongs-on-areachartroot -->
+- **data prop belongs on AreaChart.Root, not on AreaChart.Area** — `AreaChart.Root` requires `data` as a required prop; passing `data` to `AreaChart.Area` instead causes `Property 'data' is missing in type '{ children: Element[]; }' but required in type 'RootProps'`.
+  - anti-pattern: `<AreaChart.Root><AreaChart.Area data={data} dataKey="revenue" /></AreaChart.Root>`
+  - fix: `<AreaChart.Root data={data}><AreaChart.Area dataKey="revenue" /></AreaChart.Root>`

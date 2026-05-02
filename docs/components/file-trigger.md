@@ -63,9 +63,20 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
   - anti-pattern: `onSelect={(list) => Array.from(list).map(...)}`
   - fix: `onSelect={(list) => { if (list) { Array.from(list).map(...) } }}`
 <!-- pitfall: when-displaying-the-selected-filename -->
-- **When displaying the selected filename with Text, use `color="muted"` — never `variant="body-m"` or `color="secondary"`** — `variant="body-m"` is a compound token string that does not exist as a `Variant`; `color="secondary"` is not a valid `Color` on `Text`. For supporting text such as a filename label, use `<Text color="muted">`.
-  - anti-pattern: `<Text variant="body-m" color="secondary">{fileName}</Text>`
-  - fix: `<Text color="muted">{fileName}</Text>`
+- **When displaying the selected filename with `Text`, use `color="muted"` plus `size="s"`** — `color="secondary"` and `variant="body-m"` do not exist on `Text`, and `size="sm"` is invalid because `Text` size uses single-letter tokens (`'xs'`, `'s'`, `'m'`, `'l'`).
+  - anti-pattern: `<Text size="sm" color="secondary">{fileName}</Text>`
+  - anti-pattern: `<Text variant="body-m">{fileName}</Text>`
+  - fix: `<Text size="s" color="muted">{fileName}</Text>`
+
+<!-- pitfall: file-trigger-upload-button-uses-neutral-variant -->
+- **For FileTrigger upload actions, use `Button variant="neutral"` instead of `variant="secondary"`** — `Button` has no `"secondary"` variant; use `"neutral"` for secondary-action upload buttons.
+  - anti-pattern: `<FileTrigger><Button variant="secondary">Upload file</Button></FileTrigger>`
+  - fix: `<FileTrigger><Button variant="neutral">Upload file</Button></FileTrigger>`
+
+<!-- pitfall: file-trigger-column-gap-uses-spacing-tokens -->
+- **When wrapping FileTrigger in `Column`, use spacing-token gap values** — `gap="sm"` is not a valid `Gap` value; use `gap="s"` instead.
+  - anti-pattern: `<Column gap="sm"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>`
+  - fix: `<Column gap="s"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>`
 
 ## Notes
 

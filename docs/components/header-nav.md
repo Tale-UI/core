@@ -139,7 +139,9 @@ import { HeaderNav } from '@tale-ui/react/header-nav';
 <!-- applies-to: HeaderNav -->
 - **HeaderNav.MobileTrigger requires children — omitting them causes a TypeScript error 'Property children is missing in type {} but required in type HeaderNavMobileTriggerProps'** — it does not render any content automatically; pass an `<Icon>` child (e.g. a hamburger menu icon) so the button has visible and accessible content. Import `Icon` from `@tale-ui/react/icon` and the icon (e.g. `Menu`) from `lucide-react`.
   - anti-pattern: `<HeaderNav.MobileTrigger />`
+  - anti-pattern: `import { HeaderNav } from '@tale-ui/react/header-nav'; // missing Icon and Menu imports causes self-closing MobileTrigger`
   - fix: `<HeaderNav.MobileTrigger><Icon icon={Menu} size="sm" /></HeaderNav.MobileTrigger>`
+  - fix: `import { Icon } from '@tale-ui/react/icon'; import { Menu } from 'lucide-react'; // always add these alongside HeaderNav when MobileTrigger is present`
 
 <!-- pitfall: header-nav-text-needs-separate-import -->
 <!-- applies-to: HeaderNav -->

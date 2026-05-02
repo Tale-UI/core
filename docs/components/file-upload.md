@@ -208,3 +208,7 @@ import { FileIcon } from '@untitledui/file-icons';
   - anti-pattern: `// empty file`
   - anti-pattern: `import { DropZone } from '@tale-ui/react/drop-zone'; export function UploadArea() { return <DropZone />; }`
   - fix: `import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept="image/*,.pdf" maxSize={5 * 1024 * 1024} /><FileUpload.List><FileUpload.ListItemProgressBar name="photo.png" size={1200000} progress={60} /></FileUpload.List></FileUpload.Root>; }`
+<!-- pitfall: fileuploaddropzone-ondropfiles-receives-filelist -->
+- **`onDropFiles` callback receives `FileList`, not `File[]`** — the `onDropFiles` prop on `FileUpload.DropZone` is typed as `(files: FileList) => void`; annotating the handler parameter as `File[]` causes `Type '(rawFiles: File[]) => void' is not assignable to type '(files: FileList) => void'`. Type the parameter as `FileList` and use `Array.from()` to iterate over the files.
+  - anti-pattern: `<FileUpload.DropZone onDropFiles={(rawFiles: File[]) => handleFiles(rawFiles)} />`
+  - fix: `function handleFiles(rawFiles: FileList) { const entries = Array.from(rawFiles).map(file => ({ id: crypto.randomUUID(), name: file.name, size: file.size, progress: 0 })); }`

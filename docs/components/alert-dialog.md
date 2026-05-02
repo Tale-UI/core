@@ -80,6 +80,11 @@ function Example() {
   - anti-pattern: `<AlertDialog.Popup><AlertDialog.Title>...</AlertDialog.Title></AlertDialog.Popup>`
   - fix: `<AlertDialog.Popup><AlertDialog.Content><AlertDialog.Title>...</AlertDialog.Title></AlertDialog.Content></AlertDialog.Popup>`
 
+<!-- pitfall: alert-dialog-trigger-needs-base-class -->
+- **`AlertDialog.Trigger` requires the base `tale-button` class** — unlike most styled wrappers, the trigger applies `tale-alert-dialog__trigger` (a positioning hook), not `tale-button`. Variant/size modifiers alone give color and dimensions but no padding, border-radius, or font styling.
+  - anti-pattern: `<AlertDialog.Trigger className="tale-button--danger tale-button--md">`
+  - fix: `<AlertDialog.Trigger className="tale-button tale-button--danger tale-button--md">`
+
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 <!-- cross-pitfall-ref: no-button-inside-trigger -->
 <!-- cross-pitfall-ref: isopen-on-dialog-and-alert-dialog -->

@@ -351,6 +351,11 @@ import { DotIcon } from '@tale-ui/react/dot-icon';
   - anti-pattern: `<Avatar.ProfilePhoto size="2xl">`
   - fix: `<Avatar.ProfilePhoto size="lg">`
 
+<!-- pitfall: use-avatargroup-with-avatarcount-for-overflow-prompts -->
+- **Use `Avatar.Group` with `Avatar.Count` for prompts that ask for stacked avatars with overflow** — when the request is for a group of layered avatars showing an overflow label (for example `+5`), render `Avatar.Group` with individual `Avatar.Root` children and `Avatar.Count` for the overflow string instead of leaving the file empty. Pass the overflow label as children to `Avatar.Count` — there is no `count` prop.
+  - anti-pattern: `// empty file`
+  - fix: `import { Avatar } from '@tale-ui/react/avatar'; export function StackedAvatars() { return <Avatar.Group size="md"><Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root><Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root><Avatar.Root><Avatar.Fallback>EF</Avatar.Fallback></Avatar.Root><Avatar.Count>+5</Avatar.Count></Avatar.Group>; }`
+
 ## Notes
 
 - Always include a `Fallback` alongside `Image` so initials display while the image loads or if it fails.

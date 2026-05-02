@@ -49,7 +49,6 @@ Extends `ListBoxItemProps` from `react-aria-components`.
 
 ```tsx
 import * as React from 'react';
-import type { Key } from 'react-aria-components';
 import { TagSelect } from '@tale-ui/react/tag-select';
 
 const people = [
@@ -60,7 +59,10 @@ const people = [
 ];
 
 export function TeamPicker() {
-  const [selected, setSelected] = React.useState<Set<Key>>(new Set());
+  type SelectionValue = Parameters<
+    NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>
+  >[0];
+  const [selected, setSelected] = React.useState<SelectionValue>(new Set());
 
   return (
     <TagSelect.Root
@@ -184,4 +186,4 @@ const users = [
 **Always set `textValue` on `TagSelect.Item`.** The combobox uses `textValue` to filter items as the user types. Without it, typing will show no results.
 
 <!-- pitfall:tag-select-controlled -->
-**Use `Set<Key>` from `react-aria-components`, not a plain JS Set type.** Import `type { Key } from 'react-aria-components'` and type your state as `Set<Key>`.
+**Never import `Key` or `Selection` from `react-aria-components` for TagSelect selection state.** Derive the selection type from `TagSelect.Root` props with `React.ComponentProps`, or omit the state type annotation entirely.

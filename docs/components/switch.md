@@ -98,7 +98,7 @@ Accepts all React Aria `Switch` props plus:
 
 <!-- pitfall: switch-no-label-indicator-sub-parts -->
 <!-- multi-idea-ok -->
-- **No `Label` or `Indicator` sub-parts — only `Root` and `Thumb`** — `Switch` has only `Switch.Root` and `Switch.Thumb`. Label text is placed as a direct child of `Switch.Root`, not in a sub-part.
+- **No Label or Indicator sub-parts — only Root and Thumb** — `Switch` has only `Switch.Root` and `Switch.Thumb`. Label text is placed as a direct child of `Switch.Root`, not in a sub-part.
   - anti-pattern: `<Switch.Label>Enable</Switch.Label>`
   - fix: `<Switch.Root><Switch.Thumb />Enable</Switch.Root>`
   - complete example:
@@ -116,6 +116,15 @@ Accepts all React Aria `Switch` props plus:
     ```
 
 <!-- cross-pitfall-ref: no-visual-exports-for-interactive-ui -->
+<!-- pitfall: use-defaultselected-to-turn-a -->
+- **Use `defaultSelected` to turn a switch on by default in settings rows** — `Switch.Root` accepts `defaultSelected` (uncontrolled initial state) or `isSelected`/`onChange` (controlled). For a settings-card layout with a label on the left and the switch on the right, place `<Text>` and `<Switch.Root>` inside a `<Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>` — do not rely on text flowing after `<Switch.Thumb />` for this pattern.
+  - anti-pattern: `<Switch.Root on><Switch.Thumb />Email notifications</Switch.Root>`
+  - fix: `<Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>Email notifications</Text><Switch.Root defaultSelected><Switch.Thumb /></Switch.Root></Row>`
+
+<!-- pitfall: use-switch-card-layout-for-settings-prompts -->
+- **Use `Switch`, `Card`, `Column`, `Row`, `Text` for settings-card prompts with preference switches** — when the request is to show a card containing labeled toggle switches, render `Card.Root` with `Card.Header` plus `Card.Body`, wrap each switch row in `<Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>` with a `<Text>` label on the left and `<Switch.Root>` on the right, and stack all rows in `<Column gap="s">` inside `Card.Body` instead of leaving the file empty.
+  - anti-pattern: `// empty file`
+  - fix: `import { Card } from '@tale-ui/react/card'; import { Switch } from '@tale-ui/react/switch'; import { Column } from '@tale-ui/react/column'; import { Row } from '@tale-ui/react/row'; import { Text } from '@tale-ui/react/text'; export function NotificationSettings() { return <Card.Root><Card.Header><Text variant="heading">Notification Preferences</Text></Card.Header><Card.Body><Column gap="s"><Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>Email notifications</Text><Switch.Root defaultSelected><Switch.Thumb /></Switch.Root></Row><Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>Push notifications</Text><Switch.Root><Switch.Thumb /></Switch.Root></Row><Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>SMS notifications</Text><Switch.Root><Switch.Thumb /></Switch.Root></Row></Column></Card.Body></Card.Root>; }`
 
 ## Notes
 

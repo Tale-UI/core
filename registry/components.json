@@ -168,6 +168,17 @@
           "fixes": [
             "<AlertDialog.Popup><AlertDialog.Content><AlertDialog.Title>...</AlertDialog.Title></AlertDialog.Content></AlertDialog.Popup>"
           ]
+        },
+        {
+          "id": "alert-dialog-trigger-needs-base-class",
+          "summary": "AlertDialog.Trigger requires the base tale-button class",
+          "detail": "unlike most styled wrappers, the trigger applies `tale-alert-dialog__trigger` (a positioning hook), not `tale-button`. Variant/size modifiers alone give color and dimensions but no padding, border-radius, or font styling.",
+          "antiPatterns": [
+            "<AlertDialog.Trigger className=\"tale-button--danger tale-button--md\">"
+          ],
+          "fixes": [
+            "<AlertDialog.Trigger className=\"tale-button tale-button--danger tale-button--md\">"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -272,7 +283,8 @@
       "examples": [
         "import { useFilter } from '@tale-ui/react/autocomplete';\n\nfunction SearchPanel() {\n  let { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search fruits\">\n        <Autocomplete.Input placeholder=\"Search fruits...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Fruits\">\n        <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n        <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        <Autocomplete.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Autocomplete.Item>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}",
         "import { useFilter } from '@tale-ui/react/autocomplete';\n\nfunction ProduceSearch() {\n  let { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search produce\">\n        <Autocomplete.Input placeholder=\"Search produce...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Produce\">\n        <Autocomplete.Section>\n          <Autocomplete.Header>Fruits</Autocomplete.Header>\n          <Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item>\n          <Autocomplete.Item id=\"banana\" textValue=\"Banana\">Banana</Autocomplete.Item>\n        </Autocomplete.Section>\n        <Autocomplete.Section>\n          <Autocomplete.Header>Vegetables</Autocomplete.Header>\n          <Autocomplete.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Autocomplete.Item>\n          <Autocomplete.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Autocomplete.Item>\n        </Autocomplete.Section>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}",
-        "import { Autocomplete } from '@tale-ui/react/autocomplete';\n    \n    export function Example() {\n      return (\n        <Autocomplete.Root>\n          <Autocomplete.SearchField>\n            <Autocomplete.Input placeholder=\"Search...\" />\n          </Autocomplete.SearchField>\n          <Autocomplete.ListBox>\n            <Autocomplete.Item id=\"apple\">Apple</Autocomplete.Item>\n            <Autocomplete.Item id=\"banana\">Banana</Autocomplete.Item>\n          </Autocomplete.ListBox>\n        </Autocomplete.Root>\n      );\n    }"
+        "import { Autocomplete } from '@tale-ui/react/autocomplete';\n    \n    export function Example() {\n      return (\n        <Autocomplete.Root>\n          <Autocomplete.SearchField>\n            <Autocomplete.Input placeholder=\"Search...\" />\n          </Autocomplete.SearchField>\n          <Autocomplete.ListBox>\n            <Autocomplete.Item id=\"apple\">Apple</Autocomplete.Item>\n            <Autocomplete.Item id=\"banana\">Banana</Autocomplete.Item>\n          </Autocomplete.ListBox>\n        </Autocomplete.Root>\n      );\n    }",
+        "import { Autocomplete, useFilter } from '@tale-ui/react/autocomplete';\n\n    const fruits = [\n      { id: 'apple', label: 'Apple' },\n      { id: 'banana', label: 'Banana' },\n      { id: 'cherry', label: 'Cherry' },\n      { id: 'grape', label: 'Grape' },\n      { id: 'mango', label: 'Mango' },\n      { id: 'orange', label: 'Orange' },\n    ];\n\n    export function FruitAutocomplete() {\n      const { contains } = useFilter({ sensitivity: 'base' });\n      return (\n        <Autocomplete.Root filter={contains}>\n          <Autocomplete.SearchField aria-label=\"Search fruits\">\n            <Autocomplete.Input placeholder=\"Search fruits...\" />\n          </Autocomplete.SearchField>\n          <Autocomplete.ListBox aria-label=\"Fruits\">\n            {fruits.map((fruit) => (\n              <Autocomplete.Item key={fruit.id} id={fruit.id} textValue={fruit.label}>\n                {fruit.label}\n              </Autocomplete.Item>\n            ))}\n          </Autocomplete.ListBox>\n        </Autocomplete.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-autocomplete__input",
@@ -302,14 +314,15 @@
         {
           "id": "use-autocomplete-for-any-prompt",
           "summary": "Use <Autocomplete> for any prompt that asks for an autocomplete, inline search, or a filtered list of options",
-          "detail": "when the request is to search/filter items such as fruits, countries, commands, or members, render `Autocomplete.Root` with `useFilter`, `Autocomplete.SearchField`, `Autocomplete.Input`, and `Autocomplete.ListBox` instead of leaving the file empty or substituting `SearchField` or `Combobox`.",
+          "detail": "when the request is to search/filter items such as fruits, countries, commands, or members, render `Autocomplete.Root` with `useFilter`, `Autocomplete.SearchField`, `Autocomplete.Input`, and `Autocomplete.ListBox` instead of leaving the file empty or substituting `SearchField` or `Combobox`.\n\n    ```tsx\n    import { Autocomplete, useFilter } from '@tale-ui/react/autocomplete';\n\n    const fruits = [\n      { id: 'apple', label: 'Apple' },\n      { id: 'banana', label: 'Banana' },\n      { id: 'cherry', label: 'Cherry' },\n      { id: 'grape', label: 'Grape' },\n      { id: 'mango', label: 'Mango' },\n      { id: 'orange', label: 'Orange' },\n    ];\n\n    export function FruitAutocomplete() {\n      const { contains } = useFilter({ sensitivity: 'base' });\n      return (\n        <Autocomplete.Root filter={contains}>\n          <Autocomplete.SearchField aria-label=\"Search fruits\">\n            <Autocomplete.Input placeholder=\"Search fruits...\" />\n          </Autocomplete.SearchField>\n          <Autocomplete.ListBox aria-label=\"Fruits\">\n            {fruits.map((fruit) => (\n              <Autocomplete.Item key={fruit.id} id={fruit.id} textValue={fruit.label}>\n                {fruit.label}\n              </Autocomplete.Item>\n            ))}\n          </Autocomplete.ListBox>\n        </Autocomplete.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file",
             "import { SearchField } from '@tale-ui/react/search-field'; export function FruitSearch() { return <SearchField.Root><SearchField.Input placeholder=\"Search fruits...\" /></SearchField.Root>; }"
           ],
           "fixes": [
-            "import { Autocomplete, useFilter } from '@tale-ui/react/autocomplete'; export function FruitAutocomplete() { const { contains } = useFilter({ sensitivity: 'base' }); return <Autocomplete.Root filter={contains}><Autocomplete.SearchField aria-label=\"Search fruits\"><Autocomplete.Input placeholder=\"Search fruits...\" /></Autocomplete.SearchField><Autocomplete.ListBox aria-label=\"Fruits\"><Autocomplete.Item id=\"apple\" textValue=\"Apple\">Apple</Autocomplete.Item></Autocomplete.ListBox></Autocomplete.Root>; }"
-          ]
+            "import { Autocomplete, useFilter } from '@tale-ui/react/autocomplete'; export function FruitAutocomplete() { const { contains } = useFilter({ sensitivity: 'base' }); const fruits = [{ id: 'apple', label: 'Apple' }, { id: 'banana', label: 'Banana' }, { id: 'cherry', label: 'Cherry' }]; return <Autocomplete.Root filter={contains}><Autocomplete.SearchField aria-label=\"Search fruits\"><Autocomplete.Input placeholder=\"Search fruits...\" /></Autocomplete.SearchField><Autocomplete.ListBox aria-label=\"Fruits\">{fruits.map((f) => <Autocomplete.Item key={f.id} id={f.id} textValue={f.label}>{f.label}</Autocomplete.Item>)}</Autocomplete.ListBox></Autocomplete.Root>; }"
+          ],
+          "completeExample": "import { Autocomplete, useFilter } from '@tale-ui/react/autocomplete';\n\nconst fruits = [\n  { id: 'apple', label: 'Apple' },\n  { id: 'banana', label: 'Banana' },\n  { id: 'cherry', label: 'Cherry' },\n  { id: 'grape', label: 'Grape' },\n  { id: 'mango', label: 'Mango' },\n  { id: 'orange', label: 'Orange' },\n];\n\nexport function FruitAutocomplete() {\n  const { contains } = useFilter({ sensitivity: 'base' });\n  return (\n    <Autocomplete.Root filter={contains}>\n      <Autocomplete.SearchField aria-label=\"Search fruits\">\n        <Autocomplete.Input placeholder=\"Search fruits...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox aria-label=\"Fruits\">\n        {fruits.map((fruit) => (\n          <Autocomplete.Item key={fruit.id} id={fruit.id} textValue={fruit.label}>\n            {fruit.label}\n          </Autocomplete.Item>\n        ))}\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": [
@@ -497,6 +510,17 @@
           "fixes": [
             "<Avatar.ProfilePhoto size=\"lg\">"
           ]
+        },
+        {
+          "id": "use-avatargroup-with-avatarcount-for-overflow-prompts",
+          "summary": "Use Avatar.Group with Avatar.Count for prompts that ask for stacked avatars with overflow",
+          "detail": "when the request is for a group of layered avatars showing an overflow label (for example `+5`), render `Avatar.Group` with individual `Avatar.Root` children and `Avatar.Count` for the overflow string instead of leaving the file empty. Pass the overflow label as children to `Avatar.Count` — there is no `count` prop.",
+          "antiPatterns": [
+            "// empty file"
+          ],
+          "fixes": [
+            "import { Avatar } from '@tale-ui/react/avatar'; export function StackedAvatars() { return <Avatar.Group size=\"md\"><Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root><Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root><Avatar.Root><Avatar.Fallback>EF</Avatar.Fallback></Avatar.Root><Avatar.Count>+5</Avatar.Count></Avatar.Group>; }"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -648,14 +672,14 @@
           "completeExample": "import { Badge } from '@tale-ui/react/badge';\n\nexport function Example() {\n  return (\n    <>\n      <Badge variant=\"success\">Active</Badge>\n      <Badge variant=\"error\" size=\"sm\">Failed</Badge>\n    </>\n  );\n}"
         },
         {
-          "id": "badge-no-color-prop",
-          "summary": "No color prop",
-          "detail": "use the `variant` prop to control color.",
+          "id": "use-badge-for-any-prompt",
+          "summary": "Use Badge for any prompt that asks for a badge, status label, or status indicator",
+          "detail": "when the request is to display a short status or category label such as \"Active\", \"Failed\", or \"New\", render `<Badge>` with the appropriate `variant` (`'success'`, `'error'`, `'warning'`, `'info'`, `'neutral'`) instead of leaving the file empty or substituting another component.\n\n#### BadgeGroup",
           "antiPatterns": [
-            "<Badge color=\"blue\">New</Badge>"
+            "// empty file"
           ],
           "fixes": [
-            "<Badge variant=\"info\">New</Badge>"
+            "<Badge variant=\"success\">Active</Badge>"
           ]
         }
       ],
@@ -917,15 +941,22 @@
       "pitfalls": [
         {
           "id": "breadcrumbs-use-breadcrumbs-link",
-          "summary": "Use Breadcrumbs.Link inside Breadcrumbs.Item, not a standalone <Link>",
-          "detail": "`Breadcrumbs.Link` provides separator and `data-current` styling that bare `<Link>` lacks.\n    ```tsx\n    import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';\n    \n    export function Example() {\n      return (\n        <Breadcrumbs.Root>\n          <Breadcrumbs.Item><Breadcrumbs.Link href=\"#\">Home</Breadcrumbs.Link></Breadcrumbs.Item>\n          <Breadcrumbs.Item><Breadcrumbs.Link href=\"#\">Products</Breadcrumbs.Link></Breadcrumbs.Item>\n          <Breadcrumbs.Item><Breadcrumbs.Link>Current Page</Breadcrumbs.Link></Breadcrumbs.Item>\n        </Breadcrumbs.Root>\n      );\n    }\n    ```",
+          "summary": "Do not import '@tale-ui/charts/styles' — chart styles are bundled automatically",
+          "detail": "there is no `@tale-ui/charts/styles` module; importing it causes `Cannot find module '@tale-ui/charts/styles'`. Remove the styles import entirely.\n\n#### Breadcrumbs\n    ```tsx\n    import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';\n    \n    export function Example() {\n      return (\n        <Breadcrumbs.Root>\n          <Breadcrumbs.Item><Breadcrumbs.Link href=\"#\">Home</Breadcrumbs.Link></Breadcrumbs.Item>\n          <Breadcrumbs.Item><Breadcrumbs.Link href=\"#\">Products</Breadcrumbs.Link></Breadcrumbs.Item>\n          <Breadcrumbs.Item><Breadcrumbs.Link>Current Page</Breadcrumbs.Link></Breadcrumbs.Item>\n        </Breadcrumbs.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
+            "import '@tale-ui/charts/styles';",
             "import { Link } from '@tale-ui/react/link'; <Breadcrumbs.Item><Link href=\"/\">Home</Link></Breadcrumbs.Item>"
           ],
           "fixes": [
+            "import { BarChart } from '@tale-ui/charts/bar-chart';",
             "<Breadcrumbs.Item><Breadcrumbs.Link href=\"/\">Home</Breadcrumbs.Link></Breadcrumbs.Item>"
           ],
           "completeExample": "import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';\n\nexport function Example() {\n  return (\n    <Breadcrumbs.Root>\n      <Breadcrumbs.Item><Breadcrumbs.Link href=\"#\">Home</Breadcrumbs.Link></Breadcrumbs.Item>\n      <Breadcrumbs.Item><Breadcrumbs.Link href=\"#\">Products</Breadcrumbs.Link></Breadcrumbs.Item>\n      <Breadcrumbs.Item><Breadcrumbs.Link>Current Page</Breadcrumbs.Link></Breadcrumbs.Item>\n    </Breadcrumbs.Root>\n  );\n}"
+        },
+        {
+          "id": "use-breadcrumbslink-inside-breadcrumbsitem-not",
+          "summary": "Use Breadcrumbs.Link inside Breadcrumbs.Item, not a standalone <Link>",
+          "detail": "`Breadcrumbs.Link` provides separator and `data-current` styling that bare `<Link>` lacks."
         }
       ],
       "crossPitfallRefs": null
@@ -1237,7 +1268,9 @@
         "<Card.Root variant=\"filled\">\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">\n      A filled card with a subtle background color.\n    </Text>\n  </Card.Body>\n</Card.Root>",
         "<Card.Root padding=\"sm\">\n  <Card.Body><Text>Small padding</Text></Card.Body>\n</Card.Root>\n\n<Card.Root padding=\"md\">\n  <Card.Body><Text>Medium padding (default)</Text></Card.Body>\n</Card.Root>\n\n<Card.Root padding=\"lg\">\n  <Card.Body><Text>Large padding</Text></Card.Body>\n</Card.Root>",
         "<Card.Root variant=\"outlined\" padding=\"md\">\n  <Card.Header>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"title\" size=\"m\">Team Members</Text>\n      <Badge variant=\"brand\">3 active</Badge>\n    </Row>\n  </Card.Header>\n  <Card.Body>\n    <Column gap=\"s\">\n      <Text variant=\"text\" size=\"m\">Alice Johnson</Text>\n      <Text variant=\"text\" size=\"m\">Bob Smith</Text>\n      <Text variant=\"text\" size=\"m\">Carol Lee</Text>\n    </Column>\n  </Card.Body>\n  <Card.Footer>\n    <Button variant=\"ghost\" size=\"sm\">View all</Button>\n  </Card.Footer>\n</Card.Root>",
-        "import { Card } from '@tale-ui/react/card';\n    \n    export function Example() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>Title</Card.Header>\n          <Card.Body>Content goes here.</Card.Body>\n          <Card.Footer>Footer actions</Card.Footer>\n        </Card.Root>\n      );\n    }"
+        "import { Card } from '@tale-ui/react/card';\n    \n    export function Example() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>Title</Card.Header>\n          <Card.Body>Content goes here.</Card.Body>\n          <Card.Footer>Footer actions</Card.Footer>\n        </Card.Root>\n      );\n    }",
+        "import { Card } from '@tale-ui/react/card';\n    import { Row } from '@tale-ui/react/row';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    import { Badge } from '@tale-ui/react/badge';\n\n    export function StatCards() {\n      return (\n        <Row gap=\"m\">\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Revenue</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">$48,200</Text>\n                <Badge variant=\"success\">+12%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Users</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">12,340</Text>\n                <Badge variant=\"success\">+8%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Orders</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">1,893</Text>\n                <Badge variant=\"error\">-3%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n        </Row>\n      );\n    }",
+        "import { Card } from '@tale-ui/react/card';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Badge } from '@tale-ui/react/badge';\n    import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Button } from '@tale-ui/react/button';\n    import { Pencil } from 'lucide-react';\n    \n    export function UserProfileCard() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>\n            <Image src=\"/profile.jpg\" alt=\"Sarah Chen\" radius=\"full\" width={80} height={80} />\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Text variant=\"heading\">Sarah Chen</Text>\n              <Text color=\"muted\">Senior Engineer</Text>\n              <Row gap=\"s\">\n                <Badge variant=\"neutral\">React</Badge>\n                <Badge variant=\"neutral\">TypeScript</Badge>\n              </Row>\n            </Column>\n          </Card.Body>\n          <Card.Footer>\n            <Row gap=\"s\">\n              <IconButton variant=\"ghost\" aria-label=\"Edit profile\">\n                <Icon icon={Pencil} />\n              </IconButton>\n              <Button variant=\"primary\">Message</Button>\n            </Row>\n          </Card.Footer>\n        </Card.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-card",
@@ -1300,6 +1333,30 @@
             "<Card.Header><Text color=\"muted\">Revenue</Text></Card.Header>",
             "<Card.Body><Column gap=\"s\"><Text variant=\"display\">$48,200</Text><Badge variant=\"success\">+12%</Badge></Column></Card.Body>"
           ]
+        },
+        {
+          "id": "use-card-row-column-text",
+          "summary": "Use Card + Row + Column + Text + Badge for any prompt that asks for stat cards, metric cards, or KPI cards",
+          "detail": "when the request is to display a row of cards each showing a label, a large value, and a trend badge, render `Card.Root` for each card with `Card.Header`/`Card.Body`, wrap card body content in `<Column gap=\"s\">`, and use `<Row gap=\"m\">` to lay the cards out horizontally instead of leaving the file empty.\n\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    import { Row } from '@tale-ui/react/row';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    import { Badge } from '@tale-ui/react/badge';\n\n    export function StatCards() {\n      return (\n        <Row gap=\"m\">\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Revenue</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">$48,200</Text>\n                <Badge variant=\"success\">+12%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Users</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">12,340</Text>\n                <Badge variant=\"success\">+8%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Orders</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">1,893</Text>\n                <Badge variant=\"error\">-3%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n        </Row>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "// empty file"
+          ],
+          "fixes": [
+            "import { Card } from '@tale-ui/react/card'; import { Row } from '@tale-ui/react/row'; import { Column } from '@tale-ui/react/column'; import { Text } from '@tale-ui/react/text'; import { Badge } from '@tale-ui/react/badge'; export function StatCards() { return <Row gap=\"m\"><Card.Root><Card.Header><Text color=\"muted\">Revenue</Text></Card.Header><Card.Body><Column gap=\"s\"><Text variant=\"display\">$48,200</Text><Badge variant=\"success\">+12%</Badge></Column></Card.Body></Card.Root></Row>; }"
+          ],
+          "completeExample": "import { Card } from '@tale-ui/react/card';\nimport { Row } from '@tale-ui/react/row';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\nimport { Badge } from '@tale-ui/react/badge';\n\nexport function StatCards() {\n  return (\n    <Row gap=\"m\">\n      <Card.Root>\n        <Card.Header><Text color=\"muted\">Revenue</Text></Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">$48,200</Text>\n            <Badge variant=\"success\">+12%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n      <Card.Root>\n        <Card.Header><Text color=\"muted\">Users</Text></Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">12,340</Text>\n            <Badge variant=\"success\">+8%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n      <Card.Root>\n        <Card.Header><Text color=\"muted\">Orders</Text></Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">1,893</Text>\n            <Badge variant=\"error\">-3%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n    </Row>\n  );\n}"
+        },
+        {
+          "id": "use-card-image-text-column",
+          "summary": "Use Card + Image + Text + Column + Row + Badge + IconButton + Icon + Button for any prompt that asks for a profile card, user card, or contact card",
+          "detail": "when the request is to display a user's profile photo, name, role/title, skill badges, and action buttons inside a card, render `Card.Root` with `Card.Header`, `Card.Body`, and `Card.Footer`; place `<Image>` in `Card.Header`, wrap body content in `<Column gap=\"s\">` inside `Card.Body`, and wrap footer actions in `<Row gap=\"s\">` inside `Card.Footer`. Use `variant=\"elevated\"` when the prompt requests an elevated card style.\n\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Badge } from '@tale-ui/react/badge';\n    import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Button } from '@tale-ui/react/button';\n    import { Pencil } from 'lucide-react';\n    \n    export function UserProfileCard() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>\n            <Image src=\"/profile.jpg\" alt=\"Sarah Chen\" radius=\"full\" width={80} height={80} />\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Text variant=\"heading\">Sarah Chen</Text>\n              <Text color=\"muted\">Senior Engineer</Text>\n              <Row gap=\"s\">\n                <Badge variant=\"neutral\">React</Badge>\n                <Badge variant=\"neutral\">TypeScript</Badge>\n              </Row>\n            </Column>\n          </Card.Body>\n          <Card.Footer>\n            <Row gap=\"s\">\n              <IconButton variant=\"ghost\" aria-label=\"Edit profile\">\n                <Icon icon={Pencil} />\n              </IconButton>\n              <Button variant=\"primary\">Message</Button>\n            </Row>\n          </Card.Footer>\n        </Card.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "// empty file"
+          ],
+          "fixes": [
+            "import { Card } from '@tale-ui/react/card'; import { Image } from '@tale-ui/react/image'; import { Text } from '@tale-ui/react/text'; import { Column } from '@tale-ui/react/column'; import { Row } from '@tale-ui/react/row'; import { Badge } from '@tale-ui/react/badge'; import { IconButton } from '@tale-ui/react/icon-button'; import { Icon } from '@tale-ui/react/icon'; import { Button } from '@tale-ui/react/button'; import { Pencil } from 'lucide-react'; export function UserProfileCard() { return <Card.Root variant=\"elevated\"><Card.Header><Image src=\"/profile.jpg\" alt=\"Sarah Chen\" radius=\"full\" width={80} height={80} /></Card.Header><Card.Body><Column gap=\"s\"><Text variant=\"heading\">Sarah Chen</Text><Text color=\"muted\">Senior Engineer</Text><Row gap=\"s\"><Badge variant=\"neutral\">React</Badge><Badge variant=\"neutral\">TypeScript</Badge></Row></Column></Card.Body><Card.Footer><Row gap=\"s\"><IconButton variant=\"ghost\" aria-label=\"Edit profile\"><Icon icon={Pencil} /></IconButton><Button variant=\"primary\">Message</Button></Row></Card.Footer></Card.Root>; }"
+          ],
+          "completeExample": "import { Card } from '@tale-ui/react/card';\nimport { Image } from '@tale-ui/react/image';\nimport { Text } from '@tale-ui/react/text';\nimport { Column } from '@tale-ui/react/column';\nimport { Row } from '@tale-ui/react/row';\nimport { Badge } from '@tale-ui/react/badge';\nimport { IconButton } from '@tale-ui/react/icon-button';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Button } from '@tale-ui/react/button';\nimport { Pencil } from 'lucide-react';\n\nexport function UserProfileCard() {\n  return (\n    <Card.Root variant=\"elevated\">\n      <Card.Header>\n        <Image src=\"/profile.jpg\" alt=\"Sarah Chen\" radius=\"full\" width={80} height={80} />\n      </Card.Header>\n      <Card.Body>\n        <Column gap=\"s\">\n          <Text variant=\"heading\">Sarah Chen</Text>\n          <Text color=\"muted\">Senior Engineer</Text>\n          <Row gap=\"s\">\n            <Badge variant=\"neutral\">React</Badge>\n            <Badge variant=\"neutral\">TypeScript</Badge>\n          </Row>\n        </Column>\n      </Card.Body>\n      <Card.Footer>\n        <Row gap=\"s\">\n          <IconButton variant=\"ghost\" aria-label=\"Edit profile\">\n            <Icon icon={Pencil} />\n          </IconButton>\n          <Button variant=\"primary\">Message</Button>\n        </Row>\n      </Card.Footer>\n    </Card.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -2019,13 +2076,17 @@
         {
           "id": "use-colorswatchpickerroot-for-any-prompt",
           "summary": "Use <ColorSwatchPicker.Root> for any prompt that asks for selectable color swatches, a color palette, or a swatch picker",
-          "detail": "when the request is to choose from a visible set of color options, render `ColorSwatchPicker.Root` with direct `ColorSwatchPicker.Item` children and a nested `ColorSwatch` for each option instead of leaving the file empty or substituting `ColorSwatch`, `ColorPicker`, or custom buttons.",
+          "detail": "when the request is to choose from a visible set of color options, render `ColorSwatchPicker.Root` with direct `ColorSwatchPicker.Item` children and a nested `ColorSwatch` for each option instead of leaving the file empty or substituting `ColorSwatch`, `ColorPicker`, or custom buttons.\n- **When labeling a ColorSwatchPicker or displaying the selected color string, use Text variant=\"label\" for the label and Text color=\"muted\" for the output — never the weight prop or inline color styles** — `Text` has no `weight` prop; passing `weight=\"medium\"` causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. For muted selected-color display text, use `color=\"muted\"` instead of an inline `style={{ color: ... }}`.",
           "antiPatterns": [
             "// empty file",
-            "import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatch color=\"#3b82f6\" />; }"
+            "import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatch color=\"#3b82f6\" />; }",
+            "<Text weight=\"medium\">Color palette</Text>",
+            "<Text size=\"s\" style={{ color: 'var(--neutral-60)' }}>Selected: {color.toString('css')}</Text>"
           ],
           "fixes": [
-            "import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker'; import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatchPicker.Root defaultValue=\"#3b82f6\"><ColorSwatchPicker.Item color=\"#3b82f6\"><ColorSwatch /></ColorSwatchPicker.Item></ColorSwatchPicker.Root>; }"
+            "import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker'; import { ColorSwatch } from '@tale-ui/react/color-swatch'; export function Palette() { return <ColorSwatchPicker.Root defaultValue=\"#3b82f6\"><ColorSwatchPicker.Item color=\"#3b82f6\"><ColorSwatch /></ColorSwatchPicker.Item></ColorSwatchPicker.Root>; }",
+            "<Text variant=\"label\">Color palette</Text>",
+            "<Text size=\"s\" color=\"muted\">Selected: {color.toString('css')}</Text>"
           ]
         }
       ],
@@ -2100,6 +2161,17 @@
           ],
           "fixes": [
             "<ColorWheel.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} outerRadius={100} innerRadius={70}><ColorWheel.Track /><ColorWheel.Thumb /></ColorWheel.Root>"
+          ]
+        },
+        {
+          "id": "defaultvalue-accepts-a-plain-css",
+          "summary": "defaultValue accepts a plain CSS color string — you do not need parseColor() for uncontrolled usage",
+          "detail": "When a prompt asks to use `defaultValue` with a plain CSS string and without state or parseColor, pass the string literal directly to `defaultValue`; this is valid and requires no additional imports.",
+          "antiPatterns": [
+            "<ColorWheel.Root defaultValue={parseColor('hsl(0, 100%, 50%)')} outerRadius={100} innerRadius={70}>"
+          ],
+          "fixes": [
+            "<ColorWheel.Root defaultValue=\"hsl(0, 100%, 50%)\" outerRadius={100} innerRadius={70}>"
           ]
         }
       ],
@@ -2876,6 +2948,17 @@
           "fixes": [
             "<Disclosure.Root isExpanded={isOpen} onExpandedChange={setIsOpen}>"
           ]
+        },
+        {
+          "id": "text-inside-disclosuretrigger-has-no",
+          "summary": "Text inside Disclosure.Trigger has no weight prop — use variant=\"label\" for label-weight trigger text",
+          "detail": "`Text` does not accept a `weight` prop; passing `weight=\"medium\"` inside `Disclosure.Trigger` causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. Use `variant=\"label\"` instead.",
+          "antiPatterns": [
+            "<Disclosure.Trigger><Text weight=\"medium\">What is included?</Text></Disclosure.Trigger>"
+          ],
+          "fixes": [
+            "<Disclosure.Trigger><Text variant=\"label\">What is included?</Text></Disclosure.Trigger>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -3141,6 +3224,39 @@
           "fixes": [
             "const file = await item.getFile(); console.log(file.size);"
           ]
+        },
+        {
+          "id": "never-import-filedropitem-from-reactariacomponents",
+          "summary": "Never import FileDropItem from react-aria-components — use FileUpload instead for upload-with-progress use cases",
+          "detail": "`react-aria-components` is not an allowed import prefix; importing `FileDropItem` causes 'Cannot find module' TypeScript errors. Whenever you need file drop + a displayed file list with progress bars, use `FileUpload` from `@tale-ui/react/file-upload` (see FileUpload pitfalls) rather than composing `DropZone` with manual progress state. If you must use `DropZone` directly and need to narrow the item kind, use inline narrowing without a type annotation — never import the type.",
+          "antiPatterns": [
+            "import type { FileDropItem } from 'react-aria-components';"
+          ],
+          "fixes": [
+            "onDrop={async (e) => { const fileItems = e.items.filter(item => item.kind === 'file'); }}"
+          ]
+        },
+        {
+          "id": "drop-zone-browse-button-uses-neutral-variant",
+          "summary": "Inside DropZone browse actions, use Button variant=\"neutral\" instead of variant=\"secondary\"",
+          "detail": "there is no `'secondary'` variant on `Button`; for secondary-action browse buttons use `variant=\"neutral\"` instead.",
+          "antiPatterns": [
+            "<Button variant=\"secondary\">or click to browse</Button>"
+          ],
+          "fixes": [
+            "<Button variant=\"neutral\">or click to browse</Button>"
+          ]
+        },
+        {
+          "id": "drop-zone-column-gap-uses-spacing-tokens",
+          "summary": "When wrapping DropZone content in Column, use spacing-token gap values",
+          "detail": "`gap=\"sm\"` is not a valid `Gap` value and causes `Type '\"sm\"' is not assignable to type 'Gap | undefined'`; use `gap=\"s\"` instead.",
+          "antiPatterns": [
+            "<Column gap=\"sm\"><Text>Drop files here</Text></Column>"
+          ],
+          "fixes": [
+            "<Column gap=\"s\"><Text>Drop files here</Text></Column>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -3345,8 +3461,8 @@
       "examples": [
         "<Field.Root>\n  <Field.Label>Name</Field.Label>\n  <Field.Control>\n    <input className=\"tale-input\" placeholder=\"Enter your name\" />\n  </Field.Control>\n</Field.Root>",
         "<Field.Root>\n  <Field.Label>Email</Field.Label>\n  <Field.Control>\n    <input className=\"tale-input\" type=\"email\" placeholder=\"you@example.com\" />\n  </Field.Control>\n  <Field.Description>We will never share your email with anyone.</Field.Description>\n</Field.Root>",
-        "import { Input } from '@tale-ui/react/input';\n\n<Input.Root isInvalid>\n  <Input.Label>Password</Input.Label>\n  <Input.Input type=\"password\" />\n  <Input.Description>Must be at least 8 characters long.</Input.Description>\n  <Input.ErrorMessage>This field is required.</Input.ErrorMessage>\n</Input.Root>",
-        "import { Field } from '@tale-ui/react/field';\n    \n    export function Example() {\n      return (\n        <>\n          <Field.Root>\n            <Field.Label>Email</Field.Label>\n            <Field.Control>\n              <input className=\"tale-input\" placeholder=\"you@example.com\" />\n            </Field.Control>\n            <Field.Description>We'll never share your email.</Field.Description>\n            // For validation errors:\n            // <Field.Error>Please enter a valid email.</Field.Error>\n          </Field.Root>\n          \n          // Field.Item wraps multiple controls in a row:\n          <Field.Root>\n            <Field.Label>Phone</Field.Label>\n            <Field.Item>\n              <select className=\"tale-select__trigger\">...</select>\n              <input className=\"tale-input\" placeholder=\"555-0000\" />\n            </Field.Item>\n          </Field.Root>\n        </>\n      );\n    }"
+        "import { Input } from '@tale-ui/react/input';\n\n<Input.Root isInvalid>\n  <Input.Label>Password</Input.Label>\n  <Input.Input type=\"password\" />\n  <Input.Description>Must be at least 8 characters long.</Input.Description>\n  <Input.ErrorMessage>This field is required.</Input.ErrorMessage>\n</Input.Root>;",
+        "import { Field } from '@tale-ui/react/field';\n\n    export function Example() {\n      return (\n        <>\n          <Field.Root>\n            <Field.Label>Email</Field.Label>\n            <Field.Control>\n              <input className=\"tale-input\" placeholder=\"you@example.com\" />\n            </Field.Control>\n            <Field.Description>We'll never share your email.</Field.Description>\n            // For validation errors: // <Field.Error>Please enter a valid email.</Field.Error>\n          </Field.Root>\n          // Field.Item wraps multiple controls in a row:\n          <Field.Root>\n            <Field.Label>Phone</Field.Label>\n            <Field.Item>\n              <select className=\"tale-select__trigger\">...</select>\n              <input className=\"tale-input\" placeholder=\"555-0000\" />\n            </Field.Item>\n          </Field.Root>\n        </>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-field",
@@ -3357,14 +3473,14 @@
         {
           "id": "field-root-no-validation-props",
           "summary": "Field.Root does not accept validation state props",
-          "detail": "`Field.Root` is a plain layout container. It does not accept `isInvalid`, `isRequired`, `isDisabled`, or `isReadOnly`. For validated fields, use a component like `Input.Root` that has React Aria field context built in.\n    ```tsx\n    import { Field } from '@tale-ui/react/field';\n    \n    export function Example() {\n      return (\n        <>\n          <Field.Root>\n            <Field.Label>Email</Field.Label>\n            <Field.Control>\n              <input className=\"tale-input\" placeholder=\"you@example.com\" />\n            </Field.Control>\n            <Field.Description>We'll never share your email.</Field.Description>\n            // For validation errors:\n            // <Field.Error>Please enter a valid email.</Field.Error>\n          </Field.Root>\n          \n          // Field.Item wraps multiple controls in a row:\n          <Field.Root>\n            <Field.Label>Phone</Field.Label>\n            <Field.Item>\n              <select className=\"tale-select__trigger\">...</select>\n              <input className=\"tale-input\" placeholder=\"555-0000\" />\n            </Field.Item>\n          </Field.Root>\n        </>\n      );\n    }\n    ```",
+          "detail": "`Field.Root` is a plain layout container. It does not accept `isInvalid`, `isRequired`, `isDisabled`, or `isReadOnly`. For validated fields, use a component like `Input.Root` that has React Aria field context built in.\n\n    ```tsx\n    import { Field } from '@tale-ui/react/field';\n\n    export function Example() {\n      return (\n        <>\n          <Field.Root>\n            <Field.Label>Email</Field.Label>\n            <Field.Control>\n              <input className=\"tale-input\" placeholder=\"you@example.com\" />\n            </Field.Control>\n            <Field.Description>We'll never share your email.</Field.Description>\n            // For validation errors: // <Field.Error>Please enter a valid email.</Field.Error>\n          </Field.Root>\n          // Field.Item wraps multiple controls in a row:\n          <Field.Root>\n            <Field.Label>Phone</Field.Label>\n            <Field.Item>\n              <select className=\"tale-select__trigger\">...</select>\n              <input className=\"tale-input\" placeholder=\"555-0000\" />\n            </Field.Item>\n          </Field.Root>\n        </>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Field.Root isInvalid={hasError}>"
           ],
           "fixes": [
             "<Field.Root><Input.Root isInvalid={hasError} /></Field.Root>"
           ],
-          "completeExample": "import { Field } from '@tale-ui/react/field';\n\nexport function Example() {\n  return (\n    <>\n      <Field.Root>\n        <Field.Label>Email</Field.Label>\n        <Field.Control>\n          <input className=\"tale-input\" placeholder=\"you@example.com\" />\n        </Field.Control>\n        <Field.Description>We'll never share your email.</Field.Description>\n        // For validation errors:\n        // <Field.Error>Please enter a valid email.</Field.Error>\n      </Field.Root>\n      \n      // Field.Item wraps multiple controls in a row:\n      <Field.Root>\n        <Field.Label>Phone</Field.Label>\n        <Field.Item>\n          <select className=\"tale-select__trigger\">...</select>\n          <input className=\"tale-input\" placeholder=\"555-0000\" />\n        </Field.Item>\n      </Field.Root>\n    </>\n  );\n}"
+          "completeExample": "import { Field } from '@tale-ui/react/field';\n\nexport function Example() {\n  return (\n    <>\n      <Field.Root>\n        <Field.Label>Email</Field.Label>\n        <Field.Control>\n          <input className=\"tale-input\" placeholder=\"you@example.com\" />\n        </Field.Control>\n        <Field.Description>We'll never share your email.</Field.Description>\n        // For validation errors: // <Field.Error>Please enter a valid email.</Field.Error>\n      </Field.Root>\n      // Field.Item wraps multiple controls in a row:\n      <Field.Root>\n        <Field.Label>Phone</Field.Label>\n        <Field.Item>\n          <select className=\"tale-select__trigger\">...</select>\n          <input className=\"tale-input\" placeholder=\"555-0000\" />\n        </Field.Item>\n      </Field.Root>\n    </>\n  );\n}"
         },
         {
           "id": "field-no-standalone-exports",
@@ -3375,6 +3491,17 @@
           ],
           "fixes": [
             "import { Field } from '@tale-ui/react/field'"
+          ]
+        },
+        {
+          "id": "field-control-uses-plain-input",
+          "summary": "Inside Field.Control, use a plain <input className=\"tale-input\"> — never Input.Root > Input.Field",
+          "detail": "`Input.Field` is not a valid sub-part of the `Input` namespace; using it causes \"Property 'Field' does not exist\" TypeScript errors. Place a native `<input className=\"tale-input\">` directly inside `Field.Control`.",
+          "antiPatterns": [
+            "<Field.Control><Input.Root><Input.Field placeholder=\"...\" /></Input.Root></Field.Control>"
+          ],
+          "fixes": [
+            "<Field.Control><input className=\"tale-input\" placeholder=\"...\" /></Field.Control>"
           ]
         }
       ],
@@ -3425,13 +3552,15 @@
         },
         {
           "id": "fieldset-column-gap-token",
-          "summary": "When stacking fields inside Fieldset.Root with Column, use spacing-token gap values, not component size names",
+          "summary": "When stacking fields inside Fieldset.Root with Column or Row, use spacing-token gap values, not component size names",
           "detail": "`gap=\"md\"` is not a valid `Gap` value and causes a TypeScript error; use `gap=\"m\"` instead.",
           "antiPatterns": [
-            "<Column gap=\"md\">"
+            "<Column gap=\"md\">",
+            "<Row gap=\"md\">"
           ],
           "fixes": [
-            "<Column gap=\"m\">"
+            "<Column gap=\"m\">",
+            "<Row gap=\"m\">"
           ]
         }
       ],
@@ -3478,13 +3607,36 @@
         },
         {
           "id": "when-displaying-the-selected-filename",
-          "summary": "When displaying the selected filename with Text, use color=\"muted\" — never variant=\"body-m\" or color=\"secondary\"",
-          "detail": "`variant=\"body-m\"` is a compound token string that does not exist as a `Variant`; `color=\"secondary\"` is not a valid `Color` on `Text`. For supporting text such as a filename label, use `<Text color=\"muted\">`.",
+          "summary": "When displaying the selected filename with Text, use color=\"muted\" plus size=\"s\"",
+          "detail": "`color=\"secondary\"` and `variant=\"body-m\"` do not exist on `Text`, and `size=\"sm\"` is invalid because `Text` size uses single-letter tokens (`'xs'`, `'s'`, `'m'`, `'l'`).",
           "antiPatterns": [
-            "<Text variant=\"body-m\" color=\"secondary\">{fileName}</Text>"
+            "<Text size=\"sm\" color=\"secondary\">{fileName}</Text>",
+            "<Text variant=\"body-m\">{fileName}</Text>"
           ],
           "fixes": [
-            "<Text color=\"muted\">{fileName}</Text>"
+            "<Text size=\"s\" color=\"muted\">{fileName}</Text>"
+          ]
+        },
+        {
+          "id": "file-trigger-upload-button-uses-neutral-variant",
+          "summary": "For FileTrigger upload actions, use Button variant=\"neutral\" instead of variant=\"secondary\"",
+          "detail": "`Button` has no `\"secondary\"` variant; use `\"neutral\"` for secondary-action upload buttons.",
+          "antiPatterns": [
+            "<FileTrigger><Button variant=\"secondary\">Upload file</Button></FileTrigger>"
+          ],
+          "fixes": [
+            "<FileTrigger><Button variant=\"neutral\">Upload file</Button></FileTrigger>"
+          ]
+        },
+        {
+          "id": "file-trigger-column-gap-uses-spacing-tokens",
+          "summary": "When wrapping FileTrigger in Column, use spacing-token gap values",
+          "detail": "`gap=\"sm\"` is not a valid `Gap` value; use `gap=\"s\"` instead.",
+          "antiPatterns": [
+            "<Column gap=\"sm\"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>"
+          ],
+          "fixes": [
+            "<Column gap=\"s\"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>"
           ]
         }
       ],
@@ -3659,6 +3811,17 @@
           "fixes": [
             "import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept=\"image/*,.pdf\" maxSize={5 * 1024 * 1024} /><FileUpload.List><FileUpload.ListItemProgressBar name=\"photo.png\" size={1200000} progress={60} /></FileUpload.List></FileUpload.Root>; }"
           ]
+        },
+        {
+          "id": "fileuploaddropzone-ondropfiles-receives-filelist",
+          "summary": "onDropFiles callback receives FileList, not File[]",
+          "detail": "the `onDropFiles` prop on `FileUpload.DropZone` is typed as `(files: FileList) => void`; annotating the handler parameter as `File[]` causes `Type '(rawFiles: File[]) => void' is not assignable to type '(files: FileList) => void'`. Type the parameter as `FileList` and use `Array.from()` to iterate over the files.",
+          "antiPatterns": [
+            "<FileUpload.DropZone onDropFiles={(rawFiles: File[]) => handleFiles(rawFiles)} />"
+          ],
+          "fixes": [
+            "function handleFiles(rawFiles: FileList) { const entries = Array.from(rawFiles).map(file => ({ id: crypto.randomUUID(), name: file.name, size: file.size, progress: 0 })); }"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -3705,6 +3868,17 @@
           ],
           "fixes": [
             "<Form method=\"post\">"
+          ]
+        },
+        {
+          "id": "when-wrapping-form-fields-in",
+          "summary": "When wrapping form fields in Column, use spacing-token gap values, not component-size names",
+          "detail": "`gap=\"md\"` is not a valid `Gap` value and causes `Type '\"md\"' is not assignable to type 'Gap | undefined'`; use `gap=\"s\"` for tight field stacks (recommended for forms) or `gap=\"m\"` for looser spacing.",
+          "antiPatterns": [
+            "<Column gap=\"md\">"
+          ],
+          "fixes": [
+            "<Column gap=\"s\">"
           ]
         }
       ],
@@ -3859,10 +4033,12 @@
           "summary": "HeaderNav.MobileTrigger requires children — omitting them causes a TypeScript error 'Property children is missing in type {} but required in type HeaderNavMobileTriggerProps'",
           "detail": "it does not render any content automatically; pass an `<Icon>` child (e.g. a hamburger menu icon) so the button has visible and accessible content. Import `Icon` from `@tale-ui/react/icon` and the icon (e.g. `Menu`) from `lucide-react`.",
           "antiPatterns": [
-            "<HeaderNav.MobileTrigger />"
+            "<HeaderNav.MobileTrigger />",
+            "import { HeaderNav } from '@tale-ui/react/header-nav'; // missing Icon and Menu imports causes self-closing MobileTrigger"
           ],
           "fixes": [
-            "<HeaderNav.MobileTrigger><Icon icon={Menu} size=\"sm\" /></HeaderNav.MobileTrigger>"
+            "<HeaderNav.MobileTrigger><Icon icon={Menu} size=\"sm\" /></HeaderNav.MobileTrigger>",
+            "import { Icon } from '@tale-ui/react/icon'; import { Menu } from 'lucide-react'; // always add these alongside HeaderNav when MobileTrigger is present"
           ]
         },
         {
@@ -4348,7 +4524,7 @@
         "Img"
       ],
       "examples": [
-        "import { ImageCropper } from '@tale-ui/react/image-cropper';\nimport { useState } from 'react';\nimport type { Crop, PixelCrop } from '@tale-ui/react/image-cropper';\n\nfunction AvatarCropper() {\n  const [crop, setCrop] = useState<Crop>();\n  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();\n\n  return (\n    <ImageCropper.Root\n      crop={crop}\n      onChange={setCrop}\n      onComplete={setCompletedCrop}\n      aspect={1}\n    >\n      <ImageCropper.Img src=\"/photo.jpg\" alt=\"Crop your photo\" />\n    </ImageCropper.Root>\n  );\n}",
+        "import { ImageCropper } from '@tale-ui/react/image-cropper';\nimport { useState } from 'react';\nimport type { Crop, PixelCrop } from '@tale-ui/react/image-cropper';\n\nfunction AvatarCropper() {\n  const [crop, setCrop] = useState<Crop>();\n  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();\n\n  return (\n    <ImageCropper.Root crop={crop} onChange={setCrop} onComplete={setCompletedCrop} aspect={1}>\n      <ImageCropper.Img src=\"/photo.jpg\" alt=\"Crop your photo\" />\n    </ImageCropper.Root>\n  );\n}",
         "<ImageCropper.Root crop={crop} onChange={setCrop} aspect={16 / 9}>\n  <ImageCropper.Img src=\"/landscape.jpg\" alt=\"Crop\" />\n</ImageCropper.Root>",
         "<ImageCropper.Root crop={crop} onChange={setCrop} aspect={1} circularCrop>\n  <ImageCropper.Img src=\"/photo.jpg\" alt=\"Crop avatar\" />\n</ImageCropper.Root>",
         "import { ImageCropper, cropToFile } from '@tale-ui/react/image-cropper';\n\nasync function handleSave() {\n  if (completedCrop && imageSrc) {\n    const file = await cropToFile(imageSrc, completedCrop);\n    if (file) {\n      // upload or preview the file\n    }\n  }\n}",
@@ -4371,15 +4547,30 @@
           ]
         },
         {
-          "id": "use-imagecropper-for-any-prompt",
-          "summary": "Use <ImageCropper> for any prompt that asks for image cropping, avatar photo cropping, or a fixed-aspect crop area",
-          "detail": "when the request is to crop a profile photo, avatar, or other image, render `ImageCropper.Root` with an `ImageCropper.Img` child instead of leaving the file empty or substituting `Image`. For square avatar crops, set `aspect={1}`.",
+          "id": "imagecropper-gap-uses-spacing-tokens",
+          "summary": "When wrapping ImageCropper in a Column or Row layout container, use spacing-token gap values — never component-size names",
+          "detail": "`gap=\"lg\"` is not a valid `Gap` value; map: `lg`→`l`, `md`→`m`, `sm`→`s`.",
           "antiPatterns": [
-            "// empty file",
-            "import { Image } from '@tale-ui/react/image'; export function AvatarCropper() { return <Image src=\"/avatar.jpg\" alt=\"User avatar\" />; }"
+            "<Column gap=\"lg\"><ImageCropper.Root ...>...</ImageCropper.Root></Column>"
           ],
           "fixes": [
-            "import * as React from 'react'; import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper'; import type { Crop } from '@tale-ui/react/image-cropper'; function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) { return centerCrop(makeAspectCrop({ unit: '%', width: 80 }, aspect, mediaWidth, mediaHeight), mediaWidth, mediaHeight); } export function AvatarCropper() { const [crop, setCrop] = React.useState<Crop>(); function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) { const { width, height } = event.currentTarget; setCrop(centerAspectCrop(width, height, 1)); } return <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}><ImageCropper.Img src=\"/avatar.jpg\" alt=\"User avatar to crop\" onLoad={handleImageLoad} style={{ maxHeight: 320, width: '100%' }} /></ImageCropper.Root>; }"
+            "<Column gap=\"l\"><ImageCropper.Root ...>...</ImageCropper.Root></Column>"
+          ]
+        },
+        {
+          "id": "use-imagecropper-for-any-prompt",
+          "summary": "Use ImageCropper.Root for any prompt that asks for cropping an avatar or other image",
+          "detail": "when the request is specifically to crop an image, render `ImageCropper.Root` with an `ImageCropper.Img` child instead of leaving the file empty or substituting `Image`. For square avatar crops, set `aspect={1}`.\n- **When composing ImageCropper with a Text label or a secondary-action Button, use Text variant=\"label\" (not weight) and Button variant=\"neutral\" (not \"secondary\")** — `Text` has no `weight` prop; passing `weight=\"semibold\"` causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. `Button` has no `\"secondary\"` variant; for change/re-upload actions use `variant=\"neutral\"` instead.",
+          "antiPatterns": [
+            "// empty file",
+            "import { Image } from '@tale-ui/react/image'; export function AvatarCropper() { return <Image src=\"/avatar.jpg\" alt=\"User avatar\" />; }",
+            "<Text weight=\"semibold\">Crop avatar photo</Text>",
+            "<Button variant=\"secondary\">Change photo</Button>"
+          ],
+          "fixes": [
+            "import * as React from 'react'; import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper'; import type { Crop } from '@tale-ui/react/image-cropper'; function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) { return centerCrop(makeAspectCrop({ unit: '%', width: 80 }, aspect, mediaWidth, mediaHeight), mediaWidth, mediaHeight); } export function AvatarCropper() { const [crop, setCrop] = React.useState<Crop>(); function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) { const { width, height } = event.currentTarget; setCrop(centerAspectCrop(width, height, 1)); } return <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}><ImageCropper.Img src=\"/avatar.jpg\" alt=\"User avatar to crop\" onLoad={handleImageLoad} style={{ maxHeight: 320, width: '100%' }} /></ImageCropper.Root>; }",
+            "<Text variant=\"label\">Crop avatar photo</Text>",
+            "<Button variant=\"neutral\">Change photo</Button>"
           ]
         }
       ],
@@ -5812,6 +6003,39 @@
             "<PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root>"
           ],
           "completeExample": "import { PinInput } from '@tale-ui/react/pin-input';\n\nexport function Example() {\n  return (\n    <PinInput.Root maxLength={6}>\n      <PinInput.Group>\n        <PinInput.Slot index={0} />\n        <PinInput.Slot index={1} />\n        <PinInput.Slot index={2} />\n      </PinInput.Group>\n      <PinInput.Separator />\n      <PinInput.Group>\n        <PinInput.Slot index={3} />\n        <PinInput.Slot index={4} />\n        <PinInput.Slot index={5} />\n      </PinInput.Group>\n    </PinInput.Root>\n  );\n}"
+        },
+        {
+          "id": "when-showing-conditional-feedback-text",
+          "summary": "When showing conditional feedback text after PIN entry, use Text color=\"muted\" plus size=\"s\"",
+          "detail": "`Text` only accepts `'default'`, `'muted'`, and `'accent'` as color values, and status tokens such as `'success'` are not valid on `Text`. `size=\"sm\"` is also invalid because `Text` size uses single-letter tokens.",
+          "antiPatterns": [
+            "<Text size=\"sm\" color=\"success\">Code entered: {value}</Text>"
+          ],
+          "fixes": [
+            "<Text size=\"s\" color=\"muted\">Code entered: {value}</Text>"
+          ]
+        },
+        {
+          "id": "pin-input-column-gap-uses-spacing-tokens",
+          "summary": "When wrapping PinInput in a Column, use spacing-token gap values",
+          "detail": "use `gap=\"m\"` or another spacing token, not a component-size name such as `gap=\"md\"`.\n\n#### Popover",
+          "antiPatterns": [
+            "<Column gap=\"md\"><PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root></Column>"
+          ],
+          "fixes": [
+            "<Column gap=\"m\"><PinInput.Root maxLength={2}><PinInput.Group><PinInput.Slot index={0} /><PinInput.Slot index={1} /></PinInput.Group></PinInput.Root></Column>"
+          ]
+        },
+        {
+          "id": "when-labeling-a-pininput-with",
+          "summary": "When labeling a PinInput with Text, use variant=\"label\" — Text has no weight prop",
+          "detail": "passing `weight=\"medium\"` on a `<Text>` label causes `Type '{ children: string; weight: string; }' is not assignable to type 'TextProps'`. Use `variant=\"label\"` for label-weight text instead.",
+          "antiPatterns": [
+            "<Text weight=\"medium\">Verification code</Text>"
+          ],
+          "fixes": [
+            "<Text variant=\"label\">Verification code</Text>"
+          ]
         }
       ],
       "crossPitfallRefs": null
@@ -5837,7 +6061,8 @@
       "examples": [
         "import { Popover } from '@tale-ui/react/popover';\n\n<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Title>Popover Title</Popover.Title>\n    <Popover.Description>\n      This is a basic popover with a title and description.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
         "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">With Arrow</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Arrow />\n    <Popover.Title>Arrow Popover</Popover.Title>\n    <Popover.Description>\n      This popover includes an arrow pointing to the trigger.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
-        "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Close aria-label=\"Close\" />\n    <Popover.Title>Dismissible Popover</Popover.Title>\n    <Popover.Description>\n      Click the close button to dismiss this popover.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>"
+        "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Close aria-label=\"Close\" />\n    <Popover.Title>Dismissible Popover</Popover.Title>\n    <Popover.Description>\n      Click the close button to dismiss this popover.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
+        "import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n\n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-popover__close",
@@ -5849,13 +6074,14 @@
         {
           "id": "use-popover-for-any-prompt",
           "summary": "Use Popover for any prompt that asks for an info button, help popover, or button-triggered explanatory overlay",
-          "detail": "render `Popover.Root` with `Popover.Trigger` and `Popover.Popup`; do not leave the file empty or substitute a different overlay.",
+          "detail": "render `Popover.Root` with `Popover.Trigger` and `Popover.Popup`; do not leave the file empty or substitute a different overlay.\n\n    ```tsx\n    import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n\n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file"
           ],
           "fixes": [
             "import { Popover } from '@tale-ui/react/popover'; import { Icon } from '@tale-ui/react/icon'; import { HelpCircle } from 'lucide-react'; export function FeatureHelpPopover() { return <Popover.Root><Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\"><Icon icon={HelpCircle} size=\"sm\" /></Popover.Trigger><Popover.Popup placement=\"bottom\" offset={8}><Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description></Popover.Popup></Popover.Root>; }"
-          ]
+          ],
+          "completeExample": "import { Popover } from '@tale-ui/react/popover';\nimport { Icon } from '@tale-ui/react/icon';\nimport { HelpCircle } from 'lucide-react';\n\nexport function FeatureHelpPopover() {\n  return (\n    <Popover.Root>\n      <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n        <Icon icon={HelpCircle} size=\"sm\" />\n      </Popover.Trigger>\n      <Popover.Popup placement=\"bottom\" offset={8}>\n        <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n      </Popover.Popup>\n    </Popover.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": [
@@ -6049,6 +6275,13 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
@@ -6063,7 +6296,8 @@
         "<ProgressCircle.Root value={null}>\n  <ProgressCircle.Track />\n</ProgressCircle.Root>",
         "<ProgressCircle.Root value={60} size=\"sm\"><ProgressCircle.Track /></ProgressCircle.Root>\n<ProgressCircle.Root value={60} size=\"md\"><ProgressCircle.Track /></ProgressCircle.Root>\n<ProgressCircle.Root value={60} size=\"lg\"><ProgressCircle.Track /></ProgressCircle.Root>",
         "<ProgressCircle.Root value={100}>\n  <ProgressCircle.Track />\n</ProgressCircle.Root>",
-        "import { ProgressCircle } from '@tale-ui/react/progress-circle';\n    \n    export function Example() {\n      return (\n        <>\n          <ProgressCircle.Root value={60}>\n            <ProgressCircle.Track />\n          </ProgressCircle.Root>\n          \n          <ProgressCircle.Root value={null}>\n            <ProgressCircle.Track />\n          </ProgressCircle.Root>\n        </>\n      );\n    }"
+        "import { ProgressCircle } from '@tale-ui/react/progress-circle';\n    \n    export function Example() {\n      return (\n        <>\n          <ProgressCircle.Root value={60}>\n            <ProgressCircle.Track />\n          </ProgressCircle.Root>\n          \n          <ProgressCircle.Root value={null}>\n            <ProgressCircle.Track />\n          </ProgressCircle.Root>\n        </>\n      );\n    }",
+        "import { ProgressCircle } from '@tale-ui/react/progress-circle';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function UploadProgress() {\n      return (\n        <Column gap=\"s\" align=\"center\">\n          <ProgressCircle.Root value={65} size=\"lg\" aria-label=\"Upload progress\">\n            <ProgressCircle.Track />\n          </ProgressCircle.Root>\n          <Text size=\"s\" color=\"muted\">Uploading… 65%</Text>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-progress-circle",
@@ -6098,6 +6332,18 @@
           "fixes": [
             "<ProgressCircle.Root size=\"md\" />"
           ]
+        },
+        {
+          "id": "progress-circle-shorthand-tokens-in-column",
+          "summary": "Column/Text props around ProgressCircle use shorthand tokens — gap=\"s\", size=\"s\", color=\"muted\"",
+          "detail": "`Column gap=\"sm\"` is not a valid `Gap` value (use `gap=\"s\"`); `Text size=\"sm\"` is not valid for `Text` (use `size=\"s\"`); `Text color=\"secondary\"` is not a valid `Color` on `Text` (use `color=\"muted\"` for supporting copy).\n\n    ```tsx\n    import { ProgressCircle } from '@tale-ui/react/progress-circle';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function UploadProgress() {\n      return (\n        <Column gap=\"s\" align=\"center\">\n          <ProgressCircle.Root value={65} size=\"lg\" aria-label=\"Upload progress\">\n            <ProgressCircle.Track />\n          </ProgressCircle.Root>\n          <Text size=\"s\" color=\"muted\">Uploading… 65%</Text>\n        </Column>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<Column gap=\"sm\"><ProgressCircle.Root value={65}><ProgressCircle.Track /></ProgressCircle.Root><Text size=\"sm\" color=\"secondary\">65%</Text></Column>"
+          ],
+          "fixes": [
+            "<Column gap=\"s\"><ProgressCircle.Root value={65}><ProgressCircle.Track /></ProgressCircle.Root><Text size=\"s\" color=\"muted\">65%</Text></Column>"
+          ],
+          "completeExample": "import { ProgressCircle } from '@tale-ui/react/progress-circle';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\n\nexport function UploadProgress() {\n  return (\n    <Column gap=\"s\" align=\"center\">\n      <ProgressCircle.Root value={65} size=\"lg\" aria-label=\"Upload progress\">\n        <ProgressCircle.Track />\n      </ProgressCircle.Root>\n      <Text size=\"s\" color=\"muted\">Uploading… 65%</Text>\n    </Column>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -6202,7 +6448,8 @@
         "<Radio.Group label=\"Disabled group\" isDisabled>\n  <Radio.Root value=\"red\">\n    <Radio.Indicator />\n    Red\n  </Radio.Root>\n  <Radio.Root value=\"green\">\n    <Radio.Indicator />\n    Green\n  </Radio.Root>\n</Radio.Group>",
         "<Radio.Group label=\"Plan\" orientation=\"horizontal\">\n  <Radio.Root value=\"free\">\n    <Radio.Indicator />\n    Free\n  </Radio.Root>\n  <Radio.Root value=\"pro\">\n    <Radio.Indicator />\n    Pro\n  </Radio.Root>\n  <Radio.Root value=\"enterprise\">\n    <Radio.Indicator />\n    Enterprise\n  </Radio.Root>\n</Radio.Group>",
         "<Radio.Group label=\"Small radios\">\n  <Radio.Root value=\"a\" size=\"sm\">\n    <Radio.Indicator />\n    Small option A\n  </Radio.Root>\n</Radio.Group>\n\n<Radio.Group label=\"Medium radios\">\n  <Radio.Root value=\"a\" size=\"md\">\n    <Radio.Indicator />\n    Medium option A\n  </Radio.Root>\n</Radio.Group>\n\n<Radio.Group label=\"Large radios\">\n  <Radio.Root value=\"a\" size=\"lg\">\n    <Radio.Indicator />\n    Large option A\n  </Radio.Root>\n</Radio.Group>",
-        "import { Radio } from '@tale-ui/react/radio';\n    \n    export function Example() {\n      return (\n        <Radio.Group label=\"Favorite color\">\n          <Radio.Root value=\"red\"><Radio.Indicator /> Red</Radio.Root>\n          <Radio.Root value=\"green\"><Radio.Indicator /> Green</Radio.Root>\n          <Radio.Root value=\"blue\"><Radio.Indicator /> Blue</Radio.Root>\n        </Radio.Group>\n      );\n    }"
+        "import { Radio } from '@tale-ui/react/radio';\n    \n    export function Example() {\n      return (\n        <Radio.Group label=\"Favorite color\">\n          <Radio.Root value=\"red\"><Radio.Indicator /> Red</Radio.Root>\n          <Radio.Root value=\"green\"><Radio.Indicator /> Green</Radio.Root>\n          <Radio.Root value=\"blue\"><Radio.Indicator /> Blue</Radio.Root>\n        </Radio.Group>\n      );\n    }",
+        "import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { Radio } from '@tale-ui/react/radio';\n    \n    export function PlanSelection() {\n      return (\n        <RadioGroup label=\"Select a plan\">\n          <Radio.Root value=\"free\">\n            <Radio.Indicator />\n            Free\n          </Radio.Root>\n          <Radio.Root value=\"pro\">\n            <Radio.Indicator />\n            Pro\n          </Radio.Root>\n          <Radio.Root value=\"enterprise\">\n            <Radio.Indicator />\n            Enterprise\n          </Radio.Root>\n        </RadioGroup>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-radio",
@@ -6238,13 +6485,15 @@
         {
           "id": "for-any-radio-group-prompt",
           "summary": "For any radio group prompt, wrap Radio items in RadioGroup from @tale-ui/react/radio-group — do not use only Radio.Group",
-          "detail": "when a prompt asks for a radio group, both `Radio` (from `@tale-ui/react/radio`) and `RadioGroup` (from `@tale-ui/react/radio-group`) must appear in the code; using `Radio.Group` alone omits the required `RadioGroup` component.",
+          "detail": "when a prompt asks for a radio group, both `Radio` (from `@tale-ui/react/radio`) and `RadioGroup` (from `@tale-ui/react/radio-group`) must appear in the code; using `Radio.Group` alone omits the required `RadioGroup` component.\n\n    ```tsx\n    import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { Radio } from '@tale-ui/react/radio';\n    \n    export function PlanSelection() {\n      return (\n        <RadioGroup label=\"Select a plan\">\n          <Radio.Root value=\"free\">\n            <Radio.Indicator />\n            Free\n          </Radio.Root>\n          <Radio.Root value=\"pro\">\n            <Radio.Indicator />\n            Pro\n          </Radio.Root>\n          <Radio.Root value=\"enterprise\">\n            <Radio.Indicator />\n            Enterprise\n          </Radio.Root>\n        </RadioGroup>\n      );\n    }\n    ```",
           "antiPatterns": [
+            "// empty file",
             "import { Radio } from '@tale-ui/react/radio'; ... <Radio.Group label=\"Plan\"><Radio.Root value=\"free\"><Radio.Indicator />Free</Radio.Root></Radio.Group>"
           ],
           "fixes": [
             "import { RadioGroup } from '@tale-ui/react/radio-group'; import { Radio } from '@tale-ui/react/radio'; ... <RadioGroup label=\"Plan\"><Radio.Root value=\"free\"><Radio.Indicator />Free</Radio.Root></RadioGroup>"
-          ]
+          ],
+          "completeExample": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { Radio } from '@tale-ui/react/radio';\n\nexport function PlanSelection() {\n  return (\n    <RadioGroup label=\"Select a plan\">\n      <Radio.Root value=\"free\">\n        <Radio.Indicator />\n        Free\n      </Radio.Root>\n      <Radio.Root value=\"pro\">\n        <Radio.Indicator />\n        Pro\n      </Radio.Root>\n      <Radio.Root value=\"enterprise\">\n        <Radio.Indicator />\n        Enterprise\n      </Radio.Root>\n    </RadioGroup>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -6715,7 +6964,8 @@
       "examples": [
         "import { SectionDivider } from '@tale-ui/react/section-divider';\n\n<SectionDivider />",
         "<section>\n  <h2>Features</h2>\n  <p>...</p>\n</section>\n<SectionDivider />\n<section>\n  <h2>Pricing</h2>\n  <p>...</p>\n</section>",
-        "<SectionDivider style={{ '--section-divider-color': 'var(--color-20)' } as React.CSSProperties} />"
+        "<SectionDivider style={{ '--section-divider-color': 'var(--color-20)' } as React.CSSProperties} />",
+        "import { SectionDivider } from '@tale-ui/react/section-divider';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function SectionDividerExample() {\n      return (\n        <Column gap=\"xl\">\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Our Features</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Discover everything our platform has to offer.\n            </Text>\n          </Column>\n\n          <SectionDivider />\n\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Pricing</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Simple, transparent pricing with no hidden fees.\n            </Text>\n          </Column>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-section-divider",
@@ -6732,6 +6982,19 @@
           "fixes": [
             "<Menu.Separator />"
           ]
+        },
+        {
+          "id": "sectiondivider-shorthand-tokens-no-compounds",
+          "summary": "Column gap/Text variant props around SectionDivider use shorthand tokens, never compounds like 'sm', 'md', 'heading-m', or 'text-m'",
+          "detail": "Column gap must be a spacing token (`'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`), not a component-size name (`'sm'`, `'md'`, `'lg'`); Text variant must be a standalone token like `'heading'` or `'text'`, never a compound string like `'heading-m'`, `'text-m'`, or `'body-m'`.\n\n    ```tsx\n    import { SectionDivider } from '@tale-ui/react/section-divider';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function SectionDividerExample() {\n      return (\n        <Column gap=\"xl\">\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Our Features</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Discover everything our platform has to offer.\n            </Text>\n          </Column>\n\n          <SectionDivider />\n\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Pricing</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Simple, transparent pricing with no hidden fees.\n            </Text>\n          </Column>\n        </Column>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<Column gap=\"sm\"><Text variant=\"heading-m\">Title</Text><Text variant=\"text-m\">Body</Text></Column>",
+            "<Column gap=\"md\"><Text variant=\"heading-m\">Title</Text><Text variant=\"body-m\">Body</Text></Column>"
+          ],
+          "fixes": [
+            "<Column gap=\"m\"><Text variant=\"heading\">Title</Text><Text variant=\"text\">Body</Text></Column>"
+          ],
+          "completeExample": "import { SectionDivider } from '@tale-ui/react/section-divider';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\n\nexport function SectionDividerExample() {\n  return (\n    <Column gap=\"xl\">\n      <Column gap=\"m\">\n        <Text variant=\"heading\">Our Features</Text>\n        <Text variant=\"text\" color=\"muted\">\n          Discover everything our platform has to offer.\n        </Text>\n      </Column>\n\n      <SectionDivider />\n\n      <Column gap=\"m\">\n        <Text variant=\"heading\">Pricing</Text>\n        <Text variant=\"text\" color=\"muted\">\n          Simple, transparent pricing with no hidden fees.\n        </Text>\n      </Column>\n    </Column>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -6828,6 +7091,28 @@
           ],
           "fixes": [
             "<Select.Item id=\"a\" textValue=\"A\">A</Select.Item>"
+          ]
+        },
+        {
+          "id": "use-selectsection-with-selectheader-for",
+          "summary": "Use Select.Section with Select.Header for grouped options",
+          "detail": "to render a categorized selector with labelled groups, place `Select.Section` elements (each with a `Select.Header` child and `Select.Item` children) directly inside `Select.ListBox`. There is no `Select.Group` or `Select.Category` sub-part.",
+          "antiPatterns": [
+            "<Select.ListBox><Select.Group label=\"Fruits\"><Select.Item id=\"apple\">Apple</Select.Item></Select.Group></Select.ListBox>"
+          ],
+          "fixes": [
+            "<Select.ListBox><Select.Section id=\"fruits\"><Select.Header>Fruits</Select.Header><Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item></Select.Section></Select.ListBox>"
+          ]
+        },
+        {
+          "id": "use-select-with-selectsection-for",
+          "summary": "Use Select with Select.Section for any prompt that asks for a categorized or grouped selector",
+          "detail": "when the request is to show a selector with labelled groups of options, render `Select.Root` with `Select.Section` and `Select.Header` inside `Select.ListBox` instead of leaving the file empty.",
+          "antiPatterns": [
+            "// empty file"
+          ],
+          "fixes": [
+            "import { Select } from '@tale-ui/react/select'; export function FoodCategorySelector() { return <Select.Root placeholder=\"Select a food...\"><Select.Label>Food</Select.Label><Select.Trigger><Select.Value /><Select.Icon /></Select.Trigger><Select.Popover><Select.ListBox><Select.Section id=\"fruits\"><Select.Header>Fruits</Select.Header><Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item><Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item></Select.Section><Select.Section id=\"vegetables\"><Select.Header>Vegetables</Select.Header><Select.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Select.Item><Select.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Select.Item></Select.Section></Select.ListBox></Select.Popover></Select.Root>; }"
           ]
         }
       ],
@@ -7385,6 +7670,19 @@
             "<Switch.Root><Switch.Thumb />Enable</Switch.Root>"
           ],
           "completeExample": "import { Switch } from '@tale-ui/react/switch';\n\nexport function Example() {\n  return (\n    <Switch.Root>\n      <Switch.Thumb />\n      Enable notifications\n    </Switch.Root>\n  );\n}"
+        },
+        {
+          "id": "use-defaultselected-to-turn-a",
+          "summary": "Use defaultSelected to turn a switch on by default in settings rows",
+          "detail": "`Switch.Root` accepts `defaultSelected` (uncontrolled initial state) or `isSelected`/`onChange` (controlled). For a settings-card layout with a label on the left and the switch on the right, place `<Text>` and `<Switch.Root>` inside a `<Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>` — do not rely on text flowing after `<Switch.Thumb />` for this pattern.\n- **Use Switch + Card + Column + Row + Text for any prompt that asks for a settings card with preference switches** — when the request is to show a card containing labeled toggle switches, render `Card.Root` with `Card.Header` and `Card.Body`, wrap each switch row in `<Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>` with a `<Text>` label on the left and `<Switch.Root>` on the right, and stack all rows in `<Column gap=\"s\">` inside `Card.Body` instead of leaving the file empty.",
+          "antiPatterns": [
+            "<Switch.Root on><Switch.Thumb />Email notifications</Switch.Root>",
+            "// empty file"
+          ],
+          "fixes": [
+            "<Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>Email notifications</Text><Switch.Root defaultSelected><Switch.Thumb /></Switch.Root></Row>",
+            "import { Card } from '@tale-ui/react/card'; import { Switch } from '@tale-ui/react/switch'; import { Column } from '@tale-ui/react/column'; import { Row } from '@tale-ui/react/row'; import { Text } from '@tale-ui/react/text'; export function NotificationSettings() { return <Card.Root><Card.Header><Text variant=\"heading\">Notification Preferences</Text></Card.Header><Card.Body><Column gap=\"s\"><Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>Email notifications</Text><Switch.Root defaultSelected><Switch.Thumb /></Switch.Root></Row><Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>Push notifications</Text><Switch.Root><Switch.Thumb /></Switch.Root></Row><Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>SMS notifications</Text><Switch.Root><Switch.Thumb /></Switch.Root></Row></Column></Card.Body></Card.Root>; }"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -7645,12 +7943,16 @@
         {
           "id": "tag-group-tag-no-on-remove",
           "summary": "TagGroup.Tag does NOT accept onRemove",
-          "detail": "put `onRemove` on `TagGroup.Root` instead.",
+          "detail": "put `onRemove` on `TagGroup.Root` instead.\n\n#### TagSelect\n\n- **Never import Key or Selection from react-aria-components for TagSelect selection state — derive the type from TagSelect.Root props** — `react-aria-components` is not an allowed import prefix; importing `Key` from it causes `Cannot find module 'react-aria-components'`. Derive the selection type from `TagSelect.Root` props with `React.ComponentProps`, or omit the state type annotation entirely.",
           "antiPatterns": [
-            "<TagGroup.Tag id=\"a\" onRemove={() => remove('a')}>Design</TagGroup.Tag>"
+            "<TagGroup.Tag id=\"a\" onRemove={() => remove('a')}>Design</TagGroup.Tag>",
+            "import type { Key } from 'react-aria-components';",
+            "const [selected, setSelected] = React.useState<Set<Key>>(new Set(['alice', 'bob']));"
           ],
           "fixes": [
-            "<TagGroup.Root onRemove={(keys) => setTags(tags.filter(t => !keys.has(t.id)))}><TagGroup.Tag id=\"a\">Design</TagGroup.Tag></TagGroup.Root>"
+            "<TagGroup.Root onRemove={(keys) => setTags(tags.filter(t => !keys.has(t.id)))}><TagGroup.Tag id=\"a\">Design</TagGroup.Tag></TagGroup.Root>",
+            "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];",
+            "const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'bob']));"
           ]
         }
       ],
@@ -7908,10 +8210,14 @@
           "summary": "size only accepts 'xs', 's', 'm', 'l'",
           "detail": "no other size tokens are valid.",
           "antiPatterns": [
-            "<Text size=\"sm\">Hello</Text>"
+            "<Text size=\"sm\">Hello</Text>",
+            "<Text size=\"md\">Hello</Text>",
+            "<Text size=\"lg\">Hello</Text>"
           ],
           "fixes": [
-            "<Text size=\"s\">Hello</Text>"
+            "<Text size=\"s\">Hello</Text>",
+            "<Text size=\"m\">Hello</Text>",
+            "<Text size=\"l\">Hello</Text>"
           ]
         },
         {
@@ -7927,17 +8233,26 @@
         },
         {
           "id": "text-no-invalid-variants",
-          "summary": "variant+size compound strings like 'heading-m' or 'body-m' are not valid — always pass them as two separate props",
+          "summary": "variant+size compound strings like 'heading-m', 'heading-l', 'heading-xl', 'body-m', 'label-m', or 'label-l' are not valid — always pass them as two separate props",
           "detail": "compound strings fail TypeScript; there is also no `'body'` variant, use `variant=\"text\"` for body copy. When generating heading+body content-section pairs, also use `color=\"muted\"` (not `color=\"secondary\"`) for supporting text.",
           "antiPatterns": [
+            "<Text variant=\"heading-xl\">Title</Text>",
+            "<Text variant=\"heading-l\">Title</Text>",
             "<Text variant=\"heading-m\">Title</Text>",
             "<Text variant=\"body-m\">Description</Text>",
-            "<Text variant=\"body-m\" color=\"secondary\">Description</Text>"
+            "<Text variant=\"body-m\" color=\"secondary\">Description</Text>",
+            "<Text variant=\"label-l\">Label</Text>",
+            "<Text variant=\"label-m\">Label</Text>"
           ],
           "fixes": [
+            "<Text variant=\"heading\" size=\"l\">Title</Text>",
+            "<Text variant=\"heading\" size=\"m\">Title</Text>",
             "<Text variant=\"heading\">Title</Text>",
             "<Text variant=\"text\" size=\"m\">Description</Text>",
-            "<Text variant=\"text\" size=\"m\" color=\"muted\">Description</Text>"
+            "<Text variant=\"text\" size=\"m\" color=\"muted\">Description</Text>",
+            "<Text variant=\"label\">Label</Text>",
+            "<Text variant=\"label\" size=\"l\">Label</Text>",
+            "<Text variant=\"label\" size=\"m\">Label</Text>"
           ]
         },
         {
@@ -7954,14 +8269,16 @@
         {
           "id": "text-as-prop-valid-elements",
           "summary": "as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'",
-          "detail": "not `'strong'`, `'code'`, `'pre'`, `'kbd'`, or other elements. For keyboard shortcut markup use a native `<kbd>` HTML element directly.",
+          "detail": "not `'strong'`, `'code'`, `'pre'`, `'kbd'`, or other elements. For keyboard shortcut markup use a native `<kbd>` HTML element directly. For inline monospace/code snippets, use `variant=\"mono\"` without `as=\"code\"` — `\"code\"` is not a valid TextElement and causes a TypeScript error.",
           "antiPatterns": [
             "<Text as=\"strong\">Bold</Text>",
-            "<Text as=\"kbd\">⌘ S</Text>"
+            "<Text as=\"kbd\">⌘ S</Text>",
+            "<Text variant=\"mono\" as=\"code\">pnpm install</Text>"
           ],
           "fixes": [
             "<Text variant=\"label\">Bold</Text>",
-            "<kbd>⌘ S</kbd>"
+            "<kbd>⌘ S</kbd>",
+            "<Text variant=\"mono\" as=\"span\">pnpm install</Text>"
           ]
         },
         {
@@ -8006,7 +8323,8 @@
           "antiPatterns": [
             "<Text color=\"neutral\">Note</Text>",
             "<Text color=\"secondary\">Note</Text>",
-            "<Text color=\"success\">Online</Text>"
+            "<Text color=\"success\">Online</Text>",
+            "<Text color=\"danger\">Error message</Text>"
           ],
           "fixes": [
             "<Text color=\"muted\">Note</Text>"
@@ -8025,26 +8343,34 @@
         },
         {
           "id": "never-apply-nonlayout-inline-styles",
-          "summary": "Never apply non-layout inline styles (fontWeight, fontSize, textDecoration, fontStyle) to Text",
-          "detail": "use `variant` and `size` props for typography control; for bold labels inside buttons or icon-only toggles, use a plain text node rather than a `<Text>` wrapper with `style={{ fontWeight: ... }}`.",
+          "summary": "Never apply non-layout inline styles (color, fontWeight, fontSize, textDecoration, fontStyle) to Text",
+          "detail": "use `variant`, `size`, and `color` props for typography control; for bold labels inside buttons or icon-only toggles, use a plain text node rather than a `<Text>` wrapper with `style={{ fontWeight: ... }}`. For tinted or muted text, use the `color` prop (`'default'`, `'muted'`, or `'accent'`) — never a CSS `color` inline style.",
           "antiPatterns": [
+            "<Text style={{ color: 'var(--neutral-60)' }}>Note</Text>",
             "<Text as=\"span\" style={{ fontWeight: 700 }}>B</Text>"
           ],
           "fixes": [
+            "<Text color=\"muted\">Note</Text>",
             "B"
           ]
         },
         {
           "id": "text-has-no-weight-prop",
           "summary": "Text has no weight prop — use variant=\"label\" for label-weight text",
-          "detail": "there is no `weight` prop on `Text`; passing `weight=\"medium\"` or any weight string causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. To render bold or label-weight text use `variant=\"label\"`.",
+          "detail": "there is no `weight` prop on `Text`; passing `weight=\"medium\"` or any weight string causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. To render bold or label-weight text use `variant=\"label\"`. This applies everywhere Text appears, including inside Disclosure.Trigger, accordion headers, and other trigger labels.",
           "antiPatterns": [
             "<Text weight=\"medium\">Plan Name</Text>",
-            "<Text size=\"m\" weight=\"medium\">Plan Name</Text>"
+            "<Text weight=\"semibold\">Color Palette</Text>",
+            "<Text weight=\"medium\">What is included?</Text>",
+            "<Text size=\"m\" weight=\"medium\">Plan Name</Text>",
+            "<Text weight=\"semibold\" size=\"lg\">Title</Text>"
           ],
           "fixes": [
             "<Text variant=\"label\">Plan Name</Text>",
-            "<Text size=\"m\" variant=\"label\">Plan Name</Text>"
+            "<Text variant=\"label\">Color Palette</Text>",
+            "<Text variant=\"label\">What is included?</Text>",
+            "<Text size=\"m\" variant=\"label\">Plan Name</Text>",
+            "<Text variant=\"label\" size=\"l\">Title</Text>"
           ]
         }
       ],
@@ -8458,7 +8784,8 @@
       "parts": null,
       "examples": [
         "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';\nimport { ToggleButton } from '@tale-ui/react/toggle-button';\n\n<ToggleButtonGroup aria-label=\"Text formatting\">\n  <ToggleButton>Bold</ToggleButton>\n  <ToggleButton>Italic</ToggleButton>\n  <ToggleButton>Underline</ToggleButton>\n</ToggleButtonGroup>",
-        "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';\n    import { ToggleButton } from '@tale-ui/react/toggle-button';\n    \n    export function Example() {\n      return (\n        <ToggleButtonGroup aria-label=\"Text formatting\">\n          <ToggleButton>Bold</ToggleButton>\n          <ToggleButton>Italic</ToggleButton>\n          <ToggleButton>Underline</ToggleButton>\n        </ToggleButtonGroup>\n      );\n    }"
+        "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';\n    import { ToggleButton } from '@tale-ui/react/toggle-button';\n    \n    export function Example() {\n      return (\n        <ToggleButtonGroup aria-label=\"Text formatting\">\n          <ToggleButton>Bold</ToggleButton>\n          <ToggleButton>Italic</ToggleButton>\n          <ToggleButton>Underline</ToggleButton>\n        </ToggleButtonGroup>\n      );\n    }",
+        "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';\n    import { ToggleButton } from '@tale-ui/react/toggle-button';\n    \n    export function TextAlignmentGroup() {\n      return (\n        <ToggleButtonGroup aria-label=\"Text alignment\" selectionMode=\"single\">\n          <ToggleButton>Left</ToggleButton>\n          <ToggleButton>Center</ToggleButton>\n          <ToggleButton>Right</ToggleButton>\n        </ToggleButtonGroup>\n      );\n    }"
       ],
       "cssClasses": null,
       "pitfalls": [
@@ -8476,19 +8803,31 @@
         },
         {
           "id": "toggle-group-requires-aria-label",
-          "summary": "Requires aria-label or aria-labelledby",
-          "detail": "React Aria logs a console warning at runtime if neither is provided."
+          "summary": "Import ToggleButtonGroup from @tale-ui/react/toggle-group, not @tale-ui/react/toggle-button-group",
+          "detail": "the module path uses the shorter `toggle-group` name; importing from `@tale-ui/react/toggle-button-group` causes 'Cannot find module' TypeScript errors.",
+          "antiPatterns": [
+            "import { ToggleButtonGroup } from '@tale-ui/react/toggle-button-group';"
+          ],
+          "fixes": [
+            "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';"
+          ]
         },
         {
           "id": "use-togglebuttongroup-for-any-prompt",
           "summary": "Use <ToggleButtonGroup> for any prompt that asks for a toggle button group, segmented alignment control, or mutually exclusive option set",
-          "detail": "when the request is for grouped toggles such as text alignment (Left / Center / Right), view mode switchers, or any set of options where one or more can be selected, render `ToggleButtonGroup` (from `@tale-ui/react/toggle-group`) wrapping individual `ToggleButton` children instead of leaving the file empty or substituting a different component. Always pass `aria-label` and `selectionMode`.",
+          "detail": "when the request is for grouped toggles such as text alignment (Left / Center / Right), view mode switchers, or any set of options where one or more can be selected, render `ToggleButtonGroup` (from `@tale-ui/react/toggle-group`) wrapping individual `ToggleButton` children instead of leaving the file empty or substituting a different component. Always pass `aria-label` and `selectionMode`.\n\n    ```tsx\n    import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';\n    import { ToggleButton } from '@tale-ui/react/toggle-button';\n    \n    export function TextAlignmentGroup() {\n      return (\n        <ToggleButtonGroup aria-label=\"Text alignment\" selectionMode=\"single\">\n          <ToggleButton>Left</ToggleButton>\n          <ToggleButton>Center</ToggleButton>\n          <ToggleButton>Right</ToggleButton>\n        </ToggleButtonGroup>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file"
           ],
           "fixes": [
             "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group'; import { ToggleButton } from '@tale-ui/react/toggle-button'; export function TextAlignmentGroup() { return <ToggleButtonGroup aria-label=\"Text alignment\" selectionMode=\"single\"><ToggleButton>Left</ToggleButton><ToggleButton>Center</ToggleButton><ToggleButton>Right</ToggleButton></ToggleButtonGroup>; }"
-          ]
+          ],
+          "completeExample": "import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';\nimport { ToggleButton } from '@tale-ui/react/toggle-button';\n\nexport function TextAlignmentGroup() {\n  return (\n    <ToggleButtonGroup aria-label=\"Text alignment\" selectionMode=\"single\">\n      <ToggleButton>Left</ToggleButton>\n      <ToggleButton>Center</ToggleButton>\n      <ToggleButton>Right</ToggleButton>\n    </ToggleButtonGroup>\n  );\n}"
+        },
+        {
+          "id": "requires-arialabel-or-arialabelledby",
+          "summary": "Requires aria-label or aria-labelledby",
+          "detail": "React Aria logs a console warning at runtime if neither is provided."
         }
       ],
       "crossPitfallRefs": [

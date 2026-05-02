@@ -175,11 +175,104 @@ All parts accept standard `<div>` HTML attributes including `className`.
   - fix: `<Card.Body><Column gap="s">…</Column></Card.Body>`
   - fix: `<Card.Footer><Row gap="s">…</Row></Card.Footer>`
 <!-- pitfall: for-stat-cards-label-value -->
-- **For stat cards, render `<Text color="muted">` inside `Card.Header` — wrap value/badge in `<Column>` inside `Card.Body`** — `Card.Header` has no `title` prop; place a `<Text color="muted">` child directly. `Card.Body` has no `gap` prop; wrap contents in `<Column gap="s">`. Use `<Row gap="m">` to lay out multiple stat cards side by side.
+- **For stat cards, render <Text color="muted"> inside Card.Header — wrap value/badge in <Column> inside Card.Body** — `Card.Header` has no `title` prop; place a `<Text color="muted">` child directly. `Card.Body` has no `gap` prop; wrap contents in `<Column gap="s">`. Use `<Row gap="m">` to lay out multiple stat cards side by side.
   - anti-pattern: `<Card.Header title="Revenue" />`
   - anti-pattern: `<Card.Body gap="s">`
   - fix: `<Card.Header><Text color="muted">Revenue</Text></Card.Header>`
   - fix: `<Card.Body><Column gap="s"><Text variant="display">$48,200</Text><Badge variant="success">+12%</Badge></Column></Card.Body>`
+<!-- pitfall: use-card-row-column-text -->
+- **Use Card + Row + Column + Text + Badge for any prompt that asks for stat cards, metric cards, or KPI cards** — when the request is to display a row of cards each showing a label, a large value, and a trend badge, render `Card.Root` for each card with `Card.Header`/`Card.Body`, wrap card body content in `<Column gap="s">`, and use `<Row gap="m">` to lay the cards out horizontally instead of leaving the file empty.
+  - anti-pattern: `// empty file`
+  - fix: `import { Card } from '@tale-ui/react/card'; import { Row } from '@tale-ui/react/row'; import { Column } from '@tale-ui/react/column'; import { Text } from '@tale-ui/react/text'; import { Badge } from '@tale-ui/react/badge'; export function StatCards() { return <Row gap="m"><Card.Root><Card.Header><Text color="muted">Revenue</Text></Card.Header><Card.Body><Column gap="s"><Text variant="display">$48,200</Text><Badge variant="success">+12%</Badge></Column></Card.Body></Card.Root></Row>; }`
+  - complete example:
+
+    ```tsx
+    import { Card } from '@tale-ui/react/card';
+    import { Row } from '@tale-ui/react/row';
+    import { Column } from '@tale-ui/react/column';
+    import { Text } from '@tale-ui/react/text';
+    import { Badge } from '@tale-ui/react/badge';
+
+    export function StatCards() {
+      return (
+        <Row gap="m">
+          <Card.Root>
+            <Card.Header><Text color="muted">Revenue</Text></Card.Header>
+            <Card.Body>
+              <Column gap="s">
+                <Text variant="display">$48,200</Text>
+                <Badge variant="success">+12%</Badge>
+              </Column>
+            </Card.Body>
+          </Card.Root>
+          <Card.Root>
+            <Card.Header><Text color="muted">Users</Text></Card.Header>
+            <Card.Body>
+              <Column gap="s">
+                <Text variant="display">12,340</Text>
+                <Badge variant="success">+8%</Badge>
+              </Column>
+            </Card.Body>
+          </Card.Root>
+          <Card.Root>
+            <Card.Header><Text color="muted">Orders</Text></Card.Header>
+            <Card.Body>
+              <Column gap="s">
+                <Text variant="display">1,893</Text>
+                <Badge variant="error">-3%</Badge>
+              </Column>
+            </Card.Body>
+          </Card.Root>
+        </Row>
+      );
+    }
+    ```
+<!-- pitfall: use-card-image-text-column -->
+- **Use Card + Image + Text + Column + Row + Badge + IconButton + Icon + Button for any prompt that asks for a profile card, user card, or contact card** — when the request is to display a user's profile photo, name, role/title, skill badges, and action buttons inside a card, render `Card.Root` with `Card.Header`, `Card.Body`, and `Card.Footer`; place `<Image>` in `Card.Header`, wrap body content in `<Column gap="s">` inside `Card.Body`, and wrap footer actions in `<Row gap="s">` inside `Card.Footer`. Use `variant="elevated"` when the prompt requests an elevated card style.
+  - anti-pattern: `// empty file`
+  - fix: `import { Card } from '@tale-ui/react/card'; import { Image } from '@tale-ui/react/image'; import { Text } from '@tale-ui/react/text'; import { Column } from '@tale-ui/react/column'; import { Row } from '@tale-ui/react/row'; import { Badge } from '@tale-ui/react/badge'; import { IconButton } from '@tale-ui/react/icon-button'; import { Icon } from '@tale-ui/react/icon'; import { Button } from '@tale-ui/react/button'; import { Pencil } from 'lucide-react'; export function UserProfileCard() { return <Card.Root variant="elevated"><Card.Header><Image src="/profile.jpg" alt="Sarah Chen" radius="full" width={80} height={80} /></Card.Header><Card.Body><Column gap="s"><Text variant="heading">Sarah Chen</Text><Text color="muted">Senior Engineer</Text><Row gap="s"><Badge variant="neutral">React</Badge><Badge variant="neutral">TypeScript</Badge></Row></Column></Card.Body><Card.Footer><Row gap="s"><IconButton variant="ghost" aria-label="Edit profile"><Icon icon={Pencil} /></IconButton><Button variant="primary">Message</Button></Row></Card.Footer></Card.Root>; }`
+  - complete example:
+
+    ```tsx
+    import { Card } from '@tale-ui/react/card';
+    import { Image } from '@tale-ui/react/image';
+    import { Text } from '@tale-ui/react/text';
+    import { Column } from '@tale-ui/react/column';
+    import { Row } from '@tale-ui/react/row';
+    import { Badge } from '@tale-ui/react/badge';
+    import { IconButton } from '@tale-ui/react/icon-button';
+    import { Icon } from '@tale-ui/react/icon';
+    import { Button } from '@tale-ui/react/button';
+    import { Pencil } from 'lucide-react';
+    
+    export function UserProfileCard() {
+      return (
+        <Card.Root variant="elevated">
+          <Card.Header>
+            <Image src="/profile.jpg" alt="Sarah Chen" radius="full" width={80} height={80} />
+          </Card.Header>
+          <Card.Body>
+            <Column gap="s">
+              <Text variant="heading">Sarah Chen</Text>
+              <Text color="muted">Senior Engineer</Text>
+              <Row gap="s">
+                <Badge variant="neutral">React</Badge>
+                <Badge variant="neutral">TypeScript</Badge>
+              </Row>
+            </Column>
+          </Card.Body>
+          <Card.Footer>
+            <Row gap="s">
+              <IconButton variant="ghost" aria-label="Edit profile">
+                <Icon icon={Pencil} />
+              </IconButton>
+              <Button variant="primary">Message</Button>
+            </Row>
+          </Card.Footer>
+        </Card.Root>
+      );
+    }
+    ```
 
 ## Notes
 

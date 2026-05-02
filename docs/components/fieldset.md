@@ -80,9 +80,11 @@ Accepts all native `<fieldset>` element props plus an optional `className`. See 
     ```
 
 <!-- pitfall: fieldset-column-gap-token -->
-- **When stacking fields inside Fieldset.Root with Column, use spacing-token gap values, not component size names** — `gap="md"` is not a valid `Gap` value and causes a TypeScript error; use `gap="m"` instead.
+- **When stacking fields inside Fieldset.Root with Column or Row, use spacing-token gap values, not component size names** — `gap="md"` is not a valid `Gap` value and causes a TypeScript error; use `gap="m"` instead.
   - anti-pattern: `<Column gap="md">`
+  - anti-pattern: `<Row gap="md">`
   - fix: `<Column gap="m">`
+  - fix: `<Row gap="m">`
 
 ## Notes
 

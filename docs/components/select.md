@@ -226,9 +226,17 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
 
 <!-- pitfall: select-no-option-sub-part -->
 <!-- multi-idea-ok -->
-- **No `Select.Option` — use `Select.Item`** — `Select.Trigger` also requires `<Select.Icon />` placed after `<Select.Value />`.
+- **No Select.Option — use Select.Item** — `Select.Trigger` also requires `<Select.Icon />` placed after `<Select.Value />`.
   - anti-pattern: `<Select.Option id="a">A</Select.Option>`
   - fix: `<Select.Item id="a" textValue="A">A</Select.Item>`
+<!-- pitfall: use-selectsection-with-selectheader-for -->
+- **Use Select.Section with Select.Header for grouped options** — to render a categorized selector with labelled groups, place `Select.Section` elements (each with a `Select.Header` child and `Select.Item` children) directly inside `Select.ListBox`. There is no `Select.Group` or `Select.Category` sub-part.
+  - anti-pattern: `<Select.ListBox><Select.Group label="Fruits"><Select.Item id="apple">Apple</Select.Item></Select.Group></Select.ListBox>`
+  - fix: `<Select.ListBox><Select.Section id="fruits"><Select.Header>Fruits</Select.Header><Select.Item id="apple" textValue="Apple">Apple</Select.Item></Select.Section></Select.ListBox>`
+<!-- pitfall: use-select-with-selectsection-for -->
+- **Use Select with Select.Section for any prompt that asks for a categorized or grouped selector** — when the request is to show a selector with labelled groups of options, render `Select.Root` with `Select.Section` and `Select.Header` inside `Select.ListBox` instead of leaving the file empty.
+  - anti-pattern: `// empty file`
+  - fix: `import { Select } from '@tale-ui/react/select'; export function FoodCategorySelector() { return <Select.Root placeholder="Select a food..."><Select.Label>Food</Select.Label><Select.Trigger><Select.Value /><Select.Icon /></Select.Trigger><Select.Popover><Select.ListBox><Select.Section id="fruits"><Select.Header>Fruits</Select.Header><Select.Item id="apple" textValue="Apple">Apple</Select.Item><Select.Item id="banana" textValue="Banana">Banana</Select.Item></Select.Section><Select.Section id="vegetables"><Select.Header>Vegetables</Select.Header><Select.Item id="carrot" textValue="Carrot">Carrot</Select.Item><Select.Item id="broccoli" textValue="Broccoli">Broccoli</Select.Item></Select.Section></Select.ListBox></Select.Popover></Select.Root>; }`
 
 ## Notes
 
