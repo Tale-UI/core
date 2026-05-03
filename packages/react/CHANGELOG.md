@@ -2,6 +2,13 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.47 — 2026-05-03
+
+### Changed
+
+- **Docs**: Updated component docs across 30+ components with new pitfalls surfaced by golden prompt eval runs (autocomplete, card, drop-zone, field, file-trigger, image-cropper, input-tags, pin-input, popover, progress-circle, radio, section-divider, select, switch, text, text-editor, toggle-group, and more).
+- **Registry**: Refreshed `components.json`, `pitfalls.json`, and `a2ui-catalog.json` to reflect doc updates.
+
 ## v1.3.46 — 2026-04-26
 
 ### Changed

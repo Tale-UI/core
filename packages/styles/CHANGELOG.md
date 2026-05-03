@@ -2,6 +2,10 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.47 — 2026-05-03
+
+No changes — version bump for coordinated release.
+
 ## v1.3.46 — 2026-04-26
 
 No changes — version bump for coordinated release.

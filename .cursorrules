@@ -250,7 +250,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [SocialButton] size only accepts 'sm' or 'md' — 'lg' does not exist
 - [Spinner] label prop sets aria-label — it does NOT render visible text
 - [Spinner] Use Spinner for any prompt that asks for a loading spinner, loading indicator, or loading state
-- [Switch] No Label or Indicator sub-parts — only Root and Thumb
+- [Switch] Switch has no Label or Indicator sub-parts — only Root and Thumb
 - [Switch] Use defaultSelected to turn a switch on by default in settings rows
 - [Switch] Use Switch, Card, Column, Row, Text for settings-card prompts with preference switches
 - [Table] No Table.ColumnHeader
@@ -274,6 +274,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Text] Text has no weight prop — use variant="label" for label-weight text
 - [TextArea] TextArea.TextArea sub-part is PascalCase, NOT TextArea.Textarea
 - [TextEditor] TextEditor.Root does not accept label or maxLength props
+- [TextEditor] Use TextEditor for any prompt that asks for a rich text editor, WYSIWYG editor, or formatted text input
 - [TextField] TextField.Root accepts name — HTML input attributes (type, minLength, maxLength, placeholder) go on TextField.Input.
 - [TextField] There is NO PasswordInput component
 - [TimeField] No extra sub-parts: TimeField.Group, TimeField.Trigger, TimeField.Input, TimeField.Popover, TimeField.Dialog do not exist
