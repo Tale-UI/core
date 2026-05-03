@@ -220,3 +220,24 @@ export function CustomToolbar() {
 - **TextEditor.Root does not accept label or maxLength props** — `label` and `maxLength` are not valid on `TextEditor.Root`; use `TextEditor.Label` for the visible label and place `maxLength` on `TextEditor.Content`.
   - anti-pattern: `<TextEditor.Root label="Content" maxLength={300}>`
   - fix: `<TextEditor.Root><TextEditor.Label>Content</TextEditor.Label><TextEditor.Toolbar /><TextEditor.Content maxLength={300} /></TextEditor.Root>`
+<!-- pitfall: use-texteditor-for-any-prompt -->
+- **Use TextEditor for any prompt that asks for a rich text editor, WYSIWYG editor, or formatted text input** — When the request is to show a rich text editor with formatting controls, render TextEditor.Root containing TextEditor.Label, TextEditor.Toolbar, and TextEditor.Content. Place the visible label in TextEditor.Label and the character limit in TextEditor.Content's maxLength prop — not on TextEditor.Root. Never leave the file empty or substitute a TextArea or TextField.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `<TextEditor.Root label="Content" maxLength={300} />`
+  - anti-pattern: `import { TextArea } from '@tale-ui/react/text-area'; export function Editor() { return <TextArea.Root><TextArea.Label>Content</TextArea.Label><TextArea.TextArea /></TextArea.Root>; }`
+  - fix: `import { TextEditor } from '@tale-ui/react/text-editor'; export function ContentEditor() { return <TextEditor.Root><TextEditor.Label>Content</TextEditor.Label><TextEditor.Toolbar /><TextEditor.Content maxLength={300} /></TextEditor.Root>; }`
+  - complete example:
+    ```tsx
+    import { TextEditor } from '@tale-ui/react/text-editor';
+    
+    export function ContentEditor() {
+      return (
+        <TextEditor.Root>
+          <TextEditor.Label>Content</TextEditor.Label>
+          <TextEditor.Toolbar />
+          <TextEditor.Content maxLength={300} />
+        </TextEditor.Root>
+      );
+    }
+    ```
+

@@ -287,47 +287,49 @@ explicit BEM class names:
 <!-- pitfall: never-import-key-from-reactariacomponents -->
 <!-- applies-to: * -->
 <!-- category: imports -->
-
-- **Never import Key from react-aria-components for selection state — derive the type from the component's props** — `react-aria-components` is not available in consumer projects; importing from it causes "Cannot find module" TypeScript errors. Derive the key type from the component's `onSelectionChange` prop using `React.ComponentProps` instead.
+- **Never import Key or any type from react-aria-components for selection state — derive the type from the component's props** — `react-aria-components` is an internal peer dependency not available in consumer projects. Importing `Key` (or any type) from it causes "Cannot find module 'react-aria-components'" TypeScript errors. Derive the selection key type from the component's own `onSelectionChange` prop using `React.ComponentProps` instead. Initialize `useState` with that derived type so the setter is compatible.
   - anti-pattern: `import type { Key } from 'react-aria-components';`
-  - anti-pattern: `const [selected, setSelected] = React.useState<Set<Key>>(new Set(['alice', 'carol']));`
+  - anti-pattern: `const [selected, setSelected] = React.useState<Set<Key>>(new Set(['alice', 'bob']));`
   - fix: `type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];`
-  - fix: `const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'carol']));`
+  - fix: `const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'bob']));`
   - complete example:
-
-        ```tsx
-        import * as React from 'react';
-        import { TagSelect } from '@tale-ui/react/tag-select';
-
-        type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];
-
-        const members = [
-          { id: 'alice', name: 'Alice Chen' },
-          { id: 'bob', name: 'Bob Martínez' },
-        ];
-
-        export function TeamMemberPicker() {
-          const [selected, setSelected] = React.useState<SelectionValue>(
-            new Set(['alice', 'bob'])
-          );
-          return (
-            <TagSelect.Root
-              label="Team members"
-              placeholder="Search members…"
-              description="Select everyone who should have access."
-              items={members}
-              selectedKeys={selected}
-              onSelectionChange={setSelected}
-            >
-              {(member) => (
-                <TagSelect.Item id={member.id} textValue={member.name}>
-                  {member.name}
-                </TagSelect.Item>
-              )}
-            </TagSelect.Root>
-          );
-        }
-        ```
+    ```tsx
+    import * as React from 'react';
+    import { TagSelect } from '@tale-ui/react/tag-select';
+    
+    type SelectionValue = Parameters<
+      NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>
+    >[0];
+    
+    const members = [
+      { id: 'alice', name: 'Alice Chen' },
+      { id: 'bob', name: 'Bob Martínez' },
+      { id: 'carol', name: 'Carol Lee' },
+    ];
+    
+    export function TeamMemberPicker() {
+      const [selected, setSelected] = React.useState<SelectionValue>(
+        new Set(['alice', 'bob']),
+      );
+    
+      return (
+        <TagSelect.Root
+          label="Team members"
+          placeholder="Search members…"
+          description="Select who should be included in this project."
+          items={members}
+          selectedKeys={selected}
+          onSelectionChange={setSelected}
+        >
+          {(member) => (
+            <TagSelect.Item id={member.id} textValue={member.name}>
+              {member.name}
+            </TagSelect.Item>
+          )}
+        </TagSelect.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: never-import-key-or-any -->
 <!-- applies-to: * -->

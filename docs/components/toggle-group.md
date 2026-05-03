@@ -59,11 +59,12 @@ import { ToggleButton } from '@tale-ui/react/toggle-button';
 
 <!-- cross-pitfall-ref: toggle-button-group-import-path -->
 <!-- pitfall: use-togglebuttongroup-for-any-prompt -->
-- **Use <ToggleButtonGroup> for any prompt that asks for a toggle button group, segmented alignment control, or mutually exclusive option set** — when the request is for grouped toggles such as text alignment (Left / Center / Right), view mode switchers, or any set of options where one or more can be selected, render `ToggleButtonGroup` (from `@tale-ui/react/toggle-group`) wrapping individual `ToggleButton` children instead of leaving the file empty or substituting a different component. Always pass `aria-label` and `selectionMode`.
+- **Use <ToggleButtonGroup> for any prompt that asks for a toggle button group, segmented alignment control, or mutually exclusive option set** — when the request is for grouped toggles such as text alignment (Left / Center / Right), view mode switchers, or any set of options where one or more can be selected, render ToggleButtonGroup (from @tale-ui/react/toggle-group) wrapping individual ToggleButton children (from @tale-ui/react/toggle-button) instead of leaving the file empty or substituting a different component. Both imports are always required together — ToggleButtonGroup alone renders nothing without ToggleButton children. Always pass aria-label and selectionMode to ToggleButtonGroup.
   - anti-pattern: `// empty file`
+  - anti-pattern: `export function TextAlignmentGroup() {}`
+  - anti-pattern: `import { ToggleButtonGroup } from '@tale-ui/react/toggle-group'; export function TextAlignmentGroup() { return <ToggleButtonGroup aria-label="Text alignment" selectionMode="single" />; }`
   - fix: `import { ToggleButtonGroup } from '@tale-ui/react/toggle-group'; import { ToggleButton } from '@tale-ui/react/toggle-button'; export function TextAlignmentGroup() { return <ToggleButtonGroup aria-label="Text alignment" selectionMode="single"><ToggleButton>Left</ToggleButton><ToggleButton>Center</ToggleButton><ToggleButton>Right</ToggleButton></ToggleButtonGroup>; }`
   - complete example:
-
     ```tsx
     import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';
     import { ToggleButton } from '@tale-ui/react/toggle-button';

@@ -484,20 +484,21 @@
     },
     {
       "id": "never-import-key-from-reactariacomponents",
-      "summary": "Never import Key from react-aria-components for selection state — derive the type from the component's props",
-      "detail": "`react-aria-components` is not available in consumer projects; importing from it causes \"Cannot find module\" TypeScript errors. Derive the key type from the component's `onSelectionChange` prop using `React.ComponentProps` instead. ```tsx import * as React from 'react'; import { TagSelect } from '@tale-ui/react/tag-select'; type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0]; const members = [ { id: 'alice', name: 'Alice Chen' }, { id: 'bob', name: 'Bob Martínez' }, ]; export function TeamMemberPicker() { const [selected, setSelected] = React.useState<SelectionValue>( new Set(['alice', 'bob']) ); return ( <TagSelect.Root label=\"Team members\" placeholder=\"Search members…\" description=\"Select everyone who should have access.\" items={members} selectedKeys={selected} onSelectionChange={setSelected} > {(member) => ( <TagSelect.Item id={member.id} textValue={member.name}> {member.name} </TagSelect.Item> )} </TagSelect.Root> ); } ```",
+      "summary": "Never import Key or any type from react-aria-components for selection state — derive the type from the component's props",
+      "detail": "`react-aria-components` is an internal peer dependency not available in consumer projects. Importing `Key` (or any type) from it causes \"Cannot find module 'react-aria-components'\" TypeScript errors. Derive the selection key type from the component's own `onSelectionChange` prop using `React.ComponentProps` instead. Initialize `useState` with that derived type so the setter is compatible. import * as React from 'react'; import { TagSelect } from '@tale-ui/react/tag-select';  type SelectionValue = Parameters< NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']> >[0];  const members = [ { id: 'alice', name: 'Alice Chen' }, { id: 'bob', name: 'Bob Martínez' }, { id: 'carol', name: 'Carol Lee' }, ];  export function TeamMemberPicker() { const [selected, setSelected] = React.useState<SelectionValue>( new Set(['alice', 'bob']), );  return ( <TagSelect.Root label=\"Team members\" placeholder=\"Search members…\" description=\"Select who should be included in this project.\" items={members} selectedKeys={selected} onSelectionChange={setSelected} > {(member) => ( <TagSelect.Item id={member.id} textValue={member.name}> {member.name} </TagSelect.Item> )} </TagSelect.Root> ); }",
       "appliesTo": [
         "*"
       ],
       "category": "imports",
       "antiPatterns": [
         "import type { Key } from 'react-aria-components';",
-        "const [selected, setSelected] = React.useState<Set<Key>>(new Set(['alice', 'carol']));"
+        "const [selected, setSelected] = React.useState<Set<Key>>(new Set(['alice', 'bob']));"
       ],
       "fixes": [
         "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>>[0];",
-        "const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'carol']));"
-      ]
+        "const [selected, setSelected] = React.useState<SelectionValue>(new Set(['alice', 'bob']));"
+      ],
+      "completeExample": "import * as React from 'react';\nimport { TagSelect } from '@tale-ui/react/tag-select';\n\ntype SelectionValue = Parameters<\n  NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>\n>[0];\n\nconst members = [\n  { id: 'alice', name: 'Alice Chen' },\n  { id: 'bob', name: 'Bob Martínez' },\n  { id: 'carol', name: 'Carol Lee' },\n];\n\nexport function TeamMemberPicker() {\n  const [selected, setSelected] = React.useState<SelectionValue>(\n    new Set(['alice', 'bob']),\n  );\n\n  return (\n    <TagSelect.Root\n      label=\"Team members\"\n      placeholder=\"Search members…\"\n      description=\"Select who should be included in this project.\"\n      items={members}\n      selectedKeys={selected}\n      onSelectionChange={setSelected}\n    >\n      {(member) => (\n        <TagSelect.Item id={member.id} textValue={member.name}>\n          {member.name}\n        </TagSelect.Item>\n      )}\n    </TagSelect.Root>\n  );\n}"
     },
     {
       "id": "never-import-key-or-any",

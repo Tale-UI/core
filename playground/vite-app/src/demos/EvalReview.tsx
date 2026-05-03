@@ -8,71 +8,196 @@ import { LineChart } from '@tale-ui/charts/line-chart';
 import { PieChart } from '@tale-ui/charts/pie-chart';
 import { RadarChart } from '@tale-ui/charts/radar-chart';
 import { RadialBarChart } from '@tale-ui/charts/radial-bar-chart';
+import { Accordion } from '@tale-ui/react/accordion';
 import { AlertDialog } from '@tale-ui/react/alert-dialog';
+import { AppStoreButton } from '@tale-ui/react/app-store-button';
 import { Autocomplete, useFilter } from '@tale-ui/react/autocomplete';
 import { Avatar } from '@tale-ui/react/avatar';
+import { BackgroundPattern } from '@tale-ui/react/background-pattern';
 import { Badge } from '@tale-ui/react/badge';
+import { BadgeGroup } from '@tale-ui/react/badge-group';
 import { Banner } from '@tale-ui/react/banner';
 import { Breadcrumbs } from '@tale-ui/react/breadcrumbs';
 import { Button } from '@tale-ui/react/button';
+import { Calendar } from '@tale-ui/react/calendar';
 import { Card } from '@tale-ui/react/card';
+import { Carousel } from '@tale-ui/react/carousel';
 import { Checkbox } from '@tale-ui/react/checkbox';
 import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
 import { ColorArea, parseColor as ColorareaparseColor } from '@tale-ui/react/color-area';
 import { ColorField } from '@tale-ui/react/color-field';
+import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 import { ColorPicker } from '@tale-ui/react/color-picker';
 import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
-import { ColorSwatch } from '@tale-ui/react/color-swatch';
+import { ColorSwatch, parseColor as ColorswatchparseColor } from '@tale-ui/react/color-swatch';
 import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';
 import { ColorWheel } from '@tale-ui/react/color-wheel';
 import { Column } from '@tale-ui/react/column';
 import { Combobox } from '@tale-ui/react/combobox';
 import { Container } from '@tale-ui/react/container';
+import { ContextMenu } from '@tale-ui/react/context-menu';
+import { CreditCard } from '@tale-ui/react/credit-card';
+import { DateField } from '@tale-ui/react/date-field';
+import { DatePicker } from '@tale-ui/react/date-picker';
+import { DateRangePicker } from '@tale-ui/react/date-range-picker';
 import { Dialog } from '@tale-ui/react/dialog';
 import { Disclosure } from '@tale-ui/react/disclosure';
+import { DotIcon } from '@tale-ui/react/dot-icon';
 import { Drawer } from '@tale-ui/react/drawer';
 import { DropZone } from '@tale-ui/react/drop-zone';
 import { EmptyState } from '@tale-ui/react/empty-state';
+import { FeaturedIcon } from '@tale-ui/react/featured-icon';
 import { Field } from '@tale-ui/react/field';
+import { Fieldset } from '@tale-ui/react/fieldset';
 import { FileTrigger } from '@tale-ui/react/file-trigger';
 import { FileUpload } from '@tale-ui/react/file-upload';
 import { Form } from '@tale-ui/react/form';
+import { GridList } from '@tale-ui/react/grid-list';
+import { HeaderNav } from '@tale-ui/react/header-nav';
 import { Icon } from '@tale-ui/react/icon';
+import { IconButton } from '@tale-ui/react/icon-button';
+import { Illustration } from '@tale-ui/react/illustration';
+import { Image } from '@tale-ui/react/image';
 import { ImageCropper, centerCrop, cropToFile, makeAspectCrop } from '@tale-ui/react/image-cropper';
+import { Input } from '@tale-ui/react/input';
+import { InputGroup } from '@tale-ui/react/input-group';
+import { InputTags } from '@tale-ui/react/input-tags';
+import { IPhoneMockup } from '@tale-ui/react/iphone-mockup';
 import { Link } from '@tale-ui/react/link';
 import { List } from '@tale-ui/react/list';
 import { Menu } from '@tale-ui/react/menu';
+import { Menubar } from '@tale-ui/react/menubar';
 import { Meter } from '@tale-ui/react/meter';
 import { MultiSelect } from '@tale-ui/react/multi-select';
+import { NavigationMenu } from '@tale-ui/react/navigation-menu';
 import { NumberField } from '@tale-ui/react/number-field';
 import { Pagination } from '@tale-ui/react/pagination';
+import { PaginationDot } from '@tale-ui/react/pagination-dot';
+import { PaginationLine } from '@tale-ui/react/pagination-line';
+import { PaymentInput } from '@tale-ui/react/payment-input';
 import { PinInput } from '@tale-ui/react/pin-input';
 import { Popover } from '@tale-ui/react/popover';
 import { PreviewCard } from '@tale-ui/react/preview-card';
 import { ProgressBar } from '@tale-ui/react/progress-bar';
 import { ProgressCircle } from '@tale-ui/react/progress-circle';
+import { QRCode } from '@tale-ui/react/qr-code';
 import { Radio } from '@tale-ui/react/radio';
 import { RadioGroup } from '@tale-ui/react/radio-group';
+import { RangeCalendar } from '@tale-ui/react/range-calendar';
+import { RatingBadge } from '@tale-ui/react/rating-badge';
+import { RatingStars } from '@tale-ui/react/rating-stars';
 import { Row } from '@tale-ui/react/row';
 import { ScrollArea } from '@tale-ui/react/scroll-area';
 import { SearchField } from '@tale-ui/react/search-field';
+import { SectionDivider } from '@tale-ui/react/section-divider';
 import { Select } from '@tale-ui/react/select';
 import { SelectNative } from '@tale-ui/react/select-native';
+import { Separator } from '@tale-ui/react/separator';
+import { Sidebar } from '@tale-ui/react/sidebar';
 import { Slider } from '@tale-ui/react/slider';
+import { SocialButton, SocialButtonGroup } from '@tale-ui/react/social-button';
+import { Spinner } from '@tale-ui/react/spinner';
 import { Switch } from '@tale-ui/react/switch';
+import { Table } from '@tale-ui/react/table';
 import { Tabs } from '@tale-ui/react/tabs';
 import { TagGroup } from '@tale-ui/react/tag-group';
 import { TagSelect } from '@tale-ui/react/tag-select';
 import { Text } from '@tale-ui/react/text';
 import { TextArea } from '@tale-ui/react/text-area';
+import { TextEditor } from '@tale-ui/react/text-editor';
 import { TextField } from '@tale-ui/react/text-field';
+import { TimeField } from '@tale-ui/react/time-field';
 import { ToggleButton } from '@tale-ui/react/toggle-button';
 import { ToggleButtonGroup } from '@tale-ui/react/toggle-group';
 import { Toolbar } from '@tale-ui/react/toolbar';
 import { Tooltip } from '@tale-ui/react/tooltip';
-import { Check, Info, SearchX, TriangleAlertIcon, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Tree } from '@tale-ui/react/tree';
+import { VideoPlayer } from '@tale-ui/react/video-player';
+import { Bell, Check, CheckCircle2, Copy, Heart, Info, LayoutDashboard, Pencil, SearchIcon, Settings, Trash2, UploadCloud, Users, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import type { Crop, PixelCrop } from '@tale-ui/react/image-cropper';
+import type { ComponentProps } from 'react';
+
+// ── accordion-faq ─────────────────────────────────
+function EvalAccordionFaq() {
+  return (
+    <Column gap="l">
+      <Text variant="heading" as="h2">Frequently Asked Questions</Text>
+      <Accordion.Root>
+        <Accordion.Item id="what-is-tale-ui">
+          <Accordion.Header>
+            <Accordion.Trigger>What is Tale UI?</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            <Text>
+              Tale UI is a comprehensive design system and React component library built on React
+              Aria Components. It provides accessible, themeable UI components with BEM class names
+              applied automatically, backed by a modular token-based CSS system.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="how-to-install">
+          <Accordion.Header>
+            <Accordion.Trigger>How do I install it?</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            <Text>
+              Install via pnpm:{' '}
+              <Text variant="mono" as="span">
+                pnpm add @tale-ui/react @tale-ui/react-styles
+              </Text>
+              . Then import the stylesheet with{' '}
+              <Text variant="mono" as="span">
+                import '@tale-ui/react-styles'
+              </Text>{' '}
+              in your app entry point, and add{' '}
+              <Text variant="mono" as="span">
+                class="tale-ui"
+              </Text>{' '}
+              to your HTML element.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="is-accessible">
+          <Accordion.Header>
+            <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            <Text>
+              Yes. Every Tale UI component is built on React Aria Components, which provides full
+              WAI-ARIA compliance, keyboard navigation, and screen reader support out of the box.
+              All interactive components meet WCAG 2.1 AA accessibility standards.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="customize-theme">
+          <Accordion.Header>
+            <Accordion.Trigger>Can I customize the theme?</Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Panel>
+            <Text>
+              Absolutely. Tale UI uses CSS custom properties throughout. Override tokens on{' '}
+              <Text variant="mono" as="span">:root</Text> to retheme individual values or entire
+              component families at once using category tokens like{' '}
+              <Text variant="mono" as="span">--field-bg</Text>,{' '}
+              <Text variant="mono" as="span">--popup-radius</Text>, and{' '}
+              <Text variant="mono" as="span">--modal-backdrop-bg</Text>.
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion.Root>
+      <Banner.Root variant="info">
+        <Banner.Icon>
+          <Icon icon={Info} size="sm" />
+        </Banner.Icon>
+        <Banner.Description>Still have questions?</Banner.Description>
+        <Banner.Actions>
+          <Link href="/contact">Contact us</Link>
+        </Banner.Actions>
+      </Banner.Root>
+    </Column>
+  );
+}
 
 // ── alert-dialog-confirm ──────────────────────────
 function EvalAlertDialogConfirm() {
@@ -80,10 +205,7 @@ function EvalAlertDialogConfirm() {
 
   return (
     <AlertDialog.Root isOpen={open} onOpenChange={setOpen}>
-      <AlertDialog.Trigger
-        className="tale-button tale-button--danger tale-button--md"
-        onPress={() => setOpen(true)}
-      >
+      <AlertDialog.Trigger className="tale-button tale-button--danger tale-button--md">
         Delete Account
       </AlertDialog.Trigger>
       <AlertDialog.Backdrop>
@@ -91,8 +213,8 @@ function EvalAlertDialogConfirm() {
           <AlertDialog.Content>
             <AlertDialog.Title>Delete Account?</AlertDialog.Title>
             <AlertDialog.Description>
-              This action is permanent and cannot be undone. Your account and all associated data
-              will be deleted forever.
+              This action is permanent and cannot be undone. All of your data will be
+              immediately deleted and cannot be recovered.
             </AlertDialog.Description>
             <AlertDialog.Actions>
               <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
@@ -105,25 +227,34 @@ function EvalAlertDialogConfirm() {
   );
 }
 
+// ── app-store-button-apple ────────────────────────
+function EvalAppStoreButtonApple() {
+  return (
+    <AppStoreButton store="apple" href="https://apps.apple.com/app/example" />
+  );
+}
+
 // ── area-chart-revenue ────────────────────────────
 const EvalAreaChartRevenuedata = [
   { month: 'Jan', revenue: 42000 },
-  { month: 'Feb', revenue: 58000 },
-  { month: 'Mar', revenue: 51000 },
-  { month: 'Apr', revenue: 67000 },
-  { month: 'May', revenue: 74000 },
-  { month: 'Jun', revenue: 89000 },
+  { month: 'Feb', revenue: 55000 },
+  { month: 'Mar', revenue: 48000 },
+  { month: 'Apr', revenue: 61000 },
+  { month: 'May', revenue: 73000 },
+  { month: 'Jun', revenue: 68000 },
 ];
 
 function EvalAreaChartRevenue() {
   return (
-    <AreaChart.Root data={EvalAreaChartRevenuedata} width={640} height={320}>
-      <AreaChart.Grid />
-      <AreaChart.XAxis dataKey="month" />
-      <AreaChart.YAxis />
-      <AreaChart.Tooltip />
-      <AreaChart.Area dataKey="revenue" />
-    </AreaChart.Root>
+    <ChartContainer height={300}>
+      <AreaChart.Root data={EvalAreaChartRevenuedata}>
+        <AreaChart.Grid />
+        <AreaChart.XAxis dataKey="month" />
+        <AreaChart.YAxis />
+        <AreaChart.Tooltip />
+        <AreaChart.Area dataKey="revenue" />
+      </AreaChart.Root>
+    </ChartContainer>
   );
 }
 
@@ -134,17 +265,20 @@ const EvalAutocompleteSearchfruits = [
   { id: 'banana', label: 'Banana' },
   { id: 'blueberry', label: 'Blueberry' },
   { id: 'cherry', label: 'Cherry' },
+  { id: 'coconut', label: 'Coconut' },
   { id: 'grape', label: 'Grape' },
   { id: 'kiwi', label: 'Kiwi' },
   { id: 'lemon', label: 'Lemon' },
   { id: 'lime', label: 'Lime' },
   { id: 'mango', label: 'Mango' },
+  { id: 'melon', label: 'Melon' },
   { id: 'orange', label: 'Orange' },
   { id: 'papaya', label: 'Papaya' },
   { id: 'peach', label: 'Peach' },
   { id: 'pear', label: 'Pear' },
   { id: 'pineapple', label: 'Pineapple' },
   { id: 'plum', label: 'Plum' },
+  { id: 'pomegranate', label: 'Pomegranate' },
   { id: 'raspberry', label: 'Raspberry' },
   { id: 'strawberry', label: 'Strawberry' },
   { id: 'watermelon', label: 'Watermelon' },
@@ -152,7 +286,6 @@ const EvalAutocompleteSearchfruits = [
 
 function EvalAutocompleteSearch() {
   const { contains } = useFilter({ sensitivity: 'base' });
-
   return (
     <Autocomplete.Root filter={contains}>
       <Autocomplete.SearchField aria-label="Search EvalAutocompleteSearchfruits">
@@ -187,6 +320,19 @@ function EvalAvatarGroupOverflow() {
   );
 }
 
+// ── avatar-image ──────────────────────────────────
+function EvalAvatarImage() {
+  return (
+    <Image
+      src="https://placehold.co/200x150"
+      alt="A mountain landscape"
+      width={200}
+      height={150}
+      radius="md"
+    />
+  );
+}
+
 // ── avatar-with-label ─────────────────────────────
 function EvalAvatarWithLabel() {
   return (
@@ -201,13 +347,37 @@ function EvalAvatarWithLabel() {
   );
 }
 
+// ── background-pattern-circle ─────────────────────
+function EvalBackgroundPatternCircle() {
+  return <BackgroundPattern pattern="circle" size="lg" />;
+}
+
+// ── badge-group-basic ─────────────────────────────
+function EvalBadgeGroupBasic() {
+  return (
+    <BadgeGroup.Root addonText="v2.0" color="brand" theme="light" align="trailing">
+      New feature
+    </BadgeGroup.Root>
+  );
+}
+
+// ── banner-success ────────────────────────────────
+function EvalBannerSuccess() {
+  return (
+    <Banner.Root variant="success">
+      <Banner.Icon>
+        <Icon icon={CheckCircle2} size="sm" />
+      </Banner.Icon>
+      <Banner.Title>Changes saved</Banner.Title>
+      <Banner.Description>Your profile has been updated successfully.</Banner.Description>
+    </Banner.Root>
+  );
+}
+
 // ── banner-with-actions ───────────────────────────
 function EvalBannerWithActions() {
   return (
     <Banner.Root variant="warning">
-      <Banner.Icon>
-        <Icon icon={TriangleAlertIcon} size="sm" />
-      </Banner.Icon>
       <Banner.Title>Update available</Banner.Title>
       <Banner.Description>A new version is ready to install.</Banner.Description>
       <Banner.Actions>
@@ -220,23 +390,21 @@ function EvalBannerWithActions() {
 
 // ── bar-chart-sales ───────────────────────────────
 const EvalBarChartSalesdata = [
-  { quarter: 'Q1', sales: 42000, profit: 12000 },
-  { quarter: 'Q2', sales: 58000, profit: 18500 },
-  { quarter: 'Q3', sales: 51000, profit: 15200 },
-  { quarter: 'Q4', sales: 73000, profit: 26800 },
+  { quarter: 'Q1', sales: 42000, profit: 18500 },
+  { quarter: 'Q2', sales: 57000, profit: 24200 },
+  { quarter: 'Q3', sales: 51000, profit: 21800 },
+  { quarter: 'Q4', sales: 68000, profit: 31400 },
 ];
 
 function EvalBarChartSales() {
   return (
     <Column gap="m">
-      <Text variant="heading" as="h2" size="m">
-        Quarterly Sales & Profit
-      </Text>
+      <Text variant="heading" as="h2">Quarterly Sales vs Profit</Text>
       <ChartContainer height={320}>
         <BarChart.Root data={EvalBarChartSalesdata}>
-          <BarChart.Grid />
+          <BarChart.Grid strokeDasharray="3 3" />
           <BarChart.XAxis dataKey="quarter" />
-          <BarChart.YAxis tickFormatter={(v: number) => `$${(v / 1000).toFixed(0)}k`} />
+          <BarChart.YAxis />
           <BarChart.Tooltip />
           <BarChart.Legend />
           <BarChart.Bar dataKey="sales" />
@@ -252,10 +420,10 @@ function EvalBreadcrumbsNav() {
   return (
     <Breadcrumbs.Root>
       <Breadcrumbs.Item>
-        <Breadcrumbs.Link href="/">Home</Breadcrumbs.Link>
+        <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
       </Breadcrumbs.Item>
       <Breadcrumbs.Item>
-        <Breadcrumbs.Link href="/products">Products</Breadcrumbs.Link>
+        <Breadcrumbs.Link href="#">Products</Breadcrumbs.Link>
       </Breadcrumbs.Item>
       <Breadcrumbs.Item>
         <Breadcrumbs.Link>Laptops</Breadcrumbs.Link>
@@ -264,15 +432,49 @@ function EvalBreadcrumbsNav() {
   );
 }
 
+// ── button-danger ─────────────────────────────────
+function EvalButtonDanger() {
+  return (
+    <Row gap="s">
+      <Button variant="neutral">Cancel</Button>
+      <Button variant="danger">Delete account</Button>
+    </Row>
+  );
+}
+
+// ── calendar-date ─────────────────────────────────
+function EvalCalendarDate() {
+  return (
+    <Calendar.Root>
+      <Calendar.Header>
+        <Calendar.PreviousButton />
+        <Calendar.Heading />
+        <Calendar.NextButton />
+      </Calendar.Header>
+      <Calendar.Grid>
+        <Calendar.GridHeader>
+          {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+        </Calendar.GridHeader>
+        <Calendar.GridBody>
+          {(date) => <Calendar.Cell date={date} />}
+        </Calendar.GridBody>
+      </Calendar.Grid>
+    </Calendar.Root>
+  );
+}
+
 // ── card-with-content ─────────────────────────────
 function EvalCardWithContent() {
   return (
     <Card.Root>
       <Card.Header>
-        <Text variant="heading">Welcome to Our Platform</Text>
+        <Text variant="heading">Welcome to Tale UI</Text>
       </Card.Header>
       <Card.Body>
-        <Text>Discover all the tools and features available to help you build faster, collaborate better, and ship with confidence.</Text>
+        <Text color="muted">
+          Build beautiful, accessible interfaces with a comprehensive design
+          system powered by React Aria and modular CSS tokens.
+        </Text>
       </Card.Body>
       <Card.Footer>
         <Button variant="primary">Get Started</Button>
@@ -281,29 +483,101 @@ function EvalCardWithContent() {
   );
 }
 
+// ── carousel-images ───────────────────────────────
+function EvalCarouselImages() {
+  return (
+    <Carousel.Root loop style={{ width: 640 }}>
+      <Carousel.Content>
+        <Carousel.Item>
+          <Image
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=640&h=360&fit=crop"
+            alt="Mountain landscape"
+            width={640}
+            height={360}
+            fit="cover"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Image
+            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=640&h=360&fit=crop"
+            alt="Forest path"
+            width={640}
+            height={360}
+            fit="cover"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Image
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=640&h=360&fit=crop"
+            alt="Ocean beach"
+            width={640}
+            height={360}
+            fit="cover"
+          />
+        </Carousel.Item>
+      </Carousel.Content>
+      <Carousel.PreviousTrigger />
+      <Carousel.NextTrigger />
+      <Carousel.Indicators>
+        <Carousel.Indicator index={0} />
+        <Carousel.Indicator index={1} />
+        <Carousel.Indicator index={2} />
+      </Carousel.Indicators>
+    </Carousel.Root>
+  );
+}
+
 // ── checkbox-group-form ───────────────────────────
 function EvalCheckboxGroupForm() {
   return (
     <CheckboxGroup label="Notification Preferences">
       <Checkbox.Root value="email">
-        <Checkbox.Indicator>
-          <Icon icon={Check} size="sm" />
-        </Checkbox.Indicator>
+        <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
         Email
       </Checkbox.Root>
       <Checkbox.Root value="sms">
-        <Checkbox.Indicator>
-          <Icon icon={Check} size="sm" />
-        </Checkbox.Indicator>
+        <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
         SMS
       </Checkbox.Root>
       <Checkbox.Root value="push">
-        <Checkbox.Indicator>
-          <Icon icon={Check} size="sm" />
-        </Checkbox.Indicator>
+        <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
         Push Notifications
       </Checkbox.Root>
     </CheckboxGroup>
+  );
+}
+
+// ── checkbox-standalone ───────────────────────────
+function EvalCheckboxStandalone() {
+  return (
+    <Checkbox.Root>
+      <Checkbox.Indicator>
+        <Icon icon={Check} size="sm" />
+      </Checkbox.Indicator>
+      Accept terms and conditions
+    </Checkbox.Root>
+  );
+}
+
+// ── color-area-picker ─────────────────────────────
+function EvalColorAreaPicker() {
+  return (
+    <Column gap="m">
+      <ColorArea.Root
+        defaultValue="hsl(0, 100%, 50%)"
+        xChannel="saturation"
+        yChannel="lightness"
+      >
+        <ColorArea.Thumb />
+      </ColorArea.Root>
+      <ColorSlider.Root channel="hue" defaultValue="hsl(0, 100%, 50%)">
+        <ColorSlider.Label>Hue</ColorSlider.Label>
+        <ColorSlider.Output />
+        <ColorSlider.Track>
+          <ColorSlider.Thumb />
+        </ColorSlider.Track>
+      </ColorSlider.Root>
+    </Column>
   );
 }
 
@@ -311,16 +585,21 @@ function EvalCheckboxGroupForm() {
 function EvalColorFieldHex() {
   return (
     <ColorField.Root>
-      <ColorField.Label>Hex color</ColorField.Label>
+      <ColorField.Label>Hex Color</ColorField.Label>
       <ColorField.Input />
     </ColorField.Root>
   );
 }
 
+// ── color-mode-toggle ─────────────────────────────
+function EvalColorModeToggle() {
+  return <ColorModeToggle />;
+}
+
 // ── color-picker-root ─────────────────────────────
 function EvalColorPickerRoot() {
   return (
-    <ColorPicker.Root defaultValue="hsl(0, 100%, 50%)">
+    <ColorPicker.Root defaultValue="hsl(200, 100%, 50%)">
       <ColorArea.Root>
         <ColorArea.Thumb />
       </ColorArea.Root>
@@ -341,11 +620,23 @@ function EvalColorSliderHue() {
   );
 }
 
+// ── color-swatch-display ──────────────────────────
+function EvalColorSwatchDisplay() {
+  return <ColorSwatch color={ColorswatchparseColor('#3b82f6')} />;
+}
+
 // ── color-swatch-picker-palette ───────────────────
 const EvalColorSwatchPickerPalettePALETTE = [
-  '#ef4444', '#f97316', '#eab308', '#22c55e',
-  '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899',
-  '#64748b', '#1e293b', '#f1f5f9', '#ffffff',
+  '#ef4444',
+  '#f97316',
+  '#eab308',
+  '#22c55e',
+  '#3b82f6',
+  '#8b5cf6',
+  '#ec4899',
+  '#14b8a6',
+  '#64748b',
+  '#1e293b',
 ];
 
 function EvalColorSwatchPickerPalette() {
@@ -355,8 +646,8 @@ function EvalColorSwatchPickerPalette() {
     <Column gap="s">
       <Text variant="label">Color palette</Text>
       <ColorSwatchPicker.Root value={color} onChange={setColor}>
-        {EvalColorSwatchPickerPalettePALETTE.map((c) => (
-          <ColorSwatchPicker.Item key={c} color={c}>
+        {EvalColorSwatchPickerPalettePALETTE.map((hex) => (
+          <ColorSwatchPicker.Item key={hex} color={hex}>
             <ColorSwatch />
           </ColorSwatchPicker.Item>
         ))}
@@ -379,16 +670,18 @@ function EvalColorWheelHue() {
 // ── column-form-layout ────────────────────────────
 function EvalColumnFormLayout() {
   return (
-    <Form onSubmit={(e) => { e.preventDefault(); }}>
+    <Form onSubmit={(e) => e.preventDefault()}>
       <Column gap="s">
-        <TextField.Root>
+        <TextField.Root name="name" isRequired>
           <TextField.Label>Name</TextField.Label>
           <TextField.Input placeholder="Enter your name" />
         </TextField.Root>
-        <TextField.Root>
+
+        <TextField.Root name="email" isRequired>
           <TextField.Label>Email</TextField.Label>
           <TextField.Input type="email" placeholder="Enter your email" />
         </TextField.Root>
+
         <Row justify="end">
           <Button type="submit" variant="primary">Submit</Button>
         </Row>
@@ -404,73 +697,42 @@ const EvalComboboxSearchCOUNTRIES = [
   { id: 'br', name: 'Brazil' },
   { id: 'ca', name: 'Canada' },
   { id: 'cn', name: 'China' },
-  { id: 'co', name: 'Colombia' },
   { id: 'eg', name: 'Egypt' },
   { id: 'fr', name: 'France' },
   { id: 'de', name: 'Germany' },
-  { id: 'gh', name: 'Ghana' },
   { id: 'in', name: 'India' },
   { id: 'id', name: 'Indonesia' },
-  { id: 'ie', name: 'Ireland' },
-  { id: 'il', name: 'Israel' },
   { id: 'it', name: 'Italy' },
   { id: 'jp', name: 'Japan' },
-  { id: 'ke', name: 'Kenya' },
   { id: 'mx', name: 'Mexico' },
-  { id: 'nl', name: 'Netherlands' },
-  { id: 'nz', name: 'New Zealand' },
   { id: 'ng', name: 'Nigeria' },
-  { id: 'no', name: 'Norway' },
   { id: 'pk', name: 'Pakistan' },
-  { id: 'pl', name: 'Poland' },
-  { id: 'pt', name: 'Portugal' },
   { id: 'ru', name: 'Russia' },
-  { id: 'sa', name: 'Saudi Arabia' },
   { id: 'za', name: 'South Africa' },
-  { id: 'kr', name: 'South Korea' },
   { id: 'es', name: 'Spain' },
-  { id: 'se', name: 'Sweden' },
-  { id: 'ch', name: 'Switzerland' },
   { id: 'tr', name: 'Turkey' },
-  { id: 'ua', name: 'Ukraine' },
-  { id: 'ae', name: 'United Arab Emirates' },
   { id: 'gb', name: 'United Kingdom' },
   { id: 'us', name: 'United States' },
-  { id: 'vn', name: 'Vietnam' },
 ];
 
 function EvalComboboxSearch() {
-  const [selectedKey, setSelectedKey] = React.useState<string | null>(null);
-
-  const selectedCountry = EvalComboboxSearchCOUNTRIES.find((c) => c.id === selectedKey);
-
   return (
-    <Column gap="s" style={{ width: 320 }}>
-      <Combobox.Root
-        selectedKey={selectedKey}
-        onSelectionChange={(key) => setSelectedKey(key as string | null)}
-      >
-        <Combobox.Label>Country</Combobox.Label>
-        <Combobox.InputGroup>
-          <Combobox.Input placeholder="Search countries..." />
-          <Combobox.Trigger />
-        </Combobox.InputGroup>
-        <Combobox.Popover>
-          <Combobox.ListBox>
-            {EvalComboboxSearchCOUNTRIES.map((country) => (
-              <Combobox.Item key={country.id} id={country.id} textValue={country.name}>
-                {country.name}
-              </Combobox.Item>
-            ))}
-          </Combobox.ListBox>
-        </Combobox.Popover>
-      </Combobox.Root>
-      {selectedCountry && (
-        <Text size="s" color="muted">
-          Selected: {selectedCountry.name}
-        </Text>
-      )}
-    </Column>
+    <Combobox.Root>
+      <Combobox.Label>Country</Combobox.Label>
+      <Combobox.InputGroup>
+        <Combobox.Input placeholder="Search country..." />
+        <Combobox.Trigger />
+      </Combobox.InputGroup>
+      <Combobox.Popover>
+        <Combobox.ListBox>
+          {EvalComboboxSearchCOUNTRIES.map((country) => (
+            <Combobox.Item key={country.id} id={country.id} textValue={country.name}>
+              {country.name}
+            </Combobox.Item>
+          ))}
+        </Combobox.ListBox>
+      </Combobox.Popover>
+    </Combobox.Root>
   );
 }
 
@@ -478,21 +740,189 @@ function EvalComboboxSearch() {
 function EvalContainerColorTheme() {
   return (
     <Container color="indigo">
-      <Card.Root>
-        <Card.Body>
-          <Column gap="m">
-            <Text variant="heading" as="h2">Premium Plan</Text>
-            <Button variant="primary">Get started</Button>
-          </Column>
-        </Card.Body>
+      <Card.Root variant="elevated">
+        <Card.Header>
+          <Text variant="heading" as="h2">Premium Plan</Text>
+        </Card.Header>
+        <Card.Footer>
+          <Button variant="primary">Get started</Button>
+        </Card.Footer>
       </Card.Root>
     </Container>
   );
 }
 
+// ── context-menu-actions ──────────────────────────
+function EvalContextMenuActions() {
+  return (
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        Right-click anywhere in this area
+      </ContextMenu.Trigger>
+      <ContextMenu.Popup>
+        <ContextMenu.MenuList>
+          <ContextMenu.Item id="edit">
+            <Icon icon={Pencil} />
+            Edit
+          </ContextMenu.Item>
+          <ContextMenu.Item id="copy">
+            <Icon icon={Copy} />
+            Copy
+          </ContextMenu.Item>
+          <ContextMenu.Separator />
+          <ContextMenu.Item id="delete">
+            <Icon icon={Trash2} />
+            Delete
+          </ContextMenu.Item>
+        </ContextMenu.MenuList>
+      </ContextMenu.Popup>
+    </ContextMenu.Root>
+  );
+}
+
+// ── credit-card-brand-dark ────────────────────────
+function EvalCreditCardBrandDark() {
+  return (
+    <CreditCard.Root
+      type="brand-dark"
+      company="Acme Corp"
+      cardNumber="4242 4242 4242 4242"
+      cardHolder="JANE SMITH"
+      cardExpiration="09/29"
+    />
+  );
+}
+
+// ── data-display-cards ────────────────────────────
+function EvalDataDisplayCards() {
+  return (
+    <Row gap="m">
+      <Card.Root>
+        <Card.Header>
+          <Text color="muted">Revenue</Text>
+        </Card.Header>
+        <Card.Body>
+          <Column gap="s">
+            <Text variant="display">$48,200</Text>
+            <Badge variant="success">+12%</Badge>
+          </Column>
+        </Card.Body>
+      </Card.Root>
+
+      <Card.Root>
+        <Card.Header>
+          <Text color="muted">Users</Text>
+        </Card.Header>
+        <Card.Body>
+          <Column gap="s">
+            <Text variant="display">12,340</Text>
+            <Badge variant="success">+8%</Badge>
+          </Column>
+        </Card.Body>
+      </Card.Root>
+
+      <Card.Root>
+        <Card.Header>
+          <Text color="muted">Orders</Text>
+        </Card.Header>
+        <Card.Body>
+          <Column gap="s">
+            <Text variant="display">1,893</Text>
+            <Badge variant="error">-3%</Badge>
+          </Column>
+        </Card.Body>
+      </Card.Root>
+    </Row>
+  );
+}
+
+// ── date-field-input ──────────────────────────────
+function EvalDateFieldInput() {
+  return (
+    <DateField.Root>
+      <DateField.Label>Date</DateField.Label>
+      <DateField.DateInput>
+        {(segment) => <DateField.Segment segment={segment} />}
+      </DateField.DateInput>
+    </DateField.Root>
+  );
+}
+
+// ── date-picker-form ──────────────────────────────
+function EvalDatePickerForm() {
+  return (
+    <DatePicker.Root>
+      <DatePicker.Label>Date</DatePicker.Label>
+      <DatePicker.Group>
+        <DatePicker.DateInput>
+          {(segment) => <DatePicker.Segment segment={segment} />}
+        </DatePicker.DateInput>
+        <DatePicker.Trigger />
+      </DatePicker.Group>
+      <DatePicker.Popover>
+        <DatePicker.Dialog>
+          <Calendar.Root>
+            <Calendar.Header>
+              <Calendar.PreviousButton />
+              <Calendar.Heading />
+              <Calendar.NextButton />
+            </Calendar.Header>
+            <Calendar.Grid>
+              <Calendar.GridHeader>
+                {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+              </Calendar.GridHeader>
+              <Calendar.GridBody>
+                {(date) => <Calendar.Cell date={date} />}
+              </Calendar.GridBody>
+            </Calendar.Grid>
+          </Calendar.Root>
+        </DatePicker.Dialog>
+      </DatePicker.Popover>
+    </DatePicker.Root>
+  );
+}
+
+// ── date-range-picker-form ────────────────────────
+function EvalDateRangePickerForm() {
+  return (
+    <DateRangePicker.Root>
+      <DateRangePicker.Label>Date range</DateRangePicker.Label>
+      <DateRangePicker.Group>
+        <DateRangePicker.StartDate>
+          {(segment) => <DateRangePicker.Segment segment={segment} />}
+        </DateRangePicker.StartDate>
+        <span aria-hidden="true">–</span>
+        <DateRangePicker.EndDate>
+          {(segment) => <DateRangePicker.Segment segment={segment} />}
+        </DateRangePicker.EndDate>
+        <DateRangePicker.Trigger />
+      </DateRangePicker.Group>
+      <DateRangePicker.Popover>
+        <DateRangePicker.Dialog>
+          <RangeCalendar.Root>
+            <RangeCalendar.Header>
+              <RangeCalendar.PreviousButton />
+              <RangeCalendar.Heading />
+              <RangeCalendar.NextButton />
+            </RangeCalendar.Header>
+            <RangeCalendar.Grid>
+              <RangeCalendar.GridHeader>
+                {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
+              </RangeCalendar.GridHeader>
+              <RangeCalendar.GridBody>
+                {(date) => <RangeCalendar.Cell date={date} />}
+              </RangeCalendar.GridBody>
+            </RangeCalendar.Grid>
+          </RangeCalendar.Root>
+        </DateRangePicker.Dialog>
+      </DateRangePicker.Popover>
+    </DateRangePicker.Root>
+  );
+}
+
 // ── dialog-destructive ────────────────────────────
 function EvalDialogDestructive() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <AlertDialog.Root isOpen={open} onOpenChange={setOpen}>
@@ -504,8 +934,7 @@ function EvalDialogDestructive() {
           <AlertDialog.Content>
             <AlertDialog.Title>Delete account</AlertDialog.Title>
             <AlertDialog.Description>
-              This action is permanent and cannot be undone. Your account and all associated data
-              will be permanently removed.
+              This action is permanent and cannot be undone. Your account and all associated data will be permanently deleted.
             </AlertDialog.Description>
             <AlertDialog.Actions>
               <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
@@ -525,12 +954,12 @@ function EvalDialogDismissable() {
   return (
     <Dialog.Root isOpen={open} onOpenChange={setOpen}>
       <Dialog.Trigger className="tale-button--primary">Open Dialog</Dialog.Trigger>
-      <Dialog.Backdrop>
+      <Dialog.Backdrop isDismissable>
         <Dialog.Popup>
           <Dialog.Close aria-label="Close" />
           <Dialog.Title>Confirm action</Dialog.Title>
           <Dialog.Description>
-            Are you sure you want to proceed? This action cannot be undone.
+            Are you sure you want to proceed? This action can be undone later.
           </Dialog.Description>
           <Dialog.Actions>
             <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
@@ -546,10 +975,10 @@ function EvalDialogDismissable() {
 const EvalDisclosurePanelfeatures = [
   'Unlimited projects',
   'Priority support',
+  'Custom domains',
   'Advanced analytics',
-  'Custom integrations',
   'Team collaboration',
-  'Audit logs',
+  'API access',
 ];
 
 function EvalDisclosurePanel() {
@@ -561,7 +990,12 @@ function EvalDisclosurePanel() {
       <Disclosure.Panel>
         <List.Root variant="plain">
           {EvalDisclosurePanelfeatures.map((feature) => (
-            <List.Item key={feature}>{feature}</List.Item>
+            <List.Item key={feature}>
+              <Row align="center" gap="s">
+                <Icon icon={Check} size="sm" />
+                <Text>{feature}</Text>
+              </Row>
+            </List.Item>
           ))}
         </List.Root>
       </Disclosure.Panel>
@@ -581,41 +1015,33 @@ function EvalDividedListItems() {
   );
 }
 
+// ── dot-icon-status ───────────────────────────────
+function EvalDotIconStatus() {
+  return <DotIcon color="success" />;
+}
+
 // ── drawer-with-backdrop ──────────────────────────
 function EvalDrawerWithBackdrop() {
   const [open, setOpen] = React.useState(false);
 
   return (
     <Drawer.Root open={open} onOpenChange={setOpen}>
-      <Drawer.Trigger className="tale-button tale-button--neutral tale-button--md">
+      <Drawer.Trigger className="tale-button tale-button--primary tale-button--md">
         Open Settings
       </Drawer.Trigger>
       <Drawer.Backdrop />
       <Drawer.Popup
-        style={{
-          marginLeft: 'auto',
-          width: 360,
-          minHeight: '100vh',
-          padding: 'var(--space-m)',
-        }}
+        style={{ marginLeft: 'auto', width: 360, minHeight: '100vh', padding: 'var(--space-m)' }}
       >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 'var(--space-m)',
-          }}
-        >
+        <Row gap="s" style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <Drawer.Title>Settings</Drawer.Title>
           <Drawer.Close
-            className="tale-button tale-button--ghost tale-button--sm"
+            className="tale-icon-button tale-icon-button--ghost tale-icon-button--md"
             aria-label="Close settings"
           >
-            <X size={16} />
+            <Icon icon={X} />
           </Drawer.Close>
-        </div>
-        <Text color="muted">Manage your preferences here.</Text>
+        </Row>
       </Drawer.Popup>
     </Drawer.Root>
   );
@@ -624,11 +1050,16 @@ function EvalDrawerWithBackdrop() {
 // ── drop-zone-file ────────────────────────────────
 function EvalDropZoneFile() {
   return (
-    <DropZone onDrop={(e) => console.log('Dropped:', e.items.filter(item => item.kind === 'file'))}>
-      <Column gap="s" style={{ alignItems: 'center', padding: '2rem' }}>
+    <DropZone
+      onDrop={(e) => {
+        const fileItems = e.items.filter((item) => item.kind === 'file');
+        console.log('Dropped:', fileItems);
+      }}
+    >
+      <Column gap="s" align="center">
         <Text>Drop files here</Text>
-        <FileTrigger onSelect={(list) => { if (list) console.log(Array.from(list)); }}>
-          <Button variant="neutral">Browse files</Button>
+        <FileTrigger onSelect={(files) => { if (files) console.log(Array.from(files).map((f) => f.name)); }}>
+          <Button variant="neutral">or browse</Button>
         </FileTrigger>
       </Column>
     </DropZone>
@@ -640,13 +1071,22 @@ function EvalEmptyStateNoResults() {
   return (
     <EmptyState.Root>
       <EmptyState.Icon>
-        <Icon icon={SearchX} size="lg" />
+        <Icon icon={SearchIcon} size="lg" />
       </EmptyState.Icon>
       <EmptyState.Title>No results</EmptyState.Title>
       <EmptyState.Description>
-        Try different search terms or adjust your filters.
+        Try adjusting your search terms or using different keywords.
       </EmptyState.Description>
     </EmptyState.Root>
+  );
+}
+
+// ── featured-icon-notification ────────────────────
+function EvalFeaturedIconNotification() {
+  return (
+    <FeaturedIcon variant="brand">
+      <Icon icon={Bell} />
+    </FeaturedIcon>
   );
 }
 
@@ -656,15 +1096,34 @@ function EvalFieldWithValidation() {
     <Field.Root>
       <Field.Label>Email address</Field.Label>
       <Field.Control>
-        <input
-          className="tale-input"
-          type="email"
-          placeholder="you@example.com"
-        />
+        <input className="tale-input" placeholder="you@example.com" />
       </Field.Control>
-      <Field.Description>We'll never share your email with anyone.</Field.Description>
+      <Field.Description>We'll never share your email with anyone else.</Field.Description>
       <Field.Error>Please enter a valid email address.</Field.Error>
     </Field.Root>
+  );
+}
+
+// ── fieldset-address ──────────────────────────────
+function EvalFieldsetAddress() {
+  return (
+    <Fieldset.Root>
+      <Fieldset.Legend>Address</Fieldset.Legend>
+      <Column gap="m">
+        <TextField.Root>
+          <TextField.Label>Street</TextField.Label>
+          <TextField.Input placeholder="123 Main St" />
+        </TextField.Root>
+        <TextField.Root>
+          <TextField.Label>City</TextField.Label>
+          <TextField.Input placeholder="Anytown" />
+        </TextField.Root>
+        <TextField.Root>
+          <TextField.Label>ZIP Code</TextField.Label>
+          <TextField.Input placeholder="12345" />
+        </TextField.Root>
+      </Column>
+    </Fieldset.Root>
   );
 }
 
@@ -693,7 +1152,7 @@ function EvalFileTriggerUpload() {
 }
 
 // ── file-upload-basic ─────────────────────────────
-interface UploadEntry {
+interface UploadFile {
   id: string;
   name: string;
   size: number;
@@ -702,65 +1161,75 @@ interface UploadEntry {
 }
 
 function EvalFileUploadBasic() {
-  const [entries, setEntries] = useState<UploadEntry[]>([]);
+  const [files, setFiles] = useState<UploadFile[]>([]);
+  const timers = useRef<Map<string, ReturnType<typeof setInterval>>>(new Map());
 
-  useEffect(() => {
-    const hasUploading = entries.some((e) => e.progress < 100 && !e.failed);
-    if (!hasUploading) return;
-
+  function startProgress(id: string) {
     const timer = setInterval(() => {
-      setEntries((prev) =>
-        prev.map((e) =>
-          e.progress < 100 && !e.failed
-            ? { ...e, progress: Math.min(e.progress + 10, 100) }
-            : e,
-        ),
-      );
-    }, 250);
+      setFiles((prev) => {
+        const file = prev.find((f) => f.id === id);
+        if (!file || file.progress >= 100) {
+          clearInterval(timer);
+          timers.current.delete(id);
+          return prev;
+        }
+        return prev.map((f) =>
+          f.id === id ? { ...f, progress: Math.min(f.progress + 10, 100) } : f
+        );
+      });
+    }, 300);
+    timers.current.set(id, timer);
+  }
 
-    return () => clearInterval(timer);
-  }, [entries]);
-
-  function handleDropFiles(files: FileList) {
-    const next = Array.from(files).map((f) => ({
+  function handleDrop(fileList: FileList) {
+    const incoming: UploadFile[] = Array.from(fileList).map((file) => ({
       id: crypto.randomUUID(),
-      name: f.name,
-      size: f.size,
+      name: file.name,
+      size: file.size,
       progress: 0,
       failed: false,
     }));
-    setEntries((prev) => [...prev, ...next]);
+    setFiles((prev) => [...prev, ...incoming]);
+    incoming.forEach((f) => startProgress(f.id));
   }
 
   function handleDelete(id: string) {
-    setEntries((prev) => prev.filter((e) => e.id !== id));
+    clearInterval(timers.current.get(id));
+    timers.current.delete(id);
+    setFiles((prev) => prev.filter((f) => f.id !== id));
   }
 
   function handleRetry(id: string) {
-    setEntries((prev) =>
-      prev.map((e) => (e.id === id ? { ...e, progress: 0, failed: false } : e)),
+    setFiles((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, progress: 0, failed: false } : f))
     );
+    startProgress(id);
   }
+
+  useEffect(() => {
+    const t = timers.current;
+    return () => { t.forEach(clearInterval); };
+  }, []);
 
   return (
     <FileUpload.Root>
       <FileUpload.DropZone
         hint="PNG, JPG or PDF (max 5 MB)"
-        accept="image/*,application/pdf"
+        accept="image/*,.pdf"
         maxSize={5 * 1024 * 1024}
         allowsMultiple
-        onDropFiles={handleDropFiles}
+        onDropFiles={handleDrop}
       />
       <FileUpload.List>
-        {entries.map((entry) => (
+        {files.map((f) => (
           <FileUpload.ListItemProgressBar
-            key={entry.id}
-            name={entry.name}
-            size={entry.size}
-            progress={entry.progress}
-            failed={entry.failed}
-            onDelete={() => handleDelete(entry.id)}
-            onRetry={() => handleRetry(entry.id)}
+            key={f.id}
+            name={f.name}
+            size={f.size}
+            progress={f.progress}
+            failed={f.failed}
+            onDelete={() => handleDelete(f.id)}
+            onRetry={() => handleRetry(f.id)}
           />
         ))}
       </FileUpload.List>
@@ -771,71 +1240,183 @@ function EvalFileUploadBasic() {
 // ── form-login ────────────────────────────────────
 function EvalFormLogin() {
   return (
-    <Form
-      validationBehavior="native"
-      onSubmit={(e) => {
-        e.preventDefault();
-      }}
-    >
-      <Column gap="s">
+    <Form validationBehavior="native">
+      <Column gap="m">
+        <Text variant="heading" as="h1">Sign in</Text>
         <TextField.Root name="email" isRequired>
           <TextField.Label>Email</TextField.Label>
           <TextField.Input type="email" placeholder="you@example.com" />
         </TextField.Root>
-
         <TextField.Root name="password" isRequired>
           <TextField.Label>Password</TextField.Label>
-          <TextField.Input type="password" placeholder="Enter your password" />
+          <TextField.Input type="password" placeholder="••••••••" />
         </TextField.Root>
-
-        <Button type="submit" variant="primary">
-          Sign in
-        </Button>
+        <Button type="submit" variant="primary">Sign in</Button>
       </Column>
     </Form>
   );
 }
 
-// ── image-cropper-basic ───────────────────────────
-const EvalImageCropperBasicAVATAR_SRC = '/avatar.jpg';
+// ── grid-list-gallery ─────────────────────────────
+type EvalGridListGallerySelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];
 
-function EvalImageCropperBasiccenterAspectCrop(mediaWidth: number, mediaHeight: number): Crop {
+const EvalGridListGalleryitems = [
+  {
+    id: '1',
+    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop',
+    alt: 'Mountain Lake',
+    title: 'Mountain Lake',
+    subtitle: 'Switzerland',
+  },
+  {
+    id: '2',
+    src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop',
+    alt: 'Sunny Forest',
+    title: 'Sunny Forest',
+    subtitle: 'Canada',
+  },
+  {
+    id: '3',
+    src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop',
+    alt: 'Tropical Beach',
+    title: 'Tropical Beach',
+    subtitle: 'Maldives',
+  },
+  {
+    id: '4',
+    src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop',
+    alt: 'Green Forest',
+    title: 'Green Forest',
+    subtitle: 'Brazil',
+  },
+];
+
+function EvalGridListGallery() {
+  const [selectedKeys, setSelectedKeys] = useState<EvalGridListGallerySelectionValue>(new Set());
+
+  return (
+    <Column gap="m">
+      <Text variant="heading">Select Photos</Text>
+      <GridList.Root
+        aria-label="Image gallery"
+        selectionMode="multiple"
+        selectedKeys={selectedKeys}
+        onSelectionChange={setSelectedKeys}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}
+      >
+        {EvalGridListGalleryitems.map((item) => (
+          <GridList.Item key={item.id} id={item.id} textValue={item.title}>
+            <Card.Root>
+              <Image
+                src={item.src}
+                alt={item.alt}
+                radius="md"
+                style={{ width: '100%', height: 200 }}
+              />
+              <Card.Body>
+                <Column gap="xs">
+                  <Text>{item.title}</Text>
+                  <Text color="muted" size="s">{item.subtitle}</Text>
+                </Column>
+              </Card.Body>
+            </Card.Root>
+          </GridList.Item>
+        ))}
+      </GridList.Root>
+    </Column>
+  );
+}
+
+// ── header-nav-basic ──────────────────────────────
+function EvalHeaderNavBasic() {
+  return (
+    <HeaderNav.Root>
+      <HeaderNav.Logo href="/">
+        <Text variant="heading" as="span">Acme</Text>
+      </HeaderNav.Logo>
+
+      <HeaderNav.Secondary>
+        <HeaderNav.NavButton href="/" current>Home</HeaderNav.NavButton>
+        <HeaderNav.NavButton href="/features">Features</HeaderNav.NavButton>
+        <HeaderNav.NavButton href="/pricing">Pricing</HeaderNav.NavButton>
+        <HeaderNav.NavButton href="/docs">Docs</HeaderNav.NavButton>
+      </HeaderNav.Secondary>
+
+      <HeaderNav.Actions>
+        <a href="/login" className="tale-button tale-button--neutral tale-button--md">Log in</a>
+        <a href="/signup" className="tale-button tale-button--primary tale-button--md">Sign up</a>
+      </HeaderNav.Actions>
+    </HeaderNav.Root>
+  );
+}
+
+// ── horizontal-separator ──────────────────────────
+function EvalHorizontalSeparator() {
+  return <Separator />;
+}
+
+// ── icon-button-delete ────────────────────────────
+function EvalIconButtonDelete() {
+  return (
+    <IconButton variant="danger" aria-label="Delete item">
+      <Icon icon={Trash2} />
+    </IconButton>
+  );
+}
+
+// ── icon-display ──────────────────────────────────
+function EvalIconDisplay() {
+  return <Icon icon={Heart} size="md" />;
+}
+
+// ── illustration-box-with-icon ────────────────────
+function EvalIllustrationBoxWithIcon() {
+  return (
+    <Illustration type="box" size="lg">
+      <Icon icon={UploadCloud} size="xl" label="Upload" />
+    </Illustration>
+  );
+}
+
+// ── image-cropper-basic ───────────────────────────
+function EvalImageCropperBasiccenterAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) {
   return centerCrop(
-    makeAspectCrop({ unit: '%', width: 80 }, 1, mediaWidth, mediaHeight),
+    makeAspectCrop({ unit: '%', width: 80 }, aspect, mediaWidth, mediaHeight),
     mediaWidth,
     mediaHeight,
   );
 }
 
 function EvalImageCropperBasic() {
-  const [src, setSrc] = React.useState(EvalImageCropperBasicAVATAR_SRC);
+  const [imgSrc, setImgSrc] = React.useState('/avatar-placeholder.jpg');
   const [crop, setCrop] = React.useState<Crop>();
   const [completedCrop, setCompletedCrop] = React.useState<PixelCrop>();
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) {
-    const { width, height } = event.currentTarget;
-    setCrop(EvalImageCropperBasiccenterAspectCrop(width, height));
+    const { naturalWidth: width, naturalHeight: height } = event.currentTarget;
+    setCrop(EvalImageCropperBasiccenterAspectCrop(width, height, 1));
   }
 
-  function handleFileSelect(files: FileList | null) {
-    if (!files || files.length === 0) return;
-    const url = URL.createObjectURL(files[0]);
-    setSrc(url);
-    setCrop(undefined);
-    setCompletedCrop(undefined);
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setImgSrc(reader.result as string);
+    reader.readAsDataURL(file);
   }
 
   async function handleSave() {
-    if (!completedCrop) return;
-    const file = await cropToFile(src, completedCrop);
-    if (file) {
-      // hand off to upload handler
-      console.log('Cropped avatar file:', file);
+    if (completedCrop && imgSrc) {
+      const file = await cropToFile(imgSrc, completedCrop);
+      if (file) {
+        console.log('Cropped avatar file:', file);
+      }
     }
   }
 
   return (
-    <Column gap="l" style={{ maxWidth: 480 }}>
+    <Column gap="m" style={{ maxWidth: 480 }}>
       <Text variant="label">Crop avatar photo</Text>
       <ImageCropper.Root
         crop={crop}
@@ -845,23 +1426,41 @@ function EvalImageCropperBasic() {
         circularCrop
       >
         <ImageCropper.Img
-          src={src}
+          src={imgSrc}
           alt="User avatar to crop"
           onLoad={handleImageLoad}
-          style={{ maxHeight: 400, width: '100%' }}
+          style={{ maxHeight: 360, width: '100%' }}
         />
       </ImageCropper.Root>
       <Row gap="s">
-        <FileTrigger acceptedFileTypes={['image/*']} onSelect={handleFileSelect}>
-          <span className="tale-button tale-button--neutral tale-button--md">
-            Change photo
-          </span>
-        </FileTrigger>
+        <Button variant="neutral" onPress={() => fileInputRef.current?.click()}>
+          Change photo
+        </Button>
         <Button variant="primary" onPress={handleSave}>
-          Save avatar
+          Save
         </Button>
       </Row>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
     </Column>
+  );
+}
+
+// ── image-rounded ─────────────────────────────────
+function EvalImageRounded() {
+  return (
+    <Image
+      src="https://picsum.photos/300/200"
+      alt="Placeholder photo"
+      radius="md"
+      width={300}
+      height={200}
+    />
   );
 }
 
@@ -875,56 +1474,101 @@ function EvalInputField() {
   );
 }
 
+// ── input-group-url-field ─────────────────────────
+function EvalInputGroupUrlField() {
+  return (
+    <InputGroup.Root>
+      <InputGroup.Addon position="leading">https://</InputGroup.Addon>
+      <Input.Root>
+        <Input.Label>Website URL</Input.Label>
+        <Input.Input placeholder="example.com" />
+      </Input.Root>
+    </InputGroup.Root>
+  );
+}
+
+// ── input-tags-skills ─────────────────────────────
+function EvalInputTagsSkills() {
+  return (
+    <InputTags.Root
+      label="Skills"
+      placeholder="Add a skill…"
+      description="Enter up to 5 skills. Press Enter to add each one."
+      maxTags={5}
+    />
+  );
+}
+
+// ── iphone-mockup-screenshot ──────────────────────
+function EvalIphoneMockupScreenshot() {
+  return (
+    <IPhoneMockup
+      image="/screenshots/home.png"
+      width={260}
+      height={530}
+    />
+  );
+}
+
 // ── line-chart-visitors ───────────────────────────
 const EvalLineChartVisitorsdata = [
   { week: 'Week 1', visitors: 3200 },
   { week: 'Week 2', visitors: 4800 },
   { week: 'Week 3', visitors: 4100 },
-  { week: 'Week 4', visitors: 5700 },
-  { week: 'Week 5', visitors: 6300 },
+  { week: 'Week 4', visitors: 5900 },
+  { week: 'Week 5', visitors: 7200 },
 ];
 
 function EvalLineChartVisitors() {
   return (
-    <ChartContainer height={300}>
-      <LineChart.Root data={EvalLineChartVisitorsdata}>
-        <LineChart.Grid strokeDasharray="3 3" />
-        <LineChart.XAxis dataKey="week" />
-        <LineChart.YAxis />
-        <LineChart.Tooltip />
-        <LineChart.Line dataKey="visitors" dot />
-      </LineChart.Root>
-    </ChartContainer>
+    <Column gap="m">
+      <Text variant="heading" as="h2" size="m">Weekly Website Visitors</Text>
+      <ChartContainer height={300}>
+        <LineChart.Root data={EvalLineChartVisitorsdata}>
+          <LineChart.Grid strokeDasharray="3 3" />
+          <LineChart.XAxis dataKey="week" />
+          <LineChart.YAxis />
+          <LineChart.Tooltip />
+          <LineChart.Line dataKey="visitors" dot />
+        </LineChart.Root>
+      </ChartContainer>
+    </Column>
   );
 }
 
 // ── list-with-badges ──────────────────────────────
 const EvalListWithBadgesmembers = [
-  { id: '1', name: 'Alice Johnson', email: 'alice@example.com', active: true },
-  { id: '2', name: 'Bob Smith', email: 'bob@example.com', active: false },
-  { id: '3', name: 'Carol White', email: 'carol@example.com', active: true },
-  { id: '4', name: 'David Lee', email: 'david@example.com', active: true },
-  { id: '5', name: 'Eve Martin', email: 'eve@example.com', active: false },
+  { name: 'Alice Johnson', email: 'alice@example.com', active: true },
+  { name: 'Bob Smith', email: 'bob@example.com', active: false },
+  { name: 'Carol White', email: 'carol@example.com', active: true },
+  { name: 'David Lee', email: 'david@example.com', active: true },
+  { name: 'Eva Martinez', email: 'eva@example.com', active: false },
 ];
 
 function EvalListWithBadges() {
   return (
     <List.Root variant="divided">
       {EvalListWithBadgesmembers.map((member) => (
-        <List.Item key={member.id}>
+        <List.Item key={member.email}>
           <Row justify="between" align="center">
             <Column gap="2xs">
               <Text variant="label" size="m">{member.name}</Text>
               <Text variant="text" size="s" color="muted">{member.email}</Text>
             </Column>
-            <Badge variant={member.active ? 'success' : 'neutral'}>
-              {member.active ? 'Active' : 'Inactive'}
-            </Badge>
+            {member.active
+              ? <Badge variant="success">Active</Badge>
+              : <Badge variant="neutral">Inactive</Badge>
+            }
           </Row>
         </List.Item>
       ))}
     </List.Root>
   );
+}
+
+// ── loading-spinner ───────────────────────────────
+function EvalLoadingSpinner() {
+  return <Spinner label="Loading data..." />;
 }
 
 // ── menu-dropdown ─────────────────────────────────
@@ -937,7 +1581,7 @@ function EvalMenuDropdown() {
       <Menu.Popover>
         <Menu.MenuList>
           <Menu.Group>
-            <Menu.Header>Create</Menu.Header>
+            <Menu.Header>Create &amp; Open</Menu.Header>
             <Menu.Item id="new">New</Menu.Item>
             <Menu.Item id="open">Open</Menu.Item>
           </Menu.Group>
@@ -950,6 +1594,55 @@ function EvalMenuDropdown() {
         </Menu.MenuList>
       </Menu.Popover>
     </Menu.Root>
+  );
+}
+
+// ── menubar-editor ────────────────────────────────
+function EvalMenubarEditor() {
+  return (
+    <Menubar.Root>
+      <Menubar.Item>
+        <Menu.Root>
+          <Menu.Trigger>File</Menu.Trigger>
+          <Menu.Popover>
+            <Menu.MenuList>
+              <Menu.Item id="new">New</Menu.Item>
+              <Menu.Item id="open">Open</Menu.Item>
+              <Menu.Item id="save">Save</Menu.Item>
+              <Menu.Item id="save-as">Save As</Menu.Item>
+            </Menu.MenuList>
+          </Menu.Popover>
+        </Menu.Root>
+      </Menubar.Item>
+      <Menubar.Item>
+        <Menu.Root>
+          <Menu.Trigger>Edit</Menu.Trigger>
+          <Menu.Popover>
+            <Menu.MenuList>
+              <Menu.Item id="undo">Undo</Menu.Item>
+              <Menu.Item id="redo">Redo</Menu.Item>
+              <Menu.Separator />
+              <Menu.Item id="cut">Cut</Menu.Item>
+              <Menu.Item id="copy">Copy</Menu.Item>
+              <Menu.Item id="paste">Paste</Menu.Item>
+            </Menu.MenuList>
+          </Menu.Popover>
+        </Menu.Root>
+      </Menubar.Item>
+      <Menubar.Item>
+        <Menu.Root>
+          <Menu.Trigger>View</Menu.Trigger>
+          <Menu.Popover>
+            <Menu.MenuList>
+              <Menu.Item id="zoom-in">Zoom In</Menu.Item>
+              <Menu.Item id="zoom-out">Zoom Out</Menu.Item>
+              <Menu.Separator />
+              <Menu.Item id="fullscreen">Fullscreen</Menu.Item>
+            </Menu.MenuList>
+          </Menu.Popover>
+        </Menu.Root>
+      </Menubar.Item>
+    </Menubar.Root>
   );
 }
 
@@ -969,41 +1662,45 @@ function EvalMeterWithIndicator() {
 }
 
 // ── multi-select-frameworks ───────────────────────
-type EvalMultiSelectFrameworksSelectionValue = Parameters<
-  NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>
->[0];
-
 const EvalMultiSelectFrameworksframeworks = [
   { id: 'react', name: 'React' },
   { id: 'vue', name: 'Vue' },
   { id: 'angular', name: 'Angular' },
   { id: 'svelte', name: 'Svelte' },
   { id: 'solid', name: 'Solid' },
-  { id: 'qwik', name: 'Qwik' },
+  { id: 'next', name: 'Next.js' },
+  { id: 'nuxt', name: 'Nuxt' },
   { id: 'remix', name: 'Remix' },
-  { id: 'nextjs', name: 'Next.js' },
 ];
+
+type EvalMultiSelectFrameworksSelectionValue = Parameters<
+  NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>
+>[0];
 
 function EvalMultiSelectFrameworks() {
   const [selected, setSelected] = React.useState<EvalMultiSelectFrameworksSelectionValue>(new Set());
 
-  const handleReset = () => setSelected(new Set());
-  const handleSelectAll = () =>
+  function handleReset() {
+    setSelected(new Set());
+  }
+
+  function handleSelectAll() {
     setSelected(new Set(EvalMultiSelectFrameworksframeworks.map((f) => f.id)));
+  }
 
   return (
     <MultiSelect.Root
       label="JavaScript Frameworks"
-      placeholder="Select EvalMultiSelectFrameworksframeworks"
+      placeholder="Select EvalMultiSelectFrameworksframeworks..."
       description="Choose one or more EvalMultiSelectFrameworksframeworks for your project."
       items={EvalMultiSelectFrameworksframeworks}
       selectedKeys={selected}
       onSelectionChange={setSelected}
+      onReset={handleReset}
+      onSelectAll={handleSelectAll}
       selectedCountFormatter={(count) =>
         `${count} framework${count === 1 ? '' : 's'} selected`
       }
-      onReset={handleReset}
-      onSelectAll={handleSelectAll}
     >
       {(item) => (
         <MultiSelect.Item id={item.id} textValue={item.name}>
@@ -1014,10 +1711,36 @@ function EvalMultiSelectFrameworks() {
   );
 }
 
+// ── muted-text ────────────────────────────────────
+function EvalMutedText() {
+  return (
+    <Text as="p" color="muted">This action cannot be undone.</Text>
+  );
+}
+
+// ── navigation-menu-site ──────────────────────────
+function EvalNavigationMenuSite() {
+  return (
+    <NavigationMenu.Root>
+      <NavigationMenu.List>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link href="#">Products</NavigationMenu.Link>
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link href="#">About</NavigationMenu.Link>
+        </NavigationMenu.Item>
+      </NavigationMenu.List>
+    </NavigationMenu.Root>
+  );
+}
+
 // ── number-field-quantity ─────────────────────────
 function EvalNumberFieldQuantity() {
   return (
-    <NumberField.Root minValue={1} maxValue={99} defaultValue={1}>
+    <NumberField.Root defaultValue={1} minValue={1} maxValue={99}>
       <NumberField.Label>Quantity</NumberField.Label>
       <NumberField.Group>
         <NumberField.Decrement />
@@ -1036,10 +1759,42 @@ function EvalPaginationControl() {
       <Pagination.Item page={1} />
       <Pagination.Item page={2} />
       <Pagination.Item page={3} current />
+      <Pagination.Item page={4} />
       <Pagination.Ellipsis />
       <Pagination.Item page={10} />
       <Pagination.NextTrigger />
     </Pagination.Root>
+  );
+}
+
+// ── pagination-dot-carousel ───────────────────────
+function EvalPaginationDotCarousel() {
+  const [page, setPage] = React.useState(2);
+
+  return (
+    <PaginationDot page={page} total={5} onPageChange={setPage} />
+  );
+}
+
+// ── pagination-line-carousel ──────────────────────
+function EvalPaginationLineCarousel() {
+  const [page, setPage] = React.useState(1);
+
+  return (
+    <PaginationLine page={page} total={4} onPageChange={setPage} />
+  );
+}
+
+// ── payment-input-card ────────────────────────────
+function EvalPaymentInputCard() {
+  return (
+    <PaymentInput.Root>
+      <PaymentInput.Label>Card number</PaymentInput.Label>
+      <PaymentInput.Group>
+        <PaymentInput.Input placeholder="1234 5678 9012 3456" />
+        <PaymentInput.CardIcon />
+      </PaymentInput.Group>
+    </PaymentInput.Root>
   );
 }
 
@@ -1055,12 +1810,21 @@ function EvalPieChartTraffic() {
   return (
     <Card.Root>
       <Card.Header>
-        <Text variant="heading">Website Traffic Sources</Text>
+        <Column gap="xs">
+          <Text variant="heading">Website Traffic Sources</Text>
+          <Text color="muted" size="s">Breakdown by acquisition channel</Text>
+        </Column>
       </Card.Header>
       <Card.Body>
         <ChartContainer height={300}>
           <PieChart.Root>
-            <PieChart.Pie data={EvalPieChartTrafficdata} dataKey="value" nameKey="name" />
+            <PieChart.Pie
+              data={EvalPieChartTrafficdata}
+              dataKey="value"
+              nameKey="name"
+              outerRadius={110}
+              paddingAngle={2}
+            />
             <PieChart.Tooltip />
             <PieChart.Legend />
           </PieChart.Root>
@@ -1073,19 +1837,22 @@ function EvalPieChartTraffic() {
 // ── pin-input-verification ────────────────────────
 function EvalPinInputVerification() {
   return (
-    <PinInput.Root maxLength={6}>
-      <PinInput.Group>
-        <PinInput.Slot index={0} />
-        <PinInput.Slot index={1} />
-        <PinInput.Slot index={2} />
-      </PinInput.Group>
-      <PinInput.Separator />
-      <PinInput.Group>
-        <PinInput.Slot index={3} />
-        <PinInput.Slot index={4} />
-        <PinInput.Slot index={5} />
-      </PinInput.Group>
-    </PinInput.Root>
+    <Column gap="s">
+      <Text variant="label">Verification code</Text>
+      <PinInput.Root maxLength={6}>
+        <PinInput.Group>
+          <PinInput.Slot index={0} />
+          <PinInput.Slot index={1} />
+          <PinInput.Slot index={2} />
+        </PinInput.Group>
+        <PinInput.Separator />
+        <PinInput.Group>
+          <PinInput.Slot index={3} />
+          <PinInput.Slot index={4} />
+          <PinInput.Slot index={5} />
+        </PinInput.Group>
+      </PinInput.Root>
+    </Column>
   );
 }
 
@@ -1094,17 +1861,16 @@ function EvalPopoverInfo() {
   return (
     <Popover.Root>
       <Popover.Trigger
-        aria-label="Feature info"
-        className="tale-icon-button tale-icon-button--ghost tale-icon-button--md"
+        className="tale-icon-button tale-icon-button--md tale-button--ghost"
+        aria-label="Learn more about this feature"
       >
-        <Icon icon={Info} />
+        <Icon icon={Info} size="md" />
       </Popover.Trigger>
       <Popover.Popup placement="bottom" offset={8}>
         <Popover.Arrow />
         <Popover.Title>Auto-save</Popover.Title>
         <Popover.Description>
-          Your changes are saved automatically every 30 seconds. You can also
-          press ⌘S at any time to save manually.
+          Your changes are saved automatically every 30 seconds. You can also press ⌘S at any time to save manually.
         </Popover.Description>
       </Popover.Popup>
     </Popover.Root>
@@ -1122,8 +1888,8 @@ function EvalPreviewCardHover() {
         <PreviewCard.Arrow />
         <PreviewCard.Content aria-label="Link preview">
           <Column gap="s">
-            <Text variant="heading">Page Title</Text>
-            <Text color="muted">A short description of the linked page or content goes here.</Text>
+            <Text variant="heading">Preview Title</Text>
+            <Text color="muted">A short description of the linked content goes here.</Text>
           </Column>
         </PreviewCard.Content>
       </PreviewCard.Popup>
@@ -1131,10 +1897,15 @@ function EvalPreviewCardHover() {
   );
 }
 
+// ── primary-button ────────────────────────────────
+function EvalPrimaryButton() {
+  return <Button variant="primary">Save</Button>;
+}
+
 // ── progress-bar-labeled ──────────────────────────
 function EvalProgressBarLabeled() {
   return (
-    <ProgressBar.Root value={65} minValue={0} maxValue={100} aria-label="Uploading Files">
+    <ProgressBar.Root value={65} minValue={0} maxValue={100}>
       <ProgressBar.Header>
         <ProgressBar.Label>Uploading Files</ProgressBar.Label>
         <ProgressBar.Value>65%</ProgressBar.Value>
@@ -1155,9 +1926,14 @@ function EvalProgressCircleUpload() {
         <ProgressCircle.Label>Upload</ProgressCircle.Label>
         <ProgressCircle.Value />
       </ProgressCircle.Root>
-      <Text size="s" color="muted">Uploading file…</Text>
+      <Text size="s" color="muted">Uploading… 65%</Text>
     </Column>
   );
+}
+
+// ── qr-code-basic ─────────────────────────────────
+function EvalQrCodeBasic() {
+  return <QRCode.Root value="https://example.com" size="md" />;
 }
 
 // ── radar-chart-skills ────────────────────────────
@@ -1173,14 +1949,14 @@ function EvalRadarChartSkills() {
   return (
     <Card.Root>
       <Card.Header>
-        <Text variant="heading">Developer Skills</Text>
+        <Text variant="heading">Developer Skill Scores</Text>
       </Card.Header>
       <Card.Body>
         <Column gap="m">
           <RadarChart.Root data={EvalRadarChartSkillsdata} width={500} height={400}>
             <RadarChart.PolarGrid />
             <RadarChart.PolarAngleAxis dataKey="subject" />
-            <RadarChart.PolarRadiusAxis />
+            <RadarChart.PolarRadiusAxis domain={[0, 100]} />
             <RadarChart.Tooltip />
             <RadarChart.Radar dataKey="score" />
           </RadarChart.Root>
@@ -1201,7 +1977,7 @@ const EvalRadialBarChartQuarterlydata = [
 function EvalRadialBarChartQuarterly() {
   return (
     <ChartContainer height={300}>
-      <RadialBarChart.Root data={EvalRadialBarChartQuarterlydata} innerRadius="15%" outerRadius="85%">
+      <RadialBarChart.Root data={EvalRadialBarChartQuarterlydata}>
         <RadialBarChart.RadialBar dataKey="value" />
         <RadialBarChart.Tooltip />
         <RadialBarChart.Legend />
@@ -1213,44 +1989,105 @@ function EvalRadialBarChartQuarterly() {
 // ── radio-group-form ──────────────────────────────
 function EvalRadioGroupForm() {
   return (
-    <Column gap="s">
-      <RadioGroup label="Select a plan">
-        <Radio.Root value="free">
-          <Radio.Indicator />
-          <Column gap="xs">
-            <Text variant="label">Free</Text>
-            <Text size="s" color="muted">Get started at no cost</Text>
-          </Column>
-        </Radio.Root>
-        <Radio.Root value="pro">
-          <Radio.Indicator />
-          <Column gap="xs">
-            <Text variant="label">Pro</Text>
-            <Text size="s" color="muted">For individuals and small teams</Text>
-          </Column>
-        </Radio.Root>
-        <Radio.Root value="enterprise">
-          <Radio.Indicator />
-          <Column gap="xs">
-            <Text variant="label">Enterprise</Text>
-            <Text size="s" color="muted">Advanced features for large organizations</Text>
-          </Column>
-        </Radio.Root>
-      </RadioGroup>
+    <RadioGroup label="Select a plan">
+      <Radio.Root value="free">
+        <Radio.Indicator />
+        Free
+      </Radio.Root>
+      <Radio.Root value="pro">
+        <Radio.Indicator />
+        Pro
+      </Radio.Root>
+      <Radio.Root value="enterprise">
+        <Radio.Indicator />
+        Enterprise
+      </Radio.Root>
+    </RadioGroup>
+  );
+}
+
+// ── radio-standalone ──────────────────────────────
+function EvalRadioStandalone() {
+  return (
+    <RadioGroup label="Subscription plan">
+      <Radio.Root value="free">
+        <Radio.Indicator />
+        Free
+      </Radio.Root>
+      <Radio.Root value="pro">
+        <Radio.Indicator />
+        Pro
+      </Radio.Root>
+      <Radio.Root value="enterprise">
+        <Radio.Indicator />
+        Enterprise
+      </Radio.Root>
+    </RadioGroup>
+  );
+}
+
+// ── range-calendar-dates ──────────────────────────
+type EvalRangeCalendarDatesRangeValue = Parameters<NonNullable<ComponentProps<typeof RangeCalendar.Root>['onChange']>>[0];
+
+function EvalRangeCalendarDates() {
+  const [range, setRange] = useState<EvalRangeCalendarDatesRangeValue | null>(null);
+
+  return (
+    <Column gap="m">
+      <RangeCalendar.Root onChange={setRange}>
+        <RangeCalendar.Header>
+          <RangeCalendar.PreviousButton />
+          <RangeCalendar.Heading />
+          <RangeCalendar.NextButton />
+        </RangeCalendar.Header>
+        <RangeCalendar.Grid>
+          <RangeCalendar.GridHeader>
+            {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
+          </RangeCalendar.GridHeader>
+          <RangeCalendar.GridBody>
+            {(date) => <RangeCalendar.Cell date={date} />}
+          </RangeCalendar.GridBody>
+        </RangeCalendar.Grid>
+      </RangeCalendar.Root>
+      {range && (
+        <Text size="s">
+          {range.start.toString()} – {range.end.toString()}
+        </Text>
+      )}
     </Column>
+  );
+}
+
+// ── rating-badge-score ────────────────────────────
+function EvalRatingBadgeScore() {
+  return <RatingBadge value={4.8} />;
+}
+
+// ── rating-stars-display ──────────────────────────
+function EvalRatingStarsDisplay() {
+  return <RatingStars value={4} max={5} />;
+}
+
+// ── row-button-group ──────────────────────────────
+function EvalRowButtonGroup() {
+  return (
+    <Row justify="end" gap="s">
+      <Button variant="neutral">Cancel</Button>
+      <Button variant="primary">Save</Button>
+    </Row>
   );
 }
 
 // ── scroll-area-list ──────────────────────────────
 const EvalScrollAreaListitems = [
-  'Dashboard overview',
-  'Account settings',
-  'Notifications',
-  'Privacy controls',
-  'Billing & plans',
-  'Team members',
-  'Integrations',
-  'Help & support',
+  { id: 1, label: 'Inbox' },
+  { id: 2, label: 'Drafts' },
+  { id: 3, label: 'Sent' },
+  { id: 4, label: 'Spam' },
+  { id: 5, label: 'Trash' },
+  { id: 6, label: 'Archived' },
+  { id: 7, label: 'Scheduled' },
+  { id: 8, label: 'All Mail' },
 ];
 
 function EvalScrollAreaList() {
@@ -1260,8 +2097,8 @@ function EvalScrollAreaList() {
         <ScrollArea.Content>
           <List.Root variant="divided">
             {EvalScrollAreaListitems.map((item) => (
-              <List.Item key={item}>
-                <Text>{item}</Text>
+              <List.Item key={item.id}>
+                <Text>{item.label}</Text>
               </List.Item>
             ))}
           </List.Root>
@@ -1284,6 +2121,29 @@ function EvalSearchField() {
         <Icon icon={X} size="sm" />
       </SearchField.ClearButton>
     </SearchField.Root>
+  );
+}
+
+// ── section-divider-basic ─────────────────────────
+function EvalSectionDividerBasic() {
+  return (
+    <Column gap="xl">
+      <Column gap="m">
+        <Text variant="heading">Our Features</Text>
+        <Text variant="text" color="muted">
+          Discover everything our platform has to offer.
+        </Text>
+      </Column>
+
+      <SectionDivider />
+
+      <Column gap="m">
+        <Text variant="heading">Pricing</Text>
+        <Text variant="text" color="muted">
+          Simple, transparent pricing with no hidden fees.
+        </Text>
+      </Column>
+    </Column>
   );
 }
 
@@ -1322,27 +2182,106 @@ function EvalSelectNativeCountry() {
 // ── select-with-sections ──────────────────────────
 function EvalSelectWithSections() {
   return (
-    <Select.Root placeholder="Select a food…">
-      <Select.Label>Food Category</Select.Label>
+    <Select.Root placeholder="Select a food...">
+      <Select.Label>Food</Select.Label>
       <Select.Trigger>
         <Select.Value />
         <Select.Icon />
       </Select.Trigger>
       <Select.Popover>
         <Select.ListBox>
-          <Select.Section>
+          <Select.Section id="fruits">
             <Select.Header>Fruits</Select.Header>
-            <Select.Item id="apple">Apple</Select.Item>
-            <Select.Item id="banana">Banana</Select.Item>
+            <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+            <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
           </Select.Section>
-          <Select.Section>
+          <Select.Section id="vegetables">
             <Select.Header>Vegetables</Select.Header>
-            <Select.Item id="carrot">Carrot</Select.Item>
-            <Select.Item id="broccoli">Broccoli</Select.Item>
+            <Select.Item id="carrot" textValue="Carrot">Carrot</Select.Item>
+            <Select.Item id="broccoli" textValue="Broccoli">Broccoli</Select.Item>
           </Select.Section>
         </Select.ListBox>
       </Select.Popover>
     </Select.Root>
+  );
+}
+
+// ── settings-page ─────────────────────────────────
+function EvalSettingsPage() {
+  return (
+    <Column gap="l">
+      <Text variant="heading" size="l" as="h1">Settings</Text>
+
+      <Row gap="m" align="stretch">
+        <Card.Root style={{ flex: 1 }}>
+          <Card.Header>
+            <Text variant="heading">Profile</Text>
+          </Card.Header>
+          <Card.Body>
+            <Column gap="m">
+              <TextField.Root>
+                <TextField.Label>Name</TextField.Label>
+                <TextField.Input placeholder="Jane Doe" />
+              </TextField.Root>
+              <TextField.Root>
+                <TextField.Label>Email</TextField.Label>
+                <TextField.Input placeholder="jane@example.com" />
+              </TextField.Root>
+            </Column>
+          </Card.Body>
+        </Card.Root>
+
+        <Card.Root style={{ flex: 1 }}>
+          <Card.Header>
+            <Text variant="heading">Preferences</Text>
+          </Card.Header>
+          <Card.Body>
+            <Select.Root>
+              <Select.Label>Theme</Select.Label>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Icon />
+              </Select.Trigger>
+              <Select.Popover>
+                <Select.ListBox>
+                  <Select.Item id="light">Light</Select.Item>
+                  <Select.Item id="dark">Dark</Select.Item>
+                  <Select.Item id="system">System</Select.Item>
+                </Select.ListBox>
+              </Select.Popover>
+            </Select.Root>
+          </Card.Body>
+        </Card.Root>
+      </Row>
+
+      <Row justify="end" gap="s">
+        <Button variant="ghost">Cancel</Button>
+        <Button variant="primary">Save</Button>
+      </Row>
+    </Column>
+  );
+}
+
+// ── sidebar-basic ─────────────────────────────────
+function EvalSidebarBasic() {
+  return (
+    <Sidebar.Root>
+      <Sidebar.Header>
+        <Text variant="title" size="m">MyApp</Text>
+      </Sidebar.Header>
+      <Sidebar.NavList>
+        <Sidebar.NavItem href="/dashboard" icon={LayoutDashboard} current>
+          Dashboard
+        </Sidebar.NavItem>
+        <Sidebar.NavItem href="/team" icon={Users}>
+          Team
+        </Sidebar.NavItem>
+        <Sidebar.NavItem href="/settings" icon={Settings}>
+          Settings
+        </Sidebar.NavItem>
+      </Sidebar.NavList>
+      <Sidebar.AccountCard name="Alex Chen" email="alex@example.com" />
+    </Sidebar.Root>
   );
 }
 
@@ -1361,6 +2300,38 @@ function EvalSliderVolume() {
         </Slider.Track>
       </Slider.Control>
     </Slider.Root>
+  );
+}
+
+// ── social-button-google ──────────────────────────
+function EvalSocialButtonGoogle() {
+  return (
+    <SocialButton provider="google">Sign in with Google</SocialButton>
+  );
+}
+
+// ── social-button-group-login ─────────────────────
+function EvalSocialButtonGroupLogin() {
+  return (
+    <SocialButtonGroup>
+      <SocialButton provider="google">Sign in with Google</SocialButton>
+      <SocialButton provider="github">Continue with GitHub</SocialButton>
+      <SocialButton provider="apple">Sign in with Apple</SocialButton>
+    </SocialButtonGroup>
+  );
+}
+
+// ── status-badge ──────────────────────────────────
+function EvalStatusBadge() {
+  return <Badge variant="success">Active</Badge>;
+}
+
+// ── styled-link ───────────────────────────────────
+function EvalStyledLink() {
+  return (
+    <Link href="https://example.com" target="_blank" rel="noreferrer">
+      Visit Example
+    </Link>
   );
 }
 
@@ -1407,6 +2378,36 @@ function EvalSwitchToggle() {
   );
 }
 
+// ── table-data ────────────────────────────────────
+function EvalTableData() {
+  return (
+    <Table.Root aria-label="People">
+      <Table.Header>
+        <Table.Column isRowHeader>Name</Table.Column>
+        <Table.Column>Role</Table.Column>
+        <Table.Column>Status</Table.Column>
+      </Table.Header>
+      <Table.Body>
+        <Table.Row id="1">
+          <Table.Cell>Alice Johnson</Table.Cell>
+          <Table.Cell>Engineer</Table.Cell>
+          <Table.Cell><Badge variant="success">Active</Badge></Table.Cell>
+        </Table.Row>
+        <Table.Row id="2">
+          <Table.Cell>Bob Smith</Table.Cell>
+          <Table.Cell>Designer</Table.Cell>
+          <Table.Cell><Badge variant="neutral">Invited</Badge></Table.Cell>
+        </Table.Row>
+        <Table.Row id="3">
+          <Table.Cell>Carol White</Table.Cell>
+          <Table.Cell>Product Manager</Table.Cell>
+          <Table.Cell><Badge variant="error">Inactive</Badge></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table.Root>
+  );
+}
+
 // ── tabs-pills-variant ────────────────────────────
 function EvalTabsPillsVariant() {
   return (
@@ -1427,7 +2428,8 @@ function EvalTabsPillsVariant() {
             </Card.Header>
             <Card.Body>
               <Column gap="s">
-                <Text>Manage your personal information, email address, and display name. Keep your profile up to date so teammates can recognize you.</Text>
+                <Text>Manage your personal information, email address, and display preferences.</Text>
+                <Text color="muted">Changes to your account details may take a few minutes to reflect across all devices.</Text>
               </Column>
             </Card.Body>
           </Card.Root>
@@ -1440,7 +2442,8 @@ function EvalTabsPillsVariant() {
             </Card.Header>
             <Card.Body>
               <Column gap="s">
-                <Text>Update your password, manage two-factor authentication, and review recent login activity to keep your account secure.</Text>
+                <Text>Control your password, two-factor authentication, and active sessions.</Text>
+                <Text color="muted">We recommend enabling two-factor authentication to keep your account secure.</Text>
               </Column>
             </Card.Body>
           </Card.Root>
@@ -1453,7 +2456,8 @@ function EvalTabsPillsVariant() {
             </Card.Header>
             <Card.Body>
               <Column gap="s">
-                <Text>Choose which events trigger email or push notifications and how frequently you receive digests and summaries.</Text>
+                <Text>Choose how and when you receive alerts for activity, updates, and messages.</Text>
+                <Text color="muted">You can opt in or out of email, push, and in-app notifications at any time.</Text>
               </Column>
             </Card.Body>
           </Card.Root>
@@ -1475,23 +2479,23 @@ function EvalTabsWithPanels() {
       </Tabs.List>
       <Tabs.Panel id="overview">
         <Text>
-          Welcome to our platform. Get a high-level look at what we offer and
-          how our solution can help your team work smarter, move faster, and
-          achieve more — all in one place.
+          Get a high-level look at what we offer. Our platform is designed to
+          help teams move faster, collaborate better, and ship with confidence —
+          all from a single, unified workspace.
         </Text>
       </Tabs.Panel>
       <Tabs.Panel id="features">
         <Text>
-          Our platform includes powerful tools for collaboration, automation,
-          and analytics. From real-time dashboards to seamless integrations,
-          every feature is designed to fit naturally into your workflow.
+          From real-time collaboration and automated workflows to powerful
+          analytics and integrations, our feature set covers everything your
+          team needs to stay productive and deliver great results.
         </Text>
       </Tabs.Panel>
       <Tabs.Panel id="pricing">
         <Text>
-          Choose from flexible plans that scale with your needs. Whether
-          you're a solo creator or an enterprise team, we have transparent
-          pricing with no hidden fees and a free trial to get you started.
+          We offer flexible plans for teams of every size. Start for free and
+          upgrade as you grow — no hidden fees, no long-term contracts, and a
+          30-day money-back guarantee on all paid plans.
         </Text>
       </Tabs.Panel>
     </Tabs.Root>
@@ -1513,34 +2517,35 @@ function EvalTagGroupSkills() {
 }
 
 // ── tag-select-team-members ───────────────────────
-const EvalTagSelectTeamMembersmembers = [
+type EvalTagSelectTeamMembersSelectionValue = Parameters<
+  NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>
+>[0];
+
+const EvalTagSelectTeamMembersMEMBERS = [
   { id: 'alice', name: 'Alice Johnson' },
-  { id: 'bob', name: 'Bob Smith' },
-  { id: 'carol', name: 'Carol White' },
-  { id: 'dave', name: 'Dave Brown' },
-  { id: 'eve', name: 'Eve Davis' },
+  { id: 'bob', name: 'Bob Martinez' },
+  { id: 'carol', name: 'Carol Lee' },
+  { id: 'david', name: 'David Kim' },
+  { id: 'eva', name: 'Eva Patel' },
 ];
 
 function EvalTagSelectTeamMembers() {
-  type SelectionValue = Parameters<
-    NonNullable<React.ComponentProps<typeof TagSelect.Root>['onSelectionChange']>
-  >[0];
-  const [selected, setSelected] = React.useState<SelectionValue>(
-    new Set(['alice', 'bob'])
+  const [selected, setSelected] = React.useState<EvalTagSelectTeamMembersSelectionValue>(
+    new Set(['alice', 'bob']),
   );
 
   return (
     <TagSelect.Root
-      label="Team EvalTagSelectTeamMembersmembers"
-      placeholder="Search EvalTagSelectTeamMembersmembers…"
-      description="Select all team EvalTagSelectTeamMembersmembers who should be included."
-      items={EvalTagSelectTeamMembersmembers}
+      label="Team members"
+      placeholder="Search members…"
+      description="Select who should be included in this project."
+      items={EvalTagSelectTeamMembersMEMBERS}
       selectedKeys={selected}
       onSelectionChange={setSelected}
     >
-      {(member) => (
-        <TagSelect.Item id={member.id} textValue={member.name}>
-          {member.name}
+      {(item) => (
+        <TagSelect.Item id={item.id} textValue={item.name}>
+          {item.name}
         </TagSelect.Item>
       )}
     </TagSelect.Root>
@@ -1557,6 +2562,36 @@ function EvalTextAreaInput() {
   );
 }
 
+// ── text-editor-basic ─────────────────────────────
+function EvalTextEditorBasic() {
+  return (
+    <TextEditor.Root>
+      <TextEditor.Label>Content</TextEditor.Label>
+      <TextEditor.Toolbar />
+      <TextEditor.Content maxLength={300} />
+    </TextEditor.Root>
+  );
+}
+
+// ── text-heading-hierarchy ────────────────────────
+function EvalTextHeadingHierarchy() {
+  return (
+    <Column gap="m" style={{ maxWidth: '640px', padding: '2rem' }}>
+      <Text as="h1" variant="display" size="l">
+        Build interfaces that scale
+      </Text>
+      <Text as="h2" variant="heading" size="m">
+        Getting started with Tale UI
+      </Text>
+      <Text as="p" variant="text" size="m" color="muted">
+        Tale UI provides a comprehensive set of accessible, themeable components
+        built on React Aria. Start by installing the package, importing the
+        styles, and composing your first layout.
+      </Text>
+    </Column>
+  );
+}
+
 // ── text-input-field ──────────────────────────────
 function EvalTextInputField() {
   return (
@@ -1565,6 +2600,34 @@ function EvalTextInputField() {
       <TextField.Input />
       <TextField.Description>Enter your first and last name as they appear on your ID.</TextField.Description>
     </TextField.Root>
+  );
+}
+
+// ── time-field-input ──────────────────────────────
+function EvalTimeFieldInput() {
+  return (
+    <TimeField.Root granularity="minute">
+      <TimeField.Label>Meeting Time</TimeField.Label>
+      <TimeField.DateInput>
+        {(segment) => <TimeField.Segment segment={segment} />}
+      </TimeField.DateInput>
+    </TimeField.Root>
+  );
+}
+
+// ── toggle-button-bold ────────────────────────────
+function EvalToggleButtonBold() {
+  const [isBold, setIsBold] = useState(false);
+
+  return (
+    <ToggleButton
+      aria-label="Bold"
+      isSelected={isBold}
+      onChange={setIsBold}
+      size="md"
+    >
+      <strong>B</strong>
+    </ToggleButton>
   );
 }
 
@@ -1581,16 +2644,12 @@ function EvalToggleButtonGroupAlignment() {
 
 // ── toolbar-actions ───────────────────────────────
 function EvalToolbarActions() {
-  const [bold, setBold] = useState(false);
-  const [italic, setItalic] = useState(false);
-  const [underline, setUnderline] = useState(false);
-
   return (
     <Toolbar.Root aria-label="Text formatting">
       <Toolbar.Group>
-        <ToggleButton isSelected={bold} onChange={setBold}>Bold</ToggleButton>
-        <ToggleButton isSelected={italic} onChange={setItalic}>Italic</ToggleButton>
-        <ToggleButton isSelected={underline} onChange={setUnderline}>Underline</ToggleButton>
+        <ToggleButton size="md">Bold</ToggleButton>
+        <ToggleButton size="md">Italic</ToggleButton>
+        <ToggleButton size="md">Underline</ToggleButton>
       </Toolbar.Group>
     </Toolbar.Root>
   );
@@ -1608,6 +2667,90 @@ function EvalTooltipButton() {
         Save changes
       </Tooltip.Popup>
     </Tooltip.Root>
+  );
+}
+
+// ── tree-file-system ──────────────────────────────
+function EvalTreeFileSystem() {
+  return (
+    <Tree.Root
+      aria-label="File system"
+      defaultExpandedKeys={new Set(['src', 'public', 'src-components'])}
+    >
+      <Tree.Item id="src" textValue="src">
+        <Tree.ItemContent>src/</Tree.ItemContent>
+        <Tree.Item id="src-components" textValue="components">
+          <Tree.ItemContent>components/</Tree.ItemContent>
+          <Tree.Item id="src-components-button" textValue="Button.tsx">
+            <Tree.ItemContent>Button.tsx</Tree.ItemContent>
+          </Tree.Item>
+          <Tree.Item id="src-components-header" textValue="Header.tsx">
+            <Tree.ItemContent>Header.tsx</Tree.ItemContent>
+          </Tree.Item>
+        </Tree.Item>
+        <Tree.Item id="src-app" textValue="App.tsx">
+          <Tree.ItemContent>App.tsx</Tree.ItemContent>
+        </Tree.Item>
+        <Tree.Item id="src-index" textValue="index.tsx">
+          <Tree.ItemContent>index.tsx</Tree.ItemContent>
+        </Tree.Item>
+      </Tree.Item>
+      <Tree.Item id="public" textValue="public">
+        <Tree.ItemContent>public/</Tree.ItemContent>
+        <Tree.Item id="public-index" textValue="index.html">
+          <Tree.ItemContent>index.html</Tree.ItemContent>
+        </Tree.Item>
+        <Tree.Item id="public-favicon" textValue="favicon.ico">
+          <Tree.ItemContent>favicon.ico</Tree.ItemContent>
+        </Tree.Item>
+        <Tree.Item id="public-robots" textValue="robots.txt">
+          <Tree.ItemContent>robots.txt</Tree.ItemContent>
+        </Tree.Item>
+      </Tree.Item>
+    </Tree.Root>
+  );
+}
+
+// ── user-profile-card ─────────────────────────────
+function EvalUserProfileCard() {
+  return (
+    <Card.Root variant="elevated">
+      <Card.Header>
+        <Image src="/profile.jpg" alt="Sarah Chen" radius="full" width={80} height={80} />
+      </Card.Header>
+      <Card.Body>
+        <Column gap="s">
+          <Text variant="heading">Sarah Chen</Text>
+          <Text color="muted">Senior Engineer</Text>
+          <Row gap="s">
+            <Badge variant="neutral">React</Badge>
+            <Badge variant="neutral">TypeScript</Badge>
+          </Row>
+        </Column>
+      </Card.Body>
+      <Card.Footer>
+        <Row gap="s">
+          <IconButton variant="ghost" aria-label="Edit profile">
+            <Icon icon={Pencil} />
+          </IconButton>
+          <Button variant="primary">Message</Button>
+        </Row>
+      </Card.Footer>
+    </Card.Root>
+  );
+}
+
+// ── video-player-basic ────────────────────────────
+function EvalVideoPlayerBasic() {
+  return (
+    <div style={{ width: '640px', maxWidth: '100%' }}>
+      <VideoPlayer.Root
+        src="/demo.mp4"
+        size="md"
+        thumbnailUrl="/thumbnail.jpg"
+        thumbnailAlt="Video thumbnail"
+      />
+    </div>
   );
 }
 
@@ -1635,8 +2778,18 @@ export default function EvalReview() {
     <div className="eval-review">
       <div className="eval-review__header">
         <h1>Eval Review</h1>
-        <p>Generated code for 64 golden prompts. Visual L4 inspection.</p>
+        <p>Generated code for 125 golden prompts. Visual L4 inspection.</p>
       </div>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">accordion-faq</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Create an FAQ section with a heading that says 'Frequently Asked Questions'. Below it, add an accordion with 4 items: 'What is Tale UI?' with answer about it being a design system, 'How do I install it?' with pnpm install instructions, 'Is it accessible?' with answer about React Aria foundation, and 'Can I customize the theme?' with answer about CSS custom properties. At the bottom, add an info banner with a description that says 'Still have questions?' and a link labeled 'Contact us'.</p>
+        <div className="eval-review__preview">
+          <EvalAccordionFaq />
+        </div>
+      </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
           <code className="eval-review__slug">alert-dialog-confirm</code>
@@ -1645,6 +2798,16 @@ export default function EvalReview() {
         <p className="eval-review__prompt">Create a confirmation dialog triggered by a 'Delete Account' button. The dialog should have a title 'Delete Account?', a description warning that this action is permanent, and two action buttons: 'Cancel' (neutral) and 'Delete' (danger).</p>
         <div className="eval-review__preview">
           <EvalAlertDialogConfirm />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">app-store-button-apple</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show an Apple App Store download button linking to the App Store.</p>
+        <div className="eval-review__preview">
+          <EvalAppStoreButtonApple />
         </div>
       </section>
       <section className="eval-review__section">
@@ -1679,12 +2842,52 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">avatar-image</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Create a 200x150 image with rounded corners showing a photo at &quot;https://placehold.co/200x150&quot; with alt text &quot;A mountain landscape&quot;.</p>
+        <div className="eval-review__preview">
+          <EvalAvatarImage />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">avatar-with-label</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
         <p className="eval-review__prompt">Show a user avatar with their name and role displayed beside it using a label group.</p>
         <div className="eval-review__preview">
           <EvalAvatarWithLabel />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">background-pattern-circle</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a decorative circular background pattern at large size.</p>
+        <div className="eval-review__preview">
+          <EvalBackgroundPatternCircle />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">badge-group-basic</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a badge with a pinned trailing 'v2.0' addon, using the brand color and light theme.</p>
+        <div className="eval-review__preview">
+          <EvalBadgeGroupBasic />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">banner-success</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a success banner with the title 'Changes saved' and description 'Your profile has been updated successfully.'</p>
+        <div className="eval-review__preview">
+          <EvalBannerSuccess />
         </div>
       </section>
       <section className="eval-review__section">
@@ -1719,12 +2922,42 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">button-danger</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a danger button labeled 'Delete account' and a neutral button labeled 'Cancel' side by side.</p>
+        <div className="eval-review__preview">
+          <EvalButtonDanger />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">calendar-date</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a date calendar picker for selecting a single date.</p>
+        <div className="eval-review__preview">
+          <EvalCalendarDate />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">card-with-content</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
         <p className="eval-review__prompt">Create a card with a header displaying a title, a body with descriptive text, and a footer containing a primary action button labeled 'Get Started'.</p>
         <div className="eval-review__preview">
           <EvalCardWithContent />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">carousel-images</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show an image carousel with 3 slides, navigation buttons, and indicator dots.</p>
+        <div className="eval-review__preview">
+          <EvalCarouselImages />
         </div>
       </section>
       <section className="eval-review__section">
@@ -1739,12 +2972,42 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">checkbox-standalone</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a standalone checkbox with the label 'Accept terms and conditions'.</p>
+        <div className="eval-review__preview">
+          <EvalCheckboxStandalone />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">color-area-picker</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a color picker using ColorArea and a hue ColorSlider — do NOT use ColorPicker.Root, do NOT use useState, do NOT import from @internationalized/color, do NOT pass an object literal to defaultValue. Use defaultValue with a plain CSS string like &quot;hsl(0, 100%, 50%)&quot; on each component.</p>
+        <div className="eval-review__preview">
+          <EvalColorAreaPicker />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">color-field-hex</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
         <p className="eval-review__prompt">Show a hex color input field with a label.</p>
         <div className="eval-review__preview">
           <EvalColorFieldHex />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">color-mode-toggle</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a dark/light mode toggle that persists user preference.</p>
+        <div className="eval-review__preview">
+          <EvalColorModeToggle />
         </div>
       </section>
       <section className="eval-review__section">
@@ -1765,6 +3028,16 @@ export default function EvalReview() {
         <p className="eval-review__prompt">Show a hue color slider with a label and a live value output.</p>
         <div className="eval-review__preview">
           <EvalColorSliderHue />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">color-swatch-display</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a blue color swatch using the hex color #3b82f6.</p>
+        <div className="eval-review__preview">
+          <EvalColorSwatchDisplay />
         </div>
       </section>
       <section className="eval-review__section">
@@ -1819,6 +3092,66 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">context-menu-actions</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a right-click context menu with Edit, Copy, and Delete actions.</p>
+        <div className="eval-review__preview">
+          <EvalContextMenuActions />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">credit-card-brand-dark</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a dark brand-coloured credit card with a custom company name and card number.</p>
+        <div className="eval-review__preview">
+          <EvalCreditCardBrandDark />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">data-display-cards</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Create a row of 3 stat cards. Each card has a header with a muted label (e.g., 'Revenue', 'Users', 'Orders'), a body with a large display number (e.g., '$48,200', '12,340', '1,893'), and a badge showing a trend percentage (e.g., '+12%' success, '+8%' success, '-3%' error). Use Row to lay out the three cards horizontally. Do NOT store variant values in a data array — pass variant string literals directly in JSX (e.g. variant=&quot;success&quot;).</p>
+        <div className="eval-review__preview">
+          <EvalDataDisplayCards />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">date-field-input</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a date input field with a label for entering month, day, and year.</p>
+        <div className="eval-review__preview">
+          <EvalDateFieldInput />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">date-picker-form</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a date picker field with a label that opens a calendar popover for date selection.</p>
+        <div className="eval-review__preview">
+          <EvalDatePickerForm />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">date-range-picker-form</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a date range picker field with a label that opens a range calendar popover.</p>
+        <div className="eval-review__preview">
+          <EvalDateRangePickerForm />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">dialog-destructive</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
@@ -1859,6 +3192,16 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">dot-icon-status</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a green status dot indicator using DotIcon.</p>
+        <div className="eval-review__preview">
+          <EvalDotIconStatus />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">drawer-with-backdrop</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
@@ -1889,12 +3232,32 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">featured-icon-notification</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a bell notification featured icon using FeaturedIcon.</p>
+        <div className="eval-review__preview">
+          <EvalFeaturedIconNotification />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">field-with-validation</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
         <p className="eval-review__prompt">Show a Field wrapper with a label, description helper text, and an error message.</p>
         <div className="eval-review__preview">
           <EvalFieldWithValidation />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">fieldset-address</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show an address fieldset with street, city, and zip text fields grouped together.</p>
+        <div className="eval-review__preview">
+          <EvalFieldsetAddress />
         </div>
       </section>
       <section className="eval-review__section">
@@ -1929,6 +3292,66 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">grid-list-gallery</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a selectable grid list of 4 image cards where the user can select multiple items.</p>
+        <div className="eval-review__preview">
+          <EvalGridListGallery />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">header-nav-basic</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a horizontal header with logo, nav links, and login/signup buttons.</p>
+        <div className="eval-review__preview">
+          <EvalHeaderNavBasic />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">horizontal-separator</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Create a horizontal separator line.</p>
+        <div className="eval-review__preview">
+          <EvalHorizontalSeparator />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">icon-button-delete</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Create a danger-styled icon button with a trash icon and an aria-label of &quot;Delete item&quot;.</p>
+        <div className="eval-review__preview">
+          <EvalIconButtonDelete />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">icon-display</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a heart icon at medium size using the Icon component.</p>
+        <div className="eval-review__preview">
+          <EvalIconDisplay />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">illustration-box-with-icon</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show the box marketing illustration at large size with an upload cloud icon centred over it.</p>
+        <div className="eval-review__preview">
+          <EvalIllustrationBoxWithIcon />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">image-cropper-basic</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
@@ -1939,12 +3362,52 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">image-rounded</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a rounded image using a placeholder photo with medium border radius, 300px wide and 200px tall.</p>
+        <div className="eval-review__preview">
+          <EvalImageRounded />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">input-field</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
         <p className="eval-review__prompt">Show a text input field with a label and placeholder 'Enter your name'.</p>
         <div className="eval-review__preview">
           <EvalInputField />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">input-group-url-field</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a website URL input field with 'https://' as a leading addon prefix, labelled 'Website URL' with placeholder 'example.com'.</p>
+        <div className="eval-review__preview">
+          <EvalInputGroupUrlField />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">input-tags-skills</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show an InputTags field for entering skills. Include a label, placeholder text, and description. Allow up to 5 tags.</p>
+        <div className="eval-review__preview">
+          <EvalInputTagsSkills />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">iphone-mockup-screenshot</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show an iPhone mockup displaying a screenshot, scaled to 260 px wide.</p>
+        <div className="eval-review__preview">
+          <EvalIphoneMockupScreenshot />
         </div>
       </section>
       <section className="eval-review__section">
@@ -1969,12 +3432,32 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">loading-spinner</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Create a loading spinner with the label &quot;Loading data...&quot;.</p>
+        <div className="eval-review__preview">
+          <EvalLoadingSpinner />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">menu-dropdown</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
         <p className="eval-review__prompt">Show a dropdown menu triggered by a button with file actions: New, Open, Save, and Close, separated into groups.</p>
         <div className="eval-review__preview">
           <EvalMenuDropdown />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">menubar-editor</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a menubar with three menus: File (New, Open, Save, Save As), Edit (Undo, Redo, Cut, Copy, Paste), and View (Zoom In, Zoom Out, Fullscreen).</p>
+        <div className="eval-review__preview">
+          <EvalMenubarEditor />
         </div>
       </section>
       <section className="eval-review__section">
@@ -1999,6 +3482,26 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">muted-text</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Create a muted secondary text paragraph that says &quot;This action cannot be undone.&quot;</p>
+        <div className="eval-review__preview">
+          <EvalMutedText />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">navigation-menu-site</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a site navigation bar with Home, Products, and About links.</p>
+        <div className="eval-review__preview">
+          <EvalNavigationMenuSite />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">number-field-quantity</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
@@ -2015,6 +3518,36 @@ export default function EvalReview() {
         <p className="eval-review__prompt">Show a pagination control displaying page 3 of 10 with previous/next buttons.</p>
         <div className="eval-review__preview">
           <EvalPaginationControl />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">pagination-dot-carousel</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a carousel slide indicator with 5 dots where the 2nd dot is active. Clicking a dot should change the active one.</p>
+        <div className="eval-review__preview">
+          <EvalPaginationDotCarousel />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">pagination-line-carousel</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a carousel slide indicator with 4 horizontal line bars where the 1st bar is active. Clicking a bar should change the active one.</p>
+        <div className="eval-review__preview">
+          <EvalPaginationLineCarousel />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">payment-input-card</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a payment card number input with a label and auto-detecting card icon.</p>
+        <div className="eval-review__preview">
+          <EvalPaymentInputCard />
         </div>
       </section>
       <section className="eval-review__section">
@@ -2059,6 +3592,16 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">primary-button</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Create a primary button that says &quot;Save&quot;.</p>
+        <div className="eval-review__preview">
+          <EvalPrimaryButton />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">progress-bar-labeled</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
@@ -2075,6 +3618,16 @@ export default function EvalReview() {
         <p className="eval-review__prompt">Show an upload progress circle at 65% completion.</p>
         <div className="eval-review__preview">
           <EvalProgressCircleUpload />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">qr-code-basic</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a QR code encoding &quot;https://example.com&quot; at medium size.</p>
+        <div className="eval-review__preview">
+          <EvalQrCodeBasic />
         </div>
       </section>
       <section className="eval-review__section">
@@ -2109,6 +3662,56 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">radio-standalone</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a radio group labeled 'Subscription plan' with three options: Free, Pro, and Enterprise.</p>
+        <div className="eval-review__preview">
+          <EvalRadioStandalone />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">range-calendar-dates</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a date range calendar for selecting a start and end date.</p>
+        <div className="eval-review__preview">
+          <EvalRangeCalendarDates />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">rating-badge-score</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a rating badge displaying a score of 4.8.</p>
+        <div className="eval-review__preview">
+          <EvalRatingBadgeScore />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">rating-stars-display</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a 4-star rating out of 5 using the RatingStars component.</p>
+        <div className="eval-review__preview">
+          <EvalRatingStarsDisplay />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">row-button-group</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a row of Cancel and Save buttons, right-aligned using Row's justify prop.</p>
+        <div className="eval-review__preview">
+          <EvalRowButtonGroup />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">scroll-area-list</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
@@ -2125,6 +3728,16 @@ export default function EvalReview() {
         <p className="eval-review__prompt">Create a search field with a visible label that says 'Search Products', a placeholder 'Type to search...', a default value of 'Keyboard', and a clear button with an X icon.</p>
         <div className="eval-review__preview">
           <EvalSearchField />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">section-divider-basic</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a decorative section divider between two content sections.</p>
+        <div className="eval-review__preview">
+          <EvalSectionDividerBasic />
         </div>
       </section>
       <section className="eval-review__section">
@@ -2159,12 +3772,72 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">settings-page</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Create a settings page with a heading that says 'Settings'. Below the heading, display two cards side by side in a row. The first card should have a header titled 'Profile' and a body containing two text fields: one labeled 'Name' with placeholder 'Jane Doe', and one labeled 'Email' with placeholder 'jane@example.com'. The second card should have a header titled 'Preferences' and a body containing a select dropdown labeled 'Theme' with three options: Light, Dark, and System. At the bottom, add a row with a ghost Cancel button and a primary Save button, right-aligned.</p>
+        <div className="eval-review__preview">
+          <EvalSettingsPage />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">sidebar-basic</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a sidebar with a logo, three nav items (Dashboard, Team, Settings), and an account card at the bottom.</p>
+        <div className="eval-review__preview">
+          <EvalSidebarBasic />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">slider-volume</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
         <p className="eval-review__prompt">Show a volume slider ranging from 0 to 100 with a default value of 50.</p>
         <div className="eval-review__preview">
           <EvalSliderVolume />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">social-button-google</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a 'Sign in with Google' social login button.</p>
+        <div className="eval-review__preview">
+          <EvalSocialButtonGoogle />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">social-button-group-login</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a vertical group of social login buttons for Google, GitHub, and Apple, all equal width.</p>
+        <div className="eval-review__preview">
+          <EvalSocialButtonGroupLogin />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">status-badge</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Create a success badge that displays the text &quot;Active&quot;.</p>
+        <div className="eval-review__preview">
+          <EvalStatusBadge />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">styled-link</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Create a link to &quot;https://example.com&quot; that opens in a new tab with the text &quot;Visit Example&quot;.</p>
+        <div className="eval-review__preview">
+          <EvalStyledLink />
         </div>
       </section>
       <section className="eval-review__section">
@@ -2185,6 +3858,16 @@ export default function EvalReview() {
         <p className="eval-review__prompt">Show a switch labeled 'Enable notifications'.</p>
         <div className="eval-review__preview">
           <EvalSwitchToggle />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">table-data</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a data table with Name, Role, and Status columns and 3 rows of sample data.</p>
+        <div className="eval-review__preview">
+          <EvalTableData />
         </div>
       </section>
       <section className="eval-review__section">
@@ -2239,12 +3922,52 @@ export default function EvalReview() {
       </section>
       <section className="eval-review__section">
         <div className="eval-review__meta">
+          <code className="eval-review__slug">text-editor-basic</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a rich text editor with a simple toolbar, a label, and a character limit of 300.</p>
+        <div className="eval-review__preview">
+          <EvalTextEditorBasic />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">text-heading-hierarchy</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a page title using display variant, a section heading, and a supporting description paragraph using the Text component's different variants and semantic elements.</p>
+        <div className="eval-review__preview">
+          <EvalTextHeadingHierarchy />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
           <code className="eval-review__slug">text-input-field</code>
           <span className="eval-review__difficulty">[medium]</span>
         </div>
         <p className="eval-review__prompt">Create a text input field with a label that says 'Full Name' and a description below it that says 'Enter your first and last name as they appear on your ID.'</p>
         <div className="eval-review__preview">
           <EvalTextInputField />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">time-field-input</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a time input field with a label for selecting hours and minutes.</p>
+        <div className="eval-review__preview">
+          <EvalTimeFieldInput />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">toggle-button-bold</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a bold text formatting toggle button.</p>
+        <div className="eval-review__preview">
+          <EvalToggleButtonBold />
         </div>
       </section>
       <section className="eval-review__section">
@@ -2275,6 +3998,36 @@ export default function EvalReview() {
         <p className="eval-review__prompt">Show a save button with a tooltip that says 'Save changes'.</p>
         <div className="eval-review__preview">
           <EvalTooltipButton />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">tree-file-system</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Show a file system tree with folders (src, public) and files nested inside them.</p>
+        <div className="eval-review__preview">
+          <EvalTreeFileSystem />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">user-profile-card</code>
+          <span className="eval-review__difficulty">[complex]</span>
+        </div>
+        <p className="eval-review__prompt">Create a user profile card using the elevated card variant. At the top, display a profile image with large border radius. In the card body, show the user's name 'Sarah Chen' as a heading, their role 'Senior Engineer' in muted text, and a row of two badges for skills: 'React' and 'TypeScript'. In the card footer, place an icon button for editing and a primary 'Message' button.</p>
+        <div className="eval-review__preview">
+          <EvalUserProfileCard />
+        </div>
+      </section>
+      <section className="eval-review__section">
+        <div className="eval-review__meta">
+          <code className="eval-review__slug">video-player-basic</code>
+          <span className="eval-review__difficulty">[simple]</span>
+        </div>
+        <p className="eval-review__prompt">Show a medium-sized video player with a thumbnail image.</p>
+        <div className="eval-review__preview">
+          <EvalVideoPlayerBasic />
         </div>
       </section>
     </div>

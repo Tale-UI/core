@@ -53,13 +53,14 @@ test-results/
 .github/styles/
 
 # Storybook / Vite / Playground build outputs
+/playground/vite-app/src/demos/EvalReview.tsx
 /playground/storybook/storybook-static/
 /playground/vite-app/dist/
 /examples/*/dist/
 
 # Analysis (local research notes)
 /analysis/
-# /plans/
+/plans/
 /research/
 
 # Misc
