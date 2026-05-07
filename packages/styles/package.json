@@ -12,6 +12,7 @@
   "style": "src/index.css",
   "exports": {
     ".": "./src/index.css",
+    "./_primitives": "./src/_primitives.css",
     "./accordion": "./src/accordion.css",
     "./alert-dialog": "./src/alert-dialog.css",
     "./app-store-button": "./src/app-store-button.css",
