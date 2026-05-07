@@ -1,6 +1,6 @@
 {
   "name": "@tale-ui/a2ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A2UI protocol renderer for Tale UI — maps A2UI agent messages to Tale UI React components.",
   "repository": {
     "type": "git",
