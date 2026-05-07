@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1.0",
-  "taleUiVersion": "1.3.47",
+  "taleUiVersion": "1.3.48",
   "components": [
     {
       "name": "Accordion",
@@ -6996,7 +6996,7 @@
         "import { SectionDivider } from '@tale-ui/react/section-divider';\n\n<SectionDivider />",
         "<section>\n  <h2>Features</h2>\n  <p>...</p>\n</section>\n<SectionDivider />\n<section>\n  <h2>Pricing</h2>\n  <p>...</p>\n</section>",
         "<SectionDivider style={{ '--section-divider-color': 'var(--color-20)' } as React.CSSProperties} />",
-        "import { SectionDivider } from '@tale-ui/react/section-divider';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function SectionDividerExample() {\n      return (\n        <Column gap=\"xl\">\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Our Features</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Discover everything our platform has to offer.\n            </Text>\n          </Column>\n\n          <SectionDivider />\n\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Pricing</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Simple, transparent pricing with no hidden fees.\n            </Text>\n          </Column>\n        </Column>\n      );\n    }"
+        "import { SectionDivider } from '@tale-ui/react/section-divider';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function SectionDividerExample() {\n      return (\n        <Column gap=\"xl\">\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Our Features</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Discover everything our platform has to offer.\n            </Text>\n          </Column>\n    \n          <SectionDivider />\n    \n          <Column gap=\"m\">\n            <Text variant=\"heading\">Pricing</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Simple, transparent pricing with no hidden fees.\n            </Text>\n          </Column>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-section-divider",
@@ -7017,13 +7017,15 @@
         {
           "id": "sectiondivider-shorthand-tokens-no-compounds",
           "summary": "Column gap/Text variant props around SectionDivider use shorthand tokens, never compounds like 'sm', 'md', 'heading-m', or 'text-m'",
-          "detail": "Column gap must be a spacing token (`'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`), not a component-size name (`'sm'`, `'md'`, `'lg'`); Text variant must be a standalone token like `'heading'` or `'text'`, never a compound string like `'heading-m'`, `'text-m'`, or `'body-m'`.\n\n    ```tsx\n    import { SectionDivider } from '@tale-ui/react/section-divider';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function SectionDividerExample() {\n      return (\n        <Column gap=\"xl\">\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Our Features</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Discover everything our platform has to offer.\n            </Text>\n          </Column>\n\n          <SectionDivider />\n\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Pricing</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Simple, transparent pricing with no hidden fees.\n            </Text>\n          </Column>\n        </Column>\n      );\n    }\n    ```",
+          "detail": "Column gap must be a spacing token ('xs', 's', 'm', 'l', 'xl', '2xl'), not a component-size name ('sm', 'md', 'lg'). Text variant must be a standalone token like 'heading' or 'text', never a compound string like 'heading-m', 'text-m', or 'body-m'. Both errors commonly appear together when wrapping SectionDivider with labelled content sections.\n    ```tsx\n    import { SectionDivider } from '@tale-ui/react/section-divider';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function SectionDividerExample() {\n      return (\n        <Column gap=\"xl\">\n          <Column gap=\"m\">\n            <Text variant=\"heading\">Our Features</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Discover everything our platform has to offer.\n            </Text>\n          </Column>\n    \n          <SectionDivider />\n    \n          <Column gap=\"m\">\n            <Text variant=\"heading\">Pricing</Text>\n            <Text variant=\"text\" color=\"muted\">\n              Simple, transparent pricing with no hidden fees.\n            </Text>\n          </Column>\n        </Column>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Column gap=\"sm\"><Text variant=\"heading-m\">Title</Text><Text variant=\"text-m\">Body</Text></Column>",
+            "<Column gap=\"md\"><Text variant=\"heading-m\">Title</Text><Text variant=\"text-m\">Body</Text></Column>",
             "<Column gap=\"md\"><Text variant=\"heading-m\">Title</Text><Text variant=\"body-m\">Body</Text></Column>"
           ],
           "fixes": [
-            "<Column gap=\"m\"><Text variant=\"heading\">Title</Text><Text variant=\"text\">Body</Text></Column>"
+            "<Column gap=\"m\"><Text variant=\"heading\">Title</Text><Text variant=\"text\">Body</Text></Column>",
+            "<Column gap=\"s\"><Text variant=\"heading\">Title</Text><Text variant=\"text\">Body</Text></Column>"
           ],
           "completeExample": "import { SectionDivider } from '@tale-ui/react/section-divider';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\n\nexport function SectionDividerExample() {\n  return (\n    <Column gap=\"xl\">\n      <Column gap=\"m\">\n        <Text variant=\"heading\">Our Features</Text>\n        <Text variant=\"text\" color=\"muted\">\n          Discover everything our platform has to offer.\n        </Text>\n      </Column>\n\n      <SectionDivider />\n\n      <Column gap=\"m\">\n        <Text variant=\"heading\">Pricing</Text>\n        <Text variant=\"text\" color=\"muted\">\n          Simple, transparent pricing with no hidden fees.\n        </Text>\n      </Column>\n    </Column>\n  );\n}"
         }

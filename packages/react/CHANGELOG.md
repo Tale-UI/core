@@ -2,6 +2,14 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.48 — 2026-05-07
+
+### Changed
+
+- **`EvalReview`**: Regenerated A2UI eval review demo with updated component showcase.
+- **Docs**: Updated `section-divider.md` pitfalls.
+- **Registry**: Refreshed `components.json` and `pitfalls.json`.
+
 ## v1.3.47 — 2026-05-03
 
 ### Changed

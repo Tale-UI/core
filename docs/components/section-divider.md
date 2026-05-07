@@ -54,17 +54,18 @@ import { SectionDivider } from '@tale-ui/react/section-divider';
   - anti-pattern: `<Menu><SectionDivider /></Menu>`
   - fix: `<Menu.Separator />`
 <!-- pitfall: sectiondivider-shorthand-tokens-no-compounds -->
-- **Column gap/Text variant props around SectionDivider use shorthand tokens, never compounds like 'sm', 'md', 'heading-m', or 'text-m'** — Column gap must be a spacing token (`'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'2xl'`), not a component-size name (`'sm'`, `'md'`, `'lg'`); Text variant must be a standalone token like `'heading'` or `'text'`, never a compound string like `'heading-m'`, `'text-m'`, or `'body-m'`.
+- **Column gap/Text variant props around SectionDivider use shorthand tokens, never compounds like 'sm', 'md', 'heading-m', or 'text-m'** — Column gap must be a spacing token ('xs', 's', 'm', 'l', 'xl', '2xl'), not a component-size name ('sm', 'md', 'lg'). Text variant must be a standalone token like 'heading' or 'text', never a compound string like 'heading-m', 'text-m', or 'body-m'. Both errors commonly appear together when wrapping SectionDivider with labelled content sections.
   - anti-pattern: `<Column gap="sm"><Text variant="heading-m">Title</Text><Text variant="text-m">Body</Text></Column>`
+  - anti-pattern: `<Column gap="md"><Text variant="heading-m">Title</Text><Text variant="text-m">Body</Text></Column>`
   - anti-pattern: `<Column gap="md"><Text variant="heading-m">Title</Text><Text variant="body-m">Body</Text></Column>`
   - fix: `<Column gap="m"><Text variant="heading">Title</Text><Text variant="text">Body</Text></Column>`
+  - fix: `<Column gap="s"><Text variant="heading">Title</Text><Text variant="text">Body</Text></Column>`
   - complete example:
-
     ```tsx
     import { SectionDivider } from '@tale-ui/react/section-divider';
     import { Column } from '@tale-ui/react/column';
     import { Text } from '@tale-ui/react/text';
-
+    
     export function SectionDividerExample() {
       return (
         <Column gap="xl">
@@ -74,9 +75,9 @@ import { SectionDivider } from '@tale-ui/react/section-divider';
               Discover everything our platform has to offer.
             </Text>
           </Column>
-
+    
           <SectionDivider />
-
+    
           <Column gap="m">
             <Text variant="heading">Pricing</Text>
             <Text variant="text" color="muted">
