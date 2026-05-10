@@ -77,13 +77,41 @@ import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
 
 <!-- pitfall: color-slider-composition-with-color-area -->
 <!-- prose-only -->
-- **When composing with ColorArea, wrap both in a single parent element** — Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container. When using `<Column>`, use spacing-token gap values (`'s'`, `'m'`, `'l'`), not component-size values (`'sm'`, `'md'`, `'lg'`).
+- **When composing with ColorArea, wrap both in a single parent element — use spacing-token gap values, never component-size names** — Use <Column> or a <div> as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container. When using <Column>, use spacing-token gap values ('s', 'm', 'l'), never component-size values ('sm', 'md', 'lg') — all three component-size names are invalid Gap values and cause TypeScript errors. Map: sm->s, md->m, lg->l. This is the most common error when composing ColorArea with ColorSlider. Even when the prompt says to use a specific gap size, always translate to spacing tokens. CRITICAL: gap="md" is the single most frequent error in ColorArea+ColorSlider compositions — it MUST be gap="m".
+  - anti-pattern: `<Column gap="sm"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>`
   - anti-pattern: `<Column gap="md"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>`
+  - anti-pattern: `<Column gap="lg"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>`
+  - fix: `<Column gap="s"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>`
   - fix: `<Column gap="m"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>`
+  - fix: `<Column gap="l"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>`
 
 <!-- cross-pitfall-ref: color-imports-from-rac -->
 <!-- cross-pitfall-ref: no-color-extract-channel -->
 <!-- cross-pitfall-ref: no-color-pojo-state -->
+  - complete example:
+    ```tsx
+    import { ColorArea, parseColor } from '@tale-ui/react/color-area';
+    import { ColorSlider } from '@tale-ui/react/color-slider';
+    import { Column } from '@tale-ui/react/column';
+    
+    export function ColorPickerExample() {
+      return (
+        <Column gap="m">
+          <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+            <ColorArea.Thumb />
+          </ColorArea.Root>
+    
+          <ColorSlider.Root channel="hue" defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+            <ColorSlider.Label>Hue</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+        </Column>
+      );
+    }
+    ```
 
 ## Notes
 

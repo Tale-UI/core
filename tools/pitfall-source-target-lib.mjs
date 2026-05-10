@@ -195,14 +195,15 @@ export function createPitfallSourceTargetResolver(root) {
           filePath: join(root, `docs/components/${target.slug}.md`),
           sectionHeading: 'Pitfalls',
           isComponent: true,
+          slug: target.slug,
           componentName: target.componentName ?? '',
-          appendOnly: fix.operation === 'append_pitfall' || !fix.old?.trim(),
+          appendOnly: fix.operation === 'append_pitfall',
         }
       : {
           filePath: pitfallsDocPath,
           sectionHeading: target.sectionHeading,
           isComponent: false,
-          appendOnly: fix.operation === 'append_pitfall' || !fix.old?.trim(),
+          appendOnly: fix.operation === 'append_pitfall',
         };
   }
 

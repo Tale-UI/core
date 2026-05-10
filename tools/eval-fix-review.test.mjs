@@ -50,6 +50,21 @@ test('generated fix prompt includes patch target index guidance with real IDs', 
 
   assert.match(prompt, /Patch target index/);
   assert.match(prompt, /targetPitfallSlug" must be copied from the Patch target index "id" field/);
+  assert.match(prompt, /"old" is optional/);
+  assert.match(
+    prompt,
+    /Never switch to "append_pitfall" when updating a listed Patch target index ID/,
+  );
   assert.match(prompt, /id: row-column-gap-uses-token-scale/);
   assert.match(prompt, /id: columnrow-gap-uses-spacingtoken-values/);
+});
+
+test('provider quota messages are detected before scoring as generated code failures', () => {
+  assert.equal(__test__.isProviderQuotaMessage("You're out of extra usage · resets 8pm"), true);
+  assert.equal(__test__.isProviderQuotaMessage('Line 7: Type "md" is not assignable'), false);
+});
+
+test('source patch retry cap stops retry storms', () => {
+  assert.equal(__test__.shouldStopSourcePatchRetries(2, 3), false);
+  assert.equal(__test__.shouldStopSourcePatchRetries(3, 3), true);
 });

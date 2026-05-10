@@ -398,30 +398,40 @@ explicit BEM class names:
 <!-- pitfall: row-column-gap-uses-token-scale -->
 <!-- applies-to: Row, Column -->
 <!-- category: layout -->
-
-- **Row/Column gap uses spacing token values ('xs', 's', 'm', 'l', 'xl', '2xl'), not component size names — this is the most common layout error** — `'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes a TypeScript error `Type '"sm"' is not assignable to type 'Gap | undefined'` (or `"md"`, `"lg"` — any component-size name). `'none'` is also not a valid Gap value — omit the `gap` prop entirely to produce no gap. Always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as `GridList.Item` or `Carousel.Item`, calendar wrappers, or any other slot.
+- **Row/Column gap uses spacing token values ('xs', 's', 'm', 'l', 'xl', '2xl'), not component size names — this is the most common layout error** — 'sm', 'md', 'lg' are component size prop values and are not valid Gap type values; passing them causes a TypeScript error Type '"sm"' is not assignable to type 'Gap | undefined' (or "md", "lg" — any component-size name). 'none' is also not a valid Gap value — omit the gap prop entirely to produce no gap. Always map: sm->s, md->m, lg->l. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as GridList.Item or Carousel.Item, calendar wrappers, color picker wrappers around ColorArea and ColorSlider, or any other slot. This is the single most common error in generated code — it occurs in nearly every component composition. When a prompt mentions a gap size or you need spacing between elements, ALWAYS use the spacing-token scale, never the component-size scale. CRITICAL: Even when the prompt explicitly says "md" gap or uses component-size terminology, you MUST translate to spacing tokens. The word "md" in a prompt does NOT mean gap="md" — it means gap="m".
   - anti-pattern: `<Row gap="sm">`
   - anti-pattern: `<Column gap="md">`
   - anti-pattern: `<Column gap="lg">`
   - anti-pattern: `<Column gap="none">`
   - anti-pattern: `<Carousel.Item><Column gap="sm">...</Column></Carousel.Item>`
+  - anti-pattern: `<Column gap="md"><ColorArea.Root .../><ColorSlider.Root .../></Column>`
   - fix: `<Row gap="s">`
   - fix: `<Column gap="m">`
   - fix: `<Column gap="l">`
   - fix: `<Column>`
   - fix: `<Carousel.Item><Column gap="s">...</Column></Carousel.Item>`
+  - fix: `<Column gap="m"><ColorArea.Root .../><ColorSlider.Root .../></Column>`
   - complete example:
-
     ```tsx
-    import { Button } from '@tale-ui/react/button';
-    import { Row } from '@tale-ui/react/row';
-
-    export function ActionButtons() {
+    import { ColorArea, parseColor } from '@tale-ui/react/color-area';
+    import { ColorSlider } from '@tale-ui/react/color-slider';
+    import { Column } from '@tale-ui/react/column';
+    
+    export function ColorPickerExample() {
       return (
-        <Row gap="s">
-          <Button variant="neutral">Cancel</Button>
-          <Button variant="danger">Delete account</Button>
-        </Row>
+        <Column gap="m">
+          <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+            <ColorArea.Thumb />
+          </ColorArea.Root>
+    
+          <ColorSlider.Root channel="hue" defaultValue={parseColor('hsl(0, 100%, 50%)')}>
+            <ColorSlider.Label>Hue</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+        </Column>
       );
     }
     ```

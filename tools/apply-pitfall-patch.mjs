@@ -147,6 +147,9 @@ function main() {
   console.log(`Target: ${target.filePath}`);
   console.log(`Section: ## ${target.sectionHeading}`);
   console.log(`Expected pitfall slug: ${result.expectedSlug}`);
+  for (const warning of result.warnings ?? []) {
+    console.log(`Warning: ${warning}`);
+  }
 
   if (DRY_RUN) {
     const diff = renderDiff(readFileSync(target.filePath, 'utf8'), updatedFile, target.filePath);

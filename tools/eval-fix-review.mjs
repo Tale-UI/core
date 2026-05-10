@@ -116,6 +116,7 @@ const MAX_ITER = UNTIL_PASS
     ? parseInt(getArg('--max-iter'), 10)
     : Infinity
   : parseInt(getArg('--max-iter') ?? '3', 10);
+const MAX_SOURCE_PATCH_ATTEMPTS = parseInt(getArg('--max-source-patch-attempts') ?? '3', 10);
 // Use a port outside the dev:all range (5173 = playground, 5174 = scale, 6006 = storybook)
 const PREFERRED_PORT = 5190;
 
@@ -342,7 +343,9 @@ function runEval(slugs = null, { skipGenerate = false } = {}) {
   if (proc.error) throw new Error(`Eval script failed: ${proc.error.message}`);
   if (!proc.stdout?.trim())
     throw new Error('Eval script produced no output — it may have timed out or crashed.');
-  return JSON.parse(proc.stdout);
+  const evalResult = JSON.parse(proc.stdout);
+  assertNoProviderQuotaFailures(evalResult);
+  return evalResult;
 }
 
 function runPitfallTruthAudit() {
@@ -412,6 +415,27 @@ function fixHasStructuredSourcePatch(fix) {
     normalizeStringList(fix.fixes).length > 0 ||
     !!fix.completeExample?.trim()
   );
+}
+
+function isProviderQuotaMessage(message = '') {
+  return /out of (?:extra )?usage|usage limit|rate limit|quota exceeded|resets \d/i.test(
+    String(message),
+  );
+}
+
+function assertNoProviderQuotaFailures(evalResult) {
+  const quotaFailure = evalResult?.results?.find((result) =>
+    result?.l1?.errors?.some((error) => isProviderQuotaMessage(error)),
+  );
+  if (quotaFailure) {
+    throw new Error(
+      `Provider quota exhausted while evaluating '${quotaFailure.slug}'. Stop this run and retry after the provider reset.`,
+    );
+  }
+}
+
+function shouldStopSourcePatchRetries(failedAttemptCount, maxAttempts = MAX_SOURCE_PATCH_ATTEMPTS) {
+  return Number.isFinite(maxAttempts) && failedAttemptCount >= maxAttempts;
 }
 
 function readJsonFile(filePath, fallback) {
@@ -522,7 +546,9 @@ Patch-shape rules:
 ${patchOperationRules}
   - "targetFile" must agree with "section". For per-component fixes, "targetFile" must be the component doc slug (for example "image-cropper").
   - For "replace_pitfall" and "replace_subbullets", "targetPitfallSlug" must be copied from the Patch target index "id" field.
+  - For replacement operations, "old" is optional. Use "old": "" if you cannot copy exact source markdown from the current documentation.
   - Only use "append_pitfall" when no existing Patch target index entry covers the rule. Do not append a near-duplicate of an existing summary.
+  - Never switch to "append_pitfall" when updating a listed Patch target index ID; keep "replace_subbullets" and the existing "targetPitfallSlug".
 Structured pitfall content rules:
   - Fill "summary", "details", "antiPatterns", "fixes", and "completeExample" with structured content for the resulting pitfall block.
   - "summary" must be plain text only, without markdown bold markers.
@@ -733,10 +759,24 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
             { cwd: tmpdir(), timeout: 180000, encoding: 'utf8' },
           );
           const parsed = JSON.parse(raw);
+          if (parsed.is_error || isProviderQuotaMessage(parsed.result ?? '')) {
+            const message = parsed.result ?? 'Claude CLI reported an error';
+            if (isProviderQuotaMessage(message)) {
+              throw new Error(`Provider quota exhausted: ${message}`);
+            }
+            throw new Error(`Claude CLI reported is_error: ${message}`);
+          }
           text = parsed.result ?? '';
           lastErr = null;
           break;
         } catch (err) {
+          const details = [err.message, err.stdout, err.stderr]
+            .filter(Boolean)
+            .map((value) => String(value))
+            .join('\n');
+          if (isProviderQuotaMessage(details)) {
+            throw new Error(`Provider quota exhausted: ${details.slice(0, 400)}`);
+          }
           lastErr = err;
           if (attempt < MAX_RETRIES) {
             console.log(
@@ -837,6 +877,9 @@ function applySourceFix(fix, evalContextContent) {
     return false;
   }
 
+  for (const warning of result.warnings ?? []) {
+    console.log(`      ${C.yellow('⚠ Source warning:')} ${warning}`);
+  }
   writeFileSync(target.filePath, buildUpdatedFile(result.updatedSection), 'utf8');
   return target.filePath;
 }
@@ -1544,6 +1587,7 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
   let current = failure;
   let passed = false;
   const failedPatchReasons = [];
+  let sourcePatchFailureCount = 0;
   for (let attempt = 1; attempt <= MAX_ITER; attempt++) {
     const attemptLabel = isFinite(MAX_ITER) ? `${attempt}/${MAX_ITER}` : `${attempt}`;
     try {
@@ -1599,6 +1643,7 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
               reason: `patched ${patchedPath}`,
             });
             sourcePatchApplied = true;
+            sourcePatchFailureCount = 0;
             console.log(
               `    [${attemptLabel}] ${C.green('Source file patched')} — regenerating registries...`,
             );
@@ -1639,6 +1684,7 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
               reason,
             });
             failedPatchReasons.push(reason);
+            sourcePatchFailureCount += 1;
             console.log(
               `    [${attemptLabel}] ${C.yellow('⚠ Source patch not applied')} (see ⚠ above for reason)`,
             );
@@ -1654,6 +1700,7 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
             reason: err.message,
           });
           failedPatchReasons.push(err.message);
+          sourcePatchFailureCount += 1;
           console.log(`    [${attemptLabel}] ${C.yellow('⚠ Source patch failed:')} ${err.message}`);
           console.log(
             `    [${attemptLabel}] ${C.dim('Replay:')} ${formatPatchReplayCommand(artifactPath)}`,
@@ -1661,6 +1708,12 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
         }
       }
       if (sourcePatchRequired && !sourcePatchApplied) {
+        if (shouldStopSourcePatchRetries(sourcePatchFailureCount)) {
+          console.log(
+            `    [${attemptLabel}] ${C.yellow(`⚠ Source patch failed ${sourcePatchFailureCount} times; stopping retries for this prompt`)}`,
+          );
+          break;
+        }
         console.log(
           `    [${attemptLabel}] ${C.yellow('⚠ Source patch did not apply cleanly')} — retrying`,
         );
@@ -1940,11 +1993,13 @@ export const __test__ = {
   findPitfallBlockBySlug,
   fixHasStructuredSourcePatch,
   getPitfallBlocks,
+  isProviderQuotaMessage,
   normalizeTargetFileSlug,
   parsePitfallBlock,
   resolveSectionTarget,
   resolveSourceTarget,
   serializePitfallBlock,
+  shouldStopSourcePatchRetries,
   summaryReflectsPitfallSlug,
   summaryToSlug,
   validateFixPayload,

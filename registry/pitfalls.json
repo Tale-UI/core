@@ -552,7 +552,7 @@
     {
       "id": "row-column-gap-uses-token-scale",
       "summary": "Row/Column gap uses spacing token values ('xs', 's', 'm', 'l', 'xl', '2xl'), not component size names — this is the most common layout error",
-      "detail": "`'sm'`, `'md'`, `'lg'` are component size prop values and are not valid `Gap` type values; passing them causes a TypeScript error `Type '\"sm\"' is not assignable to type 'Gap | undefined'` (or `\"md\"`, `\"lg\"` — any component-size name). `'none'` is also not a valid Gap value — omit the `gap` prop entirely to produce no gap. Always map: `sm`→`s`, `md`→`m`, `lg`→`l`. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as `GridList.Item` or `Carousel.Item`, calendar wrappers, or any other slot. import { Button } from '@tale-ui/react/button'; import { Row } from '@tale-ui/react/row'; export function ActionButtons() { return ( <Row gap=\"s\"> <Button variant=\"neutral\">Cancel</Button> <Button variant=\"danger\">Delete account</Button> </Row> ); }",
+      "detail": "'sm', 'md', 'lg' are component size prop values and are not valid Gap type values; passing them causes a TypeScript error Type '\"sm\"' is not assignable to type 'Gap | undefined' (or \"md\", \"lg\" — any component-size name). 'none' is also not a valid Gap value — omit the gap prop entirely to produce no gap. Always map: sm->s, md->m, lg->l. This applies to every Column or Row anywhere in the file without exception, including the outermost page-level wrapper, layout wrappers inside compound-component children such as GridList.Item or Carousel.Item, calendar wrappers, color picker wrappers around ColorArea and ColorSlider, or any other slot. This is the single most common error in generated code — it occurs in nearly every component composition. When a prompt mentions a gap size or you need spacing between elements, ALWAYS use the spacing-token scale, never the component-size scale. CRITICAL: Even when the prompt explicitly says \"md\" gap or uses component-size terminology, you MUST translate to spacing tokens. The word \"md\" in a prompt does NOT mean gap=\"md\" — it means gap=\"m\". import { ColorArea, parseColor } from '@tale-ui/react/color-area'; import { ColorSlider } from '@tale-ui/react/color-slider'; import { Column } from '@tale-ui/react/column';  export function ColorPickerExample() { return ( <Column gap=\"m\"> <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}> <ColorArea.Thumb /> </ColorArea.Root>  <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}> <ColorSlider.Label>Hue</ColorSlider.Label> <ColorSlider.Output /> <ColorSlider.Track> <ColorSlider.Thumb /> </ColorSlider.Track> </ColorSlider.Root> </Column> ); }",
       "appliesTo": [
         "Row",
         "Column"
@@ -563,16 +563,18 @@
         "<Column gap=\"md\">",
         "<Column gap=\"lg\">",
         "<Column gap=\"none\">",
-        "<Carousel.Item><Column gap=\"sm\">...</Column></Carousel.Item>"
+        "<Carousel.Item><Column gap=\"sm\">...</Column></Carousel.Item>",
+        "<Column gap=\"md\"><ColorArea.Root .../><ColorSlider.Root .../></Column>"
       ],
       "fixes": [
         "<Row gap=\"s\">",
         "<Column gap=\"m\">",
         "<Column gap=\"l\">",
         "<Column>",
-        "<Carousel.Item><Column gap=\"s\">...</Column></Carousel.Item>"
+        "<Carousel.Item><Column gap=\"s\">...</Column></Carousel.Item>",
+        "<Column gap=\"m\"><ColorArea.Root .../><ColorSlider.Root .../></Column>"
       ],
-      "completeExample": "import { Button } from '@tale-ui/react/button';\nimport { Row } from '@tale-ui/react/row';\n\nexport function ActionButtons() {\n  return (\n    <Row gap=\"s\">\n      <Button variant=\"neutral\">Cancel</Button>\n      <Button variant=\"danger\">Delete account</Button>\n    </Row>\n  );\n}"
+      "completeExample": "import { ColorArea, parseColor } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\nimport { Column } from '@tale-ui/react/column';\n\nexport function ColorPickerExample() {\n  return (\n    <Column gap=\"m\">\n      <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n        <ColorArea.Thumb />\n      </ColorArea.Root>\n\n      <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n        <ColorSlider.Label>Hue</ColorSlider.Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider.Root>\n    </Column>\n  );\n}"
     },
     {
       "id": "row-justify-shorthand",

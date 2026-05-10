@@ -15,6 +15,13 @@ const componentTarget = {
   appendOnly: false,
 };
 
+const colorSliderTarget = {
+  isComponent: true,
+  slug: 'color-slider',
+  sectionHeading: 'Pitfalls',
+  appendOnly: false,
+};
+
 const baseSection = `
 <!-- pitfall: use-alpha-label-text -->
 - **Use alpha label text** — keep alpha copy stable.
@@ -49,6 +56,15 @@ const duplicateSummarySection = `
 - **Use shared label text** — keep beta copy stable.
   - anti-pattern: \`<Text weight="medium">Beta</Text>\`
   - fix: \`<Text variant="label">Beta</Text>\`
+`.trim();
+
+const colorSliderSection = `
+<!-- pitfall: color-slider-composition-with-color-area -->
+- **When composing with ColorArea, wrap both in a single parent element** — Use \`<Column>\` or a \`<div>\` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container.
+  - anti-pattern: \`<Column gap="md"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>\`
+  - fix: \`<Column gap="m"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>\`
+
+<!-- cross-pitfall-ref: color-imports-from-rac -->
 `.trim();
 
 test('operation specs define required and forbidden target fields for every operation', () => {
@@ -167,6 +183,24 @@ test('validateFixPayload rejects append payloads with a targetPitfallSlug', () =
 
   assert.equal(result.pass, false);
   assert.match(result.errors.join('; '), /append_pitfall requires targetPitfallSlug to be empty/);
+});
+
+test('validateFixPayload accepts append payloads that can be reinterpreted as replacement by target slug', () => {
+  const result = validateFixPayload({
+    operation: 'append_pitfall',
+    section: 'component:ColorSlider',
+    targetFile: 'color-slider',
+    targetPitfallSlug: 'color-slider-composition-with-color-area',
+    newPitfallSlug: '',
+    summary: 'When composing with ColorArea, wrap both in a single parent element',
+    details: 'use a shared wrapper and spacing-token gap values.',
+    antiPatterns: ['<Column gap="md"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>'],
+    fixes: ['<Column gap="m"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>'],
+    completeExample: '',
+  });
+
+  assert.equal(result.pass, true);
+  assert.deepEqual(result.errors, []);
 });
 
 test('validateFixPayload rejects replace payloads with a newPitfallSlug', () => {
@@ -378,6 +412,59 @@ test('replace_subbullets rewrites one named block without merging in a second pi
   assert.equal(blocks.length, 2);
   assert.match(blocks[1].text, /complete example:/);
   assert.equal((blocks[1].text.match(/<!-- pitfall:/g) ?? []).length, 1);
+});
+
+test('replace_subbullets applies by exact target slug when old text hint does not match', () => {
+  const result = applyPitfallFixToSectionText(
+    colorSliderSection,
+    {
+      operation: 'replace_subbullets',
+      targetPitfallSlug: 'color-slider-composition-with-color-area',
+      old: 'When composing with ColorArea, wrap both in a single parent element — Use `<Column>`',
+      summary: 'When composing with ColorArea, wrap both in a single parent element',
+      details:
+        'Use `<Column>` or a `<div>` as a shared parent to provide layout. When using `<Column>`, use spacing-token gap values.',
+      antiPatterns: [
+        '<Column gap="md"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>',
+        '<Column gap="lg"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>',
+      ],
+      fixes: [
+        '<Column gap="m"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>',
+        '<Column gap="l"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>',
+      ],
+    },
+    colorSliderTarget,
+    '/repo/docs/components/color-slider.md',
+  );
+
+  assert.equal(result.error, undefined);
+  assert.deepEqual(result.warnings, ['old text hint did not match; applied by targetPitfallSlug']);
+  assert.match(result.updatedSection, /<Column gap="lg">/);
+  assert.match(result.updatedSection, /cross-pitfall-ref: color-imports-from-rac/);
+});
+
+test('append_pitfall with existing target slug and empty new slug is applied as replace_subbullets', () => {
+  const result = applyPitfallFixToSectionText(
+    colorSliderSection,
+    {
+      operation: 'append_pitfall',
+      targetPitfallSlug: 'color-slider-composition-with-color-area',
+      newPitfallSlug: '',
+      old: '',
+      summary: 'When composing with ColorArea, wrap both in a single parent element',
+      details: 'Use a shared parent and spacing-token gap values.',
+      antiPatterns: ['<Column gap="md"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>'],
+      fixes: ['<Column gap="m"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>'],
+    },
+    { ...colorSliderTarget, appendOnly: true },
+    '/repo/docs/components/color-slider.md',
+  );
+
+  assert.equal(result.error, undefined);
+  assert.equal(result.expectedSlug, 'color-slider-composition-with-color-area');
+  assert.deepEqual(result.warnings, [
+    'append_pitfall with existing targetPitfallSlug was applied as replace_subbullets',
+  ]);
 });
 
 test('append_pitfall adds a fresh canonical block with the requested slug', () => {

@@ -22,7 +22,11 @@ function FileUpload() {
       <FileTrigger
         onSelect={(fileList) => {
           if (fileList) {
-            setFileName(Array.from(fileList).map((f) => f.name).join(', '));
+            setFileName(
+              Array.from(fileList)
+                .map((f) => f.name)
+                .join(', '),
+            );
           }
         }}
       >
@@ -41,14 +45,16 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
 ## Pitfalls
 
 <!-- pitfall: file-trigger-no-root -->
+
 - **No `FileTrigger.Root`** — `FileTrigger` is a simple (non-compound) component used directly. There is no namespace structure.
   - anti-pattern: `<FileTrigger.Root>`
   - fix: `<FileTrigger>`
   - complete example:
+
     ```tsx
     import { FileTrigger } from '@tale-ui/react/file-trigger';
     import { Button } from '@tale-ui/react/button';
-    
+
     export function Example() {
       return (
         <FileTrigger onSelect={(files) => console.log(files)}>
@@ -59,11 +65,14 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
     ```
 
 <!-- pitfall: file-trigger-onselect-nullable -->
+
 - **onSelect receives FileList | null — always null-check** — The callback may receive `null` (e.g. when the user cancels the dialog). Guard before accessing the list.
   - anti-pattern: `onSelect={(list) => Array.from(list).map(...)}`
   - fix: `onSelect={(list) => { if (list) { Array.from(list).map(...) } }}`
+
 <!-- pitfall: when-displaying-the-selected-filename -->
-- **When displaying the selected filename with Text, use color="muted" plus size="s"** — color="secondary" and variant="body-m" do not exist on Text, and size="sm" is invalid because Text size uses single-letter tokens ('xs', 's', 'm', 'l'). When building a FileTrigger with filename display, also use gap="s" on any Column or Row wrapper and variant="neutral" on the Button — never gap="sm" or variant="secondary". The same spacing-token rule applies whether the wrapper is a Column (vertical stack) or a Row (horizontal inline layout).
+
+- **When displaying the selected filename with Text, use color="muted" plus size="s"** — color="secondary" and variant="body-m" do not exist on Text, and size="sm" is invalid because Text size uses single-letter tokens ('xs', 's', 'm', 'l'). When building a FileTrigger with filename display, use gap="s" on any Column or Row wrapper and variant="neutral" on the Button — never gap="sm" or variant="secondary". The same spacing-token rule applies whether the wrapper is a Column (vertical stack) or a Row (horizontal inline layout).
   - anti-pattern: `<Text size="sm" color="secondary">{fileName}</Text>`
   - anti-pattern: `<Text variant="body-m">{fileName}</Text>`
   - anti-pattern: `<Column gap="sm"><FileTrigger><Button variant="secondary">Upload file</Button></FileTrigger></Column>`
@@ -72,16 +81,17 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
   - fix: `<Column gap="s"><FileTrigger><Button variant="neutral">Upload file</Button></FileTrigger></Column>`
   - fix: `<Row gap="s" align="center"><FileTrigger><Button variant="neutral">Upload file</Button></FileTrigger>{filename && <Text size="s" color="muted">{filename}</Text>}</Row>`
   - complete example:
+
     ```tsx
     import { useState } from 'react';
     import { FileTrigger } from '@tale-ui/react/file-trigger';
     import { Button } from '@tale-ui/react/button';
     import { Column } from '@tale-ui/react/column';
     import { Text } from '@tale-ui/react/text';
-    
+
     export function FileUploadButton() {
       const [fileName, setFileName] = useState<string | null>(null);
-    
+
       return (
         <Column gap="s" align="start">
           <FileTrigger
@@ -104,11 +114,13 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
     ```
 
 <!-- pitfall: file-trigger-upload-button-uses-neutral-variant -->
+
 - **For FileTrigger upload actions, use `Button variant="neutral"` instead of `variant="secondary"`** — `Button` has no `"secondary"` variant; use `"neutral"` for secondary-action upload buttons.
   - anti-pattern: `<FileTrigger><Button variant="secondary">Upload file</Button></FileTrigger>`
   - fix: `<FileTrigger><Button variant="neutral">Upload file</Button></FileTrigger>`
 
 <!-- pitfall: file-trigger-column-gap-uses-spacing-tokens -->
+
 - **When wrapping FileTrigger in `Column`, use spacing-token gap values** — `gap="sm"` is not a valid `Gap` value; use `gap="s"` instead.
   - anti-pattern: `<Column gap="sm"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>`
   - fix: `<Column gap="s"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>`

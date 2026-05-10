@@ -1913,7 +1913,8 @@
       "examples": [
         "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n\n<ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
         "<ColorSlider.Root channel=\"saturation\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Saturation</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
-        "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n    \n    export function Example() {\n      return (\n        <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n          <ColorSlider.Label>Hue</ColorSlider.Label>\n          <ColorSlider.Output />\n          <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n        </ColorSlider.Root>\n      );\n    }"
+        "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n    \n    export function Example() {\n      return (\n        <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n          <ColorSlider.Label>Hue</ColorSlider.Label>\n          <ColorSlider.Output />\n          <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n        </ColorSlider.Root>\n      );\n    }",
+        "import { ColorArea, parseColor } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function ColorPickerExample() {\n      return (\n        <Column gap=\"m\">\n          <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n    \n          <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n            <ColorSlider.Label>Hue</ColorSlider.Label>\n            <ColorSlider.Output />\n            <ColorSlider.Track>\n              <ColorSlider.Thumb />\n            </ColorSlider.Track>\n          </ColorSlider.Root>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-color-slider",
@@ -1937,13 +1938,17 @@
         },
         {
           "id": "color-slider-composition-with-color-area",
-          "summary": "When composing with ColorArea, wrap both in a single parent element",
-          "detail": "Use `<Column>` or a `<div>` as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container. When using `<Column>`, use spacing-token gap values (`'s'`, `'m'`, `'l'`), not component-size values (`'sm'`, `'md'`, `'lg'`).",
+          "summary": "When composing with ColorArea, wrap both in a single parent element — use spacing-token gap values, never component-size names",
+          "detail": "Use <Column> or a <div> as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container. When using <Column>, use spacing-token gap values ('s', 'm', 'l'), never component-size values ('sm', 'md', 'lg') — all three component-size names are invalid Gap values and cause TypeScript errors. Map: sm->s, md->m, lg->l. This is the most common error when composing ColorArea with ColorSlider. Even when the prompt says to use a specific gap size, always translate to spacing tokens. CRITICAL: gap=\"md\" is the single most frequent error in ColorArea+ColorSlider compositions — it MUST be gap=\"m\".",
           "antiPatterns": [
-            "<Column gap=\"md\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>"
+            "<Column gap=\"sm\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>",
+            "<Column gap=\"md\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>",
+            "<Column gap=\"lg\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>"
           ],
           "fixes": [
-            "<Column gap=\"m\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>"
+            "<Column gap=\"s\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>",
+            "<Column gap=\"m\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>",
+            "<Column gap=\"l\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>"
           ]
         }
       ],
@@ -3590,16 +3595,16 @@
       "props": [],
       "parts": null,
       "examples": [
-        "import { Button } from '@tale-ui/react/button';\nimport { useState } from 'react';\n\nfunction FileUpload() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <>\n      <FileTrigger\n        onSelect={(fileList) => {\n          if (fileList) {\n            setFileName(Array.from(fileList).map((f) => f.name).join(', '));\n          }\n        }}\n      >\n        <Button>Upload file</Button>\n      </FileTrigger>\n      {fileName && <p>Selected: {fileName}</p>}\n    </>\n  );\n}",
-        "import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    \n    export function Example() {\n      return (\n        <FileTrigger onSelect={(files) => console.log(files)}>\n          <Button>Upload file</Button>\n        </FileTrigger>\n      );\n    }",
-        "import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n    \n      return (\n        <Column gap=\"s\" align=\"start\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              Selected: {fileName}\n            </Text>\n          )}\n        </Column>\n      );\n    }"
+        "import { Button } from '@tale-ui/react/button';\nimport { useState } from 'react';\n\nfunction FileUpload() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <>\n      <FileTrigger\n        onSelect={(fileList) => {\n          if (fileList) {\n            setFileName(\n              Array.from(fileList)\n                .map((f) => f.name)\n                .join(', '),\n            );\n          }\n        }}\n      >\n        <Button>Upload file</Button>\n      </FileTrigger>\n      {fileName && <p>Selected: {fileName}</p>}\n    </>\n  );\n}",
+        "import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n\n    export function Example() {\n      return (\n        <FileTrigger onSelect={(files) => console.log(files)}>\n          <Button>Upload file</Button>\n        </FileTrigger>\n      );\n    }",
+        "import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n\n      return (\n        <Column gap=\"s\" align=\"start\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              Selected: {fileName}\n            </Text>\n          )}\n        </Column>\n      );\n    }"
       ],
       "cssClasses": null,
       "pitfalls": [
         {
           "id": "file-trigger-no-root",
           "summary": "No FileTrigger.Root",
-          "detail": "`FileTrigger` is a simple (non-compound) component used directly. There is no namespace structure.\n    ```tsx\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    \n    export function Example() {\n      return (\n        <FileTrigger onSelect={(files) => console.log(files)}>\n          <Button>Upload file</Button>\n        </FileTrigger>\n      );\n    }\n    ```",
+          "detail": "`FileTrigger` is a simple (non-compound) component used directly. There is no namespace structure.\n\n    ```tsx\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n\n    export function Example() {\n      return (\n        <FileTrigger onSelect={(files) => console.log(files)}>\n          <Button>Upload file</Button>\n        </FileTrigger>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<FileTrigger.Root>"
           ],
@@ -3622,7 +3627,7 @@
         {
           "id": "when-displaying-the-selected-filename",
           "summary": "When displaying the selected filename with Text, use color=\"muted\" plus size=\"s\"",
-          "detail": "color=\"secondary\" and variant=\"body-m\" do not exist on Text, and size=\"sm\" is invalid because Text size uses single-letter tokens ('xs', 's', 'm', 'l'). When building a FileTrigger with filename display, also use gap=\"s\" on any Column or Row wrapper and variant=\"neutral\" on the Button — never gap=\"sm\" or variant=\"secondary\". The same spacing-token rule applies whether the wrapper is a Column (vertical stack) or a Row (horizontal inline layout).\n    ```tsx\n    import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n    \n      return (\n        <Column gap=\"s\" align=\"start\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              Selected: {fileName}\n            </Text>\n          )}\n        </Column>\n      );\n    }\n    ```",
+          "detail": "color=\"secondary\" and variant=\"body-m\" do not exist on Text, and size=\"sm\" is invalid because Text size uses single-letter tokens ('xs', 's', 'm', 'l'). When building a FileTrigger with filename display, use gap=\"s\" on any Column or Row wrapper and variant=\"neutral\" on the Button — never gap=\"sm\" or variant=\"secondary\". The same spacing-token rule applies whether the wrapper is a Column (vertical stack) or a Row (horizontal inline layout).\n\n    ```tsx\n    import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n\n      return (\n        <Column gap=\"s\" align=\"start\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              Selected: {fileName}\n            </Text>\n          )}\n        </Column>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Text size=\"sm\" color=\"secondary\">{fileName}</Text>",
             "<Text variant=\"body-m\">{fileName}</Text>",
@@ -8230,13 +8235,13 @@
       ],
       "parts": null,
       "examples": [
-        "<Text variant=\"heading\" size=\"l\">Welcome back</Text>",
+        "<Text variant=\"heading\" size=\"l\">\n  Welcome back\n</Text>",
         "<Text variant=\"display\" size=\"l\">Display</Text>\n<Text variant=\"heading\" size=\"l\">Heading</Text>\n<Text variant=\"title\" size=\"l\">Title</Text>\n<Text variant=\"label\" size=\"l\">Label</Text>\n<Text variant=\"text\" size=\"l\">Text</Text>\n<Text variant=\"mono\" size=\"l\">Mono</Text>",
         "<Text variant=\"text\" size=\"xs\">Extra small</Text>\n<Text variant=\"text\" size=\"s\">Small</Text>\n<Text variant=\"text\" size=\"m\">Medium</Text>\n<Text variant=\"text\" size=\"l\">Large</Text>",
         "<Text color=\"default\">Default color</Text>\n<Text color=\"muted\">Muted color</Text>\n<Text color=\"accent\">Accent color</Text>",
         "<Text as=\"h1\" variant=\"display\" size=\"l\">Page Title</Text>\n<Text as=\"h2\" variant=\"heading\" size=\"l\">Section Heading</Text>\n<Text as=\"p\" variant=\"text\" size=\"m\">Body paragraph text.</Text>\n<Text as=\"label\" variant=\"label\" size=\"s\">Form label</Text>",
         "<Text as=\"h1\" variant=\"display\" size=\"l\" color=\"accent\">\n  Hero Title\n</Text>\n<Text as=\"p\" variant=\"text\" size=\"m\" color=\"muted\">\n  A supporting description rendered as a paragraph.\n</Text>\n<Text variant=\"mono\" size=\"s\" color=\"muted\">\n  const x = 42;\n</Text>",
-        "import { Text } from '@tale-ui/react/text';\n    \n    export function Example() {\n      return (\n        <>\n          <Text variant=\"heading\" size=\"l\" as=\"h1\">Page title</Text>\n          <Text variant=\"text\" color=\"muted\">Secondary info</Text>\n          <Text variant=\"mono\" size=\"s\" as=\"code\">const x = 1;</Text>\n        </>\n      );\n    }"
+        "import { Text } from '@tale-ui/react/text';\n\n    export function Example() {\n      return (\n        <>\n          <Text variant=\"heading\" size=\"l\" as=\"h1\">\n            Page title\n          </Text>\n          <Text variant=\"text\" color=\"muted\">\n            Secondary info\n          </Text>\n          <Text variant=\"mono\" size=\"s\" as=\"code\">\n            const x = 1;\n          </Text>\n        </>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-text",
@@ -8247,14 +8252,14 @@
         {
           "id": "text-no-bare-paragraph-tags",
           "summary": "Never use bare <p> paragraph tags or <span> for visible text",
-          "detail": "Tale UI's typography tokens (color, size, variant) are only applied through `Text`; bare paragraph tags are forbidden just like bare heading tags.\n    ```tsx\n    import { Text } from '@tale-ui/react/text';\n    \n    export function Example() {\n      return (\n        <>\n          <Text variant=\"heading\" size=\"l\" as=\"h1\">Page title</Text>\n          <Text variant=\"text\" color=\"muted\">Secondary info</Text>\n          <Text variant=\"mono\" size=\"s\" as=\"code\">const x = 1;</Text>\n        </>\n      );\n    }\n    ```",
+          "detail": "Tale UI's typography tokens (color, size, variant) are only applied through `Text`; bare paragraph tags are forbidden just like bare heading tags.\n\n    ```tsx\n    import { Text } from '@tale-ui/react/text';\n\n    export function Example() {\n      return (\n        <>\n          <Text variant=\"heading\" size=\"l\" as=\"h1\">\n            Page title\n          </Text>\n          <Text variant=\"text\" color=\"muted\">\n            Secondary info\n          </Text>\n          <Text variant=\"mono\" size=\"s\" as=\"code\">\n            const x = 1;\n          </Text>\n        </>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<p style={{ color: 'gray' }}>This action cannot be undone.</p>"
           ],
           "fixes": [
             "<Text color=\"muted\">This action cannot be undone.</Text>"
           ],
-          "completeExample": "import { Text } from '@tale-ui/react/text';\n\nexport function Example() {\n  return (\n    <>\n      <Text variant=\"heading\" size=\"l\" as=\"h1\">Page title</Text>\n      <Text variant=\"text\" color=\"muted\">Secondary info</Text>\n      <Text variant=\"mono\" size=\"s\" as=\"code\">const x = 1;</Text>\n    </>\n  );\n}"
+          "completeExample": "import { Text } from '@tale-ui/react/text';\n\nexport function Example() {\n  return (\n    <>\n      <Text variant=\"heading\" size=\"l\" as=\"h1\">\n        Page title\n      </Text>\n      <Text variant=\"text\" color=\"muted\">\n        Secondary info\n      </Text>\n      <Text variant=\"mono\" size=\"s\" as=\"code\">\n        const x = 1;\n      </Text>\n    </>\n  );\n}"
         },
         {
           "id": "text-size-valid-values",
@@ -8408,20 +8413,22 @@
         {
           "id": "text-has-no-weight-prop",
           "summary": "Text has no weight prop — use variant=\"label\" for label-weight text",
-          "detail": "there is no `weight` prop on `Text`; passing `weight=\"medium\"` or any weight string causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. To render bold or label-weight text use `variant=\"label\"`. This applies everywhere Text appears, including inside Disclosure.Trigger, accordion headers, and other trigger labels.",
+          "detail": "There is no `weight` prop on `Text`; passing `weight=\"medium\"` or any weight string causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. To render bold or label-weight text use `variant=\"label\"`. This applies everywhere Text appears, including inside List.Item, Disclosure.Trigger, accordion headers, and other trigger labels.",
           "antiPatterns": [
             "<Text weight=\"medium\">Plan Name</Text>",
             "<Text weight=\"semibold\">Color Palette</Text>",
             "<Text weight=\"medium\">What is included?</Text>",
             "<Text size=\"m\" weight=\"medium\">Plan Name</Text>",
-            "<Text weight=\"semibold\" size=\"lg\">Title</Text>"
+            "<Text weight=\"semibold\" size=\"lg\">Title</Text>",
+            "<Text weight=\"medium\">{member.name}</Text>"
           ],
           "fixes": [
             "<Text variant=\"label\">Plan Name</Text>",
             "<Text variant=\"label\">Color Palette</Text>",
             "<Text variant=\"label\">What is included?</Text>",
             "<Text size=\"m\" variant=\"label\">Plan Name</Text>",
-            "<Text variant=\"label\" size=\"l\">Title</Text>"
+            "<Text variant=\"label\" size=\"l\">Title</Text>",
+            "<Text variant=\"label\">{member.name}</Text>"
           ]
         }
       ],
