@@ -26,7 +26,13 @@ import { fileURLToPath } from 'url';
 import { execFileSync, spawnSync, spawn } from 'child_process';
 import { connect } from 'net';
 import { tmpdir } from 'os';
-import { buildCodexExecArgs, scoreCode } from './eval-golden-prompts-lib.mjs';
+import {
+  buildCodexExecArgs,
+  isProviderQuotaError,
+  isProviderQuotaMessage,
+  providerQuotaError,
+  scoreCode,
+} from './eval-golden-prompts-lib.mjs';
 import {
   PITFALL_FIX_OPERATIONS,
   applyPitfallFixToSectionText,
@@ -104,6 +110,9 @@ const SKIP_VALIDATE = hasFlag('--skip-validate');
 const NO_CACHE = hasFlag('--no-cache');
 const FRESH = hasFlag('--fresh');
 const SUMMARY_FILE = getArg('--summary-file');
+const STATE_FILE = getArg('--state-file') ?? join(__dirname, '.golden-fix-review-state.json');
+const RESUME = hasFlag('--resume');
+const RESET_RESUME = hasFlag('--reset-resume');
 const EXIT_CODE_ON_FAIL = hasFlag('--exit-code-on-fail');
 const UNTIL_PASS = hasFlag('--until-pass');
 const SKIP_PITFALL_TRUTH = hasFlag('--skip-pitfall-truth');
@@ -337,10 +346,20 @@ function runEval(slugs = null, { skipGenerate = false } = {}) {
     cwd: ROOT,
     timeout: getRunEvalTimeoutMs(slugs),
     encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'inherit'],
+    stdio: ['ignore', 'pipe', 'pipe'],
   });
+  if (proc.stderr) {
+    process.stderr.write(proc.stderr);
+  }
 
   if (proc.error) throw new Error(`Eval script failed: ${proc.error.message}`);
+  if (proc.status !== 0) {
+    const details = [proc.stdout, proc.stderr].filter(Boolean).join('\n');
+    if (isProviderQuotaMessage(details)) {
+      throw providerQuotaError(details.slice(0, 500), { phase: 'eval' });
+    }
+    throw new Error(`Eval script exited with status ${proc.status}.`);
+  }
   if (!proc.stdout?.trim())
     throw new Error('Eval script produced no output — it may have timed out or crashed.');
   const evalResult = JSON.parse(proc.stdout);
@@ -417,20 +436,15 @@ function fixHasStructuredSourcePatch(fix) {
   );
 }
 
-function isProviderQuotaMessage(message = '') {
-  return /out of (?:extra )?usage|usage limit|rate limit|quota exceeded|resets \d/i.test(
-    String(message),
-  );
-}
-
 function assertNoProviderQuotaFailures(evalResult) {
   const quotaFailure = evalResult?.results?.find((result) =>
     result?.l1?.errors?.some((error) => isProviderQuotaMessage(error)),
   );
   if (quotaFailure) {
-    throw new Error(
-      `Provider quota exhausted while evaluating '${quotaFailure.slug}'. Stop this run and retry after the provider reset.`,
-    );
+    throw providerQuotaError('stop this run and retry after the provider reset', {
+      phase: 'eval',
+      slug: quotaFailure.slug,
+    });
   }
 }
 
@@ -707,14 +721,20 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
         const outputText = existsSync(outputFile) ? readFileSync(outputFile, 'utf8').trim() : '';
         const stdoutText = proc.stdout?.trim() ?? '';
         const stderrText = proc.stderr?.trim() ?? '';
+        const details = [outputText, stdoutText, stderrText].filter(Boolean).join('\n');
         try {
           unlinkSync(outputFile);
         } catch {
           /* ignore */
         }
+        if (isProviderQuotaMessage(details)) {
+          throw providerQuotaError(details.slice(0, 400), { provider: 'Codex', phase: 'fix' });
+        }
+        if (proc.status !== 0) {
+          throw new Error(`Codex CLI exited with status ${proc.status}: ${details.slice(0, 400)}`);
+        }
         text = outputText || stdoutText;
         if (!text) {
-          const details = stderrText || stdoutText;
           if (proc.status && details) {
             throw new Error(
               `Codex CLI exited with status ${proc.status}: ${details.slice(0, 400)}`,
@@ -727,6 +747,9 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
         lastErr = null;
         break;
       } catch (err) {
+        if (isProviderQuotaError(err)) {
+          throw err;
+        }
         lastErr = err;
         if (attempt < MAX_RETRIES) {
           console.log(`    (Codex CLI attempt ${attempt} failed: ${err.message} — retrying...)`);
@@ -762,7 +785,7 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
           if (parsed.is_error || isProviderQuotaMessage(parsed.result ?? '')) {
             const message = parsed.result ?? 'Claude CLI reported an error';
             if (isProviderQuotaMessage(message)) {
-              throw new Error(`Provider quota exhausted: ${message}`);
+              throw providerQuotaError(message, { provider: 'Claude', phase: 'fix' });
             }
             throw new Error(`Claude CLI reported is_error: ${message}`);
           }
@@ -775,7 +798,7 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
             .map((value) => String(value))
             .join('\n');
           if (isProviderQuotaMessage(details)) {
-            throw new Error(`Provider quota exhausted: ${details.slice(0, 400)}`);
+            throw providerQuotaError(details.slice(0, 400), { provider: 'Claude', phase: 'fix' });
           }
           lastErr = err;
           if (attempt < MAX_RETRIES) {
@@ -928,6 +951,41 @@ function showDocsPatch(modifiedFiles = new Set()) {
 function writeSummaryFile(summary) {
   if (!SUMMARY_FILE) return;
   writeFileSync(SUMMARY_FILE, `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
+}
+
+function readResumeState(filePath) {
+  if (!RESUME || RESET_RESUME || !existsSync(filePath)) return null;
+  try {
+    return JSON.parse(readFileSync(filePath, 'utf8'));
+  } catch (err) {
+    throw new Error(`Could not read resume state ${filePath}: ${err.message}`);
+  }
+}
+
+function writeResumeState(filePath, state) {
+  mkdirSync(dirname(filePath), { recursive: true });
+  writeFileSync(filePath, `${JSON.stringify(state, null, 2)}\n`, 'utf8');
+}
+
+function buildResumeConfigSignature(slugs) {
+  return {
+    prompts: slugs,
+    provider: PROVIDER,
+    model: MODEL,
+    fixProvider: FIX_PROVIDER,
+    fixModel: FIX_MODEL,
+    difficulty: FILTER_DIFFICULTY ?? null,
+    slug: FILTER_SLUG ?? null,
+    slugs: FILTER_SLUGS ?? null,
+    mcp: MCP_MODE,
+    mcpMaxTurns: MCP_MAX_TURNS,
+    noFix: NO_FIX,
+    noSourcePatch: NO_SOURCE_PATCH,
+  };
+}
+
+function sameResumeConfig(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
 }
 
 function safeArtifactName(value) {
@@ -1757,6 +1815,9 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
       current = reResult;
       failedPatchReasons.length = 0;
     } catch (err) {
+      if (isProviderQuotaError(err)) {
+        throw err;
+      }
       if (err instanceof SyntaxError) {
         console.log(`    [${attemptLabel}] ${C.yellow('⚠ Malformed JSON response')} — retrying`);
         continue;
@@ -1809,6 +1870,25 @@ async function main() {
     throw new Error('No golden prompts matched the selected filters.');
   }
 
+  const resumeConfig = buildResumeConfigSignature(allSlugs);
+  const resumeState = readResumeState(STATE_FILE);
+  if (resumeState && !sameResumeConfig(resumeState.config, resumeConfig)) {
+    throw new Error(
+      `Resume state ${STATE_FILE} was created with different eval options. Use --reset-resume or a different --state-file.`,
+    );
+  }
+  if (RESUME && resumeState) {
+    console.log(
+      C.dim(
+        `  Resuming from ${relative(ROOT, STATE_FILE)} (${resumeState.completedSlugs?.length ?? 0}/${allSlugs.length} prompt(s) completed).`,
+      ),
+    );
+  } else if (RESET_RESUME) {
+    console.log(
+      C.dim(`  Ignoring previous resume state (--reset-resume): ${relative(ROOT, STATE_FILE)}`),
+    );
+  }
+
   const chunkSize = Math.max(EVAL_CONCURRENCY, 1);
   const totalChunks = Math.ceil(allSlugs.length / chunkSize);
   const attemptsLabel = NO_FIX
@@ -1821,21 +1901,48 @@ async function main() {
       `  Streaming eval + fix — ${totalChunks} chunk(s) of ≤${chunkSize} (${attemptsLabel})...`,
   );
 
-  const passingCode = new Map();
-  const runModifiedFiles = new Set();
-  let initialPassCount = 0;
-  let initialFailCount = 0;
-  const stillFailing = [];
+  const passingCode = new Map(
+    (resumeState?.passingResults ?? []).map((result) => [result.slug, result]),
+  );
+  const runModifiedFiles = new Set(resumeState?.modifiedFiles ?? []);
+  const completedSlugs = new Set(resumeState?.completedSlugs ?? []);
+  const stillFailingBySlug = new Map(
+    (resumeState?.stillFailing ?? []).map((result) => [result.slug, result]),
+  );
+  let initialPassCount = resumeState?.initialPassCount ?? 0;
+  let initialFailCount = resumeState?.initialFailCount ?? 0;
+
+  const checkpoint = (status = 'in_progress') => {
+    writeResumeState(STATE_FILE, {
+      version: 1,
+      status,
+      updatedAt: new Date().toISOString(),
+      config: resumeConfig,
+      completedSlugs: [...completedSlugs],
+      initialPassCount,
+      initialFailCount,
+      stillFailing: [...stillFailingBySlug.values()],
+      passingResults: [...passingCode.values()],
+      modifiedFiles: [...runModifiedFiles],
+    });
+  };
 
   for (let i = 0; i < allSlugs.length; i += chunkSize) {
     const chunk = allSlugs.slice(i, i + chunkSize);
+    const pendingChunk = chunk.filter((slug) => !completedSlugs.has(slug));
     const chunkNum = Math.floor(i / chunkSize) + 1;
+    if (pendingChunk.length === 0) {
+      console.log(
+        `\n  ${C.bold(`[Chunk ${chunkNum}/${totalChunks}]`)}  Skipping completed: ${chunk.join(', ')}`,
+      );
+      continue;
+    }
     console.log(
-      `\n  ${C.bold(`[Chunk ${chunkNum}/${totalChunks}]`)}  Evaluating: ${chunk.join(', ')}`,
+      `\n  ${C.bold(`[Chunk ${chunkNum}/${totalChunks}]`)}  Evaluating: ${pendingChunk.join(', ')}`,
     );
 
     // Step 0 already generated eval context; fixes regenerate mid-loop — always skip here.
-    const evalResult = runEval(chunk, { skipGenerate: true });
+    const evalResult = runEval(pendingChunk, { skipGenerate: true });
     const annotated = evalResult.results.map((r) => ({
       ...r,
       prompt: promptMap.get(r.slug)?.prompt ?? '',
@@ -1845,10 +1952,11 @@ async function main() {
       if (r.allPass) {
         initialPassCount++;
         if (r.code) passingCode.set(r.slug, r);
+        stillFailingBySlug.delete(r.slug);
       } else {
         initialFailCount++;
         if (NO_FIX) {
-          stillFailing.push(r);
+          stillFailingBySlug.set(r.slug, r);
         } else {
           const { passed, final } = await fixFailingPrompt(
             r,
@@ -1856,12 +1964,19 @@ async function main() {
             runModifiedFiles,
             passingCode,
           );
-          if (!passed) stillFailing.push(final);
+          if (passed) {
+            stillFailingBySlug.delete(r.slug);
+          } else {
+            stillFailingBySlug.set(r.slug, final);
+          }
         }
       }
+      completedSlugs.add(r.slug);
+      checkpoint();
     }
   }
 
+  const stillFailing = [...stillFailingBySlug.values()];
   const totalEvaluated = initialPassCount + initialFailCount;
   const fixedCount = initialFailCount - stillFailing.length;
   const streamSummary =
@@ -1910,6 +2025,7 @@ async function main() {
     stillFailingSlugs: failing.map((f) => f.slug),
     modifiedFiles: [...runModifiedFiles],
   };
+  checkpoint('complete');
   writeSummaryFile(summary);
 
   if (NO_REVIEW) {
@@ -2009,7 +2125,11 @@ export const __test__ = {
 
 if (IS_DIRECT_RUN) {
   main().catch((err) => {
-    console.error(err);
+    if (isProviderQuotaError(err)) {
+      console.error(`ERROR: ${err.message}`);
+    } else {
+      console.error(err);
+    }
     process.exit(1);
   });
 }

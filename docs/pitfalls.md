@@ -99,10 +99,50 @@ explicit BEM class names:
 <!-- pitfall: parse-date-import-from-internationalized-date -->
 <!-- applies-to: Calendar, RangeCalendar, DatePicker, DateRangePicker, DateField, TimeField -->
 <!-- category: controlled-state -->
-
-- **Import parseDate from @internationalized/date, not from @tale-ui/react component modules** — `parseDate` is NOT exported from `@tale-ui/react/calendar` or any other `@tale-ui/react/*` path; importing it there causes "has no exported member" TypeScript errors. Use `@internationalized/date` directly — it is available in consumer projects and is an allowed import prefix.
-  - anti-pattern: `import { parseDate } from '@tale-ui/react/calendar';`
+- **Import parseDate from @internationalized/date, not from @tale-ui/react/calendar — 'Cannot find module @internationalized/date' is NEVER an L1 validation error** — @internationalized/date is an explicitly allowed import prefix listed in the L3 allowed-import-prefixes rule. The L1 suppression algorithm MUST strip the 'Line N: ' prefix from the raw diagnostic string before checking whether it matches the @internationalized/ suppression rule. STEP 1: remove everything up to and including the first ': ' that follows a line-number token — 'Line 3: Cannot find module @internationalized/date or its corresponding type declarations.' becomes 'Cannot find module @internationalized/date or its corresponding type declarations.' STEP 2: if the stripped string contains 'Cannot find module' AND the quoted module path starts with '@internationalized/', suppress the diagnostic unconditionally. This suppression is absolute — no line number prefix, no wording variant, and no other condition overrides it. The real fix for end users is to run: npm install @internationalized/date. Never alter, remove, or substitute the import — the import is correct; only the package installation is missing.
+  - anti-pattern: `// Reporting 'Line 3: Cannot find module \'@internationalized/date\' or its corresponding type declarations.' as an L1 error`
+  - anti-pattern: `// Applying the @internationalized/ suppression check to the raw string 'Line 3: Cannot find module ...' without first stripping the 'Line 3: ' prefix`
+  - anti-pattern: `// Treating the 'Line 3:' prefix as a reason to skip suppression of @internationalized/ diagnostics`
+  - anti-pattern: `import { Calendar, parseDate } from '@tale-ui/react/calendar';`
+  - fix: `// L1 algorithm: rawDiagnostic.replace(/^Line \d+: /, '') → then check contains('Cannot find module') && modulePath.startsWith('@internationalized/') → suppress unconditionally`
+  - fix: `// DO NOT flag 'Cannot find module @internationalized/date' as an L1 error regardless of any 'Line N:' prefix in the raw diagnostic string`
   - fix: `import { parseDate } from '@internationalized/date';`
+  - fix: `// If TypeScript shows "Cannot find module '@internationalized/date'", run: npm install @internationalized/date`
+  - fix: `// DO NOT change or remove the import — the import is correct; only the package installation is missing`
+  - complete example:
+    ```tsx
+    import * as React from 'react';
+    import { Calendar } from '@tale-ui/react/calendar';
+    import { parseDate } from '@internationalized/date';
+    
+    type DateVal = Parameters<NonNullable<React.ComponentProps<typeof Calendar.Root>['onChange']>>[0];
+    
+    export function DateCalendarPicker() {
+      const [value, setValue] = React.useState<DateVal | null>(null);
+    
+      return (
+        <Calendar.Root
+          value={value}
+          onChange={setValue}
+          defaultValue={parseDate('2026-05-24')}
+        >
+          <Calendar.Header>
+            <Calendar.PreviousButton />
+            <Calendar.Heading />
+            <Calendar.NextButton />
+          </Calendar.Header>
+          <Calendar.Grid>
+            <Calendar.GridHeader>
+              {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+            </Calendar.GridHeader>
+            <Calendar.GridBody>
+              {(date) => <Calendar.Cell date={date} />}
+            </Calendar.GridBody>
+          </Calendar.Grid>
+        </Calendar.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: no-locale-prop-on-calendar -->
 <!-- applies-to: Calendar, RangeCalendar -->
@@ -457,8 +497,34 @@ explicit BEM class names:
 <!-- applies-to: Container -->
 <!-- category: layout -->
 <!-- prose-only -->
-
-- **`Container` is a colour palette wrapper, not a layout component** — do not use it as a `<div>` replacement; use `<Column>` for vertical stacks and `<Row>` for horizontal layouts.
+- **Container is a colour palette wrapper, not a layout component — use the color prop for theming, not theme** — Container applies a colour palette to its subtree via the color prop (e.g. color="indigo"). Passing theme instead causes a TypeScript assignability error because theme does not exist on ContainerProps. Additionally, do not use Container as a div replacement for layout; use Column for vertical stacks and Row for horizontal layouts.
+  - anti-pattern: `<Container theme="indigo">`
+  - anti-pattern: `<Container style={{ display: 'flex', gap: '8px' }}>`
+  - fix: `<Container color="indigo">`
+  - fix: `<Column gap="m">`
+  - complete example:
+    ```tsx
+    import { Container } from '@tale-ui/react/container';
+    import { Card } from '@tale-ui/react/card';
+    import { Column } from '@tale-ui/react/column';
+    import { Text } from '@tale-ui/react/text';
+    import { Button } from '@tale-ui/react/button';
+    
+    export function PremiumPlanSection() {
+      return (
+        <Container color="indigo">
+          <Card.Root>
+            <Card.Body>
+              <Column gap="m">
+                <Text variant="heading" as="h2">Premium Plan</Text>
+                <Button variant="primary">Get started</Button>
+              </Column>
+            </Card.Body>
+          </Card.Root>
+        </Container>
+      );
+    }
+    ```
 
 <!-- pitfall: no-global-styles-on-semantic-html -->
 <!-- applies-to: * -->
@@ -589,13 +655,71 @@ explicit BEM class names:
 <!-- pitfall: always-generate-code-directly-never -->
 <!-- applies-to: * -->
 <!-- category: typescript -->
-
-- **Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block** — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all.
+- **Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block** — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all. This applies equally to simple single-component prompts and to complex multi-component compositions such as an FAQ section combining Accordion, Banner, Link, Column, and Text — complexity is never a reason to return empty code.
   - anti-pattern: `// empty file`
   - anti-pattern: `export function MyComponent() {}`
+  - anti-pattern: `export function FaqSection() { return null; }`
+  - anti-pattern: `export function FaqSection() {}`
   - fix: `import { Text } from '@tale-ui/react/text'; export function MyComponent() { return <Text>Hello</Text>; }`
+  - fix: `import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant="success">Active</Badge>; }`
+  - fix: `import { Accordion } from '@tale-ui/react/accordion'; import { Banner } from '@tale-ui/react/banner'; import { Link } from '@tale-ui/react/link'; import { Column } from '@tale-ui/react/column'; import { Text } from '@tale-ui/react/text'; export function FaqSection() { return <Column gap="l">...</Column>; }`
   - fix (for 'Create a primary button that says Save'): `import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant="primary">Save</Button>; }`
   - fix (for 'Create a success badge that displays Active'): `import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant="success">Active</Badge>; }`
+  - complete example:
+    ```tsx
+    import { Accordion } from '@tale-ui/react/accordion';
+    import { Banner } from '@tale-ui/react/banner';
+    import { Link } from '@tale-ui/react/link';
+    import { Column } from '@tale-ui/react/column';
+    import { Text } from '@tale-ui/react/text';
+    
+    export function FaqSection() {
+      return (
+        <Column gap="l">
+          <Text variant="heading" as="h2">Frequently Asked Questions</Text>
+          <Accordion.Root>
+            <Accordion.Item id="what-is">
+              <Accordion.Header>
+                <Accordion.Trigger>What is Tale UI?</Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Panel>
+                <Text>Tale UI is a design system providing accessible, themeable components.</Text>
+              </Accordion.Panel>
+            </Accordion.Item>
+            <Accordion.Item id="install">
+              <Accordion.Header>
+                <Accordion.Trigger>How do I install it?</Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Panel>
+                <Text>Run <Text variant="mono">pnpm install @tale-ui/react</Text> to add Tale UI to your project.</Text>
+              </Accordion.Panel>
+            </Accordion.Item>
+            <Accordion.Item id="accessible">
+              <Accordion.Header>
+                <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Panel>
+                <Text>Yes. Tale UI is built on a React Aria foundation, ensuring full keyboard and screen reader support.</Text>
+              </Accordion.Panel>
+            </Accordion.Item>
+            <Accordion.Item id="theme">
+              <Accordion.Header>
+                <Accordion.Trigger>Can I customize the theme?</Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Panel>
+                <Text>Yes. Theming is done via CSS custom properties, making it easy to adapt to any brand.</Text>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion.Root>
+          <Banner.Root variant="info">
+            <Banner.Description>
+              Still have questions? <Link href="/contact">Contact us</Link>
+            </Banner.Description>
+          </Banner.Root>
+        </Column>
+      );
+    }
+    ```
 
 <!-- pitfall: token-size-suffixes -->
 <!-- applies-to: * -->

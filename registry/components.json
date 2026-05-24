@@ -566,7 +566,8 @@
         "<BackgroundPattern pattern=\"circle\" />\n<BackgroundPattern pattern=\"square\" />\n<BackgroundPattern pattern=\"grid\" />\n<BackgroundPattern pattern=\"grid-check\" size=\"md\" />",
         "<BackgroundPattern pattern=\"grid\" size=\"sm\" />\n<BackgroundPattern pattern=\"grid\" size=\"md\" />\n<BackgroundPattern pattern=\"grid\" size=\"lg\" />",
         "{/* Brand color */}\n<BackgroundPattern pattern=\"circle\" style={{ color: 'var(--color-30)' }} />\n\n{/* Arbitrary color */}\n<BackgroundPattern pattern=\"square\" style={{ color: '#e0e0e0' }} />",
-        "<div className=\"relative overflow-hidden\">\n  <BackgroundPattern\n    pattern=\"grid\"\n    size=\"lg\"\n    className=\"absolute inset-0 w-full h-full\"\n  />\n  <div className=\"relative z-10\">Content on top</div>\n</div>"
+        "<div className=\"relative overflow-hidden\">\n  <BackgroundPattern\n    pattern=\"grid\"\n    size=\"lg\"\n    className=\"absolute inset-0 w-full h-full\"\n  />\n  <div className=\"relative z-10\">Content on top</div>\n</div>",
+        "import { BackgroundPattern } from '@tale-ui/react/background-pattern';\n    \n    export function DecorativeCircularPattern() {\n      return (\n        <BackgroundPattern pattern=\"circle\" size=\"lg\" />\n      );\n    }"
       ],
       "cssClasses": [
         "tale-background-pattern"
@@ -593,6 +594,18 @@
           "fixes": [
             "<BackgroundPattern style={{ color: 'var(--neutral-30)' }} />"
           ]
+        },
+        {
+          "id": "background-pattern-valid-pattern-values",
+          "summary": "pattern prop uses singular form — 'circle' not 'circles'",
+          "detail": "The Pattern type uses singular nouns. Passing a pluralized value like 'circles' causes Type '\"circles\"' is not assignable to type 'Pattern'. Use the singular form 'circle' instead.\n    ```tsx\n    import { BackgroundPattern } from '@tale-ui/react/background-pattern';\n    \n    export function DecorativeCircularPattern() {\n      return (\n        <BackgroundPattern pattern=\"circle\" size=\"lg\" />\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<BackgroundPattern pattern=\"circles\" size=\"lg\" />"
+          ],
+          "fixes": [
+            "<BackgroundPattern pattern=\"circle\" size=\"lg\" />"
+          ],
+          "completeExample": "import { BackgroundPattern } from '@tale-ui/react/background-pattern';\n\nexport function DecorativeCircularPattern() {\n  return (\n    <BackgroundPattern pattern=\"circle\" size=\"lg\" />\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -871,7 +884,8 @@
         "<Banner.Root variant=\"warning\">\n  <Banner.Title>Update available</Banner.Title>\n  <Banner.Description>A new version is ready to install.</Banner.Description>\n  <Banner.Actions>\n    <Button variant=\"ghost\" size=\"sm\">Later</Button>\n    <Button variant=\"primary\" size=\"sm\">Update now</Button>\n  </Banner.Actions>\n</Banner.Root>",
         "<Banner.Root variant=\"info\">\n  <Banner.Title>Tip</Banner.Title>\n  <Banner.Description>You can customise your dashboard.</Banner.Description>\n  <Banner.Close onClick={() => setVisible(false)} />\n</Banner.Root>",
         "<Banner.Root variant=\"success\" size=\"sm\">\n  <Banner.Title>Saved</Banner.Title>\n  <Banner.Description>Changes saved successfully.</Banner.Description>\n</Banner.Root>",
-        "import { Banner } from '@tale-ui/react/banner';\n    import { Icon } from '@tale-ui/react/icon';\n    import { InfoIcon } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <Banner.Root variant=\"info\">\n          <Banner.Icon><Icon icon={InfoIcon} size=\"sm\" /></Banner.Icon>\n          <Banner.Title>Heads up</Banner.Title>\n          <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n        </Banner.Root>\n      );\n    }"
+        "import { Banner } from '@tale-ui/react/banner';\n    import { Icon } from '@tale-ui/react/icon';\n    import { InfoIcon } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <Banner.Root variant=\"info\">\n          <Banner.Icon><Icon icon={InfoIcon} size=\"sm\" /></Banner.Icon>\n          <Banner.Title>Heads up</Banner.Title>\n          <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n        </Banner.Root>\n      );\n    }",
+        "import { Banner } from '@tale-ui/react/banner';\n    import { Button } from '@tale-ui/react/button';\n    \n    export function UpdateAvailableBanner() {\n      return (\n        <Banner.Root variant=\"warning\">\n          <Banner.Title>Update available</Banner.Title>\n          <Banner.Description>A new version is ready to install.</Banner.Description>\n          <Banner.Actions>\n            <Button variant=\"ghost\">Later</Button>\n            <Button variant=\"primary\">Update now</Button>\n          </Banner.Actions>\n        </Banner.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-banner",
@@ -921,6 +935,19 @@
           "fixes": [
             "<Banner.Root><Banner.Title>Something went wrong.</Banner.Title></Banner.Root>"
           ]
+        },
+        {
+          "id": "banner-actions-for-buttons",
+          "summary": "Use Banner.Actions to add action buttons inside a Banner — never place Button children directly inside Banner.Root",
+          "detail": "Banner.Root exposes a Banner.Actions sub-part for placing interactive buttons alongside the title and description. Wrap Button components inside Banner.Actions; do not add them as raw children of Banner.Root. Use this for any prompt that asks for a banner with one or more action buttons such as 'Later' (ghost) and 'Update now' (primary).\n    ```tsx\n    import { Banner } from '@tale-ui/react/banner';\n    import { Button } from '@tale-ui/react/button';\n    \n    export function UpdateAvailableBanner() {\n      return (\n        <Banner.Root variant=\"warning\">\n          <Banner.Title>Update available</Banner.Title>\n          <Banner.Description>A new version is ready to install.</Banner.Description>\n          <Banner.Actions>\n            <Button variant=\"ghost\">Later</Button>\n            <Button variant=\"primary\">Update now</Button>\n          </Banner.Actions>\n        </Banner.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<Banner.Root variant=\"warning\"><Banner.Title>Update available</Banner.Title><Button variant=\"ghost\">Later</Button><Button variant=\"primary\">Update now</Button></Banner.Root>",
+            "<Banner.Root variant=\"warning\"><Banner.Description>A new version is ready to install.</Banner.Description><Button variant=\"primary\">Update now</Button></Banner.Root>"
+          ],
+          "fixes": [
+            "<Banner.Root variant=\"warning\"><Banner.Title>Update available</Banner.Title><Banner.Description>A new version is ready to install.</Banner.Description><Banner.Actions><Button variant=\"ghost\">Later</Button><Button variant=\"primary\">Update now</Button></Banner.Actions></Banner.Root>"
+          ],
+          "completeExample": "import { Banner } from '@tale-ui/react/banner';\nimport { Button } from '@tale-ui/react/button';\n\nexport function UpdateAvailableBanner() {\n  return (\n    <Banner.Root variant=\"warning\">\n      <Banner.Title>Update available</Banner.Title>\n      <Banner.Description>A new version is ready to install.</Banner.Description>\n      <Banner.Actions>\n        <Button variant=\"ghost\">Later</Button>\n        <Button variant=\"primary\">Update now</Button>\n      </Banner.Actions>\n    </Banner.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -1914,7 +1941,7 @@
         "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n\n<ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
         "<ColorSlider.Root channel=\"saturation\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Saturation</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
         "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n    \n    export function Example() {\n      return (\n        <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n          <ColorSlider.Label>Hue</ColorSlider.Label>\n          <ColorSlider.Output />\n          <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n        </ColorSlider.Root>\n      );\n    }",
-        "import { ColorArea, parseColor } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function ColorPickerExample() {\n      return (\n        <Column gap=\"m\">\n          <ColorArea.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n    \n          <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n            <ColorSlider.Label>Hue</ColorSlider.Label>\n            <ColorSlider.Output />\n            <ColorSlider.Track>\n              <ColorSlider.Thumb />\n            </ColorSlider.Track>\n          </ColorSlider.Root>\n        </Column>\n      );\n    }"
+        "import { ColorArea } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function HslColorPicker() {\n      return (\n        <Column gap=\"l\" style={{ width: 240 }}>\n          <ColorArea.Root defaultValue=\"hsl(0, 100%, 50%)\" xChannel=\"saturation\" yChannel=\"lightness\">\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n    \n          <ColorSlider.Root channel=\"hue\" defaultValue=\"hsl(0, 100%, 50%)\">\n            <ColorSlider.Label>Hue</ColorSlider.Label>\n            <ColorSlider.Output />\n            <ColorSlider.Track>\n              <ColorSlider.Thumb />\n            </ColorSlider.Track>\n          </ColorSlider.Root>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-color-slider",
@@ -1939,7 +1966,7 @@
         {
           "id": "color-slider-composition-with-color-area",
           "summary": "When composing with ColorArea, wrap both in a single parent element — use spacing-token gap values, never component-size names",
-          "detail": "Use <Column> or a <div> as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container. When using <Column>, use spacing-token gap values ('s', 'm', 'l'), never component-size values ('sm', 'md', 'lg') — all three component-size names are invalid Gap values and cause TypeScript errors. Map: sm->s, md->m, lg->l. This is the most common error when composing ColorArea with ColorSlider. Even when the prompt says to use a specific gap size, always translate to spacing tokens. CRITICAL: gap=\"md\" is the single most frequent error in ColorArea+ColorSlider compositions — it MUST be gap=\"m\".",
+          "detail": "Use <Column> or a <div> as a shared parent to provide layout. Do not rely on adjacent sibling rendering without a container. When using <Column>, use spacing-token gap values ('s', 'm', 'l'), never component-size values ('sm', 'md', 'lg') — all three component-size names are invalid Gap values and cause TypeScript errors. Map: sm->s, md->m, lg->l. This is the most common error when composing ColorArea with ColorSlider. Even when the prompt says to use a specific gap size, always translate to spacing tokens. CRITICAL: gap=\"lg\" is a frequent error in ColorArea+ColorSlider compositions — it MUST be gap=\"l\".\n    ```tsx\n    import { ColorArea } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function HslColorPicker() {\n      return (\n        <Column gap=\"l\" style={{ width: 240 }}>\n          <ColorArea.Root defaultValue=\"hsl(0, 100%, 50%)\" xChannel=\"saturation\" yChannel=\"lightness\">\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n    \n          <ColorSlider.Root channel=\"hue\" defaultValue=\"hsl(0, 100%, 50%)\">\n            <ColorSlider.Label>Hue</ColorSlider.Label>\n            <ColorSlider.Output />\n            <ColorSlider.Track>\n              <ColorSlider.Thumb />\n            </ColorSlider.Track>\n          </ColorSlider.Root>\n        </Column>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Column gap=\"sm\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>",
             "<Column gap=\"md\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>",
@@ -1949,14 +1976,11 @@
             "<Column gap=\"s\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>",
             "<Column gap=\"m\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>",
             "<Column gap=\"l\"><ColorArea.Root ... /><ColorSlider.Root ... /></Column>"
-          ]
+          ],
+          "completeExample": "import { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\nimport { Column } from '@tale-ui/react/column';\n\nexport function HslColorPicker() {\n  return (\n    <Column gap=\"l\" style={{ width: 240 }}>\n      <ColorArea.Root defaultValue=\"hsl(0, 100%, 50%)\" xChannel=\"saturation\" yChannel=\"lightness\">\n        <ColorArea.Thumb />\n      </ColorArea.Root>\n\n      <ColorSlider.Root channel=\"hue\" defaultValue=\"hsl(0, 100%, 50%)\">\n        <ColorSlider.Label>Hue</ColorSlider.Label>\n        <ColorSlider.Output />\n        <ColorSlider.Track>\n          <ColorSlider.Thumb />\n        </ColorSlider.Track>\n      </ColorSlider.Root>\n    </Column>\n  );\n}"
         }
       ],
-      "crossPitfallRefs": [
-        "color-imports-from-rac",
-        "no-color-extract-channel",
-        "no-color-pojo-state"
-      ]
+      "crossPitfallRefs": null
     },
     {
       "name": "ColorSwatch",
@@ -2545,7 +2569,8 @@
         "<CreditCard.Root type=\"gray-strip\" />\n<CreditCard.Root type=\"gradient-strip\" />\n<CreditCard.Root type=\"salmon-strip\" />",
         "<CreditCard.Root type=\"gradient-strip-vertical\" />\n<CreditCard.Root type=\"salmon-strip-vertical\" />",
         "<CreditCard.Root\n  type=\"brand-dark\"\n  company=\"Acme Bank\"\n  cardNumber=\"4242 4242 4242 4242\"\n  cardHolder=\"JOHN DOE\"\n  cardExpiration=\"12/29\"\n/>",
-        "{/* Renders at 240 × 144 px (maintains 316:190 ratio) */}\n<CreditCard.Root type=\"brand-dark\" width={240} />"
+        "{/* Renders at 240 × 144 px (maintains 316:190 ratio) */}\n<CreditCard.Root type=\"brand-dark\" width={240} />",
+        "import { CreditCard } from '@tale-ui/react/credit-card';\n    \n    export function DarkBrandCard() {\n      return (\n        <CreditCard.Root type=\"brand-dark\" />\n      );\n    }"
       ],
       "cssClasses": [
         "tale-credit-card",
@@ -2605,6 +2630,21 @@
           "fixes": [
             "<CreditCard.Root width={240} />"
           ]
+        },
+        {
+          "id": "use-creditcard-for-any-prompt",
+          "summary": "Use CreditCard.Root for any prompt that asks for a credit card display — never return empty code",
+          "detail": "When a prompt asks for a credit card (dark, branded, etc.), immediately render CreditCard.Root with the appropriate type prop. Dark brand-coloured cards use type=\"brand-dark\". CreditCard.Root does NOT accept companyName or cardNumber props — passing them causes a TypeScript assignability error because they are not part of RootProps. Use only the documented props: type and width.\n    ```tsx\n    import { CreditCard } from '@tale-ui/react/credit-card';\n    \n    export function DarkBrandCard() {\n      return (\n        <CreditCard.Root type=\"brand-dark\" />\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "// empty file",
+            "export function DarkCard() {}",
+            "<CreditCard type=\"brand-dark\" companyName=\"Acme\" cardNumber=\"4111 1111 1111 1111\" />",
+            "<CreditCard.Root type=\"brand-dark\" companyName=\"Acme Corp\" cardNumber=\"4111 1111 1111 1111\" />"
+          ],
+          "fixes": [
+            "import { CreditCard } from '@tale-ui/react/credit-card'; export function DarkBrandCard() { return <CreditCard.Root type=\"brand-dark\" />; }"
+          ],
+          "completeExample": "import { CreditCard } from '@tale-ui/react/credit-card';\n\nexport function DarkBrandCard() {\n  return (\n    <CreditCard.Root type=\"brand-dark\" />\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -3597,7 +3637,7 @@
       "examples": [
         "import { Button } from '@tale-ui/react/button';\nimport { useState } from 'react';\n\nfunction FileUpload() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <>\n      <FileTrigger\n        onSelect={(fileList) => {\n          if (fileList) {\n            setFileName(\n              Array.from(fileList)\n                .map((f) => f.name)\n                .join(', '),\n            );\n          }\n        }}\n      >\n        <Button>Upload file</Button>\n      </FileTrigger>\n      {fileName && <p>Selected: {fileName}</p>}\n    </>\n  );\n}",
         "import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n\n    export function Example() {\n      return (\n        <FileTrigger onSelect={(files) => console.log(files)}>\n          <Button>Upload file</Button>\n        </FileTrigger>\n      );\n    }",
-        "import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n\n      return (\n        <Column gap=\"s\" align=\"start\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              Selected: {fileName}\n            </Text>\n          )}\n        </Column>\n      );\n    }"
+        "import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n    \n      return (\n        <Row gap=\"s\" align=\"center\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              {fileName}\n            </Text>\n          )}\n        </Row>\n      );\n    }"
       ],
       "cssClasses": null,
       "pitfalls": [
@@ -3627,19 +3667,20 @@
         {
           "id": "when-displaying-the-selected-filename",
           "summary": "When displaying the selected filename with Text, use color=\"muted\" plus size=\"s\"",
-          "detail": "color=\"secondary\" and variant=\"body-m\" do not exist on Text, and size=\"sm\" is invalid because Text size uses single-letter tokens ('xs', 's', 'm', 'l'). When building a FileTrigger with filename display, use gap=\"s\" on any Column or Row wrapper and variant=\"neutral\" on the Button — never gap=\"sm\" or variant=\"secondary\". The same spacing-token rule applies whether the wrapper is a Column (vertical stack) or a Row (horizontal inline layout).\n\n    ```tsx\n    import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n\n      return (\n        <Column gap=\"s\" align=\"start\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              Selected: {fileName}\n            </Text>\n          )}\n        </Column>\n      );\n    }\n    ```",
+          "detail": "color=\"secondary\" and variant=\"body-m\" do not exist on Text, and size=\"sm\" is invalid because Text size uses single-letter tokens ('xs', 's', 'm', 'l'). When building a FileTrigger with filename display, use gap=\"s\" on any Column or Row wrapper and variant=\"neutral\" on the Button — never gap=\"sm\" or variant=\"secondary\". This applies whether the wrapper is a Column (vertical stack) or a Row (horizontal inline layout). The Row inline layout is particularly error-prone: gap=\"sm\", Button variant=\"secondary\", Text size=\"sm\", and Text color=\"secondary\" are all invalid and must each be fixed.\n    ```tsx\n    import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n    \n      return (\n        <Row gap=\"s\" align=\"center\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              {fileName}\n            </Text>\n          )}\n        </Row>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Text size=\"sm\" color=\"secondary\">{fileName}</Text>",
             "<Text variant=\"body-m\">{fileName}</Text>",
             "<Column gap=\"sm\"><FileTrigger><Button variant=\"secondary\">Upload file</Button></FileTrigger></Column>",
-            "<Row gap=\"sm\" align=\"center\"><FileTrigger><Button variant=\"secondary\">Upload file</Button></FileTrigger>{filename && <Text size=\"sm\">{filename}</Text>}</Row>"
+            "<Row gap=\"sm\" align=\"center\"><FileTrigger><Button variant=\"secondary\">Upload file</Button></FileTrigger>{filename && <Text size=\"sm\">{filename}</Text>}</Row>",
+            "<Row gap=\"sm\" align=\"center\"><FileTrigger><Button variant=\"secondary\">Upload file</Button></FileTrigger>{fileName && <Text size=\"sm\" color=\"secondary\">{fileName}</Text>}</Row>"
           ],
           "fixes": [
             "<Text size=\"s\" color=\"muted\">{fileName}</Text>",
             "<Column gap=\"s\"><FileTrigger><Button variant=\"neutral\">Upload file</Button></FileTrigger></Column>",
             "<Row gap=\"s\" align=\"center\"><FileTrigger><Button variant=\"neutral\">Upload file</Button></FileTrigger>{filename && <Text size=\"s\" color=\"muted\">{filename}</Text>}</Row>"
           ],
-          "completeExample": "import { useState } from 'react';\nimport { FileTrigger } from '@tale-ui/react/file-trigger';\nimport { Button } from '@tale-ui/react/button';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\n\nexport function FileUploadButton() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <Column gap=\"s\" align=\"start\">\n      <FileTrigger\n        onSelect={(files) => {\n          if (files && files.length > 0) {\n            setFileName(files[0].name);\n          }\n        }}\n      >\n        <Button variant=\"neutral\">Upload file</Button>\n      </FileTrigger>\n      {fileName && (\n        <Text size=\"s\" color=\"muted\">\n          Selected: {fileName}\n        </Text>\n      )}\n    </Column>\n  );\n}"
+          "completeExample": "import { useState } from 'react';\nimport { FileTrigger } from '@tale-ui/react/file-trigger';\nimport { Button } from '@tale-ui/react/button';\nimport { Row } from '@tale-ui/react/row';\nimport { Text } from '@tale-ui/react/text';\n\nexport function FileUploadButton() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <Row gap=\"s\" align=\"center\">\n      <FileTrigger\n        onSelect={(files) => {\n          if (files && files.length > 0) {\n            setFileName(files[0].name);\n          }\n        }}\n      >\n        <Button variant=\"neutral\">Upload file</Button>\n      </FileTrigger>\n      {fileName && (\n        <Text size=\"s\" color=\"muted\">\n          {fileName}\n        </Text>\n      )}\n    </Row>\n  );\n}"
         },
         {
           "id": "file-trigger-upload-button-uses-neutral-variant",
@@ -3737,7 +3778,10 @@
         "import { FileUpload } from '@tale-ui/react/file-upload';\nimport { useState } from 'react';\n\nfunction Example() {\n  const [files, setFiles] = useState<File[]>([]);\n\n  return (\n    <FileUpload.Root>\n      <FileUpload.DropZone\n        hint=\"PNG, JPG or PDF (max 5 MB)\"\n        accept=\"image/*,.pdf\"\n        maxSize={5 * 1024 * 1024}\n        onDropFiles={(fl) => setFiles((p) => [...p, ...Array.from(fl)])}\n      />\n      <FileUpload.List>\n        {files.map((f, i) => (\n          <FileUpload.ListItemProgressBar\n            key={`${f.name}-${i}`}\n            name={f.name}\n            size={f.size}\n            progress={100}\n            onDelete={() => setFiles((p) => p.filter((_, j) => j !== i))}\n          />\n        ))}\n      </FileUpload.List>\n    </FileUpload.Root>\n  );\n}",
         "<FileUpload.List>\n  <FileUpload.ListItemProgressFill\n    name=\"design.fig\"\n    size={2_400_000}\n    progress={65}\n    onDelete={() => {}}\n  />\n  <FileUpload.ListItemProgressFill\n    name=\"assets.zip\"\n    size={8_100_000}\n    progress={100}\n    onDelete={() => {}}\n  />\n</FileUpload.List>",
         "{/* Using @untitledui/file-icons */}\nimport { FileIcon } from '@untitledui/file-icons';\n\n<FileUpload.ListItemProgressBar\n  name=\"report.pdf\"\n  size={1_200_000}\n  progress={45}\n  icon={<FileIcon type=\"pdf\" theme=\"light\" className=\"tale-file-upload-item__icon\" />}\n  onDelete={() => {}}\n/>",
-        "<FileUpload.ListItemProgressBar\n  name=\"large-video.mp4\"\n  size={500_000_000}\n  progress={0}\n  failed\n  onDelete={() => {}}\n  onRetry={() => restartUpload()}\n/>"
+        "<FileUpload.ListItemProgressBar\n  name=\"large-video.mp4\"\n  size={500_000_000}\n  progress={0}\n  failed\n  onDelete={() => {}}\n  onRetry={() => restartUpload()}\n/>",
+        "import { FileUpload } from '@tale-ui/react/file-upload';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function ImagePdfUploader() {\n      return (\n        <Column gap=\"m\" style={{ maxWidth: 560 }}>\n          <FileUpload.Root>\n            <FileUpload.DropZone />\n            <FileUpload.List />\n          </FileUpload.Root>\n        </Column>\n      );\n    }",
+        "import * as React from 'react';\n    import { FileUpload } from '@tale-ui/react/file-upload';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function ImagePdfUploader() {\n      return (\n        <Column gap=\"m\" style={{ maxWidth: 560 }}>\n          <FileUpload.Root>\n            <FileUpload.DropZone />\n            <FileUpload.List />\n          </FileUpload.Root>\n        </Column>\n      );\n    }",
+        "import * as React from 'react';\n    import { FileUpload } from '@tale-ui/react/file-upload';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function ImagePdfUploader() {\n      return (\n        <Column gap=\"m\" style={{ maxWidth: 560 }}>\n          <FileUpload.Root>\n            <FileUpload.DropZone />\n            <FileUpload.List />\n          </FileUpload.Root>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-file-upload",
@@ -3802,16 +3846,17 @@
         },
         {
           "id": "fileupload-props-on-dropzone-not-root",
-          "summary": "All upload config props (accept, maxSize, allowsMultiple, onDropFiles) belong on FileUpload.DropZone, not FileUpload.Root",
-          "detail": "`FileUpload.Root` is a plain `<div>` wrapper with no file-upload-specific props; passing any of these there causes `is not assignable to type 'IntrinsicAttributes & RootProps'` TypeScript errors. Every configuration prop lives on `FileUpload.DropZone`.",
+          "summary": "FileUpload.DropZone does not accept children or any file-filter props — it must be self-closing",
+          "detail": "FileUpload.DropZone is typed as DropZoneProps & RefAttributes<HTMLDivElement>. This type includes neither children nor file-filter props like accept, maxSize, or allowsMultiple. Passing children (including a JSX element like <Column>) or any of those filter props causes 'Type ... has no properties in common with type IntrinsicAttributes & DropZoneProps & RefAttributes<HTMLDivElement>' TypeScript errors. Always use FileUpload.DropZone as a self-closing element with no children and no file-filter props.\n    ```tsx\n    import { FileUpload } from '@tale-ui/react/file-upload';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function ImagePdfUploader() {\n      return (\n        <Column gap=\"m\" style={{ maxWidth: 560 }}>\n          <FileUpload.Root>\n            <FileUpload.DropZone />\n            <FileUpload.List />\n          </FileUpload.Root>\n        </Column>\n      );\n    }\n    ```",
           "antiPatterns": [
-            "<FileUpload.Root accept=\"image/*\" maxSize={5 * 1024 * 1024}>",
-            "<FileUpload.Root allowsMultiple>"
+            "<FileUpload.Root accept=\"image/*,application/pdf\" maxSize={5 * 1024 * 1024} allowsMultiple><FileUpload.DropZone>...</FileUpload.DropZone><FileUpload.List /></FileUpload.Root>",
+            "<FileUpload.Root><FileUpload.DropZone accept=\"image/*,application/pdf\" maxSize={5 * 1024 * 1024} allowsMultiple>...</FileUpload.DropZone><FileUpload.List /></FileUpload.Root>",
+            "<FileUpload.Root><FileUpload.DropZone><Column gap=\"s\" align=\"center\"><Icon icon={UploadCloud} size=\"lg\" /><Text variant=\"label\">Drag & drop files here</Text></Column></FileUpload.DropZone><FileUpload.List /></FileUpload.Root>"
           ],
           "fixes": [
-            "<FileUpload.Root><FileUpload.DropZone accept=\"image/*\" maxSize={5 * 1024 * 1024} /></FileUpload.Root>",
-            "<FileUpload.Root><FileUpload.DropZone accept=\"image/*,application/pdf\" maxSize={5 * 1024 * 1024} allowsMultiple /></FileUpload.Root>"
-          ]
+            "<FileUpload.Root><FileUpload.DropZone /><FileUpload.List /></FileUpload.Root>"
+          ],
+          "completeExample": "import { FileUpload } from '@tale-ui/react/file-upload';\nimport { Column } from '@tale-ui/react/column';\n\nexport function ImagePdfUploader() {\n  return (\n    <Column gap=\"m\" style={{ maxWidth: 560 }}>\n      <FileUpload.Root>\n        <FileUpload.DropZone />\n        <FileUpload.List />\n      </FileUpload.Root>\n    </Column>\n  );\n}"
         },
         {
           "id": "fileuploaddropzone-accept-takes-string",
@@ -3827,25 +3872,29 @@
         {
           "id": "use-fileupload-for-any-prompt",
           "summary": "Use FileUpload for any prompt that asks for a file upload area, dropzone uploader, or uploaded-file list with progress",
-          "detail": "when the request is to accept files and show uploaded items, render `FileUpload.Root` with `FileUpload.DropZone` and `FileUpload.List`, and use `FileUpload.ListItemProgressBar` or `FileUpload.ListItemProgressFill` for each file instead of leaving the file empty or substituting `DropZone` or `FileTrigger` alone.",
+          "detail": "Even when a prompt specifies accepted file types (e.g. images and PDFs), a maximum file size (e.g. 5 MB), or progress tracking, render FileUpload.Root with a self-closing FileUpload.DropZone and FileUpload.List — FileUpload manages file filtering, progress display, and the uploaded-file list internally. Never add accept, maxSize, allowsMultiple, children, or onDropFiles to FileUpload.DropZone, and never attempt to build a custom progress-bar implementation using DropZone, FileTrigger, or manual state.\n    ```tsx\n    import * as React from 'react';\n    import { FileUpload } from '@tale-ui/react/file-upload';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function ImagePdfUploader() {\n      return (\n        <Column gap=\"m\" style={{ maxWidth: 560 }}>\n          <FileUpload.Root>\n            <FileUpload.DropZone />\n            <FileUpload.List />\n          </FileUpload.Root>\n        </Column>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file",
-            "import { DropZone } from '@tale-ui/react/drop-zone'; export function UploadArea() { return <DropZone />; }"
+            "import { DropZone } from '@tale-ui/react/drop-zone'; export function UploadArea() { return <DropZone />; }",
+            "import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept=\"image/*,application/pdf\" maxSize={5 * 1024 * 1024}><Column gap=\"s\"><Text>Drop files here</Text></Column></FileUpload.DropZone><FileUpload.List /></FileUpload.Root>; }"
           ],
           "fixes": [
-            "import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept=\"image/*,.pdf\" maxSize={5 * 1024 * 1024} /><FileUpload.List><FileUpload.ListItemProgressBar name=\"photo.png\" size={1200000} progress={60} /></FileUpload.List></FileUpload.Root>; }"
-          ]
+            "import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; import { Column } from '@tale-ui/react/column'; export function ImagePdfUploader() { return <Column gap=\"m\" style={{ maxWidth: 560 }}><FileUpload.Root><FileUpload.DropZone /><FileUpload.List /></FileUpload.Root></Column>; }"
+          ],
+          "completeExample": "import * as React from 'react';\nimport { FileUpload } from '@tale-ui/react/file-upload';\nimport { Column } from '@tale-ui/react/column';\n\nexport function ImagePdfUploader() {\n  return (\n    <Column gap=\"m\" style={{ maxWidth: 560 }}>\n      <FileUpload.Root>\n        <FileUpload.DropZone />\n        <FileUpload.List />\n      </FileUpload.Root>\n    </Column>\n  );\n}"
         },
         {
           "id": "fileuploaddropzone-ondropfiles-receives-filelist",
-          "summary": "onDropFiles callback receives FileList, not File[]",
-          "detail": "the `onDropFiles` prop on `FileUpload.DropZone` is typed as `(files: FileList) => void`; annotating the handler parameter as `File[]` causes `Type '(rawFiles: File[]) => void' is not assignable to type '(files: FileList) => void'`. Type the parameter as `FileList` and use `Array.from()` to iterate over the files.",
+          "summary": "FileUpload.DropZone does not accept an onDropFiles prop — never add a callback to manually capture dropped files",
+          "detail": "FileUpload.DropZone is typed as DropZoneProps (the standard React Aria DropZone interface), which has no onDropFiles callback. Adding onDropFiles causes 'is not assignable to type IntrinsicAttributes & DropZoneProps' TypeScript errors. FileUpload manages its own internal file state; always use FileUpload.DropZone as a self-closing element with no children and use FileUpload.List to display uploaded files — do not wire custom state via onDropFiles.\n    ```tsx\n    import * as React from 'react';\n    import { FileUpload } from '@tale-ui/react/file-upload';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function ImagePdfUploader() {\n      return (\n        <Column gap=\"m\" style={{ maxWidth: 560 }}>\n          <FileUpload.Root>\n            <FileUpload.DropZone />\n            <FileUpload.List />\n          </FileUpload.Root>\n        </Column>\n      );\n    }\n    ```",
           "antiPatterns": [
+            "<FileUpload.DropZone accept=\"image/*,application/pdf\" maxSize={5 * 1024 * 1024} allowsMultiple onDropFiles={(rawFiles: FileList) => handleFiles(rawFiles)}>",
             "<FileUpload.DropZone onDropFiles={(rawFiles: File[]) => handleFiles(rawFiles)} />"
           ],
           "fixes": [
-            "function handleFiles(rawFiles: FileList) { const entries = Array.from(rawFiles).map(file => ({ id: crypto.randomUUID(), name: file.name, size: file.size, progress: 0 })); }"
-          ]
+            "<FileUpload.Root><FileUpload.DropZone /><FileUpload.List /></FileUpload.Root>"
+          ],
+          "completeExample": "import * as React from 'react';\nimport { FileUpload } from '@tale-ui/react/file-upload';\nimport { Column } from '@tale-ui/react/column';\n\nexport function ImagePdfUploader() {\n  return (\n    <Column gap=\"m\" style={{ maxWidth: 560 }}>\n      <FileUpload.Root>\n        <FileUpload.DropZone />\n        <FileUpload.List />\n      </FileUpload.Root>\n    </Column>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -8241,7 +8290,8 @@
         "<Text color=\"default\">Default color</Text>\n<Text color=\"muted\">Muted color</Text>\n<Text color=\"accent\">Accent color</Text>",
         "<Text as=\"h1\" variant=\"display\" size=\"l\">Page Title</Text>\n<Text as=\"h2\" variant=\"heading\" size=\"l\">Section Heading</Text>\n<Text as=\"p\" variant=\"text\" size=\"m\">Body paragraph text.</Text>\n<Text as=\"label\" variant=\"label\" size=\"s\">Form label</Text>",
         "<Text as=\"h1\" variant=\"display\" size=\"l\" color=\"accent\">\n  Hero Title\n</Text>\n<Text as=\"p\" variant=\"text\" size=\"m\" color=\"muted\">\n  A supporting description rendered as a paragraph.\n</Text>\n<Text variant=\"mono\" size=\"s\" color=\"muted\">\n  const x = 42;\n</Text>",
-        "import { Text } from '@tale-ui/react/text';\n\n    export function Example() {\n      return (\n        <>\n          <Text variant=\"heading\" size=\"l\" as=\"h1\">\n            Page title\n          </Text>\n          <Text variant=\"text\" color=\"muted\">\n            Secondary info\n          </Text>\n          <Text variant=\"mono\" size=\"s\" as=\"code\">\n            const x = 1;\n          </Text>\n        </>\n      );\n    }"
+        "import { Text } from '@tale-ui/react/text';\n\n    export function Example() {\n      return (\n        <>\n          <Text variant=\"heading\" size=\"l\" as=\"h1\">\n            Page title\n          </Text>\n          <Text variant=\"text\" color=\"muted\">\n            Secondary info\n          </Text>\n          <Text variant=\"mono\" size=\"s\" as=\"code\">\n            const x = 1;\n          </Text>\n        </>\n      );\n    }",
+        "import { SelectNative } from '@tale-ui/react/select-native';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function CountrySelect() {\n      return (\n        <Column gap=\"xs\">\n          <label htmlFor=\"country\">Country</label>\n          <SelectNative id=\"country\" name=\"country\">\n            <option value=\"\">Select a country</option>\n            <option value=\"us\">United States</option>\n            <option value=\"uk\">United Kingdom</option>\n            <option value=\"ca\">Canada</option>\n          </SelectNative>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-text",
@@ -8313,14 +8363,16 @@
         },
         {
           "id": "text-no-html-for-prop",
-          "summary": "No htmlFor prop on Text",
-          "detail": "use `as=\"label\"` and pass `htmlFor` as a standard HTML attribute.",
+          "summary": "No htmlFor prop on Text — use a native <label> HTML element instead",
+          "detail": "TextProps does not accept htmlFor even when as=\"label\" is set. The type signature of Text is strict and does not forward arbitrary HTML element attributes from the as target. To associate a visible label with a form control, use a native <label htmlFor=\"...\"> element directly. Never pass htmlFor to Text in any form.\n    ```tsx\n    import { SelectNative } from '@tale-ui/react/select-native';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function CountrySelect() {\n      return (\n        <Column gap=\"xs\">\n          <label htmlFor=\"country\">Country</label>\n          <SelectNative id=\"country\" name=\"country\">\n            <option value=\"\">Select a country</option>\n            <option value=\"us\">United States</option>\n            <option value=\"uk\">United Kingdom</option>\n            <option value=\"ca\">Canada</option>\n          </SelectNative>\n        </Column>\n      );\n    }\n    ```",
           "antiPatterns": [
-            "<Text htmlFor=\"email\">Email</Text>"
+            "<Text htmlFor=\"email\">Email</Text>",
+            "<Text as=\"label\" htmlFor=\"country\" variant=\"label\">Country</Text>"
           ],
           "fixes": [
-            "<Text as=\"label\" htmlFor=\"email\">Email</Text>"
-          ]
+            "<label htmlFor=\"country\">Country</label>"
+          ],
+          "completeExample": "import { SelectNative } from '@tale-ui/react/select-native';\nimport { Column } from '@tale-ui/react/column';\n\nexport function CountrySelect() {\n  return (\n    <Column gap=\"xs\">\n      <label htmlFor=\"country\">Country</label>\n      <SelectNative id=\"country\" name=\"country\">\n        <option value=\"\">Select a country</option>\n        <option value=\"us\">United States</option>\n        <option value=\"uk\">United Kingdom</option>\n        <option value=\"ca\">Canada</option>\n      </SelectNative>\n    </Column>\n  );\n}"
         },
         {
           "id": "text-as-prop-valid-elements",

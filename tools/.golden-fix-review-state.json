@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "status": "complete",
+  "updatedAt": "2026-05-23T16:51:42.753Z",
+  "config": {
+    "prompts": [
+      "calendar-date"
+    ],
+    "provider": "claude",
+    "model": "sonnet",
+    "fixProvider": "claude",
+    "fixModel": "sonnet",
+    "difficulty": null,
+    "slug": "calendar-date",
+    "slugs": null,
+    "mcp": false,
+    "mcpMaxTurns": 5,
+    "noFix": false,
+    "noSourcePatch": false
+  },
+  "completedSlugs": [
+    "calendar-date"
+  ],
+  "initialPassCount": 0,
+  "initialFailCount": 1,
+  "stillFailing": [
+    {
+      "slug": "calendar-date",
+      "difficulty": "complex",
+      "allPass": false,
+      "l1": {
+        "pass": false,
+        "errors": [
+          "Line 3: Cannot find module '@internationalized/date' or its corresponding type declarations."
+        ]
+      },
+      "l2": {
+        "pass": true,
+        "missing": []
+      },
+      "l3": {
+        "pass": true,
+        "forbidden": []
+      },
+      "code": "import * as React from 'react';\nimport { Calendar } from '@tale-ui/react/calendar';\nimport { parseDate } from '@internationalized/date';\n\ntype DateVal = Parameters<NonNullable<React.ComponentProps<typeof Calendar.Root>['onChange']>>[0];\n\nexport function DateCalendarPicker() {\n  const [value, setValue] = React.useState<DateVal | null>(null);\n\n  return (\n    <Calendar.Root\n      value={value}\n      onChange={setValue}\n      defaultValue={parseDate('2026-05-24')}\n    >\n      <Calendar.Header>\n        <Calendar.PreviousButton />\n        <Calendar.Heading />\n        <Calendar.NextButton />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>\n          {(date) => <Calendar.Cell date={date} />}\n        </Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar.Root>\n  );\n}",
+      "prompt": "Show a date calendar picker for selecting a single date."
+    }
+  ],
+  "passingResults": [],
+  "modifiedFiles": [
+    "/Users/admin/Projects/tale-ui/core/docs/pitfalls.md"
+  ]
+}

@@ -148,10 +148,29 @@ Also accepts all standard HTML attributes for the rendered element.
   - fix: `<Text variant="label" size="m">Label</Text>`
 
 <!-- pitfall: text-no-html-for-prop -->
-
-- **No `htmlFor` prop on `Text`** — use `as="label"` and pass `htmlFor` as a standard HTML attribute.
+- **No htmlFor prop on Text — use a native <label> HTML element instead** — TextProps does not accept htmlFor even when as="label" is set. The type signature of Text is strict and does not forward arbitrary HTML element attributes from the as target. To associate a visible label with a form control, use a native <label htmlFor="..."> element directly. Never pass htmlFor to Text in any form.
   - anti-pattern: `<Text htmlFor="email">Email</Text>`
-  - fix: `<Text as="label" htmlFor="email">Email</Text>`
+  - anti-pattern: `<Text as="label" htmlFor="country" variant="label">Country</Text>`
+  - fix: `<label htmlFor="country">Country</label>`
+  - complete example:
+    ```tsx
+    import { SelectNative } from '@tale-ui/react/select-native';
+    import { Column } from '@tale-ui/react/column';
+    
+    export function CountrySelect() {
+      return (
+        <Column gap="xs">
+          <label htmlFor="country">Country</label>
+          <SelectNative id="country" name="country">
+            <option value="">Select a country</option>
+            <option value="us">United States</option>
+            <option value="uk">United Kingdom</option>
+            <option value="ca">Canada</option>
+          </SelectNative>
+        </Column>
+      );
+    }
+    ```
 
 <!-- pitfall: text-as-prop-valid-elements -->
 

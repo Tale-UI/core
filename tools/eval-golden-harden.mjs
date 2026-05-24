@@ -14,11 +14,16 @@
  *   node tools/eval-golden-harden.mjs --difficulty simple --passes 2 --max-rounds 20
  */
 
-import { readFileSync, readdirSync, existsSync, unlinkSync } from 'fs';
-import { resolve, dirname, join } from 'path';
+import { readFileSync, readdirSync, existsSync, unlinkSync, writeFileSync, mkdirSync } from 'fs';
+import { resolve, dirname, join, relative } from 'path';
 import { fileURLToPath } from 'url';
 import { spawnSync } from 'child_process';
 import { tmpdir } from 'os';
+import {
+  isProviderQuotaError,
+  isProviderQuotaMessage,
+  providerQuotaError,
+} from './eval-golden-prompts-lib.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -42,6 +47,9 @@ const FILTER_SLUGS =
     .map((s) => s.trim())
     .filter(Boolean) ?? null;
 const ALLOW_CACHE = hasFlag('--allow-cache');
+const STATE_FILE = getArg('--state-file') ?? join(__dirname, '.golden-harden-state.json');
+const RESUME = hasFlag('--resume');
+const RESET_RESUME = hasFlag('--reset-resume');
 
 if (!Number.isFinite(PASS_TARGET) || PASS_TARGET < 1) {
   throw new Error('--passes must be a positive integer.');
@@ -95,8 +103,9 @@ function buildPassThroughArgs() {
     '--max-rounds',
     '--slug',
     '--slugs',
+    '--state-file',
   ]);
-  const ownBooleanFlags = new Set(['--allow-cache']);
+  const ownBooleanFlags = new Set(['--allow-cache', '--resume', '--reset-resume']);
   const passThrough = [];
 
   for (let i = 0; i < args.length; i++) {
@@ -118,6 +127,37 @@ function buildPassThroughArgs() {
   return passThrough;
 }
 
+function readResumeState(filePath) {
+  if (!RESUME || RESET_RESUME || !existsSync(filePath)) return null;
+  try {
+    return JSON.parse(readFileSync(filePath, 'utf8'));
+  } catch (err) {
+    throw new Error(`Could not read resume state ${filePath}: ${err.message}`);
+  }
+}
+
+function writeResumeState(filePath, state) {
+  mkdirSync(dirname(filePath), { recursive: true });
+  writeFileSync(filePath, `${JSON.stringify(state, null, 2)}\n`, 'utf8');
+}
+
+function buildResumeConfigSignature(prompts, passThroughArgs) {
+  return {
+    prompts: prompts.map((prompt) => prompt.slug),
+    passes: PASS_TARGET,
+    maxRounds: MAX_ROUNDS,
+    difficulty: FILTER_DIFFICULTY ?? null,
+    slug: FILTER_SLUG ?? null,
+    slugs: FILTER_SLUGS ?? null,
+    allowCache: ALLOW_CACHE,
+    passThroughArgs,
+  };
+}
+
+function sameResumeConfig(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
 function runHardeningRound(slug, passThroughArgs, round) {
   const summaryFile = join(tmpdir(), `tale-ui-harden-${process.pid}-${slug}-${round}.json`);
   const proc = spawnSync(
@@ -134,12 +174,22 @@ function runHardeningRound(slug, passThroughArgs, round) {
     {
       cwd: ROOT,
       encoding: 'utf8',
-      stdio: 'inherit',
+      stdio: ['ignore', 'pipe', 'pipe'],
     },
   );
+  if (proc.stdout) {
+    process.stdout.write(proc.stdout);
+  }
+  if (proc.stderr) {
+    process.stderr.write(proc.stderr);
+  }
 
   if (proc.error) throw proc.error;
   if (proc.status !== 0) {
+    const details = [proc.stdout, proc.stderr].filter(Boolean).join('\n');
+    if (isProviderQuotaMessage(details)) {
+      throw providerQuotaError(details.slice(0, 500), { phase: 'hardening', slug });
+    }
     throw new Error(`eval-fix-review exited with status ${proc.status} while hardening ${slug}.`);
   }
   if (!existsSync(summaryFile)) {
@@ -167,19 +217,52 @@ async function main() {
   }
 
   const passThroughArgs = buildPassThroughArgs();
+  const resumeConfig = buildResumeConfigSignature(prompts, passThroughArgs);
+  const resumeState = readResumeState(STATE_FILE);
+  if (resumeState && !sameResumeConfig(resumeState.config, resumeConfig)) {
+    throw new Error(
+      `Resume state ${STATE_FILE} was created with different hardening options. Use --reset-resume or a different --state-file.`,
+    );
+  }
+  const promptState = { ...(resumeState?.promptState ?? {}) };
   const failures = [];
+
+  const checkpoint = (status = 'in_progress') => {
+    writeResumeState(STATE_FILE, {
+      version: 1,
+      status,
+      updatedAt: new Date().toISOString(),
+      config: resumeConfig,
+      promptState,
+      failures,
+    });
+  };
 
   console.log(
     C.bold(`\n=== Golden Prompt Hardening (${PASS_TARGET} clean pass(es) in a row) ===\n`),
   );
   console.log(C.dim(`Selected prompts: ${prompts.map((prompt) => prompt.slug).join(', ')}`));
+  if (RESUME && resumeState) {
+    console.log(C.dim(`Resume: ${relative(ROOT, STATE_FILE)}`));
+  } else if (RESET_RESUME) {
+    console.log(
+      C.dim(`Ignoring previous resume state (--reset-resume): ${relative(ROOT, STATE_FILE)}`),
+    );
+  }
   if (!ALLOW_CACHE) {
     console.log(C.dim('Cache policy: fresh provider calls each round (--fresh).'));
   }
 
   for (const [index, prompt] of prompts.entries()) {
-    let streak = 0;
-    let round = 0;
+    let streak = promptState[prompt.slug]?.streak ?? 0;
+    let round = promptState[prompt.slug]?.round ?? 0;
+    if (promptState[prompt.slug]?.done) {
+      console.log(
+        `\n${C.bold(`[${index + 1}/${prompts.length}]`)} ${C.cyan(prompt.slug)} ` +
+          C.green(`already hardened (${streak}/${PASS_TARGET})`),
+      );
+      continue;
+    }
     console.log(
       `\n${C.bold(`[${index + 1}/${prompts.length}]`)} ${C.cyan(prompt.slug)} ` +
         C.dim(`target streak ${PASS_TARGET}`),
@@ -197,25 +280,32 @@ async function main() {
 
       if (cleanPass) {
         streak++;
+        promptState[prompt.slug] = { streak, round, done: streak >= PASS_TARGET };
         console.log(`  ${C.green('✓ Clean pass')} (${streak}/${PASS_TARGET} in a row)`);
       } else {
         const failing = summary.stillFailingSlugs?.join(', ') || prompt.slug;
         const fixedNote = summary.fixedCount > 0 ? `; ${summary.fixedCount} fixed this round` : '';
         streak = 0;
+        promptState[prompt.slug] = { streak, round, done: false };
         console.log(
           `  ${C.yellow('Streak reset')} (${summary.initialFailCount} initial failure(s)${fixedNote}; ` +
             `${summary.stillFailingCount} still failing: ${failing})`,
         );
       }
+      checkpoint();
     }
 
     if (streak < PASS_TARGET) {
       failures.push(prompt.slug);
+      promptState[prompt.slug] = { streak, round, done: false };
+      checkpoint();
       console.log(
         `\n  ${C.red('✗ Hardening target not reached')} for ${prompt.slug} ` +
           C.dim(`after ${MAX_ROUNDS} round(s).`),
       );
     } else {
+      promptState[prompt.slug] = { streak, round, done: true };
+      checkpoint();
       console.log(`\n  ${C.green('✓ Hardened')} ${prompt.slug}`);
     }
   }
@@ -225,10 +315,15 @@ async function main() {
     process.exit(1);
   }
 
+  checkpoint('complete');
   console.log(C.green('\nHardening complete.'));
 }
 
 main().catch((err) => {
-  console.error(err);
+  if (isProviderQuotaError(err)) {
+    console.error(C.red(`\nERROR: ${err.message}`));
+  } else {
+    console.error(err);
+  }
   process.exit(1);
 });

@@ -8,6 +8,9 @@ import {
   buildCodexExecArgs,
   buildCodexMcpConfigOverride,
   checkComponentStylePolicy,
+  isProviderQuotaError,
+  isProviderQuotaMessage,
+  providerQuotaError,
 } from './eval-golden-prompts-lib.mjs';
 
 function withTempMcpConfig(config, fn) {
@@ -150,4 +153,23 @@ test('checkComponentStylePolicy rejects visual inline styles on components', () 
   assert.equal(result.pass, false);
   assert.match(result.errors[0], /Drawer\.Popup has non-layout inline styles/);
   assert.match(result.errors[0], /background, borderLeft, boxShadow/);
+});
+
+test('provider quota detector catches Claude and Codex exhaustion messages', () => {
+  assert.equal(isProviderQuotaMessage("You're out of extra usage · resets 8pm"), true);
+  assert.equal(isProviderQuotaMessage('Usage limit reached for GPT-5.4, please retry later'), true);
+  assert.equal(isProviderQuotaMessage('insufficient_quota: billing hard limit exceeded'), true);
+  assert.equal(isProviderQuotaMessage('TypeScript validation failed'), false);
+});
+
+test('providerQuotaError marks quota errors for fail-fast handling', () => {
+  const err = providerQuotaError("You're out of extra usage · resets 8pm", {
+    provider: 'Claude',
+    phase: 'eval',
+    slug: 'primary-button',
+  });
+
+  assert.equal(isProviderQuotaError(err), true);
+  assert.match(err.message, /Claude eval primary-button/);
+  assert.match(err.message, /provider quota exhausted/);
 });

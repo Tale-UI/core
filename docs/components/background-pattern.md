@@ -79,6 +79,20 @@ import { BackgroundPattern } from '@tale-ui/react/background-pattern';
 - **Control color with CSS `color`, not with fill/stroke props** — all strokes use `currentColor`. Use the `style` or `className` prop to override `color`.
   - anti-pattern: `<BackgroundPattern fill="var(--neutral-30)" />`
   - fix: `<BackgroundPattern style={{ color: 'var(--neutral-30)' }} />`
+<!-- pitfall: background-pattern-valid-pattern-values -->
+- **pattern prop uses singular form — 'circle' not 'circles'** — The Pattern type uses singular nouns. Passing a pluralized value like 'circles' causes Type '"circles"' is not assignable to type 'Pattern'. Use the singular form 'circle' instead.
+  - anti-pattern: `<BackgroundPattern pattern="circles" size="lg" />`
+  - fix: `<BackgroundPattern pattern="circle" size="lg" />`
+  - complete example:
+    ```tsx
+    import { BackgroundPattern } from '@tale-ui/react/background-pattern';
+    
+    export function DecorativeCircularPattern() {
+      return (
+        <BackgroundPattern pattern="circle" size="lg" />
+      );
+    }
+    ```
 
 ## Notes
 

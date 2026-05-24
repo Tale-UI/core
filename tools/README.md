@@ -542,6 +542,9 @@ pnpm golden:fix-review -- --slugs a,b,c                       # specific prompts
 pnpm golden:fix-review -- --no-review                         # skip EvalReview.tsx generation and server
 pnpm golden:fix-review -- --no-serve                          # generate review page without starting server
 pnpm golden:fix-review -- --summary-file /tmp/fix.json        # write machine-readable run summary
+pnpm golden:fix-review -- --resume                            # continue from tools/.golden-fix-review-state.json
+pnpm golden:fix-review -- --resume --state-file /tmp/fix-state.json  # continue from an explicit checkpoint
+pnpm golden:fix-review -- --reset-resume                      # ignore an existing checkpoint and start fresh
 pnpm golden:fix-review -- --exit-code-on-fail                 # exit non-zero when prompts still fail
 pnpm golden:fix-review -- --skip-validate                     # skip pre-flight tsc check (open playground even if EvalReview.tsx has errors)
 pnpm golden:fix-review -- --difficulty simple                 # only simple prompts (faster)
@@ -579,6 +582,8 @@ pnpm pitfalls:patch -- --json /tmp/fix.json --write    # write docs and regenera
 
 `apply-pitfall-patch.mjs` shares the same source-target resolver as `golden:fix-review` via `tools/pitfall-source-target-lib.mjs`, so target-file/section conflicts reproduce the runner behavior.
 
+`golden:fix-review` writes a resume checkpoint after each completed prompt to `tools/.golden-fix-review-state.json` by default. If Claude/Codex quota is exhausted, rerun the same command with `--resume` after the reset window; the runner skips completed prompts and keeps previously generated passing code for the review page. Use `--state-file PATH` for a named long-running checkpoint, or `--reset-resume` when intentionally changing filters/model/provider options.
+
 ### eval-golden-harden.mjs
 
 Runs the `eval-fix-review.mjs` pipeline repeatedly for each selected golden prompt until that prompt gets `--passes N` clean fresh generations in a row. A clean pass means the prompt passed on the initial eval for that round with no documentation fix needed. If a round fails, `golden:fix-review` applies the structured pitfall documentation fix loop, the streak resets to zero, and hardening retries the same prompt before moving on.
@@ -596,6 +601,8 @@ pnpm golden:harden -- --slugs color-wheel-hue,autocomplete-search --passes 3 --m
 pnpm golden:harden -- --difficulty simple --passes 2 --concurrency 1
 pnpm golden:harden -- --provider ollama --model qwen3.6 --fix-provider claude --fix-model sonnet --passes 3
 pnpm golden:harden -- --allow-cache --slug primary-button --passes 1
+pnpm golden:harden -- --resume --provider claude --model sonnet --passes 3
+pnpm golden:harden -- --resume --state-file /tmp/harden-state.json --provider claude --model sonnet --passes 3
 ```
 
 Useful flags:
@@ -608,6 +615,9 @@ Useful flags:
 | `--slugs`        | all prompts   | Harden a comma-separated prompt list                                                            |
 | `--difficulty`   | all prompts   | Harden one difficulty group                                                                     |
 | `--allow-cache`  | off           | Do not inject `--fresh`; useful only for runner debugging                                       |
+| `--resume`       | off           | Continue prompt streaks from the checkpoint written by a previous run                           |
+| `--state-file`   | tool default  | Use a named checkpoint file, useful for separate provider/model hardening windows               |
+| `--reset-resume` | off           | Ignore an existing checkpoint and start fresh                                                   |
 | provider options | Claude        | Passed through to `golden:fix-review`; structured source patching is inherited from that script |
 
 ### golden-prompts/

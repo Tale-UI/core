@@ -3,6 +3,41 @@ import { execFileSync } from 'child_process';
 
 export const CODEX_MCP_SERVER_NAME = 'tale-ui';
 
+export class ProviderQuotaError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ProviderQuotaError';
+  }
+}
+
+export function isProviderQuotaMessage(message = '') {
+  const text = String(message).toLowerCase();
+  return (
+    /\byou'?re out of (?:extra )?usage\b/.test(text) ||
+    /\bout of (?:extra )?usage\b/.test(text) ||
+    /\b(?:usage|quota|credit|billing) (?:limit|cap|quota) (?:reached|exceeded|exhausted)\b/.test(
+      text,
+    ) ||
+    /\b(?:reached|exceeded|exhausted) (?:your )?(?:usage|quota|credit|billing) (?:limit|cap|quota)\b/.test(
+      text,
+    ) ||
+    /\binsufficient[_ -]quota\b/.test(text) ||
+    /\bout of credits?\b/.test(text) ||
+    /\bno more (?:claude|codex|provider )?quota\b/.test(text) ||
+    /\bresets? \d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/.test(text)
+  );
+}
+
+export function isProviderQuotaError(error) {
+  return error instanceof ProviderQuotaError || isProviderQuotaMessage(error?.message ?? error);
+}
+
+export function providerQuotaError(message, context = {}) {
+  const prefixParts = [context.provider, context.phase, context.slug].filter(Boolean);
+  const prefix = prefixParts.length > 0 ? `${prefixParts.join(' ')}: ` : '';
+  return new ProviderQuotaError(`${prefix}provider quota exhausted: ${String(message).trim()}`);
+}
+
 function formatTomlKey(key) {
   return /^[A-Za-z0-9_]+$/.test(key) ? key : JSON.stringify(key);
 }
@@ -273,11 +308,12 @@ export function checkL1(code, { root, validatorPath, prompt = '' }) {
   const stylePolicy = checkComponentStylePolicy(code, { prompt });
 
   try {
-    const result = execFileSync(
-      process.execPath,
-      [validatorPath, '--code', code, '--json'],
-      { cwd: root, timeout: 30000, encoding: 'utf8', stdio: 'pipe' },
-    );
+    const result = execFileSync(process.execPath, [validatorPath, '--code', code, '--json'], {
+      cwd: root,
+      timeout: 30000,
+      encoding: 'utf8',
+      stdio: 'pipe',
+    });
     const parsed = JSON.parse(result);
     const errors = [
       ...(parsed.registryErrors ?? []),

@@ -40,7 +40,7 @@ import { useState } from 'react';
 function EvalAccordionFaq() {
   return (
     <Column gap="xl">
-      <Text variant="heading" size="l" as="h2">Frequently Asked Questions</Text>
+      <Text variant="heading" as="h2">Frequently Asked Questions</Text>
 
       <Accordion.Root>
         <Accordion.Item id="what-is-tale-ui">
@@ -48,10 +48,11 @@ function EvalAccordionFaq() {
             <Accordion.Trigger>What is Tale UI?</Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
-            <Text as="p">
-              Tale UI is a comprehensive design system and React component library built on CSS
-              custom properties. It provides accessible, themeable UI primitives that make it
-              easy to build consistent, polished interfaces at scale.
+            <Text>
+              Tale UI is a comprehensive design system and React component library built on top of
+              React Aria Components. It provides accessible, themeable UI primitives with consistent
+              BEM-based styling, dark mode support, and a rich token system — so you can build
+              polished products without reinventing the wheel.
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
@@ -61,39 +62,41 @@ function EvalAccordionFaq() {
             <Accordion.Trigger>How do I install it?</Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
-            <Text as="p">
-              Install the packages via pnpm:{' '}
-              <Text variant="mono" as="span">pnpm add @tale-ui/react @tale-ui/react-styles</Text>.
-              Then import the stylesheet and wrap your app with the required providers as described
-              in the setup guide.
+            <Text>
+              Install Tale UI using pnpm: <code>pnpm add @tale-ui/react @tale-ui/react-styles</code>.
+              Then import the stylesheet in your app entry point with{' '}
+              <code>import '@tale-ui/react-styles'</code>, add <code>class="tale-ui"</code> and{' '}
+              <code>data-color-mode="light"</code> to your <code>&lt;html&gt;</code> element, and
+              you are ready to use components.
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
 
-        <Accordion.Item id="is-accessible">
+        <Accordion.Item id="is-it-accessible">
           <Accordion.Header>
             <Accordion.Trigger>Is it accessible?</Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
-            <Text as="p">
-              Yes. Tale UI is built on React Aria Components, which provides a battle-tested
-              foundation for accessibility. All components follow WAI-ARIA patterns and support
-              keyboard navigation, screen readers, and focus management out of the box.
+            <Text>
+              Yes. Tale UI is built on React Aria Components, Adobe's battle-tested accessibility
+              primitives. Every interactive component ships with correct ARIA roles, keyboard
+              navigation, focus management, and screen reader announcements out of the box — so
+              accessibility is the default, not an afterthought.
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
 
-        <Accordion.Item id="customize-theme">
+        <Accordion.Item id="can-i-customize">
           <Accordion.Header>
             <Accordion.Trigger>Can I customize the theme?</Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
-            <Text as="p">
-              Absolutely. Tale UI is powered by CSS custom properties (design tokens), so you can
-              override colors, spacing, typography, and more by setting token values on{' '}
-              <Text variant="mono" as="span">:root</Text>. Category tokens like{' '}
-              <Text variant="mono" as="span">--field-bg</Text> let you retheme entire component
-              families simultaneously.
+            <Text>
+              Absolutely. Tale UI exposes a layered CSS custom property system. You can override
+              global color and spacing tokens, or use category tokens like{' '}
+              <code>--field-bg</code>, <code>--popup-radius</code>, and{' '}
+              <code>--modal-backdrop-bg</code> on <code>:root</code> to retheme entire component
+              families at once — no CSS-in-JS or build step required.
             </Text>
           </Accordion.Panel>
         </Accordion.Item>
@@ -133,36 +136,33 @@ function EvalCalendarDate() {
 // ── carousel-images ───────────────────────────────
 function EvalCarouselImages() {
   return (
-    <Carousel.Root loop>
+    <Carousel.Root loop style={{ width: 640, maxWidth: '100%' }}>
       <Carousel.Content>
         <Carousel.Item>
           <Image
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop"
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=640&h=360&fit=crop"
             alt="Mountain landscape"
-            width={800}
-            height={450}
+            width={640}
+            height={360}
             fit="cover"
-            radius="md"
           />
         </Carousel.Item>
         <Carousel.Item>
           <Image
-            src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=450&fit=crop"
-            alt="Forest path"
-            width={800}
-            height={450}
-            fit="cover"
-            radius="md"
-          />
-        </Carousel.Item>
-        <Carousel.Item>
-          <Image
-            src="https://images.unsplash.com/photo-1439405326854-014607f694d7?w=800&h=450&fit=crop"
+            src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=640&h=360&fit=crop"
             alt="Ocean sunset"
-            width={800}
-            height={450}
+            width={640}
+            height={360}
             fit="cover"
-            radius="md"
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Image
+            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=640&h=360&fit=crop"
+            alt="Forest path"
+            width={640}
+            height={360}
+            fit="cover"
           />
         </Carousel.Item>
       </Carousel.Content>
@@ -201,8 +201,13 @@ function EvalContextMenuActions() {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <div style={{ padding: 'var(--space-xl)', border: '2px dashed var(--neutral-30)', borderRadius: 'var(--space-2xs)', textAlign: 'center' }}>
-          Right-click here
+        <div style={{
+          padding: 'var(--space-xl)',
+          border: '2px dashed var(--neutral-30)',
+          borderRadius: 'var(--space-2xs)',
+          textAlign: 'center',
+        }}>
+          <Text color="muted">Right-click anywhere in this area</Text>
         </div>
       </ContextMenu.Trigger>
       <ContextMenu.Popup>
@@ -264,7 +269,7 @@ function EvalDataDisplayCards() {
 function EvalDateFieldInput() {
   return (
     <DateField.Root>
-      <DateField.Label>Date of Birth</DateField.Label>
+      <DateField.Label>Date</DateField.Label>
       <DateField.DateInput>
         {(segment) => <DateField.Segment segment={segment} />}
       </DateField.DateInput>
@@ -350,18 +355,20 @@ function EvalFieldsetAddress() {
     <Fieldset.Root>
       <Fieldset.Legend>Address</Fieldset.Legend>
       <Column gap="m">
-        <TextField.Root>
+        <TextField.Root name="street">
           <TextField.Label>Street</TextField.Label>
           <TextField.Input placeholder="123 Main St" />
         </TextField.Root>
-        <TextField.Root>
-          <TextField.Label>City</TextField.Label>
-          <TextField.Input placeholder="Anytown" />
-        </TextField.Root>
-        <TextField.Root>
-          <TextField.Label>ZIP Code</TextField.Label>
-          <TextField.Input placeholder="12345" />
-        </TextField.Root>
+        <Row gap="m">
+          <TextField.Root name="city" style={{ flex: 1 }}>
+            <TextField.Label>City</TextField.Label>
+            <TextField.Input placeholder="New York" />
+          </TextField.Root>
+          <TextField.Root name="zip" style={{ width: 120 }}>
+            <TextField.Label>ZIP Code</TextField.Label>
+            <TextField.Input placeholder="10001" />
+          </TextField.Root>
+        </Row>
       </Column>
     </Fieldset.Root>
   );
@@ -370,50 +377,36 @@ function EvalFieldsetAddress() {
 // ── grid-list-gallery ─────────────────────────────
 type EvalGridListGallerySelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];
 
-const EvalGridListGalleryimages = [
-  { id: '1', src: 'https://EvalGridListGalleryimages.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop', alt: 'Mountain landscape', label: 'Mountain Vista' },
-  { id: '2', src: 'https://EvalGridListGalleryimages.unsplash.com/photo-1501854140801-50d01698950b?w=400&h=300&fit=crop', alt: 'Ocean sunset', label: 'Ocean Sunset' },
-  { id: '3', src: 'https://EvalGridListGalleryimages.unsplash.com/photo-1448375240586-882707db888b?w=400&h=300&fit=crop', alt: 'Forest path', label: 'Forest Path' },
-  { id: '4', src: 'https://EvalGridListGalleryimages.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop', alt: 'Desert dunes', label: 'Desert Dunes' },
+const EvalGridListGalleryITEMS = [
+  { id: '1', src: 'https://picsum.photos/seed/forest/400/240', title: 'Forest Trail', description: 'A peaceful walk through the woods' },
+  { id: '2', src: 'https://picsum.photos/seed/mountain/400/240', title: 'Mountain Peak', description: 'Stunning alpine views' },
+  { id: '3', src: 'https://picsum.photos/seed/ocean/400/240', title: 'Ocean Sunset', description: 'Golden hour by the sea' },
+  { id: '4', src: 'https://picsum.photos/seed/desert/400/240', title: 'Desert Dunes', description: 'Vast sandy landscapes' },
 ];
 
 function EvalGridListGallery() {
   const [selectedKeys, setSelectedKeys] = useState<EvalGridListGallerySelectionValue>(new Set());
 
   return (
-    <Column gap="m">
-      <Text variant="heading">Select Photos</Text>
-      <Text color="muted" size="s">
-        {selectedKeys === 'all'
-          ? 'All selected'
-          : (selectedKeys as Set<string>).size === 0
-          ? 'No photos selected'
-          : `${(selectedKeys as Set<string>).size} photo${(selectedKeys as Set<string>).size > 1 ? 's' : ''} selected`}
-      </Text>
-      <GridList.Root
-        aria-label="Photo gallery"
-        selectionMode="multiple"
-        selectedKeys={selectedKeys}
-        onSelectionChange={setSelectedKeys}
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}
-      >
-        {EvalGridListGalleryimages.map((image) => (
-          <GridList.Item key={image.id} id={image.id} textValue={image.label}>
-            <Column gap="xs">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                radius="md"
-                width="100%"
-                height={180}
-                fit="cover"
-              />
-              <Text size="s">{image.label}</Text>
+    <GridList.Root
+      aria-label="Image gallery"
+      selectionMode="multiple"
+      selectedKeys={selectedKeys}
+      onSelectionChange={setSelectedKeys}
+      style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}
+    >
+      {EvalGridListGalleryITEMS.map((item) => (
+        <GridList.Item key={item.id} id={item.id} textValue={item.title}>
+          <Column gap="s">
+            <Image src={item.src} alt={item.title} width={400} height={200} radius="md" fit="cover" />
+            <Column gap="2xs">
+              <Text variant="heading">{item.title}</Text>
+              <Text color="muted" size="s">{item.description}</Text>
             </Column>
-          </GridList.Item>
-        ))}
-      </GridList.Root>
-    </Column>
+          </Column>
+        </GridList.Item>
+      ))}
+    </GridList.Root>
   );
 }
 
@@ -428,9 +421,8 @@ function EvalMenubarEditor() {
             <Menu.MenuList>
               <Menu.Item id="new">New</Menu.Item>
               <Menu.Item id="open">Open</Menu.Item>
-              <Menu.Separator />
               <Menu.Item id="save">Save</Menu.Item>
-              <Menu.Item id="save-as">Save As…</Menu.Item>
+              <Menu.Item id="save-as">Save As</Menu.Item>
             </Menu.MenuList>
           </Menu.Popover>
         </Menu.Root>
@@ -473,13 +465,13 @@ function EvalNavigationMenuSite() {
     <NavigationMenu.Root>
       <NavigationMenu.List>
         <NavigationMenu.Item>
-          <NavigationMenu.Link href="/">Home</NavigationMenu.Link>
+          <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
         </NavigationMenu.Item>
         <NavigationMenu.Item>
-          <NavigationMenu.Link href="/products">Products</NavigationMenu.Link>
+          <NavigationMenu.Link href="#">Products</NavigationMenu.Link>
         </NavigationMenu.Item>
         <NavigationMenu.Item>
-          <NavigationMenu.Link href="/about">About</NavigationMenu.Link>
+          <NavigationMenu.Link href="#">About</NavigationMenu.Link>
         </NavigationMenu.Item>
       </NavigationMenu.List>
     </NavigationMenu.Root>
@@ -500,49 +492,36 @@ function EvalPaymentInputCard() {
 }
 
 // ── range-calendar-dates ──────────────────────────
-type EvalRangeCalendarDatesRangeVal = Parameters<NonNullable<React.ComponentProps<typeof RangeCalendar.Root>['onChange']>>[0];
-
 function EvalRangeCalendarDates() {
-  const [range, setRange] = useState<EvalRangeCalendarDatesRangeVal | null>(null);
-
   return (
-    <Column gap="m">
-      <RangeCalendar.Root onChange={setRange}>
-        <RangeCalendar.Header>
-          <RangeCalendar.PreviousButton />
-          <RangeCalendar.Heading />
-          <RangeCalendar.NextButton />
-        </RangeCalendar.Header>
-        <RangeCalendar.Grid>
-          <RangeCalendar.GridHeader>
-            {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
-          </RangeCalendar.GridHeader>
-          <RangeCalendar.GridBody>
-            {(date) => <RangeCalendar.Cell date={date} />}
-          </RangeCalendar.GridBody>
-        </RangeCalendar.Grid>
-      </RangeCalendar.Root>
-      {range ? (
-        <Text size="s">
-          {range.start.toString()} – {range.end.toString()}
-        </Text>
-      ) : (
-        <Text size="s" color="muted">Select a start and end date</Text>
-      )}
-    </Column>
+    <RangeCalendar.Root>
+      <RangeCalendar.Header>
+        <RangeCalendar.PreviousButton />
+        <RangeCalendar.Heading />
+        <RangeCalendar.NextButton />
+      </RangeCalendar.Header>
+      <RangeCalendar.Grid>
+        <RangeCalendar.GridHeader>
+          {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
+        </RangeCalendar.GridHeader>
+        <RangeCalendar.GridBody>
+          {(date) => <RangeCalendar.Cell date={date} />}
+        </RangeCalendar.GridBody>
+      </RangeCalendar.Grid>
+    </RangeCalendar.Root>
   );
 }
 
 // ── settings-page ─────────────────────────────────
 function EvalSettingsPage() {
   return (
-    <Column gap="l">
+    <Column gap="xl">
       <Text variant="heading" as="h1">Settings</Text>
 
       <Row gap="m">
         <Card.Root>
           <Card.Header>
-            <Text variant="title" size="m">Profile</Text>
+            <Text variant="heading" as="h2">Profile</Text>
           </Card.Header>
           <Card.Body>
             <Column gap="m">
@@ -560,10 +539,10 @@ function EvalSettingsPage() {
 
         <Card.Root>
           <Card.Header>
-            <Text variant="title" size="m">Preferences</Text>
+            <Text variant="heading" as="h2">Preferences</Text>
           </Card.Header>
           <Card.Body>
-            <Select.Root placeholder="Select a theme...">
+            <Select.Root placeholder="Select theme...">
               <Select.Label>Theme</Select.Label>
               <Select.Trigger>
                 <Select.Value />
@@ -591,14 +570,14 @@ function EvalSettingsPage() {
 
 // ── table-data ────────────────────────────────────
 const EvalTableDatarows = [
-  { id: '1', name: 'Alice Johnson', role: 'Engineer', status: 'Active' },
-  { id: '2', name: 'Bob Martinez', role: 'Designer', status: 'Inactive' },
-  { id: '3', name: 'Carol Patel', role: 'Manager', status: 'Active' },
+  { id: '1', name: 'Alice Johnson', role: 'Engineering Lead', status: 'Active', statusVariant: 'success' as const },
+  { id: '2', name: 'Bob Martinez', role: 'Product Designer', status: 'Inactive', statusVariant: 'neutral' as const },
+  { id: '3', name: 'Carol Kim', role: 'Data Analyst', status: 'Pending', statusVariant: 'warning' as const },
 ];
 
 function EvalTableData() {
   return (
-    <Table.Root aria-label="Team members">
+    <Table.Root aria-label="People">
       <Table.Header>
         <Table.Column isRowHeader>Name</Table.Column>
         <Table.Column>Role</Table.Column>
@@ -610,9 +589,7 @@ function EvalTableData() {
             <Table.Cell>{row.name}</Table.Cell>
             <Table.Cell>{row.role}</Table.Cell>
             <Table.Cell>
-              <Badge variant={row.status === 'Active' ? 'success' : 'neutral'}>
-                {row.status}
-              </Badge>
+              <Badge variant={row.statusVariant}>{row.status}</Badge>
             </Table.Cell>
           </Table.Row>
         ))}
@@ -636,12 +613,9 @@ function EvalTimeFieldInput() {
 // ── tree-file-system ──────────────────────────────
 function EvalTreeFileSystem() {
   return (
-    <Tree.Root
-      aria-label="File system"
-      defaultExpandedKeys={new Set(['src', 'public'])}
-    >
+    <Tree.Root aria-label="File system" defaultExpandedKeys={new Set(['src', 'public'])}>
       <Tree.Item id="src" textValue="src">
-        <Tree.ItemContent>src/</Tree.ItemContent>
+        <Tree.ItemContent>src</Tree.ItemContent>
         <Tree.Item id="src-main" textValue="main.tsx">
           <Tree.ItemContent>main.tsx</Tree.ItemContent>
         </Tree.Item>
@@ -652,17 +626,17 @@ function EvalTreeFileSystem() {
           <Tree.ItemContent>index.css</Tree.ItemContent>
         </Tree.Item>
         <Tree.Item id="src-components" textValue="components">
-          <Tree.ItemContent>components/</Tree.ItemContent>
+          <Tree.ItemContent>components</Tree.ItemContent>
+          <Tree.Item id="src-components-button" textValue="Button.tsx">
+            <Tree.ItemContent>Button.tsx</Tree.ItemContent>
+          </Tree.Item>
           <Tree.Item id="src-components-header" textValue="Header.tsx">
             <Tree.ItemContent>Header.tsx</Tree.ItemContent>
-          </Tree.Item>
-          <Tree.Item id="src-components-footer" textValue="Footer.tsx">
-            <Tree.ItemContent>Footer.tsx</Tree.ItemContent>
           </Tree.Item>
         </Tree.Item>
       </Tree.Item>
       <Tree.Item id="public" textValue="public">
-        <Tree.ItemContent>public/</Tree.ItemContent>
+        <Tree.ItemContent>public</Tree.ItemContent>
         <Tree.Item id="public-index" textValue="index.html">
           <Tree.ItemContent>index.html</Tree.ItemContent>
         </Tree.Item>

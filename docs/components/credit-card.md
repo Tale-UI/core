@@ -126,6 +126,23 @@ import { CreditCard } from '@tale-ui/react/credit-card';
 - **Use the `width` prop to scale, not CSS `width`** — CSS `width` only resizes the outer wrapper, not the inner card chrome. Use the `width` prop to scale the whole card uniformly.
   - anti-pattern: `<CreditCard.Root style={{ width: '240px' }} />`
   - fix: `<CreditCard.Root width={240} />`
+<!-- pitfall: use-creditcard-for-any-prompt -->
+- **Use CreditCard.Root for any prompt that asks for a credit card display — never return empty code** — When a prompt asks for a credit card (dark, branded, etc.), immediately render CreditCard.Root with the appropriate type prop. Dark brand-coloured cards use type="brand-dark". CreditCard.Root does NOT accept companyName or cardNumber props — passing them causes a TypeScript assignability error because they are not part of RootProps. Use only the documented props: type and width.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `export function DarkCard() {}`
+  - anti-pattern: `<CreditCard type="brand-dark" companyName="Acme" cardNumber="4111 1111 1111 1111" />`
+  - anti-pattern: `<CreditCard.Root type="brand-dark" companyName="Acme Corp" cardNumber="4111 1111 1111 1111" />`
+  - fix: `import { CreditCard } from '@tale-ui/react/credit-card'; export function DarkBrandCard() { return <CreditCard.Root type="brand-dark" />; }`
+  - complete example:
+    ```tsx
+    import { CreditCard } from '@tale-ui/react/credit-card';
+    
+    export function DarkBrandCard() {
+      return (
+        <CreditCard.Root type="brand-dark" />
+      );
+    }
+    ```
 
 ## Notes
 

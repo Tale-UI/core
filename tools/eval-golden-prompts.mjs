@@ -63,7 +63,10 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import {
   buildCodexExecArgs,
   buildCodexMcpConfigOverride,
+  isProviderQuotaError,
+  isProviderQuotaMessage,
   loadTaleUiMcpServerSpec,
+  providerQuotaError,
   ALLOWED_IMPORT_PREFIXES,
   extractCode,
   checkL1,
@@ -276,7 +279,11 @@ if (PROVIDER === 'straico') {
 // MCP mode uses the lightweight consumer snippet as system prompt.
 // Claude attaches the MCP server via --mcp-config/--allowedTools.
 // Codex attaches the repo-local Tale UI MCP server via per-run config overrides.
-if (MCP_MODE && (PROVIDER === 'claude' || PROVIDER === 'codex' || PROVIDER === 'local') && !existsSync(MCP_CONFIG_PATH)) {
+if (
+  MCP_MODE &&
+  (PROVIDER === 'claude' || PROVIDER === 'codex' || PROVIDER === 'local') &&
+  !existsSync(MCP_CONFIG_PATH)
+) {
   console.error(`ERROR: --mcp mode requires ${MCP_CONFIG_PATH} to exist.`);
   process.exit(1);
 }
@@ -518,8 +525,12 @@ function callClaude(userPrompt) {
 
     let stdout = '';
     let stderr = '';
-    proc.stdout.on('data', (d) => { stdout += d; });
-    proc.stderr.on('data', (d) => { stderr += d; });
+    proc.stdout.on('data', (d) => {
+      stdout += d;
+    });
+    proc.stderr.on('data', (d) => {
+      stderr += d;
+    });
 
     // MCP mode takes longer: each tool call round-trip adds latency
     const timeoutMs = MCP_MODE ? 180000 : 90000;
@@ -530,6 +541,10 @@ function callClaude(userPrompt) {
 
     proc.on('close', (code) => {
       clearTimeout(timer);
+      const outputDetails = [stdout, stderr].filter(Boolean).join('\n');
+      if (isProviderQuotaMessage(outputDetails)) {
+        return reject(providerQuotaError(outputDetails.slice(0, 500), { provider: 'Claude' }));
+      }
       if (code !== 0) {
         return reject(
           new Error(
@@ -539,6 +554,13 @@ function callClaude(userPrompt) {
       }
       try {
         const parsed = JSON.parse(stdout);
+        if (isProviderQuotaMessage(parsed.result ?? '')) {
+          return reject(
+            providerQuotaError(parsed.result ?? 'Claude CLI reported quota exhaustion', {
+              provider: 'Claude',
+            }),
+          );
+        }
         if (parsed.is_error) {
           return reject(
             new Error(
@@ -636,9 +658,7 @@ async function callStraico(userPrompt, { retries = 3 } = {}) {
 
 class LocalToolsUnsupportedError extends Error {
   constructor(model, detail) {
-    super(
-      `Local model "${model}" does not support tool calling${detail ? `: ${detail}` : ''}`,
-    );
+    super(`Local model "${model}" does not support tool calling${detail ? `: ${detail}` : ''}`);
     this.name = 'LocalToolsUnsupportedError';
   }
 }
@@ -900,28 +920,49 @@ function callCodex(userPrompt) {
     proc.stdin.write(fullPrompt);
     proc.stdin.end();
 
+    let stdout = '';
+    let stderr = '';
+    proc.stdout.on('data', (d) => {
+      stdout += d;
+    });
+    proc.stderr.on('data', (d) => {
+      stderr += d;
+    });
+
     const timeoutMs = MCP_MODE ? 180000 : 120000;
     const timer = setTimeout(() => {
       proc.kill();
       reject(new Error(`Codex CLI timed out after ${timeoutMs / 1000}s`));
     }, timeoutMs);
 
-    proc.on('close', () => {
+    proc.on('close', (code) => {
       clearTimeout(timer);
       try {
-        if (!existsSync(outputFile)) {
-          return reject(
-            new Error('Codex did not write output — it may have failed or produced no response'),
-          );
-        }
-        const content = readFileSync(outputFile, 'utf8').trim();
+        const outputText = existsSync(outputFile) ? readFileSync(outputFile, 'utf8').trim() : '';
+        const details = [outputText, stdout, stderr].filter(Boolean).join('\n');
         try {
           unlinkSync(outputFile);
         } catch {
           /* ignore */
         }
-        if (!content) return reject(new Error('Codex returned an empty response'));
-        resolve(content);
+        if (isProviderQuotaMessage(details)) {
+          return reject(providerQuotaError(details.slice(0, 500), { provider: 'Codex' }));
+        }
+        if (code !== 0) {
+          return reject(
+            new Error(
+              `Codex CLI exited with code ${code}\nstderr: ${stderr.slice(0, 500)}\nstdout: ${stdout.slice(0, 500)}`,
+            ),
+          );
+        }
+        if (!outputText) {
+          return reject(
+            new Error(
+              `Codex did not write output — it may have failed or produced no response\nstderr: ${stderr.slice(0, 500)}\nstdout: ${stdout.slice(0, 500)}`,
+            ),
+          );
+        }
+        resolve(outputText);
       } catch (err) {
         reject(err);
       }
@@ -973,6 +1014,9 @@ async function evalPrompt(prompt, nth, total) {
       code = extractCode(rawOutput);
       if (!code) callError = 'Model returned no code block';
     } catch (err) {
+      if (isProviderQuotaError(err)) {
+        throw err;
+      }
       callError = err.message;
     }
   }
@@ -1121,4 +1165,11 @@ async function main() {
   }
 }
 
-main();
+main().catch((err) => {
+  if (isProviderQuotaError(err)) {
+    console.error(`ERROR: ${err.message}`);
+  } else {
+    console.error(err);
+  }
+  process.exit(1);
+});

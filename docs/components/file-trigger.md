@@ -71,29 +71,28 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
   - fix: `onSelect={(list) => { if (list) { Array.from(list).map(...) } }}`
 
 <!-- pitfall: when-displaying-the-selected-filename -->
-
-- **When displaying the selected filename with Text, use color="muted" plus size="s"** — color="secondary" and variant="body-m" do not exist on Text, and size="sm" is invalid because Text size uses single-letter tokens ('xs', 's', 'm', 'l'). When building a FileTrigger with filename display, use gap="s" on any Column or Row wrapper and variant="neutral" on the Button — never gap="sm" or variant="secondary". The same spacing-token rule applies whether the wrapper is a Column (vertical stack) or a Row (horizontal inline layout).
+- **When displaying the selected filename with Text, use color="muted" plus size="s"** — color="secondary" and variant="body-m" do not exist on Text, and size="sm" is invalid because Text size uses single-letter tokens ('xs', 's', 'm', 'l'). When building a FileTrigger with filename display, use gap="s" on any Column or Row wrapper and variant="neutral" on the Button — never gap="sm" or variant="secondary". This applies whether the wrapper is a Column (vertical stack) or a Row (horizontal inline layout). The Row inline layout is particularly error-prone: gap="sm", Button variant="secondary", Text size="sm", and Text color="secondary" are all invalid and must each be fixed.
   - anti-pattern: `<Text size="sm" color="secondary">{fileName}</Text>`
   - anti-pattern: `<Text variant="body-m">{fileName}</Text>`
   - anti-pattern: `<Column gap="sm"><FileTrigger><Button variant="secondary">Upload file</Button></FileTrigger></Column>`
   - anti-pattern: `<Row gap="sm" align="center"><FileTrigger><Button variant="secondary">Upload file</Button></FileTrigger>{filename && <Text size="sm">{filename}</Text>}</Row>`
+  - anti-pattern: `<Row gap="sm" align="center"><FileTrigger><Button variant="secondary">Upload file</Button></FileTrigger>{fileName && <Text size="sm" color="secondary">{fileName}</Text>}</Row>`
   - fix: `<Text size="s" color="muted">{fileName}</Text>`
   - fix: `<Column gap="s"><FileTrigger><Button variant="neutral">Upload file</Button></FileTrigger></Column>`
   - fix: `<Row gap="s" align="center"><FileTrigger><Button variant="neutral">Upload file</Button></FileTrigger>{filename && <Text size="s" color="muted">{filename}</Text>}</Row>`
   - complete example:
-
     ```tsx
     import { useState } from 'react';
     import { FileTrigger } from '@tale-ui/react/file-trigger';
     import { Button } from '@tale-ui/react/button';
-    import { Column } from '@tale-ui/react/column';
+    import { Row } from '@tale-ui/react/row';
     import { Text } from '@tale-ui/react/text';
-
+    
     export function FileUploadButton() {
       const [fileName, setFileName] = useState<string | null>(null);
-
+    
       return (
-        <Column gap="s" align="start">
+        <Row gap="s" align="center">
           <FileTrigger
             onSelect={(files) => {
               if (files && files.length > 0) {
@@ -105,10 +104,10 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
           </FileTrigger>
           {fileName && (
             <Text size="s" color="muted">
-              Selected: {fileName}
+              {fileName}
             </Text>
           )}
-        </Column>
+        </Row>
       );
     }
     ```

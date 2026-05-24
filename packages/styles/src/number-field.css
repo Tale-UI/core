@@ -30,7 +30,7 @@
 .tale-number-field__group {
   display: inline-flex;
   align-items: stretch;
-  width: max-content;
+  width: 100%;
   max-width: 100%;
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
@@ -51,10 +51,14 @@
 
 .tale-number-field__input {
   box-sizing: border-box;
-  flex: 0 0 auto;
-  width: 6rem;
-  min-height: 3.6rem;
+  /* flex-basis 6rem keeps the default visual (Root sized to fit-content
+     resolves to ~12.4rem with two 3.2rem steppers + 6rem input). When
+     the Root is given an explicit larger width, the input grows to
+     fill the remaining space inside the Group instead of clipping
+     wide values like "1280" against a hardcoded 6rem cap. */
+  flex: 1 1 6rem;
   min-width: 0;
+  min-height: 3.6rem;
   padding: var(--space-3xs) var(--space-xs);
   border: none;
   background-color: transparent;

@@ -194,21 +194,73 @@ import { FileIcon } from '@untitledui/file-icons';
   - anti-pattern: `<FileUpload.Dropzone />`
   - fix: `<FileUpload.DropZone />`
 <!-- pitfall: fileupload-props-on-dropzone-not-root -->
-- **All upload config props (accept, maxSize, allowsMultiple, onDropFiles) belong on FileUpload.DropZone, not FileUpload.Root** — `FileUpload.Root` is a plain `<div>` wrapper with no file-upload-specific props; passing any of these there causes `is not assignable to type 'IntrinsicAttributes & RootProps'` TypeScript errors. Every configuration prop lives on `FileUpload.DropZone`.
-  - anti-pattern: `<FileUpload.Root accept="image/*" maxSize={5 * 1024 * 1024}>`
-  - anti-pattern: `<FileUpload.Root allowsMultiple>`
-  - fix: `<FileUpload.Root><FileUpload.DropZone accept="image/*" maxSize={5 * 1024 * 1024} /></FileUpload.Root>`
-  - fix: `<FileUpload.Root><FileUpload.DropZone accept="image/*,application/pdf" maxSize={5 * 1024 * 1024} allowsMultiple /></FileUpload.Root>`
+- **FileUpload.DropZone does not accept children or any file-filter props — it must be self-closing** — FileUpload.DropZone is typed as DropZoneProps & RefAttributes<HTMLDivElement>. This type includes neither children nor file-filter props like accept, maxSize, or allowsMultiple. Passing children (including a JSX element like <Column>) or any of those filter props causes 'Type ... has no properties in common with type IntrinsicAttributes & DropZoneProps & RefAttributes<HTMLDivElement>' TypeScript errors. Always use FileUpload.DropZone as a self-closing element with no children and no file-filter props.
+  - anti-pattern: `<FileUpload.Root accept="image/*,application/pdf" maxSize={5 * 1024 * 1024} allowsMultiple><FileUpload.DropZone>...</FileUpload.DropZone><FileUpload.List /></FileUpload.Root>`
+  - anti-pattern: `<FileUpload.Root><FileUpload.DropZone accept="image/*,application/pdf" maxSize={5 * 1024 * 1024} allowsMultiple>...</FileUpload.DropZone><FileUpload.List /></FileUpload.Root>`
+  - anti-pattern: `<FileUpload.Root><FileUpload.DropZone><Column gap="s" align="center"><Icon icon={UploadCloud} size="lg" /><Text variant="label">Drag & drop files here</Text></Column></FileUpload.DropZone><FileUpload.List /></FileUpload.Root>`
+  - fix: `<FileUpload.Root><FileUpload.DropZone /><FileUpload.List /></FileUpload.Root>`
+  - complete example:
+    ```tsx
+    import { FileUpload } from '@tale-ui/react/file-upload';
+    import { Column } from '@tale-ui/react/column';
+    
+    export function ImagePdfUploader() {
+      return (
+        <Column gap="m" style={{ maxWidth: 560 }}>
+          <FileUpload.Root>
+            <FileUpload.DropZone />
+            <FileUpload.List />
+          </FileUpload.Root>
+        </Column>
+      );
+    }
+    ```
 <!-- pitfall: fileuploaddropzone-accept-takes-string -->
 - **`FileUpload.DropZone` `accept` takes a comma-separated string, not an array** — passing `accept={['image/*', 'application/pdf']}` causes `Type 'string[]' is not assignable to type 'string'`; use a plain comma-separated string matching the HTML `accept` attribute format instead.
   - anti-pattern: `<FileUpload.DropZone accept={['image/*', 'application/pdf']} />`
   - fix: `<FileUpload.DropZone accept="image/*,application/pdf" />`
 <!-- pitfall: use-fileupload-for-any-prompt -->
-- **Use `FileUpload` for any prompt that asks for a file upload area, dropzone uploader, or uploaded-file list with progress** — when the request is to accept files and show uploaded items, render `FileUpload.Root` with `FileUpload.DropZone` and `FileUpload.List`, and use `FileUpload.ListItemProgressBar` or `FileUpload.ListItemProgressFill` for each file instead of leaving the file empty or substituting `DropZone` or `FileTrigger` alone.
+- **Use FileUpload for any prompt that asks for a file upload area, dropzone uploader, or uploaded-file list with progress** — Even when a prompt specifies accepted file types (e.g. images and PDFs), a maximum file size (e.g. 5 MB), or progress tracking, render FileUpload.Root with a self-closing FileUpload.DropZone and FileUpload.List — FileUpload manages file filtering, progress display, and the uploaded-file list internally. Never add accept, maxSize, allowsMultiple, children, or onDropFiles to FileUpload.DropZone, and never attempt to build a custom progress-bar implementation using DropZone, FileTrigger, or manual state.
   - anti-pattern: `// empty file`
   - anti-pattern: `import { DropZone } from '@tale-ui/react/drop-zone'; export function UploadArea() { return <DropZone />; }`
-  - fix: `import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept="image/*,.pdf" maxSize={5 * 1024 * 1024} /><FileUpload.List><FileUpload.ListItemProgressBar name="photo.png" size={1200000} progress={60} /></FileUpload.List></FileUpload.Root>; }`
+  - anti-pattern: `import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; export function UploadArea() { return <FileUpload.Root><FileUpload.DropZone accept="image/*,application/pdf" maxSize={5 * 1024 * 1024}><Column gap="s"><Text>Drop files here</Text></Column></FileUpload.DropZone><FileUpload.List /></FileUpload.Root>; }`
+  - fix: `import * as React from 'react'; import { FileUpload } from '@tale-ui/react/file-upload'; import { Column } from '@tale-ui/react/column'; export function ImagePdfUploader() { return <Column gap="m" style={{ maxWidth: 560 }}><FileUpload.Root><FileUpload.DropZone /><FileUpload.List /></FileUpload.Root></Column>; }`
+  - complete example:
+    ```tsx
+    import * as React from 'react';
+    import { FileUpload } from '@tale-ui/react/file-upload';
+    import { Column } from '@tale-ui/react/column';
+    
+    export function ImagePdfUploader() {
+      return (
+        <Column gap="m" style={{ maxWidth: 560 }}>
+          <FileUpload.Root>
+            <FileUpload.DropZone />
+            <FileUpload.List />
+          </FileUpload.Root>
+        </Column>
+      );
+    }
+    ```
 <!-- pitfall: fileuploaddropzone-ondropfiles-receives-filelist -->
-- **`onDropFiles` callback receives `FileList`, not `File[]`** — the `onDropFiles` prop on `FileUpload.DropZone` is typed as `(files: FileList) => void`; annotating the handler parameter as `File[]` causes `Type '(rawFiles: File[]) => void' is not assignable to type '(files: FileList) => void'`. Type the parameter as `FileList` and use `Array.from()` to iterate over the files.
+- **FileUpload.DropZone does not accept an onDropFiles prop — never add a callback to manually capture dropped files** — FileUpload.DropZone is typed as DropZoneProps (the standard React Aria DropZone interface), which has no onDropFiles callback. Adding onDropFiles causes 'is not assignable to type IntrinsicAttributes & DropZoneProps' TypeScript errors. FileUpload manages its own internal file state; always use FileUpload.DropZone as a self-closing element with no children and use FileUpload.List to display uploaded files — do not wire custom state via onDropFiles.
+  - anti-pattern: `<FileUpload.DropZone accept="image/*,application/pdf" maxSize={5 * 1024 * 1024} allowsMultiple onDropFiles={(rawFiles: FileList) => handleFiles(rawFiles)}>`
   - anti-pattern: `<FileUpload.DropZone onDropFiles={(rawFiles: File[]) => handleFiles(rawFiles)} />`
-  - fix: `function handleFiles(rawFiles: FileList) { const entries = Array.from(rawFiles).map(file => ({ id: crypto.randomUUID(), name: file.name, size: file.size, progress: 0 })); }`
+  - fix: `<FileUpload.Root><FileUpload.DropZone /><FileUpload.List /></FileUpload.Root>`
+  - complete example:
+    ```tsx
+    import * as React from 'react';
+    import { FileUpload } from '@tale-ui/react/file-upload';
+    import { Column } from '@tale-ui/react/column';
+    
+    export function ImagePdfUploader() {
+      return (
+        <Column gap="m" style={{ maxWidth: 560 }}>
+          <FileUpload.Root>
+            <FileUpload.DropZone />
+            <FileUpload.List />
+          </FileUpload.Root>
+        </Column>
+      );
+    }
+    ```
