@@ -1990,14 +1990,44 @@
       "description": "Small colored circle or square showing a color value",
       "kind": "simple",
       "status": "stable",
-      "props": [],
+      "props": [
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "shape",
+          "type": "ColorSwatchShape",
+          "required": false,
+          "description": "Visual shape of the swatch. When the swatch is nested inside a `<ColorSwatchPicker.Root shape=\"circle\">`, setting this prop overrides the picker's shape for this individual swatch. @default 'square'",
+          "default": null,
+          "allowedValues": [
+            "square",
+            "circle"
+          ]
+        },
+        {
+          "name": "secondaryColor",
+          "type": "string",
+          "required": false,
+          "description": "Optional second colour. When provided, the swatch is split diagonally — `color` fills the top-left half and `secondaryColor` fills the bottom-right half. Useful when one swatch represents a theme that pairs a brand colour with a neutral colour. Accepts a CSS colour string (same format as `color`).",
+          "default": null
+        }
+      ],
       "parts": null,
       "examples": [
-        "import { ColorSwatch } from '@tale-ui/react/color-swatch';\n\n<ColorSwatch color=\"#ff0000\" />",
+        "import { ColorSwatch } from '@tale-ui/react/color-swatch';\n\n<ColorSwatch color=\"#ff0000\" />\n<ColorSwatch color=\"#ff0000\" shape=\"circle\" />",
+        "<ColorSwatch color=\"#7c3aed\" secondaryColor=\"#f5f3ff\" />\n<ColorSwatch color=\"#7c3aed\" secondaryColor=\"#f5f3ff\" shape=\"circle\" />",
         "import { ColorSwatch } from '@tale-ui/react/color-swatch';\n    export function MyComponent() {\n      return <ColorSwatch color=\"#ff0000\" />;\n    }"
       ],
       "cssClasses": [
-        "tale-color-swatch"
+        "tale-color-swatch",
+        "tale-color-swatch--circle",
+        "tale-color-swatch--split",
+        "tale-color-swatch--square"
       ],
       "pitfalls": [
         {
@@ -2022,6 +2052,17 @@
           "fixes": [
             "<ColorSwatch color=\"#ff0000\" style={{ width: '32px', height: '32px' }} />"
           ]
+        },
+        {
+          "id": "color-swatch-secondary-color-is-string",
+          "summary": "secondaryColor accepts a plain CSS string",
+          "detail": "like `color`, it is a CSS colour string, not a `Color` object.",
+          "antiPatterns": [
+            "<ColorSwatch color=\"#ff0000\" secondaryColor={parseColor('#fff')} />"
+          ],
+          "fixes": [
+            "<ColorSwatch color=\"#ff0000\" secondaryColor=\"#ffffff\" />"
+          ]
         }
       ],
       "crossPitfallRefs": [
@@ -2036,17 +2077,43 @@
       "description": "Selectable swatch grid",
       "kind": "compound",
       "status": "stable",
-      "props": [],
+      "props": [
+        {
+          "name": "shape",
+          "type": "ColorSwatchShape",
+          "required": false,
+          "description": "Visual shape applied to every swatch (and its selection ring) inside the picker. Cascades down via CSS so child `ColorSwatch` components pick this up automatically; individual `ColorSwatch.shape` props override it. @default 'square'",
+          "default": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
       "parts": [
         "Root",
         "Item"
       ],
       "examples": [
-        "import { ColorSwatch } from '@tale-ui/react/color-swatch';\n\n<ColorSwatchPicker.Root>\n  <ColorSwatchPicker.Item color=\"#ff0000\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n  <ColorSwatchPicker.Item color=\"#00ff00\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n  <ColorSwatchPicker.Item color=\"#0000ff\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n</ColorSwatchPicker.Root>",
+        "import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';\nimport { ColorSwatch } from '@tale-ui/react/color-swatch';\n\n<ColorSwatchPicker.Root>\n  <ColorSwatchPicker.Item color=\"#ff0000\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n  <ColorSwatchPicker.Item color=\"#00ff00\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n  <ColorSwatchPicker.Item color=\"#0000ff\">\n    <ColorSwatch />\n  </ColorSwatchPicker.Item>\n</ColorSwatchPicker.Root>",
+        "const themes = [\n  { brand: '#7c3aed', neutral: '#f5f3ff' },\n  { brand: '#0ea5e9', neutral: '#f0f9ff' },\n  { brand: '#f97316', neutral: '#fff7ed' },\n];\n\n<ColorSwatchPicker.Root shape=\"circle\" defaultValue={parseColor('#7c3aed')}>\n  {themes.map((t) => (\n    <ColorSwatchPicker.Item key={t.brand} color={t.brand}>\n      <ColorSwatch secondaryColor={t.neutral} />\n    </ColorSwatchPicker.Item>\n  ))}\n</ColorSwatchPicker.Root>",
         "import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';\n    import { ColorSwatch } from '@tale-ui/react/color-swatch';\n    \n    export function Example() {\n      return (\n        <ColorSwatchPicker.Root>\n          <ColorSwatchPicker.Item color=\"#ff0000\"><ColorSwatch /></ColorSwatchPicker.Item>\n          <ColorSwatchPicker.Item color=\"#00ff00\"><ColorSwatch /></ColorSwatchPicker.Item>\n          <ColorSwatchPicker.Item color=\"#0000ff\"><ColorSwatch /></ColorSwatchPicker.Item>\n        </ColorSwatchPicker.Root>\n      );\n    }"
       ],
       "cssClasses": [
+        "tale-color-swatch",
         "tale-color-swatch-picker",
+        "tale-color-swatch-picker--circle",
+        "tale-color-swatch-picker--square",
         "tale-color-swatch-picker__item"
       ],
       "pitfalls": [

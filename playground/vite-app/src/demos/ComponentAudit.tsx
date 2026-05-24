@@ -4028,21 +4028,73 @@ export default function ComponentAudit() {
           </ColorWheel.Root>
         </Section>
 
-        <Section id="color-swatch" title="ColorSwatch" classes={['tale-color-swatch']}>
-          <SubHeading>Default</SubHeading>
+        <Section id="color-swatch" title="ColorSwatch" classes={['tale-color-swatch', 'tale-color-swatch--square', 'tale-color-swatch--circle', 'tale-color-swatch--split']}>
+          <SubHeading>Default (square)</SubHeading>
           <Row>
             {['#ff0000', '#00ff00', '#0000ff', '#ff8800', '#8800ff'].map((color) => (
               <ColorSwatch key={color} color={color} />
             ))}
           </Row>
+          <SubHeading>Circle shape</SubHeading>
+          <Row>
+            {['#ff0000', '#00ff00', '#0000ff', '#ff8800', '#8800ff'].map((color) => (
+              <ColorSwatch key={color} color={color} shape="circle" />
+            ))}
+          </Row>
+          <SubHeading>Diagonal split (brand + neutral)</SubHeading>
+          <Row>
+            {[
+              { brand: '#ff0000', neutral: '#fef2f2' },
+              { brand: '#ff8800', neutral: '#fff7ed' },
+              { brand: '#00ff00', neutral: '#f0fdf4' },
+              { brand: '#0088ff', neutral: '#eff6ff' },
+              { brand: '#8800ff', neutral: '#faf5ff' },
+            ].map(({ brand, neutral }) => (
+              <ColorSwatch key={brand} color={brand} secondaryColor={neutral} />
+            ))}
+          </Row>
+          <SubHeading>Diagonal split (circle)</SubHeading>
+          <Row>
+            {[
+              { brand: '#ff0000', neutral: '#fef2f2' },
+              { brand: '#ff8800', neutral: '#fff7ed' },
+              { brand: '#00ff00', neutral: '#f0fdf4' },
+              { brand: '#0088ff', neutral: '#eff6ff' },
+              { brand: '#8800ff', neutral: '#faf5ff' },
+            ].map(({ brand, neutral }) => (
+              <ColorSwatch key={brand} color={brand} shape="circle" secondaryColor={neutral} />
+            ))}
+          </Row>
         </Section>
 
-        <Section id="color-swatch-picker" title="ColorSwatchPicker" classes={['tale-color-swatch-picker', 'tale-color-swatch-picker__item']}>
-          <SubHeading>Default</SubHeading>
+        <Section id="color-swatch-picker" title="ColorSwatchPicker" classes={['tale-color-swatch-picker', 'tale-color-swatch-picker--square', 'tale-color-swatch-picker--circle', 'tale-color-swatch-picker__item']}>
+          <SubHeading>Default (square)</SubHeading>
           <ColorSwatchPicker.Root>
             {['#ff0000', '#ff8800', '#ffff00', '#00ff00', '#0088ff', '#8800ff'].map((color) => (
               <ColorSwatchPicker.Item key={color} color={color}>
                 <ColorSwatch color={color} />
+              </ColorSwatchPicker.Item>
+            ))}
+          </ColorSwatchPicker.Root>
+          <SubHeading>Circle shape</SubHeading>
+          <ColorSwatchPicker.Root shape="circle">
+            {['#ff0000', '#ff8800', '#ffff00', '#00ff00', '#0088ff', '#8800ff'].map((color) => (
+              <ColorSwatchPicker.Item key={color} color={color}>
+                <ColorSwatch color={color} />
+              </ColorSwatchPicker.Item>
+            ))}
+          </ColorSwatchPicker.Root>
+          <SubHeading>Theme preview (circle + diagonal split)</SubHeading>
+          <ColorSwatchPicker.Root shape="circle">
+            {[
+              { brand: '#ff0000', neutral: '#fef2f2' },
+              { brand: '#ff8800', neutral: '#fff7ed' },
+              { brand: '#00ff00', neutral: '#f0fdf4' },
+              { brand: '#0088ff', neutral: '#eff6ff' },
+              { brand: '#8800ff', neutral: '#faf5ff' },
+            ].map(({ brand, neutral }) => (
+              <ColorSwatchPicker.Item key={brand} color={brand}>
+                <ColorSwatch color={brand} secondaryColor={neutral} />
               </ColorSwatchPicker.Item>
             ))}
           </ColorSwatchPicker.Root>

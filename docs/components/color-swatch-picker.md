@@ -13,11 +13,28 @@ A selectable grid of color swatches for picking from a predefined set of colors.
 
 ## Props
 
-Accepts all React Aria `ColorSwatchPicker` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+### Root
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `shape` | `'square' \| 'circle'` | `'square'` | Visual shape applied to every swatch and its selection ring. Cascades via CSS so nested `ColorSwatch` components pick up the shape automatically; individual `ColorSwatch.shape` props override it. |
+| `value` / `defaultValue` | `Color` | — | Selected swatch (use `parseColor()` to construct). |
+| `onChange` | `(value: Color) => void` | — | Fires when the selection changes. |
+| `className` | `string` | — | Additional class names appended to `.tale-color-swatch-picker`. |
+
+Also accepts all other React Aria `ColorSwatchPicker` props.
+
+### Item
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `color` | `string \| Color` | — | The colour represented by this item. |
+| `className` | `string` | — | Additional class names appended to `.tale-color-swatch-picker__item`. |
 
 ## Basic Usage
 
 ```tsx
+import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';
 import { ColorSwatch } from '@tale-ui/react/color-swatch';
 
 <ColorSwatchPicker.Root>
@@ -33,9 +50,31 @@ import { ColorSwatch } from '@tale-ui/react/color-swatch';
 </ColorSwatchPicker.Root>
 ```
 
+## Circle shape (theme previews)
+
+Pair `shape="circle"` with `ColorSwatch.secondaryColor` to preview themes that combine a brand colour with a neutral. Both colours sit either side of a diagonal split and the swatch — and its selection ring — clip to a circle.
+
+```tsx
+const themes = [
+  { brand: '#7c3aed', neutral: '#f5f3ff' },
+  { brand: '#0ea5e9', neutral: '#f0f9ff' },
+  { brand: '#f97316', neutral: '#fff7ed' },
+];
+
+<ColorSwatchPicker.Root shape="circle" defaultValue={parseColor('#7c3aed')}>
+  {themes.map((t) => (
+    <ColorSwatchPicker.Item key={t.brand} color={t.brand}>
+      <ColorSwatch secondaryColor={t.neutral} />
+    </ColorSwatchPicker.Item>
+  ))}
+</ColorSwatchPicker.Root>
+```
+
 ## CSS Classes
 
 - `.tale-color-swatch-picker` — Root container
+- `.tale-color-swatch-picker--square` — Explicit square cascade (modifier on root)
+- `.tale-color-swatch-picker--circle` — Explicit circle cascade (modifier on root)
 - `.tale-color-swatch-picker__item` — Individual swatch item
 
 ## Pitfalls

@@ -2,10 +2,21 @@
  * ColorSwatch — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Renders a colored square representing a color value.
+ * Renders a colored square (or circle) representing a color value.
+ *
+ * Modifiers:
+ *   .tale-color-swatch--square  — explicit square shape
+ *   .tale-color-swatch--circle  — explicit circle shape
+ *   .tale-color-swatch--split   — diagonal split with secondary colour
+ *
+ * Cascade:
+ *   ColorSwatchPicker.Root sets --tale-color-swatch-radius so that nested
+ *   swatches pick up the picker's shape automatically. Direct modifier
+ *   classes on a swatch override the cascaded value.
  *
  * Usage:
  *   <ColorSwatch className="tale-color-swatch" color="#ff0000" />
+ *   <ColorSwatch className="tale-color-swatch tale-color-swatch--circle" color="#ff0000" />
  */
 
 /* ─── Base ─────────────────────────────────────────────────────────────────── */
@@ -13,7 +24,35 @@
 .tale-color-swatch {
   width: 2rem;
   height: 2rem;
-  border-radius: var(--space-4xs);
+  border-radius: var(--tale-color-swatch-radius, var(--space-4xs));
   border: 1px solid var(--neutral-22);
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Shape modifiers (override cascade from picker) ───────────────────────── */
+
+.tale-color-swatch--square {
+  border-radius: var(--space-4xs);
+}
+
+.tale-color-swatch--circle {
+  border-radius: 50%;
+}
+
+/* ─── Diagonal split (two-colour swatch) ───────────────────────────────────── */
+
+/* React Aria sets background-color on the swatch via inline style; the ::before
+   overlay covers the bottom-right triangle so both colours show. `inset: -1px`
+   extends the overlay through the 1px border so the secondary colour reaches
+   the actual edge of the swatch (otherwise the primary background pokes out
+   along the bottom-right border). `overflow: hidden` on the swatch clips the
+   overlay to the rounded corners. */
+.tale-color-swatch--split::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background-color: var(--tale-color-swatch-secondary, transparent);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }

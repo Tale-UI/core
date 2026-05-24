@@ -1865,20 +1865,34 @@ export const taleUICatalog: Catalog = {
     component: ColorSwatch,
     adapter: (props) => ({
       color: props.color as string,
+      shape: props.shape as 'square' | 'circle' | undefined,
+      secondaryColor: props.secondaryColor as string | undefined,
     }),
   } as CatalogEntry,
 
   ColorSwatchPicker: {
     component: ColorSwatchPicker.Root,
-    adapter: (props, ctx) => ({
-      children: Array.isArray(props.colors)
-        ? (props.colors as string[]).map((color, i) =>
-            h(ColorSwatchPicker.Item as React.ComponentType<any>, { key: i, color },
-              h(ColorSwatch, { color } as any),
-            ),
-          )
-        : ctx.children,
-    }),
+    adapter: (props, ctx) => {
+      const shape = props.shape as 'square' | 'circle' | undefined;
+      // `colors` may be an array of strings (single colour per swatch) or an
+      // array of { color, secondaryColor } objects (theme preview swatches).
+      const colors = Array.isArray(props.colors) ? props.colors : null;
+      return {
+        shape,
+        children: colors
+          ? colors.map((entry, i) => {
+              const color = typeof entry === 'string' ? entry : (entry as { color: string }).color;
+              const secondaryColor =
+                typeof entry === 'string' ? undefined : (entry as { secondaryColor?: string }).secondaryColor;
+              return h(
+                ColorSwatchPicker.Item as React.ComponentType<any>,
+                { key: i, color },
+                h(ColorSwatch, { secondaryColor } as any),
+              );
+            })
+          : ctx.children,
+      };
+    },
   } as CatalogEntry,
 
   ColorPicker: {

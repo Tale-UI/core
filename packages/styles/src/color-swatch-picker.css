@@ -6,8 +6,14 @@
  *   Root: (listbox container)
  *   Item: [data-selected] [data-focused] [data-focus-visible] [data-disabled] [data-hovered]
  *
+ * Shape:
+ *   Root accepts a `shape` prop ('square' | 'circle') that adds a modifier
+ *   class. The modifier sets --tale-color-swatch-radius on the root so nested
+ *   `.tale-color-swatch` swatches pick up the matching radius automatically,
+ *   and rounds each item so the selection / focus ring follows the shape.
+ *
  * Usage:
- *   <ColorSwatchPicker.Root className="tale-color-swatch-picker">
+ *   <ColorSwatchPicker.Root className="tale-color-swatch-picker tale-color-swatch-picker--circle">
  *     <ColorSwatchPicker.Item className="tale-color-swatch-picker__item" color="#f00">
  *       <ColorSwatch />
  *     </ColorSwatchPicker.Item>
@@ -20,6 +26,24 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3xs);
+}
+
+/* ─── Root shape modifiers — cascade radius to swatches + items ──────────── */
+
+.tale-color-swatch-picker--square {
+  --tale-color-swatch-radius: var(--space-4xs);
+}
+
+.tale-color-swatch-picker--square .tale-color-swatch-picker__item {
+  border-radius: var(--space-4xs);
+}
+
+.tale-color-swatch-picker--circle {
+  --tale-color-swatch-radius: 50%;
+}
+
+.tale-color-swatch-picker--circle .tale-color-swatch-picker__item {
+  border-radius: 50%;
 }
 
 /* ─── Item ─────────────────────────────────────────────────────────────────── */

@@ -5,7 +5,7 @@ import { ColorArea } from '@tale-ui/react/color-area';
 import { ColorSlider } from '@tale-ui/react/color-slider';
 import { parseColor, type Color } from 'react-aria-components';
 
-type Args = Record<string, never>;
+type Args = Record<string, unknown>;
 
 const meta: Meta<Args> = {
   title: 'Components/Color Picker',
@@ -23,12 +23,28 @@ type Story = StoryObj<Args>;
  */
 export const Root: Story = {
   name: 'ColorPicker.Root',
-  render() {
-    const [color, setColor] = useState<Color>(parseColor('hsb(200, 100%, 100%)'));
+  argTypes: {
+    initialColor: { control: 'color' },
+    xChannel: {
+      control: 'select',
+      options: ['red', 'green', 'blue', 'hue', 'saturation', 'lightness', 'brightness'],
+    },
+    yChannel: {
+      control: 'select',
+      options: ['red', 'green', 'blue', 'hue', 'saturation', 'lightness', 'brightness'],
+    },
+  },
+  args: {
+    initialColor: '#33ccff',
+    xChannel: 'saturation',
+    yChannel: 'brightness',
+  },
+  render(args) {
+    const [color, setColor] = useState<Color>(parseColor(args.initialColor as string));
 
     return (
       <ColorPicker.Root value={color} onChange={setColor}>
-        <ColorArea.Root>
+        <ColorArea.Root xChannel={args.xChannel as 'saturation'} yChannel={args.yChannel as 'brightness'}>
           <ColorArea.Thumb />
         </ColorArea.Root>
       </ColorPicker.Root>
@@ -44,35 +60,53 @@ export const Root: Story = {
  */
 export const SharedState: Story = {
   name: 'Shared State (Recommended)',
-  render() {
-    const [color, setColor] = useState<Color>(parseColor('hsb(200, 100%, 100%)'));
+  argTypes: {
+    initialColor: { control: 'color' },
+    showHue: { control: 'boolean' },
+    showSaturation: { control: 'boolean' },
+    showBrightness: { control: 'boolean' },
+  },
+  args: {
+    initialColor: '#33ccff',
+    showHue: true,
+    showSaturation: true,
+    showBrightness: true,
+  },
+  render(args) {
+    const [color, setColor] = useState<Color>(parseColor(args.initialColor as string));
 
     return (
       <div className="story-col story-col--m">
         <ColorArea.Root value={color} onChange={setColor}>
           <ColorArea.Thumb />
         </ColorArea.Root>
-        <ColorSlider.Root channel="hue" value={color} onChange={setColor}>
-          <ColorSlider.Label>Hue</ColorSlider.Label>
-          <ColorSlider.Output />
-          <ColorSlider.Track>
-            <ColorSlider.Thumb />
-          </ColorSlider.Track>
-        </ColorSlider.Root>
-        <ColorSlider.Root channel="saturation" value={color} onChange={setColor}>
-          <ColorSlider.Label>Saturation</ColorSlider.Label>
-          <ColorSlider.Output />
-          <ColorSlider.Track>
-            <ColorSlider.Thumb />
-          </ColorSlider.Track>
-        </ColorSlider.Root>
-        <ColorSlider.Root channel="brightness" value={color} onChange={setColor}>
-          <ColorSlider.Label>Brightness</ColorSlider.Label>
-          <ColorSlider.Output />
-          <ColorSlider.Track>
-            <ColorSlider.Thumb />
-          </ColorSlider.Track>
-        </ColorSlider.Root>
+        {(args.showHue as boolean) && (
+          <ColorSlider.Root channel="hue" value={color} onChange={setColor}>
+            <ColorSlider.Label>Hue</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+        )}
+        {(args.showSaturation as boolean) && (
+          <ColorSlider.Root channel="saturation" value={color} onChange={setColor}>
+            <ColorSlider.Label>Saturation</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+        )}
+        {(args.showBrightness as boolean) && (
+          <ColorSlider.Root channel="brightness" value={color} onChange={setColor}>
+            <ColorSlider.Label>Brightness</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+        )}
       </div>
     );
   },
