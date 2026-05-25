@@ -4,6 +4,7 @@ import { useFilter } from 'react-aria-components';
 
 type Args = {
   isDisabled?: boolean;
+  size?: 'sm' | 'md';
 };
 
 const panelStyle: React.CSSProperties = {
@@ -30,9 +31,14 @@ const meta: Meta<Args> = {
   parameters: { layout: 'centered' },
   argTypes: {
     isDisabled: { control: 'boolean' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md'],
+    },
   },
   args: {
     isDisabled: false,
+    size: 'md',
   },
 };
 
@@ -57,7 +63,7 @@ export const Default: Story = {
     let { contains } = useFilter({ sensitivity: 'base' });
     return (
       <div style={panelStyle}>
-        <Autocomplete.Root filter={contains}>
+        <Autocomplete.Root filter={contains} size={args.size}>
           <div style={searchStyle}>
             <Autocomplete.SearchField aria-label="Search fruits" isDisabled={args.isDisabled}>
               <Autocomplete.Input placeholder="Search fruits..." />
@@ -83,7 +89,7 @@ export const WithSections: Story = {
     let { contains } = useFilter({ sensitivity: 'base' });
     return (
       <div style={panelStyle}>
-        <Autocomplete.Root filter={contains}>
+        <Autocomplete.Root filter={contains} size={args.size}>
           <div style={searchStyle}>
             <Autocomplete.SearchField aria-label="Search produce" isDisabled={args.isDisabled}>
               <Autocomplete.Input placeholder="Search produce..." />

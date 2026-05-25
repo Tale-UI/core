@@ -409,6 +409,41 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+  4b. DROPDOWN ITEM SIZE MODIFIERS
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Small — tighter padding and smaller font for compact menus / dropdowns */
+.tale-select__listbox--sm,
+.tale-combobox__listbox--sm,
+.tale-autocomplete__listbox--sm,
+.tale-multi-select__listbox--sm,
+.tale-menu__popup--sm,
+.tale-context-menu__list--sm {
+  --item-padding-block: var(--space-4xs);
+  --item-padding-inline: var(--space-2xs);
+  --item-gap: var(--space-4xs);
+  --item-font-size: var(--text-s-font-size);
+  --group-label-font-size: var(--label-xs-font-size);
+}
+
+/* Small — group header padding */
+.tale-menu__popup--sm .tale-menu__header,
+.tale-select__listbox--sm .tale-select__header,
+.tale-combobox__listbox--sm .tale-combobox__header,
+.tale-autocomplete__listbox--sm .tale-autocomplete__header {
+  padding: var(--space-4xs) var(--space-2xs);
+}
+
+/* Small — separator margin */
+.tale-menu__popup--sm .tale-menu__separator,
+.tale-context-menu__list--sm .tale-context-menu__separator,
+.tale-select__listbox--sm .tale-select__separator,
+.tale-combobox__listbox--sm .tale-combobox__separator,
+.tale-autocomplete__listbox--sm .tale-autocomplete__separator {
+  margin: 2px 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
   5. GROUP LABEL
    ══════════════════════════════════════════════════════════════════════════ */
 

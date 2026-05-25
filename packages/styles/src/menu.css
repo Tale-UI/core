@@ -35,6 +35,12 @@
   width: max-content;
 }
 
+.tale-menu__popup--sm,
+.tale-context-menu__list--sm {
+  padding: 2px;
+  min-width: 14rem;
+}
+
 /* ─── Popover — wrapper around the popup ──────────────────────────────────── */
 
 .tale-menu__popover {

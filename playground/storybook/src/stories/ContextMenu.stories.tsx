@@ -1,11 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ContextMenu } from '@tale-ui/react/context-menu';
 
-type Args = Record<string, never>;
+type Args = {
+  size?: 'sm' | 'md';
+};
 
 const meta: Meta<Args> = {
   title: 'Components/ContextMenu',
   parameters: { layout: 'centered' },
+  argTypes: {
+    size: {
+      control: 'select',
+      options: ['sm', 'md'],
+    },
+  },
+  args: {
+    size: 'md',
+  },
 };
 
 export default meta;
@@ -13,8 +24,8 @@ export default meta;
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
-  render: () => (
-    <ContextMenu.Root>
+  render: (args) => (
+    <ContextMenu.Root size={args.size}>
       <ContextMenu.Trigger>Right-click here</ContextMenu.Trigger>
       <ContextMenu.Popup>
         <ContextMenu.MenuList aria-label="Context actions">
@@ -29,8 +40,8 @@ export const Default: Story = {
 };
 
 export const WithGroups: Story = {
-  render: () => (
-    <ContextMenu.Root>
+  render: (args) => (
+    <ContextMenu.Root size={args.size}>
       <ContextMenu.Trigger>
         <div className="story-context-trigger">
           Right-click this area

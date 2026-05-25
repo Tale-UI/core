@@ -17,8 +17,12 @@ import { cx } from '../_cx';
 
 /* ─── Root (right-click context menu controller) ─────────────────────────── */
 
+type Size = 'sm' | 'md';
+
 export interface RootProps {
   children: React.ReactNode;
+  /** Size of context menu items. @default 'md' */
+  size?: Size | undefined;
 }
 
 interface ContextMenuState {
@@ -47,7 +51,7 @@ interface ContextMenuState {
  * </ContextMenu.Root>
  * ```
  */
-export function Root({ children }: RootProps) {
+export function Root({ children, size = 'md' }: RootProps) {
   const [state, setState] = React.useState<ContextMenuState>({
     isOpen: false,
     x: 0,
@@ -63,7 +67,7 @@ export function Root({ children }: RootProps) {
   }, []);
 
   return (
-    <ContextMenuContext.Provider value={{ ...state, open, close }}>
+    <ContextMenuContext.Provider value={{ ...state, open, close, size }}>
       {children}
     </ContextMenuContext.Provider>
   );
@@ -72,6 +76,7 @@ export function Root({ children }: RootProps) {
 interface ContextMenuContextValue extends ContextMenuState {
   open: (x: number, y: number) => void;
   close: () => void;
+  size: Size;
 }
 
 const ContextMenuContext = React.createContext<ContextMenuContextValue>({
@@ -80,6 +85,7 @@ const ContextMenuContext = React.createContext<ContextMenuContextValue>({
   y: 0,
   open: () => {},
   close: () => {},
+  size: 'md',
 });
 
 /* ─── Trigger (right-click area) ─────────────────────────────────────────── */
@@ -162,10 +168,11 @@ export function MenuList<T extends object>(
   props: Omit<MenuProps<T>, 'className'> & { className?: string },
 ) {
   const { className, ...rest } = props;
-  const { close } = React.useContext(ContextMenuContext);
+  const { close, size } = React.useContext(ContextMenuContext);
+  const sizeClass = size !== 'md' ? ` tale-context-menu__list--${size}` : '';
   return (
     <Menu
-      className={cx('tale-context-menu__list', className)}
+      className={cx(`tale-context-menu__list${sizeClass}`, className)}
       onAction={() => close()}
       {...rest}
     />

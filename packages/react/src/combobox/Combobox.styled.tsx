@@ -24,10 +24,18 @@ import {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
+/* ─── Context ────────────────────────────────────────────────────────────── */
+
+type Size = 'sm' | 'md';
+interface ComboboxContextValue { size: Size; }
+const ComboboxContext = React.createContext<ComboboxContextValue>({ size: 'md' });
+
 /* ─── Root (ComboBox) ─────────────────────────────────────────────────────── */
 
 export type RootProps<T extends object = object> = Omit<AriaComboBoxProps<T>, 'className'> & {
   className?: string;
+  /** Size of listbox items, propagated via context. @default 'md' */
+  size?: Size | undefined;
 };
 
 /**
@@ -55,12 +63,14 @@ export type RootProps<T extends object = object> = Omit<AriaComboBoxProps<T>, 'c
 export const Root: <T extends object = object>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(
-  ({ className, ...props }: RootProps, ref) => (
-    <AriaComboBox
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={cx('tale-combobox', className)}
-      {...props}
-    />
+  ({ className, size, ...props }: RootProps, ref) => (
+    <ComboboxContext.Provider value={{ size: size ?? 'md' }}>
+      <AriaComboBox
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={cx('tale-combobox', className)}
+        {...props}
+      />
+    </ComboboxContext.Provider>
   ),
 ) as any;
 (Root as any).displayName = 'Combobox.Root';
@@ -164,13 +174,17 @@ export type ListBoxProps<T extends object = object> = Omit<AriaListBoxProps<T>, 
 export const ListBox: <T extends object = object>(
   props: ListBoxProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(
-  ({ className, ...props }: ListBoxProps, ref) => (
-    <AriaListBox
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={cx('tale-combobox__listbox', className)}
-      {...props}
-    />
-  ),
+  ({ className, ...props }: ListBoxProps, ref) => {
+    const { size } = React.useContext(ComboboxContext);
+    const sizeClass = size !== 'md' ? ` tale-combobox__listbox--${size}` : '';
+    return (
+      <AriaListBox
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={cx(`tale-combobox__listbox${sizeClass}`, className)}
+        {...props}
+      />
+    );
+  },
 ) as any;
 (ListBox as any).displayName = 'Combobox.ListBox';
 

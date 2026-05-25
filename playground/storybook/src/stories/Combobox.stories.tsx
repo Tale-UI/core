@@ -3,6 +3,7 @@ import { Combobox } from '@tale-ui/react/combobox';
 
 type Args = {
   isDisabled?: boolean;
+  size?: 'sm' | 'md';
 };
 
 const meta: Meta<Args> = {
@@ -16,9 +17,14 @@ const meta: Meta<Args> = {
   ],
   argTypes: {
     isDisabled: { control: 'boolean' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md'],
+    },
   },
   args: {
     isDisabled: false,
+    size: 'md',
   },
 };
 
@@ -28,7 +34,7 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Combobox.Root isDisabled={args.isDisabled}>
+    <Combobox.Root isDisabled={args.isDisabled} size={args.size}>
       <Combobox.InputGroup>
         <Combobox.Input />
         <Combobox.Trigger />
@@ -48,7 +54,7 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
   render: (args) => (
-    <Combobox.Root isDisabled={args.isDisabled}>
+    <Combobox.Root isDisabled={args.isDisabled} size={args.size}>
       <Combobox.Label>Favorite fruit</Combobox.Label>
       <Combobox.InputGroup>
         <Combobox.Input />
@@ -67,7 +73,7 @@ export const WithLabel: Story = {
 
 export const WithInputGroup: Story = {
   render: (args) => (
-    <Combobox.Root isDisabled={args.isDisabled}>
+    <Combobox.Root isDisabled={args.isDisabled} size={args.size}>
       <Combobox.Label>Search countries</Combobox.Label>
       <Combobox.InputGroup>
         <Combobox.Input placeholder="Type to search…" />
@@ -88,7 +94,7 @@ export const WithInputGroup: Story = {
 
 export const WithSections: Story = {
   render: (args) => (
-    <Combobox.Root isDisabled={args.isDisabled}>
+    <Combobox.Root isDisabled={args.isDisabled} size={args.size}>
       <Combobox.Label>Food</Combobox.Label>
       <Combobox.InputGroup>
         <Combobox.Input placeholder="Search food…" />
@@ -116,7 +122,7 @@ export const WithSections: Story = {
 
 export const Empty: Story = {
   render: (args) => (
-    <Combobox.Root isDisabled={args.isDisabled}>
+    <Combobox.Root isDisabled={args.isDisabled} size={args.size}>
       <Combobox.Label>Search (try typing something not in list)</Combobox.Label>
       <Combobox.InputGroup>
         <Combobox.Input placeholder="Type to filter…" />

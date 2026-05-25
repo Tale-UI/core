@@ -185,13 +185,17 @@ export type ListBoxProps<T extends object = object> = Omit<AriaListBoxProps<T>, 
 export const ListBox: <T extends object = object>(
   props: ListBoxProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(
-  ({ className, ...props }: ListBoxProps, ref) => (
-    <AriaListBox
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={cx('tale-select__listbox', className)}
-      {...props}
-    />
-  ),
+  ({ className, ...props }: ListBoxProps, ref) => {
+    const { size } = React.useContext(SelectContext);
+    const sizeClass = size !== 'md' ? ` tale-select__listbox--${size}` : '';
+    return (
+      <AriaListBox
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={cx(`tale-select__listbox${sizeClass}`, className)}
+        {...props}
+      />
+    );
+  },
 ) as any;
 (ListBox as any).displayName = 'Select.ListBox';
 

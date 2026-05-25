@@ -18,9 +18,18 @@ import {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
+/* ─── Context ────────────────────────────────────────────────────────────── */
+
+type Size = 'sm' | 'md';
+interface AutocompleteContextValue { size: Size; }
+const AutocompleteContext = React.createContext<AutocompleteContextValue>({ size: 'md' });
+
 /* ─── Root (Autocomplete filtering context) ──────────────────────────────── */
 
-export type RootProps<T extends object = object> = AriaAutocompleteProps<T>;
+export type RootProps<T extends object = object> = AriaAutocompleteProps<T> & {
+  /** Size of listbox items, propagated via context. @default 'md' */
+  size?: Size | undefined;
+};
 
 /**
  * A search field with a live-filtered list of suggestions.
@@ -40,8 +49,12 @@ export type RootProps<T extends object = object> = AriaAutocompleteProps<T>;
  * </Autocomplete.Root>
  * ```
  */
-export function Root<T extends object>(props: RootProps<T>) {
-  return <AriaAutocomplete {...props} />;
+export function Root<T extends object>({ size, ...props }: RootProps<T>) {
+  return (
+    <AutocompleteContext.Provider value={{ size: size ?? 'md' }}>
+      <AriaAutocomplete {...props} />
+    </AutocompleteContext.Provider>
+  );
 }
 
 /* ─── SearchField ────────────────────────────────────────────────────────── */
@@ -75,13 +88,17 @@ export type ListBoxProps<T extends object = object> = Omit<AriaListBoxProps<T>, 
 export const ListBox: <T extends object = object>(
   props: ListBoxProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement | null = React.forwardRef(
-  ({ className, ...props }: ListBoxProps, ref) => (
-    <AriaListBox
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={cx('tale-autocomplete__listbox', className)}
-      {...props}
-    />
-  ),
+  ({ className, ...props }: ListBoxProps, ref) => {
+    const { size } = React.useContext(AutocompleteContext);
+    const sizeClass = size !== 'md' ? ` tale-autocomplete__listbox--${size}` : '';
+    return (
+      <AriaListBox
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={cx(`tale-autocomplete__listbox${sizeClass}`, className)}
+        {...props}
+      />
+    );
+  },
 ) as any;
 (ListBox as any).displayName = 'Autocomplete.ListBox';
 

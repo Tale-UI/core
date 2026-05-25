@@ -244,7 +244,7 @@ export function Root<T extends object>({
                       onClearSearch={searchValue ? handleClearSearch : undefined}
                     />
                   )}
-                  className="tale-multi-select__listbox"
+                  className={`tale-multi-select__listbox${size !== 'md' ? ` tale-multi-select__listbox--${size}` : ''}`}
                 >
                   {children as any}
                 </AriaListBox>

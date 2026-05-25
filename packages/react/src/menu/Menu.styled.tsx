@@ -19,9 +19,18 @@ import {
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
+/* ─── Context ────────────────────────────────────────────────────────────── */
+
+type Size = 'sm' | 'md';
+interface MenuContextValue { size: Size; }
+const MenuContext = React.createContext<MenuContextValue>({ size: 'md' });
+
 /* ─── Root (MenuTrigger) ──────────────────────────────────────────────────── */
 
-export type RootProps = AriaMenuTriggerProps;
+export type RootProps = AriaMenuTriggerProps & {
+  /** Size of menu items, propagated via context. @default 'md' */
+  size?: Size | undefined;
+};
 /**
  * A dropdown menu triggered by a button.
  *
@@ -42,7 +51,15 @@ export type RootProps = AriaMenuTriggerProps;
  * </Menu.Root>
  * ```
  */
-export const Root = AriaMenuTrigger;
+export function Root({ size, ...props }: RootProps) {
+  const value = React.useMemo<MenuContextValue>(() => ({ size: size ?? 'md' }), [size]);
+  return (
+    <MenuContext.Provider value={value}>
+      <AriaMenuTrigger {...props} />
+    </MenuContext.Provider>
+  );
+}
+Root.displayName = 'Menu.Root';
 
 /* ─── Trigger ─────────────────────────────────────────────────────────────── */
 
@@ -79,9 +96,13 @@ export type MenuListProps = Omit<AriaMenuProps<object>, 'className'> & { classNa
  * ```
  */
 export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
-  ({ className, ...props }, ref) => (
-    <AriaMenu ref={ref} className={cx('tale-menu__popup', className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    const { size } = React.useContext(MenuContext);
+    const sizeClass = size !== 'md' ? ` tale-menu__popup--${size}` : '';
+    return (
+      <AriaMenu ref={ref} className={cx(`tale-menu__popup${sizeClass}`, className)} {...props} />
+    );
+  },
 );
 MenuList.displayName = 'Menu.MenuList';
 
