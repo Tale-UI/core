@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-05-03",
+  "generatedAt": "2026-05-24",
   "types": [
     {
       "name": "Text",
@@ -3775,6 +3775,16 @@
           "name": "color",
           "hint": "hex or CSS color string (e.g. `#ff0000`)",
           "allowedValues": null
+        },
+        {
+          "name": "shape",
+          "hint": "",
+          "allowedValues": null
+        },
+        {
+          "name": "secondaryColor",
+          "hint": "",
+          "allowedValues": null
         }
       ],
       "isSubPart": false,
@@ -3785,6 +3795,11 @@
       "category": "Additional Color",
       "component": "ColorSwatchPicker.Root",
       "props": [
+        {
+          "name": "shape",
+          "hint": "",
+          "allowedValues": null
+        },
         {
           "name": "colors",
           "hint": "array of hex color strings (e.g. `[\"#ff0000\", \"#00ff00\", \"#0000ff\"]`)",

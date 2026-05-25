@@ -2,6 +2,17 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.49 — 2026-05-24
+
+### Added
+
+- **ColorSwatch**: Added styles for shape variants and split-color swatches.
+- **ColorSwatchPicker**: Added styles for the updated swatch picker presentation.
+
+### Fixed
+
+- **NumberField**: Adjusted styles for the current component showcase output.
+
 ## v1.3.48 — 2026-05-07
 
 No changes — version bump for coordinated release.

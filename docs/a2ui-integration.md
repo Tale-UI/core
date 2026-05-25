@@ -29,7 +29,10 @@ function AgentConnection() {
   return null;
 }
 
-function handleAction(surfaceId: string, action: { name: string; context?: Record<string, unknown> }) {
+function handleAction(
+  surfaceId: string,
+  action: { name: string; context?: Record<string, unknown> },
+) {
   // Route actions back to your agent via WebSocket, API call, etc.
   ws.send(JSON.stringify({ surfaceId, action }));
 }
@@ -74,12 +77,12 @@ Agent (LLM)                              Your React App
 
 A2UI defines four message types:
 
-| Message | Purpose | Example |
-|---------|---------|---------|
-| `beginRendering` | Start a new surface | `{ type: "beginRendering", surfaceId: "main", rootComponentId: "root" }` |
-| `surfaceUpdate` | Add/update components | `{ type: "surfaceUpdate", surfaceId: "main", components: [...] }` |
-| `dataModelUpdate` | Set data at a path | `{ type: "dataModelUpdate", surfaceId: "main", path: "name", value: "Alice" }` |
-| `deleteSurface` | Remove a surface | `{ type: "deleteSurface", surfaceId: "main" }` |
+| Message           | Purpose               | Example                                                                        |
+| ----------------- | --------------------- | ------------------------------------------------------------------------------ |
+| `beginRendering`  | Start a new surface   | `{ type: "beginRendering", surfaceId: "main", rootComponentId: "root" }`       |
+| `surfaceUpdate`   | Add/update components | `{ type: "surfaceUpdate", surfaceId: "main", components: [...] }`              |
+| `dataModelUpdate` | Set data at a path    | `{ type: "dataModelUpdate", surfaceId: "main", path: "name", value: "Alice" }` |
+| `deleteSurface`   | Remove a surface      | `{ type: "deleteSurface", surfaceId: "main" }`                                 |
 
 ### 2. Adjacency-List Component Model
 
@@ -92,7 +95,12 @@ Components are a **flat array** — not a nested tree. Parent-child relationship
   "components": [
     { "id": "root", "component": { "Column": { "spacing": "m", "children": ["heading", "btn"] } } },
     { "id": "heading", "component": { "Text": { "content": "Hello", "usageHint": "heading-m" } } },
-    { "id": "btn", "component": { "Button": { "label": "Click me", "variant": "primary", "action": { "name": "click" } } } }
+    {
+      "id": "btn",
+      "component": {
+        "Button": { "label": "Click me", "variant": "primary", "action": { "name": "click" } }
+      }
+    }
   ]
 }
 ```
@@ -101,8 +109,12 @@ The renderer reconstructs this into a tree and renders:
 
 ```tsx
 <Column gap="m">
-  <Text variant="heading" size="m" as="h3">Hello</Text>
-  <Button variant="primary" onPress={() => dispatch("click")}>Click me</Button>
+  <Text variant="heading" size="m" as="h3">
+    Hello
+  </Text>
+  <Button variant="primary" onPress={() => dispatch('click')}>
+    Click me
+  </Button>
 </Column>
 ```
 
@@ -111,7 +123,10 @@ The renderer reconstructs this into a tree and renders:
 Components can bind to the surface's data model using `{ path: "..." }` references:
 
 ```json
-{ "id": "name-input", "component": { "TextInput": { "label": "Name", "binding": { "path": "userName" } } } }
+{
+  "id": "name-input",
+  "component": { "TextInput": { "label": "Name", "binding": { "path": "userName" } } }
+}
 ```
 
 Set the value via `dataModelUpdate`:
@@ -127,7 +142,12 @@ The component reactively reads the value and re-renders when it changes.
 Interactive components declare actions that are routed back to the agent:
 
 ```json
-{ "id": "save", "component": { "Button": { "label": "Save", "action": { "name": "save", "context": { "formId": "profile" } } } } }
+{
+  "id": "save",
+  "component": {
+    "Button": { "label": "Save", "action": { "name": "save", "context": { "formId": "profile" } } }
+  }
+}
 ```
 
 When clicked, your `onAction` callback receives `("main", { name: "save", context: { formId: "profile" } })`.
@@ -272,8 +292,8 @@ The default catalog maps all 142 A2UI standard component types to Tale UI.
 | `Autocomplete` | `Autocomplete.Root` | `label`, `placeholder` |
 | `AutocompleteItem` | `Autocomplete.Item` | `id`, `textValue`, `disabled`, `label` |
 | `ColorWheel` | `ColorWheel.Root` | `label`, `outerRadius`, `innerRadius` |
-| `ColorSwatch` | `ColorSwatch` | `color` |
-| `ColorSwatchPicker` | `ColorSwatchPicker.Root` | `colors` |
+| `ColorSwatch` | `ColorSwatch` | `color`, `shape`, `secondaryColor` |
+| `ColorSwatchPicker` | `ColorSwatchPicker.Root` | `shape`, `colors` |
 | `ColorPicker` | `ColorPicker.Root` | -- |
 | `AppStoreButton` | `AppStoreButton` | `store`, `size`, `href` |
 | `SocialButton` | `SocialButton` | `provider`, `size`, `href`, `label` |
@@ -331,7 +351,7 @@ const catalog = createCatalog({
 
 <A2UIProvider catalog={catalog} onAction={handleAction}>
   <A2UISurface surfaceId="main" />
-</A2UIProvider>
+</A2UIProvider>;
 ```
 
 ---
@@ -374,13 +394,13 @@ if (!result.valid) {
 
 **What it checks:**
 
-| Check | Error type | Example |
-|-------|-----------|---------|
-| Message structure | `missing_field` | Missing `surfaceId` on surfaceUpdate |
-| Message type | `invalid_message_type` | Unknown message type `"renderUI"` |
-| Component types | `unknown_component_type` | `"Dropdown"` not in catalog |
-| Duplicate IDs | `duplicate_id` | Two components with id `"root"` |
-| Orphaned refs | `orphaned_reference` | Child ID `"missing"` doesn't exist |
+| Check             | Error type               | Example                              |
+| ----------------- | ------------------------ | ------------------------------------ |
+| Message structure | `missing_field`          | Missing `surfaceId` on surfaceUpdate |
+| Message type      | `invalid_message_type`   | Unknown message type `"renderUI"`    |
+| Component types   | `unknown_component_type` | `"Dropdown"` not in catalog          |
+| Duplicate IDs     | `duplicate_id`           | Two components with id `"root"`      |
+| Orphaned refs     | `orphaned_reference`     | Child ID `"missing"` doesn't exist   |
 
 ---
 
@@ -448,13 +468,13 @@ The package includes an LLM-friendly system prompt at `packages/a2ui/src/agent/s
 
 Five few-shot examples are included in `packages/a2ui/src/agent/examples/`:
 
-| Example | Description |
-|---------|-------------|
-| `simple-form.json` | Login form with text inputs and submit button |
-| `card-list.json` | Product cards with images, titles, badges |
-| `dashboard.json` | Stats cards, progress bar, data-bound values |
-| `settings-page.json` | Switches, selects, divided lists |
-| `data-table.json` | Table in a card with header actions |
+| Example              | Description                                   |
+| -------------------- | --------------------------------------------- |
+| `simple-form.json`   | Login form with text inputs and submit button |
+| `card-list.json`     | Product cards with images, titles, badges     |
+| `dashboard.json`     | Stats cards, progress bar, data-bound values  |
+| `settings-page.json` | Switches, selects, divided lists              |
+| `data-table.json`    | Table in a card with header actions           |
 
 ---
 
@@ -480,13 +500,13 @@ The demo lets you:
 
 A2UI rendering inherits all Tale UI design system features automatically:
 
-| Feature | How it works |
-|---------|-------------|
-| **Dark mode** | All `--color-*` and `--neutral-*` tokens auto-invert — zero agent effort |
-| **Theming** | Wrap `A2UISurface` in `<Container color="indigo">` for per-surface color themes |
-| **Responsive** | Spacing tokens use `clamp()` — layouts adapt between 480px–1600px automatically |
-| **Accessibility** | React Aria provides WAI-ARIA, keyboard nav, and focus management |
-| **Typography** | `Text` component maps `usageHint` to the full typography token scale |
+| Feature           | How it works                                                                    |
+| ----------------- | ------------------------------------------------------------------------------- |
+| **Dark mode**     | All `--color-*` and `--neutral-*` tokens auto-invert — zero agent effort        |
+| **Theming**       | Wrap `A2UISurface` in `<Container color="indigo">` for per-surface color themes |
+| **Responsive**    | Spacing tokens use `clamp()` — layouts adapt between 480px–1600px automatically |
+| **Accessibility** | React Aria provides WAI-ARIA, keyboard nav, and focus management                |
+| **Typography**    | `Text` component maps `usageHint` to the full typography token scale            |
 
 ---
 

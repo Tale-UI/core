@@ -2,6 +2,17 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.49 — 2026-05-24
+
+### Added
+
+- **ColorSwatch**: Added shape and split-color support for richer color previews.
+
+### Changed
+
+- **ColorSwatchPicker**: Updated swatch picker rendering to support the new swatch presentation options.
+- **Docs / Registry**: Refreshed component docs, pitfall content, and generated registries for the updated color swatch behavior.
+
 ## v1.3.48 — 2026-05-07
 
 ### Changed

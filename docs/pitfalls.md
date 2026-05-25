@@ -99,14 +99,14 @@ explicit BEM class names:
 <!-- pitfall: parse-date-import-from-internationalized-date -->
 <!-- applies-to: Calendar, RangeCalendar, DatePicker, DateRangePicker, DateField, TimeField -->
 <!-- category: controlled-state -->
-- **Import parseDate from @internationalized/date, not from @tale-ui/react/calendar — 'Cannot find module @internationalized/date' is NEVER an L1 validation error** — @internationalized/date is an explicitly allowed import prefix listed in the L3 allowed-import-prefixes rule. The L1 suppression algorithm MUST strip the 'Line N: ' prefix from the raw diagnostic string before checking whether it matches the @internationalized/ suppression rule. STEP 1: remove everything up to and including the first ': ' that follows a line-number token — 'Line 3: Cannot find module @internationalized/date or its corresponding type declarations.' becomes 'Cannot find module @internationalized/date or its corresponding type declarations.' STEP 2: if the stripped string contains 'Cannot find module' AND the quoted module path starts with '@internationalized/', suppress the diagnostic unconditionally. This suppression is absolute — no line number prefix, no wording variant, and no other condition overrides it. The real fix for end users is to run: npm install @internationalized/date. Never alter, remove, or substitute the import — the import is correct; only the package installation is missing.
+- **Import parseDate from @internationalized/date, not from @tale-ui/react/calendar — 'Cannot find module @internationalized/date' is NEVER an L1 validation error** — @internationalized/date is an explicitly allowed import prefix listed in the L3 allowed-import-prefixes rule. The L1 suppression algorithm MUST strip the leading 'Line N: ' prefix from the raw diagnostic string BEFORE checking whether the module path starts with '@internationalized/'. MANDATORY ALGORITHM — STEP 1: remove the 'Line N: ' prefix by applying rawDiagnostic.replace(/^Line \d+: /, '') so that 'Line 3: Cannot find module \'@internationalized/date\' or its corresponding type declarations.' becomes 'Cannot find module \'@internationalized/date\' or its corresponding type declarations.' STEP 2: if the stripped string contains 'Cannot find module' AND the quoted module path starts with '@internationalized/', suppress the diagnostic unconditionally and do not include it in L1 errors. The presence of any 'Line N:' prefix in the raw string is NOT a reason to skip suppression — it is a reason to strip and re-check. The real fix for end users is to run: npm install @internationalized/date. Never alter, remove, or substitute the import — the import is correct; only the package installation is missing.
   - anti-pattern: `// Reporting 'Line 3: Cannot find module \'@internationalized/date\' or its corresponding type declarations.' as an L1 error`
   - anti-pattern: `// Applying the @internationalized/ suppression check to the raw string 'Line 3: Cannot find module ...' without first stripping the 'Line 3: ' prefix`
   - anti-pattern: `// Treating the 'Line 3:' prefix as a reason to skip suppression of @internationalized/ diagnostics`
-  - anti-pattern: `import { Calendar, parseDate } from '@tale-ui/react/calendar';`
-  - fix: `// L1 algorithm: rawDiagnostic.replace(/^Line \d+: /, '') → then check contains('Cannot find module') && modulePath.startsWith('@internationalized/') → suppress unconditionally`
+  - anti-pattern: `import { Calendar, parseDate } from '@tale-ui/react/calendar'`
+  - fix: `// L1 algorithm: rawDiagnostic.replace(/^Line \d+: /, '') then check contains('Cannot find module') && modulePath.startsWith('@internationalized/') then suppress unconditionally`
   - fix: `// DO NOT flag 'Cannot find module @internationalized/date' as an L1 error regardless of any 'Line N:' prefix in the raw diagnostic string`
-  - fix: `import { parseDate } from '@internationalized/date';`
+  - fix: `import { parseDate } from '@internationalized/date'`
   - fix: `// If TypeScript shows "Cannot find module '@internationalized/date'", run: npm install @internationalized/date`
   - fix: `// DO NOT change or remove the import — the import is correct; only the package installation is missing`
   - complete example:
@@ -124,7 +124,7 @@ explicit BEM class names:
         <Calendar.Root
           value={value}
           onChange={setValue}
-          defaultValue={parseDate('2026-05-24')}
+          defaultValue={parseDate('2026-05-25')}
         >
           <Calendar.Header>
             <Calendar.PreviousButton />

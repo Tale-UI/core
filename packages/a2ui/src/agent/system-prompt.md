@@ -607,7 +607,10 @@ All container components accept a `children` array of child component IDs. This 
 |  | `outerRadius` | number (outer radius in px, default 100) |
 |  | `innerRadius` | number (inner radius in px, default 70) |
 | **ColorSwatch** | `color` | hex or CSS color string (e.g. `#ff0000`) |
-| **ColorSwatchPicker** | `colors` | array of hex color strings (e.g. `["#ff0000", "#00ff00", "#0000ff"]`) |
+|  | `shape` |  |
+|  | `secondaryColor` |  |
+| **ColorSwatchPicker** | `shape` |  |
+|  | `colors` | array of hex color strings (e.g. `["#ff0000", "#00ff00", "#0000ff"]`) |
 | **ColorPicker** | (none) | |
 
 ### Marketing
@@ -658,7 +661,9 @@ All container components accept a `children` array of child component IDs. This 
 The following 65 icon names are available for the `Icon` component's `name` prop and the `EmptyState` component's `icon` prop. Use **only** these names — unknown names render a fallback question-mark icon.
 
 <!-- BEGIN:A2UI_ICON_NAMES -->
+
 `alert-circle`, `alert-triangle`, `archive`, `arrow-down`, `arrow-left`, `arrow-right`, `arrow-up`, `bell`, `bookmark`, `calendar`, `check`, `check-circle`, `chevron-down`, `chevron-left`, `chevron-right`, `chevron-up`, `clock`, `copy`, `download`, `edit`, `external-link`, `eye`, `eye-off`, `file`, `filter`, `folder`, `globe`, `heart`, `help-circle`, `home`, `image`, `info`, `link`, `list`, `loader`, `lock`, `log-out`, `mail`, `map`, `menu`, `message-circle`, `minus`, `moon`, `more-horizontal`, `more-vertical`, `palette`, `pencil`, `phone`, `plus`, `refresh-cw`, `search`, `send`, `settings`, `share`, `shopping-cart`, `slash`, `star`, `sun`, `trash`, `upload`, `user`, `users`, `x`, `x-circle`, `zap`
+
 <!-- END:A2UI_ICON_NAMES -->
 
 ## Data Binding
@@ -687,11 +692,13 @@ Declare actions on interactive components: `"action": { "name": "submitForm", "c
 Use `weight` to make a component fill available space (flex-grow). **`weight` is a top-level property on the component entry — NOT inside the component props object.**
 
 **Correct:**
+
 ```json
 { "id": "main", "component": { "Column": { "spacing": "m", "children": [...] } }, "weight": 1 }
 ```
 
 **Wrong** (weight inside props — will be ignored):
+
 ```json
 { "id": "main", "component": { "Column": { "spacing": "m", "weight": 1, "children": [...] } } }
 ```
@@ -748,12 +755,39 @@ A simple contact form:
 ```json
 [
   { "type": "beginRendering", "surfaceId": "contact", "rootComponentId": "root" },
-  { "type": "surfaceUpdate", "surfaceId": "contact", "components": [
-    { "id": "root", "component": { "Column": { "spacing": "m", "children": ["title", "name-field", "email-field", "submit"] } } },
-    { "id": "title", "component": { "Text": { "usageHint": "heading-m", "content": "Contact Us" } } },
-    { "id": "name-field", "component": { "TextInput": { "label": "Name", "binding": { "path": "name" }, "required": true } } },
-    { "id": "email-field", "component": { "TextInput": { "label": "Email", "binding": { "path": "email" }, "required": true } } },
-    { "id": "submit", "component": { "Button": { "variant": "primary", "label": "Send", "action": { "name": "submit" } } } }
-  ]}
+  {
+    "type": "surfaceUpdate",
+    "surfaceId": "contact",
+    "components": [
+      {
+        "id": "root",
+        "component": {
+          "Column": { "spacing": "m", "children": ["title", "name-field", "email-field", "submit"] }
+        }
+      },
+      {
+        "id": "title",
+        "component": { "Text": { "usageHint": "heading-m", "content": "Contact Us" } }
+      },
+      {
+        "id": "name-field",
+        "component": {
+          "TextInput": { "label": "Name", "binding": { "path": "name" }, "required": true }
+        }
+      },
+      {
+        "id": "email-field",
+        "component": {
+          "TextInput": { "label": "Email", "binding": { "path": "email" }, "required": true }
+        }
+      },
+      {
+        "id": "submit",
+        "component": {
+          "Button": { "variant": "primary", "label": "Send", "action": { "name": "submit" } }
+        }
+      }
+    ]
+  }
 ]
 ```

@@ -25,7 +25,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 
 - Never annotate component return types as JSX.Element or use React.FC — the new JSX transform is in use; write plain functions with no return type annotation.
 - Use default visual props when the prompt does not request styling — inventing non-default variant, theme, size, shape, color, or decorative modifiers makes underspecified prompts non-deterministic and drifts from the canonical component design.
-- Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all. - fix (for 'Create a primary button that says Save'): import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant="primary">Save</Button>; } - fix (for 'Create a success badge that displays Active'): import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant="success">Active</Badge>; }
+- Always generate complete, working code directly — never ask for clarification, return an empty function body, or output a blank code block — when given a UI prompt, immediately output a full import block and component with a non-empty return; never reply with questions, option lists, an empty function, or a completely blank file with no code at all. This applies equally to simple single-component prompts and to complex multi-component compositions such as an FAQ section combining Accordion, Banner, Link, Column, and Text — complexity is never a reason to return empty code. - fix (for 'Create a primary button that says Save'): import { Button } from '@tale-ui/react/button'; export function SaveButton() { return <Button variant="primary">Save</Button>; } - fix (for 'Create a success badge that displays Active'): import { Badge } from '@tale-ui/react/badge'; export function ActiveBadge() { return <Badge variant="success">Active</Badge>; } import { Accordion } from '@tale-ui/react/accordion'; import { Banner } from '@tale-ui/react/banner'; import { Link } from '@tale-ui/react/link'; import { Column } from '@tale-ui/react/column'; import { Text } from '@tale-ui/react/text';  export function FaqSection() { return ( <Column gap="l"> <Text variant="heading" as="h2">Frequently Asked Questions</Text> <Accordion.Root> <Accordion.Item id="what-is"> <Accordion.Header> <Accordion.Trigger>What is Tale UI?</Accordion.Trigger> </Accordion.Header> <Accordion.Panel> <Text>Tale UI is a design system providing accessible, themeable components.</Text> </Accordion.Panel> </Accordion.Item> <Accordion.Item id="install"> <Accordion.Header> <Accordion.Trigger>How do I install it?</Accordion.Trigger> </Accordion.Header> <Accordion.Panel> <Text>Run <Text variant="mono">pnpm install @tale-ui/react</Text> to add Tale UI to your project.</Text> </Accordion.Panel> </Accordion.Item> <Accordion.Item id="accessible"> <Accordion.Header> <Accordion.Trigger>Is it accessible?</Accordion.Trigger> </Accordion.Header> <Accordion.Panel> <Text>Yes. Tale UI is built on a React Aria foundation, ensuring full keyboard and screen reader support.</Text> </Accordion.Panel> </Accordion.Item> <Accordion.Item id="theme"> <Accordion.Header> <Accordion.Trigger>Can I customize the theme?</Accordion.Trigger> </Accordion.Header> <Accordion.Panel> <Text>Yes. Theming is done via CSS custom properties, making it easy to adapt to any brand.</Text> </Accordion.Panel> </Accordion.Item> </Accordion.Root> <Banner.Root variant="info"> <Banner.Description> Still have questions? <Link href="/contact">Contact us</Link> </Banner.Description> </Banner.Root> </Column> ); }
 - Size token suffixes (-s, -m, -l) are CSS names — component size props use 'sm'/'md'/'lg' without a dash, EXCEPT Text which uses 'xs'/'s'/'m'/'l' — the dash in --space-s is CSS token notation; prop value strings never start with a dash. Text is the only component whose size prop uses single-letter spacing-token values instead of the doubled component-size names; passing size="sm" to Text causes Type '"sm"' is not assignable to type 'Size | undefined'.
 - Max gap value for Row/Column is '2xl' — there is no '3xl' or '4xl' gap token — using out-of-range gap values produces no visible spacing because the token is undefined.
 - Do not add variant, size, or color props to native HTML elements — these props only exist on Tale UI components and are silently ignored on <div>, <p>, <span>, etc.
@@ -56,6 +56,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Avatar] Use Avatar.Group with Avatar.Count for prompts that ask for stacked avatars with overflow
 - [BackgroundPattern] grid-check does not support size="lg"
 - [BackgroundPattern] Control color with CSS color, not with fill/stroke props
+- [BackgroundPattern] pattern prop uses singular form — 'circle' not 'circles'
 - [Badge] 'danger' is NOT a valid variant
 - [Badge] No color prop
 - [Badge] Use Badge for any prompt that asks for a badge, status label, or status indicator
@@ -64,6 +65,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Banner] Always use <Banner.Root>, never bare <Banner>
 - [Banner] No 'brand' or 'neutral' variant
 - [Banner] Pass content via Banner.Title and Banner.Description
+- [Banner] Use Banner.Actions to add action buttons inside a Banner — never place Button children directly inside Banner.Root
 - [Breadcrumbs] Use Breadcrumbs.Link inside Breadcrumbs.Item, not a standalone <Link>
 - [Button] No 'link' or 'secondary' variant — for Cancel or secondary-action buttons always use variant="neutral"
 - [Button] size accepts 'sm', 'md', 'lg' only — no 'xs'
@@ -95,9 +97,10 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ColorPicker] ColorPicker.Root does not accept a label prop
 - [ColorPicker] Sub-components are NOT exported from @tale-ui/react/color-picker
 - [ColorSlider] Do NOT nest ColorSlider inside ColorPicker.Root
-- [ColorSlider] When composing with ColorArea, wrap both in a single parent element
+- [ColorSlider] When composing with ColorArea, wrap both in a single parent element — use spacing-token gap values, never component-size names
 - [ColorSwatch] color prop accepts a plain CSS string, not a Color object
 - [ColorSwatch] No size prop
+- [ColorSwatch] secondaryColor accepts a plain CSS string
 - [ColorSwatchPicker] Import ColorSwatch separately from @tale-ui/react/color-swatch
 - [ColorSwatchPicker] Uses value/onChange, not onSelectionChange
 - [ColorSwatchPicker] value does NOT accept null or undefined
@@ -119,6 +122,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ContextMenu] ContextMenu.Item has no tone, color, intent, or variant props
 - [CreditCard] Always use CreditCard.Root
 - [CreditCard] Use the width prop to scale, not CSS width
+- [CreditCard] Use CreditCard.Root for any prompt that asks for a credit card display — never return empty code
 - [DateField] The input sub-part is DateField.DateInput, not DateField.Input
 - [DatePicker] No Calendar sub-parts on the DatePicker namespace
 - [DatePicker] No label prop on Root
@@ -158,10 +162,10 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [FileTrigger] For FileTrigger upload actions, use Button variant="neutral" instead of variant="secondary"
 - [FileTrigger] When wrapping FileTrigger in Column, use spacing-token gap values
 - [FileUpload] Use FileUpload.DropZone (capital Z), not FileUpload.Dropzone
-- [FileUpload] All upload config props (accept, maxSize, allowsMultiple, onDropFiles) belong on FileUpload.DropZone, not FileUpload.Root
+- [FileUpload] FileUpload.DropZone does not accept children or any file-filter props — it must be self-closing
 - [FileUpload] FileUpload.DropZone accept takes a comma-separated string, not an array
 - [FileUpload] Use FileUpload for any prompt that asks for a file upload area, dropzone uploader, or uploaded-file list with progress
-- [FileUpload] onDropFiles callback receives FileList, not File[]
+- [FileUpload] FileUpload.DropZone does not accept an onDropFiles prop — never add a callback to manually capture dropped files
 - [Form] Form is a simple component with no sub-parts
 - [Form] method prop requires lowercase values
 - [Form] When wrapping form fields in Column, use spacing-token gap values, not component-size names
@@ -264,7 +268,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Text] size only accepts 'xs', 's', 'm', 'l'
 - [Text] Monospace variant is "mono", NOT "code"
 - [Text] variant+size compound strings like 'heading-m', 'heading-l', 'heading-xl', 'body-m', 'label-m', or 'label-l' are not valid — always pass them as two separate props
-- [Text] No htmlFor prop on Text
+- [Text] No htmlFor prop on Text — use a native <label> HTML element instead
 - [Text] as prop only accepts 'p', 'span', 'div', 'h1'–'h6', 'label'
 - [Text] color only accepts 'default', 'muted', 'accent'
 - [Text] Text has no boolean muted prop — use color="muted" for secondary text, plus separate variant/size props when needed
