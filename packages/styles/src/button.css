@@ -126,12 +126,10 @@
 .tale-button--neutral {
   background-color: var(--neutral-14);
   color: var(--neutral-90);
-  border-color: var(--neutral-22);
 }
 
 .tale-button--neutral:hover:not([data-disabled], [data-pending]) {
   background-color: var(--neutral-18);
-  border-color: var(--neutral-28);
 }
 
 .tale-button--neutral:active:not([data-disabled], [data-pending]) {

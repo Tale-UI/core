@@ -2,6 +2,12 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.50 — 2026-05-25
+
+### Added
+
+- **Dropdown menus**: Added compact menu sizing styles and shared primitives for compact density.
+
 ## v1.3.49 — 2026-05-24
 
 ### Added

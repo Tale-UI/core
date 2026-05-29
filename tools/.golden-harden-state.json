@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-05-24T15:58:02.566Z",
+  "updatedAt": "2026-05-29T15:25:59.756Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -131,7 +131,7 @@
       "video-player-basic"
     ],
     "passes": 8,
-    "maxRounds": 80,
+    "maxRounds": 100,
     "difficulty": null,
     "slug": null,
     "slugs": null,
@@ -142,15 +142,13 @@
       "claude",
       "--model",
       "sonnet",
-      "--max-rounds-",
-      "100",
       "--fresh"
     ]
   },
   "promptState": {
     "accordion-faq": {
       "streak": 8,
-      "round": 10,
+      "round": 8,
       "done": true
     },
     "alert-dialog-confirm": {
@@ -205,7 +203,7 @@
     },
     "banner-with-actions": {
       "streak": 8,
-      "round": 9,
+      "round": 8,
       "done": true
     },
     "bar-chart-sales": {
@@ -225,7 +223,7 @@
     },
     "calendar-date": {
       "streak": 0,
-      "round": 59,
+      "round": 8,
       "done": false
     }
   },

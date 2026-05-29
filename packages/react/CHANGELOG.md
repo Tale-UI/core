@@ -2,6 +2,12 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.50 — 2026-05-25
+
+### Added
+
+- **Dropdown menus**: Added compact size variants across autocomplete, combobox, context menu, menu, multi-select, and select.
+
 ## v1.3.49 — 2026-05-24
 
 ### Added
