@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-05-29T15:25:59.756Z",
+  "updatedAt": "2026-05-30T01:50:01.881Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -223,7 +223,7 @@
     },
     "calendar-date": {
       "streak": 0,
-      "round": 8,
+      "round": 1,
       "done": false
     }
   },
