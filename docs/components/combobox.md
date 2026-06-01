@@ -216,6 +216,50 @@ Accepts all React Aria `ComboBox` props plus an optional `className`. See the `@
 <!-- pitfall: combobox-no-phantom-imports -->
 <!-- prose-only -->
 - **Never import list data from non-existent local modules** — define item arrays inline or import from real project data sources.
+<!-- pitfall: combobox-derive-selectedkey-type-from-props -->
+- **Never annotate selectedKey state as React.Key | null — derive the key type from Combobox.Root's onSelectionChange prop** — React.Key is not the same as the Key type used internally by Combobox.Root. Annotating useState with React.Key | null causes 'Type Key | null is not assignable to type Key | null | undefined' TypeScript errors because the component's selectedKey prop type is incompatible with React.Key. Derive the correct type from the component's own onSelectionChange prop using React.ComponentProps, exactly as you would for TagSelect or GridList controlled selection.
+  - anti-pattern: `const [selectedKey, setSelectedKey] = React.useState<React.Key | null>(null);`
+  - fix: `type SelectedKey = Parameters<NonNullable<React.ComponentProps<typeof Combobox.Root>['onSelectionChange']>>[0]; const [selectedKey, setSelectedKey] = React.useState<SelectedKey>(null);`
+  - complete example:
+    ```tsx
+    import * as React from 'react';
+    import { Combobox } from '@tale-ui/react/combobox';
+    
+    const countries = [
+      { id: 'au', name: 'Australia' },
+      { id: 'ca', name: 'Canada' },
+      { id: 'gb', name: 'United Kingdom' },
+      { id: 'us', name: 'United States' },
+    ];
+    
+    type SelectedKey = Parameters<NonNullable<React.ComponentProps<typeof Combobox.Root>['onSelectionChange']>>[0];
+    
+    export function CountryCombobox() {
+      const [selectedKey, setSelectedKey] = React.useState<SelectedKey>(null);
+    
+      return (
+        <Combobox.Root
+          selectedKey={selectedKey}
+          onSelectionChange={setSelectedKey}
+        >
+          <Combobox.Label>Country</Combobox.Label>
+          <Combobox.InputGroup>
+            <Combobox.Input placeholder="Search countries..." />
+            <Combobox.Trigger />
+          </Combobox.InputGroup>
+          <Combobox.Popover>
+            <Combobox.ListBox>
+              {countries.map((country) => (
+                <Combobox.Item key={country.id} id={country.id} textValue={country.name}>
+                  {country.name}
+                </Combobox.Item>
+              ))}
+            </Combobox.ListBox>
+          </Combobox.Popover>
+        </Combobox.Root>
+      );
+    }
+    ```
 
 ## Notes
 

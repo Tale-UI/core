@@ -85,6 +85,59 @@ Accepts all React Aria `Form` props plus an optional `className`. See the `@exam
 - **When wrapping form fields in Column, use spacing-token gap values, not component-size names** — `gap="md"` is not a valid `Gap` value and causes `Type '"md"' is not assignable to type 'Gap | undefined'`; use `gap="s"` for tight field stacks (recommended for forms) or `gap="m"` for looser spacing.
   - anti-pattern: `<Column gap="md">`
   - fix: `<Column gap="s">`
+<!-- pitfall: form-onsubmit-formdata-cast -->
+- **Cast e.currentTarget to HTMLFormElement when passing it to the FormData constructor inside onSubmit** — React types the onSubmit handler's e.currentTarget as EventTarget & HTMLFormElement — an intersection type that TypeScript rejects as incompatible with the FormData constructor overload which requires a plain HTMLFormElement. Without the cast, TypeScript raises 'No overload matches this call' at the new FormData(...) call site. This is the most common TypeScript error when using Form with native form data extraction. Always write: new FormData(e.currentTarget as HTMLFormElement). The cast must appear on e.currentTarget itself inside the FormData call — placing it elsewhere does not resolve the overload mismatch.
+  - anti-pattern: `const data = Object.fromEntries(new FormData(e.currentTarget));`
+  - fix: `const data = Object.fromEntries(new FormData(e.currentTarget as HTMLFormElement));`
+  - complete example:
+    ```tsx
+    import { Button } from '@tale-ui/react/button';
+    import { Column } from '@tale-ui/react/column';
+    import { Form } from '@tale-ui/react/form';
+    import { Text } from '@tale-ui/react/text';
+    import { TextField } from '@tale-ui/react/text-field';
+    
+    export function LoginForm() {
+      return (
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.currentTarget as HTMLFormElement));
+            console.log('Login submitted:', data);
+          }}
+          style={{ maxWidth: 400 }}
+        >
+          <Column gap="m">
+            <Text variant="heading" as="h1">Sign in</Text>
+    
+            <Column gap="s">
+              <TextField.Root name="email" isRequired>
+                <TextField.Label>Email</TextField.Label>
+                <TextField.Input
+                  type="email"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                />
+                <TextField.ErrorMessage>Enter a valid email address.</TextField.ErrorMessage>
+              </TextField.Root>
+    
+              <TextField.Root name="password" isRequired>
+                <TextField.Label>Password</TextField.Label>
+                <TextField.Input
+                  type="password"
+                  placeholder="Your password"
+                  autoComplete="current-password"
+                />
+                <TextField.ErrorMessage>Password is required.</TextField.ErrorMessage>
+              </TextField.Root>
+            </Column>
+    
+            <Button type="submit" variant="primary">Sign in</Button>
+          </Column>
+        </Form>
+      );
+    }
+    ```
 
 ## Notes
 

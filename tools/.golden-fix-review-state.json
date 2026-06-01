@@ -1,17 +1,17 @@
 {
   "version": 1,
   "status": "complete",
-  "updatedAt": "2026-05-30T01:50:01.868Z",
+  "updatedAt": "2026-06-01T09:55:19.602Z",
   "config": {
     "prompts": [
-      "calendar-date"
+      "form-login"
     ],
     "provider": "claude",
     "model": "sonnet",
     "fixProvider": "claude",
     "fixModel": "sonnet",
     "difficulty": null,
-    "slug": "calendar-date",
+    "slug": "form-login",
     "slugs": null,
     "mcp": false,
     "mcpMaxTurns": 5,
@@ -19,19 +19,19 @@
     "noSourcePatch": false
   },
   "completedSlugs": [
-    "calendar-date"
+    "form-login"
   ],
   "initialPassCount": 0,
   "initialFailCount": 1,
   "stillFailing": [
     {
-      "slug": "calendar-date",
-      "difficulty": "complex",
+      "slug": "form-login",
+      "difficulty": "medium",
       "allPass": false,
       "l1": {
         "pass": false,
         "errors": [
-          "Line 3: Cannot find module '@internationalized/date' or its corresponding type declarations."
+          "Line 12: No overload matches this call."
         ]
       },
       "l2": {
@@ -42,12 +42,12 @@
         "pass": true,
         "forbidden": []
       },
-      "code": "import * as React from 'react';\nimport { Calendar } from '@tale-ui/react/calendar';\nimport { parseDate } from '@internationalized/date';\n\ntype DateVal = Parameters<NonNullable<React.ComponentProps<typeof Calendar.Root>['onChange']>>[0];\n\nexport function DateCalendarPicker() {\n  const [value, setValue] = React.useState<DateVal | null>(null);\n\n  return (\n    <Calendar.Root\n      value={value}\n      onChange={setValue}\n      defaultValue={parseDate('2026-05-30')}\n    >\n      <Calendar.Header>\n        <Calendar.PreviousButton />\n        <Calendar.Heading />\n        <Calendar.NextButton />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>\n          {(date) => <Calendar.Cell date={date} />}\n        </Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar.Root>\n  );\n}",
-      "prompt": "Show a date calendar picker for selecting a single date."
+      "code": "import { Button } from '@tale-ui/react/button';\nimport { Column } from '@tale-ui/react/column';\nimport { Form } from '@tale-ui/react/form';\nimport { Text } from '@tale-ui/react/text';\nimport { TextField } from '@tale-ui/react/text-field';\n\nexport function LoginForm() {\n  return (\n    <Form\n      onSubmit={(e) => {\n        e.preventDefault();\n        const data = Object.fromEntries(new FormData(e.currentTarget as HTMLFormElement));\n        console.log('Login submitted:', data);\n      }}\n      style={{ maxWidth: 400 }}\n    >\n      <Column gap=\"m\">\n        <Text variant=\"heading\" as=\"h1\">Sign in</Text>\n\n        <Column gap=\"s\">\n          <TextField.Root name=\"email\" isRequired>\n            <TextField.Label>Email</TextField.Label>\n            <TextField.Input\n              type=\"email\"\n              placeholder=\"you@example.com\"\n              autoComplete=\"email\"\n            />\n            <TextField.ErrorMessage>Enter a valid email address.</TextField.ErrorMessage>\n          </TextField.Root>\n\n          <TextField.Root name=\"password\" isRequired>\n            <TextField.Label>Password</TextField.Label>\n            <TextField.Input\n              type=\"password\"\n              placeholder=\"Your password\"\n              autoComplete=\"current-password\"\n            />\n            <TextField.ErrorMessage>Password is required.</TextField.ErrorMessage>\n          </TextField.Root>\n        </Column>\n\n        <Button type=\"submit\" variant=\"primary\">Sign in</Button>\n      </Column>\n    </Form>\n  );\n}",
+      "prompt": "Show a login form with email and password fields and a submit button, using native validation."
     }
   ],
   "passingResults": [],
   "modifiedFiles": [
-    "/Users/admin/Projects/tale-ui/core/docs/pitfalls.md"
+    "/Users/admin/Projects/tale-ui/core/docs/components/form.md"
   ]
 }

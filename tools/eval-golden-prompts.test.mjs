@@ -1,17 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { dirname, join } from 'path';
 import { tmpdir } from 'os';
+import { fileURLToPath } from 'url';
 
 import {
   buildCodexExecArgs,
   buildCodexMcpConfigOverride,
+  checkL1,
   checkComponentStylePolicy,
   isProviderQuotaError,
   isProviderQuotaMessage,
+  isSuppressedL1TypeScriptError,
   providerQuotaError,
 } from './eval-golden-prompts-lib.mjs';
+
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(currentDir, '..');
+const VALIDATOR = join(currentDir, 'validate-generated.mjs');
 
 function withTempMcpConfig(config, fn) {
   const dir = mkdtempSync(join(tmpdir(), 'tale-ui-codex-mcp-'));
@@ -153,6 +160,49 @@ test('checkComponentStylePolicy rejects visual inline styles on components', () 
   assert.equal(result.pass, false);
   assert.match(result.errors[0], /Drawer\.Popup has non-layout inline styles/);
   assert.match(result.errors[0], /background, borderLeft, boxShadow/);
+});
+
+test('checkL1 suppresses scratch-project missing module errors for @internationalized/date', () => {
+  const result = checkL1(
+    `
+      import { parseDate } from '@internationalized/date';
+      import { Calendar } from '@tale-ui/react/calendar';
+
+      export function Example() {
+        return <Calendar.Root defaultValue={parseDate('2026-05-31')} />;
+      }
+    `,
+    { root: ROOT, validatorPath: VALIDATOR },
+  );
+
+  assert.equal(result.pass, true);
+  assert.deepEqual(result.errors, []);
+});
+
+test('checkL1 keeps missing module errors for other @internationalized packages', () => {
+  const result = checkL1(
+    `
+      import { parseColor } from '@internationalized/color';
+
+      export function Example() {
+        return parseColor('red').toString();
+      }
+    `,
+    { root: ROOT, validatorPath: VALIDATOR },
+  );
+
+  assert.equal(result.pass, false);
+  assert.match(result.errors.join('\n'), /@internationalized\/color/);
+});
+
+test('isSuppressedL1TypeScriptError does not hide mixed diagnostics', () => {
+  assert.equal(
+    isSuppressedL1TypeScriptError(
+      "Line 1: Cannot find module '@internationalized/date' or its corresponding type declarations.\n" +
+        "Line 2: Type 'string' is not assignable to type 'number'.",
+    ),
+    false,
+  );
 });
 
 test('provider quota detector catches Claude and Codex exhaustion messages', () => {

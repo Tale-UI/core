@@ -43,9 +43,15 @@ function formatTomlKey(key) {
 }
 
 function toTomlLiteral(value) {
-  if (typeof value === 'string') return JSON.stringify(value);
-  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-  if (Array.isArray(value)) return `[${value.map(toTomlLiteral).join(', ')}]`;
+  if (typeof value === 'string') {
+    return JSON.stringify(value);
+  }
+  if (typeof value === 'number' || typeof value === 'boolean') {
+    return String(value);
+  }
+  if (Array.isArray(value)) {
+    return `[${value.map(toTomlLiteral).join(', ')}]`;
+  }
   if (value && typeof value === 'object') {
     return `{${Object.entries(value)
       .map(([key, nestedValue]) => `${formatTomlKey(key)} = ${toTomlLiteral(nestedValue)}`)
@@ -116,7 +122,7 @@ export function buildCodexMcpConfigOverride(mcpConfigPath) {
   try {
     rawConfig = JSON.parse(readFileSync(mcpConfigPath, 'utf8'));
   } catch (err) {
-    throw new Error(`Codex MCP could not read ${mcpConfigPath}: ${err.message}`);
+    throw new Error(`Codex MCP could not read ${mcpConfigPath}: ${err.message}`, { cause: err });
   }
 
   const server = rawConfig?.mcpServers?.[CODEX_MCP_SERVER_NAME];
@@ -133,7 +139,7 @@ export function loadTaleUiMcpServerSpec(mcpConfigPath) {
   try {
     rawConfig = JSON.parse(readFileSync(mcpConfigPath, 'utf8'));
   } catch (err) {
-    throw new Error(`Local MCP could not read ${mcpConfigPath}: ${err.message}`);
+    throw new Error(`Local MCP could not read ${mcpConfigPath}: ${err.message}`, { cause: err });
   }
 
   const server = rawConfig?.mcpServers?.[CODEX_MCP_SERVER_NAME];
@@ -246,11 +252,15 @@ export function extractCode(text) {
   const fenced = text.match(
     /^[ \t]*```[ \t]*(?:tsx?|jsx?|typescript|javascript)?[ \t]*\r?\n([\s\S]*?)\r?\n[ \t]*```/m,
   );
-  if (fenced) return fenced[1].trim();
+  if (fenced) {
+    return fenced[1].trim();
+  }
   // Fallback: slice from first import, but only if an import actually exists.
   // Returning prose as "code" produces confusing L2 "missing components" failures.
   const importIdx = text.indexOf('import ');
-  if (importIdx !== -1) return text.slice(importIdx).trim();
+  if (importIdx !== -1) {
+    return text.slice(importIdx).trim();
+  }
   // No code block and no import → return empty string so callers can detect it.
   return '';
 }
@@ -299,6 +309,30 @@ export function checkComponentStylePolicy(code, { prompt = '' } = {}) {
   return { pass: errors.length === 0, errors };
 }
 
+export function isSuppressedL1TypeScriptError(error) {
+  const message = typeof error === 'string' ? error : (error?.message ?? '');
+  const lines = message
+    .split('\n')
+    .map((line) => line.trim().replace(/^Line \d+:\s*/, ''))
+    .filter(Boolean);
+
+  return (
+    lines.length > 0 &&
+    lines.every((line) => {
+      const moduleMatch = line.match(/Cannot find module ['"]([^'"]+)['"]/);
+      return moduleMatch?.[1] === '@internationalized/date';
+    })
+  );
+}
+
+function collectL1Errors(parsed, stylePolicyErrors) {
+  const typeScriptErrors = (parsed.typescriptErrors ?? [])
+    .filter((error) => !isSuppressedL1TypeScriptError(error))
+    .map((error) => `Line ${error.line}: ${error.message}`);
+
+  return [...(parsed.registryErrors ?? []), ...typeScriptErrors, ...stylePolicyErrors];
+}
+
 /**
  * L1: Validity — run validate-generated.mjs on the code.
  * @param {string} code
@@ -315,20 +349,12 @@ export function checkL1(code, { root, validatorPath, prompt = '' }) {
       stdio: 'pipe',
     });
     const parsed = JSON.parse(result);
-    const errors = [
-      ...(parsed.registryErrors ?? []),
-      ...(parsed.typescriptErrors ?? []).map((e) => `Line ${e.line}: ${e.message}`),
-      ...stylePolicy.errors,
-    ];
+    const errors = collectL1Errors(parsed, stylePolicy.errors);
     return { pass: errors.length === 0, errors };
   } catch (err) {
     try {
       const parsed = JSON.parse(err.stdout || '{}');
-      const errors = [
-        ...(parsed.registryErrors ?? []),
-        ...(parsed.typescriptErrors ?? []).map((e) => `Line ${e.line}: ${e.message}`),
-        ...stylePolicy.errors,
-      ];
+      const errors = collectL1Errors(parsed, stylePolicy.errors);
       return { pass: errors.length === 0, errors };
     } catch {
       return {

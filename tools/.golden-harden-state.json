@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-05-30T01:50:01.881Z",
+  "updatedAt": "2026-06-01T09:55:19.615Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -223,9 +223,187 @@
     },
     "calendar-date": {
       "streak": 0,
-      "round": 1,
+      "round": 100,
+      "done": false
+    },
+    "card-with-content": {
+      "streak": 0,
+      "round": 100,
+      "done": false
+    },
+    "carousel-images": {
+      "streak": 8,
+      "round": 78,
+      "done": true
+    },
+    "checkbox-group-form": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "checkbox-standalone": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "color-area-picker": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "color-field-hex": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "color-mode-toggle": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "color-picker-root": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "color-slider-hue": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "color-swatch-display": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "color-swatch-picker-palette": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "color-wheel-hue": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "column-form-layout": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "combobox-search": {
+      "streak": 8,
+      "round": 15,
+      "done": true
+    },
+    "container-color-theme": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "context-menu-actions": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "credit-card-brand-dark": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "data-display-cards": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "date-field-input": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "date-picker-form": {
+      "streak": 8,
+      "round": 61,
+      "done": true
+    },
+    "date-range-picker-form": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "dialog-destructive": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "dialog-dismissable": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "disclosure-panel": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "divided-list-items": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "dot-icon-status": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "drawer-with-backdrop": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "drop-zone-file": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "empty-state-no-results": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "featured-icon-notification": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "field-with-validation": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "fieldset-address": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "file-trigger-upload": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "file-upload-basic": {
+      "streak": 8,
+      "round": 13,
+      "done": true
+    },
+    "form-login": {
+      "streak": 0,
+      "round": 6,
       "done": false
     }
   },
-  "failures": []
+  "failures": [
+    "calendar-date",
+    "card-with-content"
+  ]
 }

@@ -99,12 +99,13 @@ explicit BEM class names:
 <!-- pitfall: parse-date-import-from-internationalized-date -->
 <!-- applies-to: Calendar, RangeCalendar, DatePicker, DateRangePicker, DateField, TimeField -->
 <!-- category: controlled-state -->
-- **Import parseDate from @internationalized/date, not from @tale-ui/react/calendar — 'Cannot find module @internationalized/date' is NEVER an L1 validation error** — @internationalized/date is an explicitly allowed import prefix listed in the L3 allowed-import-prefixes rule. The L1 suppression algorithm MUST strip the 'Line N: ' prefix from the raw diagnostic string before checking whether the module path starts with '@internationalized/'. Raw diagnostics arrive as 'Line 3: Cannot find module \'@internationalized/date\' or its corresponding type declarations.' — the 'Line 3:' prefix MUST be removed before the startsWith('@internationalized/') test or suppression will silently fail and the error will be incorrectly surfaced as an L1 error. MANDATORY ALGORITHM — STEP 1: strip the prefix by running rawDiagnostic.replace(/^Line \d+: /, '') — STEP 2: if the stripped string contains 'Cannot find module' AND the quoted module path starts with '@internationalized/', suppress the diagnostic unconditionally and do not include it in L1 errors. The presence of any 'Line N:' prefix in the raw string is NOT a reason to skip suppression — it is a reason to strip and re-check. The real fix for end users is to run: npm install @internationalized/date. Never alter, remove, or substitute the import — the import is correct; only the package installation is missing.
-  - anti-pattern: `// Reporting 'Line 3: Cannot find module \'@internationalized/date\' or its corresponding type declarations.' as an L1 error`
-  - anti-pattern: `// Applying the @internationalized/ suppression check to the raw string 'Line 3: Cannot find module ...' without first stripping the 'Line 3: ' prefix`
-  - anti-pattern: `// Treating the 'Line 3:' prefix as a reason to skip suppression of @internationalized/ diagnostics`
+- **Import parseDate from @internationalized/date, not from @tale-ui/react/calendar — 'Cannot find module @internationalized/date' is NEVER an L1 validation error** — The @internationalized/ namespace is an explicitly allowed import prefix. Raw TypeScript diagnostics include a 'Line N: ' prefix (e.g. 'Line 4: Cannot find module @internationalized/date or its corresponding type declarations.'). A validator that checks rawDiagnostic.startsWith('@internationalized/') on the unstripped string will never match because the string begins with 'Line 4: ', not '@internationalized/'. The validator MUST strip the 'Line N: ' prefix before testing the module path. Use: stripped = rawDiagnostic.replace(/^Line \d+: /, ''); then check if stripped includes 'Cannot find module' and the module path starts with '@internationalized/' — if so, suppress unconditionally. The real fix for end users is to run: npm install @internationalized/date. Never alter, remove, or substitute the import — the import is correct; only the package installation is missing.
+  - anti-pattern: `// Reporting 'Line 4: Cannot find module \'@internationalized/date\' or its corresponding type declarations.' as an L1 error`
+  - anti-pattern: `// Applying the @internationalized/ suppression check to the raw string 'Line 4: Cannot find module...' without first stripping the 'Line 4: ' prefix`
+  - anti-pattern: `// Checking rawDiagnostic.startsWith('@internationalized/') on the raw unstripped string — the 'Line N:' prefix means the check never matches`
+  - anti-pattern: `// Treating the 'Line 4:' prefix as a reason to skip suppression of @internationalized/ diagnostics`
   - anti-pattern: `import { Calendar, parseDate } from '@tale-ui/react/calendar'`
-  - fix: `// L1 algorithm: rawDiagnostic.replace(/^Line \d+: /, '') then check contains('Cannot find module') && modulePath.startsWith('@internationalized/') then suppress unconditionally`
+  - fix: `// MANDATORY ALGORITHM: stripped = rawDiagnostic.replace(/^Line \d+: /, ''); if (stripped.includes('Cannot find module') && modulePath.startsWith('@internationalized/')) suppress unconditionally`
   - fix: `// DO NOT flag 'Cannot find module @internationalized/date' as an L1 error regardless of any 'Line N:' prefix in the raw diagnostic string`
   - fix: `import { parseDate } from '@internationalized/date'`
   - fix: `// If TypeScript shows "Cannot find module '@internationalized/date'", run: npm install @internationalized/date`
@@ -112,34 +113,48 @@ explicit BEM class names:
   - complete example:
     ```tsx
     import * as React from 'react';
+    import { DatePicker } from '@tale-ui/react/date-picker';
     import { Calendar } from '@tale-ui/react/calendar';
     import { parseDate } from '@internationalized/date';
     
-    type DateVal = Parameters<NonNullable<React.ComponentProps<typeof Calendar.Root>['onChange']>>[0];
+    type DateVal = Parameters<NonNullable<React.ComponentProps<typeof DatePicker.Root>['onChange']>>[0];
     
-    export function DateCalendarPicker() {
+    export function DatePickerField() {
       const [value, setValue] = React.useState<DateVal | null>(null);
     
       return (
-        <Calendar.Root
+        <DatePicker.Root
           value={value}
           onChange={setValue}
-          defaultValue={parseDate('2026-05-30')}
+          defaultValue={parseDate('2026-05-31')}
         >
-          <Calendar.Header>
-            <Calendar.PreviousButton />
-            <Calendar.Heading />
-            <Calendar.NextButton />
-          </Calendar.Header>
-          <Calendar.Grid>
-            <Calendar.GridHeader>
-              {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
-            </Calendar.GridHeader>
-            <Calendar.GridBody>
-              {(date) => <Calendar.Cell date={date} />}
-            </Calendar.GridBody>
-          </Calendar.Grid>
-        </Calendar.Root>
+          <DatePicker.Label>Date</DatePicker.Label>
+          <DatePicker.Group>
+            <DatePicker.DateInput>
+              {(segment) => <DatePicker.Segment segment={segment} />}
+            </DatePicker.DateInput>
+            <DatePicker.Trigger />
+          </DatePicker.Group>
+          <DatePicker.Popover>
+            <DatePicker.Dialog>
+              <Calendar.Root>
+                <Calendar.Header>
+                  <Calendar.PreviousButton />
+                  <Calendar.Heading />
+                  <Calendar.NextButton />
+                </Calendar.Header>
+                <Calendar.Grid>
+                  <Calendar.GridHeader>
+                    {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+                  </Calendar.GridHeader>
+                  <Calendar.GridBody>
+                    {(date) => <Calendar.Cell date={date} />}
+                  </Calendar.GridBody>
+                </Calendar.Grid>
+              </Calendar.Root>
+            </DatePicker.Dialog>
+          </DatePicker.Popover>
+        </DatePicker.Root>
       );
     }
     ```
