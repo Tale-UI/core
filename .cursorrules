@@ -115,6 +115,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Combobox] Combobox.Input owns placeholder
 - [Combobox] Combobox.Input does NOT accept an icon prop
 - [Combobox] Never import list data from non-existent local modules
+- [Combobox] Never annotate selectedKey state as React.Key | null — derive the key type from Combobox.Root's onSelectionChange prop
 - [ContextMenu] No controlled state props on ContextMenu.Root
 - [ContextMenu] No rightClick prop on ContextMenu.Trigger
 - [ContextMenu] Use ContextMenu.Popup, not ContextMenu.Popover
@@ -164,11 +165,12 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [FileUpload] Use FileUpload.DropZone (capital Z), not FileUpload.Dropzone
 - [FileUpload] FileUpload.DropZone does not accept children or any file-filter props — it must be self-closing
 - [FileUpload] FileUpload.DropZone accept takes a comma-separated string, not an array
-- [FileUpload] Use FileUpload for any prompt that asks for a file upload area, dropzone uploader, or uploaded-file list with progress
+- [FileUpload] Use FileUpload for any prompt that asks for a file upload area, dropzone uploader, uploaded-file list with progress, or a progress bar for file uploads
 - [FileUpload] FileUpload.DropZone does not accept an onDropFiles prop — never add a callback to manually capture dropped files
 - [Form] Form is a simple component with no sub-parts
 - [Form] method prop requires lowercase values
 - [Form] When wrapping form fields in Column, use spacing-token gap values, not component-size names
+- [Form] Cast e.currentTarget to HTMLFormElement when passing it to the FormData constructor inside onSubmit
 - [GridList] GridList.Item does NOT accept isSelected
 - [GridList] Do NOT annotate onSelectionChange parameter as Set<string> or import Selection from react-aria-components
 - [GridList] When wrapping GridList in a Column or Row layout container, use spacing-token gap values — never component-size names

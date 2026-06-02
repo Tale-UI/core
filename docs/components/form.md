@@ -86,8 +86,9 @@ Accepts all React Aria `Form` props plus an optional `className`. See the `@exam
   - anti-pattern: `<Column gap="md">`
   - fix: `<Column gap="s">`
 <!-- pitfall: form-onsubmit-formdata-cast -->
-- **Cast e.currentTarget to HTMLFormElement when passing it to the FormData constructor inside onSubmit** — React types the onSubmit handler's e.currentTarget as EventTarget & HTMLFormElement — an intersection type that TypeScript rejects as incompatible with the FormData constructor overload which requires a plain HTMLFormElement. Without the cast, TypeScript raises 'No overload matches this call' at the new FormData(...) call site. This is the most common TypeScript error when using Form with native form data extraction. Always write: new FormData(e.currentTarget as HTMLFormElement). The cast must appear on e.currentTarget itself inside the FormData call — placing it elsewhere does not resolve the overload mismatch.
+- **Cast e.currentTarget to HTMLFormElement inside the FormData call in onSubmit** — React types e.currentTarget as EventTarget & HTMLFormElement — an intersection TypeScript rejects when passed to new FormData(), producing 'No overload matches this call'. The cast must appear directly inside the FormData call. Placing it in a separate typed variable first does not resolve the overload mismatch. Always write: new FormData(e.currentTarget as HTMLFormElement).
   - anti-pattern: `const data = Object.fromEntries(new FormData(e.currentTarget));`
+  - anti-pattern: `const formEl = e.currentTarget as HTMLFormElement; const data = Object.fromEntries(new FormData(formEl));`
   - fix: `const data = Object.fromEntries(new FormData(e.currentTarget as HTMLFormElement));`
   - complete example:
     ```tsx

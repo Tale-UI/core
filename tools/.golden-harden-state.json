@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-06-01T09:55:19.615Z",
+  "updatedAt": "2026-06-02T07:22:49.718Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -398,12 +398,123 @@
     },
     "form-login": {
       "streak": 0,
+      "round": 100,
+      "done": false
+    },
+    "grid-list-gallery": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "header-nav-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "horizontal-separator": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "icon-button-delete": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "icon-display": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "illustration-box-with-icon": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "image-cropper-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "image-rounded": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "input-field": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "input-group-url-field": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "input-tags-skills": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "iphone-mockup-screenshot": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "line-chart-visitors": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "list-with-badges": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "loading-spinner": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "menu-dropdown": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "menubar-editor": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "meter-with-indicator": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "multi-select-frameworks": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "muted-text": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "navigation-menu-site": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "number-field-quantity": {
+      "streak": 6,
       "round": 6,
       "done": false
     }
   },
   "failures": [
     "calendar-date",
-    "card-with-content"
+    "card-with-content",
+    "form-login"
   ]
 }
