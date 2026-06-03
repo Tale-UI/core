@@ -17,10 +17,12 @@ Enter a hex value or use the visual colour picker (`react-colorful`) to set the 
 
 ### Two palette modes
 
-| Mode | Shades | Use case |
-|------|--------|----------|
-| **Named** (11 shades) | 5 · 10 · 20 · 30 · 40 · **60** · 70 · 80 · 90 · 100 | Accent/brand colour families (`--color-*`) |
-| **Neutral** (27 shades) | 5 · 10 · 12–30 (by 2s) · 40–70 (by 10s) · 80–100 (by 2s) | Neutral/gray families (`--neutral-*`) |
+| Mode                    | Shades                                                   | Use case                                   |
+| ----------------------- | -------------------------------------------------------- | ------------------------------------------ |
+| **Named** (11 shades)   | 5 · 10 · 20 · 30 · 40 · **60** · 70 · 80 · 90 · 100      | Accent/brand colour families (`--color-*`) |
+| **Neutral** (27 shades) | 5 · 10 · 12–30 (by 2s) · 40–70 (by 10s) · 80–100 (by 2s) | Neutral/gray families (`--neutral-*`)      |
+
+Neutral mode includes a **Named as Neutral** toggle. When enabled, the named tonal palette is expanded to the 27 neutral shade steps and exported as `--neutral-default-*` overrides. The expanded `named-neutral-60` shade remains the pivot point, so foreground contrast follows the same shade-60 split as regular neutral palettes.
 
 ### Contrast pivot selector
 
@@ -32,7 +34,7 @@ Toggle between four backgrounds — white, shade-5, shade-100, and black — to 
 
 ### CSS output
 
-Generates a ready-to-paste `:root { }` block with `--{name}-{shade}: #hex;` tokens for every shade. One-click copy to clipboard.
+Generates ready-to-paste `:root { }` blocks with theme token overrides for every shade. One-click copy to clipboard.
 
 ### Randomise
 
@@ -40,7 +42,7 @@ Generates a random base colour that passes WCAG contrast validation against its 
 
 ### Shareable URLs
 
-The current colour, name, and mode are persisted in the URL hash (`#hex/name/mode`) so palettes can be bookmarked and shared.
+The current named colour, neutral colour, mode, curvature, and named-as-neutral setting are persisted in the URL hash so palettes can be bookmarked and shared.
 
 ## How the palette algorithm works
 
