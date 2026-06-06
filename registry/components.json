@@ -4858,7 +4858,8 @@
         "<Input.Root isInvalid>\n  <Input.Label>Email</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Type here...\" />\n  <Input.ErrorMessage>Please enter a valid email address.</Input.ErrorMessage>\n</Input.Root>",
         "<Input.Root isDisabled>\n  <Input.Label>Disabled input</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Cannot edit\" />\n</Input.Root>",
         "<Input.Root isReadOnly>\n  <Input.Label>Read-only input</Input.Label>\n  <Input.Input size=\"md\" value=\"This value cannot be changed\" />\n</Input.Root>",
-        "<Input.Root>\n  <Input.Label>Small</Input.Label>\n  <Input.Input size=\"sm\" placeholder=\"Small input\" />\n</Input.Root>\n\n<Input.Root>\n  <Input.Label>Medium</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Medium input\" />\n</Input.Root>\n\n<Input.Root>\n  <Input.Label>Large</Input.Label>\n  <Input.Input size=\"lg\" placeholder=\"Large input\" />\n</Input.Root>"
+        "<Input.Root>\n  <Input.Label>Small</Input.Label>\n  <Input.Input size=\"sm\" placeholder=\"Small input\" />\n</Input.Root>\n\n<Input.Root>\n  <Input.Label>Medium</Input.Label>\n  <Input.Input size=\"md\" placeholder=\"Medium input\" />\n</Input.Root>\n\n<Input.Root>\n  <Input.Label>Large</Input.Label>\n  <Input.Input size=\"lg\" placeholder=\"Large input\" />\n</Input.Root>",
+        "import { Input } from '@tale-ui/react/input';\n    \n    export function FullNameField() {\n      return (\n        <Input.Root>\n          <Input.Label>Full Name</Input.Label>\n          <Input.Input placeholder=\"Full Name\" />\n          <Input.Description>Enter your first and last name as they appear on your ID.</Input.Description>\n        </Input.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-input",
@@ -4866,7 +4867,23 @@
         "tale-input--sm",
         "tale-input__root"
       ],
-      "pitfalls": null,
+      "pitfalls": [
+        {
+          "id": "use-input-for-text-input-prompts",
+          "summary": "Use Input for any prompt that asks for a text input field with a label or description",
+          "detail": "When a prompt asks for a labeled text input field (optionally with a description or error message), render Input.Root with Input.Label, Input.Input, and optionally Input.Description instead of leaving the file empty, returning null, or substituting TextField or a bare <input> element.\n    ```tsx\n    import { Input } from '@tale-ui/react/input';\n    \n    export function FullNameField() {\n      return (\n        <Input.Root>\n          <Input.Label>Full Name</Input.Label>\n          <Input.Input placeholder=\"Full Name\" />\n          <Input.Description>Enter your first and last name as they appear on your ID.</Input.Description>\n        </Input.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "// empty file",
+            "export function FullNameField() {}",
+            "export function FullNameField() { return null; }",
+            "<input type=\"text\" placeholder=\"Full Name\" />"
+          ],
+          "fixes": [
+            "import { Input } from '@tale-ui/react/input'; export function FullNameField() { return <Input.Root><Input.Label>Full Name</Input.Label><Input.Input placeholder=\"Full Name\" /><Input.Description>Enter your first and last name as they appear on your ID.</Input.Description></Input.Root>; }"
+          ],
+          "completeExample": "import { Input } from '@tale-ui/react/input';\n\nexport function FullNameField() {\n  return (\n    <Input.Root>\n      <Input.Label>Full Name</Input.Label>\n      <Input.Input placeholder=\"Full Name\" />\n      <Input.Description>Enter your first and last name as they appear on your ID.</Input.Description>\n    </Input.Root>\n  );\n}"
+        }
+      ],
       "crossPitfallRefs": null
     },
     {
@@ -6279,7 +6296,7 @@
         "import { Popover } from '@tale-ui/react/popover';\n\n<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Title>Popover Title</Popover.Title>\n    <Popover.Description>\n      This is a basic popover with a title and description.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
         "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">With Arrow</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Arrow />\n    <Popover.Title>Arrow Popover</Popover.Title>\n    <Popover.Description>\n      This popover includes an arrow pointing to the trigger.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
         "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Close aria-label=\"Close\" />\n    <Popover.Title>Dismissible Popover</Popover.Title>\n    <Popover.Description>\n      Click the close button to dismiss this popover.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
-        "import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n\n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }"
+        "import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n    \n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-popover__close",
@@ -6290,10 +6307,12 @@
       "pitfalls": [
         {
           "id": "use-popover-for-any-prompt",
-          "summary": "Use Popover for any prompt that asks for an info button, help popover, or button-triggered explanatory overlay",
-          "detail": "render `Popover.Root` with `Popover.Trigger` and `Popover.Popup`; do not leave the file empty or substitute a different overlay.\n\n    ```tsx\n    import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n\n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }\n    ```",
+          "summary": "Use Popover for any prompt that asks for an info button, help popover, tooltip-like overlay, or button-triggered explanatory overlay",
+          "detail": "render Popover.Root with Popover.Trigger and Popover.Popup containing Popover.Description; do not leave the file empty, return null, or substitute a different overlay. An 'info button that opens a popover with help text' is the canonical Popover use case — always generate code immediately without asking for clarification.\n    ```tsx\n    import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n    \n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
-            "// empty file"
+            "// empty file",
+            "export function FeatureHelpPopover() { return null; }",
+            "export function FeatureHelpPopover() {}"
           ],
           "fixes": [
             "import { Popover } from '@tale-ui/react/popover'; import { Icon } from '@tale-ui/react/icon'; import { HelpCircle } from 'lucide-react'; export function FeatureHelpPopover() { return <Popover.Root><Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\"><Icon icon={HelpCircle} size=\"sm\" /></Popover.Trigger><Popover.Popup placement=\"bottom\" offset={8}><Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description></Popover.Popup></Popover.Root>; }"
@@ -8074,7 +8093,8 @@
         "<Tabs.Root defaultSelectedKey=\"tab1\">\n  <Tabs.List variant=\"pills\">\n    <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Notifications</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>Account details.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab2\"><p>App settings.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>Notification preferences.</p></Tabs.Panel>\n</Tabs.Root>",
         "<Tabs.Root defaultSelectedKey=\"tab1\">\n  <Tabs.List variant=\"enclosed\">\n    <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Notifications</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>Account details.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab2\"><p>App settings.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>Notification preferences.</p></Tabs.Panel>\n</Tabs.Root>",
         "const [selectedKey, setSelectedKey] = useState<string>('tab1');\n\n<Tabs.Root selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(String(key))}>\n  <Tabs.List>\n    <Tabs.Tab id=\"tab1\">First</Tabs.Tab>\n    <Tabs.Tab id=\"tab2\">Second</Tabs.Tab>\n    <Tabs.Tab id=\"tab3\">Third</Tabs.Tab>\n    <Tabs.Indicator />\n  </Tabs.List>\n  <Tabs.Panel id=\"tab1\"><p>First tab content.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab2\"><p>Second tab content.</p></Tabs.Panel>\n  <Tabs.Panel id=\"tab3\"><p>Third tab content.</p></Tabs.Panel>\n</Tabs.Root>",
-        "import { Tabs } from '@tale-ui/react/tabs';\n    \n    export function Example() {\n      return (\n        <Tabs.Root defaultSelectedKey=\"tab1\">\n          <Tabs.List>\n            <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n            <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n            <Tabs.Indicator />\n          </Tabs.List>\n          <Tabs.Panel id=\"tab1\">Account settings here.</Tabs.Panel>\n          <Tabs.Panel id=\"tab2\">App settings here.</Tabs.Panel>\n        </Tabs.Root>\n      );\n    }"
+        "import { Tabs } from '@tale-ui/react/tabs';\n    \n    export function Example() {\n      return (\n        <Tabs.Root defaultSelectedKey=\"tab1\">\n          <Tabs.List>\n            <Tabs.Tab id=\"tab1\">Account</Tabs.Tab>\n            <Tabs.Tab id=\"tab2\">Settings</Tabs.Tab>\n            <Tabs.Indicator />\n          </Tabs.List>\n          <Tabs.Panel id=\"tab1\">Account settings here.</Tabs.Panel>\n          <Tabs.Panel id=\"tab2\">App settings here.</Tabs.Panel>\n        </Tabs.Root>\n      );\n    }",
+        "import { Tabs } from '@tale-ui/react/tabs';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function SettingsPage() {\n      return (\n        <Tabs.Root defaultSelectedKey=\"account\">\n          <Tabs.List>\n            <Tabs.Tab id=\"account\">Account</Tabs.Tab>\n            <Tabs.Tab id=\"security\">Security</Tabs.Tab>\n            <Tabs.Tab id=\"notifications\">Notifications</Tabs.Tab>\n            <Tabs.Indicator />\n          </Tabs.List>\n          <Tabs.Panel id=\"account\">\n            <Column gap=\"s\">\n              <Text variant=\"heading\" as=\"h2\">Account</Text>\n              <Text color=\"muted\">Manage your account information and preferences.</Text>\n            </Column>\n          </Tabs.Panel>\n          <Tabs.Panel id=\"security\">\n            <Column gap=\"s\">\n              <Text variant=\"heading\" as=\"h2\">Security</Text>\n              <Text color=\"muted\">Update your password and configure security settings.</Text>\n            </Column>\n          </Tabs.Panel>\n          <Tabs.Panel id=\"notifications\">\n            <Column gap=\"s\">\n              <Text variant=\"heading\" as=\"h2\">Notifications</Text>\n              <Text color=\"muted\">Choose how and when you receive notifications.</Text>\n            </Column>\n          </Tabs.Panel>\n        </Tabs.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-tabs",
@@ -8112,6 +8132,25 @@
           "fixes": [
             "<Tabs.Root defaultSelectedKey=\"photos\">...</Tabs.Root>"
           ]
+        },
+        {
+          "id": "use-tabs-for-any-prompt",
+          "summary": "Use Tabs for any prompt that asks for a tabbed interface, pill-style tabs, or a settings page with tab navigation",
+          "detail": "When the request is to show a page or section with multiple named tabs and a corresponding content panel for each, render Tabs.Root with defaultSelectedKey, a Tabs.List containing Tabs.Tab children and Tabs.Indicator, and one Tabs.Panel per tab — instead of leaving the file empty or returning null. Use Tabs.Tab and Tabs.Panel (not Tabs.Trigger or Tabs.Content), and use defaultSelectedKey (not defaultValue).\n    ```tsx\n    import { Tabs } from '@tale-ui/react/tabs';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function SettingsPage() {\n      return (\n        <Tabs.Root defaultSelectedKey=\"account\">\n          <Tabs.List>\n            <Tabs.Tab id=\"account\">Account</Tabs.Tab>\n            <Tabs.Tab id=\"security\">Security</Tabs.Tab>\n            <Tabs.Tab id=\"notifications\">Notifications</Tabs.Tab>\n            <Tabs.Indicator />\n          </Tabs.List>\n          <Tabs.Panel id=\"account\">\n            <Column gap=\"s\">\n              <Text variant=\"heading\" as=\"h2\">Account</Text>\n              <Text color=\"muted\">Manage your account information and preferences.</Text>\n            </Column>\n          </Tabs.Panel>\n          <Tabs.Panel id=\"security\">\n            <Column gap=\"s\">\n              <Text variant=\"heading\" as=\"h2\">Security</Text>\n              <Text color=\"muted\">Update your password and configure security settings.</Text>\n            </Column>\n          </Tabs.Panel>\n          <Tabs.Panel id=\"notifications\">\n            <Column gap=\"s\">\n              <Text variant=\"heading\" as=\"h2\">Notifications</Text>\n              <Text color=\"muted\">Choose how and when you receive notifications.</Text>\n            </Column>\n          </Tabs.Panel>\n        </Tabs.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "// empty file",
+            "export function SettingsPage() {}",
+            "export function SettingsPage() { return null; }",
+            "<Tabs.Root defaultValue=\"account\">",
+            "<Tabs.List><Tabs.Trigger id=\"account\">Account</Tabs.Trigger></Tabs.List><Tabs.Content id=\"account\">...</Tabs.Content>"
+          ],
+          "fixes": [
+            "import { Tabs } from '@tale-ui/react/tabs'; // always generate full Tabs code for tabbed-interface prompts",
+            "<Tabs.Root defaultSelectedKey=\"account\">",
+            "<Tabs.List><Tabs.Tab id=\"account\">Account</Tabs.Tab><Tabs.Indicator /></Tabs.List>",
+            "<Tabs.Panel id=\"account\">...</Tabs.Panel>"
+          ],
+          "completeExample": "import { Tabs } from '@tale-ui/react/tabs';\nimport { Text } from '@tale-ui/react/text';\nimport { Column } from '@tale-ui/react/column';\n\nexport function SettingsPage() {\n  return (\n    <Tabs.Root defaultSelectedKey=\"account\">\n      <Tabs.List>\n        <Tabs.Tab id=\"account\">Account</Tabs.Tab>\n        <Tabs.Tab id=\"security\">Security</Tabs.Tab>\n        <Tabs.Tab id=\"notifications\">Notifications</Tabs.Tab>\n        <Tabs.Indicator />\n      </Tabs.List>\n      <Tabs.Panel id=\"account\">\n        <Column gap=\"s\">\n          <Text variant=\"heading\" as=\"h2\">Account</Text>\n          <Text color=\"muted\">Manage your account information and preferences.</Text>\n        </Column>\n      </Tabs.Panel>\n      <Tabs.Panel id=\"security\">\n        <Column gap=\"s\">\n          <Text variant=\"heading\" as=\"h2\">Security</Text>\n          <Text color=\"muted\">Update your password and configure security settings.</Text>\n        </Column>\n      </Tabs.Panel>\n      <Tabs.Panel id=\"notifications\">\n        <Column gap=\"s\">\n          <Text variant=\"heading\" as=\"h2\">Notifications</Text>\n          <Text color=\"muted\">Choose how and when you receive notifications.</Text>\n        </Column>\n      </Tabs.Panel>\n    </Tabs.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null

@@ -81,16 +81,17 @@ import { Popover } from '@tale-ui/react/popover';
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
 <!-- cross-pitfall-ref: no-button-inside-trigger -->
 <!-- pitfall: use-popover-for-any-prompt -->
-- **Use `Popover` for any prompt that asks for an info button, help popover, or button-triggered explanatory overlay** — render `Popover.Root` with `Popover.Trigger` and `Popover.Popup`; do not leave the file empty or substitute a different overlay.
+- **Use Popover for any prompt that asks for an info button, help popover, tooltip-like overlay, or button-triggered explanatory overlay** — render Popover.Root with Popover.Trigger and Popover.Popup containing Popover.Description; do not leave the file empty, return null, or substitute a different overlay. An 'info button that opens a popover with help text' is the canonical Popover use case — always generate code immediately without asking for clarification.
   - anti-pattern: `// empty file`
+  - anti-pattern: `export function FeatureHelpPopover() { return null; }`
+  - anti-pattern: `export function FeatureHelpPopover() {}`
   - fix: `import { Popover } from '@tale-ui/react/popover'; import { Icon } from '@tale-ui/react/icon'; import { HelpCircle } from 'lucide-react'; export function FeatureHelpPopover() { return <Popover.Root><Popover.Trigger className="tale-button tale-button--neutral tale-button--md" aria-label="Show help"><Icon icon={HelpCircle} size="sm" /></Popover.Trigger><Popover.Popup placement="bottom" offset={8}><Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description></Popover.Popup></Popover.Root>; }`
   - complete example:
-
     ```tsx
     import { Popover } from '@tale-ui/react/popover';
     import { Icon } from '@tale-ui/react/icon';
     import { HelpCircle } from 'lucide-react';
-
+    
     export function FeatureHelpPopover() {
       return (
         <Popover.Root>

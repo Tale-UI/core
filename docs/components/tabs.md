@@ -217,6 +217,54 @@ const [selectedKey, setSelectedKey] = useState<string>('tab1');
 - **Uses `defaultSelectedKey`, NOT `defaultValue`** — pass the `id` of the tab that should be selected by default.
   - anti-pattern: `<Tabs.Root defaultValue="photos">...</Tabs.Root>`
   - fix: `<Tabs.Root defaultSelectedKey="photos">...</Tabs.Root>`
+<!-- pitfall: use-tabs-for-any-prompt -->
+- **Use Tabs for any prompt that asks for a tabbed interface, pill-style tabs, or a settings page with tab navigation** — When the request is to show a page or section with multiple named tabs and a corresponding content panel for each, render Tabs.Root with defaultSelectedKey, a Tabs.List containing Tabs.Tab children and Tabs.Indicator, and one Tabs.Panel per tab — instead of leaving the file empty or returning null. Use Tabs.Tab and Tabs.Panel (not Tabs.Trigger or Tabs.Content), and use defaultSelectedKey (not defaultValue).
+  - anti-pattern: `// empty file`
+  - anti-pattern: `export function SettingsPage() {}`
+  - anti-pattern: `export function SettingsPage() { return null; }`
+  - anti-pattern: `<Tabs.Root defaultValue="account">`
+  - anti-pattern: `<Tabs.List><Tabs.Trigger id="account">Account</Tabs.Trigger></Tabs.List><Tabs.Content id="account">...</Tabs.Content>`
+  - fix: `import { Tabs } from '@tale-ui/react/tabs'; // always generate full Tabs code for tabbed-interface prompts`
+  - fix: `<Tabs.Root defaultSelectedKey="account">`
+  - fix: `<Tabs.List><Tabs.Tab id="account">Account</Tabs.Tab><Tabs.Indicator /></Tabs.List>`
+  - fix: `<Tabs.Panel id="account">...</Tabs.Panel>`
+  - complete example:
+    ```tsx
+    import { Tabs } from '@tale-ui/react/tabs';
+    import { Text } from '@tale-ui/react/text';
+    import { Column } from '@tale-ui/react/column';
+    
+    export function SettingsPage() {
+      return (
+        <Tabs.Root defaultSelectedKey="account">
+          <Tabs.List>
+            <Tabs.Tab id="account">Account</Tabs.Tab>
+            <Tabs.Tab id="security">Security</Tabs.Tab>
+            <Tabs.Tab id="notifications">Notifications</Tabs.Tab>
+            <Tabs.Indicator />
+          </Tabs.List>
+          <Tabs.Panel id="account">
+            <Column gap="s">
+              <Text variant="heading" as="h2">Account</Text>
+              <Text color="muted">Manage your account information and preferences.</Text>
+            </Column>
+          </Tabs.Panel>
+          <Tabs.Panel id="security">
+            <Column gap="s">
+              <Text variant="heading" as="h2">Security</Text>
+              <Text color="muted">Update your password and configure security settings.</Text>
+            </Column>
+          </Tabs.Panel>
+          <Tabs.Panel id="notifications">
+            <Column gap="s">
+              <Text variant="heading" as="h2">Notifications</Text>
+              <Text color="muted">Choose how and when you receive notifications.</Text>
+            </Column>
+          </Tabs.Panel>
+        </Tabs.Root>
+      );
+    }
+    ```
 
 ## Notes
 

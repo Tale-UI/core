@@ -111,3 +111,26 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 - `isDisabled` and `isReadOnly` are set on `Input.Root` and propagate to the inner input.
 
 ## Pitfalls
+
+<!-- pitfall: use-input-for-text-input-prompts -->
+- **Use Input for any prompt that asks for a text input field with a label or description** — When a prompt asks for a labeled text input field (optionally with a description or error message), render Input.Root with Input.Label, Input.Input, and optionally Input.Description instead of leaving the file empty, returning null, or substituting TextField or a bare <input> element.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `export function FullNameField() {}`
+  - anti-pattern: `export function FullNameField() { return null; }`
+  - anti-pattern: `<input type="text" placeholder="Full Name" />`
+  - fix: `import { Input } from '@tale-ui/react/input'; export function FullNameField() { return <Input.Root><Input.Label>Full Name</Input.Label><Input.Input placeholder="Full Name" /><Input.Description>Enter your first and last name as they appear on your ID.</Input.Description></Input.Root>; }`
+  - complete example:
+    ```tsx
+    import { Input } from '@tale-ui/react/input';
+    
+    export function FullNameField() {
+      return (
+        <Input.Root>
+          <Input.Label>Full Name</Input.Label>
+          <Input.Input placeholder="Full Name" />
+          <Input.Description>Enter your first and last name as they appear on your ID.</Input.Description>
+        </Input.Root>
+      );
+    }
+    ```
+
