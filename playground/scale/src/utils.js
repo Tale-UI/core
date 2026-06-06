@@ -9,6 +9,9 @@ export const NEUTRAL_SHADES = [
   5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 40, 50, 60, 70, 80, 82, 84, 86, 88, 90, 92, 94, 96,
   98, 100,
 ];
+const NAMED_NEUTRAL_DARK_L_RATIO = 0.08;
+const NAMED_NEUTRAL_DARK_C_RATIO = 0.25;
+const NAMED_NEUTRAL_FALLBACK_COLOR = '#008661';
 
 export const isValidHex = (color) => {
   if (!color || typeof color !== 'string') {
@@ -41,12 +44,21 @@ const oklchToHex = (l, c, h) => {
  * @param {boolean} [options.whiteAnchor=false] - Neutral only: force shade-5 to pure
  *   white (#ffffff) and give shade-10 the value that shade-5 would otherwise receive.
  * @param {number[]} [options.shades] - Optional shade list override.
+ * @param {number} [options.darkLRatio] - Optional shade-100 lightness ratio override.
+ * @param {number} [options.darkCRatio] - Optional shade-100 chroma ratio override.
+ * @param {boolean} [options.useTypeB=true] - Named only: use the light-base Type B curve.
  * @returns {Array<{shade: number, hex: string}>}
  */
 export const generatePalette = (
   baseHex,
   mode,
-  { whiteAnchor = false, shades: customShades } = {},
+  {
+    whiteAnchor = false,
+    shades: customShades,
+    darkLRatio: customDarkLRatio,
+    darkCRatio: customDarkCRatio,
+    useTypeB = true,
+  } = {},
 ) => {
   const base = toOklch(baseHex);
   if (!base) {
@@ -63,8 +75,8 @@ export const generatePalette = (
   // Dark end (shade 100): calibrated from spec reference palettes.
   // Shade-100 retains ~55% of the base L and ~62% of the base C —
   // it is dark but visibly tinted, not near-black.
-  const DARK_L_RATIO = isNeutral ? 0.45 : 0.55; // fraction of L60 kept at shade-100
-  const DARK_C_RATIO = isNeutral ? 0.5 : 0.62; // fraction of C60 kept at shade-100
+  const DARK_L_RATIO = customDarkLRatio ?? (isNeutral ? 0.45 : 0.55); // fraction of L60 kept at shade-100
+  const DARK_C_RATIO = customDarkCRatio ?? (isNeutral ? 0.5 : 0.62); // fraction of C60 kept at shade-100
 
   // Absolute chroma target at shade-5 — ensures visible hue tinting even for
   // very low-chroma bases (e.g. dark neutralised teals).
@@ -72,7 +84,7 @@ export const generatePalette = (
 
   // Type B: light base (L > 0.70) uses a steep linear interpolation to near-black
   // so shade-100 is always near-black regardless of shade-60's lightness.
-  const isTypeB = !isNeutral && L60 > 0.7;
+  const isTypeB = useTypeB && !isNeutral && L60 > 0.7;
 
   return shades.map((shade) => {
     // White anchor: neutral-5 = pure white; neutral-10 = the computed shade-5 value
@@ -137,7 +149,12 @@ export const generatePalette = (
 };
 
 export const generateNamedNeutralPalette = (baseHex, { whiteAnchor = false } = {}) => {
-  const palette = generatePalette(baseHex, 'named', { shades: NEUTRAL_SHADES });
+  const palette = generatePalette(baseHex, 'named', {
+    shades: NEUTRAL_SHADES,
+    darkLRatio: NAMED_NEUTRAL_DARK_L_RATIO,
+    darkCRatio: NAMED_NEUTRAL_DARK_C_RATIO,
+    useTypeB: false,
+  });
   if (!whiteAnchor) {
     return palette;
   }
@@ -184,7 +201,8 @@ export const getContrastRatio = (hex1, hex2) => {
  * eliminate rounding/gamut-clamping discrepancies.
  *
  * Named: moderate-to-high chroma, medium-dark lightness.
- * Named-neutral: named chroma expanded to neutral steps, with shade-60 AA vs shade-5.
+ * Named-neutral: named chroma expanded to neutral steps, with shade-60 AA vs shade-5
+ * and shade-100 when paired with the white anchor.
  * Neutral: very low chroma (reads as gray), mid lightness.
  */
 export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
@@ -218,7 +236,7 @@ export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
         return candidateHex;
       }
     } else if (isNamedNeutral) {
-      const l = 0.34 + Math.random() * 0.28; // 0.34–0.62
+      const l = 0.52 + Math.random() * 0.08; // 0.52–0.60
       const candidateHex = oklchToHex(l, c, h);
       const palette = generateNamedNeutralPalette(candidateHex, { whiteAnchor });
       if (!palette.length) {
@@ -227,7 +245,14 @@ export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
       const get = (shade) => palette.find((p) => p.shade === shade)?.hex;
       const s5 = get(5);
       const s60 = get(60);
-      if (s5 && s60 && getContrastRatio(s60, s5) >= 4.5) {
+      const s100 = get(100);
+      if (
+        s5 &&
+        s60 &&
+        s100 &&
+        getContrastRatio(s60, s5) >= 4.5 &&
+        getContrastRatio(s60, s100) >= 4.5
+      ) {
         return candidateHex;
       }
     } else {
@@ -282,7 +307,7 @@ export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
   }
 
   if (isNamedNeutral) {
-    return '#025768';
+    return NAMED_NEUTRAL_FALLBACK_COLOR;
   }
 
   return '#dc2626';

@@ -592,6 +592,8 @@ Runs the `eval-fix-review.mjs` pipeline repeatedly for each selected golden prom
 
 This is intended for cheap repeated local-model hardening, where one or two passing runs are not enough signal. By default it passes `--fresh` to bypass both eval caches so each round calls the model again. Use `--allow-cache` only when debugging the runner itself.
 
+Resume checkpoints are tied to the selected prompt set, pass target, max rounds, cache policy, provider, and other non-model options. `--model` and `--fix-model` are ignored for resume compatibility, so a previous run can be continued with a different model under the same provider.
+
 ```bash
 pnpm golden:harden -- --provider ollama --model qwen3.6 --passes 3
 pnpm golden:harden -- --provider lm-studio --model qwen3.6 --passes 5
@@ -616,7 +618,7 @@ Useful flags:
 | `--difficulty`   | all prompts   | Harden one difficulty group                                                                     |
 | `--allow-cache`  | off           | Do not inject `--fresh`; useful only for runner debugging                                       |
 | `--resume`       | off           | Continue prompt streaks from the checkpoint written by a previous run                           |
-| `--state-file`   | tool default  | Use a named checkpoint file, useful for separate provider/model hardening windows               |
+| `--state-file`   | tool default  | Use a named checkpoint file, useful for separate provider or prompt-selection windows           |
 | `--reset-resume` | off           | Ignore an existing checkpoint and start fresh                                                   |
 | provider options | Claude        | Passed through to `golden:fix-review`; structured source patching is inherited from that script |
 

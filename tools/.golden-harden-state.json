@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-06-06T03:15:49.765Z",
+  "updatedAt": "2026-06-06T13:25:35.435Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -287,8 +287,153 @@
       "done": true
     },
     "column-form-layout": {
-      "streak": 0,
+      "streak": 8,
+      "round": 16,
+      "done": true
+    },
+    "combobox-search": {
+      "streak": 8,
       "round": 8,
+      "done": true
+    },
+    "container-color-theme": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "context-menu-actions": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "credit-card-brand-dark": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "data-display-cards": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "date-field-input": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "date-picker-form": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "date-range-picker-form": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "dialog-destructive": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "dialog-dismissable": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "disclosure-panel": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "divided-list-items": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "dot-icon-status": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "drawer-with-backdrop": {
+      "streak": 8,
+      "round": 11,
+      "done": true
+    },
+    "drop-zone-file": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "empty-state-no-results": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "featured-icon-notification": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "field-with-validation": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "fieldset-address": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "file-trigger-upload": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "file-upload-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "form-login": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "grid-list-gallery": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "header-nav-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "horizontal-separator": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "icon-button-delete": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "icon-display": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "illustration-box-with-icon": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "image-cropper-basic": {
+      "streak": 4,
+      "round": 4,
       "done": false
     }
   },

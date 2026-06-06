@@ -718,6 +718,24 @@
       "completeExample": "import { Button } from '@tale-ui/react/button';\nimport { Row } from '@tale-ui/react/row';\n\nexport function AccountActions() {\n  return (\n    <Row gap=\"s\">\n      <Button variant=\"neutral\">Cancel</Button>\n      <Button variant=\"danger\">Delete account</Button>\n    </Row>\n  );\n}"
     },
     {
+      "id": "column-row-no-visual-inline-styles",
+      "summary": "Never apply non-layout inline styles (border, borderRadius, background) to Column or Row — use a wrapper element for visual styles",
+      "detail": "Column and Row are pure layout primitives. Their style prop must only contain layout-related CSS properties (width, height, maxWidth, flex, alignItems, justifyContent, etc.). Visual or decorative properties such as border, borderRadius, background, and boxShadow must be placed on a wrapping native HTML element such as a div. export function DropZonePlaceholder() { return ( <div style={{ padding: 'var(--space-2xl)', border: '2px dashed var(--neutral-20)', borderRadius: 'var(--radius-m)', display: 'flex', alignItems: 'center', justifyContent: 'center', }} > <Text color=\"muted\">No photo selected. Choose one below.</Text> </div> ); }",
+      "appliesTo": [
+        "*"
+      ],
+      "category": "layout",
+      "antiPatterns": [
+        "<Column align=\"center\" style={{ padding: 'var(--space-2xl)', border: '2px dashed var(--neutral-20)', borderRadius: 'var(--radius-m)' }}>",
+        "<Row style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-m)' }}>"
+      ],
+      "fixes": [
+        "<div style={{ padding: 'var(--space-2xl)', border: '2px dashed var(--neutral-20)', borderRadius: 'var(--radius-m)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Text color=\"muted\">...</Text></div>",
+        "<div style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-m)' }}><Row>...</Row></div>"
+      ],
+      "completeExample": "export function DropZonePlaceholder() {\n  return (\n    <div\n      style={{\n        padding: 'var(--space-2xl)',\n        border: '2px dashed var(--neutral-20)',\n        borderRadius: 'var(--radius-m)',\n        display: 'flex',\n        alignItems: 'center',\n        justifyContent: 'center',\n      }}\n    >\n      <Text color=\"muted\">No photo selected. Choose one below.</Text>\n    </div>\n  );\n}"
+    },
+    {
       "id": "no-visual-exports-for-interactive-ui",
       "summary": "Never use .Visual exports for interactive UI",
       "detail": "`Checkbox.Visual`, `Radio.Visual`, `Switch.Visual`, and `ToggleButtonVisual` are `aria-hidden` building blocks for custom composition only; they have no keyboard/pointer interaction and no accessible labelling.",

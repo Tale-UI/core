@@ -605,6 +605,33 @@ explicit BEM class names:
       );
     }
     ```
+<!-- pitfall: column-row-no-visual-inline-styles -->
+<!-- applies-to: * -->
+<!-- category: layout -->
+- **Never apply non-layout inline styles (border, borderRadius, background) to Column or Row — use a wrapper element for visual styles** — Column and Row are pure layout primitives. Their style prop must only contain layout-related CSS properties (width, height, maxWidth, flex, alignItems, justifyContent, etc.). Visual or decorative properties such as border, borderRadius, background, and boxShadow must be placed on a wrapping native HTML element such as a div.
+  - anti-pattern: `<Column align="center" style={{ padding: 'var(--space-2xl)', border: '2px dashed var(--neutral-20)', borderRadius: 'var(--radius-m)' }}>`
+  - anti-pattern: `<Row style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-m)' }}>`
+  - fix: `<div style={{ padding: 'var(--space-2xl)', border: '2px dashed var(--neutral-20)', borderRadius: 'var(--radius-m)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Text color="muted">...</Text></div>`
+  - fix: `<div style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-m)' }}><Row>...</Row></div>`
+  - complete example:
+    ```tsx
+    export function DropZonePlaceholder() {
+      return (
+        <div
+          style={{
+            padding: 'var(--space-2xl)',
+            border: '2px dashed var(--neutral-20)',
+            borderRadius: 'var(--radius-m)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text color="muted">No photo selected. Choose one below.</Text>
+        </div>
+      );
+    }
+    ```
 
 ## Visual Exports
 

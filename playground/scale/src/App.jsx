@@ -576,17 +576,30 @@ function ScaleApp() {
   };
 
   const handleRandomize = () => {
-    const randomMode = mode === 'neutral' && namedAsNeutral ? 'named-neutral' : mode;
+    const shouldUseNamedNeutral = mode === 'neutral' && namedAsNeutral;
+    const randomMode = shouldUseNamedNeutral ? 'named-neutral' : mode;
+    const randomWhiteAnchor = shouldUseNamedNeutral ? true : whiteAnchor;
     setSwitchPoint(null);
-    setMainColor(randomBaseColor(randomMode, { whiteAnchor }).replace('#', ''));
+    if (shouldUseNamedNeutral) {
+      setWhiteAnchor(true);
+    }
+    setMainColor(randomBaseColor(randomMode, { whiteAnchor: randomWhiteAnchor }).replace('#', ''));
   };
 
   const handleRandomizeBoth = () => {
+    const randomWhiteAnchor = namedAsNeutral ? true : whiteAnchor;
     setSwitchPoint(null);
+    if (namedAsNeutral) {
+      setWhiteAnchor(true);
+    }
     setNamedColor(
-      randomBaseColor(namedAsNeutral ? 'named-neutral' : 'named', { whiteAnchor }).replace('#', ''),
+      randomBaseColor(namedAsNeutral ? 'named-neutral' : 'named', {
+        whiteAnchor: randomWhiteAnchor,
+      }).replace('#', ''),
     );
-    setNeutralColor(randomBaseColor('neutral', { whiteAnchor }).replace('#', ''));
+    setNeutralColor(
+      randomBaseColor('neutral', { whiteAnchor: randomWhiteAnchor }).replace('#', ''),
+    );
   };
 
   const handleModeChange = (keys) => {

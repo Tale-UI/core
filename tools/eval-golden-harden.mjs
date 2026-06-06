@@ -154,8 +154,35 @@ function buildResumeConfigSignature(prompts, passThroughArgs) {
   };
 }
 
+function stripModelArgs(argsToNormalize = []) {
+  const modelFlags = new Set(['--model', '--fix-model']);
+  const normalized = [];
+
+  for (let i = 0; i < argsToNormalize.length; i++) {
+    const arg = argsToNormalize[i];
+    if (modelFlags.has(arg)) {
+      i++;
+      continue;
+    }
+    if ([...modelFlags].some((flag) => arg.startsWith(`${flag}=`))) {
+      continue;
+    }
+    normalized.push(arg);
+  }
+
+  return normalized;
+}
+
+function normalizeResumeConfig(config) {
+  if (!config) return config;
+  return {
+    ...config,
+    passThroughArgs: stripModelArgs(config.passThroughArgs),
+  };
+}
+
 function sameResumeConfig(a, b) {
-  return JSON.stringify(a) === JSON.stringify(b);
+  return JSON.stringify(normalizeResumeConfig(a)) === JSON.stringify(normalizeResumeConfig(b));
 }
 
 function runHardeningRound(slug, passThroughArgs, round) {
