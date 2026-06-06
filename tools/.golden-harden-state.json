@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-06-06T13:25:35.435Z",
+  "updatedAt": "2026-06-06T16:58:14.978Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -141,7 +141,7 @@
       "--provider",
       "claude",
       "--model",
-      "sonnet",
+      "claude-opus-4-8",
       "--fresh"
     ]
   },
@@ -432,8 +432,53 @@
       "done": true
     },
     "image-cropper-basic": {
-      "streak": 4,
-      "round": 4,
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "image-rounded": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "input-field": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "input-group-url-field": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "input-tags-skills": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "iphone-mockup-screenshot": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "line-chart-visitors": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "list-with-badges": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "loading-spinner": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "menu-dropdown": {
+      "streak": 3,
+      "round": 3,
       "done": false
     }
   },

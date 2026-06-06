@@ -615,6 +615,8 @@ explicit BEM class names:
   - fix: `<div style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-m)' }}><Row>...</Row></div>`
   - complete example:
     ```tsx
+    import { Text } from '@tale-ui/react/text';
+
     export function DropZonePlaceholder() {
       return (
         <div

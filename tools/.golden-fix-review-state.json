@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "status": "in_progress",
-  "updatedAt": "2026-06-06T13:28:14.656Z",
+  "status": "complete",
+  "updatedAt": "2026-06-06T16:58:14.975Z",
   "config": {
     "prompts": [
-      "image-cropper-basic"
+      "menu-dropdown"
     ],
     "provider": "claude",
-    "model": "sonnet",
+    "model": "claude-opus-4-8",
     "fixProvider": "claude",
-    "fixModel": "sonnet",
+    "fixModel": "claude-opus-4-8",
     "difficulty": null,
-    "slug": "image-cropper-basic",
+    "slug": "menu-dropdown",
     "slugs": null,
     "mcp": false,
     "mcpMaxTurns": 5,
@@ -19,14 +19,14 @@
     "noSourcePatch": false
   },
   "completedSlugs": [
-    "image-cropper-basic"
+    "menu-dropdown"
   ],
-  "initialPassCount": 0,
-  "initialFailCount": 1,
+  "initialPassCount": 1,
+  "initialFailCount": 0,
   "stillFailing": [],
   "passingResults": [
     {
-      "slug": "image-cropper-basic",
+      "slug": "menu-dropdown",
       "difficulty": "medium",
       "allPass": true,
       "l1": {
@@ -41,11 +41,11 @@
         "pass": true,
         "forbidden": []
       },
-      "code": "import * as React from 'react';\nimport {\n  ImageCropper,\n  centerCrop,\n  makeAspectCrop,\n  cropToFile,\n} from '@tale-ui/react/image-cropper';\nimport type { Crop, PixelCrop } from '@tale-ui/react/image-cropper';\nimport { Card } from '@tale-ui/react/card';\nimport { Column } from '@tale-ui/react/column';\nimport { Row } from '@tale-ui/react/row';\nimport { Button } from '@tale-ui/react/button';\nimport { Text } from '@tale-ui/react/text';\nimport { FileTrigger } from '@tale-ui/react/file-trigger';\nimport { Avatar } from '@tale-ui/react/avatar';\n\nfunction centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) {\n  return centerCrop(\n    makeAspectCrop({ unit: '%', width: 80 }, aspect, mediaWidth, mediaHeight),\n    mediaWidth,\n    mediaHeight,\n  );\n}\n\nexport function AvatarPhotoCropper() {\n  const [imgSrc, setImgSrc] = React.useState<string>('');\n  const [crop, setCrop] = React.useState<Crop>();\n  const [completedCrop, setCompletedCrop] = React.useState<PixelCrop>();\n  const [savedPreview, setSavedPreview] = React.useState<string | null>(null);\n\n  function onSelectFile(fileList: FileList | null) {\n    if (!fileList || fileList.length === 0) return;\n    const reader = new FileReader();\n    reader.addEventListener('load', () => {\n      setImgSrc(reader.result?.toString() ?? '');\n      setCrop(undefined);\n      setSavedPreview(null);\n    });\n    reader.readAsDataURL(fileList[0]);\n  }\n\n  function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {\n    const { naturalWidth: width, naturalHeight: height } = e.currentTarget;\n    setCrop(centerAspectCrop(width, height, 1));\n  }\n\n  async function handleSave() {\n    if (!completedCrop || !imgSrc) return;\n    const file = await cropToFile(imgSrc, completedCrop);\n    if (file) {\n      setSavedPreview(URL.createObjectURL(file));\n    }\n  }\n\n  return (\n    <Card.Root style={{ maxWidth: 480 }}>\n      <Card.Header>\n        <Column gap=\"xs\">\n          <Text variant=\"heading\">Crop Avatar Photo</Text>\n          <Text color=\"muted\">Select a photo, then drag to adjust the crop area.</Text>\n        </Column>\n      </Card.Header>\n\n      <Card.Body>\n        <Column gap=\"m\">\n          {imgSrc ? (\n            <ImageCropper.Root\n              crop={crop}\n              onChange={setCrop}\n              onComplete={setCompletedCrop}\n              aspect={1}\n              circularCrop\n            >\n              <ImageCropper.Img\n                src={imgSrc}\n                alt=\"Crop your avatar\"\n                onLoad={onImageLoad}\n                style={{ maxHeight: 360, width: '100%' }}\n              />\n            </ImageCropper.Root>\n          ) : (\n            <div\n              style={{\n                padding: 'var(--space-2xl)',\n                border: '2px dashed var(--neutral-20)',\n                borderRadius: 'var(--radius-m)',\n                display: 'flex',\n                alignItems: 'center',\n                justifyContent: 'center',\n              }}\n            >\n              <Text color=\"muted\">No photo selected. Choose one below.</Text>\n            </div>\n          )}\n\n          {savedPreview && (\n            <Row gap=\"s\" style={{ alignItems: 'center' }}>\n              <Text variant=\"label\">Preview</Text>\n              <Avatar.Root size=\"xl\">\n                <Avatar.Image src={savedPreview} alt=\"Cropped avatar preview\" />\n                <Avatar.Fallback>?</Avatar.Fallback>\n              </Avatar.Root>\n            </Row>\n          )}\n        </Column>\n      </Card.Body>\n\n      <Card.Footer>\n        <Row gap=\"s\">\n          <FileTrigger onSelect={onSelectFile}>\n            <Button variant=\"neutral\">Change photo</Button>\n          </FileTrigger>\n          <Button\n            variant=\"primary\"\n            isDisabled={!imgSrc || !completedCrop}\n            onPress={handleSave}\n          >\n            Save avatar\n          </Button>\n        </Row>\n      </Card.Footer>\n    </Card.Root>\n  );\n}",
-      "prompt": "Show an image cropper for a user avatar photo with a 1:1 aspect ratio."
+      "_callCached": false,
+      "_checkCached": false,
+      "code": "import { Menu } from '@tale-ui/react/menu';\n\nexport function FileActionsMenu() {\n  return (\n    <Menu.Root>\n      <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">File</Menu.Trigger>\n      <Menu.Popover>\n        <Menu.MenuList>\n          <Menu.Item id=\"new\">New</Menu.Item>\n          <Menu.Item id=\"open\">Open</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"save\">Save</Menu.Item>\n          <Menu.Item id=\"close\">Close</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  );\n}",
+      "prompt": "Show a dropdown menu triggered by a button with file actions: New, Open, Save, and Close, separated into groups."
     }
   ],
-  "modifiedFiles": [
-    "/Users/admin/Projects/tale-ui/core/docs/pitfalls.md"
-  ]
+  "modifiedFiles": []
 }

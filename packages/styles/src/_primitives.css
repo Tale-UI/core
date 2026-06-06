@@ -51,7 +51,7 @@
   --field-font-family: var(--text-font-family);
   --field-font-size: var(--text-m-font-size);
   --field-focus-border: var(--focus-ring-color);
-  --field-focus-glow: 0 0 0 3px var(--focus-ring-glow);
+  --field-focus-glow: 0 0 0 0px var(--focus-ring-glow); /* 0 0 0 3px */
   --field-placeholder-color: var(--neutral-50);
   --field-label-color: var(--neutral-70);
   --field-label-font-size: var(--label-s-font-size);
