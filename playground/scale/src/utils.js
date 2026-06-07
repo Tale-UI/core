@@ -1,6 +1,7 @@
 import { converter, formatHex, clampChroma } from 'culori';
 
 const toOklch = converter('oklch');
+const toRgb = converter('rgb');
 
 export const errorColor = '#666666';
 
@@ -35,6 +36,53 @@ const oklchToHex = (l, c, h) => {
   return formatHex({ mode: 'oklch', ...clamped });
 };
 
+const getLinearRgbChannel = (value) => {
+  const channel = value / 255;
+  return channel <= 0.04045 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+};
+
+const getLinearRgbUnitChannel = (channel) =>
+  channel <= 0.04045 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+
+const getHexRelativeLuminance = (hex) => {
+  const h = hex.replace('#', '');
+  const r = getLinearRgbChannel(parseInt(h.slice(0, 2), 16));
+  const g = getLinearRgbChannel(parseInt(h.slice(2, 4), 16));
+  const b = getLinearRgbChannel(parseInt(h.slice(4, 6), 16));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+const getOklchRelativeLuminance = (l, c, h) => {
+  const rgb = toRgb(clampChroma({ mode: 'oklch', l, c, h: h ?? 0 }, 'oklch'));
+  return (
+    0.2126 * getLinearRgbUnitChannel(rgb.r) +
+    0.7152 * getLinearRgbUnitChannel(rgb.g) +
+    0.0722 * getLinearRgbUnitChannel(rgb.b)
+  );
+};
+
+const findLightnessForLuminance = ({ targetLuminance, c, h, minL, maxL }) => {
+  let low = minL;
+  let high = maxL;
+
+  for (let i = 0; i < 20; i += 1) {
+    const mid = (low + high) / 2;
+    const luminance = getOklchRelativeLuminance(mid, c, h);
+
+    if (luminance < targetLuminance) {
+      low = mid;
+    } else {
+      high = mid;
+    }
+  }
+
+  return (low + high) / 2;
+};
+
+const NEUTRAL_LIGHT_ANCHOR_SHADE = 12;
+const getNeutralTintProgress = (shade) =>
+  ((60 - shade) / 50) * ((60 - NEUTRAL_LIGHT_ANCHOR_SHADE) / 50);
+
 /**
  * Generate a tonal palette from a base hex (treated as the -60 shade).
  *
@@ -42,11 +90,13 @@ const oklchToHex = (l, c, h) => {
  * @param {'named'|'neutral'} mode
  * @param {object} [options]
  * @param {boolean} [options.whiteAnchor=false] - Neutral only: force shade-5 to pure
- *   white (#ffffff) and give shade-10 the value that shade-5 would otherwise receive.
+ *   white (#ffffff).
  * @param {number[]} [options.shades] - Optional shade list override.
  * @param {number} [options.darkLRatio] - Optional shade-100 lightness ratio override.
  * @param {number} [options.darkCRatio] - Optional shade-100 chroma ratio override.
  * @param {boolean} [options.useTypeB=true] - Named only: use the light-base Type B curve.
+ * @param {boolean} [options.useNeutralTintSteps=false] - Use neutral tint lightness
+ *   spacing without neutral chroma clamping.
  * @returns {Array<{shade: number, hex: string}>}
  */
 export const generatePalette = (
@@ -58,6 +108,7 @@ export const generatePalette = (
     darkLRatio: customDarkLRatio,
     darkCRatio: customDarkCRatio,
     useTypeB = true,
+    useNeutralTintSteps = false,
   } = {},
 ) => {
   const base = toOklch(baseHex);
@@ -68,6 +119,7 @@ export const generatePalette = (
   const { l: L60, c: C60, h: H60 } = base;
   const shades = customShades ?? (mode === 'neutral' ? NEUTRAL_SHADES : NAMED_SHADES);
   const isNeutral = mode === 'neutral';
+  const usesNeutralTintSteps = isNeutral || useNeutralTintSteps;
 
   // Light end target (shade 5): near-white with a hint of hue
   const L_MAX = 0.977;
@@ -85,18 +137,19 @@ export const generatePalette = (
   // Type B: light base (L > 0.70) uses a steep linear interpolation to near-black
   // so shade-100 is always near-black regardless of shade-60's lightness.
   const isTypeB = useTypeB && !isNeutral && L60 > 0.7;
+  const neutralLightAnchorChroma = Math.min(Math.max(LIGHT_C_TARGET, 0.002), 0.05);
+  const neutralLightAnchorLuminance = usesNeutralTintSteps
+    ? getOklchRelativeLuminance(L_MAX, neutralLightAnchorChroma, H60)
+    : null;
+  const neutralBaseLuminance = usesNeutralTintSteps
+    ? getOklchRelativeLuminance(L60, C60, H60)
+    : null;
 
   return shades.map((shade) => {
     // White anchor: neutral-5 = pure white; neutral-10 = the computed shade-5 value
     if (isNeutral && whiteAnchor) {
       if (shade === 5) {
         return { shade, hex: '#ffffff' };
-      }
-      if (shade === 10) {
-        // Compute what shade-5 would normally be (t=1: full tint toward near-white)
-        const l = L_MAX;
-        const c = Math.min(Math.max(LIGHT_C_TARGET, 0.002), 0.05);
-        return { shade, hex: oklchToHex(l, c, H60) };
       }
     }
 
@@ -107,15 +160,28 @@ export const generatePalette = (
     let l, c;
 
     if (shade < 60) {
-      // Tint — interpolate toward near-white
-      // When whiteAnchor: shade-10 is the near-white anchor (span 10→60 = 50)
-      // Otherwise: shade-5 is the near-white anchor (span 5→60 = 55)
-      const tintSpan = isNeutral && whiteAnchor ? 50 : 55;
-      const t = (60 - shade) / tintSpan;
-      l = L60 + t * (L_MAX - L60);
-      // Linearly interpolate from C60 down to a fixed near-white target chroma,
-      // ensuring visible hue tinting regardless of how low the base chroma is.
-      c = C60 + t * (LIGHT_C_TARGET - C60);
+      if (usesNeutralTintSteps && shade >= 10) {
+        // Neutral tint stops are spaced by output luminance so 10→20→...→60
+        // reads as even, and 12/14/16/18 split the 10→20 interval evenly.
+        const t = getNeutralTintProgress(shade);
+        c = C60 + t * (LIGHT_C_TARGET - C60);
+        const targetLuminance =
+          neutralBaseLuminance + t * (neutralLightAnchorLuminance - neutralBaseLuminance);
+        l = findLightnessForLuminance({
+          targetLuminance,
+          c,
+          h: H60,
+          minL: L60,
+          maxL: L_MAX,
+        });
+      } else {
+        // Tint — interpolate toward near-white
+        const t = (60 - shade) / 55;
+        l = L60 + t * (L_MAX - L60);
+        // Linearly interpolate from C60 down to a fixed near-white target chroma,
+        // ensuring visible hue tinting regardless of how low the base chroma is.
+        c = C60 + t * (LIGHT_C_TARGET - C60);
+      }
     } else {
       // Shade — darken from base toward target dark end
       // t = 0 at shade 60, t = 1 at shade 100
@@ -149,25 +215,33 @@ export const generatePalette = (
 };
 
 export const generateNamedNeutralPalette = (baseHex, { whiteAnchor = false } = {}) => {
-  const base = toOklch(baseHex);
-  const palette = generatePalette(baseHex, 'named', {
+  const tonePalette = generatePalette(baseHex, 'neutral', { shades: NEUTRAL_SHADES });
+  const chromaPalette = generatePalette(baseHex, 'named', {
     shades: NEUTRAL_SHADES,
     darkLRatio: NAMED_NEUTRAL_DARK_L_RATIO,
     darkCRatio: NAMED_NEUTRAL_DARK_C_RATIO,
     useTypeB: false,
+    useNeutralTintSteps: true,
   });
+  const getTone = (shade) => tonePalette.find((p) => p.shade === shade)?.hex;
 
-  const shade5Hex = palette.find((p) => p.shade === 5)?.hex;
-  const lightEndpointHex = whiteAnchor ? '#ffffff' : oklchToHex(0.993, 0.006, base?.h ?? 0);
+  return chromaPalette.map(({ shade, hex }) => {
+    if (whiteAnchor && shade === 5) {
+      return { shade, hex: '#ffffff' };
+    }
 
-  return palette.map(({ shade, hex }) => {
-    if (shade === 5) {
-      return { shade, hex: lightEndpointHex };
+    const tone = toOklch(getTone(shade));
+    const chroma = toOklch(hex);
+    if (!tone || !chroma) {
+      return { shade, hex };
     }
-    if (whiteAnchor && shade === 10 && shade5Hex) {
-      return { shade, hex: shade5Hex };
+
+    const matchedHex = oklchToHex(tone.l, chroma.c, chroma.h);
+    if (shade === 60) {
+      return { shade, hex: baseHex.toLowerCase() };
     }
-    return { shade, hex };
+
+    return { shade, hex: matchedHex };
   });
 };
 
@@ -175,12 +249,7 @@ export const generateNamedNeutralPalette = (baseHex, { whiteAnchor = false } = {
  * WCAG relative luminance for a hex colour.
  */
 export const getRelativeLuminance = (hex) => {
-  const h = hex.replace('#', '');
-  const r = parseInt(h.slice(0, 2), 16) / 255;
-  const g = parseInt(h.slice(2, 4), 16) / 255;
-  const b = parseInt(h.slice(4, 6), 16) / 255;
-  const toLinear = (c) => (c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
-  return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+  return getHexRelativeLuminance(hex);
 };
 
 /**
@@ -244,14 +313,16 @@ export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
       }
       const get = (shade) => palette.find((p) => p.shade === shade)?.hex;
       const s5 = get(5);
+      const s50 = get(50);
       const s60 = get(60);
       const s100 = get(100);
       if (
         s5 &&
+        s50 &&
         s60 &&
         s100 &&
         getContrastRatio(s60, s5) >= 4.5 &&
-        getContrastRatio(s60, s100) >= 4.5
+        getContrastRatio(s50, s100) >= 3.0
       ) {
         return candidateHex;
       }
