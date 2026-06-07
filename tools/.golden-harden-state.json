@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-06-06T16:58:14.978Z",
+  "updatedAt": "2026-06-07T15:57:57.044Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -477,8 +477,223 @@
       "done": true
     },
     "menu-dropdown": {
-      "streak": 3,
-      "round": 3,
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "menubar-editor": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "meter-with-indicator": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "multi-select-frameworks": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "muted-text": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "navigation-menu-site": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "number-field-quantity": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "pagination-control": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "pagination-dot-carousel": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "pagination-line-carousel": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "payment-input-card": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "pie-chart-traffic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "pin-input-verification": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "popover-info": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "preview-card-hover": {
+      "streak": 8,
+      "round": 23,
+      "done": true
+    },
+    "primary-button": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "progress-bar-labeled": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "progress-circle-upload": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "qr-code-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "radar-chart-skills": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "radial-bar-chart-quarterly": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "radio-group-form": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "radio-standalone": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "range-calendar-dates": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "rating-badge-score": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "rating-stars-display": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "row-button-group": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "scroll-area-list": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "search-field": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "section-divider-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "select-dropdown": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "select-native-country": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "select-with-sections": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "settings-page": {
+      "streak": 8,
+      "round": 9,
+      "done": true
+    },
+    "sidebar-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "slider-volume": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "social-button-google": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "social-button-group-login": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "status-badge": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "styled-link": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "switch-settings-list": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "switch-toggle": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "table-data": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "tabs-pills-variant": {
+      "streak": 1,
+      "round": 1,
       "done": false
     }
   },

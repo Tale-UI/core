@@ -122,6 +122,37 @@ import { PreviewCard } from '@tale-ui/react/preview-card';
     ```
 
 <!-- cross-pitfall-ref: no-asChild-on-triggers -->
+<!-- pitfall: preview-card-trigger-no-href -->
+- **PreviewCard.Trigger does not accept href or className — nest a Link inside it** — PreviewCard.Trigger renders an inline span (its props type is TriggerProps & RefAttributes<HTMLSpanElement>), so passing href or className causes 'Type ... is not assignable to type IntrinsicAttributes & TriggerProps & RefAttributes<HTMLSpanElement>'. To make a link that shows a preview on hover, place a <Link> from @tale-ui/react/link as a child of PreviewCard.Trigger rather than turning the trigger itself into the anchor.
+  - anti-pattern: `<PreviewCard.Trigger href="https://tale-ui.com" className="tale-link">Tale UI</PreviewCard.Trigger>`
+  - fix: `<PreviewCard.Trigger><Link href="https://tale-ui.com">Tale UI</Link></PreviewCard.Trigger>`
+  - complete example:
+    ```tsx
+    import { PreviewCard } from '@tale-ui/react/preview-card';
+    import { Link } from '@tale-ui/react/link';
+    import { Column } from '@tale-ui/react/column';
+    import { Text } from '@tale-ui/react/text';
+    
+    export function LinkPreviewCard() {
+      return (
+        <PreviewCard.Root>
+          <PreviewCard.Trigger>
+            <Link href="https://tale-ui.com">Tale UI</Link>
+          </PreviewCard.Trigger>
+          <PreviewCard.Popup placement="bottom" offset={8}>
+            <PreviewCard.Content aria-label="Tale UI preview">
+              <Column gap="xs">
+                <Text variant="label">Tale UI</Text>
+                <Text size="s" color="muted">
+                  An accessible, themeable React component library built on React Aria for building production-ready interfaces.
+                </Text>
+              </Column>
+            </PreviewCard.Content>
+          </PreviewCard.Popup>
+        </PreviewCard.Root>
+      );
+    }
+    ```
 
 ## Notes
 

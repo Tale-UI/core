@@ -149,23 +149,22 @@ export const generatePalette = (
 };
 
 export const generateNamedNeutralPalette = (baseHex, { whiteAnchor = false } = {}) => {
+  const base = toOklch(baseHex);
   const palette = generatePalette(baseHex, 'named', {
     shades: NEUTRAL_SHADES,
     darkLRatio: NAMED_NEUTRAL_DARK_L_RATIO,
     darkCRatio: NAMED_NEUTRAL_DARK_C_RATIO,
     useTypeB: false,
   });
-  if (!whiteAnchor) {
-    return palette;
-  }
 
   const shade5Hex = palette.find((p) => p.shade === 5)?.hex;
+  const lightEndpointHex = whiteAnchor ? '#ffffff' : oklchToHex(0.993, 0.006, base?.h ?? 0);
 
   return palette.map(({ shade, hex }) => {
     if (shade === 5) {
-      return { shade, hex: '#ffffff' };
+      return { shade, hex: lightEndpointHex };
     }
-    if (shade === 10 && shade5Hex) {
+    if (whiteAnchor && shade === 10 && shade5Hex) {
       return { shade, hex: shade5Hex };
     }
     return { shade, hex };
@@ -202,14 +201,15 @@ export const getContrastRatio = (hex1, hex2) => {
  *
  * Named: moderate-to-high chroma, medium-dark lightness.
  * Named-neutral: named chroma expanded to neutral steps, with shade-60 AA vs shade-5
- * and shade-100 when paired with the white anchor.
+ * and shade-100.
  * Neutral: very low chroma (reads as gray), mid lightness.
  */
 export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
   const isNeutral = mode === 'neutral';
   const isNamedNeutral = mode === 'named-neutral';
+  const maxAttempts = isNamedNeutral ? 2000 : 200;
 
-  for (let attempt = 0; attempt < 200; attempt += 1) {
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const h = Math.random() * 360;
     const c = isNeutral
       ? 0.01 + Math.random() * 0.03 // 0.01–0.04

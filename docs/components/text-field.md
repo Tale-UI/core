@@ -92,6 +92,77 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 - **There is NO `PasswordInput` component** — for password fields, use `TextField` with `type="password"` on `TextField.Input`.
   - anti-pattern: `<PasswordInput name="password" />`
   - fix: `<TextField.Root><TextField.Label>Password</TextField.Label><TextField.Input name="password" type="password" /></TextField.Root>`
+<!-- pitfall: use-textfield-for-any-prompt-that-says-text-field -->
+- **Use TextField when the prompt explicitly mentions 'text field' or 'text fields' — do not substitute Input** — When a UI prompt describes form fields using the exact phrase 'text field' or 'text fields', the required component is TextField (TextField.Root > TextField.Label > TextField.Input), not Input. Both components render a labeled text input, but the word 'text field' in a prompt maps directly to the TextField component. Using Input instead will fail the required-component check whenever TextField is in the expected component list.
+  - anti-pattern: `import { Input } from '@tale-ui/react/input'; // used when the prompt says 'text fields'`
+  - anti-pattern: `<Input.Root><Input.Label>Name</Input.Label><Input.Input placeholder="Jane Doe" /></Input.Root>`
+  - fix: `import { TextField } from '@tale-ui/react/text-field';`
+  - fix: `<TextField.Root><TextField.Label>Name</TextField.Label><TextField.Input placeholder="Jane Doe" /></TextField.Root>`
+  - complete example:
+    ```tsx
+    import { Button } from '@tale-ui/react/button';
+    import { Card } from '@tale-ui/react/card';
+    import { Column } from '@tale-ui/react/column';
+    import { Row } from '@tale-ui/react/row';
+    import { Select } from '@tale-ui/react/select';
+    import { Text } from '@tale-ui/react/text';
+    import { TextField } from '@tale-ui/react/text-field';
+    
+    export function SettingsPage() {
+      return (
+        <Column gap="l">
+          <Text variant="heading" as="h1">Settings</Text>
+    
+          <Row gap="m">
+            <Card.Root style={{ flex: 1 }}>
+              <Card.Header>
+                <Text variant="heading">Profile</Text>
+              </Card.Header>
+              <Card.Body>
+                <Column gap="s">
+                  <TextField.Root>
+                    <TextField.Label>Name</TextField.Label>
+                    <TextField.Input placeholder="Jane Doe" />
+                  </TextField.Root>
+                  <TextField.Root>
+                    <TextField.Label>Email</TextField.Label>
+                    <TextField.Input placeholder="jane@example.com" />
+                  </TextField.Root>
+                </Column>
+              </Card.Body>
+            </Card.Root>
+    
+            <Card.Root style={{ flex: 1 }}>
+              <Card.Header>
+                <Text variant="heading">Preferences</Text>
+              </Card.Header>
+              <Card.Body>
+                <Select.Root>
+                  <Select.Label>Theme</Select.Label>
+                  <Select.Trigger>
+                    <Select.Value />
+                    <Select.Icon />
+                  </Select.Trigger>
+                  <Select.Popover>
+                    <Select.ListBox>
+                      <Select.Item id="light" textValue="Light">Light</Select.Item>
+                      <Select.Item id="dark" textValue="Dark">Dark</Select.Item>
+                      <Select.Item id="system" textValue="System">System</Select.Item>
+                    </Select.ListBox>
+                  </Select.Popover>
+                </Select.Root>
+              </Card.Body>
+            </Card.Root>
+          </Row>
+    
+          <Row justify="end" gap="s">
+            <Button variant="ghost">Cancel</Button>
+            <Button variant="primary">Save</Button>
+          </Row>
+        </Column>
+      );
+    }
+    ```
 
 ## Notes
 

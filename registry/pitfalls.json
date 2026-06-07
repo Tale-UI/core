@@ -720,7 +720,7 @@
     {
       "id": "column-row-no-visual-inline-styles",
       "summary": "Never apply non-layout inline styles (border, borderRadius, background) to Column or Row — use a wrapper element for visual styles",
-      "detail": "Column and Row are pure layout primitives. Their style prop must only contain layout-related CSS properties (width, height, maxWidth, flex, alignItems, justifyContent, etc.). Visual or decorative properties such as border, borderRadius, background, and boxShadow must be placed on a wrapping native HTML element such as a div. export function DropZonePlaceholder() { return ( <div style={{ padding: 'var(--space-2xl)', border: '2px dashed var(--neutral-20)', borderRadius: 'var(--radius-m)', display: 'flex', alignItems: 'center', justifyContent: 'center', }} > <Text color=\"muted\">No photo selected. Choose one below.</Text> </div> ); }",
+      "detail": "Column and Row are pure layout primitives. Their style prop must only contain layout-related CSS properties (width, height, maxWidth, flex, alignItems, justifyContent, etc.). Visual or decorative properties such as border, borderRadius, background, and boxShadow must be placed on a wrapping native HTML element such as a div. import { Text } from '@tale-ui/react/text'; export function DropZonePlaceholder() { return ( <div style={{ padding: 'var(--space-2xl)', border: '2px dashed var(--neutral-20)', borderRadius: 'var(--radius-m)', display: 'flex', alignItems: 'center', justifyContent: 'center', }} > <Text color=\"muted\">No photo selected. Choose one below.</Text> </div> ); }",
       "appliesTo": [
         "*"
       ],
@@ -733,7 +733,7 @@
         "<div style={{ padding: 'var(--space-2xl)', border: '2px dashed var(--neutral-20)', borderRadius: 'var(--radius-m)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Text color=\"muted\">...</Text></div>",
         "<div style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-m)' }}><Row>...</Row></div>"
       ],
-      "completeExample": "export function DropZonePlaceholder() {\n  return (\n    <div\n      style={{\n        padding: 'var(--space-2xl)',\n        border: '2px dashed var(--neutral-20)',\n        borderRadius: 'var(--radius-m)',\n        display: 'flex',\n        alignItems: 'center',\n        justifyContent: 'center',\n      }}\n    >\n      <Text color=\"muted\">No photo selected. Choose one below.</Text>\n    </div>\n  );\n}"
+      "completeExample": "import { Text } from '@tale-ui/react/text';\n\nexport function DropZonePlaceholder() {\n  return (\n    <div\n      style={{\n        padding: 'var(--space-2xl)',\n        border: '2px dashed var(--neutral-20)',\n        borderRadius: 'var(--radius-m)',\n        display: 'flex',\n        alignItems: 'center',\n        justifyContent: 'center',\n      }}\n    >\n      <Text color=\"muted\">No photo selected. Choose one below.</Text>\n    </div>\n  );\n}"
     },
     {
       "id": "no-visual-exports-for-interactive-ui",

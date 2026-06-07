@@ -1,17 +1,17 @@
 {
   "version": 1,
   "status": "complete",
-  "updatedAt": "2026-06-06T16:58:14.975Z",
+  "updatedAt": "2026-06-07T15:57:57.042Z",
   "config": {
     "prompts": [
-      "menu-dropdown"
+      "tabs-pills-variant"
     ],
     "provider": "claude",
     "model": "claude-opus-4-8",
     "fixProvider": "claude",
     "fixModel": "claude-opus-4-8",
     "difficulty": null,
-    "slug": "menu-dropdown",
+    "slug": "tabs-pills-variant",
     "slugs": null,
     "mcp": false,
     "mcpMaxTurns": 5,
@@ -19,14 +19,14 @@
     "noSourcePatch": false
   },
   "completedSlugs": [
-    "menu-dropdown"
+    "tabs-pills-variant"
   ],
   "initialPassCount": 1,
   "initialFailCount": 0,
   "stillFailing": [],
   "passingResults": [
     {
-      "slug": "menu-dropdown",
+      "slug": "tabs-pills-variant",
       "difficulty": "medium",
       "allPass": true,
       "l1": {
@@ -43,8 +43,8 @@
       },
       "_callCached": false,
       "_checkCached": false,
-      "code": "import { Menu } from '@tale-ui/react/menu';\n\nexport function FileActionsMenu() {\n  return (\n    <Menu.Root>\n      <Menu.Trigger className=\"tale-button tale-button--neutral tale-button--md\">File</Menu.Trigger>\n      <Menu.Popover>\n        <Menu.MenuList>\n          <Menu.Item id=\"new\">New</Menu.Item>\n          <Menu.Item id=\"open\">Open</Menu.Item>\n          <Menu.Separator />\n          <Menu.Item id=\"save\">Save</Menu.Item>\n          <Menu.Item id=\"close\">Close</Menu.Item>\n        </Menu.MenuList>\n      </Menu.Popover>\n    </Menu.Root>\n  );\n}",
-      "prompt": "Show a dropdown menu triggered by a button with file actions: New, Open, Save, and Close, separated into groups."
+      "code": "import { Tabs } from '@tale-ui/react/tabs';\nimport { Text } from '@tale-ui/react/text';\nimport { Column } from '@tale-ui/react/column';\n\nexport function SettingsPage() {\n  return (\n    <Column gap=\"l\">\n      <Text variant=\"heading\" as=\"h1\">Settings</Text>\n      <Tabs.Root defaultSelectedKey=\"account\">\n        <Tabs.List variant=\"pills\">\n          <Tabs.Tab id=\"account\">Account</Tabs.Tab>\n          <Tabs.Tab id=\"security\">Security</Tabs.Tab>\n          <Tabs.Tab id=\"notifications\">Notifications</Tabs.Tab>\n          <Tabs.Indicator />\n        </Tabs.List>\n        <Tabs.Panel id=\"account\">\n          <Column gap=\"s\">\n            <Text variant=\"heading\" as=\"h2\">Account</Text>\n            <Text color=\"muted\">Manage your account information, profile details, and preferences.</Text>\n          </Column>\n        </Tabs.Panel>\n        <Tabs.Panel id=\"security\">\n          <Column gap=\"s\">\n            <Text variant=\"heading\" as=\"h2\">Security</Text>\n            <Text color=\"muted\">Update your password, enable two-factor authentication, and review active sessions.</Text>\n          </Column>\n        </Tabs.Panel>\n        <Tabs.Panel id=\"notifications\">\n          <Column gap=\"s\">\n            <Text variant=\"heading\" as=\"h2\">Notifications</Text>\n            <Text color=\"muted\">Choose how and when you receive email, push, and in-app notifications.</Text>\n          </Column>\n        </Tabs.Panel>\n      </Tabs.Root>\n    </Column>\n  );\n}",
+      "prompt": "Show a settings page with pill-style tabs: Account, Security, and Notifications, each with a content panel describing that section."
     }
   ],
   "modifiedFiles": []
