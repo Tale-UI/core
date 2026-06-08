@@ -223,6 +223,30 @@ const RadiusTokenValue = styled.span`
   color: var(--neutral-40);
 `;
 
+const NAMED_DARK_MIRROR = NAMED_SHADES.reduce((acc, shade, index) => {
+  acc[shade] = NAMED_SHADES[NAMED_SHADES.length - 1 - index];
+  return acc;
+}, {});
+
+const getPaletteHex = (palette, shade) => palette.find((p) => p.shade === shade)?.hex;
+
+const getNamedForegroundToken = (palette, shade, bgIsLight) => {
+  const shade5 = getPaletteHex(palette, 5);
+  const shade100 = getPaletteHex(palette, 100);
+  const bgHex = getPaletteHex(palette, bgIsLight ? shade : NAMED_DARK_MIRROR[shade]);
+
+  if (!shade5 || !shade100 || !bgHex) {
+    return shade < 60 ? 'var(--color-100)' : 'var(--color-5)';
+  }
+
+  const color5Hex = bgIsLight ? shade5 : shade100;
+  const color100Hex = bgIsLight ? shade100 : shade5;
+
+  return getContrastRatio(bgHex, color5Hex) >= getContrastRatio(bgHex, color100Hex)
+    ? 'var(--color-5)'
+    : 'var(--color-100)';
+};
+
 const DEFAULT_NAMED_COLOR = '025768';
 const DEFAULT_NEUTRAL_COLOR = '79716b';
 const DEFAULT_MODE = 'named';
@@ -333,8 +357,18 @@ function ScaleApp() {
   // Compute both palettes independently
   const namedPalette = useMemo(() => {
     const hex = numberToHex(namedColor);
-    return isValidHex(hex) ? generatePalette(hex, 'named', {}) : [];
-  }, [namedColor]);
+    if (!isValidHex(hex)) {
+      return [];
+    }
+
+    if (namedAsNeutral) {
+      return generateNamedNeutralPalette(hex, { whiteAnchor }).filter(({ shade }) =>
+        NAMED_SHADES.includes(shade),
+      );
+    }
+
+    return generatePalette(hex, 'named', {});
+  }, [namedAsNeutral, namedColor, whiteAnchor]);
 
   const neutralPalette = useMemo(() => {
     if (namedAsNeutral) {
@@ -409,19 +443,10 @@ function ScaleApp() {
         const fg = shade < neutralFgPivot ? 'var(--neutral-100)' : 'var(--neutral-5)';
         embedded.style.setProperty(`--neutral-${shade}-fg`, fg);
       }
-      // Per-shade contrast: pick whichever endpoint (--color-5 or --color-100)
-      // has better contrast against the shade's actual hex value.
-      const s5 = namedPalette.find((p) => p.shade === 5)?.hex;
-      const s100 = namedPalette.find((p) => p.shade === 100)?.hex;
+      // Per-shade contrast: pick whichever resolved endpoint
+      // (--color-5 or --color-100) has better contrast in the active mode.
       for (const shade of NAMED_SHADES) {
-        const shadeHex = namedPalette.find((p) => p.shade === shade)?.hex;
-        let fg = shade < 60 ? 'var(--color-100)' : 'var(--color-5)'; // fallback: default pivot
-        if (shadeHex && s5 && s100) {
-          fg =
-            getContrastRatio(shadeHex, s5) >= getContrastRatio(shadeHex, s100)
-              ? 'var(--color-5)'
-              : 'var(--color-100)';
-        }
+        const fg = getNamedForegroundToken(namedPalette, shade, bgIsLight);
         embedded.style.setProperty(`--color-${shade}-fg`, fg);
       }
     } else {
@@ -442,17 +467,8 @@ function ScaleApp() {
         root.style.setProperty(`--neutral-${shade}-fg`, fg);
       }
       // Per-shade contrast: same logic as embedded branch
-      const s5 = namedPalette.find((p) => p.shade === 5)?.hex;
-      const s100 = namedPalette.find((p) => p.shade === 100)?.hex;
       for (const shade of NAMED_SHADES) {
-        const shadeHex = namedPalette.find((p) => p.shade === shade)?.hex;
-        let fg = shade < 60 ? 'var(--color-100)' : 'var(--color-5)';
-        if (shadeHex && s5 && s100) {
-          fg =
-            getContrastRatio(shadeHex, s5) >= getContrastRatio(shadeHex, s100)
-              ? 'var(--color-5)'
-              : 'var(--color-100)';
-        }
+        const fg = getNamedForegroundToken(namedPalette, shade, bgIsLight);
         root.style.setProperty(`--color-${shade}-fg`, fg);
       }
     }
