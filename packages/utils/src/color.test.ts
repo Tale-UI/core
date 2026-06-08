@@ -50,4 +50,16 @@ describe('generatePalette', () => {
 
     expect(getLuminanceDeltaRange(palette, [10, 20, 30, 40, 50, 60])).toBeLessThan(0.02);
   });
+
+  it('sets neutral-100 to the previous neutral-96 tonal depth', () => {
+    const palette = generatePalette('#79716b', 'neutral');
+
+    expect(getShade(palette, 100)).toBe('#2c2825');
+  });
+
+  it('spaces neutral-60 through neutral-100 across the lighter dark ramp', () => {
+    const palette = generatePalette('#79716b', 'neutral');
+
+    expect(getLuminanceDeltaRange(palette, [60, 70, 80, 90, 100])).toBeLessThan(0.035);
+  });
 });

@@ -75,6 +75,9 @@ const findLightnessForLuminance = ({
 const NEUTRAL_LIGHT_ANCHOR_SHADE = 12;
 const getNeutralTintProgress = (shade: number): number =>
   ((60 - shade) / 50) * ((60 - NEUTRAL_LIGHT_ANCHOR_SHADE) / 50);
+const NEUTRAL_DARK_END_SHADE = 96;
+const getNeutralShadeProgress = (shade: number): number =>
+  ((shade - 60) / 40) * ((NEUTRAL_DARK_END_SHADE - 60) / 40);
 
 /**
  * Generate a tonal palette from a base hex (treated as the -60 shade).
@@ -137,7 +140,7 @@ export const generatePalette = (
         c = C60 + t * (LIGHT_C_TARGET - C60);
       }
     } else {
-      const t = (shade - 60) / 40;
+      const t = isNeutral ? getNeutralShadeProgress(shade) : (shade - 60) / 40;
       if (isTypeB) {
         const L_MIN = Math.max(0.26, L60 * 0.33);
         l = L60 + t * (L_MIN - L60);

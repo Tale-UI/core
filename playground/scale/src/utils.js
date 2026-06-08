@@ -82,6 +82,9 @@ const findLightnessForLuminance = ({ targetLuminance, c, h, minL, maxL }) => {
 const NEUTRAL_LIGHT_ANCHOR_SHADE = 12;
 const getNeutralTintProgress = (shade) =>
   ((60 - shade) / 50) * ((60 - NEUTRAL_LIGHT_ANCHOR_SHADE) / 50);
+const NEUTRAL_DARK_END_SHADE = 96;
+const getNeutralShadeProgress = (shade) =>
+  ((shade - 60) / 40) * ((NEUTRAL_DARK_END_SHADE - 60) / 40);
 
 /**
  * Generate a tonal palette from a base hex (treated as the -60 shade).
@@ -185,7 +188,7 @@ export const generatePalette = (
     } else {
       // Shade — darken from base toward target dark end
       // t = 0 at shade 60, t = 1 at shade 100
-      const t = (shade - 60) / 40;
+      const t = usesNeutralTintSteps ? getNeutralShadeProgress(shade) : (shade - 60) / 40;
       if (isTypeB) {
         // Steep linear interpolation to dark.
         // L_MIN scales with L60 so very light bases (e.g. L60≈0.95) don't produce
