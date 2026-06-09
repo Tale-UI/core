@@ -119,6 +119,54 @@ import { Star, Heart, Bell } from 'lucide-react';
 - **Never apply non-layout inline styles (listStyle, padding, margin) to GridList.Root** — `GridList.Root` resets list chrome (listStyle, padding, margin) internally; passing them via `style` is redundant and triggers a validation error. Only layout properties (`display`, `gridTemplateColumns`, `gap`) belong on the `style` prop.
   - anti-pattern: `<GridList.Root style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)', listStyle: 'none', padding: 0, margin: 0 }}>`
   - fix: `<GridList.Root style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}>`
+<!-- pitfall: use-grid-list-for-selectable-grid-prompts -->
+- **Use GridList for any prompt that asks for a selectable grid list, image card grid, or multi-select card grid** — When the prompt asks to display a grid of cards where the user can select one or more items, render GridList.Root with selectionMode='multiple' (or 'single') and place card content inside GridList.Item children. Use the style prop on GridList.Root with display: 'grid' and gridTemplateColumns to achieve the grid layout. Derive the selection state type from GridList.Root's onSelectionChange prop via React.ComponentProps. Never leave the file empty or substitute a plain div grid with manual selection state.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `export function SelectableImageGrid() {}`
+  - anti-pattern: `export function SelectableImageGrid() { return null; }`
+  - fix: `import { GridList } from '@tale-ui/react/grid-list'; // always use GridList for selectable grid list prompts`
+  - fix: `<GridList.Root aria-label="Image gallery" selectionMode="multiple" selectedKeys={selectedKeys} onSelectionChange={setSelectedKeys} style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}>`
+  - fix: `type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];`
+  - complete example:
+    ```tsx
+    import * as React from 'react';
+    import { GridList } from '@tale-ui/react/grid-list';
+    import { Image } from '@tale-ui/react/image';
+    import { Text } from '@tale-ui/react/text';
+    import { Column } from '@tale-ui/react/column';
+    
+    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];
+    
+    const images = [
+      { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },
+      { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },
+      { id: '3', src: '/image3.jpg', title: 'Forest Path' },
+      { id: '4', src: '/image4.jpg', title: 'City Lights' },
+    ];
+    
+    export function SelectableImageGrid() {
+      const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());
+    
+      return (
+        <GridList.Root
+          aria-label="Image gallery"
+          selectionMode="multiple"
+          selectedKeys={selectedKeys}
+          onSelectionChange={setSelectedKeys}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}
+        >
+          {images.map((image) => (
+            <GridList.Item key={image.id} id={image.id} textValue={image.title}>
+              <Column gap="s">
+                <Image src={image.src} alt={image.title} width={200} height={150} radius="md" />
+                <Text variant="label">{image.title}</Text>
+              </Column>
+            </GridList.Item>
+          ))}
+        </GridList.Root>
+      );
+    }
+    ```
 
 ## Notes
 

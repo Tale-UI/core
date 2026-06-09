@@ -228,3 +228,68 @@ function Example() {
 <!-- pitfall: popover-width -->
 <!-- prose-only -->
 - **The popover width matches the trigger width at open time** — it is captured on trigger click using `getBoundingClientRect()`. If the trigger resizes after the popover opens, the widths may diverge.
+<!-- pitfall: use-multiselect-for-any-prompt -->
+- **Use MultiSelect for any prompt that asks for a multi-select dropdown, framework picker, or multiple-selection field — generate complete code immediately, never return empty output** — When MultiSelect.Root includes a MultiSelect.Footer, do NOT use the items prop with a render-function child — TypeScript types children as ReactNode and rejects a function. Instead, map the items array explicitly with .map() so all children are ReactNode. Derive the selection type from onSelectionChange via React.ComponentProps — never import Selection from react-aria-components. Compute selected count from state handling both Set and the 'all' sentinel.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `export function FrameworkPicker() {}`
+  - anti-pattern: `export function FrameworkPicker() { return null; }`
+  - anti-pattern: `import type { Selection } from 'react-aria-components';`
+  - anti-pattern: `<MultiSelect.Root items={frameworks} selectedKeys={selected} onSelectionChange={setSelected}>{(framework) => <MultiSelect.Item id={framework.id} textValue={framework.name}>{framework.name}</MultiSelect.Item>}<MultiSelect.Footer>...</MultiSelect.Footer></MultiSelect.Root>`
+  - fix: `import { MultiSelect } from '@tale-ui/react/multi-select';`
+  - fix: `type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>>[0];`
+  - fix: `const [selected, setSelected] = React.useState<SelectionValue>(new Set());`
+  - fix: `const selectedCount = selected === 'all' ? frameworks.length : (selected as Set<string>).size;`
+  - fix: `<MultiSelect.Root selectedKeys={selected} onSelectionChange={setSelected}>{frameworks.map((f) => <MultiSelect.Item key={f.id} id={f.id} textValue={f.name}>{f.name}</MultiSelect.Item>)}<MultiSelect.Footer><Button variant="ghost" onPress={() => setSelected(new Set())}>Reset</Button><Button variant="ghost" onPress={() => setSelected(new Set(frameworks.map((f) => f.id)))}>Select All</Button></MultiSelect.Footer></MultiSelect.Root>`
+  - complete example:
+    ```tsx
+    import * as React from 'react';
+    import { MultiSelect } from '@tale-ui/react/multi-select';
+    import { Button } from '@tale-ui/react/button';
+    
+    const frameworks = [
+      { id: 'react', name: 'React' },
+      { id: 'vue', name: 'Vue' },
+      { id: 'angular', name: 'Angular' },
+      { id: 'svelte', name: 'Svelte' },
+      { id: 'solid', name: 'SolidJS' },
+    ];
+    
+    type SelectionValue = Parameters<
+      NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>
+    >[0];
+    
+    export function FrameworkMultiSelect() {
+      const [selected, setSelected] = React.useState<SelectionValue>(new Set());
+    
+      const selectedCount =
+        selected === 'all' ? frameworks.length : (selected as Set<string>).size;
+    
+      return (
+        <MultiSelect.Root
+          label="JavaScript frameworks"
+          placeholder={selectedCount > 0 ? `${selectedCount} selected` : 'Select frameworks…'}
+          description="Choose the frameworks for your project."
+          selectedKeys={selected}
+          onSelectionChange={setSelected}
+        >
+          {frameworks.map((framework) => (
+            <MultiSelect.Item key={framework.id} id={framework.id} textValue={framework.name}>
+              {framework.name}
+            </MultiSelect.Item>
+          ))}
+          <MultiSelect.Footer>
+            <Button variant="ghost" onPress={() => setSelected(new Set())}>
+              Reset
+            </Button>
+            <Button
+              variant="ghost"
+              onPress={() => setSelected(new Set(frameworks.map((f) => f.id)))}
+            >
+              Select All
+            </Button>
+          </MultiSelect.Footer>
+        </MultiSelect.Root>
+      );
+    }
+    ```
+

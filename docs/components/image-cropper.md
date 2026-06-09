@@ -145,10 +145,44 @@ The full `ReactCrop` CSS is included in `@tale-ui/react-styles`. Consumers do **
   - fix: `<Column gap="l"><ImageCropper.Root ...>...</ImageCropper.Root></Column>`
 
 <!-- pitfall: use-imagecropper-for-any-prompt -->
-- **Use `ImageCropper.Root` for any prompt that asks for cropping an avatar or other image** — when the request is specifically to crop an image, render `ImageCropper.Root` with an `ImageCropper.Img` child instead of leaving the file empty or substituting `Image`. For square avatar crops, set `aspect={1}`.
+- **Use ImageCropper.Root for any prompt that asks for cropping an avatar or other image** — when the request is specifically to crop an image — including any mention of '1:1 aspect ratio', 'square crop', or 'avatar photo' — immediately output the full ImageCropper.Root composition without deliberation. Never return empty code, time out, or substitute Image. Import centerCrop, makeAspectCrop, and the Crop type all from @tale-ui/react/image-cropper. Initialize crop state as useState<Crop>() (no initial value), wire an onLoad handler on ImageCropper.Img to compute the initial centered crop, and pass aspect={1} to ImageCropper.Root for square crops.
   - anti-pattern: `// empty file`
+  - anti-pattern: `export function AvatarCropper() {}`
+  - anti-pattern: `export function AvatarCropper() { return null; }`
   - anti-pattern: `import { Image } from '@tale-ui/react/image'; export function AvatarCropper() { return <Image src="/avatar.jpg" alt="User avatar" />; }`
-  - fix: `import * as React from 'react'; import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper'; import type { Crop } from '@tale-ui/react/image-cropper'; function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) { return centerCrop(makeAspectCrop({ unit: '%', width: 80 }, aspect, mediaWidth, mediaHeight), mediaWidth, mediaHeight); } export function AvatarCropper() { const [crop, setCrop] = React.useState<Crop>(); function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) { const { width, height } = event.currentTarget; setCrop(centerAspectCrop(width, height, 1)); } return <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}><ImageCropper.Img src="/avatar.jpg" alt="User avatar to crop" onLoad={handleImageLoad} style={{ maxHeight: 320, width: '100%' }} /></ImageCropper.Root>; }`
+  - fix: `import * as React from 'react'; import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper'; import type { Crop } from '@tale-ui/react/image-cropper'; export function AvatarCropper() { const [crop, setCrop] = React.useState<Crop>(); function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) { const { width, height } = event.currentTarget; setCrop(centerCrop(makeAspectCrop({ unit: '%', width: 80 }, 1, width, height), width, height)); } return <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}><ImageCropper.Img src="/avatar.jpg" alt="User avatar to crop" onLoad={handleImageLoad} style={{ maxHeight: 320, width: '100%' }} /></ImageCropper.Root>; }`
+  - complete example:
+    ```tsx
+    import * as React from 'react';
+    import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper';
+    import type { Crop } from '@tale-ui/react/image-cropper';
+    
+    export function AvatarCropper() {
+      const [crop, setCrop] = React.useState<Crop>();
+    
+      function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) {
+        const { width, height } = event.currentTarget;
+        setCrop(
+          centerCrop(
+            makeAspectCrop({ unit: '%', width: 80 }, 1, width, height),
+            width,
+            height
+          )
+        );
+      }
+    
+      return (
+        <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}>
+          <ImageCropper.Img
+            src="/avatar.jpg"
+            alt="User avatar to crop"
+            onLoad={handleImageLoad}
+            style={{ maxHeight: 320, width: '100%' }}
+          />
+        </ImageCropper.Root>
+      );
+    }
+    ```
 
 <!-- pitfall: imagecropper-label-text-and-neutral-button -->
 - **Use Tale UI label-plus-button props when composing ImageCropper with surrounding UI** — `Text` has no `weight` prop; passing `weight="semibold"` causes `Type '{ weight: string; ... }' is not assignable to type 'TextProps'`. Use `Text variant="label"` for labels. Use `Button variant="neutral"` for change or re-upload actions because `Button` has no `"secondary"` variant.

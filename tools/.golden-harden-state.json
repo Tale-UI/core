@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-06-07T15:57:57.044Z",
+  "updatedAt": "2026-06-09T12:32:30.675Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -141,7 +141,7 @@
       "--provider",
       "claude",
       "--model",
-      "claude-opus-4-8",
+      "claude-sonnet-4-6",
       "--fresh"
     ]
   },
@@ -288,7 +288,7 @@
     },
     "column-form-layout": {
       "streak": 8,
-      "round": 16,
+      "round": 8,
       "done": true
     },
     "combobox-search": {
@@ -358,7 +358,7 @@
     },
     "drawer-with-backdrop": {
       "streak": 8,
-      "round": 11,
+      "round": 8,
       "done": true
     },
     "drop-zone-file": {
@@ -368,7 +368,7 @@
     },
     "empty-state-no-results": {
       "streak": 8,
-      "round": 8,
+      "round": 12,
       "done": true
     },
     "featured-icon-notification": {
@@ -403,7 +403,7 @@
     },
     "grid-list-gallery": {
       "streak": 8,
-      "round": 8,
+      "round": 14,
       "done": true
     },
     "header-nav-basic": {
@@ -433,7 +433,7 @@
     },
     "image-cropper-basic": {
       "streak": 8,
-      "round": 8,
+      "round": 17,
       "done": true
     },
     "image-rounded": {
@@ -493,7 +493,7 @@
     },
     "multi-select-frameworks": {
       "streak": 8,
-      "round": 8,
+      "round": 12,
       "done": true
     },
     "muted-text": {
@@ -522,176 +522,6 @@
       "done": true
     },
     "pagination-line-carousel": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "payment-input-card": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "pie-chart-traffic": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "pin-input-verification": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "popover-info": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "preview-card-hover": {
-      "streak": 8,
-      "round": 23,
-      "done": true
-    },
-    "primary-button": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "progress-bar-labeled": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "progress-circle-upload": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "qr-code-basic": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "radar-chart-skills": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "radial-bar-chart-quarterly": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "radio-group-form": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "radio-standalone": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "range-calendar-dates": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "rating-badge-score": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "rating-stars-display": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "row-button-group": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "scroll-area-list": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "search-field": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "section-divider-basic": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "select-dropdown": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "select-native-country": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "select-with-sections": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "settings-page": {
-      "streak": 8,
-      "round": 9,
-      "done": true
-    },
-    "sidebar-basic": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "slider-volume": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "social-button-google": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "social-button-group-login": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "status-badge": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "styled-link": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "switch-settings-list": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "switch-toggle": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "table-data": {
-      "streak": 8,
-      "round": 8,
-      "done": true
-    },
-    "tabs-pills-variant": {
       "streak": 1,
       "round": 1,
       "done": false

@@ -3482,7 +3482,8 @@
         "<EmptyState.Root>\n  <EmptyState.Icon><Icon icon={SearchIcon} size=\"lg\" /></EmptyState.Icon>\n  <EmptyState.Title>No results found</EmptyState.Title>\n  <EmptyState.Description>Try adjusting your search terms or filters.</EmptyState.Description>\n</EmptyState.Root>",
         "<EmptyState.Root size=\"sm\">\n  <EmptyState.Title>No items</EmptyState.Title>\n  <EmptyState.Description>Nothing here yet.</EmptyState.Description>\n</EmptyState.Root>\n\n<EmptyState.Root size=\"md\">\n  <EmptyState.Title>No items</EmptyState.Title>\n  <EmptyState.Description>Nothing here yet.</EmptyState.Description>\n</EmptyState.Root>\n\n<EmptyState.Root size=\"lg\">\n  <EmptyState.Title>No items</EmptyState.Title>\n  <EmptyState.Description>Nothing here yet.</EmptyState.Description>\n</EmptyState.Root>",
         "<EmptyState.Root>\n  <EmptyState.Icon><Icon icon={PlusCircleIcon} size=\"lg\" /></EmptyState.Icon>\n  <EmptyState.Title>No projects</EmptyState.Title>\n  <EmptyState.Description>Get started by creating your first project.</EmptyState.Description>\n  <EmptyState.Actions>\n    <Button variant=\"primary\">Create project</Button>\n    <Button variant=\"ghost\">Learn more</Button>\n  </EmptyState.Actions>\n</EmptyState.Root>",
-        "import { EmptyState } from '@tale-ui/react/empty-state';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Button } from '@tale-ui/react/button';\n    import { InboxIcon } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <EmptyState.Root>\n          <EmptyState.Icon><Icon icon={InboxIcon} size=\"lg\" /></EmptyState.Icon>\n          <EmptyState.Title>No messages</EmptyState.Title>\n          <EmptyState.Description>Your inbox is empty.</EmptyState.Description>\n          <EmptyState.Actions><Button variant=\"primary\">Compose</Button></EmptyState.Actions>\n        </EmptyState.Root>\n      );\n    }"
+        "import { EmptyState } from '@tale-ui/react/empty-state';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Button } from '@tale-ui/react/button';\n    import { InboxIcon } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <EmptyState.Root>\n          <EmptyState.Icon><Icon icon={InboxIcon} size=\"lg\" /></EmptyState.Icon>\n          <EmptyState.Title>No messages</EmptyState.Title>\n          <EmptyState.Description>Your inbox is empty.</EmptyState.Description>\n          <EmptyState.Actions><Button variant=\"primary\">Compose</Button></EmptyState.Actions>\n        </EmptyState.Root>\n      );\n    }",
+        "import { EmptyState } from '@tale-ui/react/empty-state';\n    \n    export function NoResults() {\n      return (\n        <EmptyState.Root>\n          <EmptyState.Title>No results</EmptyState.Title>\n          <EmptyState.Description>Try using different search terms to find what you're looking for.</EmptyState.Description>\n        </EmptyState.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-empty-state",
@@ -3505,6 +3506,21 @@
             "<EmptyState.Root><EmptyState.Title>No results</EmptyState.Title></EmptyState.Root>"
           ],
           "completeExample": "import { EmptyState } from '@tale-ui/react/empty-state';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Button } from '@tale-ui/react/button';\nimport { InboxIcon } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <EmptyState.Root>\n      <EmptyState.Icon><Icon icon={InboxIcon} size=\"lg\" /></EmptyState.Icon>\n      <EmptyState.Title>No messages</EmptyState.Title>\n      <EmptyState.Description>Your inbox is empty.</EmptyState.Description>\n      <EmptyState.Actions><Button variant=\"primary\">Compose</Button></EmptyState.Actions>\n    </EmptyState.Root>\n  );\n}"
+        },
+        {
+          "id": "use-emptystate-for-any-prompt",
+          "summary": "Use EmptyState for any prompt that asks for an empty state, no-results view, or zero-data placeholder",
+          "detail": "When the request is to show a heading and optional description for a state where there is no content (e.g. 'No results', 'Nothing here yet', 'Your inbox is empty'), render EmptyState.Root with EmptyState.Title and EmptyState.Description instead of leaving the file empty, returning null, or substituting Column + Text. The available sub-parts are Root, Icon, Title, Description, and Actions — do not invent sub-parts like EmptyState.Header or EmptyState.Content.\n    ```tsx\n    import { EmptyState } from '@tale-ui/react/empty-state';\n    \n    export function NoResults() {\n      return (\n        <EmptyState.Root>\n          <EmptyState.Title>No results</EmptyState.Title>\n          <EmptyState.Description>Try using different search terms to find what you're looking for.</EmptyState.Description>\n        </EmptyState.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "// empty file",
+            "export function NoResults() {}",
+            "export function NoResults() { return null; }",
+            "<Column gap=\"s\"><Text variant=\"heading\">No results</Text><Text color=\"muted\">Try different search terms.</Text></Column>"
+          ],
+          "fixes": [
+            "import { EmptyState } from '@tale-ui/react/empty-state'; export function NoResults() { return <EmptyState.Root><EmptyState.Title>No results</EmptyState.Title><EmptyState.Description>Try using different search terms to find what you're looking for.</EmptyState.Description></EmptyState.Root>; }"
+          ],
+          "completeExample": "import { EmptyState } from '@tale-ui/react/empty-state';\n\nexport function NoResults() {\n  return (\n    <EmptyState.Root>\n      <EmptyState.Title>No results</EmptyState.Title>\n      <EmptyState.Description>Try using different search terms to find what you're looking for.</EmptyState.Description>\n    </EmptyState.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -3765,7 +3781,8 @@
       "examples": [
         "import { Button } from '@tale-ui/react/button';\nimport { useState } from 'react';\n\nfunction FileUpload() {\n  const [fileName, setFileName] = useState<string | null>(null);\n\n  return (\n    <>\n      <FileTrigger\n        onSelect={(fileList) => {\n          if (fileList) {\n            setFileName(\n              Array.from(fileList)\n                .map((f) => f.name)\n                .join(', '),\n            );\n          }\n        }}\n      >\n        <Button>Upload file</Button>\n      </FileTrigger>\n      {fileName && <p>Selected: {fileName}</p>}\n    </>\n  );\n}",
         "import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n\n    export function Example() {\n      return (\n        <FileTrigger onSelect={(files) => console.log(files)}>\n          <Button>Upload file</Button>\n        </FileTrigger>\n      );\n    }",
-        "import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n    \n      return (\n        <Row gap=\"s\" align=\"center\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              {fileName}\n            </Text>\n          )}\n        </Row>\n      );\n    }"
+        "import { useState } from 'react';\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function FileUploadButton() {\n      const [fileName, setFileName] = useState<string | null>(null);\n    \n      return (\n        <Row gap=\"s\" align=\"center\">\n          <FileTrigger\n            onSelect={(files) => {\n              if (files && files.length > 0) {\n                setFileName(files[0].name);\n              }\n            }}\n          >\n            <Button variant=\"neutral\">Upload file</Button>\n          </FileTrigger>\n          {fileName && (\n            <Text size=\"s\" color=\"muted\">\n              {fileName}\n            </Text>\n          )}\n        </Row>\n      );\n    }",
+        "import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    \n    export function AvatarUpload() {\n      return (\n        <FileTrigger\n          acceptedFileTypes={['image/*']}\n          onSelect={(files) => {\n            if (files && files.length > 0) {\n              console.log(files[0]);\n            }\n          }}\n        >\n          <Button variant=\"neutral\">Change photo</Button>\n        </FileTrigger>\n      );\n    }"
       ],
       "cssClasses": null,
       "pitfalls": [
@@ -3831,6 +3848,20 @@
           "fixes": [
             "<Column gap=\"s\"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>"
           ]
+        },
+        {
+          "id": "file-trigger-no-accept-prop",
+          "summary": "FileTrigger has no accept prop — use acceptedFileTypes (a string array) to restrict file types",
+          "detail": "FileTrigger does not accept an `accept` string prop like a native `<input type=\"file\">`. Passing `accept=\"image/*\"` causes `Type '{ accept: string; ... }' is not assignable to type 'IntrinsicAttributes & FileTriggerProps'`. Use the `acceptedFileTypes` prop instead, which takes an array of MIME type strings.\n    ```tsx\n    import { FileTrigger } from '@tale-ui/react/file-trigger';\n    import { Button } from '@tale-ui/react/button';\n    \n    export function AvatarUpload() {\n      return (\n        <FileTrigger\n          acceptedFileTypes={['image/*']}\n          onSelect={(files) => {\n            if (files && files.length > 0) {\n              console.log(files[0]);\n            }\n          }}\n        >\n          <Button variant=\"neutral\">Change photo</Button>\n        </FileTrigger>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<FileTrigger accept=\"image/*\" onSelect={handleFileSelect}>",
+            "<FileTrigger accept=\"image/*,application/pdf\" onSelect={handleFileSelect}>"
+          ],
+          "fixes": [
+            "<FileTrigger acceptedFileTypes={['image/*']} onSelect={handleFileSelect}>",
+            "<FileTrigger acceptedFileTypes={['image/*', 'application/pdf']} onSelect={handleFileSelect}>"
+          ],
+          "completeExample": "import { FileTrigger } from '@tale-ui/react/file-trigger';\nimport { Button } from '@tale-ui/react/button';\n\nexport function AvatarUpload() {\n  return (\n    <FileTrigger\n      acceptedFileTypes={['image/*']}\n      onSelect={(files) => {\n        if (files && files.length > 0) {\n          console.log(files[0]);\n        }\n      }}\n    >\n      <Button variant=\"neutral\">Change photo</Button>\n    </FileTrigger>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -4147,7 +4178,8 @@
         "<GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">Item 3</GridList.Item>\n</GridList.Root>",
         "import { GridList } from '@tale-ui/react/grid-list';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Star, Heart, Bell } from 'lucide-react';\n\n<GridList.Root aria-label=\"Items\" selectionMode=\"single\">\n  <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n</GridList.Root>",
         "import { GridList } from '@tale-ui/react/grid-list';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Star, Heart, Bell } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n          <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n          <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n        </GridList.Root>\n      );\n    }",
-        "import * as React from 'react';\n    import { useState } from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    export function Example() {\n      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Items\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n        >\n          <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n        </GridList.Root>\n      );\n    }"
+        "import * as React from 'react';\n    import { useState } from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    export function Example() {\n      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Items\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n        >\n          <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n        </GridList.Root>\n      );\n    }",
+        "import * as React from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    const images = [\n      { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n      { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n      { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n      { id: '4', src: '/image4.jpg', title: 'City Lights' },\n    ];\n    \n    export function SelectableImageGrid() {\n      const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Image gallery\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n          style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n        >\n          {images.map((image) => (\n            <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n              <Column gap=\"s\">\n                <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n                <Text variant=\"label\">{image.title}</Text>\n              </Column>\n            </GridList.Item>\n          ))}\n        </GridList.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-grid-list",
@@ -4201,6 +4233,22 @@
           "fixes": [
             "<GridList.Root style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}>"
           ]
+        },
+        {
+          "id": "use-grid-list-for-selectable-grid-prompts",
+          "summary": "Use GridList for any prompt that asks for a selectable grid list, image card grid, or multi-select card grid",
+          "detail": "When the prompt asks to display a grid of cards where the user can select one or more items, render GridList.Root with selectionMode='multiple' (or 'single') and place card content inside GridList.Item children. Use the style prop on GridList.Root with display: 'grid' and gridTemplateColumns to achieve the grid layout. Derive the selection state type from GridList.Root's onSelectionChange prop via React.ComponentProps. Never leave the file empty or substitute a plain div grid with manual selection state.\n    ```tsx\n    import * as React from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    const images = [\n      { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n      { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n      { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n      { id: '4', src: '/image4.jpg', title: 'City Lights' },\n    ];\n    \n    export function SelectableImageGrid() {\n      const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Image gallery\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n          style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n        >\n          {images.map((image) => (\n            <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n              <Column gap=\"s\">\n                <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n                <Text variant=\"label\">{image.title}</Text>\n              </Column>\n            </GridList.Item>\n          ))}\n        </GridList.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "// empty file",
+            "export function SelectableImageGrid() {}",
+            "export function SelectableImageGrid() { return null; }"
+          ],
+          "fixes": [
+            "import { GridList } from '@tale-ui/react/grid-list'; // always use GridList for selectable grid list prompts",
+            "<GridList.Root aria-label=\"Image gallery\" selectionMode=\"multiple\" selectedKeys={selectedKeys} onSelectionChange={setSelectedKeys} style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}>",
+            "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];"
+          ],
+          "completeExample": "import * as React from 'react';\nimport { GridList } from '@tale-ui/react/grid-list';\nimport { Image } from '@tale-ui/react/image';\nimport { Text } from '@tale-ui/react/text';\nimport { Column } from '@tale-ui/react/column';\n\ntype SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n\nconst images = [\n  { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n  { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n  { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n  { id: '4', src: '/image4.jpg', title: 'City Lights' },\n];\n\nexport function SelectableImageGrid() {\n  const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n\n  return (\n    <GridList.Root\n      aria-label=\"Image gallery\"\n      selectionMode=\"multiple\"\n      selectedKeys={selectedKeys}\n      onSelectionChange={setSelectedKeys}\n      style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n    >\n      {images.map((image) => (\n        <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n          <Column gap=\"s\">\n            <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n            <Text variant=\"label\">{image.title}</Text>\n          </Column>\n        </GridList.Item>\n      ))}\n    </GridList.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -4744,7 +4792,8 @@
         "<ImageCropper.Root crop={crop} onChange={setCrop} aspect={16 / 9}>\n  <ImageCropper.Img src=\"/landscape.jpg\" alt=\"Crop\" />\n</ImageCropper.Root>",
         "<ImageCropper.Root crop={crop} onChange={setCrop} aspect={1} circularCrop>\n  <ImageCropper.Img src=\"/photo.jpg\" alt=\"Crop avatar\" />\n</ImageCropper.Root>",
         "import { ImageCropper, cropToFile } from '@tale-ui/react/image-cropper';\n\nasync function handleSave() {\n  if (completedCrop && imageSrc) {\n    const file = await cropToFile(imageSrc, completedCrop);\n    if (file) {\n      // upload or preview the file\n    }\n  }\n}",
-        "import { ImageCropper, makeAspectCrop, centerCrop } from '@tale-ui/react/image-cropper';\n\nfunction onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {\n  const { naturalWidth: width, naturalHeight: height } = e.currentTarget;\n  const initialCrop = centerCrop(\n    makeAspectCrop({ unit: '%', width: 80 }, 16 / 9, width, height),\n    width,\n    height,\n  );\n  setCrop(initialCrop);\n}"
+        "import { ImageCropper, makeAspectCrop, centerCrop } from '@tale-ui/react/image-cropper';\n\nfunction onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {\n  const { naturalWidth: width, naturalHeight: height } = e.currentTarget;\n  const initialCrop = centerCrop(\n    makeAspectCrop({ unit: '%', width: 80 }, 16 / 9, width, height),\n    width,\n    height,\n  );\n  setCrop(initialCrop);\n}",
+        "import * as React from 'react';\n    import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper';\n    import type { Crop } from '@tale-ui/react/image-cropper';\n    \n    export function AvatarCropper() {\n      const [crop, setCrop] = React.useState<Crop>();\n    \n      function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) {\n        const { width, height } = event.currentTarget;\n        setCrop(\n          centerCrop(\n            makeAspectCrop({ unit: '%', width: 80 }, 1, width, height),\n            width,\n            height\n          )\n        );\n      }\n    \n      return (\n        <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}>\n          <ImageCropper.Img\n            src=\"/avatar.jpg\"\n            alt=\"User avatar to crop\"\n            onLoad={handleImageLoad}\n            style={{ maxHeight: 320, width: '100%' }}\n          />\n        </ImageCropper.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-image-cropper",
@@ -4776,14 +4825,17 @@
         {
           "id": "use-imagecropper-for-any-prompt",
           "summary": "Use ImageCropper.Root for any prompt that asks for cropping an avatar or other image",
-          "detail": "when the request is specifically to crop an image, render `ImageCropper.Root` with an `ImageCropper.Img` child instead of leaving the file empty or substituting `Image`. For square avatar crops, set `aspect={1}`.",
+          "detail": "when the request is specifically to crop an image — including any mention of '1:1 aspect ratio', 'square crop', or 'avatar photo' — immediately output the full ImageCropper.Root composition without deliberation. Never return empty code, time out, or substitute Image. Import centerCrop, makeAspectCrop, and the Crop type all from @tale-ui/react/image-cropper. Initialize crop state as useState<Crop>() (no initial value), wire an onLoad handler on ImageCropper.Img to compute the initial centered crop, and pass aspect={1} to ImageCropper.Root for square crops.\n    ```tsx\n    import * as React from 'react';\n    import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper';\n    import type { Crop } from '@tale-ui/react/image-cropper';\n    \n    export function AvatarCropper() {\n      const [crop, setCrop] = React.useState<Crop>();\n    \n      function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) {\n        const { width, height } = event.currentTarget;\n        setCrop(\n          centerCrop(\n            makeAspectCrop({ unit: '%', width: 80 }, 1, width, height),\n            width,\n            height\n          )\n        );\n      }\n    \n      return (\n        <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}>\n          <ImageCropper.Img\n            src=\"/avatar.jpg\"\n            alt=\"User avatar to crop\"\n            onLoad={handleImageLoad}\n            style={{ maxHeight: 320, width: '100%' }}\n          />\n        </ImageCropper.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file",
+            "export function AvatarCropper() {}",
+            "export function AvatarCropper() { return null; }",
             "import { Image } from '@tale-ui/react/image'; export function AvatarCropper() { return <Image src=\"/avatar.jpg\" alt=\"User avatar\" />; }"
           ],
           "fixes": [
-            "import * as React from 'react'; import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper'; import type { Crop } from '@tale-ui/react/image-cropper'; function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) { return centerCrop(makeAspectCrop({ unit: '%', width: 80 }, aspect, mediaWidth, mediaHeight), mediaWidth, mediaHeight); } export function AvatarCropper() { const [crop, setCrop] = React.useState<Crop>(); function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) { const { width, height } = event.currentTarget; setCrop(centerAspectCrop(width, height, 1)); } return <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}><ImageCropper.Img src=\"/avatar.jpg\" alt=\"User avatar to crop\" onLoad={handleImageLoad} style={{ maxHeight: 320, width: '100%' }} /></ImageCropper.Root>; }"
-          ]
+            "import * as React from 'react'; import { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper'; import type { Crop } from '@tale-ui/react/image-cropper'; export function AvatarCropper() { const [crop, setCrop] = React.useState<Crop>(); function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) { const { width, height } = event.currentTarget; setCrop(centerCrop(makeAspectCrop({ unit: '%', width: 80 }, 1, width, height), width, height)); } return <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}><ImageCropper.Img src=\"/avatar.jpg\" alt=\"User avatar to crop\" onLoad={handleImageLoad} style={{ maxHeight: 320, width: '100%' }} /></ImageCropper.Root>; }"
+          ],
+          "completeExample": "import * as React from 'react';\nimport { ImageCropper, centerCrop, makeAspectCrop } from '@tale-ui/react/image-cropper';\nimport type { Crop } from '@tale-ui/react/image-cropper';\n\nexport function AvatarCropper() {\n  const [crop, setCrop] = React.useState<Crop>();\n\n  function handleImageLoad(event: React.SyntheticEvent<HTMLImageElement>) {\n    const { width, height } = event.currentTarget;\n    setCrop(\n      centerCrop(\n        makeAspectCrop({ unit: '%', width: 80 }, 1, width, height),\n        width,\n        height\n      )\n    );\n  }\n\n  return (\n    <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1}>\n      <ImageCropper.Img\n        src=\"/avatar.jpg\"\n        alt=\"User avatar to crop\"\n        onLoad={handleImageLoad}\n        style={{ maxHeight: 320, width: '100%' }}\n      />\n    </ImageCropper.Root>\n  );\n}"
         },
         {
           "id": "imagecropper-label-text-and-neutral-button",
@@ -5626,6 +5678,34 @@
           "default": null
         },
         {
+          "name": "selected",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "Select",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "frameworks",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
           "name": "isDisabled",
           "type": "boolean",
           "required": false,
@@ -5674,7 +5754,8 @@
         "<MultiSelect.Root\n  label=\"Options\"\n  showFooter={false}\n  items={options}\n  onSelectionChange={setSelected}\n>\n  {(item) => (\n    <MultiSelect.Item id={item.id} textValue={item.name}>\n      {item.name}\n    </MultiSelect.Item>\n  )}\n</MultiSelect.Root>",
         "<MultiSelect.Root\n  label=\"Skills\"\n  selectedKeys={selected}\n  onSelectionChange={setSelected}\n  selectedCountFormatter={(count) => `${count} skill${count === 1 ? '' : 's'} chosen`}\n  items={options}\n>\n  {(item) => (\n    <MultiSelect.Item id={item.id} textValue={item.name}>\n      {item.name}\n    </MultiSelect.Item>\n  )}\n</MultiSelect.Root>",
         "<MultiSelect.Root size=\"sm\" label=\"Small\" items={options} onSelectionChange={setSelected}>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>\n\n<MultiSelect.Root size=\"md\" label=\"Medium\" items={options} onSelectionChange={setSelected}>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>\n\n<MultiSelect.Root size=\"lg\" label=\"Large\" items={options} onSelectionChange={setSelected}>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>",
-        "<MultiSelect.Root\n  label=\"Required field\"\n  isRequired\n  isInvalid\n  errorMessage=\"Please select at least one option.\"\n  items={options}\n  onSelectionChange={setSelected}\n>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>"
+        "<MultiSelect.Root\n  label=\"Required field\"\n  isRequired\n  isInvalid\n  errorMessage=\"Please select at least one option.\"\n  items={options}\n  onSelectionChange={setSelected}\n>\n  {(item) => <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>}\n</MultiSelect.Root>",
+        "import * as React from 'react';\n    import { MultiSelect } from '@tale-ui/react/multi-select';\n    import { Button } from '@tale-ui/react/button';\n    \n    const frameworks = [\n      { id: 'react', name: 'React' },\n      { id: 'vue', name: 'Vue' },\n      { id: 'angular', name: 'Angular' },\n      { id: 'svelte', name: 'Svelte' },\n      { id: 'solid', name: 'SolidJS' },\n    ];\n    \n    type SelectionValue = Parameters<\n      NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>\n    >[0];\n    \n    export function FrameworkMultiSelect() {\n      const [selected, setSelected] = React.useState<SelectionValue>(new Set());\n    \n      const selectedCount =\n        selected === 'all' ? frameworks.length : (selected as Set<string>).size;\n    \n      return (\n        <MultiSelect.Root\n          label=\"JavaScript frameworks\"\n          placeholder={selectedCount > 0 ? `${selectedCount} selected` : 'Select frameworks…'}\n          description=\"Choose the frameworks for your project.\"\n          selectedKeys={selected}\n          onSelectionChange={setSelected}\n        >\n          {frameworks.map((framework) => (\n            <MultiSelect.Item key={framework.id} id={framework.id} textValue={framework.name}>\n              {framework.name}\n            </MultiSelect.Item>\n          ))}\n          <MultiSelect.Footer>\n            <Button variant=\"ghost\" onPress={() => setSelected(new Set())}>\n              Reset\n            </Button>\n            <Button\n              variant=\"ghost\"\n              onPress={() => setSelected(new Set(frameworks.map((f) => f.id)))}\n            >\n              Select All\n            </Button>\n          </MultiSelect.Footer>\n        </MultiSelect.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-multi-select",
@@ -5732,6 +5813,26 @@
           "id": "popover-width",
           "summary": "The popover width matches the trigger width at open time",
           "detail": "it is captured on trigger click using `getBoundingClientRect()`. If the trigger resizes after the popover opens, the widths may diverge."
+        },
+        {
+          "id": "use-multiselect-for-any-prompt",
+          "summary": "Use MultiSelect for any prompt that asks for a multi-select dropdown, framework picker, or multiple-selection field — generate complete code immediately, never return empty output",
+          "detail": "When MultiSelect.Root includes a MultiSelect.Footer, do NOT use the items prop with a render-function child — TypeScript types children as ReactNode and rejects a function. Instead, map the items array explicitly with .map() so all children are ReactNode. Derive the selection type from onSelectionChange via React.ComponentProps — never import Selection from react-aria-components. Compute selected count from state handling both Set and the 'all' sentinel.\n    ```tsx\n    import * as React from 'react';\n    import { MultiSelect } from '@tale-ui/react/multi-select';\n    import { Button } from '@tale-ui/react/button';\n    \n    const frameworks = [\n      { id: 'react', name: 'React' },\n      { id: 'vue', name: 'Vue' },\n      { id: 'angular', name: 'Angular' },\n      { id: 'svelte', name: 'Svelte' },\n      { id: 'solid', name: 'SolidJS' },\n    ];\n    \n    type SelectionValue = Parameters<\n      NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>\n    >[0];\n    \n    export function FrameworkMultiSelect() {\n      const [selected, setSelected] = React.useState<SelectionValue>(new Set());\n    \n      const selectedCount =\n        selected === 'all' ? frameworks.length : (selected as Set<string>).size;\n    \n      return (\n        <MultiSelect.Root\n          label=\"JavaScript frameworks\"\n          placeholder={selectedCount > 0 ? `${selectedCount} selected` : 'Select frameworks…'}\n          description=\"Choose the frameworks for your project.\"\n          selectedKeys={selected}\n          onSelectionChange={setSelected}\n        >\n          {frameworks.map((framework) => (\n            <MultiSelect.Item key={framework.id} id={framework.id} textValue={framework.name}>\n              {framework.name}\n            </MultiSelect.Item>\n          ))}\n          <MultiSelect.Footer>\n            <Button variant=\"ghost\" onPress={() => setSelected(new Set())}>\n              Reset\n            </Button>\n            <Button\n              variant=\"ghost\"\n              onPress={() => setSelected(new Set(frameworks.map((f) => f.id)))}\n            >\n              Select All\n            </Button>\n          </MultiSelect.Footer>\n        </MultiSelect.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "// empty file",
+            "export function FrameworkPicker() {}",
+            "export function FrameworkPicker() { return null; }",
+            "import type { Selection } from 'react-aria-components';",
+            "<MultiSelect.Root items={frameworks} selectedKeys={selected} onSelectionChange={setSelected}>{(framework) => <MultiSelect.Item id={framework.id} textValue={framework.name}>{framework.name}</MultiSelect.Item>}<MultiSelect.Footer>...</MultiSelect.Footer></MultiSelect.Root>"
+          ],
+          "fixes": [
+            "import { MultiSelect } from '@tale-ui/react/multi-select';",
+            "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>>[0];",
+            "const [selected, setSelected] = React.useState<SelectionValue>(new Set());",
+            "const selectedCount = selected === 'all' ? frameworks.length : (selected as Set<string>).size;",
+            "<MultiSelect.Root selectedKeys={selected} onSelectionChange={setSelected}>{frameworks.map((f) => <MultiSelect.Item key={f.id} id={f.id} textValue={f.name}>{f.name}</MultiSelect.Item>)}<MultiSelect.Footer><Button variant=\"ghost\" onPress={() => setSelected(new Set())}>Reset</Button><Button variant=\"ghost\" onPress={() => setSelected(new Set(frameworks.map((f) => f.id)))}>Select All</Button></MultiSelect.Footer></MultiSelect.Root>"
+          ],
+          "completeExample": "import * as React from 'react';\nimport { MultiSelect } from '@tale-ui/react/multi-select';\nimport { Button } from '@tale-ui/react/button';\n\nconst frameworks = [\n  { id: 'react', name: 'React' },\n  { id: 'vue', name: 'Vue' },\n  { id: 'angular', name: 'Angular' },\n  { id: 'svelte', name: 'Svelte' },\n  { id: 'solid', name: 'SolidJS' },\n];\n\ntype SelectionValue = Parameters<\n  NonNullable<React.ComponentProps<typeof MultiSelect.Root>['onSelectionChange']>\n>[0];\n\nexport function FrameworkMultiSelect() {\n  const [selected, setSelected] = React.useState<SelectionValue>(new Set());\n\n  const selectedCount =\n    selected === 'all' ? frameworks.length : (selected as Set<string>).size;\n\n  return (\n    <MultiSelect.Root\n      label=\"JavaScript frameworks\"\n      placeholder={selectedCount > 0 ? `${selectedCount} selected` : 'Select frameworks…'}\n      description=\"Choose the frameworks for your project.\"\n      selectedKeys={selected}\n      onSelectionChange={setSelected}\n    >\n      {frameworks.map((framework) => (\n        <MultiSelect.Item key={framework.id} id={framework.id} textValue={framework.name}>\n          {framework.name}\n        </MultiSelect.Item>\n      ))}\n      <MultiSelect.Footer>\n        <Button variant=\"ghost\" onPress={() => setSelected(new Set())}>\n          Reset\n        </Button>\n        <Button\n          variant=\"ghost\"\n          onPress={() => setSelected(new Set(frameworks.map((f) => f.id)))}\n        >\n          Select All\n        </Button>\n      </MultiSelect.Footer>\n    </MultiSelect.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null

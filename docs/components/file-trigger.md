@@ -123,6 +123,32 @@ None -- `FileTrigger` is a headless wrapper that renders no DOM element of its o
 - **When wrapping FileTrigger in `Column`, use spacing-token gap values** — `gap="sm"` is not a valid `Gap` value; use `gap="s"` instead.
   - anti-pattern: `<Column gap="sm"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>`
   - fix: `<Column gap="s"><FileTrigger><Button>Upload file</Button></FileTrigger></Column>`
+<!-- pitfall: file-trigger-no-accept-prop -->
+- **FileTrigger has no accept prop — use acceptedFileTypes (a string array) to restrict file types** — FileTrigger does not accept an `accept` string prop like a native `<input type="file">`. Passing `accept="image/*"` causes `Type '{ accept: string; ... }' is not assignable to type 'IntrinsicAttributes & FileTriggerProps'`. Use the `acceptedFileTypes` prop instead, which takes an array of MIME type strings.
+  - anti-pattern: `<FileTrigger accept="image/*" onSelect={handleFileSelect}>`
+  - anti-pattern: `<FileTrigger accept="image/*,application/pdf" onSelect={handleFileSelect}>`
+  - fix: `<FileTrigger acceptedFileTypes={['image/*']} onSelect={handleFileSelect}>`
+  - fix: `<FileTrigger acceptedFileTypes={['image/*', 'application/pdf']} onSelect={handleFileSelect}>`
+  - complete example:
+    ```tsx
+    import { FileTrigger } from '@tale-ui/react/file-trigger';
+    import { Button } from '@tale-ui/react/button';
+    
+    export function AvatarUpload() {
+      return (
+        <FileTrigger
+          acceptedFileTypes={['image/*']}
+          onSelect={(files) => {
+            if (files && files.length > 0) {
+              console.log(files[0]);
+            }
+          }}
+        >
+          <Button variant="neutral">Change photo</Button>
+        </FileTrigger>
+      );
+    }
+    ```
 
 ## Notes
 

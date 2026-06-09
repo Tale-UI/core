@@ -1,17 +1,17 @@
 {
   "version": 1,
   "status": "complete",
-  "updatedAt": "2026-06-07T15:57:57.042Z",
+  "updatedAt": "2026-06-09T12:32:30.672Z",
   "config": {
     "prompts": [
-      "tabs-pills-variant"
+      "pagination-line-carousel"
     ],
     "provider": "claude",
-    "model": "claude-opus-4-8",
+    "model": "claude-sonnet-4-6",
     "fixProvider": "claude",
-    "fixModel": "claude-opus-4-8",
+    "fixModel": "claude-sonnet-4-6",
     "difficulty": null,
-    "slug": "tabs-pills-variant",
+    "slug": "pagination-line-carousel",
     "slugs": null,
     "mcp": false,
     "mcpMaxTurns": 5,
@@ -19,15 +19,15 @@
     "noSourcePatch": false
   },
   "completedSlugs": [
-    "tabs-pills-variant"
+    "pagination-line-carousel"
   ],
   "initialPassCount": 1,
   "initialFailCount": 0,
   "stillFailing": [],
   "passingResults": [
     {
-      "slug": "tabs-pills-variant",
-      "difficulty": "medium",
+      "slug": "pagination-line-carousel",
+      "difficulty": "simple",
       "allPass": true,
       "l1": {
         "pass": true,
@@ -43,8 +43,8 @@
       },
       "_callCached": false,
       "_checkCached": false,
-      "code": "import { Tabs } from '@tale-ui/react/tabs';\nimport { Text } from '@tale-ui/react/text';\nimport { Column } from '@tale-ui/react/column';\n\nexport function SettingsPage() {\n  return (\n    <Column gap=\"l\">\n      <Text variant=\"heading\" as=\"h1\">Settings</Text>\n      <Tabs.Root defaultSelectedKey=\"account\">\n        <Tabs.List variant=\"pills\">\n          <Tabs.Tab id=\"account\">Account</Tabs.Tab>\n          <Tabs.Tab id=\"security\">Security</Tabs.Tab>\n          <Tabs.Tab id=\"notifications\">Notifications</Tabs.Tab>\n          <Tabs.Indicator />\n        </Tabs.List>\n        <Tabs.Panel id=\"account\">\n          <Column gap=\"s\">\n            <Text variant=\"heading\" as=\"h2\">Account</Text>\n            <Text color=\"muted\">Manage your account information, profile details, and preferences.</Text>\n          </Column>\n        </Tabs.Panel>\n        <Tabs.Panel id=\"security\">\n          <Column gap=\"s\">\n            <Text variant=\"heading\" as=\"h2\">Security</Text>\n            <Text color=\"muted\">Update your password, enable two-factor authentication, and review active sessions.</Text>\n          </Column>\n        </Tabs.Panel>\n        <Tabs.Panel id=\"notifications\">\n          <Column gap=\"s\">\n            <Text variant=\"heading\" as=\"h2\">Notifications</Text>\n            <Text color=\"muted\">Choose how and when you receive email, push, and in-app notifications.</Text>\n          </Column>\n        </Tabs.Panel>\n      </Tabs.Root>\n    </Column>\n  );\n}",
-      "prompt": "Show a settings page with pill-style tabs: Account, Security, and Notifications, each with a content panel describing that section."
+      "code": "import * as React from 'react';\nimport { PaginationLine } from '@tale-ui/react/pagination-line';\n\nexport function SlideIndicator() {\n  const [page, setPage] = React.useState(1);\n\n  return (\n    <PaginationLine page={page} total={4} onPageChange={setPage} />\n  );\n}",
+      "prompt": "Show a carousel slide indicator with 4 horizontal line bars where the 1st bar is active. Clicking a bar should change the active one."
     }
   ],
   "modifiedFiles": []

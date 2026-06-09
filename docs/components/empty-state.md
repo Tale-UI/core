@@ -124,6 +124,26 @@ Also accepts all standard `<div>` HTML attributes.
       );
     }
     ```
+<!-- pitfall: use-emptystate-for-any-prompt -->
+- **Use EmptyState for any prompt that asks for an empty state, no-results view, or zero-data placeholder** — When the request is to show a heading and optional description for a state where there is no content (e.g. 'No results', 'Nothing here yet', 'Your inbox is empty'), render EmptyState.Root with EmptyState.Title and EmptyState.Description instead of leaving the file empty, returning null, or substituting Column + Text. The available sub-parts are Root, Icon, Title, Description, and Actions — do not invent sub-parts like EmptyState.Header or EmptyState.Content.
+  - anti-pattern: `// empty file`
+  - anti-pattern: `export function NoResults() {}`
+  - anti-pattern: `export function NoResults() { return null; }`
+  - anti-pattern: `<Column gap="s"><Text variant="heading">No results</Text><Text color="muted">Try different search terms.</Text></Column>`
+  - fix: `import { EmptyState } from '@tale-ui/react/empty-state'; export function NoResults() { return <EmptyState.Root><EmptyState.Title>No results</EmptyState.Title><EmptyState.Description>Try using different search terms to find what you're looking for.</EmptyState.Description></EmptyState.Root>; }`
+  - complete example:
+    ```tsx
+    import { EmptyState } from '@tale-ui/react/empty-state';
+    
+    export function NoResults() {
+      return (
+        <EmptyState.Root>
+          <EmptyState.Title>No results</EmptyState.Title>
+          <EmptyState.Description>Try using different search terms to find what you're looking for.</EmptyState.Description>
+        </EmptyState.Root>
+      );
+    }
+    ```
 
 ## Notes
 

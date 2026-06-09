@@ -27,6 +27,8 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
+const IS_DIRECT_RUN =
+  !!process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const FIX_REVIEW_SCRIPT = join(__dirname, 'eval-fix-review.mjs');
 const GOLDEN_DIR = join(__dirname, 'golden-prompts');
 
@@ -154,17 +156,24 @@ function buildResumeConfigSignature(prompts, passThroughArgs) {
   };
 }
 
-function stripModelArgs(argsToNormalize = []) {
-  const modelFlags = new Set(['--model', '--fix-model']);
+function stripResumeRuntimeArgs(argsToNormalize = []) {
+  const runtimeFlags = new Set([
+    '--model',
+    '--fix-model',
+    '--provider',
+    '--fix-provider',
+    '--local-url',
+    '--fix-local-url',
+  ]);
   const normalized = [];
 
   for (let i = 0; i < argsToNormalize.length; i++) {
     const arg = argsToNormalize[i];
-    if (modelFlags.has(arg)) {
+    if (runtimeFlags.has(arg)) {
       i++;
       continue;
     }
-    if ([...modelFlags].some((flag) => arg.startsWith(`${flag}=`))) {
+    if ([...runtimeFlags].some((flag) => arg.startsWith(`${flag}=`))) {
       continue;
     }
     normalized.push(arg);
@@ -177,7 +186,7 @@ function normalizeResumeConfig(config) {
   if (!config) return config;
   return {
     ...config,
-    passThroughArgs: stripModelArgs(config.passThroughArgs),
+    passThroughArgs: stripResumeRuntimeArgs(config.passThroughArgs),
   };
 }
 
@@ -346,11 +355,19 @@ async function main() {
   console.log(C.green('\nHardening complete.'));
 }
 
-main().catch((err) => {
-  if (isProviderQuotaError(err)) {
-    console.error(C.red(`\nERROR: ${err.message}`));
-  } else {
-    console.error(err);
-  }
-  process.exit(1);
-});
+export const goldenHardenTestUtils = {
+  normalizeResumeConfig,
+  sameResumeConfig,
+  stripResumeRuntimeArgs,
+};
+
+if (IS_DIRECT_RUN) {
+  main().catch((err) => {
+    if (isProviderQuotaError(err)) {
+      console.error(C.red(`\nERROR: ${err.message}`));
+    } else {
+      console.error(err);
+    }
+    process.exit(1);
+  });
+}
