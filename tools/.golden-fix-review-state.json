@@ -1,17 +1,17 @@
 {
   "version": 1,
   "status": "complete",
-  "updatedAt": "2026-06-09T17:20:38.399Z",
+  "updatedAt": "2026-06-10T03:44:32.103Z",
   "config": {
     "prompts": [
-      "rating-stars-display"
+      "text-input-field"
     ],
     "provider": "claude",
     "model": "claude-sonnet-4-6",
     "fixProvider": "claude",
     "fixModel": "claude-sonnet-4-6",
     "difficulty": null,
-    "slug": "rating-stars-display",
+    "slug": "text-input-field",
     "slugs": null,
     "mcp": false,
     "mcpMaxTurns": 5,
@@ -19,15 +19,15 @@
     "noSourcePatch": false
   },
   "completedSlugs": [
-    "rating-stars-display"
+    "text-input-field"
   ],
   "initialPassCount": 1,
   "initialFailCount": 0,
   "stillFailing": [],
   "passingResults": [
     {
-      "slug": "rating-stars-display",
-      "difficulty": "simple",
+      "slug": "text-input-field",
+      "difficulty": "medium",
       "allPass": true,
       "l1": {
         "pass": true,
@@ -43,8 +43,8 @@
       },
       "_callCached": false,
       "_checkCached": false,
-      "code": "import { RatingStars } from '@tale-ui/react/rating-stars';\n\nexport function FourStarRating() {\n  return <RatingStars value={4} />;\n}",
-      "prompt": "Show a 4-star rating out of 5 using the RatingStars component."
+      "code": "import { Input } from '@tale-ui/react/input';\n\nexport function FullNameField() {\n  return (\n    <Input.Root>\n      <Input.Label>Full Name</Input.Label>\n      <Input.Input placeholder=\"Full Name\" />\n      <Input.Description>Enter your first and last name as they appear on your ID.</Input.Description>\n    </Input.Root>\n  );\n}",
+      "prompt": "Create a text input field with a label that says 'Full Name' and a description below it that says 'Enter your first and last name as they appear on your ID.'"
     }
   ],
   "modifiedFiles": []

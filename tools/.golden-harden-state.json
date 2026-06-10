@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "in_progress",
-  "updatedAt": "2026-06-09T17:20:38.401Z",
+  "updatedAt": "2026-06-10T03:44:32.105Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -602,8 +602,133 @@
       "done": true
     },
     "rating-stars-display": {
-      "streak": 2,
-      "round": 2,
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "row-button-group": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "scroll-area-list": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "search-field": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "section-divider-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "select-dropdown": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "select-native-country": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "select-with-sections": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "settings-page": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "sidebar-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "slider-volume": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "social-button-google": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "social-button-group-login": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "status-badge": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "styled-link": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "switch-settings-list": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "switch-toggle": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "table-data": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "tabs-pills-variant": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "tabs-with-panels": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "tag-group-skills": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "tag-select-team-members": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "text-area-input": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "text-editor-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "text-heading-hierarchy": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "text-input-field": {
+      "streak": 5,
+      "round": 5,
       "done": false
     }
   },
