@@ -26,7 +26,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [docs/design-philosophy.md](docs/design-philosophy.md) | Why React Aria, why BEM, why CSS-first, colour token system, dark mode |
 | [docs/authoring-components.md](docs/authoring-components.md) | Contributor guide: adding new `@tale-ui/react` components |
 | [docs/react-aria-deviations.md](docs/react-aria-deviations.md) | Every difference between Tale UI and vanilla React Aria Components |
-| [docs/component-index.md](docs/component-index.md) | All 90 components at a glance: description, import path, sub-parts |
+| [docs/component-index.md](docs/component-index.md) | All 109 React components plus 6 chart components at a glance: description, import path, sub-parts |
 | [registry/components.json](registry/components.json) | Machine-readable component registry: props, parts, examples, CSS classes |
 | [docs/components/](docs/components/index.md) | Per-component usage guide: imports, parts, examples, CSS classes |
 | [docs/recipes/](docs/recipes/index.md) | Copy-paste multi-component patterns (forms, tables, navigation, search, settings) |
@@ -48,6 +48,12 @@ See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributo
 
 **Setup guide:** See [docs/react-setup.md](docs/react-setup.md) for the full consumer guide.
 
+**Source locations:** Component source and private React utilities are in `packages/react/`. Public shared utilities are in `packages/utils/`.
+
+**Docs locations:** Public component reference docs are generated under `docs/components/`. App-routed public docs live under `docs/src/app/(docs)/react/`; update them when changes must be visible in the docs site. Private manual-testing experiments live under `docs/src/app/(private)/experiments/`.
+
+**Public demos:** When creating public docs demos, refer to the component's `hero` demo and follow its styles for both CSS Modules and Tailwind CSS versions. Other demos may contain relevant layout patterns. Do not add custom styling beyond the critical layout styles necessary for the demo.
+
 **Styling Architecture:** Components in `packages/react/src/{name}/{Component}.styled.tsx` apply BEM class names automatically. The CSS rules themselves live in `packages/styles/src/` — consumers still import `@tale-ui/react-styles` for the stylesheet. Override via additional `className` props.
 
 **Component CSS pattern:**
@@ -59,6 +65,14 @@ See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributo
 ```
 
 **State data attributes:** `data-disabled`, `data-open`, `data-selected`, `data-pressed`, `data-focus-visible`, `data-focused`, `data-hovered`, `data-entering`, `data-exiting`, `data-placement="top|bottom|left|right"`
+
+### Code Guidelines
+
+- Use `useTimeout` from `@tale-ui/utils/useTimeout` instead of `window.setTimeout`, and `useAnimationFrame` from `@tale-ui/utils/useAnimationFrame` instead of `requestAnimationFrame`.
+- Use `useStableCallback` from `@tale-ui/utils/useStableCallback` instead of `React.useCallback` when the function is called within an effect or event handler. `useStableCallback` cannot memoize functions that are called directly during render; use `React.useCallback` for those cases.
+- Use `useIsoLayoutEffect` from `@tale-ui/utils/useIsoLayoutEffect` instead of `React.useLayoutEffect`.
+- Avoid duplicating logic where components can share it. If two components can share logic, such as event handlers, define the logic in the parent and share it through context. Use an existing context when one exists.
+- Do not add casts such as `as any` unless they are required after checking the type errors. Run `pnpm typescript` to verify types.
 
 ### Design Tokens
 
@@ -102,6 +116,9 @@ pnpm test:chromium              # run tests in chromium
 pnpm typescript                 # type check
 pnpm eslint                     # lint JS/TS
 pnpm lint:css                   # lint CSS design system
+pnpm stylelint                  # lint all CSS with repo ignore rules
+pnpm markdownlint               # lint Markdown and MDX
+pnpm prettier                   # format changed files against master
 pnpm audit:bem              # verify BEM classes have matching CSS
 pnpm audit:brand            # verify no --brand-* in component CSS
 pnpm audit:docs             # verify docs list all component props
@@ -123,6 +140,18 @@ pnpm a2ui:golden:validate   # validate all A2UI golden prompt references
 pnpm a2ui:golden:eval       # run A2UI prompts against a model and score L1–L3
 pnpm a2ui:golden:fix-review # eval → auto-fix A2UI system prompt based on failures
 ```
+
+If a repository command fails because dependencies are unavailable, run `pnpm install` and retry the command.
+
+### Testing
+
+- If source code changed, verify it with relevant tests and add tests where applicable.
+- Run focused JSDOM tests with `pnpm test:jsdom {name} --no-watch`, for example `pnpm test:jsdom NumberField --no-watch`.
+- Run focused Chromium tests with `pnpm test:chromium {name} --no-watch`, for example `pnpm test:chromium NumberField --no-watch`.
+- Browser-layout-sensitive tests must be restricted to Chromium using `it.skipIf(isJSDOM)` or `describe.skipIf(isJSDOM)`.
+- Do not call `await flushMicrotasks()` directly after `await render(...)` when there are no interactions or state changes between them; `render` is already awaited.
+- Follow existing test conventions. Component tests live next to source with the filename `{Component}.test.tsx`, for example `PopoverRoot.test.tsx`.
+- New tests should use Vitest's native `expect()` and `fn()` APIs. Do not assume Chai or Sinon APIs for new code.
 
 **When changing `packages/a2ui/src/catalog.ts` or `tools/a2ui-catalog-metadata.js`**, regenerate:
 
@@ -197,6 +226,28 @@ Run `pnpm golden:eval` to score AI output against all prompts, and `pnpm golden:
 ### Shared primitives (`_primitives.css`)
 
 `packages/styles/src/_primitives.css` holds grouped selectors for declarations that are byte-for-byte identical across multiple components. When adding a new field-like input, dropdown popup, or list item — check `_primitives.css` first and add the new selector to the relevant group.
+
+## Public Errors
+
+These rules apply to errors thrown by public packages.
+
+Every error message must:
+
+1. Say what happened.
+2. Say why it is a problem.
+3. Point toward how to solve it.
+
+Format:
+
+- Prefix with `Tale UI: `.
+- Use string concatenation for readability when messages span multiple lines.
+- Include a documentation link when applicable, using `https://tale-ui.com/...`.
+
+## Commit Messages
+
+- Use `[scope] Imperative summary`, for example `[popover] Fix focus trap`.
+- Choose scopes that mirror the package or component names changed.
+- Use `[all components]` for changes that broadly affect most components.
 
 ## Component Artifact Audit
 
