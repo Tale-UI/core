@@ -1,17 +1,17 @@
 {
   "version": 1,
   "status": "complete",
-  "updatedAt": "2026-06-10T03:44:32.103Z",
+  "updatedAt": "2026-06-10T09:21:04.954Z",
   "config": {
     "prompts": [
-      "text-input-field"
+      "video-player-basic"
     ],
     "provider": "claude",
     "model": "claude-sonnet-4-6",
     "fixProvider": "claude",
     "fixModel": "claude-sonnet-4-6",
     "difficulty": null,
-    "slug": "text-input-field",
+    "slug": "video-player-basic",
     "slugs": null,
     "mcp": false,
     "mcpMaxTurns": 5,
@@ -19,15 +19,15 @@
     "noSourcePatch": false
   },
   "completedSlugs": [
-    "text-input-field"
+    "video-player-basic"
   ],
   "initialPassCount": 1,
   "initialFailCount": 0,
   "stillFailing": [],
   "passingResults": [
     {
-      "slug": "text-input-field",
-      "difficulty": "medium",
+      "slug": "video-player-basic",
+      "difficulty": "simple",
       "allPass": true,
       "l1": {
         "pass": true,
@@ -43,8 +43,8 @@
       },
       "_callCached": false,
       "_checkCached": false,
-      "code": "import { Input } from '@tale-ui/react/input';\n\nexport function FullNameField() {\n  return (\n    <Input.Root>\n      <Input.Label>Full Name</Input.Label>\n      <Input.Input placeholder=\"Full Name\" />\n      <Input.Description>Enter your first and last name as they appear on your ID.</Input.Description>\n    </Input.Root>\n  );\n}",
-      "prompt": "Create a text input field with a label that says 'Full Name' and a description below it that says 'Enter your first and last name as they appear on your ID.'"
+      "code": "import { VideoPlayer } from '@tale-ui/react/video-player';\n\nexport function MediumVideoPlayer() {\n  return (\n    <div style={{ maxWidth: '100%', width: '48rem' }}>\n      <VideoPlayer.Root\n        src=\"/video/demo.mp4\"\n        size=\"md\"\n        thumbnailUrl=\"/images/video-thumbnail.jpg\"\n        thumbnailAlt=\"Video thumbnail\"\n      />\n    </div>\n  );\n}",
+      "prompt": "Show a medium-sized video player with a thumbnail image."
     }
   ],
   "modifiedFiles": []

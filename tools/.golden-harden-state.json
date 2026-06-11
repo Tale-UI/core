@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "status": "in_progress",
-  "updatedAt": "2026-06-10T03:44:32.105Z",
+  "status": "complete",
+  "updatedAt": "2026-06-10T09:21:04.957Z",
   "config": {
     "prompts": [
       "accordion-faq",
@@ -727,9 +727,49 @@
       "done": true
     },
     "text-input-field": {
-      "streak": 5,
-      "round": 5,
-      "done": false
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "time-field-input": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "toggle-button-bold": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "toggle-button-group-alignment": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "toolbar-actions": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "tooltip-button": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "tree-file-system": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "user-profile-card": {
+      "streak": 8,
+      "round": 8,
+      "done": true
+    },
+    "video-player-basic": {
+      "streak": 8,
+      "round": 8,
+      "done": true
     }
   },
   "failures": []
