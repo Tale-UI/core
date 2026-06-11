@@ -150,6 +150,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [DropZone] Inside DropZone browse actions, use Button variant="neutral" instead of variant="secondary"
 - [DropZone] When wrapping DropZone content in Column, use spacing-token gap values
 - [EmptyState] No EmptyState.Header or EmptyState.Content
+- [EmptyState] Use EmptyState for any prompt that asks for an empty state, no-results view, or zero-data placeholder
 - [FeaturedIcon] Does NOT accept an icon prop — takes an <Icon> child, with no .Root variant
 - [FeaturedIcon] Use default FeaturedIcon visual props for generic prompts
 - [Field] Field.Root does not accept validation state props
@@ -162,6 +163,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [FileTrigger] When displaying the selected filename with Text, use color="muted" plus size="s"
 - [FileTrigger] For FileTrigger upload actions, use Button variant="neutral" instead of variant="secondary"
 - [FileTrigger] When wrapping FileTrigger in Column, use spacing-token gap values
+- [FileTrigger] FileTrigger has no accept prop — use acceptedFileTypes (a string array) to restrict file types
 - [FileUpload] Use FileUpload.DropZone (capital Z), not FileUpload.Dropzone
 - [FileUpload] FileUpload.DropZone does not accept children or any file-filter props — it must be self-closing
 - [FileUpload] FileUpload.DropZone accept takes a comma-separated string, not an array
@@ -170,11 +172,12 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Form] Form is a simple component with no sub-parts
 - [Form] method prop requires lowercase values
 - [Form] When wrapping form fields in Column, use spacing-token gap values, not component-size names
-- [Form] Cast e.currentTarget to HTMLFormElement when passing it to the FormData constructor inside onSubmit
+- [Form] Cast e.currentTarget to HTMLFormElement inside the FormData call in onSubmit
 - [GridList] GridList.Item does NOT accept isSelected
 - [GridList] Do NOT annotate onSelectionChange parameter as Set<string> or import Selection from react-aria-components
 - [GridList] When wrapping GridList in a Column or Row layout container, use spacing-token gap values — never component-size names
 - [GridList] Never apply non-layout inline styles (listStyle, padding, margin) to GridList.Root
+- [GridList] Use GridList for any prompt that asks for a selectable grid list, image card grid, or multi-select card grid
 - [HeaderNav] HeaderNav.MobileTrigger requires children — omitting them causes a TypeScript error 'Property children is missing in type {} but required in type HeaderNavMobileTriggerProps'
 - [HeaderNav] Always import Text from @tale-ui/react/text when rendering text inside HeaderNav sub-parts such as HeaderNav.Logo
 - [Icon] icon prop takes a component reference, not an instance
@@ -192,6 +195,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ImageCropper] When wrapping ImageCropper in a Column or Row layout container, use spacing-token gap values — never component-size names
 - [ImageCropper] Use ImageCropper.Root for any prompt that asks for cropping an avatar or other image
 - [ImageCropper] Use Tale UI label-plus-button props when composing ImageCropper with surrounding UI
+- [Input] Use Input for any prompt that asks for a text input field with a label or description
 - [InputGroup] Place Input.Label inside Input.Root
 - [InputGroup] Buttons inside InputGroup.Addon may conflict with addon styles
 - [InputGroup] Use a single Input.Label inside Input.Root
@@ -211,6 +215,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [MultiSelect] textValue is required on items when search is enabled
 - [MultiSelect] Never import Selection from react-aria-components for MultiSelect state — derive the type from the component's props
 - [MultiSelect] The popover width matches the trigger width at open time
+- [MultiSelect] Use MultiSelect for any prompt that asks for a multi-select dropdown, framework picker, or multiple-selection field — generate complete code immediately, never return empty output
 - [NavigationMenu] NavigationMenu.List is required between NavigationMenu.Root and NavigationMenu.Item
 - [NavigationMenu] No standalone Nav component in Tale UI
 - [NavigationMenu] Use <NavigationMenu> for any prompt that asks for a site navigation bar or a list of nav links — never substitute HeaderNav
@@ -222,8 +227,9 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [PinInput] When showing conditional feedback text after PIN entry, use Text color="muted" plus size="s"
 - [PinInput] When wrapping PinInput in a Column, use spacing-token gap values
 - [PinInput] When labeling a PinInput with Text, use variant="label" — Text has no weight prop
-- [Popover] Use Popover for any prompt that asks for an info button, help popover, or button-triggered explanatory overlay
+- [Popover] Use Popover for any prompt that asks for an info button, help popover, tooltip-like overlay, or button-triggered explanatory overlay
 - [PreviewCard] PreviewCard.Content must be inside PreviewCard.Popup and requires aria-label
+- [PreviewCard] PreviewCard.Trigger does not accept href or className — nest a Link inside it
 - [ProgressCircle] Do NOT place <Text> inside ProgressCircle.Root
 - [ProgressCircle] size only accepts 'sm', 'md', 'lg'
 - [ProgressCircle] Column/Text props around ProgressCircle use shorthand tokens — gap="s", size="s", color="muted"
@@ -263,6 +269,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Table] No Table.Status sub-part
 - [Tabs] No Tabs.Trigger or Tabs.Content
 - [Tabs] Uses defaultSelectedKey, NOT defaultValue
+- [Tabs] Use Tabs for any prompt that asks for a tabbed interface, pill-style tabs, or a settings page with tab navigation
 - [TagGroup] Uses TagGroup.Tag, NOT TagGroup.Item
 - [TagGroup] TagGroup.Root does NOT accept a label prop
 - [TagGroup] TagGroup.Tag does NOT accept onRemove
@@ -283,6 +290,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [TextEditor] Use TextEditor for any prompt that asks for a rich text editor, WYSIWYG editor, or formatted text input
 - [TextField] TextField.Root accepts name — HTML input attributes (type, minLength, maxLength, placeholder) go on TextField.Input.
 - [TextField] There is NO PasswordInput component
+- [TextField] Use TextField when the prompt explicitly mentions 'text field' or 'text fields' — do not substitute Input
 - [TimeField] No extra sub-parts: TimeField.Group, TimeField.Trigger, TimeField.Input, TimeField.Popover, TimeField.Dialog do not exist
 - [TimeField] The input sub-part is TimeField.DateInput, not TimeField.Input
 - [TimeField] Property is hour (singular), not hours

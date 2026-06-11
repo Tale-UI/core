@@ -6,13 +6,13 @@ A compound text input component with label, description, and error message parts
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `Input.Root` | Wraps the entire text field (React Aria `TextField`) |
-| `Input.Input` | The `<input>` element itself |
-| `Input.Label` | Accessible label |
-| `Input.Description` | Helper text below the input |
-| `Input.ErrorMessage` | Validation error message (shown when `isInvalid`) |
+| Part                 | Description                                          |
+| -------------------- | ---------------------------------------------------- |
+| `Input.Root`         | Wraps the entire text field (React Aria `TextField`) |
+| `Input.Input`        | The `<input>` element itself                         |
+| `Input.Label`        | Accessible label                                     |
+| `Input.Description`  | Helper text below the input                          |
+| `Input.ErrorMessage` | Validation error message (shown when `isInvalid`)    |
 
 ## Props
 
@@ -113,6 +113,7 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
 ## Pitfalls
 
 <!-- pitfall: use-input-for-text-input-prompts -->
+
 - **Use Input for any prompt that asks for a text input field with a label or description** — When a prompt asks for a labeled text input field (optionally with a description or error message), render Input.Root with Input.Label, Input.Input, and optionally Input.Description instead of leaving the file empty, returning null, or substituting TextField or a bare <input> element.
   - anti-pattern: `// empty file`
   - anti-pattern: `export function FullNameField() {}`
@@ -120,17 +121,19 @@ Accepts all React Aria `TextField` props plus an optional `className`. See the `
   - anti-pattern: `<input type="text" placeholder="Full Name" />`
   - fix: `import { Input } from '@tale-ui/react/input'; export function FullNameField() { return <Input.Root><Input.Label>Full Name</Input.Label><Input.Input placeholder="Full Name" /><Input.Description>Enter your first and last name as they appear on your ID.</Input.Description></Input.Root>; }`
   - complete example:
+
     ```tsx
     import { Input } from '@tale-ui/react/input';
-    
+
     export function FullNameField() {
       return (
         <Input.Root>
           <Input.Label>Full Name</Input.Label>
           <Input.Input placeholder="Full Name" />
-          <Input.Description>Enter your first and last name as they appear on your ID.</Input.Description>
+          <Input.Description>
+            Enter your first and last name as they appear on your ID.
+          </Input.Description>
         </Input.Root>
       );
     }
     ```
-
