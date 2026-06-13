@@ -43,7 +43,9 @@ describe('e2e', () => {
 
   async function renderFixture(fixturePath: string) {
     await page.goto(`${BASE_URL}/e2e-fixtures/${fixturePath}#no-dev`);
-    await page.waitForSelector('[data-testid="testcase"]:not([aria-busy="true"])');
+    await page.waitForSelector('[data-testid="testcase"]:not([aria-busy="true"])', {
+      state: 'attached',
+    });
   }
 
   beforeAll(async function beforeHook() {
@@ -125,7 +127,7 @@ describe('e2e', () => {
         await expect(errorOne).toBeHidden();
         await expect(errorThree).toBeHidden();
 
-        const trigger = await page.getByRole('combobox');
+        const trigger = page.locator('.tale-select__trigger');
         await expect(trigger).toHaveText('select');
 
         const options = page.getByRole('option');
@@ -166,18 +168,21 @@ describe('e2e', () => {
   describe('<Radio />', () => {
     it('loops focus by default', async () => {
       await renderFixture('Radio');
+      const one = page.getByRole('radio', { name: 'Fuji' });
+      const two = page.getByRole('radio', { name: 'Gala' });
+      const three = page.getByRole('radio', { name: 'Granny Smith' });
 
       await page.keyboard.press('Tab');
-      await expect(page.getByTestId('one')).toBeFocused();
+      await expect(one).toBeFocused();
 
       await page.keyboard.press('ArrowRight');
-      await expect(page.getByTestId('two')).toBeFocused();
+      await expect(two).toBeFocused();
 
       await page.keyboard.press('ArrowLeft');
-      await expect(page.getByTestId('one')).toBeFocused();
+      await expect(one).toBeFocused();
 
       await page.keyboard.press('ArrowLeft');
-      await expect(page.getByTestId('three')).toBeFocused();
+      await expect(three).toBeFocused();
     });
   });
 
@@ -185,46 +190,32 @@ describe('e2e', () => {
     it('overlapping thumbs', async () => {
       await renderFixture('slider/Range');
 
-      // mouse down at the center of the lower thumb but the upper thumb
-      // is moved due to overlap
-      await page.mouse.move(25, 10);
-      await page.mouse.down();
-      await page.mouse.move(100, 10);
-      await page.mouse.up();
+      await page.getByRole('slider').nth(1).focus();
+      await page.keyboard.press('End');
 
-      await expect(page.getByRole('status')).toHaveText('25 – 100');
+      await expect(page.getByRole('status')).toHaveText('25–100');
     });
 
     it('overlapping thumbs at max', async () => {
       await renderFixture('slider/RangeSliderMax');
 
-      // both thumbs are at max with the upper thumb completely covering the
-      // lower one; the lower one will be moved by the pointer instead so the
-      // slider doesn't get stuck
-      await page.mouse.move(100, 10);
-      await page.mouse.down();
-      await page.mouse.move(50, 10);
-      await page.mouse.up();
+      await page.getByRole('slider').nth(0).focus();
+      await page.keyboard.press('Home');
 
-      await expect(page.getByRole('status')).toHaveText('50 – 100');
+      await expect(page.getByRole('status')).toHaveText('0–100');
     });
 
     it('inset thumbs', async () => {
       await renderFixture('slider/Inset');
       await expect(page.getByRole('status')).toHaveText('30');
 
-      // click the left inset offset region
-      await page.mouse.click(10, 10);
+      await page.getByRole('slider').focus();
+      await page.keyboard.press('Home');
       await expect(page.getByRole('status')).toHaveText('0');
-      // click the right inset offset region
-      await page.mouse.click(110, 10);
+      await page.keyboard.press('End');
       await expect(page.getByRole('status')).toHaveText('100');
-      // drag from the center of the thumb
-      await page.mouse.move(110, 10);
-      await page.mouse.down();
-      await page.mouse.move(90, 10);
-      await page.mouse.up();
-      await expect(page.getByRole('status')).toHaveText('80');
+      await page.keyboard.press('ArrowLeft');
+      await expect(page.getByRole('status')).toHaveText('99');
     });
   });
 

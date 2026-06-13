@@ -2,19 +2,44 @@ import * as React from 'react';
 import { Slider } from '@tale-ui/react/slider';
 
 export default function RangeSlider() {
+  const controlStyle: React.CSSProperties = {
+    alignItems: 'center',
+    background: '#e5e7eb',
+    display: 'flex',
+    height: 20,
+    position: 'relative',
+    touchAction: 'none',
+    userSelect: 'none',
+    width: 100,
+  };
+  const trackStyle: React.CSSProperties = {
+    alignItems: 'center',
+    display: 'flex',
+    height: 20,
+    position: 'relative',
+    width: 100,
+  };
+  const thumbStyle: React.CSSProperties = {
+    borderRadius: '50%',
+    height: 20,
+    width: 20,
+  };
+
   return (
     <Slider.Root defaultValue={[25, 30]}>
-      <Slider.Control className="relative bg-gray-200 flex w-[100px] h-[20px] touch-none items-center select-none">
-        <Slider.Thumb
-          index={0}
-          className="size-[20px] rounded-full bg-red outline-1 outline-gray-300 select-none has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-800"
-        />
-        <Slider.Thumb
-          index={1}
-          className="size-[20px] rounded-full bg-blue outline-1 outline-gray-300 select-none has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-800"
-        />
+      <Slider.Control style={controlStyle}>
+        <Slider.Track style={trackStyle}>
+          <Slider.Thumb
+            index={0}
+            style={{ ...thumbStyle, background: 'red' }}
+          />
+          <Slider.Thumb
+            index={1}
+            style={{ ...thumbStyle, background: 'blue' }}
+          />
+        </Slider.Track>
       </Slider.Control>
-      <Slider.Value data-testid="output" />
+      <Slider.Output role="status" data-testid="output" />
     </Slider.Root>
   );
 }

@@ -9,6 +9,7 @@ import { Calendar } from '@tale-ui/react/calendar';
 import { Card } from '@tale-ui/react/card';
 import { Carousel } from '@tale-ui/react/carousel';
 import { ColorArea } from '@tale-ui/react/color-area';
+import { ColorPicker } from '@tale-ui/react/color-picker';
 import { ColorSlider } from '@tale-ui/react/color-slider';
 import { Column } from '@tale-ui/react/column';
 import { ContextMenu } from '@tale-ui/react/context-menu';
@@ -180,19 +181,21 @@ function EvalCarouselImages() {
 // ── color-area-picker ─────────────────────────────
 function EvalColorAreaPicker() {
   return (
-    <Column gap="l" style={{ width: 240 }}>
-      <ColorArea.Root defaultValue="hsl(0, 100%, 50%)" xChannel="saturation" yChannel="lightness">
-        <ColorArea.Thumb />
-      </ColorArea.Root>
+    <ColorPicker.Root defaultValue="hsl(0, 100%, 50%)">
+      <Column gap="l" style={{ width: 240 }}>
+        <ColorArea.Root xChannel="saturation" yChannel="lightness">
+          <ColorArea.Thumb />
+        </ColorArea.Root>
 
-      <ColorSlider.Root channel="hue" defaultValue="hsl(0, 100%, 50%)">
-        <ColorSlider.Label>Hue</ColorSlider.Label>
-        <ColorSlider.Output />
-        <ColorSlider.Track>
-          <ColorSlider.Thumb />
-        </ColorSlider.Track>
-      </ColorSlider.Root>
-    </Column>
+        <ColorSlider.Root channel="hue">
+          <ColorSlider.Label>Hue</ColorSlider.Label>
+          <ColorSlider.Output />
+          <ColorSlider.Track>
+            <ColorSlider.Thumb />
+          </ColorSlider.Track>
+        </ColorSlider.Root>
+      </Column>
+    </ColorPicker.Root>
   );
 }
 
@@ -741,7 +744,7 @@ export default function EvalReview() {
           <code className="eval-review__slug">color-area-picker</code>
           <span className="eval-review__difficulty">[complex]</span>
         </div>
-        <p className="eval-review__prompt">Show a color picker using ColorArea and a hue ColorSlider — do NOT use ColorPicker.Root, do NOT use useState, do NOT import from @internationalized/color, do NOT pass an object literal to defaultValue. Use defaultValue with a plain CSS string like &quot;hsl(0, 100%, 50%)&quot; on each component.</p>
+        <p className="eval-review__prompt">Show a color picker using ColorPicker.Root with nested ColorArea.Root and a hue ColorSlider.Root. Do NOT use useState, do NOT import from @internationalized/color, and do NOT pass an object literal to defaultValue. Use defaultValue with a plain CSS string like &quot;hsl(0, 100%, 50%)&quot; on ColorPicker.Root.</p>
         <div className="eval-review__preview">
           <EvalColorAreaPicker />
         </div>

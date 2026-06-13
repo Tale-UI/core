@@ -16,29 +16,34 @@ export default function ReactRouterLinkItemNavigation() {
           Open Menu
         </Menu.Trigger>
 
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup className="w-48 rounded bg-[canvas] p-1 shadow-lg shadow-gray-200">
-              <Menu.LinkItem
-                data-testid="link-one"
-                href="/e2e-fixtures/menu/PageOne"
-                render={<Link to="/e2e-fixtures/menu/PageOne" />}
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-blue-800 data-[highlighted]:bg-gray-900 data-[highlighted]:text-gray-50"
-              >
-                Page one
-              </Menu.LinkItem>
+        <Menu.Popover>
+          <Menu.MenuList
+            aria-label="Navigation"
+            className="w-48 rounded bg-[canvas] p-1 shadow-lg shadow-gray-200"
+          >
+            <Menu.LinkItem
+              id="page-one"
+              data-testid="link-one"
+              href="/e2e-fixtures/menu/PageOne"
+              render={(props) => <Link {...props} to="/e2e-fixtures/menu/PageOne" />}
+              textValue="Page one"
+              className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-blue-800 data-[focused]:bg-gray-900 data-[focused]:text-gray-50"
+            >
+              Page one
+            </Menu.LinkItem>
 
-              <Menu.LinkItem
-                data-testid="link-two"
-                href="/e2e-fixtures/menu/PageTwo"
-                render={<Link to="/e2e-fixtures/menu/PageTwo" />}
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-blue-800 data-[highlighted]:bg-gray-900 data-[highlighted]:text-gray-50"
-              >
-                Page two
-              </Menu.LinkItem>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+            <Menu.LinkItem
+              id="page-two"
+              data-testid="link-two"
+              href="/e2e-fixtures/menu/PageTwo"
+              render={(props) => <Link {...props} to="/e2e-fixtures/menu/PageTwo" />}
+              textValue="Page two"
+              className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-blue-800 data-[focused]:bg-gray-900 data-[focused]:text-gray-50"
+            >
+              Page two
+            </Menu.LinkItem>
+          </Menu.MenuList>
+        </Menu.Popover>
       </Menu.Root>
     </div>
   );
