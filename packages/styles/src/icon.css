@@ -11,10 +11,21 @@
   flex-shrink: 0;
   width: 2.4rem;
   height: 2.4rem;
-  color: currentColor;
+  color: currentcolor;
   vertical-align: middle;
 }
 
-.tale-icon--sm { width: 1.6rem; height: 1.6rem; }
-.tale-icon--lg { width: 3.2rem; height: 3.2rem; }
-.tale-icon--xl { width: 4.8rem; height: 4.8rem; }
+.tale-icon--sm {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.tale-icon--lg {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+.tale-icon--xl {
+  width: 4.8rem;
+  height: 4.8rem;
+}

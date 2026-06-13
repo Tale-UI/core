@@ -148,13 +148,27 @@
 }
 
 @keyframes multi-select-in {
-  from { opacity: 0; transform: translateY(-0.4rem); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes multi-select-out {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-0.4rem); }
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
 }
 
 .tale-multi-select__dialog {

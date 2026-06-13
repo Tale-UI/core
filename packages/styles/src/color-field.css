@@ -55,7 +55,7 @@
   box-shadow: 0 0 0 3px var(--focus-ring-glow);
 }
 
-.tale-color-field__input:hover:not([data-focused]):not([data-disabled]):not([data-invalid]) {
+.tale-color-field__input:hover:not([data-focused], [data-disabled], [data-invalid]) {
   border-color: var(--neutral-40);
 }
 

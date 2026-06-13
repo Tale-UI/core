@@ -94,7 +94,7 @@
 
 /* ─── Hover (off) ─────────────────────────────────────────────────────────── */
 
-.tale-switch-field__button[data-hovered]:not([data-disabled]):not([data-selected])::before {
+.tale-switch-field__button[data-hovered]:not([data-disabled], [data-selected])::before {
   border-color: var(--neutral-50);
   background-color: var(--neutral-26);
 }

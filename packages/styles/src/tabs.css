@@ -80,7 +80,7 @@
   position: relative;
 }
 
-.tale-tabs__tab:hover:not([data-disabled]):not([data-selected]) {
+.tale-tabs__tab:hover:not([data-disabled], [data-selected]) {
   color: var(--neutral-80);
   background-color: var(--neutral-12);
 }

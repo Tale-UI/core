@@ -44,6 +44,7 @@
 /* ─── Grid header ──────────────────────────────────────────────────────────── */
 
 .tale-calendar__grid-header {
+  display: table-header-group;
 }
 
 .tale-calendar__grid-header-cell {
@@ -58,6 +59,7 @@
 /* ─── Grid body ────────────────────────────────────────────────────────────── */
 
 .tale-calendar__grid-body {
+  display: table-row-group;
 }
 
 /* ─── Cell ─────────────────────────────────────────────────────────────────── */

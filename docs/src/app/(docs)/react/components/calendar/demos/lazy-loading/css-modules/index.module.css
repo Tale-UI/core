@@ -32,7 +32,7 @@
   color: var(--color-gray-500);
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: fadeIn 0.2s ease both;
+    animation: fade-in 0.2s ease both;
   }
 }
 
@@ -51,7 +51,7 @@
   color: var(--color-gray-400);
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: fadeIn 0.2s ease both;
+    animation: fade-in 0.2s ease both;
   }
 }
 
@@ -93,7 +93,7 @@
   }
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from {
     opacity: 0;
   }

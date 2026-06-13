@@ -22,9 +22,20 @@
 
 /* ─── Sizes ──────────────────────────────────────────────────────────────── */
 
-.tale-dot-icon--sm { width: 0.6rem; height: 0.6rem; }
-.tale-dot-icon--md { width: 0.8rem; height: 0.8rem; }
-.tale-dot-icon--lg { width: 1rem; height: 1rem; }
+.tale-dot-icon--sm {
+  width: 0.6rem;
+  height: 0.6rem;
+}
+
+.tale-dot-icon--md {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.tale-dot-icon--lg {
+  width: 1rem;
+  height: 1rem;
+}
 
 /* ─── Colors ─────────────────────────────────────────────────────────────── */
 

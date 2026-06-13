@@ -34,7 +34,7 @@
 
 /* ─── Hover ───────────────────────────────────────────────────────────────── */
 
-.tale-input:hover:not(:focus):not([data-disabled]):not([data-invalid]) {
+.tale-input:hover:not(:focus, [data-disabled], [data-invalid]) {
   border-color: var(--neutral-40);
 }
 

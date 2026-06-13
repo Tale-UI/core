@@ -28,7 +28,7 @@
     "eslint:ci": "pnpm -r --if-present lint && eslint . --report-unused-disable-directives --max-warnings 0",
     "lint:css": "stylelint \"packages/css/src/**/*.css\" --config .stylelintrc.json",
     "lint:css:fix": "stylelint \"packages/css/src/**/*.css\" --config .stylelintrc.json --fix",
-    "stylelint": "stylelint --reportInvalidScopeDisables --reportNeedlessDisables \"**/*.css\" --ignore-path .lintignore",
+    "stylelint": "stylelint --reportInvalidScopeDisables --reportNeedlessDisables \"**/*.css\" \"playground/storybook/.storybook/*.css\" --ignore-path .gitignore --ignore-path .lintignore",
     "markdownlint": "markdownlint-cli2 \"**/*.{md,mdx}\"",
     "valelint": "pnpm dlx --package @vvago/vale vale sync && git ls-files | grep -E \"\\.(md|mdx)$\" | xargs pnpm dlx --package @vvago/vale vale --filter='.Level==\"error\"'",
     "prettier": "pretty-quick --ignore-path .lintignore --branch master",

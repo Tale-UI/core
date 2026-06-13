@@ -18,6 +18,8 @@ body {
   font-feature-settings: "tnum";
 }
 
-*, *:before, *:after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }

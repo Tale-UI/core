@@ -74,13 +74,13 @@
 .tale-table__column[data-sort-direction='ascending']::after {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-bottom: 5px solid currentColor;
+  border-bottom: 5px solid currentcolor;
 }
 
 .tale-table__column[data-sort-direction='descending']::after {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 5px solid currentColor;
+  border-top: 5px solid currentcolor;
 }
 
 .tale-table__column[data-focus-visible] {

@@ -46,11 +46,13 @@
 /* ─── Grid header (thead) ─────────────────────────────────────────────────── */
 
 .tale-range-calendar__grid-header {
+  display: table-header-group;
 }
 
 /* ─── Grid body (tbody) ───────────────────────────────────────────────────── */
 
 .tale-range-calendar__grid-body {
+  display: table-row-group;
 }
 
 /* ─── Cell ─────────────────────────────────────────────────────────────────── */
