@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-05-24",
+  "generatedAt": "2026-06-12",
   "types": [
     {
       "name": "Text",
@@ -595,7 +595,89 @@
         }
       ],
       "isSubPart": false,
-      "description": "Checkbox input with indicator and label"
+      "description": "Legacy checkbox input; prefer CheckboxField for new A2UI surfaces"
+    },
+    {
+      "name": "CheckboxField",
+      "category": "Form Controls",
+      "component": "CheckboxField.Root",
+      "props": [
+        {
+          "name": "binding",
+          "hint": "`{ \"path\": \"fieldName\" }`",
+          "allowedValues": null
+        },
+        {
+          "name": "label",
+          "hint": "string",
+          "allowedValues": null
+        },
+        {
+          "name": "defaultSelected",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "disabled",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "readOnly",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "isIndeterminate",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "isRequired",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "isInvalid",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "size",
+          "hint": "`sm`, `md`",
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "value",
+          "hint": "string (form submission value)",
+          "allowedValues": null
+        },
+        {
+          "name": "name",
+          "hint": "lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`)",
+          "allowedValues": null
+        },
+        {
+          "name": "action",
+          "hint": "`{ \"name\": \"...\", \"context\": { ... } }`",
+          "allowedValues": null
+        },
+        {
+          "name": "description",
+          "hint": "string (helper text)",
+          "allowedValues": null
+        },
+        {
+          "name": "errorMessage",
+          "hint": "string",
+          "allowedValues": null
+        }
+      ],
+      "isSubPart": false,
+      "description": "Preferred checkbox field with label, description, and validation error support"
     },
     {
       "name": "Radio",
@@ -662,7 +744,74 @@
         }
       ],
       "isSubPart": false,
-      "description": "Radio group container for RadioOption children"
+      "description": "Legacy radio group container; prefer RadioField with RadioFieldOption children for new A2UI surfaces"
+    },
+    {
+      "name": "RadioField",
+      "category": "Form Controls",
+      "component": "RadioGroup",
+      "props": [
+        {
+          "name": "binding",
+          "hint": "`{ \"path\": \"fieldName\" }`",
+          "allowedValues": null
+        },
+        {
+          "name": "label",
+          "hint": "string",
+          "allowedValues": null
+        },
+        {
+          "name": "defaultValue",
+          "hint": "string or number",
+          "allowedValues": null
+        },
+        {
+          "name": "disabled",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "readOnly",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "isRequired",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "isInvalid",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "size",
+          "hint": "`sm`, `md`",
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "name",
+          "hint": "lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`)",
+          "allowedValues": null
+        },
+        {
+          "name": "description",
+          "hint": "string (helper text)",
+          "allowedValues": null
+        },
+        {
+          "name": "action",
+          "hint": "`{ \"name\": \"...\", \"context\": { ... } }`",
+          "allowedValues": null
+        }
+      ],
+      "isSubPart": false,
+      "description": "Preferred radio group rendered with RadioFieldOption children"
     },
     {
       "name": "Select",
@@ -792,7 +941,76 @@
         }
       ],
       "isSubPart": false,
-      "description": "Toggle switch with thumb and label"
+      "description": "Legacy toggle switch; prefer SwitchField for new A2UI surfaces"
+    },
+    {
+      "name": "SwitchField",
+      "category": "Form Controls",
+      "component": "SwitchField.Root",
+      "props": [
+        {
+          "name": "binding",
+          "hint": "`{ \"path\": \"fieldName\" }`",
+          "allowedValues": null
+        },
+        {
+          "name": "label",
+          "hint": "string",
+          "allowedValues": null
+        },
+        {
+          "name": "defaultSelected",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "disabled",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "readOnly",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "isRequired",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "isInvalid",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "value",
+          "hint": "string (form submission value)",
+          "allowedValues": null
+        },
+        {
+          "name": "name",
+          "hint": "lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`)",
+          "allowedValues": null
+        },
+        {
+          "name": "action",
+          "hint": "`{ \"name\": \"...\", \"context\": { ... } }`",
+          "allowedValues": null
+        },
+        {
+          "name": "description",
+          "hint": "string (helper text)",
+          "allowedValues": null
+        },
+        {
+          "name": "errorMessage",
+          "hint": "string",
+          "allowedValues": null
+        }
+      ],
+      "isSubPart": false,
+      "description": "Preferred toggle switch field with label, description, and validation error support"
     },
     {
       "name": "RadioOption",
@@ -824,7 +1042,49 @@
         }
       ],
       "isSubPart": true,
-      "description": "Individual radio option with indicator and label"
+      "description": "Legacy individual radio option; prefer RadioFieldOption for new A2UI surfaces"
+    },
+    {
+      "name": "RadioFieldOption",
+      "category": "Form Controls",
+      "component": "RadioField.Root",
+      "props": [
+        {
+          "name": "value",
+          "hint": "string (option identifier)",
+          "allowedValues": null
+        },
+        {
+          "name": "disabled",
+          "hint": "boolean",
+          "allowedValues": null
+        },
+        {
+          "name": "size",
+          "hint": "`sm`, `md`",
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "label",
+          "hint": "string",
+          "allowedValues": null
+        },
+        {
+          "name": "description",
+          "hint": "string (helper text)",
+          "allowedValues": null
+        },
+        {
+          "name": "errorMessage",
+          "hint": "string",
+          "allowedValues": null
+        }
+      ],
+      "isSubPart": true,
+      "description": "Preferred individual radio field option with description and validation error support"
     },
     {
       "name": "SelectItem",
@@ -5173,7 +5433,7 @@
               "id": "form-title",
               "component": {
                 "Text": {
-                  "content": "5. Form Controls (Form, TextInput, Checkbox, Radio, Select, Switch)",
+                  "content": "5. Form Controls (Form, TextInput, CheckboxField, RadioField, Select, SwitchField)",
                   "usageHint": "title"
                 }
               }
@@ -5245,7 +5505,7 @@
             {
               "id": "checkbox-terms",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "I agree to the terms and conditions",
                   "binding": {
                     "path": "terms"
@@ -5260,7 +5520,7 @@
             {
               "id": "switch-newsletter",
               "component": {
-                "Switch": {
+                "SwitchField": {
                   "label": "Subscribe to newsletter",
                   "binding": {
                     "path": "newsletter"
@@ -10251,7 +10511,7 @@
               "id": "sec-chk-title",
               "component": {
                 "Text": {
-                  "content": "22. Checkbox — sizes × states",
+                  "content": "22. CheckboxField — sizes × states",
                   "usageHint": "heading-m"
                 }
               }
@@ -10297,7 +10557,7 @@
             {
               "id": "chk-sm-off",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Unchecked",
                   "size": "sm"
                 }
@@ -10306,7 +10566,7 @@
             {
               "id": "chk-sm-on",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Checked",
                   "size": "sm",
                   "defaultSelected": true
@@ -10316,7 +10576,7 @@
             {
               "id": "chk-sm-indet",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Indeterminate",
                   "size": "sm",
                   "isIndeterminate": true
@@ -10326,7 +10586,7 @@
             {
               "id": "chk-sm-dis",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Disabled",
                   "size": "sm",
                   "disabled": true
@@ -10336,7 +10596,7 @@
             {
               "id": "chk-sm-dis-on",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Dis+checked",
                   "size": "sm",
                   "disabled": true,
@@ -10372,7 +10632,7 @@
             {
               "id": "chk-md-off",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Unchecked",
                   "size": "md"
                 }
@@ -10381,7 +10641,7 @@
             {
               "id": "chk-md-on",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Checked",
                   "size": "md",
                   "defaultSelected": true
@@ -10391,7 +10651,7 @@
             {
               "id": "chk-md-indet",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Indeterminate",
                   "size": "md",
                   "isIndeterminate": true
@@ -10401,7 +10661,7 @@
             {
               "id": "chk-md-dis",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Disabled",
                   "size": "md",
                   "disabled": true
@@ -10411,7 +10671,7 @@
             {
               "id": "chk-md-dis-on",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Dis+checked",
                   "size": "md",
                   "disabled": true,
@@ -10445,7 +10705,7 @@
               "id": "sec-rad-title",
               "component": {
                 "Text": {
-                  "content": "23. Radio — states × sizes",
+                  "content": "23. RadioField — states × sizes",
                   "usageHint": "heading-m"
                 }
               }
@@ -10498,7 +10758,7 @@
             {
               "id": "rad-md-grp",
               "component": {
-                "Radio": {
+                "RadioField": {
                   "label": "Preference",
                   "size": "md",
                   "children": [
@@ -10512,7 +10772,7 @@
             {
               "id": "rad-md-a",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option A",
                   "value": "a"
                 }
@@ -10521,7 +10781,7 @@
             {
               "id": "rad-md-b",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option B",
                   "value": "b"
                 }
@@ -10530,7 +10790,7 @@
             {
               "id": "rad-md-c",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option C",
                   "value": "c"
                 }
@@ -10561,7 +10821,7 @@
             {
               "id": "rad-dis-grp",
               "component": {
-                "Radio": {
+                "RadioField": {
                   "label": "Preference",
                   "size": "md",
                   "disabled": true,
@@ -10576,7 +10836,7 @@
             {
               "id": "rad-dis-a",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option A",
                   "value": "a"
                 }
@@ -10585,7 +10845,7 @@
             {
               "id": "rad-dis-b",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option B",
                   "value": "b"
                 }
@@ -10594,7 +10854,7 @@
             {
               "id": "rad-dis-c",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option C",
                   "value": "c"
                 }
@@ -10625,7 +10885,7 @@
             {
               "id": "rad-sm-grp",
               "component": {
-                "Radio": {
+                "RadioField": {
                   "label": "Preference",
                   "size": "sm",
                   "children": [
@@ -10639,7 +10899,7 @@
             {
               "id": "rad-sm-a",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option A",
                   "value": "a",
                   "size": "sm"
@@ -10649,7 +10909,7 @@
             {
               "id": "rad-sm-b",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option B",
                   "value": "b",
                   "size": "sm"
@@ -10659,7 +10919,7 @@
             {
               "id": "rad-sm-c",
               "component": {
-                "RadioOption": {
+                "RadioFieldOption": {
                   "label": "Option C",
                   "value": "c",
                   "size": "sm"
@@ -10953,7 +11213,7 @@
               "id": "sec-swt-title",
               "component": {
                 "Text": {
-                  "content": "25. Switch — sizes × states",
+                  "content": "25. SwitchField — states",
                   "usageHint": "heading-m"
                 }
               }
@@ -10975,7 +11235,7 @@
               "id": "swt-sm-lbl",
               "component": {
                 "Text": {
-                  "content": "size: sm",
+                  "content": "default states",
                   "usageHint": "caption",
                   "color": "muted"
                 }
@@ -10997,18 +11257,16 @@
             {
               "id": "swt-sm-off",
               "component": {
-                "Switch": {
-                  "label": "Off",
-                  "size": "sm"
+                "SwitchField": {
+                  "label": "Off"
                 }
               }
             },
             {
               "id": "swt-sm-on",
               "component": {
-                "Switch": {
+                "SwitchField": {
                   "label": "On",
-                  "size": "sm",
                   "defaultSelected": true
                 }
               }
@@ -11016,9 +11274,8 @@
             {
               "id": "swt-sm-dis",
               "component": {
-                "Switch": {
+                "SwitchField": {
                   "label": "Disabled",
-                  "size": "sm",
                   "disabled": true
                 }
               }
@@ -11027,7 +11284,7 @@
               "id": "swt-md-lbl",
               "component": {
                 "Text": {
-                  "content": "size: md",
+                  "content": "additional states",
                   "usageHint": "caption",
                   "color": "muted"
                 }
@@ -11049,18 +11306,16 @@
             {
               "id": "swt-md-off",
               "component": {
-                "Switch": {
-                  "label": "Off",
-                  "size": "md"
+                "SwitchField": {
+                  "label": "Off"
                 }
               }
             },
             {
               "id": "swt-md-on",
               "component": {
-                "Switch": {
+                "SwitchField": {
                   "label": "On",
-                  "size": "md",
                   "defaultSelected": true
                 }
               }
@@ -11068,9 +11323,8 @@
             {
               "id": "swt-md-dis",
               "component": {
-                "Switch": {
+                "SwitchField": {
                   "label": "Disabled",
-                  "size": "md",
                   "disabled": true
                 }
               }
@@ -14550,7 +14804,7 @@
             {
               "id": "chkg-v-1",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Option A",
                   "value": "a"
                 }
@@ -14559,7 +14813,7 @@
             {
               "id": "chkg-v-2",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Option B",
                   "value": "b"
                 }
@@ -14568,7 +14822,7 @@
             {
               "id": "chkg-v-3",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Option C",
                   "value": "c"
                 }
@@ -14592,7 +14846,7 @@
             {
               "id": "chkg-h-1",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Red",
                   "value": "red"
                 }
@@ -14601,7 +14855,7 @@
             {
               "id": "chkg-h-2",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Green",
                   "value": "green"
                 }
@@ -14610,7 +14864,7 @@
             {
               "id": "chkg-h-3",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Blue",
                   "value": "blue"
                 }
@@ -17101,7 +17355,7 @@
             {
               "id": "fset-2-email",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Email notifications",
                   "value": "email"
                 }
@@ -17110,7 +17364,7 @@
             {
               "id": "fset-2-sms",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "SMS notifications",
                   "value": "sms"
                 }
@@ -17119,7 +17373,7 @@
             {
               "id": "fset-2-push",
               "component": {
-                "Checkbox": {
+                "CheckboxField": {
                   "label": "Push notifications",
                   "value": "push"
                 }
@@ -18379,7 +18633,6 @@
                 "Row": {
                   "justify": "between",
                   "children": [
-                    "notif-email-label",
                     "notif-email-switch"
                   ]
                 }
@@ -18397,7 +18650,7 @@
             {
               "id": "notif-email-switch",
               "component": {
-                "Switch": {
+                "SwitchField": {
                   "label": "Email notifications",
                   "binding": {
                     "path": "emailNotifications"
@@ -18427,7 +18680,6 @@
                 "Row": {
                   "justify": "between",
                   "children": [
-                    "notif-push-label",
                     "notif-push-switch"
                   ]
                 }
@@ -18445,7 +18697,7 @@
             {
               "id": "notif-push-switch",
               "component": {
-                "Switch": {
+                "SwitchField": {
                   "label": "Push notifications",
                   "binding": {
                     "path": "pushNotifications"
@@ -18475,7 +18727,6 @@
                 "Row": {
                   "justify": "between",
                   "children": [
-                    "notif-sms-label",
                     "notif-sms-switch"
                   ]
                 }
@@ -18493,7 +18744,7 @@
             {
               "id": "notif-sms-switch",
               "component": {
-                "Switch": {
+                "SwitchField": {
                   "label": "SMS notifications",
                   "binding": {
                     "path": "smsNotifications"

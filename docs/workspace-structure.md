@@ -8,6 +8,7 @@ This monorepo is managed with **pnpm workspaces**.
 |-----------|---------|-------------------|
 | `packages/` | Shared, reusable libraries (CSS, component libs, utilities) | Yes |
 | `docs/` | Next.js static documentation site | No |
+| `docs/upstream/` | Maintainer adoption logs for upstream dependency releases | No |
 | `playground/` | Development sandboxes (Storybook, Vite app, scale tool) | No |
 
 | `apps/` | End-user applications | No |

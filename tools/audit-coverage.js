@@ -39,6 +39,12 @@ const isCheck = process.argv.includes('--check');
  */
 const VISUAL_AUDIT_EXCLUDED = new Set(['CSPProvider', 'I18nProvider', 'mergeProps']);
 
+/**
+ * A2UI compatibility aliases that remain renderable but should not be promoted
+ * in the full-showcase example used by agents.
+ */
+const A2UI_SHOWCASE_EXCLUDED = new Set(['Checkbox', 'Radio', 'Switch']);
+
 /* ─── Sources ─────────────────────────────────────────────────────────────── */
 
 /** All Tale UI React component names from registry */
@@ -119,7 +125,8 @@ function missing(all, covered) {
 
 function main() {
   const reactComponents = loadReactComponents().filter((n) => !VISUAL_AUDIT_EXCLUDED.has(n));
-  const { all: allA2UITypes, topLevel: topLevelA2UI } = loadA2UITypes();
+  const { topLevel: topLevelA2UI } = loadA2UITypes();
+  const requiredTopLevelA2UI = topLevelA2UI.filter((n) => !A2UI_SHOWCASE_EXCLUDED.has(n));
 
   const auditCovered = parseComponentAudit();
   const storybookCovered = parseStorybookCoverage();
@@ -138,10 +145,10 @@ function main() {
       },
     },
     a2ui: {
-      total: topLevelA2UI.length,
+      total: requiredTopLevelA2UI.length,
       fullShowcase: {
-        covered: topLevelA2UI.filter((n) => showcaseCovered.has(n)).length,
-        missing: missing(topLevelA2UI, showcaseCovered),
+        covered: requiredTopLevelA2UI.filter((n) => showcaseCovered.has(n)).length,
+        missing: missing(requiredTopLevelA2UI, showcaseCovered),
       },
     },
   };
@@ -172,7 +179,7 @@ function main() {
   console.log('');
 
   // A2UI types
-  console.log(`A2UI Types (${results.a2ui.total} non-sub-part types)`);
+  console.log(`A2UI Types (${results.a2ui.total} showcase-required non-sub-part types)`);
   const sr = results.a2ui.fullShowcase;
   const sStatus = sr.missing.length === 0 ? '✓' : '✗';
   console.log(`  ${sStatus} full-showcase.json: ${sr.covered}/${results.a2ui.total}`);

@@ -23,10 +23,13 @@ import { List } from '@tale-ui/react/list';
 import { Button } from '@tale-ui/react/button';
 import { TextField } from '@tale-ui/react/text-field';
 import { Checkbox } from '@tale-ui/react/checkbox';
+import { CheckboxField } from '@tale-ui/react/checkbox-field';
 import { Radio } from '@tale-ui/react/radio';
+import { RadioField } from '@tale-ui/react/radio-field';
 import { RadioGroup } from '@tale-ui/react/radio-group';
 import { Select } from '@tale-ui/react/select';
 import { Switch } from '@tale-ui/react/switch';
+import { SwitchField } from '@tale-ui/react/switch-field';
 import { Table } from '@tale-ui/react/table';
 import { Tabs } from '@tale-ui/react/tabs';
 import { Badge } from '@tale-ui/react/badge';
@@ -337,7 +340,61 @@ export const taleUICatalog: Catalog = {
     },
   } as CatalogEntry,
 
+  CheckboxField: {
+    component: CheckboxField.Root,
+    adapter: (props, ctx) => {
+      const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
+      return {
+        'aria-label': !props.label ? 'Checkbox' : undefined,
+        defaultSelected: (props.defaultSelected as boolean) ?? (boundValue as boolean | undefined),
+        isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isIndeterminate: props.isIndeterminate as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        size: props.size as string | undefined,
+        value: props.value as string | undefined,
+        name: props.name as string | undefined,
+        onChange: props.action ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.() : undefined,
+        children: h(React.Fragment, null,
+          h(CheckboxField.Button, null,
+            h(CheckboxField.Indicator, null, h(Icon, { icon: Check, size: 'sm' })),
+            (props.label as string) ?? ctx.children,
+          ),
+          props.description ? h(CheckboxField.Description, null, String(props.description)) : null,
+          props.errorMessage ? h(CheckboxField.Error, null, String(props.errorMessage)) : null,
+        ),
+      };
+    },
+  } as CatalogEntry,
+
   Radio: {
+    component: RadioGroup,
+    adapter: (props, ctx) => {
+      const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
+      return {
+        'aria-label': !props.label ? 'Radio group' : undefined,
+        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
+        isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        size: props.size as string | undefined,
+        name: props.name as string | undefined,
+        label: props.label as string | undefined,
+        description: props.description as string | undefined,
+        onChange: props.binding
+          ? () => {
+              const handler = pressHandler(props.action, ctx);
+              if (handler) handler();
+            }
+          : undefined,
+        children: ctx.children,
+      };
+    },
+  } as CatalogEntry,
+
+  RadioField: {
     component: RadioGroup,
     adapter: (props, ctx) => {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
@@ -419,6 +476,32 @@ export const taleUICatalog: Catalog = {
     },
   } as CatalogEntry,
 
+  SwitchField: {
+    component: SwitchField.Root,
+    adapter: (props, ctx) => {
+      const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
+      return {
+        'aria-label': !props.label ? 'Switch' : undefined,
+        defaultSelected: (props.defaultSelected as boolean) ?? (boundValue as boolean | undefined),
+        isDisabled: props.disabled as boolean | undefined,
+        isReadOnly: props.readOnly as boolean | undefined,
+        isRequired: props.isRequired as boolean | undefined,
+        isInvalid: props.isInvalid as boolean | undefined,
+        value: props.value as string | undefined,
+        name: props.name as string | undefined,
+        onChange: props.action ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.() : undefined,
+        children: h(React.Fragment, null,
+          h(SwitchField.Button, null,
+            h(SwitchField.Thumb),
+            (props.label as string) ?? ctx.children,
+          ),
+          props.description ? h(SwitchField.Description, null, String(props.description)) : null,
+          props.errorMessage ? h(SwitchField.Error, null, String(props.errorMessage)) : null,
+        ),
+      };
+    },
+  } as CatalogEntry,
+
   RadioOption: {
     component: Radio.Root,
     adapter: (props, ctx) => ({
@@ -428,6 +511,23 @@ export const taleUICatalog: Catalog = {
       children: h(React.Fragment, null,
         h(Radio.Indicator),
         (props.label as string) ?? ctx.children,
+      ),
+    }),
+  } as CatalogEntry,
+
+  RadioFieldOption: {
+    component: RadioField.Root,
+    adapter: (props, ctx) => ({
+      value: props.value as string,
+      isDisabled: props.disabled as boolean | undefined,
+      size: props.size as string | undefined,
+      children: h(React.Fragment, null,
+        h(RadioField.Button, null,
+          h(RadioField.Indicator, null, h(RadioField.Dot)),
+          (props.label as string) ?? ctx.children,
+        ),
+        props.description ? h(RadioField.Description, null, String(props.description)) : null,
+        props.errorMessage ? h(RadioField.Error, null, String(props.errorMessage)) : null,
       ),
     }),
   } as CatalogEntry,

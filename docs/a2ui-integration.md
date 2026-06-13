@@ -156,7 +156,11 @@ When clicked, your `onAction` callback receives `("main", { name: "save", contex
 
 ## Catalog Reference
 
-The default catalog maps all 142 A2UI standard component types to Tale UI.
+The default catalog maps all 146 A2UI standard component types to Tale UI.
+
+For new surfaces, prefer `CheckboxField`, `RadioField` with `RadioFieldOption`
+children, and `SwitchField`. `Checkbox`, `Radio` with `RadioOption` children,
+and `Switch` remain available for compatibility with existing payloads.
 
 <!-- BEGIN:A2UI_CATALOG_TABLES -->
 | A2UI Type | Tale UI Component | Key A2UI Props |
@@ -175,10 +179,14 @@ The default catalog maps all 142 A2UI standard component types to Tale UI.
 | `Button` | `Button` | `variant`, `size`, `disabled`, `isPending`, `showTextWhileLoading`, `action`, `label` |
 | `TextInput` | `TextField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `action`, `type`, `placeholder`, `description`, `errorMessage` |
 | `Checkbox` | `Checkbox.Root` | `binding`, `label`, `defaultSelected`, `disabled`, `readOnly`, `isIndeterminate`, `isRequired`, `size`, `value`, `name`, `action` |
+| `CheckboxField` | `CheckboxField.Root` | `binding`, `label`, `defaultSelected`, `disabled`, `readOnly`, `isIndeterminate`, `isRequired`, `isInvalid`, `size`, `value`, `name`, `action`, `description`, `errorMessage` |
 | `Radio` | `RadioGroup` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `size`, `name`, `description`, `action` |
+| `RadioField` | `RadioGroup` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `size`, `name`, `description`, `action` |
 | `Select` | `Select.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `size`, `name`, `placeholder`, `action` |
 | `Switch` | `Switch.Root` | `binding`, `label`, `defaultSelected`, `disabled`, `readOnly`, `isRequired`, `size`, `value`, `name`, `action` |
+| `SwitchField` | `SwitchField.Root` | `binding`, `label`, `defaultSelected`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `value`, `name`, `action`, `description`, `errorMessage` |
 | `RadioOption` | `Radio.Root` | `value`, `disabled`, `size`, `label` |
+| `RadioFieldOption` | `RadioField.Root` | `value`, `disabled`, `size`, `label`, `description`, `errorMessage` |
 | `SelectItem` | `Select.Item` | `value`, `label` |
 | `Table` | `Table.Root` | `label`, `selectionMode`, `selectionBehavior`, `disabledKeys`, `onSelectionChange` |
 | `TableHeader` | `Table.Header` | -- |

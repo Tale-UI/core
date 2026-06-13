@@ -16,6 +16,9 @@ export interface CheckboxRootProps extends Omit<AriaCheckboxProps, 'className'> 
 /**
  * A checkbox input with indicator and label.
  *
+ * @status deprecated
+ * @deprecated Use CheckboxField from `@tale-ui/react/checkbox-field` instead — it adds built-in description and error message support. Checkbox remains functional but the underlying React Aria Checkbox is deprecated upstream.
+ *
  * @example
  * ```tsx
  * import { Checkbox } from '@tale-ui/react/checkbox';
@@ -36,7 +39,10 @@ export const Root = React.forwardRef<HTMLLabelElement, CheckboxRootProps>(
     return (
       <AriaCheckbox
         ref={ref}
-        className={cx(size !== 'md' ? `tale-checkbox tale-checkbox--${size}` : 'tale-checkbox', className)}
+        className={cx(
+          size !== 'md' ? `tale-checkbox tale-checkbox--${size}` : 'tale-checkbox',
+          className,
+        )}
         {...props}
       />
     );
@@ -57,7 +63,10 @@ Indicator.displayName = 'Checkbox.Indicator';
 
 /* ─── Visual ──────────────────────────────────────────────────────────────── */
 
-export interface CheckboxVisualProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
+export interface CheckboxVisualProps extends Omit<
+  React.ComponentPropsWithoutRef<'span'>,
+  'className'
+> {
   /** Whether the checkbox visual appears checked. */
   checked?: boolean;
   /** Size of the checkbox visual. Defaults to `'md'`. */
@@ -87,7 +96,12 @@ export const Visual = React.forwardRef<HTMLSpanElement, CheckboxVisualProps>(
       ref={ref}
       aria-hidden="true"
       data-selected={checked || undefined}
-      className={cx(size !== 'md' ? `tale-checkbox__indicator tale-checkbox__indicator--${size}` : 'tale-checkbox__indicator', className)}
+      className={cx(
+        size !== 'md'
+          ? `tale-checkbox__indicator tale-checkbox__indicator--${size}`
+          : 'tale-checkbox__indicator',
+        className,
+      )}
       {...props}
     />
   ),

@@ -29,21 +29,37 @@ const args = process.argv.slice(2);
 const checkMode = args.includes('--check');
 
 function readFile(p) {
-  try { return fs.readFileSync(p, 'utf8'); } catch { return null; }
+  try {
+    return fs.readFileSync(p, 'utf8');
+  } catch {
+    return null;
+  }
 }
 
 function generate() {
   const registry = JSON.parse(readFile(REGISTRY_PATH));
 
   const compound = registry.components
-    .filter(c => c.kind === 'compound' && c.status !== 'deprecated')
-    .map(c => c.name)
+    .filter((c) => c.kind === 'compound' && c.status !== 'deprecated')
+    .map((c) => c.name)
     .sort();
 
   const simple = registry.components
-    .filter(c => c.kind === 'simple' && c.status !== 'deprecated')
-    .map(c => c.name)
+    .filter((c) => c.kind === 'simple' && c.status !== 'deprecated')
+    .map((c) => c.name)
     .sort();
+
+  const deprecated = registry.components
+    .filter((c) => c.status === 'deprecated')
+    .map((c) => {
+      const m = (c.deprecationNote || '').match(/Use (\w+)/);
+      return m ? `${c.name} (use ${m[1]})` : c.name;
+    })
+    .sort();
+
+  const deprecatedSection = deprecated.length
+    ? `\n**Deprecated** (still functional — avoid in new code):\n${deprecated.join(', ')}.\n`
+    : '';
 
   return `# Tale UI — CLAUDE.md snippet for consuming projects
 
@@ -88,6 +104,8 @@ ${compound.join(', ')}.
 
 **Simple** (direct use, no \`.Root\`):
 ${simple.join(', ')}.
+${deprecatedSection}
+**Checkbox/radio/switch guidance:** For new UI, use \`CheckboxField\`, \`RadioField\` inside \`RadioGroup\`, and \`SwitchField\`. \`Checkbox\`, \`Radio\`, and \`Switch\` are deprecated compatibility APIs and should only be used when maintaining existing code or when explicitly requested.
 
 ## General conventions
 
@@ -184,7 +202,9 @@ if (checkMode) {
     console.log('✅ docs/consumer-claude-md-snippet.md is up-to-date.');
     process.exit(0);
   } else {
-    console.error('❌ docs/consumer-claude-md-snippet.md is out of date. Run: pnpm snippet:generate');
+    console.error(
+      '❌ docs/consumer-claude-md-snippet.md is out of date. Run: pnpm snippet:generate',
+    );
     process.exit(1);
   }
 } else {

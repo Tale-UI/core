@@ -6,14 +6,15 @@ An accessible data table with support for sorting and row selection.
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `Table.Root` | `<table>` wrapper. Accepts `aria-label`, `selectionMode`, `sortDescriptor`, and `onSortChange`. |
-| `Table.Header` | `<thead>` section containing columns. |
-| `Table.Column` | A column header cell. Supports `isRowHeader` and `allowsSorting`. |
-| `Table.Body` | `<tbody>` section containing rows. |
-| `Table.Row` | A table row. Requires `id`. |
-| `Table.Cell` | A table data cell. |
+| Part           | Description                                                                                     |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| `Table.Root`   | `<table>` wrapper. Accepts `aria-label`, `selectionMode`, `sortDescriptor`, and `onSortChange`. |
+| `Table.Header` | `<thead>` section containing columns.                                                           |
+| `Table.Column` | A column header cell. Supports `isRowHeader` and `allowsSorting`.                               |
+| `Table.Body`   | `<tbody>` section containing rows.                                                              |
+| `Table.Row`    | A table row. Requires `id`.                                                                     |
+| `Table.Cell`   | A table data cell.                                                                              |
+| `Table.Footer` | Footer section for totals/summary rows (renders `<tfoot>`).                                     |
 
 ## Props
 
@@ -94,9 +95,15 @@ function SortableTable() {
       onSortChange={setSortDescriptor}
     >
       <Table.Header>
-        <Table.Column id="name" isRowHeader allowsSorting>Name</Table.Column>
-        <Table.Column id="email" allowsSorting>Email</Table.Column>
-        <Table.Column id="role" allowsSorting>Role</Table.Column>
+        <Table.Column id="name" isRowHeader allowsSorting>
+          Name
+        </Table.Column>
+        <Table.Column id="email" allowsSorting>
+          Email
+        </Table.Column>
+        <Table.Column id="role" allowsSorting>
+          Role
+        </Table.Column>
       </Table.Header>
       <Table.Body>
         {sorted.map((row) => (
@@ -112,6 +119,73 @@ function SortableTable() {
 }
 ```
 
+### Footer with totals
+
+Place `Table.Footer` after `Table.Body` to render a `<tfoot>` with summary rows.
+
+```tsx
+<Table.Root aria-label="Invoice items">
+  <Table.Header>
+    <Table.Column isRowHeader>Item</Table.Column>
+    <Table.Column>Quantity</Table.Column>
+    <Table.Column>Price</Table.Column>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row id="1">
+      <Table.Cell>Widget</Table.Cell>
+      <Table.Cell>2</Table.Cell>
+      <Table.Cell>$10.00</Table.Cell>
+    </Table.Row>
+    <Table.Row id="2">
+      <Table.Cell>Gadget</Table.Cell>
+      <Table.Cell>1</Table.Cell>
+      <Table.Cell>$25.00</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+  <Table.Footer>
+    <Table.Row id="totals">
+      <Table.Cell>Total</Table.Cell>
+      <Table.Cell>3</Table.Cell>
+      <Table.Cell>$35.00</Table.Cell>
+    </Table.Row>
+  </Table.Footer>
+</Table.Root>
+```
+
+### Expandable rows
+
+New in React Aria 1.17/1.18 — `Table.Root` accepts props for hierarchical (tree-like) data, all inherited from React Aria:
+
+| Prop                  | Type                                | Description                                           |
+| --------------------- | ----------------------------------- | ----------------------------------------------------- |
+| `treeColumn`          | `Key`                               | The id of the column that displays hierarchical data. |
+| `expandedKeys`        | `Expandable['expandedKeys']`        | The currently expanded row keys (controlled).         |
+| `defaultExpandedKeys` | `Expandable['defaultExpandedKeys']` | The initially expanded row keys (uncontrolled).       |
+| `onExpandedChange`    | `Expandable['onExpandedChange']`    | Handler called when the expanded keys change.         |
+
+Nested rows are declared by nesting `Table.Row` children inside a parent `Table.Row` collection (`childItems`). Expanded rows expose a `[data-expanded]` attribute for styling, and `Table.Row` render props now include `state`.
+
+```tsx
+<Table.Root aria-label="Files" treeColumn="name" defaultExpandedKeys={['docs']}>
+  <Table.Header>
+    <Table.Column id="name" isRowHeader>
+      Name
+    </Table.Column>
+    <Table.Column id="size">Size</Table.Column>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row id="docs">
+      <Table.Cell>Documents</Table.Cell>
+      <Table.Cell>--</Table.Cell>
+      <Table.Row id="docs-resume">
+        <Table.Cell>resume.pdf</Table.Cell>
+        <Table.Cell>120 KB</Table.Cell>
+      </Table.Row>
+    </Table.Row>
+  </Table.Body>
+</Table.Root>
+```
+
 ## CSS Classes
 
 - `.tale-table` — Base
@@ -120,17 +194,20 @@ function SortableTable() {
 - `.tale-table__body` — Body section
 - `.tale-table__row` — Row
 - `.tale-table__cell` — Data cell
+- `.tale-table__footer` — Footer section
 
 ## Pitfalls
 
 <!-- pitfall: table-no-column-header-part -->
+
 - **No `Table.ColumnHeader`** — use `Table.Column` for column header cells.
   - anti-pattern: `<Table.ColumnHeader>Name</Table.ColumnHeader>`
   - fix: `<Table.Column>Name</Table.Column>`
   - complete example:
+
     ```tsx
     import { Table } from '@tale-ui/react/table';
-    
+
     export function Example() {
       return (
         <Table.Root aria-label="People">
@@ -150,6 +227,7 @@ function SortableTable() {
     ```
 
 <!-- pitfall: table-no-status-part -->
+
 - **No `Table.Status` sub-part** — render a `<Badge>` inside a `Table.Cell` to show status.
   - anti-pattern: `<Table.Status variant="success">Active</Table.Status>`
   - fix: `<Table.Cell><Badge variant="success">Active</Badge></Table.Cell>`

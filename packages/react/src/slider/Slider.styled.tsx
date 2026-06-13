@@ -4,19 +4,24 @@ import {
   SliderTrack as AriaSliderTrack,
   SliderThumb as AriaSliderThumb,
   SliderOutput as AriaSliderOutput,
+  SliderFill as AriaSliderFill,
   SliderStateContext,
   Label as AriaLabel,
   type SliderProps as AriaSliderProps,
   type SliderTrackProps as AriaSliderTrackProps,
   type SliderThumbProps as AriaSliderThumbProps,
   type SliderOutputProps as AriaSliderOutputProps,
+  type SliderFillProps as AriaSliderFillProps,
   type LabelProps as AriaLabelProps,
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
 /* ─── Root ────────────────────────────────────────────────────────────────── */
 
-export type RootProps<T extends number | number[] = number> = Omit<AriaSliderProps<T>, 'className'> & {
+export type RootProps<T extends number | number[] = number> = Omit<
+  AriaSliderProps<T>,
+  'className'
+> & {
   className?: string;
 };
 
@@ -43,15 +48,13 @@ export type RootProps<T extends number | number[] = number> = Omit<AriaSliderPro
  */
 export const Root: <T extends number | number[] = number>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
-) => React.ReactElement | null = React.forwardRef(
-  ({ className, ...props }: RootProps, ref) => (
-    <AriaSlider
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={cx('tale-slider', className)}
-      {...props}
-    />
-  ),
-) as any;
+) => React.ReactElement | null = React.forwardRef(({ className, ...props }: RootProps, ref) => (
+  <AriaSlider
+    ref={ref as React.Ref<HTMLDivElement>}
+    className={cx('tale-slider', className)}
+    {...props}
+  />
+)) as any;
 (Root as any).displayName = 'Slider.Root';
 
 /* ─── Header (label + output row) ────────────────────────────────────────── */
@@ -65,7 +68,9 @@ Header.displayName = 'Slider.Header';
 
 /* ─── Control — touch-active container around the track ──────────────────── */
 
-export type ControlProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
+export type ControlProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & {
+  className?: string;
+};
 
 export const Control = React.forwardRef<HTMLDivElement, ControlProps>(
   ({ className, ...props }, ref) => (
@@ -87,27 +92,17 @@ Track.displayName = 'Slider.Track';
 
 /* ─── Indicator — filled portion of the track ────────────────────────────── */
 
-export type IndicatorProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> & { className?: string };
+export type IndicatorProps = Omit<AriaSliderFillProps, 'className'> & { className?: string };
 
+/**
+ * Filled portion of the track, rendered via React Aria's SliderFill.
+ * RTL-aware; with two thumbs it fills between them. Use the `offset` prop to
+ * fill from a value other than the minimum (e.g. `offset={0}` on a -50..50 slider).
+ */
 export const Indicator = React.forwardRef<HTMLDivElement, IndicatorProps>(
-  ({ className, style, ...props }, ref) => {
-    const state = React.useContext(SliderStateContext);
-    let fillStyle: React.CSSProperties | undefined;
-    if (state) {
-      const count = state.values.length;
-      const start = count > 1 ? state.getThumbPercent(0) : 0;
-      const end = state.getThumbPercent(count - 1);
-      const startPct = `${start * 100}%`;
-      const sizePct = `${(end - start) * 100}%`;
-      fillStyle =
-        state.orientation === 'vertical'
-          ? { bottom: startPct, height: sizePct }
-          : { left: startPct, width: sizePct };
-    }
-    return (
-      <div ref={ref} className={cx('tale-slider__indicator', className)} style={{ ...fillStyle, ...style }} {...props} />
-    );
-  },
+  ({ className, ...props }, ref) => (
+    <AriaSliderFill ref={ref} className={cx('tale-slider__indicator', className)} {...props} />
+  ),
 );
 Indicator.displayName = 'Slider.Indicator';
 

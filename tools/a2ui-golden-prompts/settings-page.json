@@ -1,7 +1,7 @@
 {
   "slug": "settings-page",
   "difficulty": "complex",
-  "prompt": "Build a settings page with two sections: a Notifications card with a divided list of three toggle switches (Email, Push, SMS notifications), and an Appearance card with a theme Select dropdown and a Save Changes button.",
+  "prompt": "Build a settings page with two sections: a Notifications card with a divided list of three switch fields (Email, Push, SMS notifications), and an Appearance card with a theme Select dropdown and a Save Changes button.",
   "reference": {
     "messages": [
       {
@@ -87,7 +87,7 @@
             "component": {
               "Row": {
                 "justify": "between",
-                "children": ["notif-email-label", "notif-email-switch"]
+                "children": ["notif-email-switch"]
               }
             }
           },
@@ -103,7 +103,7 @@
           {
             "id": "notif-email-switch",
             "component": {
-              "Switch": {
+              "SwitchField": {
                 "label": "Email notifications",
                 "binding": { "path": "emailNotifications" },
                 "action": { "name": "toggleNotification", "context": { "channel": "email" } }
@@ -123,7 +123,7 @@
             "component": {
               "Row": {
                 "justify": "between",
-                "children": ["notif-push-label", "notif-push-switch"]
+                "children": ["notif-push-switch"]
               }
             }
           },
@@ -139,7 +139,7 @@
           {
             "id": "notif-push-switch",
             "component": {
-              "Switch": {
+              "SwitchField": {
                 "label": "Push notifications",
                 "binding": { "path": "pushNotifications" },
                 "action": { "name": "toggleNotification", "context": { "channel": "push" } }
@@ -159,7 +159,7 @@
             "component": {
               "Row": {
                 "justify": "between",
-                "children": ["notif-sms-label", "notif-sms-switch"]
+                "children": ["notif-sms-switch"]
               }
             }
           },
@@ -175,7 +175,7 @@
           {
             "id": "notif-sms-switch",
             "component": {
-              "Switch": {
+              "SwitchField": {
                 "label": "SMS notifications",
                 "binding": { "path": "smsNotifications" },
                 "action": { "name": "toggleNotification", "context": { "channel": "sms" } }
@@ -273,5 +273,5 @@
       }
     ]
   },
-  "tags": ["Card", "List", "Switch", "Select", "Button", "Column", "Row"]
+  "tags": ["Card", "List", "SwitchField", "Select", "Button", "Column", "Row"]
 }

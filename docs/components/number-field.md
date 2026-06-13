@@ -6,20 +6,28 @@ A numeric input with increment/decrement buttons, supporting min/max bounds, ste
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `NumberField.Root` | Wrapper managing value state, validation, and formatting |
-| `NumberField.Label` | Accessible label for the field |
-| `NumberField.Group` | Groups the input and stepper buttons together |
-| `NumberField.Input` | The text input element |
-| `NumberField.Increment` | Button to increase the value (renders `+` by default) |
-| `NumberField.Decrement` | Button to decrease the value (renders `−` by default) |
-| `NumberField.Description` | Help text displayed below the field |
-| `NumberField.ErrorMessage` | Validation error message |
+| Part                       | Description                                              |
+| -------------------------- | -------------------------------------------------------- |
+| `NumberField.Root`         | Wrapper managing value state, validation, and formatting |
+| `NumberField.Label`        | Accessible label for the field                           |
+| `NumberField.Group`        | Groups the input and stepper buttons together            |
+| `NumberField.Input`        | The text input element                                   |
+| `NumberField.Increment`    | Button to increase the value (renders `+` by default)    |
+| `NumberField.Decrement`    | Button to decrease the value (renders `−` by default)    |
+| `NumberField.Description`  | Help text displayed below the field                      |
+| `NumberField.ErrorMessage` | Validation error message                                 |
 
 ## Props
 
 Accepts all React Aria `NumberField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
+### New in React Aria 1.17/1.18
+
+| Prop             | Type                   | Default  | Description                                                                                                                                                                                                                                                                                                    |
+| ---------------- | ---------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `commitBehavior` | `'snap' \| 'validate'` | `'snap'` | Controls when typed input commits to the value (on blur after editing). `'snap'` clamps to min/max and snaps to the nearest step; `'validate'` does not clamp and instead validates that the value is in range and on a valid step. Lives on the React Aria layer; flows through `NumberField.Root` untouched. |
+
+Render props and data attributes now include read-only state (`isReadOnly`).
 
 ## Basic Usage
 
@@ -90,10 +98,7 @@ Accepts all React Aria `NumberField` props plus an optional `className`. See the
 ### Currency Format
 
 ```tsx
-<NumberField.Root
-  defaultValue={99.99}
-  formatOptions={{ style: 'currency', currency: 'USD' }}
->
+<NumberField.Root defaultValue={99.99} formatOptions={{ style: 'currency', currency: 'USD' }}>
   <NumberField.Label>Price</NumberField.Label>
   <NumberField.Group>
     <NumberField.Decrement />
@@ -117,13 +122,15 @@ Accepts all React Aria `NumberField` props plus an optional `className`. See the
 ## Pitfalls
 
 <!-- pitfall: number-field-no-null-value -->
+
 - **`NumberField.Root` `value` prop accepts `number | undefined`, NOT `number | null`.**
   - anti-pattern: `<NumberField.Root value={count ?? null}>`
   - fix: `<NumberField.Root value={count ?? undefined}>`
   - complete example:
+
     ```tsx
     import { NumberField } from '@tale-ui/react/number-field';
-    
+
     export function Example() {
       return (
         <NumberField.Root defaultValue={0}>
@@ -140,6 +147,7 @@ Accepts all React Aria `NumberField` props plus an optional `className`. See the
 
 <!-- pitfall: number-field-no-phantom-sub-parts -->
 <!-- multi-idea-ok -->
+
 - **No phantom sub-parts: `NumberField.Step` and `NumberField.HintText` do not exist** — use `NumberField.Description` for help text.
   - anti-pattern: `<NumberField.HintText>Enter a number between 1 and 100</NumberField.HintText>`
   - fix: `<NumberField.Description>Enter a number between 1 and 100</NumberField.Description>`

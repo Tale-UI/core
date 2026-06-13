@@ -11,29 +11,35 @@ Groups a set of checkboxes with form validation and accessibility support, built
 | `label` | `string` | — | Accessible group label |
 | `orientation` | `'horizontal' \| 'vertical'` | — | Layout orientation. Sets `data-orientation` for CSS styling |
 | `isDisabled` | `boolean` | `false` | Disables all child checkboxes |
-| `size` | `'sm' \| 'md' \| 'lg'` | — | Propagates size to all child Checkbox.Root components |
+| `size` | `'sm' \| 'md' \| 'lg'` | — | Propagates size to all child CheckboxField.Root components |
 
 ## Basic Usage
 
 ```tsx
 import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
-import { Checkbox } from '@tale-ui/react/checkbox';
+import { CheckboxField } from '@tale-ui/react/checkbox-field';
 import { Icon } from '@tale-ui/react/icon';
 import { Check } from 'lucide-react';
 
 <CheckboxGroup label="Favorite fruits">
-  <Checkbox.Root value="apple">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Apple
-  </Checkbox.Root>
-  <Checkbox.Root value="banana">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Banana
-  </Checkbox.Root>
-  <Checkbox.Root value="cherry">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Cherry
-  </Checkbox.Root>
+  <CheckboxField.Root value="apple">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Apple
+    </CheckboxField.Button>
+  </CheckboxField.Root>
+  <CheckboxField.Root value="banana">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Banana
+    </CheckboxField.Button>
+  </CheckboxField.Root>
+  <CheckboxField.Root value="cherry">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Cherry
+    </CheckboxField.Button>
+  </CheckboxField.Root>
 </CheckboxGroup>
 ```
 
@@ -43,14 +49,18 @@ import { Check } from 'lucide-react';
 
 ```tsx
 <CheckboxGroup label="Disabled group" isDisabled>
-  <Checkbox.Root value="apple">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Apple
-  </Checkbox.Root>
-  <Checkbox.Root value="banana">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Banana
-  </Checkbox.Root>
+  <CheckboxField.Root value="apple">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Apple
+    </CheckboxField.Button>
+  </CheckboxField.Root>
+  <CheckboxField.Root value="banana">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Banana
+    </CheckboxField.Button>
+  </CheckboxField.Root>
 </CheckboxGroup>
 ```
 
@@ -61,18 +71,24 @@ import { Field } from '@tale-ui/react/field';
 
 <CheckboxGroup label="Notification preferences">
   <Field.Description>Select how you would like to be notified.</Field.Description>
-  <Checkbox.Root value="email">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Email
-  </Checkbox.Root>
-  <Checkbox.Root value="sms">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    SMS
-  </Checkbox.Root>
-  <Checkbox.Root value="push">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Push notification
-  </Checkbox.Root>
+  <CheckboxField.Root value="email">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Email
+    </CheckboxField.Button>
+  </CheckboxField.Root>
+  <CheckboxField.Root value="sms">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      SMS
+    </CheckboxField.Button>
+  </CheckboxField.Root>
+  <CheckboxField.Root value="push">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Push notification
+    </CheckboxField.Button>
+  </CheckboxField.Root>
 </CheckboxGroup>
 ```
 
@@ -80,14 +96,18 @@ import { Field } from '@tale-ui/react/field';
 
 ```tsx
 <CheckboxGroup label="Pick toppings" orientation="horizontal">
-  <Checkbox.Root value="cheese">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Cheese
-  </Checkbox.Root>
-  <Checkbox.Root value="pepperoni">
-    <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-    Pepperoni
-  </Checkbox.Root>
+  <CheckboxField.Root value="cheese">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Cheese
+    </CheckboxField.Button>
+  </CheckboxField.Root>
+  <CheckboxField.Root value="pepperoni">
+    <CheckboxField.Button>
+      <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+      Pepperoni
+    </CheckboxField.Button>
+  </CheckboxField.Root>
 </CheckboxGroup>
 ```
 
@@ -104,21 +124,25 @@ import { Field } from '@tale-ui/react/field';
   - complete example:
     ```tsx
     import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
-    import { Checkbox } from '@tale-ui/react/checkbox';
+    import { CheckboxField } from '@tale-ui/react/checkbox-field';
     import { Icon } from '@tale-ui/react/icon';
     import { Check } from 'lucide-react';
     
     export function Example() {
       return (
         <CheckboxGroup label="Favorite fruits">
-          <Checkbox.Root value="apple">
-            <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-            Apple
-          </Checkbox.Root>
-          <Checkbox.Root value="banana">
-            <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
-            Banana
-          </Checkbox.Root>
+          <CheckboxField.Root value="apple">
+            <CheckboxField.Button>
+              <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+              Apple
+            </CheckboxField.Button>
+          </CheckboxField.Root>
+          <CheckboxField.Root value="banana">
+            <CheckboxField.Button>
+              <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+              Banana
+            </CheckboxField.Button>
+          </CheckboxField.Root>
         </CheckboxGroup>
       );
     }
@@ -130,6 +154,6 @@ import { Field } from '@tale-ui/react/field';
 
 - The `label` prop sets the accessible group label.
 - `isDisabled` on the group disables all child checkboxes.
-- Each `Checkbox.Root` inside a group must have a `value` prop.
+- Each `CheckboxField.Root` inside a group must have a `value` prop.
 - Use `Field.Description` from `@tale-ui/react/field` to add helper text.
 - The `orientation` prop sets `data-orientation` on the DOM element, enabling CSS-based horizontal/vertical layout.

@@ -10,6 +10,9 @@ export interface SwitchRootProps extends Omit<AriaSwitchProps, 'className'> {
 /**
  * A toggle switch with thumb and label.
  *
+ * @status deprecated
+ * @deprecated Use SwitchField from `@tale-ui/react/switch-field` instead — it adds built-in description, error message, and validation support. Switch remains functional but the underlying React Aria Switch is deprecated upstream.
+ *
  * @example
  * ```tsx
  * import { Switch } from '@tale-ui/react/switch';
@@ -40,7 +43,10 @@ Thumb.displayName = 'Switch.Thumb';
 
 /* ─── Visual ──────────────────────────────────────────────────────────────── */
 
-export interface SwitchVisualProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
+export interface SwitchVisualProps extends Omit<
+  React.ComponentPropsWithoutRef<'span'>,
+  'className'
+> {
   /** Whether the switch visual appears on/checked. */
   checked?: boolean;
   /** Additional CSS class name. */

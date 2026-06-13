@@ -14,7 +14,7 @@
  *    5. Group label         — Select, Combobox, Autocomplete, Menu
  *    6. Misc                — Separator, Popup arrow, Item indicator
  *    7. Disclosure panel    — Disclosure, Accordion (animation + typography)
- *    8. Field description   — Field, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, TagGroup, PaymentInput
+ *    8. Field description   — Field, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, TagGroup, PaymentInput, CheckboxField, RadioField, SwitchField
  *    9. Field error         — same components as 8
  *   10. Date/time field root — DateField, DatePicker, DateRangePicker, TimeField (root layout + standalone input + picker group + inner input)
  *   11. Date/time segment   — DateField, DatePicker, DateRangePicker, TimeField
@@ -181,9 +181,9 @@
 }
 
 .tale-select__trigger[data-open] .tale-select__icon,
-.tale-select__trigger[aria-expanded="true"] .tale-select__icon,
+.tale-select__trigger[aria-expanded='true'] .tale-select__icon,
 .tale-combobox__input-group[data-open] .tale-combobox__trigger,
-.tale-combobox__trigger[aria-expanded="true"],
+.tale-combobox__trigger[aria-expanded='true'],
 .tale-accordion__item[data-expanded] .tale-accordion__trigger-icon,
 .tale-navigation-menu__trigger[data-open] .tale-navigation-menu__icon {
   transform: rotate(180deg);
@@ -331,7 +331,9 @@
   box-shadow: var(--popup-shadow);
   outline: none;
   overflow: hidden;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 /* Enter/leave animation */
@@ -375,7 +377,9 @@
   font-size: var(--item-font-size);
   cursor: pointer;
   outline: none;
-  transition: background-color 0.1s ease, color 0.1s ease;
+  transition:
+    background-color 0.1s ease,
+    color 0.1s ease;
   user-select: none;
 }
 
@@ -494,18 +498,18 @@
   stroke-width: 1;
 }
 
-.tale-menu__arrow[data-placement="bottom"] svg,
-.tale-popover__arrow[data-placement="bottom"] svg {
+.tale-menu__arrow[data-placement='bottom'] svg,
+.tale-popover__arrow[data-placement='bottom'] svg {
   transform: rotate(180deg);
 }
 
-.tale-menu__arrow[data-placement="left"] svg,
-.tale-popover__arrow[data-placement="left"] svg {
+.tale-menu__arrow[data-placement='left'] svg,
+.tale-popover__arrow[data-placement='left'] svg {
   transform: rotate(-90deg);
 }
 
-.tale-menu__arrow[data-placement="right"] svg,
-.tale-popover__arrow[data-placement="right"] svg {
+.tale-menu__arrow[data-placement='right'] svg,
+.tale-popover__arrow[data-placement='right'] svg {
   transform: rotate(90deg);
 }
 
@@ -520,7 +524,9 @@
   font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);
   line-height: 1.6;
-  transition: height 0.6s ease, opacity 0.2s ease;
+  transition:
+    height 0.6s ease,
+    opacity 0.2s ease;
 }
 
 .tale-disclosure__panel[data-entering],
@@ -563,7 +569,10 @@
 .tale-multi-select__description,
 .tale-tag-select__description,
 .tale-tag-group__description,
-.tale-payment-input__description {
+.tale-payment-input__description,
+.tale-checkbox-field__description,
+.tale-radio-field__description,
+.tale-switch-field__description {
   color: var(--field-description-color);
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
@@ -588,7 +597,10 @@
 .tale-multi-select__error,
 .tale-tag-select__error,
 .tale-tag-group__error,
-.tale-payment-input__error {
+.tale-payment-input__error,
+.tale-checkbox-field__error,
+.tale-radio-field__error,
+.tale-switch-field__error {
   color: var(--field-error-color);
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
@@ -629,7 +641,9 @@
   border: 1px solid var(--field-border-color);
   border-radius: var(--field-radius);
   background-color: var(--field-bg);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .tale-date-picker__group:focus-within,
@@ -713,10 +727,10 @@
   color: var(--neutral-60);
 }
 
-.tale-date-field__segment[data-type="literal"],
-.tale-date-picker__segment[data-type="literal"],
-.tale-date-range-picker__segment[data-type="literal"],
-.tale-time-field__segment[data-type="literal"] {
+.tale-date-field__segment[data-type='literal'],
+.tale-date-picker__segment[data-type='literal'],
+.tale-date-range-picker__segment[data-type='literal'],
+.tale-time-field__segment[data-type='literal'] {
   padding: 0 0.05rem;
   color: var(--neutral-50);
 }
@@ -874,7 +888,9 @@
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   color: var(--neutral-90);
-  transition: background 0.1s ease, color 0.1s ease;
+  transition:
+    background 0.1s ease,
+    color 0.1s ease;
 }
 
 .tale-calendar__cell:hover,
@@ -904,7 +920,9 @@
 
 .tale-calendar__cell[data-focus-visible],
 .tale-range-calendar__cell[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* Month navigation buttons — override tale-button / tale-button--ghost defaults */
@@ -1128,7 +1146,6 @@
   gap: var(--space-4xs);
 }
 
-
 .tale-button.tale-button--md,
 .tale-toggle-button.tale-toggle-button--md {
   font-size: var(--label-m-font-size);
@@ -1143,7 +1160,6 @@
   min-height: 4.4rem;
   gap: var(--space-2xs);
 }
-
 
 /* ═══════════════════════════════════════════════════════════════════════════
    20. CHOICE GROUP ROOT
@@ -1175,7 +1191,9 @@
   border: 1px solid var(--popup-border-color);
   border-radius: var(--radius-m);
   background: var(--field-bg);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .tale-combobox__input-group:focus-within,
@@ -1231,13 +1249,17 @@
   height: 1.25rem;
   border: 2px solid white;
   border-radius: var(--radius-full);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
 .tale-color-area__thumb[data-focus-visible],
 .tale-color-slider__thumb[data-focus-visible],
 .tale-color-wheel__thumb[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-color-area__thumb[data-disabled],
@@ -1254,7 +1276,8 @@
    Tale UI components. Prevents consumer global styles (e.g. `section { padding: 1rem }`)
    from breaking component layout. :where() keeps specificity at zero.
    :not(.tale-ui) excludes <html class="tale-ui"> so the reset doesn't apply page-wide. */
-:where([class*="tale-"]:not(.tale-ui)) > :where(section, article, header, footer, nav, aside, main) {
+:where([class*='tale-']:not(.tale-ui))
+  > :where(section, article, header, footer, nav, aside, main) {
   margin: 0;
   padding: 0;
   border: 0;

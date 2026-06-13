@@ -17,9 +17,13 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 
 ## Namespace vs simple
 
-**Namespace** (use `.Root`): Accordion, AlertDialog, Autocomplete, Avatar, BadgeGroup, Banner, Breadcrumbs, Calendar, Card, Carousel, Checkbox, ColorArea, ColorField, ColorPicker, ColorSlider, ColorSwatchPicker, ColorWheel, Combobox, ContextMenu, CreditCard, DateField, DatePicker, DateRangePicker, Dialog, Disclosure, Drawer, EmptyState, Field, Fieldset, FileUpload, GridList, HeaderNav, ImageCropper, Input, InputGroup, InputTags, List, Menu, Menubar, Meter, MultiSelect, NavigationMenu, NumberField, Pagination, PaymentInput, PinInput, Popover, PreviewCard, ProgressBar, ProgressCircle, QRCode, Radio, RangeCalendar, ScrollArea, SearchField, Select, Sidebar, Slider, Switch, Table, Tabs, TagGroup, TagSelect, TextArea, TextEditor, TextField, TimeField, Toolbar, Tooltip, Tree, VideoPlayer.
+**Namespace** (use `.Root`): Accordion, AlertDialog, Autocomplete, Avatar, BadgeGroup, Banner, Breadcrumbs, Calendar, Card, Carousel, CheckboxField, ColorArea, ColorField, ColorPicker, ColorSlider, ColorSwatchPicker, ColorWheel, Combobox, ContextMenu, CreditCard, DateField, DatePicker, DateRangePicker, Dialog, Disclosure, Drawer, EmptyState, Field, Fieldset, FileUpload, GridList, HeaderNav, ImageCropper, Input, InputGroup, InputTags, List, Menu, Menubar, Meter, MultiSelect, NavigationMenu, NumberField, Pagination, PaymentInput, PinInput, Popover, PreviewCard, ProgressBar, ProgressCircle, QRCode, RadioField, RangeCalendar, ScrollArea, SearchField, Select, Sidebar, Slider, SwitchField, Table, Tabs, TagGroup, TagSelect, TextArea, TextEditor, TextField, TimeField, Toolbar, Tooltip, Tree, VideoPlayer.
 
 **Simple** (direct use): AppStoreButton, BackgroundPattern, Badge, Button, CSPProvider, CheckboxGroup, ColorModeToggle, ColorSwatch, Column, Container, DotIcon, DropZone, FeaturedIcon, FileTrigger, Form, I18nProvider, Icon, IconButton, Illustration, Image, IphoneMockup, Link, PaginationDot, PaginationLine, RadioGroup, RatingBadge, RatingStars, Row, SectionDivider, SelectNative, Separator, SocialButton, SocialButtonGroup, Spinner, Text, ToggleButton, ToggleButtonGroup, mergeProps.
+
+**Deprecated** (still functional; avoid in new code): Checkbox (use CheckboxField), Radio (use RadioField), Switch (use SwitchField).
+
+For new checkbox/radio/switch UI, use `CheckboxField`, `RadioField` inside `RadioGroup`, and `SwitchField`. Use `Checkbox`, `Radio`, or `Switch` only when maintaining existing code or explicitly requested.
 
 ## Critical pitfalls
 
@@ -76,6 +80,7 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Calendar] Use Calendar.GridHeaderCell in GridHeader, not Calendar.Cell
 - [Calendar] Do not add vertical margin or padding to Calendar.Heading
 - [Calendar] Use Calendar for any prompt that asks for a date calendar picker, standalone calendar, or single date selection
+- [Calendar] With selectionMode="multiple" the value is DateValue[], not a single date
 - [Card] No elevated boolean prop
 - [Card] Card.Header has no title or description props
 - [Card] Card.Body and Card.Footer do NOT accept a gap prop
@@ -85,9 +90,9 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [Carousel] Uses Carousel.PreviousTrigger and Carousel.NextTrigger
 - [Carousel] No selectedIndex, onSelectedIndexChange, currentSlide, or onSlideChange props
 - [Carousel] Never use document.querySelector in carousel code
-- [Checkbox] Always use the Checkbox namespace via <Checkbox.Root>, never bare <Checkbox> directly
-- [Checkbox] Each checkbox item uses value prop (not id) matching the parent CheckboxGroup's value array.
-- [Checkbox] Checkbox.Indicator needs an <Icon> child — it does not render a checkmark automatically
+- [CheckboxField] Always use the CheckboxField namespace via <CheckboxField.Root>, never bare <CheckboxField> directly
+- [CheckboxField] The label text goes inside CheckboxField.Button, not directly in CheckboxField.Root
+- [CheckboxField] CheckboxField.Indicator needs an <Icon> child — it does not render a checkmark automatically
 - [CheckboxGroup] CheckboxGroup controlled-state uses string[] (plain array), NOT Set<string>.
 - [ColorArea] Only Root and Thumb sub-parts — no ColorArea.Gradient
 - [ColorArea] yChannel value depends on color space
@@ -233,9 +238,10 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [ProgressCircle] Do NOT place <Text> inside ProgressCircle.Root
 - [ProgressCircle] size only accepts 'sm', 'md', 'lg'
 - [ProgressCircle] Column/Text props around ProgressCircle use shorthand tokens — gap="s", size="s", color="muted"
-- [Radio] Radio and RadioGroup are separate components with separate imports
-- [Radio] Radio.Root does NOT accept checked, onChange, or native HTML input props
-- [Radio] For any radio group prompt, wrap Radio items in RadioGroup from @tale-ui/react/radio-group — do not use only Radio.Group
+- [RadioField] Always use the RadioField namespace via <RadioField.Root>, never bare <RadioField> directly
+- [RadioField] The label text goes inside RadioField.Button, not directly in RadioField.Root
+- [RadioField] RadioField options need a RadioGroup wrapper
+- [RadioField] RadioField.Indicator needs a <RadioField.Dot /> child — it does not render the selected dot automatically
 - [RadioGroup] RadioGroup (from @tale-ui/react/radio-group) has NO sub-parts
 - [RangeCalendar] No Footer sub-part
 - [RangeCalendar] When wrapping RangeCalendar in a Column to show the selected range, use spacing-token gap values, not component-size names
@@ -262,9 +268,9 @@ Use **only** components from `@tale-ui/react` for all UI. Never invent new impor
 - [SocialButton] size only accepts 'sm' or 'md' — 'lg' does not exist
 - [Spinner] label prop sets aria-label — it does NOT render visible text
 - [Spinner] Use Spinner for any prompt that asks for a loading spinner, loading indicator, or loading state
-- [Switch] Switch has no Label or Indicator sub-parts — only Root and Thumb
-- [Switch] Use defaultSelected to turn a switch on by default in settings rows
-- [Switch] Use Switch, Card, Column, Row, Text for settings-card prompts with preference switches
+- [SwitchField] Always use the SwitchField namespace via <SwitchField.Root>, never bare <SwitchField> directly
+- [SwitchField] The label text goes inside SwitchField.Button, not directly in SwitchField.Root
+- [SwitchField] SwitchField.Button needs an explicit <SwitchField.Thumb /> child — the thumb is not rendered automatically
 - [Table] No Table.ColumnHeader
 - [Table] No Table.Status sub-part
 - [Tabs] No Tabs.Trigger or Tabs.Content

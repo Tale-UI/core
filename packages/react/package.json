@@ -42,6 +42,7 @@
     "./carousel": "./src/carousel/index.ts",
     "./calendar": "./src/calendar/index.ts",
     "./checkbox": "./src/checkbox/index.ts",
+    "./checkbox-field": "./src/checkbox-field/index.ts",
     "./checkbox-group": "./src/checkbox-group/index.ts",
     "./column": "./src/column/index.ts",
     "./color-area": "./src/color-area/index.ts",
@@ -103,6 +104,7 @@
     "./progress-circle": "./src/progress-circle/index.ts",
     "./qr-code": "./src/qr-code/index.ts",
     "./radio": "./src/radio/index.ts",
+    "./radio-field": "./src/radio-field/index.ts",
     "./row": "./src/row/index.ts",
     "./radio-group": "./src/radio-group/index.ts",
     "./rating-badge": "./src/rating-badge/index.ts",
@@ -119,6 +121,7 @@
     "./social-button-group": "./src/social-button-group/index.ts",
     "./spinner": "./src/spinner/index.ts",
     "./switch": "./src/switch/index.ts",
+    "./switch-field": "./src/switch-field/index.ts",
     "./table": "./src/table/index.ts",
     "./tabs": "./src/tabs/index.ts",
     "./tag-group": "./src/tag-group/index.ts",
@@ -163,12 +166,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.28.6",
-    "@internationalized/date": "^3.8.0",
+    "@internationalized/date": "^3.12.2",
     "@modelcontextprotocol/sdk": "^1.28.0",
     "@tale-ui/core": "workspace:*",
     "@tale-ui/react-styles": "workspace:*",
     "@tale-ui/utils": "workspace:*",
-    "react-aria-components": "^1.16.0",
+    "react-aria-components": "^1.18.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

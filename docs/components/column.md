@@ -63,8 +63,18 @@ Also accepts all standard `<div>` HTML attributes.
     Manage how you receive notifications.
   </Text>
   <Separator />
-  <Switch>Email notifications</Switch>
-  <Switch>Push notifications</Switch>
+  <SwitchField.Root>
+    <SwitchField.Button>
+      <SwitchField.Thumb />
+      Email notifications
+    </SwitchField.Button>
+  </SwitchField.Root>
+  <SwitchField.Root>
+    <SwitchField.Button>
+      <SwitchField.Thumb />
+      Push notifications
+    </SwitchField.Button>
+  </SwitchField.Root>
 </Column>
 ```
 

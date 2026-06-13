@@ -6,29 +6,30 @@ A compound dropdown select component with popover listbox, built on React Aria's
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `Select.Root` | Top-level select wrapper |
-| `Select.Label` | Accessible label for the select |
-| `Select.Trigger` | The button that opens the dropdown |
-| `Select.Value` | Displays the selected value (or placeholder) |
-| `Select.Icon` | Decorative dropdown arrow icon |
-| `Select.Popover` | The floating popover container. Accepts `placement` and `offset`. |
-| `Select.ListBox` | The scrollable list of options |
-| `Select.Item` | An individual option |
-| `Select.Section` | A group of related items |
-| `Select.Header` | A header label for a section |
-| `Select.ItemText` | Text label inside an item (for custom item layouts) |
-| `Select.ItemIndicator` | Selection indicator inside an item (e.g. checkmark) |
-| `Select.Separator` | A visual divider between items or sections |
+| Part                   | Description                                                       |
+| ---------------------- | ----------------------------------------------------------------- |
+| `Select.Root`          | Top-level select wrapper                                          |
+| `Select.Label`         | Accessible label for the select                                   |
+| `Select.Trigger`       | The button that opens the dropdown                                |
+| `Select.Value`         | Displays the selected value (or placeholder)                      |
+| `Select.Icon`          | Decorative dropdown arrow icon                                    |
+| `Select.Popover`       | The floating popover container. Accepts `placement` and `offset`. |
+| `Select.ListBox`       | The scrollable list of options                                    |
+| `Select.Item`          | An individual option                                              |
+| `Select.Section`       | A group of related items                                          |
+| `Select.Header`        | A header label for a section                                      |
+| `Select.ItemText`      | Text label inside an item (for custom item layouts)               |
+| `Select.ItemIndicator` | Selection indicator inside an item (e.g. checkmark)               |
+| `Select.Separator`     | A visual divider between items or sections                        |
 
 ## Props
 
 ### Select.Root
 
-| Prop   | Type                    | Default | Description                                       |
-|--------|-------------------------|---------|---------------------------------------------------|
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size of the trigger button, propagated via context |
+| Prop                  | Type                   | Default | Description                                                                                                                               |
+| --------------------- | ---------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `size`                | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size of the trigger button, propagated via context                                                                                        |
+| `shouldCloseOnSelect` | `boolean`              | `true`  | Whether the popover closes after selecting an item. Set `false` to keep it open (new in React Aria 1.17/1.18; inherited from React Aria). |
 
 Accepts all React Aria `Select` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
@@ -42,9 +43,15 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
-      <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
-      <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
-      <Select.Item id="cherry" textValue="Cherry">Cherry</Select.Item>
+      <Select.Item id="apple" textValue="Apple">
+        Apple
+      </Select.Item>
+      <Select.Item id="banana" textValue="Banana">
+        Banana
+      </Select.Item>
+      <Select.Item id="cherry" textValue="Cherry">
+        Cherry
+      </Select.Item>
     </Select.ListBox>
   </Select.Popover>
 </Select.Root>
@@ -63,9 +70,15 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
-      <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
-      <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
-      <Select.Item id="cherry" textValue="Cherry">Cherry</Select.Item>
+      <Select.Item id="apple" textValue="Apple">
+        Apple
+      </Select.Item>
+      <Select.Item id="banana" textValue="Banana">
+        Banana
+      </Select.Item>
+      <Select.Item id="cherry" textValue="Cherry">
+        Cherry
+      </Select.Item>
     </Select.ListBox>
   </Select.Popover>
 </Select.Root>
@@ -84,13 +97,21 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
     <Select.ListBox>
       <Select.Section>
         <Select.Header>Fruits</Select.Header>
-        <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
-        <Select.Item id="banana" textValue="Banana">Banana</Select.Item>
+        <Select.Item id="apple" textValue="Apple">
+          Apple
+        </Select.Item>
+        <Select.Item id="banana" textValue="Banana">
+          Banana
+        </Select.Item>
       </Select.Section>
       <Select.Section>
         <Select.Header>Vegetables</Select.Header>
-        <Select.Item id="carrot" textValue="Carrot">Carrot</Select.Item>
-        <Select.Item id="broccoli" textValue="Broccoli">Broccoli</Select.Item>
+        <Select.Item id="carrot" textValue="Carrot">
+          Carrot
+        </Select.Item>
+        <Select.Item id="broccoli" textValue="Broccoli">
+          Broccoli
+        </Select.Item>
       </Select.Section>
     </Select.ListBox>
   </Select.Popover>
@@ -108,9 +129,15 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
-      <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
-      <Select.Item id="banana" textValue="Banana" isDisabled>Banana (sold out)</Select.Item>
-      <Select.Item id="cherry" textValue="Cherry">Cherry</Select.Item>
+      <Select.Item id="apple" textValue="Apple">
+        Apple
+      </Select.Item>
+      <Select.Item id="banana" textValue="Banana" isDisabled>
+        Banana (sold out)
+      </Select.Item>
+      <Select.Item id="cherry" textValue="Cherry">
+        Cherry
+      </Select.Item>
     </Select.ListBox>
   </Select.Popover>
 </Select.Root>
@@ -170,7 +197,9 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
   </Select.Trigger>
   <Select.Popover>
     <Select.ListBox>
-      <Select.Item id="apple" textValue="Apple">Apple</Select.Item>
+      <Select.Item id="apple" textValue="Apple">
+        Apple
+      </Select.Item>
     </Select.ListBox>
   </Select.Popover>
 </Select.Root>
@@ -196,13 +225,15 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
 ## Pitfalls
 
 <!-- pitfall: select-placeholder-on-root -->
+
 - **`Select.Root` owns the `placeholder` prop** — do NOT put `placeholder` on `Select.Value`.
   - anti-pattern: `<Select.Value placeholder="Pick one..." />`
   - fix: `<Select.Root placeholder="Pick one..."><Select.Trigger><Select.Value /><Select.Icon /></Select.Trigger>...</Select.Root>`
   - complete example:
+
     ```tsx
     import { Select } from '@tale-ui/react/select';
-    
+
     export function Example() {
       return (
         <Select.Root placeholder="Select...">
@@ -226,6 +257,7 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
 
 <!-- pitfall: select-no-option-sub-part -->
 <!-- multi-idea-ok -->
+
 - **No Select.Option — use Select.Item** — `Select.Trigger` also requires `<Select.Icon />` placed after `<Select.Value />`.
   - anti-pattern: `<Select.Option id="a">A</Select.Option>`
   - fix: `<Select.Item id="a" textValue="A">A</Select.Item>`

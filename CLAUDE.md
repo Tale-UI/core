@@ -4,35 +4,36 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 
 ## Packages
 
-| Path | Package | Description |
-|------|---------|-------------|
-| [packages/css](packages/css/CLAUDE.md) | `@tale-ui/core` | Modular token-based CSS design system |
-| [packages/react](packages/react/) | `@tale-ui/react` | Styled React components — BEM class names applied automatically (built on React Aria Components) |
-| [packages/styles](packages/styles/) | `@tale-ui/react-styles` | CSS per component (uses @tale-ui/core tokens) |
-| [packages/utils](packages/utils/) | `@tale-ui/utils` | Shared utilities |
-| [packages/charts](packages/charts/CLAUDE.md) | `@tale-ui/charts` | Recharts-based chart components themed with design tokens |
-| [packages/a2ui](packages/a2ui/) | `@tale-ui/a2ui` | A2UI protocol renderer — maps agent messages to Tale UI components |
-| [apps/mcp-studio](apps/mcp-studio/) | `@tale-ui/mcp-studio` | Visual maintainer tool: prompt → plan_ui → rendered preview → pitfall authoring |
+| Path                                         | Package                 | Description                                                                                      |
+| -------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------ |
+| [packages/css](packages/css/CLAUDE.md)       | `@tale-ui/core`         | Modular token-based CSS design system                                                            |
+| [packages/react](packages/react/)            | `@tale-ui/react`        | Styled React components — BEM class names applied automatically (built on React Aria Components) |
+| [packages/styles](packages/styles/)          | `@tale-ui/react-styles` | CSS per component (uses @tale-ui/core tokens)                                                    |
+| [packages/utils](packages/utils/)            | `@tale-ui/utils`        | Shared utilities                                                                                 |
+| [packages/charts](packages/charts/CLAUDE.md) | `@tale-ui/charts`       | Recharts-based chart components themed with design tokens                                        |
+| [packages/a2ui](packages/a2ui/)              | `@tale-ui/a2ui`         | A2UI protocol renderer — maps agent messages to Tale UI components                               |
+| [apps/mcp-studio](apps/mcp-studio/)          | `@tale-ui/mcp-studio`   | Visual maintainer tool: prompt → plan_ui → rendered preview → pitfall authoring                  |
 
 ## Documentation
 
-| File | What it covers |
-|------|----------------|
-| [docs/workspace-structure.md](docs/workspace-structure.md) | Directory layout, conventions, and workspace CLI commands |
-| [docs/managing-packages.md](docs/managing-packages.md) | Creating new packages and importing external projects |
-| [docs/package-dependencies.md](docs/package-dependencies.md) | Cross-package `workspace:*` dependencies |
-| [docs/consuming-design-system.md](docs/consuming-design-system.md) | Installing @tale-ui/core in external projects |
-| [docs/react-setup.md](docs/react-setup.md) | Setting up a React app with Tale UI |
-| [docs/design-philosophy.md](docs/design-philosophy.md) | Why React Aria, why BEM, why CSS-first, colour token system, dark mode |
-| [docs/authoring-components.md](docs/authoring-components.md) | Contributor guide: adding new `@tale-ui/react` components |
-| [docs/react-aria-deviations.md](docs/react-aria-deviations.md) | Every difference between Tale UI and vanilla React Aria Components |
-| [docs/component-index.md](docs/component-index.md) | All 109 React components plus 6 chart components at a glance: description, import path, sub-parts |
-| [registry/components.json](registry/components.json) | Machine-readable component registry: props, parts, examples, CSS classes |
-| [docs/components/](docs/components/index.md) | Per-component usage guide: imports, parts, examples, CSS classes |
-| [docs/recipes/](docs/recipes/index.md) | Copy-paste multi-component patterns (forms, tables, navigation, search, settings) |
-| [docs/a2ui-integration.md](docs/a2ui-integration.md) | A2UI protocol integration: setup, catalog, renderer, validation |
-| [tools/README.md](tools/README.md) | Monorepo tooling: audit scripts, build scripts, release process |
-| [tools/prompts/self-critique.md](tools/prompts/self-critique.md) | Second-pass validation prompt for AI-generated Tale UI code |
+| File                                                               | What it covers                                                                                    |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| [docs/workspace-structure.md](docs/workspace-structure.md)         | Directory layout, conventions, and workspace CLI commands                                         |
+| [docs/managing-packages.md](docs/managing-packages.md)             | Creating new packages and importing external projects                                             |
+| [docs/package-dependencies.md](docs/package-dependencies.md)       | Cross-package `workspace:*` dependencies                                                          |
+| [docs/consuming-design-system.md](docs/consuming-design-system.md) | Installing @tale-ui/core in external projects                                                     |
+| [docs/react-setup.md](docs/react-setup.md)                         | Setting up a React app with Tale UI                                                               |
+| [docs/design-philosophy.md](docs/design-philosophy.md)             | Why React Aria, why BEM, why CSS-first, colour token system, dark mode                            |
+| [docs/authoring-components.md](docs/authoring-components.md)       | Contributor guide: adding new `@tale-ui/react` components                                         |
+| [docs/react-aria-deviations.md](docs/react-aria-deviations.md)     | Every difference between Tale UI and vanilla React Aria Components                                |
+| [docs/upstream/react-aria-components.md](docs/upstream/react-aria-components.md) | Maintainer log for how Tale UI adopts, defers, or rejects upstream React Aria Components releases |
+| [docs/component-index.md](docs/component-index.md)                 | All 112 React components plus 6 chart components at a glance: description, import path, sub-parts |
+| [registry/components.json](registry/components.json)               | Machine-readable component registry: props, parts, examples, CSS classes                          |
+| [docs/components/](docs/components/index.md)                       | Per-component usage guide: imports, parts, examples, CSS classes                                  |
+| [docs/recipes/](docs/recipes/index.md)                             | Copy-paste multi-component patterns (forms, tables, navigation, search, settings)                 |
+| [docs/a2ui-integration.md](docs/a2ui-integration.md)               | A2UI protocol integration: setup, catalog, renderer, validation                                   |
+| [tools/README.md](tools/README.md)                                 | Monorepo tooling: audit scripts, build scripts, release process                                   |
+| [tools/prompts/self-critique.md](tools/prompts/self-critique.md)   | Second-pass validation prompt for AI-generated Tale UI code                                       |
 
 ## MCP Server
 
@@ -57,6 +58,7 @@ See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributo
 **Styling Architecture:** Components in `packages/react/src/{name}/{Component}.styled.tsx` apply BEM class names automatically. The CSS rules themselves live in `packages/styles/src/` — consumers still import `@tale-ui/react-styles` for the stylesheet. Override via additional `className` props.
 
 **Component CSS pattern:**
+
 ```css
 .tale-button { ... }
 .tale-button--primary { ... }   /* variant */
@@ -251,7 +253,7 @@ Format:
 
 ## Component Artifact Audit
 
-Status of required artifacts for all 109 components. When adding or updating a component, update the relevant row below.
+Status of required artifacts for all 112 components. When adding or updating a component, update the relevant row below.
 
 **Legend:** styled = `{Component}.styled.tsx` | index = `index.ts` | test = `{Component}.test.tsx` (non-trivial logic only) | css = `{component}.css` in styles/src | prim = `_primitives.css` entry (if shared declarations apply) | doc = `docs/components/{name}.md` | snip = consumer-claude-md-snippet.md | rdme = react/README.md | idx = `docs/component-index.md` entry | story = Storybook story | audit = ComponentAudit.tsx entry | a2ui = A2UI catalog adapter in `packages/a2ui/src/catalog.ts` | status = `@status` JSDoc tag in `{Component}.styled.tsx` (`stable` \| `experimental` \| `deprecated`)
 
@@ -259,181 +261,184 @@ Status of required artifacts for all 109 components. When adding or updating a c
 
 **Non-trivial components requiring tests:** Drawer (custom state/swipe), Meter (percentage calc), ProgressBar (percentage calc + indeterminate), ColorModeToggle (localStorage/OS preference), Tabs (MutationObserver/ResizeObserver indicator)
 
-**Total:** 109 components | **Fully complete:** 109 | **Missing artifacts:** 0
+**Total:** 112 components | **Fully complete:** 112 | **Missing artifacts:** 0
 
 ### Form Controls
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Button | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Input | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| InputGroup | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| InputTags | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| MultiSelect | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| TagSelect | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Checkbox | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| CheckboxGroup | n/a | ✓ | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Radio | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| RadioGroup | n/a | ✓ | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Switch | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ToggleButton | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ToggleButtonGroup | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Select | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Combobox | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Autocomplete | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| NumberField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Slider | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| SearchField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| TextField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| TextArea | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| PaymentInput | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| PinInput | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| SelectNative | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
+| Component         | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status     |
+| ----------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ---------- |
+| Button            | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| Input             | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable     |
+| InputGroup        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| InputTags         | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| MultiSelect       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| TagSelect         | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| Checkbox          | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | deprecated |
+| CheckboxField     | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable     |
+| CheckboxGroup     | n/a    | ✓     | n/a  | n/a | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| Radio             | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | deprecated |
+| RadioField        | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable     |
+| RadioGroup        | n/a    | ✓     | n/a  | n/a | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| Switch            | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | deprecated |
+| SwitchField       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable     |
+| ToggleButton      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| ToggleButtonGroup | n/a    | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| Select            | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| Combobox          | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| Autocomplete      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| NumberField       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| Slider            | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| SearchField       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| TextField         | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| TextArea          | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| PaymentInput      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| PinInput          | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| SelectNative      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
 
 ### Date & Time
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Calendar | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| RangeCalendar | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| DateField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| DatePicker | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| DateRangePicker | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| TimeField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
+| Component       | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| --------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Calendar        | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| RangeCalendar   | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| DateField       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| DatePicker      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| DateRangePicker | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| TimeField       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 
 ### Color
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ColorArea | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ColorSlider | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ColorWheel | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ColorSwatch | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ColorSwatchPicker | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ColorField | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ColorPicker | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
+| Component         | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| ----------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| ColorArea         | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ColorSlider       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ColorWheel        | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ColorSwatch       | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ColorSwatchPicker | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ColorField        | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ColorPicker       | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 
 ### Overlay
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Dialog | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| AlertDialog | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Popover | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| PreviewCard | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Drawer | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Tooltip | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
+| Component   | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| ----------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Dialog      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| AlertDialog | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Popover     | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| PreviewCard | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Drawer      | ✓      | ✓     | ✓    | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Tooltip     | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 
 ### Navigation
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Menu | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ContextMenu | ✓ | ✓ | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| NavigationMenu | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Menubar | ✓ | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| Breadcrumbs | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Link | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Pagination | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| PaginationDot | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| PaginationLine | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| Sidebar | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| HeaderNav | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
+| Component      | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| -------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Menu           | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ContextMenu    | ✓      | ✓     | n/a  | n/a | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| NavigationMenu | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Menubar        | ✓      | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| Breadcrumbs    | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Link           | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Pagination     | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| PaginationDot  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| PaginationLine | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| Sidebar        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| HeaderNav      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
 
 ### Layout
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Accordion | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Card | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Carousel | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Column | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Disclosure | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Row | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ScrollArea | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Separator | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Tabs | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Toolbar | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
+| Component  | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| ---------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Accordion  | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Card       | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Carousel   | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Column     | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Disclosure | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Row        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ScrollArea | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Separator  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Tabs       | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Toolbar    | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 
 ### Feedback
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Banner | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ProgressBar | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ProgressCircle | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Meter | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Spinner | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
+| Component      | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| -------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Banner         | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ProgressBar    | ✓      | ✓     | ✓    | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| ProgressCircle | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Meter          | ✓      | ✓     | ✓    | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Spinner        | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 
 ### Display
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Avatar | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Badge | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| DotIcon | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| EmptyState | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| FeaturedIcon | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| GridList | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Image | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| List | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| QRCode | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| RatingBadge | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| RatingStars | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Table | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| TagGroup | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Tree | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| VideoPlayer | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
+| Component    | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| ------------ | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Avatar       | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Badge        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| DotIcon      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| EmptyState   | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| FeaturedIcon | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| GridList     | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Image        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| List         | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| QRCode       | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| RatingBadge  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| RatingStars  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Table        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| TagGroup     | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Tree         | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| VideoPlayer  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
 
 ### Marketing
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AppStoreButton | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| SocialButton | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| SocialButtonGroup | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| BadgeGroup | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| SectionDivider | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| BackgroundPattern | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| Illustration | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| IphoneMockup | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| CreditCard | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
+| Component         | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| ----------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| AppStoreButton    | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| SocialButton      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| SocialButtonGroup | n/a    | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| BadgeGroup        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| SectionDivider    | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| BackgroundPattern | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| Illustration      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| IphoneMockup      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| CreditCard        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
 
 ### Form Structure
 
 | Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Field | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Fieldset | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| Form | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
+| --------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Field     | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Fieldset  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Form      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 
 ### Interaction
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| DropZone | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| FileTrigger | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| FileUpload | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| ImageCropper | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| TextEditor | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | experimental |
+| Component    | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status       |
+| ------------ | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------------ |
+| DropZone     | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable       |
+| FileTrigger  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable       |
+| FileUpload   | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable       |
+| ImageCropper | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable       |
+| TextEditor   | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | experimental |
 
 ### Typography
 
 | Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Text | ✓ | ✓ | n/a | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
+| --------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Text      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 
 ### Utility
 
-| Component | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ColorModeToggle | ✓ | ✓ | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| Container | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | n/a | stable |
-| CSPProvider | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | n/a | n/a | n/a | stable |
-| I18nProvider | ✓ | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | n/a | n/a | n/a | stable |
-| Icon | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| IconButton | ✓ | ✓ | n/a | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | stable |
-| mergeProps | n/a | ✓ | n/a | n/a | n/a | ✓ | ✓ | ✓ | ✓ | n/a | n/a | n/a | stable |
+| Component       | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| --------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| ColorModeToggle | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| Container       | n/a    | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| CSPProvider     | n/a    | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | n/a   | n/a   | n/a  | stable |
+| I18nProvider    | ✓      | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | n/a   | n/a   | n/a  | stable |
+| Icon            | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| IconButton      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| mergeProps      | n/a    | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | n/a   | n/a   | n/a  | stable |
 
 ## Charts Package Artifact Audit (`@tale-ui/charts`)
 
@@ -447,21 +452,21 @@ Status of required artifacts for all 6 chart components and 3 shared utilities. 
 
 ### Chart Components
 
-| Component | styled | index | test | css | doc | snip | idx | story |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AreaChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| BarChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| LineChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| PieChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| RadarChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| RadialBarChart | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Component      | styled | index | test | css | doc | snip | idx | story |
+| -------------- | ------ | ----- | ---- | --- | --- | ---- | --- | ----- |
+| AreaChart      | ✓      | ✓     | ✓    | ✓   | ✓   | ✓    | ✓   | ✓     |
+| BarChart       | ✓      | ✓     | ✓    | ✓   | ✓   | ✓    | ✓   | ✓     |
+| LineChart      | ✓      | ✓     | ✓    | ✓   | ✓   | ✓    | ✓   | ✓     |
+| PieChart       | ✓      | ✓     | ✓    | ✓   | ✓   | ✓    | ✓   | ✓     |
+| RadarChart     | ✓      | ✓     | ✓    | ✓   | ✓   | ✓    | ✓   | ✓     |
+| RadialBarChart | ✓      | ✓     | ✓    | ✓   | ✓   | ✓    | ✓   | ✓     |
 
 ### Shared Utilities
 
-| Utility | file | test | doc |
-| --- | --- | --- | --- |
-| ChartContainer | ✓ | n/a | ✓ (in chart docs) |
-| ChartTooltip | ✓ | ✓ | ✓ (in chart docs) |
-| ChartLegend | ✓ | ✓ | ✓ (in chart docs) |
+| Utility        | file | test | doc               |
+| -------------- | ---- | ---- | ----------------- |
+| ChartContainer | ✓    | n/a  | ✓ (in chart docs) |
+| ChartTooltip   | ✓    | ✓    | ✓ (in chart docs) |
+| ChartLegend    | ✓    | ✓    | ✓ (in chart docs) |
 
 <!-- Last generated: 2026-03-27 -->

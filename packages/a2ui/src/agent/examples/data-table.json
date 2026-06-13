@@ -15,7 +15,10 @@
           "component": {
             "Column": {
               "spacing": "m",
-              "children": ["header-row", "table-card"]
+              "children": [
+                "header-row",
+                "table-card"
+              ]
             }
           }
         },
@@ -24,7 +27,10 @@
           "component": {
             "Row": {
               "justify": "between",
-              "children": ["page-title", "add-btn"]
+              "children": [
+                "page-title",
+                "add-btn"
+              ]
             }
           }
         },
@@ -43,7 +49,10 @@
             "Button": {
               "label": "New Order",
               "variant": "primary",
-              "action": { "name": "createOrder", "context": {} }
+              "action": {
+                "name": "createOrder",
+                "context": {}
+              }
             }
           }
         },
@@ -53,7 +62,9 @@
             "Card": {
               "variant": "outlined",
               "padding": "sm",
-              "children": ["table"]
+              "children": [
+                "table"
+              ]
             }
           }
         },

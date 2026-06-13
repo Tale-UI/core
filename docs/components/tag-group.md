@@ -6,18 +6,24 @@ A labeled group of tags supporting selection and removal.
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `TagGroup.Root` | Container. Accepts `selectionMode` and `onRemove`. |
-| `TagGroup.Label` | Visible label for the group. |
-| `TagGroup.List` | Container for the tag items. |
-| `TagGroup.Tag` | An individual tag. Requires `id`. |
-| `TagGroup.Description` | Help text below the tag list. |
-| `TagGroup.ErrorMessage` | Validation error text. |
+| Part                    | Description                                        |
+| ----------------------- | -------------------------------------------------- |
+| `TagGroup.Root`         | Container. Accepts `selectionMode` and `onRemove`. |
+| `TagGroup.Label`        | Visible label for the group.                       |
+| `TagGroup.List`         | Container for the tag items.                       |
+| `TagGroup.Tag`          | An individual tag. Requires `id`.                  |
+| `TagGroup.Description`  | Help text below the tag list.                      |
+| `TagGroup.ErrorMessage` | Validation error text.                             |
 
 ## Props
 
 Accepts all React Aria `TagGroup` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
+### New in React Aria 1.17/1.18
+
+| Prop       | Type                 | Description                                                                                                                                                              |
+| ---------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `onAction` | `(key: Key) => void` | Handler called when a user performs an action on a tag (e.g. pressing Enter or double-clicking). Lives on the React Aria layer; flows through `TagGroup.Root` untouched. |
 
 ## Basic Usage
 
@@ -58,7 +64,9 @@ function RemovableTags() {
       <TagGroup.Label>Frameworks</TagGroup.Label>
       <TagGroup.List>
         {tags.map((tag) => (
-          <TagGroup.Tag key={tag.id} id={tag.id}>{tag.name}</TagGroup.Tag>
+          <TagGroup.Tag key={tag.id} id={tag.id}>
+            {tag.name}
+          </TagGroup.Tag>
         ))}
       </TagGroup.List>
     </TagGroup.Root>
@@ -93,13 +101,15 @@ function RemovableTags() {
 ## Pitfalls
 
 <!-- pitfall: tag-group-no-item-sub-part -->
+
 - **Uses `TagGroup.Tag`, NOT `TagGroup.Item`** — there is no `TagGroup.Item` sub-part.
   - anti-pattern: `<TagGroup.Root><TagGroup.Item key="a">Design</TagGroup.Item></TagGroup.Root>`
   - fix: `<TagGroup.Root><TagGroup.Tag id="a">Design</TagGroup.Tag></TagGroup.Root>`
   - complete example:
+
     ```tsx
     import { TagGroup } from '@tale-ui/react/tag-group';
-    
+
     export function Example() {
       return (
         <TagGroup.Root>
@@ -114,11 +124,13 @@ function RemovableTags() {
     ```
 
 <!-- pitfall: tag-group-root-no-label-prop -->
+
 - **`TagGroup.Root` does NOT accept a `label` prop** — use `<TagGroup.Label>` as a child element.
   - anti-pattern: `<TagGroup.Root label="Technologies">...</TagGroup.Root>`
   - fix: `<TagGroup.Root><TagGroup.Label>Technologies</TagGroup.Label>...</TagGroup.Root>`
 
 <!-- pitfall: tag-group-tag-no-on-remove -->
+
 - **`TagGroup.Tag` does NOT accept `onRemove`** — put `onRemove` on `TagGroup.Root` instead.
   - anti-pattern: `<TagGroup.Tag id="a" onRemove={() => remove('a')}>Design</TagGroup.Tag>`
   - fix: `<TagGroup.Root onRemove={(keys) => setTags(tags.filter(t => !keys.has(t.id)))}><TagGroup.Tag id="a">Design</TagGroup.Tag></TagGroup.Root>`

@@ -433,8 +433,16 @@
       "difficulty": "simple"
     },
     {
+      "slug": "checkbox-field-terms",
+      "difficulty": "simple"
+    },
+    {
       "slug": "radio-standalone",
       "difficulty": "simple"
+    },
+    {
+      "slug": "radio-field-plan",
+      "difficulty": "medium"
     },
     {
       "slug": "color-slider-hue",
@@ -495,6 +503,10 @@
     {
       "slug": "switch-settings-list",
       "difficulty": "medium"
+    },
+    {
+      "slug": "switch-field-notifications",
+      "difficulty": "simple"
     },
     {
       "slug": "text-heading-hierarchy",

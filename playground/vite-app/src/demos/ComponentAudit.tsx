@@ -13,9 +13,12 @@ import { Separator } from '@tale-ui/react/separator';
 
 // Compound components
 import { Checkbox } from '@tale-ui/react/checkbox';
+import { CheckboxField } from '@tale-ui/react/checkbox-field';
 import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
 import { Radio } from '@tale-ui/react/radio';
+import { RadioField } from '@tale-ui/react/radio-field';
 import { Switch } from '@tale-ui/react/switch';
+import { SwitchField } from '@tale-ui/react/switch-field';
 import { Select } from '@tale-ui/react/select';
 import { Autocomplete } from '@tale-ui/react/autocomplete';
 import { Combobox } from '@tale-ui/react/combobox';
@@ -157,17 +160,30 @@ import { TextEditor } from '@tale-ui/react/text-editor';
 import { Sidebar } from '@tale-ui/react/sidebar';
 import { HeaderNav } from '@tale-ui/react/header-nav';
 
-
 // ---------------------------------------------------------------------------
 // Layout helpers
 // ---------------------------------------------------------------------------
 
-function Section({ id, title, classes, children }: { id: string; title: string; classes: string[]; children: React.ReactNode }) {
+function Section({
+  id,
+  title,
+  classes,
+  children,
+}: {
+  id: string;
+  title: string;
+  classes: string[];
+  children: React.ReactNode;
+}) {
   return (
     <section id={id} className="audit__section">
       <h2 className="audit__heading">{title}</h2>
       <div className="audit__class-list">
-        {classes.map((c) => <code key={c} className="audit__class-tag">.{c}</code>)}
+        {classes.map((c) => (
+          <code key={c} className="audit__class-tag">
+            .{c}
+          </code>
+        ))}
       </div>
       {children}
     </section>
@@ -184,15 +200,18 @@ function Row({ children, className }: { children: React.ReactNode; className?: s
 
 /** Visual-only ColorModeToggle that delegates to the Scale app instead of touching <html>. */
 function InertColorModeToggle({ disabled }: { disabled?: boolean }) {
-  const [dark, setDark] = React.useState(() =>
-    document.documentElement.getAttribute('data-color-mode') === 'dark'
+  const [dark, setDark] = React.useState(
+    () => document.documentElement.getAttribute('data-color-mode') === 'dark',
   );
 
   React.useEffect(() => {
     const obs = new MutationObserver(() => {
       setDark(document.documentElement.getAttribute('data-color-mode') === 'dark');
     });
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+    obs.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-color-mode'],
+    });
     return () => obs.disconnect();
   }, []);
 
@@ -218,141 +237,176 @@ const COLOR_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
 const NEUTRAL_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
 
 const TOC = [
-  { category: 'Palette', items: [
-    { id: 'palette', label: 'Color & Neutral' },
-  ]},
-  { category: 'Form Controls', items: [
-    { id: 'button', label: 'Button' },
-    { id: 'icon-button', label: 'IconButton' },
-    { id: 'input', label: 'Input' },
-    { id: 'input-group', label: 'InputGroup' },
-    { id: 'input-tags', label: 'InputTags' },
-    { id: 'multi-select', label: 'MultiSelect' },
-    { id: 'tag-select', label: 'TagSelect' },
-    { id: 'checkbox', label: 'Checkbox' },
-    { id: 'checkbox-group', label: 'CheckboxGroup' },
-    { id: 'radio', label: 'Radio' },
-    { id: 'radio-group', label: 'RadioGroup' },
-    { id: 'switch', label: 'Switch' },
-    { id: 'toggle-button', label: 'ToggleButton' },
-    { id: 'toggle-button-group', label: 'ToggleButtonGroup' },
-    { id: 'select', label: 'Select' },
-    { id: 'autocomplete', label: 'Autocomplete' },
-    { id: 'combobox', label: 'Combobox' },
-    { id: 'number-field', label: 'NumberField' },
-    { id: 'pin-input', label: 'PinInput' },
-    { id: 'payment-input', label: 'PaymentInput' },
-    { id: 'slider', label: 'Slider' },
-    { id: 'search-field', label: 'SearchField' },
-    { id: 'text-field', label: 'TextField' },
-    { id: 'text-area', label: 'TextArea' },
-    { id: 'select-native', label: 'SelectNative' },
-  ]},
-  { category: 'Date & Time', items: [
-    { id: 'calendar', label: 'Calendar' },
-    { id: 'date-field', label: 'DateField' },
-    { id: 'time-field', label: 'TimeField' },
-    { id: 'date-picker', label: 'DatePicker' },
-    { id: 'date-range-picker', label: 'DateRangePicker' },
-    { id: 'range-calendar', label: 'RangeCalendar' },
-  ]},
-  { category: 'Color', items: [
-    { id: 'color-area', label: 'ColorArea' },
-    { id: 'color-slider', label: 'ColorSlider' },
-    { id: 'color-wheel', label: 'ColorWheel' },
-    { id: 'color-swatch', label: 'ColorSwatch' },
-    { id: 'color-swatch-picker', label: 'ColorSwatchPicker' },
-    { id: 'color-field', label: 'ColorField' },
-    { id: 'color-picker', label: 'ColorPicker' },
-  ]},
-  { category: 'Overlay', items: [
-    { id: 'dialog', label: 'Dialog' },
-    { id: 'alert-dialog', label: 'AlertDialog' },
-    { id: 'popover', label: 'Popover' },
-    { id: 'preview-card', label: 'PreviewCard' },
-    { id: 'drawer', label: 'Drawer' },
-    { id: 'tooltip', label: 'Tooltip' },
-  ]},
-  { category: 'Navigation', items: [
-    { id: 'menu', label: 'Menu' },
-    { id: 'context-menu', label: 'ContextMenu' },
-    { id: 'navigation-menu', label: 'NavigationMenu' },
-    { id: 'menubar', label: 'Menubar' },
-    { id: 'breadcrumbs', label: 'Breadcrumbs' },
-    { id: 'link', label: 'Link' },
-    { id: 'pagination', label: 'Pagination' },
-    { id: 'pagination-dot', label: 'PaginationDot' },
-    { id: 'pagination-line', label: 'PaginationLine' },
-    { id: 'sidebar', label: 'Sidebar' },
-    { id: 'header-nav', label: 'HeaderNav' },
-  ]},
-  { category: 'Layout', items: [
-    { id: 'carousel', label: 'Carousel' },
-    { id: 'accordion', label: 'Accordion' },
-    { id: 'disclosure', label: 'Disclosure' },
-    { id: 'tabs', label: 'Tabs' },
-    { id: 'scroll-area', label: 'ScrollArea' },
-    { id: 'separator', label: 'Separator' },
-    { id: 'toolbar', label: 'Toolbar' },
-    { id: 'card', label: 'Card' },
-    { id: 'column', label: 'Column' },
-    { id: 'row', label: 'Row' },
-  ]},
-  { category: 'Feedback', items: [
-    { id: 'banner', label: 'Banner' },
-    { id: 'progress-bar', label: 'ProgressBar' },
-    { id: 'progress-circle', label: 'ProgressCircle' },
-    { id: 'meter', label: 'Meter' },
-    { id: 'spinner', label: 'Spinner' },
-  ]},
-  { category: 'Display', items: [
-    { id: 'avatar', label: 'Avatar' },
-    { id: 'badge', label: 'Badge' },
-    { id: 'dot-icon', label: 'DotIcon' },
-    { id: 'empty-state', label: 'EmptyState' },
-    { id: 'featured-icon', label: 'FeaturedIcon' },
-    { id: 'grid-list', label: 'GridList' },
-    { id: 'rating-badge', label: 'RatingBadge' },
-    { id: 'rating-stars', label: 'RatingStars' },
-    { id: 'table', label: 'Table' },
-    { id: 'tag-group', label: 'TagGroup' },
-    { id: 'tree', label: 'Tree' },
-    { id: 'image', label: 'Image' },
-    { id: 'list', label: 'List' },
-    { id: 'qr-code', label: 'QRCode' },
-    { id: 'video-player', label: 'VideoPlayer' },
-  ]},
-  { category: 'Form Structure', items: [
-    { id: 'field', label: 'Field' },
-    { id: 'fieldset', label: 'Fieldset' },
-    { id: 'form', label: 'Form' },
-  ]},
-  { category: 'Interaction', items: [
-    { id: 'drop-zone', label: 'DropZone' },
-    { id: 'file-trigger', label: 'FileTrigger' },
-    { id: 'file-upload', label: 'FileUpload' },
-    { id: 'image-cropper', label: 'ImageCropper' },
-    { id: 'text-editor', label: 'TextEditor' },
-  ]},
-  { category: 'Typography', items: [
-    { id: 'text', label: 'Text' },
-  ]},
-  { category: 'Marketing', items: [
-    { id: 'app-store-button', label: 'AppStoreButton' },
-    { id: 'social-button', label: 'SocialButton' },
-    { id: 'social-button-group', label: 'SocialButtonGroup' },
-    { id: 'badge-group', label: 'BadgeGroup' },
-    { id: 'section-divider', label: 'SectionDivider' },
-    { id: 'background-pattern', label: 'BackgroundPattern' },
-    { id: 'illustration', label: 'Illustration' },
-    { id: 'iphone-mockup', label: 'IphoneMockup' },
-    { id: 'credit-card', label: 'CreditCard' },
-  ]},
-  { category: 'Utility', items: [
-    { id: 'color-mode-toggle', label: 'ColorModeToggle' },
-    { id: 'icon', label: 'Icon' },
-    { id: 'container', label: 'Container' },
-  ]},
+  { category: 'Palette', items: [{ id: 'palette', label: 'Color & Neutral' }] },
+  {
+    category: 'Form Controls',
+    items: [
+      { id: 'button', label: 'Button' },
+      { id: 'icon-button', label: 'IconButton' },
+      { id: 'input', label: 'Input' },
+      { id: 'input-group', label: 'InputGroup' },
+      { id: 'input-tags', label: 'InputTags' },
+      { id: 'multi-select', label: 'MultiSelect' },
+      { id: 'tag-select', label: 'TagSelect' },
+      { id: 'checkbox', label: 'Checkbox' },
+      { id: 'checkbox-field', label: 'CheckboxField' },
+      { id: 'checkbox-group', label: 'CheckboxGroup' },
+      { id: 'radio', label: 'Radio' },
+      { id: 'radio-field', label: 'RadioField' },
+      { id: 'radio-group', label: 'RadioGroup' },
+      { id: 'switch', label: 'Switch' },
+      { id: 'switch-field', label: 'SwitchField' },
+      { id: 'toggle-button', label: 'ToggleButton' },
+      { id: 'toggle-button-group', label: 'ToggleButtonGroup' },
+      { id: 'select', label: 'Select' },
+      { id: 'autocomplete', label: 'Autocomplete' },
+      { id: 'combobox', label: 'Combobox' },
+      { id: 'number-field', label: 'NumberField' },
+      { id: 'pin-input', label: 'PinInput' },
+      { id: 'payment-input', label: 'PaymentInput' },
+      { id: 'slider', label: 'Slider' },
+      { id: 'search-field', label: 'SearchField' },
+      { id: 'text-field', label: 'TextField' },
+      { id: 'text-area', label: 'TextArea' },
+      { id: 'select-native', label: 'SelectNative' },
+    ],
+  },
+  {
+    category: 'Date & Time',
+    items: [
+      { id: 'calendar', label: 'Calendar' },
+      { id: 'date-field', label: 'DateField' },
+      { id: 'time-field', label: 'TimeField' },
+      { id: 'date-picker', label: 'DatePicker' },
+      { id: 'date-range-picker', label: 'DateRangePicker' },
+      { id: 'range-calendar', label: 'RangeCalendar' },
+    ],
+  },
+  {
+    category: 'Color',
+    items: [
+      { id: 'color-area', label: 'ColorArea' },
+      { id: 'color-slider', label: 'ColorSlider' },
+      { id: 'color-wheel', label: 'ColorWheel' },
+      { id: 'color-swatch', label: 'ColorSwatch' },
+      { id: 'color-swatch-picker', label: 'ColorSwatchPicker' },
+      { id: 'color-field', label: 'ColorField' },
+      { id: 'color-picker', label: 'ColorPicker' },
+    ],
+  },
+  {
+    category: 'Overlay',
+    items: [
+      { id: 'dialog', label: 'Dialog' },
+      { id: 'alert-dialog', label: 'AlertDialog' },
+      { id: 'popover', label: 'Popover' },
+      { id: 'preview-card', label: 'PreviewCard' },
+      { id: 'drawer', label: 'Drawer' },
+      { id: 'tooltip', label: 'Tooltip' },
+    ],
+  },
+  {
+    category: 'Navigation',
+    items: [
+      { id: 'menu', label: 'Menu' },
+      { id: 'context-menu', label: 'ContextMenu' },
+      { id: 'navigation-menu', label: 'NavigationMenu' },
+      { id: 'menubar', label: 'Menubar' },
+      { id: 'breadcrumbs', label: 'Breadcrumbs' },
+      { id: 'link', label: 'Link' },
+      { id: 'pagination', label: 'Pagination' },
+      { id: 'pagination-dot', label: 'PaginationDot' },
+      { id: 'pagination-line', label: 'PaginationLine' },
+      { id: 'sidebar', label: 'Sidebar' },
+      { id: 'header-nav', label: 'HeaderNav' },
+    ],
+  },
+  {
+    category: 'Layout',
+    items: [
+      { id: 'carousel', label: 'Carousel' },
+      { id: 'accordion', label: 'Accordion' },
+      { id: 'disclosure', label: 'Disclosure' },
+      { id: 'tabs', label: 'Tabs' },
+      { id: 'scroll-area', label: 'ScrollArea' },
+      { id: 'separator', label: 'Separator' },
+      { id: 'toolbar', label: 'Toolbar' },
+      { id: 'card', label: 'Card' },
+      { id: 'column', label: 'Column' },
+      { id: 'row', label: 'Row' },
+    ],
+  },
+  {
+    category: 'Feedback',
+    items: [
+      { id: 'banner', label: 'Banner' },
+      { id: 'progress-bar', label: 'ProgressBar' },
+      { id: 'progress-circle', label: 'ProgressCircle' },
+      { id: 'meter', label: 'Meter' },
+      { id: 'spinner', label: 'Spinner' },
+    ],
+  },
+  {
+    category: 'Display',
+    items: [
+      { id: 'avatar', label: 'Avatar' },
+      { id: 'badge', label: 'Badge' },
+      { id: 'dot-icon', label: 'DotIcon' },
+      { id: 'empty-state', label: 'EmptyState' },
+      { id: 'featured-icon', label: 'FeaturedIcon' },
+      { id: 'grid-list', label: 'GridList' },
+      { id: 'rating-badge', label: 'RatingBadge' },
+      { id: 'rating-stars', label: 'RatingStars' },
+      { id: 'table', label: 'Table' },
+      { id: 'tag-group', label: 'TagGroup' },
+      { id: 'tree', label: 'Tree' },
+      { id: 'image', label: 'Image' },
+      { id: 'list', label: 'List' },
+      { id: 'qr-code', label: 'QRCode' },
+      { id: 'video-player', label: 'VideoPlayer' },
+    ],
+  },
+  {
+    category: 'Form Structure',
+    items: [
+      { id: 'field', label: 'Field' },
+      { id: 'fieldset', label: 'Fieldset' },
+      { id: 'form', label: 'Form' },
+    ],
+  },
+  {
+    category: 'Interaction',
+    items: [
+      { id: 'drop-zone', label: 'DropZone' },
+      { id: 'file-trigger', label: 'FileTrigger' },
+      { id: 'file-upload', label: 'FileUpload' },
+      { id: 'image-cropper', label: 'ImageCropper' },
+      { id: 'text-editor', label: 'TextEditor' },
+    ],
+  },
+  { category: 'Typography', items: [{ id: 'text', label: 'Text' }] },
+  {
+    category: 'Marketing',
+    items: [
+      { id: 'app-store-button', label: 'AppStoreButton' },
+      { id: 'social-button', label: 'SocialButton' },
+      { id: 'social-button-group', label: 'SocialButtonGroup' },
+      { id: 'badge-group', label: 'BadgeGroup' },
+      { id: 'section-divider', label: 'SectionDivider' },
+      { id: 'background-pattern', label: 'BackgroundPattern' },
+      { id: 'illustration', label: 'Illustration' },
+      { id: 'iphone-mockup', label: 'IphoneMockup' },
+      { id: 'credit-card', label: 'CreditCard' },
+    ],
+  },
+  {
+    category: 'Utility',
+    items: [
+      { id: 'color-mode-toggle', label: 'ColorModeToggle' },
+      { id: 'icon', label: 'Icon' },
+      { id: 'container', label: 'Container' },
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -364,7 +418,17 @@ function CalendarSection() {
     <Section
       id="calendar"
       title="Calendar"
-      classes={['tale-calendar', 'tale-calendar__header', 'tale-calendar__grid', 'tale-calendar__grid-header', 'tale-calendar__grid-body', 'tale-calendar__cell', 'tale-calendar__heading', 'tale-calendar__prev-button', 'tale-calendar__next-button']}
+      classes={[
+        'tale-calendar',
+        'tale-calendar__header',
+        'tale-calendar__grid',
+        'tale-calendar__grid-header',
+        'tale-calendar__grid-body',
+        'tale-calendar__cell',
+        'tale-calendar__heading',
+        'tale-calendar__prev-button',
+        'tale-calendar__next-button',
+      ]}
     >
       <SubHeading>Interactive</SubHeading>
       <Calendar.Root>
@@ -377,9 +441,7 @@ function CalendarSection() {
           <Calendar.GridHeader>
             {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
           </Calendar.GridHeader>
-          <Calendar.GridBody>
-            {(date) => <Calendar.Cell date={date} />}
-          </Calendar.GridBody>
+          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
         </Calendar.Grid>
       </Calendar.Root>
       <SubHeading>Disabled</SubHeading>
@@ -393,9 +455,7 @@ function CalendarSection() {
           <Calendar.GridHeader>
             {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
           </Calendar.GridHeader>
-          <Calendar.GridBody>
-            {(date) => <Calendar.Cell date={date} />}
-          </Calendar.GridBody>
+          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
         </Calendar.Grid>
       </Calendar.Root>
       <SubHeading>Read Only</SubHeading>
@@ -409,9 +469,50 @@ function CalendarSection() {
           <Calendar.GridHeader>
             {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
           </Calendar.GridHeader>
-          <Calendar.GridBody>
-            {(date) => <Calendar.Cell date={date} />}
-          </Calendar.GridBody>
+          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
+        </Calendar.Grid>
+      </Calendar.Root>
+      <SubHeading>Month and Year Pickers</SubHeading>
+      <Calendar.Root>
+        <Calendar.Header>
+          <Calendar.PreviousButton />
+          <Calendar.MonthPicker format="short">
+            {({ 'aria-label': ariaLabel, value, onChange, items }) => (
+              <select
+                aria-label={ariaLabel}
+                value={String(value)}
+                onChange={(event) => onChange(Number(event.target.value))}
+              >
+                {items.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.formatted}
+                  </option>
+                ))}
+              </select>
+            )}
+          </Calendar.MonthPicker>
+          <Calendar.YearPicker visibleYears={8}>
+            {({ 'aria-label': ariaLabel, value, onChange, items }) => (
+              <select
+                aria-label={ariaLabel}
+                value={String(value)}
+                onChange={(event) => onChange(Number(event.target.value))}
+              >
+                {items.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.formatted}
+                  </option>
+                ))}
+              </select>
+            )}
+          </Calendar.YearPicker>
+          <Calendar.NextButton />
+        </Calendar.Header>
+        <Calendar.Grid>
+          <Calendar.GridHeader>
+            {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+          </Calendar.GridHeader>
+          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
         </Calendar.Grid>
       </Calendar.Root>
     </Section>
@@ -463,7 +564,9 @@ const tagSelectPeople = [
 ];
 
 function TagSelectAuditSection() {
-  const [selected, setSelected] = React.useState<Set<import('react-aria-components').Key>>(new Set(['alice', 'bob']));
+  const [selected, setSelected] = React.useState<Set<import('react-aria-components').Key>>(
+    new Set(['alice', 'bob']),
+  );
   return (
     <>
       <SubHeading>Default</SubHeading>
@@ -544,7 +647,7 @@ function NavMenuDropdownDemo() {
           <NavigationMenu.Link href="#">Home</NavigationMenu.Link>
         </NavigationMenu.Item>
         <NavigationMenu.Item>
-          <NavigationMenu.Trigger onClick={() => setOpen(o => !o)}>
+          <NavigationMenu.Trigger onClick={() => setOpen((o) => !o)}>
             Products <NavigationMenu.Icon />
           </NavigationMenu.Trigger>
           {open && (
@@ -586,7 +689,26 @@ function ColorPickerDemo() {
 // Combobox section (needs state)
 // ---------------------------------------------------------------------------
 
-const countries = ['Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia', 'Denmark', 'Egypt', 'Finland', 'France', 'Germany', 'Greece'];
+const countries = [
+  'Afghanistan',
+  'Albania',
+  'Algeria',
+  'Argentina',
+  'Australia',
+  'Austria',
+  'Belgium',
+  'Brazil',
+  'Canada',
+  'Chile',
+  'China',
+  'Colombia',
+  'Denmark',
+  'Egypt',
+  'Finland',
+  'France',
+  'Germany',
+  'Greece',
+];
 
 function ComboboxDemo() {
   return (
@@ -599,7 +721,9 @@ function ComboboxDemo() {
         <Combobox.Popover offset={4}>
           <Combobox.ListBox>
             {countries.map((c) => (
-              <Combobox.Item key={c} id={c} textValue={c}>{c}</Combobox.Item>
+              <Combobox.Item key={c} id={c} textValue={c}>
+                {c}
+              </Combobox.Item>
             ))}
           </Combobox.ListBox>
         </Combobox.Popover>
@@ -612,7 +736,16 @@ function ComboboxDemo() {
 // Autocomplete section (needs state)
 // ---------------------------------------------------------------------------
 
-const cities = ['Amsterdam', 'Berlin', 'Chicago', 'Dublin', 'Edinburgh', 'Florence', 'Geneva', 'Helsinki'];
+const cities = [
+  'Amsterdam',
+  'Berlin',
+  'Chicago',
+  'Dublin',
+  'Edinburgh',
+  'Florence',
+  'Geneva',
+  'Helsinki',
+];
 
 function AutocompleteDemo() {
   const { contains } = useFilter({ sensitivity: 'base' });
@@ -624,7 +757,9 @@ function AutocompleteDemo() {
         </Autocomplete.SearchField>
         <Autocomplete.ListBox aria-label="Cities">
           {cities.map((c) => (
-            <Autocomplete.Item key={c} id={c} textValue={c}>{c}</Autocomplete.Item>
+            <Autocomplete.Item key={c} id={c} textValue={c}>
+              {c}
+            </Autocomplete.Item>
           ))}
         </Autocomplete.ListBox>
       </Autocomplete.Root>
@@ -639,7 +774,9 @@ function AutocompleteDemo() {
 function MenuCheckboxDemo() {
   return (
     <Menu.Root>
-      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Format <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
+        Format <Icon icon={ChevronDown} size="sm" />
+      </Menu.Trigger>
       <Menu.Popover offset={4}>
         <Menu.MenuList aria-label="Format">
           <Menu.CheckboxItem textValue="Bold">Bold</Menu.CheckboxItem>
@@ -654,7 +791,9 @@ function MenuCheckboxDemo() {
 function MenuRadioDemo() {
   return (
     <Menu.Root>
-      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">View <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
+        View <Icon icon={ChevronDown} size="sm" />
+      </Menu.Trigger>
       <Menu.Popover offset={4}>
         <Menu.MenuList aria-label="View">
           <Menu.RadioItem textValue="List">List</Menu.RadioItem>
@@ -669,13 +808,21 @@ function MenuRadioDemo() {
 function MenuLinkDemo() {
   return (
     <Menu.Root>
-      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Links <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+      <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
+        Links <Icon icon={ChevronDown} size="sm" />
+      </Menu.Trigger>
       <Menu.Popover offset={4}>
         <Menu.MenuList aria-label="Links">
-          <Menu.LinkItem textValue="Documentation" href="#">Documentation</Menu.LinkItem>
-          <Menu.LinkItem textValue="GitHub" href="#">GitHub</Menu.LinkItem>
+          <Menu.LinkItem textValue="Documentation" href="#">
+            Documentation
+          </Menu.LinkItem>
+          <Menu.LinkItem textValue="GitHub" href="#">
+            GitHub
+          </Menu.LinkItem>
           <Menu.Separator />
-          <Menu.LinkItem textValue="Report Issue" href="#">Report Issue</Menu.LinkItem>
+          <Menu.LinkItem textValue="Report Issue" href="#">
+            Report Issue
+          </Menu.LinkItem>
         </Menu.MenuList>
       </Menu.Popover>
     </Menu.Root>
@@ -699,8 +846,12 @@ function DialogDemo() {
             This is a modal dialog. It traps focus and requires the user to take action.
           </Dialog.Description>
           <Dialog.Actions>
-            <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
-            <Button variant="primary" onPress={() => setOpen(false)}>Confirm</Button>
+            <Button variant="neutral" onPress={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onPress={() => setOpen(false)}>
+              Confirm
+            </Button>
           </Dialog.Actions>
         </Dialog.Popup>
       </Dialog.Backdrop>
@@ -721,8 +872,12 @@ function DestructiveDialogDemo() {
             This action is permanent and cannot be undone. All your data will be lost.
           </Dialog.Description>
           <Dialog.Actions>
-            <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
-            <Button variant="danger" onPress={() => setOpen(false)}>Delete Account</Button>
+            <Button variant="neutral" onPress={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="danger" onPress={() => setOpen(false)}>
+              Delete Account
+            </Button>
           </Dialog.Actions>
         </Dialog.Popup>
       </Dialog.Backdrop>
@@ -743,7 +898,9 @@ function DismissableDialogDemo() {
             Click the backdrop or press Escape to dismiss this dialog.
           </Dialog.Description>
           <Dialog.Actions>
-            <Button variant="neutral" onPress={() => setOpen(false)}>Dismiss</Button>
+            <Button variant="neutral" onPress={() => setOpen(false)}>
+              Dismiss
+            </Button>
           </Dialog.Actions>
         </Dialog.Popup>
       </Dialog.Backdrop>
@@ -771,8 +928,12 @@ function ScrollableDialogDemo() {
             ))}
           </div>
           <Dialog.Actions>
-            <Button variant="neutral" onPress={() => setOpen(false)}>Decline</Button>
-            <Button variant="primary" onPress={() => setOpen(false)}>Accept</Button>
+            <Button variant="neutral" onPress={() => setOpen(false)}>
+              Decline
+            </Button>
+            <Button variant="primary" onPress={() => setOpen(false)}>
+              Accept
+            </Button>
           </Dialog.Actions>
         </Dialog.Popup>
       </Dialog.Backdrop>
@@ -788,7 +949,9 @@ function AlertDialogDemo() {
   const [open, setOpen] = React.useState(false);
   return (
     <AlertDialog.Root isOpen={open} onOpenChange={setOpen}>
-      <AlertDialog.Trigger className="tale-button tale-button--danger">Delete Item</AlertDialog.Trigger>
+      <AlertDialog.Trigger className="tale-button tale-button--danger">
+        Delete Item
+      </AlertDialog.Trigger>
       <AlertDialog.Backdrop>
         <AlertDialog.Popup>
           <AlertDialog.Content>
@@ -797,8 +960,12 @@ function AlertDialogDemo() {
               This will permanently delete the item. This action cannot be undone.
             </AlertDialog.Description>
             <AlertDialog.Actions>
-              <Button variant="neutral" onPress={() => setOpen(false)}>Cancel</Button>
-              <Button variant="danger" onPress={() => setOpen(false)}>Delete</Button>
+              <Button variant="neutral" onPress={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="danger" onPress={() => setOpen(false)}>
+                Delete
+              </Button>
             </AlertDialog.Actions>
           </AlertDialog.Content>
         </AlertDialog.Popup>
@@ -839,9 +1006,15 @@ function SortableTableDemo() {
       onSortChange={setSortDescriptor}
     >
       <Table.Header>
-        <Table.Column id="name" isRowHeader allowsSorting>Name</Table.Column>
-        <Table.Column id="role" allowsSorting>Role</Table.Column>
-        <Table.Column id="status" allowsSorting>Status</Table.Column>
+        <Table.Column id="name" isRowHeader allowsSorting>
+          Name
+        </Table.Column>
+        <Table.Column id="role" allowsSorting>
+          Role
+        </Table.Column>
+        <Table.Column id="status" allowsSorting>
+          Status
+        </Table.Column>
       </Table.Header>
       <Table.Body>
         {sorted.map((row) => (
@@ -902,7 +1075,11 @@ function FileUploadAuditSection() {
                   progress={progress[i] ?? 0}
                   onDelete={() => {
                     setFiles((p) => p.filter((_, j) => j !== i));
-                    setProgress((p) => { const n = { ...p }; delete n[i]; return n; });
+                    setProgress((p) => {
+                      const n = { ...p };
+                      delete n[i];
+                      return n;
+                    });
                   }}
                 />
               ))}
@@ -915,16 +1092,40 @@ function FileUploadAuditSection() {
         <FileUpload.Root>
           <FileUpload.DropZone hint="Any file type accepted" />
           <FileUpload.List>
-            <FileUpload.ListItemProgressFill name="design-system.fig" size={2_400_000} progress={65} onDelete={() => {}} />
-            <FileUpload.ListItemProgressFill name="brand-assets.zip" size={8_100_000} progress={100} onDelete={() => {}} />
+            <FileUpload.ListItemProgressFill
+              name="design-system.fig"
+              size={2_400_000}
+              progress={65}
+              onDelete={() => {}}
+            />
+            <FileUpload.ListItemProgressFill
+              name="brand-assets.zip"
+              size={8_100_000}
+              progress={100}
+              onDelete={() => {}}
+            />
           </FileUpload.List>
         </FileUpload.Root>
       </div>
       <SubHeading>Error States</SubHeading>
       <div style={{ maxWidth: 480 }}>
         <FileUpload.List>
-          <FileUpload.ListItemProgressBar name="huge-video.mp4" size={500_000_000} progress={0} failed onDelete={() => {}} onRetry={() => {}} />
-          <FileUpload.ListItemProgressFill name="corrupt.psd" size={1_200_000} progress={0} failed onDelete={() => {}} onRetry={() => {}} />
+          <FileUpload.ListItemProgressBar
+            name="huge-video.mp4"
+            size={500_000_000}
+            progress={0}
+            failed
+            onDelete={() => {}}
+            onRetry={() => {}}
+          />
+          <FileUpload.ListItemProgressFill
+            name="corrupt.psd"
+            size={1_200_000}
+            progress={0}
+            failed
+            onDelete={() => {}}
+            onRetry={() => {}}
+          />
         </FileUpload.List>
       </div>
       <SubHeading>Disabled DropZone</SubHeading>
@@ -950,7 +1151,10 @@ function ImageCropperAuditSection() {
       <SubHeading>Free crop</SubHeading>
       <div style={{ maxWidth: 480 }}>
         <ImageCropper.Root crop={crop1} onChange={setCrop1}>
-          <ImageCropper.Img src="https://placehold.co/600x400/6366f1/ffffff?text=Crop+Me" alt="Demo" />
+          <ImageCropper.Img
+            src="https://placehold.co/600x400/6366f1/ffffff?text=Crop+Me"
+            alt="Demo"
+          />
         </ImageCropper.Root>
       </div>
       <SubHeading>Circular 1:1 (avatar)</SubHeading>
@@ -998,15 +1202,15 @@ export default function ComponentAudit() {
       {/* TOC */}
       <nav className="audit__sidebar">
         <div className="audit__sidebar-header">
-          <span className="audit__sidebar-title">
-            Component Audit
-          </span>
+          <span className="audit__sidebar-title">Component Audit</span>
         </div>
         {TOC.map(({ category, items }) => (
           <div key={category}>
             <div className="audit__toc-category">{category}</div>
             {items.map(({ id, label }) => (
-              <a key={id} href={`#${id}`} className="audit__toc-link">{label}</a>
+              <a key={id} href={`#${id}`} className="audit__toc-link">
+                {label}
+              </a>
             ))}
           </div>
         ))}
@@ -1021,7 +1225,7 @@ export default function ComponentAudit() {
         <Section id="palette" title="Color & Neutral Palette" classes={[]}>
           <SubHeading>Color shades</SubHeading>
           <div className="audit__palette-grid">
-            {COLOR_SHADES.map(s => (
+            {COLOR_SHADES.map((s) => (
               <div
                 key={s}
                 className="audit__palette-swatch"
@@ -1036,7 +1240,7 @@ export default function ComponentAudit() {
 
           <SubHeading>Neutral shades</SubHeading>
           <div className="audit__palette-grid">
-            {NEUTRAL_SHADES.map(s => (
+            {NEUTRAL_SHADES.map((s) => (
               <div
                 key={s}
                 className="audit__palette-swatch"
@@ -1054,7 +1258,11 @@ export default function ComponentAudit() {
         {/* UTILITY */}
         {/* ============================================================= */}
 
-        <Section id="color-mode-toggle" title="ColorModeToggle" classes={['tale-color-mode-toggle']}>
+        <Section
+          id="color-mode-toggle"
+          title="ColorModeToggle"
+          classes={['tale-color-mode-toggle']}
+        >
           <SubHeading>Default (controls Theme Playground background)</SubHeading>
           <Row>
             <InertColorModeToggle />
@@ -1065,7 +1273,11 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="icon" title="Icon" classes={['tale-icon', 'tale-icon--sm', 'tale-icon--lg', 'tale-icon--xl']}>
+        <Section
+          id="icon"
+          title="Icon"
+          classes={['tale-icon', 'tale-icon--sm', 'tale-icon--lg', 'tale-icon--xl']}
+        >
           <SubHeading>All Sizes</SubHeading>
           <Row>
             <Icon icon={Star} size="sm" />
@@ -1094,16 +1306,30 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Color Inheritance</SubHeading>
           <Row>
-            <span style={{ color: 'var(--color-60)' }}><Icon icon={Heart} /></span>
-            <span style={{ color: 'var(--neutral-50)' }}><Icon icon={Heart} /></span>
-            <span style={{ color: 'var(--neutral-80)' }}><Icon icon={Heart} /></span>
+            <span style={{ color: 'var(--color-60)' }}>
+              <Icon icon={Heart} />
+            </span>
+            <span style={{ color: 'var(--neutral-50)' }}>
+              <Icon icon={Heart} />
+            </span>
+            <span style={{ color: 'var(--neutral-80)' }}>
+              <Icon icon={Heart} />
+            </span>
           </Row>
           <SubHeading>With Button</SubHeading>
           <Row>
-            <Button variant="primary"><Icon icon={Plus} size="sm" /> Add</Button>
-            <Button variant="neutral"><Icon icon={Download} size="sm" /> Download</Button>
-            <Button variant="ghost"><Icon icon={Settings} size="sm" /> Settings</Button>
-            <Button variant="danger"><Icon icon={Trash2} size="sm" /> Delete</Button>
+            <Button variant="primary">
+              <Icon icon={Plus} size="sm" /> Add
+            </Button>
+            <Button variant="neutral">
+              <Icon icon={Download} size="sm" /> Download
+            </Button>
+            <Button variant="ghost">
+              <Icon icon={Settings} size="sm" /> Settings
+            </Button>
+            <Button variant="danger">
+              <Icon icon={Trash2} size="sm" /> Delete
+            </Button>
           </Row>
         </Section>
 
@@ -1121,7 +1347,27 @@ export default function ComponentAudit() {
         {/* FORM CONTROLS */}
         {/* ============================================================= */}
 
-        <Section id="button" title="Button" classes={['tale-button', 'tale-button--primary', 'tale-button--neutral', 'tale-button--ghost', 'tale-button--danger', 'tale-button--danger-neutral', 'tale-button--danger-ghost', 'tale-button--inverse', 'tale-button--sm', 'tale-button--md', 'tale-button--lg', 'tale-button__content', 'tale-button__spinner', 'tale-button__content--with-spinner', 'tale-button__spinner--inline']}>
+        <Section
+          id="button"
+          title="Button"
+          classes={[
+            'tale-button',
+            'tale-button--primary',
+            'tale-button--neutral',
+            'tale-button--ghost',
+            'tale-button--danger',
+            'tale-button--danger-neutral',
+            'tale-button--danger-ghost',
+            'tale-button--inverse',
+            'tale-button--sm',
+            'tale-button--md',
+            'tale-button--lg',
+            'tale-button__content',
+            'tale-button__spinner',
+            'tale-button__content--with-spinner',
+            'tale-button__spinner--inline',
+          ]}
+        >
           <SubHeading>Variants</SubHeading>
           <Row>
             <Button variant="primary">Primary</Button>
@@ -1134,19 +1380,39 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Sizes</SubHeading>
           <Row>
-            <Button variant="primary" size="sm">Small</Button>
-            <Button variant="primary" size="md">Medium</Button>
-            <Button variant="primary" size="lg">Large</Button>
+            <Button variant="primary" size="sm">
+              Small
+            </Button>
+            <Button variant="primary" size="md">
+              Medium
+            </Button>
+            <Button variant="primary" size="lg">
+              Large
+            </Button>
           </Row>
           <SubHeading>Disabled</SubHeading>
           <Row>
-            <Button disabled variant="primary">Primary</Button>
-            <Button disabled variant="neutral">Neutral</Button>
-            <Button disabled variant="ghost">Ghost</Button>
-            <Button disabled variant="danger">Danger</Button>
-            <Button disabled variant="danger-neutral">Danger Neutral</Button>
-            <Button disabled variant="danger-ghost">Danger Ghost</Button>
-            <Button disabled variant="inverse">Inverse</Button>
+            <Button disabled variant="primary">
+              Primary
+            </Button>
+            <Button disabled variant="neutral">
+              Neutral
+            </Button>
+            <Button disabled variant="ghost">
+              Ghost
+            </Button>
+            <Button disabled variant="danger">
+              Danger
+            </Button>
+            <Button disabled variant="danger-neutral">
+              Danger Neutral
+            </Button>
+            <Button disabled variant="danger-ghost">
+              Danger Ghost
+            </Button>
+            <Button disabled variant="inverse">
+              Inverse
+            </Button>
           </Row>
           <SubHeading>With Icons</SubHeading>
           <Row>
@@ -1161,56 +1427,125 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Pending</SubHeading>
           <Row>
-            <Button isPending variant="primary">Primary</Button>
-            <Button isPending variant="neutral">Neutral</Button>
-            <Button isPending variant="ghost">Ghost</Button>
-            <Button isPending variant="danger">Danger</Button>
-            <Button isPending variant="danger-neutral">Danger Neutral</Button>
-            <Button isPending variant="danger-ghost">Danger Ghost</Button>
-            <Button isPending variant="inverse">Inverse</Button>
+            <Button isPending variant="primary">
+              Primary
+            </Button>
+            <Button isPending variant="neutral">
+              Neutral
+            </Button>
+            <Button isPending variant="ghost">
+              Ghost
+            </Button>
+            <Button isPending variant="danger">
+              Danger
+            </Button>
+            <Button isPending variant="danger-neutral">
+              Danger Neutral
+            </Button>
+            <Button isPending variant="danger-ghost">
+              Danger Ghost
+            </Button>
+            <Button isPending variant="inverse">
+              Inverse
+            </Button>
           </Row>
           <SubHeading>Pending with Text</SubHeading>
           <Row>
-            <Button isPending showTextWhileLoading variant="primary">Saving…</Button>
-            <Button isPending showTextWhileLoading variant="neutral">Loading</Button>
-            <Button isPending showTextWhileLoading variant="danger">Deleting…</Button>
+            <Button isPending showTextWhileLoading variant="primary">
+              Saving…
+            </Button>
+            <Button isPending showTextWhileLoading variant="neutral">
+              Loading
+            </Button>
+            <Button isPending showTextWhileLoading variant="danger">
+              Deleting…
+            </Button>
           </Row>
         </Section>
 
-        <Section id="icon-button" title="IconButton" classes={['tale-icon-button', 'tale-icon-button--sm', 'tale-icon-button--md', 'tale-icon-button--lg']}>
+        <Section
+          id="icon-button"
+          title="IconButton"
+          classes={[
+            'tale-icon-button',
+            'tale-icon-button--sm',
+            'tale-icon-button--md',
+            'tale-icon-button--lg',
+          ]}
+        >
           <SubHeading>Variants</SubHeading>
           <Row>
-            <IconButton variant="primary" aria-label="Add"><Icon icon={Plus} /></IconButton>
-            <IconButton variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
-            <IconButton variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
-            <IconButton variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
-            <IconButton variant="inverse" aria-label="Download"><Icon icon={Download} /></IconButton>
+            <IconButton variant="primary" aria-label="Add">
+              <Icon icon={Plus} />
+            </IconButton>
+            <IconButton variant="neutral" aria-label="Settings">
+              <Icon icon={Settings} />
+            </IconButton>
+            <IconButton variant="ghost" aria-label="Search">
+              <Icon icon={Search} />
+            </IconButton>
+            <IconButton variant="danger" aria-label="Delete">
+              <Icon icon={Trash2} />
+            </IconButton>
+            <IconButton variant="inverse" aria-label="Download">
+              <Icon icon={Download} />
+            </IconButton>
           </Row>
           <SubHeading>Sizes</SubHeading>
           <Row>
-            <IconButton variant="primary" size="sm" aria-label="Small"><Icon icon={Heart} /></IconButton>
-            <IconButton variant="primary" size="md" aria-label="Medium"><Icon icon={Heart} /></IconButton>
-            <IconButton variant="primary" size="lg" aria-label="Large"><Icon icon={Heart} /></IconButton>
+            <IconButton variant="primary" size="sm" aria-label="Small">
+              <Icon icon={Heart} />
+            </IconButton>
+            <IconButton variant="primary" size="md" aria-label="Medium">
+              <Icon icon={Heart} />
+            </IconButton>
+            <IconButton variant="primary" size="lg" aria-label="Large">
+              <Icon icon={Heart} />
+            </IconButton>
           </Row>
           <SubHeading>Disabled</SubHeading>
           <Row>
-            <IconButton disabled variant="primary" aria-label="Add"><Icon icon={Plus} /></IconButton>
-            <IconButton disabled variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
-            <IconButton disabled variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
-            <IconButton disabled variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
-            <IconButton disabled variant="inverse" aria-label="Download"><Icon icon={Download} /></IconButton>
+            <IconButton disabled variant="primary" aria-label="Add">
+              <Icon icon={Plus} />
+            </IconButton>
+            <IconButton disabled variant="neutral" aria-label="Settings">
+              <Icon icon={Settings} />
+            </IconButton>
+            <IconButton disabled variant="ghost" aria-label="Search">
+              <Icon icon={Search} />
+            </IconButton>
+            <IconButton disabled variant="danger" aria-label="Delete">
+              <Icon icon={Trash2} />
+            </IconButton>
+            <IconButton disabled variant="inverse" aria-label="Download">
+              <Icon icon={Download} />
+            </IconButton>
           </Row>
           <SubHeading>Pending</SubHeading>
           <Row>
-            <IconButton isPending variant="primary" aria-label="Add"><Icon icon={Plus} /></IconButton>
-            <IconButton isPending variant="neutral" aria-label="Settings"><Icon icon={Settings} /></IconButton>
-            <IconButton isPending variant="ghost" aria-label="Search"><Icon icon={Search} /></IconButton>
-            <IconButton isPending variant="danger" aria-label="Delete"><Icon icon={Trash2} /></IconButton>
-            <IconButton isPending variant="inverse" aria-label="Download"><Icon icon={Download} /></IconButton>
+            <IconButton isPending variant="primary" aria-label="Add">
+              <Icon icon={Plus} />
+            </IconButton>
+            <IconButton isPending variant="neutral" aria-label="Settings">
+              <Icon icon={Settings} />
+            </IconButton>
+            <IconButton isPending variant="ghost" aria-label="Search">
+              <Icon icon={Search} />
+            </IconButton>
+            <IconButton isPending variant="danger" aria-label="Delete">
+              <Icon icon={Trash2} />
+            </IconButton>
+            <IconButton isPending variant="inverse" aria-label="Download">
+              <Icon icon={Download} />
+            </IconButton>
           </Row>
         </Section>
 
-        <Section id="input" title="Input" classes={['tale-input', 'tale-input--sm', 'tale-input--lg']}>
+        <Section
+          id="input"
+          title="Input"
+          classes={['tale-input', 'tale-input--sm', 'tale-input--lg']}
+        >
           <SubHeading>Sizes</SubHeading>
           <div className="audit__demo-narrow audit__demo-spaced display--flex flex--col gap--2xs">
             <Input.Input size="sm" placeholder="Small input" />
@@ -1341,11 +1676,7 @@ export default function ComponentAudit() {
               isRequired
               errorMessage="At least one skill is required."
             />
-            <InputTags.Root
-              label="Disabled"
-              isDisabled
-              defaultValue={['React', 'TypeScript']}
-            />
+            <InputTags.Root label="Disabled" isDisabled defaultValue={['React', 'TypeScript']} />
           </div>
         </Section>
 
@@ -1397,8 +1728,10 @@ export default function ComponentAudit() {
               items={[{ id: 'react', name: 'React' }]}
               onSelectionChange={() => {}}
             >
-              {(item: {id: string; name: string}) => (
-                <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>
+              {(item: { id: string; name: string }) => (
+                <MultiSelect.Item id={item.id} textValue={item.name}>
+                  {item.name}
+                </MultiSelect.Item>
               )}
             </MultiSelect.Root>
             <MultiSelect.Root
@@ -1408,8 +1741,10 @@ export default function ComponentAudit() {
               defaultSelectedKeys={new Set(['react'])}
               onSelectionChange={() => {}}
             >
-              {(item: {id: string; name: string}) => (
-                <MultiSelect.Item id={item.id} textValue={item.name}>{item.name}</MultiSelect.Item>
+              {(item: { id: string; name: string }) => (
+                <MultiSelect.Item id={item.id} textValue={item.name}>
+                  {item.name}
+                </MultiSelect.Item>
               )}
             </MultiSelect.Root>
           </div>
@@ -1442,15 +1777,23 @@ export default function ComponentAudit() {
           <TagSelectAuditSection />
         </Section>
 
-        <Section id="checkbox" title="Checkbox" classes={['tale-checkbox', 'tale-checkbox--sm', 'tale-checkbox__indicator']}>
+        <Section
+          id="checkbox"
+          title="Checkbox"
+          classes={['tale-checkbox', 'tale-checkbox--sm', 'tale-checkbox__indicator']}
+        >
           <SubHeading>Sizes</SubHeading>
           <div className="display--flex flex--col gap--2xs">
             <Checkbox.Root size="sm" defaultSelected>
-              <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+              <Checkbox.Indicator>
+                <Icon icon={Check} size="sm" />
+              </Checkbox.Indicator>
               Small
             </Checkbox.Root>
             <Checkbox.Root size="md" defaultSelected>
-              <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+              <Checkbox.Indicator>
+                <Icon icon={Check} size="sm" />
+              </Checkbox.Indicator>
               Medium (default)
             </Checkbox.Root>
           </div>
@@ -1463,14 +1806,71 @@ export default function ComponentAudit() {
               { label: 'Disabled + Checked', checked: true, disabled: true },
             ].map(({ label, checked, disabled }) => (
               <Checkbox.Root key={label} defaultSelected={checked} isDisabled={disabled}>
-                <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+                <Checkbox.Indicator>
+                  <Icon icon={Check} size="sm" />
+                </Checkbox.Indicator>
                 {label}
               </Checkbox.Root>
             ))}
             <Checkbox.Root isIndeterminate>
-              <Checkbox.Indicator><Icon icon={MinusLucide} size="sm" /></Checkbox.Indicator>
+              <Checkbox.Indicator>
+                <Icon icon={MinusLucide} size="sm" />
+              </Checkbox.Indicator>
               Indeterminate
             </Checkbox.Root>
+          </div>
+        </Section>
+
+        <Section
+          id="checkbox-field"
+          title="CheckboxField"
+          classes={[
+            'tale-checkbox-field',
+            'tale-checkbox-field--sm',
+            'tale-checkbox-field__button',
+            'tale-checkbox-field__indicator',
+            'tale-checkbox-field__description',
+            'tale-checkbox-field__error',
+          ]}
+        >
+          <SubHeading>With Description</SubHeading>
+          <CheckboxField.Root defaultSelected>
+            <CheckboxField.Button>
+              <CheckboxField.Indicator>
+                <Icon icon={Check} size="sm" />
+              </CheckboxField.Indicator>
+              Email me product updates
+            </CheckboxField.Button>
+            <CheckboxField.Description>You can unsubscribe at any time.</CheckboxField.Description>
+          </CheckboxField.Root>
+          <SubHeading>With Error</SubHeading>
+          <CheckboxField.Root isRequired isInvalid>
+            <CheckboxField.Button>
+              <CheckboxField.Indicator>
+                <Icon icon={Check} size="sm" />
+              </CheckboxField.Indicator>
+              Accept terms and conditions
+            </CheckboxField.Button>
+            <CheckboxField.Error>You must accept the terms to continue.</CheckboxField.Error>
+          </CheckboxField.Root>
+          <SubHeading>Sizes and States</SubHeading>
+          <div className="display--flex flex--col gap--2xs">
+            <CheckboxField.Root size="sm" defaultSelected>
+              <CheckboxField.Button>
+                <CheckboxField.Indicator>
+                  <Icon icon={Check} size="sm" />
+                </CheckboxField.Indicator>
+                Small
+              </CheckboxField.Button>
+            </CheckboxField.Root>
+            <CheckboxField.Root isDisabled>
+              <CheckboxField.Button>
+                <CheckboxField.Indicator>
+                  <Icon icon={Check} size="sm" />
+                </CheckboxField.Indicator>
+                Disabled
+              </CheckboxField.Button>
+            </CheckboxField.Root>
           </div>
         </Section>
 
@@ -1480,7 +1880,9 @@ export default function ComponentAudit() {
             <div className="display--flex flex--col gap--3xs">
               {['Reading', 'Gaming', 'Cooking'].map((label) => (
                 <Checkbox.Root key={label} value={label.toLowerCase()}>
-                  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+                  <Checkbox.Indicator>
+                    <Icon icon={Check} size="sm" />
+                  </Checkbox.Indicator>
                   {label}
                 </Checkbox.Root>
               ))}
@@ -1491,7 +1893,9 @@ export default function ComponentAudit() {
             <div className="display--flex flex--col gap--3xs">
               {['Option A', 'Option B'].map((label) => (
                 <Checkbox.Root key={label} value={label.toLowerCase().replace(' ', '-')} isDisabled>
-                  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+                  <Checkbox.Indicator>
+                    <Icon icon={Check} size="sm" />
+                  </Checkbox.Indicator>
                   {label}
                 </Checkbox.Root>
               ))}
@@ -1502,7 +1906,9 @@ export default function ComponentAudit() {
             <Field.Description>Select how you would like to be notified.</Field.Description>
             {['Email', 'SMS', 'Push notification'].map((label) => (
               <Checkbox.Root key={label} value={label.toLowerCase().replace(/\s+/g, '-')}>
-                <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+                <Checkbox.Indicator>
+                  <Icon icon={Check} size="sm" />
+                </Checkbox.Indicator>
                 {label}
               </Checkbox.Root>
             ))}
@@ -1511,7 +1917,9 @@ export default function ComponentAudit() {
           <CheckboxGroup aria-label="Pick toppings" orientation="horizontal">
             {['Cheese', 'Pepperoni', 'Mushrooms'].map((label) => (
               <Checkbox.Root key={label} value={label.toLowerCase()}>
-                <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+                <Checkbox.Indicator>
+                  <Icon icon={Check} size="sm" />
+                </Checkbox.Indicator>
                 {label}
               </Checkbox.Root>
             ))}
@@ -1521,7 +1929,9 @@ export default function ComponentAudit() {
             <div className="display--flex flex--col gap--3xs">
               {['Alpha', 'Beta'].map((label) => (
                 <Checkbox.Root key={label} value={label.toLowerCase()}>
-                  <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+                  <Checkbox.Indicator>
+                    <Icon icon={Check} size="sm" />
+                  </Checkbox.Indicator>
                   {label}
                 </Checkbox.Root>
               ))}
@@ -1529,7 +1939,11 @@ export default function ComponentAudit() {
           </CheckboxGroup>
         </Section>
 
-        <Section id="radio" title="Radio" classes={['tale-radio', 'tale-radio__indicator', 'tale-radio__dot', 'tale-radio--sm']}>
+        <Section
+          id="radio"
+          title="Radio"
+          classes={['tale-radio', 'tale-radio__indicator', 'tale-radio__dot', 'tale-radio--sm']}
+        >
           <SubHeading>States</SubHeading>
           <div className="audit__demo-spaced display--flex flex--col gap--2xs">
             <Radio.Group aria-label="Radio states">
@@ -1574,6 +1988,53 @@ export default function ComponentAudit() {
           </Radio.Group>
         </Section>
 
+        <Section
+          id="radio-field"
+          title="RadioField"
+          classes={[
+            'tale-radio-field',
+            'tale-radio-field--sm',
+            'tale-radio-field__button',
+            'tale-radio-field__indicator',
+            'tale-radio-field__dot',
+            'tale-radio-field__description',
+            'tale-radio-field__error',
+          ]}
+        >
+          <SubHeading>With Descriptions</SubHeading>
+          <RadioGroup aria-label="Subscription plan" defaultValue="pro">
+            <div className="display--flex flex--col gap--2xs">
+              <RadioField.Root value="free">
+                <RadioField.Button>
+                  <RadioField.Indicator>
+                    <RadioField.Dot />
+                  </RadioField.Indicator>
+                  Free
+                </RadioField.Button>
+              </RadioField.Root>
+              <RadioField.Root value="pro">
+                <RadioField.Button>
+                  <RadioField.Indicator>
+                    <RadioField.Dot />
+                  </RadioField.Indicator>
+                  Pro
+                </RadioField.Button>
+                <RadioField.Description>
+                  Unlimited projects and priority support.
+                </RadioField.Description>
+              </RadioField.Root>
+              <RadioField.Root value="enterprise" isDisabled>
+                <RadioField.Button>
+                  <RadioField.Indicator>
+                    <RadioField.Dot />
+                  </RadioField.Indicator>
+                  Enterprise
+                </RadioField.Button>
+              </RadioField.Root>
+            </div>
+          </RadioGroup>
+        </Section>
+
         <Section id="switch" title="Switch" classes={['tale-switch', 'tale-switch__thumb']}>
           <SubHeading>States</SubHeading>
           <div className="display--flex flex--col gap--xs">
@@ -1591,33 +2052,113 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="toggle-button" title="ToggleButton" classes={['tale-toggle-button', 'tale-toggle-button--sm', 'tale-toggle-button--md', 'tale-toggle-button--lg']}>
+        <Section
+          id="switch-field"
+          title="SwitchField"
+          classes={[
+            'tale-switch-field',
+            'tale-switch-field__button',
+            'tale-switch-field__thumb',
+            'tale-switch-field__description',
+            'tale-switch-field__error',
+          ]}
+        >
+          <SubHeading>With Description</SubHeading>
+          <SwitchField.Root defaultSelected>
+            <SwitchField.Button>
+              <SwitchField.Thumb />
+              Enable notifications
+            </SwitchField.Button>
+            <SwitchField.Description>We send at most one email per day.</SwitchField.Description>
+          </SwitchField.Root>
+          <SubHeading>With Error</SubHeading>
+          <SwitchField.Root isRequired isInvalid>
+            <SwitchField.Button>
+              <SwitchField.Thumb />
+              Accept data processing
+            </SwitchField.Button>
+            <SwitchField.Error>This setting is required.</SwitchField.Error>
+          </SwitchField.Root>
+          <SubHeading>States</SubHeading>
+          <div className="display--flex flex--col gap--xs">
+            <SwitchField.Root>
+              <SwitchField.Button>
+                <SwitchField.Thumb />
+                Off
+              </SwitchField.Button>
+            </SwitchField.Root>
+            <SwitchField.Root defaultSelected isDisabled>
+              <SwitchField.Button>
+                <SwitchField.Thumb />
+                Disabled (On)
+              </SwitchField.Button>
+            </SwitchField.Root>
+          </div>
+        </Section>
+
+        <Section
+          id="toggle-button"
+          title="ToggleButton"
+          classes={[
+            'tale-toggle-button',
+            'tale-toggle-button--sm',
+            'tale-toggle-button--md',
+            'tale-toggle-button--lg',
+          ]}
+        >
           <SubHeading>Sizes</SubHeading>
           <Row>
             {(['sm', 'md', 'lg'] as const).map((size) => (
-              <ToggleButton key={size} size={size}>{size.toUpperCase()}</ToggleButton>
+              <ToggleButton key={size} size={size}>
+                {size.toUpperCase()}
+              </ToggleButton>
             ))}
           </Row>
           <SubHeading>States</SubHeading>
           <Row>
             <ToggleButton size="md">Unpressed</ToggleButton>
-            <ToggleButton size="md" defaultSelected>Pressed</ToggleButton>
-            <ToggleButton size="md" isDisabled>Disabled</ToggleButton>
+            <ToggleButton size="md" defaultSelected>
+              Pressed
+            </ToggleButton>
+            <ToggleButton size="md" isDisabled>
+              Disabled
+            </ToggleButton>
           </Row>
         </Section>
 
-        <Section id="toggle-button-group" title="ToggleButtonGroup" classes={['tale-toggle-button-group']}>
+        <Section
+          id="toggle-button-group"
+          title="ToggleButtonGroup"
+          classes={['tale-toggle-button-group']}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <ToggleButtonGroup aria-label="Text alignment">
               <ToggleButton size="md">Left</ToggleButton>
-              <ToggleButton size="md" defaultSelected>Center</ToggleButton>
+              <ToggleButton size="md" defaultSelected>
+                Center
+              </ToggleButton>
               <ToggleButton size="md">Right</ToggleButton>
             </ToggleButtonGroup>
           </Row>
         </Section>
 
-        <Section id="select" title="Select" classes={['tale-select__trigger', 'tale-select__trigger--sm', 'tale-select__trigger--lg', 'tale-select__value', 'tale-select__icon', 'tale-select__popup', 'tale-select__list', 'tale-select__item', 'tale-select__group-label', 'tale-select__separator']}>
+        <Section
+          id="select"
+          title="Select"
+          classes={[
+            'tale-select__trigger',
+            'tale-select__trigger--sm',
+            'tale-select__trigger--lg',
+            'tale-select__value',
+            'tale-select__icon',
+            'tale-select__popup',
+            'tale-select__list',
+            'tale-select__item',
+            'tale-select__group-label',
+            'tale-select__separator',
+          ]}
+        >
           <SubHeading>Sizes</SubHeading>
           <Row>
             {(['sm', 'md', 'lg'] as const).map((size) => (
@@ -1629,7 +2170,13 @@ export default function ComponentAudit() {
                 <Select.Popover offset={4}>
                   <Select.ListBox>
                     {fruits.map((fruit) => (
-                      <Select.Item key={fruit} id={`${size}-${fruit.toLowerCase()}`} textValue={fruit}>{fruit}</Select.Item>
+                      <Select.Item
+                        key={fruit}
+                        id={`${size}-${fruit.toLowerCase()}`}
+                        textValue={fruit}
+                      >
+                        {fruit}
+                      </Select.Item>
                     ))}
                   </Select.ListBox>
                 </Select.Popover>
@@ -1646,7 +2193,9 @@ export default function ComponentAudit() {
               <Select.Popover offset={4}>
                 <Select.ListBox>
                   {fruits.map((fruit) => (
-                    <Select.Item key={fruit} id={fruit.toLowerCase()} textValue={fruit}>{fruit}</Select.Item>
+                    <Select.Item key={fruit} id={fruit.toLowerCase()} textValue={fruit}>
+                      {fruit}
+                    </Select.Item>
                   ))}
                 </Select.ListBox>
               </Select.Popover>
@@ -1672,7 +2221,9 @@ export default function ComponentAudit() {
               <Select.Popover offset={4}>
                 <Select.ListBox>
                   {fruits.map((fruit) => (
-                    <Select.Item key={fruit} id={fruit.toLowerCase()} textValue={fruit}>{fruit}</Select.Item>
+                    <Select.Item key={fruit} id={fruit.toLowerCase()} textValue={fruit}>
+                      {fruit}
+                    </Select.Item>
                   ))}
                 </Select.ListBox>
               </Select.Popover>
@@ -1690,14 +2241,18 @@ export default function ComponentAudit() {
                   <Select.Section>
                     <Select.Header>Europe</Select.Header>
                     {['France', 'Germany', 'Spain'].map((c) => (
-                      <Select.Item key={c} id={c.toLowerCase()} textValue={c}>{c}</Select.Item>
+                      <Select.Item key={c} id={c.toLowerCase()} textValue={c}>
+                        {c}
+                      </Select.Item>
                     ))}
                   </Select.Section>
                   <Select.Separator />
                   <Select.Section>
                     <Select.Header>Americas</Select.Header>
                     {['Brazil', 'Canada', 'Mexico'].map((c) => (
-                      <Select.Item key={c} id={c.toLowerCase()} textValue={c}>{c}</Select.Item>
+                      <Select.Item key={c} id={c.toLowerCase()} textValue={c}>
+                        {c}
+                      </Select.Item>
                     ))}
                   </Select.Section>
                 </Select.ListBox>
@@ -1713,23 +2268,58 @@ export default function ComponentAudit() {
               </Select.Trigger>
               <Select.Popover offset={4}>
                 <Select.ListBox>
-                  <Select.Item id="apple-d" textValue="Apple">Apple</Select.Item>
-                  <Select.Item id="banana-d" textValue="Banana" isDisabled>Banana</Select.Item>
-                  <Select.Item id="cherry-d" textValue="Cherry">Cherry</Select.Item>
-                  <Select.Item id="date-d" textValue="Date" isDisabled>Date</Select.Item>
-                  <Select.Item id="elderberry-d" textValue="Elderberry">Elderberry</Select.Item>
+                  <Select.Item id="apple-d" textValue="Apple">
+                    Apple
+                  </Select.Item>
+                  <Select.Item id="banana-d" textValue="Banana" isDisabled>
+                    Banana
+                  </Select.Item>
+                  <Select.Item id="cherry-d" textValue="Cherry">
+                    Cherry
+                  </Select.Item>
+                  <Select.Item id="date-d" textValue="Date" isDisabled>
+                    Date
+                  </Select.Item>
+                  <Select.Item id="elderberry-d" textValue="Elderberry">
+                    Elderberry
+                  </Select.Item>
                 </Select.ListBox>
               </Select.Popover>
             </Select.Root>
           </Row>
         </Section>
 
-        <Section id="autocomplete" title="Autocomplete" classes={['tale-combobox__input', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty']}>
+        <Section
+          id="autocomplete"
+          title="Autocomplete"
+          classes={[
+            'tale-combobox__input',
+            'tale-combobox__popup',
+            'tale-combobox__item',
+            'tale-combobox__empty',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <AutocompleteDemo />
         </Section>
 
-        <Section id="combobox" title="Combobox" classes={['tale-combobox__input', 'tale-combobox__input-group', 'tale-combobox__trigger', 'tale-combobox__popup', 'tale-combobox__item', 'tale-combobox__empty', 'tale-combobox__section', 'tale-combobox__header', 'tale-combobox__chips', 'tale-combobox__chip', 'tale-combobox__chip-remove']}>
+        <Section
+          id="combobox"
+          title="Combobox"
+          classes={[
+            'tale-combobox__input',
+            'tale-combobox__input-group',
+            'tale-combobox__trigger',
+            'tale-combobox__popup',
+            'tale-combobox__item',
+            'tale-combobox__empty',
+            'tale-combobox__section',
+            'tale-combobox__header',
+            'tale-combobox__chips',
+            'tale-combobox__chip',
+            'tale-combobox__chip-remove',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <ComboboxDemo />
           <SubHeading>With Label</SubHeading>
@@ -1743,7 +2333,9 @@ export default function ComponentAudit() {
               <Combobox.Popover offset={4}>
                 <Combobox.ListBox>
                   {countries.slice(0, 8).map((c) => (
-                    <Combobox.Item key={c} id={c} textValue={c}>{c}</Combobox.Item>
+                    <Combobox.Item key={c} id={c} textValue={c}>
+                      {c}
+                    </Combobox.Item>
                   ))}
                 </Combobox.ListBox>
               </Combobox.Popover>
@@ -1761,15 +2353,27 @@ export default function ComponentAudit() {
                 <Combobox.ListBox>
                   <Combobox.Section>
                     <Combobox.Header>Fruits</Combobox.Header>
-                    <Combobox.Item id="apple" textValue="Apple">Apple</Combobox.Item>
-                    <Combobox.Item id="banana" textValue="Banana">Banana</Combobox.Item>
-                    <Combobox.Item id="cherry" textValue="Cherry">Cherry</Combobox.Item>
+                    <Combobox.Item id="apple" textValue="Apple">
+                      Apple
+                    </Combobox.Item>
+                    <Combobox.Item id="banana" textValue="Banana">
+                      Banana
+                    </Combobox.Item>
+                    <Combobox.Item id="cherry" textValue="Cherry">
+                      Cherry
+                    </Combobox.Item>
                   </Combobox.Section>
                   <Combobox.Section>
                     <Combobox.Header>Vegetables</Combobox.Header>
-                    <Combobox.Item id="carrot" textValue="Carrot">Carrot</Combobox.Item>
-                    <Combobox.Item id="broccoli" textValue="Broccoli">Broccoli</Combobox.Item>
-                    <Combobox.Item id="spinach" textValue="Spinach">Spinach</Combobox.Item>
+                    <Combobox.Item id="carrot" textValue="Carrot">
+                      Carrot
+                    </Combobox.Item>
+                    <Combobox.Item id="broccoli" textValue="Broccoli">
+                      Broccoli
+                    </Combobox.Item>
+                    <Combobox.Item id="spinach" textValue="Spinach">
+                      Spinach
+                    </Combobox.Item>
                   </Combobox.Section>
                 </Combobox.ListBox>
               </Combobox.Popover>
@@ -1786,9 +2390,15 @@ export default function ComponentAudit() {
               <Combobox.Popover offset={4}>
                 <Combobox.ListBox>
                   <Combobox.Empty>No results found.</Combobox.Empty>
-                  <Combobox.Item id="apple-e" textValue="Apple">Apple</Combobox.Item>
-                  <Combobox.Item id="banana-e" textValue="Banana">Banana</Combobox.Item>
-                  <Combobox.Item id="cherry-e" textValue="Cherry">Cherry</Combobox.Item>
+                  <Combobox.Item id="apple-e" textValue="Apple">
+                    Apple
+                  </Combobox.Item>
+                  <Combobox.Item id="banana-e" textValue="Banana">
+                    Banana
+                  </Combobox.Item>
+                  <Combobox.Item id="cherry-e" textValue="Cherry">
+                    Cherry
+                  </Combobox.Item>
                 </Combobox.ListBox>
               </Combobox.Popover>
             </Combobox.Root>
@@ -1814,17 +2424,35 @@ export default function ComponentAudit() {
               </Combobox.InputGroup>
               <Combobox.Popover offset={4}>
                 <Combobox.ListBox>
-                  <Combobox.Item id="react-ms" textValue="React">React</Combobox.Item>
-                  <Combobox.Item id="vue-ms" textValue="Vue">Vue</Combobox.Item>
-                  <Combobox.Item id="angular-ms" textValue="Angular">Angular</Combobox.Item>
-                  <Combobox.Item id="svelte-ms" textValue="Svelte">Svelte</Combobox.Item>
+                  <Combobox.Item id="react-ms" textValue="React">
+                    React
+                  </Combobox.Item>
+                  <Combobox.Item id="vue-ms" textValue="Vue">
+                    Vue
+                  </Combobox.Item>
+                  <Combobox.Item id="angular-ms" textValue="Angular">
+                    Angular
+                  </Combobox.Item>
+                  <Combobox.Item id="svelte-ms" textValue="Svelte">
+                    Svelte
+                  </Combobox.Item>
                 </Combobox.ListBox>
               </Combobox.Popover>
             </Combobox.Root>
           </div>
         </Section>
 
-        <Section id="number-field" title="NumberField" classes={['tale-number-field', 'tale-number-field__group', 'tale-number-field__input', 'tale-number-field__decrement', 'tale-number-field__increment']}>
+        <Section
+          id="number-field"
+          title="NumberField"
+          classes={[
+            'tale-number-field',
+            'tale-number-field__group',
+            'tale-number-field__input',
+            'tale-number-field__decrement',
+            'tale-number-field__increment',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <NumberField.Root defaultValue={0} minValue={0} maxValue={100}>
@@ -1858,7 +2486,10 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Currency Format</SubHeading>
           <Row>
-            <NumberField.Root defaultValue={99.99} formatOptions={{ style: 'currency', currency: 'USD' }}>
+            <NumberField.Root
+              defaultValue={99.99}
+              formatOptions={{ style: 'currency', currency: 'USD' }}
+            >
               <NumberField.Label>Price</NumberField.Label>
               <NumberField.Group>
                 <NumberField.Decrement />
@@ -1869,7 +2500,22 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="slider" title="Slider" classes={['tale-slider', 'tale-slider__header', 'tale-slider__label', 'tale-slider__output', 'tale-slider__output--top', 'tale-slider__output--bottom', 'tale-slider__control', 'tale-slider__track', 'tale-slider__indicator', 'tale-slider__thumb']}>
+        <Section
+          id="slider"
+          title="Slider"
+          classes={[
+            'tale-slider',
+            'tale-slider__header',
+            'tale-slider__label',
+            'tale-slider__output',
+            'tale-slider__output--top',
+            'tale-slider__output--bottom',
+            'tale-slider__control',
+            'tale-slider__track',
+            'tale-slider__indicator',
+            'tale-slider__thumb',
+          ]}
+        >
           <SubHeading>With Header &amp; Output</SubHeading>
           <div className="audit__demo-narrow audit__demo-spaced">
             <Slider.Root defaultValue={50}>
@@ -1983,7 +2629,18 @@ export default function ComponentAudit() {
         {/* OVERLAY */}
         {/* ============================================================= */}
 
-        <Section id="dialog" title="Dialog" classes={['tale-dialog__backdrop', 'tale-dialog__popup', 'tale-dialog__title', 'tale-dialog__description', 'tale-dialog__close', 'tale-dialog__actions']}>
+        <Section
+          id="dialog"
+          title="Dialog"
+          classes={[
+            'tale-dialog__backdrop',
+            'tale-dialog__popup',
+            'tale-dialog__title',
+            'tale-dialog__description',
+            'tale-dialog__close',
+            'tale-dialog__actions',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <DialogDemo />
@@ -2002,25 +2659,45 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="alert-dialog" title="AlertDialog" classes={['tale-alert-dialog__backdrop', 'tale-alert-dialog__popup', 'tale-alert-dialog__title', 'tale-alert-dialog__description', 'tale-alert-dialog__actions']}>
+        <Section
+          id="alert-dialog"
+          title="AlertDialog"
+          classes={[
+            'tale-alert-dialog__backdrop',
+            'tale-alert-dialog__popup',
+            'tale-alert-dialog__title',
+            'tale-alert-dialog__description',
+            'tale-alert-dialog__actions',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <AlertDialogDemo />
           </Row>
         </Section>
 
-        <Section id="popover" title="Popover" classes={['tale-popover__popup', 'tale-popover__title', 'tale-popover__description', 'tale-popover__close', 'tale-popover__arrow']}>
+        <Section
+          id="popover"
+          title="Popover"
+          classes={[
+            'tale-popover__popup',
+            'tale-popover__title',
+            'tale-popover__description',
+            'tale-popover__close',
+            'tale-popover__arrow',
+          ]}
+        >
           <SubHeading>All sides</SubHeading>
           <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Popover.Root key={side}>
-                <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">{side}</Popover.Trigger>
+                <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">
+                  {side}
+                </Popover.Trigger>
                 <Popover.Popup placement={side} offset={8}>
                   <Popover.Close aria-label="Close" />
                   <Popover.Title>Popover ({side})</Popover.Title>
-                  <Popover.Description>
-                    Appears on the {side}.
-                  </Popover.Description>
+                  <Popover.Description>Appears on the {side}.</Popover.Description>
                 </Popover.Popup>
               </Popover.Root>
             ))}
@@ -2028,7 +2705,9 @@ export default function ComponentAudit() {
           <SubHeading>With Arrow</SubHeading>
           <Row className="audit__demo-row--padded">
             <Popover.Root>
-              <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">With Arrow</Popover.Trigger>
+              <Popover.Trigger className="tale-button tale-button--neutral tale-button--md">
+                With Arrow
+              </Popover.Trigger>
               <Popover.Popup placement="bottom" offset={8}>
                 <Popover.Arrow />
                 <Popover.Title>Arrow Popover</Popover.Title>
@@ -2040,7 +2719,16 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="preview-card" title="PreviewCard" classes={['tale-preview-card', 'tale-preview-card__trigger', 'tale-preview-card__popup', 'tale-preview-card__arrow']}>
+        <Section
+          id="preview-card"
+          title="PreviewCard"
+          classes={[
+            'tale-preview-card',
+            'tale-preview-card__trigger',
+            'tale-preview-card__popup',
+            'tale-preview-card__arrow',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <PreviewCard.Root>
@@ -2076,11 +2764,27 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="drawer" title="Drawer" classes={['tale-drawer', 'tale-drawer__trigger', 'tale-drawer__popup', 'tale-drawer__backdrop', 'tale-drawer__title', 'tale-drawer__description', 'tale-drawer__close', 'tale-drawer__handle', 'tale-drawer__swipe-area']}>
+        <Section
+          id="drawer"
+          title="Drawer"
+          classes={[
+            'tale-drawer',
+            'tale-drawer__trigger',
+            'tale-drawer__popup',
+            'tale-drawer__backdrop',
+            'tale-drawer__title',
+            'tale-drawer__description',
+            'tale-drawer__close',
+            'tale-drawer__handle',
+            'tale-drawer__swipe-area',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <Drawer.Root>
-              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Trigger className="tale-button tale-button--neutral">
+                Open Drawer
+              </Drawer.Trigger>
               <Drawer.Popup>
                 <p>Drawer content goes here.</p>
                 <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
@@ -2090,10 +2794,14 @@ export default function ComponentAudit() {
           <SubHeading>With Title</SubHeading>
           <Row>
             <Drawer.Root>
-              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Trigger className="tale-button tale-button--neutral">
+                Open Drawer
+              </Drawer.Trigger>
               <Drawer.Popup>
                 <Drawer.Title>Drawer Title</Drawer.Title>
-                <Drawer.Description>This is a description of the drawer content.</Drawer.Description>
+                <Drawer.Description>
+                  This is a description of the drawer content.
+                </Drawer.Description>
                 <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
               </Drawer.Popup>
             </Drawer.Root>
@@ -2101,7 +2809,9 @@ export default function ComponentAudit() {
           <SubHeading>With Backdrop</SubHeading>
           <Row>
             <Drawer.Root>
-              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Trigger className="tale-button tale-button--neutral">
+                Open Drawer
+              </Drawer.Trigger>
               <Drawer.Backdrop />
               <Drawer.Popup>
                 <Drawer.Title>Drawer with Backdrop</Drawer.Title>
@@ -2113,12 +2823,16 @@ export default function ComponentAudit() {
           <SubHeading>With Handle</SubHeading>
           <Row>
             <Drawer.Root>
-              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Trigger className="tale-button tale-button--neutral">
+                Open Drawer
+              </Drawer.Trigger>
               <Drawer.Backdrop />
               <Drawer.Popup>
                 <Drawer.Handle />
                 <Drawer.Title>Drawer with Handle</Drawer.Title>
-                <Drawer.Description>The handle bar indicates this drawer is draggable.</Drawer.Description>
+                <Drawer.Description>
+                  The handle bar indicates this drawer is draggable.
+                </Drawer.Description>
                 <Drawer.Close className="tale-button tale-button--neutral">Close</Drawer.Close>
               </Drawer.Popup>
             </Drawer.Root>
@@ -2126,27 +2840,44 @@ export default function ComponentAudit() {
           <SubHeading>With Actions</SubHeading>
           <Row>
             <Drawer.Root>
-              <Drawer.Trigger className="tale-button tale-button--neutral">Open Drawer</Drawer.Trigger>
+              <Drawer.Trigger className="tale-button tale-button--neutral">
+                Open Drawer
+              </Drawer.Trigger>
               <Drawer.Backdrop />
               <Drawer.Popup>
                 <Drawer.Handle />
                 <Drawer.Title>Confirm Action</Drawer.Title>
                 <Drawer.Description>Are you sure you want to proceed?</Drawer.Description>
                 <div className="audit__drawer-actions">
-                  <Drawer.Close className="tale-button tale-button--neutral audit__drawer-action">Cancel</Drawer.Close>
-                  <Drawer.Close className="tale-button tale-button--primary audit__drawer-action">Confirm</Drawer.Close>
+                  <Drawer.Close className="tale-button tale-button--neutral audit__drawer-action">
+                    Cancel
+                  </Drawer.Close>
+                  <Drawer.Close className="tale-button tale-button--primary audit__drawer-action">
+                    Confirm
+                  </Drawer.Close>
                 </div>
               </Drawer.Popup>
             </Drawer.Root>
           </Row>
         </Section>
 
-        <Section id="tooltip" title="Tooltip" classes={['tale-tooltip__popup', 'tale-tooltip__arrow', 'tale-tooltip__title', 'tale-tooltip__description']}>
+        <Section
+          id="tooltip"
+          title="Tooltip"
+          classes={[
+            'tale-tooltip__popup',
+            'tale-tooltip__arrow',
+            'tale-tooltip__title',
+            'tale-tooltip__description',
+          ]}
+        >
           <SubHeading>Without arrow</SubHeading>
           <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
-                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Hover ({side})</Tooltip.Trigger>
+                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">
+                  Hover ({side})
+                </Tooltip.Trigger>
                 <Tooltip.Popup placement={side} offset={8}>
                   Appears on the {side}
                 </Tooltip.Popup>
@@ -2155,10 +2886,11 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>With arrow</SubHeading>
           <Row className="audit__demo-row--padded">
-
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
-                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Arrow ({side})</Tooltip.Trigger>
+                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">
+                  Arrow ({side})
+                </Tooltip.Trigger>
                 <Tooltip.Popup placement={side} offset={4}>
                   <Tooltip.Arrow />
                   Appears on the {side}
@@ -2169,11 +2901,13 @@ export default function ComponentAudit() {
           <SubHeading>Long Text</SubHeading>
           <Row className="audit__demo-row--padded">
             <Tooltip.Root>
-              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Long tooltip</Tooltip.Trigger>
+              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">
+                Long tooltip
+              </Tooltip.Trigger>
               <Tooltip.Popup placement="top" offset={8}>
                 <Tooltip.Arrow />
-                This is a tooltip with a longer description that wraps across multiple
-                lines to demonstrate how the tooltip handles extended content gracefully.
+                This is a tooltip with a longer description that wraps across multiple lines to
+                demonstrate how the tooltip handles extended content gracefully.
               </Tooltip.Popup>
             </Tooltip.Root>
           </Row>
@@ -2181,7 +2915,9 @@ export default function ComponentAudit() {
           <Row className="audit__demo-row--padded">
             {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
               <Tooltip.Root key={side} delay={300} closeDelay={150}>
-                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">Info ({side})</Tooltip.Trigger>
+                <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">
+                  Info ({side})
+                </Tooltip.Trigger>
                 <Tooltip.Popup placement={side} offset={8}>
                   <Tooltip.Arrow />
                   <Tooltip.Title>Feature Name</Tooltip.Title>
@@ -2193,14 +2929,18 @@ export default function ComponentAudit() {
           <SubHeading>With Delay</SubHeading>
           <Row className="audit__demo-row--padded">
             <Tooltip.Root delay={500}>
-              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">500ms delay</Tooltip.Trigger>
+              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">
+                500ms delay
+              </Tooltip.Trigger>
               <Tooltip.Popup placement="top" offset={8}>
                 <Tooltip.Arrow />
                 Appeared after 500ms
               </Tooltip.Popup>
             </Tooltip.Root>
             <Tooltip.Root delay={0}>
-              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">No delay</Tooltip.Trigger>
+              <Tooltip.Trigger className="tale-button tale-button--neutral tale-button--md">
+                No delay
+              </Tooltip.Trigger>
               <Tooltip.Popup placement="top" offset={8}>
                 <Tooltip.Arrow />
                 Instant tooltip
@@ -2213,19 +2953,45 @@ export default function ComponentAudit() {
         {/* NAVIGATION */}
         {/* ============================================================= */}
 
-        <Section id="menu" title="Menu" classes={['tale-menu__popup', 'tale-menu__item', 'tale-menu__separator', 'tale-menu__group-label', 'tale-menu__trigger', 'tale-menu__popover', 'tale-menu__arrow', 'tale-menu__checkbox-item', 'tale-menu__radio-item', 'tale-menu__link-item', 'tale-menu__submenu-trigger']}>
+        <Section
+          id="menu"
+          title="Menu"
+          classes={[
+            'tale-menu__popup',
+            'tale-menu__item',
+            'tale-menu__separator',
+            'tale-menu__group-label',
+            'tale-menu__trigger',
+            'tale-menu__popover',
+            'tale-menu__arrow',
+            'tale-menu__checkbox-item',
+            'tale-menu__radio-item',
+            'tale-menu__link-item',
+            'tale-menu__submenu-trigger',
+          ]}
+        >
           <SubHeading>Basic</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Options <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
+                Options <Icon icon={ChevronDown} size="sm" />
+              </Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList aria-label="Options">
-                  <Menu.Item id="edit" textValue="Edit">Edit</Menu.Item>
-                  <Menu.Item id="duplicate" textValue="Duplicate">Duplicate</Menu.Item>
+                  <Menu.Item id="edit" textValue="Edit">
+                    Edit
+                  </Menu.Item>
+                  <Menu.Item id="duplicate" textValue="Duplicate">
+                    Duplicate
+                  </Menu.Item>
                   <Menu.Separator />
-                  <Menu.Item id="share" textValue="Share">Share</Menu.Item>
+                  <Menu.Item id="share" textValue="Share">
+                    Share
+                  </Menu.Item>
                   <Menu.Separator />
-                  <Menu.Item id="delete" textValue="Delete">Delete</Menu.Item>
+                  <Menu.Item id="delete" textValue="Delete">
+                    Delete
+                  </Menu.Item>
                 </Menu.MenuList>
               </Menu.Popover>
             </Menu.Root>
@@ -2233,18 +2999,26 @@ export default function ComponentAudit() {
           <SubHeading>With Group Labels</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Account <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
+                Account <Icon icon={ChevronDown} size="sm" />
+              </Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList aria-label="Account">
                   <Menu.Group>
                     <Menu.Header>Account</Menu.Header>
-                    <Menu.Item id="profile" textValue="Profile">Profile</Menu.Item>
-                    <Menu.Item id="settings" textValue="Settings">Settings</Menu.Item>
+                    <Menu.Item id="profile" textValue="Profile">
+                      Profile
+                    </Menu.Item>
+                    <Menu.Item id="settings" textValue="Settings">
+                      Settings
+                    </Menu.Item>
                   </Menu.Group>
                   <Menu.Separator />
                   <Menu.Group>
                     <Menu.Header>Danger Zone</Menu.Header>
-                    <Menu.Item id="sign-out" textValue="Sign out">Sign out</Menu.Item>
+                    <Menu.Item id="sign-out" textValue="Sign out">
+                      Sign out
+                    </Menu.Item>
                   </Menu.Group>
                 </Menu.MenuList>
               </Menu.Popover>
@@ -2265,28 +3039,47 @@ export default function ComponentAudit() {
           <SubHeading>With Disabled Items</SubHeading>
           <Row>
             <Menu.Root>
-              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">Actions <Icon icon={ChevronDown} size="sm" /></Menu.Trigger>
+              <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
+                Actions <Icon icon={ChevronDown} size="sm" />
+              </Menu.Trigger>
               <Menu.Popover offset={4}>
                 <Menu.MenuList aria-label="Actions">
-                  <Menu.Item id="edit" textValue="Edit">Edit</Menu.Item>
-                  <Menu.Item id="duplicate" textValue="Duplicate" isDisabled>Duplicate</Menu.Item>
+                  <Menu.Item id="edit" textValue="Edit">
+                    Edit
+                  </Menu.Item>
+                  <Menu.Item id="duplicate" textValue="Duplicate" isDisabled>
+                    Duplicate
+                  </Menu.Item>
                   <Menu.Separator />
-                  <Menu.Item id="archive" textValue="Archive">Archive</Menu.Item>
-                  <Menu.Item id="delete" textValue="Delete" isDisabled>Delete</Menu.Item>
+                  <Menu.Item id="archive" textValue="Archive">
+                    Archive
+                  </Menu.Item>
+                  <Menu.Item id="delete" textValue="Delete" isDisabled>
+                    Delete
+                  </Menu.Item>
                 </Menu.MenuList>
               </Menu.Popover>
             </Menu.Root>
           </Row>
         </Section>
 
-        <Section id="context-menu" title="ContextMenu" classes={['tale-context-menu', 'tale-context-menu__trigger', 'tale-context-menu__list', 'tale-context-menu__item', 'tale-context-menu__separator', 'tale-context-menu__group']}>
+        <Section
+          id="context-menu"
+          title="ContextMenu"
+          classes={[
+            'tale-context-menu',
+            'tale-context-menu__trigger',
+            'tale-context-menu__list',
+            'tale-context-menu__item',
+            'tale-context-menu__separator',
+            'tale-context-menu__group',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <ContextMenu.Root>
               <ContextMenu.Trigger>
-                <div className="audit__context-trigger">
-                  Right-click this area
-                </div>
+                <div className="audit__context-trigger">Right-click this area</div>
               </ContextMenu.Trigger>
               <ContextMenu.Popup aria-label="Context menu">
                 <ContextMenu.MenuList aria-label="Context menu">
@@ -2303,9 +3096,7 @@ export default function ComponentAudit() {
           <Row>
             <ContextMenu.Root>
               <ContextMenu.Trigger>
-                <div className="audit__context-trigger">
-                  Right-click for grouped menu
-                </div>
+                <div className="audit__context-trigger">Right-click for grouped menu</div>
               </ContextMenu.Trigger>
               <ContextMenu.Popup aria-label="Grouped context menu">
                 <ContextMenu.MenuList aria-label="Grouped context menu">
@@ -2329,7 +3120,18 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="navigation-menu" title="NavigationMenu" classes={['tale-navigation-menu', 'tale-navigation-menu__list', 'tale-navigation-menu__item', 'tale-navigation-menu__trigger', 'tale-navigation-menu__link', 'tale-navigation-menu__icon']}>
+        <Section
+          id="navigation-menu"
+          title="NavigationMenu"
+          classes={[
+            'tale-navigation-menu',
+            'tale-navigation-menu__list',
+            'tale-navigation-menu__item',
+            'tale-navigation-menu__trigger',
+            'tale-navigation-menu__link',
+            'tale-navigation-menu__icon',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <NavigationMenu.Root>
             <NavigationMenu.List>
@@ -2359,10 +3161,16 @@ export default function ComponentAudit() {
                 <Menu.Trigger>File</Menu.Trigger>
                 <Menu.Popover offset={4}>
                   <Menu.MenuList aria-label="File">
-                    <Menu.Item id="new" textValue="New">New</Menu.Item>
-                    <Menu.Item id="open" textValue="Open">Open</Menu.Item>
+                    <Menu.Item id="new" textValue="New">
+                      New
+                    </Menu.Item>
+                    <Menu.Item id="open" textValue="Open">
+                      Open
+                    </Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item id="save" textValue="Save">Save</Menu.Item>
+                    <Menu.Item id="save" textValue="Save">
+                      Save
+                    </Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>
@@ -2372,12 +3180,22 @@ export default function ComponentAudit() {
                 <Menu.Trigger>Edit</Menu.Trigger>
                 <Menu.Popover offset={4}>
                   <Menu.MenuList aria-label="Edit">
-                    <Menu.Item id="undo" textValue="Undo">Undo</Menu.Item>
-                    <Menu.Item id="redo" textValue="Redo">Redo</Menu.Item>
+                    <Menu.Item id="undo" textValue="Undo">
+                      Undo
+                    </Menu.Item>
+                    <Menu.Item id="redo" textValue="Redo">
+                      Redo
+                    </Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item id="cut" textValue="Cut">Cut</Menu.Item>
-                    <Menu.Item id="copy" textValue="Copy">Copy</Menu.Item>
-                    <Menu.Item id="paste" textValue="Paste">Paste</Menu.Item>
+                    <Menu.Item id="cut" textValue="Cut">
+                      Cut
+                    </Menu.Item>
+                    <Menu.Item id="copy" textValue="Copy">
+                      Copy
+                    </Menu.Item>
+                    <Menu.Item id="paste" textValue="Paste">
+                      Paste
+                    </Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>
@@ -2387,10 +3205,16 @@ export default function ComponentAudit() {
                 <Menu.Trigger>View</Menu.Trigger>
                 <Menu.Popover offset={4}>
                   <Menu.MenuList aria-label="View">
-                    <Menu.Item id="zoom-in" textValue="Zoom In">Zoom In</Menu.Item>
-                    <Menu.Item id="zoom-out" textValue="Zoom Out">Zoom Out</Menu.Item>
+                    <Menu.Item id="zoom-in" textValue="Zoom In">
+                      Zoom In
+                    </Menu.Item>
+                    <Menu.Item id="zoom-out" textValue="Zoom Out">
+                      Zoom Out
+                    </Menu.Item>
                     <Menu.Separator />
-                    <Menu.Item id="full-screen" textValue="Full Screen">Full Screen</Menu.Item>
+                    <Menu.Item id="full-screen" textValue="Full Screen">
+                      Full Screen
+                    </Menu.Item>
                   </Menu.MenuList>
                 </Menu.Popover>
               </Menu.Root>
@@ -2398,12 +3222,22 @@ export default function ComponentAudit() {
           </Menubar.Root>
         </Section>
 
-        <Section id="breadcrumbs" title="Breadcrumbs" classes={['tale-breadcrumbs', 'tale-breadcrumbs__item', 'tale-breadcrumbs__link']}>
+        <Section
+          id="breadcrumbs"
+          title="Breadcrumbs"
+          classes={['tale-breadcrumbs', 'tale-breadcrumbs__item', 'tale-breadcrumbs__link']}
+        >
           <SubHeading>Default</SubHeading>
           <Breadcrumbs.Root>
-            <Breadcrumbs.Item><Breadcrumbs.Link href="#">Home</Breadcrumbs.Link></Breadcrumbs.Item>
-            <Breadcrumbs.Item><Breadcrumbs.Link href="#">Products</Breadcrumbs.Link></Breadcrumbs.Item>
-            <Breadcrumbs.Item><Breadcrumbs.Link>Current Page</Breadcrumbs.Link></Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link href="#">Products</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
+            <Breadcrumbs.Item>
+              <Breadcrumbs.Link>Current Page</Breadcrumbs.Link>
+            </Breadcrumbs.Item>
           </Breadcrumbs.Root>
         </Section>
 
@@ -2411,15 +3245,34 @@ export default function ComponentAudit() {
           <SubHeading>Default</SubHeading>
           <Row>
             <Link href="#">Default link</Link>
-            <Link href="#" isDisabled>Disabled link</Link>
+            <Link href="#" isDisabled>
+              Disabled link
+            </Link>
           </Row>
           <SubHeading>External</SubHeading>
           <Row>
-            <Link href="https://example.com" target="_blank">Opens in new tab</Link>
+            <Link href="https://example.com" target="_blank">
+              Opens in new tab
+            </Link>
           </Row>
         </Section>
 
-        <Section id="pagination" title="Pagination" classes={['tale-pagination', 'tale-pagination__item', 'tale-pagination__item--current', 'tale-pagination__ellipsis', 'tale-pagination__previous', 'tale-pagination__next', 'tale-pagination__dot', 'tale-pagination__dot--current', 'tale-pagination__line', 'tale-pagination__line--current']}>
+        <Section
+          id="pagination"
+          title="Pagination"
+          classes={[
+            'tale-pagination',
+            'tale-pagination__item',
+            'tale-pagination__item--current',
+            'tale-pagination__ellipsis',
+            'tale-pagination__previous',
+            'tale-pagination__next',
+            'tale-pagination__dot',
+            'tale-pagination__dot--current',
+            'tale-pagination__line',
+            'tale-pagination__line--current',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Pagination.Root aria-label="Pagination">
             <Pagination.PreviousTrigger />
@@ -2478,11 +3331,25 @@ export default function ComponentAudit() {
           <SubHeading>Large</SubHeading>
           <PaginationDot page={1} total={4} size="lg" />
           <SubHeading>Framed</SubHeading>
-          <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: 8, display: 'inline-block' }}>
+          <div
+            style={{
+              padding: '1rem',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: 8,
+              display: 'inline-block',
+            }}
+          >
             <PaginationDot page={2} total={5} framed />
           </div>
           <SubHeading>Framed + Large</SubHeading>
-          <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', borderRadius: 8, display: 'inline-block' }}>
+          <div
+            style={{
+              padding: '1rem',
+              background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+              borderRadius: 8,
+              display: 'inline-block',
+            }}
+          >
             <PaginationDot page={1} total={3} size="lg" framed />
           </div>
         </Section>
@@ -2501,16 +3368,42 @@ export default function ComponentAudit() {
           <SubHeading>Large</SubHeading>
           <PaginationLine page={1} total={4} size="lg" style={{ width: 240 }} />
           <SubHeading>Framed</SubHeading>
-          <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: 8, display: 'inline-block', width: 240 }}>
+          <div
+            style={{
+              padding: '1rem',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: 8,
+              display: 'inline-block',
+              width: 240,
+            }}
+          >
             <PaginationLine page={2} total={5} framed style={{ width: '100%' }} />
           </div>
           <SubHeading>Framed + Large</SubHeading>
-          <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', borderRadius: 8, display: 'inline-block', width: 240 }}>
+          <div
+            style={{
+              padding: '1rem',
+              background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+              borderRadius: 8,
+              display: 'inline-block',
+              width: 240,
+            }}
+          >
             <PaginationLine page={1} total={3} size="lg" framed style={{ width: '100%' }} />
           </div>
         </Section>
 
-        <Section id="pin-input" title="PinInput" classes={['tale-pin-input', 'tale-pin-input__group', 'tale-pin-input__slot', 'tale-pin-input__separator', 'tale-pin-input__caret']}>
+        <Section
+          id="pin-input"
+          title="PinInput"
+          classes={[
+            'tale-pin-input',
+            'tale-pin-input__group',
+            'tale-pin-input__slot',
+            'tale-pin-input__separator',
+            'tale-pin-input__caret',
+          ]}
+        >
           <SubHeading>4-digit</SubHeading>
           <PinInput.Root maxLength={4}>
             <PinInput.Group>
@@ -2545,7 +3438,19 @@ export default function ComponentAudit() {
           </PinInput.Root>
         </Section>
 
-        <Section id="payment-input" title="PaymentInput" classes={['tale-payment-input', 'tale-payment-input__group', 'tale-payment-input__input', 'tale-payment-input__label', 'tale-payment-input__card-icon', 'tale-payment-input__description', 'tale-payment-input__error']}>
+        <Section
+          id="payment-input"
+          title="PaymentInput"
+          classes={[
+            'tale-payment-input',
+            'tale-payment-input__group',
+            'tale-payment-input__input',
+            'tale-payment-input__label',
+            'tale-payment-input__card-icon',
+            'tale-payment-input__description',
+            'tale-payment-input__error',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <PaymentInput.Root>
             <PaymentInput.Group>
@@ -2568,16 +3473,75 @@ export default function ComponentAudit() {
         {/* LAYOUT */}
         {/* ============================================================= */}
 
-        <Section id="carousel" title="Carousel" classes={['tale-carousel', 'tale-carousel__content', 'tale-carousel__container', 'tale-carousel__item', 'tale-carousel__previous', 'tale-carousel__next', 'tale-carousel__indicators', 'tale-carousel__indicator']}>
+        <Section
+          id="carousel"
+          title="Carousel"
+          classes={[
+            'tale-carousel',
+            'tale-carousel__content',
+            'tale-carousel__container',
+            'tale-carousel__item',
+            'tale-carousel__previous',
+            'tale-carousel__next',
+            'tale-carousel__indicators',
+            'tale-carousel__indicator',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <div style={{ maxWidth: 400 }}>
             <Carousel.Root>
               <Carousel.Content>
-                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 1</div></Carousel.Item>
-                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 2</div></Carousel.Item>
-                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 3</div></Carousel.Item>
+                <Carousel.Item>
+                  <div
+                    style={{
+                      height: 120,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'var(--neutral-12)',
+                      borderRadius: 'var(--radius-m)',
+                    }}
+                  >
+                    Slide 1
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                  <div
+                    style={{
+                      height: 120,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'var(--neutral-12)',
+                      borderRadius: 'var(--radius-m)',
+                    }}
+                  >
+                    Slide 2
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                  <div
+                    style={{
+                      height: 120,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'var(--neutral-12)',
+                      borderRadius: 'var(--radius-m)',
+                    }}
+                  >
+                    Slide 3
+                  </div>
+                </Carousel.Item>
               </Carousel.Content>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-xs)', marginTop: 'var(--space-xs)' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: 'var(--space-xs)',
+                  marginTop: 'var(--space-xs)',
+                }}
+              >
                 <Carousel.PreviousTrigger />
                 <Carousel.NextTrigger />
               </div>
@@ -2587,9 +3551,48 @@ export default function ComponentAudit() {
           <div style={{ maxWidth: 400 }}>
             <Carousel.Root loop>
               <Carousel.Content>
-                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 1</div></Carousel.Item>
-                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 2</div></Carousel.Item>
-                <Carousel.Item><div style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--neutral-12)', borderRadius: 'var(--radius-m)' }}>Slide 3</div></Carousel.Item>
+                <Carousel.Item>
+                  <div
+                    style={{
+                      height: 120,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'var(--neutral-12)',
+                      borderRadius: 'var(--radius-m)',
+                    }}
+                  >
+                    Slide 1
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                  <div
+                    style={{
+                      height: 120,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'var(--neutral-12)',
+                      borderRadius: 'var(--radius-m)',
+                    }}
+                  >
+                    Slide 2
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                  <div
+                    style={{
+                      height: 120,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'var(--neutral-12)',
+                      borderRadius: 'var(--radius-m)',
+                    }}
+                  >
+                    Slide 3
+                  </div>
+                </Carousel.Item>
               </Carousel.Content>
               <Carousel.Indicators>
                 <Carousel.Indicator index={0} />
@@ -2600,20 +3603,43 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="accordion" title="Accordion" classes={['tale-accordion', 'tale-accordion__item', 'tale-accordion__trigger', 'tale-accordion__trigger-icon', 'tale-accordion__panel']}>
+        <Section
+          id="accordion"
+          title="Accordion"
+          classes={[
+            'tale-accordion',
+            'tale-accordion__item',
+            'tale-accordion__trigger',
+            'tale-accordion__trigger-icon',
+            'tale-accordion__panel',
+          ]}
+        >
           <SubHeading>Default Open</SubHeading>
           <div className="audit__demo-extra-wide">
             <Accordion.Root defaultExpandedKeys={['a']}>
               {[
-                { id: 'a', title: 'What is Tale UI?', content: 'Tale UI is a styled component library providing accessible headless components with opinionated CSS via @tale-ui/core design tokens.' },
-                { id: 'b', title: 'How does styling work?', content: 'Styling lives in @tale-ui/react-styles. Components are headless — you apply CSS classes like .tale-button.' },
-                { id: 'c', title: 'Can I use dark mode?', content: 'Yes! Set data-color-mode="dark" on the <html> element. Tokens auto-invert.' },
+                {
+                  id: 'a',
+                  title: 'What is Tale UI?',
+                  content:
+                    'Tale UI is a styled component library providing accessible headless components with opinionated CSS via @tale-ui/core design tokens.',
+                },
+                {
+                  id: 'b',
+                  title: 'How does styling work?',
+                  content:
+                    'Styling lives in @tale-ui/react-styles. Components are headless — you apply CSS classes like .tale-button.',
+                },
+                {
+                  id: 'c',
+                  title: 'Can I use dark mode?',
+                  content:
+                    'Yes! Set data-color-mode="dark" on the <html> element. Tokens auto-invert.',
+                },
               ].map(({ id, title, content }) => (
                 <Accordion.Item key={id} id={id}>
                   <Accordion.Header>
-                    <Accordion.Trigger>
-                      {title}
-                    </Accordion.Trigger>
+                    <Accordion.Trigger>{title}</Accordion.Trigger>
                   </Accordion.Header>
                   <Accordion.Panel>{content}</Accordion.Panel>
                 </Accordion.Item>
@@ -2624,15 +3650,22 @@ export default function ComponentAudit() {
           <div className="audit__demo-extra-wide audit__demo-spaced">
             <Accordion.Root allowsMultipleExpanded defaultExpandedKeys={['m-a', 'm-b']}>
               {[
-                { id: 'm-a', title: 'First Section', content: 'This section starts open. Multiple sections can be expanded simultaneously.' },
+                {
+                  id: 'm-a',
+                  title: 'First Section',
+                  content:
+                    'This section starts open. Multiple sections can be expanded simultaneously.',
+                },
                 { id: 'm-b', title: 'Second Section', content: 'This section also starts open.' },
-                { id: 'm-c', title: 'Third Section', content: 'Click to expand alongside the others.' },
+                {
+                  id: 'm-c',
+                  title: 'Third Section',
+                  content: 'Click to expand alongside the others.',
+                },
               ].map(({ id, title, content }) => (
                 <Accordion.Item key={id} id={id}>
                   <Accordion.Header>
-                    <Accordion.Trigger>
-                      {title}
-                    </Accordion.Trigger>
+                    <Accordion.Trigger>{title}</Accordion.Trigger>
                   </Accordion.Header>
                   <Accordion.Panel>{content}</Accordion.Panel>
                 </Accordion.Item>
@@ -2648,9 +3681,7 @@ export default function ComponentAudit() {
               ].map(({ id, title, content }) => (
                 <Accordion.Item key={id} id={id}>
                   <Accordion.Header>
-                    <Accordion.Trigger>
-                      {title}
-                    </Accordion.Trigger>
+                    <Accordion.Trigger>{title}</Accordion.Trigger>
                   </Accordion.Header>
                   <Accordion.Panel>{content}</Accordion.Panel>
                 </Accordion.Item>
@@ -2659,15 +3690,17 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="disclosure" title="Disclosure" classes={['tale-disclosure', 'tale-disclosure__trigger', 'tale-disclosure__panel']}>
+        <Section
+          id="disclosure"
+          title="Disclosure"
+          classes={['tale-disclosure', 'tale-disclosure__trigger', 'tale-disclosure__panel']}
+        >
           <SubHeading>Default Expanded</SubHeading>
           <div className="audit__demo-wide">
             <Disclosure.Root defaultExpanded>
               <Disclosure.Trigger>Open by default</Disclosure.Trigger>
               <Disclosure.Panel>
-                <div className="audit__disclosure-content">
-                  This content is visible by default.
-                </div>
+                <div className="audit__disclosure-content">This content is visible by default.</div>
               </Disclosure.Panel>
             </Disclosure.Root>
           </div>
@@ -2676,9 +3709,7 @@ export default function ComponentAudit() {
             <Disclosure.Root>
               <Disclosure.Trigger>Click to expand</Disclosure.Trigger>
               <Disclosure.Panel>
-                <div className="audit__disclosure-content">
-                  This content is hidden by default.
-                </div>
+                <div className="audit__disclosure-content">This content is hidden by default.</div>
               </Disclosure.Panel>
             </Disclosure.Root>
           </div>
@@ -2693,14 +3724,31 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="tabs" title="Tabs" classes={['tale-tabs', 'tale-tabs__list', 'tale-tabs__list--pills', 'tale-tabs__list--enclosed', 'tale-tabs__tab', 'tale-tabs__tab--sm', 'tale-tabs__tab--pills', 'tale-tabs__tab--enclosed', 'tale-tabs__panel', 'tale-tabs__indicator']}>
+        <Section
+          id="tabs"
+          title="Tabs"
+          classes={[
+            'tale-tabs',
+            'tale-tabs__list',
+            'tale-tabs__list--pills',
+            'tale-tabs__list--enclosed',
+            'tale-tabs__tab',
+            'tale-tabs__tab--sm',
+            'tale-tabs__tab--pills',
+            'tale-tabs__tab--enclosed',
+            'tale-tabs__panel',
+            'tale-tabs__indicator',
+          ]}
+        >
           <SubHeading>Horizontal</SubHeading>
           <div className="audit__demo-extra-wide audit__demo-spaced">
             <Tabs.Root defaultSelectedKey="overview">
               <Tabs.List>
                 <Tabs.Tab id="overview">Overview</Tabs.Tab>
                 <Tabs.Tab id="features">Features</Tabs.Tab>
-                <Tabs.Tab id="disabled-tab" isDisabled>Disabled</Tabs.Tab>
+                <Tabs.Tab id="disabled-tab" isDisabled>
+                  Disabled
+                </Tabs.Tab>
                 <Tabs.Tab id="docs">Docs</Tabs.Tab>
                 <Tabs.Indicator />
               </Tabs.List>
@@ -2745,12 +3793,16 @@ export default function ComponentAudit() {
             <Tabs.Root defaultSelectedKey="active">
               <Tabs.List>
                 <Tabs.Tab id="active">Active</Tabs.Tab>
-                <Tabs.Tab id="disabled-only" isDisabled>Disabled</Tabs.Tab>
+                <Tabs.Tab id="disabled-only" isDisabled>
+                  Disabled
+                </Tabs.Tab>
                 <Tabs.Tab id="another">Another</Tabs.Tab>
                 <Tabs.Indicator />
               </Tabs.List>
               <Tabs.Panel id="active">This tab is active.</Tabs.Panel>
-              <Tabs.Panel id="disabled-only">This tab is disabled and cannot be selected.</Tabs.Panel>
+              <Tabs.Panel id="disabled-only">
+                This tab is disabled and cannot be selected.
+              </Tabs.Panel>
               <Tabs.Panel id="another">Another tab panel.</Tabs.Panel>
             </Tabs.Root>
           </div>
@@ -2784,7 +3836,18 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="scroll-area" title="ScrollArea" classes={['tale-scroll-area', 'tale-scroll-area__viewport', 'tale-scroll-area__content', 'tale-scroll-area__scrollbar', 'tale-scroll-area__thumb', 'tale-scroll-area__corner']}>
+        <Section
+          id="scroll-area"
+          title="ScrollArea"
+          classes={[
+            'tale-scroll-area',
+            'tale-scroll-area__viewport',
+            'tale-scroll-area__content',
+            'tale-scroll-area__scrollbar',
+            'tale-scroll-area__thumb',
+            'tale-scroll-area__corner',
+          ]}
+        >
           <ScrollArea.Root className="audit__scroll-area">
             <ScrollArea.Viewport>
               <ScrollArea.Content>
@@ -2817,13 +3880,30 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="toolbar" title="Toolbar" classes={['tale-toolbar', 'tale-toolbar__group', 'tale-toolbar__button', 'tale-toolbar__separator', 'tale-toolbar__link', 'tale-toolbar__input']}>
+        <Section
+          id="toolbar"
+          title="Toolbar"
+          classes={[
+            'tale-toolbar',
+            'tale-toolbar__group',
+            'tale-toolbar__button',
+            'tale-toolbar__separator',
+            'tale-toolbar__link',
+            'tale-toolbar__input',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Toolbar.Root aria-label="Text formatting">
             <Toolbar.Group>
-              <Toolbar.Button aria-label="Bold"><strong>B</strong></Toolbar.Button>
-              <Toolbar.Button aria-label="Italic"><em>I</em></Toolbar.Button>
-              <Toolbar.Button aria-label="Underline"><u>U</u></Toolbar.Button>
+              <Toolbar.Button aria-label="Bold">
+                <strong>B</strong>
+              </Toolbar.Button>
+              <Toolbar.Button aria-label="Italic">
+                <em>I</em>
+              </Toolbar.Button>
+              <Toolbar.Button aria-label="Underline">
+                <u>U</u>
+              </Toolbar.Button>
             </Toolbar.Group>
             <Toolbar.Separator />
             <Toolbar.Group>
@@ -2844,14 +3924,33 @@ export default function ComponentAudit() {
           </Toolbar.Root>
         </Section>
 
-        <Section id="card" title="Card" classes={['tale-card', 'tale-card--outlined', 'tale-card--elevated', 'tale-card--filled', 'tale-card--sm', 'tale-card--md', 'tale-card--lg', 'tale-card__header', 'tale-card__body', 'tale-card__footer']}>
+        <Section
+          id="card"
+          title="Card"
+          classes={[
+            'tale-card',
+            'tale-card--outlined',
+            'tale-card--elevated',
+            'tale-card--filled',
+            'tale-card--sm',
+            'tale-card--md',
+            'tale-card--lg',
+            'tale-card__header',
+            'tale-card__body',
+            'tale-card__footer',
+          ]}
+        >
           <SubHeading>Outlined (default)</SubHeading>
           <Card.Root variant="outlined" style={{ maxWidth: '32rem' }}>
             <Card.Header>Card title</Card.Header>
             <Card.Body>Card body content goes here.</Card.Body>
             <Card.Footer>
-              <Button variant="ghost" size="sm">Cancel</Button>
-              <Button variant="primary" size="sm">Confirm</Button>
+              <Button variant="ghost" size="sm">
+                Cancel
+              </Button>
+              <Button variant="primary" size="sm">
+                Confirm
+              </Button>
             </Card.Footer>
           </Card.Root>
           <SubHeading>Elevated</SubHeading>
@@ -2889,7 +3988,16 @@ export default function ComponentAudit() {
           <SubHeading>Wrapped</SubHeading>
           <LayoutRow gap="xs" wrap style={{ maxWidth: '20rem' }}>
             {['One', 'Two', 'Three', 'Four', 'Five', 'Six'].map((t) => (
-              <span key={t} style={{ padding: '0.4rem 0.8rem', background: 'var(--neutral-10)', borderRadius: 'var(--radius-s)' }}>{t}</span>
+              <span
+                key={t}
+                style={{
+                  padding: '0.4rem 0.8rem',
+                  background: 'var(--neutral-10)',
+                  borderRadius: 'var(--radius-s)',
+                }}
+              >
+                {t}
+              </span>
             ))}
           </LayoutRow>
         </Section>
@@ -2898,7 +4006,22 @@ export default function ComponentAudit() {
         {/* FEEDBACK */}
         {/* ============================================================= */}
 
-        <Section id="banner" title="Banner" classes={['tale-banner', 'tale-banner--success', 'tale-banner--warning', 'tale-banner--error', 'tale-banner--sm', 'tale-banner__icon', 'tale-banner__title', 'tale-banner__description', 'tale-banner__actions', 'tale-banner__close']}>
+        <Section
+          id="banner"
+          title="Banner"
+          classes={[
+            'tale-banner',
+            'tale-banner--success',
+            'tale-banner--warning',
+            'tale-banner--error',
+            'tale-banner--sm',
+            'tale-banner__icon',
+            'tale-banner__title',
+            'tale-banner__description',
+            'tale-banner__actions',
+            'tale-banner__close',
+          ]}
+        >
           <SubHeading>Info (default)</SubHeading>
           <Banner.Root variant="info">
             <Banner.Title>Heads up</Banner.Title>
@@ -2930,8 +4053,12 @@ export default function ComponentAudit() {
             <Banner.Title>Update available</Banner.Title>
             <Banner.Description>A new version is ready to install.</Banner.Description>
             <Banner.Actions>
-              <Button variant="ghost" size="sm">Later</Button>
-              <Button variant="ghost" size="sm">Update now</Button>
+              <Button variant="ghost" size="sm">
+                Later
+              </Button>
+              <Button variant="ghost" size="sm">
+                Update now
+              </Button>
             </Banner.Actions>
           </Banner.Root>
           <SubHeading>Small</SubHeading>
@@ -2941,7 +4068,18 @@ export default function ComponentAudit() {
           </Banner.Root>
         </Section>
 
-        <Section id="progress-bar" title="ProgressBar" classes={['tale-progress-bar', 'tale-progress-bar__header', 'tale-progress-bar__label', 'tale-progress-bar__value', 'tale-progress-bar__track', 'tale-progress-bar__indicator']}>
+        <Section
+          id="progress-bar"
+          title="ProgressBar"
+          classes={[
+            'tale-progress-bar',
+            'tale-progress-bar__header',
+            'tale-progress-bar__label',
+            'tale-progress-bar__value',
+            'tale-progress-bar__track',
+            'tale-progress-bar__indicator',
+          ]}
+        >
           <SubHeading>With Header, Label &amp; Value</SubHeading>
           <div className="audit__demo-wide display--flex flex--col gap--s">
             <ProgressBar.Root value={20}>
@@ -3038,18 +4176,43 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="progress-circle" title="ProgressCircle" classes={['tale-progress-circle', 'tale-progress-circle--sm', 'tale-progress-circle--lg', 'tale-progress-circle__track', 'tale-progress-circle__rail', 'tale-progress-circle__indicator', 'tale-progress-circle__label', 'tale-progress-circle__value']}>
+        <Section
+          id="progress-circle"
+          title="ProgressCircle"
+          classes={[
+            'tale-progress-circle',
+            'tale-progress-circle--sm',
+            'tale-progress-circle--lg',
+            'tale-progress-circle__track',
+            'tale-progress-circle__rail',
+            'tale-progress-circle__indicator',
+            'tale-progress-circle__label',
+            'tale-progress-circle__value',
+          ]}
+        >
           <SubHeading>Determinate</SubHeading>
           <Row>
-            <ProgressCircle.Root value={25} size="sm"><ProgressCircle.Track /></ProgressCircle.Root>
-            <ProgressCircle.Root value={50}><ProgressCircle.Track /></ProgressCircle.Root>
-            <ProgressCircle.Root value={75} size="lg"><ProgressCircle.Track /></ProgressCircle.Root>
+            <ProgressCircle.Root value={25} size="sm">
+              <ProgressCircle.Track />
+            </ProgressCircle.Root>
+            <ProgressCircle.Root value={50}>
+              <ProgressCircle.Track />
+            </ProgressCircle.Root>
+            <ProgressCircle.Root value={75} size="lg">
+              <ProgressCircle.Track />
+            </ProgressCircle.Root>
           </Row>
           <SubHeading>Indeterminate</SubHeading>
           <Row>
-            <ProgressCircle.Root value={undefined} size="sm"><ProgressCircle.Track /></ProgressCircle.Root>
-            <ProgressCircle.Root value={undefined}><ProgressCircle.Track /></ProgressCircle.Root>
-            <ProgressCircle.Root value={undefined} size="lg"><ProgressCircle.Track /></ProgressCircle.Root>
+            <ProgressCircle.Root value={undefined} size="sm">
+              <ProgressCircle.Track />
+            </ProgressCircle.Root>
+            <ProgressCircle.Root value={undefined}>
+              <ProgressCircle.Track />
+            </ProgressCircle.Root>
+            <ProgressCircle.Root value={undefined} size="lg">
+              <ProgressCircle.Track />
+            </ProgressCircle.Root>
           </Row>
           <SubHeading>Complete</SubHeading>
           <Row>
@@ -3068,7 +4231,18 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="meter" title="Meter" classes={['tale-meter', 'tale-meter__header', 'tale-meter__label', 'tale-meter__value', 'tale-meter__track', 'tale-meter__indicator']}>
+        <Section
+          id="meter"
+          title="Meter"
+          classes={[
+            'tale-meter',
+            'tale-meter__header',
+            'tale-meter__label',
+            'tale-meter__value',
+            'tale-meter__track',
+            'tale-meter__indicator',
+          ]}
+        >
           <SubHeading>With Header, Label &amp; Value</SubHeading>
           <div className="audit__demo-wide display--flex flex--col gap--s">
             <Meter.Root value={25}>
@@ -3110,8 +4284,17 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-
-        <Section id="spinner" title="Spinner" classes={['tale-spinner', 'tale-spinner--line', 'tale-spinner--dots', 'tale-spinner--sm', 'tale-spinner--lg']}>
+        <Section
+          id="spinner"
+          title="Spinner"
+          classes={[
+            'tale-spinner',
+            'tale-spinner--line',
+            'tale-spinner--dots',
+            'tale-spinner--sm',
+            'tale-spinner--lg',
+          ]}
+        >
           <SubHeading>Circle (default)</SubHeading>
           <Row>
             <Spinner size="sm" />
@@ -3134,7 +4317,55 @@ export default function ComponentAudit() {
         {/* DISPLAY */}
         {/* ============================================================= */}
 
-        <Section id="avatar" title="Avatar" classes={['tale-avatar', 'tale-avatar--xs', 'tale-avatar--sm', 'tale-avatar--md', 'tale-avatar--lg', 'tale-avatar--xl', 'tale-avatar--2xl', 'tale-avatar__image', 'tale-avatar__fallback', 'tale-avatar-group', 'tale-avatar-count', 'tale-avatar-count--xs', 'tale-avatar-count--2xl', 'tale-avatar-indicator', 'tale-avatar-indicator--bottom-right', 'tale-avatar-indicator--top-right', 'tale-avatar-indicator__badge', 'tale-avatar-label-group', 'tale-avatar-label-group--sm', 'tale-avatar-label-group--md', 'tale-avatar-label-group--lg', 'tale-avatar-label-group__title', 'tale-avatar-label-group__subtitle', 'tale-avatar-add-button', 'tale-avatar-add-button--xs', 'tale-avatar-add-button--sm', 'tale-avatar-add-button--md', 'tale-avatar-add-button__icon', 'tale-avatar-company-icon', 'tale-avatar-company-icon--md', 'tale-avatar-company-icon--lg', 'tale-avatar-company-icon__badge', 'tale-avatar-verified-tick', 'tale-avatar-verified-tick--xs', 'tale-avatar-verified-tick--sm', 'tale-avatar-verified-tick--md', 'tale-avatar-verified-tick--lg', 'tale-avatar-profile-photo', 'tale-avatar-profile-photo--sm', 'tale-avatar-profile-photo--md', 'tale-avatar-profile-photo--lg', 'tale-avatar-profile-photo__inner', 'tale-avatar-profile-photo__badge']}>
+        <Section
+          id="avatar"
+          title="Avatar"
+          classes={[
+            'tale-avatar',
+            'tale-avatar--xs',
+            'tale-avatar--sm',
+            'tale-avatar--md',
+            'tale-avatar--lg',
+            'tale-avatar--xl',
+            'tale-avatar--2xl',
+            'tale-avatar__image',
+            'tale-avatar__fallback',
+            'tale-avatar-group',
+            'tale-avatar-count',
+            'tale-avatar-count--xs',
+            'tale-avatar-count--2xl',
+            'tale-avatar-indicator',
+            'tale-avatar-indicator--bottom-right',
+            'tale-avatar-indicator--top-right',
+            'tale-avatar-indicator__badge',
+            'tale-avatar-label-group',
+            'tale-avatar-label-group--sm',
+            'tale-avatar-label-group--md',
+            'tale-avatar-label-group--lg',
+            'tale-avatar-label-group__title',
+            'tale-avatar-label-group__subtitle',
+            'tale-avatar-add-button',
+            'tale-avatar-add-button--xs',
+            'tale-avatar-add-button--sm',
+            'tale-avatar-add-button--md',
+            'tale-avatar-add-button__icon',
+            'tale-avatar-company-icon',
+            'tale-avatar-company-icon--md',
+            'tale-avatar-company-icon--lg',
+            'tale-avatar-company-icon__badge',
+            'tale-avatar-verified-tick',
+            'tale-avatar-verified-tick--xs',
+            'tale-avatar-verified-tick--sm',
+            'tale-avatar-verified-tick--md',
+            'tale-avatar-verified-tick--lg',
+            'tale-avatar-profile-photo',
+            'tale-avatar-profile-photo--sm',
+            'tale-avatar-profile-photo--md',
+            'tale-avatar-profile-photo--lg',
+            'tale-avatar-profile-photo__inner',
+            'tale-avatar-profile-photo__badge',
+          ]}
+        >
           <SubHeading>Sizes (fallback)</SubHeading>
           <Row>
             {(['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const).map((size) => (
@@ -3229,15 +4460,24 @@ export default function ComponentAudit() {
           <SubHeading>AddButton in Group</SubHeading>
           <Row>
             <Avatar.Group size="md">
-              <Avatar.Root><Avatar.Fallback>AB</Avatar.Fallback></Avatar.Root>
-              <Avatar.Root><Avatar.Fallback>CD</Avatar.Fallback></Avatar.Root>
+              <Avatar.Root>
+                <Avatar.Fallback>AB</Avatar.Fallback>
+              </Avatar.Root>
+              <Avatar.Root>
+                <Avatar.Fallback>CD</Avatar.Fallback>
+              </Avatar.Root>
               <Avatar.AddButton size="md" aria-label="Add team member" />
             </Avatar.Group>
           </Row>
           <SubHeading>CompanyIcon sizes</SubHeading>
           <Row>
             {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
-              <Avatar.CompanyIcon key={size} src="https://placehold.co/64x64/6366f1/ffffff" alt="Company" size={size}>
+              <Avatar.CompanyIcon
+                key={size}
+                src="https://placehold.co/64x64/6366f1/ffffff"
+                alt="Company"
+                size={size}
+              >
                 <Avatar.Root size={size}>
                   <Avatar.Fallback>JD</Avatar.Fallback>
                 </Avatar.Root>
@@ -3283,7 +4523,39 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="badge" title="Badge" classes={['tale-badge', 'tale-badge--neutral', 'tale-badge--brand', 'tale-badge--error', 'tale-badge--warning', 'tale-badge--success', 'tale-badge--red', 'tale-badge--orange', 'tale-badge--amber', 'tale-badge--yellow', 'tale-badge--lime', 'tale-badge--green', 'tale-badge--emerald', 'tale-badge--teal', 'tale-badge--cyan', 'tale-badge--sky', 'tale-badge--indigo', 'tale-badge--violet', 'tale-badge--purple', 'tale-badge--fuchsia', 'tale-badge--pink', 'tale-badge--rose', 'tale-badge--sm', 'tale-badge--md', 'tale-badge--lg', 'tale-badge--rounded', 'tale-badge--modern']}>
+        <Section
+          id="badge"
+          title="Badge"
+          classes={[
+            'tale-badge',
+            'tale-badge--neutral',
+            'tale-badge--brand',
+            'tale-badge--error',
+            'tale-badge--warning',
+            'tale-badge--success',
+            'tale-badge--red',
+            'tale-badge--orange',
+            'tale-badge--amber',
+            'tale-badge--yellow',
+            'tale-badge--lime',
+            'tale-badge--green',
+            'tale-badge--emerald',
+            'tale-badge--teal',
+            'tale-badge--cyan',
+            'tale-badge--sky',
+            'tale-badge--indigo',
+            'tale-badge--violet',
+            'tale-badge--purple',
+            'tale-badge--fuchsia',
+            'tale-badge--pink',
+            'tale-badge--rose',
+            'tale-badge--sm',
+            'tale-badge--md',
+            'tale-badge--lg',
+            'tale-badge--rounded',
+            'tale-badge--modern',
+          ]}
+        >
           <SubHeading>Variants</SubHeading>
           <Row>
             <Badge variant="neutral">Neutral</Badge>
@@ -3325,7 +4597,21 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="dot-icon" title="DotIcon" classes={['tale-dot-icon', 'tale-dot-icon--neutral', 'tale-dot-icon--brand', 'tale-dot-icon--error', 'tale-dot-icon--warning', 'tale-dot-icon--success', 'tale-dot-icon--sm', 'tale-dot-icon--md', 'tale-dot-icon--lg']}>
+        <Section
+          id="dot-icon"
+          title="DotIcon"
+          classes={[
+            'tale-dot-icon',
+            'tale-dot-icon--neutral',
+            'tale-dot-icon--brand',
+            'tale-dot-icon--error',
+            'tale-dot-icon--warning',
+            'tale-dot-icon--success',
+            'tale-dot-icon--sm',
+            'tale-dot-icon--md',
+            'tale-dot-icon--lg',
+          ]}
+        >
           <SubHeading>Colors</SubHeading>
           <Row>
             <DotIcon color="neutral" />
@@ -3342,7 +4628,19 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="empty-state" title="EmptyState" classes={['tale-empty-state', 'tale-empty-state--sm', 'tale-empty-state--lg', 'tale-empty-state__icon', 'tale-empty-state__title', 'tale-empty-state__description', 'tale-empty-state__actions']}>
+        <Section
+          id="empty-state"
+          title="EmptyState"
+          classes={[
+            'tale-empty-state',
+            'tale-empty-state--sm',
+            'tale-empty-state--lg',
+            'tale-empty-state__icon',
+            'tale-empty-state__title',
+            'tale-empty-state__description',
+            'tale-empty-state__actions',
+          ]}
+        >
           <SubHeading>Default (md)</SubHeading>
           <EmptyState.Root>
             <EmptyState.Title>No items</EmptyState.Title>
@@ -3351,9 +4649,13 @@ export default function ComponentAudit() {
           <SubHeading>With Actions</SubHeading>
           <EmptyState.Root>
             <EmptyState.Title>No projects</EmptyState.Title>
-            <EmptyState.Description>Get started by creating your first project.</EmptyState.Description>
+            <EmptyState.Description>
+              Get started by creating your first project.
+            </EmptyState.Description>
             <EmptyState.Actions>
-              <Button variant="primary" size="sm">Create project</Button>
+              <Button variant="primary" size="sm">
+                Create project
+              </Button>
             </EmptyState.Actions>
           </EmptyState.Root>
           <SubHeading>Small</SubHeading>
@@ -3368,20 +4670,78 @@ export default function ComponentAudit() {
           </EmptyState.Root>
         </Section>
 
-        <Section id="image" title="Image" classes={['tale-image', 'tale-image--sm', 'tale-image--md', 'tale-image--lg', 'tale-image--full', 'tale-image--contain', 'tale-image--fill', 'tale-image--none']}>
+        <Section
+          id="image"
+          title="Image"
+          classes={[
+            'tale-image',
+            'tale-image--sm',
+            'tale-image--md',
+            'tale-image--lg',
+            'tale-image--full',
+            'tale-image--contain',
+            'tale-image--fill',
+            'tale-image--none',
+          ]}
+        >
           <SubHeading>Default (cover)</SubHeading>
-          <Image src="https://picsum.photos/seed/taleui/300/200" alt="Demo" width={300} height={200} />
+          <Image
+            src="https://picsum.photos/seed/taleui/300/200"
+            alt="Demo"
+            width={300}
+            height={200}
+          />
           <SubHeading>Radius variants</SubHeading>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <Image src="https://picsum.photos/seed/taleui/120/120" alt="none" radius="none" width={120} height={120} />
-            <Image src="https://picsum.photos/seed/taleui/120/120" alt="sm" radius="sm" width={120} height={120} />
-            <Image src="https://picsum.photos/seed/taleui/120/120" alt="md" radius="md" width={120} height={120} />
-            <Image src="https://picsum.photos/seed/taleui/120/120" alt="lg" radius="lg" width={120} height={120} />
-            <Image src="https://picsum.photos/seed/taleui/120/120" alt="full" radius="full" width={120} height={120} />
+            <Image
+              src="https://picsum.photos/seed/taleui/120/120"
+              alt="none"
+              radius="none"
+              width={120}
+              height={120}
+            />
+            <Image
+              src="https://picsum.photos/seed/taleui/120/120"
+              alt="sm"
+              radius="sm"
+              width={120}
+              height={120}
+            />
+            <Image
+              src="https://picsum.photos/seed/taleui/120/120"
+              alt="md"
+              radius="md"
+              width={120}
+              height={120}
+            />
+            <Image
+              src="https://picsum.photos/seed/taleui/120/120"
+              alt="lg"
+              radius="lg"
+              width={120}
+              height={120}
+            />
+            <Image
+              src="https://picsum.photos/seed/taleui/120/120"
+              alt="full"
+              radius="full"
+              width={120}
+              height={120}
+            />
           </div>
         </Section>
 
-        <Section id="list" title="List" classes={['tale-list', 'tale-list--divided', 'tale-list--compact', 'tale-list--spacious', 'tale-list__item']}>
+        <Section
+          id="list"
+          title="List"
+          classes={[
+            'tale-list',
+            'tale-list--divided',
+            'tale-list--compact',
+            'tale-list--spacious',
+            'tale-list__item',
+          ]}
+        >
           <SubHeading>Plain</SubHeading>
           <List.Root style={{ maxWidth: '24rem' }}>
             <List.Item>First item</List.Item>
@@ -3408,15 +4768,46 @@ export default function ComponentAudit() {
           </List.Root>
         </Section>
 
-        <Section id="qr-code" title="QRCode" classes={['tale-qr-code', 'tale-qr-code--md', 'tale-qr-code--lg', 'tale-qr-code__canvas', 'tale-qr-code__handle', 'tale-qr-code__handle--tl', 'tale-qr-code__handle--tr', 'tale-qr-code__handle--br', 'tale-qr-code__handle--bl', 'tale-qr-code-scan']}>
+        <Section
+          id="qr-code"
+          title="QRCode"
+          classes={[
+            'tale-qr-code',
+            'tale-qr-code--md',
+            'tale-qr-code--lg',
+            'tale-qr-code__canvas',
+            'tale-qr-code__handle',
+            'tale-qr-code__handle--tl',
+            'tale-qr-code__handle--tr',
+            'tale-qr-code__handle--br',
+            'tale-qr-code__handle--bl',
+            'tale-qr-code-scan',
+          ]}
+        >
           <SubHeading>Sizes</SubHeading>
           <LayoutRow gap="l">
             <div>
-              <p style={{ marginBottom: '0.4rem', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>md</p>
+              <p
+                style={{
+                  marginBottom: '0.4rem',
+                  fontSize: 'var(--label-s-font-size)',
+                  color: 'var(--neutral-60)',
+                }}
+              >
+                md
+              </p>
               <QRCode.Root value="https://example.com" size="md" />
             </div>
             <div>
-              <p style={{ marginBottom: '0.4rem', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>lg</p>
+              <p
+                style={{
+                  marginBottom: '0.4rem',
+                  fontSize: 'var(--label-s-font-size)',
+                  color: 'var(--neutral-60)',
+                }}
+              >
+                lg
+              </p>
               <QRCode.Root value="https://example.com" size="lg" />
             </div>
           </LayoutRow>
@@ -3427,12 +4818,46 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="video-player" title="VideoPlayer" classes={['tale-video-player', 'tale-video-player--sm', 'tale-video-player--md', 'tale-video-player--lg', 'tale-video-player__video', 'tale-video-player__thumbnail', 'tale-video-player__thumbnail--visible', 'tale-video-player__thumbnail-img', 'tale-video-player__thumbnail-play', 'tale-video-player__controls', 'tale-video-player__controls--visible', 'tale-video-player__btn', 'tale-video-player__btn-icon', 'tale-video-player__progress-area', 'tale-video-player__progress', 'tale-video-player__progress-fill', 'tale-video-player__progress-buffered', 'tale-video-player__progress-thumb', 'tale-video-player__time', 'tale-video-player__volume', 'tale-video-player__volume-slider']}>
+        <Section
+          id="video-player"
+          title="VideoPlayer"
+          classes={[
+            'tale-video-player',
+            'tale-video-player--sm',
+            'tale-video-player--md',
+            'tale-video-player--lg',
+            'tale-video-player__video',
+            'tale-video-player__thumbnail',
+            'tale-video-player__thumbnail--visible',
+            'tale-video-player__thumbnail-img',
+            'tale-video-player__thumbnail-play',
+            'tale-video-player__controls',
+            'tale-video-player__controls--visible',
+            'tale-video-player__btn',
+            'tale-video-player__btn-icon',
+            'tale-video-player__progress-area',
+            'tale-video-player__progress',
+            'tale-video-player__progress-fill',
+            'tale-video-player__progress-buffered',
+            'tale-video-player__progress-thumb',
+            'tale-video-player__time',
+            'tale-video-player__volume',
+            'tale-video-player__volume-slider',
+          ]}
+        >
           <SubHeading>Sizes</SubHeading>
           <Column gap="l" style={{ maxWidth: 640 }}>
             {(['sm', 'md', 'lg'] as const).map((size) => (
               <div key={size}>
-                <p style={{ marginBottom: '0.4rem', fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>{size}</p>
+                <p
+                  style={{
+                    marginBottom: '0.4rem',
+                    fontSize: 'var(--label-s-font-size)',
+                    color: 'var(--neutral-60)',
+                  }}
+                >
+                  {size}
+                </p>
                 <VideoPlayer.Root
                   src="https://www.w3schools.com/html/mov_bbb.mp4"
                   size={size}
@@ -3448,7 +4873,17 @@ export default function ComponentAudit() {
         {/* FORM STRUCTURE */}
         {/* ============================================================= */}
 
-        <Section id="field" title="Field" classes={['tale-field', 'tale-field__label', 'tale-field__control', 'tale-field__description', 'tale-field__error']}>
+        <Section
+          id="field"
+          title="Field"
+          classes={[
+            'tale-field',
+            'tale-field__label',
+            'tale-field__control',
+            'tale-field__description',
+            'tale-field__error',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <div className="audit__demo-medium">
             <Field.Root>
@@ -3488,7 +4923,11 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="fieldset" title="Fieldset" classes={['tale-fieldset', 'tale-fieldset__legend']}>
+        <Section
+          id="fieldset"
+          title="Fieldset"
+          classes={['tale-fieldset', 'tale-fieldset__legend']}
+        >
           <SubHeading>Default</SubHeading>
           <Fieldset.Root>
             <Fieldset.Legend>Personal Information</Fieldset.Legend>
@@ -3530,7 +4969,9 @@ export default function ComponentAudit() {
               <Field.Label>Password</Field.Label>
               <Input.Input type="password" placeholder="Enter password" />
             </Field.Root>
-            <Button variant="primary" type="submit">Submit</Button>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
           </Form>
           <SubHeading>With Validation</SubHeading>
           <Form className="audit__demo-medium display--flex flex--col gap--xs">
@@ -3543,7 +4984,9 @@ export default function ComponentAudit() {
               <Field.Label>Password</Field.Label>
               <Input.Input type="password" placeholder="Min 8 characters" minLength={8} required />
             </Field.Root>
-            <Button variant="primary" type="submit">Create Account</Button>
+            <Button variant="primary" type="submit">
+              Create Account
+            </Button>
           </Form>
         </Section>
 
@@ -3563,13 +5006,19 @@ export default function ComponentAudit() {
           </RadioGroup>
         </Section>
 
-        <Section id="search-field" title="SearchField" classes={['tale-search-field', 'tale-search-field__input', 'tale-search-field__clear']}>
+        <Section
+          id="search-field"
+          title="SearchField"
+          classes={['tale-search-field', 'tale-search-field__input', 'tale-search-field__clear']}
+        >
           <SubHeading>Default</SubHeading>
           <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <SearchField.Root>
               <SearchField.Label>Search</SearchField.Label>
               <SearchField.Input placeholder="Search…" />
-              <SearchField.ClearButton><Icon icon={XLucide} size="sm" /></SearchField.ClearButton>
+              <SearchField.ClearButton>
+                <Icon icon={XLucide} size="sm" />
+              </SearchField.ClearButton>
             </SearchField.Root>
           </div>
           <SubHeading>Disabled</SubHeading>
@@ -3595,7 +5044,11 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="text-area" title="TextArea" classes={['tale-text-area', 'tale-text-area__textarea']}>
+        <Section
+          id="text-area"
+          title="TextArea"
+          classes={['tale-text-area', 'tale-text-area__textarea']}
+        >
           <SubHeading>Default</SubHeading>
           <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <TextArea.Root>
@@ -3610,7 +5063,16 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="select-native" title="SelectNative" classes={['tale-select-native', 'tale-select-native--sm', 'tale-select-native--md', 'tale-select-native--lg']}>
+        <Section
+          id="select-native"
+          title="SelectNative"
+          classes={[
+            'tale-select-native',
+            'tale-select-native--sm',
+            'tale-select-native--md',
+            'tale-select-native--lg',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <SelectNative>
@@ -3622,37 +5084,81 @@ export default function ComponentAudit() {
           </div>
           <SubHeading>Sizes</SubHeading>
           <div className="audit__demo-narrow display--flex flex--col gap--2xs">
-            <SelectNative size="sm"><option>Small</option></SelectNative>
-            <SelectNative size="md"><option>Medium</option></SelectNative>
+            <SelectNative size="sm">
+              <option>Small</option>
+            </SelectNative>
+            <SelectNative size="md">
+              <option>Medium</option>
+            </SelectNative>
           </div>
           <SubHeading>Disabled</SubHeading>
           <div className="audit__demo-narrow">
-            <SelectNative disabled><option>Disabled</option></SelectNative>
+            <SelectNative disabled>
+              <option>Disabled</option>
+            </SelectNative>
           </div>
         </Section>
 
-        <Section id="grid-list" title="GridList" classes={['tale-grid-list', 'tale-grid-list__item']}>
+        <Section
+          id="grid-list"
+          title="GridList"
+          classes={['tale-grid-list', 'tale-grid-list__item']}
+        >
           <SubHeading>Default</SubHeading>
           <GridList.Root aria-label="Items" className="audit__demo-medium">
             {['Item One', 'Item Two', 'Item Three', 'Item Four'].map((item) => (
-              <GridList.Item key={item} id={item} textValue={item}>{item}</GridList.Item>
+              <GridList.Item key={item} id={item} textValue={item}>
+                {item}
+              </GridList.Item>
             ))}
           </GridList.Root>
           <SubHeading>With Selection</SubHeading>
-          <GridList.Root aria-label="Selectable items" selectionMode="multiple" className="audit__demo-medium">
+          <GridList.Root
+            aria-label="Selectable items"
+            selectionMode="multiple"
+            className="audit__demo-medium"
+          >
             {['Design tokens', 'Components', 'Documentation', 'Testing'].map((item) => (
-              <GridList.Item key={item} id={item} textValue={item}>{item}</GridList.Item>
+              <GridList.Item key={item} id={item} textValue={item}>
+                {item}
+              </GridList.Item>
             ))}
           </GridList.Root>
           <SubHeading>With Icons</SubHeading>
-          <GridList.Root aria-label="Items with icons" selectionMode="single" className="audit__demo-medium">
-            {([['Favorites', Star], ['Liked', Heart], ['Alerts', Bell], ['Settings', Settings]] as const).map(([label, icon]) => (
-              <GridList.Item key={label} id={label} textValue={label}><Icon icon={icon} size="sm" />{label}</GridList.Item>
+          <GridList.Root
+            aria-label="Items with icons"
+            selectionMode="single"
+            className="audit__demo-medium"
+          >
+            {(
+              [
+                ['Favorites', Star],
+                ['Liked', Heart],
+                ['Alerts', Bell],
+                ['Settings', Settings],
+              ] as const
+            ).map(([label, icon]) => (
+              <GridList.Item key={label} id={label} textValue={label}>
+                <Icon icon={icon} size="sm" />
+                {label}
+              </GridList.Item>
             ))}
           </GridList.Root>
         </Section>
 
-        <Section id="table" title="Table" classes={['tale-table', 'tale-table__header', 'tale-table__column', 'tale-table__body', 'tale-table__row', 'tale-table__cell']}>
+        <Section
+          id="table"
+          title="Table"
+          classes={[
+            'tale-table',
+            'tale-table__header',
+            'tale-table__footer',
+            'tale-table__column',
+            'tale-table__body',
+            'tale-table__row',
+            'tale-table__cell',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Table.Root aria-label="People" className="audit__demo-extra-wide">
             <Table.Header>
@@ -3678,8 +5184,44 @@ export default function ComponentAudit() {
               </Table.Row>
             </Table.Body>
           </Table.Root>
+          <SubHeading>With Footer</SubHeading>
+          <Table.Root aria-label="People with totals" className="audit__demo-extra-wide">
+            <Table.Header>
+              <Table.Column isRowHeader>Name</Table.Column>
+              <Table.Column>Role</Table.Column>
+              <Table.Column>Status</Table.Column>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row id="alice-footer">
+                <Table.Cell>Alice</Table.Cell>
+                <Table.Cell>Engineer</Table.Cell>
+                <Table.Cell>Active</Table.Cell>
+              </Table.Row>
+              <Table.Row id="bob-footer">
+                <Table.Cell>Bob</Table.Cell>
+                <Table.Cell>Designer</Table.Cell>
+                <Table.Cell>Away</Table.Cell>
+              </Table.Row>
+              <Table.Row id="charlie-footer">
+                <Table.Cell>Charlie</Table.Cell>
+                <Table.Cell>Manager</Table.Cell>
+                <Table.Cell>Active</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+            <Table.Footer>
+              <Table.Row id="people-total">
+                <Table.Cell>Total</Table.Cell>
+                <Table.Cell>3 roles</Table.Cell>
+                <Table.Cell>2 active</Table.Cell>
+              </Table.Row>
+            </Table.Footer>
+          </Table.Root>
           <SubHeading>With Selection</SubHeading>
-          <Table.Root aria-label="Selectable people" selectionMode="multiple" className="audit__demo-extra-wide">
+          <Table.Root
+            aria-label="Selectable people"
+            selectionMode="multiple"
+            className="audit__demo-extra-wide"
+          >
             <Table.Header>
               <Table.Column isRowHeader>Name</Table.Column>
               <Table.Column>Role</Table.Column>
@@ -3707,48 +5249,124 @@ export default function ComponentAudit() {
           <SortableTableDemo />
         </Section>
 
-        <Section id="featured-icon" title="FeaturedIcon" classes={['tale-featured-icon', 'tale-featured-icon--brand', 'tale-featured-icon--error', 'tale-featured-icon--warning', 'tale-featured-icon--success', 'tale-featured-icon--neutral', 'tale-featured-icon--square', 'tale-featured-icon--sm', 'tale-featured-icon--md', 'tale-featured-icon--lg', 'tale-featured-icon--xl', 'tale-featured-icon--gradient', 'tale-featured-icon--dark', 'tale-featured-icon--outline', 'tale-featured-icon--modern', 'tale-featured-icon--modern-neue']}>
+        <Section
+          id="featured-icon"
+          title="FeaturedIcon"
+          classes={[
+            'tale-featured-icon',
+            'tale-featured-icon--brand',
+            'tale-featured-icon--error',
+            'tale-featured-icon--warning',
+            'tale-featured-icon--success',
+            'tale-featured-icon--neutral',
+            'tale-featured-icon--square',
+            'tale-featured-icon--sm',
+            'tale-featured-icon--md',
+            'tale-featured-icon--lg',
+            'tale-featured-icon--xl',
+            'tale-featured-icon--gradient',
+            'tale-featured-icon--dark',
+            'tale-featured-icon--outline',
+            'tale-featured-icon--modern',
+            'tale-featured-icon--modern-neue',
+          ]}
+        >
           <SubHeading>Variants</SubHeading>
           <Row>
-            <FeaturedIcon variant="brand"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon variant="error"><Icon icon={AlertCircle} /></FeaturedIcon>
-            <FeaturedIcon variant="warning"><Icon icon={AlertCircle} /></FeaturedIcon>
-            <FeaturedIcon variant="success"><Icon icon={CheckCircle} /></FeaturedIcon>
-            <FeaturedIcon variant="neutral"><Icon icon={Info} /></FeaturedIcon>
+            <FeaturedIcon variant="brand">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="error">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="warning">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="success">
+              <Icon icon={CheckCircle} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="neutral">
+              <Icon icon={Info} />
+            </FeaturedIcon>
           </Row>
           <SubHeading>Square shape</SubHeading>
           <Row>
-            <FeaturedIcon variant="brand" shape="square"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon variant="error" shape="square"><Icon icon={AlertCircle} /></FeaturedIcon>
+            <FeaturedIcon variant="brand" shape="square">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="error" shape="square">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
           </Row>
           <SubHeading>Sizes</SubHeading>
           <Row>
-            <FeaturedIcon size="sm"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon size="md"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon size="lg"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon size="xl"><Icon icon={Star} /></FeaturedIcon>
+            <FeaturedIcon size="sm">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon size="md">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon size="lg">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon size="xl">
+              <Icon icon={Star} />
+            </FeaturedIcon>
           </Row>
           <SubHeading>Themes</SubHeading>
           <Row>
-            <FeaturedIcon variant="brand" theme="light"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon variant="brand" theme="gradient"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon variant="brand" theme="dark"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon variant="brand" theme="outline"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon variant="brand" theme="modern"><Icon icon={Star} /></FeaturedIcon>
-            <FeaturedIcon variant="brand" theme="modern-neue"><Icon icon={Star} /></FeaturedIcon>
+            <FeaturedIcon variant="brand" theme="light">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="brand" theme="gradient">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="brand" theme="dark">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="brand" theme="outline">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="brand" theme="modern">
+              <Icon icon={Star} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="brand" theme="modern-neue">
+              <Icon icon={Star} />
+            </FeaturedIcon>
           </Row>
           <SubHeading>Themes × Error</SubHeading>
           <Row>
-            <FeaturedIcon variant="error" theme="light"><Icon icon={AlertCircle} /></FeaturedIcon>
-            <FeaturedIcon variant="error" theme="gradient"><Icon icon={AlertCircle} /></FeaturedIcon>
-            <FeaturedIcon variant="error" theme="dark"><Icon icon={AlertCircle} /></FeaturedIcon>
-            <FeaturedIcon variant="error" theme="outline"><Icon icon={AlertCircle} /></FeaturedIcon>
-            <FeaturedIcon variant="error" theme="modern"><Icon icon={AlertCircle} /></FeaturedIcon>
-            <FeaturedIcon variant="error" theme="modern-neue"><Icon icon={AlertCircle} /></FeaturedIcon>
+            <FeaturedIcon variant="error" theme="light">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="error" theme="gradient">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="error" theme="dark">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="error" theme="outline">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="error" theme="modern">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
+            <FeaturedIcon variant="error" theme="modern-neue">
+              <Icon icon={AlertCircle} />
+            </FeaturedIcon>
           </Row>
         </Section>
 
-        <Section id="rating-badge" title="RatingBadge" classes={['tale-rating-badge', 'tale-rating-badge--sm', 'tale-rating-badge--md', 'tale-rating-badge--lg']}>
+        <Section
+          id="rating-badge"
+          title="RatingBadge"
+          classes={[
+            'tale-rating-badge',
+            'tale-rating-badge--sm',
+            'tale-rating-badge--md',
+            'tale-rating-badge--lg',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <RatingBadge value={4.5} />
@@ -3763,7 +5381,16 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="rating-stars" title="RatingStars" classes={['tale-rating-stars', 'tale-rating-stars__star', 'tale-rating-stars__star--filled', 'tale-rating-stars__star--half']}>
+        <Section
+          id="rating-stars"
+          title="RatingStars"
+          classes={[
+            'tale-rating-stars',
+            'tale-rating-stars__star',
+            'tale-rating-stars__star--filled',
+            'tale-rating-stars__star--half',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <RatingStars value={3} />
@@ -3778,7 +5405,17 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="tag-group" title="TagGroup" classes={['tale-tag-group', 'tale-tag-group__list', 'tale-tag-group__tag', 'tale-tag-group__label', 'tale-tag-group__description']}>
+        <Section
+          id="tag-group"
+          title="TagGroup"
+          classes={[
+            'tale-tag-group',
+            'tale-tag-group__list',
+            'tale-tag-group__tag',
+            'tale-tag-group__label',
+            'tale-tag-group__description',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <TagGroup.Root>
             <TagGroup.Label>Categories</TagGroup.Label>
@@ -3820,7 +5457,11 @@ export default function ComponentAudit() {
           </TagGroup.Root>
         </Section>
 
-        <Section id="tree" title="Tree" classes={['tale-tree', 'tale-tree__item', 'tale-tree__item-content']}>
+        <Section
+          id="tree"
+          title="Tree"
+          classes={['tale-tree', 'tale-tree__item', 'tale-tree__item-content']}
+        >
           <SubHeading>Default</SubHeading>
           <Tree.Root aria-label="File browser" className="audit__demo-medium">
             <Tree.Item id="src" textValue="src">
@@ -3843,7 +5484,11 @@ export default function ComponentAudit() {
             </Tree.Item>
           </Tree.Root>
           <SubHeading>With Expanded</SubHeading>
-          <Tree.Root aria-label="Documents" defaultExpandedKeys={['docs', 'guides']} className="audit__demo-medium">
+          <Tree.Root
+            aria-label="Documents"
+            defaultExpandedKeys={['docs', 'guides']}
+            className="audit__demo-medium"
+          >
             <Tree.Item id="docs" textValue="docs">
               <Tree.ItemContent>docs/</Tree.ItemContent>
               <Tree.Item id="guides" textValue="guides">
@@ -3939,7 +5584,11 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="date-range-picker" title="DateRangePicker" classes={['tale-date-range-picker']}>
+        <Section
+          id="date-range-picker"
+          title="DateRangePicker"
+          classes={['tale-date-range-picker']}
+        >
           <SubHeading>Default</SubHeading>
           <div className="audit__demo-wide">
             <DateRangePicker.Root>
@@ -3948,7 +5597,9 @@ export default function ComponentAudit() {
                 <DateRangePicker.StartDate>
                   {(segment) => <DateRangePicker.Segment segment={segment} />}
                 </DateRangePicker.StartDate>
-                <span aria-hidden="true" className="audit__date-separator">–</span>
+                <span aria-hidden="true" className="audit__date-separator">
+                  –
+                </span>
                 <DateRangePicker.EndDate>
                   {(segment) => <DateRangePicker.Segment segment={segment} />}
                 </DateRangePicker.EndDate>
@@ -3964,7 +5615,9 @@ export default function ComponentAudit() {
                     </RangeCalendar.Header>
                     <RangeCalendar.Grid>
                       <RangeCalendar.GridHeader>
-                        {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}
+                        {(day) => (
+                          <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>
+                        )}
                       </RangeCalendar.GridHeader>
                       <RangeCalendar.GridBody>
                         {(date) => <RangeCalendar.Cell date={date} />}
@@ -3977,7 +5630,18 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="range-calendar" title="RangeCalendar" classes={['tale-range-calendar__header', 'tale-range-calendar__heading', 'tale-range-calendar__grid', 'tale-range-calendar__grid-header', 'tale-range-calendar__grid-body', 'tale-range-calendar__cell']}>
+        <Section
+          id="range-calendar"
+          title="RangeCalendar"
+          classes={[
+            'tale-range-calendar__header',
+            'tale-range-calendar__heading',
+            'tale-range-calendar__grid',
+            'tale-range-calendar__grid-header',
+            'tale-range-calendar__grid-body',
+            'tale-range-calendar__cell',
+          ]}
+        >
           <SubHeading>Interactive</SubHeading>
           <RangeCalendar.Root>
             <RangeCalendar.Header>
@@ -4007,7 +5671,17 @@ export default function ComponentAudit() {
           </ColorArea.Root>
         </Section>
 
-        <Section id="color-slider" title="ColorSlider" classes={['tale-color-slider', 'tale-color-slider__label', 'tale-color-slider__output', 'tale-color-slider__track', 'tale-color-slider__thumb']}>
+        <Section
+          id="color-slider"
+          title="ColorSlider"
+          classes={[
+            'tale-color-slider',
+            'tale-color-slider__label',
+            'tale-color-slider__output',
+            'tale-color-slider__track',
+            'tale-color-slider__thumb',
+          ]}
+        >
           <SubHeading>Hue</SubHeading>
           <div className="audit__demo-narrow">
             <ColorSlider.Root channel="hue" defaultValue="hsl(0, 100%, 50%)">
@@ -4020,7 +5694,11 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="color-wheel" title="ColorWheel" classes={['tale-color-wheel', 'tale-color-wheel__track']}>
+        <Section
+          id="color-wheel"
+          title="ColorWheel"
+          classes={['tale-color-wheel', 'tale-color-wheel__track']}
+        >
           <SubHeading>Default</SubHeading>
           <ColorWheel.Root defaultValue="hsl(0, 100%, 50%)" outerRadius={100} innerRadius={70}>
             <ColorWheel.Track />
@@ -4028,7 +5706,16 @@ export default function ComponentAudit() {
           </ColorWheel.Root>
         </Section>
 
-        <Section id="color-swatch" title="ColorSwatch" classes={['tale-color-swatch', 'tale-color-swatch--square', 'tale-color-swatch--circle', 'tale-color-swatch--split']}>
+        <Section
+          id="color-swatch"
+          title="ColorSwatch"
+          classes={[
+            'tale-color-swatch',
+            'tale-color-swatch--square',
+            'tale-color-swatch--circle',
+            'tale-color-swatch--split',
+          ]}
+        >
           <SubHeading>Default (square)</SubHeading>
           <Row>
             {['#ff0000', '#00ff00', '#0000ff', '#ff8800', '#8800ff'].map((color) => (
@@ -4067,7 +5754,16 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="color-swatch-picker" title="ColorSwatchPicker" classes={['tale-color-swatch-picker', 'tale-color-swatch-picker--square', 'tale-color-swatch-picker--circle', 'tale-color-swatch-picker__item']}>
+        <Section
+          id="color-swatch-picker"
+          title="ColorSwatchPicker"
+          classes={[
+            'tale-color-swatch-picker',
+            'tale-color-swatch-picker--square',
+            'tale-color-swatch-picker--circle',
+            'tale-color-swatch-picker__item',
+          ]}
+        >
           <SubHeading>Default (square)</SubHeading>
           <ColorSwatchPicker.Root>
             {['#ff0000', '#ff8800', '#ffff00', '#00ff00', '#0088ff', '#8800ff'].map((color) => (
@@ -4100,7 +5796,16 @@ export default function ComponentAudit() {
           </ColorSwatchPicker.Root>
         </Section>
 
-        <Section id="color-field" title="ColorField" classes={['tale-color-field', 'tale-color-field__input', 'tale-color-field__description', 'tale-color-field__error']}>
+        <Section
+          id="color-field"
+          title="ColorField"
+          classes={[
+            'tale-color-field',
+            'tale-color-field__input',
+            'tale-color-field__description',
+            'tale-color-field__error',
+          ]}
+        >
           <SubHeading>Default</SubHeading>
           <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <ColorField.Root defaultValue="#ff0000">
@@ -4124,7 +5829,18 @@ export default function ComponentAudit() {
         {/* MARKETING                                                      */}
         {/* ============================================================= */}
 
-        <Section id="app-store-button" title="AppStoreButton" classes={['tale-app-store-button', 'tale-app-store-button--apple', 'tale-app-store-button--google', 'tale-app-store-button--sm', 'tale-app-store-button--md', 'tale-app-store-button--lg']}>
+        <Section
+          id="app-store-button"
+          title="AppStoreButton"
+          classes={[
+            'tale-app-store-button',
+            'tale-app-store-button--apple',
+            'tale-app-store-button--google',
+            'tale-app-store-button--sm',
+            'tale-app-store-button--md',
+            'tale-app-store-button--lg',
+          ]}
+        >
           <SubHeading>Both stores</SubHeading>
           <Row>
             <AppStoreButton store="apple" href="#" />
@@ -4138,7 +5854,20 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="social-button" title="SocialButton" classes={['tale-social-button', 'tale-social-button--google', 'tale-social-button--github', 'tale-social-button--apple', 'tale-social-button--x', 'tale-social-button--facebook', 'tale-social-button--sm', 'tale-social-button--md']}>
+        <Section
+          id="social-button"
+          title="SocialButton"
+          classes={[
+            'tale-social-button',
+            'tale-social-button--google',
+            'tale-social-button--github',
+            'tale-social-button--apple',
+            'tale-social-button--x',
+            'tale-social-button--facebook',
+            'tale-social-button--sm',
+            'tale-social-button--md',
+          ]}
+        >
           <SubHeading>Providers</SubHeading>
           <Row>
             <SocialButton provider="google">Continue with Google</SocialButton>
@@ -4147,12 +5876,20 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Sizes</SubHeading>
           <Row>
-            <SocialButton provider="google" size="sm">Google (sm)</SocialButton>
-            <SocialButton provider="google" size="md">Google (md)</SocialButton>
+            <SocialButton provider="google" size="sm">
+              Google (sm)
+            </SocialButton>
+            <SocialButton provider="google" size="md">
+              Google (md)
+            </SocialButton>
           </Row>
         </Section>
 
-        <Section id="social-button-group" title="SocialButtonGroup" classes={['tale-social-button-group']}>
+        <Section
+          id="social-button-group"
+          title="SocialButtonGroup"
+          classes={['tale-social-button-group']}
+        >
           <SubHeading>Default</SubHeading>
           <SocialButtonGroup>
             <SocialButton provider="google">Sign in with Google</SocialButton>
@@ -4169,31 +5906,65 @@ export default function ComponentAudit() {
           </SocialButtonGroup>
         </Section>
 
-        <Section id="badge-group" title="BadgeGroup" classes={['tale-badge-group', 'tale-badge-group--md', 'tale-badge-group--lg', 'tale-badge-group--light', 'tale-badge-group--modern', 'tale-badge-group--brand', 'tale-badge-group--success', 'tale-badge-group--warning', 'tale-badge-group--error', 'tale-badge-group--gray', 'tale-badge-group--leading', 'tale-badge-group--trailing', 'tale-badge-group__addon', 'tale-badge-group__dot', 'tale-badge-group__icon']}>
+        <Section
+          id="badge-group"
+          title="BadgeGroup"
+          classes={[
+            'tale-badge-group',
+            'tale-badge-group--md',
+            'tale-badge-group--lg',
+            'tale-badge-group--light',
+            'tale-badge-group--modern',
+            'tale-badge-group--brand',
+            'tale-badge-group--success',
+            'tale-badge-group--warning',
+            'tale-badge-group--error',
+            'tale-badge-group--gray',
+            'tale-badge-group--leading',
+            'tale-badge-group--trailing',
+            'tale-badge-group__addon',
+            'tale-badge-group__dot',
+            'tale-badge-group__icon',
+          ]}
+        >
           <SubHeading>Colors (light theme)</SubHeading>
           <Row>
             {(['brand', 'success', 'warning', 'error', 'gray'] as const).map((c) => (
-              <BadgeGroup.Root key={c} color={c} addonText="v1.0">{c}</BadgeGroup.Root>
+              <BadgeGroup.Root key={c} color={c} addonText="v1.0">
+                {c}
+              </BadgeGroup.Root>
             ))}
           </Row>
           <SubHeading>Colors (modern theme)</SubHeading>
           <Row>
             {(['brand', 'success', 'warning', 'error', 'gray'] as const).map((c) => (
-              <BadgeGroup.Root key={c} color={c} theme="modern" addonText="v1.0">{c}</BadgeGroup.Root>
+              <BadgeGroup.Root key={c} color={c} theme="modern" addonText="v1.0">
+                {c}
+              </BadgeGroup.Root>
             ))}
           </Row>
           <SubHeading>Sizes</SubHeading>
           <Row>
-            <BadgeGroup.Root size="md" addonText="md">Medium</BadgeGroup.Root>
-            <BadgeGroup.Root size="lg" addonText="lg">Large</BadgeGroup.Root>
+            <BadgeGroup.Root size="md" addonText="md">
+              Medium
+            </BadgeGroup.Root>
+            <BadgeGroup.Root size="lg" addonText="lg">
+              Large
+            </BadgeGroup.Root>
           </Row>
           <SubHeading>Leading addon</SubHeading>
           <Row>
-            <BadgeGroup.Root align="leading" addonText="PRO">Unlock all features</BadgeGroup.Root>
+            <BadgeGroup.Root align="leading" addonText="PRO">
+              Unlock all features
+            </BadgeGroup.Root>
           </Row>
         </Section>
 
-        <Section id="section-divider" title="SectionDivider" classes={['tale-section-divider', 'tale-section-divider__rule']}>
+        <Section
+          id="section-divider"
+          title="SectionDivider"
+          classes={['tale-section-divider', 'tale-section-divider__rule']}
+        >
           <SubHeading>Default</SubHeading>
           <div style={{ width: '100%' }}>
             <p style={{ margin: '1rem 0' }}>Content above</p>
@@ -4202,7 +5973,11 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="background-pattern" title="BackgroundPattern" classes={['tale-background-pattern']}>
+        <Section
+          id="background-pattern"
+          title="BackgroundPattern"
+          classes={['tale-background-pattern']}
+        >
           <SubHeading>All patterns (md size)</SubHeading>
           <Row>
             {(['circle', 'square', 'grid'] as const).map((p) => (
@@ -4220,7 +5995,11 @@ export default function ComponentAudit() {
           <BackgroundPattern pattern="circle" size="sm" style={{ color: 'var(--color-30)' }} />
         </Section>
 
-        <Section id="illustration" title="Illustration" classes={['tale-illustration', 'tale-illustration__svg', 'tale-illustration__overlay']}>
+        <Section
+          id="illustration"
+          title="Illustration"
+          classes={['tale-illustration', 'tale-illustration__svg', 'tale-illustration__overlay']}
+        >
           <SubHeading>All types (md)</SubHeading>
           <Row>
             {(['box', 'cloud', 'documents', 'credit-card'] as const).map((t) => (
@@ -4241,7 +6020,15 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="iphone-mockup" title="IphoneMockup" classes={['tale-iphone-mockup', 'tale-iphone-mockup__image', 'tale-iphone-mockup__image--dark']}>
+        <Section
+          id="iphone-mockup"
+          title="IphoneMockup"
+          classes={[
+            'tale-iphone-mockup',
+            'tale-iphone-mockup__image',
+            'tale-iphone-mockup__image--dark',
+          ]}
+        >
           <SubHeading>Default (scaled to 200 px)</SubHeading>
           <IPhoneMockup
             image="https://placehold.co/750x1624/e2e8f0/64748b?text=Screenshot"
@@ -4250,22 +6037,58 @@ export default function ComponentAudit() {
           />
         </Section>
 
-        <Section id="credit-card" title="CreditCard" classes={['tale-credit-card', 'tale-credit-card__inner', 'tale-credit-card__inner--brand-dark', 'tale-credit-card__inner--brand-light', 'tale-credit-card__inner--gray-dark', 'tale-credit-card__inner--gray-light', 'tale-credit-card__inner--transparent', 'tale-credit-card__inner--gradient-strip', 'tale-credit-card__header', 'tale-credit-card__company', 'tale-credit-card__paypass', 'tale-credit-card__footer', 'tale-credit-card__number', 'tale-credit-card__holder', 'tale-credit-card__expiration', 'tale-credit-card__logo-wrap', 'tale-credit-card__strip', 'tale-credit-card__strip-vertical']}>
+        <Section
+          id="credit-card"
+          title="CreditCard"
+          classes={[
+            'tale-credit-card',
+            'tale-credit-card__inner',
+            'tale-credit-card__inner--brand-dark',
+            'tale-credit-card__inner--brand-light',
+            'tale-credit-card__inner--gray-dark',
+            'tale-credit-card__inner--gray-light',
+            'tale-credit-card__inner--transparent',
+            'tale-credit-card__inner--gradient-strip',
+            'tale-credit-card__header',
+            'tale-credit-card__company',
+            'tale-credit-card__paypass',
+            'tale-credit-card__footer',
+            'tale-credit-card__number',
+            'tale-credit-card__holder',
+            'tale-credit-card__expiration',
+            'tale-credit-card__logo-wrap',
+            'tale-credit-card__strip',
+            'tale-credit-card__strip-vertical',
+          ]}
+        >
           <SubHeading>Normal variants</SubHeading>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-            {(['brand-dark', 'brand-light', 'gray-dark', 'gray-light', 'transparent', 'transparent-gradient'] as const).map((t) => (
+            {(
+              [
+                'brand-dark',
+                'brand-light',
+                'gray-dark',
+                'gray-light',
+                'transparent',
+                'transparent-gradient',
+              ] as const
+            ).map((t) => (
               <CreditCard.Root key={t} type={t} width={200} />
             ))}
           </div>
           <SubHeading>Strip variants</SubHeading>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-            {(['transparent-strip', 'gray-strip', 'gradient-strip', 'salmon-strip'] as const).map((t) => (
-              <CreditCard.Root key={t} type={t} width={200} />
-            ))}
+            {(['transparent-strip', 'gray-strip', 'gradient-strip', 'salmon-strip'] as const).map(
+              (t) => (
+                <CreditCard.Root key={t} type={t} width={200} />
+              ),
+            )}
           </div>
           <SubHeading>Vertical strip variants</SubHeading>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-            {(['gray-strip-vertical', 'gradient-strip-vertical', 'salmon-strip-vertical'] as const).map((t) => (
+            {(
+              ['gray-strip-vertical', 'gradient-strip-vertical', 'salmon-strip-vertical'] as const
+            ).map((t) => (
               <CreditCard.Root key={t} type={t} width={200} />
             ))}
           </div>
@@ -4278,9 +6101,7 @@ export default function ComponentAudit() {
         <Section id="drop-zone" title="DropZone" classes={['tale-drop-zone']}>
           <SubHeading>Default</SubHeading>
           <DropZone onDrop={() => {}}>
-            <div className="audit__dropzone-content">
-              Drop files here
-            </div>
+            <div className="audit__dropzone-content">Drop files here</div>
           </DropZone>
           <SubHeading>With FileTrigger (click or drag)</SubHeading>
           <DropZone onDrop={() => {}}>
@@ -4299,15 +6120,72 @@ export default function ComponentAudit() {
           </Row>
         </Section>
 
-        <Section id="file-upload" title="FileUpload" classes={['tale-file-upload', 'tale-file-upload-drop-zone', 'tale-file-upload-drop-zone--drag-over', 'tale-file-upload-drop-zone--disabled', 'tale-file-upload-drop-zone__icon-wrap', 'tale-file-upload-drop-zone__icon', 'tale-file-upload-drop-zone__body', 'tale-file-upload-drop-zone__trigger-row', 'tale-file-upload-drop-zone__trigger', 'tale-file-upload-drop-zone__or', 'tale-file-upload-drop-zone__hint', 'tale-file-upload-drop-zone__hint--invalid', 'tale-file-upload-list', 'tale-file-upload-list-item', 'tale-file-upload-item', 'tale-file-upload-item--bar', 'tale-file-upload-item--fill', 'tale-file-upload-item--failed', 'tale-file-upload-item__icon', 'tale-file-upload-item__content', 'tale-file-upload-item__name', 'tale-file-upload-item__size', 'tale-file-upload-item__actions', 'tale-file-upload-item__progress', 'tale-file-upload-item__progress-fill', 'tale-file-upload-item__fill-bg']}>
+        <Section
+          id="file-upload"
+          title="FileUpload"
+          classes={[
+            'tale-file-upload',
+            'tale-file-upload-drop-zone',
+            'tale-file-upload-drop-zone--drag-over',
+            'tale-file-upload-drop-zone--disabled',
+            'tale-file-upload-drop-zone__icon-wrap',
+            'tale-file-upload-drop-zone__icon',
+            'tale-file-upload-drop-zone__body',
+            'tale-file-upload-drop-zone__trigger-row',
+            'tale-file-upload-drop-zone__trigger',
+            'tale-file-upload-drop-zone__or',
+            'tale-file-upload-drop-zone__hint',
+            'tale-file-upload-drop-zone__hint--invalid',
+            'tale-file-upload-list',
+            'tale-file-upload-list-item',
+            'tale-file-upload-item',
+            'tale-file-upload-item--bar',
+            'tale-file-upload-item--fill',
+            'tale-file-upload-item--failed',
+            'tale-file-upload-item__icon',
+            'tale-file-upload-item__content',
+            'tale-file-upload-item__name',
+            'tale-file-upload-item__size',
+            'tale-file-upload-item__actions',
+            'tale-file-upload-item__progress',
+            'tale-file-upload-item__progress-fill',
+            'tale-file-upload-item__fill-bg',
+          ]}
+        >
           <FileUploadAuditSection />
         </Section>
 
-        <Section id="image-cropper" title="ImageCropper" classes={['tale-image-cropper', 'tale-image-cropper__img']}>
+        <Section
+          id="image-cropper"
+          title="ImageCropper"
+          classes={['tale-image-cropper', 'tale-image-cropper__img']}
+        >
           <ImageCropperAuditSection />
         </Section>
 
-        <Section id="text-editor" title="TextEditor" classes={['tale-text-editor', 'tale-text-editor__label', 'tale-text-editor__hint', 'tale-text-editor__hint--invalid', 'tale-text-editor__content', 'tale-text-editor__toolbar', 'tale-text-editor__toolbar--floating', 'tale-text-editor__toolbar--advanced', 'tale-text-editor__separator', 'tale-text-editor__btn', 'tale-text-editor__btn--active', 'tale-text-editor__bubble-menu', 'tale-text-editor__color-popup', 'tale-text-editor__color-swatches', 'tale-text-editor__color-swatch', 'tale-text-editor__color-field', 'tale-text-editor__select']}>
+        <Section
+          id="text-editor"
+          title="TextEditor"
+          classes={[
+            'tale-text-editor',
+            'tale-text-editor__label',
+            'tale-text-editor__hint',
+            'tale-text-editor__hint--invalid',
+            'tale-text-editor__content',
+            'tale-text-editor__toolbar',
+            'tale-text-editor__toolbar--floating',
+            'tale-text-editor__toolbar--advanced',
+            'tale-text-editor__separator',
+            'tale-text-editor__btn',
+            'tale-text-editor__btn--active',
+            'tale-text-editor__bubble-menu',
+            'tale-text-editor__color-popup',
+            'tale-text-editor__color-swatches',
+            'tale-text-editor__color-swatch',
+            'tale-text-editor__color-field',
+            'tale-text-editor__select',
+          ]}
+        >
           <SubHeading>Simple toolbar</SubHeading>
           <TextEditor.Root>
             <TextEditor.Label>Body</TextEditor.Label>
@@ -4338,16 +6216,55 @@ export default function ComponentAudit() {
         {/* NAVIGATION: Sidebar + HeaderNav                                */}
         {/* ============================================================= */}
 
-        <Section id="sidebar" title="Sidebar" classes={['tale-sidebar', 'tale-sidebar--no-border', 'tale-sidebar__header', 'tale-sidebar__search', 'tale-sidebar__search-input', 'tale-sidebar__search-icon', 'tale-sidebar__divider', 'tale-sidebar__nav-list', 'tale-sidebar__nav-item', 'tale-sidebar__nav-link', 'tale-sidebar__nav-link--current', 'tale-sidebar__nav-icon', 'tale-sidebar__nav-btn', 'tale-sidebar__nav-btn--current', 'tale-sidebar__account-card', 'tale-sidebar__account-avatar', 'tale-sidebar__account-info', 'tale-sidebar__account-name', 'tale-sidebar__account-email', 'tale-sidebar__account-trigger', 'tale-sidebar__account-menu', 'tale-sidebar__feature-card', 'tale-sidebar__mobile-header', 'tale-sidebar__mobile-menu-btn']}>
+        <Section
+          id="sidebar"
+          title="Sidebar"
+          classes={[
+            'tale-sidebar',
+            'tale-sidebar--no-border',
+            'tale-sidebar__header',
+            'tale-sidebar__search',
+            'tale-sidebar__search-input',
+            'tale-sidebar__search-icon',
+            'tale-sidebar__divider',
+            'tale-sidebar__nav-list',
+            'tale-sidebar__nav-item',
+            'tale-sidebar__nav-link',
+            'tale-sidebar__nav-link--current',
+            'tale-sidebar__nav-icon',
+            'tale-sidebar__nav-btn',
+            'tale-sidebar__nav-btn--current',
+            'tale-sidebar__account-card',
+            'tale-sidebar__account-avatar',
+            'tale-sidebar__account-info',
+            'tale-sidebar__account-name',
+            'tale-sidebar__account-email',
+            'tale-sidebar__account-trigger',
+            'tale-sidebar__account-menu',
+            'tale-sidebar__feature-card',
+            'tale-sidebar__mobile-header',
+            'tale-sidebar__mobile-menu-btn',
+          ]}
+        >
           <SubHeading>Basic sidebar</SubHeading>
-          <div style={{ height: 400, display: 'flex', border: '1px solid var(--neutral-90)', borderRadius: 8, overflow: 'hidden' }}>
+          <div
+            style={{
+              height: 400,
+              display: 'flex',
+              border: '1px solid var(--neutral-90)',
+              borderRadius: 8,
+              overflow: 'hidden',
+            }}
+          >
             <Sidebar.Root style={{ width: 280 }}>
               <Sidebar.Header>
                 <strong style={{ fontSize: 16 }}>MyApp</strong>
               </Sidebar.Header>
               <Sidebar.Search placeholder="Search..." />
               <Sidebar.NavList>
-                <Sidebar.NavItem href="/dashboard" current>Dashboard</Sidebar.NavItem>
+                <Sidebar.NavItem href="/dashboard" current>
+                  Dashboard
+                </Sidebar.NavItem>
                 <Sidebar.NavItem href="/team">Team</Sidebar.NavItem>
                 <Sidebar.NavItem href="/settings">Settings</Sidebar.NavItem>
                 <Sidebar.Divider />
@@ -4358,19 +6275,39 @@ export default function ComponentAudit() {
           </div>
         </Section>
 
-        <Section id="header-nav" title="HeaderNav" classes={['tale-header-nav', 'tale-header-nav__logo', 'tale-header-nav__secondary', 'tale-header-nav__nav-btn', 'tale-header-nav__nav-btn--current', 'tale-header-nav__actions', 'tale-header-nav__mobile-trigger']}>
+        <Section
+          id="header-nav"
+          title="HeaderNav"
+          classes={[
+            'tale-header-nav',
+            'tale-header-nav__logo',
+            'tale-header-nav__secondary',
+            'tale-header-nav__nav-btn',
+            'tale-header-nav__nav-btn--current',
+            'tale-header-nav__actions',
+            'tale-header-nav__mobile-trigger',
+          ]}
+        >
           <SubHeading>Basic header</SubHeading>
-          <div style={{ border: '1px solid var(--neutral-90)', borderRadius: 8, overflow: 'hidden' }}>
+          <div
+            style={{ border: '1px solid var(--neutral-90)', borderRadius: 8, overflow: 'hidden' }}
+          >
             <HeaderNav.Root>
               <HeaderNav.Logo href="/">MyApp</HeaderNav.Logo>
               <HeaderNav.Secondary>
-                <HeaderNav.NavButton href="/features" current>Features</HeaderNav.NavButton>
+                <HeaderNav.NavButton href="/features" current>
+                  Features
+                </HeaderNav.NavButton>
                 <HeaderNav.NavButton href="/pricing">Pricing</HeaderNav.NavButton>
                 <HeaderNav.NavButton href="/docs">Docs</HeaderNav.NavButton>
               </HeaderNav.Secondary>
               <HeaderNav.Actions>
-                <a href="/login" className="tale-button tale-button--neutral tale-button--sm">Log in</a>
-                <a href="/signup" className="tale-button tale-button--primary tale-button--sm">Sign up</a>
+                <a href="/login" className="tale-button tale-button--neutral tale-button--sm">
+                  Log in
+                </a>
+                <a href="/signup" className="tale-button tale-button--primary tale-button--sm">
+                  Sign up
+                </a>
               </HeaderNav.Actions>
             </HeaderNav.Root>
           </div>
@@ -4380,22 +6317,46 @@ export default function ComponentAudit() {
         {/* TYPOGRAPHY                                                     */}
         {/* ============================================================= */}
 
-        <Section id="text" title="Text" classes={['tale-text', 'tale-text--muted', 'tale-text--accent']}>
+        <Section
+          id="text"
+          title="Text"
+          classes={['tale-text', 'tale-text--muted', 'tale-text--accent']}
+        >
           <SubHeading>Variants</SubHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-            <Text variant="display" size="m" as="div">display-m</Text>
-            <Text variant="heading" size="m" as="div">heading-m</Text>
-            <Text variant="title" size="m" as="div">title-m</Text>
-            <Text variant="label" size="m" as="div">label-m</Text>
-            <Text variant="text" size="m" as="div">text-m (body)</Text>
-            <Text variant="mono" size="m" as="div">mono-m</Text>
+            <Text variant="display" size="m" as="div">
+              display-m
+            </Text>
+            <Text variant="heading" size="m" as="div">
+              heading-m
+            </Text>
+            <Text variant="title" size="m" as="div">
+              title-m
+            </Text>
+            <Text variant="label" size="m" as="div">
+              label-m
+            </Text>
+            <Text variant="text" size="m" as="div">
+              text-m (body)
+            </Text>
+            <Text variant="mono" size="m" as="div">
+              mono-m
+            </Text>
           </div>
           <SubHeading>Sizes (text variant)</SubHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-            <Text variant="text" size="l">text-l</Text>
-            <Text variant="text" size="m">text-m</Text>
-            <Text variant="text" size="s">text-s</Text>
-            <Text variant="text" size="xs">text-xs</Text>
+            <Text variant="text" size="l">
+              text-l
+            </Text>
+            <Text variant="text" size="m">
+              text-m
+            </Text>
+            <Text variant="text" size="s">
+              text-s
+            </Text>
+            <Text variant="text" size="xs">
+              text-xs
+            </Text>
           </div>
           <SubHeading>Colours</SubHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
@@ -4404,7 +6365,6 @@ export default function ComponentAudit() {
             <Text color="accent">Accent colour</Text>
           </div>
         </Section>
-
       </main>
     </div>
   );

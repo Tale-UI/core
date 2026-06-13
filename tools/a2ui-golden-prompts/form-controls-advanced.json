@@ -1,7 +1,7 @@
 {
   "slug": "form-controls-advanced",
   "difficulty": "complex",
-  "prompt": "Build a profile form card with: a multi-line TextAreaInput for 'Bio', a NumberInput for 'Age', a SearchInput for 'Location', a SliderInput for 'Experience (years)', and a Radio group for 'Preferred contact method' with options 'Email' and 'Phone'. Include a Save button.",
+  "prompt": "Build a profile form card with: a multi-line TextAreaInput for 'Bio', a NumberInput for 'Age', a SearchInput for 'Location', a SliderInput for 'Experience (years)', and a RadioField group for 'Preferred contact method' with options 'Email' and 'Phone'. Include a Save button.",
   "reference": {
     "messages": [
       {
@@ -102,7 +102,7 @@
           {
             "id": "contact",
             "component": {
-              "Radio": {
+              "RadioField": {
                 "label": "Preferred contact method",
                 "binding": { "path": "contactMethod" },
                 "children": ["contact-email", "contact-phone"]
@@ -112,7 +112,7 @@
           {
             "id": "contact-email",
             "component": {
-              "RadioOption": {
+              "RadioFieldOption": {
                 "value": "email",
                 "label": "Email"
               }
@@ -121,7 +121,7 @@
           {
             "id": "contact-phone",
             "component": {
-              "RadioOption": {
+              "RadioFieldOption": {
                 "value": "phone",
                 "label": "Phone"
               }
@@ -141,5 +141,5 @@
       }
     ]
   },
-  "tags": ["TextAreaInput", "NumberInput", "SearchInput", "SliderInput", "Radio", "RadioOption"]
+  "tags": ["TextAreaInput", "NumberInput", "SearchInput", "SliderInput", "RadioField", "RadioFieldOption"]
 }

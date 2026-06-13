@@ -8,11 +8,14 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 |-----------|-------------|
 | [Button](button.md) | Action button with variant and size props |
 | [Input](input.md) | Text input with label, description, and validation |
-| [Checkbox](checkbox.md) | Checkbox with indicator slot |
+| [Checkbox](checkbox.md) | Deprecated checkbox with indicator slot; use CheckboxField for new code |
+| [CheckboxField](checkbox-field.md) | Checkbox with description and error slots |
 | [CheckboxGroup](checkbox-group.md) | Groups multiple checkboxes |
-| [Radio](radio.md) | Radio button with group |
-| [RadioGroup](radio-group.md) | Convenience re-export of `Radio.Group` |
-| [Switch](switch.md) | Toggle switch |
+| [Radio](radio.md) | Deprecated radio button; use RadioField for new code |
+| [RadioField](radio-field.md) | Radio option with description and error slots |
+| [RadioGroup](radio-group.md) | Group wrapper for RadioField options |
+| [Switch](switch.md) | Deprecated toggle switch; use SwitchField for new code |
+| [SwitchField](switch-field.md) | Toggle switch with description and error slots |
 | [ToggleButton](toggle-button.md) | Pressable toggle with group support |
 | [ToggleButtonGroup](toggle-group.md) | Convenience re-export of `ToggleButtonGroup` |
 | [Select](select.md) | Dropdown select with sections and groups |

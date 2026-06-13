@@ -1,7 +1,7 @@
 {
   "slug": "checkbox-group",
   "difficulty": "medium",
-  "prompt": "Show a 'Permissions' card with a column of three checkboxes: 'Read', 'Write', and 'Delete'. Place the checkboxes inside a card.",
+  "prompt": "Show a 'Permissions' card with a column of three checkbox fields: 'Read', 'Write', and 'Delete'. Place the checkbox fields inside a card.",
   "reference": {
     "messages": [
       {
@@ -59,7 +59,7 @@
           {
             "id": "check-read",
             "component": {
-              "Checkbox": {
+              "CheckboxField": {
                 "label": "Read",
                 "binding": { "path": "canRead" }
               }
@@ -68,7 +68,7 @@
           {
             "id": "check-write",
             "component": {
-              "Checkbox": {
+              "CheckboxField": {
                 "label": "Write",
                 "binding": { "path": "canWrite" }
               }
@@ -77,7 +77,7 @@
           {
             "id": "check-delete",
             "component": {
-              "Checkbox": {
+              "CheckboxField": {
                 "label": "Delete",
                 "binding": { "path": "canDelete" }
               }
@@ -87,5 +87,5 @@
       }
     ]
   },
-  "tags": ["Checkbox", "Card", "Column", "Text"]
+  "tags": ["CheckboxField", "Card", "Column", "Text"]
 }

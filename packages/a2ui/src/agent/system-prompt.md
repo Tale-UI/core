@@ -123,7 +123,32 @@ All container components accept a `children` array of child component IDs. This 
 |  | `value` | string (form submission value) |
 |  | `name` | lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`) |
 |  | `action` | `{ "name": "...", "context": { ... } }` |
+| **CheckboxField** | `binding` | `{ "path": "fieldName" }` |
+|  | `label` | string |
+|  | `defaultSelected` | boolean |
+|  | `disabled` | boolean |
+|  | `readOnly` | boolean |
+|  | `isIndeterminate` | boolean |
+|  | `isRequired` | boolean |
+|  | `isInvalid` | boolean |
+|  | `size` | `sm`, `md` |
+|  | `value` | string (form submission value) |
+|  | `name` | lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`) |
+|  | `action` | `{ "name": "...", "context": { ... } }` |
+|  | `description` | string (helper text) |
+|  | `errorMessage` | string |
 | **Radio** | `binding` | `{ "path": "fieldName" }` |
+|  | `label` | string |
+|  | `defaultValue` | string or number |
+|  | `disabled` | boolean |
+|  | `readOnly` | boolean |
+|  | `isRequired` | boolean |
+|  | `isInvalid` | boolean |
+|  | `size` | `sm`, `md` |
+|  | `name` | lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`) |
+|  | `description` | string (helper text) |
+|  | `action` | `{ "name": "...", "context": { ... } }` |
+| **RadioField** | `binding` | `{ "path": "fieldName" }` |
 |  | `label` | string |
 |  | `defaultValue` | string or number |
 |  | `disabled` | boolean |
@@ -155,10 +180,28 @@ All container components accept a `children` array of child component IDs. This 
 |  | `value` | string (form submission value) |
 |  | `name` | lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`) |
 |  | `action` | `{ "name": "...", "context": { ... } }` |
+| **SwitchField** | `binding` | `{ "path": "fieldName" }` |
+|  | `label` | string |
+|  | `defaultSelected` | boolean |
+|  | `disabled` | boolean |
+|  | `readOnly` | boolean |
+|  | `isRequired` | boolean |
+|  | `isInvalid` | boolean |
+|  | `value` | string (form submission value) |
+|  | `name` | lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`) |
+|  | `action` | `{ "name": "...", "context": { ... } }` |
+|  | `description` | string (helper text) |
+|  | `errorMessage` | string |
 | **RadioOption** | `value` | string (option identifier) |
 |  | `disabled` | boolean |
 |  | `size` | `sm`, `md` |
 |  | `label` | string |
+| **RadioFieldOption** | `value` | string (option identifier) |
+|  | `disabled` | boolean |
+|  | `size` | `sm`, `md` |
+|  | `label` | string |
+|  | `description` | string (helper text) |
+|  | `errorMessage` | string |
 | **SelectItem** | `value` | string (option identifier) |
 |  | `label` | string |
 
@@ -675,6 +718,12 @@ Set data values via `dataModelUpdate` messages. Two formats are supported:
 **Single value:** `{ "type": "dataModelUpdate", "surfaceId": "main", "path": "fieldName", "value": "fieldValue" }`
 
 **Multiple values:** `{ "type": "dataModelUpdate", "surfaceId": "main", "data": { "field1": "val1", "field2": "val2" } }`
+
+## Deprecated Form Controls
+
+For new surfaces, use `CheckboxField`, `RadioField` with `RadioFieldOption` children, and `SwitchField`.
+
+`Checkbox`, `Radio` with `RadioOption` children, and `Switch` are legacy compatibility aliases. They still render, but do not use them for new UI unless the user explicitly asks for the legacy API or you are preserving an existing payload.
 
 ## Actions
 

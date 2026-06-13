@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {
-  Radio as AriaRadio,
-  RadioGroup as AriaRadioGroup,
-} from 'react-aria-components';
+import { Radio as AriaRadio, RadioGroup as AriaRadioGroup } from 'react-aria-components';
 import type {
   RadioProps as AriaRadioProps,
   RadioGroupProps as AriaRadioGroupProps,
@@ -21,6 +18,9 @@ export interface RadioRootProps extends Omit<AriaRadioProps, 'className'> {
 
 /**
  * A radio button with indicator and label. Use inside Radio.Group.
+ *
+ * @status deprecated
+ * @deprecated Use RadioField from `@tale-ui/react/radio-field` instead — it adds built-in description and error message support. Radio remains functional but the underlying React Aria Radio is deprecated upstream.
  *
  * @example
  * ```tsx
@@ -64,27 +64,34 @@ export interface RadioGroupProps extends Omit<AriaRadioGroupProps, 'className'> 
   label?: string;
   /** A description for the radio group. Displays below the group. */
   description?: string;
-  /** Size propagated to child Radio.Root components. */
+  /** Size propagated to child RadioField.Root components. */
   size?: Size | undefined;
 }
 
 /**
  * A group of radio buttons allowing single selection.
+ * Use RadioField.Root children for new code.
  *
  * @example
  * ```tsx
- * import { Radio } from '@tale-ui/react/radio';
+ * import { RadioGroup } from '@tale-ui/react/radio-group';
+ * import { RadioField } from '@tale-ui/react/radio-field';
  *
- * <Radio.Group label="Favorite color">
- *   <Radio.Root value="red"><Radio.Indicator /> Red</Radio.Root>
- *   <Radio.Root value="green"><Radio.Indicator /> Green</Radio.Root>
- *   <Radio.Root value="blue"><Radio.Indicator /> Blue</Radio.Root>
- * </Radio.Group>
+ * <RadioGroup label="Favorite color">
+ *   <RadioField.Root value="red">
+ *     <RadioField.Button>
+ *       <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>
+ *       Red
+ *     </RadioField.Button>
+ *   </RadioField.Root>
+ * </RadioGroup>
  * ```
  */
 export const Group = React.forwardRef<HTMLDivElement, RadioGroupProps>(
   ({ size, className, ...props }, ref) => {
-    const group = <AriaRadioGroup ref={ref} className={cx('tale-radio-group', className)} {...props} />;
+    const group = (
+      <AriaRadioGroup ref={ref} className={cx('tale-radio-group', className)} {...props} />
+    );
     return size ? <SizeContext.Provider value={size}>{group}</SizeContext.Provider> : group;
   },
 );
@@ -99,7 +106,10 @@ Dot.displayName = 'Radio.Dot';
 
 /* ─── Visual ────────────────��─────────────────────────────────────────────── */
 
-export interface RadioVisualProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
+export interface RadioVisualProps extends Omit<
+  React.ComponentPropsWithoutRef<'span'>,
+  'className'
+> {
   /** Whether the radio visual appears selected. */
   checked?: boolean;
   /** Additional CSS class name. */

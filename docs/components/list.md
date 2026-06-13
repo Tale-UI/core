@@ -91,22 +91,28 @@ Accepts all standard `<li>` HTML attributes including `className`.
 ```tsx
 <List.Root variant="divided">
   <List.Item>
-    <Row justify="between" align="center">
-      <Text variant="text" size="m">Email notifications</Text>
-      <Switch defaultSelected />
-    </Row>
+    <SwitchField.Root defaultSelected>
+      <SwitchField.Button>
+        <SwitchField.Thumb />
+        Email notifications
+      </SwitchField.Button>
+    </SwitchField.Root>
   </List.Item>
   <List.Item>
-    <Row justify="between" align="center">
-      <Text variant="text" size="m">Push notifications</Text>
-      <Switch />
-    </Row>
+    <SwitchField.Root>
+      <SwitchField.Button>
+        <SwitchField.Thumb />
+        Push notifications
+      </SwitchField.Button>
+    </SwitchField.Root>
   </List.Item>
   <List.Item>
-    <Row justify="between" align="center">
-      <Text variant="text" size="m">SMS notifications</Text>
-      <Switch />
-    </Row>
+    <SwitchField.Root>
+      <SwitchField.Button>
+        <SwitchField.Thumb />
+        SMS notifications
+      </SwitchField.Button>
+    </SwitchField.Root>
   </List.Item>
 </List.Root>
 ```

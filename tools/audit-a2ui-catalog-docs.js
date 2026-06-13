@@ -91,10 +91,13 @@ function extractAdapterBodies(source) {
  */
 const REQUIRED_SUBPARTS = {
   Switch: ['Switch.Thumb'],
+  SwitchField: ['SwitchField.Button', 'SwitchField.Thumb'],
   Checkbox: ['Checkbox.Indicator'],
+  CheckboxField: ['CheckboxField.Button', 'CheckboxField.Indicator'],
   TextInput: ['TextField.Label', 'TextField.Input'],
   Select: ['Select.Trigger', 'Select.Value', 'Select.Popover', 'Select.ListBox'],
   RadioOption: ['Radio.Indicator'],
+  RadioFieldOption: ['RadioField.Button', 'RadioField.Indicator', 'RadioField.Dot'],
   Banner: ['Banner.Title', 'Banner.Description'],
   TextAreaInput: ['TextArea.Label', 'TextArea.TextArea'],
   NumberInput: ['NumberField.Label', 'NumberField.Group', 'NumberField.Input', 'NumberField.Increment', 'NumberField.Decrement'],

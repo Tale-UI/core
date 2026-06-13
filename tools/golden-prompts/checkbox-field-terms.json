@@ -1,0 +1,7 @@
+{
+  "slug": "checkbox-field-terms",
+  "difficulty": "simple",
+  "prompt": "Show a checkbox labelled 'Accept terms and conditions' with help text 'You can withdraw consent at any time.' below it.",
+  "reference": "import { CheckboxField } from '@tale-ui/react/checkbox-field';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <CheckboxField.Root>\n      <CheckboxField.Button>\n        <CheckboxField.Indicator>\n          <Icon icon={Check} size=\"sm\" />\n        </CheckboxField.Indicator>\n        Accept terms and conditions\n      </CheckboxField.Button>\n      <CheckboxField.Description>\n        You can withdraw consent at any time.\n      </CheckboxField.Description>\n    </CheckboxField.Root>\n  );\n}",
+  "tags": ["CheckboxField"]
+}

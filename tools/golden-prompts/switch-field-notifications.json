@@ -1,0 +1,7 @@
+{
+  "slug": "switch-field-notifications",
+  "difficulty": "simple",
+  "prompt": "Show a toggle switch labelled 'Enable notifications' with help text 'We'll send you updates about your account.' below it.",
+  "reference": "import { SwitchField } from '@tale-ui/react/switch-field';\n\nexport function Example() {\n  return (\n    <SwitchField.Root>\n      <SwitchField.Button>\n        <SwitchField.Thumb />\n        Enable notifications\n      </SwitchField.Button>\n      <SwitchField.Description>\n        We'll send you updates about your account.\n      </SwitchField.Description>\n    </SwitchField.Root>\n  );\n}",
+  "tags": ["SwitchField"]
+}

@@ -82,6 +82,39 @@ export const WithSelection: Story = {
   },
 };
 
+export const WithFooter: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render() {
+    return (
+      <Table.Root aria-label="People">
+        <Table.Header>
+          <Table.Column isRowHeader>Name</Table.Column>
+          <Table.Column>Email</Table.Column>
+          <Table.Column>Role</Table.Column>
+        </Table.Header>
+        <Table.Body>
+          {rows.map((row) => (
+            <Table.Row key={row.id} id={row.id}>
+              <Table.Cell>{row.name}</Table.Cell>
+              <Table.Cell>{row.email}</Table.Cell>
+              <Table.Cell>{row.role}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+        <Table.Footer>
+          <Table.Row id="totals">
+            <Table.Cell>Total</Table.Cell>
+            <Table.Cell>{`${rows.length} people`}</Table.Cell>
+            <Table.Cell>{`${new Set(rows.map((row) => row.role)).size} roles`}</Table.Cell>
+          </Table.Row>
+        </Table.Footer>
+      </Table.Root>
+    );
+  },
+};
+
 export const WithSorting: Story = {
   parameters: {
     controls: { disable: true },
@@ -129,7 +162,6 @@ export const WithSorting: Story = {
   },
 };
 
-
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
@@ -173,9 +205,15 @@ export const AllVariations: Story = {
             onSortChange={setSortDescriptor}
           >
             <Table.Header>
-              <Table.Column id="name" isRowHeader allowsSorting>Name</Table.Column>
-              <Table.Column id="email" allowsSorting>Email</Table.Column>
-              <Table.Column id="role" allowsSorting>Role</Table.Column>
+              <Table.Column id="name" isRowHeader allowsSorting>
+                Name
+              </Table.Column>
+              <Table.Column id="email" allowsSorting>
+                Email
+              </Table.Column>
+              <Table.Column id="role" allowsSorting>
+                Role
+              </Table.Column>
             </Table.Header>
             <Table.Body>
               {sortedRows.map((row) => (

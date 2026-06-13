@@ -6,22 +6,34 @@ A date picker calendar for selecting a single date, with month navigation.
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `Calendar.Root` | Wrapper managing date state and locale |
-| `Calendar.PreviousButton` | Navigate to the previous month (renders a ChevronLeft icon by default) |
-| `Calendar.NextButton` | Navigate to the next month (renders a ChevronRight icon by default) |
-| `Calendar.Heading` | Displays the current month and year |
-| `Calendar.Grid` | `<table>` containing the header and body |
-| `Calendar.GridHeader` | `<thead>` row of weekday names (render prop: `(day) => ...`) |
-| `Calendar.GridHeaderCell` | `<th>` weekday label — **use inside `GridHeader` only** |
-| `Calendar.GridBody` | `<tbody>` rows of date cells (render prop: `(date) => ...`) |
-| `Calendar.Cell` | Individual date cell — **use inside `GridBody` only**; accepts a `date` prop |
-| `Calendar.Header` | Flex row wrapper for navigation buttons and heading |
+| Part                      | Description                                                                                          |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `Calendar.Root`           | Wrapper managing date state and locale                                                               |
+| `Calendar.PreviousButton` | Navigate to the previous month (renders a ChevronLeft icon by default)                               |
+| `Calendar.NextButton`     | Navigate to the next month (renders a ChevronRight icon by default)                                  |
+| `Calendar.Heading`        | Displays the current month and year                                                                  |
+| `Calendar.Grid`           | `<table>` containing the header and body                                                             |
+| `Calendar.GridHeader`     | `<thead>` row of weekday names (render prop: `(day) => ...`)                                         |
+| `Calendar.GridHeaderCell` | `<th>` weekday label — **use inside `GridHeader` only**                                              |
+| `Calendar.GridBody`       | `<tbody>` rows of date cells (render prop: `(date) => ...`)                                          |
+| `Calendar.Cell`           | Individual date cell — **use inside `GridBody` only**; accepts a `date` prop                         |
+| `Calendar.Header`         | Flex row wrapper for navigation buttons and heading                                                  |
+| `Calendar.MonthPicker`    | Headless render-prop helper for building a custom month picker (advanced — no styling, no BEM class) |
+| `Calendar.YearPicker`     | Headless render-prop helper for building a custom year picker (advanced — no styling, no BEM class)  |
 
 ## Props
 
 Accepts all React Aria `Calendar` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
+### New in React Aria 1.17/1.18
+
+These props live on the React Aria layer and flow through the Tale UI wrappers untouched:
+
+| Part               | Prop            | Type                     | Description                                                                                                                   |
+| ------------------ | --------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| `Calendar.Root`    | `selectionMode` | `'single' \| 'multiple'` | Enable multiple date selection (new in 1.18). With `"multiple"`, `value`/`defaultValue`/`onChange` use an **array** of dates. |
+| `Calendar.Grid`    | `weeksInMonth`  | `number`                 | Overrides the locale default number of displayed weeks.                                                                       |
+| `Calendar.Heading` | `offset`        | `number`                 | Months offset for multi-month layouts (e.g. show the next month's name in a second heading).                                  |
 
 ## Basic Usage
 
@@ -36,9 +48,7 @@ Accepts all React Aria `Calendar` props plus an optional `className`. See the `@
     <Calendar.GridHeader>
       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
     </Calendar.GridHeader>
-    <Calendar.GridBody>
-      {(date) => <Calendar.Cell date={date} />}
-    </Calendar.GridBody>
+    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
   </Calendar.Grid>
 </Calendar.Root>
 ```
@@ -60,9 +70,7 @@ Accepts all React Aria `Calendar` props plus an optional `className`. See the `@
     <Calendar.GridHeader>
       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
     </Calendar.GridHeader>
-    <Calendar.GridBody>
-      {(date) => <Calendar.Cell date={date} />}
-    </Calendar.GridBody>
+    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
   </Calendar.Grid>
 </Calendar.Root>
 ```
@@ -82,12 +90,38 @@ import { today, getLocalTimeZone } from '@internationalized/date';
     <Calendar.GridHeader>
       {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
     </Calendar.GridHeader>
-    <Calendar.GridBody>
-      {(date) => <Calendar.Cell date={date} />}
-    </Calendar.GridBody>
+    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
   </Calendar.Grid>
-</Calendar.Root>
+</Calendar.Root>;
 ```
+
+### Multiple Selection
+
+New in React Aria 1.18 — pass `selectionMode="multiple"` to `Calendar.Root` to let users select several individual dates. The value is an **array** of dates.
+
+```tsx
+import { today, getLocalTimeZone } from '@internationalized/date';
+
+const now = today(getLocalTimeZone());
+
+<Calendar.Root selectionMode="multiple" defaultValue={[now, now.add({ days: 3 })]}>
+  <Calendar.Header>
+    <Calendar.PreviousButton />
+    <Calendar.Heading />
+    <Calendar.NextButton />
+  </Calendar.Header>
+  <Calendar.Grid>
+    <Calendar.GridHeader>
+      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+    </Calendar.GridHeader>
+    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
+  </Calendar.Grid>
+</Calendar.Root>;
+```
+
+## Month and year pickers
+
+**Advanced.** `Calendar.MonthPicker` and `Calendar.YearPicker` are headless render-prop helpers re-exported from React Aria — they apply no styling and have no BEM class. `children` is a function receiving locale-aware month/year list data (`CalendarMonthPickerAria` / `CalendarYearPickerAria`) for building custom picker UIs (e.g. a month/year dropdown in the calendar header).
 
 ## CSS Classes
 
@@ -106,13 +140,15 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 
 <!-- pitfall: calendar-header-required -->
 <!-- multi-idea-ok -->
+
 - **Navigation buttons and heading must be inside `Calendar.Header`** — `Calendar.PreviousButton`, `Calendar.Heading`, and `Calendar.NextButton` must be placed inside `Calendar.Header`; placing them directly in `Calendar.Root` loses the flex layout.
   - anti-pattern: `<Calendar.Root><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Root>`
   - fix: `<Calendar.Root><Calendar.Header><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Header></Calendar.Root>`
   - complete example:
+
     ```tsx
     import { Calendar } from '@tale-ui/react/calendar';
-    
+
     export function Example() {
       return (
         <Calendar.Root>
@@ -125,9 +161,7 @@ import { today, getLocalTimeZone } from '@internationalized/date';
             <Calendar.GridHeader>
               {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
             </Calendar.GridHeader>
-            <Calendar.GridBody>
-              {(date) => <Calendar.Cell date={date} />}
-            </Calendar.GridBody>
+            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
           </Calendar.Grid>
         </Calendar.Root>
       );
@@ -135,11 +169,13 @@ import { today, getLocalTimeZone } from '@internationalized/date';
     ```
 
 <!-- pitfall: calendar-grid-header-cell-not-cell -->
+
 - **Use `Calendar.GridHeaderCell` in `GridHeader`, not `Calendar.Cell`** — `GridHeader` passes day name strings to its render prop; `Cell` expects a date object and crashes with `TypeError` if used here.
   - anti-pattern: `<Calendar.GridHeader>{(day) => <Calendar.Cell>{day}</Calendar.Cell>}</Calendar.GridHeader>`
   - fix: `<Calendar.GridHeader>{(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}</Calendar.GridHeader>`
 
 <!-- pitfall: calendar-heading-no-margin -->
+
 - **Do not add vertical margin or padding to `Calendar.Heading`** — it is positioned by `Calendar.Header`'s flex layout; extra margin breaks alignment.
   - anti-pattern: `<Calendar.Heading style={{ marginBottom: '8px' }} />`
   - fix: `<Calendar.Heading />`
@@ -147,6 +183,12 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 - **Use `Calendar` for any prompt that asks for a date calendar picker, standalone calendar, or single date selection** — when the request is to display a calendar for picking a single date, render `Calendar.Root` with the full header and grid structure instead of leaving the file empty or substituting `DatePicker`.
   - anti-pattern: `// empty file`
   - fix: `import { Calendar } from '@tale-ui/react/calendar'; export function DateCalendarPicker() { return <Calendar.Root><Calendar.Header><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Header><Calendar.Grid><Calendar.GridHeader>{(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}</Calendar.GridHeader><Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody></Calendar.Grid></Calendar.Root>; }`
+
+<!-- pitfall: calendar-multiple-value-array -->
+
+- **With `selectionMode="multiple"` the value is `DateValue[]`, not a single date** — `value`, `defaultValue`, and the `onChange` argument are arrays of dates; passing or expecting a single date is a type error.
+  - anti-pattern: `<Calendar.Root selectionMode="multiple" defaultValue={today(getLocalTimeZone())} />`
+  - fix: `<Calendar.Root selectionMode="multiple" defaultValue={[today(getLocalTimeZone())]} />`
 
 <!-- cross-pitfall-ref: no-locale-prop-on-calendar -->
 <!-- cross-pitfall-ref: no-native-date -->
@@ -160,4 +202,4 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 - Uses `@internationalized/date` for date values. Import helpers like `today()` and `getLocalTimeZone()` from that package.
 - `GridHeader` and `GridBody` use render props to iterate weekday names and date objects respectively.
 - **Use `Calendar.GridHeaderCell` in `GridHeader`, not `Calendar.Cell`.** `GridHeader`'s render prop passes day name strings (e.g. `"Mon"`), not date objects. Using `Calendar.Cell` there crashes with `TypeError: can't access property "calendar", date is undefined` because `Cell` expects a `date` prop. Reserve `Calendar.Cell` for `GridBody` where actual date objects are provided.
-- Calendar supports single-date selection only. Use RangeCalendar for selecting date ranges.
+- Calendar selects a single date by default; pass `selectionMode="multiple"` (React Aria 1.18) to select several individual dates. Use RangeCalendar for selecting contiguous date ranges.

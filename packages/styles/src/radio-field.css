@@ -1,0 +1,145 @@
+/*
+ * RadioField — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria RadioField exposes on the root (div):
+ *   [data-selected]
+ *   [data-disabled] [data-readonly] [data-required] [data-invalid]
+ * RadioButton (label) additionally exposes:
+ *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
+ *
+ * Sizes:  .tale-radio-field--sm  (var(--space-xs) indicator)
+ *         (default / md)         (1.8rem indicator)
+ *
+ * Usage:
+ *   <RadioField.Root className="tale-radio-field">
+ *     <RadioField.Button className="tale-radio-field__button">
+ *       <RadioField.Indicator className="tale-radio-field__indicator">
+ *         <RadioField.Dot className="tale-radio-field__dot" />
+ *       </RadioField.Indicator>
+ *       Label text
+ *     </RadioField.Button>
+ *     <RadioField.Description className="tale-radio-field__description">…</RadioField.Description>
+ *     <RadioField.Error className="tale-radio-field__error" />
+ *   </RadioField.Root>
+ */
+
+/* ─── Root — field wrapper (column flex: button, description, error) ──────── */
+
+.tale-radio-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
+}
+
+/* Indent description and error to align with the label text */
+.tale-radio-field__description,
+.tale-radio-field__error {
+  margin-left: calc(1.8rem + var(--space-3xs));
+}
+
+.tale-radio-field--sm .tale-radio-field__description,
+.tale-radio-field--sm .tale-radio-field__error {
+  margin-left: calc(var(--space-xs) + var(--space-3xs));
+}
+
+/* ─── Button — the clickable label row ────────────────────────────────────── */
+
+.tale-radio-field__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+/* ─── Indicator — the visual radio circle ─────────────────────────────────── */
+
+.tale-radio-field__indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--neutral-40);
+  background-color: var(--neutral-10);
+  outline: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.tale-radio-field__button[data-focus-visible] .tale-radio-field__indicator {
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
+}
+
+/* ─── Selected state ──────────────────────────────────────────────────────── */
+
+.tale-radio-field__button[data-selected] .tale-radio-field__indicator {
+  border-color: var(--color-60);
+  background-color: var(--neutral-10);
+}
+
+.tale-radio-field__button[data-selected][data-hovered]:not([data-disabled])
+  .tale-radio-field__indicator {
+  border-color: var(--color-50);
+}
+
+/* ─── Hover (unselected) ──────────────────────────────────────────────────── */
+
+.tale-radio-field__button[data-hovered]:not([data-disabled], [data-selected])
+  .tale-radio-field__indicator {
+  border-color: var(--neutral-60);
+  background-color: var(--neutral-14);
+}
+
+/* ─── Invalid state ───────────────────────────────────────────────────────── */
+
+.tale-radio-field[data-invalid] .tale-radio-field__indicator {
+  border-color: var(--red-60);
+}
+
+/* ─── Disabled state ──────────────────────────────────────────────────────── */
+
+.tale-radio-field[data-disabled] .tale-radio-field__button {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Dot — filled circle shown when selected ─────────────────────────────── */
+
+.tale-radio-field__dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background-color: var(--color-60);
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+  transform: scale(0);
+  opacity: 0;
+}
+
+.tale-radio-field__button[data-selected] .tale-radio-field__dot {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* ─── Size: sm ───────────────────────────────────────────────────────────── */
+
+.tale-radio-field--sm .tale-radio-field__indicator {
+  width: var(--space-xs);
+  height: var(--space-xs);
+}
+
+.tale-radio-field--sm .tale-radio-field__dot {
+  width: 0.6rem;
+  height: 0.6rem;
+}

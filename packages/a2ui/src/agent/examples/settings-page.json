@@ -15,7 +15,11 @@
           "component": {
             "Column": {
               "spacing": "l",
-              "children": ["heading", "notifications-card", "appearance-card"]
+              "children": [
+                "heading",
+                "notifications-card",
+                "appearance-card"
+              ]
             }
           }
         },
@@ -33,7 +37,10 @@
           "component": {
             "Card": {
               "variant": "outlined",
-              "children": ["notif-header", "notif-body"]
+              "children": [
+                "notif-header",
+                "notif-body"
+              ]
             }
           }
         },
@@ -41,7 +48,9 @@
           "id": "notif-header",
           "component": {
             "CardHeader": {
-              "children": ["notif-title"]
+              "children": [
+                "notif-title"
+              ]
             }
           }
         },
@@ -58,7 +67,9 @@
           "id": "notif-body",
           "component": {
             "CardBody": {
-              "children": ["notif-list"]
+              "children": [
+                "notif-list"
+              ]
             }
           }
         },
@@ -67,7 +78,11 @@
           "component": {
             "List": {
               "variant": "divided",
-              "children": ["notif-email", "notif-push", "notif-sms"]
+              "children": [
+                "notif-email",
+                "notif-push",
+                "notif-sms"
+              ]
             }
           }
         },
@@ -75,7 +90,9 @@
           "id": "notif-email",
           "component": {
             "ListItem": {
-              "children": ["notif-email-row"]
+              "children": [
+                "notif-email-row"
+              ]
             }
           }
         },
@@ -84,7 +101,9 @@
           "component": {
             "Row": {
               "justify": "between",
-              "children": ["notif-email-label", "notif-email-switch"]
+              "children": [
+                "notif-email-switch"
+              ]
             }
           }
         },
@@ -100,10 +119,17 @@
         {
           "id": "notif-email-switch",
           "component": {
-            "Switch": {
+            "SwitchField": {
               "label": "Email notifications",
-              "binding": { "path": "emailNotifications" },
-              "action": { "name": "toggleNotification", "context": { "channel": "email" } }
+              "binding": {
+                "path": "emailNotifications"
+              },
+              "action": {
+                "name": "toggleNotification",
+                "context": {
+                  "channel": "email"
+                }
+              }
             }
           }
         },
@@ -111,7 +137,9 @@
           "id": "notif-push",
           "component": {
             "ListItem": {
-              "children": ["notif-push-row"]
+              "children": [
+                "notif-push-row"
+              ]
             }
           }
         },
@@ -120,7 +148,9 @@
           "component": {
             "Row": {
               "justify": "between",
-              "children": ["notif-push-label", "notif-push-switch"]
+              "children": [
+                "notif-push-switch"
+              ]
             }
           }
         },
@@ -136,10 +166,17 @@
         {
           "id": "notif-push-switch",
           "component": {
-            "Switch": {
+            "SwitchField": {
               "label": "Push notifications",
-              "binding": { "path": "pushNotifications" },
-              "action": { "name": "toggleNotification", "context": { "channel": "push" } }
+              "binding": {
+                "path": "pushNotifications"
+              },
+              "action": {
+                "name": "toggleNotification",
+                "context": {
+                  "channel": "push"
+                }
+              }
             }
           }
         },
@@ -147,7 +184,9 @@
           "id": "notif-sms",
           "component": {
             "ListItem": {
-              "children": ["notif-sms-row"]
+              "children": [
+                "notif-sms-row"
+              ]
             }
           }
         },
@@ -156,7 +195,9 @@
           "component": {
             "Row": {
               "justify": "between",
-              "children": ["notif-sms-label", "notif-sms-switch"]
+              "children": [
+                "notif-sms-switch"
+              ]
             }
           }
         },
@@ -172,10 +213,17 @@
         {
           "id": "notif-sms-switch",
           "component": {
-            "Switch": {
+            "SwitchField": {
               "label": "SMS notifications",
-              "binding": { "path": "smsNotifications" },
-              "action": { "name": "toggleNotification", "context": { "channel": "sms" } }
+              "binding": {
+                "path": "smsNotifications"
+              },
+              "action": {
+                "name": "toggleNotification",
+                "context": {
+                  "channel": "sms"
+                }
+              }
             }
           }
         },
@@ -184,7 +232,10 @@
           "component": {
             "Card": {
               "variant": "outlined",
-              "children": ["appear-header", "appear-body"]
+              "children": [
+                "appear-header",
+                "appear-body"
+              ]
             }
           }
         },
@@ -192,7 +243,9 @@
           "id": "appear-header",
           "component": {
             "CardHeader": {
-              "children": ["appear-title"]
+              "children": [
+                "appear-title"
+              ]
             }
           }
         },
@@ -209,7 +262,9 @@
           "id": "appear-body",
           "component": {
             "CardBody": {
-              "children": ["appear-col"]
+              "children": [
+                "appear-col"
+              ]
             }
           }
         },
@@ -218,7 +273,10 @@
           "component": {
             "Column": {
               "spacing": "m",
-              "children": ["theme-select", "save-btn"]
+              "children": [
+                "theme-select",
+                "save-btn"
+              ]
             }
           }
         },
@@ -227,8 +285,13 @@
           "component": {
             "Select": {
               "label": "Theme",
-              "binding": { "path": "theme" },
-              "action": { "name": "changeTheme", "context": {} }
+              "binding": {
+                "path": "theme"
+              },
+              "action": {
+                "name": "changeTheme",
+                "context": {}
+              }
             }
           }
         },
@@ -238,7 +301,10 @@
             "Button": {
               "label": "Save changes",
               "variant": "primary",
-              "action": { "name": "saveSettings", "context": {} }
+              "action": {
+                "name": "saveSettings",
+                "context": {}
+              }
             }
           }
         }

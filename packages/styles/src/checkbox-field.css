@@ -1,0 +1,152 @@
+/*
+ * CheckboxField — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria CheckboxField exposes on the root (div):
+ *   [data-selected] [data-indeterminate]
+ *   [data-disabled] [data-readonly] [data-required] [data-invalid]
+ * CheckboxButton (label) additionally exposes:
+ *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
+ *
+ * Sizes:  .tale-checkbox-field--sm  (1.4rem indicator)
+ *         (default / md)            (1.8rem indicator)
+ *
+ * Usage:
+ *   <CheckboxField.Root className="tale-checkbox-field">
+ *     <CheckboxField.Button className="tale-checkbox-field__button">
+ *       <CheckboxField.Indicator className="tale-checkbox-field__indicator">✓</CheckboxField.Indicator>
+ *       Label text
+ *     </CheckboxField.Button>
+ *     <CheckboxField.Description className="tale-checkbox-field__description">…</CheckboxField.Description>
+ *     <CheckboxField.Error className="tale-checkbox-field__error" />
+ *   </CheckboxField.Root>
+ */
+
+/* ─── Root — field wrapper (column flex: button, description, error) ──────── */
+
+.tale-checkbox-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
+}
+
+/* Indent description and error to align with the label text */
+.tale-checkbox-field__description,
+.tale-checkbox-field__error {
+  margin-left: calc(1.8rem + var(--space-3xs));
+}
+
+.tale-checkbox-field--sm .tale-checkbox-field__description,
+.tale-checkbox-field--sm .tale-checkbox-field__error {
+  margin-left: calc(1.4rem + var(--space-3xs));
+}
+
+/* ─── Button — the clickable label row ────────────────────────────────────── */
+
+.tale-checkbox-field__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+/* ─── Indicator — the visual checkbox square ──────────────────────────────── */
+
+.tale-checkbox-field__indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: var(--radius-xs);
+  border: 1.5px solid var(--neutral-40);
+  background-color: var(--neutral-10);
+  outline: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.tale-checkbox-field__button[data-focus-visible] .tale-checkbox-field__indicator {
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
+}
+
+/* ─── Checked state ───────────────────────────────────────────────────────── */
+
+.tale-checkbox-field__button[data-selected] .tale-checkbox-field__indicator {
+  background-color: var(--color-60);
+  border-color: var(--color-60);
+}
+
+.tale-checkbox-field__button[data-selected][data-hovered]:not([data-disabled])
+  .tale-checkbox-field__indicator {
+  background-color: var(--color-50);
+  border-color: var(--color-50);
+}
+
+/* ─── Indeterminate state ─────────────────────────────────────────────────── */
+
+.tale-checkbox-field__button[data-indeterminate] .tale-checkbox-field__indicator {
+  background-color: var(--color-60);
+  border-color: var(--color-60);
+}
+
+/* ─── Hover (unchecked) ───────────────────────────────────────────────────── */
+
+.tale-checkbox-field__button[data-hovered]:not(
+    [data-disabled],
+    [data-selected],
+    [data-indeterminate]
+  )
+  .tale-checkbox-field__indicator {
+  border-color: var(--neutral-60);
+  background-color: var(--neutral-14);
+}
+
+/* ─── Invalid state ───────────────────────────────────────────────────────── */
+
+.tale-checkbox-field[data-invalid] .tale-checkbox-field__indicator {
+  border-color: var(--red-60);
+}
+
+/* ─── Disabled state ──────────────────────────────────────────────────────── */
+
+.tale-checkbox-field[data-disabled] .tale-checkbox-field__button {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Indicator icon/checkmark ────────────────────────────────────────────── */
+
+.tale-checkbox-field__indicator svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--color-60-fg);
+  stroke-width: 4;
+  display: block;
+}
+
+.tale-checkbox-field__button:not([data-selected], [data-indeterminate])
+  .tale-checkbox-field__indicator
+  svg {
+  visibility: hidden;
+}
+
+/* ─── Size: sm ───────────────────────────────────────────────────────────── */
+
+.tale-checkbox-field--sm .tale-checkbox-field__indicator {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.tale-checkbox-field--sm .tale-checkbox-field__indicator svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}

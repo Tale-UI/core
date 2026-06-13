@@ -8,7 +8,9 @@ import {
   CalendarHeaderCell as AriaCalendarHeaderCell,
   CalendarGridBody as AriaCalendarGridBody,
   CalendarCell as AriaCalendarCell,
-  Heading as AriaHeading,
+  CalendarHeading as AriaCalendarHeading,
+  CalendarMonthPicker as AriaCalendarMonthPicker,
+  CalendarYearPicker as AriaCalendarYearPicker,
   Button as AriaButton,
   type CalendarProps as AriaCalendarProps,
   type CalendarGridProps as AriaCalendarGridProps,
@@ -16,14 +18,16 @@ import {
   type CalendarHeaderCellProps as AriaCalendarHeaderCellProps,
   type CalendarGridBodyProps as AriaCalendarGridBodyProps,
   type CalendarCellProps as AriaCalendarCellProps,
-  type HeadingProps as AriaHeadingProps,
+  type CalendarHeadingProps as AriaCalendarHeadingProps,
   type ButtonProps as AriaButtonProps,
 } from 'react-aria-components';
 import type { DateValue } from '@internationalized/date';
 import { cx } from '../_cx';
 
 /**
- * A date calendar for selecting a single date.
+ * A date calendar for selecting a single date — or multiple dates with
+ * `selectionMode="multiple"` (the `value` becomes an array of dates).
+ * Use `weeksInMonth` on `Calendar.Grid` to override the locale's number of displayed weeks.
  *
  * Note: Navigation buttons and heading need a flex wrapper — they don't layout automatically.
  * `Calendar.Heading` must have no vertical margin or padding (`margin: 0; padding: 0;`) — the
@@ -51,12 +55,25 @@ import { cx } from '../_cx';
  * </Calendar.Root>
  * ```
  */
-export const Root = React.forwardRef<HTMLDivElement, Omit<AriaCalendarProps<DateValue>, 'className'> & { className?: string }>(
-  ({ className, ...props }, ref) => (
-    <AriaCalendar ref={ref} className={cx('tale-calendar', className)} {...props} />
+type CalendarSelectionMode = 'single' | 'multiple';
+
+export type RootProps<M extends CalendarSelectionMode = 'single'> = Omit<
+  AriaCalendarProps<DateValue, M>,
+  'className'
+> & { className?: string };
+
+export const Root: <M extends CalendarSelectionMode = 'single'>(
+  props: RootProps<M> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: RootProps<CalendarSelectionMode>, ref) => (
+    <AriaCalendar
+      ref={ref as React.Ref<HTMLDivElement>}
+      className={cx('tale-calendar', className)}
+      {...props}
+    />
   ),
-);
-Root.displayName = 'Calendar.Root';
+) as any;
+(Root as any).displayName = 'Calendar.Root';
 
 // Header (flex wrapper for navigation buttons + heading)
 export const Header = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
@@ -67,69 +84,115 @@ export const Header = React.forwardRef<HTMLDivElement, React.ComponentPropsWitho
 Header.displayName = 'Calendar.Header';
 
 // Grid (contains header + body)
-export const Grid = React.forwardRef<HTMLTableElement, Omit<AriaCalendarGridProps, 'className'> & { className?: string }>(
-  ({ className, ...props }, ref) => (
-    <AriaCalendarGrid ref={ref} className={cx('tale-calendar__grid', className)} {...props} />
-  ),
-);
+export const Grid = React.forwardRef<
+  HTMLTableElement,
+  Omit<AriaCalendarGridProps, 'className'> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaCalendarGrid ref={ref} className={cx('tale-calendar__grid', className)} {...props} />
+));
 Grid.displayName = 'Calendar.Grid';
 
 // Grid header (thead — renders a row of weekday names via render prop)
-export const GridHeader = React.forwardRef<HTMLTableSectionElement, Omit<AriaCalendarGridHeaderProps, 'className'> & { className?: string }>(
-  ({ className, ...props }, ref) => (
-    <AriaCalendarGridHeader ref={ref} className={cx('tale-calendar__grid-header', className)} {...props} />
-  ),
-);
+export const GridHeader = React.forwardRef<
+  HTMLTableSectionElement,
+  Omit<AriaCalendarGridHeaderProps, 'className'> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaCalendarGridHeader
+    ref={ref}
+    className={cx('tale-calendar__grid-header', className)}
+    {...props}
+  />
+));
 GridHeader.displayName = 'Calendar.GridHeader';
 
 // Header cell (th - weekday name)
-export const GridHeaderCell = React.forwardRef<HTMLTableCellElement, Omit<AriaCalendarHeaderCellProps, 'className'> & { className?: string }>(
-  ({ className, ...props }, ref) => (
-    <AriaCalendarHeaderCell ref={ref} className={cx('tale-calendar__grid-header-cell', className)} {...props} />
-  ),
-);
+export const GridHeaderCell = React.forwardRef<
+  HTMLTableCellElement,
+  Omit<AriaCalendarHeaderCellProps, 'className'> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaCalendarHeaderCell
+    ref={ref}
+    className={cx('tale-calendar__grid-header-cell', className)}
+    {...props}
+  />
+));
 GridHeaderCell.displayName = 'Calendar.GridHeaderCell';
 
 // Grid body (tbody — renders rows via render prop: (date) => CalendarCell)
-export const GridBody = React.forwardRef<HTMLTableSectionElement, Omit<AriaCalendarGridBodyProps, 'className'> & { className?: string }>(
-  ({ className, ...props }, ref) => (
-    <AriaCalendarGridBody ref={ref} className={cx('tale-calendar__grid-body', className)} {...props} />
-  ),
-);
+export const GridBody = React.forwardRef<
+  HTMLTableSectionElement,
+  Omit<AriaCalendarGridBodyProps, 'className'> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaCalendarGridBody
+    ref={ref}
+    className={cx('tale-calendar__grid-body', className)}
+    {...props}
+  />
+));
 GridBody.displayName = 'Calendar.GridBody';
 
 // Cell (td + button)
-export const Cell = React.forwardRef<HTMLTableCellElement, Omit<AriaCalendarCellProps, 'className'> & { className?: string }>(
-  ({ className, ...props }, ref) => (
-    <AriaCalendarCell ref={ref} className={cx('tale-calendar__cell', className)} {...props} />
-  ),
-);
+export const Cell = React.forwardRef<
+  HTMLTableCellElement,
+  Omit<AriaCalendarCellProps, 'className'> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaCalendarCell ref={ref} className={cx('tale-calendar__cell', className)} {...props} />
+));
 Cell.displayName = 'Calendar.Cell';
 
 // Heading (month/year label)
-export const Heading = React.forwardRef<HTMLHeadingElement, Omit<AriaHeadingProps, 'className'> & { className?: string }>(
-  ({ className, ...props }, ref) => (
-    <AriaHeading ref={ref} className={cx('tale-calendar__heading', className)} {...props} />
-  ),
-);
+/**
+ * Month/year label. Backed by React Aria's CalendarHeading: auto-formats the
+ * visible month and supports an `offset` (in months) for multi-month layouts.
+ */
+export const Heading = React.forwardRef<
+  HTMLHeadingElement,
+  Omit<AriaCalendarHeadingProps, 'className'> & { className?: string }
+>(({ className, ...props }, ref) => (
+  <AriaCalendarHeading ref={ref} className={cx('tale-calendar__heading', className)} {...props} />
+));
 Heading.displayName = 'Calendar.Heading';
 
 // Previous month button
-export const PreviousButton = React.forwardRef<HTMLButtonElement, Omit<AriaButtonProps, 'className' | 'slot'> & { className?: string }>(
-  ({ className, children, ...props }, ref) => (
-    <AriaButton ref={ref} slot="previous" className={cx('tale-icon-button tale-button tale-button--ghost tale-calendar__prev-button', className)} {...props}>
-      {children ?? <Icon icon={ChevronLeft} size="sm" />}
-    </AriaButton>
-  ),
-);
+export const PreviousButton = React.forwardRef<
+  HTMLButtonElement,
+  Omit<AriaButtonProps, 'className' | 'slot'> & { className?: string }
+>(({ className, children, ...props }, ref) => (
+  <AriaButton
+    ref={ref}
+    slot="previous"
+    className={cx(
+      'tale-icon-button tale-button tale-button--ghost tale-calendar__prev-button',
+      className,
+    )}
+    {...props}
+  >
+    {children ?? <Icon icon={ChevronLeft} size="sm" />}
+  </AriaButton>
+));
 PreviousButton.displayName = 'Calendar.PreviousButton';
 
 // Next month button
-export const NextButton = React.forwardRef<HTMLButtonElement, Omit<AriaButtonProps, 'className' | 'slot'> & { className?: string }>(
-  ({ className, children, ...props }, ref) => (
-    <AriaButton ref={ref} slot="next" className={cx('tale-icon-button tale-button tale-button--ghost tale-calendar__next-button', className)} {...props}>
-      {children ?? <Icon icon={ChevronRight} size="sm" />}
-    </AriaButton>
-  ),
-);
+export const NextButton = React.forwardRef<
+  HTMLButtonElement,
+  Omit<AriaButtonProps, 'className' | 'slot'> & { className?: string }
+>(({ className, children, ...props }, ref) => (
+  <AriaButton
+    ref={ref}
+    slot="next"
+    className={cx(
+      'tale-icon-button tale-button tale-button--ghost tale-calendar__next-button',
+      className,
+    )}
+    {...props}
+  >
+    {children ?? <Icon icon={ChevronRight} size="sm" />}
+  </AriaButton>
+));
 NextButton.displayName = 'Calendar.NextButton';
+
+// Headless month/year picker helpers (React Aria render-prop components).
+// They provide locale-aware month/year lists for building custom picker UIs —
+// see the Calendar docs "Month and year pickers" section.
+export const MonthPicker = AriaCalendarMonthPicker;
+export const YearPicker = AriaCalendarYearPicker;

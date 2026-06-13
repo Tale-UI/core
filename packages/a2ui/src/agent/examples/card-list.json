@@ -15,7 +15,10 @@
           "component": {
             "Column": {
               "spacing": "l",
-              "children": ["title", "grid"]
+              "children": [
+                "title",
+                "grid"
+              ]
             }
           }
         },
@@ -35,7 +38,11 @@
               "spacing": "m",
               "wrap": true,
               "alignment": "stretch",
-              "children": ["card-1", "card-2", "card-3"]
+              "children": [
+                "card-1",
+                "card-2",
+                "card-3"
+              ]
             }
           }
         },
@@ -44,7 +51,10 @@
           "component": {
             "Card": {
               "variant": "outlined",
-              "children": ["card-1-img", "card-1-body"]
+              "children": [
+                "card-1-img",
+                "card-1-body"
+              ]
             }
           },
           "weight": 1
@@ -64,7 +74,11 @@
           "id": "card-1-body",
           "component": {
             "CardBody": {
-              "children": ["card-1-title", "card-1-desc", "card-1-price"]
+              "children": [
+                "card-1-title",
+                "card-1-desc",
+                "card-1-price"
+              ]
             }
           }
         },
@@ -102,7 +116,9 @@
           "component": {
             "Card": {
               "variant": "outlined",
-              "children": ["card-2-body"]
+              "children": [
+                "card-2-body"
+              ]
             }
           },
           "weight": 1
@@ -111,7 +127,10 @@
           "id": "card-2-body",
           "component": {
             "CardBody": {
-              "children": ["card-2-title", "card-2-desc"]
+              "children": [
+                "card-2-title",
+                "card-2-desc"
+              ]
             }
           }
         },
@@ -139,7 +158,9 @@
           "component": {
             "Card": {
               "variant": "outlined",
-              "children": ["card-3-body"]
+              "children": [
+                "card-3-body"
+              ]
             }
           },
           "weight": 1
@@ -148,7 +169,10 @@
           "id": "card-3-body",
           "component": {
             "CardBody": {
-              "children": ["card-3-title", "card-3-desc"]
+              "children": [
+                "card-3-title",
+                "card-3-desc"
+              ]
             }
           }
         },

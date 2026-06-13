@@ -16,7 +16,9 @@
             "Card": {
               "variant": "outlined",
               "padding": "lg",
-              "children": ["card-body"]
+              "children": [
+                "card-body"
+              ]
             }
           }
         },
@@ -24,7 +26,9 @@
           "id": "card-body",
           "component": {
             "CardBody": {
-              "children": ["form"]
+              "children": [
+                "form"
+              ]
             }
           }
         },
@@ -32,8 +36,13 @@
           "id": "form",
           "component": {
             "Form": {
-              "action": { "name": "login", "context": {} },
-              "children": ["form-col"]
+              "action": {
+                "name": "login",
+                "context": {}
+              },
+              "children": [
+                "form-col"
+              ]
             }
           }
         },
@@ -42,7 +51,12 @@
           "component": {
             "Column": {
               "spacing": "m",
-              "children": ["heading", "email", "password", "actions"]
+              "children": [
+                "heading",
+                "email",
+                "password",
+                "actions"
+              ]
             }
           }
         },
@@ -60,7 +74,9 @@
           "component": {
             "TextInput": {
               "label": "Email",
-              "binding": { "path": "email" },
+              "binding": {
+                "path": "email"
+              },
               "required": true
             }
           }
@@ -70,7 +86,9 @@
           "component": {
             "TextInput": {
               "label": "Password",
-              "binding": { "path": "password" },
+              "binding": {
+                "path": "password"
+              },
               "required": true
             }
           }
@@ -80,7 +98,9 @@
           "component": {
             "Row": {
               "justify": "end",
-              "children": ["submit"]
+              "children": [
+                "submit"
+              ]
             }
           }
         },
@@ -90,7 +110,10 @@
             "Button": {
               "label": "Sign in",
               "variant": "primary",
-              "action": { "name": "login", "context": {} }
+              "action": {
+                "name": "login",
+                "context": {}
+              }
             }
           }
         }

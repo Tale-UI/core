@@ -4,7 +4,7 @@ Visual-only exports render component indicators (checkbox box, radio circle, swi
 
 ## Important: Component Authors Only
 
-**Do not use Visual exports to build application UIs.** When generating pages, forms, or interactive experiences, always use the standard compound parts (`Checkbox.Root`, `Radio.Root`, `Switch.Root`, `ToggleButton`) which include full accessibility behaviour.
+**Do not use Visual exports to build application UIs.** When generating pages, forms, or interactive experiences, always use the standard interactive controls (`CheckboxField.Root`, `RadioField.Root` inside `RadioGroup`, `SwitchField.Root`, `ToggleButton`) which include full accessibility behaviour.
 
 Visual exports are `aria-hidden="true"` and provide **zero** keyboard or screen reader support on their own. Using them in place of standard components creates inaccessible interfaces.
 

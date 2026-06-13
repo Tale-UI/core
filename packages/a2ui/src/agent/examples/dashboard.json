@@ -15,7 +15,11 @@
           "component": {
             "Column": {
               "spacing": "l",
-              "children": ["header", "stats-row", "progress-section"]
+              "children": [
+                "header",
+                "stats-row",
+                "progress-section"
+              ]
             }
           }
         },
@@ -24,7 +28,10 @@
           "component": {
             "Row": {
               "justify": "between",
-              "children": ["title", "refresh-btn"]
+              "children": [
+                "title",
+                "refresh-btn"
+              ]
             }
           }
         },
@@ -43,7 +50,10 @@
             "Button": {
               "label": "Refresh",
               "variant": "neutral",
-              "action": { "name": "refresh", "context": {} }
+              "action": {
+                "name": "refresh",
+                "context": {}
+              }
             }
           }
         },
@@ -53,7 +63,11 @@
             "Row": {
               "spacing": "m",
               "alignment": "stretch",
-              "children": ["stat-1", "stat-2", "stat-3"]
+              "children": [
+                "stat-1",
+                "stat-2",
+                "stat-3"
+              ]
             }
           }
         },
@@ -63,7 +77,9 @@
             "Card": {
               "variant": "filled",
               "padding": "md",
-              "children": ["stat-1-body"]
+              "children": [
+                "stat-1-body"
+              ]
             }
           },
           "weight": 1
@@ -72,7 +88,10 @@
           "id": "stat-1-body",
           "component": {
             "CardBody": {
-              "children": ["stat-1-label", "stat-1-value"]
+              "children": [
+                "stat-1-label",
+                "stat-1-value"
+              ]
             }
           }
         },
@@ -101,7 +120,9 @@
             "Card": {
               "variant": "filled",
               "padding": "md",
-              "children": ["stat-2-body"]
+              "children": [
+                "stat-2-body"
+              ]
             }
           },
           "weight": 1
@@ -110,7 +131,10 @@
           "id": "stat-2-body",
           "component": {
             "CardBody": {
-              "children": ["stat-2-label", "stat-2-value"]
+              "children": [
+                "stat-2-label",
+                "stat-2-value"
+              ]
             }
           }
         },
@@ -139,7 +163,9 @@
             "Card": {
               "variant": "filled",
               "padding": "md",
-              "children": ["stat-3-body"]
+              "children": [
+                "stat-3-body"
+              ]
             }
           },
           "weight": 1
@@ -148,7 +174,11 @@
           "id": "stat-3-body",
           "component": {
             "CardBody": {
-              "children": ["stat-3-label", "stat-3-value", "stat-3-badge"]
+              "children": [
+                "stat-3-label",
+                "stat-3-value",
+                "stat-3-badge"
+              ]
             }
           }
         },
@@ -186,7 +216,10 @@
           "component": {
             "Card": {
               "variant": "outlined",
-              "children": ["progress-header", "progress-body"]
+              "children": [
+                "progress-header",
+                "progress-body"
+              ]
             }
           }
         },
@@ -194,7 +227,9 @@
           "id": "progress-header",
           "component": {
             "CardHeader": {
-              "children": ["progress-title"]
+              "children": [
+                "progress-title"
+              ]
             }
           }
         },
@@ -211,7 +246,9 @@
           "id": "progress-body",
           "component": {
             "CardBody": {
-              "children": ["progress-bar"]
+              "children": [
+                "progress-bar"
+              ]
             }
           }
         },
@@ -219,7 +256,9 @@
           "id": "progress-bar",
           "component": {
             "Progress": {
-              "value": { "path": "goalProgress" },
+              "value": {
+                "path": "goalProgress"
+              },
               "maxValue": 100,
               "label": "Monthly goal progress"
             }

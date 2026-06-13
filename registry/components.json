@@ -1155,7 +1155,7 @@
       "slug": "calendar",
       "import": "@tale-ui/react/calendar",
       "category": "Date & Time",
-      "description": "Interactive date calendar",
+      "description": "Interactive date calendar with single or multiple selection",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -1179,6 +1179,20 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "selectionMode",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
@@ -1191,13 +1205,16 @@
         "Cell",
         "Heading",
         "PreviousButton",
-        "NextButton"
+        "NextButton",
+        "MonthPicker",
+        "YearPicker"
       ],
       "examples": [
-        "<Calendar.Root>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>\n      {(date) => <Calendar.Cell date={date} />}\n    </Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>",
-        "<Calendar.Root isDisabled>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>\n      {(date) => <Calendar.Cell date={date} />}\n    </Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>",
-        "import { today, getLocalTimeZone } from '@internationalized/date';\n\n<Calendar.Root defaultValue={today(getLocalTimeZone())} isReadOnly>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>\n      {(date) => <Calendar.Cell date={date} />}\n    </Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>",
-        "import { Calendar } from '@tale-ui/react/calendar';\n    \n    export function Example() {\n      return (\n        <Calendar.Root>\n          <Calendar.Header>\n            <Calendar.PreviousButton />\n            <Calendar.Heading />\n            <Calendar.NextButton />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>\n              {(date) => <Calendar.Cell date={date} />}\n            </Calendar.GridBody>\n          </Calendar.Grid>\n        </Calendar.Root>\n      );\n    }"
+        "<Calendar.Root>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>",
+        "<Calendar.Root isDisabled>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>",
+        "import { today, getLocalTimeZone } from '@internationalized/date';\n\n<Calendar.Root defaultValue={today(getLocalTimeZone())} isReadOnly>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>;",
+        "import { today, getLocalTimeZone } from '@internationalized/date';\n\nconst now = today(getLocalTimeZone());\n\n<Calendar.Root selectionMode=\"multiple\" defaultValue={[now, now.add({ days: 3 })]}>\n  <Calendar.Header>\n    <Calendar.PreviousButton />\n    <Calendar.Heading />\n    <Calendar.NextButton />\n  </Calendar.Header>\n  <Calendar.Grid>\n    <Calendar.GridHeader>\n      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n    </Calendar.GridHeader>\n    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n  </Calendar.Grid>\n</Calendar.Root>;",
+        "import { Calendar } from '@tale-ui/react/calendar';\n\n    export function Example() {\n      return (\n        <Calendar.Root>\n          <Calendar.Header>\n            <Calendar.PreviousButton />\n            <Calendar.Heading />\n            <Calendar.NextButton />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n        </Calendar.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-calendar__cell",
@@ -1212,14 +1229,14 @@
         {
           "id": "calendar-header-required",
           "summary": "Navigation buttons and heading must be inside Calendar.Header",
-          "detail": "`Calendar.PreviousButton`, `Calendar.Heading`, and `Calendar.NextButton` must be placed inside `Calendar.Header`; placing them directly in `Calendar.Root` loses the flex layout.\n    ```tsx\n    import { Calendar } from '@tale-ui/react/calendar';\n    \n    export function Example() {\n      return (\n        <Calendar.Root>\n          <Calendar.Header>\n            <Calendar.PreviousButton />\n            <Calendar.Heading />\n            <Calendar.NextButton />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>\n              {(date) => <Calendar.Cell date={date} />}\n            </Calendar.GridBody>\n          </Calendar.Grid>\n        </Calendar.Root>\n      );\n    }\n    ```",
+          "detail": "`Calendar.PreviousButton`, `Calendar.Heading`, and `Calendar.NextButton` must be placed inside `Calendar.Header`; placing them directly in `Calendar.Root` loses the flex layout.\n\n    ```tsx\n    import { Calendar } from '@tale-ui/react/calendar';\n\n    export function Example() {\n      return (\n        <Calendar.Root>\n          <Calendar.Header>\n            <Calendar.PreviousButton />\n            <Calendar.Heading />\n            <Calendar.NextButton />\n          </Calendar.Header>\n          <Calendar.Grid>\n            <Calendar.GridHeader>\n              {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n            </Calendar.GridHeader>\n            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n          </Calendar.Grid>\n        </Calendar.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Calendar.Root><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Root>"
           ],
           "fixes": [
             "<Calendar.Root><Calendar.Header><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Header></Calendar.Root>"
           ],
-          "completeExample": "import { Calendar } from '@tale-ui/react/calendar';\n\nexport function Example() {\n  return (\n    <Calendar.Root>\n      <Calendar.Header>\n        <Calendar.PreviousButton />\n        <Calendar.Heading />\n        <Calendar.NextButton />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>\n          {(date) => <Calendar.Cell date={date} />}\n        </Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar.Root>\n  );\n}"
+          "completeExample": "import { Calendar } from '@tale-ui/react/calendar';\n\nexport function Example() {\n  return (\n    <Calendar.Root>\n      <Calendar.Header>\n        <Calendar.PreviousButton />\n        <Calendar.Heading />\n        <Calendar.NextButton />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar.Root>\n  );\n}"
         },
         {
           "id": "calendar-grid-header-cell-not-cell",
@@ -1252,6 +1269,17 @@
           ],
           "fixes": [
             "import { Calendar } from '@tale-ui/react/calendar'; export function DateCalendarPicker() { return <Calendar.Root><Calendar.Header><Calendar.PreviousButton /><Calendar.Heading /><Calendar.NextButton /></Calendar.Header><Calendar.Grid><Calendar.GridHeader>{(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}</Calendar.GridHeader><Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody></Calendar.Grid></Calendar.Root>; }"
+          ]
+        },
+        {
+          "id": "calendar-multiple-value-array",
+          "summary": "With selectionMode=\"multiple\" the value is DateValue[], not a single date",
+          "detail": "`value`, `defaultValue`, and the `onChange` argument are arrays of dates; passing or expecting a single date is a type error.",
+          "antiPatterns": [
+            "<Calendar.Root selectionMode=\"multiple\" defaultValue={today(getLocalTimeZone())} />"
+          ],
+          "fixes": [
+            "<Calendar.Root selectionMode=\"multiple\" defaultValue={[today(getLocalTimeZone())]} />"
           ]
         }
       ],
@@ -1508,9 +1536,10 @@
       "slug": "checkbox",
       "import": "@tale-ui/react/checkbox",
       "category": "Form Controls",
-      "description": "Checkbox with visual indicator",
+      "description": "Checkbox with visual indicator (deprecated — use CheckboxField)",
       "kind": "compound",
-      "status": "stable",
+      "status": "deprecated",
+      "deprecationNote": "Use CheckboxField from `@tale-ui/react/checkbox-field` instead — it adds built-in description and error message support. Checkbox remains functional but the underlying React Aria Checkbox is deprecated upstream.",
       "props": [
         {
           "name": "size",
@@ -1551,13 +1580,14 @@
         "Visual"
       ],
       "examples": [
-        "import { Checkbox } from '@tale-ui/react/checkbox';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\n<Checkbox.Root>\n  <Checkbox.Indicator>\n    <Icon icon={Check} size=\"sm\" />\n  </Checkbox.Indicator>\n  Accept terms and conditions\n</Checkbox.Root>",
+        "// Before\nimport { Checkbox } from '@tale-ui/react/checkbox';\n\n<Checkbox.Root>\n  <Checkbox.Indicator>\n    <Icon icon={Check} size=\"sm\" />\n  </Checkbox.Indicator>\n  Accept terms and conditions\n</Checkbox.Root>;\n\n// After\nimport { CheckboxField } from '@tale-ui/react/checkbox-field';\n\n<CheckboxField.Root>\n  <CheckboxField.Button>\n    <CheckboxField.Indicator>\n      <Icon icon={Check} size=\"sm\" />\n    </CheckboxField.Indicator>\n    Accept terms and conditions\n  </CheckboxField.Button>\n</CheckboxField.Root>;",
+        "import { Checkbox } from '@tale-ui/react/checkbox';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\n<Checkbox.Root>\n  <Checkbox.Indicator>\n    <Icon icon={Check} size=\"sm\" />\n  </Checkbox.Indicator>\n  Accept terms and conditions\n</Checkbox.Root>;",
         "<Checkbox.Root defaultSelected>\n  <Checkbox.Indicator>\n    <Icon icon={Check} size=\"sm\" />\n  </Checkbox.Indicator>\n  Checked by default\n</Checkbox.Root>",
         "<Checkbox.Root isDisabled>\n  <Checkbox.Indicator>\n    <Icon icon={Check} size=\"sm\" />\n  </Checkbox.Indicator>\n  Disabled checkbox\n</Checkbox.Root>",
-        "import { Minus } from 'lucide-react';\n\n<Checkbox.Root isIndeterminate>\n  <Checkbox.Indicator>\n    <Icon icon={Minus} size=\"sm\" />\n  </Checkbox.Indicator>\n  Indeterminate state\n</Checkbox.Root>",
+        "import { Minus } from 'lucide-react';\n\n<Checkbox.Root isIndeterminate>\n  <Checkbox.Indicator>\n    <Icon icon={Minus} size=\"sm\" />\n  </Checkbox.Indicator>\n  Indeterminate state\n</Checkbox.Root>;",
         "<Checkbox.Root size=\"sm\">\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Small\n</Checkbox.Root>\n\n<Checkbox.Root size=\"md\">\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Medium (default)\n</Checkbox.Root>\n\n<Checkbox.Root size=\"lg\">\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Large\n</Checkbox.Root>",
         "import { Check, Minus } from 'lucide-react';\n\n<Checkbox.Root>\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Unchecked\n</Checkbox.Root>\n\n<Checkbox.Root defaultSelected>\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Checked\n</Checkbox.Root>\n\n<Checkbox.Root isIndeterminate>\n  <Checkbox.Indicator><Icon icon={Minus} size=\"sm\" /></Checkbox.Indicator>\n  Indeterminate\n</Checkbox.Root>\n\n<Checkbox.Root isDisabled>\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Disabled\n</Checkbox.Root>\n\n<Checkbox.Root isDisabled defaultSelected>\n  <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n  Disabled + Checked\n</Checkbox.Root>",
-        "import { Checkbox } from '@tale-ui/react/checkbox';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <Checkbox.Root>\n          <Checkbox.Indicator>\n            <Icon icon={Check} size=\"sm\" />\n          </Checkbox.Indicator>\n          Accept terms and conditions\n        </Checkbox.Root>\n      );\n    }"
+        "import { Checkbox } from '@tale-ui/react/checkbox';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <Checkbox.Root>\n          <Checkbox.Indicator>\n            <Icon icon={Check} size=\"sm\" />\n          </Checkbox.Indicator>\n          Accept terms and conditions\n        </Checkbox.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-checkbox",
@@ -1569,7 +1599,7 @@
         {
           "id": "checkbox-always-use-namespace",
           "summary": "Always use the Checkbox namespace via <Checkbox.Root>, never bare <Checkbox> directly",
-          "detail": "calling `<Checkbox>` directly causes \"cannot be used as a JSX component\" errors.\n    ```tsx\n    import { Checkbox } from '@tale-ui/react/checkbox';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <Checkbox.Root>\n          <Checkbox.Indicator>\n            <Icon icon={Check} size=\"sm\" />\n          </Checkbox.Indicator>\n          Accept terms and conditions\n        </Checkbox.Root>\n      );\n    }\n    ```",
+          "detail": "calling `<Checkbox>` directly causes \"cannot be used as a JSX component\" errors.\n\n    ```tsx\n    import { Checkbox } from '@tale-ui/react/checkbox';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <Checkbox.Root>\n          <Checkbox.Indicator>\n            <Icon icon={Check} size=\"sm\" />\n          </Checkbox.Indicator>\n          Accept terms and conditions\n        </Checkbox.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Checkbox>Label</Checkbox>"
           ],
@@ -1598,6 +1628,117 @@
           ],
           "fixes": [
             "<Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-visual-exports-for-interactive-ui"
+      ]
+    },
+    {
+      "name": "CheckboxField",
+      "slug": "checkbox-field",
+      "import": "@tale-ui/react/checkbox-field",
+      "category": "Form Controls",
+      "description": "Checkbox with built-in description and error message",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the checkbox indicator. Defaults to `'md'`. Inherits from CheckboxGroup `size` when omitted. The `'sm'` variant is for edge-cases only (dense tables, compact toolbars) — prefer `'md'` in most contexts.",
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isSelected",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Button",
+        "Indicator",
+        "Description",
+        "Error"
+      ],
+      "examples": [
+        "import { CheckboxField } from '@tale-ui/react/checkbox-field';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\n<CheckboxField.Root>\n  <CheckboxField.Button>\n    <CheckboxField.Indicator>\n      <Icon icon={Check} size=\"sm\" />\n    </CheckboxField.Indicator>\n    Accept terms and conditions\n  </CheckboxField.Button>\n</CheckboxField.Root>;",
+        "<CheckboxField.Root>\n  <CheckboxField.Button>\n    <CheckboxField.Indicator>\n      <Icon icon={Check} size=\"sm\" />\n    </CheckboxField.Indicator>\n    Email me product updates\n  </CheckboxField.Button>\n  <CheckboxField.Description>You can unsubscribe at any time.</CheckboxField.Description>\n</CheckboxField.Root>",
+        "<CheckboxField.Root isRequired isInvalid>\n  <CheckboxField.Button>\n    <CheckboxField.Indicator>\n      <Icon icon={Check} size=\"sm\" />\n    </CheckboxField.Indicator>\n    Accept terms and conditions\n  </CheckboxField.Button>\n  <CheckboxField.Error>You must accept the terms to continue.</CheckboxField.Error>\n</CheckboxField.Root>",
+        "const [selected, setSelected] = useState(false);\n\n<CheckboxField.Root isSelected={selected} onChange={setSelected}>\n  <CheckboxField.Button>\n    <CheckboxField.Indicator>\n      <Icon icon={Check} size=\"sm\" />\n    </CheckboxField.Indicator>\n    Enable notifications\n  </CheckboxField.Button>\n</CheckboxField.Root>;",
+        "import { CheckboxField } from '@tale-ui/react/checkbox-field';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <CheckboxField.Root>\n          <CheckboxField.Button>\n            <CheckboxField.Indicator>\n              <Icon icon={Check} size=\"sm\" />\n            </CheckboxField.Indicator>\n            Accept terms and conditions\n          </CheckboxField.Button>\n        </CheckboxField.Root>\n      );\n    }"
+      ],
+      "cssClasses": [
+        "tale-checkbox-field",
+        "tale-checkbox-field--sm",
+        "tale-checkbox-field__button",
+        "tale-checkbox-field__description",
+        "tale-checkbox-field__error",
+        "tale-checkbox-field__indicator"
+      ],
+      "pitfalls": [
+        {
+          "id": "checkbox-field-always-use-namespace",
+          "summary": "Always use the CheckboxField namespace via <CheckboxField.Root>, never bare <CheckboxField> directly",
+          "detail": "calling `<CheckboxField>` directly causes \"cannot be used as a JSX component\" errors.\n\n    ```tsx\n    import { CheckboxField } from '@tale-ui/react/checkbox-field';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <CheckboxField.Root>\n          <CheckboxField.Button>\n            <CheckboxField.Indicator>\n              <Icon icon={Check} size=\"sm\" />\n            </CheckboxField.Indicator>\n            Accept terms and conditions\n          </CheckboxField.Button>\n        </CheckboxField.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<CheckboxField>Label</CheckboxField>"
+          ],
+          "fixes": [
+            "<CheckboxField.Root>...</CheckboxField.Root>"
+          ],
+          "completeExample": "import { CheckboxField } from '@tale-ui/react/checkbox-field';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <CheckboxField.Root>\n      <CheckboxField.Button>\n        <CheckboxField.Indicator>\n          <Icon icon={Check} size=\"sm\" />\n        </CheckboxField.Indicator>\n        Accept terms and conditions\n      </CheckboxField.Button>\n    </CheckboxField.Root>\n  );\n}"
+        },
+        {
+          "id": "checkbox-field-label-inside-button",
+          "summary": "The label text goes inside CheckboxField.Button, not directly in CheckboxField.Root",
+          "detail": "`Root` is a `<div>` layout wrapper; only `Button` (a `<label>`) associates text with the input for clicks and screen readers.",
+          "antiPatterns": [
+            "<CheckboxField.Root>Accept terms</CheckboxField.Root>"
+          ],
+          "fixes": [
+            "<CheckboxField.Root><CheckboxField.Button>Accept terms</CheckboxField.Button></CheckboxField.Root>"
+          ]
+        },
+        {
+          "id": "checkbox-field-indicator-needs-icon",
+          "summary": "CheckboxField.Indicator needs an <Icon> child — it does not render a checkmark automatically",
+          "detail": "provide `<Icon icon={Check} size=\"sm\" />` as a child.",
+          "antiPatterns": [
+            "<CheckboxField.Indicator />"
+          ],
+          "fixes": [
+            "<CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>"
           ]
         }
       ],
@@ -1643,7 +1784,7 @@
           "name": "size",
           "type": "'sm' | 'md'",
           "required": false,
-          "description": "Propagates size to all child Checkbox.Root components.",
+          "description": "Propagates size to all child CheckboxField.Root components.",
           "default": null,
           "allowedValues": [
             "sm",
@@ -1653,25 +1794,25 @@
       ],
       "parts": null,
       "examples": [
-        "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\nimport { Checkbox } from '@tale-ui/react/checkbox';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\n<CheckboxGroup label=\"Favorite fruits\">\n  <Checkbox.Root value=\"apple\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Apple\n  </Checkbox.Root>\n  <Checkbox.Root value=\"banana\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Banana\n  </Checkbox.Root>\n  <Checkbox.Root value=\"cherry\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Cherry\n  </Checkbox.Root>\n</CheckboxGroup>",
-        "<CheckboxGroup label=\"Disabled group\" isDisabled>\n  <Checkbox.Root value=\"apple\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Apple\n  </Checkbox.Root>\n  <Checkbox.Root value=\"banana\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Banana\n  </Checkbox.Root>\n</CheckboxGroup>",
-        "import { Field } from '@tale-ui/react/field';\n\n<CheckboxGroup label=\"Notification preferences\">\n  <Field.Description>Select how you would like to be notified.</Field.Description>\n  <Checkbox.Root value=\"email\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Email\n  </Checkbox.Root>\n  <Checkbox.Root value=\"sms\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    SMS\n  </Checkbox.Root>\n  <Checkbox.Root value=\"push\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Push notification\n  </Checkbox.Root>\n</CheckboxGroup>",
-        "<CheckboxGroup label=\"Pick toppings\" orientation=\"horizontal\">\n  <Checkbox.Root value=\"cheese\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Cheese\n  </Checkbox.Root>\n  <Checkbox.Root value=\"pepperoni\">\n    <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n    Pepperoni\n  </Checkbox.Root>\n</CheckboxGroup>",
-        "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\n    import { Checkbox } from '@tale-ui/react/checkbox';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <CheckboxGroup label=\"Favorite fruits\">\n          <Checkbox.Root value=\"apple\">\n            <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n            Apple\n          </Checkbox.Root>\n          <Checkbox.Root value=\"banana\">\n            <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n            Banana\n          </Checkbox.Root>\n        </CheckboxGroup>\n      );\n    }"
+        "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\nimport { CheckboxField } from '@tale-ui/react/checkbox-field';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\n<CheckboxGroup label=\"Favorite fruits\">\n  <CheckboxField.Root value=\"apple\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Apple\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n  <CheckboxField.Root value=\"banana\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Banana\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n  <CheckboxField.Root value=\"cherry\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Cherry\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n</CheckboxGroup>",
+        "<CheckboxGroup label=\"Disabled group\" isDisabled>\n  <CheckboxField.Root value=\"apple\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Apple\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n  <CheckboxField.Root value=\"banana\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Banana\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n</CheckboxGroup>",
+        "import { Field } from '@tale-ui/react/field';\n\n<CheckboxGroup label=\"Notification preferences\">\n  <Field.Description>Select how you would like to be notified.</Field.Description>\n  <CheckboxField.Root value=\"email\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Email\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n  <CheckboxField.Root value=\"sms\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      SMS\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n  <CheckboxField.Root value=\"push\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Push notification\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n</CheckboxGroup>",
+        "<CheckboxGroup label=\"Pick toppings\" orientation=\"horizontal\">\n  <CheckboxField.Root value=\"cheese\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Cheese\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n  <CheckboxField.Root value=\"pepperoni\">\n    <CheckboxField.Button>\n      <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n      Pepperoni\n    </CheckboxField.Button>\n  </CheckboxField.Root>\n</CheckboxGroup>",
+        "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\n    import { CheckboxField } from '@tale-ui/react/checkbox-field';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <CheckboxGroup label=\"Favorite fruits\">\n          <CheckboxField.Root value=\"apple\">\n            <CheckboxField.Button>\n              <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n              Apple\n            </CheckboxField.Button>\n          </CheckboxField.Root>\n          <CheckboxField.Root value=\"banana\">\n            <CheckboxField.Button>\n              <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n              Banana\n            </CheckboxField.Button>\n          </CheckboxField.Root>\n        </CheckboxGroup>\n      );\n    }"
       ],
       "cssClasses": null,
       "pitfalls": [
         {
           "id": "checkbox-group-string-array-not-set",
           "summary": "CheckboxGroup controlled-state uses string[] (plain array), NOT Set<string>.",
-          "detail": "anti-pattern: `<CheckboxGroup value={new Set(['apple'])} onChange={(v) => setSelected(v)} />`\n    ```tsx\n    import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\n    import { Checkbox } from '@tale-ui/react/checkbox';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <CheckboxGroup label=\"Favorite fruits\">\n          <Checkbox.Root value=\"apple\">\n            <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n            Apple\n          </Checkbox.Root>\n          <Checkbox.Root value=\"banana\">\n            <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n            Banana\n          </Checkbox.Root>\n        </CheckboxGroup>\n      );\n    }\n    ```",
+          "detail": "anti-pattern: `<CheckboxGroup value={new Set(['apple'])} onChange={(v) => setSelected(v)} />`\n    ```tsx\n    import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\n    import { CheckboxField } from '@tale-ui/react/checkbox-field';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Check } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <CheckboxGroup label=\"Favorite fruits\">\n          <CheckboxField.Root value=\"apple\">\n            <CheckboxField.Button>\n              <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n              Apple\n            </CheckboxField.Button>\n          </CheckboxField.Root>\n          <CheckboxField.Root value=\"banana\">\n            <CheckboxField.Button>\n              <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n              Banana\n            </CheckboxField.Button>\n          </CheckboxField.Root>\n        </CheckboxGroup>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<CheckboxGroup value={new Set(['apple'])} onChange={(v) => setSelected(v)} />"
           ],
           "fixes": [
             "<CheckboxGroup value={['apple']} onChange={(v) => setSelected(v)} />"
           ],
-          "completeExample": "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\nimport { Checkbox } from '@tale-ui/react/checkbox';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <CheckboxGroup label=\"Favorite fruits\">\n      <Checkbox.Root value=\"apple\">\n        <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n        Apple\n      </Checkbox.Root>\n      <Checkbox.Root value=\"banana\">\n        <Checkbox.Indicator><Icon icon={Check} size=\"sm\" /></Checkbox.Indicator>\n        Banana\n      </Checkbox.Root>\n    </CheckboxGroup>\n  );\n}"
+          "completeExample": "import { CheckboxGroup } from '@tale-ui/react/checkbox-group';\nimport { CheckboxField } from '@tale-ui/react/checkbox-field';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Check } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <CheckboxGroup label=\"Favorite fruits\">\n      <CheckboxField.Root value=\"apple\">\n        <CheckboxField.Button>\n          <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n          Apple\n        </CheckboxField.Button>\n      </CheckboxField.Root>\n      <CheckboxField.Root value=\"banana\">\n        <CheckboxField.Button>\n          <CheckboxField.Indicator><Icon icon={Check} size=\"sm\" /></CheckboxField.Indicator>\n          Banana\n        </CheckboxField.Button>\n      </CheckboxField.Root>\n    </CheckboxGroup>\n  );\n}"
         }
       ],
       "crossPitfallRefs": [
@@ -2360,7 +2501,7 @@
         "<Column gap=\"m\">\n  <Text variant=\"heading\" size=\"m\">Title</Text>\n  <Text variant=\"text\" size=\"m\">Description text below the title.</Text>\n</Column>",
         "<Column gap=\"m\">\n  <Field>\n    <Field.Label>Name</Field.Label>\n    <Input placeholder=\"Enter your name\" />\n  </Field>\n  <Field>\n    <Field.Label>Email</Field.Label>\n    <Input type=\"email\" placeholder=\"Enter your email\" />\n  </Field>\n  <Row gap=\"s\" justify=\"end\">\n    <Button>Cancel</Button>\n    <Button variant=\"primary\">Submit</Button>\n  </Row>\n</Column>",
         "<Column gap=\"s\" align=\"center\">\n  <Avatar src=\"/avatar.jpg\" alt=\"User\" />\n  <Text variant=\"label\" size=\"m\">Jane Doe</Text>\n  <Text variant=\"text\" size=\"s\" color=\"muted\">Developer</Text>\n</Column>",
-        "<Column gap=\"xs\">\n  <Text variant=\"title\" size=\"m\">Notifications</Text>\n  <Text variant=\"text\" size=\"s\" color=\"muted\">\n    Manage how you receive notifications.\n  </Text>\n  <Separator />\n  <Switch>Email notifications</Switch>\n  <Switch>Push notifications</Switch>\n</Column>",
+        "<Column gap=\"xs\">\n  <Text variant=\"title\" size=\"m\">Notifications</Text>\n  <Text variant=\"text\" size=\"s\" color=\"muted\">\n    Manage how you receive notifications.\n  </Text>\n  <Separator />\n  <SwitchField.Root>\n    <SwitchField.Button>\n      <SwitchField.Thumb />\n      Email notifications\n    </SwitchField.Button>\n  </SwitchField.Root>\n  <SwitchField.Root>\n    <SwitchField.Button>\n      <SwitchField.Thumb />\n      Push notifications\n    </SwitchField.Button>\n  </SwitchField.Root>\n</Column>",
         "<Column gap=\"m\" justify=\"between\" style={{ minHeight: 300 }}>\n  <Text variant=\"heading\" size=\"m\">Header</Text>\n  <Text variant=\"text\" size=\"m\">Content fills the middle.</Text>\n  <Text variant=\"text\" size=\"s\" color=\"muted\">Footer</Text>\n</Column>"
       ],
       "cssClasses": [
@@ -4167,6 +4308,17 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "orientation",
+          "type": "'horizontal' | 'vertical'",
+          "required": false,
+          "description": null,
+          "default": null,
+          "allowedValues": [
+            "horizontal",
+            "vertical"
+          ]
         }
       ],
       "parts": [
@@ -4174,12 +4326,12 @@
         "Item"
       ],
       "examples": [
-        "<GridList.Root aria-label=\"Items\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">Item 3</GridList.Item>\n</GridList.Root>",
-        "<GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">Item 3</GridList.Item>\n</GridList.Root>",
-        "import { GridList } from '@tale-ui/react/grid-list';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Star, Heart, Bell } from 'lucide-react';\n\n<GridList.Root aria-label=\"Items\" selectionMode=\"single\">\n  <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n</GridList.Root>",
-        "import { GridList } from '@tale-ui/react/grid-list';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Star, Heart, Bell } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n          <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n          <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n        </GridList.Root>\n      );\n    }",
-        "import * as React from 'react';\n    import { useState } from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    export function Example() {\n      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Items\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n        >\n          <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n        </GridList.Root>\n      );\n    }",
-        "import * as React from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    const images = [\n      { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n      { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n      { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n      { id: '4', src: '/image4.jpg', title: 'City Lights' },\n    ];\n    \n    export function SelectableImageGrid() {\n      const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Image gallery\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n          style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n        >\n          {images.map((image) => (\n            <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n              <Column gap=\"s\">\n                <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n                <Text variant=\"label\">{image.title}</Text>\n              </Column>\n            </GridList.Item>\n          ))}\n        </GridList.Root>\n      );\n    }"
+        "<GridList.Root aria-label=\"Items\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">\n    Item 1\n  </GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">\n    Item 2\n  </GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">\n    Item 3\n  </GridList.Item>\n</GridList.Root>",
+        "<GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n  <GridList.Item id=\"1\" textValue=\"Item 1\">\n    Item 1\n  </GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Item 2\">\n    Item 2\n  </GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Item 3\">\n    Item 3\n  </GridList.Item>\n</GridList.Root>",
+        "import { GridList } from '@tale-ui/react/grid-list';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Star, Heart, Bell } from 'lucide-react';\n\n<GridList.Root aria-label=\"Items\" selectionMode=\"single\">\n  <GridList.Item id=\"1\" textValue=\"Favorites\">\n    <Icon icon={Star} size=\"sm\" />\n    Favorites\n  </GridList.Item>\n  <GridList.Item id=\"2\" textValue=\"Liked\">\n    <Icon icon={Heart} size=\"sm\" />\n    Liked\n  </GridList.Item>\n  <GridList.Item id=\"3\" textValue=\"Alerts\">\n    <Icon icon={Bell} size=\"sm\" />\n    Alerts\n  </GridList.Item>\n</GridList.Root>;",
+        "import { GridList } from '@tale-ui/react/grid-list';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Star, Heart, Bell } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n          <GridList.Item id=\"1\" textValue=\"Favorites\">\n            <Icon icon={Star} size=\"sm\" />\n            Favorites\n          </GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Liked\">\n            <Icon icon={Heart} size=\"sm\" />\n            Liked\n          </GridList.Item>\n          <GridList.Item id=\"3\" textValue=\"Alerts\">\n            <Icon icon={Bell} size=\"sm\" />\n            Alerts\n          </GridList.Item>\n        </GridList.Root>\n      );\n    }",
+        "import * as React from 'react';\n    import { useState } from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n\n    type SelectionValue = Parameters<\n      NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>\n    >[0];\n\n    export function Example() {\n      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n\n      return (\n        <GridList.Root\n          aria-label=\"Items\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n        >\n          <GridList.Item id=\"1\" textValue=\"Item 1\">\n            Item 1\n          </GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Item 2\">\n            Item 2\n          </GridList.Item>\n        </GridList.Root>\n      );\n    }",
+        "import * as React from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n\n    type SelectionValue = Parameters<\n      NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>\n    >[0];\n\n    const images = [\n      { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n      { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n      { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n      { id: '4', src: '/image4.jpg', title: 'City Lights' },\n    ];\n\n    export function SelectableImageGrid() {\n      const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n\n      return (\n        <GridList.Root\n          aria-label=\"Image gallery\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n          style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n        >\n          {images.map((image) => (\n            <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n              <Column gap=\"s\">\n                <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n                <Text variant=\"label\">{image.title}</Text>\n              </Column>\n            </GridList.Item>\n          ))}\n        </GridList.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-grid-list",
@@ -4189,19 +4341,19 @@
         {
           "id": "grid-list-no-is-selected-on-item",
           "summary": "GridList.Item does NOT accept isSelected",
-          "detail": "use `selectedKeys` and `onSelectionChange` on `GridList.Root` instead.\n    ```tsx\n    import { GridList } from '@tale-ui/react/grid-list';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Star, Heart, Bell } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n          <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n          <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n        </GridList.Root>\n      );\n    }\n    ```",
+          "detail": "use `selectedKeys` and `onSelectionChange` on `GridList.Root` instead.\n\n    ```tsx\n    import { GridList } from '@tale-ui/react/grid-list';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Star, Heart, Bell } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n          <GridList.Item id=\"1\" textValue=\"Favorites\">\n            <Icon icon={Star} size=\"sm\" />\n            Favorites\n          </GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Liked\">\n            <Icon icon={Heart} size=\"sm\" />\n            Liked\n          </GridList.Item>\n          <GridList.Item id=\"3\" textValue=\"Alerts\">\n            <Icon icon={Bell} size=\"sm\" />\n            Alerts\n          </GridList.Item>\n        </GridList.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<GridList.Item isSelected={selectedIds.includes(item.id)}>"
           ],
           "fixes": [
             "<GridList.Root selectedKeys={selectedIds} onSelectionChange={setSelectedIds}>"
           ],
-          "completeExample": "import { GridList } from '@tale-ui/react/grid-list';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Star, Heart, Bell } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n      <GridList.Item id=\"1\" textValue=\"Favorites\"><Icon icon={Star} size=\"sm\" />Favorites</GridList.Item>\n      <GridList.Item id=\"2\" textValue=\"Liked\"><Icon icon={Heart} size=\"sm\" />Liked</GridList.Item>\n      <GridList.Item id=\"3\" textValue=\"Alerts\"><Icon icon={Bell} size=\"sm\" />Alerts</GridList.Item>\n    </GridList.Root>\n  );\n}"
+          "completeExample": "import { GridList } from '@tale-ui/react/grid-list';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Star, Heart, Bell } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <GridList.Root aria-label=\"Items\" selectionMode=\"multiple\">\n      <GridList.Item id=\"1\" textValue=\"Favorites\">\n        <Icon icon={Star} size=\"sm\" />\n        Favorites\n      </GridList.Item>\n      <GridList.Item id=\"2\" textValue=\"Liked\">\n        <Icon icon={Heart} size=\"sm\" />\n        Liked\n      </GridList.Item>\n      <GridList.Item id=\"3\" textValue=\"Alerts\">\n        <Icon icon={Bell} size=\"sm\" />\n        Alerts\n      </GridList.Item>\n    </GridList.Root>\n  );\n}"
         },
         {
           "id": "grid-list-on-selection-change-set",
           "summary": "Do NOT annotate onSelectionChange parameter as Set<string> or import Selection from react-aria-components",
-          "detail": "consumers do not depend on `react-aria-components` directly, so that import causes \"Cannot find module\" errors. Derive the selection type from `GridList.Root` props with `React.ComponentProps`, or omit the callback parameter annotation.\n    ```tsx\n    import * as React from 'react';\n    import { useState } from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    export function Example() {\n      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Items\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n        >\n          <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n        </GridList.Root>\n      );\n    }\n    ```",
+          "detail": "consumers do not depend on `react-aria-components` directly, so that import causes \"Cannot find module\" errors. Derive the selection type from `GridList.Root` props with `React.ComponentProps`, or omit the callback parameter annotation.\n\n    ```tsx\n    import * as React from 'react';\n    import { useState } from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n\n    type SelectionValue = Parameters<\n      NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>\n    >[0];\n\n    export function Example() {\n      const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n\n      return (\n        <GridList.Root\n          aria-label=\"Items\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n        >\n          <GridList.Item id=\"1\" textValue=\"Item 1\">\n            Item 1\n          </GridList.Item>\n          <GridList.Item id=\"2\" textValue=\"Item 2\">\n            Item 2\n          </GridList.Item>\n        </GridList.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "onSelectionChange={(keys: Set<string>) => setSelected(keys)}",
             "import type { Selection } from 'react-aria-components';"
@@ -4210,7 +4362,7 @@
             "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];",
             "onSelectionChange={(keys) => setSelected(keys)}"
           ],
-          "completeExample": "import * as React from 'react';\nimport { useState } from 'react';\nimport { GridList } from '@tale-ui/react/grid-list';\n\ntype SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n\nexport function Example() {\n  const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n\n  return (\n    <GridList.Root\n      aria-label=\"Items\"\n      selectionMode=\"multiple\"\n      selectedKeys={selectedKeys}\n      onSelectionChange={setSelectedKeys}\n    >\n      <GridList.Item id=\"1\" textValue=\"Item 1\">Item 1</GridList.Item>\n      <GridList.Item id=\"2\" textValue=\"Item 2\">Item 2</GridList.Item>\n    </GridList.Root>\n  );\n}"
+          "completeExample": "import * as React from 'react';\nimport { useState } from 'react';\nimport { GridList } from '@tale-ui/react/grid-list';\n\ntype SelectionValue = Parameters<\n  NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>\n>[0];\n\nexport function Example() {\n  const [selectedKeys, setSelectedKeys] = useState<SelectionValue>(new Set());\n\n  return (\n    <GridList.Root\n      aria-label=\"Items\"\n      selectionMode=\"multiple\"\n      selectedKeys={selectedKeys}\n      onSelectionChange={setSelectedKeys}\n    >\n      <GridList.Item id=\"1\" textValue=\"Item 1\">\n        Item 1\n      </GridList.Item>\n      <GridList.Item id=\"2\" textValue=\"Item 2\">\n        Item 2\n      </GridList.Item>\n    </GridList.Root>\n  );\n}"
         },
         {
           "id": "grid-list-column-gap-token",
@@ -4237,7 +4389,7 @@
         {
           "id": "use-grid-list-for-selectable-grid-prompts",
           "summary": "Use GridList for any prompt that asks for a selectable grid list, image card grid, or multi-select card grid",
-          "detail": "When the prompt asks to display a grid of cards where the user can select one or more items, render GridList.Root with selectionMode='multiple' (or 'single') and place card content inside GridList.Item children. Use the style prop on GridList.Root with display: 'grid' and gridTemplateColumns to achieve the grid layout. Derive the selection state type from GridList.Root's onSelectionChange prop via React.ComponentProps. Never leave the file empty or substitute a plain div grid with manual selection state.\n    ```tsx\n    import * as React from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    \n    type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n    \n    const images = [\n      { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n      { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n      { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n      { id: '4', src: '/image4.jpg', title: 'City Lights' },\n    ];\n    \n    export function SelectableImageGrid() {\n      const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n    \n      return (\n        <GridList.Root\n          aria-label=\"Image gallery\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n          style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n        >\n          {images.map((image) => (\n            <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n              <Column gap=\"s\">\n                <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n                <Text variant=\"label\">{image.title}</Text>\n              </Column>\n            </GridList.Item>\n          ))}\n        </GridList.Root>\n      );\n    }\n    ```",
+          "detail": "When the prompt asks to display a grid of cards where the user can select one or more items, render GridList.Root with selectionMode='multiple' (or 'single') and place card content inside GridList.Item children. Use the style prop on GridList.Root with display: 'grid' and gridTemplateColumns to achieve the grid layout. Derive the selection state type from GridList.Root's onSelectionChange prop via React.ComponentProps. Never leave the file empty or substitute a plain div grid with manual selection state.\n\n    ```tsx\n    import * as React from 'react';\n    import { GridList } from '@tale-ui/react/grid-list';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n\n    type SelectionValue = Parameters<\n      NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>\n    >[0];\n\n    const images = [\n      { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n      { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n      { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n      { id: '4', src: '/image4.jpg', title: 'City Lights' },\n    ];\n\n    export function SelectableImageGrid() {\n      const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n\n      return (\n        <GridList.Root\n          aria-label=\"Image gallery\"\n          selectionMode=\"multiple\"\n          selectedKeys={selectedKeys}\n          onSelectionChange={setSelectedKeys}\n          style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n        >\n          {images.map((image) => (\n            <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n              <Column gap=\"s\">\n                <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n                <Text variant=\"label\">{image.title}</Text>\n              </Column>\n            </GridList.Item>\n          ))}\n        </GridList.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file",
             "export function SelectableImageGrid() {}",
@@ -4248,7 +4400,7 @@
             "<GridList.Root aria-label=\"Image gallery\" selectionMode=\"multiple\" selectedKeys={selectedKeys} onSelectionChange={setSelectedKeys} style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}>",
             "type SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];"
           ],
-          "completeExample": "import * as React from 'react';\nimport { GridList } from '@tale-ui/react/grid-list';\nimport { Image } from '@tale-ui/react/image';\nimport { Text } from '@tale-ui/react/text';\nimport { Column } from '@tale-ui/react/column';\n\ntype SelectionValue = Parameters<NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>>[0];\n\nconst images = [\n  { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n  { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n  { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n  { id: '4', src: '/image4.jpg', title: 'City Lights' },\n];\n\nexport function SelectableImageGrid() {\n  const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n\n  return (\n    <GridList.Root\n      aria-label=\"Image gallery\"\n      selectionMode=\"multiple\"\n      selectedKeys={selectedKeys}\n      onSelectionChange={setSelectedKeys}\n      style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n    >\n      {images.map((image) => (\n        <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n          <Column gap=\"s\">\n            <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n            <Text variant=\"label\">{image.title}</Text>\n          </Column>\n        </GridList.Item>\n      ))}\n    </GridList.Root>\n  );\n}"
+          "completeExample": "import * as React from 'react';\nimport { GridList } from '@tale-ui/react/grid-list';\nimport { Image } from '@tale-ui/react/image';\nimport { Text } from '@tale-ui/react/text';\nimport { Column } from '@tale-ui/react/column';\n\ntype SelectionValue = Parameters<\n  NonNullable<React.ComponentProps<typeof GridList.Root>['onSelectionChange']>\n>[0];\n\nconst images = [\n  { id: '1', src: '/image1.jpg', title: 'Mountain Sunrise' },\n  { id: '2', src: '/image2.jpg', title: 'Ocean Sunset' },\n  { id: '3', src: '/image3.jpg', title: 'Forest Path' },\n  { id: '4', src: '/image4.jpg', title: 'City Lights' },\n];\n\nexport function SelectableImageGrid() {\n  const [selectedKeys, setSelectedKeys] = React.useState<SelectionValue>(new Set());\n\n  return (\n    <GridList.Root\n      aria-label=\"Image gallery\"\n      selectionMode=\"multiple\"\n      selectedKeys={selectedKeys}\n      onSelectionChange={setSelectedKeys}\n      style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-m)' }}\n    >\n      {images.map((image) => (\n        <GridList.Item key={image.id} id={image.id} textValue={image.title}>\n          <Column gap=\"s\">\n            <Image src={image.src} alt={image.title} width={200} height={150} radius=\"md\" />\n            <Text variant=\"label\">{image.title}</Text>\n          </Column>\n        </GridList.Item>\n      ))}\n    </GridList.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
@@ -5316,7 +5468,7 @@
         "<List.Root variant=\"plain\">\n  <List.Item>Apples</List.Item>\n  <List.Item>Bananas</List.Item>\n  <List.Item>Cherries</List.Item>\n</List.Root>",
         "<List.Root variant=\"divided\">\n  <List.Item>Apples</List.Item>\n  <List.Item>Bananas</List.Item>\n  <List.Item>Cherries</List.Item>\n</List.Root>",
         "<List.Root variant=\"divided\">\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Column gap=\"2xs\">\n        <Text variant=\"label\" size=\"m\">Alice Johnson</Text>\n        <Text variant=\"text\" size=\"s\" color=\"muted\">alice@example.com</Text>\n      </Column>\n      <Badge variant=\"success\">Active</Badge>\n    </Row>\n  </List.Item>\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Column gap=\"2xs\">\n        <Text variant=\"label\" size=\"m\">Bob Smith</Text>\n        <Text variant=\"text\" size=\"s\" color=\"muted\">bob@example.com</Text>\n      </Column>\n      <Badge variant=\"neutral\">Inactive</Badge>\n    </Row>\n  </List.Item>\n</List.Root>",
-        "<List.Root variant=\"divided\">\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"text\" size=\"m\">Email notifications</Text>\n      <Switch defaultSelected />\n    </Row>\n  </List.Item>\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"text\" size=\"m\">Push notifications</Text>\n      <Switch />\n    </Row>\n  </List.Item>\n  <List.Item>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"text\" size=\"m\">SMS notifications</Text>\n      <Switch />\n    </Row>\n  </List.Item>\n</List.Root>",
+        "<List.Root variant=\"divided\">\n  <List.Item>\n    <SwitchField.Root defaultSelected>\n      <SwitchField.Button>\n        <SwitchField.Thumb />\n        Email notifications\n      </SwitchField.Button>\n    </SwitchField.Root>\n  </List.Item>\n  <List.Item>\n    <SwitchField.Root>\n      <SwitchField.Button>\n        <SwitchField.Thumb />\n        Push notifications\n      </SwitchField.Button>\n    </SwitchField.Root>\n  </List.Item>\n  <List.Item>\n    <SwitchField.Root>\n      <SwitchField.Button>\n        <SwitchField.Thumb />\n        SMS notifications\n      </SwitchField.Button>\n    </SwitchField.Root>\n  </List.Item>\n</List.Root>",
         "import { List } from '@tale-ui/react/list';\n    \n    export function Example() {\n      return (\n        <List.Root variant=\"divided\">\n          <List.Item>First item</List.Item>\n          <List.Item>Second item</List.Item>\n          <List.Item>Third item</List.Item>\n        </List.Root>\n      );\n    }"
       ],
       "cssClasses": [
@@ -5960,6 +6112,13 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
@@ -5978,8 +6137,8 @@
         "<NumberField.Root defaultValue={5} minValue={0} maxValue={10}>\n  <NumberField.Label>Rating (0-10)</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
         "<NumberField.Root defaultValue={0} step={5}>\n  <NumberField.Label>Step by 5</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
         "<NumberField.Root defaultValue={42} isDisabled>\n  <NumberField.Label>Disabled</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
-        "<NumberField.Root\n  defaultValue={99.99}\n  formatOptions={{ style: 'currency', currency: 'USD' }}\n>\n  <NumberField.Label>Price</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
-        "import { NumberField } from '@tale-ui/react/number-field';\n    \n    export function Example() {\n      return (\n        <NumberField.Root defaultValue={0}>\n          <NumberField.Label>Quantity</NumberField.Label>\n          <NumberField.Group>\n            <NumberField.Decrement />\n            <NumberField.Input />\n            <NumberField.Increment />\n          </NumberField.Group>\n        </NumberField.Root>\n      );\n    }"
+        "<NumberField.Root defaultValue={99.99} formatOptions={{ style: 'currency', currency: 'USD' }}>\n  <NumberField.Label>Price</NumberField.Label>\n  <NumberField.Group>\n    <NumberField.Decrement />\n    <NumberField.Input />\n    <NumberField.Increment />\n  </NumberField.Group>\n</NumberField.Root>",
+        "import { NumberField } from '@tale-ui/react/number-field';\n\n    export function Example() {\n      return (\n        <NumberField.Root defaultValue={0}>\n          <NumberField.Label>Quantity</NumberField.Label>\n          <NumberField.Group>\n            <NumberField.Decrement />\n            <NumberField.Input />\n            <NumberField.Increment />\n          </NumberField.Group>\n        </NumberField.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-number-field",
@@ -5992,7 +6151,7 @@
         {
           "id": "number-field-no-null-value",
           "summary": "NumberField.Root value prop accepts number | undefined, NOT number | null.",
-          "detail": "anti-pattern: `<NumberField.Root value={count ?? null}>`\n    ```tsx\n    import { NumberField } from '@tale-ui/react/number-field';\n    \n    export function Example() {\n      return (\n        <NumberField.Root defaultValue={0}>\n          <NumberField.Label>Quantity</NumberField.Label>\n          <NumberField.Group>\n            <NumberField.Decrement />\n            <NumberField.Input />\n            <NumberField.Increment />\n          </NumberField.Group>\n        </NumberField.Root>\n      );\n    }\n    ```",
+          "detail": "anti-pattern: `<NumberField.Root value={count ?? null}>`\n\n    ```tsx\n    import { NumberField } from '@tale-ui/react/number-field';\n\n    export function Example() {\n      return (\n        <NumberField.Root defaultValue={0}>\n          <NumberField.Label>Quantity</NumberField.Label>\n          <NumberField.Group>\n            <NumberField.Decrement />\n            <NumberField.Input />\n            <NumberField.Increment />\n          </NumberField.Group>\n        </NumberField.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<NumberField.Root value={count ?? null}>"
           ],
@@ -6394,10 +6553,10 @@
         "Close"
       ],
       "examples": [
-        "import { Popover } from '@tale-ui/react/popover';\n\n<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Title>Popover Title</Popover.Title>\n    <Popover.Description>\n      This is a basic popover with a title and description.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
-        "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">With Arrow</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Arrow />\n    <Popover.Title>Arrow Popover</Popover.Title>\n    <Popover.Description>\n      This popover includes an arrow pointing to the trigger.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
-        "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">Open Popover</Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Close aria-label=\"Close\" />\n    <Popover.Title>Dismissible Popover</Popover.Title>\n    <Popover.Description>\n      Click the close button to dismiss this popover.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
-        "import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n    \n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }"
+        "import { Popover } from '@tale-ui/react/popover';\n\n<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">\n    Open Popover\n  </Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Title>Popover Title</Popover.Title>\n    <Popover.Description>This is a basic popover with a title and description.</Popover.Description>\n  </Popover.Popup>\n</Popover.Root>;",
+        "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">\n    With Arrow\n  </Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Arrow />\n    <Popover.Title>Arrow Popover</Popover.Title>\n    <Popover.Description>\n      This popover includes an arrow pointing to the trigger.\n    </Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
+        "<Popover.Root>\n  <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\">\n    Open Popover\n  </Popover.Trigger>\n  <Popover.Popup placement=\"bottom\" offset={8}>\n    <Popover.Close aria-label=\"Close\" />\n    <Popover.Title>Dismissible Popover</Popover.Title>\n    <Popover.Description>Click the close button to dismiss this popover.</Popover.Description>\n  </Popover.Popup>\n</Popover.Root>",
+        "import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n\n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger\n            className=\"tale-button tale-button--neutral tale-button--md\"\n            aria-label=\"Show help\"\n          >\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>\n              This feature automatically saves your changes so you can leave and come back later.\n            </Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-popover__close",
@@ -6409,7 +6568,7 @@
         {
           "id": "use-popover-for-any-prompt",
           "summary": "Use Popover for any prompt that asks for an info button, help popover, tooltip-like overlay, or button-triggered explanatory overlay",
-          "detail": "render Popover.Root with Popover.Trigger and Popover.Popup containing Popover.Description; do not leave the file empty, return null, or substitute a different overlay. An 'info button that opens a popover with help text' is the canonical Popover use case — always generate code immediately without asking for clarification.\n    ```tsx\n    import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n    \n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }\n    ```",
+          "detail": "render Popover.Root with Popover.Trigger and Popover.Popup containing Popover.Description; do not leave the file empty, return null, or substitute a different overlay. An 'info button that opens a popover with help text' is the canonical Popover use case — always generate code immediately without asking for clarification.\n\n    ```tsx\n    import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n\n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger\n            className=\"tale-button tale-button--neutral tale-button--md\"\n            aria-label=\"Show help\"\n          >\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>\n              This feature automatically saves your changes so you can leave and come back later.\n            </Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file",
             "export function FeatureHelpPopover() { return null; }",
@@ -6418,7 +6577,7 @@
           "fixes": [
             "import { Popover } from '@tale-ui/react/popover'; import { Icon } from '@tale-ui/react/icon'; import { HelpCircle } from 'lucide-react'; export function FeatureHelpPopover() { return <Popover.Root><Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\"><Icon icon={HelpCircle} size=\"sm\" /></Popover.Trigger><Popover.Popup placement=\"bottom\" offset={8}><Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description></Popover.Popup></Popover.Root>; }"
           ],
-          "completeExample": "import { Popover } from '@tale-ui/react/popover';\nimport { Icon } from '@tale-ui/react/icon';\nimport { HelpCircle } from 'lucide-react';\n\nexport function FeatureHelpPopover() {\n  return (\n    <Popover.Root>\n      <Popover.Trigger className=\"tale-button tale-button--neutral tale-button--md\" aria-label=\"Show help\">\n        <Icon icon={HelpCircle} size=\"sm\" />\n      </Popover.Trigger>\n      <Popover.Popup placement=\"bottom\" offset={8}>\n        <Popover.Description>This feature automatically saves your changes so you can leave and come back later.</Popover.Description>\n      </Popover.Popup>\n    </Popover.Root>\n  );\n}"
+          "completeExample": "import { Popover } from '@tale-ui/react/popover';\nimport { Icon } from '@tale-ui/react/icon';\nimport { HelpCircle } from 'lucide-react';\n\nexport function FeatureHelpPopover() {\n  return (\n    <Popover.Root>\n      <Popover.Trigger\n        className=\"tale-button tale-button--neutral tale-button--md\"\n        aria-label=\"Show help\"\n      >\n        <Icon icon={HelpCircle} size=\"sm\" />\n      </Popover.Trigger>\n      <Popover.Popup placement=\"bottom\" offset={8}>\n        <Popover.Description>\n          This feature automatically saves your changes so you can leave and come back later.\n        </Popover.Description>\n      </Popover.Popup>\n    </Popover.Root>\n  );\n}"
         }
       ],
       "crossPitfallRefs": [
@@ -6763,9 +6922,10 @@
       "slug": "radio",
       "import": "@tale-ui/react/radio",
       "category": "Form Controls",
-      "description": "Radio button with group support",
+      "description": "Radio button with group support (deprecated — use RadioField)",
       "kind": "compound",
-      "status": "stable",
+      "status": "deprecated",
+      "deprecationNote": "Use RadioField from `@tale-ui/react/radio-field` instead — it adds built-in description and error message support. Radio remains functional but the underlying React Aria Radio is deprecated upstream.",
       "props": [
         {
           "name": "size",
@@ -6794,12 +6954,13 @@
         "Visual"
       ],
       "examples": [
+        "// Before\nimport { Radio } from '@tale-ui/react/radio';\n\n<Radio.Group label=\"Favorite color\">\n  <Radio.Root value=\"red\">\n    <Radio.Indicator>\n      <Radio.Dot />\n    </Radio.Indicator>{' '}\n    Red\n  </Radio.Root>\n</Radio.Group>;\n\n// After\nimport { RadioGroup } from '@tale-ui/react/radio-group';\nimport { RadioField } from '@tale-ui/react/radio-field';\n\n<RadioGroup label=\"Favorite color\">\n  <RadioField.Root value=\"red\">\n    <RadioField.Button>\n      <RadioField.Indicator>\n        <RadioField.Dot />\n      </RadioField.Indicator>\n      Red\n    </RadioField.Button>\n  </RadioField.Root>\n</RadioGroup>;",
         "<Radio.Group label=\"Favorite color\">\n  <Radio.Root value=\"red\">\n    <Radio.Indicator />\n    Red\n  </Radio.Root>\n  <Radio.Root value=\"green\">\n    <Radio.Indicator />\n    Green\n  </Radio.Root>\n  <Radio.Root value=\"blue\">\n    <Radio.Indicator />\n    Blue\n  </Radio.Root>\n</Radio.Group>",
         "<Radio.Group label=\"Disabled group\" isDisabled>\n  <Radio.Root value=\"red\">\n    <Radio.Indicator />\n    Red\n  </Radio.Root>\n  <Radio.Root value=\"green\">\n    <Radio.Indicator />\n    Green\n  </Radio.Root>\n</Radio.Group>",
         "<Radio.Group label=\"Plan\" orientation=\"horizontal\">\n  <Radio.Root value=\"free\">\n    <Radio.Indicator />\n    Free\n  </Radio.Root>\n  <Radio.Root value=\"pro\">\n    <Radio.Indicator />\n    Pro\n  </Radio.Root>\n  <Radio.Root value=\"enterprise\">\n    <Radio.Indicator />\n    Enterprise\n  </Radio.Root>\n</Radio.Group>",
         "<Radio.Group label=\"Small radios\">\n  <Radio.Root value=\"a\" size=\"sm\">\n    <Radio.Indicator />\n    Small option A\n  </Radio.Root>\n</Radio.Group>\n\n<Radio.Group label=\"Medium radios\">\n  <Radio.Root value=\"a\" size=\"md\">\n    <Radio.Indicator />\n    Medium option A\n  </Radio.Root>\n</Radio.Group>\n\n<Radio.Group label=\"Large radios\">\n  <Radio.Root value=\"a\" size=\"lg\">\n    <Radio.Indicator />\n    Large option A\n  </Radio.Root>\n</Radio.Group>",
-        "import { Radio } from '@tale-ui/react/radio';\n    \n    export function Example() {\n      return (\n        <Radio.Group label=\"Favorite color\">\n          <Radio.Root value=\"red\"><Radio.Indicator /> Red</Radio.Root>\n          <Radio.Root value=\"green\"><Radio.Indicator /> Green</Radio.Root>\n          <Radio.Root value=\"blue\"><Radio.Indicator /> Blue</Radio.Root>\n        </Radio.Group>\n      );\n    }",
-        "import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { Radio } from '@tale-ui/react/radio';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function PlanSelector() {\n      return (\n        <Column gap=\"s\">\n          <RadioGroup label=\"Select a plan\">\n            <Radio.Root value=\"free\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Free</Text>\n                <Text size=\"s\" color=\"muted\">Get started at no cost</Text>\n              </Column>\n            </Radio.Root>\n            <Radio.Root value=\"pro\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Pro</Text>\n                <Text size=\"s\" color=\"muted\">For individuals and small teams</Text>\n              </Column>\n            </Radio.Root>\n            <Radio.Root value=\"enterprise\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Enterprise</Text>\n                <Text size=\"s\" color=\"muted\">Advanced features for large organizations</Text>\n              </Column>\n            </Radio.Root>\n          </RadioGroup>\n        </Column>\n      );\n    }"
+        "import { Radio } from '@tale-ui/react/radio';\n\n    export function Example() {\n      return (\n        <Radio.Group label=\"Favorite color\">\n          <Radio.Root value=\"red\">\n            <Radio.Indicator /> Red\n          </Radio.Root>\n          <Radio.Root value=\"green\">\n            <Radio.Indicator /> Green\n          </Radio.Root>\n          <Radio.Root value=\"blue\">\n            <Radio.Indicator /> Blue\n          </Radio.Root>\n        </Radio.Group>\n      );\n    }",
+        "import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { Radio } from '@tale-ui/react/radio';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function PlanSelector() {\n      return (\n        <Column gap=\"s\">\n          <RadioGroup label=\"Select a plan\">\n            <Radio.Root value=\"free\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Free</Text>\n                <Text size=\"s\" color=\"muted\">\n                  Get started at no cost\n                </Text>\n              </Column>\n            </Radio.Root>\n            <Radio.Root value=\"pro\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Pro</Text>\n                <Text size=\"s\" color=\"muted\">\n                  For individuals and small teams\n                </Text>\n              </Column>\n            </Radio.Root>\n            <Radio.Root value=\"enterprise\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Enterprise</Text>\n                <Text size=\"s\" color=\"muted\">\n                  Advanced features for large organizations\n                </Text>\n              </Column>\n            </Radio.Root>\n          </RadioGroup>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-radio",
@@ -6812,14 +6973,14 @@
         {
           "id": "radio-separate-imports",
           "summary": "Radio and RadioGroup are separate components with separate imports",
-          "detail": "`RadioGroup` from `@tale-ui/react/radio-group` has NO sub-parts (no `.Radios`, `.Item`, `.Indicator`). `Radio.Group` is the primary grouping sub-part of the `Radio` namespace.\n    ```tsx\n    import { Radio } from '@tale-ui/react/radio';\n    \n    export function Example() {\n      return (\n        <Radio.Group label=\"Favorite color\">\n          <Radio.Root value=\"red\"><Radio.Indicator /> Red</Radio.Root>\n          <Radio.Root value=\"green\"><Radio.Indicator /> Green</Radio.Root>\n          <Radio.Root value=\"blue\"><Radio.Indicator /> Blue</Radio.Root>\n        </Radio.Group>\n      );\n    }\n    ```",
+          "detail": "`RadioGroup` from `@tale-ui/react/radio-group` has NO sub-parts (no `.Radios`, `.Item`, `.Indicator`). `Radio.Group` is the primary grouping sub-part of the `Radio` namespace.\n\n    ```tsx\n    import { Radio } from '@tale-ui/react/radio';\n\n    export function Example() {\n      return (\n        <Radio.Group label=\"Favorite color\">\n          <Radio.Root value=\"red\">\n            <Radio.Indicator /> Red\n          </Radio.Root>\n          <Radio.Root value=\"green\">\n            <Radio.Indicator /> Green\n          </Radio.Root>\n          <Radio.Root value=\"blue\">\n            <Radio.Indicator /> Blue\n          </Radio.Root>\n        </Radio.Group>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<RadioGroup><RadioGroup.Item value=\"a\">Option</RadioGroup.Item></RadioGroup>"
           ],
           "fixes": [
             "<Radio.Group label=\"Choose\"><Radio.Root value=\"a\"><Radio.Indicator /><Radio.Label>Option</Radio.Label></Radio.Root></Radio.Group>"
           ],
-          "completeExample": "import { Radio } from '@tale-ui/react/radio';\n\nexport function Example() {\n  return (\n    <Radio.Group label=\"Favorite color\">\n      <Radio.Root value=\"red\"><Radio.Indicator /> Red</Radio.Root>\n      <Radio.Root value=\"green\"><Radio.Indicator /> Green</Radio.Root>\n      <Radio.Root value=\"blue\"><Radio.Indicator /> Blue</Radio.Root>\n    </Radio.Group>\n  );\n}"
+          "completeExample": "import { Radio } from '@tale-ui/react/radio';\n\nexport function Example() {\n  return (\n    <Radio.Group label=\"Favorite color\">\n      <Radio.Root value=\"red\">\n        <Radio.Indicator /> Red\n      </Radio.Root>\n      <Radio.Root value=\"green\">\n        <Radio.Indicator /> Green\n      </Radio.Root>\n      <Radio.Root value=\"blue\">\n        <Radio.Indicator /> Blue\n      </Radio.Root>\n    </Radio.Group>\n  );\n}"
         },
         {
           "id": "radio-no-native-input-props",
@@ -6835,7 +6996,7 @@
         {
           "id": "for-any-radio-group-prompt",
           "summary": "For any radio group prompt, wrap Radio items in RadioGroup from @tale-ui/react/radio-group — do not use only Radio.Group",
-          "detail": "For any radio group prompt, both Radio (from @tale-ui/react/radio) and RadioGroup (from @tale-ui/react/radio-group) must appear in the code. Radio.Group is a sub-part of the Radio namespace and is NOT a substitute for RadioGroup; using only Radio.Group omits the required RadioGroup component and will be flagged as a missing-component error. Always import RadioGroup separately and use it as the outer wrapper in place of Radio.Group. When radio items contain rich content with nested Column and Text, use spacing-token gap values (xs, s, m, l) on every Column — never component-size names (sm, md, lg) — and use Text variant='label' instead of the invalid weight='medium' prop for label-weight option names.\n    ```tsx\n    import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { Radio } from '@tale-ui/react/radio';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function PlanSelector() {\n      return (\n        <Column gap=\"s\">\n          <RadioGroup label=\"Select a plan\">\n            <Radio.Root value=\"free\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Free</Text>\n                <Text size=\"s\" color=\"muted\">Get started at no cost</Text>\n              </Column>\n            </Radio.Root>\n            <Radio.Root value=\"pro\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Pro</Text>\n                <Text size=\"s\" color=\"muted\">For individuals and small teams</Text>\n              </Column>\n            </Radio.Root>\n            <Radio.Root value=\"enterprise\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Enterprise</Text>\n                <Text size=\"s\" color=\"muted\">Advanced features for large organizations</Text>\n              </Column>\n            </Radio.Root>\n          </RadioGroup>\n        </Column>\n      );\n    }\n    ```",
+          "detail": "For any radio group prompt, both Radio (from @tale-ui/react/radio) and RadioGroup (from @tale-ui/react/radio-group) must appear in the code. Radio.Group is a sub-part of the Radio namespace and is NOT a substitute for RadioGroup; using only Radio.Group omits the required RadioGroup component and will be flagged as a missing-component error. Always import RadioGroup separately and use it as the outer wrapper in place of Radio.Group. When radio items contain rich content with nested Column and Text, use spacing-token gap values (xs, s, m, l) on every Column — never component-size names (sm, md, lg) — and use Text variant='label' instead of the invalid weight='medium' prop for label-weight option names.\n\n    ```tsx\n    import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { Radio } from '@tale-ui/react/radio';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n\n    export function PlanSelector() {\n      return (\n        <Column gap=\"s\">\n          <RadioGroup label=\"Select a plan\">\n            <Radio.Root value=\"free\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Free</Text>\n                <Text size=\"s\" color=\"muted\">\n                  Get started at no cost\n                </Text>\n              </Column>\n            </Radio.Root>\n            <Radio.Root value=\"pro\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Pro</Text>\n                <Text size=\"s\" color=\"muted\">\n                  For individuals and small teams\n                </Text>\n              </Column>\n            </Radio.Root>\n            <Radio.Root value=\"enterprise\">\n              <Radio.Indicator />\n              <Column gap=\"xs\">\n                <Text variant=\"label\">Enterprise</Text>\n                <Text size=\"s\" color=\"muted\">\n                  Advanced features for large organizations\n                </Text>\n              </Column>\n            </Radio.Root>\n          </RadioGroup>\n        </Column>\n      );\n    }\n    ```",
           "antiPatterns": [
             "import { Radio } from '@tale-ui/react/radio'; ... <Radio.Group label=\"Plan\"><Radio.Root value=\"free\"><Radio.Indicator />Free</Radio.Root></Radio.Group>",
             "<Column gap=\"sm\">",
@@ -6846,10 +7007,113 @@
             "<Column gap=\"s\"> or <Column gap=\"xs\">",
             "<Text variant=\"label\">Free</Text>"
           ],
-          "completeExample": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { Radio } from '@tale-ui/react/radio';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\n\nexport function PlanSelector() {\n  return (\n    <Column gap=\"s\">\n      <RadioGroup label=\"Select a plan\">\n        <Radio.Root value=\"free\">\n          <Radio.Indicator />\n          <Column gap=\"xs\">\n            <Text variant=\"label\">Free</Text>\n            <Text size=\"s\" color=\"muted\">Get started at no cost</Text>\n          </Column>\n        </Radio.Root>\n        <Radio.Root value=\"pro\">\n          <Radio.Indicator />\n          <Column gap=\"xs\">\n            <Text variant=\"label\">Pro</Text>\n            <Text size=\"s\" color=\"muted\">For individuals and small teams</Text>\n          </Column>\n        </Radio.Root>\n        <Radio.Root value=\"enterprise\">\n          <Radio.Indicator />\n          <Column gap=\"xs\">\n            <Text variant=\"label\">Enterprise</Text>\n            <Text size=\"s\" color=\"muted\">Advanced features for large organizations</Text>\n          </Column>\n        </Radio.Root>\n      </RadioGroup>\n    </Column>\n  );\n}"
+          "completeExample": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { Radio } from '@tale-ui/react/radio';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\n\nexport function PlanSelector() {\n  return (\n    <Column gap=\"s\">\n      <RadioGroup label=\"Select a plan\">\n        <Radio.Root value=\"free\">\n          <Radio.Indicator />\n          <Column gap=\"xs\">\n            <Text variant=\"label\">Free</Text>\n            <Text size=\"s\" color=\"muted\">\n              Get started at no cost\n            </Text>\n          </Column>\n        </Radio.Root>\n        <Radio.Root value=\"pro\">\n          <Radio.Indicator />\n          <Column gap=\"xs\">\n            <Text variant=\"label\">Pro</Text>\n            <Text size=\"s\" color=\"muted\">\n              For individuals and small teams\n            </Text>\n          </Column>\n        </Radio.Root>\n        <Radio.Root value=\"enterprise\">\n          <Radio.Indicator />\n          <Column gap=\"xs\">\n            <Text variant=\"label\">Enterprise</Text>\n            <Text size=\"s\" color=\"muted\">\n              Advanced features for large organizations\n            </Text>\n          </Column>\n        </Radio.Root>\n      </RadioGroup>\n    </Column>\n  );\n}"
         }
       ],
       "crossPitfallRefs": null
+    },
+    {
+      "name": "RadioField",
+      "slug": "radio-field",
+      "import": "@tale-ui/react/radio-field",
+      "category": "Form Controls",
+      "description": "Radio button with built-in description and error message",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": "Size of the radio indicator. Defaults to `'md'`. Inherits from RadioGroup `size` when omitted. The `'sm'` variant is for edge-cases only (dense tables, compact toolbars) — prefer `'md'` in most contexts.",
+          "default": null,
+          "allowedValues": [
+            "sm",
+            "md"
+          ]
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Button",
+        "Indicator",
+        "Dot",
+        "Description",
+        "Error"
+      ],
+      "examples": [
+        "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { RadioField } from '@tale-ui/react/radio-field';\n\n<RadioGroup label=\"Favorite color\">\n  <RadioField.Root value=\"red\">\n    <RadioField.Button>\n      <RadioField.Indicator>\n        <RadioField.Dot />\n      </RadioField.Indicator>\n      Red\n    </RadioField.Button>\n  </RadioField.Root>\n  <RadioField.Root value=\"blue\">\n    <RadioField.Button>\n      <RadioField.Indicator>\n        <RadioField.Dot />\n      </RadioField.Indicator>\n      Blue\n    </RadioField.Button>\n  </RadioField.Root>\n</RadioGroup>;",
+        "<RadioGroup label=\"Subscription plan\">\n  <RadioField.Root value=\"pro\">\n    <RadioField.Button>\n      <RadioField.Indicator>\n        <RadioField.Dot />\n      </RadioField.Indicator>\n      Pro\n    </RadioField.Button>\n    <RadioField.Description>Unlimited projects and priority support.</RadioField.Description>\n  </RadioField.Root>\n</RadioGroup>",
+        "<RadioGroup label=\"Subscription plan\" isRequired isInvalid>\n  <RadioField.Root value=\"free\">\n    <RadioField.Button>\n      <RadioField.Indicator>\n        <RadioField.Dot />\n      </RadioField.Indicator>\n      Free\n    </RadioField.Button>\n    <RadioField.Error>Please choose a plan to continue.</RadioField.Error>\n  </RadioField.Root>\n</RadioGroup>",
+        "<RadioGroup label=\"Delivery speed\" defaultValue=\"standard\">\n  <RadioField.Root value=\"standard\">\n    <RadioField.Button>\n      <RadioField.Indicator>\n        <RadioField.Dot />\n      </RadioField.Indicator>\n      Standard (3–5 days)\n    </RadioField.Button>\n  </RadioField.Root>\n  <RadioField.Root value=\"express\">\n    <RadioField.Button>\n      <RadioField.Indicator>\n        <RadioField.Dot />\n      </RadioField.Indicator>\n      Express (1–2 days)\n    </RadioField.Button>\n  </RadioField.Root>\n  <RadioField.Root value=\"overnight\">\n    <RadioField.Button>\n      <RadioField.Indicator>\n        <RadioField.Dot />\n      </RadioField.Indicator>\n      Overnight\n    </RadioField.Button>\n  </RadioField.Root>\n</RadioGroup>",
+        "import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { RadioField } from '@tale-ui/react/radio-field';\n\n    export function Example() {\n      return (\n        <RadioGroup label=\"Favorite color\">\n          <RadioField.Root value=\"red\">\n            <RadioField.Button>\n              <RadioField.Indicator>\n                <RadioField.Dot />\n              </RadioField.Indicator>\n              Red\n            </RadioField.Button>\n          </RadioField.Root>\n        </RadioGroup>\n      );\n    }"
+      ],
+      "cssClasses": [
+        "tale-radio-field",
+        "tale-radio-field--sm",
+        "tale-radio-field__button",
+        "tale-radio-field__description",
+        "tale-radio-field__dot",
+        "tale-radio-field__error",
+        "tale-radio-field__indicator"
+      ],
+      "pitfalls": [
+        {
+          "id": "radio-field-always-use-namespace",
+          "summary": "Always use the RadioField namespace via <RadioField.Root>, never bare <RadioField> directly",
+          "detail": "calling `<RadioField>` directly causes \"cannot be used as a JSX component\" errors.\n\n    ```tsx\n    import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { RadioField } from '@tale-ui/react/radio-field';\n\n    export function Example() {\n      return (\n        <RadioGroup label=\"Favorite color\">\n          <RadioField.Root value=\"red\">\n            <RadioField.Button>\n              <RadioField.Indicator>\n                <RadioField.Dot />\n              </RadioField.Indicator>\n              Red\n            </RadioField.Button>\n          </RadioField.Root>\n        </RadioGroup>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<RadioField value=\"red\">Red</RadioField>"
+          ],
+          "fixes": [
+            "<RadioField.Root value=\"red\">...</RadioField.Root>"
+          ],
+          "completeExample": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { RadioField } from '@tale-ui/react/radio-field';\n\nexport function Example() {\n  return (\n    <RadioGroup label=\"Favorite color\">\n      <RadioField.Root value=\"red\">\n        <RadioField.Button>\n          <RadioField.Indicator>\n            <RadioField.Dot />\n          </RadioField.Indicator>\n          Red\n        </RadioField.Button>\n      </RadioField.Root>\n    </RadioGroup>\n  );\n}"
+        },
+        {
+          "id": "radio-field-label-inside-button",
+          "summary": "The label text goes inside RadioField.Button, not directly in RadioField.Root",
+          "detail": "`Root` is a `<div>` layout wrapper; only `Button` (a `<label>`) associates text with the input for clicks and screen readers.",
+          "antiPatterns": [
+            "<RadioField.Root value=\"red\">Red</RadioField.Root>"
+          ],
+          "fixes": [
+            "<RadioField.Root value=\"red\"><RadioField.Button>Red</RadioField.Button></RadioField.Root>"
+          ]
+        },
+        {
+          "id": "radio-field-needs-radio-group",
+          "summary": "RadioField options need a RadioGroup wrapper",
+          "detail": "a radio outside a group has no selection state and throws at runtime. Import `RadioGroup` from `@tale-ui/react/radio-group`.",
+          "antiPatterns": [
+            "<RadioField.Root value=\"red\">...</RadioField.Root>"
+          ],
+          "fixes": [
+            "<RadioGroup label=\"Favorite color\"><RadioField.Root value=\"red\">...</RadioField.Root></RadioGroup>"
+          ]
+        },
+        {
+          "id": "radio-field-dot-not-auto",
+          "summary": "RadioField.Indicator needs a <RadioField.Dot /> child — it does not render the selected dot automatically",
+          "detail": "both parts are required children of `Button`.",
+          "antiPatterns": [
+            "<RadioField.Indicator />"
+          ],
+          "fixes": [
+            "<RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-visual-exports-for-interactive-ui"
+      ]
     },
     {
       "name": "RadioGroup",
@@ -6862,22 +7126,22 @@
       "props": [],
       "parts": null,
       "examples": [
-        "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { Radio } from '@tale-ui/react/radio';\n\n<RadioGroup label=\"Favorite color\">\n  <Radio.Root value=\"red\">\n    <Radio.Indicator />\n    Red\n  </Radio.Root>\n  <Radio.Root value=\"blue\">\n    <Radio.Indicator />\n    Blue\n  </Radio.Root>\n</RadioGroup>",
-        "import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { Radio } from '@tale-ui/react/radio';\n    \n    export function Example() {\n      return (\n        <RadioGroup label=\"Favorite color\">\n          <Radio.Root value=\"red\">\n            <Radio.Indicator />\n            Red\n          </Radio.Root>\n          <Radio.Root value=\"blue\">\n            <Radio.Indicator />\n            Blue\n          </Radio.Root>\n        </RadioGroup>\n      );\n    }"
+        "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { RadioField } from '@tale-ui/react/radio-field';\n\n<RadioGroup label=\"Favorite color\">\n  <RadioField.Root value=\"red\">\n    <RadioField.Button>\n      <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n      Red\n    </RadioField.Button>\n  </RadioField.Root>\n  <RadioField.Root value=\"blue\">\n    <RadioField.Button>\n      <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n      Blue\n    </RadioField.Button>\n  </RadioField.Root>\n</RadioGroup>",
+        "import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { RadioField } from '@tale-ui/react/radio-field';\n    \n    export function Example() {\n      return (\n        <RadioGroup label=\"Favorite color\">\n          <RadioField.Root value=\"red\">\n            <RadioField.Button>\n              <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n              Red\n            </RadioField.Button>\n          </RadioField.Root>\n          <RadioField.Root value=\"blue\">\n            <RadioField.Button>\n              <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n              Blue\n            </RadioField.Button>\n          </RadioField.Root>\n        </RadioGroup>\n      );\n    }"
       ],
       "cssClasses": null,
       "pitfalls": [
         {
           "id": "radio-group-no-sub-parts",
           "summary": "RadioGroup (from @tale-ui/react/radio-group) has NO sub-parts",
-          "detail": "using `<RadioGroup.Radios>`, `<RadioGroup.Item>`, or `<RadioGroup.Indicator>` causes 'Property does not exist' TypeScript errors. For grouping radios, prefer `Radio.Group` (sub-part of the `Radio` namespace).\n    ```tsx\n    import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { Radio } from '@tale-ui/react/radio';\n    \n    export function Example() {\n      return (\n        <RadioGroup label=\"Favorite color\">\n          <Radio.Root value=\"red\">\n            <Radio.Indicator />\n            Red\n          </Radio.Root>\n          <Radio.Root value=\"blue\">\n            <Radio.Indicator />\n            Blue\n          </Radio.Root>\n        </RadioGroup>\n      );\n    }\n    ```",
+          "detail": "using `<RadioGroup.Radios>`, `<RadioGroup.Item>`, or `<RadioGroup.Indicator>` causes 'Property does not exist' TypeScript errors. For grouping radios, render `RadioField.Root` children inside `RadioGroup`.\n    ```tsx\n    import { RadioGroup } from '@tale-ui/react/radio-group';\n    import { RadioField } from '@tale-ui/react/radio-field';\n    \n    export function Example() {\n      return (\n        <RadioGroup label=\"Favorite color\">\n          <RadioField.Root value=\"red\">\n            <RadioField.Button>\n              <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n              Red\n            </RadioField.Button>\n          </RadioField.Root>\n          <RadioField.Root value=\"blue\">\n            <RadioField.Button>\n              <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n              Blue\n            </RadioField.Button>\n          </RadioField.Root>\n        </RadioGroup>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<RadioGroup.Item value=\"a\">...</RadioGroup.Item>"
           ],
           "fixes": [
-            "<RadioGroup label=\"...\"><Radio.Root value=\"a\"><Radio.Indicator />Option</Radio.Root></RadioGroup>"
+            "<RadioGroup label=\"...\"><RadioField.Root value=\"a\"><RadioField.Button>Option</RadioField.Button></RadioField.Root></RadioGroup>"
           ],
-          "completeExample": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { Radio } from '@tale-ui/react/radio';\n\nexport function Example() {\n  return (\n    <RadioGroup label=\"Favorite color\">\n      <Radio.Root value=\"red\">\n        <Radio.Indicator />\n        Red\n      </Radio.Root>\n      <Radio.Root value=\"blue\">\n        <Radio.Indicator />\n        Blue\n      </Radio.Root>\n    </RadioGroup>\n  );\n}"
+          "completeExample": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { RadioField } from '@tale-ui/react/radio-field';\n\nexport function Example() {\n  return (\n    <RadioGroup label=\"Favorite color\">\n      <RadioField.Root value=\"red\">\n        <RadioField.Button>\n          <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n          Red\n        </RadioField.Button>\n      </RadioField.Root>\n      <RadioField.Root value=\"blue\">\n        <RadioField.Button>\n          <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n          Blue\n        </RadioField.Button>\n      </RadioField.Root>\n    </RadioGroup>\n  );\n}"
         }
       ],
       "crossPitfallRefs": [
@@ -6906,8 +7170,8 @@
         "NextButton"
       ],
       "examples": [
-        "<RangeCalendar.Root>\n  <RangeCalendar.Header>\n    <RangeCalendar.PreviousButton />\n    <RangeCalendar.Heading />\n    <RangeCalendar.NextButton />\n  </RangeCalendar.Header>\n  <RangeCalendar.Grid>\n    <RangeCalendar.GridHeader>\n      {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n    </RangeCalendar.GridHeader>\n    <RangeCalendar.GridBody>\n      {(date) => <RangeCalendar.Cell date={date} />}\n    </RangeCalendar.GridBody>\n  </RangeCalendar.Grid>\n</RangeCalendar.Root>",
-        "import { RangeCalendar } from '@tale-ui/react/range-calendar';\n    \n    export function Example() {\n      return (\n        <RangeCalendar.Root>\n          <RangeCalendar.Header>\n            <RangeCalendar.PreviousButton />\n            <RangeCalendar.Heading />\n            <RangeCalendar.NextButton />\n          </RangeCalendar.Header>\n          <RangeCalendar.Grid>\n            <RangeCalendar.GridHeader>\n              {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n            </RangeCalendar.GridHeader>\n            <RangeCalendar.GridBody>\n              {(date) => <RangeCalendar.Cell date={date} />}\n            </RangeCalendar.GridBody>\n          </RangeCalendar.Grid>\n        </RangeCalendar.Root>\n      );\n    }"
+        "<RangeCalendar.Root>\n  <RangeCalendar.Header>\n    <RangeCalendar.PreviousButton />\n    <RangeCalendar.Heading />\n    <RangeCalendar.NextButton />\n  </RangeCalendar.Header>\n  <RangeCalendar.Grid>\n    <RangeCalendar.GridHeader>\n      {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n    </RangeCalendar.GridHeader>\n    <RangeCalendar.GridBody>{(date) => <RangeCalendar.Cell date={date} />}</RangeCalendar.GridBody>\n  </RangeCalendar.Grid>\n</RangeCalendar.Root>",
+        "import { RangeCalendar } from '@tale-ui/react/range-calendar';\n\n    export function Example() {\n      return (\n        <RangeCalendar.Root>\n          <RangeCalendar.Header>\n            <RangeCalendar.PreviousButton />\n            <RangeCalendar.Heading />\n            <RangeCalendar.NextButton />\n          </RangeCalendar.Header>\n          <RangeCalendar.Grid>\n            <RangeCalendar.GridHeader>\n              {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n            </RangeCalendar.GridHeader>\n            <RangeCalendar.GridBody>\n              {(date) => <RangeCalendar.Cell date={date} />}\n            </RangeCalendar.GridBody>\n          </RangeCalendar.Grid>\n        </RangeCalendar.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-range-calendar__cell",
@@ -6920,7 +7184,7 @@
         {
           "id": "range-calendar-no-footer",
           "summary": "No Footer sub-part",
-          "detail": "`RangeCalendar` has no `Footer` sub-part. To display the selected range below the calendar, place a `<Text>` component outside `RangeCalendar.Root` and update it from `onChange`.\n    ```tsx\n    import { RangeCalendar } from '@tale-ui/react/range-calendar';\n    \n    export function Example() {\n      return (\n        <RangeCalendar.Root>\n          <RangeCalendar.Header>\n            <RangeCalendar.PreviousButton />\n            <RangeCalendar.Heading />\n            <RangeCalendar.NextButton />\n          </RangeCalendar.Header>\n          <RangeCalendar.Grid>\n            <RangeCalendar.GridHeader>\n              {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n            </RangeCalendar.GridHeader>\n            <RangeCalendar.GridBody>\n              {(date) => <RangeCalendar.Cell date={date} />}\n            </RangeCalendar.GridBody>\n          </RangeCalendar.Grid>\n        </RangeCalendar.Root>\n      );\n    }\n    ```",
+          "detail": "`RangeCalendar` has no `Footer` sub-part. To display the selected range below the calendar, place a `<Text>` component outside `RangeCalendar.Root` and update it from `onChange`.\n\n    ```tsx\n    import { RangeCalendar } from '@tale-ui/react/range-calendar';\n\n    export function Example() {\n      return (\n        <RangeCalendar.Root>\n          <RangeCalendar.Header>\n            <RangeCalendar.PreviousButton />\n            <RangeCalendar.Heading />\n            <RangeCalendar.NextButton />\n          </RangeCalendar.Header>\n          <RangeCalendar.Grid>\n            <RangeCalendar.GridHeader>\n              {(day) => <RangeCalendar.GridHeaderCell>{day}</RangeCalendar.GridHeaderCell>}\n            </RangeCalendar.GridHeader>\n            <RangeCalendar.GridBody>\n              {(date) => <RangeCalendar.Cell date={date} />}\n            </RangeCalendar.GridBody>\n          </RangeCalendar.Grid>\n        </RangeCalendar.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<RangeCalendar.Root><RangeCalendar.Footer>{range}</RangeCalendar.Footer></RangeCalendar.Root>"
           ],
@@ -7406,13 +7670,13 @@
         "ItemIndicator"
       ],
       "examples": [
-        "<Select.Root placeholder=\"Select a fruit...\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
-        "<Select.Root placeholder=\"Choose one...\">\n  <Select.Label>Favorite fruit</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
-        "<Select.Root placeholder=\"Select a food...\">\n  <Select.Label>Food</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Section>\n        <Select.Header>Fruits</Select.Header>\n        <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n        <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n      </Select.Section>\n      <Select.Section>\n        <Select.Header>Vegetables</Select.Header>\n        <Select.Item id=\"carrot\" textValue=\"Carrot\">Carrot</Select.Item>\n        <Select.Item id=\"broccoli\" textValue=\"Broccoli\">Broccoli</Select.Item>\n      </Select.Section>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
-        "<Select.Root placeholder=\"Select...\">\n  <Select.Label>Available options</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\" isDisabled>Banana (sold out)</Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">Cherry</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root placeholder=\"Select a fruit...\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">\n        Apple\n      </Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">\n        Banana\n      </Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">\n        Cherry\n      </Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root placeholder=\"Choose one...\">\n  <Select.Label>Favorite fruit</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">\n        Apple\n      </Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">\n        Banana\n      </Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">\n        Cherry\n      </Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root placeholder=\"Select a food...\">\n  <Select.Label>Food</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Section>\n        <Select.Header>Fruits</Select.Header>\n        <Select.Item id=\"apple\" textValue=\"Apple\">\n          Apple\n        </Select.Item>\n        <Select.Item id=\"banana\" textValue=\"Banana\">\n          Banana\n        </Select.Item>\n      </Select.Section>\n      <Select.Section>\n        <Select.Header>Vegetables</Select.Header>\n        <Select.Item id=\"carrot\" textValue=\"Carrot\">\n          Carrot\n        </Select.Item>\n        <Select.Item id=\"broccoli\" textValue=\"Broccoli\">\n          Broccoli\n        </Select.Item>\n      </Select.Section>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root placeholder=\"Select...\">\n  <Select.Label>Available options</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">\n        Apple\n      </Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\" isDisabled>\n        Banana (sold out)\n      </Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">\n        Cherry\n      </Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
         "<Select.Root size=\"sm\" placeholder=\"Small select\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>\n\n<Select.Root size=\"md\" placeholder=\"Medium select (default)\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>\n\n<Select.Root size=\"lg\" placeholder=\"Large select\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
-        "<Select.Root isDisabled placeholder=\"Cannot select...\">\n  <Select.Label>Disabled select</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
-        "import { Select } from '@tale-ui/react/select';\n    \n    export function Example() {\n      return (\n        <Select.Root placeholder=\"Select...\">\n          <Select.Label>Fruit</Select.Label>\n          <Select.Trigger>\n            <Select.Value />\n            <Select.Icon />\n          </Select.Trigger>\n          <Select.Popover>\n            <Select.ListBox>\n              <Select.Item id=\"apple\">Apple</Select.Item>\n              <Select.Item id=\"banana\">Banana</Select.Item>\n            </Select.ListBox>\n          </Select.Popover>\n        </Select.Root>\n      );\n    }"
+        "<Select.Root isDisabled placeholder=\"Cannot select...\">\n  <Select.Label>Disabled select</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">\n        Apple\n      </Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "import { Select } from '@tale-ui/react/select';\n\n    export function Example() {\n      return (\n        <Select.Root placeholder=\"Select...\">\n          <Select.Label>Fruit</Select.Label>\n          <Select.Trigger>\n            <Select.Value />\n            <Select.Icon />\n          </Select.Trigger>\n          <Select.Popover>\n            <Select.ListBox>\n              <Select.Item id=\"apple\">Apple</Select.Item>\n              <Select.Item id=\"banana\">Banana</Select.Item>\n            </Select.ListBox>\n          </Select.Popover>\n        </Select.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-select__item",
@@ -7428,7 +7692,7 @@
         {
           "id": "select-placeholder-on-root",
           "summary": "Select.Root owns the placeholder prop",
-          "detail": "do NOT put `placeholder` on `Select.Value`.\n    ```tsx\n    import { Select } from '@tale-ui/react/select';\n    \n    export function Example() {\n      return (\n        <Select.Root placeholder=\"Select...\">\n          <Select.Label>Fruit</Select.Label>\n          <Select.Trigger>\n            <Select.Value />\n            <Select.Icon />\n          </Select.Trigger>\n          <Select.Popover>\n            <Select.ListBox>\n              <Select.Item id=\"apple\">Apple</Select.Item>\n              <Select.Item id=\"banana\">Banana</Select.Item>\n            </Select.ListBox>\n          </Select.Popover>\n        </Select.Root>\n      );\n    }\n    ```",
+          "detail": "do NOT put `placeholder` on `Select.Value`.\n\n    ```tsx\n    import { Select } from '@tale-ui/react/select';\n\n    export function Example() {\n      return (\n        <Select.Root placeholder=\"Select...\">\n          <Select.Label>Fruit</Select.Label>\n          <Select.Trigger>\n            <Select.Value />\n            <Select.Icon />\n          </Select.Trigger>\n          <Select.Popover>\n            <Select.ListBox>\n              <Select.Item id=\"apple\">Apple</Select.Item>\n              <Select.Item id=\"banana\">Banana</Select.Item>\n            </Select.ListBox>\n          </Select.Popover>\n        </Select.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Select.Value placeholder=\"Pick one...\" />"
           ],
@@ -7707,6 +7971,20 @@
           "default": null
         },
         {
+          "name": "minValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "maxValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
           "name": "isDisabled",
           "type": "boolean",
           "required": false,
@@ -7737,9 +8015,10 @@
         "<Slider.Root defaultValue={50} step={10}>\n  <Slider.Header>\n    <Slider.Label>Quality</Slider.Label>\n    <Slider.Output />\n  </Slider.Header>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
         "<Slider.Root defaultValue={50}>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb>\n        <Slider.Output position=\"bottom\" />\n      </Slider.Thumb>\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
         "<Slider.Root defaultValue={50}>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb>\n        <Slider.Output position=\"top\" />\n      </Slider.Thumb>\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
+        "<Slider.Root defaultValue={20} minValue={-50} maxValue={50}>\n  <Slider.Header>\n    <Slider.Label>Balance</Slider.Label>\n    <Slider.Output />\n  </Slider.Header>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator offset={0} />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
         "<Slider.Root defaultValue={60} isDisabled>\n  <Slider.Header>\n    <Slider.Label>Disabled Slider</Slider.Label>\n    <Slider.Output />\n  </Slider.Header>\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
         "<Slider.Root defaultValue={40} orientation=\"vertical\">\n  <Slider.Label>Vertical</Slider.Label>\n  <Slider.Output />\n  <Slider.Control>\n    <Slider.Track>\n      <Slider.Indicator />\n      <Slider.Thumb />\n    </Slider.Track>\n  </Slider.Control>\n</Slider.Root>",
-        "import { Slider } from '@tale-ui/react/slider';\n    \n    export function Example() {\n      return (\n        <Slider.Root defaultValue={50}>\n          <Slider.Header>\n            <Slider.Label>Volume</Slider.Label>\n            <Slider.Output />\n          </Slider.Header>\n          <Slider.Control>\n            <Slider.Track>\n              <Slider.Indicator />\n              <Slider.Thumb />\n            </Slider.Track>\n          </Slider.Control>\n        </Slider.Root>\n      );\n    }"
+        "import { Slider } from '@tale-ui/react/slider';\n\n    export function Example() {\n      return (\n        <Slider.Root defaultValue={50}>\n          <Slider.Header>\n            <Slider.Label>Volume</Slider.Label>\n            <Slider.Output />\n          </Slider.Header>\n          <Slider.Control>\n            <Slider.Track>\n              <Slider.Indicator />\n              <Slider.Thumb />\n            </Slider.Track>\n          </Slider.Control>\n        </Slider.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-slider",
@@ -7755,7 +8034,7 @@
         {
           "id": "slider-nested-structure",
           "summary": "Requires nested structure: Root > Control > Track > Indicator + Thumb",
-          "detail": "use `onChange` (NOT `onValueChange`).\n    ```tsx\n    import { Slider } from '@tale-ui/react/slider';\n    \n    export function Example() {\n      return (\n        <Slider.Root defaultValue={50}>\n          <Slider.Header>\n            <Slider.Label>Volume</Slider.Label>\n            <Slider.Output />\n          </Slider.Header>\n          <Slider.Control>\n            <Slider.Track>\n              <Slider.Indicator />\n              <Slider.Thumb />\n            </Slider.Track>\n          </Slider.Control>\n        </Slider.Root>\n      );\n    }\n    ```",
+          "detail": "use `onChange` (NOT `onValueChange`).\n\n    ```tsx\n    import { Slider } from '@tale-ui/react/slider';\n\n    export function Example() {\n      return (\n        <Slider.Root defaultValue={50}>\n          <Slider.Header>\n            <Slider.Label>Volume</Slider.Label>\n            <Slider.Output />\n          </Slider.Header>\n          <Slider.Control>\n            <Slider.Track>\n              <Slider.Indicator />\n              <Slider.Thumb />\n            </Slider.Track>\n          </Slider.Control>\n        </Slider.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Slider.Root onValueChange={setValue}><Slider.Track /><Slider.Thumb /></Slider.Root>"
           ],
@@ -7977,9 +8256,10 @@
       "slug": "switch",
       "import": "@tale-ui/react/switch",
       "category": "Form Controls",
-      "description": "Toggle switch with sliding thumb",
+      "description": "Toggle switch with sliding thumb (deprecated — use SwitchField)",
       "kind": "compound",
-      "status": "stable",
+      "status": "deprecated",
+      "deprecationNote": "Use SwitchField from `@tale-ui/react/switch-field` instead — it adds built-in description, error message, and validation support. Switch remains functional but the underlying React Aria Switch is deprecated upstream.",
       "props": [
         {
           "name": "defaultSelected",
@@ -8002,13 +8282,14 @@
         "Visual"
       ],
       "examples": [
+        "// Before\nimport { Switch } from '@tale-ui/react/switch';\n\n<Switch.Root>\n  <Switch.Thumb />\n  Enable notifications\n</Switch.Root>;\n\n// After\nimport { SwitchField } from '@tale-ui/react/switch-field';\n\n<SwitchField.Root>\n  <SwitchField.Button>\n    <SwitchField.Thumb />\n    Enable notifications\n  </SwitchField.Button>\n</SwitchField.Root>;",
         "<Switch.Root>\n  <Switch.Thumb />\n  Enable notifications\n</Switch.Root>",
         "<Switch.Root defaultSelected>\n  <Switch.Thumb />\n  Dark mode\n</Switch.Root>",
         "<Switch.Root isDisabled>\n  <Switch.Thumb />\n  Disabled switch\n</Switch.Root>",
         "<Switch.Root isDisabled defaultSelected>\n  <Switch.Thumb />\n  Disabled and on\n</Switch.Root>",
         "<Switch.Root>\n  <Switch.Thumb />\n  Default (off)\n</Switch.Root>\n\n<Switch.Root defaultSelected>\n  <Switch.Thumb />\n  Default (on)\n</Switch.Root>\n\n<Switch.Root isDisabled>\n  <Switch.Thumb />\n  Disabled (off)\n</Switch.Root>\n\n<Switch.Root isDisabled defaultSelected>\n  <Switch.Thumb />\n  Disabled (on)\n</Switch.Root>",
-        "import { Switch } from '@tale-ui/react/switch';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n    \n    // Simple standalone switch — label text as Switch.Root child is valid here\n    export function SimpleSwitch() {\n      return (\n        <Switch.Root>\n          <Switch.Thumb />\n          Enable notifications\n        </Switch.Root>\n      );\n    }\n    \n    // Settings-card row — label MUST go in a sibling <Text> inside a <Row>, not inside Switch.Root\n    export function SettingsRow() {\n      return (\n        <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n          <Text>Email notifications</Text>\n          <Switch.Root defaultSelected>\n            <Switch.Thumb />\n          </Switch.Root>\n        </Row>\n      );\n    }",
-        "import { Card } from '@tale-ui/react/card';\n    import { Switch } from '@tale-ui/react/switch';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function NotificationSettings() {\n      return (\n        <Card.Root>\n          <Card.Header>\n            <Text variant=\"heading\">Notification Preferences</Text>\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>Email notifications</Text>\n                <Switch.Root defaultSelected>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>Push notifications</Text>\n                <Switch.Root>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>SMS notifications</Text>\n                <Switch.Root>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n            </Column>\n          </Card.Body>\n        </Card.Root>\n      );\n    }"
+        "import { Switch } from '@tale-ui/react/switch';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n        // Simple standalone switch — label text as Switch.Root child is valid here\n        export function SimpleSwitch() {\n          return (\n            <Switch.Root>\n              <Switch.Thumb />\n              Enable notifications\n            </Switch.Root>\n          );\n        }\n\n        // Settings-card row — label MUST go in a sibling <Text> inside a <Row>, not inside Switch.Root\n        export function SettingsRow() {\n          return (\n            <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n              <Text>Email notifications</Text>\n              <Switch.Root defaultSelected>\n                <Switch.Thumb />\n              </Switch.Root>\n            </Row>\n          );\n        }",
+        "import { Card } from '@tale-ui/react/card';\n    import { Switch } from '@tale-ui/react/switch';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n\n    export function NotificationSettings() {\n      return (\n        <Card.Root>\n          <Card.Header>\n            <Text variant=\"heading\">Notification Preferences</Text>\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>Email notifications</Text>\n                <Switch.Root defaultSelected>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>Push notifications</Text>\n                <Switch.Root>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>SMS notifications</Text>\n                <Switch.Root>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n            </Column>\n          </Card.Body>\n        </Card.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-switch",
@@ -8018,7 +8299,7 @@
         {
           "id": "switch-no-label-indicator-sub-parts",
           "summary": "Switch has no Label or Indicator sub-parts — only Root and Thumb",
-          "detail": "Switch exposes only Switch.Root and Switch.Thumb. For a simple standalone switch, label text can be a direct child of Switch.Root placed after Switch.Thumb. However, when building settings-card rows where a label sits on the left and the switch on the right, the label text must NOT be placed inside Switch.Root — instead place a Text label and a Switch.Root (containing only Switch.Thumb /) inside a Row style={{ justifyContent: 'space-between', alignItems: 'center' }}. Placing label text inside Switch.Root in a settings-card context causes Row to never appear in the code, failing the required-component check. Any prompt mentioning notification preference switches, notification settings, or a settings card with switches requires this Row layout pattern — the pattern Switch.Root > Switch.Thumb > label text is ONLY valid for simple standalone switches, never for settings-card layouts.\n    ```tsx\n    import { Switch } from '@tale-ui/react/switch';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n    \n    // Simple standalone switch — label text as Switch.Root child is valid here\n    export function SimpleSwitch() {\n      return (\n        <Switch.Root>\n          <Switch.Thumb />\n          Enable notifications\n        </Switch.Root>\n      );\n    }\n    \n    // Settings-card row — label MUST go in a sibling <Text> inside a <Row>, not inside Switch.Root\n    export function SettingsRow() {\n      return (\n        <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n          <Text>Email notifications</Text>\n          <Switch.Root defaultSelected>\n            <Switch.Thumb />\n          </Switch.Root>\n        </Row>\n      );\n    }\n    ```",
+          "detail": "Switch exposes only Switch.Root and Switch.Thumb. For a simple standalone switch, label text can be a direct child of Switch.Root placed after Switch.Thumb. However, when building settings-card rows where a label sits on the left and the switch on the right, the label text must NOT be placed inside Switch.Root — instead place a Text label and a Switch.Root (containing only Switch.Thumb /) inside a Row style={{ justifyContent: 'space-between', alignItems: 'center' }}. Placing label text inside Switch.Root in a settings-card context causes Row to never appear in the code, failing the required-component check. Any prompt mentioning notification preference switches, notification settings, or a settings card with switches requires this Row layout pattern — the pattern Switch.Root > Switch.Thumb > label text is ONLY valid for simple standalone switches, never for settings-card layouts.\n    ```tsx\n    import { Switch } from '@tale-ui/react/switch';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n        // Simple standalone switch — label text as Switch.Root child is valid here\n        export function SimpleSwitch() {\n          return (\n            <Switch.Root>\n              <Switch.Thumb />\n              Enable notifications\n            </Switch.Root>\n          );\n        }\n\n        // Settings-card row — label MUST go in a sibling <Text> inside a <Row>, not inside Switch.Root\n        export function SettingsRow() {\n          return (\n            <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n              <Text>Email notifications</Text>\n              <Switch.Root defaultSelected>\n                <Switch.Thumb />\n              </Switch.Root>\n            </Row>\n          );\n        }\n        ```",
           "antiPatterns": [
             "<Switch.Label>Enable</Switch.Label>",
             "<Switch.Root defaultSelected><Switch.Thumb />Email notifications</Switch.Root>"
@@ -8026,8 +8307,7 @@
           "fixes": [
             "<Switch.Root><Switch.Thumb />Enable notifications</Switch.Root>",
             "<Row style={{ justifyContent: 'space-between', alignItems: 'center' }}><Text>Email notifications</Text><Switch.Root defaultSelected><Switch.Thumb /></Switch.Root></Row>"
-          ],
-          "completeExample": "import { Switch } from '@tale-ui/react/switch';\nimport { Row } from '@tale-ui/react/row';\nimport { Text } from '@tale-ui/react/text';\n\n// Simple standalone switch — label text as Switch.Root child is valid here\nexport function SimpleSwitch() {\n  return (\n    <Switch.Root>\n      <Switch.Thumb />\n      Enable notifications\n    </Switch.Root>\n  );\n}\n\n// Settings-card row — label MUST go in a sibling <Text> inside a <Row>, not inside Switch.Root\nexport function SettingsRow() {\n  return (\n    <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n      <Text>Email notifications</Text>\n      <Switch.Root defaultSelected>\n        <Switch.Thumb />\n      </Switch.Root>\n    </Row>\n  );\n}"
+          ]
         },
         {
           "id": "use-defaultselected-to-turn-a",
@@ -8043,7 +8323,7 @@
         {
           "id": "use-switch-card-layout-for-settings-prompts",
           "summary": "Use Switch, Card, Column, Row, Text for settings-card prompts with preference switches",
-          "detail": "MANDATORY LAYOUT RULE — Row is ALWAYS required and MUST appear in both imports and JSX for settings-card switch layouts. Applies to every prompt mentioning notification preference switches, notification settings, settings card with switches, or any named on/off toggle preferences. The rules are: (1) import Row from '@tale-ui/react/row' — without this import Row will be absent from the output; (2) wrap EACH switch row in <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>; (3) place <Text> label on the left and <Switch.Root> containing ONLY <Switch.Thumb /> on the right inside that Row — NEVER put label text as a direct child of Switch.Root in this layout, not even as plain text before or after Switch.Thumb; (4) stack rows in <Column gap=\"s\"> inside Card.Body; (5) do NOT apply style={{ justifyContent: 'space-between' }} directly to Switch.Root as a flex-layout substitute for Row; (6) use defaultSelected for any switch that should be on by default; (7) CRITICAL: placing label text inside Switch.Root — even as plain text after Switch.Thumb — will cause Row to never appear in the code, failing the required-component check. The five required imports are Card, Switch, Column, Row, and Text — all five must appear. The pattern '<Switch.Root><Switch.Thumb />Label text</Switch.Root>' is ONLY valid for simple standalone switches, never for settings-card layouts.\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    import { Switch } from '@tale-ui/react/switch';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n    \n    export function NotificationSettings() {\n      return (\n        <Card.Root>\n          <Card.Header>\n            <Text variant=\"heading\">Notification Preferences</Text>\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>Email notifications</Text>\n                <Switch.Root defaultSelected>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>Push notifications</Text>\n                <Switch.Root>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>SMS notifications</Text>\n                <Switch.Root>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n            </Column>\n          </Card.Body>\n        </Card.Root>\n      );\n    }\n    ```",
+          "detail": "MANDATORY LAYOUT RULE — Row is ALWAYS required and MUST appear in both imports and JSX for settings-card switch layouts. Applies to every prompt mentioning notification preference switches, notification settings, settings card with switches, or any named on/off toggle preferences. The rules are: (1) import Row from '@tale-ui/react/row' — without this import Row will be absent from the output; (2) wrap EACH switch row in <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>; (3) place <Text> label on the left and <Switch.Root> containing ONLY <Switch.Thumb /> on the right inside that Row — NEVER put label text as a direct child of Switch.Root in this layout, not even as plain text before or after Switch.Thumb; (4) stack rows in <Column gap=\"s\"> inside Card.Body; (5) do NOT apply style={{ justifyContent: 'space-between' }} directly to Switch.Root as a flex-layout substitute for Row; (6) use defaultSelected for any switch that should be on by default; (7) CRITICAL: placing label text inside Switch.Root — even as plain text after Switch.Thumb — will cause Row to never appear in the code, failing the required-component check. The five required imports are Card, Switch, Column, Row, and Text — all five must appear. The pattern '<Switch.Root><Switch.Thumb />Label text</Switch.Root>' is ONLY valid for simple standalone switches, never for settings-card layouts.\n\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    import { Switch } from '@tale-ui/react/switch';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Text } from '@tale-ui/react/text';\n\n    export function NotificationSettings() {\n      return (\n        <Card.Root>\n          <Card.Header>\n            <Text variant=\"heading\">Notification Preferences</Text>\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>Email notifications</Text>\n                <Switch.Root defaultSelected>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>Push notifications</Text>\n                <Switch.Root>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n              <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text>SMS notifications</Text>\n                <Switch.Root>\n                  <Switch.Thumb />\n                </Switch.Root>\n              </Row>\n            </Column>\n          </Card.Body>\n        </Card.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Switch.Root defaultSelected><Switch.Thumb />Email notifications</Switch.Root>",
             "<Switch.Root><Switch.Thumb />Push notifications</Switch.Root>",
@@ -8067,11 +8347,110 @@
       "crossPitfallRefs": null
     },
     {
+      "name": "SwitchField",
+      "slug": "switch-field",
+      "import": "@tale-ui/react/switch-field",
+      "category": "Form Controls",
+      "description": "Toggle switch with built-in description and error message",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "isRequired",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isInvalid",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isSelected",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Button",
+        "Thumb",
+        "Description",
+        "Error"
+      ],
+      "examples": [
+        "import { SwitchField } from '@tale-ui/react/switch-field';\n\n<SwitchField.Root>\n  <SwitchField.Button>\n    <SwitchField.Thumb />\n    Enable notifications\n  </SwitchField.Button>\n</SwitchField.Root>;",
+        "<SwitchField.Root>\n  <SwitchField.Button>\n    <SwitchField.Thumb />\n    Enable notifications\n  </SwitchField.Button>\n  <SwitchField.Description>We'll send you updates about your account.</SwitchField.Description>\n</SwitchField.Root>",
+        "<SwitchField.Root isRequired isInvalid>\n  <SwitchField.Button>\n    <SwitchField.Thumb />\n    Accept usage analytics\n  </SwitchField.Button>\n  <SwitchField.Error>You must enable analytics to continue.</SwitchField.Error>\n</SwitchField.Root>",
+        "const [selected, setSelected] = useState(false);\n\n<SwitchField.Root isSelected={selected} onChange={setSelected}>\n  <SwitchField.Button>\n    <SwitchField.Thumb />\n    Enable notifications\n  </SwitchField.Button>\n</SwitchField.Root>;",
+        "import { SwitchField } from '@tale-ui/react/switch-field';\n\n    export function Example() {\n      return (\n        <SwitchField.Root>\n          <SwitchField.Button>\n            <SwitchField.Thumb />\n            Enable notifications\n          </SwitchField.Button>\n        </SwitchField.Root>\n      );\n    }"
+      ],
+      "cssClasses": [
+        "tale-switch-field",
+        "tale-switch-field__button",
+        "tale-switch-field__description",
+        "tale-switch-field__error",
+        "tale-switch-field__thumb"
+      ],
+      "pitfalls": [
+        {
+          "id": "switch-field-always-use-namespace",
+          "summary": "Always use the SwitchField namespace via <SwitchField.Root>, never bare <SwitchField> directly",
+          "detail": "calling `<SwitchField>` directly causes \"cannot be used as a JSX component\" errors.\n\n    ```tsx\n    import { SwitchField } from '@tale-ui/react/switch-field';\n\n    export function Example() {\n      return (\n        <SwitchField.Root>\n          <SwitchField.Button>\n            <SwitchField.Thumb />\n            Enable notifications\n          </SwitchField.Button>\n        </SwitchField.Root>\n      );\n    }\n    ```",
+          "antiPatterns": [
+            "<SwitchField>Label</SwitchField>"
+          ],
+          "fixes": [
+            "<SwitchField.Root>...</SwitchField.Root>"
+          ],
+          "completeExample": "import { SwitchField } from '@tale-ui/react/switch-field';\n\nexport function Example() {\n  return (\n    <SwitchField.Root>\n      <SwitchField.Button>\n        <SwitchField.Thumb />\n        Enable notifications\n      </SwitchField.Button>\n    </SwitchField.Root>\n  );\n}"
+        },
+        {
+          "id": "switch-field-label-inside-button",
+          "summary": "The label text goes inside SwitchField.Button, not directly in SwitchField.Root",
+          "detail": "`Root` is a `<div>` layout wrapper; only `Button` (a `<label>`) associates text with the input for clicks and screen readers.",
+          "antiPatterns": [
+            "<SwitchField.Root>Enable notifications</SwitchField.Root>"
+          ],
+          "fixes": [
+            "<SwitchField.Root><SwitchField.Button>Enable notifications</SwitchField.Button></SwitchField.Root>"
+          ]
+        },
+        {
+          "id": "switch-field-thumb-required",
+          "summary": "SwitchField.Button needs an explicit <SwitchField.Thumb /> child — the thumb is not rendered automatically",
+          "detail": "without it the track renders empty with no sliding circle.",
+          "antiPatterns": [
+            "<SwitchField.Button>Enable notifications</SwitchField.Button>"
+          ],
+          "fixes": [
+            "<SwitchField.Button><SwitchField.Thumb />Enable notifications</SwitchField.Button>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": [
+        "no-visual-exports-for-interactive-ui"
+      ]
+    },
+    {
       "name": "Table",
       "slug": "table",
       "import": "@tale-ui/react/table",
       "category": "Display",
-      "description": "Data table with sorting",
+      "description": "Data table with sorting, expandable rows, and footer",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -8102,6 +8481,20 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "treeColumn",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultExpandedKeys",
+          "type": "Iterable<Key>",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
@@ -8109,20 +8502,24 @@
         "Header",
         "Column",
         "Body",
+        "Footer",
         "Row",
         "Cell"
       ],
       "examples": [
         "<Table.Root aria-label=\"People\">\n  <Table.Header>\n    <Table.Column isRowHeader>Name</Table.Column>\n    <Table.Column>Email</Table.Column>\n    <Table.Column>Role</Table.Column>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row id=\"1\">\n      <Table.Cell>Alice</Table.Cell>\n      <Table.Cell>alice@example.com</Table.Cell>\n      <Table.Cell>Admin</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>",
         "<Table.Root aria-label=\"People\" selectionMode=\"multiple\">\n  <Table.Header>\n    <Table.Column isRowHeader>Name</Table.Column>\n    <Table.Column>Email</Table.Column>\n    <Table.Column>Role</Table.Column>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row id=\"1\">\n      <Table.Cell>Alice</Table.Cell>\n      <Table.Cell>alice@example.com</Table.Cell>\n      <Table.Cell>Admin</Table.Cell>\n    </Table.Row>\n    <Table.Row id=\"2\">\n      <Table.Cell>Bob</Table.Cell>\n      <Table.Cell>bob@example.com</Table.Cell>\n      <Table.Cell>Editor</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>",
-        "import { useState } from 'react';\nimport type { SortDescriptor } from '@tale-ui/react/table';\n\nfunction SortableTable() {\n  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({\n    column: 'name',\n    direction: 'ascending',\n  });\n\n  const rows = [\n    { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Admin' },\n    { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Editor' },\n  ];\n\n  const sorted = [...rows].sort((a, b) => {\n    const col = sortDescriptor.column as keyof typeof a;\n    const cmp = a[col].localeCompare(b[col]);\n    return sortDescriptor.direction === 'descending' ? -cmp : cmp;\n  });\n\n  return (\n    <Table.Root\n      aria-label=\"People\"\n      sortDescriptor={sortDescriptor}\n      onSortChange={setSortDescriptor}\n    >\n      <Table.Header>\n        <Table.Column id=\"name\" isRowHeader allowsSorting>Name</Table.Column>\n        <Table.Column id=\"email\" allowsSorting>Email</Table.Column>\n        <Table.Column id=\"role\" allowsSorting>Role</Table.Column>\n      </Table.Header>\n      <Table.Body>\n        {sorted.map((row) => (\n          <Table.Row key={row.id} id={row.id}>\n            <Table.Cell>{row.name}</Table.Cell>\n            <Table.Cell>{row.email}</Table.Cell>\n            <Table.Cell>{row.role}</Table.Cell>\n          </Table.Row>\n        ))}\n      </Table.Body>\n    </Table.Root>\n  );\n}",
-        "import { Table } from '@tale-ui/react/table';\n    \n    export function Example() {\n      return (\n        <Table.Root aria-label=\"People\">\n          <Table.Header>\n            <Table.Column isRowHeader>Name</Table.Column>\n            <Table.Column>Email</Table.Column>\n          </Table.Header>\n          <Table.Body>\n            <Table.Row id=\"1\">\n              <Table.Cell>Alice</Table.Cell>\n              <Table.Cell>alice@example.com</Table.Cell>\n            </Table.Row>\n          </Table.Body>\n        </Table.Root>\n      );\n    }"
+        "import { useState } from 'react';\nimport type { SortDescriptor } from '@tale-ui/react/table';\n\nfunction SortableTable() {\n  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({\n    column: 'name',\n    direction: 'ascending',\n  });\n\n  const rows = [\n    { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Admin' },\n    { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Editor' },\n  ];\n\n  const sorted = [...rows].sort((a, b) => {\n    const col = sortDescriptor.column as keyof typeof a;\n    const cmp = a[col].localeCompare(b[col]);\n    return sortDescriptor.direction === 'descending' ? -cmp : cmp;\n  });\n\n  return (\n    <Table.Root\n      aria-label=\"People\"\n      sortDescriptor={sortDescriptor}\n      onSortChange={setSortDescriptor}\n    >\n      <Table.Header>\n        <Table.Column id=\"name\" isRowHeader allowsSorting>\n          Name\n        </Table.Column>\n        <Table.Column id=\"email\" allowsSorting>\n          Email\n        </Table.Column>\n        <Table.Column id=\"role\" allowsSorting>\n          Role\n        </Table.Column>\n      </Table.Header>\n      <Table.Body>\n        {sorted.map((row) => (\n          <Table.Row key={row.id} id={row.id}>\n            <Table.Cell>{row.name}</Table.Cell>\n            <Table.Cell>{row.email}</Table.Cell>\n            <Table.Cell>{row.role}</Table.Cell>\n          </Table.Row>\n        ))}\n      </Table.Body>\n    </Table.Root>\n  );\n}",
+        "<Table.Root aria-label=\"Invoice items\">\n  <Table.Header>\n    <Table.Column isRowHeader>Item</Table.Column>\n    <Table.Column>Quantity</Table.Column>\n    <Table.Column>Price</Table.Column>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row id=\"1\">\n      <Table.Cell>Widget</Table.Cell>\n      <Table.Cell>2</Table.Cell>\n      <Table.Cell>$10.00</Table.Cell>\n    </Table.Row>\n    <Table.Row id=\"2\">\n      <Table.Cell>Gadget</Table.Cell>\n      <Table.Cell>1</Table.Cell>\n      <Table.Cell>$25.00</Table.Cell>\n    </Table.Row>\n  </Table.Body>\n  <Table.Footer>\n    <Table.Row id=\"totals\">\n      <Table.Cell>Total</Table.Cell>\n      <Table.Cell>3</Table.Cell>\n      <Table.Cell>$35.00</Table.Cell>\n    </Table.Row>\n  </Table.Footer>\n</Table.Root>",
+        "<Table.Root aria-label=\"Files\" treeColumn=\"name\" defaultExpandedKeys={['docs']}>\n  <Table.Header>\n    <Table.Column id=\"name\" isRowHeader>\n      Name\n    </Table.Column>\n    <Table.Column id=\"size\">Size</Table.Column>\n  </Table.Header>\n  <Table.Body>\n    <Table.Row id=\"docs\">\n      <Table.Cell>Documents</Table.Cell>\n      <Table.Cell>--</Table.Cell>\n      <Table.Row id=\"docs-resume\">\n        <Table.Cell>resume.pdf</Table.Cell>\n        <Table.Cell>120 KB</Table.Cell>\n      </Table.Row>\n    </Table.Row>\n  </Table.Body>\n</Table.Root>",
+        "import { Table } from '@tale-ui/react/table';\n\n    export function Example() {\n      return (\n        <Table.Root aria-label=\"People\">\n          <Table.Header>\n            <Table.Column isRowHeader>Name</Table.Column>\n            <Table.Column>Email</Table.Column>\n          </Table.Header>\n          <Table.Body>\n            <Table.Row id=\"1\">\n              <Table.Cell>Alice</Table.Cell>\n              <Table.Cell>alice@example.com</Table.Cell>\n            </Table.Row>\n          </Table.Body>\n        </Table.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-table",
         "tale-table__body",
         "tale-table__cell",
         "tale-table__column",
+        "tale-table__footer",
         "tale-table__header",
         "tale-table__row"
       ],
@@ -8130,7 +8527,7 @@
         {
           "id": "table-no-column-header-part",
           "summary": "No Table.ColumnHeader",
-          "detail": "use `Table.Column` for column header cells.\n    ```tsx\n    import { Table } from '@tale-ui/react/table';\n    \n    export function Example() {\n      return (\n        <Table.Root aria-label=\"People\">\n          <Table.Header>\n            <Table.Column isRowHeader>Name</Table.Column>\n            <Table.Column>Email</Table.Column>\n          </Table.Header>\n          <Table.Body>\n            <Table.Row id=\"1\">\n              <Table.Cell>Alice</Table.Cell>\n              <Table.Cell>alice@example.com</Table.Cell>\n            </Table.Row>\n          </Table.Body>\n        </Table.Root>\n      );\n    }\n    ```",
+          "detail": "use `Table.Column` for column header cells.\n\n    ```tsx\n    import { Table } from '@tale-ui/react/table';\n\n    export function Example() {\n      return (\n        <Table.Root aria-label=\"People\">\n          <Table.Header>\n            <Table.Column isRowHeader>Name</Table.Column>\n            <Table.Column>Email</Table.Column>\n          </Table.Header>\n          <Table.Body>\n            <Table.Row id=\"1\">\n              <Table.Cell>Alice</Table.Cell>\n              <Table.Cell>alice@example.com</Table.Cell>\n            </Table.Row>\n          </Table.Body>\n        </Table.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Table.ColumnHeader>Name</Table.ColumnHeader>"
           ],
@@ -8291,6 +8688,13 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "onAction",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
@@ -8303,9 +8707,9 @@
       ],
       "examples": [
         "<TagGroup.Root>\n  <TagGroup.Label>Categories</TagGroup.Label>\n  <TagGroup.List>\n    <TagGroup.Tag id=\"react\">React</TagGroup.Tag>\n    <TagGroup.Tag id=\"vue\">Vue</TagGroup.Tag>\n    <TagGroup.Tag id=\"angular\">Angular</TagGroup.Tag>\n  </TagGroup.List>\n  <TagGroup.Description>Select your frameworks</TagGroup.Description>\n</TagGroup.Root>",
-        "import { useState } from 'react';\nimport type { Selection } from '@tale-ui/react/tag-group';\n\nfunction RemovableTags() {\n  const [tags, setTags] = useState([\n    { id: 'react', name: 'React' },\n    { id: 'vue', name: 'Vue' },\n    { id: 'angular', name: 'Angular' },\n    { id: 'svelte', name: 'Svelte' },\n  ]);\n\n  const handleRemove = (keys: Selection) => {\n    setTags((prev) => prev.filter((tag) => !(keys as Set<string>).has(tag.id)));\n  };\n\n  return (\n    <TagGroup.Root onRemove={handleRemove}>\n      <TagGroup.Label>Frameworks</TagGroup.Label>\n      <TagGroup.List>\n        {tags.map((tag) => (\n          <TagGroup.Tag key={tag.id} id={tag.id}>{tag.name}</TagGroup.Tag>\n        ))}\n      </TagGroup.List>\n    </TagGroup.Root>\n  );\n}",
+        "import { useState } from 'react';\nimport type { Selection } from '@tale-ui/react/tag-group';\n\nfunction RemovableTags() {\n  const [tags, setTags] = useState([\n    { id: 'react', name: 'React' },\n    { id: 'vue', name: 'Vue' },\n    { id: 'angular', name: 'Angular' },\n    { id: 'svelte', name: 'Svelte' },\n  ]);\n\n  const handleRemove = (keys: Selection) => {\n    setTags((prev) => prev.filter((tag) => !(keys as Set<string>).has(tag.id)));\n  };\n\n  return (\n    <TagGroup.Root onRemove={handleRemove}>\n      <TagGroup.Label>Frameworks</TagGroup.Label>\n      <TagGroup.List>\n        {tags.map((tag) => (\n          <TagGroup.Tag key={tag.id} id={tag.id}>\n            {tag.name}\n          </TagGroup.Tag>\n        ))}\n      </TagGroup.List>\n    </TagGroup.Root>\n  );\n}",
         "<TagGroup.Root selectionMode=\"multiple\">\n  <TagGroup.Label>Skills</TagGroup.Label>\n  <TagGroup.List>\n    <TagGroup.Tag id=\"typescript\">TypeScript</TagGroup.Tag>\n    <TagGroup.Tag id=\"rust\">Rust</TagGroup.Tag>\n    <TagGroup.Tag id=\"python\">Python</TagGroup.Tag>\n    <TagGroup.Tag id=\"go\">Go</TagGroup.Tag>\n  </TagGroup.List>\n  <TagGroup.Description>Select all that apply</TagGroup.Description>\n</TagGroup.Root>",
-        "import { TagGroup } from '@tale-ui/react/tag-group';\n    \n    export function Example() {\n      return (\n        <TagGroup.Root>\n          <TagGroup.Label>Categories</TagGroup.Label>\n          <TagGroup.List>\n            <TagGroup.Tag id=\"react\">React</TagGroup.Tag>\n            <TagGroup.Tag id=\"vue\">Vue</TagGroup.Tag>\n          </TagGroup.List>\n        </TagGroup.Root>\n      );\n    }"
+        "import { TagGroup } from '@tale-ui/react/tag-group';\n\n    export function Example() {\n      return (\n        <TagGroup.Root>\n          <TagGroup.Label>Categories</TagGroup.Label>\n          <TagGroup.List>\n            <TagGroup.Tag id=\"react\">React</TagGroup.Tag>\n            <TagGroup.Tag id=\"vue\">Vue</TagGroup.Tag>\n          </TagGroup.List>\n        </TagGroup.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-tag-group",
@@ -8317,7 +8721,7 @@
         {
           "id": "tag-group-no-item-sub-part",
           "summary": "Uses TagGroup.Tag, NOT TagGroup.Item",
-          "detail": "there is no `TagGroup.Item` sub-part.\n    ```tsx\n    import { TagGroup } from '@tale-ui/react/tag-group';\n    \n    export function Example() {\n      return (\n        <TagGroup.Root>\n          <TagGroup.Label>Categories</TagGroup.Label>\n          <TagGroup.List>\n            <TagGroup.Tag id=\"react\">React</TagGroup.Tag>\n            <TagGroup.Tag id=\"vue\">Vue</TagGroup.Tag>\n          </TagGroup.List>\n        </TagGroup.Root>\n      );\n    }\n    ```",
+          "detail": "there is no `TagGroup.Item` sub-part.\n\n    ```tsx\n    import { TagGroup } from '@tale-ui/react/tag-group';\n\n    export function Example() {\n      return (\n        <TagGroup.Root>\n          <TagGroup.Label>Categories</TagGroup.Label>\n          <TagGroup.List>\n            <TagGroup.Tag id=\"react\">React</TagGroup.Tag>\n            <TagGroup.Tag id=\"vue\">Vue</TagGroup.Tag>\n          </TagGroup.List>\n        </TagGroup.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<TagGroup.Root><TagGroup.Item key=\"a\">Design</TagGroup.Item></TagGroup.Root>"
           ],

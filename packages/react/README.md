@@ -36,11 +36,15 @@ body {
 ```
 
 ```tsx
-import '@tale-ui/react/styles';           // tokens + all component CSS — import once
+import '@tale-ui/react/styles'; // tokens + all component CSS — import once
 import { Button } from '@tale-ui/react/button';
 
 export default function App() {
-  return <Button variant="primary" size="md">Click me</Button>;
+  return (
+    <Button variant="primary" size="md">
+      Click me
+    </Button>
+  );
 }
 // Renders: <button class="tale-button tale-button--primary tale-button--md">Click me</button>
 ```
@@ -54,17 +58,22 @@ export default function App() {
 **Dark mode** — Set `data-color-mode="dark"` on `<html>`. All `--neutral-*` and `--color-*` tokens invert automatically. Always toggle between `"dark"` and `"light"` — never remove the attribute. Removing it falls back to OS preference via `prefers-color-scheme`, which may not be what the user chose.
 
 ```html
-<html class="tale-ui" data-color-mode="dark">
+<html class="tale-ui" data-color-mode="dark"></html>
 ```
 
 **Token rule** — Always use `--color-*` (not `--brand-*`) in component and app CSS. `--brand-*` is palette-only and does NOT invert in dark mode.
 
 ```css
 /* Correct */
-.my-card { background: var(--color-60); color: var(--color-60-fg); }
+.my-card {
+  background: var(--color-60);
+  color: var(--color-60-fg);
+}
 
 /* Wrong — will break in dark mode */
-.my-card { background: var(--brand-60); }
+.my-card {
+  background: var(--brand-60);
+}
 ```
 
 ## Components
@@ -76,12 +85,14 @@ import { Button } from '@tale-ui/react/button';
 import { Input } from '@tale-ui/react/input';
 import { Dialog } from '@tale-ui/react/dialog';
 import { Select } from '@tale-ui/react/select';
-import { Checkbox } from '@tale-ui/react/checkbox';
+import { CheckboxField } from '@tale-ui/react/checkbox-field';
 ```
 
 ### Form Controls
 
-Autocomplete · Button · Checkbox · Checkbox Group · Combobox · Input · Input Group · Input Tags · Multi Select · Number Field · Payment Input · Pin Input · Radio · Radio Group · Search Field · Select · Select Native · Slider · Switch · Tag Select · Text Area · Text Field · Toggle Button · Toggle Button Group
+Autocomplete · Button · Checkbox Field · Checkbox Group · Combobox · Input · Input Group · Input Tags · Multi Select · Number Field · Payment Input · Pin Input · Radio Field · Radio Group · Search Field · Select · Select Native · Slider · Switch Field · Tag Select · Text Area · Text Field · Toggle Button · Toggle Button Group
+
+`Checkbox`, `Radio`, and `Switch` remain available for backwards compatibility, but new code should use `CheckboxField`, `RadioField`, and `SwitchField`.
 
 ### Date & Time
 
@@ -136,7 +147,9 @@ Color Mode Toggle · Container · CSP Provider · I18n Provider · Icon · IconB
 Components apply BEM base class names automatically. Variant and size props map to BEM modifiers:
 
 ```tsx
-<Button variant="primary" size="sm">Save</Button>
+<Button variant="primary" size="sm">
+  Save
+</Button>
 // → class="tale-button tale-button--primary tale-button--sm"
 ```
 
@@ -159,7 +172,7 @@ Import it after the Tale UI styles:
 
 ```tsx
 import '@tale-ui/react/styles';
-import './tale-ui-overrides.css';        // your custom theme — must come after
+import './tale-ui-overrides.css'; // your custom theme — must come after
 ```
 
 To generate a theme, visit https://tale-ui.github.io/core/scale, configure your colour scale, and paste the generated CSS into `tale-ui-overrides.css`. Dark mode inversion works automatically — you only define the light-mode palette.
@@ -167,7 +180,7 @@ To generate a theme, visit https://tale-ui.github.io/core/scale, configure your 
 If the generated CSS includes foreground pivot overrides (`.tale-ui` selectors), add `class="tale-ui"` to your `<html>` element:
 
 ```html
-<html class="tale-ui" data-color-mode="light">
+<html class="tale-ui" data-color-mode="light"></html>
 ```
 
 ## Per-component CSS Imports
@@ -175,7 +188,7 @@ If the generated CSS includes foreground pivot overrides (`.tale-ui` selectors),
 For smaller bundles, import individual component styles instead of the all-in-one:
 
 ```ts
-import '@tale-ui/core';                  // tokens — required when using per-component imports
+import '@tale-ui/core'; // tokens — required when using per-component imports
 import '@tale-ui/react-styles/button';
 import '@tale-ui/react-styles/dialog';
 ```

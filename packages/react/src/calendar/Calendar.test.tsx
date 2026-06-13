@@ -20,15 +20,15 @@ describe('<Calendar />', () => {
           <Calendar.GridHeader>
             {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
           </Calendar.GridHeader>
-          <Calendar.GridBody>
-            {(date) => <Calendar.Cell date={date} />}
-          </Calendar.GridBody>
+          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
         </Calendar.Grid>
       </Calendar.Root>,
     );
 
     const prev = screen.getByTestId('prev');
     const next = screen.getByTestId('next');
+    // CalendarHeading (RAC 1.18) auto-formats the visible month with no children
+    expect(screen.getByRole('heading')).to.contain.text('April 2026');
     const prevStyles = getComputedStyle(prev);
     const nextStyles = getComputedStyle(next);
 

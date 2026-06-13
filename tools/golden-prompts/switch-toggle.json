@@ -1,7 +1,7 @@
 {
   "slug": "switch-toggle",
   "difficulty": "medium",
-  "prompt": "Show a switch labeled 'Enable notifications'.",
-  "reference": "import { Switch } from '@tale-ui/react/switch';\n\nexport function NotificationsSwitch() {\n  return (\n    <Switch.Root>\n      <Switch.Thumb />\n      Enable notifications\n    </Switch.Root>\n  );\n}",
-  "tags": ["Switch"]
+  "prompt": "Show a switch field labeled 'Enable notifications'.",
+  "reference": "import { SwitchField } from '@tale-ui/react/switch-field';\n\nexport function NotificationsSwitch() {\n  return (\n    <SwitchField.Root>\n      <SwitchField.Button>\n        <SwitchField.Thumb />\n        Enable notifications\n      </SwitchField.Button>\n    </SwitchField.Root>\n  );\n}",
+  "tags": ["SwitchField"]
 }

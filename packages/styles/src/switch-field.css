@@ -1,0 +1,144 @@
+/*
+ * SwitchField — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * React Aria SwitchField exposes on the root (div):
+ *   [data-selected]
+ *   [data-disabled] [data-readonly] [data-required] [data-invalid]
+ * SwitchButton (label) additionally exposes:
+ *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
+ *
+ * Usage:
+ *   <SwitchField.Root className="tale-switch-field">
+ *     <SwitchField.Button className="tale-switch-field__button">
+ *       <SwitchField.Thumb className="tale-switch-field__thumb" />
+ *       Label text
+ *     </SwitchField.Button>
+ *     <SwitchField.Description className="tale-switch-field__description">…</SwitchField.Description>
+ *     <SwitchField.Error className="tale-switch-field__error" />
+ *   </SwitchField.Root>
+ */
+
+/* ─── Root — field wrapper (column flex: button, description, error) ──────── */
+
+.tale-switch-field {
+  --tale-switch-field-track-width: 4rem;
+  --tale-switch-field-track-height: 2.2rem;
+  --tale-switch-field-thumb-size: 1.4rem;
+  --tale-switch-field-thumb-offset: 0.4rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xs);
+}
+
+/* Indent description and error to align with the label text */
+.tale-switch-field__description,
+.tale-switch-field__error {
+  margin-left: calc(var(--tale-switch-field-track-width) + var(--space-3xs));
+}
+
+/* ─── Button — the clickable label row carrying the pill-shaped track ─────── */
+
+.tale-switch-field__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  min-height: var(--tale-switch-field-track-height);
+  padding-inline-start: calc(var(--tale-switch-field-track-width) + var(--space-3xs));
+  color: var(--neutral-80);
+  font-family: var(--label-font-family);
+  font-size: var(--label-m-font-size);
+  font-weight: var(--label-font-weight);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.tale-switch-field__button::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 50%;
+  width: var(--tale-switch-field-track-width);
+  height: var(--tale-switch-field-track-height);
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--neutral-30);
+  background-color: var(--neutral-20);
+  transform: translateY(-50%);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tale-switch-field__button[data-focus-visible]::before {
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
+}
+
+/* ─── Selected (on) state ─────────────────────────────────────────────────── */
+
+.tale-switch-field__button[data-selected]::before {
+  background-color: var(--color-60);
+  border-color: var(--color-60);
+}
+
+.tale-switch-field__button[data-selected][data-hovered]:not([data-disabled])::before {
+  background-color: var(--color-50);
+  border-color: var(--color-50);
+}
+
+/* ─── Hover (off) ─────────────────────────────────────────────────────────── */
+
+.tale-switch-field__button[data-hovered]:not([data-disabled]):not([data-selected])::before {
+  border-color: var(--neutral-50);
+  background-color: var(--neutral-26);
+}
+
+/* ─── Invalid state ───────────────────────────────────────────────────────── */
+
+.tale-switch-field[data-invalid] .tale-switch-field__button::before {
+  border-color: var(--red-60);
+}
+
+/* ─── Disabled state ──────────────────────────────────────────────────────── */
+
+.tale-switch-field[data-disabled] .tale-switch-field__button {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Thumb — sliding circle ──────────────────────────────────────────────── */
+
+.tale-switch-field__thumb {
+  position: absolute;
+  inset-inline-start: var(--tale-switch-field-thumb-offset);
+  inset-block-start: 50%;
+  width: var(--tale-switch-field-thumb-size);
+  height: var(--tale-switch-field-thumb-size);
+  border-radius: 50%;
+  background-color: var(--neutral-80);
+  box-shadow: var(--shadow-s);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+  transform: translate(0, -50%);
+  z-index: 1;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.tale-switch-field__button[data-selected] .tale-switch-field__thumb {
+  transform: translate(
+    calc(
+      var(--tale-switch-field-track-width) - (var(--tale-switch-field-thumb-offset) * 1.2) -
+        var(--tale-switch-field-thumb-size)
+    ),
+    -50%
+  );
+  background-color: var(--color-60-fg);
+}

@@ -2,6 +2,6 @@
   "slug": "radio-group-form",
   "difficulty": "medium",
   "prompt": "Show a radio group for plan selection with Free, Pro, and Enterprise options.",
-  "reference": "import { Radio } from '@tale-ui/react/radio';\n\nexport function PlanRadioGroup() {\n  return (\n    <Radio.Group label=\"Select a plan\">\n      <Radio.Root value=\"free\">\n        <Radio.Indicator />\n        Free\n      </Radio.Root>\n      <Radio.Root value=\"pro\">\n        <Radio.Indicator />\n        Pro\n      </Radio.Root>\n      <Radio.Root value=\"enterprise\">\n        <Radio.Indicator />\n        Enterprise\n      </Radio.Root>\n    </Radio.Group>\n  );\n}",
-  "tags": ["Radio", "RadioGroup"]
+  "reference": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { RadioField } from '@tale-ui/react/radio-field';\n\nexport function PlanRadioGroup() {\n  return (\n    <RadioGroup label=\"Select a plan\">\n      <RadioField.Root value=\"free\">\n        <RadioField.Button>\n          <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n          Free\n        </RadioField.Button>\n      </RadioField.Root>\n      <RadioField.Root value=\"pro\">\n        <RadioField.Button>\n          <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n          Pro\n        </RadioField.Button>\n      </RadioField.Root>\n      <RadioField.Root value=\"enterprise\">\n        <RadioField.Button>\n          <RadioField.Indicator><RadioField.Dot /></RadioField.Indicator>\n          Enterprise\n        </RadioField.Button>\n      </RadioField.Root>\n    </RadioGroup>\n  );\n}",
+  "tags": ["RadioField", "RadioGroup"]
 }

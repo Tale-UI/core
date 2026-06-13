@@ -3,6 +3,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = resolve(__dirname, '../..');
 const STORYBOOK_URL = process.env.STORYBOOK_URL ?? 'http://localhost:6006';
 
 export default defineConfig({
@@ -31,7 +32,8 @@ export default defineConfig({
   // "dev" (the default for all user stories in Storybook 8.4+), so the dev
   // server is the only way to render them inside the iframe for screenshots.
   webServer: {
-    command: 'pnpm -C playground/storybook dev',
+    command: 'pnpm storybook',
+    cwd: ROOT,
     url: STORYBOOK_URL,
     reuseExistingServer: true,
     // Dev server takes longer to start than the static server

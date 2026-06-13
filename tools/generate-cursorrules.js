@@ -44,7 +44,7 @@ function buildPitfallLines(registry, pitfallsJson) {
 
   // Top component-specific pitfalls (summary only, for cursorrules brevity)
   const seen = new Set();
-  for (const component of registry.components) {
+  for (const component of registry.components.filter(c => c.status !== 'deprecated')) {
     for (const p of (component.pitfalls || [])) {
       const key = p.summary;
       if (!seen.has(key)) {
@@ -64,13 +64,21 @@ function generate() {
   const pitfallsJson = JSON.parse(readFile(PITFALLS_PATH) || '{"crossComponentPitfalls":[],"generalConventions":[]}');
 
   const compound = registry.components
-    .filter(c => c.kind === 'compound')
+    .filter(c => c.kind === 'compound' && c.status !== 'deprecated')
     .map(c => c.name)
     .sort();
 
   const simple = registry.components
-    .filter(c => c.kind === 'simple')
+    .filter(c => c.kind === 'simple' && c.status !== 'deprecated')
     .map(c => c.name)
+    .sort();
+
+  const deprecated = registry.components
+    .filter(c => c.status === 'deprecated')
+    .map(c => {
+      const match = (c.deprecationNote || '').match(/Use (\w+)/);
+      return match ? `${c.name} (use ${match[1]})` : c.name;
+    })
     .sort();
 
   const pitfalls = buildPitfallLines(registry, pitfallsJson);
@@ -100,6 +108,10 @@ Use **only** components from \`@tale-ui/react\` for all UI. Never invent new imp
 **Namespace** (use \`.Root\`): ${compound.join(', ')}.
 
 **Simple** (direct use): ${simple.join(', ')}.
+
+**Deprecated** (still functional; avoid in new code): ${deprecated.join(', ')}.
+
+For new checkbox/radio/switch UI, use \`CheckboxField\`, \`RadioField\` inside \`RadioGroup\`, and \`SwitchField\`. Use \`Checkbox\`, \`Radio\`, or \`Switch\` only when maintaining existing code or explicitly requested.
 
 ## Critical pitfalls
 

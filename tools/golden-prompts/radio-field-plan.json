@@ -1,0 +1,7 @@
+{
+  "slug": "radio-field-plan",
+  "difficulty": "medium",
+  "prompt": "Show a radio group labelled 'Subscription plan' with options 'Free', 'Pro', and 'Enterprise', where the Pro option has help text 'Unlimited projects and priority support.' below it.",
+  "reference": "import { RadioGroup } from '@tale-ui/react/radio-group';\nimport { RadioField } from '@tale-ui/react/radio-field';\n\nexport function Example() {\n  return (\n    <RadioGroup label=\"Subscription plan\">\n      <RadioField.Root value=\"free\">\n        <RadioField.Button>\n          <RadioField.Indicator>\n            <RadioField.Dot />\n          </RadioField.Indicator>\n          Free\n        </RadioField.Button>\n      </RadioField.Root>\n      <RadioField.Root value=\"pro\">\n        <RadioField.Button>\n          <RadioField.Indicator>\n            <RadioField.Dot />\n          </RadioField.Indicator>\n          Pro\n        </RadioField.Button>\n        <RadioField.Description>\n          Unlimited projects and priority support.\n        </RadioField.Description>\n      </RadioField.Root>\n      <RadioField.Root value=\"enterprise\">\n        <RadioField.Button>\n          <RadioField.Indicator>\n            <RadioField.Dot />\n          </RadioField.Indicator>\n          Enterprise\n        </RadioField.Button>\n      </RadioField.Root>\n    </RadioGroup>\n  );\n}",
+  "tags": ["RadioField", "RadioGroup"]
+}

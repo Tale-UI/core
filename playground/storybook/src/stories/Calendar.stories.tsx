@@ -38,6 +38,53 @@ const CalendarTemplate = (args: Args) => (
   </Calendar.Root>
 );
 
+const MonthYearPickerCalendarTemplate = (args: Args) => (
+  <Calendar.Root {...args}>
+    <Calendar.Header>
+      <Calendar.PreviousButton />
+      <Calendar.MonthPicker format="short">
+        {({ 'aria-label': ariaLabel, value, onChange, items }) => (
+          <select
+            aria-label={ariaLabel}
+            value={String(value)}
+            onChange={(event) => onChange(Number(event.target.value))}
+          >
+            {items.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.formatted}
+              </option>
+            ))}
+          </select>
+        )}
+      </Calendar.MonthPicker>
+      <Calendar.YearPicker visibleYears={8}>
+        {({ 'aria-label': ariaLabel, value, onChange, items }) => (
+          <select
+            aria-label={ariaLabel}
+            value={String(value)}
+            onChange={(event) => onChange(Number(event.target.value))}
+          >
+            {items.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.formatted}
+              </option>
+            ))}
+          </select>
+        )}
+      </Calendar.YearPicker>
+      <Calendar.NextButton />
+    </Calendar.Header>
+    <Calendar.Grid>
+      <Calendar.GridHeader>
+        {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+      </Calendar.GridHeader>
+      <Calendar.GridBody>
+        {(date) => <Calendar.Cell date={date} />}
+      </Calendar.GridBody>
+    </Calendar.Grid>
+  </Calendar.Root>
+);
+
 export const Default: Story = {
   render: (args) => <CalendarTemplate {...args} />,
 };
@@ -72,6 +119,10 @@ export const ReadOnly: Story = {
   ),
 };
 
+export const WithMonthYearPickers: Story = {
+  render: (args) => <MonthYearPickerCalendarTemplate {...args} />,
+};
+
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
@@ -80,6 +131,10 @@ export const AllVariations: Story = {
         <div>
           <p className="story-label">Default calendar</p>
           <CalendarTemplate />
+        </div>
+        <div>
+          <p className="story-label">Month and year pickers</p>
+          <MonthYearPickerCalendarTemplate />
         </div>
       </div>
     );

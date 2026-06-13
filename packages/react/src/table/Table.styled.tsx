@@ -4,12 +4,14 @@ import {
   TableHeader as AriaTableHeader,
   Column as AriaColumn,
   TableBody as AriaTableBody,
+  TableFooter as AriaTableFooter,
   Row as AriaRow,
   Cell as AriaCell,
   type TableProps as AriaTableProps,
   type TableHeaderProps as AriaTableHeaderProps,
   type ColumnProps as AriaColumnProps,
   type TableBodyProps as AriaTableBodyProps,
+  type TableFooterProps as AriaTableFooterProps,
   type RowProps as AriaRowProps,
   type CellProps as AriaCellProps,
 } from 'react-aria-components';
@@ -99,6 +101,29 @@ export const Body: <T extends object>(
   ),
 ) as any;
 (Body as any).displayName = 'Table.Body';
+
+// ── Footer ─────────────────────────────────────────────────────────────────
+
+export type FooterProps<T extends object> = Omit<AriaTableFooterProps<T>, 'className'> & {
+  className?: string;
+};
+
+/**
+ * Footer section for totals/summary rows. Renders a `<tfoot>`.
+ * Place after `Table.Body`.
+ */
+export const Footer: <T extends object>(
+  props: FooterProps<T> & React.RefAttributes<HTMLTableSectionElement>,
+) => React.ReactElement | null = React.forwardRef(
+  ({ className, ...props }: FooterProps<object>, ref) => (
+    <AriaTableFooter
+      ref={ref as React.Ref<HTMLTableSectionElement>}
+      className={cx('tale-table__footer', className)}
+      {...props}
+    />
+  ),
+) as any;
+(Footer as any).displayName = 'Table.Footer';
 
 // ── Row ────────────────────────────────────────────────────────────────────
 

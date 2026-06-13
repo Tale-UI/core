@@ -13,7 +13,7 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
   description?: string;
   /** Layout orientation. Sets `data-orientation` for CSS styling. */
   orientation?: 'horizontal' | 'vertical';
-  /** Propagates size to all child Checkbox.Root components. */
+  /** Propagates size to all child CheckboxField.Root components. */
   size?: 'sm' | 'md';
 }
 
@@ -24,19 +24,23 @@ export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'classN
  * @example
  * ```tsx
  * import { CheckboxGroup } from '@tale-ui/react/checkbox-group';
- * import { Checkbox } from '@tale-ui/react/checkbox';
+ * import { CheckboxField } from '@tale-ui/react/checkbox-field';
  * import { Icon } from '@tale-ui/react/icon';
  * import { Check } from 'lucide-react';
  *
  * <CheckboxGroup label="Favorite fruits">
- *   <Checkbox.Root value="apple">
- *     <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
- *     Apple
- *   </Checkbox.Root>
- *   <Checkbox.Root value="banana">
- *     <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
- *     Banana
- *   </Checkbox.Root>
+ *   <CheckboxField.Root value="apple">
+ *     <CheckboxField.Button>
+ *       <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+ *       Apple
+ *     </CheckboxField.Button>
+ *   </CheckboxField.Root>
+ *   <CheckboxField.Root value="banana">
+ *     <CheckboxField.Button>
+ *       <CheckboxField.Indicator><Icon icon={Check} size="sm" /></CheckboxField.Indicator>
+ *       Banana
+ *     </CheckboxField.Button>
+ *   </CheckboxField.Root>
  * </CheckboxGroup>
  * ```
  */

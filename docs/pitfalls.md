@@ -297,12 +297,13 @@ explicit BEM class names:
   - fix: `import { useFilter } from '@tale-ui/react/autocomplete';`
 
 <!-- pitfall: no-cross-import-checkbox-group -->
-<!-- applies-to: Checkbox, CheckboxGroup -->
+<!-- applies-to: CheckboxField, CheckboxGroup -->
 <!-- category: imports -->
 
-- **`CheckboxGroup` is not exported from `@tale-ui/react/checkbox`** — `CheckboxGroup` has its own path `@tale-ui/react/checkbox-group`; cross-importing causes "Module has no exported member" TypeScript errors.
-  - anti-pattern: `import { CheckboxGroup } from '@tale-ui/react/checkbox';`
-  - fix: `import { CheckboxGroup } from '@tale-ui/react/checkbox-group';`
+- **`CheckboxField` imports separately from `CheckboxGroup`** — `CheckboxGroup` is exported from `@tale-ui/react/checkbox-group`; `CheckboxField` is exported from `@tale-ui/react/checkbox-field`. Cross-importing causes "Module has no exported member" TypeScript errors.
+  - anti-pattern: `import { CheckboxGroup } from '@tale-ui/react/checkbox-field';`
+  - anti-pattern: `import { CheckboxField } from '@tale-ui/react/checkbox-group';`
+  - fix: `import { CheckboxGroup } from '@tale-ui/react/checkbox-group'; import { CheckboxField } from '@tale-ui/react/checkbox-field';`
 
 <!-- pitfall: no-color-component-from-color-picker -->
 <!-- applies-to: ColorArea, ColorSlider, ColorSwatch, ColorSwatchPicker -->

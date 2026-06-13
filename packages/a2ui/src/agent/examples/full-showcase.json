@@ -4369,7 +4369,7 @@
           "id": "sec-chk-title",
           "component": {
             "Text": {
-              "content": "22. Checkbox — sizes × states",
+              "content": "22. CheckboxField — sizes × states",
               "usageHint": "heading-m"
             }
           }
@@ -4415,7 +4415,7 @@
         {
           "id": "chk-sm-off",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Unchecked",
               "size": "sm"
             }
@@ -4424,7 +4424,7 @@
         {
           "id": "chk-sm-on",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Checked",
               "size": "sm",
               "defaultSelected": true
@@ -4434,7 +4434,7 @@
         {
           "id": "chk-sm-indet",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Indeterminate",
               "size": "sm",
               "isIndeterminate": true
@@ -4444,7 +4444,7 @@
         {
           "id": "chk-sm-dis",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Disabled",
               "size": "sm",
               "disabled": true
@@ -4454,7 +4454,7 @@
         {
           "id": "chk-sm-dis-on",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Dis+checked",
               "size": "sm",
               "disabled": true,
@@ -4490,7 +4490,7 @@
         {
           "id": "chk-md-off",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Unchecked",
               "size": "md"
             }
@@ -4499,7 +4499,7 @@
         {
           "id": "chk-md-on",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Checked",
               "size": "md",
               "defaultSelected": true
@@ -4509,7 +4509,7 @@
         {
           "id": "chk-md-indet",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Indeterminate",
               "size": "md",
               "isIndeterminate": true
@@ -4519,7 +4519,7 @@
         {
           "id": "chk-md-dis",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Disabled",
               "size": "md",
               "disabled": true
@@ -4529,7 +4529,7 @@
         {
           "id": "chk-md-dis-on",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Dis+checked",
               "size": "md",
               "disabled": true,
@@ -4563,7 +4563,7 @@
           "id": "sec-rad-title",
           "component": {
             "Text": {
-              "content": "23. Radio — states × sizes",
+              "content": "23. RadioField — states × sizes",
               "usageHint": "heading-m"
             }
           }
@@ -4616,7 +4616,7 @@
         {
           "id": "rad-md-grp",
           "component": {
-            "Radio": {
+            "RadioField": {
               "label": "Preference",
               "size": "md",
               "children": [
@@ -4630,7 +4630,7 @@
         {
           "id": "rad-md-a",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option A",
               "value": "a"
             }
@@ -4639,7 +4639,7 @@
         {
           "id": "rad-md-b",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option B",
               "value": "b"
             }
@@ -4648,7 +4648,7 @@
         {
           "id": "rad-md-c",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option C",
               "value": "c"
             }
@@ -4679,7 +4679,7 @@
         {
           "id": "rad-dis-grp",
           "component": {
-            "Radio": {
+            "RadioField": {
               "label": "Preference",
               "size": "md",
               "disabled": true,
@@ -4694,7 +4694,7 @@
         {
           "id": "rad-dis-a",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option A",
               "value": "a"
             }
@@ -4703,7 +4703,7 @@
         {
           "id": "rad-dis-b",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option B",
               "value": "b"
             }
@@ -4712,7 +4712,7 @@
         {
           "id": "rad-dis-c",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option C",
               "value": "c"
             }
@@ -4743,7 +4743,7 @@
         {
           "id": "rad-sm-grp",
           "component": {
-            "Radio": {
+            "RadioField": {
               "label": "Preference",
               "size": "sm",
               "children": [
@@ -4757,7 +4757,7 @@
         {
           "id": "rad-sm-a",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option A",
               "value": "a",
               "size": "sm"
@@ -4767,7 +4767,7 @@
         {
           "id": "rad-sm-b",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option B",
               "value": "b",
               "size": "sm"
@@ -4777,7 +4777,7 @@
         {
           "id": "rad-sm-c",
           "component": {
-            "RadioOption": {
+            "RadioFieldOption": {
               "label": "Option C",
               "value": "c",
               "size": "sm"
@@ -5071,7 +5071,7 @@
           "id": "sec-swt-title",
           "component": {
             "Text": {
-              "content": "25. Switch — sizes × states",
+              "content": "25. SwitchField — states",
               "usageHint": "heading-m"
             }
           }
@@ -5093,7 +5093,7 @@
           "id": "swt-sm-lbl",
           "component": {
             "Text": {
-              "content": "size: sm",
+              "content": "default states",
               "usageHint": "caption",
               "color": "muted"
             }
@@ -5115,18 +5115,16 @@
         {
           "id": "swt-sm-off",
           "component": {
-            "Switch": {
-              "label": "Off",
-              "size": "sm"
+            "SwitchField": {
+              "label": "Off"
             }
           }
         },
         {
           "id": "swt-sm-on",
           "component": {
-            "Switch": {
+            "SwitchField": {
               "label": "On",
-              "size": "sm",
               "defaultSelected": true
             }
           }
@@ -5134,9 +5132,8 @@
         {
           "id": "swt-sm-dis",
           "component": {
-            "Switch": {
+            "SwitchField": {
               "label": "Disabled",
-              "size": "sm",
               "disabled": true
             }
           }
@@ -5145,7 +5142,7 @@
           "id": "swt-md-lbl",
           "component": {
             "Text": {
-              "content": "size: md",
+              "content": "additional states",
               "usageHint": "caption",
               "color": "muted"
             }
@@ -5167,18 +5164,16 @@
         {
           "id": "swt-md-off",
           "component": {
-            "Switch": {
-              "label": "Off",
-              "size": "md"
+            "SwitchField": {
+              "label": "Off"
             }
           }
         },
         {
           "id": "swt-md-on",
           "component": {
-            "Switch": {
+            "SwitchField": {
               "label": "On",
-              "size": "md",
               "defaultSelected": true
             }
           }
@@ -5186,9 +5181,8 @@
         {
           "id": "swt-md-dis",
           "component": {
-            "Switch": {
+            "SwitchField": {
               "label": "Disabled",
-              "size": "md",
               "disabled": true
             }
           }
@@ -8668,7 +8662,7 @@
         {
           "id": "chkg-v-1",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Option A",
               "value": "a"
             }
@@ -8677,7 +8671,7 @@
         {
           "id": "chkg-v-2",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Option B",
               "value": "b"
             }
@@ -8686,7 +8680,7 @@
         {
           "id": "chkg-v-3",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Option C",
               "value": "c"
             }
@@ -8710,7 +8704,7 @@
         {
           "id": "chkg-h-1",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Red",
               "value": "red"
             }
@@ -8719,7 +8713,7 @@
         {
           "id": "chkg-h-2",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Green",
               "value": "green"
             }
@@ -8728,7 +8722,7 @@
         {
           "id": "chkg-h-3",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Blue",
               "value": "blue"
             }
@@ -11219,7 +11213,7 @@
         {
           "id": "fset-2-email",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Email notifications",
               "value": "email"
             }
@@ -11228,7 +11222,7 @@
         {
           "id": "fset-2-sms",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "SMS notifications",
               "value": "sms"
             }
@@ -11237,7 +11231,7 @@
         {
           "id": "fset-2-push",
           "component": {
-            "Checkbox": {
+            "CheckboxField": {
               "label": "Push notifications",
               "value": "push"
             }
