@@ -42,7 +42,7 @@ function extractCatalogKeys(source) {
 function extractIconNames(source) {
   const names = [];
   const mapMatch = source.match(/const iconMap[^{]*\{([\s\S]*?)\n\};/);
-  if (!mapMatch) return names;
+  if (!mapMatch) {return names;}
   for (const match of mapMatch[1].matchAll(/^\s+'?([\w-]+)'?\s*:/gm)) {
     names.push(match[1]);
   }
@@ -93,11 +93,11 @@ function validateA2UIDeep(messages, { catalogSet, iconSet, hintSet, allowedProps
     }
 
     if (msg.type === 'beginRendering') {
-      if (!msg.surfaceId) errors.push('beginRendering missing "surfaceId"');
-      if (!msg.rootComponentId) errors.push('beginRendering missing "rootComponentId"');
-      else seenBeginRendering.add(msg.surfaceId);
+      if (!msg.surfaceId) {errors.push('beginRendering missing "surfaceId"');}
+      if (!msg.rootComponentId) {errors.push('beginRendering missing "rootComponentId"');}
+      else {seenBeginRendering.add(msg.surfaceId);}
     } else if (msg.type === 'surfaceUpdate') {
-      if (!msg.surfaceId) errors.push('surfaceUpdate missing "surfaceId"');
+      if (!msg.surfaceId) {errors.push('surfaceUpdate missing "surfaceId"');}
       else if (!seenBeginRendering.has(msg.surfaceId)) {
         errors.push(`surfaceUpdate for "${msg.surfaceId}" before beginRendering`);
       }
@@ -110,7 +110,7 @@ function validateA2UIDeep(messages, { catalogSet, iconSet, hintSet, allowedProps
 
       // First pass: collect IDs
       for (const comp of msg.components) {
-        if (comp.id) ids.add(comp.id);
+        if (comp.id) {ids.add(comp.id);}
       }
 
       // Check rootComponentId exists
@@ -183,12 +183,12 @@ function validateA2UIDeep(messages, { catalogSet, iconSet, hintSet, allowedProps
 
         // Per-type prop value check
         for (const [propName, propValue] of Object.entries(props)) {
-          if (typeof propValue !== 'string') continue;
+          if (typeof propValue !== 'string') {continue;}
           const typeKey = `${typeName}.${propName}`;
           const allowed = typeKey in PROP_ALLOWED_VALUES
             ? PROP_ALLOWED_VALUES[typeKey]
             : PROP_ALLOWED_VALUES[propName];
-          if (!allowed) continue;
+          if (!allowed) {continue;}
           if (!allowed.includes(propValue)) {
             errors.push(`Invalid value "${propValue}" for ${typeName}.${propName} on "${comp.id}". Allowed: ${allowed.join(', ')}`);
           }
@@ -204,12 +204,12 @@ function validateA2UIDeep(messages, { catalogSet, iconSet, hintSet, allowedProps
         }
       }
     } else if (msg.type === 'dataModelUpdate') {
-      if (!msg.surfaceId) errors.push('dataModelUpdate missing "surfaceId"');
+      if (!msg.surfaceId) {errors.push('dataModelUpdate missing "surfaceId"');}
       if (typeof msg.path !== 'string' && (!msg.data || typeof msg.data !== 'object')) {
         errors.push('dataModelUpdate requires "path" string or "data" object');
       }
     } else if (msg.type === 'deleteSurface') {
-      if (!msg.surfaceId) errors.push('deleteSurface missing "surfaceId"');
+      if (!msg.surfaceId) {errors.push('deleteSurface missing "surfaceId"');}
     } else {
       errors.push(`Unknown message type: "${msg.type}"`);
     }
@@ -265,14 +265,14 @@ for (const file of files) {
 }
 
 if (isJson) {
-  process.stdout.write(JSON.stringify(results, null, 2) + '\n');
+  process.stdout.write(`${JSON.stringify(results, null, 2)  }\n`);
 } else {
   let hasErrors = false;
   for (const r of results) {
     const status = r.errors.length === 0 ? '✓' : '✗';
     console.log(`${status} ${r.slug}`);
-    for (const e of r.errors) {
-      console.log(`    ERROR: ${e}`);
+    for (const entry of r.errors) {
+      console.log(`    ERROR: ${entry}`);
       hasErrors = true;
     }
     for (const w of r.warnings) {
@@ -281,5 +281,5 @@ if (isJson) {
   }
   const errorCount = results.filter(r => r.errors.length > 0).length;
   console.log(`\n${files.length} golden prompts validated, ${errorCount} with errors`);
-  if (hasErrors) process.exit(1);
+  if (hasErrors) {process.exit(1);}
 }

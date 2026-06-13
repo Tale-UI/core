@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DotIcon } from '@tale-ui/react/dot-icon';
 
@@ -60,10 +61,10 @@ export const AllVariations: Story = {
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {colors.map((c) => (
-          <>
+          <React.Fragment>
             <div key={`label-${c}`} className="story-label">{c}</div>
             {sizes.map((s) => <DotIcon key={`${c}-${s}`} color={c} size={s} />)}
-          </>
+          </React.Fragment>
         ))}
       </div>
     );

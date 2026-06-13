@@ -1,6 +1,6 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Table } from '@tale-ui/react/table';
-import { useState } from 'react';
 import type { SortDescriptor } from 'react-aria-components';
 
 type Args = {
@@ -120,7 +120,7 @@ export const WithSorting: Story = {
     controls: { disable: true },
   },
   render() {
-    const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
       column: 'name',
       direction: 'ascending',
     });
@@ -165,7 +165,7 @@ export const WithSorting: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
       column: 'name',
       direction: 'ascending',
     });

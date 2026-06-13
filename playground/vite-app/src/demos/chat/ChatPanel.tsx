@@ -82,9 +82,9 @@ function ChatInput({
 }) {
   const [text, setText] = React.useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!text.trim() || disabled) return;
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!text.trim() || disabled) {return;}
     onSend(text.trim());
     setText('');
   };
@@ -162,7 +162,7 @@ export function ChatPanel({
         <SelectNative
           aria-label="Provider"
           value={provider}
-          onChange={(e) => onProviderChange(e.target.value as Provider)}
+          onChange={(entry) => onProviderChange(entry.target.value as Provider)}
           size="sm"
         >
           <option value="anthropic">Anthropic</option>
@@ -203,7 +203,7 @@ export function ChatPanel({
             className="tale-input"
             type="password"
             value={apiKey}
-            onChange={(e) => onApiKeyChange(e.target.value)}
+            onChange={(entry) => onApiKeyChange(entry.target.value)}
             placeholder={provider === 'anthropic' ? 'sk-ant-...' : provider === 'straico' ? 'straico-key-...' : 'sk-...'}
             aria-label="API key"
             style={{ flex: 1, fontFamily: 'var(--mono-font-family)', fontSize: 'var(--text-xs-font-size)' }}

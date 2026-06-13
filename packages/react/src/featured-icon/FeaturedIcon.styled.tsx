@@ -38,8 +38,8 @@ export interface FeaturedIconProps extends Omit<React.ComponentPropsWithoutRef<'
 export const FeaturedIcon = React.forwardRef<HTMLSpanElement, FeaturedIconProps>(
   ({ variant = 'brand', shape = 'circle', size = 'md', theme = 'light', className, ...props }, ref) => {
     const classes = [`tale-featured-icon tale-featured-icon--${variant} tale-featured-icon--${size}`];
-    if (shape === 'square') classes.push('tale-featured-icon--square');
-    if (theme !== 'light') classes.push(`tale-featured-icon--${theme}`);
+    if (shape === 'square') {classes.push('tale-featured-icon--square');}
+    if (theme !== 'light') {classes.push(`tale-featured-icon--${theme}`);}
 
     return (
       <span

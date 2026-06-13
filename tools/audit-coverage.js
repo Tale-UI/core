@@ -92,7 +92,7 @@ function parseStorybookCoverage() {
     for (const match of source.matchAll(/import\s+\{([^}]+)\}\s+from\s+'@tale-ui\/react\/[^']+'/g)) {
       for (const name of match[1].split(',')) {
         const trimmed = name.trim().split(/\s+as\s+/)[0].trim();
-        if (/^[A-Z]/.test(trimmed)) covered.add(trimmed);
+        if (/^[A-Z]/.test(trimmed)) {covered.add(trimmed);}
       }
     }
   }
@@ -106,10 +106,10 @@ function parseShowcaseCoverage() {
   const showcase = JSON.parse(fs.readFileSync(FULL_SHOWCASE, 'utf8'));
   const covered = new Set();
   for (const msg of showcase.messages || []) {
-    if (msg.type !== 'surfaceUpdate') continue;
+    if (msg.type !== 'surfaceUpdate') {continue;}
     for (const comp of msg.components || []) {
       const typeName = Object.keys(comp.component || {})[0];
-      if (typeName) covered.add(typeName);
+      if (typeName) {covered.add(typeName);}
     }
   }
   return covered;
@@ -191,7 +191,7 @@ function main() {
 
   if (hasGaps) {
     console.log(`Coverage gaps found.`);
-    if (isCheck) process.exit(1);
+    if (isCheck) {process.exit(1);}
   } else {
     console.log('All coverage checks passed.');
   }

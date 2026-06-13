@@ -116,8 +116,8 @@ export const Trigger = React.forwardRef<HTMLSpanElement, TriggerProps>(
     const mergedRef = React.useCallback(
       (node: HTMLSpanElement | null) => {
         (triggerRef as React.MutableRefObject<HTMLSpanElement | null>).current = node;
-        if (typeof ref === 'function') ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLSpanElement | null>).current = node;
+        if (typeof ref === 'function') {ref(node);}
+        else if (ref) {(ref as React.MutableRefObject<HTMLSpanElement | null>).current = node;}
       },
       [ref, triggerRef],
     );
@@ -169,15 +169,15 @@ export const Popup = React.forwardRef<
   const mergedRef = React.useCallback(
     (node: HTMLDivElement | null) => {
       (popoverRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-      if (typeof ref === 'function') ref(node);
-      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      if (typeof ref === 'function') {ref(node);}
+      else if (ref) {(ref as React.MutableRefObject<HTMLDivElement | null>).current = node;}
     },
     [ref],
   );
 
   React.useEffect(() => {
     const el = popoverRef.current;
-    if (!el) return;
+    if (!el) {return;}
     el.addEventListener('pointerenter', onHoverKeepOpen);
     el.addEventListener('pointerleave', onHoverClose);
     return () => {
@@ -202,7 +202,7 @@ export const Popup = React.forwardRef<
       ref={mergedRef}
       triggerRef={triggerRef}
       isOpen={isOpen}
-      onOpenChange={(open) => { if (!open) close(); }}
+      onOpenChange={(open) => { if (!open) {close();} }}
       isNonModal
       className={cx('tale-preview-card__popup', className)}
       {...props}

@@ -48,7 +48,7 @@ export const Root: React.FC<React.PropsWithChildren<RootProps>> = ({ data, width
   const enhanced = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && (child.type as any)?.displayName === 'LineChart.Line') {
       const color = colors[lineIndex % colors.length];
-      lineIndex++;
+      lineIndex += 1;
       return React.cloneElement(child as React.ReactElement<any>, {
         stroke: (child.props as any).stroke ?? color,
       });

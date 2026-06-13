@@ -83,7 +83,7 @@ for (const component of registry.components) {
 const allDocFiles = fs.readdirSync(DOCS_DIR).filter(f => f.endsWith('.md') && f !== 'index.md');
 for (const file of allDocFiles) {
   const content = readFile(path.join(DOCS_DIR, file));
-  if (!content) continue;
+  if (!content) {continue;}
   const slug = file.replace('.md', '');
   const component = registry.components.find(c => c.slug === slug);
   if (!component) {
@@ -104,7 +104,7 @@ if (issues === 0 && warnings === 0) {
   const totalCrossRefs = registry.components.reduce((n, c) => n + (c.crossPitfallRefs?.length || 0), 0);
   console.log(`✅ Pitfall consistency OK — ${totalPitfalls} component pitfalls, ${totalCrossRefs} cross-pitfall refs, all resolve correctly.`);
 } else {
-  if (warnings > 0) console.warn(`⚠️  ${warnings} warning(s)`);
+  if (warnings > 0) {console.warn(`⚠️  ${warnings} warning(s)`);}
   if (issues > 0) {
     console.error(`❌ ${issues} consistency error(s) found.`);
     process.exit(1);

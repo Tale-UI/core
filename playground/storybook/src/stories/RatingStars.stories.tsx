@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { RatingStars } from '@tale-ui/react/rating-stars';
 import { RatingBadge } from '@tale-ui/react/rating-badge';
@@ -109,10 +110,10 @@ export const AllVariations: Story = {
             <div />
             {values.map((v) => <div key={v} className="story-label">{v}</div>)}
             {sizes.map((s) => (
-              <>
+              <React.Fragment>
                 <div key={`label-${s}`} className="story-label">{s}</div>
                 {values.map((v) => <RatingStars key={`${s}-${v}`} value={v} size={s} />)}
-              </>
+              </React.Fragment>
             ))}
           </div>
         </div>

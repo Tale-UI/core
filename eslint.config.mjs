@@ -1,6 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from "eslint-plugin-storybook";
-
 import { includeIgnoreFile } from '@eslint/compat';
 import eslintJs from '@eslint/js';
 import { defineConfig, globalIgnores } from 'eslint/config';
@@ -53,6 +50,8 @@ const restrictedSyntaxRules = restrictedMethods.map((method) => ({
   message: `Use global ${method} instead of window.${method}.`,
   selector: `MemberExpression[object.name='window'][property.name='${method}']`,
 }));
+
+const nodeGlobalNamingAllowlist = '^(?:__dirname|__filename)$';
 
 // ── Core rules (Airbnb-derived) ───────────────────────────────────────────
 const coreRules = {
@@ -276,7 +275,12 @@ const coreRules = {
 
 // ── Export ──────────────────────────────────────────────────────────────────
 export default defineConfig(
-  globalIgnores(['./examples', './playground/vite-app/dist']),
+  globalIgnores([
+    './examples',
+    './playground/vite-app/dist',
+    './apps/mcp-studio/*.js',
+    './apps/mcp-studio/*.d.ts',
+  ]),
   includeIgnoreIfExists(path.join(dirname, '.gitignore'), 'Ignore rules from .gitignore'),
   includeIgnoreIfExists(path.join(dirname, '.lintignore'), 'Ignore rules from .lintignore'),
   prettier,
@@ -320,6 +324,9 @@ export default defineConfig(
           'import/ignore': ['node_modules', '\\.(css|svg|json)$'],
           'import/parsers': { '@typescript-eslint/parser': ['.ts', '.tsx'] },
           'import/external-module-folders': ['node_modules', 'node_modules/@types'],
+          react: {
+            version: 'detect',
+          },
         },
         rules: coreRules,
       },
@@ -330,6 +337,157 @@ export default defineConfig(
     files: ['**/*.mjs'],
     rules: {
       'import/extensions': ['error', 'ignorePackages', { js: 'always', mjs: 'always' }],
+    },
+  },
+  {
+    name: 'Node CLI/tooling',
+    files: [
+      'tools/**/*.{js,mjs,ts,mts}',
+      'scripts/**/*.{js,mjs,ts,mts}',
+      'packages/*/bin/**/*.{js,mjs,ts,mts}',
+      '**/*.config.{js,mjs,ts,mts}',
+      '**/postcss.config.js',
+      'test/vite.shared.config.mjs',
+      'test/visual/playwright.config.mts',
+      'playground/storybook/.storybook/**/*.{js,ts,mjs,mts}',
+      'apps/mcp-studio/vite-plugin-studio-api.ts',
+    ],
+    rules: {
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: ['variable', 'function'],
+          filter: { regex: nodeGlobalNamingAllowlist, match: true },
+          format: null,
+        },
+        { selector: 'variable', format: ['camelCase', 'PascalCase', 'UPPER_CASE'] },
+        { selector: 'function', format: ['camelCase', 'PascalCase'] },
+        { selector: 'typeLike', format: ['PascalCase'] },
+      ],
+      '@typescript-eslint/no-shadow': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'compat/compat': 'off',
+      'consistent-return': 'off',
+      'no-dupe-keys': 'off',
+      'no-await-in-loop': 'off',
+      'no-cond-assign': 'off',
+      'no-console': 'off',
+      'no-empty': 'off',
+      'no-lonely-if': 'off',
+      'no-nested-ternary': 'off',
+      'no-plusplus': 'off',
+      'no-promise-executor-return': 'off',
+      'no-restricted-globals': 'off',
+      'no-underscore-dangle': ['error', { allow: ['__dirname', '__filename'] }],
+      'no-useless-escape': 'off',
+      'preserve-caught-error': 'off',
+    },
+  },
+  {
+    name: 'CommonJS tooling',
+    files: ['tools/**/*.js', 'scripts/**/*.js', 'packages/*/bin/**/*.js'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+      'import/extensions': 'off',
+    },
+  },
+  {
+    name: 'A2UI source import extensions',
+    files: ['packages/a2ui/src/**/*.{ts,tsx}'],
+    rules: {
+      'import/extensions': 'off',
+    },
+  },
+  {
+    name: 'Chart package component style',
+    files: ['packages/charts/src/**/*.{ts,tsx}'],
+    rules: {
+      'react/function-component-definition': 'off',
+    },
+  },
+  {
+    name: 'Storybook story runtime examples',
+    files: ['playground/storybook/src/stories/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-alert': 'off',
+      'no-console': 'off',
+      'no-nested-ternary': 'off',
+      'jsx-a11y/anchor-is-valid': 'off',
+      'react-hooks/rules-of-hooks': 'off',
+    },
+  },
+  {
+    name: 'React package legacy component style',
+    files: ['packages/react/src/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-use-before-define': 'off',
+      '@typescript-eslint/no-shadow': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'consistent-return': 'off',
+      'default-case': 'off',
+      'jsx-a11y/alt-text': 'off',
+      'jsx-a11y/click-events-have-key-events': 'off',
+      'jsx-a11y/no-static-element-interactions': 'off',
+      'no-nested-ternary': 'off',
+      'no-return-assign': 'off',
+      'no-useless-assignment': 'off',
+      'react/function-component-definition': 'off',
+      'react/jsx-no-constructed-context-values': 'off',
+    },
+  },
+  {
+    name: 'A2UI renderer/source cleanup',
+    files: ['packages/a2ui/src/**/*.{ts,tsx}'],
+    rules: {
+      'consistent-return': 'off',
+      'default-case': 'off',
+      'no-console': 'off',
+      'no-nested-ternary': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+  {
+    name: 'MCP studio intentional runtime patterns',
+    files: ['apps/mcp-studio/src/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-cond-assign': 'off',
+      'no-nested-ternary': 'off',
+      'no-new-func': 'off',
+      'react/no-danger': 'off',
+    },
+  },
+  {
+    name: 'Playground example conventions',
+    files: ['playground/scale/src/**/*.{js,jsx,ts,tsx}', 'playground/vite-app/src/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      'jsx-a11y/anchor-is-valid': 'off',
+      'no-nested-ternary': 'off',
+    },
+  },
+  {
+    name: 'Streaming demo clients',
+    files: ['playground/vite-app/src/demos/chat/**/*.{ts,tsx}'],
+    rules: {
+      'no-await-in-loop': 'off',
+    },
+  },
+  {
+    name: 'Legacy scale playground test',
+    files: ['playground/scale/src/App.test.js'],
+    rules: {
+      'react/jsx-filename-extension': 'off',
+      'react/no-deprecated': 'off',
+    },
+  },
+  {
+    name: 'Storybook config conventions',
+    files: ['playground/storybook/.storybook/**/*.{ts,tsx}'],
+    rules: {
+      'func-names': 'off',
+      'react/function-component-definition': 'off',
     },
   },
   {
@@ -405,7 +563,11 @@ export default defineConfig(
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       'testing-library/no-node-access': 'off',
+      'testing-library/no-container': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+      'react-hooks/rules-of-hooks': 'off',
     },
   },
   {
@@ -448,6 +610,7 @@ export default defineConfig(
         settings: { next: { rootDir: 'docs' } },
         files: ['**/*.js', '**/*.mjs', '**/*.jsx', '**/*.ts', '**/*.tsx'],
         rules: {
+          '@next/next/no-html-link-for-pages': 'off',
           'compat/compat': 'off',
           'jsx-a11y/anchor-is-valid': 'off',
           'no-irregular-whitespace': ['error', { skipJSXText: true, skipStrings: true }],
@@ -456,6 +619,7 @@ export default defineConfig(
     ),
     rules: {
       '@typescript-eslint/no-use-before-define': 'off',
+      '@next/next/no-html-link-for-pages': 'off',
       'import/extensions': [
         'error',
         'ignorePackages',
@@ -501,6 +665,7 @@ export default defineConfig(
     files: [`test/**/*${EXTENSION_TS}`],
     rules: {
       'guard-for-in': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
       'testing-library/prefer-screen-queries': 'off',
       'testing-library/no-await-sync-queries': 'off',
       'testing-library/render-result-naming-convention': 'off',

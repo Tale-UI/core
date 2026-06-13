@@ -172,7 +172,7 @@ function findClaude() {
     '/opt/homebrew/bin/claude',
   ].filter(Boolean);
   for (const p of candidates) {
-    if (existsSync(p)) return p;
+    if (existsSync(p)) {return p;}
   }
   try {
     return execFileSync('which', ['claude'], { encoding: 'utf8' }).trim();
@@ -189,7 +189,7 @@ function findCodex() {
     '/opt/homebrew/bin/codex',
   ].filter(Boolean);
   for (const p of candidates) {
-    if (existsSync(p)) return p;
+    if (existsSync(p)) {return p;}
   }
   try {
     return execFileSync('which', ['codex'], { encoding: 'utf8' }).trim();
@@ -288,8 +288,8 @@ if (PROVIDER === 'codex' || FIX_PROVIDER === 'codex') {
 function getEvalPromptCount(slugs = null) {
   let prompts = GOLDEN_PROMPTS;
   if (FILTER_DIFFICULTY)
-    prompts = prompts.filter((prompt) => prompt.difficulty === FILTER_DIFFICULTY);
-  if (FILTER_SLUG) prompts = prompts.filter((prompt) => prompt.slug === FILTER_SLUG);
+    {prompts = prompts.filter((prompt) => prompt.difficulty === FILTER_DIFFICULTY);}
+  if (FILTER_SLUG) {prompts = prompts.filter((prompt) => prompt.slug === FILTER_SLUG);}
   if (FILTER_SLUGS?.length) {
     const filterSlugSet = new Set(FILTER_SLUGS);
     prompts = prompts.filter((prompt) => filterSlugSet.has(prompt.slug));
@@ -302,9 +302,9 @@ function getEvalPromptCount(slugs = null) {
 }
 
 function getPerPromptEvalBudgetMs() {
-  if (PROVIDER === 'local') return MCP_MODE ? 600000 : 365000; // 10 min with MCP tool loop, 6 min without
-  if (PROVIDER === 'straico') return 370000;
-  if (PROVIDER === 'codex') return MCP_MODE ? 180000 : 120000;
+  if (PROVIDER === 'local') {return MCP_MODE ? 600000 : 365000;} // 10 min with MCP tool loop, 6 min without
+  if (PROVIDER === 'straico') {return 370000;}
+  if (PROVIDER === 'codex') {return MCP_MODE ? 180000 : 120000;}
   return MCP_MODE ? 180000 : 90000;
 }
 
@@ -321,8 +321,8 @@ function runEval(slugs = null, { skipGenerate = false } = {}) {
   extraArgs.push('--model', MODEL);
   extraArgs.push('--provider', PROVIDER);
   extraArgs.push('--concurrency', String(EVAL_CONCURRENCY));
-  if (PROVIDER === 'local') extraArgs.push('--local-url', LOCAL_URL);
-  if (FILTER_DIFFICULTY) extraArgs.push('--difficulty', FILTER_DIFFICULTY);
+  if (PROVIDER === 'local') {extraArgs.push('--local-url', LOCAL_URL);}
+  if (FILTER_DIFFICULTY) {extraArgs.push('--difficulty', FILTER_DIFFICULTY);}
   if (slugs?.length) {
     extraArgs.push('--slugs', slugs.join(','));
   } else if (FILTER_SLUGS?.length) {
@@ -330,9 +330,9 @@ function runEval(slugs = null, { skipGenerate = false } = {}) {
   } else if (FILTER_SLUG) {
     extraArgs.push('--slug', FILTER_SLUG);
   }
-  if (NO_CACHE) extraArgs.push('--no-cache');
-  if (FRESH) extraArgs.push('--fresh');
-  if (skipGenerate) extraArgs.push('--skip-generate');
+  if (NO_CACHE) {extraArgs.push('--no-cache');}
+  if (FRESH) {extraArgs.push('--fresh');}
+  if (skipGenerate) {extraArgs.push('--skip-generate');}
   extraArgs.push('--quiet-passing'); // hide passing one-liners; fix-review only cares about failures
   if (MCP_MODE) {
     extraArgs.push('--mcp');
@@ -352,7 +352,7 @@ function runEval(slugs = null, { skipGenerate = false } = {}) {
     process.stderr.write(proc.stderr);
   }
 
-  if (proc.error) throw new Error(`Eval script failed: ${proc.error.message}`);
+  if (proc.error) {throw new Error(`Eval script failed: ${proc.error.message}`);}
   if (proc.status !== 0) {
     const details = [proc.stdout, proc.stderr].filter(Boolean).join('\n');
     if (isProviderQuotaMessage(details)) {
@@ -361,7 +361,7 @@ function runEval(slugs = null, { skipGenerate = false } = {}) {
     throw new Error(`Eval script exited with status ${proc.status}.`);
   }
   if (!proc.stdout?.trim())
-    throw new Error('Eval script produced no output — it may have timed out or crashed.');
+    {throw new Error('Eval script produced no output — it may have timed out or crashed.');}
   const evalResult = JSON.parse(proc.stdout);
   assertNoProviderQuotaFailures(evalResult);
   return evalResult;
@@ -418,11 +418,11 @@ function runGoldenPatchabilityAudit() {
 function buildErrorSummary(result) {
   const lines = [];
   if (!result.l1.pass)
-    lines.push(
-      `L1 (validation/policy errors):\n${result.l1.errors.map((e) => `  - ${e}`).join('\n')}`,
-    );
-  if (!result.l2.pass) lines.push(`L2 (missing components): ${result.l2.missing.join(', ')}`);
-  if (!result.l3.pass) lines.push(`L3 (forbidden imports): ${result.l3.forbidden.join(', ')}`);
+    {lines.push(
+      `L1 (validation/policy errors):\n${result.l1.errors.map((entry) => `  - ${entry}`).join('\n')}`,
+    );}
+  if (!result.l2.pass) {lines.push(`L2 (missing components): ${result.l2.missing.join(', ')}`);}
+  if (!result.l3.pass) {lines.push(`L3 (forbidden imports): ${result.l3.forbidden.join(', ')}`);}
   return lines.join('\n');
 }
 
@@ -469,7 +469,7 @@ function buildPatchTargetIndex() {
   const sharedRegistry = readJsonFile(join(ROOT, 'registry/pitfalls.json'), {});
 
   for (const pitfall of sharedRegistry.crossComponentPitfalls ?? []) {
-    if (!pitfall?.id || !pitfall?.summary) continue;
+    if (!pitfall?.id || !pitfall?.summary) {continue;}
     entries.push({
       id: pitfall.id,
       section: `cross:${pitfall.category ?? 'general'}`,
@@ -479,7 +479,7 @@ function buildPatchTargetIndex() {
   }
 
   for (const pitfall of sharedRegistry.generalConventions ?? []) {
-    if (!pitfall?.id || !pitfall?.summary) continue;
+    if (!pitfall?.id || !pitfall?.summary) {continue;}
     entries.push({
       id: pitfall.id,
       section: 'general',
@@ -491,7 +491,7 @@ function buildPatchTargetIndex() {
   const componentRegistry = readJsonFile(join(ROOT, 'registry/components.json'), {});
   for (const component of componentRegistry.components ?? []) {
     for (const pitfall of component.pitfalls ?? []) {
-      if (!component?.name || !component?.slug || !pitfall?.id || !pitfall?.summary) continue;
+      if (!component?.name || !component?.slug || !pitfall?.id || !pitfall?.summary) {continue;}
       entries.push({
         id: pitfall.id,
         section: `component:${component.name}`,
@@ -641,7 +641,7 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
       lastErr = null;
       break;
     }
-    if (lastErr) throw lastErr;
+    if (lastErr) {throw lastErr;}
   } else if (FIX_PROVIDER === 'local') {
     const MAX_RETRIES = 2;
     let lastErr;
@@ -695,7 +695,7 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
       lastErr = null;
       break;
     }
-    if (lastErr) throw lastErr;
+    if (lastErr) {throw lastErr;}
   } else if (FIX_PROVIDER === 'codex') {
     const codexFixModel = CODEX_MODEL_ALIASES[FIX_MODEL] ?? FIX_MODEL;
     const fullPrompt = `${fixPrompt}\n\n---\n\nOutput only the JSON fix object as instructed. No explanation, no markdown fences.`;
@@ -717,7 +717,7 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
             input: fullPrompt,
           },
         );
-        if (proc.error) throw proc.error;
+        if (proc.error) {throw proc.error;}
         const outputText = existsSync(outputFile) ? readFileSync(outputFile, 'utf8').trim() : '';
         const stdoutText = proc.stdout?.trim() ?? '';
         const stderrText = proc.stderr?.trim() ?? '';
@@ -741,7 +741,7 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
             );
           }
           if (details)
-            throw new Error(`Codex did not produce a fix payload: ${details.slice(0, 400)}`);
+            {throw new Error(`Codex did not produce a fix payload: ${details.slice(0, 400)}`);}
           throw new Error('Codex did not write output file');
         }
         lastErr = null;
@@ -757,7 +757,7 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
         }
       }
     }
-    if (lastErr) throw lastErr;
+    if (lastErr) {throw lastErr;}
   } else {
     const tmpFile = join(tmpdir(), `tale-ui-fix-prompt-${process.pid}.md`);
     writeFileSync(tmpFile, fixPrompt, 'utf8');
@@ -809,7 +809,7 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
           }
         }
       }
-      if (lastErr) throw lastErr;
+      if (lastErr) {throw lastErr;}
     } finally {
       try {
         execFileSync('rm', [tmpFile]);
@@ -821,16 +821,16 @@ async function getFix(result, failedPatchReasons = [], tags = []) {
 
   // Extract JSON from the response (may be wrapped in fences)
   const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error('No JSON found in response');
+  if (!jsonMatch) {throw new Error('No JSON found in response');}
   const parsedFix = JSON.parse(jsonMatch[0]);
-  if (typeof parsedFix.targetFile !== 'string') parsedFix.targetFile = '';
-  if (typeof parsedFix.targetPitfallSlug !== 'string') parsedFix.targetPitfallSlug = '';
-  if (typeof parsedFix.newPitfallSlug !== 'string') parsedFix.newPitfallSlug = '';
-  if (typeof parsedFix.summary !== 'string') parsedFix.summary = '';
-  if (typeof parsedFix.details !== 'string') parsedFix.details = '';
-  if (!Array.isArray(parsedFix.antiPatterns)) parsedFix.antiPatterns = [];
-  if (!Array.isArray(parsedFix.fixes)) parsedFix.fixes = [];
-  if (typeof parsedFix.completeExample !== 'string') parsedFix.completeExample = '';
+  if (typeof parsedFix.targetFile !== 'string') {parsedFix.targetFile = '';}
+  if (typeof parsedFix.targetPitfallSlug !== 'string') {parsedFix.targetPitfallSlug = '';}
+  if (typeof parsedFix.newPitfallSlug !== 'string') {parsedFix.newPitfallSlug = '';}
+  if (typeof parsedFix.summary !== 'string') {parsedFix.summary = '';}
+  if (typeof parsedFix.details !== 'string') {parsedFix.details = '';}
+  if (!Array.isArray(parsedFix.antiPatterns)) {parsedFix.antiPatterns = [];}
+  if (!Array.isArray(parsedFix.fixes)) {parsedFix.fixes = [];}
+  if (typeof parsedFix.completeExample !== 'string') {parsedFix.completeExample = '';}
   if (!PITFALL_FIX_OPERATIONS.has(parsedFix.operation)) {
     parsedFix.operation = parsedFix.old?.trim() ? 'replace_pitfall' : 'append_pitfall';
   }
@@ -863,14 +863,14 @@ function applySourceFix(fix, evalContextContent) {
   // double-backtick like `<Row justify="between">`` (closing backtick + stray backtick).
   // Collapse any repeated trailing backticks to a single closing backtick to keep
   // anti-pattern/fix sub-bullets valid when the model over-closes inline code.
-  if (fix.new) fix.new = sanitizeTrailingDoubleBackticks(fix.new);
+  if (fix.new) {fix.new = sanitizeTrailingDoubleBackticks(fix.new);}
 
   let fileContent = readFileSync(target.filePath, 'utf8');
   let section = extractSection(fileContent, target.sectionHeading);
   if (!section) {
     if (target.isComponent && target.sectionHeading === 'Pitfalls') {
       console.log(`      ${C.dim('Auto-creating ## Pitfalls section in')} ${target.filePath}`);
-      fileContent = fileContent.trimEnd() + '\n\n## Pitfalls\n';
+      fileContent = `${fileContent.trimEnd()  }\n\n## Pitfalls\n`;
       writeFileSync(target.filePath, fileContent, 'utf8');
       section = extractSection(fileContent, 'Pitfalls');
     }
@@ -949,12 +949,12 @@ function showDocsPatch(modifiedFiles = new Set()) {
 }
 
 function writeSummaryFile(summary) {
-  if (!SUMMARY_FILE) return;
+  if (!SUMMARY_FILE) {return;}
   writeFileSync(SUMMARY_FILE, `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
 }
 
 function readResumeState(filePath) {
-  if (!RESUME || RESET_RESUME || !existsSync(filePath)) return null;
+  if (!RESUME || RESET_RESUME || !existsSync(filePath)) {return null;}
   try {
     return JSON.parse(readFileSync(filePath, 'utf8'));
   } catch (err) {
@@ -1037,7 +1037,7 @@ function parseImports(code) {
       // Collect lines until we see `from '...'` or `from "..."`
       let block = '';
       while (i < lines.length) {
-        block += lines[i] + '\n';
+        block += `${lines[i]  }\n`;
         if (/from\s+['"][^'"]+['"]\s*;?\s*$/.test(lines[i])) {
           i++;
           break;
@@ -1229,8 +1229,8 @@ function mergeImports(codeBlocks) {
   for (const code of codeBlocks) {
     for (const { names, pkg, isType } of parseImports(code)) {
       const map = isType ? typed : named;
-      if (!map.has(pkg)) map.set(pkg, new Set());
-      for (const n of names) map.get(pkg).add(n);
+      if (!map.has(pkg)) {map.set(pkg, new Set());}
+      for (const n of names) {map.get(pkg).add(n);}
     }
   }
 
@@ -1242,24 +1242,24 @@ function mergeImports(codeBlocks) {
     for (const [pkg, names] of map) {
       for (const name of names) {
         const localName = parseImportSpec(name).local;
-        if (!nameToPackages.has(localName)) nameToPackages.set(localName, []);
+        if (!nameToPackages.has(localName)) {nameToPackages.set(localName, []);}
         nameToPackages.get(localName).push(pkg);
       }
     }
     for (const [localName, pkgs] of nameToPackages) {
-      if (pkgs.length < 2) continue;
+      if (pkgs.length < 2) {continue;}
       // Prefer the most specific (longest) path — deep imports over barrel
       const keep = pkgs.reduce((a, b) => (b.length > a.length ? b : a));
       for (const pkg of pkgs) {
-        if (pkg === keep) continue;
+        if (pkg === keep) {continue;}
         for (const spec of [...map.get(pkg)]) {
-          if (parseImportSpec(spec).local === localName) map.get(pkg).delete(spec);
+          if (parseImportSpec(spec).local === localName) {map.get(pkg).delete(spec);}
         }
       }
     }
     // Drop packages whose Set became empty
     for (const [pkg, names] of map) {
-      if (names.size === 0) map.delete(pkg);
+      if (names.size === 0) {map.delete(pkg);}
     }
   }
 
@@ -1283,16 +1283,16 @@ function pruneUnusedImports(importBlock, bodyText) {
     .split('\n')
     .map((line) => {
       const namesMatch = line.match(/\{([\s\S]*?)\}/);
-      if (!namesMatch) return line;
+      if (!namesMatch) {return line;}
       const usedNames = namesMatch[1]
         .split(',')
         .map((s) => s.trim())
         .filter((n) => {
-          if (!n) return false;
+          if (!n) {return false;}
           const localName = parseImportSpec(n).local;
           return new RegExp(`\\b${escapeRegExp(localName)}\\b`).test(bodyText);
         });
-      if (usedNames.length === 0) return null;
+      if (usedNames.length === 0) {return null;}
       return line.replace(/\{[\s\S]*?\}/, `{ ${usedNames.join(', ')} }`);
     })
     .filter((line) => line !== null)
@@ -1312,12 +1312,12 @@ function suppressUnusedLocals(code) {
   return lines
     .map((line, idx) => {
       const m = line.match(/^(\s*const\s+)([a-zA-Z_$][a-zA-Z0-9_$]*)(\s*=)/);
-      if (!m) return line;
+      if (!m) {return line;}
       const ident = m[2];
-      if (ident.startsWith('_')) return line; // already suppressed
+      if (ident.startsWith('_')) {return line;} // already suppressed
       const otherLines = [...lines.slice(0, idx), ...lines.slice(idx + 1)];
       const usedElsewhere = otherLines.some((l) => new RegExp(`\\b${ident}\\b`).test(l));
-      if (usedElsewhere) return line;
+      if (usedElsewhere) {return line;}
       // Drop `const <ident> = ` entirely, leaving just the expression statement.
       // (_-prefix suppresses noUnusedParameters but NOT noUnusedLocals in tsc.)
       return line.replace(/^(\s*)const\s+[a-zA-Z_$][a-zA-Z0-9_$]*\s*=\s*/, '$1');
@@ -1336,7 +1336,7 @@ function stripImports(code) {
       while (i < lines.length) {
         const l = lines[i++];
         // Single-line import, or the closing `from '...'` line of a multi-line import
-        if (/from\s+['"][^'"]+['"]\s*;?\s*$/.test(l)) break;
+        if (/from\s+['"][^'"]+['"]\s*;?\s*$/.test(l)) {break;}
       }
     } else {
       out.push(line);
@@ -1348,11 +1348,11 @@ function stripImports(code) {
 
 function toFuncName(slug) {
   return (
-    'Eval' +
+    `Eval${ 
     slug
       .split('-')
       .map((s) => s[0].toUpperCase() + s.slice(1))
-      .join('')
+      .join('')}`
   );
 }
 
@@ -1412,7 +1412,7 @@ function renameExport(code, slug) {
   if (!/^(function|const)\s+Eval/m.test(renamed)) {
     // Strip trailing semicolons (model sometimes emits `<X />;`) and guard against empty bodies
     const body = renamed.trimEnd().replace(/;$/, '').trim();
-    if (!body) return `function ${name}() { return null; }`;
+    if (!body) {return `function ${name}() { return null; }`;}
     return `function ${name}() {\n  return (\n${body
       .split('\n')
       .map((l) => `    ${l}`)
@@ -1547,7 +1547,7 @@ ${sections}
 function ensureEvalRoute() {
   let routes = readFileSync(ROUTES_FILE, 'utf8');
 
-  if (routes.includes("path: '/eval-review'")) return; // already registered
+  if (routes.includes("path: '/eval-review'")) {return;} // already registered
 
   // Add import
   routes = routes.replace(
@@ -1591,7 +1591,7 @@ function checkPort(port) {
 async function waitForPort(port, timeout = 60000) {
   const start = Date.now();
   while (Date.now() - start < timeout) {
-    if (await checkPort(port)) return true;
+    if (await checkPort(port)) {return true;}
     await new Promise((r) => setTimeout(r, 1000));
   }
   return false;
@@ -1599,7 +1599,7 @@ async function waitForPort(port, timeout = 60000) {
 
 async function findFreePort(start) {
   for (let port = start; port < start + 20; port++) {
-    if (!(await checkPort(port))) return port;
+    if (!(await checkPort(port))) {return port;}
   }
   throw new Error('No free port found in range');
 }
@@ -1633,7 +1633,7 @@ async function startPlayground() {
   proc.unref();
 
   const ready = await waitForPort(port, 120000);
-  if (!ready) throw new Error(`Playground did not start on :${port} within 120s`);
+  if (!ready) {throw new Error(`Playground did not start on :${port} within 120s`);}
   console.log(`  Playground ready on :${port}`);
   return port;
 }
@@ -1692,7 +1692,7 @@ async function fixFailingPrompt(failure, promptMap, runModifiedFiles, passingCod
       if (!NO_SOURCE_PATCH) {
         try {
           const patchedPath = applySourceFix(fix, evalContextBeforeFix);
-          if (patchedPath) runModifiedFiles.add(patchedPath);
+          if (patchedPath) {runModifiedFiles.add(patchedPath);}
           if (patchedPath) {
             const artifactPath = savePatchArtifact(fix, {
               status: 'applied',
@@ -1897,8 +1897,8 @@ async function main() {
       ? 'fix: unlimited attempts per prompt'
       : `fix: max ${MAX_ITER} attempts per prompt`;
   console.log(
-    C.bold('Steps 1–2/4') +
-      `  Streaming eval + fix — ${totalChunks} chunk(s) of ≤${chunkSize} (${attemptsLabel})...`,
+    `${C.bold('Steps 1–2/4') 
+      }  Streaming eval + fix — ${totalChunks} chunk(s) of ≤${chunkSize} (${attemptsLabel})...`,
   );
 
   const passingCode = new Map(
@@ -1951,7 +1951,7 @@ async function main() {
     for (const r of annotated) {
       if (r.allPass) {
         initialPassCount++;
-        if (r.code) passingCode.set(r.slug, r);
+        if (r.code) {passingCode.set(r.slug, r);}
         stillFailingBySlug.delete(r.slug);
       } else {
         initialFailCount++;
@@ -1995,10 +1995,10 @@ async function main() {
     );
   }
 
-  let failing = stillFailing;
+  const failing = stillFailing;
 
   if (!SKIP_PITFALL_TRUTH) {
-    console.log(C.bold('\nStep 2.5/4') + '  Verifying pitfall docs after fix loop...');
+    console.log(`${C.bold('\nStep 2.5/4')  }  Verifying pitfall docs after fix loop...`);
     runPitfallTruthAudit();
     runPitfallShapeAutoFix();
     runPitfallShapeAudit();
@@ -2029,19 +2029,19 @@ async function main() {
   writeSummaryFile(summary);
 
   if (NO_REVIEW) {
-    console.log(C.bold('\nStep 3/4') + '  Skipped review generation (--no-review).');
+    console.log(`${C.bold('\nStep 3/4')  }  Skipped review generation (--no-review).`);
     showDocsPatch(runModifiedFiles);
-    if (EXIT_CODE_ON_FAIL && failing.length > 0) process.exit(1);
+    if (EXIT_CODE_ON_FAIL && failing.length > 0) {process.exit(1);}
     return;
   }
 
   /* ── Step 3: Generate review page ── */
-  console.log(C.bold('\nStep 3/4') + '  Generating EvalReview.tsx...');
+  console.log(`${C.bold('\nStep 3/4')  }  Generating EvalReview.tsx...`);
   const passingResults = [...passingCode.values()];
 
   if (passingResults.length === 0) {
     console.log('  No passing results — nothing to review.');
-    if (EXIT_CODE_ON_FAIL && failing.length > 0) process.exit(1);
+    if (EXIT_CODE_ON_FAIL && failing.length > 0) {process.exit(1);}
     process.exit(0);
   }
 
@@ -2056,15 +2056,15 @@ async function main() {
     console.log(C.green(' ✓'));
   } else if (SKIP_VALIDATE) {
     console.log(C.yellow(` ⚠ errors found (--skip-validate, continuing anyway)`));
-    for (const e of validation.errors.slice(0, 10)) console.error(`    ${e}`);
+    for (const entry of validation.errors.slice(0, 10)) {console.error(`    ${entry}`);}
     if (validation.errors.length > 10)
-      console.error(`    ... and ${validation.errors.length - 10} more`);
+      {console.error(`    ... and ${validation.errors.length - 10} more`);}
   } else {
     console.log(C.red(' ✗'));
     console.error(C.red('\n  EvalReview.tsx has errors — not starting playground:\n'));
-    for (const e of validation.errors.slice(0, 20)) console.error(`    ${e}`);
+    for (const entry of validation.errors.slice(0, 20)) {console.error(`    ${entry}`);}
     if (validation.errors.length > 20)
-      console.error(`    ... and ${validation.errors.length - 20} more`);
+      {console.error(`    ... and ${validation.errors.length - 20} more`);}
     console.error('\n  Re-run with --skip-validate to open the playground anyway.');
     process.exit(1);
   }
@@ -2074,19 +2074,19 @@ async function main() {
       `\nStep 4/4  Skipped (--no-serve). Open playground manually: http://localhost:${PREFERRED_PORT}/eval-review`,
     );
     showDocsPatch(runModifiedFiles);
-    if (EXIT_CODE_ON_FAIL && failing.length > 0) process.exit(1);
+    if (EXIT_CODE_ON_FAIL && failing.length > 0) {process.exit(1);}
     return;
   }
 
   /* ── Step 4: Serve and open ── */
-  console.log(C.bold('\nStep 4/4') + '  Starting playground...');
+  console.log(`${C.bold('\nStep 4/4')  }  Starting playground...`);
   const port = await startPlayground();
 
   const url = `http://localhost:${port}/eval-review`;
   console.log(`  Opening ${C.cyan(url)}`);
   execFileSync('open', [url]);
 
-  console.log(C.green('\nDone.') + ' Browser opened to eval review page.');
+  console.log(`${C.green('\nDone.')  } Browser opened to eval review page.`);
   if (failing.length > 0 && NO_SOURCE_PATCH) {
     console.log(
       C.yellow(`\nNote: fixes were applied to tools/.eval-context.md only (--no-source-patch).`),
@@ -2095,10 +2095,10 @@ async function main() {
   }
   showDocsPatch(runModifiedFiles);
   console.log();
-  if (EXIT_CODE_ON_FAIL && failing.length > 0) process.exit(1);
+  if (EXIT_CODE_ON_FAIL && failing.length > 0) {process.exit(1);}
 }
 
-export const __test__ = {
+export const testHooks = {
   applyPitfallFixToSectionText,
   buildFixPrompt,
   buildPitfallBlockTextFromFix,

@@ -235,8 +235,8 @@ export function WelcomePage() {
                 onMouseLeave={() => setHoveredCard(null)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') goToDocs(link.storyTitle);
+                onKeyDown={(entry) => {
+                  if (entry.key === 'Enter') {goToDocs(link.storyTitle);}
                 }}
               >
                 <div className="text--label-m" style={s.quickLinkTitle}>

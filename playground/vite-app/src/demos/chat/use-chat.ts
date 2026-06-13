@@ -58,7 +58,7 @@ export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOpti
 
   const sendMessage = React.useCallback(
     (text: string) => {
-      if (!apiKey || isStreaming) return;
+      if (!apiKey || isStreaming) {return;}
 
       const userEntry: ChatEntry = {
         id: genId(),
@@ -80,8 +80,8 @@ export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOpti
 
       const history: APIChatMessage[] = [
         ...entriesRef.current
-          .filter((e) => e.content.length > 0)
-          .map((e) => ({ role: e.role, content: e.content })),
+          .filter((entry) => entry.content.length > 0)
+          .map((entry) => ({ role: entry.role, content: entry.content })),
         { role: 'user' as const, content: text },
       ];
 
@@ -163,7 +163,7 @@ export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOpti
   );
 
   const clearHistory = React.useCallback(() => {
-    if (abortRef.current) abortRef.current.abort();
+    if (abortRef.current) {abortRef.current.abort();}
     setEntries([]);
     setIsStreaming(false);
     setError(null);

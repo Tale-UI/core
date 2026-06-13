@@ -99,21 +99,21 @@ const PASCAL_OVERRIDES = {
 };
 
 function kebabToPascal(kebab) {
-  if (PASCAL_OVERRIDES[kebab]) return PASCAL_OVERRIDES[kebab];
+  if (PASCAL_OVERRIDES[kebab]) {return PASCAL_OVERRIDES[kebab];}
   return kebab.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('');
 }
 
 /** Find the styled file for a component */
 function findStyledFile(name) {
   const dir = path.join(REACT_SRC, name);
-  if (!fs.existsSync(dir)) return null;
+  if (!fs.existsSync(dir)) {return null;}
 
   const files = fs.readdirSync(dir);
 
   // Try {Name}.styled.tsx first
   const pascal = kebabToPascal(name);
   const styledName = `${pascal}.styled.tsx`;
-  if (files.includes(styledName)) return path.join(dir, styledName);
+  if (files.includes(styledName)) {return path.join(dir, styledName);}
 
   // Try {Name}.tsx (for some components like CheckboxGroup)
   const plainName = `${pascal}.tsx`;
@@ -123,7 +123,7 @@ function findStyledFile(name) {
 
   // Fallback: find any .styled.tsx
   const styled = files.find(f => f.endsWith('.styled.tsx'));
-  if (styled) return path.join(dir, styled);
+  if (styled) {return path.join(dir, styled);}
 
   return null;
 }
@@ -134,12 +134,12 @@ function extractJSDocExample(content) {
   const c = content.replace(/\r\n/g, '\n');
   // Try JSDoc comment style: * @example\n * ```tsx\n ... * ```
   const match = c.match(/@example\s*\n\s*\*\s*```tsx?\n([\s\S]*?)\*\s*```/);
-  if (match) return match[1].replace(/^\s*\*\s?/gm, '').trim();
+  if (match) {return match[1].replace(/^\s*\*\s?/gm, '').trim();}
   // Try non-JSDoc comment style: @example\n```tsx\n ... ```
   const match2 = c.match(/@example\s*\n\s*\*?\s*```tsx?\n([\s\S]*?)```/);
-  if (match2) return match2[1].replace(/^\s*\*\s?/gm, '').trim();
+  if (match2) {return match2[1].replace(/^\s*\*\s?/gm, '').trim();}
   // Simplest check: does @example exist at all?
-  if (/@example/.test(c)) return '(found but unparseable)';
+  if (/@example/.test(c)) {return '(found but unparseable)';}
   return null;
 }
 
@@ -157,7 +157,7 @@ function extractCSSClasses(cssContent) {
 /** Extract CSS classes documented in a markdown file */
 function extractDocCSSClasses(mdContent) {
   const section = mdContent.split(/^## CSS Classes/m)[1];
-  if (!section) return null;
+  if (!section) {return null;}
   const sectionContent = section.split(/^## /m)[0];
   const classes = [];
   const regex = /`\.(tale-[\w-]+(?:__[\w-]+)?(?:--[\w-]+)?)`/g;
@@ -452,7 +452,7 @@ function auditComponent(name) {
           const siblingDoc = readFile(siblingDocPath);
           if (siblingDoc) {
             const siblingDocClasses = extractDocCSSClasses(siblingDoc);
-            if (siblingDocClasses && siblingDocClasses.includes(cls)) continue;
+            if (siblingDocClasses && siblingDocClasses.includes(cls)) {continue;}
           }
           warnings.push(`CSS class ".${cls}" not documented in markdown`);
         }

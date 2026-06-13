@@ -42,7 +42,7 @@ let withoutPitfalls = 0;
 let expectedTotal = 0;
 
 for (const component of registry.components) {
-  if (SKIP_PITFALL_CHECK.has(component.name)) continue;
+  if (SKIP_PITFALL_CHECK.has(component.name)) {continue;}
   expectedTotal++;
 
   const docPath = path.join(DOCS_DIR, `${component.slug}.md`);

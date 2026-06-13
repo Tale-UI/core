@@ -568,7 +568,7 @@ function TagSelectAuditSection() {
     new Set(['alice', 'bob']),
   );
   return (
-    <>
+    <React.Fragment>
       <SubHeading>Default</SubHeading>
       <div className="audit__demo-narrow audit__demo-spaced">
         <TagSelect.Root
@@ -634,7 +634,7 @@ function TagSelectAuditSection() {
           )}
         </TagSelect.Root>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 
@@ -1047,7 +1047,7 @@ function FileUploadAuditSection() {
         const timer = setInterval(() => {
           pct += 10;
           setProgress((p) => ({ ...p, [idx]: pct }));
-          if (pct >= 100) clearInterval(timer);
+          if (pct >= 100) {clearInterval(timer);}
         }, 200);
       });
       return next;
@@ -1055,7 +1055,7 @@ function FileUploadAuditSection() {
   };
 
   return (
-    <>
+    <React.Fragment>
       <SubHeading>Default (ProgressBar)</SubHeading>
       <div style={{ maxWidth: 480 }}>
         <FileUpload.Root>
@@ -1134,7 +1134,7 @@ function FileUploadAuditSection() {
           <FileUpload.DropZone hint="Uploads are disabled" isDisabled />
         </FileUpload.Root>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 
@@ -1147,7 +1147,7 @@ function ImageCropperAuditSection() {
   const [crop2, setCrop2] = React.useState<import('@tale-ui/react/image-cropper').Crop>();
 
   return (
-    <>
+    <React.Fragment>
       <SubHeading>Free crop</SubHeading>
       <div style={{ maxWidth: 480 }}>
         <ImageCropper.Root crop={crop1} onChange={setCrop1}>
@@ -1166,7 +1166,7 @@ function ImageCropperAuditSection() {
           />
         </ImageCropper.Root>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 

@@ -32,7 +32,7 @@ export const RatingStars = React.forwardRef<HTMLDivElement, RatingStarsProps>(
   ({ value, max = 5, size = 'md', className, ...props }, ref) => {
     const stars: React.ReactNode[] = [];
 
-    for (let i = 0; i < max; i++) {
+    for (let i = 0; i < max; i += 1) {
       const filled = value >= i + 1;
       const half = !filled && value >= i + 0.5;
 

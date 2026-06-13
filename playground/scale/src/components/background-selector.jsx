@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react';
 import styled from 'styled-components'
 
 const Root = styled.div``
@@ -35,7 +35,7 @@ const Dot = styled.button`
   }
 `
 
-const BackgroundSelector = ({ setBgColor, bgColor }) => {
+function BackgroundSelector({ setBgColor, bgColor }) {
   const accentHex = 'color-mix(in srgb, var(--brand-100) 50%, black)'
 
   const options = [

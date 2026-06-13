@@ -43,7 +43,7 @@ async function run() {
 const files = await run();
 
 if (process.argv.includes('--watch') || process.argv.includes('-w')) {
-  // eslint-disable-next-line no-console
+   
   console.log('Processing *.template.js files in watch mode...');
 
   files.forEach((file) => {

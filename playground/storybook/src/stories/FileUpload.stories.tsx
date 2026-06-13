@@ -1,5 +1,5 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
 import { FileUpload } from '@tale-ui/react/file-upload';
 
 const meta: Meta = {
@@ -13,8 +13,8 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => {
-    const [files, setFiles] = useState<File[]>([]);
-    const [progress, setProgress] = useState<Record<number, number>>({});
+    const [files, setFiles] = React.useState<File[]>([]);
+    const [progress, setProgress] = React.useState<Record<number, number>>({});
 
     const addFiles = (fl: FileList) => {
       const arr = Array.from(fl);
@@ -27,7 +27,7 @@ export const Default: Story = {
           const interval = setInterval(() => {
             pct += 10;
             setProgress((prev) => ({ ...prev, [idx]: pct }));
-            if (pct >= 100) clearInterval(interval);
+            if (pct >= 100) {clearInterval(interval);}
           }, 200);
         });
         return newFiles;

@@ -309,7 +309,7 @@ class PreviewErrorBoundary extends React.Component<
     showError(`${error.name}: ${error.message}\n\n${error.stack ?? ''}`);
   }
   render() {
-    if (this.state.caught) return null;
+    if (this.state.caught) {return null;}
     return this.props.children;
   }
 }
@@ -325,20 +325,20 @@ function renderCode(compiledJs: string) {
     // and an exports object to collect the exported Example component.
     const modExports: Record<string, unknown> = {};
 
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
+     
     const factory = new Function('React', 'components', 'require', 'exports', `
       const {${Object.keys(SCOPE).join(',')}} = components;
       ${compiledJs}
     `);
     factory(React, SCOPE, requireShim, modExports);
 
-    const ExampleComponent = modExports['Example'] as React.FC | null;
+    const ExampleComponent = modExports.Example as React.FC | null;
     if (!ExampleComponent) {
       showError('No `Example` function exported. Make sure your code has:\nexport function Example() { ... }');
       return;
     }
     // Increment key to reset the error boundary state on each new render.
-    renderKey++;
+    renderKey += 1;
     root.render(
       <PreviewErrorBoundary key={renderKey}>
         <React.Suspense fallback={<span>Loading…</span>}>
@@ -351,10 +351,10 @@ function renderCode(compiledJs: string) {
   }
 }
 
-window.addEventListener('message', e => {
-  if (!e.data) return;
-  if (e.data.type === 'render') {
-    renderCode(e.data.code as string);
+window.addEventListener('message', entry => {
+  if (!entry.data) {return;}
+  if (entry.data.type === 'render') {
+    renderCode(entry.data.code as string);
   }
 });
 

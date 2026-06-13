@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ChevronDown, X } from 'lucide-react';
-import { Icon } from '../icon';
 import {
   ComboBox as AriaComboBox,
   Input as AriaInput,
@@ -22,6 +21,7 @@ import {
   type LabelProps as AriaLabelProps,
   type SeparatorProps as AriaSeparatorProps,
 } from 'react-aria-components';
+import { Icon } from '../icon';
 import { cx } from '../_cx';
 
 /* ─── Context ────────────────────────────────────────────────────────────── */

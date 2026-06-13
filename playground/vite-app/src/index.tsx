@@ -32,14 +32,14 @@ export function App() {
           </Link>
           <nav className="pg-header-nav">
             <Link className="pg-header-link" to="/scale">Theme Playground</Link>
-            <button
+            <button type="button"
               className="pg-header-btn"
               onClick={() => window.dispatchEvent(new Event('scale:randomize-both'))}
               title="Randomize both named and neutral colours"
             >
               Randomize theme
             </button>
-            <button
+            <button type="button"
               className="pg-header-btn"
               onClick={() => window.dispatchEvent(new Event('scale:reset'))}
               title="Reset theme to design system defaults"
@@ -47,9 +47,9 @@ export function App() {
               Reset theme
             </button>
             <div className="pg-header-modes">
-              <button className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'light' }))}>Light</button>
-              <button className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'dark' }))}>Dark</button>
-              <button className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'accent' }))}>Accent</button>
+              <button type="button" className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'light' }))}>Light</button>
+              <button type="button" className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'dark' }))}>Dark</button>
+              <button type="button" className="pg-header-btn" onClick={() => window.dispatchEvent(new CustomEvent('scale:set-bg', { detail: 'accent' }))}>Accent</button>
             </div>
           </nav>
         </div>
@@ -63,7 +63,7 @@ export function App() {
           <Route path="/" element={<Home />} />
           {routes.map((entry) => {
             if (entry.type === 'route') {
-              if (entry.path === '/scale') return null;
+              if (entry.path === '/scale') {return null;}
               return <Route key={entry.path} path={entry.path} element={entry.element} />;
             }
 

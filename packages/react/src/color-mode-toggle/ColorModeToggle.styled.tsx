@@ -25,10 +25,10 @@ export interface ColorModeToggleProps extends Omit<AriaSwitchProps, 'className' 
 export const ColorModeToggle = React.forwardRef<HTMLLabelElement, ColorModeToggleProps>(
   ({ defaultMode, storageKey = 'color-mode', className, ...props }, ref) => {
     const [dark, setDark] = React.useState(() => {
-      if (typeof window === 'undefined') return false;
+      if (typeof window === 'undefined') {return false;}
       const saved = localStorage.getItem(storageKey);
-      if (saved) return saved === 'dark';
-      if (defaultMode) return defaultMode === 'dark';
+      if (saved) {return saved === 'dark';}
+      if (defaultMode) {return defaultMode === 'dark';}
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     });
 

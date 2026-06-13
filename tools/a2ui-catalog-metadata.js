@@ -406,11 +406,11 @@ const SUB_PARTS = new Set([
  */
 function parseEnumValues(hint) {
   // Strings containing "(e.g." are non-exhaustive examples — skip them.
-  if (hint.includes('(e.g.')) return null;
+  if (hint.includes('(e.g.')) {return null;}
   const matches = [...hint.matchAll(/`([^`]+)`/g)].map(m => m[1]);
   // Only return an array when every match looks like a plain token (no spaces, braces, etc.)
-  if (matches.length === 0) return null;
-  if (matches.some(v => /[\s{}()]/.test(v))) return null;
+  if (matches.length === 0) {return null;}
+  if (matches.some(v => /[\s{}()]/.test(v))) {return null;}
   return matches;
 }
 
@@ -429,7 +429,7 @@ const PROP_ALLOWED_VALUES = (() => {
   // Global defaults (bare prop name)
   for (const [key, hint] of Object.entries(PROP_VALUES)) {
     const values = parseEnumValues(hint);
-    if (values) out[key] = values;
+    if (values) {out[key] = values;}
   }
   // Type-specific overrides ("TypeName.propName") always recorded — even when null
   // (null = explicitly free-form; blocks the global fallback for that type)

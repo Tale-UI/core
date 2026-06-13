@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ChevronDown } from 'lucide-react';
-import { Icon as TaleIcon } from '../icon';
 import {
   Select as AriaSelect,
   SelectValue as AriaSelectValue,
@@ -22,6 +21,7 @@ import {
   type LabelProps as AriaLabelProps,
   type SeparatorProps as AriaSeparatorProps,
 } from 'react-aria-components';
+import { Icon as TaleIcon } from '../icon';
 import { cx } from '../_cx';
 
 /* ─── Context ────────────────────────────────────────────────────────────── */

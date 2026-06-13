@@ -20,7 +20,7 @@ const CarouselContext = React.createContext<CarouselContextValue | null>(null);
 
 function useCarouselContext() {
   const ctx = React.useContext(CarouselContext);
-  if (!ctx) throw new Error('Carousel parts must be used within <Carousel.Root>');
+  if (!ctx) {throw new Error('Carousel parts must be used within <Carousel.Root>');}
   return ctx;
 }
 
@@ -78,7 +78,7 @@ export const Root = React.forwardRef<HTMLDivElement, RootProps>(
     }, []);
 
     React.useEffect(() => {
-      if (!emblaApi) return;
+      if (!emblaApi) {return;}
       onSelect(emblaApi);
       emblaApi.on('select', onSelect);
       emblaApi.on('reInit', onSelect);
@@ -90,9 +90,9 @@ export const Root = React.forwardRef<HTMLDivElement, RootProps>(
 
     // Autoplay — pauses on hover and focus (WCAG 2.2.2)
     React.useEffect(() => {
-      if (!autoplay || !emblaApi) return;
+      if (!autoplay || !emblaApi) {return;}
       const interval = setInterval(() => {
-        if (!isPaused.current) emblaApi.scrollNext();
+        if (!isPaused.current) {emblaApi.scrollNext();}
       }, 4000);
       return () => clearInterval(interval);
     }, [autoplay, emblaApi]);
@@ -111,8 +111,8 @@ export const Root = React.forwardRef<HTMLDivElement, RootProps>(
           aria-label="Carousel"
           data-orientation={orientation}
           className={cx('tale-carousel', className)}
-          onMouseEnter={(e) => { isPaused.current = true; onMouseEnterProp?.(e); }}
-          onMouseLeave={(e) => { isPaused.current = false; onMouseLeaveProp?.(e); }}
+          onMouseEnter={(entry) => { isPaused.current = true; onMouseEnterProp?.(entry); }}
+          onMouseLeave={(entry) => { isPaused.current = false; onMouseLeaveProp?.(entry); }}
           onFocusCapture={() => { isPaused.current = true; }}
           onBlurCapture={() => { isPaused.current = false; }}
           {...props}

@@ -44,7 +44,7 @@ export const Button = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ className, ...props }, ref) => (
-  <button ref={ref} className={cx('tale-toolbar__button', className)} {...props} />
+  <button type="button" ref={ref} className={cx('tale-toolbar__button', className)} {...props} />
 ));
 Button.displayName = 'Toolbar.Button';
 

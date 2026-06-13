@@ -29,7 +29,7 @@ export function A2UISurface({ surfaceId, fallback = null }: A2UISurfaceProps) {
 
   // Build the tree from the flat component array
   const tree = React.useMemo(() => {
-    if (!surface || surface.components.size === 0) return null;
+    if (!surface || surface.components.size === 0) {return null;}
     return buildTree(
       Array.from(surface.components.values()),
       surface.rootComponentId,

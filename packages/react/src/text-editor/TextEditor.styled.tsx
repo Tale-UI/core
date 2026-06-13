@@ -238,7 +238,7 @@ export const Root = React.forwardRef<HTMLDivElement, RootProps>(
     }
 
     return (
-      // eslint-disable-next-line react/jsx-no-constructed-context-values
+       
       <EditorContext.Provider value={{ editor, editorId, isDisabled, limit, isInvalid }}>
         <div
           ref={ref}

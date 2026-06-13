@@ -128,7 +128,7 @@ function useBindingSubscriptions(
   // Collect all binding paths
   const paths = React.useMemo(() => {
     const result: string[] = [];
-    if (!props) return result;
+    if (!props) {return result;}
     for (const value of Object.values(props)) {
       if (isDataBinding(value)) {
         result.push(value.path);
@@ -139,7 +139,7 @@ function useBindingSubscriptions(
 
   // Subscribe to each path
   React.useEffect(() => {
-    if (paths.length === 0) return;
+    if (paths.length === 0) {return;}
 
     // Force re-render when any bound path changes
     const unsubscribes = paths.map((path) =>
@@ -151,7 +151,7 @@ function useBindingSubscriptions(
     );
 
     return () => {
-      for (const unsub of unsubscribes) unsub();
+      for (const unsub of unsubscribes) {unsub();}
     };
   }, [paths, dataStore]);
 }

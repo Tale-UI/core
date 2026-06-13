@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import * as React from 'react';
 import { Button } from '@tale-ui/react/button';
 import { TextArea } from '@tale-ui/react/text-area';
 import { Select } from '@tale-ui/react/select';
@@ -13,23 +13,23 @@ interface PromptStudioProps {
 }
 
 export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
-  const [prompt, setPrompt] = useState('');
-  const [planText, setPlanText] = useState<string | null>(null);
-  const [generatedCode, setGeneratedCode] = useState<string | null>(null);
-  const [planning, setPlanning] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [goldens, setGoldens] = useState<GoldenPrompt[]>([]);
+  const [prompt, setPrompt] = React.useState('');
+  const [planText, setPlanText] = React.useState<string | null>(null);
+  const [generatedCode, setGeneratedCode] = React.useState<string | null>(null);
+  const [planning, setPlanning] = React.useState(false);
+  const [generating, setGenerating] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [goldens, setGoldens] = React.useState<GoldenPrompt[]>([]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch('/api/golden-prompts')
       .then(r => r.json())
       .then(prompts => setGoldens(prompts as GoldenPrompt[]))
       .catch(() => { /* golden prompts are optional */ });
   }, []);
 
-  const handlePlan = useCallback(async () => {
-    if (!prompt.trim()) return;
+  const handlePlan = React.useCallback(async () => {
+    if (!prompt.trim()) {return;}
     setPlanning(true);
     setError(null);
     setPlanText(null);
@@ -44,8 +44,8 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
     }
   }, [prompt]);
 
-  const handleGenerate = useCallback(async () => {
-    if (!prompt.trim()) return;
+  const handleGenerate = React.useCallback(async () => {
+    if (!prompt.trim()) {return;}
     setError(null);
     // Run plan and generate in parallel
     setPlanning(true);
@@ -57,10 +57,10 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
         apiPlanUi(prompt.trim()),
         apiGenerate(prompt.trim()),
       ]);
-      if (planResult.status === 'fulfilled') setPlanText(planResult.value);
-      if (genResult.status === 'fulfilled') setGeneratedCode(genResult.value);
+      if (planResult.status === 'fulfilled') {setPlanText(planResult.value);}
+      if (genResult.status === 'fulfilled') {setGeneratedCode(genResult.value);}
       const err = planResult.status === 'rejected' ? planResult.reason : genResult.status === 'rejected' ? genResult.reason : null;
-      if (err) setError(err instanceof Error ? err.message : String(err));
+      if (err) {setError(err instanceof Error ? err.message : String(err));}
     } finally {
       setPlanning(false);
       setGenerating(false);
@@ -78,7 +78,7 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
               placeholder="Load a golden prompt…"
               onSelectionChange={key => {
                 const g = goldens.find(x => x.slug === key);
-                if (g) setPrompt(g.prompt);
+                if (g) {setPrompt(g.prompt);}
               }}
             >
               <Select.Label>Golden prompts</Select.Label>

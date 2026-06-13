@@ -31,13 +31,13 @@ export interface BadgeProps extends Omit<React.ComponentPropsWithoutRef<'span'>,
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant = 'neutral', size = 'md', type = 'pill', className, ...props }, ref) => {
     const classes = ['tale-badge', `tale-badge--${size}`];
-    if (type !== 'pill') classes.push(`tale-badge--${type}`);
+    if (type !== 'pill') {classes.push(`tale-badge--${type}`);}
 
     if (variant === 'neutral') {
       classes.push('tale-badge--neutral');
     } else {
       classes.push('tale-badge--color');
-      if (variant !== 'brand') classes.push(`color-${variant}`);
+      if (variant !== 'brand') {classes.push(`color-${variant}`);}
     }
 
     return (

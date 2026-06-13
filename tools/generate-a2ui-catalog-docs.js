@@ -39,24 +39,24 @@ function extractCatalogEntries(source) {
 
     // Match catalog entry: `  TypeName: {`
     const entryMatch = lines[i].match(/^\s{2}(\w+):\s*\{$/);
-    if (!entryMatch) continue;
+    if (!entryMatch) {continue;}
 
     const typeName = entryMatch[1];
 
     // Collect all lines for this entry until we reach `} as CatalogEntry`
     let component = '?';
-    let adapterProps = [];
+    const adapterProps = [];
     let j = i + 1;
 
     while (j < lines.length) {
       const line = lines[j];
 
       // End of entry marker
-      if (line.match(/^\s*\}\s*as\s+CatalogEntry/)) break;
+      if (line.match(/^\s*\}\s*as\s+CatalogEntry/)) {break;}
 
       // Extract component name
       const compMatch = line.match(/component:\s*(\S+),/);
-      if (compMatch) component = compMatch[1];
+      if (compMatch) {component = compMatch[1];}
 
       // Extract props from adapter body: props.XYZ
       for (const propMatch of line.matchAll(/props\.(\w+)/g)) {
@@ -77,7 +77,7 @@ function extractCatalogEntries(source) {
 function extractIconNames(source) {
   const names = [];
   const mapMatch = source.match(/const iconMap[^{]*\{([\s\S]*?)\n\};/);
-  if (!mapMatch) return names;
+  if (!mapMatch) {return names;}
   for (const match of mapMatch[1].matchAll(/^\s+'?([\w-]+)'?\s*:/gm)) {
     names.push(match[1]);
   }
@@ -87,7 +87,7 @@ function extractIconNames(source) {
 function extractUsageHints(source) {
   const hints = [];
   const fnMatch = source.match(/function mapTextHint[\s\S]*?\n\}/);
-  if (!fnMatch) return hints;
+  if (!fnMatch) {return hints;}
   for (const match of fnMatch[0].matchAll(/case '([^']+)':\s*return\s*\{\s*variant:\s*'([^']+)',\s*size:\s*'([^']+)',\s*as:\s*'([^']+)'/g)) {
     hints.push({ hint: match[1], variant: match[2], size: match[3], element: match[4] });
   }
@@ -109,22 +109,22 @@ function propAllowedValues(typeName, propName) {
  */
 function generateSystemPromptTables(entries) {
   const categories = new Map();
-  for (const e of entries) {
-    if (!categories.has(e.category)) categories.set(e.category, []);
-    categories.get(e.category).push(e);
+  for (const entry of entries) {
+    if (!categories.has(entry.category)) {categories.set(entry.category, []);}
+    categories.get(entry.category).push(entry);
   }
 
   const sections = [];
   for (const [cat, items] of categories) {
     const rows = [];
-    for (const e of items) {
-      if (e.adapterProps.length === 0) {
-        rows.push(`| **${e.typeName}** | (none) | |`);
+    for (const entry of items) {
+      if (entry.adapterProps.length === 0) {
+        rows.push(`| **${entry.typeName}** | (none) | |`);
       } else {
-        for (let i = 0; i < e.adapterProps.length; i++) {
-          const p = e.adapterProps[i];
-          const vals = propAllowedValues(e.typeName, p);
-          const typeCell = i === 0 ? `**${e.typeName}**` : '';
+        for (let i = 0; i < entry.adapterProps.length; i++) {
+          const p = entry.adapterProps[i];
+          const vals = propAllowedValues(entry.typeName, p);
+          const typeCell = i === 0 ? `**${entry.typeName}**` : '';
           rows.push(`| ${typeCell} | \`${p}\` | ${vals} |`);
         }
       }
@@ -138,11 +138,11 @@ function generateSystemPromptTables(entries) {
 
 /** Generate catalog mapping table for integration guide */
 function generateCatalogTable(entries) {
-  const rows = entries.map((e) => {
-    const props = e.adapterProps.length > 0
-      ? e.adapterProps.map((p) => `\`${p}\``).join(', ')
+  const rows = entries.map((entry) => {
+    const props = entry.adapterProps.length > 0
+      ? entry.adapterProps.map((p) => `\`${p}\``).join(', ')
       : '--';
-    return `| \`${e.typeName}\` | \`${e.component}\` | ${props} |`;
+    return `| \`${entry.typeName}\` | \`${entry.component}\` | ${props} |`;
   });
 
   return `| A2UI Type | Tale UI Component | Key A2UI Props |\n|-----------|-------------------|----------------|\n${rows.join('\n')}`;
@@ -226,7 +226,7 @@ function main() {
     process.exit(1);
   }
 
-  const standardCount = entries.filter((e) => !SUB_PARTS.has(e.typeName)).length;
+  const standardCount = entries.filter((entry) => !SUB_PARTS.has(entry.typeName)).length;
   const mcpToolCount = countMcpTools();
 
   // Token map for inline replacement
@@ -250,7 +250,7 @@ function main() {
     {
       file: path.join(ROOT, 'docs/a2ui-integration.md'),
       splices: [
-        { tag: 'A2UI_CATALOG_TABLES', content: generateCatalogTable(entries) + '\n\n**Text `usageHint` values:**\n\n' + generateHintTable(usageHints) },
+        { tag: 'A2UI_CATALOG_TABLES', content: `${generateCatalogTable(entries)  }\n\n**Text \`usageHint\` values:**\n\n${  generateHintTable(usageHints)}` },
       ],
     },
   ];
@@ -296,7 +296,7 @@ function main() {
 
   for (const relFile of INLINE_TOKEN_FILES) {
     const absFile = path.join(ROOT, relFile);
-    if (!fs.existsSync(absFile)) continue;
+    if (!fs.existsSync(absFile)) {continue;}
 
     const original = fs.readFileSync(absFile, 'utf8');
     const { content: replaced, replacedCount } = replaceTokens(original, tokenMap);

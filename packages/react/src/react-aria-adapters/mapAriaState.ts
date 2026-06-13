@@ -32,14 +32,14 @@ export interface AriaStateMap {
 export function mapAriaState(state: AriaStateMap): Record<string, string> {
   const attrs: Record<string, string> = {};
 
-  if (state.isDisabled) attrs['data-disabled'] = '';
-  if (state.isPressed) attrs['data-pressed'] = '';
-  if (state.isFocused) attrs['data-highlighted'] = '';
-  if (state.isFocusVisible) attrs['data-focus-visible'] = '';
-  if (state.isHovered) attrs['data-hovered'] = '';
-  if (state.isReadOnly) attrs['data-readonly'] = '';
-  if (state.isRequired) attrs['data-required'] = '';
-  if (state.isInvalid) attrs['data-invalid'] = '';
+  if (state.isDisabled) {attrs['data-disabled'] = '';}
+  if (state.isPressed) {attrs['data-pressed'] = '';}
+  if (state.isFocused) {attrs['data-highlighted'] = '';}
+  if (state.isFocusVisible) {attrs['data-focus-visible'] = '';}
+  if (state.isHovered) {attrs['data-hovered'] = '';}
+  if (state.isReadOnly) {attrs['data-readonly'] = '';}
+  if (state.isRequired) {attrs['data-required'] = '';}
+  if (state.isInvalid) {attrs['data-invalid'] = '';}
 
   // React Aria uses `isSelected` for both toggle (checkbox/switch) and list items.
   // Tale UI distinguishes: `data-checked` for toggles, `data-selected` for list items.
@@ -93,7 +93,7 @@ export function mapSelectionState(state: AriaStateMap): Record<string, string> {
  * Tale UI `data-side` and `data-align` attributes.
  */
 export function mapPlacement(placement: string | undefined): Record<string, string> {
-  if (!placement) return {};
+  if (!placement) {return {};}
 
   const parts = placement.split(' ');
   const attrs: Record<string, string> = {};

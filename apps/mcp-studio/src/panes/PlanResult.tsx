@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import * as React from 'react';
 import { marked } from 'marked';
 import { Popover } from '@tale-ui/react/popover';
 import { Button } from '@tale-ui/react/button';
@@ -11,15 +11,15 @@ interface PlanResultProps {
 }
 
 export function PlanResult({ markdown, onAuthorFix }: PlanResultProps) {
-  const html = useMemo(() => marked.parse(markdown) as string, [markdown]);
+  const html = React.useMemo(() => marked.parse(markdown) as string, [markdown]);
 
   // Extract component names from "Recommended components" section for chips
-  const componentNames = useMemo(() => {
+  const componentNames = React.useMemo(() => {
     const names: string[] = [];
     const re = /\*\*(\w+)\*\*(?:\s*⚠️\s*\*\*deprecated\*\*)?\s*—/g;
     let m;
     while ((m = re.exec(markdown)) !== null) {
-      if (!names.includes(m[1])) names.push(m[1]);
+      if (!names.includes(m[1])) {names.push(m[1]);}
     }
     return names;
   }, [markdown]);
@@ -43,9 +43,9 @@ export function PlanResult({ markdown, onAuthorFix }: PlanResultProps) {
 }
 
 function ComponentChip({ name, onAuthorFix }: { name: string; onAuthorFix: (n: string) => void }) {
-  const [details, setDetails] = useState<unknown>(null);
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [details, setDetails] = React.useState<unknown>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const handleOpen = async (isOpen: boolean) => {
     setOpen(isOpen);

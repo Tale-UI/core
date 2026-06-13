@@ -97,10 +97,10 @@ export const Trigger = React.forwardRef<HTMLDivElement, TriggerProps>(
     const { open } = React.useContext(ContextMenuContext);
 
     const handleContextMenu = React.useCallback(
-      (e: React.MouseEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        open(e.clientX, e.clientY);
-        onContextMenu?.(e);
+      (event: React.MouseEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        open(event.clientX, event.clientY);
+        onContextMenu?.(event);
       },
       [open, onContextMenu],
     );
@@ -130,10 +130,10 @@ export const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
     // Virtual trigger element positioned at cursor
     const triggerRef = React.useRef<HTMLSpanElement>(null);
 
-    if (!isOpen) return null;
+    if (!isOpen) {return null;}
 
     return (
-      <>
+      <React.Fragment>
         <span
           ref={triggerRef}
           style={{
@@ -149,14 +149,14 @@ export const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
           ref={ref}
           triggerRef={triggerRef}
           isOpen={isOpen}
-          onOpenChange={(open) => { if (!open) close(); }}
+          onOpenChange={(open) => { if (!open) {close();} }}
           placement="bottom start"
           className={cx('tale-context-menu', className)}
           {...props}
         >
           {children}
         </Popover>
-      </>
+      </React.Fragment>
     );
   },
 );

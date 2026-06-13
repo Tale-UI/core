@@ -29,13 +29,13 @@ export function parseA2UIResponse(text: string, options?: ParseOptions): ParseRe
 
   // Strategy 1: Direct JSON parse
   const direct = tryParse(trimmed);
-  if (direct) return validate(direct, trimmed);
+  if (direct) {return validate(direct, trimmed);}
 
   // Strategy 2: Extract from markdown code fence
   const fenceMatch = trimmed.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
   if (fenceMatch) {
     const fenced = tryParse(fenceMatch[1]!.trim());
-    if (fenced) return validate(fenced, trimmed);
+    if (fenced) {return validate(fenced, trimmed);}
   }
 
   // Strategy 3: Find first [ ... ] in the text
@@ -43,7 +43,7 @@ export function parseA2UIResponse(text: string, options?: ParseOptions): ParseRe
   const bracketEnd = trimmed.lastIndexOf(']');
   if (bracketStart !== -1 && bracketEnd > bracketStart) {
     const extracted = tryParse(trimmed.slice(bracketStart, bracketEnd + 1));
-    if (extracted) return validate(extracted, trimmed);
+    if (extracted) {return validate(extracted, trimmed);}
   }
 
   // Detect truncation: the response was cut off before completing the JSON
@@ -65,7 +65,7 @@ export function parseA2UIResponse(text: string, options?: ParseOptions): ParseRe
 /** Heuristic: response contains a `[` but no matching `]` at the end. */
 function looksLikeTruncatedJson(text: string): boolean {
   const bracketStart = text.indexOf('[');
-  if (bracketStart === -1) return false;
+  if (bracketStart === -1) {return false;}
   // If the text has an opening bracket but the last non-whitespace char isn't `]`, it's likely truncated
   const lastChar = text.trimEnd().slice(-1);
   return lastChar !== ']';
@@ -74,9 +74,9 @@ function looksLikeTruncatedJson(text: string): boolean {
 function tryParse(text: string): unknown[] | null {
   try {
     const parsed = JSON.parse(text);
-    if (Array.isArray(parsed)) return parsed;
+    if (Array.isArray(parsed)) {return parsed;}
     // Single message wrapped as object
-    if (parsed && typeof parsed === 'object' && 'type' in parsed) return [parsed];
+    if (parsed && typeof parsed === 'object' && 'type' in parsed) {return [parsed];}
     return null;
   } catch {
     return null;

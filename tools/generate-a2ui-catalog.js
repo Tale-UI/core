@@ -41,7 +41,7 @@ function extractCatalogEntries(source) {
     }
 
     const entryMatch = lines[i].match(/^\s{2}(\w+):\s*\{$/);
-    if (!entryMatch) continue;
+    if (!entryMatch) {continue;}
 
     const typeName = entryMatch[1];
     let component = '?';
@@ -50,10 +50,10 @@ function extractCatalogEntries(source) {
 
     while (j < lines.length) {
       const line = lines[j];
-      if (line.match(/^\s*\}\s*as\s+CatalogEntry/)) break;
+      if (line.match(/^\s*\}\s*as\s+CatalogEntry/)) {break;}
 
       const compMatch = line.match(/component:\s*(\S+),/);
-      if (compMatch) component = compMatch[1];
+      if (compMatch) {component = compMatch[1];}
 
       for (const propMatch of line.matchAll(/props\.(\w+)/g)) {
         if (!adapterProps.includes(propMatch[1])) {
@@ -72,7 +72,7 @@ function extractCatalogEntries(source) {
 function extractIconNames(source) {
   const names = [];
   const mapMatch = source.match(/const iconMap[^{]*\{([\s\S]*?)\n\};/);
-  if (!mapMatch) return names;
+  if (!mapMatch) {return names;}
   for (const match of mapMatch[1].matchAll(/^\s+'?([\w-]+)'?\s*:/gm)) {
     names.push(match[1]);
   }
@@ -82,7 +82,7 @@ function extractIconNames(source) {
 function extractUsageHints(source) {
   const hints = [];
   const fnMatch = source.match(/function mapTextHint[\s\S]*?\n\}/);
-  if (!fnMatch) return hints;
+  if (!fnMatch) {return hints;}
   for (const match of fnMatch[0].matchAll(/case '([^']+)':\s*return\s*\{\s*variant:\s*'([^']+)',\s*size:\s*'([^']+)',\s*as:\s*'([^']+)'/g)) {
     hints.push({ hint: match[1], variant: match[2], size: match[3], element: match[4] });
   }
@@ -119,7 +119,7 @@ function loadComponentDescriptions() {
 
 function resolveDescription(typeName, component, componentDescriptions) {
   // 1. Explicit A2UI override wins.
-  if (TYPE_DESCRIPTIONS[typeName]) return TYPE_DESCRIPTIONS[typeName];
+  if (TYPE_DESCRIPTIONS[typeName]) {return TYPE_DESCRIPTIONS[typeName];}
   // 2. Fall back to the registry description for the underlying component.
   //    component may be "Card.Root", "List.Item" etc — strip the sub-part suffix
   //    to get the component name ("Card", "List").
@@ -137,12 +137,12 @@ function main() {
   const examples = loadExamples();
   const componentDescriptions = loadComponentDescriptions();
 
-  const types = entries.map((e) => ({
-    name: e.typeName,
-    category: e.category,
-    component: e.component,
-    props: e.adapterProps.map((p) => {
-      const typeKey = `${e.typeName}.${p}`;
+  const types = entries.map((entry) => ({
+    name: entry.typeName,
+    category: entry.category,
+    component: entry.component,
+    props: entry.adapterProps.map((p) => {
+      const typeKey = `${entry.typeName}.${p}`;
       const hint = PROP_VALUE_OVERRIDES[typeKey] || PROP_VALUES[p] || '';
       // allowedValues: machine-readable array when a closed enum exists, null otherwise
       const allowedValues = typeKey in PROP_ALLOWED_VALUES
@@ -150,8 +150,8 @@ function main() {
         : (PROP_ALLOWED_VALUES[p] ?? null);
       return { name: p, hint, allowedValues };
     }),
-    isSubPart: SUB_PARTS.has(e.typeName),
-    description: resolveDescription(e.typeName, e.component, componentDescriptions),
+    isSubPart: SUB_PARTS.has(entry.typeName),
+    description: resolveDescription(entry.typeName, entry.component, componentDescriptions),
   }));
 
   const catalog = {
@@ -163,7 +163,7 @@ function main() {
     examples,
   };
 
-  const output = JSON.stringify(catalog, null, 2) + '\n';
+  const output = `${JSON.stringify(catalog, null, 2)  }\n`;
 
   if (isCheck) {
     if (!fs.existsSync(OUTPUT_PATH)) {

@@ -11,7 +11,7 @@ export default function SettingsPage() {
   return (
     <div style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}>
       <h1>Settings Page</h1>
-      <Form onSubmit={(e) => { e.preventDefault(); }}>
+      <Form onSubmit={(entry) => { entry.preventDefault(); }}>
         <Fieldset.Root>
           <Fieldset.Legend>Notifications</Fieldset.Legend>
 

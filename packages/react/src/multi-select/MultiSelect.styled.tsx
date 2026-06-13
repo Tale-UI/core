@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useCallback, useRef, useState } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
 import {
   Autocomplete as AriaAutocomplete,
@@ -11,8 +10,7 @@ import {
   ListBoxItem as AriaListBoxItem,
   Popover as AriaPopover,
   SearchField as AriaSearchField,
-} from 'react-aria-components';
-import { useFilter } from 'react-aria-components';
+ useFilter } from 'react-aria-components';
 import type {
   ListBoxItemProps as AriaListBoxItemProps,
   Selection,
@@ -134,12 +132,12 @@ export function Root<T extends object>({
   ...rest
 }: RootProps<T>) {
   const { contains } = useFilter({ sensitivity: 'base' });
-  const [searchValue, setSearchValue] = useState('');
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const [popoverWidth, setPopoverWidth] = useState('');
+  const [searchValue, setSearchValue] = React.useState('');
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const [popoverWidth, setPopoverWidth] = React.useState('');
 
-  const handleTriggerClick = useCallback(() => {
-    if (!triggerRef.current) return;
+  const handleTriggerClick = React.useCallback(() => {
+    if (!triggerRef.current) {return;}
     setPopoverWidth(`${triggerRef.current.getBoundingClientRect().width}px`);
   }, []);
 
@@ -151,7 +149,7 @@ export function Root<T extends object>({
         : 0;
   const hasSelection = selectedCount > 0;
 
-  const handleClearSearch = useCallback(() => setSearchValue(''), []);
+  const handleClearSearch = React.useCallback(() => setSearchValue(''), []);
 
   const labelId = React.useId();
 
@@ -290,7 +288,7 @@ export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
       {...props}
     >
       {(renderProps) => (
-        <>
+        <React.Fragment>
           <span
             className="tale-multi-select__item-check"
             aria-hidden="true"
@@ -310,7 +308,7 @@ export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
           <span className="tale-multi-select__item-text">
             {typeof children === 'function' ? children(renderProps) : children}
           </span>
-        </>
+        </React.Fragment>
       )}
     </AriaListBoxItem>
   ),

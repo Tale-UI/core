@@ -51,12 +51,12 @@ function findClaude() {
   ].filter(Boolean);
 
   for (const p of candidates) {
-    if (existsSync(p)) return p;
+    if (existsSync(p)) {return p;}
   }
 
   try {
     const result = execFileSync('which', ['claude'], { encoding: 'utf8' }).trim();
-    if (result) return result;
+    if (result) {return result;}
   } catch { /* not on PATH */ }
 
   return null;
@@ -177,13 +177,13 @@ if (!FRESH && existsSync(CHECK_CACHE_FILE)) {
 }
 
 function saveCallCache(key, messages) {
-  if (NO_CACHE) return;
+  if (NO_CACHE) {return;}
   callCache[key] = messages;
   try { writeFileSync(CALL_CACHE_FILE, JSON.stringify(callCache, null, 2), 'utf8'); } catch { /* ignore */ }
 }
 
 function saveCheckCache(key, checks) {
-  if (FRESH) return;
+  if (FRESH) {return;}
   checkCache[key] = checks;
   try { writeFileSync(CHECK_CACHE_FILE, JSON.stringify(checkCache, null, 2), 'utf8'); } catch { /* ignore */ }
 }
@@ -196,9 +196,9 @@ const files = readdirSync(GOLDEN_DIR)
 
 let prompts = files.map(f => JSON.parse(readFileSync(join(GOLDEN_DIR, f), 'utf8')));
 
-if (FILTER_DIFFICULTY) prompts = prompts.filter(p => p.difficulty === FILTER_DIFFICULTY);
-if (FILTER_SLUG) prompts = prompts.filter(p => p.slug === FILTER_SLUG);
-if (FILTER_SLUGS) prompts = prompts.filter(p => FILTER_SLUGS.includes(p.slug));
+if (FILTER_DIFFICULTY) {prompts = prompts.filter(p => p.difficulty === FILTER_DIFFICULTY);}
+if (FILTER_SLUG) {prompts = prompts.filter(p => p.slug === FILTER_SLUG);}
+if (FILTER_SLUGS) {prompts = prompts.filter(p => FILTER_SLUGS.includes(p.slug));}
 
 if (prompts.length === 0) {
   console.error('No prompts matched the given filters.');
@@ -240,7 +240,7 @@ function callClaude(userPrompt) {
       clearTimeout(timer);
       try {
         const parsed = JSON.parse(stdout);
-        if (parsed.is_error) return reject(new Error(parsed.result ?? 'Claude CLI returned an error'));
+        if (parsed.is_error) {return reject(new Error(parsed.result ?? 'Claude CLI returned an error'));}
         resolve(parsed.result ?? '');
       } catch {
         reject(new Error(`Failed to parse Claude output: ${stdout.slice(0, 200)}`));
@@ -290,15 +290,15 @@ async function callStraico(userPrompt, { retries = 3 } = {}) {
       const json = await response.json();
       const completion = json.data?.completion ?? json.completion ?? json;
       const content = completion?.choices?.[0]?.message?.content ?? '';
-      if (!content) throw new Error(`Straico returned empty response: ${JSON.stringify(json).slice(0, 200)}`);
+      if (!content) {throw new Error(`Straico returned empty response: ${JSON.stringify(json).slice(0, 200)}`);}
       return content;
     } catch (err) {
-      if (err.name === 'AbortError') throw new Error('Straico timed out after 120s');
+      if (err.name === 'AbortError') {throw new Error('Straico timed out after 120s');}
       if (!err.message?.startsWith('Straico API error (502') &&
           !err.message?.startsWith('Straico API error (503') &&
-          !err.message?.startsWith('Straico API error (504')) throw err;
+          !err.message?.startsWith('Straico API error (504')) {throw err;}
       lastErr = err;
-      if (attempt < retries) await new Promise(r => setTimeout(r, attempt * 2000));
+      if (attempt < retries) {await new Promise(r => setTimeout(r, attempt * 2000));}
     } finally {
       clearTimeout(timer);
     }
@@ -336,15 +336,15 @@ async function callLocal(userPrompt, { retries = 2 } = {}) {
 
       const json = await response.json();
       const content = json.choices?.[0]?.message?.content ?? '';
-      if (!content) throw new Error(`Local model returned empty response: ${JSON.stringify(json).slice(0, 200)}`);
+      if (!content) {throw new Error(`Local model returned empty response: ${JSON.stringify(json).slice(0, 200)}`);}
       return content;
     } catch (err) {
-      if (err.name === 'AbortError') throw new Error('Local model timed out after 180s');
+      if (err.name === 'AbortError') {throw new Error('Local model timed out after 180s');}
       if (err.message?.includes('ECONNREFUSED') || err.message?.includes('fetch failed')) {
         throw new Error(`Cannot connect to local server at ${LOCAL_URL} — is Ollama/LM Studio running?`);
       }
       lastErr = err;
-      if (attempt < retries) await new Promise(r => setTimeout(r, 2000));
+      if (attempt < retries) {await new Promise(r => setTimeout(r, 2000));}
     } finally {
       clearTimeout(timer);
     }
@@ -353,8 +353,8 @@ async function callLocal(userPrompt, { retries = 2 } = {}) {
 }
 
 function callProvider(userPrompt) {
-  if (PROVIDER === 'straico') return callStraico(userPrompt);
-  if (PROVIDER === 'local') return callLocal(userPrompt);
+  if (PROVIDER === 'straico') {return callStraico(userPrompt);}
+  if (PROVIDER === 'local') {return callLocal(userPrompt);}
   return callClaude(userPrompt);
 }
 
@@ -371,8 +371,8 @@ function extractMessages(text) {
   // Try parsing as {"messages": [...]}
   try {
     const parsed = JSON.parse(candidate);
-    if (Array.isArray(parsed)) return parsed;
-    if (parsed && Array.isArray(parsed.messages)) return parsed.messages;
+    if (Array.isArray(parsed)) {return parsed;}
+    if (parsed && Array.isArray(parsed.messages)) {return parsed.messages;}
   } catch { /* fall through */ }
 
   // Fall back: find the first [ or { and parse from there
@@ -383,8 +383,8 @@ function extractMessages(text) {
   if (startIdx !== -1) {
     try {
       const parsed = JSON.parse(candidate.slice(startIdx));
-      if (Array.isArray(parsed)) return parsed;
-      if (parsed && Array.isArray(parsed.messages)) return parsed.messages;
+      if (Array.isArray(parsed)) {return parsed;}
+      if (parsed && Array.isArray(parsed.messages)) {return parsed.messages;}
     } catch { /* give up */ }
   }
 
@@ -407,7 +407,7 @@ function extractCatalogKeys(source) {
 function extractIconNames(source) {
   const names = [];
   const mapMatch = source.match(/const iconMap[^{]*\{([\s\S]*?)\n\};/);
-  if (!mapMatch) return names;
+  if (!mapMatch) {return names;}
   for (const match of mapMatch[1].matchAll(/^\s+'?([\w-]+)'?\s*:/gm)) {
     names.push(match[1]);
   }
@@ -462,10 +462,10 @@ function checkL1(messages) {
     }
 
     if (msg.type === 'beginRendering') {
-      if (!msg.surfaceId) errors.push({ source: 'protocol', msg: 'beginRendering missing "surfaceId"' });
-      if (!msg.rootComponentId) errors.push({ source: 'protocol', msg: 'beginRendering missing "rootComponentId"' });
+      if (!msg.surfaceId) {errors.push({ source: 'protocol', msg: 'beginRendering missing "surfaceId"' });}
+      if (!msg.rootComponentId) {errors.push({ source: 'protocol', msg: 'beginRendering missing "rootComponentId"' });}
     } else if (msg.type === 'surfaceUpdate') {
-      if (!msg.surfaceId) errors.push({ source: 'protocol', msg: 'surfaceUpdate missing "surfaceId"' });
+      if (!msg.surfaceId) {errors.push({ source: 'protocol', msg: 'surfaceUpdate missing "surfaceId"' });}
       if (!Array.isArray(msg.components)) {
         errors.push({ source: 'protocol', msg: 'surfaceUpdate missing "components" array' });
         continue;
@@ -542,12 +542,12 @@ function checkL1(messages) {
 
         // Prop value (source: a2ui-catalog-metadata.js PROP_ALLOWED_VALUES with type-specific overrides)
         for (const [propName, propValue] of Object.entries(props)) {
-          if (typeof propValue !== 'string') continue;
+          if (typeof propValue !== 'string') {continue;}
           const typeKey = `${typeName}.${propName}`;
           const allowed = typeKey in PROP_ALLOWED_VALUES
             ? PROP_ALLOWED_VALUES[typeKey]
             : PROP_ALLOWED_VALUES[propName];
-          if (!allowed) continue;
+          if (!allowed) {continue;}
           if (!allowed.includes(propValue)) {
             errors.push({
               source: `a2ui-catalog-metadata.js PROP_ALLOWED_VALUES[${JSON.stringify(typeKey)}]`,
@@ -569,12 +569,12 @@ function checkL1(messages) {
         }
       }
     } else if (msg.type === 'dataModelUpdate') {
-      if (!msg.surfaceId) errors.push({ source: 'protocol', msg: 'dataModelUpdate missing "surfaceId"' });
+      if (!msg.surfaceId) {errors.push({ source: 'protocol', msg: 'dataModelUpdate missing "surfaceId"' });}
       if (typeof msg.path !== 'string' && (!msg.data || typeof msg.data !== 'object')) {
         errors.push({ source: 'protocol', msg: 'dataModelUpdate requires "path" string or "data" object' });
       }
     } else if (msg.type === 'deleteSurface') {
-      if (!msg.surfaceId) errors.push({ source: 'protocol', msg: 'deleteSurface missing "surfaceId"' });
+      if (!msg.surfaceId) {errors.push({ source: 'protocol', msg: 'deleteSurface missing "surfaceId"' });}
     } else {
       errors.push({ source: 'protocol', msg: `Unknown message type: "${msg.type}"` });
     }
@@ -582,7 +582,7 @@ function checkL1(messages) {
 
   return {
     pass: errors.length === 0,
-    errors: errors.map(e => `[${e.source}] ${e.msg}`),
+    errors: errors.map(entry => `[${entry.source}] ${entry.msg}`),
   };
 }
 
@@ -617,7 +617,7 @@ function checkL3(messages) {
   const duplicateIds = new Set();
 
   for (const msg of messages) {
-    if (!msg || typeof msg !== 'object') continue;
+    if (!msg || typeof msg !== 'object') {continue;}
 
     if (msg.type === 'beginRendering') {
       seenBeginRendering.add(msg.surfaceId);
@@ -626,7 +626,7 @@ function checkL3(messages) {
         errors.push(`surfaceUpdate for "${msg.surfaceId}" appears before beginRendering`);
       }
 
-      if (!Array.isArray(msg.components)) continue;
+      if (!Array.isArray(msg.components)) {continue;}
 
       const ids = new Set();
       for (const comp of msg.components) {
@@ -657,8 +657,8 @@ function checkL3(messages) {
 /* ─── Main ────────────────────────────────────────────────────────────────── */
 
 const log = JSON_OUTPUT
-  ? (...a) => process.stderr.write(a.join(' ') + '\n')
-  : (...a) => process.stdout.write(a.join(' ') + '\n');
+  ? (...a) => process.stderr.write(`${a.join(' ')  }\n`)
+  : (...a) => process.stdout.write(`${a.join(' ')  }\n`);
 
 async function evalPrompt(prompt, nth, total) {
   const callKey = makeCallCacheKey(prompt.slug, prompt.prompt);
@@ -708,7 +708,7 @@ async function evalPrompt(prompt, nth, total) {
 
   const allPass = l1.pass && l2.pass && l3.pass;
 
-  if (allPass && !callCacheHit) saveCallCache(callKey, messages);
+  if (allPass && !callCacheHit) {saveCallCache(callKey, messages);}
 
   const checks = [
     l1.pass ? '✓ L1' : '✗ L1',
@@ -718,19 +718,19 @@ async function evalPrompt(prompt, nth, total) {
   const cacheLabel = callCacheHit ? '  (call cached)' : checkCacheHit ? '  (checks cached)' : '';
   log(`  ${counter}  ${prompt.slug.padEnd(30)} [${prompt.difficulty}]  ${checks}${cacheLabel}`);
   if (!l1.pass) {
-    for (const e of l1.errors.slice(0, 3)) log(`      L1: ${e}`);
-    if (l1.errors.length > 3) log(`      L1: ... and ${l1.errors.length - 3} more`);
+    for (const entry of l1.errors.slice(0, 3)) {log(`      L1: ${entry}`);}
+    if (l1.errors.length > 3) {log(`      L1: ... and ${l1.errors.length - 3} more`);}
   }
-  if (!l2.pass) log(`      L2: missing types: ${l2.missing.join(', ')}`);
-  if (!l3.pass) for (const e of l3.errors) log(`      L3: ${e}`);
+  if (!l2.pass) {log(`      L2: missing types: ${l2.missing.join(', ')}`);}
+  if (!l3.pass) {for (const entry of l3.errors) {log(`      L3: ${entry}`);}}
 
   return {
     slug: prompt.slug,
     difficulty: prompt.difficulty,
     allPass,
     l1, l2, l3,
-    _callCached: callCacheHit,
-    _checkCached: checkCacheHit,
+    callCached: callCacheHit,
+    checkCached: checkCacheHit,
     ...(JSON_OUTPUT ? { messages } : {}),
   };
 }
@@ -752,8 +752,8 @@ async function runPool(items, concurrency, fn) {
 
 async function main() {
   log(`\n=== A2UI Golden Prompt Eval — ${MODEL} ===\n`);
-  if (FILTER_DIFFICULTY) log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);
-  if (FILTER_SLUG) log(`  Filter: slug=${FILTER_SLUG}`);
+  if (FILTER_DIFFICULTY) {log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);}
+  if (FILTER_SLUG) {log(`  Filter: slug=${FILTER_SLUG}`);}
   log(`  Prompts:     ${prompts.length}`);
   log(`  Concurrency: ${CONCURRENCY}`);
   const providerLabel = PROVIDER === 'straico' ? `straico (${MODEL})`
@@ -768,27 +768,27 @@ async function main() {
   const l1Pass = results.filter(r => r.l1.pass).length;
   const l2Pass = results.filter(r => r.l2.pass).length;
   const l3Pass = results.filter(r => r.l3.pass).length;
-  const callCacheHits = results.filter(r => r._callCached).length;
-  const checkCacheHits = results.filter(r => !r._callCached && r._checkCached).length;
+  const callCacheHits = results.filter(r => r.callCached).length;
+  const checkCacheHits = results.filter(r => !r.callCached && r.checkCached).length;
 
   log(`\n${'─'.repeat(52)}`);
   log(`  Model:          ${MODEL}`);
   log(`  Overall:        ${passed}/${total} passed all checks`);
-  if (callCacheHits > 0) log(`  Call cache:     ${callCacheHits}/${total} skipped model calls`);
-  if (checkCacheHits > 0) log(`  Check cache:    ${checkCacheHits}/${total} skipped validation`);
+  if (callCacheHits > 0) {log(`  Call cache:     ${callCacheHits}/${total} skipped model calls`);}
+  if (checkCacheHits > 0) {log(`  Check cache:    ${checkCacheHits}/${total} skipped validation`);}
   log(`  L1 validity:    ${l1Pass}/${total}`);
   log(`  L2 coverage:    ${l2Pass}/${total}`);
   log(`  L3 structural:  ${l3Pass}/${total}`);
   for (const diff of ['simple', 'medium', 'complex']) {
     const group = results.filter(r => r.difficulty === diff);
-    if (group.length === 0) continue;
+    if (group.length === 0) {continue;}
     const gPassed = group.filter(r => r.allPass).length;
     log(`  ${diff.padEnd(8)}: ${gPassed}/${group.length}`);
   }
   log('');
 
   if (JSON_OUTPUT) {
-    process.stdout.write(JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2) + '\n');
+    process.stdout.write(`${JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2)  }\n`);
   }
 }
 

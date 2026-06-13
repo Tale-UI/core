@@ -68,8 +68,8 @@ export const Default: Story = {
   ),
 };
 
-const DateRangePickerExample = ({ isDisabled }: { isDisabled?: boolean }) => (
-  <DateRangePicker.Root isDisabled={isDisabled} className="story-field-full">
+function DateRangePickerExample({ isDisabled }: { isDisabled?: boolean }) {
+  return <DateRangePicker.Root isDisabled={isDisabled} className="story-field-full">
     <DateRangePicker.Label>Date range</DateRangePicker.Label>
     <DateRangePicker.Group>
       <DateRangePicker.StartDate>
@@ -103,7 +103,7 @@ const DateRangePickerExample = ({ isDisabled }: { isDisabled?: boolean }) => (
       </DateRangePicker.Dialog>
     </DateRangePicker.Popover>
   </DateRangePicker.Root>
-);
+}
 
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },

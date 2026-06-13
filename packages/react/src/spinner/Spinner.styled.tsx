@@ -29,8 +29,8 @@ export interface SpinnerProps extends Omit<React.ComponentPropsWithoutRef<'div'>
 export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
   ({ variant = 'circle', size = 'md', label = 'Loading', className, ...props }, ref) => {
     const classes = ['tale-spinner'];
-    if (variant !== 'circle') classes.push(`tale-spinner--${variant}`);
-    if (size !== 'md') classes.push(`tale-spinner--${size}`);
+    if (variant !== 'circle') {classes.push(`tale-spinner--${variant}`);}
+    if (size !== 'md') {classes.push(`tale-spinner--${size}`);}
 
     return (
       <div
@@ -70,11 +70,11 @@ export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
           </div>
         )}
         {variant === 'dots' && (
-          <>
+          <React.Fragment>
             <span className="tale-spinner__dot" />
             <span className="tale-spinner__dot" />
             <span className="tale-spinner__dot" />
-          </>
+          </React.Fragment>
         )}
       </div>
     );

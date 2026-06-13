@@ -44,8 +44,8 @@ for (const file of styledFiles) {
   while ((m = regex.exec(content)) !== null) {
     const classes = m[1].split(/\s+/).filter(c => c.startsWith('tale-') && !c.includes('${'));
     for (const cls of classes) {
-      if (INTENTIONAL.has(cls)) continue;
-      if (!allCss.includes('.' + cls)) {
+      if (INTENTIONAL.has(cls)) {continue;}
+      if (!allCss.includes(`.${  cls}`)) {
         mismatches.push({ comp, cls, file: path.basename(file) });
       }
     }

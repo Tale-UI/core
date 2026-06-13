@@ -1,7 +1,6 @@
-import React from 'react'
+import * as React from 'react';
 import styled from 'styled-components'
-import { ToggleButton } from '@tale-ui/react/toggle-button'
-import { ToggleButtonGroup } from '@tale-ui/react/toggle-button'
+import { ToggleButton , ToggleButtonGroup } from '@tale-ui/react/toggle-button'
 import { NAMED_SHADES } from '../utils'
 
 const Wrapper = styled.div`
@@ -17,8 +16,8 @@ const Label = styled.div`
   margin-bottom: var(--space-m);
 `
 
-const ContrastPivotSelector = ({ value, autoPivot, onChange }) => (
-  <Wrapper>
+function ContrastPivotSelector({ value, autoPivot, onChange }) {
+  return <Wrapper>
     <Label>Light text from</Label>
     <ToggleButtonGroup
       selectionMode="single"
@@ -26,7 +25,7 @@ const ContrastPivotSelector = ({ value, autoPivot, onChange }) => (
       selectedKeys={[value === null ? 'auto' : String(value)]}
       onSelectionChange={(keys) => {
         const val = [...keys][0]
-        if (!val) return
+        if (!val) {return}
         onChange(val === 'auto' ? null : Number(val))
       }}
     >
@@ -44,6 +43,6 @@ const ContrastPivotSelector = ({ value, autoPivot, onChange }) => (
       ))}
     </ToggleButtonGroup>
   </Wrapper>
-)
+}
 
 export default ContrastPivotSelector

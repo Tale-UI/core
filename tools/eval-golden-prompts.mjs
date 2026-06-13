@@ -91,13 +91,13 @@ function findClaude() {
   ].filter(Boolean);
 
   for (const p of candidates) {
-    if (existsSync(p)) return p;
+    if (existsSync(p)) {return p;}
   }
 
   // Fall back to PATH lookup
   try {
     const result = execFileSync('which', ['claude'], { encoding: 'utf8' }).trim();
-    if (result) return result;
+    if (result) {return result;}
   } catch {
     /* not on PATH */
   }
@@ -114,12 +114,12 @@ function findCodex() {
   ].filter(Boolean);
 
   for (const p of candidates) {
-    if (existsSync(p)) return p;
+    if (existsSync(p)) {return p;}
   }
 
   try {
     const result = execFileSync('which', ['codex'], { encoding: 'utf8' }).trim();
-    if (result) return result;
+    if (result) {return result;}
   } catch {
     /* not on PATH */
   }
@@ -236,7 +236,7 @@ let LOCAL_MCP_CLIENT = null;
 let LOCAL_MCP_TOOLS = [];
 
 async function closeLocalMcpClient() {
-  if (!LOCAL_MCP_CLIENT) return;
+  if (!LOCAL_MCP_CLIENT) {return;}
   const client = LOCAL_MCP_CLIENT;
   LOCAL_MCP_CLIENT = null;
   try {
@@ -430,7 +430,7 @@ if (!FRESH && existsSync(CHECK_CACHE_FILE)) {
 }
 
 function saveCallCache(key, code) {
-  if (NO_CACHE) return;
+  if (NO_CACHE) {return;}
   callCache[key] = code;
   try {
     writeFileSync(CALL_CACHE_FILE, JSON.stringify(callCache, null, 2), 'utf8');
@@ -440,7 +440,7 @@ function saveCallCache(key, code) {
 }
 
 function saveCheckCache(key, checks) {
-  if (FRESH) return;
+  if (FRESH) {return;}
   checkCache[key] = checks;
   try {
     writeFileSync(CHECK_CACHE_FILE, JSON.stringify(checkCache, null, 2), 'utf8');
@@ -457,9 +457,9 @@ const files = readdirSync(GOLDEN_DIR)
 
 let prompts = files.map((f) => JSON.parse(readFileSync(join(GOLDEN_DIR, f), 'utf8')));
 
-if (FILTER_DIFFICULTY) prompts = prompts.filter((p) => p.difficulty === FILTER_DIFFICULTY);
-if (FILTER_SLUG) prompts = prompts.filter((p) => p.slug === FILTER_SLUG);
-if (FILTER_SLUGS) prompts = prompts.filter((p) => FILTER_SLUGS.includes(p.slug));
+if (FILTER_DIFFICULTY) {prompts = prompts.filter((p) => p.difficulty === FILTER_DIFFICULTY);}
+if (FILTER_SLUG) {prompts = prompts.filter((p) => p.slug === FILTER_SLUG);}
+if (FILTER_SLUGS) {prompts = prompts.filter((p) => FILTER_SLUGS.includes(p.slug));}
 
 if (prompts.length === 0) {
   console.error('No prompts matched the given filters.');
@@ -634,21 +634,21 @@ async function callStraico(userPrompt, { retries = 3 } = {}) {
       const completion = json.data?.completion ?? json.completion ?? json;
       const content = completion?.choices?.[0]?.message?.content ?? '';
       if (!content)
-        throw new Error(
+        {throw new Error(
           `Straico returned an empty response: ${JSON.stringify(json).slice(0, 200)}`,
-        );
+        );}
       return content;
     } catch (err) {
-      if (err.name === 'AbortError') throw new Error('Straico timed out after 120s');
+      if (err.name === 'AbortError') {throw new Error('Straico timed out after 120s');}
       // Non-retryable errors bubble immediately
       if (
         !err.message.startsWith('Straico API error (502') &&
         !err.message.startsWith('Straico API error (503') &&
         !err.message.startsWith('Straico API error (504')
       )
-        throw err;
+        {throw err;}
       lastErr = err;
-      if (attempt < retries) await new Promise((r) => setTimeout(r, attempt * 2000));
+      if (attempt < retries) {await new Promise((r) => setTimeout(r, attempt * 2000));}
     } finally {
       clearTimeout(timer);
     }
@@ -698,16 +698,16 @@ async function postLocalChat(body, { retries = 2 } = {}) {
 
       return await response.json();
     } catch (err) {
-      if (err instanceof LocalToolsUnsupportedError) throw err; // never retry
+      if (err instanceof LocalToolsUnsupportedError) {throw err;} // never retry
       if (err.name === 'AbortError')
-        throw new Error(`Local model timed out after 180s — model may be too slow or not loaded`);
+        {throw new Error(`Local model timed out after 180s — model may be too slow or not loaded`);}
       if (err.message.includes('ECONNREFUSED') || err.message.includes('fetch failed')) {
         throw new Error(
           `Cannot connect to local server at ${LOCAL_URL} — is Ollama/LM Studio running?`,
         );
       }
       lastErr = err;
-      if (attempt < retries) await new Promise((r) => setTimeout(r, 2000));
+      if (attempt < retries) {await new Promise((r) => setTimeout(r, 2000));}
     } finally {
       clearTimeout(timer);
     }
@@ -751,14 +751,14 @@ async function callLocalSingleTurn(userPrompt, { retries = 2 } = {}) {
   );
   const content = json.choices?.[0]?.message?.content ?? '';
   if (!content)
-    throw new Error(
+    {throw new Error(
       `Local model returned an empty response: ${JSON.stringify(json).slice(0, 200)}`,
-    );
+    );}
   return content;
 }
 
 async function callLocal(userPrompt, { retries = 2 } = {}) {
-  if (!MCP_MODE) return callLocalSingleTurn(userPrompt, { retries });
+  if (!MCP_MODE) {return callLocalSingleTurn(userPrompt, { retries });}
 
   // MCP path: agentic tool-use loop bounded by MCP_MAX_TURNS.
   const messages = [
@@ -783,9 +783,9 @@ async function callLocal(userPrompt, { retries = 2 } = {}) {
       // Model finished — return the final text response.
       const content = msg.content ?? '';
       if (!content)
-        throw new Error(
+        {throw new Error(
           `Local model returned empty response: ${JSON.stringify(json).slice(0, 200)}`,
-        );
+        );}
       return content;
     }
 
@@ -976,9 +976,9 @@ function callCodex(userPrompt) {
 }
 
 function callProvider(userPrompt) {
-  if (PROVIDER === 'straico') return callStraico(userPrompt);
-  if (PROVIDER === 'local') return callLocal(userPrompt);
-  if (PROVIDER === 'codex') return callCodex(userPrompt);
+  if (PROVIDER === 'straico') {return callStraico(userPrompt);}
+  if (PROVIDER === 'local') {return callLocal(userPrompt);}
+  if (PROVIDER === 'codex') {return callCodex(userPrompt);}
   return callClaude(userPrompt);
 }
 
@@ -989,8 +989,8 @@ function callProvider(userPrompt) {
 // When in --json mode, progress goes to stderr so it's visible in the terminal
 // while stdout stays clean for machine-readable JSON parsing.
 const log = JSON_OUTPUT
-  ? (...args) => process.stderr.write(args.join(' ') + '\n')
-  : (...args) => process.stdout.write(args.join(' ') + '\n');
+  ? (...args) => process.stderr.write(`${args.join(' ')  }\n`)
+  : (...args) => process.stdout.write(`${args.join(' ')  }\n`);
 const logInline = JSON_OUTPUT ? (s) => process.stderr.write(s) : (s) => process.stdout.write(s);
 
 async function evalPrompt(prompt, nth, total) {
@@ -1012,7 +1012,7 @@ async function evalPrompt(prompt, nth, total) {
     try {
       const rawOutput = await callProvider(prompt.prompt);
       code = extractCode(rawOutput);
-      if (!code) callError = 'Model returned no code block';
+      if (!code) {callError = 'Model returned no code block';}
     } catch (err) {
       if (isProviderQuotaError(err)) {
         throw err;
@@ -1053,7 +1053,7 @@ async function evalPrompt(prompt, nth, total) {
   const allPass = l1.pass && l2.pass && l3.pass;
 
   // Save to call cache only on full pass — failures may be transient
-  if (allPass && !callCacheHit) saveCallCache(callKey, code);
+  if (allPass && !callCacheHit) {saveCallCache(callKey, code);}
 
   // ── Log ──────────────────────────────────────────────────────────────────
   const checks = [
@@ -1066,11 +1066,11 @@ async function evalPrompt(prompt, nth, total) {
     log(`  ${counter}  ${prompt.slug.padEnd(30)} [${prompt.difficulty}]  ${checks}${cacheLabel}`);
   }
   if (!l1.pass) {
-    for (const e of l1.errors.slice(0, 3)) log(`      L1: ${e}`);
-    if (l1.errors.length > 3) log(`      L1: ... and ${l1.errors.length - 3} more`);
+    for (const entry of l1.errors.slice(0, 3)) {log(`      L1: ${entry}`);}
+    if (l1.errors.length > 3) {log(`      L1: ... and ${l1.errors.length - 3} more`);}
   }
-  if (!l2.pass) log(`      L2: missing components: ${l2.missing.join(', ')}`);
-  if (!l3.pass) log(`      L3: forbidden imports: ${l3.forbidden.join(', ')}`);
+  if (!l2.pass) {log(`      L2: missing components: ${l2.missing.join(', ')}`);}
+  if (!l3.pass) {log(`      L3: forbidden imports: ${l3.forbidden.join(', ')}`);}
 
   return {
     slug: prompt.slug,
@@ -1079,8 +1079,8 @@ async function evalPrompt(prompt, nth, total) {
     l1,
     l2,
     l3,
-    _callCached: callCacheHit,
-    _checkCached: checkCacheHit,
+    callCached: callCacheHit,
+    checkCached: checkCacheHit,
     ...(JSON_OUTPUT ? { code } : {}),
   };
 }
@@ -1107,8 +1107,8 @@ async function main() {
 
   try {
     log(`\n=== Golden Prompt Eval — ${MODEL}${MCP_MODE ? ' (MCP)' : ''} ===\n`);
-    if (FILTER_DIFFICULTY) log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);
-    if (FILTER_SLUG) log(`  Filter: slug=${FILTER_SLUG}`);
+    if (FILTER_DIFFICULTY) {log(`  Filter: difficulty=${FILTER_DIFFICULTY}`);}
+    if (FILTER_SLUG) {log(`  Filter: slug=${FILTER_SLUG}`);}
     log(`  Prompts:     ${prompts.length}`);
     log(`  Concurrency: ${CONCURRENCY}`);
     const mcpSuffix = MCP_MODE
@@ -1135,20 +1135,20 @@ async function main() {
     const l1Pass = results.filter((r) => r.l1.pass).length;
     const l2Pass = results.filter((r) => r.l2.pass).length;
     const l3Pass = results.filter((r) => r.l3.pass).length;
-    const callCacheHits = results.filter((r) => r._callCached).length;
-    const checkCacheHits = results.filter((r) => !r._callCached && r._checkCached).length;
+    const callCacheHits = results.filter((r) => r.callCached).length;
+    const checkCacheHits = results.filter((r) => !r.callCached && r.checkCached).length;
 
     log(`\n${'─'.repeat(52)}`);
     log(`  Model:          ${MODEL}`);
     log(`  Overall:        ${passed}/${total} passed all checks`);
-    if (callCacheHits > 0) log(`  Call cache:     ${callCacheHits}/${total} skipped Claude calls`);
-    if (checkCacheHits > 0) log(`  Check cache:    ${checkCacheHits}/${total} skipped tsc checks`);
+    if (callCacheHits > 0) {log(`  Call cache:     ${callCacheHits}/${total} skipped Claude calls`);}
+    if (checkCacheHits > 0) {log(`  Check cache:    ${checkCacheHits}/${total} skipped tsc checks`);}
     log(`  L1 validity:    ${l1Pass}/${total}`);
     log(`  L2 components:  ${l2Pass}/${total}`);
     log(`  L3 imports:     ${l3Pass}/${total}`);
     for (const diff of ['simple', 'medium', 'complex']) {
       const group = results.filter((r) => r.difficulty === diff);
-      if (group.length === 0) continue;
+      if (group.length === 0) {continue;}
       const gPassed = group.filter((r) => r.allPass).length;
       log(`  ${diff.padEnd(8)}: ${gPassed}/${group.length}`);
     }
@@ -1156,8 +1156,8 @@ async function main() {
 
     if (JSON_OUTPUT) {
       process.stdout.write(
-        JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2) +
-          '\n',
+        `${JSON.stringify({ model: MODEL, total, passed, l1Pass, l2Pass, l3Pass, results }, null, 2) 
+          }\n`,
       );
     }
   } finally {

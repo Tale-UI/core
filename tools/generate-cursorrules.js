@@ -32,13 +32,13 @@ function buildPitfallLines(registry, pitfallsJson) {
 
   // General conventions from pitfalls.json
   for (const gc of (pitfallsJson.generalConventions || [])) {
-    lines.push(gc.summary + (gc.detail ? ' — ' + gc.detail.replace(/`/g, '') : ''));
+    lines.push(gc.summary + (gc.detail ? ` — ${  gc.detail.replace(/`/g, '')}` : ''));
   }
 
   // Trigger styling cross-component pitfalls
   for (const cp of (pitfallsJson.crossComponentPitfalls || [])) {
     if (cp.category === 'trigger-styling') {
-      lines.push(cp.summary + (cp.detail ? ' — ' + cp.detail.replace(/`/g, '') : ''));
+      lines.push(cp.summary + (cp.detail ? ` — ${  cp.detail.replace(/`/g, '')}` : ''));
     }
   }
 

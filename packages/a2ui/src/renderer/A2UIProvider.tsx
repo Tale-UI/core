@@ -53,7 +53,7 @@ export const A2UIContext = React.createContext<A2UIContextValue | null>(null);
 /** Access the A2UI context. Throws if used outside a provider. */
 export function useA2UI(): A2UIContextValue {
   const ctx = React.useContext(A2UIContext);
-  if (!ctx) throw new Error('useA2UI must be used within an <A2UIProvider>');
+  if (!ctx) {throw new Error('useA2UI must be used within an <A2UIProvider>');}
   return ctx;
 }
 
@@ -109,7 +109,7 @@ export function A2UIProvider({ catalog, onAction, children }: A2UIProviderProps)
         case 'surfaceUpdate': {
           setSurfaces((prev) => {
             const surface = prev.get(msg.surfaceId);
-            if (!surface) return prev;
+            if (!surface) {return prev;}
 
             const components = new Map(surface.components);
             for (const comp of msg.components) {
@@ -154,14 +154,14 @@ export function A2UIProvider({ catalog, onAction, children }: A2UIProviderProps)
 
   const processMessages = React.useCallback(
     (msgs: A2UIMessage[]) => {
-      for (const msg of msgs) processMessage(msg);
+      for (const msg of msgs) {processMessage(msg);}
     },
     [processMessage],
   );
 
   const reset = React.useCallback(() => {
     setSurfaces(new Map());
-    for (const store of dataStoresRef.current.values()) store.clear();
+    for (const store of dataStoresRef.current.values()) {store.clear();}
     dataStoresRef.current.clear();
   }, []);
 

@@ -98,7 +98,7 @@ export const Trigger = React.forwardRef<
     [context, onClick],
   );
 
-  return <button ref={ref} className={cx('tale-drawer__trigger', className)} onClick={handleClick} {...props} />;
+  return <button type="button" ref={ref} className={cx('tale-drawer__trigger', className)} onClick={handleClick} {...props} />;
 });
 Trigger.displayName = 'Drawer.Trigger';
 
@@ -153,7 +153,7 @@ export const Close = React.forwardRef<
     [context, onClick],
   );
 
-  return <button ref={ref} className={cx('tale-drawer__close', className)} onClick={handleClick} {...props} />;
+  return <button type="button" ref={ref} className={cx('tale-drawer__close', className)} onClick={handleClick} {...props} />;
 });
 Close.displayName = 'Drawer.Close';
 

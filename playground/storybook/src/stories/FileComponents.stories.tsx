@@ -1,8 +1,8 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DropZone } from '@tale-ui/react/drop-zone';
 import { FileTrigger } from '@tale-ui/react/file-trigger';
 import { Button } from '@tale-ui/react/button';
-import { useState } from 'react';
 
 type Args = Record<string, never>;
 
@@ -18,7 +18,7 @@ type Story = StoryObj<Args>;
 export const DropZoneStory: Story = {
   name: 'Drop Zone',
   render() {
-    const [dropped, setDropped] = useState(false);
+    const [dropped, setDropped] = React.useState(false);
 
     return (
       <DropZone
@@ -34,7 +34,7 @@ export const DropZoneStory: Story = {
 export const FileTriggerStory: Story = {
   name: 'File Trigger',
   render() {
-    const [fileName, setFileName] = useState<string | null>(null);
+    const [fileName, setFileName] = React.useState<string | null>(null);
 
     return (
       <div className="story-file-trigger">
@@ -56,15 +56,15 @@ export const FileTriggerStory: Story = {
 export const Combined: Story = {
   name: 'Combined (click or drag)',
   render() {
-    const [files, setFiles] = useState<string[]>([]);
+    const [files, setFiles] = React.useState<string[]>([]);
 
     const addFiles = (names: string[]) =>
       setFiles((prev) => [...prev, ...names]);
 
     return (
       <DropZone
-        onDrop={(e) => {
-          const names = e.items
+        onDrop={(entry) => {
+          const names = entry.items
             .filter((item) => item.kind === 'file')
             .map((item) => ('name' in item ? item.name : 'unknown'));
           addFiles(names);
@@ -73,7 +73,7 @@ export const Combined: Story = {
       >
         <FileTrigger
           onSelect={(fileList) => {
-            if (fileList) addFiles(Array.from(fileList).map((f) => f.name));
+            if (fileList) {addFiles(Array.from(fileList).map((f) => f.name));}
           }}
         >
           <Button variant="neutral">Click or drag files here</Button>

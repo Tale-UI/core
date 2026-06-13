@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Icon } from '../icon';
 import {
   RangeCalendar as AriaRangeCalendar,
   CalendarGrid as AriaCalendarGrid,
@@ -20,6 +19,7 @@ import {
   type ButtonProps as AriaButtonProps,
   type DateValue,
 } from 'react-aria-components';
+import { Icon } from '../icon';
 import { cx } from '../_cx';
 
 /* ─── Root ─────────────────────────────────────────────────────────────────── */
@@ -29,10 +29,10 @@ export type RootProps<T extends DateValue = DateValue> = Omit<
   'className'
 > & { className?: string };
 
-const RootInner = <T extends DateValue>(
-  { className, ...props }: RootProps<T>,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) => <AriaRangeCalendar ref={ref} className={cx('tale-range-calendar', className)} {...props} />;
+function RootInner<T extends DateValue>({ className, ...props }: RootProps<T>,
+  ref: React.ForwardedRef<HTMLDivElement>) {
+  return <AriaRangeCalendar ref={ref} className={cx('tale-range-calendar', className)} {...props} />
+}
 
 /**
  * A calendar for selecting a date range.

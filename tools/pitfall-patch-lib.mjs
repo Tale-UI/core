@@ -1,4 +1,4 @@
-/* eslint-disable curly, no-cond-assign, no-nested-ternary, no-plusplus, no-regex-spaces, prefer-template */
+/* eslint-disable curly, no-regex-spaces, prefer-template */
 
 import { slugSummaryMatch } from './pitfall-shape-rules-lib.mjs';
 

@@ -97,7 +97,7 @@ function findProjectRoot(startDir) {
       return dir;
     }
     const parent = path.dirname(dir);
-    if (parent === dir) break; // filesystem root
+    if (parent === dir) {break;} // filesystem root
     dir = parent;
   }
   return startDir; // fallback to cwd
@@ -153,7 +153,7 @@ let mcpJson = { mcpServers: {} };
 if (fs.existsSync(mcpJsonPath)) {
   try {
     mcpJson = JSON.parse(fs.readFileSync(mcpJsonPath, 'utf8'));
-    if (!mcpJson.mcpServers) mcpJson.mcpServers = {};
+    if (!mcpJson.mcpServers) {mcpJson.mcpServers = {};}
   } catch { /* ignore parse errors, overwrite */ }
 }
 
@@ -161,7 +161,7 @@ if (mcpJson.mcpServers[MCP_SERVER_KEY]) {
   console.log('✓ .mcp.json already contains the tale-ui MCP server. Nothing to do.');
 } else {
   mcpJson.mcpServers[MCP_SERVER_KEY] = MCP_SERVER_CONFIG;
-  fs.writeFileSync(mcpJsonPath, JSON.stringify(mcpJson, null, 2) + '\n');
+  fs.writeFileSync(mcpJsonPath, `${JSON.stringify(mcpJson, null, 2)  }\n`);
   console.log('✓ Configured tale-ui MCP server in .mcp.json');
   console.log(`  → ${mcpJsonPath}`);
 }

@@ -30,17 +30,17 @@ const nameToSlug = new Map();
 // Primary source: components registry
 try {
   const reg = JSON.parse(readFileSync(COMPONENTS_REGISTRY, 'utf8'));
-  for (const c of reg.components) nameToSlug.set(c.name, c.slug);
+  for (const c of reg.components) {nameToSlug.set(c.name, c.slug);}
 } catch { /* non-fatal */ }
 
 // Supplement: docs/components/*.md filenames — covers @tale-ui/charts etc.
 // Algorithm: kebab-slug → PascalCase (area-chart → AreaChart, radial-bar-chart → RadialBarChart)
 try {
   for (const file of readdirSync(DOCS_COMPONENTS_DIR)) {
-    if (!file.endsWith('.md') || file === 'index.md') continue;
+    if (!file.endsWith('.md') || file === 'index.md') {continue;}
     const slug = file.slice(0, -3);
     const name = slug.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join('');
-    if (!nameToSlug.has(name)) nameToSlug.set(name, slug);
+    if (!nameToSlug.has(name)) {nameToSlug.set(name, slug);}
   }
 } catch { /* non-fatal */ }
 
@@ -56,10 +56,10 @@ function resolveSlug(name) {
 const tagToFiles = new Map(); // tag → [slug, ...]
 try {
   for (const file of readdirSync(GOLDEN_DIR)) {
-    if (!file.endsWith('.json') || file === 'index.json') continue;
+    if (!file.endsWith('.json') || file === 'index.json') {continue;}
     const p = JSON.parse(readFileSync(join(GOLDEN_DIR, file), 'utf8'));
     for (const tag of (p.tags ?? [])) {
-      if (!tagToFiles.has(tag)) tagToFiles.set(tag, []);
+      if (!tagToFiles.has(tag)) {tagToFiles.set(tag, []);}
       tagToFiles.get(tag).push(p.slug);
     }
   }
@@ -99,15 +99,15 @@ if (gaps.length === 0) {
   console.log(`⚠ audit-golden-patchability: ${gaps.length} gap(s) across ${tagToFiles.size} tagged components\n`);
   if (case1.length) {
     console.log(`  Case 1 — unresolvable name (${case1.length}):`);
-    for (const g of case1) console.log(`    ${g.name}  — ${g.detail}`);
+    for (const g of case1) {console.log(`    ${g.name}  — ${g.detail}`);}
   }
   if (case2.length) {
     console.log(`  Case 2 — missing doc file (${case2.length}):`);
-    for (const g of case2) console.log(`    ${g.name}  — ${g.detail}`);
+    for (const g of case2) {console.log(`    ${g.name}  — ${g.detail}`);}
   }
   if (case3.length) {
     console.log(`  Case 3 — no ## Pitfalls section (${case3.length}):`);
-    for (const g of case3) console.log(`    ${g.name}  — ${g.detail}`);
+    for (const g of case3) {console.log(`    ${g.name}  — ${g.detail}`);}
   }
   process.exit(1);
 }

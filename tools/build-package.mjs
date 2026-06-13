@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+ 
 /**
  * Build script for @tale-ui/react and @tale-ui/utils.
  * Produces CJS + ESM bundles, type declarations,

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react';
 import styled from 'styled-components'
 import { Button } from '@tale-ui/react/button'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -40,7 +40,7 @@ const getColorsListText = (darkColors, mainColor, lightColors) => {
   const toHexSafe = (color) => {
     try {
       return Color(color).hex()
-    } catch (e) {
+    } catch (entry) {
       return color
     }
   }
@@ -58,7 +58,7 @@ const randomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min)
 }
 
-const Triggers = ({
+function Triggers({
   darkColors,
   mainColor,
   lightColors,
@@ -74,7 +74,7 @@ const Triggers = ({
   setLightSaturation,
   setDarkSaturation,
   rgbToMainColor,
-}) => {
+}) {
   const randomState = () => {
     setR(randomNumber(0, 255))
     setG(randomNumber(0, 255))

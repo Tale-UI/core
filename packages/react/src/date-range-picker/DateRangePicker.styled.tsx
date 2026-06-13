@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Calendar } from 'lucide-react';
-import { Icon } from '../icon';
 import {
   DateRangePicker as AriaDateRangePicker,
   Group as AriaGroup,
@@ -24,16 +23,17 @@ import {
   type FieldErrorProps,
   type DateValue,
 } from 'react-aria-components';
+import { Icon } from '../icon';
 import { cx } from '../_cx';
 
 /* ─── Root ─────────────────────────────────────────────────────────────────── */
 
 export type RootProps<T extends DateValue = DateValue> = Omit<AriaDateRangePickerProps<T>, 'className'> & { className?: string };
 
-const RootInner = <T extends DateValue>(
-  { className, ...props }: RootProps<T>,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) => <AriaDateRangePicker ref={ref} className={cx('tale-date-range-picker', className)} {...props} />;
+function RootInner<T extends DateValue>({ className, ...props }: RootProps<T>,
+  ref: React.ForwardedRef<HTMLDivElement>) {
+  return <AriaDateRangePicker ref={ref} className={cx('tale-date-range-picker', className)} {...props} />
+}
 
 /**
  * A date range input with start/end fields and a calendar popover.

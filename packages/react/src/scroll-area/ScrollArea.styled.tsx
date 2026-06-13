@@ -13,7 +13,7 @@ const ScrollAreaContext = React.createContext<ScrollAreaContextValue>({
 
 interface ScrollbarContextValue {
   thumbRef: React.RefObject<HTMLDivElement | null>;
-  onThumbPointerDown: (e: React.PointerEvent) => void;
+  onThumbPointerDown: (event: React.PointerEvent) => void;
 }
 
 const ScrollbarContext = React.createContext<ScrollbarContextValue | null>(null);
@@ -60,8 +60,8 @@ export const Viewport = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
     const mergedRef = React.useCallback(
       (node: HTMLDivElement | null) => {
         (viewportRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-        if (typeof ref === 'function') ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        if (typeof ref === 'function') {ref(node);}
+        else if (ref) {(ref as React.MutableRefObject<HTMLDivElement | null>).current = node;}
       },
       [ref, viewportRef],
     );
@@ -87,7 +87,7 @@ export const Scrollbar = React.forwardRef<
     const viewport = viewportRef.current;
     const scrollbar = scrollbarRef.current;
     const thumb = thumbRef.current;
-    if (!viewport || !scrollbar || !thumb) return;
+    if (!viewport || !scrollbar || !thumb) {return;}
 
     if (isVertical) {
       const ratio = viewport.clientHeight / viewport.scrollHeight;
@@ -120,7 +120,7 @@ export const Scrollbar = React.forwardRef<
 
   React.useEffect(() => {
     const viewport = viewportRef.current;
-    if (!viewport) return;
+    if (!viewport) {return;}
 
     viewport.addEventListener('scroll', update, { passive: true });
     const ro = new ResizeObserver(update);
@@ -138,18 +138,18 @@ export const Scrollbar = React.forwardRef<
   }, [viewportRef, update]);
 
   const onTrackClick = React.useCallback(
-    (e: React.PointerEvent) => {
+    (event: React.PointerEvent) => {
       const viewport = viewportRef.current;
       const scrollbar = scrollbarRef.current;
       const thumb = thumbRef.current;
-      if (!viewport || !scrollbar || !thumb || thumb.contains(e.target as Node)) return;
+      if (!viewport || !scrollbar || !thumb || thumb.contains(event.target as Node)) {return;}
 
       const rect = scrollbar.getBoundingClientRect();
       if (isVertical) {
-        const clickRatio = (e.clientY - rect.top) / rect.height;
+        const clickRatio = (event.clientY - rect.top) / rect.height;
         viewport.scrollTop = clickRatio * (viewport.scrollHeight - viewport.clientHeight);
       } else {
-        const clickRatio = (e.clientX - rect.left) / rect.width;
+        const clickRatio = (event.clientX - rect.left) / rect.width;
         viewport.scrollLeft = clickRatio * (viewport.scrollWidth - viewport.clientWidth);
       }
     },
@@ -157,17 +157,17 @@ export const Scrollbar = React.forwardRef<
   );
 
   const onThumbPointerDown = React.useCallback(
-    (e: React.PointerEvent) => {
+    (event: React.PointerEvent) => {
       const viewport = viewportRef.current;
       const scrollbar = scrollbarRef.current;
       const thumb = thumbRef.current;
-      if (!viewport || !scrollbar || !thumb) return;
+      if (!viewport || !scrollbar || !thumb) {return;}
 
-      e.preventDefault();
-      e.stopPropagation();
-      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      event.preventDefault();
+      event.stopPropagation();
+      (event.target as HTMLElement).setPointerCapture(event.pointerId);
 
-      const startPos = isVertical ? e.clientY : e.clientX;
+      const startPos = isVertical ? event.clientY : event.clientX;
       const startScroll = isVertical ? viewport.scrollTop : viewport.scrollLeft;
       const trackSize = isVertical ? scrollbar.clientHeight : scrollbar.clientWidth;
       const thumbSize = isVertical ? thumb.offsetHeight : thumb.offsetWidth;
@@ -199,8 +199,8 @@ export const Scrollbar = React.forwardRef<
   const mergedRef = React.useCallback(
     (node: HTMLDivElement | null) => {
       scrollbarRef.current = node;
-      if (typeof ref === 'function') ref(node);
-      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      if (typeof ref === 'function') {ref(node);}
+      else if (ref) {(ref as React.MutableRefObject<HTMLDivElement | null>).current = node;}
     },
     [ref],
   );
@@ -236,8 +236,8 @@ export const Thumb = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
         if (scrollbar) {
           (scrollbar.thumbRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }
-        if (typeof ref === 'function') ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        if (typeof ref === 'function') {ref(node);}
+        else if (ref) {(ref as React.MutableRefObject<HTMLDivElement | null>).current = node;}
       },
       [ref, scrollbar],
     );

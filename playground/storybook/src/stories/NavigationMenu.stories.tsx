@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { NavigationMenu } from '@tale-ui/react/navigation-menu';
 
@@ -32,7 +32,7 @@ export const Default: Story = {
 };
 
 function WithDropdownExample() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <NavigationMenu.Root>

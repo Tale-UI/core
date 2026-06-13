@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import * as React from 'react';
 import { GridList } from '@tale-ui/react/grid-list';
 import { Badge } from '@tale-ui/react/badge';
 import { Button } from '@tale-ui/react/button';
@@ -18,31 +18,31 @@ const STATUS_VARIANT: Record<string, 'neutral' | 'warning' | 'error'> = {
 };
 
 export function ComponentBrowser({ onAuthorFix }: ComponentBrowserProps) {
-  const [components, setComponents] = useState<ComponentSummary[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [detail, setDetail] = useState<Record<string, unknown> | null>(null);
-  const [detailLoading, setDetailLoading] = useState(false);
+  const [components, setComponents] = React.useState<ComponentSummary[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+  const [search, setSearch] = React.useState('');
+  const [category, setCategory] = React.useState<string | null>(null);
+  const [selected, setSelected] = React.useState<string | null>(null);
+  const [detail, setDetail] = React.useState<Record<string, unknown> | null>(null);
+  const [detailLoading, setDetailLoading] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     apiListComponents()
       .then(list => setComponents(list))
       .catch(err => setError(err instanceof Error ? err.message : String(err)))
       .finally(() => setLoading(false));
   }, []);
 
-  const categories = useMemo(
+  const categories = React.useMemo(
     () => [...new Set(components.map(c => c.category).filter(Boolean))].sort(),
     [components],
   );
 
-  const filtered = useMemo(() => {
+  const filtered = React.useMemo(() => {
     return components.filter(c => {
-      if (category && c.category !== category) return false;
-      if (search && !c.name.toLowerCase().includes(search.toLowerCase())) return false;
+      if (category && c.category !== category) {return false;}
+      if (search && !c.name.toLowerCase().includes(search.toLowerCase())) {return false;}
       return true;
     });
   }, [components, category, search]);
@@ -145,7 +145,7 @@ export function ComponentBrowser({ onAuthorFix }: ComponentBrowserProps) {
           </div>
         )}
         {selected && detail && (
-          <>
+          <React.Fragment>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-m)' }}>
               <strong style={{ fontSize: 'var(--label-m-font-size)' }}>{selected}</strong>
               <Button variant="neutral" size="sm" onPress={() => onAuthorFix(selected)}>
@@ -155,7 +155,7 @@ export function ComponentBrowser({ onAuthorFix }: ComponentBrowserProps) {
             <pre style={{ fontSize: 'var(--text-xs-font-size)', whiteSpace: 'pre-wrap', wordBreak: 'break-all', margin: 0 }}>
               {JSON.stringify(detail, null, 2)}
             </pre>
-          </>
+          </React.Fragment>
         )}
       </div>
     </div>

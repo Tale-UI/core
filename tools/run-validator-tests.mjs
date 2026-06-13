@@ -108,7 +108,7 @@ for (const test of tests) {
     // Positive: must exit 0 (valid)
     if (exitCode === 0) {
       passed++;
-      if (verbose) console.log(`  ✅ PASS (positive) ${test.label}`);
+      if (verbose) {console.log(`  ✅ PASS (positive) ${test.label}`);}
     } else {
       failed++;
       console.log(`  ❌ FAIL (positive should pass) ${test.label}`);
@@ -129,7 +129,7 @@ for (const test of tests) {
       let correctErrorType = true;
       if (test.expectedError && result) {
         const registryErrors = result.registryErrors || [];
-        const hasExpected = registryErrors.some(e => e.type === test.expectedError);
+        const hasExpected = registryErrors.some(entry => entry.type === test.expectedError);
         if (!hasExpected) {
           correctErrorType = false;
           console.log(`  ⚠️  WARN (negative caught error, but not '${test.expectedError}') ${test.label}`);
@@ -142,8 +142,8 @@ for (const test of tests) {
       }
       if (correctErrorType) {
         passed++;
-        if (verbose) console.log(`  ✅ PASS (negative correctly rejected) ${test.label}`);
-        if (verbose && test.description) console.log(`       ${test.description}`);
+        if (verbose) {console.log(`  ✅ PASS (negative correctly rejected) ${test.label}`);}
+        if (verbose && test.description) {console.log(`       ${test.description}`);}
       } else {
         // Still counts as pass since it was rejected — just a different error type
         passed++;
@@ -151,7 +151,7 @@ for (const test of tests) {
     } else {
       failed++;
       console.log(`  ❌ FAIL (negative should be rejected but passed) ${test.label}`);
-      if (test.description) console.log(`       ${test.description}`);
+      if (test.description) {console.log(`       ${test.description}`);}
     }
   }
 }

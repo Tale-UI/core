@@ -67,7 +67,7 @@ if (failures.length > 0) {
   for (const f of failures) {
     console.log(`  ${f.file}:`);
     for (const line of f.output.split('\n')) {
-      if (line.trim()) console.log(`    ${line}`);
+      if (line.trim()) {console.log(`    ${line}`);}
     }
     console.log();
   }

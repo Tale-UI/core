@@ -8,11 +8,10 @@
  */
 
 import { existsSync, writeFileSync, unlinkSync } from 'fs';
-import { join } from 'path';
+import { join , dirname, resolve } from 'path';
 import { tmpdir } from 'os';
 import { execFileSync, spawn } from 'child_process';
 import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 export const ROOT = resolve(__dirname, '..');
@@ -33,12 +32,12 @@ export function findClaude() {
   ].filter(Boolean);
 
   for (const p of candidates) {
-    if (existsSync(p)) return p;
+    if (existsSync(p)) {return p;}
   }
 
   try {
     const result = execFileSync('which', ['claude'], { encoding: 'utf8' }).trim();
-    if (result) return result;
+    if (result) {return result;}
   } catch {
     /* not on PATH */
   }
@@ -68,8 +67,8 @@ export function callClaudeWithMcp(prompt, opts = {}) {
 
   const model = CLAUDE_MODEL_ALIASES[rawModel] ?? rawModel;
   const claudeBin = findClaude();
-  if (!claudeBin) throw new Error('Claude CLI not found. Install via https://claude.ai/claude-code or set CLAUDE_PATH.');
-  if (!existsSync(mcpConfigPath)) throw new Error(`MCP config not found at ${mcpConfigPath}`);
+  if (!claudeBin) {throw new Error('Claude CLI not found. Install via https://claude.ai/claude-code or set CLAUDE_PATH.');}
+  if (!existsSync(mcpConfigPath)) {throw new Error(`MCP config not found at ${mcpConfigPath}`);}
 
   const systemFile = join(tmpdir(), `tale-ui-studio-system-${process.pid}-${Date.now()}.md`);
   writeFileSync(systemFile, systemPrompt, 'utf8');

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Spinner } from '@tale-ui/react/spinner';
 
@@ -83,14 +84,14 @@ export const AllVariations: Story = {
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {variants.map((v) => (
-          <>
+          <React.Fragment>
             <div key={`label-${v}`} className="story-label">{v}</div>
             {sizes.map((s) => (
               <div key={`${v}-${s}`} style={{ width: v === 'line' ? 200 : 'auto' }}>
                 <Spinner variant={v} size={s} />
               </div>
             ))}
-          </>
+          </React.Fragment>
         ))}
       </div>
     );

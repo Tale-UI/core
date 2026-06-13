@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react';
 import Color from 'color'
 import styled from 'styled-components'
 import { isValidHex } from '../utils'
@@ -71,7 +71,7 @@ const DynamicInputRoot = styled.div`
   margin-bottom: 16px;
 `
 
-const DynamicInput = ({ value, onChange, color, prefix, sufix, withSlider, withRgbSlider, label, min, max, ...rest }) => {
+function DynamicInput({ value, onChange, color, prefix, sufix, withSlider, withRgbSlider, label, min, max, ...rest }) {
   return (
     <div>
       <DynamicInputLabel>

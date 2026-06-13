@@ -7,7 +7,7 @@ export interface ChartLegendProps {
 }
 
 export const ChartLegend: React.FC<ChartLegendProps> = ({ payload, className }) => {
-  if (!payload?.length) return null;
+  if (!payload?.length) {return null;}
 
   return (
     <div className={cx('tale-chart__legend', className)}>

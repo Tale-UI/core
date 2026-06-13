@@ -44,7 +44,7 @@ const PASCAL_OVERRIDES = {
 };
 
 function kebabToPascal(kebab) {
-  if (PASCAL_OVERRIDES[kebab]) return PASCAL_OVERRIDES[kebab];
+  if (PASCAL_OVERRIDES[kebab]) {return PASCAL_OVERRIDES[kebab];}
   return kebab.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('');
 }
 
@@ -63,17 +63,17 @@ function discoverComponents() {
 
 function findStyledFile(name) {
   const dir = path.join(REACT_SRC, name);
-  if (!fs.existsSync(dir)) return null;
+  if (!fs.existsSync(dir)) {return null;}
   const files = fs.readdirSync(dir);
   const pascal = kebabToPascal(name);
   const styledName = `${pascal}.styled.tsx`;
-  if (files.includes(styledName)) return path.join(dir, styledName);
+  if (files.includes(styledName)) {return path.join(dir, styledName);}
   const plainName = `${pascal}.tsx`;
   if (files.includes(plainName) && !plainName.includes('.test.') && !plainName.includes('.spec.')) {
     return path.join(dir, plainName);
   }
   const styled = files.find(f => f.endsWith('.styled.tsx'));
-  if (styled) return path.join(dir, styled);
+  if (styled) {return path.join(dir, styled);}
   return null;
 }
 
@@ -81,7 +81,7 @@ function findStyledFile(name) {
 
 function parseComponentIndex() {
   const raw = readFile(path.join(ROOT, 'docs/component-index.md'));
-  if (!raw) return new Map();
+  if (!raw) {return new Map();}
   const content = raw.replace(/\r\n/g, '\n');
 
   const map = new Map();
@@ -111,7 +111,7 @@ function parseComponentIndex() {
  * e.g. `type Variant = 'primary' | 'neutral'` → Map { Variant → ['primary','neutral'] }
  */
 function extractTypeAliases(content) {
-  if (!content) return new Map();
+  if (!content) {return new Map();}
   const map = new Map();
   // Match: type Name = 'a' | 'b' | ... (single-line, may have trailing semicolon)
   const re = /^(?:export\s+)?type\s+(\w+)\s*=\s*((?:'[^']*'\s*\|?\s*)+);?$/gm;
@@ -120,7 +120,7 @@ function extractTypeAliases(content) {
     const name = m[1];
     const body = m[2];
     const values = [...body.matchAll(/'([^']*)'/g)].map(v => v[1]);
-    if (values.length > 0) map.set(name, values);
+    if (values.length > 0) {map.set(name, values);}
   }
   return map;
 }
@@ -128,14 +128,14 @@ function extractTypeAliases(content) {
 // ─── Kind detection ─────────────────────────────────────────────────────────
 
 function detectKind(indexContent) {
-  if (!indexContent) return 'simple';
+  if (!indexContent) {return 'simple';}
   return /export \* as \w+ from/.test(indexContent) ? 'compound' : 'simple';
 }
 
 // ─── Props extraction ───────────────────────────────────────────────────────
 
 function extractProps(styledContent, pascal) {
-  if (!styledContent) return [];
+  if (!styledContent) {return [];}
 
   // Find exported interfaces (only those that end with Props)
   const props = [];
@@ -155,7 +155,7 @@ function extractProps(styledContent, pascal) {
   while ((ifaceMatch = ifaceRegex.exec(normalized)) !== null) {
     const ifaceName = ifaceMatch[1];
     const body = ifaceMatch[2];
-    if (!mainPropNames.has(ifaceName)) continue;
+    if (!mainPropNames.has(ifaceName)) {continue;}
 
     // Parse each member
     const memberRegex = /(?:\/\*\*\s*(.*?)\s*\*\/\s*)?(\w+)(\?)?:\s*([^;]+);/gs;
@@ -171,9 +171,9 @@ function extractProps(styledContent, pascal) {
       type = type.replace(/\s*\|\s*undefined\s*$/, '').trim();
 
       // Skip className — every component has it, not useful in registry
-      if (name === 'className') continue;
+      if (name === 'className') {continue;}
       // Skip children — implicit in React
-      if (name === 'children') continue;
+      if (name === 'children') {continue;}
 
       props.push({ name, type, required, description });
     }
@@ -187,16 +187,16 @@ function extractProps(styledContent, pascal) {
     const typeRegex = /export\s+type\s+(\w*Props\w*)(?:<[^>]*>)?\s*=\s*[^{]*&\s*\{([^}]*)\}/g;
     let typeMatch;
     while ((typeMatch = typeRegex.exec(normalized)) !== null) {
-      if (!mainPropNames.has(typeMatch[1])) continue;
+      if (!mainPropNames.has(typeMatch[1])) {continue;}
       const body = typeMatch[2];
       const memberRegex2 = /(?:\/\*\*\s*(.*?)\s*\*\/\s*)?(\w+)(\?)?:\s*([^;]+);/gs;
       let mm;
       while ((mm = memberRegex2.exec(body)) !== null) {
         const name = mm[2];
-        if (name === 'className' || name === 'children') continue;
+        if (name === 'className' || name === 'children') {continue;}
         const description = mm[1] ? mm[1].replace(/\s*\*\s*/g, ' ').replace(/\s+/g, ' ').trim() : null;
         const required = !mm[3];
-        let type = mm[4].trim().replace(/\s*\|\s*undefined\s*$/, '').trim();
+        const type = mm[4].trim().replace(/\s*\|\s*undefined\s*$/, '').trim();
         props.push({ name, type, required, description });
       }
       break;
@@ -208,7 +208,7 @@ function extractProps(styledContent, pascal) {
 
 // Attempt to extract default values from the forwardRef destructuring
 function extractDefaults(styledContent) {
-  if (!styledContent) return {};
+  if (!styledContent) {return {};}
   const defaults = {};
   // Match destructured defaults: { prop = 'value', prop2 = true, ... }
   const destructRegex = /\(\s*\{([^}]+)\}/;
@@ -240,17 +240,17 @@ const ROOT_ALIAS_PROP_MAP = {
 };
 
 function extractRootAliasProps(styledContent, pascal) {
-  if (!styledContent) return [];
+  if (!styledContent) {return [];}
   const normalized = styledContent.replace(/\r\n/g, '\n');
   const propTypeRegex = new RegExp(
     `export\\s+type\\s+(?:RootProps|${pascal}Props|${pascal}RootProps)\\s*=\\s*(\\w+)\\s*;`,
   );
   const match = normalized.match(propTypeRegex);
-  if (!match) return [];
+  if (!match) {return [];}
 
   const alias = match[1];
   const mapped = ROOT_ALIAS_PROP_MAP[alias];
-  if (!mapped) return [];
+  if (!mapped) {return [];}
 
   return mapped.map(prop => ({
     name: prop.name,
@@ -264,8 +264,8 @@ function extractRootAliasProps(styledContent, pascal) {
 // ─── Parts extraction ───────────────────────────────────────────────────────
 
 function extractParts(indexContent, styledContent) {
-  if (!indexContent || !/export \* as \w+ from/.test(indexContent)) return null;
-  if (!styledContent) return null;
+  if (!indexContent || !/export \* as \w+ from/.test(indexContent)) {return null;}
+  if (!styledContent) {return null;}
 
   // Collect display-name-derived parts (`Component.Part`) to augment export-
   // derived parts when internal symbol names differ from public API names.
@@ -281,7 +281,7 @@ function extractParts(indexContent, styledContent) {
   let m;
   while ((m = exportRegex.exec(styledContent)) !== null) {
     // Skip internal helpers (lowercase first letter or starts with 'use')
-    if (/^[a-z]/.test(m[1]) || m[1].startsWith('use')) continue;
+    if (/^[a-z]/.test(m[1]) || m[1].startsWith('use')) {continue;}
     parts.push(m[1]);
   }
 
@@ -291,13 +291,13 @@ function extractParts(indexContent, styledContent) {
   while ((am = aliasRegex.exec(styledContent)) !== null) {
     const from = am[1];
     const to = am[2];
-    if (!parts.includes(from) || parts.includes(to)) continue;
+    if (!parts.includes(from) || parts.includes(to)) {continue;}
     const fromIndex = parts.indexOf(from);
     parts[fromIndex] = to;
   }
 
   for (const part of displayNameParts) {
-    if (!parts.includes(part)) parts.push(part);
+    if (!parts.includes(part)) {parts.push(part);}
   }
 
   return parts.length > 0 ? [...new Set(parts)] : null;
@@ -306,7 +306,7 @@ function extractParts(indexContent, styledContent) {
 // ─── CSS class extraction ───────────────────────────────────────────────────
 
 function extractCSSClasses(cssContent) {
-  if (!cssContent) return [];
+  if (!cssContent) {return [];}
   const classes = new Set();
   const regex = /\.(tale-[\w-]+(?:__[\w-]+)?(?:--[\w-]+)?)/g;
   let m;
@@ -330,7 +330,7 @@ function extractCSSClasses(cssContent) {
  *   3. Prop names mentioned in backticks in ## Props section
  */
 function extractDocProps(docContent, pascal) {
-  if (!docContent) return [];
+  if (!docContent) {return [];}
   const normalized = docContent.replace(/\r\n/g, '\n');
   const found = new Map(); // name → { type }
 
@@ -352,7 +352,7 @@ function extractDocProps(docContent, pascal) {
     let rm;
     while ((rm = rootTagRegex.exec(code)) !== null) {
       const attrStr = rm[1];
-      if (!attrStr.trim()) continue;
+      if (!attrStr.trim()) {continue;}
 
       // Parse JSX attributes sequentially to avoid false positives inside strings.
       // Matches: propName="val" | propName={expr} | propName (boolean)
@@ -362,9 +362,9 @@ function extractDocProps(docContent, pascal) {
         const name = am[1];
         const full = am[0];
         // Skip internal/framework props
-        if (name === 'className' || name === 'children' || name === 'key' || name === 'ref' || name === 'style') continue;
+        if (name === 'className' || name === 'children' || name === 'key' || name === 'ref' || name === 'style') {continue;}
         // Skip aria-* (attrStr may contain aria-label="..." which splits on hyphen)
-        if (name === 'aria') continue;
+        if (name === 'aria') {continue;}
 
         if (!found.has(name)) {
           if (full.includes('="')) {
@@ -418,7 +418,7 @@ function extractPropsFromProse(text, found, options = {}) {
         `<${component}.Root`,
         `${component}.Root`,
       ];
-      if (!rootRefs.some(ref => line.includes(ref))) continue;
+      if (!rootRefs.some(ref => line.includes(ref))) {continue;}
     }
 
     propRegex.lastIndex = 0;
@@ -437,7 +437,7 @@ function extractPropsFromProse(text, found, options = {}) {
         lower.includes(`no ${token}`) ||
         lower.includes(`there is no ${token}`)
       );
-      if (isNegated) continue;
+      if (isNegated) {continue;}
 
       if (!found.has(name)) {
         found.set(name, { type: inferPropType(name) });
@@ -448,14 +448,14 @@ function extractPropsFromProse(text, found, options = {}) {
 
 /** Infer prop type from naming convention */
 function inferPropType(name) {
-  if (/^is[A-Z]/.test(name)) return 'boolean';
-  if (/^allows/.test(name)) return 'boolean';
-  if (/^default[A-Z]/.test(name) && name.endsWith('Keys')) return 'Iterable<Key>';
-  if (/^on[A-Z]/.test(name)) return 'function';
-  if (name === 'selectionMode') return "'none' | 'single' | 'multiple'";
-  if (name === 'orientation') return "'horizontal' | 'vertical'";
-  if (name === 'placement') return "'top' | 'bottom' | 'left' | 'right'";
-  if (name === 'sortDescriptor') return 'SortDescriptor';
+  if (/^is[A-Z]/.test(name)) {return 'boolean';}
+  if (/^allows/.test(name)) {return 'boolean';}
+  if (/^default[A-Z]/.test(name) && name.endsWith('Keys')) {return 'Iterable<Key>';}
+  if (/^on[A-Z]/.test(name)) {return 'function';}
+  if (name === 'selectionMode') {return "'none' | 'single' | 'multiple'";}
+  if (name === 'orientation') {return "'horizontal' | 'vertical'";}
+  if (name === 'placement') {return "'top' | 'bottom' | 'left' | 'right'";}
+  if (name === 'sortDescriptor') {return 'SortDescriptor';}
   return 'string';
 }
 
@@ -469,7 +469,7 @@ function inferPropType(name) {
  * Defaults to 'stable' when the tag is absent.
  */
 function extractStatus(styledContent) {
-  if (!styledContent) return { status: 'stable', deprecationNote: null };
+  if (!styledContent) {return { status: 'stable', deprecationNote: null };}
   const statusMatch = styledContent.match(/@status\s+(stable|experimental|deprecated)/);
   const status = statusMatch ? statusMatch[1] : 'stable';
   let deprecationNote = null;
@@ -483,14 +483,14 @@ function extractStatus(styledContent) {
 // ─── Example extraction from docs ───────────────────────────────────────────
 
 function extractDocExamples(docContent) {
-  if (!docContent) return [];
+  if (!docContent) {return [];}
   const normalized = docContent.replace(/\r\n/g, '\n');
   const examples = [];
   const regex = /```tsx\n([\s\S]*?)```/g;
   let m;
   while ((m = regex.exec(normalized)) !== null) {
     const code = m[1].trim();
-    if (code) examples.push(code);
+    if (code) {examples.push(code);}
   }
   return examples;
 }
@@ -498,13 +498,13 @@ function extractDocExamples(docContent) {
 // ─── Pitfall extraction from docs ───────────────────────────────────────────
 
 function extractPitfalls(docContent) {
-  if (!docContent) return { pitfalls: [], crossPitfallRefs: [] };
+  if (!docContent) {return { pitfalls: [], crossPitfallRefs: [] };}
   const normalized = docContent.replace(/\r\n/g, '\n');
 
   // Find ## Pitfalls section using indexOf for reliability
   const sectionMarker = '\n## Pitfalls\n';
   const start = normalized.indexOf(sectionMarker);
-  if (start === -1) return { pitfalls: [], crossPitfallRefs: [] };
+  if (start === -1) {return { pitfalls: [], crossPitfallRefs: [] };}
 
   // Find the end: next ## heading or EOF
   const contentStart = start + sectionMarker.length;
@@ -524,7 +524,7 @@ function extractPitfalls(docContent) {
     const block = m[2].trim().replace(/^(<!--[^>]*-->\s*)+/, '').trim();
     // First line is the bullet: "- **Summary** — detail"
     const bulletMatch = block.match(/^- \*\*(.+?)\*\*(?:\s*[—–-]\s*(.*))?/s);
-    if (!bulletMatch) continue;
+    if (!bulletMatch) {continue;}
 
     const summary = bulletMatch[1].replace(/`/g, '').trim();
     let detail = bulletMatch[2] ? bulletMatch[2].trim() : '';
@@ -685,7 +685,7 @@ function generateRegistry() {
 // ─── Run ────────────────────────────────────────────────────────────────────
 
 const registry = generateRegistry();
-const output = JSON.stringify(registry, null, 2) + '\n';
+const output = `${JSON.stringify(registry, null, 2)  }\n`;
 
 if (checkMode) {
   const existing = readFile(REGISTRY_PATH);

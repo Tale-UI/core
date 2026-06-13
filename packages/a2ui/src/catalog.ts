@@ -6,9 +6,6 @@
  */
 
 import * as React from 'react';
-import type { Catalog, CatalogEntry, A2UIAction, AdapterContext } from './types.ts';
-import { isDataBinding } from './types.ts';
-import { resolveIcon } from './icon-registry.ts';
 
 /* ─── Lazy imports ────────────────────────────────────────────────────────── */
 // Use dynamic imports so tree-shaking works and we don't pull every component
@@ -106,6 +103,9 @@ import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';
 import { ColorPicker } from '@tale-ui/react/color-picker';
 import { FileUpload } from '@tale-ui/react/file-upload';
 import { Check, X } from 'lucide-react';
+import { resolveIcon } from './icon-registry.ts';
+import { isDataBinding } from './types.ts';
+import type { Catalog, CatalogEntry, A2UIAction, AdapterContext } from './types.ts';
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
 
@@ -304,7 +304,7 @@ export const taleUICatalog: Catalog = {
         onChange: props.binding
           ? (_v: string) => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) handler();
+              if (handler) {handler();}
             }
           : undefined,
         children: h(React.Fragment, null,
@@ -386,7 +386,7 @@ export const taleUICatalog: Catalog = {
         onChange: props.binding
           ? () => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) handler();
+              if (handler) {handler();}
             }
           : undefined,
         children: ctx.children,
@@ -412,7 +412,7 @@ export const taleUICatalog: Catalog = {
         onChange: props.binding
           ? () => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) handler();
+              if (handler) {handler();}
             }
           : undefined,
         children: ctx.children,
@@ -437,7 +437,7 @@ export const taleUICatalog: Catalog = {
         onSelectionChange: props.binding
           ? () => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) handler();
+              if (handler) {handler();}
             }
           : undefined,
         children: h(React.Fragment, null,
@@ -679,10 +679,10 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       validationBehavior: props.validationBehavior as string | undefined,
       onSubmit: props.action
-        ? (e: React.FormEvent) => {
-            e.preventDefault();
+        ? (event: React.FormEvent) => {
+            event.preventDefault();
             const handler = pressHandler(props.action, ctx);
-            if (handler) handler();
+            if (handler) {handler();}
           }
         : undefined,
       children: ctx.children,
@@ -875,7 +875,7 @@ export const taleUICatalog: Catalog = {
         onSubmit: props.action
           ? () => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) handler();
+              if (handler) {handler();}
             }
           : undefined,
         children: h(React.Fragment, null,
@@ -1402,7 +1402,7 @@ export const taleUICatalog: Catalog = {
 
   /* ── Date & Time ────────────────────────────────────────────────────── */
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   Calendar: {
     component: Calendar.Root,
     adapter: (props) => ({

@@ -174,12 +174,12 @@ export interface IndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 function updateIndicator(indicator: HTMLSpanElement, variant: TabVariant = 'underline') {
   const wrapper = indicator.parentElement;
-  if (!wrapper) return;
+  if (!wrapper) {return;}
 
   // The tabs live in either the wrapper itself or a .tale-tabs__list-inner child
   const tabContainer = wrapper.querySelector('.tale-tabs__list-inner') ?? wrapper;
   const selectedTab = tabContainer.querySelector<HTMLElement>('[data-selected]');
-  if (!selectedTab) return;
+  if (!selectedTab) {return;}
 
   const isVertical = wrapper.closest('[data-orientation="vertical"]') !== null;
 
@@ -226,21 +226,21 @@ export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
     const mergedRef = React.useCallback(
       (node: HTMLSpanElement | null) => {
         innerRef.current = node;
-        if (typeof ref === 'function') ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLSpanElement | null>).current = node;
+        if (typeof ref === 'function') {ref(node);}
+        else if (ref) {(ref as React.MutableRefObject<HTMLSpanElement | null>).current = node;}
       },
       [ref],
     );
 
     React.useEffect(() => {
       // Enclosed variant doesn't use an animated indicator
-      if (tabVariant === 'enclosed') return;
+      if (tabVariant === 'enclosed') {return;}
 
       const indicator = innerRef.current;
-      if (!indicator) return;
+      if (!indicator) {return;}
 
       const wrapper = indicator.parentElement;
-      if (!wrapper) return;
+      if (!wrapper) {return;}
 
       const tabContainer = wrapper.querySelector('.tale-tabs__list-inner') ?? wrapper;
 

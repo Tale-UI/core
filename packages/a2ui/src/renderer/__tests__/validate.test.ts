@@ -133,7 +133,7 @@ describe('validateComponents', () => {
     ];
     const result = validateComponents(components, mockCatalog);
     expect(result.valid).toBe(false);
-    expect(result.errors.some((e) => e.type === 'orphaned_reference')).toBe(true);
+    expect(result.errors.some((entry) => entry.type === 'orphaned_reference')).toBe(true);
   });
 });
 

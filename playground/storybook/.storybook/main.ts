@@ -72,16 +72,54 @@ button[data-testid="context-menu"][data-testid="context-menu"]:focus-visible {
     const baseUrl = process.env.STORYBOOK_BASE ?? '/';
 
     config.base = baseUrl;
+    config.plugins = [stripUseClientDirectives(), ...(config.plugins ?? [])];
     config.resolve ??= {};
-    config.resolve.alias = {
-      ...((config.resolve.alias as Record<string, string>) ?? {}),
-      '@tale-ui/react': path.resolve(__dirname, '../../../packages/react/src'),
-      '@tale-ui/charts': path.resolve(__dirname, '../../../packages/charts/src'),
-      '@tale-ui/utils': path.resolve(__dirname, '../../../packages/utils/src'),
-      '@tale-ui/react-styles': path.resolve(__dirname, '../../../packages/styles/src'),
-      '@tale-ui/core': path.resolve(__dirname, '../../../packages/css/src/index.css'),
-      '@tale-ui/playground-scale': path.resolve(__dirname, '../../scale/src'),
-    };
+    const existingAliases = Array.isArray(config.resolve.alias)
+      ? config.resolve.alias
+      : Object.entries((config.resolve.alias as Record<string, string>) ?? {}).map(
+          ([find, replacement]) => ({ find, replacement }),
+        );
+
+    const taleAliasKeys = new Set([
+      '@tale-ui/react',
+      '@tale-ui/charts',
+      '@tale-ui/utils',
+      '@tale-ui/react-styles',
+      '@tale-ui/core',
+      '@tale-ui/playground-scale',
+    ]);
+
+    const filteredAliases = existingAliases.filter((alias) => {
+      if (typeof alias.find === 'string') {
+        return !taleAliasKeys.has(alias.find);
+      }
+
+      return String(alias.find) !== String(/^@tale-ui\/utils\/(.+)$/u);
+    });
+
+    config.resolve.alias = [
+      ...filteredAliases,
+      { find: '@tale-ui/react', replacement: path.resolve(__dirname, '../../../packages/react/src') },
+      { find: '@tale-ui/charts', replacement: path.resolve(__dirname, '../../../packages/charts/src') },
+      {
+        find: /^@tale-ui\/utils\/(.+)$/u,
+        replacement: path.resolve(__dirname, '../../../packages/utils/src/$1'),
+      },
+      {
+        find: '@tale-ui/react-styles',
+        replacement: path.resolve(__dirname, '../../../packages/styles/src'),
+      },
+      {
+        find: '@tale-ui/core',
+        replacement: path.resolve(__dirname, '../../../packages/css/src/index.css'),
+      },
+      {
+        find: '@tale-ui/playground-scale',
+        replacement: path.resolve(__dirname, '../../scale/src'),
+      },
+    ];
+    config.build ??= {};
+    config.build.chunkSizeWarningLimit = 1500;
     // Allow Vite's dev server to read files from the monorepo root so that
     // CSS @import chains (e.g. @import '@tale-ui/core' inside packages/styles)
     // can resolve into packages/css/src without being blocked by fs restrictions.
@@ -99,4 +137,34 @@ export default config;
 
 function getAbsolutePath(value: string): any {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
+}
+
+function stripUseClientDirectives() {
+  return {
+    name: 'tale-ui-storybook-strip-use-client-directives',
+    enforce: 'pre' as const,
+    transform(code: string, id: string) {
+      const shouldProcess =
+        id.includes('/packages/react/src/') ||
+        id.includes('/packages/utils/src/') ||
+        id.includes('/node_modules/lucide-react/') ||
+        id.includes('/node_modules/motion/') ||
+        id.includes('/node_modules/framer-motion/');
+
+      if (!shouldProcess) {
+        return null;
+      }
+
+      const next = code.replace(
+        /^(\s*(?:['"]use strict['"];?\s*)*)['"]use client['"];?\s*/u,
+        '$1',
+      );
+
+      if (next === code) {
+        return null;
+      }
+
+      return { code: next, map: null };
+    },
+  };
 }

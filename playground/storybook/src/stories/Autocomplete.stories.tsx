@@ -60,7 +60,7 @@ const fruits = [
 
 export const Default: Story = {
   render: function DefaultAutocomplete(args) {
-    let { contains } = useFilter({ sensitivity: 'base' });
+    const { contains } = useFilter({ sensitivity: 'base' });
     return (
       <div style={panelStyle}>
         <Autocomplete.Root filter={contains} size={args.size}>
@@ -86,7 +86,7 @@ export const Default: Story = {
 
 export const WithSections: Story = {
   render: function SectionsAutocomplete(args) {
-    let { contains } = useFilter({ sensitivity: 'base' });
+    const { contains } = useFilter({ sensitivity: 'base' });
     return (
       <div style={panelStyle}>
         <Autocomplete.Root filter={contains} size={args.size}>
@@ -120,7 +120,7 @@ export const WithSections: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render: function AllVariationsAutocomplete() {
-    let { contains } = useFilter({ sensitivity: 'base' });
+    const { contains } = useFilter({ sensitivity: 'base' });
     return (
       <div style={{ display: 'flex', gap: '1.6rem', flexWrap: 'wrap' }}>
         <div>

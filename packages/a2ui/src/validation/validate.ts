@@ -20,7 +20,7 @@ export type PropConstraints = Map<string, string[]>;
 /** Extract backtick-delimited enum values from an allowedValues string. */
 function extractEnumValues(allowedValues: string): string[] | null {
   const matches = allowedValues.match(/`([^`]+)`/g);
-  if (!matches || matches.length === 0) return null;
+  if (!matches || matches.length === 0) {return null;}
   return matches.map(m => m.slice(1, -1));
 }
 
@@ -34,9 +34,9 @@ export function buildPropConstraints(
   const constraints: PropConstraints = new Map();
   for (const type of catalogJson.types) {
     for (const prop of type.props) {
-      if (!prop.allowedValues) continue;
+      if (!prop.allowedValues) {continue;}
       // Skip props that accept free-form values (strings, numbers, bindings)
-      if (prop.allowedValues === 'boolean') continue;
+      if (prop.allowedValues === 'boolean') {continue;}
       const values = extractEnumValues(prop.allowedValues);
       if (values && values.length > 0) {
         constraints.set(`${type.name}.${prop.name}`, values);
@@ -92,29 +92,29 @@ export function validateMessage(msg: unknown): ValidationResult {
   switch (m.type) {
     case 'beginRendering':
       if (!m.surfaceId || typeof m.surfaceId !== 'string')
-        errors.push({ type: 'missing_field', message: 'beginRendering requires "surfaceId".', field: 'surfaceId' });
+        {errors.push({ type: 'missing_field', message: 'beginRendering requires "surfaceId".', field: 'surfaceId' });}
       if (!m.rootComponentId || typeof m.rootComponentId !== 'string')
-        errors.push({ type: 'missing_field', message: 'beginRendering requires "rootComponentId".', field: 'rootComponentId' });
+        {errors.push({ type: 'missing_field', message: 'beginRendering requires "rootComponentId".', field: 'rootComponentId' });}
       break;
 
     case 'surfaceUpdate':
       if (!m.surfaceId || typeof m.surfaceId !== 'string')
-        errors.push({ type: 'missing_field', message: 'surfaceUpdate requires "surfaceId".', field: 'surfaceId' });
+        {errors.push({ type: 'missing_field', message: 'surfaceUpdate requires "surfaceId".', field: 'surfaceId' });}
       if (!Array.isArray(m.components))
-        errors.push({ type: 'missing_field', message: 'surfaceUpdate requires "components" array.', field: 'components' });
+        {errors.push({ type: 'missing_field', message: 'surfaceUpdate requires "components" array.', field: 'components' });}
       break;
 
     case 'dataModelUpdate':
       if (!m.surfaceId || typeof m.surfaceId !== 'string')
-        errors.push({ type: 'missing_field', message: 'dataModelUpdate requires "surfaceId".', field: 'surfaceId' });
+        {errors.push({ type: 'missing_field', message: 'dataModelUpdate requires "surfaceId".', field: 'surfaceId' });}
       // Accept standard format (path + value) or LLM bulk format (data object)
       if (typeof m.path !== 'string' && (!m.data || typeof m.data !== 'object'))
-        errors.push({ type: 'missing_field', message: 'dataModelUpdate requires "path" string or "data" object.', field: 'path' });
+        {errors.push({ type: 'missing_field', message: 'dataModelUpdate requires "path" string or "data" object.', field: 'path' });}
       break;
 
     case 'deleteSurface':
       if (!m.surfaceId || typeof m.surfaceId !== 'string')
-        errors.push({ type: 'missing_field', message: 'deleteSurface requires "surfaceId".', field: 'surfaceId' });
+        {errors.push({ type: 'missing_field', message: 'deleteSurface requires "surfaceId".', field: 'surfaceId' });}
       break;
 
     default:
@@ -174,8 +174,8 @@ export function validateComponents(
     if (propConstraints) {
       const props = comp.component[typeName] ?? {};
       for (const [propName, propValue] of Object.entries(props)) {
-        if (propName === 'children') continue;
-        if (typeof propValue !== 'string') continue;
+        if (propName === 'children') {continue;}
+        if (typeof propValue !== 'string') {continue;}
 
         const key = `${typeName}.${propName}`;
         const allowed = propConstraints.get(key);
@@ -194,7 +194,7 @@ export function validateComponents(
   // Check for orphaned child references
   for (const comp of components) {
     const typeKeys = Object.keys(comp.component);
-    if (typeKeys.length === 0) continue;
+    if (typeKeys.length === 0) {continue;}
     const props = comp.component[typeKeys[0]!] ?? {};
 
     for (const [key, value] of Object.entries(props)) {
@@ -249,8 +249,8 @@ export function validateMessages(
 
 /** Format validation errors as a human-readable string for agent feedback. */
 export function formatErrors(errors: ValidationError[]): string {
-  if (errors.length === 0) return 'No validation errors.';
+  if (errors.length === 0) {return 'No validation errors.';}
   return errors
-    .map((e, i) => `${i + 1}. [${e.type}] ${e.message}`)
+    .map((entry, i) => `${i + 1}. [${entry.type}] ${entry.message}`)
     .join('\n');
 }

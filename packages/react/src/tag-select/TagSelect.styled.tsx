@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useCallback, useRef, useState, useMemo, useId } from 'react';
 import { X } from 'lucide-react';
 import {
   ComboBox as AriaComboBox,
@@ -64,7 +63,7 @@ export interface RootProps<T extends TagSelectItem = TagSelectItem>
 
 const defaultGetLabel = (item: TagSelectItem): string => {
   const a = item as Record<string, unknown>;
-  return String(a['name'] ?? a['label'] ?? item.id);
+  return String(a.name ?? a.label ?? item.id);
 };
 
 /**
@@ -122,24 +121,24 @@ export function Root<T extends TagSelectItem = TagSelectItem>({
   ...rest
 }: RootProps<T>) {
   const { contains } = useFilter({ sensitivity: 'base' });
-  const [inputValue, setInputValue] = useState('');
-  const [popoverWidth, setPopoverWidth] = useState('');
-  const groupRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const tagButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const labelId = useId();
+  const [inputValue, setInputValue] = React.useState('');
+  const [popoverWidth, setPopoverWidth] = React.useState('');
+  const groupRef = React.useRef<HTMLDivElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const tagButtonRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const labelId = React.useId();
 
   // ── Controlled / uncontrolled selectedKeys ────────────────────────────────
 
   const isControlled = controlledKeys !== undefined;
-  const [internalKeys, setInternalKeys] = useState<Set<Key>>(
+  const [internalKeys, setInternalKeys] = React.useState<Set<Key>>(
     () => defaultSelectedKeys ?? new Set(),
   );
   const selectedKeys = isControlled ? controlledKeys : internalKeys;
 
-  const setSelectedKeys = useCallback(
+  const setSelectedKeys = React.useCallback(
     (keys: Set<Key>) => {
-      if (!isControlled) setInternalKeys(keys);
+      if (!isControlled) {setInternalKeys(keys);}
       onSelectionChange?.(keys);
     },
     [isControlled, onSelectionChange],
@@ -147,20 +146,20 @@ export function Root<T extends TagSelectItem = TagSelectItem>({
 
   // ── Label resolver ────────────────────────────────────────────────────────
 
-  const resolveLabel = useCallback(
+  const resolveLabel = React.useCallback(
     (item: T): string => (getItemLabel ? getItemLabel(item) : defaultGetLabel(item)),
     [getItemLabel],
   );
 
   // ── Derived state ──────────────────────────────────────────────────────────
 
-  const itemsById = useMemo(() => {
+  const itemsById = React.useMemo(() => {
     const map = new Map<Key, T>();
-    for (const item of items) map.set(item.id, item);
+    for (const item of items) {map.set(item.id, item);}
     return map;
   }, [items]);
 
-  const selectedItems = useMemo(
+  const selectedItems = React.useMemo(
     () =>
       Array.from(selectedKeys)
         .map((k) => itemsById.get(k))
@@ -168,7 +167,7 @@ export function Root<T extends TagSelectItem = TagSelectItem>({
     [selectedKeys, itemsById],
   );
 
-  const filteredItems = useMemo(
+  const filteredItems = React.useMemo(
     () =>
       items.filter(
         (item) =>
@@ -180,9 +179,9 @@ export function Root<T extends TagSelectItem = TagSelectItem>({
 
   // ── Handlers ───────────────────────────────────────────────────────────────
 
-  const handleSelectionChange = useCallback(
+  const handleSelectionChange = React.useCallback(
     (key: Key | null) => {
-      if (!key) return;
+      if (!key) {return;}
       const newKeys = new Set(selectedKeys);
       newKeys.add(key);
       setSelectedKeys(newKeys);
@@ -192,7 +191,7 @@ export function Root<T extends TagSelectItem = TagSelectItem>({
     [selectedKeys, setSelectedKeys],
   );
 
-  const handleRemove = useCallback(
+  const handleRemove = React.useCallback(
     (key: Key) => {
       const newKeys = new Set(selectedKeys);
       newKeys.delete(key);
@@ -201,34 +200,34 @@ export function Root<T extends TagSelectItem = TagSelectItem>({
     [selectedKeys, setSelectedKeys],
   );
 
-  const handleOpenChange = useCallback((isOpen: boolean) => {
+  const handleOpenChange = React.useCallback((isOpen: boolean) => {
     if (isOpen && groupRef.current) {
       setPopoverWidth(`${groupRef.current.getBoundingClientRect().width}px`);
     }
   }, []);
 
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const isCaretAtStart =
-      e.currentTarget.selectionStart === 0 && e.currentTarget.selectionEnd === 0;
+      event.currentTarget.selectionStart === 0 && event.currentTarget.selectionEnd === 0;
     if (
-      (e.key === 'Backspace' || e.key === 'ArrowLeft') &&
+      (event.key === 'Backspace' || event.key === 'ArrowLeft') &&
       isCaretAtStart &&
       inputValue === '' &&
       selectedItems.length > 0
     ) {
-      e.preventDefault();
+      event.preventDefault();
       tagButtonRefs.current[selectedItems.length - 1]?.focus();
     }
   };
 
   const handleTagKeyDown = (
-    e: React.KeyboardEvent<HTMLButtonElement>,
+    event: React.KeyboardEvent<HTMLButtonElement>,
     key: Key,
     index: number,
   ) => {
-    if (e.key === 'Tab') return;
-    e.preventDefault();
-    switch (e.key) {
+    if (event.key === 'Tab') {return;}
+    event.preventDefault();
+    switch (event.key) {
       case ' ':
       case 'Enter':
       case 'Backspace':
@@ -240,7 +239,7 @@ export function Root<T extends TagSelectItem = TagSelectItem>({
         }
         break;
       case 'ArrowLeft':
-        if (index > 0) tagButtonRefs.current[index - 1]?.focus();
+        if (index > 0) {tagButtonRefs.current[index - 1]?.focus();}
         break;
       case 'ArrowRight':
         if (index < selectedItems.length - 1) {
@@ -298,7 +297,7 @@ export function Root<T extends TagSelectItem = TagSelectItem>({
                 tabIndex={-1}
                 disabled={isDisabled}
                 onClick={() => handleRemove(item.id)}
-                onKeyDown={(e) => handleTagKeyDown(e, item.id, index)}
+                onKeyDown={(entry) => handleTagKeyDown(entry, item.id, index)}
               >
                 <X size={15} aria-hidden="true" strokeWidth={2.5} />
               </button>

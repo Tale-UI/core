@@ -43,9 +43,9 @@ const STORAGE_KEYS = {
 } as const;
 
 function getEnvKey(provider: Provider): string {
-  if (provider === 'openai') return import.meta.env.VITE_OPENAI_API_KEY || '';
-  if (provider === 'straico') return import.meta.env.VITE_STRAICO_API_KEY || '';
-  if (provider === 'ollama') return 'ollama'; // no real key needed
+  if (provider === 'openai') {return import.meta.env.VITE_OPENAI_API_KEY || '';}
+  if (provider === 'straico') {return import.meta.env.VITE_STRAICO_API_KEY || '';}
+  if (provider === 'ollama') {return 'ollama';} // no real key needed
   return import.meta.env.VITE_ANTHROPIC_API_KEY || '';
 }
 

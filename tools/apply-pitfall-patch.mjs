@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console, no-underscore-dangle, @typescript-eslint/naming-convention */
+ 
 
 import { existsSync, readFileSync, writeFileSync, unlinkSync } from 'fs';
 import { execFileSync, spawnSync } from 'child_process';

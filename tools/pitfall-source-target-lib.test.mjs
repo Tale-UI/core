@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
+ 
 
 import test from 'node:test';
 import assert from 'node:assert/strict';

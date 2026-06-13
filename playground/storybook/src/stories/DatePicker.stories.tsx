@@ -27,8 +27,8 @@ export default meta;
 
 type Story = StoryObj<Args>;
 
-const DatePickerTemplate = (args: Args & { showLabel?: boolean }) => (
-  <DatePicker.Root {...args} className="story-field-full">
+function DatePickerTemplate(args: Args & { showLabel?: boolean }) {
+  return <DatePicker.Root {...args} className="story-field-full">
     {args.showLabel && <DatePicker.Label>Date</DatePicker.Label>}
     <DatePicker.Group>
       <DatePicker.DateInput>
@@ -56,7 +56,7 @@ const DatePickerTemplate = (args: Args & { showLabel?: boolean }) => (
       </DatePicker.Dialog>
     </DatePicker.Popover>
   </DatePicker.Root>
-);
+}
 
 export const Default: Story = {
   render: (args) => <DatePickerTemplate {...args} />,

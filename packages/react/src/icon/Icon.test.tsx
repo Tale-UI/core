@@ -29,11 +29,11 @@ describe('<Icon />', () => {
 
   it('applies size modifier classes', async () => {
     const { container } = await render(
-      <>
+      <React.Fragment>
         <Icon icon={MockIcon} size="sm" data-testid="sm" />
         <Icon icon={MockIcon} size="lg" data-testid="lg" />
         <Icon icon={MockIcon} size="xl" data-testid="xl" />
-      </>,
+      </React.Fragment>,
     );
     expect(screen.getByTestId('sm')).to.have.class('tale-icon--sm');
     expect(screen.getByTestId('lg')).to.have.class('tale-icon--lg');

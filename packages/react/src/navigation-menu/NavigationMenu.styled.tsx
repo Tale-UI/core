@@ -47,7 +47,7 @@ export const Trigger = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ className, ...props }, ref) => (
-  <button ref={ref} className={cx('tale-navigation-menu__trigger', className)} {...props} />
+  <button type="button" ref={ref} className={cx('tale-navigation-menu__trigger', className)} {...props} />
 ));
 Trigger.displayName = 'NavigationMenu.Trigger';
 

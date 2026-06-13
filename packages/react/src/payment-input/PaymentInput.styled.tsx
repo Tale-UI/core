@@ -21,20 +21,20 @@ import { cx } from '../_cx';
 type CardType = 'visa' | 'mastercard' | 'amex' | 'discover' | 'unknown';
 
 function detectCardType(digits: string): CardType {
-  if (!digits) return 'unknown';
+  if (!digits) {return 'unknown';}
 
-  if (digits[0] === '4') return 'visa';
+  if (digits[0] === '4') {return 'visa';}
 
   const two = parseInt(digits.slice(0, 2), 10);
-  if (two >= 51 && two <= 55) return 'mastercard';
+  if (two >= 51 && two <= 55) {return 'mastercard';}
   const four = parseInt(digits.slice(0, 4), 10);
-  if (four >= 2221 && four <= 2720) return 'mastercard';
+  if (four >= 2221 && four <= 2720) {return 'mastercard';}
 
-  if (two === 34 || two === 37) return 'amex';
+  if (two === 34 || two === 37) {return 'amex';}
 
-  if (digits.startsWith('6011') || digits.startsWith('65')) return 'discover';
+  if (digits.startsWith('6011') || digits.startsWith('65')) {return 'discover';}
   const three = parseInt(digits.slice(0, 3), 10);
-  if (three >= 644 && three <= 649) return 'discover';
+  if (three >= 644 && three <= 649) {return 'discover';}
 
   return 'unknown';
 }
@@ -43,9 +43,9 @@ function formatCardNumber(digits: string, cardType: CardType): string {
   if (cardType === 'amex') {
     const max = digits.slice(0, 15);
     const parts: string[] = [];
-    if (max.length > 0) parts.push(max.slice(0, 4));
-    if (max.length > 4) parts.push(max.slice(4, 10));
-    if (max.length > 10) parts.push(max.slice(10, 15));
+    if (max.length > 0) {parts.push(max.slice(0, 4));}
+    if (max.length > 4) {parts.push(max.slice(4, 10));}
+    if (max.length > 10) {parts.push(max.slice(10, 15));}
     return parts.join(' ');
   }
 

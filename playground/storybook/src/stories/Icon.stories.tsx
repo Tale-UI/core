@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Icon } from '@tale-ui/react/icon';
 import { Button } from '@tale-ui/react/button';
@@ -154,10 +155,10 @@ export const AllVariations: Story = {
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {icons.map((IconComp, i) => (
-          <>
+          <React.Fragment>
             <div key={`label-${i}`} className="story-label">{IconComp.displayName}</div>
             {sizes.map((s) => <Icon key={`${i}-${s}`} icon={IconComp} size={s} />)}
-          </>
+          </React.Fragment>
         ))}
       </div>
     );

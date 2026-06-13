@@ -34,9 +34,9 @@ for (const filePath of targets) {
   const result = dedupFile(original, filePath);
   if (result !== original) {
     const removed = countPitfallBlocks(original) - countPitfallBlocks(result);
-    console.log(`${WRITE ? 'Updated' : 'Would update'}: ${filePath.replace(ROOT + '/', '')}`);
+    console.log(`${WRITE ? 'Updated' : 'Would update'}: ${filePath.replace(`${ROOT  }/`, '')}`);
     console.log(`  Removed ${removed} duplicate block(s)`);
-    if (WRITE) writeFileSync(filePath, result, 'utf8');
+    if (WRITE) {writeFileSync(filePath, result, 'utf8');}
     totalRemoved += removed;
     filesChanged++;
   }
@@ -48,7 +48,7 @@ if (totalRemoved === 0) {
   console.log(
     `\n${WRITE ? 'Done' : 'Dry run'}: ${totalRemoved} duplicate block(s) in ${filesChanged} file(s).`,
   );
-  if (!WRITE) console.log('Re-run with --write to apply.');
+  if (!WRITE) {console.log('Re-run with --write to apply.');}
 }
 
 /**
@@ -72,7 +72,7 @@ function dedupFile(content, filePath) {
     markers.push({ slug: match[1], start: match.index, end: match.index + match[0].length });
   }
 
-  if (markers.length === 0) return content;
+  if (markers.length === 0) {return content;}
 
   for (let i = 0; i < markers.length; i++) {
     const { slug, start } = markers[i];

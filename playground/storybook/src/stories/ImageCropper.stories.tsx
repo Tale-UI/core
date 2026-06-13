@@ -1,5 +1,5 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
 import { ImageCropper, makeAspectCrop, centerCrop } from '@tale-ui/react/image-cropper';
 import type { Crop, PixelCrop } from '@tale-ui/react/image-cropper';
 
@@ -16,7 +16,7 @@ const DEMO_IMG = 'https://placehold.co/600x400/6366f1/ffffff?text=Crop+Me';
 
 export const Default: Story = {
   render: () => {
-    const [crop, setCrop] = useState<Crop>();
+    const [crop, setCrop] = React.useState<Crop>();
     return (
       <div style={{ maxWidth: 480 }}>
         <ImageCropper.Root crop={crop} onChange={setCrop}>
@@ -30,7 +30,7 @@ export const Default: Story = {
 export const WithAspectRatio: Story = {
   name: 'With Aspect Ratio (16:9)',
   render: () => {
-    const [crop, setCrop] = useState<Crop>();
+    const [crop, setCrop] = React.useState<Crop>();
     return (
       <div style={{ maxWidth: 480 }}>
         <ImageCropper.Root crop={crop} onChange={setCrop} aspect={16 / 9}>
@@ -44,15 +44,15 @@ export const WithAspectRatio: Story = {
 export const CircularCrop: Story = {
   name: 'Circular Crop (1:1)',
   render: () => {
-    const [crop, setCrop] = useState<Crop>();
+    const [crop, setCrop] = React.useState<Crop>();
     return (
       <div style={{ maxWidth: 360 }}>
         <ImageCropper.Root crop={crop} onChange={setCrop} aspect={1} circularCrop>
           <ImageCropper.Img
             src="https://placehold.co/400x400/6366f1/ffffff?text=Avatar"
             alt="Avatar crop"
-            onLoad={(e) => {
-              const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+            onLoad={(entry) => {
+              const { naturalWidth: w, naturalHeight: h } = entry.currentTarget;
               const initial = centerCrop(
                 makeAspectCrop({ unit: '%', width: 80 }, 1, w, h),
                 w,
@@ -70,7 +70,7 @@ export const CircularCrop: Story = {
 export const WithRuleOfThirds: Story = {
   name: 'Rule of Thirds',
   render: () => {
-    const [crop, setCrop] = useState<Crop>();
+    const [crop, setCrop] = React.useState<Crop>();
     return (
       <div style={{ maxWidth: 480 }}>
         <ImageCropper.Root crop={crop} onChange={setCrop} ruleOfThirds>

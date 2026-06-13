@@ -20,10 +20,10 @@ import { cx } from '../_cx';
 
 export type RootProps<T extends DateValue = DateValue> = Omit<AriaDateFieldProps<T>, 'className'> & { className?: string };
 
-const RootInner = <T extends DateValue>(
-  { className, ...props }: RootProps<T>,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) => <AriaDateField ref={ref} className={cx('tale-date-field', className)} {...props} />;
+function RootInner<T extends DateValue>({ className, ...props }: RootProps<T>,
+  ref: React.ForwardedRef<HTMLDivElement>) {
+  return <AriaDateField ref={ref} className={cx('tale-date-field', className)} {...props} />
+}
 
 /**
  * A segmented date input field (year/month/day).

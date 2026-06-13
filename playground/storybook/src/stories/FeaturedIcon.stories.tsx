@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FeaturedIcon } from '@tale-ui/react/featured-icon';
 import { Icon } from '@tale-ui/react/icon';
@@ -134,14 +135,14 @@ export const AllVariations: Story = {
                   <div />
                   {themes.map((t) => <div key={t} className="story-label" style={{ textAlign: 'center' }}>{t}</div>)}
                   {variants.map((v) => (
-                    <>
+                    <React.Fragment>
                       <div key={`label-${v}`} className="story-label">{v}</div>
                       {themes.map((t) => (
                         <FeaturedIcon key={`${v}-${t}`} variant={v} theme={t} shape={shape} size={size}>
                           <Icon icon={Star} />
                         </FeaturedIcon>
                       ))}
-                    </>
+                    </React.Fragment>
                   ))}
                 </div>
               </div>

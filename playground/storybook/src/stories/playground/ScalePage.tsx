@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
 import ScaleApp from '@tale-ui/playground-scale/App';
 
 /**
@@ -6,8 +6,8 @@ import ScaleApp from '@tale-ui/playground-scale/App';
  * its index.css. These are injected via useEffect so they apply within
  * Storybook's preview iframe without needing a separate CSS import.
  */
-export const ScalePage = () => {
-  useEffect(() => {
+export function ScalePage() {
+  React.useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
 
@@ -65,4 +65,4 @@ export const ScalePage = () => {
       <ScaleApp />
     </div>
   );
-};
+}

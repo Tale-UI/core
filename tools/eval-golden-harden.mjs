@@ -89,8 +89,8 @@ function loadGoldenPrompts() {
 function selectedPrompts() {
   let prompts = loadGoldenPrompts();
   if (FILTER_DIFFICULTY)
-    prompts = prompts.filter((prompt) => prompt.difficulty === FILTER_DIFFICULTY);
-  if (FILTER_SLUG) prompts = prompts.filter((prompt) => prompt.slug === FILTER_SLUG);
+    {prompts = prompts.filter((prompt) => prompt.difficulty === FILTER_DIFFICULTY);}
+  if (FILTER_SLUG) {prompts = prompts.filter((prompt) => prompt.slug === FILTER_SLUG);}
   if (FILTER_SLUGS?.length) {
     const slugSet = new Set(FILTER_SLUGS);
     prompts = prompts.filter((prompt) => slugSet.has(prompt.slug));
@@ -130,7 +130,7 @@ function buildPassThroughArgs() {
 }
 
 function readResumeState(filePath) {
-  if (!RESUME || RESET_RESUME || !existsSync(filePath)) return null;
+  if (!RESUME || RESET_RESUME || !existsSync(filePath)) {return null;}
   try {
     return JSON.parse(readFileSync(filePath, 'utf8'));
   } catch (err) {
@@ -183,7 +183,7 @@ function stripResumeRuntimeArgs(argsToNormalize = []) {
 }
 
 function normalizeResumeConfig(config) {
-  if (!config) return config;
+  if (!config) {return config;}
   return {
     ...config,
     passThroughArgs: stripResumeRuntimeArgs(config.passThroughArgs),
@@ -220,7 +220,7 @@ function runHardeningRound(slug, passThroughArgs, round) {
     process.stderr.write(proc.stderr);
   }
 
-  if (proc.error) throw proc.error;
+  if (proc.error) {throw proc.error;}
   if (proc.status !== 0) {
     const details = [proc.stdout, proc.stderr].filter(Boolean).join('\n');
     if (isProviderQuotaMessage(details)) {
@@ -294,21 +294,21 @@ async function main() {
     let round = promptState[prompt.slug]?.round ?? 0;
     if (promptState[prompt.slug]?.done) {
       console.log(
-        `\n${C.bold(`[${index + 1}/${prompts.length}]`)} ${C.cyan(prompt.slug)} ` +
-          C.green(`already hardened (${streak}/${PASS_TARGET})`),
+        `\n${C.bold(`[${index + 1}/${prompts.length}]`)} ${C.cyan(prompt.slug)} ${ 
+          C.green(`already hardened (${streak}/${PASS_TARGET})`)}`,
       );
       continue;
     }
     console.log(
-      `\n${C.bold(`[${index + 1}/${prompts.length}]`)} ${C.cyan(prompt.slug)} ` +
-        C.dim(`target streak ${PASS_TARGET}`),
+      `\n${C.bold(`[${index + 1}/${prompts.length}]`)} ${C.cyan(prompt.slug)} ${ 
+        C.dim(`target streak ${PASS_TARGET}`)}`,
     );
 
     while (streak < PASS_TARGET && round < MAX_ROUNDS) {
       round++;
       console.log(
-        `\n  ${C.bold(`Round ${round}/${MAX_ROUNDS}`)} ` +
-          C.dim(`current clean streak: ${streak}/${PASS_TARGET}`),
+        `\n  ${C.bold(`Round ${round}/${MAX_ROUNDS}`)} ${ 
+          C.dim(`current clean streak: ${streak}/${PASS_TARGET}`)}`,
       );
 
       const summary = runHardeningRound(prompt.slug, passThroughArgs, round);
@@ -336,8 +336,8 @@ async function main() {
       promptState[prompt.slug] = { streak, round, done: false };
       checkpoint();
       console.log(
-        `\n  ${C.red('✗ Hardening target not reached')} for ${prompt.slug} ` +
-          C.dim(`after ${MAX_ROUNDS} round(s).`),
+        `\n  ${C.red('✗ Hardening target not reached')} for ${prompt.slug} ${ 
+          C.dim(`after ${MAX_ROUNDS} round(s).`)}`,
       );
     } else {
       promptState[prompt.slug] = { streak, round, done: true };

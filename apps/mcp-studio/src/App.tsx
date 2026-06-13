@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react';
 import { Tabs } from '@tale-ui/react/tabs';
 import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
 import { PromptStudio } from './panes/PromptStudio';
@@ -14,8 +14,8 @@ export interface AuthorFixState {
 }
 
 export function App() {
-  const [tab, setTab] = useState<ActiveTab>('prompt');
-  const [authorFix, setAuthorFix] = useState<AuthorFixState>({ open: false });
+  const [tab, setTab] = React.useState<ActiveTab>('prompt');
+  const [authorFix, setAuthorFix] = React.useState<AuthorFixState>({ open: false });
 
   return (
     <div className="studio-root">

@@ -1,7 +1,7 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TagGroup } from '@tale-ui/react/tag-group';
 import type { Selection } from 'react-aria-components';
-import { useState } from 'react';
 
 type Args = {
   selectionMode?: 'none' | 'single' | 'multiple';
@@ -46,7 +46,7 @@ export const Removable: Story = {
     controls: { disable: true },
   },
   render() {
-    const [tags, setTags] = useState([
+    const [tags, setTags] = React.useState([
       { id: 'react', name: 'React' },
       { id: 'vue', name: 'Vue' },
       { id: 'angular', name: 'Angular' },
@@ -98,7 +98,7 @@ export const WithSelection: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const [tags, setTags] = useState([
+    const [tags, setTags] = React.useState([
       { id: 'react', name: 'React' },
       { id: 'vue', name: 'Vue' },
       { id: 'svelte', name: 'Svelte' },

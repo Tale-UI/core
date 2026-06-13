@@ -35,9 +35,9 @@ export interface RootProps extends Omit<React.ComponentPropsWithoutRef<'div'>, '
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
   ({ variant = 'info', size = 'md', className, ...props }, ref) => {
     const classes = ['tale-banner'];
-    if (variant === 'info') classes.push('tale-banner--info');
-    else classes.push(`color-${variant}`);
-    if (size !== 'md') classes.push(`tale-banner--${size}`);
+    if (variant === 'info') {classes.push('tale-banner--info');}
+    else {classes.push(`color-${variant}`);}
+    if (size !== 'md') {classes.push(`tale-banner--${size}`);}
 
     return (
       <div

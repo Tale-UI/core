@@ -23,7 +23,7 @@ const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
 
 function extractNames(text, startMarker, endMarker) {
   const start = text.indexOf(startMarker);
-  if (start === -1) return null;
+  if (start === -1) {return null;}
   const after = text.slice(start + startMarker.length);
   const end = endMarker ? after.indexOf(endMarker) : after.indexOf('\n\n');
   const segment = (end === -1 ? after : after.slice(0, end)).trim();
@@ -32,11 +32,11 @@ function extractNames(text, startMarker, endMarker) {
   if (segment.includes('`')) {
     const regex = /`(\w+)`/g;
     let m;
-    while ((m = regex.exec(segment)) !== null) names.push(m[1]);
+    while ((m = regex.exec(segment)) !== null) {names.push(m[1]);}
   } else {
     for (const tok of segment.split(/[\s,]+/)) {
       const name = tok.trim().replace(/[.,;]$/, '');
-      if (/^[A-Z]\w*$/.test(name) || name === 'mergeProps') names.push(name);
+      if (/^[A-Z]\w*$/.test(name) || name === 'mergeProps') {names.push(name);}
     }
   }
   return names;

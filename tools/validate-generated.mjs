@@ -96,7 +96,7 @@ function validateRegistry(code) {
   // Check compound vs simple usage in JSX
   for (const [name, slug] of importedComponents) {
     const comp = componentsBySlug.get(slug) || componentsByName.get(name);
-    if (!comp) continue;
+    if (!comp) {continue;}
 
     if (comp.kind === 'compound') {
       // Check if used as bare <Dialog> instead of <Dialog.Root>
@@ -185,8 +185,7 @@ result.valid = result.registryErrors.length === 0 && result.typescriptErrors.len
 
 if (jsonOutput) {
   console.log(JSON.stringify(result, null, 2));
-} else {
-  if (result.valid) {
+} else if (result.valid) {
     console.log(`✅ ${sourceLabel} — valid`);
   } else {
     console.log(`❌ ${sourceLabel} — ${result.registryErrors.length + result.typescriptErrors.length} error(s)\n`);
@@ -198,6 +197,5 @@ if (jsonOutput) {
       console.log(`  [tsc${loc}] ${err.message}`);
     }
   }
-}
 
 process.exit(result.valid ? 0 : 1);

@@ -1,10 +1,10 @@
 // TSX → JS transpilation via Sucrase (client-side, no wasm required).
 
-let _sucrase: typeof import('sucrase') | null = null;
+let sucraseModule: typeof import('sucrase') | null = null;
 
 async function getSucrase() {
-  if (!_sucrase) _sucrase = await import('sucrase');
-  return _sucrase;
+  if (!sucraseModule) {sucraseModule = await import('sucrase');}
+  return sucraseModule;
 }
 
 export interface TranspileResult {

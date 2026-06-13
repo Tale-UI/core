@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';
 
@@ -104,26 +105,26 @@ export const AllVariations: Story = {
           <div />
           {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
           {states.map((state) => (
-            <>
+            <React.Fragment>
               <div key={`label-${state.label}`} className="story-label">{state.label}</div>
               {sizes.map((s) => (
                 <ToggleButton key={`${state.label}-${s}`} size={s} {...state.props}>{state.label}</ToggleButton>
               ))}
-            </>
+            </React.Fragment>
           ))}
         </div>
 
         {/* Grouped buttons */}
         <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
           {sizes.map((s) => (
-            <>
+            <React.Fragment>
               <div key={`group-label-${s}`} className="story-label">Group ({s})</div>
               <ToggleButtonGroup key={`group-${s}`} aria-label={`Formatting ${s}`}>
                 <ToggleButton size={s}>Bold</ToggleButton>
                 <ToggleButton size={s} defaultSelected>Italic</ToggleButton>
                 <ToggleButton size={s}>Underline</ToggleButton>
               </ToggleButtonGroup>
-            </>
+            </React.Fragment>
           ))}
           <div className="story-label">Group (disabled)</div>
           <ToggleButtonGroup aria-label="Formatting disabled">

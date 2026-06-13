@@ -94,7 +94,7 @@ function createClock(defaultMode: string, config?: number | Date, options?: obje
 
   return {
     withFakeTimers: () => {
-      if (vi.isFakeTimers()) return;
+      if (vi.isFakeTimers()) {return;}
       beforeEach(() => {
         vi.useFakeTimers({
           now: config,

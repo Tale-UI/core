@@ -31,8 +31,8 @@ export interface RootProps extends Omit<React.ComponentPropsWithoutRef<'ul'>, 'c
 export const Root = React.forwardRef<HTMLUListElement, RootProps>(
   ({ variant = 'plain', density = 'default', className, ...props }, ref) => {
     const classes = ['tale-list'];
-    if (variant !== 'plain') classes.push(`tale-list--${variant}`);
-    if (density !== 'default') classes.push(`tale-list--${density}`);
+    if (variant !== 'plain') {classes.push(`tale-list--${variant}`);}
+    if (density !== 'default') {classes.push(`tale-list--${density}`);}
     return (
       <ul
         ref={ref}

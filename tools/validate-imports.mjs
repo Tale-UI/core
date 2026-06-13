@@ -24,7 +24,7 @@ const registry = JSON.parse(readFileSync(REGISTRY_PATH, 'utf8'));
 // Generate a single file that imports every component
 const lines = [];
 for (const comp of registry.components) {
-  if (!comp.import) continue;
+  if (!comp.import) {continue;}
   const varName = comp.name.replace(/[^a-zA-Z0-9]/g, '_');
   if (comp.kind === 'compound') {
     lines.push(`import { ${comp.name} as ${varName} } from '${comp.import}';`);

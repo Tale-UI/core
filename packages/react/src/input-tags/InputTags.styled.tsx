@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useCallback, useRef, useState } from 'react';
 import {
   Group as AriaGroup,
   Input as AriaInput,
@@ -111,31 +110,31 @@ export const Root: React.FC<RootProps> = ({
   ...rest
 }) => {
   const isControlled = value !== undefined;
-  const idCounterRef = useRef(0);
-  const nextId = useCallback(() => `tag-${idCounterRef.current++}`, []);
+  const idCounterRef = React.useRef(0);
+  const nextId = React.useCallback(() => `tag-${idCounterRef.current += 1}`, []);
 
-  const [inputValue, setInputValue] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
-  const tagListWrapperRef = useRef<HTMLDivElement>(null);
+  const [inputValue, setInputValue] = React.useState('');
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const tagListWrapperRef = React.useRef<HTMLDivElement>(null);
 
-  const [internalEntries, setInternalEntries] = useState<TagEntry[]>(
+  const [internalEntries, setInternalEntries] = React.useState<TagEntry[]>(
     () => (defaultValue ?? []).map((lbl) => ({ id: nextId(), label: lbl })),
   );
 
-  const prevControlledRef = useRef<string[] | undefined>(undefined);
-  const controlledEntriesRef = useRef<TagEntry[]>([]);
+  const prevControlledRef = React.useRef<string[] | undefined>(undefined);
+  const controlledEntriesRef = React.useRef<TagEntry[]>([]);
 
   // Reconcile controlled value to stable TagEntry objects (preserves React keys)
   const entries: TagEntry[] = (() => {
-    if (!isControlled) return internalEntries;
-    if (prevControlledRef.current === value) return controlledEntriesRef.current;
+    if (!isControlled) {return internalEntries;}
+    if (prevControlledRef.current === value) {return controlledEntriesRef.current;}
 
     const oldEntries = controlledEntriesRef.current;
     const newEntries: TagEntry[] = [];
     const usedOldIndices = new Set<number>();
 
     for (const lbl of value!) {
-      const oldIndex = oldEntries.findIndex((e, i) => e.label === lbl && !usedOldIndices.has(i));
+      const oldIndex = oldEntries.findIndex((entry, i) => entry.label === lbl && !usedOldIndices.has(i));
       if (oldIndex !== -1) {
         usedOldIndices.add(oldIndex);
         newEntries.push(oldEntries[oldIndex]);
@@ -149,41 +148,41 @@ export const Root: React.FC<RootProps> = ({
     return newEntries;
   })();
 
-  const tags = entries.map((e) => e.label);
+  const tags = entries.map((entry) => entry.label);
 
-  const addTag = useCallback(
+  const addTag = React.useCallback(
     (text: string): boolean => {
       const trimmed = text.trim();
-      if (!trimmed) return false;
-      if (!allowDuplicates && tags.includes(trimmed)) return false;
-      if (maxTags !== undefined && tags.length >= maxTags) return false;
-      if (validate && !validate(trimmed)) return false;
+      if (!trimmed) {return false;}
+      if (!allowDuplicates && tags.includes(trimmed)) {return false;}
+      if (maxTags !== undefined && tags.length >= maxTags) {return false;}
+      if (validate && !validate(trimmed)) {return false;}
 
       const newEntry: TagEntry = { id: nextId(), label: trimmed };
       const newEntries = [...entries, newEntry];
-      if (!isControlled) setInternalEntries(newEntries);
-      onChange?.(newEntries.map((e) => e.label));
+      if (!isControlled) {setInternalEntries(newEntries);}
+      onChange?.(newEntries.map((entry) => entry.label));
       onTagAdded?.(trimmed);
       return true;
     },
     [tags, entries, isControlled, allowDuplicates, maxTags, validate, onChange, onTagAdded, nextId],
   );
 
-  const removeTagById = useCallback(
+  const removeTagById = React.useCallback(
     (id: string) => {
-      const entry = entries.find((e) => e.id === id);
-      if (!entry) return;
-      const newEntries = entries.filter((e) => e.id !== id);
-      if (!isControlled) setInternalEntries(newEntries);
-      onChange?.(newEntries.map((e) => e.label));
+      const entry = entries.find((entry) => entry.id === id);
+      if (!entry) {return;}
+      const newEntries = entries.filter((entry) => entry.id !== id);
+      if (!isControlled) {setInternalEntries(newEntries);}
+      onChange?.(newEntries.map((entry) => entry.label));
       onTagRemoved?.(entry.label);
     },
     [entries, isControlled, onChange, onTagRemoved],
   );
 
-  const handleTagRemove = useCallback(
+  const handleTagRemove = React.useCallback(
     (keys: Set<Key>) => {
-      for (const key of keys) removeTagById(key.toString());
+      for (const key of keys) {removeTagById(key.toString());}
       if (entries.length - keys.size <= 0) {
         setTimeout(() => inputRef.current?.focus(), 0);
       }
@@ -191,19 +190,19 @@ export const Root: React.FC<RootProps> = ({
     [removeTagById, entries.length],
   );
 
-  const focusLastTag = useCallback(() => {
+  const focusLastTag = React.useCallback(() => {
     const tagEls = tagListWrapperRef.current?.querySelectorAll<HTMLElement>('[role="row"]');
-    if (tagEls && tagEls.length > 0) tagEls[tagEls.length - 1].focus();
+    if (tagEls && tagEls.length > 0) {tagEls[tagEls.length - 1].focus();}
   }, []);
 
-  const handleInputKeyDown = useCallback(
+  const handleInputKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       const input = event.currentTarget;
       const isCaretAtStart = input.selectionStart === 0 && input.selectionEnd === 0;
 
       if (event.key === 'Enter') {
         event.preventDefault();
-        if (addTag(inputValue)) setInputValue('');
+        if (addTag(inputValue)) {setInputValue('');}
       } else if (
         (event.key === 'Backspace' || event.key === 'ArrowLeft') &&
         isCaretAtStart &&
@@ -216,7 +215,7 @@ export const Root: React.FC<RootProps> = ({
     [addTag, inputValue, focusLastTag, entries.length],
   );
 
-  const handleTagListKeyDown = useCallback(
+  const handleTagListKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'ArrowRight') {
         const tagEls = tagListWrapperRef.current?.querySelectorAll<HTMLElement>('[role="row"]');
@@ -291,7 +290,7 @@ export const Root: React.FC<RootProps> = ({
           ref={inputRef}
           value={inputValue}
           placeholder={entries.length === 0 || isBelow ? placeholder : undefined}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(entry) => setInputValue(entry.target.value)}
           onKeyDown={handleInputKeyDown}
           className="tale-input-tags__input"
           disabled={isDisabled}

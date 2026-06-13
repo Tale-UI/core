@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Calendar } from 'lucide-react';
-import { Icon } from '../icon';
 import {
   DatePicker as AriaDatePicker,
   DateInput as AriaDateInput,
@@ -24,16 +23,17 @@ import {
   type FieldErrorProps,
   type DateValue,
 } from 'react-aria-components';
+import { Icon } from '../icon';
 import { cx } from '../_cx';
 
 /* ─── Root ─────────────────────────────────────────────────────────────────── */
 
 export type RootProps<T extends DateValue = DateValue> = Omit<AriaDatePickerProps<T>, 'className'> & { className?: string };
 
-const RootInner = <T extends DateValue>(
-  { className, ...props }: RootProps<T>,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) => <AriaDatePicker ref={ref} className={cx('tale-date-picker', className)} {...props} />;
+function RootInner<T extends DateValue>({ className, ...props }: RootProps<T>,
+  ref: React.ForwardedRef<HTMLDivElement>) {
+  return <AriaDatePicker ref={ref} className={cx('tale-date-picker', className)} {...props} />
+}
 
 /**
  * A date input with a calendar popover for date selection.

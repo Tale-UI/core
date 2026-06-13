@@ -49,7 +49,7 @@ function getStandardTypes(keys) {
 
 function extractIconCount(source) {
   const mapMatch = source.match(/const iconMap[^{]*\{([\s\S]*?)\n\};/);
-  if (!mapMatch) return 0;
+  if (!mapMatch) {return 0;}
   return (mapMatch[1].match(/^\s+'?[\w-]+'?\s*:/gm) || []).length;
 }
 
@@ -70,13 +70,13 @@ function extractAdapterBodies(source) {
   const lines = source.split('\n');
   for (let i = 0; i < lines.length; i++) {
     const entryMatch = lines[i].match(/^\s{2}(\w+):\s*\{$/);
-    if (!entryMatch) continue;
+    if (!entryMatch) {continue;}
     const typeName = entryMatch[1];
     let body = '';
     let j = i + 1;
     while (j < lines.length) {
-      if (lines[j].match(/^\s*\}\s*as\s+CatalogEntry/)) break;
-      body += lines[j] + '\n';
+      if (lines[j].match(/^\s*\}\s*as\s+CatalogEntry/)) {break;}
+      body += `${lines[j]  }\n`;
       j++;
     }
     entries.push({ typeName, body });
@@ -140,7 +140,7 @@ function main() {
     }
 
     const content = fs.readFileSync(docPath, 'utf8');
-    if (verbose) console.log(`Checking ${relPath}...`);
+    if (verbose) {console.log(`Checking ${relPath}...`);}
 
     // Check 1: All standard catalog types mentioned
     for (const key of standardKeys) {
@@ -186,14 +186,14 @@ function main() {
       }
     }
 
-    if (verbose) console.log('');
+    if (verbose) {console.log('');}
   }
 
   // Check 5: Compound component adapters assemble required sub-parts
-  if (verbose) console.log('Checking compound component adapters...');
+  if (verbose) {console.log('Checking compound component adapters...');}
   const adapterBodies = extractAdapterBodies(catalogSource);
   for (const [a2uiType, requiredParts] of Object.entries(REQUIRED_SUBPARTS)) {
-    const entry = adapterBodies.find((e) => e.typeName === a2uiType);
+    const entry = adapterBodies.find((entry) => entry.typeName === a2uiType);
     if (!entry) {
       errors.push(`catalog.ts: missing adapter for compound type "${a2uiType}"`);
       continue;
@@ -205,18 +205,18 @@ function main() {
       );
     }
   }
-  if (verbose) console.log('');
+  if (verbose) {console.log('');}
 
   // Print results
   if (verbose) {
-    for (const i of info) console.log(i);
-    if (info.length > 0) console.log('');
+    for (const i of info) {console.log(i);}
+    if (info.length > 0) {console.log('');}
   }
 
   if (errors.length > 0) {
     console.log(`\n${errors.length} issue(s) found:\n`);
-    for (const e of errors) {
-      console.log(`  ✗ ${e}`);
+    for (const entry of errors) {
+      console.log(`  ✗ ${entry}`);
     }
     console.log('');
     process.exit(1);

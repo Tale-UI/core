@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Input } from '@tale-ui/react/input';
 
@@ -144,7 +145,7 @@ export const AllVariations: Story = {
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {states.map((state) => (
-          <>
+          <React.Fragment>
             <div key={`label-${state.label}`} className="story-label" style={{ paddingTop: '0.4rem' }}>{state.label}</div>
             {sizes.map((s) => (
               <Input.Root key={`${state.label}-${s}`} {...state.props}>
@@ -153,7 +154,7 @@ export const AllVariations: Story = {
                 {state.label === 'Invalid' && <Input.ErrorMessage>Error message</Input.ErrorMessage>}
               </Input.Root>
             ))}
-          </>
+          </React.Fragment>
         ))}
       </div>
     );

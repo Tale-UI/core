@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react';
 import styled from 'styled-components'
 import { Button } from '@tale-ui/react/button'
 import { Checkbox } from '@tale-ui/react/checkbox'
@@ -39,7 +39,9 @@ import { Check, Heart, Star, Bell, Plus, Download, Settings, Trash2, Search, Inf
 
 const PREVIEW_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
-const CheckIcon = () => <Check width={12} height={12} />
+function CheckIcon() {
+  return <Check width={12} height={12} />
+}
 
 const Root = styled.div`
   height: 100%;
@@ -83,8 +85,8 @@ const Grid = styled.div`
   }
 `
 
-const ScaleStrip = ({ prefix, label }) => (
-  <section>
+function ScaleStrip({ prefix, label }) {
+  return <section>
     <SectionLabel>{label}</SectionLabel>
     <div style={{ display: 'flex', gap: '2px' }}>
       {PREVIEW_SHADES.map(shade => (
@@ -107,9 +109,9 @@ const ScaleStrip = ({ prefix, label }) => (
       ))}
     </div>
   </section>
-)
+}
 
-const ComponentPreview = () => {
+function ComponentPreview() {
   return (
     <Root>
       <Header>Component Preview</Header>

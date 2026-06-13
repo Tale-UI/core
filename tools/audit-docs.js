@@ -35,7 +35,7 @@ const dirs = fs.readdirSync(srcDir, { withFileTypes: true }).filter(d => d.isDir
 const components = [];
 
 for (const d of dirs) {
-  if (SKIP_COMPONENTS.has(d.name)) continue;
+  if (SKIP_COMPONENTS.has(d.name)) {continue;}
 
   const dirPath = path.join(srcDir, d.name);
   const files = fs.readdirSync(dirPath);
@@ -44,7 +44,7 @@ for (const d of dirs) {
     !f.includes('.test.') && !f.includes('.spec.')
   );
 
-  if (!styledFile) continue;
+  if (!styledFile) {continue;}
 
   const content = fs.readFileSync(path.join(dirPath, styledFile), 'utf8');
   const docFile = path.join(docsDir, `${d.name}.md`);
@@ -132,7 +132,7 @@ for (const { name, content, docFile } of components) {
   const propsMap = extractProps(content);
 
   // Skip components with no Tale UI-specific props
-  if (Object.keys(propsMap).length === 0) continue;
+  if (Object.keys(propsMap).length === 0) {continue;}
 
   const result = checkDoc(docFile, propsMap);
 

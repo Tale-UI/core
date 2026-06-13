@@ -69,17 +69,17 @@ function walkDir(dir, base = dir) {
   return entries;
 }
 
-let _docsIndex = null;
+let docsIndexCache = null;
 export function loadDocsIndex() {
-  if (_docsIndex) return _docsIndex;
+  if (docsIndexCache) {return docsIndexCache;}
   const files = walkDir(DOCS_DIR);
-  _docsIndex = files.map(filePath => {
+  docsIndexCache = files.map(filePath => {
     const content = readFileSync(filePath, 'utf8').replace(/\r\n/g, '\n');
     const titleMatch = content.match(/^# (.+)/m);
-    const relativePath = filePath.replace(ROOT + '/', '').replace(ROOT + '\\', '').replace(/\\/g, '/');
+    const relativePath = filePath.replace(`${ROOT  }/`, '').replace(`${ROOT  }\\`, '').replace(/\\/g, '/');
     return { path: relativePath, title: titleMatch ? titleMatch[1] : relativePath, content };
   });
-  return _docsIndex;
+  return docsIndexCache;
 }
 
 export function searchDocs(query) {
@@ -91,9 +91,9 @@ export function searchDocs(query) {
     const lower = doc.content.toLowerCase();
     const titleLower = doc.title.toLowerCase();
     let score = 0;
-    if (titleLower.includes(q)) score += 50;
+    if (titleLower.includes(q)) {score += 50;}
     for (const w of queryWords) {
-      if (titleLower.includes(w)) score += 20;
+      if (titleLower.includes(w)) {score += 20;}
     }
     for (const w of queryWords) {
       const count = (lower.split(w).length - 1);
@@ -102,7 +102,7 @@ export function searchDocs(query) {
     const lines = doc.content.split('\n');
     const snippets = [];
     for (const line of lines) {
-      if (snippets.length >= 3) break;
+      if (snippets.length >= 3) {break;}
       const lineLower = line.toLowerCase();
       if (queryWords.some(w => lineLower.includes(w)) && line.trim().length > 10) {
         snippets.push(line.trim());
@@ -116,39 +116,39 @@ export function searchDocs(query) {
 
 // ─── Storybook loader ────────────────────────────────────────────────────────
 
-let _storyMap = null;
+let storyMapCache = null;
 export function loadStoryMap() {
-  if (_storyMap) return _storyMap;
-  _storyMap = new Map();
-  if (!existsSync(STORIES_DIR)) return _storyMap;
+  if (storyMapCache) {return storyMapCache;}
+  storyMapCache = new Map();
+  if (!existsSync(STORIES_DIR)) {return storyMapCache;}
   for (const file of readdirSync(STORIES_DIR)) {
-    if (!file.endsWith('.stories.tsx') && !file.endsWith('.stories.ts')) continue;
+    if (!file.endsWith('.stories.tsx') && !file.endsWith('.stories.ts')) {continue;}
     const filePath = join(STORIES_DIR, file);
     const source = readFileSync(filePath, 'utf8');
     const storyNames = [];
     const exportRegex = /^export\s+const\s+(\w+)\s*:/gm;
     let m;
     while ((m = exportRegex.exec(source)) !== null) {
-      if (m[1] !== 'default') storyNames.push(m[1]);
+      if (m[1] !== 'default') {storyNames.push(m[1]);}
     }
     const componentName = file.replace(/\.stories\.(tsx?|jsx?)$/, '');
-    _storyMap.set(componentName, { path: filePath.replace(ROOT + '/', ''), source, storyNames });
+    storyMapCache.set(componentName, { path: filePath.replace(`${ROOT  }/`, ''), source, storyNames });
   }
-  return _storyMap;
+  return storyMapCache;
 }
 
 // ─── Search helpers ──────────────────────────────────────────────────────────
 
 export function fuzzyMatch(query, text) {
-  if (!text) return 0;
+  if (!text) {return 0;}
   const q = query.toLowerCase();
   const t = text.toLowerCase();
-  if (t === q) return 100;
-  if (t.includes(q)) return 80;
+  if (t === q) {return 100;}
+  if (t.includes(q)) {return 80;}
   const queryWords = q.split(/\s+/);
   const matchedWords = queryWords.filter(w => t.includes(w));
-  if (matchedWords.length === queryWords.length) return 70;
-  if (matchedWords.length > 0) return 40 * (matchedWords.length / queryWords.length);
+  if (matchedWords.length === queryWords.length) {return 70;}
+  if (matchedWords.length > 0) {return 40 * (matchedWords.length / queryWords.length);}
   return 0;
 }
 
@@ -285,7 +285,7 @@ export function getComponentCore(name) {
     .filter(Boolean);
   const hasTriggerStyling = crossPitfalls.some(p => p.category === 'trigger-styling');
   const result = { ...component };
-  if (crossPitfalls.length > 0) result.crossComponentPitfalls = crossPitfalls;
+  if (crossPitfalls.length > 0) {result.crossComponentPitfalls = crossPitfalls;}
   if (hasTriggerStyling && pitfallData.triggerStylingTable) {
     result.triggerStylingTable = pitfallData.triggerStylingTable;
   }
@@ -359,8 +359,8 @@ export function getA2UITypeCore(name) {
     return { text: `A2UI type "${name}" not found. Available types: ${available}`, isError: true };
   }
   const result = { ...type };
-  if (type.name === 'Text') result.usageHints = catalog.usageHints;
-  if (type.name === 'Icon') result.availableIcons = catalog.iconNames;
+  if (type.name === 'Text') {result.usageHints = catalog.usageHints;}
+  if (type.name === 'Icon') {result.availableIcons = catalog.iconNames;}
   const prefix = type.name;
   const subParts = catalog.types.filter(t => t.isSubPart && t.name.startsWith(prefix) && t.name !== prefix);
   if (subParts.length > 0) {
@@ -393,20 +393,20 @@ export function validateCodeCore(code) {
     );
     const parsed = JSON.parse(result);
     const registryErrors = parsed.registryErrors || [];
-    const tsErrors = (parsed.typescriptErrors || []).map(e => `Line ${e.line}: ${e.message}`);
+    const tsErrors = (parsed.typescriptErrors || []).map(entry => `Line ${entry.line}: ${entry.message}`);
     const errors = [...registryErrors, ...tsErrors];
     if (errors.length === 0) {
       return { text: '✅ Code is valid — no registry or TypeScript errors.' };
     }
-    return { text: `Found ${errors.length} error(s):\n\n${errors.map(e => `• ${e}`).join('\n')}`, isError: true };
+    return { text: `Found ${errors.length} error(s):\n\n${errors.map(entry => `• ${entry}`).join('\n')}`, isError: true };
   } catch (err) {
     const stdout = err.stdout || '';
     try {
       const parsed = JSON.parse(stdout);
       const registryErrors = parsed.registryErrors || [];
-      const tsErrors = (parsed.typescriptErrors || []).map(e => `Line ${e.line}: ${e.message}`);
+      const tsErrors = (parsed.typescriptErrors || []).map(entry => `Line ${entry.line}: ${entry.message}`);
       const errors = [...registryErrors, ...tsErrors];
-      return { text: `Found ${errors.length} error(s):\n\n${errors.map(e => `• ${e}`).join('\n')}`, isError: true };
+      return { text: `Found ${errors.length} error(s):\n\n${errors.map(entry => `• ${entry}`).join('\n')}`, isError: true };
     } catch {
       return { text: `Validation failed: ${err.message}`, isError: true };
     }
@@ -472,19 +472,19 @@ export function planUiCore(prompt) {
       for (const p of fullEntry.pitfalls) {
         pitfallLines.push(`- **${c.name}: ${p.summary}**`);
         if (p.detail) {
-          for (const line of p.detail.split('\n')) pitfallLines.push(`  ${line}`);
+          for (const line of p.detail.split('\n')) {pitfallLines.push(`  ${line}`);}
         }
         if (p.antiPatterns?.length > 0) {
-          for (const ap of p.antiPatterns) pitfallLines.push(`  - anti-pattern: \`${ap}\``);
+          for (const ap of p.antiPatterns) {pitfallLines.push(`  - anti-pattern: \`${ap}\``);}
         }
         if (p.fixes?.length > 0) {
-          for (const fx of p.fixes) pitfallLines.push(`  - fix: \`${fx}\``);
+          for (const fx of p.fixes) {pitfallLines.push(`  - fix: \`${fx}\``);}
         }
         if (p.completeExample) {
           pitfallLines.push('  - complete example:');
           pitfallLines.push('');
           pitfallLines.push('    ```tsx');
-          for (const line of p.completeExample.split('\n')) pitfallLines.push(`    ${line}`);
+          for (const line of p.completeExample.split('\n')) {pitfallLines.push(`    ${line}`);}
           pitfallLines.push('    ```');
         }
         pitfallLines.push('');
@@ -492,25 +492,25 @@ export function planUiCore(prompt) {
     }
     if (fullEntry?.crossPitfallRefs?.length > 0) {
       for (const refId of fullEntry.crossPitfallRefs) {
-        if (seenCrossRefs.has(refId)) continue;
+        if (seenCrossRefs.has(refId)) {continue;}
         seenCrossRefs.add(refId);
         const cp = pitfallData.crossComponentPitfalls.find(p => p.id === refId);
-        if (!cp) continue;
+        if (!cp) {continue;}
         pitfallLines.push(`- **Cross-component: ${cp.summary}**`);
         if (cp.detail) {
-          for (const line of cp.detail.split('\n')) pitfallLines.push(`  ${line}`);
+          for (const line of cp.detail.split('\n')) {pitfallLines.push(`  ${line}`);}
         }
         if (cp.antiPatterns?.length > 0) {
-          for (const ap of cp.antiPatterns) pitfallLines.push(`  - anti-pattern: \`${ap}\``);
+          for (const ap of cp.antiPatterns) {pitfallLines.push(`  - anti-pattern: \`${ap}\``);}
         }
         if (cp.fixes?.length > 0) {
-          for (const fx of cp.fixes) pitfallLines.push(`  - fix: \`${fx}\``);
+          for (const fx of cp.fixes) {pitfallLines.push(`  - fix: \`${fx}\``);}
         }
         if (cp.completeExample) {
           pitfallLines.push('  - complete example:');
           pitfallLines.push('');
           pitfallLines.push('    ```tsx');
-          for (const line of cp.completeExample.split('\n')) pitfallLines.push(`    ${line}`);
+          for (const line of cp.completeExample.split('\n')) {pitfallLines.push(`    ${line}`);}
           pitfallLines.push('    ```');
         }
         pitfallLines.push('');
@@ -521,19 +521,19 @@ export function planUiCore(prompt) {
   for (const gc of pitfallData.generalConventions) {
     pitfallLines.push(`- **Convention: ${gc.summary}**`);
     if (gc.detail) {
-      for (const line of gc.detail.split('\n')) pitfallLines.push(`  ${line}`);
+      for (const line of gc.detail.split('\n')) {pitfallLines.push(`  ${line}`);}
     }
     if (gc.antiPatterns?.length > 0) {
-      for (const ap of gc.antiPatterns) pitfallLines.push(`  - anti-pattern: \`${ap}\``);
+      for (const ap of gc.antiPatterns) {pitfallLines.push(`  - anti-pattern: \`${ap}\``);}
     }
     if (gc.fixes?.length > 0) {
-      for (const fx of gc.fixes) pitfallLines.push(`  - fix: \`${fx}\``);
+      for (const fx of gc.fixes) {pitfallLines.push(`  - fix: \`${fx}\``);}
     }
     if (gc.completeExample) {
       pitfallLines.push('  - complete example:');
       pitfallLines.push('');
       pitfallLines.push('    ```tsx');
-      for (const line of gc.completeExample.split('\n')) pitfallLines.push(`    ${line}`);
+      for (const line of gc.completeExample.split('\n')) {pitfallLines.push(`    ${line}`);}
       pitfallLines.push('    ```');
     }
     pitfallLines.push('');
@@ -549,7 +549,7 @@ export function planUiCore(prompt) {
     lines.push('### Relevant documentation\n');
     for (const d of docResults) {
       lines.push(`- **${d.title}** (\`${d.path}\`)`);
-      if (d.snippets.length > 0) lines.push(`  > ${d.snippets[0]}`);
+      if (d.snippets.length > 0) {lines.push(`  > ${d.snippets[0]}`);}
     }
     lines.push('');
   }

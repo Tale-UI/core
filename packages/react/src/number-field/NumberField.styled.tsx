@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Plus, Minus } from 'lucide-react';
-import { Icon } from '../icon';
 import {
   NumberField as AriaNumberField,
   Group as AriaGroup,
@@ -14,6 +13,7 @@ import {
   type InputProps as AriaInputProps,
   type ButtonProps as AriaButtonProps,
 } from 'react-aria-components';
+import { Icon } from '../icon';
 import { cx } from '../_cx';
 
 /**

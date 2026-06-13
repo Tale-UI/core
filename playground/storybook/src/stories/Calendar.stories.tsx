@@ -20,8 +20,8 @@ export default meta;
 
 type Story = StoryObj<Args>;
 
-const CalendarTemplate = (args: Args) => (
-  <Calendar.Root {...args}>
+function CalendarTemplate(args: Args) {
+  return <Calendar.Root {...args}>
     <Calendar.Header>
       <Calendar.PreviousButton />
       <Calendar.Heading />
@@ -36,10 +36,10 @@ const CalendarTemplate = (args: Args) => (
       </Calendar.GridBody>
     </Calendar.Grid>
   </Calendar.Root>
-);
+}
 
-const MonthYearPickerCalendarTemplate = (args: Args) => (
-  <Calendar.Root {...args}>
+function MonthYearPickerCalendarTemplate(args: Args) {
+  return <Calendar.Root {...args}>
     <Calendar.Header>
       <Calendar.PreviousButton />
       <Calendar.MonthPicker format="short">
@@ -83,7 +83,7 @@ const MonthYearPickerCalendarTemplate = (args: Args) => (
       </Calendar.GridBody>
     </Calendar.Grid>
   </Calendar.Root>
-);
+}
 
 export const Default: Story = {
   render: (args) => <CalendarTemplate {...args} />,

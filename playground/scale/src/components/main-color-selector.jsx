@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import * as React from 'react';
 import styled from 'styled-components'
 import { parseColor } from 'react-aria-components'
 import { ColorArea } from '@tale-ui/react/color-area'
@@ -72,22 +72,22 @@ const HexInput = styled.input`
 
   &::selection {
     background: ${props => props.$valid
-      ? props.$color + '33'
+      ? `${props.$color  }33`
       : 'var(--neutral-30)'};
   }
 `
 
-const MainColorSelector = ({
+function MainColorSelector({
   mainColor,
   onColorChange,
   onColorBlur,
-}) => {
+}) {
   const hex = numberToHex(mainColor)
   const valid = isValidHex(hex)
 
   // Parse hex into a Color object for the React Aria color components
-  const colorValue = useMemo(() => {
-    if (!valid) return null
+  const colorValue = React.useMemo(() => {
+    if (!valid) {return null}
     try { return parseColor(hex) } catch { return null }
   }, [hex, valid])
 

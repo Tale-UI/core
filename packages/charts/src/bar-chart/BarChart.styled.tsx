@@ -48,7 +48,7 @@ export const Root: React.FC<React.PropsWithChildren<RootProps>> = ({ data, width
   const enhanced = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && (child.type as any)?.displayName === 'BarChart.Bar') {
       const color = colors[barIndex % colors.length];
-      barIndex++;
+      barIndex += 1;
       return React.cloneElement(child as React.ReactElement<any>, {
         fill: (child.props as any).fill ?? color,
       });

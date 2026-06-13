@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import * as React from 'react';
 import { marked } from 'marked';
 import { Spinner } from '@tale-ui/react/spinner';
 import { Banner } from '@tale-ui/react/banner';
@@ -8,46 +8,46 @@ import { PreviewPane } from './PreviewPane';
 
 function extractTsx(markdown: string): string | null {
   const blocks = [...markdown.matchAll(/```tsx\n([\s\S]*?)```/g)].map(m => m[1]);
-  if (blocks.length === 0) return null;
+  if (blocks.length === 0) {return null;}
   let code = blocks.join('\n\n');
 
   // Strip @tale-ui/charts/styles — sandbox uses chart.css
   code = code.replace(/^import\s+['"]@tale-ui\/charts\/styles['"];?\n/gm, '');
 
   // If an explicit Example export is present (e.g. from a ## Preview block), use as-is
-  if (/export\s+function\s+Example\b/.test(code)) return code;
+  if (/export\s+function\s+Example\b/.test(code)) {return code;}
 
   // Otherwise rename the last function declaration to Example
   const fns = [...code.matchAll(/^(export(?:\s+default)?\s+)?function\s+(\w+)/gm)];
-  if (fns.length === 0) return null;
+  if (fns.length === 0) {return null;}
   const target = fns[fns.length - 1];
   return (
-    code.slice(0, target.index!) +
-    'export function Example' +
-    code.slice(target.index! + target[0].length)
+    `${code.slice(0, target.index!) 
+    }export function Example${ 
+    code.slice(target.index! + target[0].length)}`
   );
 }
 
 export function RecipeBrowser() {
-  const [recipes, setRecipes] = useState<RecipeSummary[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [content, setContent] = useState<string | null>(null);
-  const [contentLoading, setContentLoading] = useState(false);
+  const [recipes, setRecipes] = React.useState<RecipeSummary[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+  const [selected, setSelected] = React.useState<string | null>(null);
+  const [content, setContent] = React.useState<string | null>(null);
+  const [contentLoading, setContentLoading] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     apiListRecipes()
       .then(list => setRecipes(list))
       .catch(err => setError(err instanceof Error ? err.message : String(err)))
       .finally(() => setLoading(false));
   }, []);
 
-  const grouped = useMemo(() => {
+  const grouped = React.useMemo(() => {
     const map = new Map<string, RecipeSummary[]>();
     for (const r of recipes) {
       const cat = r.file?.split('/')[0] ?? 'Other';
-      if (!map.has(cat)) map.set(cat, []);
+      if (!map.has(cat)) {map.set(cat, []);}
       map.get(cat)!.push(r);
     }
     return map;
@@ -67,8 +67,8 @@ export function RecipeBrowser() {
     }
   };
 
-  const html = useMemo(() => content ? marked.parse(content) as string : null, [content]);
-  const tsxCode = useMemo(() => content ? extractTsx(content) : null, [content]);
+  const html = React.useMemo(() => content ? marked.parse(content) as string : null, [content]);
+  const tsxCode = React.useMemo(() => content ? extractTsx(content) : null, [content]);
 
   return (
     <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>

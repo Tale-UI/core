@@ -83,7 +83,7 @@ const proseProps = [];
 for (const type of a2uiTypes) {
   for (const prop of (type.props || [])) {
     const val = prop.allowedValues;
-    if (!val) continue;
+    if (!val) {continue;}
 
     // Check if it's an enum list (backtick-delimited values)
     const hasBackticks = /`[^`]+`/.test(val);
@@ -133,9 +133,9 @@ let exampleIssues = 0;
 
 for (const [name, example] of Object.entries(examples)) {
   for (const msg of (example.messages || [])) {
-    if (msg.type !== 'surfaceUpdate') continue;
+    if (msg.type !== 'surfaceUpdate') {continue;}
     for (const comp of (msg.components || [])) {
-      if (!comp.component) continue;
+      if (!comp.component) {continue;}
       const typeName = Object.keys(comp.component)[0];
       if (!catalogTypeNames.has(typeName)) {
         error(`Example "${name}" uses unknown type "${typeName}"`);
@@ -186,13 +186,13 @@ if (proseCount > 0) {
 if (errors.length > 0) {
   console.log();
   console.log('Errors:');
-  for (const e of errors) console.log(`  ❌ ${e}`);
+  for (const entry of errors) {console.log(`  ❌ ${entry}`);}
 }
 
 if (warnings.length > 0) {
   console.log();
   console.log('Warnings:');
-  for (const w of warnings) console.log(`  ⚠️  ${w}`);
+  for (const w of warnings) {console.log(`  ⚠️  ${w}`);}
 }
 
 console.log();

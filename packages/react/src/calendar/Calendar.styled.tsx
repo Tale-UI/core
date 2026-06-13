@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Icon } from '../icon';
 import {
   Calendar as AriaCalendar,
   CalendarGrid as AriaCalendarGrid,
@@ -22,6 +21,7 @@ import {
   type ButtonProps as AriaButtonProps,
 } from 'react-aria-components';
 import type { DateValue } from '@internationalized/date';
+import { Icon } from '../icon';
 import { cx } from '../_cx';
 
 /**

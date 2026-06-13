@@ -47,6 +47,14 @@ Reviewed: YYYY-MM-DD
 Upstream notes: https://react-aria.adobe.com/releases/vX-Y-Z
 Tale UI target after review: `react-aria-components ^X.Y.Z`
 
+### Maintainer Summary
+
+| Area | Upstream change | Tale UI action |
+| --- | --- | --- |
+| New component | ... | Adopted/deferred/not applicable because ... |
+| New/changed feature | ... | Adopted/documented/deferred/not applicable because ... |
+| Deprecated feature | ... | Replacement decision and compatibility stance ... |
+
 ### Adopted
 
 | Upstream change | Tale UI response | Artifacts |
@@ -95,6 +103,14 @@ Tale UI target after review: `react-aria-components ^X.Y.Z`
 Reviewed: 2026-06-13
 Upstream notes: https://react-aria.adobe.com/releases/v1-18-0
 Tale UI target after review: `react-aria-components ^1.18.0`
+
+### Maintainer Summary
+
+| Area | Upstream change | Tale UI action |
+| --- | --- | --- |
+| New component | `CalendarHeading`, `CalendarMonthPicker`, `CalendarYearPicker`, `TableFooter`, `SliderFill`, `CheckboxField`, `CheckboxButton`, `RadioField`, `RadioButton`, `SwitchField`, `SwitchButton` | Adopted, except button primitives were exposed through Tale UI field namespaces rather than standalone exports. |
+| New/changed feature | Calendar multiple selection typing, `Calendar.Grid` `weeksInMonth`, `RangeCalendar` `anchorDate`, `Popover` `--trigger-width`, expandable table row state, Slider range output formatting, primitive collection values, and several ComboBox/Select/Menu/NumberField/Tabs/TextField/Tree fixes | Adopted or documented where the change affects Tale UI public APIs, docs, examples, or regression coverage. Bug fixes were validated without wrapper changes unless noted below. |
+| Deprecated feature | RAC deprecated `Checkbox`, `Radio`, and `Switch` in favour of field/button pairs | Tale UI kept the old exports for backwards compatibility, marked them deprecated, and promoted `CheckboxField`, `RadioField`, and `SwitchField` for new code. |
 
 ### Adopted
 

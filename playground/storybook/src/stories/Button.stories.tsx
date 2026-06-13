@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '@tale-ui/react/button';
 import type { ButtonProps } from '@tale-ui/react/button';
@@ -130,8 +130,8 @@ export const PendingWithText: Story = {
 };
 
 function SimulatedAsyncButton({ children, ...props }: ButtonProps) {
-  const [isPending, setIsPending] = useState(false);
-  const handlePress = useCallback(() => {
+  const [isPending, setIsPending] = React.useState(false);
+  const handlePress = React.useCallback(() => {
     setIsPending(true);
     setTimeout(() => setIsPending(false), 3000);
   }, []);
@@ -188,10 +188,10 @@ export const AllVariations: Story = {
             <div />
             {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
             {variants.map((v) => (
-              <>
+              <React.Fragment>
                 <div key={`label-${v}`} className="story-label">{v}</div>
                 {sizes.map((s) => <Button key={`${v}-${s}`} variant={v} size={s}>{v}</Button>)}
-              </>
+              </React.Fragment>
             ))}
           </div>
         </div>

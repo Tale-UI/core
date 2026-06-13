@@ -67,14 +67,14 @@ chai.use((_chai, utils) => {
     const el = utils.flag(this, 'object') as Element;
 
     function isInaccessible(node: Element | null): boolean {
-      if (!node || node === document.documentElement) return false;
-      if (node.getAttribute('aria-hidden') === 'true') return true;
+      if (!node || node === document.documentElement) {return false;}
+      if (node.getAttribute('aria-hidden') === 'true') {return true;}
       const role = node.getAttribute('role');
-      if (role === 'presentation' || role === 'none') return true;
-      if ((node as HTMLElement).hidden) return true;
+      if (role === 'presentation' || role === 'none') {return true;}
+      if ((node as HTMLElement).hidden) {return true;}
       if (typeof getComputedStyle === 'function') {
         const style = getComputedStyle(node);
-        if (style.display === 'none' || style.visibility === 'hidden') return true;
+        if (style.display === 'none' || style.visibility === 'hidden') {return true;}
       }
       return isInaccessible(node.parentElement);
     }

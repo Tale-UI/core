@@ -9,7 +9,7 @@ export interface ChartTooltipProps {
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({ active, payload, label, className }) => {
-  if (!active || !payload?.length) return null;
+  if (!active || !payload?.length) {return null;}
 
   return (
     <div className={cx('tale-chart__tooltip', className)}>

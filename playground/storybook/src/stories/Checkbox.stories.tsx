@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Checkbox } from '@tale-ui/react/checkbox';
 import { Icon } from '@tale-ui/react/icon';
@@ -228,7 +229,7 @@ export const AllVariations: Story = {
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {states.map((state) => (
-          <>
+          <React.Fragment>
             <div key={`label-${state.label}`} className="story-label">{state.label}</div>
             {sizes.map((s) => (
               <Checkbox.Root key={`${state.label}-${s}`} size={s} {...state.props}>
@@ -238,7 +239,7 @@ export const AllVariations: Story = {
                 {state.label}
               </Checkbox.Root>
             ))}
-          </>
+          </React.Fragment>
         ))}
       </div>
     );

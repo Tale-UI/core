@@ -22,7 +22,7 @@ function computeFgOverrides(palette: Array<{ shade: number; hex: string }>): Rec
   const get = (shade: number) => palette.find(p => p.shade === shade)?.hex;
   const s5 = get(5);
   const s100 = get(100);
-  if (!s5 || !s100) return {};
+  if (!s5 || !s100) {return {};}
 
   const overrides: Record<string, string> = {};
 
@@ -71,8 +71,8 @@ for (const [color, baseHex] of Object.entries(NAMED_BASE_HEX) as [ContainerColor
 }
 
 function getColorVars(color: ContainerColor): React.CSSProperties | undefined {
-  if (color === 'brand') return undefined;
-  if (color === 'random') return randomColorVars;
+  if (color === 'brand') {return undefined;}
+  if (color === 'random') {return randomColorVars;}
 
   const entries: [string, string][] = NAMED_SHADES.map((shade) => [`--color-${shade}`, `var(--${color}-${shade})`]);
   const fgOverrides = NAMED_FG_OVERRIDES[color];

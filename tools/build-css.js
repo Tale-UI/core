@@ -45,7 +45,7 @@ for (const filePath of importPaths) {
   output += `/* ============================================\n`;
   output += `   ${rel}\n`;
   output += `   ============================================ */\n`;
-  output += content.trimEnd() + '\n\n';
+  output += `${content.trimEnd()  }\n\n`;
 }
 
 // Zero-dependency CSS minification.
@@ -78,6 +78,7 @@ const minPath = path.join(DIST_DIR, 'style.min.css');
 fs.writeFileSync(minPath, minified, 'utf8');
 
 const { gzipSync } = require('zlib');
+
 const kb = (output.length / 1024).toFixed(1);
 const gzipKb = (gzipSync(output).length / 1024).toFixed(1);
 console.log(`✓ Built dist/style.css (${kb} KB, ${gzipKb} KB gzipped, ${importPaths.length} modules)`);

@@ -11,7 +11,7 @@ export default function FormWithValidation() {
   return (
     <div style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}>
       <h1>Form with Validation</h1>
-      <Form onSubmit={(e) => { e.preventDefault(); }}>
+      <Form onSubmit={(entry) => { entry.preventDefault(); }}>
         <Fieldset.Root>
           <Fieldset.Legend>Personal Information</Fieldset.Legend>
 

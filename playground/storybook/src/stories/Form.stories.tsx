@@ -18,8 +18,8 @@ export const Default: Story = {
   render: () => (
     <div className="story-narrow">
       <Form
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={(entry) => {
+          entry.preventDefault();
           alert('Form submitted!');
         }}
       >
@@ -44,8 +44,8 @@ export const WithValidation: Story = {
     <div className="story-narrow">
       <Form
         validationBehavior="native"
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={(entry) => {
+          entry.preventDefault();
           alert('Validation passed — form submitted!');
         }}
       >
@@ -77,8 +77,8 @@ export const AllVariations: Story = {
         <div style={{ flex: '1 1 280px' }}>
           <p className="story-label">Valid form</p>
           <Form
-            onSubmit={(e) => {
-              e.preventDefault();
+            onSubmit={(entry) => {
+              entry.preventDefault();
               alert('Form submitted!');
             }}
           >
@@ -99,8 +99,8 @@ export const AllVariations: Story = {
           <p className="story-label">Invalid form (with validation errors)</p>
           <Form
             validationBehavior="native"
-            onSubmit={(e) => {
-              e.preventDefault();
+            onSubmit={(entry) => {
+              entry.preventDefault();
             }}
           >
             <div className="story-col story-col--m">

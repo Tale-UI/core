@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 import { Banner } from '@tale-ui/react/banner';
 import { Button } from '@tale-ui/react/button';
 import { transpileTsx } from '../lib/transpile';
@@ -9,15 +9,15 @@ interface PreviewPaneProps {
 }
 
 export function PreviewPane({ code }: PreviewPaneProps) {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeReady, setIframeReady] = useState(false);
-  const [transpileError, setTranspileError] = useState<string | null>(null);
-  const [previewError, setPreviewError] = useState<string | null>(null);
-  const [rawCode, setRawCode] = useState(code);
-  const [showRaw, setShowRaw] = useState(false);
+  const iframeRef = React.useRef<HTMLIFrameElement>(null);
+  const [iframeReady, setIframeReady] = React.useState(false);
+  const [transpileError, setTranspileError] = React.useState<string | null>(null);
+  const [previewError, setPreviewError] = React.useState<string | null>(null);
+  const [rawCode, setRawCode] = React.useState(code);
+  const [showRaw, setShowRaw] = React.useState(false);
 
   // Listen for messages from the iframe
-  useEffect(() => {
+  React.useEffect(() => {
     return onPreviewMessage(msg => {
       if (msg.type === 'ready') {
         setIframeReady(true);
@@ -28,11 +28,11 @@ export function PreviewPane({ code }: PreviewPaneProps) {
   }, []);
 
   // Whenever code changes or iframe becomes ready, transpile and render
-  useEffect(() => {
+  React.useEffect(() => {
     setRawCode(code);
-    if (!iframeReady) return;
+    if (!iframeReady) {return;}
     void renderCode(code);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [code, iframeReady]);
 
   async function renderCode(tsx: string) {
@@ -49,7 +49,7 @@ export function PreviewPane({ code }: PreviewPaneProps) {
   }
 
   // Sync color mode to the preview iframe
-  useEffect(() => {
+  React.useEffect(() => {
     const observer = new MutationObserver(() => {
       const mode = document.documentElement.getAttribute('data-color-mode') ?? 'light';
       iframeRef.current?.contentWindow?.postMessage({ type: 'color-mode', mode }, '*');

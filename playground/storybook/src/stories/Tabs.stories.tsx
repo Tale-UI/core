@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Tabs } from '@tale-ui/react/tabs';
 
@@ -156,7 +156,7 @@ export const Controlled: Story = {
     controls: { disable: true },
   },
   render: function ControlledTabs() {
-    const [selectedKey, setSelectedKey] = useState<string>('tab1');
+    const [selectedKey, setSelectedKey] = React.useState<string>('tab1');
 
     return (
       <div>

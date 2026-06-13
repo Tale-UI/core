@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import * as React from 'react';
 import styled, { keyframes } from 'styled-components'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { getRelativeLuminance, getContrastRatio } from '../utils'
@@ -134,14 +134,14 @@ const isLightColor = (hex) => {
 }
 
 const wcagBadge = (ratio) => {
-  if (ratio >= 7)   return 'AAA'
-  if (ratio >= 4.5) return 'AA'
-  if (ratio >= 3)   return 'AA·LG'
+  if (ratio >= 7)   {return 'AAA'}
+  if (ratio >= 4.5) {return 'AA'}
+  if (ratio >= 3)   {return 'AA·LG'}
   return '✕'
 }
 
-const ColorBlock = ({ shade, hex, resolvedBgHex, isBase, contrastHex, bgVar, fgVar }) => {
-  const [copied, setCopied] = useState(false)
+function ColorBlock({ shade, hex, resolvedBgHex, isBase, contrastHex, bgVar, fgVar }) {
+  const [copied, setCopied] = React.useState(false)
   const bgHex = resolvedBgHex || hex
   const lightText = contrastHex ? isLightColor(contrastHex) : !isLightColor(bgHex)
 

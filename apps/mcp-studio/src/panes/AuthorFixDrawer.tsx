@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import * as React from 'react';
 import { Drawer } from '@tale-ui/react/drawer';
 import { Button } from '@tale-ui/react/button';
 import { TextField } from '@tale-ui/react/text-field';
@@ -55,19 +55,19 @@ function detectMultiIdea(summary: string): boolean {
 }
 
 export function AuthorFixDrawer({ isOpen, defaultComponent, onClose }: AuthorFixDrawerProps) {
-  const [form, setForm] = useState<FormState>(EMPTY_FORM);
-  const [components, setComponents] = useState<ComponentSummary[]>([]);
-  const [saving, setSaving] = useState(false);
-  const [result, setResult] = useState<{ ok?: boolean; error?: string; rolledBack?: boolean } | null>(null);
-  const [exampleError, setExampleError] = useState<string | null>(null);
+  const [form, setForm] = React.useState<FormState>(EMPTY_FORM);
+  const [components, setComponents] = React.useState<ComponentSummary[]>([]);
+  const [saving, setSaving] = React.useState(false);
+  const [result, setResult] = React.useState<{ ok?: boolean; error?: string; rolledBack?: boolean } | null>(null);
+  const [exampleError, setExampleError] = React.useState<string | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     apiListComponents()
       .then(list => setComponents(list))
       .catch(() => { /* optional */ });
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (defaultComponent) {
       setForm(prev => ({
         ...prev,
@@ -77,14 +77,14 @@ export function AuthorFixDrawer({ isOpen, defaultComponent, onClose }: AuthorFix
     }
   }, [defaultComponent]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!isOpen) {
       setResult(null);
       setExampleError(null);
     }
   }, [isOpen]);
 
-  const set = useCallback(<K extends keyof FormState>(key: K, value: FormState[K]) => {
+  const set = React.useCallback(<K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm(prev => {
       const next = { ...prev, [key]: value };
       if (key === 'summary' && !prev.slug) {
@@ -94,7 +94,7 @@ export function AuthorFixDrawer({ isOpen, defaultComponent, onClose }: AuthorFix
     });
   }, []);
 
-  const validateExample = useCallback(async () => {
+  const validateExample = React.useCallback(async () => {
     if (!form.completeExample.trim()) { setExampleError(null); return true; }
     const r = await transpileTsx(form.completeExample);
     if ('error' in r) { setExampleError(r.error ?? null); return false; }
@@ -105,7 +105,7 @@ export function AuthorFixDrawer({ isOpen, defaultComponent, onClose }: AuthorFix
   const handleSave = async () => {
     setResult(null);
     const exOk = await validateExample();
-    if (!exOk) return;
+    if (!exOk) {return;}
     setSaving(true);
     try {
       const res = await apiWritePitfall({
@@ -118,7 +118,7 @@ export function AuthorFixDrawer({ isOpen, defaultComponent, onClose }: AuthorFix
         completeExample: form.completeExample,
       });
       setResult(res);
-      if (res.ok) setForm(EMPTY_FORM);
+      if (res.ok) {setForm(EMPTY_FORM);}
     } catch (err) {
       setResult({ error: err instanceof Error ? err.message : String(err) });
     } finally {
@@ -132,7 +132,7 @@ export function AuthorFixDrawer({ isOpen, defaultComponent, onClose }: AuthorFix
   const canSave = !saving && !!form.component && !!form.slug && !!form.summary && !!form.antiPattern && !!form.fix && !summaryOverLimit;
 
   return (
-    <Drawer.Root open={isOpen} onOpenChange={open => { if (!open) onClose(); }}>
+    <Drawer.Root open={isOpen} onOpenChange={open => { if (!open) {onClose();} }}>
       <Drawer.Backdrop />
       <Drawer.Popup style={{ width: '44rem', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: 'var(--space-m)', borderBottom: '1px solid var(--neutral-20)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

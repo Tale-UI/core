@@ -67,7 +67,7 @@ export async function fetchStraicoCompletion({
     onChunk(content);
     onComplete(content, { truncated });
   } catch (err) {
-    if ((err as Error).name === 'AbortError') return;
+    if ((err as Error).name === 'AbortError') {return;}
     onError(err as Error);
   }
 }

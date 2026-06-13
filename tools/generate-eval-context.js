@@ -68,9 +68,9 @@ function renderPitfallBullet(pitfall, indent = '') {
 
 function renderTriggerTable(table) {
   const { headers, entries } = table;
-  const headerRow = '| ' + headers.join(' | ') + ' |';
-  const sepRow = '| ' + headers.map(() => '---').join(' | ') + ' |';
-  const rows = entries.map(e => '| ' + headers.map(h => e[h]).join(' | ') + ' |');
+  const headerRow = `| ${  headers.join(' | ')  } |`;
+  const sepRow = `| ${  headers.map(() => '---').join(' | ')  } |`;
+  const rows = entries.map(entry => `| ${  headers.map(h => entry[h]).join(' | ')  } |`);
   return [headerRow, sepRow, ...rows].join('\n');
 }
 
@@ -120,13 +120,13 @@ function buildSection5(components, pitfallsData) {
   // Group by category in canonical order
   const byCategory = {};
   for (const p of crossComponentPitfalls) {
-    if (!byCategory[p.category]) byCategory[p.category] = [];
+    if (!byCategory[p.category]) {byCategory[p.category] = [];}
     byCategory[p.category].push(p);
   }
 
   for (const cat of CATEGORY_ORDER) {
     const group = byCategory[cat];
-    if (!group?.length) continue;
+    if (!group?.length) {continue;}
 
     const label = CATEGORY_LABELS[cat] ?? cat;
     lines.push(`   #### ${label}`);
@@ -138,14 +138,14 @@ function buildSection5(components, pitfallsData) {
 
     // Trigger styling table follows trigger-styling pitfalls
     if (cat === 'trigger-styling' && triggerStylingTable) {
-      lines.push(renderTriggerTable(triggerStylingTable).split('\n').map(l => '   ' + l).join('\n'));
+      lines.push(renderTriggerTable(triggerStylingTable).split('\n').map(l => `   ${  l}`).join('\n'));
       lines.push('');
     }
   }
 
   // Any categories not in canonical order (future-proofing)
   for (const [cat, group] of Object.entries(byCategory)) {
-    if (CATEGORY_ORDER.includes(cat)) continue;
+    if (CATEGORY_ORDER.includes(cat)) {continue;}
     const label = CATEGORY_LABELS[cat] ?? cat;
     lines.push(`   #### ${label}`);
     lines.push('');
@@ -177,13 +177,13 @@ function buildSection5(components, pitfallsData) {
 
 function generate() {
   const snippetRaw = readFile(SNIPPET_PATH);
-  if (!snippetRaw) throw new Error(`Cannot read ${SNIPPET_PATH}`);
+  if (!snippetRaw) {throw new Error(`Cannot read ${SNIPPET_PATH}`);}
 
   const componentsJson = readFile(COMPONENTS_PATH);
-  if (!componentsJson) throw new Error(`Cannot read ${COMPONENTS_PATH}`);
+  if (!componentsJson) {throw new Error(`Cannot read ${COMPONENTS_PATH}`);}
 
   const pitfallsJson = readFile(PITFALLS_PATH);
-  if (!pitfallsJson) throw new Error(`Cannot read ${PITFALLS_PATH}`);
+  if (!pitfallsJson) {throw new Error(`Cannot read ${PITFALLS_PATH}`);}
 
   const { components } = JSON.parse(componentsJson);
   const pitfallsData = JSON.parse(pitfallsJson);
@@ -196,7 +196,7 @@ function generate() {
 
   // Replace the one-line section 5 pointer with the expanded block.
   // Matches the entire "5. **Component pitfalls: ..." line (up to the next \n)
-  const expanded = body.replace(/5\. \*\*Component pitfalls:.*\n/, section5 + '\n');
+  const expanded = body.replace(/5\. \*\*Component pitfalls:.*\n/, `${section5  }\n`);
 
   return expanded;
 }

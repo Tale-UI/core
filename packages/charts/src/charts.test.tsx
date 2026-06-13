@@ -2,6 +2,15 @@ import * as React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 
+import { BarChart } from './bar-chart';
+import { LineChart } from './line-chart';
+import { AreaChart } from './area-chart';
+import { PieChart } from './pie-chart';
+import { RadarChart } from './radar-chart';
+import { RadialBarChart } from './radial-bar-chart';
+import { ChartTooltip } from './shared/ChartTooltip';
+import { ChartLegend } from './shared/ChartLegend';
+
 // Mock recharts to just render children in a div
 vi.mock('recharts', () => {
   const MockChart = React.forwardRef(({ children, data, width, height, innerRadius, outerRadius, aspect, cx: _cx, cy: _cy, className, ...rest }: any, ref: any) => (
@@ -35,15 +44,6 @@ vi.mock('recharts', () => {
     PolarRadiusAxis: MockComponent,
   };
 });
-
-import { BarChart } from './bar-chart';
-import { LineChart } from './line-chart';
-import { AreaChart } from './area-chart';
-import { PieChart } from './pie-chart';
-import { RadarChart } from './radar-chart';
-import { RadialBarChart } from './radial-bar-chart';
-import { ChartTooltip } from './shared/ChartTooltip';
-import { ChartLegend } from './shared/ChartLegend';
 
 function hasClass(el: Element | null, cls: string) {
   return el?.classList.contains(cls) ?? false;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ColorPicker } from '@tale-ui/react/color-picker';
 import { ColorArea } from '@tale-ui/react/color-area';
@@ -40,7 +40,7 @@ export const Root: Story = {
     yChannel: 'brightness',
   },
   render(args) {
-    const [color, setColor] = useState<Color>(parseColor(args.initialColor as string));
+    const [color, setColor] = React.useState<Color>(parseColor(args.initialColor as string));
 
     return (
       <ColorPicker.Root value={color} onChange={setColor}>
@@ -73,7 +73,7 @@ export const SharedState: Story = {
     showBrightness: true,
   },
   render(args) {
-    const [color, setColor] = useState<Color>(parseColor(args.initialColor as string));
+    const [color, setColor] = React.useState<Color>(parseColor(args.initialColor as string));
 
     return (
       <div className="story-col story-col--m">
@@ -115,7 +115,7 @@ export const SharedState: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-    const [color, setColor] = useState<Color>(parseColor('hsb(200, 100%, 100%)'));
+    const [color, setColor] = React.useState<Color>(parseColor('hsb(200, 100%, 100%)'));
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 16 }}>

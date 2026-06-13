@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Disclosure } from '@tale-ui/react/disclosure';
 
@@ -67,7 +67,7 @@ export const Controlled: Story = {
     controls: { disable: true },
   },
   render: () => {
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = React.useState(false);
     return (
       <div>
         <p className="story-disclosure-status">

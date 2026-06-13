@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import * as React from 'react';
 import styled from 'styled-components'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Button } from '@tale-ui/react/button'
@@ -48,10 +48,10 @@ const Pre = styled.pre`
   color: var(--text-color);
 `
 
-const CssOutput = ({ namedPalette, namedPivot, neutralPalette, bgColor, curvature = 1 }) => {
-  const [copied, setCopied] = useState(false)
+function CssOutput({ namedPalette, namedPivot, neutralPalette, bgColor, curvature = 1 }) {
+  const [copied, setCopied] = React.useState(false)
 
-  const css = useMemo(() => {
+  const css = React.useMemo(() => {
     const parts = []
     if (namedPalette.length) {
       parts.push(generateCssOutput('color', namedPalette, { mode: 'named', pivot: namedPivot }))
@@ -60,7 +60,7 @@ const CssOutput = ({ namedPalette, namedPivot, neutralPalette, bgColor, curvatur
       parts.push(generateCssOutput('neutral', neutralPalette, { mode: 'neutral' }))
     }
     const radiusCss = generateRadiusCss(curvature)
-    if (radiusCss) parts.push(radiusCss)
+    if (radiusCss) {parts.push(radiusCss)}
     if (bgColor === 'accent') {
       parts.push(`/* Dark-mode accent background */\nhtml[data-color-mode="dark"] {\n  --neutral-5: color-mix(in srgb, var(--brand-100) 50%, black);\n}`)
     }

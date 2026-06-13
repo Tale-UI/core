@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react';
 import styled from 'styled-components'
 import { getContrastRatio } from '../utils'
 
@@ -55,13 +55,13 @@ const RatioLabel = styled.div`
 `
 
 const wcagBadge = (ratio) => {
-  if (ratio >= 7)   return 'AAA'
-  if (ratio >= 4.5) return 'AA'
-  if (ratio >= 3)   return 'AA·LG'
+  if (ratio >= 7)   {return 'AAA'}
+  if (ratio >= 4.5) {return 'AA'}
+  if (ratio >= 3)   {return 'AA·LG'}
   return '✕'
 }
 
-const ForegroundPreview = ({ palette = [], pivot = 60 }) => {
+function ForegroundPreview({ palette = [], pivot = 60 }) {
   const shade5Hex   = palette.find(p => p.shade === 5)?.hex
   const shade100Hex = palette.find(p => p.shade === 100)?.hex
 

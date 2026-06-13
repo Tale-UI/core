@@ -65,7 +65,7 @@ function findClaude() {
     '/usr/local/bin/claude',
     '/opt/homebrew/bin/claude',
   ].filter(Boolean);
-  for (const p of candidates) { if (existsSync(p)) return p; }
+  for (const p of candidates) { if (existsSync(p)) {return p;} }
   try { return execFileSync('which', ['claude'], { encoding: 'utf8' }).trim(); } catch { return null; }
 }
 
@@ -110,11 +110,11 @@ function runEval(slugs = null) {
   extraArgs.push('--model', MODEL);
   extraArgs.push('--provider', rawProvider);
   extraArgs.push('--concurrency', String(EVAL_CONCURRENCY));
-  if (PROVIDER === 'local') extraArgs.push('--local-url', LOCAL_URL);
-  if (FILTER_DIFFICULTY) extraArgs.push('--difficulty', FILTER_DIFFICULTY);
-  if (slugs?.length) extraArgs.push('--slugs', slugs.join(','));
-  if (NO_CACHE) extraArgs.push('--no-cache');
-  if (FRESH) extraArgs.push('--fresh');
+  if (PROVIDER === 'local') {extraArgs.push('--local-url', LOCAL_URL);}
+  if (FILTER_DIFFICULTY) {extraArgs.push('--difficulty', FILTER_DIFFICULTY);}
+  if (slugs?.length) {extraArgs.push('--slugs', slugs.join(','));}
+  if (NO_CACHE) {extraArgs.push('--no-cache');}
+  if (FRESH) {extraArgs.push('--fresh');}
 
   const proc = spawnSync(
     process.execPath,
@@ -122,8 +122,8 @@ function runEval(slugs = null) {
     { cwd: ROOT, timeout: 900000, encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] }
   );
 
-  if (proc.error) throw new Error(`Eval script failed: ${proc.error.message}`);
-  if (!proc.stdout?.trim()) throw new Error('Eval script produced no output — it may have timed out or crashed.');
+  if (proc.error) {throw new Error(`Eval script failed: ${proc.error.message}`);}
+  if (!proc.stdout?.trim()) {throw new Error('Eval script produced no output — it may have timed out or crashed.');}
   return JSON.parse(proc.stdout);
 }
 
@@ -133,12 +133,12 @@ function buildErrorSummary(result) {
   const lines = [];
   if (!result.l1.pass) {
     lines.push('L1 (catalog/protocol validation errors):');
-    for (const e of result.l1.errors) lines.push(`  - ${e}`);
+    for (const entry of result.l1.errors) {lines.push(`  - ${entry}`);}
   }
-  if (!result.l2.pass) lines.push(`L2 (missing component types): ${result.l2.missing.join(', ')}`);
+  if (!result.l2.pass) {lines.push(`L2 (missing component types): ${result.l2.missing.join(', ')}`);}
   if (!result.l3.pass) {
     lines.push('L3 (structural errors):');
-    for (const e of result.l3.errors) lines.push(`  - ${e}`);
+    for (const entry of result.l3.errors) {lines.push(`  - ${entry}`);}
   }
   return lines.join('\n');
 }
@@ -218,7 +218,7 @@ Output ONLY this JSON (no other text, no markdown fences):
       lastErr = null;
       break;
     }
-    if (lastErr) throw lastErr;
+    if (lastErr) {throw lastErr;}
   } else if (FIX_PROVIDER === 'local') {
     const MAX_RETRIES = 2;
     let lastErr;
@@ -258,7 +258,7 @@ Output ONLY this JSON (no other text, no markdown fences):
       lastErr = null;
       break;
     }
-    if (lastErr) throw lastErr;
+    if (lastErr) {throw lastErr;}
   } else {
     // Claude CLI
     const tmpFile = join(tmpdir(), `tale-ui-a2ui-fix-prompt-${process.pid}.md`);
@@ -287,14 +287,14 @@ Output ONLY this JSON (no other text, no markdown fences):
           }
         }
       }
-      if (lastErr) throw lastErr;
+      if (lastErr) {throw lastErr;}
     } finally {
       try { execFileSync('rm', [tmpFile]); } catch { /* ignore */ }
     }
   }
 
   const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error('No JSON found in response');
+  if (!jsonMatch) {throw new Error('No JSON found in response');}
   return JSON.parse(jsonMatch[0]);
 }
 
@@ -303,7 +303,7 @@ function applyFix(fix) {
   let updated;
   if (!fix.old) {
     // Append to end of system prompt
-    updated = prompt.trimEnd() + '\n\n' + fix.new + '\n';
+    updated = `${prompt.trimEnd()  }\n\n${  fix.new  }\n`;
   } else {
     if (!prompt.includes(fix.old)) {
       console.log(`      ⚠ Fix not applied — old string not found in system prompt`);
@@ -336,7 +336,7 @@ async function fixFailingPrompt(failure, promptMap) {
 
       const applied = applyFix(fix);
       if (!applied) {
-        if (fix.old) failedOlds.push(fix.old);
+        if (fix.old) {failedOlds.push(fix.old);}
         console.log(`    [${attemptLabel}] Fix string not found — retrying with context`);
         continue;
       }
@@ -423,7 +423,7 @@ async function main() {
           stillFailing.push(r);
         } else {
           const { passed, final } = await fixFailingPrompt(r, promptMap);
-          if (!passed) stillFailing.push(final);
+          if (!passed) {stillFailing.push(final);}
         }
       }
     }
@@ -434,7 +434,7 @@ async function main() {
   const failing = stillFailing;
 
   /* ── Summary ── */
-  console.log('\n' + '─'.repeat(52));
+  console.log(`\n${  '─'.repeat(52)}`);
   console.log(`  Initial:   ${totalInitialPassCount}/${totalEvaluated} passed`);
   if (!NO_FIX) {
     console.log(`  After fix: ${totalEvaluated - failing.length}/${totalEvaluated} passed`);

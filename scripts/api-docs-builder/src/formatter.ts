@@ -1,4 +1,4 @@
-/* eslint-disable no-await-in-loop */
+ 
 import * as tae from 'typescript-api-extractor';
 import fs from 'fs';
 import path from 'path';

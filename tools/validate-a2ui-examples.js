@@ -43,7 +43,7 @@ function extractCatalogKeys(source) {
 function extractIconNames(source) {
   const names = [];
   const mapMatch = source.match(/const iconMap[^{]*\{([\s\S]*?)\n\};/);
-  if (!mapMatch) return names;
+  if (!mapMatch) {return names;}
   for (const match of mapMatch[1].matchAll(/^\s+'?([\w-]+)'?\s*:/gm)) {
     names.push(match[1]);
   }
@@ -66,7 +66,7 @@ function extractUsageHints(source) {
  * Returns null if the file doesn't exist (graceful degradation).
  */
 function buildAllowedPropsMap(catalogJsonPath) {
-  if (!fs.existsSync(catalogJsonPath)) return null;
+  if (!fs.existsSync(catalogJsonPath)) {return null;}
   const catalog = JSON.parse(fs.readFileSync(catalogJsonPath, 'utf8'));
   const map = new Map();
   for (const type of catalog.types || []) {
@@ -95,7 +95,7 @@ function validateExample(filePath, catalogKeys, iconNames, usageHints, allowedPr
   // Check: beginRendering before surfaceUpdate
   let hasBeginRendering = false;
   for (const msg of messages) {
-    if (msg.type === 'beginRendering') hasBeginRendering = true;
+    if (msg.type === 'beginRendering') {hasBeginRendering = true;}
     if (msg.type === 'surfaceUpdate' && !hasBeginRendering) {
       errors.push(`surfaceUpdate before beginRendering`);
     }
@@ -106,7 +106,7 @@ function validateExample(filePath, catalogKeys, iconNames, usageHints, allowedPr
 
   // Validate each surfaceUpdate
   for (const msg of messages) {
-    if (msg.type !== 'surfaceUpdate') continue;
+    if (msg.type !== 'surfaceUpdate') {continue;}
     const components = msg.components || [];
     const ids = new Set();
 
@@ -159,13 +159,13 @@ function validateExample(filePath, catalogKeys, iconNames, usageHints, allowedPr
 
       // Per-type prop value check — only for string-valued props with a closed enum
       for (const [propName, propValue] of Object.entries(props)) {
-        if (typeof propValue !== 'string') continue;
+        if (typeof propValue !== 'string') {continue;}
         const typeKey = `${typeName}.${propName}`;
         // Type-specific override takes full precedence (null = explicitly free-form → skip)
         const allowed = typeKey in PROP_ALLOWED_VALUES
           ? PROP_ALLOWED_VALUES[typeKey]
           : PROP_ALLOWED_VALUES[propName];
-        if (!allowed) continue;
+        if (!allowed) {continue;}
         if (!allowed.includes(propValue)) {
           errors.push(`Invalid value "${propValue}" for ${typeName}.${propName} on "${comp.id}". Allowed: ${allowed.join(', ')}`);
         }
@@ -175,7 +175,7 @@ function validateExample(filePath, catalogKeys, iconNames, usageHints, allowedPr
     // Orphaned child references
     for (const comp of components) {
       const typeName = Object.keys(comp.component || {})[0];
-      if (!typeName) continue;
+      if (!typeName) {continue;}
       const props = comp.component[typeName] || {};
       if (Array.isArray(props.children)) {
         for (const childId of props.children) {
@@ -225,8 +225,8 @@ function main() {
     for (const r of results) {
       const status = r.errors.length === 0 ? '✓' : '✗';
       console.log(`${status} ${r.fileName}`);
-      for (const e of r.errors) {
-        console.log(`    ERROR: ${e}`);
+      for (const entry of r.errors) {
+        console.log(`    ERROR: ${entry}`);
         hasErrors = true;
       }
       for (const w of r.warnings) {
@@ -234,7 +234,7 @@ function main() {
       }
     }
     console.log(`\n${exampleFiles.length} examples validated, ${results.filter((r) => r.errors.length > 0).length} with errors`);
-    if (hasErrors) process.exit(1);
+    if (hasErrors) {process.exit(1);}
   }
 }
 

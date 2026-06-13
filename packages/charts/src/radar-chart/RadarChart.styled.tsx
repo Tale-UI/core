@@ -48,7 +48,7 @@ export const Root: React.FC<React.PropsWithChildren<RootProps>> = ({ data, width
   const enhanced = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && (child.type as any)?.displayName === 'RadarChart.Radar') {
       const color = colors[radarIndex % colors.length];
-      radarIndex++;
+      radarIndex += 1;
       return React.cloneElement(child as React.ReactElement<any>, {
         stroke: (child.props as any).stroke ?? color,
         fill: (child.props as any).fill ?? color,

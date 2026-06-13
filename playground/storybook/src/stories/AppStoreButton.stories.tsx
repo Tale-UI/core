@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AppStoreButton } from '@tale-ui/react/app-store-button';
 
@@ -63,10 +64,10 @@ export const AllVariations: Story = {
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {stores.map((store) => (
-          <>
+          <React.Fragment>
             <div key={`label-${store}`} className="story-label">{store}</div>
             {sizes.map((s) => <AppStoreButton key={`${store}-${s}`} store={store} size={s} href="#" />)}
-          </>
+          </React.Fragment>
         ))}
       </div>
     );

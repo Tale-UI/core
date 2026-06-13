@@ -33,9 +33,9 @@ export function createDataModelStore(): DataModelStore {
   function notifyPath(path: string): void {
     const listeners = pathListeners.get(path);
     if (listeners) {
-      for (const listener of listeners) listener();
+      for (const listener of listeners) {listener();}
     }
-    for (const listener of globalListeners) listener();
+    for (const listener of globalListeners) {listener();}
   }
 
   return {
@@ -57,7 +57,7 @@ export function createDataModelStore(): DataModelStore {
       listeners.add(listener);
       return () => {
         listeners!.delete(listener);
-        if (listeners!.size === 0) pathListeners.delete(path);
+        if (listeners!.size === 0) {pathListeners.delete(path);}
       };
     },
 
@@ -72,7 +72,7 @@ export function createDataModelStore(): DataModelStore {
 
     clear(): void {
       data.clear();
-      for (const listener of globalListeners) listener();
+      for (const listener of globalListeners) {listener();}
     },
   };
 }

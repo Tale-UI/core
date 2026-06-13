@@ -20,10 +20,10 @@ import { cx } from '../_cx';
 
 export type RootProps<T extends TimeValue = TimeValue> = Omit<AriaTimeFieldProps<T>, 'className'> & { className?: string };
 
-const RootInner = <T extends TimeValue>(
-  { className, ...props }: RootProps<T>,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) => <AriaTimeField ref={ref} className={cx('tale-time-field', className)} {...props} />;
+function RootInner<T extends TimeValue>({ className, ...props }: RootProps<T>,
+  ref: React.ForwardedRef<HTMLDivElement>) {
+  return <AriaTimeField ref={ref} className={cx('tale-time-field', className)} {...props} />
+}
 
 /**
  * A segmented time input field (hour/minute/second).

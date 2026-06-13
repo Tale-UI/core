@@ -59,7 +59,7 @@ function extractCompleteExample(rawLines) {
     // Inline form: "  - complete example: `code`"
     if (!inCE && !inFence) {
       const inlineMatch = line.match(/^\s{2}- complete example:\s*`([^`]+)`\s*$/);
-      if (inlineMatch) return inlineMatch[1];
+      if (inlineMatch) {return inlineMatch[1];}
     }
     // Start of complete example sub-bullet (fenced form)
     if (!inCE && /^\s{2}- complete example:\s*$/.test(line)) {
@@ -78,7 +78,7 @@ function extractCompleteExample(rawLines) {
         return fenceLines.join('\n');
       }
       // Strip exactly 4 leading spaces
-      fenceLines.push(line.replace(/^    /, ''));
+      fenceLines.push(line.replace(/^ {4}/, ''));
     }
   }
   return null;
@@ -86,7 +86,7 @@ function extractCompleteExample(rawLines) {
 
 function parsePitfallBlock(commentBlock, bulletLine, restLines, completeExample = null) {
   const idMatch = commentBlock.match(/<!-- pitfall: ([\w-]+) -->/);
-  if (!idMatch) return null;
+  if (!idMatch) {return null;}
 
   const id = idMatch[1];
   const appliesToMatch = commentBlock.match(/<!-- applies-to: ([^>]+) -->/);
@@ -102,17 +102,17 @@ function parsePitfallBlock(commentBlock, bulletLine, restLines, completeExample 
 
   // Parse bullet: "- **Summary** — Detail"
   const bulletMatch = bulletLine.match(/^- \*\*(.+?)\*\*(?:\s*[—–-]\s*(.*))?$/);
-  if (!bulletMatch) return null;
+  if (!bulletMatch) {return null;}
 
   const summary = bulletMatch[1].replace(/`/g, '');
   let detail = bulletMatch[2] ? bulletMatch[2].trim() : '';
 
   // Collect any continuation lines (indented, not sub-bullets)
   for (const line of restLines) {
-    if (/^\s+- (anti-pattern|fix|complete example):/.test(line)) continue;
-    if (/^\s{4}```/.test(line)) continue; // fence lines
+    if (/^\s+- (anti-pattern|fix|complete example):/.test(line)) {continue;}
+    if (/^\s{4}```/.test(line)) {continue;} // fence lines
     if (/^\s/.test(line)) {
-      detail += ' ' + line.trim();
+      detail += ` ${  line.trim()}`;
     } else {
       break;
     }
@@ -124,8 +124,8 @@ function parsePitfallBlock(commentBlock, bulletLine, restLines, completeExample 
   for (const line of restLines) {
     const apMatch = line.match(/^\s+- anti-pattern:\s*`([^`]+)`/);
     const fixMatch = line.match(/^\s+- fix:\s*`([^`]+)`/);
-    if (apMatch) antiPatterns.push(apMatch[1]);
-    if (fixMatch) fixes.push(fixMatch[1]);
+    if (apMatch) {antiPatterns.push(apMatch[1]);}
+    if (fixMatch) {fixes.push(fixMatch[1]);}
   }
 
   return {
@@ -146,14 +146,14 @@ function parseTriggerTable(content) {
   const tableMatch = content.match(
     /<!-- trigger-table-start -->([\s\S]*?)<!-- trigger-table-end -->/,
   );
-  if (!tableMatch) return null;
+  if (!tableMatch) {return null;}
 
   const tableText = tableMatch[1].trim();
   const rows = tableText
     .split('\n')
     .filter((line) => line.startsWith('|') && !line.match(/^\|\s*[-:]+/));
 
-  if (rows.length < 2) return null;
+  if (rows.length < 2) {return null;}
 
   const headers = rows[0]
     .split('|')
@@ -166,7 +166,7 @@ function parseTriggerTable(content) {
       .split('|')
       .map((c) => c.trim())
       .filter(Boolean);
-    if (cells.length < headers.length) continue;
+    if (cells.length < headers.length) {continue;}
     const entry = {};
     headers.forEach((h, i) => {
       entry[h] = cells[i] || '';
@@ -273,7 +273,7 @@ const docContent = readFile(PITFALLS_DOC_PATH);
 const parsed = parsePitfallsDoc(docContent);
 
 const output =
-  JSON.stringify(
+  `${JSON.stringify(
     {
       schemaVersion: '1.2.0',
       taleUiVersion: reactPkg.version || null,
@@ -281,7 +281,7 @@ const output =
     },
     null,
     2,
-  ) + '\n';
+  )  }\n`;
 
 if (checkMode) {
   const existing = readFile(PITFALLS_JSON_PATH);

@@ -40,13 +40,13 @@ function buildNode(
   visited: Set<string>,
 ): TreeNode | null {
   const comp = byId.get(id);
-  if (!comp || visited.has(id)) return null;
+  if (!comp || visited.has(id)) {return null;}
 
   visited.add(id);
 
   // Extract the component type and props from the single-key component object
   const [type, rawProps] = getTypeAndProps(comp);
-  if (!type) return null;
+  if (!type) {return null;}
 
   // Separate child references from regular props
   const props: Record<string, unknown> = {};
@@ -56,12 +56,12 @@ function buildNode(
     if (typeof value === 'string' && byId.has(value)) {
       // Single child reference
       const child = buildNode(value, byId, visited);
-      if (child) children.push(child);
+      if (child) {children.push(child);}
     } else if (Array.isArray(value) && value.every((v) => typeof v === 'string' && byId.has(v))) {
       // Array of child references
       for (const childId of value) {
         const child = buildNode(childId as string, byId, visited);
-        if (child) children.push(child);
+        if (child) {children.push(child);}
       }
     } else {
       // Regular prop
@@ -98,9 +98,9 @@ function getTypeAndProps(comp: A2UIComponent): [string | null, Record<string, un
   }
 
   // Format 1: A2UI spec with component object
-  if (!comp.component || typeof comp.component !== 'object') return [null, {}];
+  if (!comp.component || typeof comp.component !== 'object') {return [null, {}];}
   const keys = Object.keys(comp.component);
-  if (keys.length === 0) return [null, {}];
+  if (keys.length === 0) {return [null, {}];}
   const type = keys[0]!;
   const props = (comp.component[type] ?? {}) as Record<string, unknown>;
   return [type, props];

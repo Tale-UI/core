@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { addons, types, useStorybookApi } from 'storybook/manager-api';
 import { IconButton } from 'storybook/internal/components';
 import { SunIcon, MoonIcon } from '@storybook/icons';
@@ -8,7 +8,7 @@ const STORAGE_KEY = 'tale-ui-shell-color-mode';
 
 function getInitialMode(): 'light' | 'dark' {
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored === 'light' || stored === 'dark') return stored;
+  if (stored === 'light' || stored === 'dark') {return stored;}
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 

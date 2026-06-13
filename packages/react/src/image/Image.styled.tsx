@@ -27,8 +27,8 @@ export interface ImageProps extends Omit<React.ComponentPropsWithoutRef<'img'>, 
 export const Image = React.forwardRef<HTMLImageElement, ImageProps>(
   ({ radius = 'none', fit = 'cover', className, ...props }, ref) => {
     const classes = ['tale-image'];
-    if (radius !== 'none') classes.push(`tale-image--${radius}`);
-    if (fit !== 'cover') classes.push(`tale-image--${fit}`);
+    if (radius !== 'none') {classes.push(`tale-image--${radius}`);}
+    if (fit !== 'cover') {classes.push(`tale-image--${fit}`);}
 
     return (
       <img

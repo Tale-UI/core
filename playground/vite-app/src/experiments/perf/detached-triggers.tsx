@@ -3,15 +3,15 @@ import { Tooltip } from '@tale-ui/react/tooltip';
 import { Popover } from '@tale-ui/react/popover';
 import { Dialog } from '@tale-ui/react/dialog';
 import { PreviewCard } from '@tale-ui/react/preview-card';
+import PerformanceBenchmark from './utils/benchmark';
+import { type Settings, SettingsPanel, usePersistedSettings } from './SettingsPanel';
+import styles from './perf.module.css';
 // docs/ was removed from this fork — stubs keep the perf benchmarks functional without styling
 const menuDemoStyles: Record<string, string> = {};
 const tooltipDemoStyles: Record<string, string> = {};
 const popoverDemoStyles: Record<string, string> = {};
 const dialogDemoStyles: Record<string, string> = {};
 const previewCardDemoStyles: Record<string, string> = {};
-import PerformanceBenchmark from './utils/benchmark';
-import { type Settings, SettingsPanel, usePersistedSettings } from './SettingsPanel';
-import styles from './perf.module.css';
 
 interface RowData {
   label: string;

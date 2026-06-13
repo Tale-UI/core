@@ -47,7 +47,7 @@ export const Root: React.FC<React.PropsWithChildren<RootProps>> = ({ data, width
   const enhanced = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && (child.type as any)?.displayName === 'AreaChart.Area') {
       const color = colors[areaIndex % colors.length];
-      areaIndex++;
+      areaIndex += 1;
       return React.cloneElement(child as React.ReactElement<any>, {
         stroke: (child.props as any).stroke ?? color,
         fill: (child.props as any).fill ?? color,

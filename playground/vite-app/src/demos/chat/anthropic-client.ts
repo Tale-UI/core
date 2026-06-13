@@ -51,14 +51,14 @@ export async function streamAnthropicCompletion({
     }
 
     const reader = response.body?.getReader();
-    if (!reader) throw new Error('No response body');
+    if (!reader) {throw new Error('No response body');}
 
     const decoder = new TextDecoder();
     let buffer = '';
 
     while (true) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done) {break;}
 
       buffer += decoder.decode(value, { stream: true });
 
@@ -66,9 +66,9 @@ export async function streamAnthropicCompletion({
       buffer = lines.pop() || '';
 
       for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
+        if (!line.startsWith('data: ')) {continue;}
         const data = line.slice(6).trim();
-        if (data === '[DONE]') continue;
+        if (data === '[DONE]') {continue;}
 
         try {
           const event = JSON.parse(data);
@@ -79,7 +79,7 @@ export async function streamAnthropicCompletion({
           if (event.type === 'message_delta' && event.delta?.stop_reason === 'max_tokens') {
             truncated = true;
           }
-          if (event.type === 'message_stop') break;
+          if (event.type === 'message_stop') {break;}
         } catch {
           // Ignore malformed SSE lines
         }
@@ -88,7 +88,7 @@ export async function streamAnthropicCompletion({
 
     onComplete(fullText, { truncated });
   } catch (err) {
-    if ((err as Error).name === 'AbortError') return;
+    if ((err as Error).name === 'AbortError') {return;}
     onError(err as Error);
   }
 }

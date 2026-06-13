@@ -87,15 +87,15 @@ export default function A2UIDemo() {
 
       setValidationOutput('Valid!');
       setMessages(msgs as A2UIMessage[]);
-    } catch (e) {
-      setValidationOutput(`JSON parse error: ${(e as Error).message}`);
+    } catch (entry) {
+      setValidationOutput(`JSON parse error: ${(entry as Error).message}`);
     }
   }, [jsonText]);
 
   // Extract surfaceId from messages
   const surfaceId = React.useMemo(() => {
     for (const msg of messages) {
-      if ('surfaceId' in msg) return (msg as { surfaceId: string }).surfaceId;
+      if ('surfaceId' in msg) {return (msg as { surfaceId: string }).surfaceId;}
     }
     return 'main';
   }, [messages]);
@@ -114,7 +114,7 @@ export default function A2UIDemo() {
           <select
             id="example-select"
             value={selectedExample}
-            onChange={(e) => setSelectedExample(e.target.value)}
+            onChange={(entry) => setSelectedExample(entry.target.value)}
             style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--neutral-22)' }}
           >
             {Object.entries(examples).map(([key, ex]) => (
@@ -133,7 +133,7 @@ export default function A2UIDemo() {
           <textarea
             id="json-editor"
             value={jsonText}
-            onChange={(e) => setJsonText(e.target.value)}
+            onChange={(entry) => setJsonText(entry.target.value)}
             style={{
               flex: 1,
               minHeight: '200px',
@@ -145,7 +145,7 @@ export default function A2UIDemo() {
               resize: 'vertical',
             }}
           />
-          <button
+          <button type="button"
             onClick={handleLoadJson}
             style={{
               marginTop: '8px',

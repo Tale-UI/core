@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { X } from 'lucide-react';
-import { Icon } from '../icon';
 import {
   DialogTrigger,
   Modal,
@@ -16,6 +15,7 @@ import type {
   HeadingProps,
   ButtonProps,
 } from 'react-aria-components';
+import { Icon } from '../icon';
 import { cx } from '../_cx';
 
 /**

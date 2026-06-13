@@ -321,7 +321,7 @@ for (const entry of [...pitfalls.crossComponentPitfalls, ...pitfalls.generalConv
 for (const component of registry.components) {
   for (const pitfall of (component.pitfalls || [])) {
     const expectedToken = SLUG_SUMMARY_TOKENS[pitfall.id];
-    if (!expectedToken) continue;
+    if (!expectedToken) {continue;}
     const summaryLower = (pitfall.summary || '').toLowerCase();
     if (!summaryLower.includes(expectedToken.toLowerCase())) {
       const docFile = path.join(DOCS_COMPONENTS_DIR, `${component.name.replace(/[A-Z]/g, c => `-${c.toLowerCase()}`).replace(/^-/, '')}.md`);

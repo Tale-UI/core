@@ -30,9 +30,9 @@ function extractCode(text: string): string {
   const fenced = text.match(
     /^[ \t]*```[ \t]*(?:tsx?|jsx?|typescript|javascript)?[ \t]*\r?\n([\s\S]*?)\r?\n[ \t]*```/m,
   );
-  if (fenced) return fenced[1].trim();
+  if (fenced) {return fenced[1].trim();}
   const importIdx = text.indexOf('import ');
-  if (importIdx !== -1) return text.slice(importIdx).trim();
+  if (importIdx !== -1) {return text.slice(importIdx).trim();}
   return text.trim();
 }
 const ROOT = resolve(__dirname, '..', '..');
@@ -42,19 +42,19 @@ const SNIPPET_PATH = join(ROOT, 'docs', 'consumer-claude-md-snippet.md');
 const GOLDEN_PROMPTS_DIR = join(TOOLS, 'golden-prompts');
 
 // Lazy-loaded ESM modules (Node can't statically import .mjs from .ts)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _core: any = null;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _providers: any = null;
+ 
+let coreModule: any = null;
+ 
+let providersModule: any = null;
 
 async function getCore() {
-  if (!_core) _core = await import(join(TOOLS, 'mcp-core.mjs') as unknown as string);
-  return _core;
+  if (!coreModule) {coreModule = await import(join(TOOLS, 'mcp-core.mjs') as unknown as string);}
+  return coreModule;
 }
 
 async function getProviders() {
-  if (!_providers) _providers = await import(join(TOOLS, 'providers.mjs') as unknown as string);
-  return _providers;
+  if (!providersModule) {providersModule = await import(join(TOOLS, 'providers.mjs') as unknown as string);}
+  return providersModule;
 }
 
 function json(res: NodeResponse, status: number, data: unknown) {
@@ -64,9 +64,9 @@ function json(res: NodeResponse, status: number, data: unknown) {
   res.end(body);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 type NodeRequest = any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 type NodeResponse = any;
 
 function readBody(req: NodeRequest): Promise<string> {
@@ -111,7 +111,7 @@ function insertPitfallIntoDoc(docPath: string, block: string): void {
     if (content.includes('\n## Notes\n')) {
       content = content.replace('\n## Notes\n', `\n## Pitfalls\n\n${block}\n\n## Notes\n`);
     } else {
-      content = content.trimEnd() + `\n\n## Pitfalls\n\n${block}\n`;
+      content = `${content.trimEnd()  }\n\n## Pitfalls\n\n${block}\n`;
     }
   } else {
     // Append new pitfall before the first following ## section (or at end of Pitfalls section)
@@ -141,7 +141,7 @@ export function studioApiPlugin(): Plugin {
         // ── GET /api/mcp/get_component?name=X ───────────────────────────────
         if (req.method === 'GET' && url.pathname === '/api/mcp/get_component') {
           const name = url.searchParams.get('name') ?? '';
-          if (!name) return json(res, 400, { error: 'name query param required' });
+          if (!name) {return json(res, 400, { error: 'name query param required' });}
           const core = await getCore();
           const result = core.getComponentCore(name);
           return json(res, result.isError ? 404 : 200, { text: result.text, isError: result.isError ?? false });
@@ -150,7 +150,7 @@ export function studioApiPlugin(): Plugin {
         // ── POST /api/mcp/plan_ui ────────────────────────────────────────────
         if (req.method === 'POST' && url.pathname === '/api/mcp/plan_ui') {
           const body = JSON.parse(await readBody(req));
-          if (!body.prompt) return json(res, 400, { error: 'prompt required' });
+          if (!body.prompt) {return json(res, 400, { error: 'prompt required' });}
           const core = await getCore();
           const result = core.planUiCore(body.prompt);
           return json(res, 200, { text: result.text });
@@ -159,7 +159,7 @@ export function studioApiPlugin(): Plugin {
         // ── GET /api/mcp/get_recipe?slug=X ───────────────────────────────────
         if (req.method === 'GET' && url.pathname === '/api/mcp/get_recipe') {
           const slug = url.searchParams.get('slug') ?? '';
-          if (!slug) return json(res, 400, { error: 'slug query param required' });
+          if (!slug) {return json(res, 400, { error: 'slug query param required' });}
           const core = await getCore();
           const result = core.getRecipeCore(slug);
           return json(res, result.isError ? 404 : 200, { text: result.text, isError: result.isError ?? false });
@@ -175,7 +175,7 @@ export function studioApiPlugin(): Plugin {
         // ── POST /api/mcp/search_components ─────────────────────────────────
         if (req.method === 'POST' && url.pathname === '/api/mcp/search_components') {
           const body = JSON.parse(await readBody(req));
-          if (!body.query) return json(res, 400, { error: 'query required' });
+          if (!body.query) {return json(res, 400, { error: 'query required' });}
           const core = await getCore();
           const result = core.searchComponentsCore(body.query);
           return json(res, 200, { text: result.text });
@@ -184,7 +184,7 @@ export function studioApiPlugin(): Plugin {
         // ── POST /api/mcp/search_docs ────────────────────────────────────────
         if (req.method === 'POST' && url.pathname === '/api/mcp/search_docs') {
           const body = JSON.parse(await readBody(req));
-          if (!body.query) return json(res, 400, { error: 'query required' });
+          if (!body.query) {return json(res, 400, { error: 'query required' });}
           const core = await getCore();
           const result = core.searchDocsCore(body.query);
           return json(res, 200, { text: result.text });
@@ -204,7 +204,7 @@ export function studioApiPlugin(): Plugin {
         // ── POST /api/generate ───────────────────────────────────────────────
         if (req.method === 'POST' && url.pathname === '/api/generate') {
           const body = JSON.parse(await readBody(req));
-          if (!body.prompt) return json(res, 400, { error: 'prompt required' });
+          if (!body.prompt) {return json(res, 400, { error: 'prompt required' });}
           try {
             const providers = await getProviders();
             const snippetRaw = readFileSync(SNIPPET_PATH, 'utf8');
@@ -248,20 +248,20 @@ export function studioApiPlugin(): Plugin {
           try {
             await new Promise<void>((resolve, reject) => {
               execFile(cmd, genArgs, { cwd: ROOT }, (err, stdout, stderr) => {
-                if (err) reject(new Error(`registry:generate failed:\n${stderr || stdout}`));
-                else resolve();
+                if (err) {reject(new Error(`registry:generate failed:\n${stderr || stdout}`));}
+                else {resolve();}
               });
             });
             await new Promise<void>((resolve, reject) => {
               execFile(cmd, shapeArgs, { cwd: ROOT }, (err, stdout, stderr) => {
-                if (err) reject(new Error(`pitfalls:shape failed:\n${stderr || stdout}`));
-                else resolve();
+                if (err) {reject(new Error(`pitfalls:shape failed:\n${stderr || stdout}`));}
+                else {resolve();}
               });
             });
             return json(res, 200, { ok: true, block });
           } catch (err) {
             // Roll back the file write
-            if (rollbackContent !== null) writeFileSync(docPath, rollbackContent, 'utf8');
+            if (rollbackContent !== null) {writeFileSync(docPath, rollbackContent, 'utf8');}
             const message = err instanceof Error ? err.message : String(err);
             return json(res, 422, { error: message, rolledBack: true });
           }
@@ -278,10 +278,10 @@ export function studioApiPlugin(): Plugin {
           const send = (line: string) => res.write(`data: ${JSON.stringify(line)}\n\n`);
 
           child.stdout.on('data', (d: Buffer) => {
-            for (const line of d.toString().split('\n')) if (line) send(line);
+            for (const line of d.toString().split('\n')) {if (line) {send(line);}}
           });
           child.stderr.on('data', (d: Buffer) => {
-            for (const line of d.toString().split('\n')) if (line) send(line);
+            for (const line of d.toString().split('\n')) {if (line) {send(line);}}
           });
           child.on('close', (code: number) => {
             send(`__done__:${code}`);
