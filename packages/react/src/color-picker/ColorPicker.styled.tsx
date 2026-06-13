@@ -10,27 +10,24 @@ export type RootProps = AriaColorPickerProps;
 /**
  * A colour picker state provider (headless, no DOM output).
  *
- * **WARNING:** Do NOT nest ColorSlider inside ColorPicker.Root — the context
- * does not propagate correctly and causes "Unknown color channel: hue" at
- * runtime. Use ColorArea and ColorSlider as standalone components with
- * shared state instead:
+ * Use ColorPicker.Root to provide shared color state to nested ColorArea,
+ * ColorSlider, ColorField, and related color controls.
  *
  * @example
  * ```tsx
- * import { useState } from 'react';
+ * import { ColorPicker } from '@tale-ui/react/color-picker';
  * import { ColorArea } from '@tale-ui/react/color-area';
  * import { ColorSlider } from '@tale-ui/react/color-slider';
- * import { parseColor } from '@tale-ui/react/color-picker';
  *
- * const [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));
+ * <ColorPicker.Root defaultValue="hsb(200, 100%, 100%)">
+ *   <ColorArea.Root xChannel="saturation" yChannel="brightness">
+ *     <ColorArea.Thumb />
+ *   </ColorArea.Root>
  *
- * <ColorArea.Root value={color} onChange={setColor}>
- *   <ColorArea.Thumb />
- * </ColorArea.Root>
- *
- * <ColorSlider.Root channel="hue" value={color} onChange={setColor}>
- *   <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>
- * </ColorSlider.Root>
+ *   <ColorSlider.Root channel="hue">
+ *     <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>
+ *   </ColorSlider.Root>
+ * </ColorPicker.Root>
  * ```
  */
 export function Root(props: RootProps) {

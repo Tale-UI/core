@@ -17,9 +17,7 @@ export default meta;
 type Story = StoryObj<Args>;
 
 /**
- * ColorPicker.Root wraps ColorArea for controlled color selection.
- * Note: nesting ColorSlider inside ColorPicker.Root has a known issue —
- * use the shared-state pattern below instead.
+ * ColorPicker.Root provides shared state to nested color controls.
  */
 export const Root: Story = {
   name: 'ColorPicker.Root',
@@ -44,22 +42,29 @@ export const Root: Story = {
 
     return (
       <ColorPicker.Root value={color} onChange={setColor}>
-        <ColorArea.Root xChannel={args.xChannel as 'saturation'} yChannel={args.yChannel as 'brightness'}>
-          <ColorArea.Thumb />
-        </ColorArea.Root>
+        <div className="story-col story-col--m">
+          <ColorArea.Root xChannel={args.xChannel as 'saturation'} yChannel={args.yChannel as 'brightness'}>
+            <ColorArea.Thumb />
+          </ColorArea.Root>
+          <ColorSlider.Root channel="hue">
+            <ColorSlider.Label>Hue</ColorSlider.Label>
+            <ColorSlider.Output />
+            <ColorSlider.Track>
+              <ColorSlider.Thumb />
+            </ColorSlider.Track>
+          </ColorSlider.Root>
+        </div>
       </ColorPicker.Root>
     );
   },
 };
 
 /**
- * The recommended color picker pattern uses standalone ColorArea and ColorSlider
- * components with shared state, rather than nesting inside ColorPicker.Root.
- *
- * See docs/components/color-picker.md for the known ColorSlider nesting issue.
+ * Standalone ColorArea and ColorSlider components can still share explicit
+ * value/onChange state when they live outside a common ColorPicker.Root.
  */
 export const SharedState: Story = {
-  name: 'Shared State (Recommended)',
+  name: 'Standalone Shared State',
   argTypes: {
     initialColor: { control: 'color' },
     showHue: { control: 'boolean' },
@@ -119,7 +124,7 @@ export const AllVariations: Story = {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 16 }}>
-        <span className="story-label">Shared State Color Picker</span>
+        <span className="story-label">Standalone Shared State Color Picker</span>
         <div className="story-col story-col--m">
           <ColorArea.Root value={color} onChange={setColor}>
             <ColorArea.Thumb />

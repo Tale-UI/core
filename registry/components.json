@@ -2023,22 +2023,22 @@
         "Root"
       ],
       "examples": [
-        "import { useState } from 'react';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\nimport { parseColor } from '@tale-ui/react/color-picker';\n\nconst [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));\n\n<ColorArea.Root value={color} onChange={setColor}>\n  <ColorArea.Thumb />\n</ColorArea.Root>\n\n<ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
-        "import { useState } from 'react';\n    import { ColorArea } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    import { parseColor } from '@tale-ui/react/color-picker';\n    \n    export function Example() {\n      const [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));\n      return (\n        <>\n          <ColorArea.Root value={color} onChange={setColor}>\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n          \n          <ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}>\n            <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n          </ColorSlider.Root>\n        </>\n      );\n    }"
+        "import { ColorPicker } from '@tale-ui/react/color-picker';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\n\n<ColorPicker.Root defaultValue=\"hsb(200, 100%, 100%)\">\n  <ColorArea.Root xChannel=\"saturation\" yChannel=\"brightness\">\n    <ColorArea.Thumb />\n  </ColorArea.Root>\n\n  <ColorSlider.Root channel=\"hue\">\n    <ColorSlider.Label>Hue</ColorSlider.Label>\n    <ColorSlider.Output />\n    <ColorSlider.Track>\n      <ColorSlider.Thumb />\n    </ColorSlider.Track>\n  </ColorSlider.Root>\n</ColorPicker.Root>",
+        "import { ColorPicker } from '@tale-ui/react/color-picker';\n    import { ColorArea } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    \n    export function Example() {\n      return (\n        <ColorPicker.Root defaultValue=\"hsb(200, 100%, 100%)\">\n          <ColorArea.Root xChannel=\"saturation\" yChannel=\"brightness\">\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n          \n          <ColorSlider.Root channel=\"hue\">\n            <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n          </ColorSlider.Root>\n        </ColorPicker.Root>\n      );\n    }"
       ],
       "cssClasses": null,
       "pitfalls": [
         {
           "id": "color-picker-no-label-prop",
           "summary": "ColorPicker.Root does not accept a label prop",
-          "detail": "There is no `label` prop on `ColorPicker.Root`. It is a headless state provider only.\n    ```tsx\n    import { useState } from 'react';\n    import { ColorArea } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    import { parseColor } from '@tale-ui/react/color-picker';\n    \n    export function Example() {\n      const [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));\n      return (\n        <>\n          <ColorArea.Root value={color} onChange={setColor}>\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n          \n          <ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}>\n            <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n          </ColorSlider.Root>\n        </>\n      );\n    }\n    ```\n\n<!-- multi-idea-ok -->",
+          "detail": "There is no `label` prop on `ColorPicker.Root`. It is a headless state provider only.\n    ```tsx\n    import { ColorPicker } from '@tale-ui/react/color-picker';\n    import { ColorArea } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    \n    export function Example() {\n      return (\n        <ColorPicker.Root defaultValue=\"hsb(200, 100%, 100%)\">\n          <ColorArea.Root xChannel=\"saturation\" yChannel=\"brightness\">\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n          \n          <ColorSlider.Root channel=\"hue\">\n            <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n          </ColorSlider.Root>\n        </ColorPicker.Root>\n      );\n    }\n    ```\n\n<!-- multi-idea-ok -->",
           "antiPatterns": [
             "<ColorPicker.Root label=\"Pick a color\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>"
           ],
           "fixes": [
             "<ColorPicker.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}>"
           ],
-          "completeExample": "import { useState } from 'react';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\nimport { parseColor } from '@tale-ui/react/color-picker';\n\nexport function Example() {\n  const [color, setColor] = useState(parseColor('hsb(200, 100%, 100%)'));\n  return (\n    <>\n      <ColorArea.Root value={color} onChange={setColor}>\n        <ColorArea.Thumb />\n      </ColorArea.Root>\n      \n      <ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}>\n        <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n      </ColorSlider.Root>\n    </>\n  );\n}"
+          "completeExample": "import { ColorPicker } from '@tale-ui/react/color-picker';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\n\nexport function Example() {\n  return (\n    <ColorPicker.Root defaultValue=\"hsb(200, 100%, 100%)\">\n      <ColorArea.Root xChannel=\"saturation\" yChannel=\"brightness\">\n        <ColorArea.Thumb />\n      </ColorArea.Root>\n      \n      <ColorSlider.Root channel=\"hue\">\n        <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n      </ColorSlider.Root>\n    </ColorPicker.Root>\n  );\n}"
         },
         {
           "id": "color-picker-sub-components-not-exported",
@@ -2092,7 +2092,7 @@
       "examples": [
         "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n\n<ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Hue</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
         "<ColorSlider.Root channel=\"saturation\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n  <ColorSlider.Label>Saturation</ColorSlider.Label>\n  <ColorSlider.Output />\n  <ColorSlider.Track>\n    <ColorSlider.Thumb />\n  </ColorSlider.Track>\n</ColorSlider.Root>",
-        "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n    \n    export function Example() {\n      return (\n        <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n          <ColorSlider.Label>Hue</ColorSlider.Label>\n          <ColorSlider.Output />\n          <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n        </ColorSlider.Root>\n      );\n    }",
+        "import { ColorPicker } from '@tale-ui/react/color-picker';\nimport { ColorArea } from '@tale-ui/react/color-area';\nimport { ColorSlider } from '@tale-ui/react/color-slider';\n\n<ColorPicker.Root defaultValue=\"hsb(200, 100%, 100%)\">\n  <ColorArea.Root xChannel=\"saturation\" yChannel=\"brightness\">\n    <ColorArea.Thumb />\n  </ColorArea.Root>\n\n  <ColorSlider.Root channel=\"hue\">\n    <ColorSlider.Label>Hue</ColorSlider.Label>\n    <ColorSlider.Output />\n    <ColorSlider.Track>\n      <ColorSlider.Thumb />\n    </ColorSlider.Track>\n  </ColorSlider.Root>\n</ColorPicker.Root>",
         "import { ColorArea } from '@tale-ui/react/color-area';\n    import { ColorSlider } from '@tale-ui/react/color-slider';\n    import { Column } from '@tale-ui/react/column';\n    \n    export function HslColorPicker() {\n      return (\n        <Column gap=\"l\" style={{ width: 240 }}>\n          <ColorArea.Root defaultValue=\"hsl(0, 100%, 50%)\" xChannel=\"saturation\" yChannel=\"lightness\">\n            <ColorArea.Thumb />\n          </ColorArea.Root>\n    \n          <ColorSlider.Root channel=\"hue\" defaultValue=\"hsl(0, 100%, 50%)\">\n            <ColorSlider.Label>Hue</ColorSlider.Label>\n            <ColorSlider.Output />\n            <ColorSlider.Track>\n              <ColorSlider.Thumb />\n            </ColorSlider.Track>\n          </ColorSlider.Root>\n        </Column>\n      );\n    }"
       ],
       "cssClasses": [
@@ -2103,18 +2103,6 @@
         "tale-color-slider__track"
       ],
       "pitfalls": [
-        {
-          "id": "color-slider-no-color-picker-context",
-          "summary": "Do NOT nest ColorSlider inside ColorPicker.Root",
-          "detail": "React Aria's `ColorPicker` context does not propagate the shared color value to a nested `ColorSlider`, causing a runtime error: `Uncaught Error: Unknown color channel: hue`. Use `ColorSlider` as a standalone component with its own `value`/`onChange`.\n    ```tsx\n    import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n    \n    export function Example() {\n      return (\n        <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n          <ColorSlider.Label>Hue</ColorSlider.Label>\n          <ColorSlider.Output />\n          <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n        </ColorSlider.Root>\n      );\n    }\n    ```",
-          "antiPatterns": [
-            "<ColorPicker.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}><ColorSlider.Root channel=\"hue\"><ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track></ColorSlider.Root></ColorPicker.Root>"
-          ],
-          "fixes": [
-            "<ColorSlider.Root channel=\"hue\" value={color} onChange={setColor}><ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track></ColorSlider.Root>"
-          ],
-          "completeExample": "import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';\n\nexport function Example() {\n  return (\n    <ColorSlider.Root channel=\"hue\" defaultValue={parseColor('hsl(0, 100%, 50%)')}>\n      <ColorSlider.Label>Hue</ColorSlider.Label>\n      <ColorSlider.Output />\n      <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>\n    </ColorSlider.Root>\n  );\n}"
-        },
         {
           "id": "color-slider-composition-with-color-area",
           "summary": "When composing with ColorArea, wrap both in a single parent element — use spacing-token gap values, never component-size names",

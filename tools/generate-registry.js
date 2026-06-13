@@ -127,9 +127,17 @@ function extractTypeAliases(content) {
 
 // ─── Kind detection ─────────────────────────────────────────────────────────
 
-function detectKind(indexContent) {
+function hasNamespaceObject(styledContent, pascal) {
+  return Boolean(
+    styledContent && new RegExp(`export\\s+const\\s+${pascal}\\s*=\\s*\\{`).test(styledContent),
+  );
+}
+
+function detectKind(indexContent, styledContent, pascal) {
   if (!indexContent) {return 'simple';}
-  return /export \* as \w+ from/.test(indexContent) ? 'compound' : 'simple';
+  if (/export \* as \w+ from/.test(indexContent)) {return 'compound';}
+  if (hasNamespaceObject(styledContent, pascal)) {return 'compound';}
+  return 'simple';
 }
 
 // ─── Props extraction ───────────────────────────────────────────────────────
@@ -263,8 +271,11 @@ function extractRootAliasProps(styledContent, pascal) {
 
 // ─── Parts extraction ───────────────────────────────────────────────────────
 
-function extractParts(indexContent, styledContent) {
-  if (!indexContent || !/export \* as \w+ from/.test(indexContent)) {return null;}
+function extractParts(indexContent, styledContent, pascal) {
+  const hasNamespaceReExport = /export \* as \w+ from/.test(indexContent ?? '');
+  if (!indexContent || (!hasNamespaceReExport && !hasNamespaceObject(styledContent, pascal))) {
+    return null;
+  }
   if (!styledContent) {return null;}
 
   // Collect display-name-derived parts (`Component.Part`) to augment export-
@@ -592,7 +603,7 @@ function generateRegistry() {
     const docContent = readFile(path.join(DOCS_DIR, `${slug}.md`));
 
     const indexInfo = componentIndex.get(pascal);
-    const kind = detectKind(indexContent);
+    const kind = detectKind(indexContent, styledContent, pascal);
     const importPath = reactPkg.exports[`./${slug}`] ? `@tale-ui/react/${slug}` : null;
 
     // Props — extract from styled file, then supplement with doc-extracted props
@@ -643,7 +654,7 @@ function generateRegistry() {
     });
 
     // Parts
-    const parts = extractParts(indexContent, styledContent);
+    const parts = extractParts(indexContent, styledContent, pascal);
 
     // CSS classes
     const cssClasses = extractCSSClasses(cssContent);

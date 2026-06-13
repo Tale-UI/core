@@ -110,6 +110,7 @@ import { RangeCalendar } from '@tale-ui/react/range-calendar';
 // Color
 import { ColorArea } from '@tale-ui/react/color-area';
 import { ColorField } from '@tale-ui/react/color-field';
+import { ColorPicker } from '@tale-ui/react/color-picker';
 import { ColorSlider } from '@tale-ui/react/color-slider';
 import { ColorSwatch } from '@tale-ui/react/color-swatch';
 import { ColorSwatchPicker } from '@tale-ui/react/color-swatch-picker';
@@ -520,8 +521,7 @@ function CalendarSection() {
 }
 
 // ---------------------------------------------------------------------------
-// ColorPicker section (needs shared state — ColorSlider must NOT nest inside
-// ColorPicker.Root, so we use standalone components with useState)
+// ColorPicker section (nested controls share state through ColorPicker.Root)
 // ---------------------------------------------------------------------------
 
 const multiSelectItems = [
@@ -667,21 +667,23 @@ function NavMenuDropdownDemo() {
 function ColorPickerDemo() {
   const [color, setColor] = React.useState(parseColor('hsb(200, 100%, 100%)'));
   return (
-    <div className="display--flex flex--col gap--2xs audit__color-area-wrap">
-      <ColorArea.Root value={color} onChange={setColor} className="audit__color-area">
-        <ColorArea.Thumb />
-      </ColorArea.Root>
-      <ColorSlider.Root channel="hue" value={color} onChange={setColor}>
-        <ColorSlider.Track>
-          <ColorSlider.Thumb />
-        </ColorSlider.Track>
-      </ColorSlider.Root>
-      <ColorSlider.Root channel="alpha" value={color} onChange={setColor}>
-        <ColorSlider.Track>
-          <ColorSlider.Thumb />
-        </ColorSlider.Track>
-      </ColorSlider.Root>
-    </div>
+    <ColorPicker.Root value={color} onChange={setColor}>
+      <div className="display--flex flex--col gap--2xs audit__color-area-wrap">
+        <ColorArea.Root xChannel="saturation" yChannel="brightness" className="audit__color-area">
+          <ColorArea.Thumb />
+        </ColorArea.Root>
+        <ColorSlider.Root channel="hue">
+          <ColorSlider.Track>
+            <ColorSlider.Thumb />
+          </ColorSlider.Track>
+        </ColorSlider.Root>
+        <ColorSlider.Root channel="alpha">
+          <ColorSlider.Track>
+            <ColorSlider.Thumb />
+          </ColorSlider.Track>
+        </ColorSlider.Root>
+      </div>
+    </ColorPicker.Root>
   );
 }
 
@@ -5821,7 +5823,7 @@ export default function ComponentAudit() {
         </Section>
 
         <Section id="color-picker" title="ColorPicker" classes={[]}>
-          <SubHeading>Standalone components with shared state</SubHeading>
+          <SubHeading>Nested controls with shared picker state</SubHeading>
           <ColorPickerDemo />
         </Section>
 

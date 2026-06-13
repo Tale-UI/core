@@ -46,6 +46,30 @@ import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
 </ColorSlider.Root>
 ```
 
+### Inside ColorPicker.Root
+
+Nest `ColorSlider.Root` inside `ColorPicker.Root` when it should share the picker's color value with other color controls:
+
+```tsx
+import { ColorPicker } from '@tale-ui/react/color-picker';
+import { ColorArea } from '@tale-ui/react/color-area';
+import { ColorSlider } from '@tale-ui/react/color-slider';
+
+<ColorPicker.Root defaultValue="hsb(200, 100%, 100%)">
+  <ColorArea.Root xChannel="saturation" yChannel="brightness">
+    <ColorArea.Thumb />
+  </ColorArea.Root>
+
+  <ColorSlider.Root channel="hue">
+    <ColorSlider.Label>Hue</ColorSlider.Label>
+    <ColorSlider.Output />
+    <ColorSlider.Track>
+      <ColorSlider.Thumb />
+    </ColorSlider.Track>
+  </ColorSlider.Root>
+</ColorPicker.Root>
+```
+
 ## CSS Classes
 
 - `.tale-color-slider` — Root
@@ -55,25 +79,6 @@ import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
 - `.tale-color-slider__output` — Value output
 
 ## Pitfalls
-
-<!-- pitfall: color-slider-no-color-picker-context -->
-- **Do NOT nest `ColorSlider` inside `ColorPicker.Root`** — React Aria's `ColorPicker` context does not propagate the shared color value to a nested `ColorSlider`, causing a runtime error: `Uncaught Error: Unknown color channel: hue`. Use `ColorSlider` as a standalone component with its own `value`/`onChange`.
-  - anti-pattern: `<ColorPicker.Root defaultValue={parseColor('hsl(0, 100%, 50%)')}><ColorSlider.Root channel="hue"><ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track></ColorSlider.Root></ColorPicker.Root>`
-  - fix: `<ColorSlider.Root channel="hue" value={color} onChange={setColor}><ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track></ColorSlider.Root>`
-  - complete example:
-    ```tsx
-    import { ColorSlider, parseColor } from '@tale-ui/react/color-slider';
-    
-    export function Example() {
-      return (
-        <ColorSlider.Root channel="hue" defaultValue={parseColor('hsl(0, 100%, 50%)')}>
-          <ColorSlider.Label>Hue</ColorSlider.Label>
-          <ColorSlider.Output />
-          <ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track>
-        </ColorSlider.Root>
-      );
-    }
-    ```
 
 <!-- pitfall: color-slider-composition-with-color-area -->
 <!-- prose-only -->

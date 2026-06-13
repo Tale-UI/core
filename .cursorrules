@@ -101,7 +101,6 @@ For new checkbox/radio/switch UI, use `CheckboxField`, `RadioField` inside `Radi
 - [ColorModeToggle] ColorModeToggle needs no props — it is self-managing
 - [ColorPicker] ColorPicker.Root does not accept a label prop
 - [ColorPicker] Sub-components are NOT exported from @tale-ui/react/color-picker
-- [ColorSlider] Do NOT nest ColorSlider inside ColorPicker.Root
 - [ColorSlider] When composing with ColorArea, wrap both in a single parent element — use spacing-token gap values, never component-size names
 - [ColorSwatch] color prop accepts a plain CSS string, not a Color object
 - [ColorSwatch] No size prop
