@@ -42,36 +42,8 @@ function MonthYearPickerCalendarTemplate(args: Args) {
   return <Calendar.Root {...args}>
     <Calendar.Header>
       <Calendar.PreviousButton />
-      <Calendar.MonthPicker format="short">
-        {({ 'aria-label': ariaLabel, value, onChange, items }) => (
-          <select
-            aria-label={ariaLabel}
-            value={String(value)}
-            onChange={(event) => onChange(Number(event.target.value))}
-          >
-            {items.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.formatted}
-              </option>
-            ))}
-          </select>
-        )}
-      </Calendar.MonthPicker>
-      <Calendar.YearPicker visibleYears={8}>
-        {({ 'aria-label': ariaLabel, value, onChange, items }) => (
-          <select
-            aria-label={ariaLabel}
-            value={String(value)}
-            onChange={(event) => onChange(Number(event.target.value))}
-          >
-            {items.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.formatted}
-              </option>
-            ))}
-          </select>
-        )}
-      </Calendar.YearPicker>
+      <Calendar.MonthPicker format="short" />
+      <Calendar.YearPicker visibleYears={8} />
       <Calendar.NextButton />
     </Calendar.Header>
     <Calendar.Grid>

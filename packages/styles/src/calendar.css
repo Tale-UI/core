@@ -30,6 +30,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-3xs);
   padding: 0 var(--space-3xs);
   margin-bottom: 0;
 }
@@ -112,6 +113,68 @@
 
 .tale-calendar__cell[data-focus-visible] {
   box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+}
+
+/* ─── Month/year picker selects ───────────────────────────────────────────── */
+
+.tale-calendar__month-picker,
+.tale-calendar__year-picker {
+  box-sizing: border-box;
+  height: var(--space-m);
+  min-height: 0;
+  padding: 0 calc(var(--space-xs) + var(--space-3xs)) 0 var(--space-3xs);
+  border: 1px solid var(--neutral-90);
+  border-radius: var(--radius-s);
+  appearance: none;
+  background-color: var(--neutral-80);
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentcolor 50%),
+    linear-gradient(135deg, currentcolor 50%, transparent 50%);
+  background-position:
+    calc(100% - var(--space-2xs)) 50%,
+    calc(100% - var(--space-3xs)) 50%;
+  background-repeat: no-repeat;
+  background-size:
+    0.4rem 0.4rem,
+    0.4rem 0.4rem;
+  color: var(--neutral-20);
+  font-family: var(--text-font-family);
+  font-size: var(--text-s-font-size);
+  line-height: 1;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.1s ease,
+    border-color 0.1s ease,
+    color 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.tale-calendar__month-picker {
+  width: 6.4rem;
+}
+
+.tale-calendar__year-picker {
+  width: 7rem;
+}
+
+.tale-calendar__month-picker:hover:not(:disabled),
+.tale-calendar__year-picker:hover:not(:disabled) {
+  background-color: var(--neutral-60);
+  border-color: var(--neutral-60);
+  color: var(--neutral-5);
+}
+
+.tale-calendar__month-picker:focus-visible,
+.tale-calendar__year-picker:focus-visible {
+  border-color: var(--focus-ring-color);
+  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+}
+
+.tale-calendar__month-picker:disabled,
+.tale-calendar__year-picker:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 /* Navigation button styles are in _primitives.css (overrides on .tale-icon-button base) */

@@ -10,6 +10,8 @@ import {
   CalendarHeading as AriaCalendarHeading,
   CalendarMonthPicker as AriaCalendarMonthPicker,
   CalendarYearPicker as AriaCalendarYearPicker,
+  CalendarStateContext as AriaCalendarStateContext,
+  RangeCalendarStateContext as AriaRangeCalendarStateContext,
   Button as AriaButton,
   type CalendarProps as AriaCalendarProps,
   type CalendarGridProps as AriaCalendarGridProps,
@@ -18,6 +20,8 @@ import {
   type CalendarGridBodyProps as AriaCalendarGridBodyProps,
   type CalendarCellProps as AriaCalendarCellProps,
   type CalendarHeadingProps as AriaCalendarHeadingProps,
+  type CalendarMonthPickerProps as AriaCalendarMonthPickerProps,
+  type CalendarYearPickerProps as AriaCalendarYearPickerProps,
   type ButtonProps as AriaButtonProps,
 } from 'react-aria-components';
 import type { DateValue } from '@internationalized/date';
@@ -191,8 +195,107 @@ export const NextButton = React.forwardRef<
 ));
 NextButton.displayName = 'Calendar.NextButton';
 
-// Headless month/year picker helpers (React Aria render-prop components).
-// They provide locale-aware month/year lists for building custom picker UIs —
-// see the Calendar docs "Month and year pickers" section.
-export const MonthPicker = AriaCalendarMonthPicker;
-export const YearPicker = AriaCalendarYearPicker;
+type CalendarPickerInjectedProps = {
+  className: string;
+  isDisabled: boolean;
+  isReadOnly: boolean;
+};
+
+export type MonthPickerRenderProps = Parameters<AriaCalendarMonthPickerProps['children']>[0] &
+  CalendarPickerInjectedProps;
+
+export type MonthPickerProps = Omit<AriaCalendarMonthPickerProps, 'children'> & {
+  className?: string;
+  children?: (renderProps: MonthPickerRenderProps) => ReturnType<AriaCalendarMonthPickerProps['children']>;
+};
+
+export type YearPickerRenderProps = Parameters<AriaCalendarYearPickerProps['children']>[0] &
+  CalendarPickerInjectedProps;
+
+export type YearPickerProps = Omit<AriaCalendarYearPickerProps, 'children'> & {
+  className?: string;
+  children?: (renderProps: YearPickerRenderProps) => ReturnType<AriaCalendarYearPickerProps['children']>;
+};
+
+type CalendarPickerSelectProps = MonthPickerRenderProps | YearPickerRenderProps;
+
+function useCalendarPickerState(): Pick<CalendarPickerInjectedProps, 'isDisabled' | 'isReadOnly'> {
+  const calendarState = React.useContext(AriaCalendarStateContext);
+  const rangeCalendarState = React.useContext(AriaRangeCalendarStateContext);
+
+  return {
+    isDisabled: Boolean(calendarState?.isDisabled ?? rangeCalendarState?.isDisabled),
+    isReadOnly: Boolean(calendarState?.isReadOnly ?? rangeCalendarState?.isReadOnly),
+  };
+}
+
+function CalendarPickerSelect({
+  'aria-label': ariaLabel,
+  value,
+  onChange,
+  items,
+  className,
+  isDisabled,
+  isReadOnly,
+}: CalendarPickerSelectProps): React.ReactElement {
+  return (
+    <select
+      aria-label={ariaLabel}
+      aria-readonly={isReadOnly || undefined}
+      className={className}
+      disabled={isDisabled}
+      value={String(value)}
+      onChange={(event) => onChange(Number(event.currentTarget.value))}
+    >
+      {items.map((item) => (
+        <option key={item.id} value={item.id}>
+          {item.formatted}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+/**
+ * Locale-aware month picker for the current calendar state.
+ *
+ * Renders a Tale UI styled native `<select>` by default. Pass a render-prop
+ * child to build custom UI; the render props include `className` for applying
+ * the same `tale-calendar__month-picker` styles.
+ */
+export function MonthPicker({ className, children, ...props }: MonthPickerProps): React.ReactElement {
+  const pickerState = useCalendarPickerState();
+  const pickerClassName = cx('tale-calendar__month-picker', className);
+
+  return (
+    <AriaCalendarMonthPicker {...props}>
+      {(renderProps) => {
+        const taleRenderProps = { ...renderProps, ...pickerState, className: pickerClassName };
+        return children ? children(taleRenderProps) : <CalendarPickerSelect {...taleRenderProps} />;
+      }}
+    </AriaCalendarMonthPicker>
+  );
+}
+MonthPicker.displayName = 'Calendar.MonthPicker';
+
+/**
+ * Locale-aware year picker for the current calendar state.
+ *
+ * Renders a Tale UI styled native `<select>` by default. Pass a render-prop
+ * child to build custom UI; the render props include `className` for applying
+ * the same `tale-calendar__year-picker` styles.
+ */
+export function YearPicker({ className, children, ...props }: YearPickerProps): React.ReactElement {
+  const pickerState = useCalendarPickerState();
+  const pickerClassName = cx('tale-calendar__year-picker', className);
+
+  return (
+    <AriaCalendarYearPicker {...props}>
+      {(renderProps) => {
+        const taleRenderProps = { ...renderProps, ...pickerState, className: pickerClassName };
+        return children ? children(taleRenderProps) : <CalendarPickerSelect {...taleRenderProps} />;
+      }}
+    </AriaCalendarYearPicker>
+  );
+}
+YearPicker.displayName = 'Calendar.YearPicker';

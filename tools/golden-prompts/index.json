@@ -41,6 +41,10 @@
       "difficulty": "complex"
     },
     {
+      "slug": "calendar-month-year-picker",
+      "difficulty": "medium"
+    },
+    {
       "slug": "card-with-content",
       "difficulty": "medium"
     },

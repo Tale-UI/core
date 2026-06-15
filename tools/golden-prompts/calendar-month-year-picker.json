@@ -1,0 +1,7 @@
+{
+  "slug": "calendar-month-year-picker",
+  "difficulty": "medium",
+  "prompt": "Show a date calendar with month and year dropdown pickers in the header.",
+  "reference": "import { Calendar } from '@tale-ui/react/calendar';\n\nexport function MonthYearCalendar() {\n  return (\n    <Calendar.Root>\n      <Calendar.Header>\n        <Calendar.PreviousButton />\n        <Calendar.MonthPicker format=\"short\" />\n        <Calendar.YearPicker visibleYears={8} />\n        <Calendar.NextButton />\n      </Calendar.Header>\n      <Calendar.Grid>\n        <Calendar.GridHeader>\n          {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}\n        </Calendar.GridHeader>\n        <Calendar.GridBody>\n          {(date) => <Calendar.Cell date={date} />}\n        </Calendar.GridBody>\n      </Calendar.Grid>\n    </Calendar.Root>\n  );\n}",
+  "tags": ["Calendar"]
+}

@@ -18,8 +18,8 @@ A date picker calendar for selecting a single date, with month navigation.
 | `Calendar.GridBody`       | `<tbody>` rows of date cells (render prop: `(date) => ...`)                                          |
 | `Calendar.Cell`           | Individual date cell — **use inside `GridBody` only**; accepts a `date` prop                         |
 | `Calendar.Header`         | Flex row wrapper for navigation buttons and heading                                                  |
-| `Calendar.MonthPicker`    | Headless render-prop helper for building a custom month picker (advanced — no styling, no BEM class) |
-| `Calendar.YearPicker`     | Headless render-prop helper for building a custom year picker (advanced — no styling, no BEM class)  |
+| `Calendar.MonthPicker`    | Locale-aware month picker; renders a styled native select by default                                |
+| `Calendar.YearPicker`     | Locale-aware year picker; renders a styled native select by default                                 |
 
 ## Props
 
@@ -34,6 +34,11 @@ These props live on the React Aria layer and flow through the Tale UI wrappers u
 | `Calendar.Root`    | `selectionMode` | `'single' \| 'multiple'` | Enable multiple date selection (new in 1.18). With `"multiple"`, `value`/`defaultValue`/`onChange` use an **array** of dates. |
 | `Calendar.Grid`    | `weeksInMonth`  | `number`                 | Overrides the locale default number of displayed weeks.                                                                       |
 | `Calendar.Heading` | `offset`        | `number`                 | Months offset for multi-month layouts (e.g. show the next month's name in a second heading).                                  |
+| `Calendar.MonthPicker` | `format`     | `'numeric' \| '2-digit' \| 'long' \| 'short' \| 'narrow'` | Month label format for the generated options.                                            |
+| `Calendar.MonthPicker` | `children`   | render prop              | Optional custom renderer. Render props include the RAC data plus Tale UI `className`, `isDisabled`, and `isReadOnly`.          |
+| `Calendar.YearPicker`  | `visibleYears` | `number`               | Number of year options to display around the visible year.                                                                     |
+| `Calendar.YearPicker`  | `format`     | `{ year?: 'numeric' \| '2-digit'; era?: 'long' \| 'short' \| 'narrow' }` | Year label format for the generated options.                         |
+| `Calendar.YearPicker`  | `children`   | render prop              | Optional custom renderer. Render props include the RAC data plus Tale UI `className`, `isDisabled`, and `isReadOnly`.          |
 
 ## Basic Usage
 
@@ -121,7 +126,46 @@ const now = today(getLocalTimeZone());
 
 ## Month and year pickers
 
-**Advanced.** `Calendar.MonthPicker` and `Calendar.YearPicker` are headless render-prop helpers re-exported from React Aria — they apply no styling and have no BEM class. `children` is a function receiving locale-aware month/year list data (`CalendarMonthPickerAria` / `CalendarYearPickerAria`) for building custom picker UIs (e.g. a month/year dropdown in the calendar header).
+`Calendar.MonthPicker` and `Calendar.YearPicker` render Tale UI styled native selects by default. Place them in `Calendar.Header` between the previous and next buttons.
+
+```tsx
+<Calendar.Root>
+  <Calendar.Header>
+    <Calendar.PreviousButton />
+    <Calendar.MonthPicker format="short" />
+    <Calendar.YearPicker visibleYears={8} />
+    <Calendar.NextButton />
+  </Calendar.Header>
+  <Calendar.Grid>
+    <Calendar.GridHeader>
+      {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
+    </Calendar.GridHeader>
+    <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
+  </Calendar.Grid>
+</Calendar.Root>
+```
+
+For custom picker UI, pass a render prop. The render prop receives React Aria's locale-aware month/year list data plus the Tale UI `className` for applying the same design-system styling.
+
+```tsx
+<Calendar.MonthPicker format="short">
+  {({ 'aria-label': ariaLabel, className, value, onChange, items, isDisabled }) => (
+    <select
+      aria-label={ariaLabel}
+      className={className}
+      disabled={isDisabled}
+      value={String(value)}
+      onChange={(event) => onChange(Number(event.currentTarget.value))}
+    >
+      {items.map((item) => (
+        <option key={item.id} value={item.id}>
+          {item.formatted}
+        </option>
+      ))}
+    </select>
+  )}
+</Calendar.MonthPicker>
+```
 
 ## CSS Classes
 
@@ -130,6 +174,8 @@ const now = today(getLocalTimeZone());
 - `.tale-calendar__heading` — Month/year heading
 - `.tale-calendar__prev-button` — Previous month button
 - `.tale-calendar__next-button` — Next month button
+- `.tale-calendar__month-picker` — Native month select rendered by `Calendar.MonthPicker`
+- `.tale-calendar__year-picker` — Native year select rendered by `Calendar.YearPicker`
 - `.tale-calendar__grid` — Table element
 - `.tale-calendar__grid-header` — Weekday header row
 - `.tale-calendar__grid-header-cell` — Individual weekday label
