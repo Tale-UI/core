@@ -176,9 +176,20 @@ function Section({
   classes: string[];
   children: React.ReactNode;
 }) {
+  const meta = getComponentAuditMeta(id);
+  const isDeprecated = meta?.status === 'deprecated';
+
   return (
     <section id={id} className="audit__section">
-      <h2 className="audit__heading">{title}</h2>
+      <div className="audit__heading-row">
+        <h2 className="audit__heading">{title}</h2>
+        {isDeprecated && <span className="audit__status-badge">Deprecated</span>}
+      </div>
+      {isDeprecated && (
+        <p className="audit__status-note">
+          <strong>{title} is deprecated.</strong> {meta.note}
+        </p>
+      )}
       <div className="audit__class-list">
         {classes.map((c) => (
           <code key={c} className="audit__class-tag">
@@ -236,6 +247,27 @@ function InertColorModeToggle({ disabled }: { disabled?: boolean }) {
 // TOC — order matches the content sections below
 const COLOR_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
 const NEUTRAL_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
+
+const COMPONENT_AUDIT_META = {
+  checkbox: {
+    status: 'deprecated',
+    note: 'Use CheckboxField for new code. Checkbox remains functional for existing code.',
+  },
+  radio: {
+    status: 'deprecated',
+    note: 'Use RadioField for new code. Radio remains functional for existing code.',
+  },
+  switch: {
+    status: 'deprecated',
+    note: 'Use SwitchField for new code. Switch remains functional for existing code.',
+  },
+} as const;
+
+function getComponentAuditMeta(id: string) {
+  return Object.prototype.hasOwnProperty.call(COMPONENT_AUDIT_META, id)
+    ? COMPONENT_AUDIT_META[id as keyof typeof COMPONENT_AUDIT_META]
+    : undefined;
+}
 
 const TOC = [
   { category: 'Palette', items: [{ id: 'palette', label: 'Color & Neutral' }] },
@@ -1181,11 +1213,22 @@ export default function ComponentAudit() {
         {TOC.map(({ category, items }) => (
           <div key={category}>
             <div className="audit__toc-category">{category}</div>
-            {items.map(({ id, label }) => (
-              <a key={id} href={`#${id}`} className="audit__toc-link">
-                {label}
-              </a>
-            ))}
+            {items.map(({ id, label }) => {
+              const meta = getComponentAuditMeta(id);
+              const isDeprecated = meta?.status === 'deprecated';
+
+              return (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className={`audit__toc-link${isDeprecated ? ' audit__toc-link--deprecated' : ''}`}
+                  aria-label={isDeprecated ? `${label}, deprecated` : label}
+                >
+                  <span>{label}</span>
+                  {isDeprecated && <span className="audit__toc-status">Deprecated</span>}
+                </a>
+              );
+            })}
           </div>
         ))}
       </nav>
