@@ -1141,21 +1141,22 @@
 .tale-button.tale-button--sm,
 .tale-toggle-button.tale-toggle-button--sm {
   font-size: var(--label-s-font-size);
-  padding: var(--space-4xs) var(--space-3xs);
+  padding: var(--space-4xs) var(--space-2xs);
   min-height: var(--space-m);
   gap: var(--space-4xs);
+  border-radius: var(--radius-s);
 }
 
 .tale-button.tale-button--md,
 .tale-toggle-button.tale-toggle-button--md {
   font-size: var(--label-m-font-size);
-  padding: var(--space-3xs) var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
   min-height: 3.6rem;
 }
 
 .tale-button.tale-button--lg,
 .tale-toggle-button.tale-toggle-button--lg {
-  font-size: var(--label-l-font-size);
+  font-size: var(--label-m-font-size);
   padding: var(--space-2xs) var(--space-s);
   min-height: 4.4rem;
   gap: var(--space-2xs);

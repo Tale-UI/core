@@ -28,6 +28,14 @@
   position: relative;
   padding: var(--space-xs);
   max-width: 32rem;
+  background-color: var(--neutral-90);
+  border-color: var(--neutral-100);
+  color: var(--neutral-20);
+}
+
+.tale-popover__arrow svg {
+  fill: var(--neutral-90);
+  stroke: var(--neutral-100);
 }
 
 /* ─── Title ────────────────────────────────────────────────────────────────── */
@@ -35,7 +43,7 @@
 .tale-popover__title {
   margin: 0 0 var(--space-2xs);
   padding-right: var(--space-xl);
-  color: var(--neutral-90);
+  color: var(--neutral-20);
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
   font-weight: var(--label-font-weight);
@@ -46,7 +54,7 @@
 
 .tale-popover__description {
   margin: 0;
-  color: var(--neutral-70);
+  color: var(--neutral-40);
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
   line-height: 1.5;
@@ -54,7 +62,18 @@
 
 /* ─── Close button (position only — base styles in _primitives.css) ──────── */
 
-.tale-popover__close {
+.tale-popover__close.tale-button {
   top: var(--space-3xs);
   right: var(--space-3xs);
+  color: var(--neutral-20);
+}
+
+.tale-popover__close.tale-button:hover:not([data-disabled], [data-pending]) {
+  background-color: var(--neutral-80);
+  color: var(--neutral-10);
+}
+
+.tale-popover__close.tale-button:active:not([data-disabled], [data-pending]) {
+  background-color: var(--neutral-70);
+  color: var(--neutral-5);
 }
