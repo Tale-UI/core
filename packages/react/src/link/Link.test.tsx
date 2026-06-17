@@ -12,6 +12,7 @@ describe('<Link />', () => {
     await render(<Link href="/docs">Docs</Link>);
     const link = screen.getByRole('link', { name: 'Docs' });
     expect(link.classList.contains('tale-link')).toBe(true);
+    expect(link.classList.contains('tale-link--has-icon')).toBe(false);
     expect(link.getAttribute('href')).toBe('/docs');
   });
 
@@ -46,6 +47,7 @@ describe('<Link />', () => {
 
     const link = screen.getByRole('link', { name: 'Home' });
     const iconWrapper = link.querySelector('.tale-link__icon');
+    expect(link.classList.contains('tale-link--has-icon')).toBe(true);
     expect(iconWrapper).not.toBeNull();
     expect(iconWrapper?.getAttribute('aria-hidden')).toBe('true');
     expect(screen.getByTestId('home-icon').classList.contains('tale-icon--sm')).toBe(true);
@@ -64,6 +66,7 @@ describe('<Link />', () => {
 
     const link = screen.getByRole('link', { name: 'Example' });
     const iconWrapper = link.querySelector('.tale-link__icon');
+    expect(link.classList.contains('tale-link--has-icon')).toBe(true);
     expect(iconWrapper).not.toBeNull();
     expect(iconWrapper?.getAttribute('aria-hidden')).toBe('true');
     expect(screen.getByTestId('external-icon').classList.contains('tale-icon--sm')).toBe(true);
@@ -83,9 +86,22 @@ describe('<Link />', () => {
 
     const link = screen.getByRole('link', { name: 'Home' });
     const iconWrappers = link.querySelectorAll('.tale-link__icon');
+    expect(link.classList.contains('tale-link--has-icon')).toBe(true);
     expect(iconWrappers.length).toBe(2);
     expect(screen.getByTestId('leading-icon')).not.toBeNull();
     expect(screen.getByTestId('trailing-icon')).not.toBeNull();
+  });
+
+  it('does not treat null or boolean icon props as icon links', async () => {
+    await render(
+      <Link href="/docs" iconLeading={false} iconTrailing={null}>
+        Docs
+      </Link>,
+    );
+
+    const link = screen.getByRole('link', { name: 'Docs' });
+    expect(link.classList.contains('tale-link--has-icon')).toBe(false);
+    expect(link.querySelector('.tale-link__icon')).toBeNull();
   });
 
   it('preserves render-prop children when icons are present', async () => {

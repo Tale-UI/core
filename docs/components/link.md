@@ -14,6 +14,8 @@ Accepts all React Aria `Link` props plus:
 | `iconTrailing` | `React.ReactNode` | -- | Optional icon after the link text. External links and links with `target="_blank"` must use lucide `ExternalLink`. |
 | `className` | `string` | -- | Additional class names. |
 
+Links without icon slots are underlined by default. When `iconLeading` or `iconTrailing` is present, the underline is removed automatically.
+
 ## Basic Usage
 
 ```tsx
@@ -72,6 +74,7 @@ import { ArrowRight } from 'lucide-react';
 ## CSS Classes
 
 - `.tale-link` — Base
+- `.tale-link--has-icon` — Applied automatically when `iconLeading` or `iconTrailing` is present
 - `.tale-link__icon` — Icon wrapper
 
 ## Pitfalls
@@ -111,3 +114,4 @@ import { ArrowRight } from 'lucide-react';
 - The `data-current` attribute marks the link as the current page (styled with `--neutral-90`, bold, no underline, no pointer).
 - Use `isDisabled` to disable the link (applies `opacity: 0.45` and `pointer-events: none`).
 - Icon slots are decorative and wrapped with `aria-hidden="true"`. Provide visible link text or an `aria-label`.
+- Links with `iconLeading` or `iconTrailing` remove the default underline automatically.

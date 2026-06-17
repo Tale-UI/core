@@ -5560,6 +5560,7 @@
       "cssClasses": [
         "tale-button",
         "tale-link",
+        "tale-link--has-icon",
         "tale-link__icon"
       ],
       "pitfalls": [

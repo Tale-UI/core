@@ -23,10 +23,14 @@
   color: var(--color-70);
   font-family: var(--text-font-family);
   font-size: inherit;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 0.2em;
   border-radius: var(--radius-xs);
   transition: color 0.15s ease;
+}
+
+.tale-link:not(.tale-button, .tale-link--has-icon) {
+  text-decoration: underline;
 }
 
 .tale-link__icon {

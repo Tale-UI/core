@@ -3293,7 +3293,11 @@ export default function ComponentAudit() {
           </Breadcrumbs.Root>
         </Section>
 
-        <Section id="link" title="Link" classes={['tale-link', 'tale-link__icon']}>
+        <Section
+          id="link"
+          title="Link"
+          classes={['tale-link', 'tale-link--has-icon', 'tale-link__icon']}
+        >
           <SubHeading>Default</SubHeading>
           <Row>
             <Link href="#">Default link</Link>

@@ -40,15 +40,20 @@ export interface LinkProps extends Omit<AriaLinkProps, 'className'> {
  */
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ({ className, iconLeading, iconTrailing, children, ...props }, ref) => {
+    const hasLeadingIcon = iconLeading != null && typeof iconLeading !== 'boolean';
+    const hasTrailingIcon = iconTrailing != null && typeof iconTrailing !== 'boolean';
+    const hasIcon = hasLeadingIcon || hasTrailingIcon;
+    const baseClassName = hasIcon ? 'tale-link tale-link--has-icon' : 'tale-link';
+
     const renderContent = (renderedChildren: React.ReactNode) => (
       <React.Fragment>
-        {iconLeading != null && (
+        {hasLeadingIcon && (
           <span className="tale-link__icon" aria-hidden="true">
             {iconLeading}
           </span>
         )}
         {renderedChildren}
-        {iconTrailing != null && (
+        {hasTrailingIcon && (
           <span className="tale-link__icon" aria-hidden="true">
             {iconTrailing}
           </span>
@@ -63,7 +68,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
     return (
       <AriaLink
         ref={ref}
-        className={cx('tale-link', className)}
+        className={cx(baseClassName, className)}
         {...props}
       >
         {linkChildren}
