@@ -120,6 +120,7 @@ function getA2UISystemPrompt() {
     }
     return a2uiSystemPrompt;
 }
+const A2UI_RECIPE_CONTEXT_MAX_CHARS = 5000;
 function normalizeA2UIChatMessages(rawMessages) {
     if (!Array.isArray(rawMessages)) {
         return [];
@@ -138,11 +139,130 @@ function normalizeA2UIChatMessages(rawMessages) {
         return [{ role: record.role, content: record.content }];
     });
 }
-function buildA2UIChatPrompt(messages) {
+function getLatestA2UIUserRequest(messages) {
+    for (let index = messages.length - 1; index >= 0; index -= 1) {
+        const message = messages[index];
+        if (message.role !== 'user') {
+            continue;
+        }
+        const content = message.content.trim();
+        if (!content || content.startsWith('[Action dispatched]')) {
+            continue;
+        }
+        return content;
+    }
+    return null;
+}
+function extractA2UIRecipeSlug(planText) {
+    const match = planText.match(/### Applicable recipe[\s\S]*?`([^`]+)`/);
+    return match?.[1] ?? null;
+}
+function extractA2UIRecipeTitle(recipeText, fallback) {
+    const match = recipeText.match(/^#\s+(.+)$/m);
+    return match?.[1]?.trim() || fallback;
+}
+function extractA2UIRecipeIntro(recipeText) {
+    const beforeFirstSection = recipeText.split(/\n##\s+/)[0] ?? '';
+    return beforeFirstSection
+        .split('\n')
+        .map((line) => line.trim())
+        .filter((line) => line && !line.startsWith('#'))
+        .slice(0, 3);
+}
+function extractA2UIRecipeComponents(recipeText) {
+    const section = recipeText.match(/## Components Used\s*\n([\s\S]*?)(?=\n## |\n?$)/)?.[1] ?? '';
+    return section
+        .split('\n')
+        .map((line) => line.trim().match(/^-\s+`([^`]+)`/)?.[1])
+        .filter((component) => Boolean(component))
+        .slice(0, 16);
+}
+function extractA2UIRecipeStructure(recipeText) {
+    const codeBlocks = [
+        ...recipeText.matchAll(/```(?:tsx?|jsx?|typescript|javascript)?\s*\n([\s\S]*?)```/g),
+    ];
+    const seen = new Set();
+    const structure = [];
+    for (const [, code] of codeBlocks) {
+        for (const rawLine of code.split('\n')) {
+            const line = rawLine.trim();
+            const tagMatch = line.match(/^<([A-Z][A-Za-z0-9]*(?:\.[A-Z][A-Za-z0-9]*)?)(?:\s|>|\/)/);
+            if (!tagMatch) {
+                continue;
+            }
+            const tag = tagMatch[1];
+            if (seen.has(tag)) {
+                continue;
+            }
+            seen.add(tag);
+            structure.push(tag);
+            if (structure.length >= 24) {
+                return structure;
+            }
+        }
+    }
+    return structure;
+}
+function extractA2UIRecipeCustomization(recipeText) {
+    const section = recipeText.match(/## Customization Points\s*\n([\s\S]*?)(?=\n## |\n?$)/)?.[1] ?? '';
+    return section
+        .split('\n')
+        .map((line) => line.trim())
+        .filter((line) => line.startsWith('- '))
+        .slice(0, 6);
+}
+function buildA2UIRecipeContextFromRecipe(slug, recipeText) {
+    const title = extractA2UIRecipeTitle(recipeText, slug);
+    const intro = extractA2UIRecipeIntro(recipeText);
+    const components = extractA2UIRecipeComponents(recipeText);
+    const structure = extractA2UIRecipeStructure(recipeText);
+    const customization = extractA2UIRecipeCustomization(recipeText);
+    const lines = [
+        '## Relevant Tale UI recipe context',
+        '',
+        `Matched recipe: ${title} (${slug})`,
+        '',
+        'Use this as A2UI planning guidance only. The recipe source is TSX; convert its component choices, hierarchy, labels, and actions into valid A2UI JSON messages. Do not emit imports, TSX, hooks, CSS, or raw HTML.',
+    ];
+    if (intro.length > 0) {
+        lines.push('', 'Recipe intent:', ...intro.map((line) => `- ${line}`));
+    }
+    if (components.length > 0) {
+        lines.push('', 'Recipe components to prefer when present in the A2UI catalog:');
+        lines.push(`- ${components.join(', ')}`);
+    }
+    if (structure.length > 0) {
+        lines.push('', 'Source component hierarchy cues, converted from TSX tags:');
+        lines.push(`- ${structure.join(' -> ')}`);
+    }
+    if (customization.length > 0) {
+        lines.push('', 'Recipe customization guidance to preserve where relevant:', ...customization);
+    }
+    return lines.join('\n').slice(0, A2UI_RECIPE_CONTEXT_MAX_CHARS);
+}
+async function buildA2UIRecipeContext(messages) {
+    const latestRequest = getLatestA2UIUserRequest(messages);
+    if (!latestRequest) {
+        return '';
+    }
+    const core = await getCore();
+    const planText = core.planUiCore(latestRequest).text;
+    const slug = extractA2UIRecipeSlug(planText);
+    if (!slug) {
+        return '';
+    }
+    const recipe = core.getRecipeCore(slug);
+    if (recipe.isError || typeof recipe.text !== 'string') {
+        return '';
+    }
+    return buildA2UIRecipeContextFromRecipe(slug, recipe.text);
+}
+function buildA2UIChatPrompt(messages, recipeContext = '') {
     const transcript = messages
         .map((message) => `${message.role === 'user' ? 'User' : 'Assistant'}:\n${message.content}`)
         .join('\n\n');
-    return `Conversation so far:\n\n${transcript}\n\nRespond to the latest user message with only the A2UI JSON array.`;
+    const contextBlock = recipeContext.trim() ? `\n\n${recipeContext.trim()}` : '';
+    return `Conversation so far:\n\n${transcript}${contextBlock}\n\nRespond to the latest user message with only the A2UI JSON array.`;
 }
 function buildPitfallBlock(fields) {
     const lines = [
@@ -313,7 +433,8 @@ export function studioApiPlugin() {
                         try {
                             const providers = await getProviders();
                             const provider = body.provider ?? 'claude';
-                            const result = await providers.callProvider(buildA2UIChatPrompt(messages), {
+                            const recipeContext = await buildA2UIRecipeContext(messages);
+                            const result = await providers.callProvider(buildA2UIChatPrompt(messages, recipeContext), {
                                 provider,
                                 model: body.model ?? (provider === 'claude' ? 'sonnet' : undefined),
                                 systemPrompt: getA2UISystemPrompt(),

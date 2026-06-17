@@ -484,6 +484,8 @@ Five few-shot examples are included in `packages/a2ui/src/agent/examples/`:
 | `settings-page.json` | Switches, selects, divided lists              |
 | `data-table.json`    | Table in a card with header actions           |
 
+The MCP Studio A2UI Chat also retrieves a matching `docs/recipes/` entry for the latest user request when one is found. The chat middleware reduces that recipe to A2UI-specific planning guidance: intent, preferred components, hierarchy cues, and customization points. Recipe TSX is never emitted directly; it is treated as source material for valid A2UI JSON messages.
+
 ---
 
 ## Playground
