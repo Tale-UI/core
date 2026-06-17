@@ -248,12 +248,15 @@ export function studioApiPlugin(): Plugin {
             }
             try {
               const providers = await getProviders();
+              const core = await getCore();
               const snippetRaw = readFileSync(SNIPPET_PATH, 'utf8');
               // Strip preamble before ## UI Components (mirrors eval-golden-prompts.mjs)
               const snippetContent = snippetRaw.replace(/^[\s\S]*?(?=^## UI Components)/m, '');
-              const systemPrompt = `You are a React developer working on a project that uses Tale UI components.\n\n${snippetContent}\n\n---\n\nWhen asked to create UI, generate a single self-contained TypeScript/TSX code block.\nRules:\n- Return ONLY the code block, no explanation before or after.\n- Export a function named \`Example\` as the default export.\n- Use Tale UI components exclusively — no raw HTML layout elements where a Tale UI layout component exists.\n- Do not include stylesheet imports.\n- Do not add inline styles for visual treatment (colors, borders, shadows) — only layout styles (width, height, spacing) are permitted.\n- Follow all import, composition, and pitfall rules listed above exactly.`;
+              const plan = core.planUiCore(body.prompt).text;
+              const systemPrompt = `You are a React developer working on a project that uses Tale UI components.\n\n${snippetContent}\n\n---\n\nWhen asked to create UI, generate a single self-contained TypeScript/TSX code block.\nRules:\n- Return ONLY the code block, no explanation before or after.\n- Export a named function called \`Example\`: \`export function Example() { ... }\`.\n- Use Tale UI components exclusively — no raw HTML layout elements where a Tale UI layout component exists.\n- Use only documented Tale UI imports and namespace subcomponents from the reference above; never invent aliases, default imports, or subparts such as \`Card.Title\` or \`Select.Option\` unless they are explicitly documented.\n- Do not include stylesheet imports.\n- Do not add inline styles for visual treatment (colors, borders, shadows) — only layout styles (width, height, spacing) are permitted.\n- Follow all import, composition, and pitfall rules listed above exactly.`;
+              const generatePrompt = `User request:\n${body.prompt}\n\n${plan}\n\nGenerate the TSX now. Use the plan's recommended components, exact documented parts, and pitfalls as hard constraints.`;
               const provider = body.provider ?? 'claude';
-              const result = await providers.callProvider(body.prompt, {
+              const result = await providers.callProvider(generatePrompt, {
                 provider,
                 model: body.model ?? (provider === 'claude' ? 'sonnet' : undefined),
                 systemPrompt,

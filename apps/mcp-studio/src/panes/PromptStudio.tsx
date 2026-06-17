@@ -241,7 +241,10 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
               }}
             >
               <Select.Label>Golden prompts</Select.Label>
-              <Select.Trigger />
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Icon />
+              </Select.Trigger>
               <Select.Popover>
                 <Select.ListBox>
                   {goldens.map((g) => (
@@ -256,7 +259,10 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
 
           <Select.Root selectedKey={providerValue} onSelectionChange={handleProviderChange}>
             <Select.Label>Provider</Select.Label>
-            <Select.Trigger />
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Icon />
+            </Select.Trigger>
             <Select.Popover>
               <Select.ListBox>
                 {providers.map((provider) => (
@@ -298,7 +304,10 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
             isDisabled={modelLoading || providerModels.length === 0}
           >
             <Select.Label>Model</Select.Label>
-            <Select.Trigger />
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Icon />
+            </Select.Trigger>
             <Select.Popover>
               <Select.ListBox>
                 {providerModels.map((model) => (

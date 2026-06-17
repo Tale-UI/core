@@ -34,6 +34,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-xs);
+  height: var(--field-min-height);
   min-width: 16rem;
   cursor: pointer;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -52,17 +53,26 @@
 /* ─── Trigger size variants ─────────────────────────────────────────────── */
 
 .tale-select__trigger--sm {
-  min-height: var(--space-m);
+  height: var(--space-m);
   padding: var(--space-4xs) var(--space-3xs);
   font-size: var(--label-s-font-size);
 }
 
 .tale-select__trigger--lg {
-  min-height: 4.4rem;
+  height: 4.4rem;
   padding: var(--space-2xs) var(--field-padding-inline);
 }
 
 /* ─── Value / placeholder ──────────────────────────────────────────────────── */
+
+.tale-select__value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .tale-select__value[data-placeholder] {
   color: var(--neutral-50);
