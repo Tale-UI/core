@@ -1053,7 +1053,9 @@ function FileUploadAuditSection() {
         const timer = setInterval(() => {
           pct += 10;
           setProgress((p) => ({ ...p, [idx]: pct }));
-          if (pct >= 100) {clearInterval(timer);}
+          if (pct >= 100) {
+            clearInterval(timer);
+          }
         }, 200);
       });
       return next;
@@ -2225,10 +2227,7 @@ export default function ComponentAudit() {
           <SubHeading>Long Selected Value</SubHeading>
           <Row>
             <div style={{ width: '22rem' }}>
-              <Select.Root
-                defaultSelectedKey="enterprise-plan"
-                placeholder="Select a plan…"
-              >
+              <Select.Root defaultSelectedKey="enterprise-plan" placeholder="Select a plan…">
                 <Select.Label>Plan</Select.Label>
                 <Select.Trigger>
                   <Select.Value />
@@ -3782,6 +3781,7 @@ export default function ComponentAudit() {
             'tale-tabs__list--pills',
             'tale-tabs__list--enclosed',
             'tale-tabs__tab',
+            'tale-tabs__tab-icon',
             'tale-tabs__tab--sm',
             'tale-tabs__tab--pills',
             'tale-tabs__tab--enclosed',
@@ -3793,12 +3793,18 @@ export default function ComponentAudit() {
           <div className="audit__demo-extra-wide audit__demo-spaced">
             <Tabs.Root defaultSelectedKey="overview">
               <Tabs.List>
-                <Tabs.Tab id="overview">Overview</Tabs.Tab>
-                <Tabs.Tab id="features">Features</Tabs.Tab>
+                <Tabs.Tab id="overview" icon={<Icon icon={Home} size="sm" />}>
+                  Overview
+                </Tabs.Tab>
+                <Tabs.Tab id="features" icon={<Icon icon={Star} size="sm" />}>
+                  Features
+                </Tabs.Tab>
                 <Tabs.Tab id="disabled-tab" isDisabled>
                   Disabled
                 </Tabs.Tab>
-                <Tabs.Tab id="docs">Docs</Tabs.Tab>
+                <Tabs.Tab id="docs" icon={<Icon icon={Info} size="sm" />}>
+                  Docs
+                </Tabs.Tab>
                 <Tabs.Indicator />
               </Tabs.List>
               <Tabs.Panel id="overview">Overview content goes here.</Tabs.Panel>
@@ -4640,10 +4646,18 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Types</SubHeading>
           <Row>
-            <Badge variant="neutral" type="pill">Neutral Pill</Badge>
-            <Badge variant="neutral" type="rounded">Neutral Rounded</Badge>
-            <Badge variant="brand" type="pill">Brand Pill</Badge>
-            <Badge variant="brand" type="rounded">Brand Rounded</Badge>
+            <Badge variant="neutral" type="pill">
+              Neutral Pill
+            </Badge>
+            <Badge variant="neutral" type="rounded">
+              Neutral Rounded
+            </Badge>
+            <Badge variant="brand" type="pill">
+              Brand Pill
+            </Badge>
+            <Badge variant="brand" type="rounded">
+              Brand Rounded
+            </Badge>
           </Row>
           <SubHeading>Deprecated type</SubHeading>
           <Row>

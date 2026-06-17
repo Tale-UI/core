@@ -233,6 +233,7 @@ All container components accept a `children` array of child component IDs. This 
 |  | `variant` | `underline`, `pills`, `enclosed` |
 | **TabItem** | `id` | string |
 |  | `isDisabled` | boolean |
+|  | `icon` | lucide icon name string |
 |  | `label` | string |
 | **TabPanel** | `id` | string |
 | **Progress** | `value` | number or `{ "path": "..." }` binding |

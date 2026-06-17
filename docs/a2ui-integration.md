@@ -196,7 +196,7 @@ and `Switch` remain available for compatibility with existing payloads.
 | `TableCell` | `Table.Cell` | `content` |
 | `Tabs` | `Tabs.Root` | `label`, `defaultTab`, `orientation`, `isDisabled` |
 | `TabList` | `Tabs.List` | `size`, `variant` |
-| `TabItem` | `Tabs.Tab` | `id`, `isDisabled`, `label` |
+| `TabItem` | `Tabs.Tab` | `id`, `isDisabled`, `icon`, `label` |
 | `TabPanel` | `Tabs.Panel` | `id` |
 | `Progress` | `ProgressBar.Root` | `value`, `minValue`, `maxValue`, `indeterminate`, `labelPosition`, `label` |
 | `Spinner` | `Spinner` | `variant`, `size`, `label` |

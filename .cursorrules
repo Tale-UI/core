@@ -275,6 +275,7 @@ For new checkbox/radio/switch UI, use `CheckboxField`, `RadioField` inside `Radi
 - [Table] No Table.Status sub-part
 - [Tabs] No Tabs.Trigger or Tabs.Content
 - [Tabs] Uses defaultSelectedKey, NOT defaultValue
+- [Tabs] Use Tabs.Tab icon for tab icons
 - [Tabs] Use Tabs for any prompt that asks for a tabbed interface, pill-style tabs, or a settings page with tab navigation
 - [TagGroup] Uses TagGroup.Tag, NOT TagGroup.Item
 - [TagGroup] TagGroup.Root does NOT accept a label prop

@@ -1,15 +1,11 @@
 import * as React from 'react';
-import {
-  Tabs,
-  TabList,
-  Tab as AriaTab,
-  TabPanel,
-} from 'react-aria-components';
+import { Tabs, TabList, Tab as AriaTab, TabPanel } from 'react-aria-components';
 import type {
   TabsProps as AriaTabsProps,
   TabListProps as AriaTabListProps,
   TabProps as AriaTabProps,
   TabPanelProps as AriaTabPanelProps,
+  TabRenderProps as AriaTabRenderProps,
 } from 'react-aria-components';
 import { cx } from '../_cx';
 
@@ -17,6 +13,10 @@ type TabSize = 'sm' | 'md';
 type TabVariant = 'underline' | 'pills' | 'enclosed';
 const TabSizeContext = React.createContext<TabSize>('md');
 const TabVariantContext = React.createContext<TabVariant>('underline');
+
+type AriaTabChildrenRenderProps = AriaTabRenderProps & {
+  defaultChildren: React.ReactNode | undefined;
+};
 
 // ── Root ───────────────────────────────────────────────────────────────────
 
@@ -42,11 +42,9 @@ export interface RootProps extends Omit<AriaTabsProps, 'className'> {
  * </Tabs.Root>
  * ```
  */
-export const Root = React.forwardRef<HTMLDivElement, RootProps>(
-  ({ className, ...props }, ref) => (
-    <Tabs ref={ref} className={cx('tale-tabs', className)} {...props} />
-  ),
-);
+export const Root = React.forwardRef<HTMLDivElement, RootProps>(({ className, ...props }, ref) => (
+  <Tabs ref={ref} className={cx('tale-tabs', className)} {...props} />
+));
 Root.displayName = 'Tabs.Root';
 
 // ── List ───────────────────────────────────────────────────────────────────
@@ -89,13 +87,20 @@ export const List = React.forwardRef<HTMLDivElement, ListProps>(
 
     const resolvedSize = size ?? 'md';
     const resolvedVariant = variant ?? 'underline';
-    const variantClass = resolvedVariant !== 'underline' ? ` tale-tabs__list--${resolvedVariant}` : '';
+    const variantClass =
+      resolvedVariant !== 'underline' ? ` tale-tabs__list--${resolvedVariant}` : '';
 
     if (extras.length === 0) {
       return (
         <TabSizeContext.Provider value={resolvedSize}>
           <TabVariantContext.Provider value={resolvedVariant}>
-            <TabList ref={ref} className={cx(`tale-tabs__list${variantClass}`, className)} {...props}>{tabs}</TabList>
+            <TabList
+              ref={ref}
+              className={cx(`tale-tabs__list${variantClass}`, className)}
+              {...props}
+            >
+              {tabs}
+            </TabList>
           </TabVariantContext.Provider>
         </TabSizeContext.Provider>
       );
@@ -104,8 +109,13 @@ export const List = React.forwardRef<HTMLDivElement, ListProps>(
     return (
       <TabSizeContext.Provider value={resolvedSize}>
         <TabVariantContext.Provider value={resolvedVariant}>
-          <div className={cx(`tale-tabs__list${variantClass}`, className)} style={{ position: 'relative' }}>
-            <TabList ref={ref} className="tale-tabs__list-inner" {...props}>{tabs}</TabList>
+          <div
+            className={cx(`tale-tabs__list${variantClass}`, className)}
+            style={{ position: 'relative' }}
+          >
+            <TabList ref={ref} className="tale-tabs__list-inner" {...props}>
+              {tabs}
+            </TabList>
             {extras}
           </div>
         </TabVariantContext.Provider>
@@ -119,6 +129,8 @@ List.displayName = 'Tabs.List';
 
 export interface TabProps extends Omit<AriaTabProps, 'className'> {
   className?: string | undefined;
+  /** Optional leading icon. Prefer `<Icon icon={LucideIcon} size="sm" />` from `@tale-ui/react/icon`; use a custom SVG only when no lucide icon fits. */
+  icon?: React.ReactNode | undefined;
 }
 
 /**
@@ -126,17 +138,41 @@ export interface TabProps extends Omit<AriaTabProps, 'className'> {
  *
  * @example
  * ```tsx
- * <Tabs.Tab id="settings">Settings</Tabs.Tab>
+ * import { Icon } from '@tale-ui/react/icon';
+ * import { Settings } from 'lucide-react';
+ *
+ * <Tabs.Tab id="settings" icon={<Icon icon={Settings} size="sm" />}>Settings</Tabs.Tab>
  * ```
  */
 export const Tab = React.forwardRef<HTMLDivElement, TabProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, icon, children, ...props }, ref) => {
     const tabSize = React.useContext(TabSizeContext);
     const tabVariant = React.useContext(TabVariantContext);
     const sizeClass = tabSize === 'sm' ? ' tale-tabs__tab--sm' : '';
     const variantClass = tabVariant !== 'underline' ? ` tale-tabs__tab--${tabVariant}` : '';
+    const renderContent = (renderedChildren: React.ReactNode) => (
+      <React.Fragment>
+        {icon != null && (
+          <span className="tale-tabs__tab-icon" aria-hidden="true">
+            {icon}
+          </span>
+        )}
+        {renderedChildren}
+      </React.Fragment>
+    );
+    const tabChildren =
+      typeof children === 'function'
+        ? (values: AriaTabChildrenRenderProps) => renderContent(children(values))
+        : renderContent(children);
+
     return (
-      <AriaTab ref={ref} className={cx(`tale-tabs__tab${sizeClass}${variantClass}`, className)} {...props} />
+      <AriaTab
+        ref={ref}
+        className={cx(`tale-tabs__tab${sizeClass}${variantClass}`, className)}
+        {...props}
+      >
+        {tabChildren}
+      </AriaTab>
     );
   },
 );
@@ -174,12 +210,16 @@ export interface IndicatorProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 function updateIndicator(indicator: HTMLSpanElement, variant: TabVariant = 'underline') {
   const wrapper = indicator.parentElement;
-  if (!wrapper) {return;}
+  if (!wrapper) {
+    return;
+  }
 
   // The tabs live in either the wrapper itself or a .tale-tabs__list-inner child
   const tabContainer = wrapper.querySelector('.tale-tabs__list-inner') ?? wrapper;
   const selectedTab = tabContainer.querySelector<HTMLElement>('[data-selected]');
-  if (!selectedTab) {return;}
+  if (!selectedTab) {
+    return;
+  }
 
   const isVertical = wrapper.closest('[data-orientation="vertical"]') !== null;
 
@@ -226,21 +266,30 @@ export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
     const mergedRef = React.useCallback(
       (node: HTMLSpanElement | null) => {
         innerRef.current = node;
-        if (typeof ref === 'function') {ref(node);}
-        else if (ref) {(ref as React.MutableRefObject<HTMLSpanElement | null>).current = node;}
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLSpanElement | null>).current = node;
+        }
       },
       [ref],
     );
 
     React.useEffect(() => {
       // Enclosed variant doesn't use an animated indicator
-      if (tabVariant === 'enclosed') {return;}
+      if (tabVariant === 'enclosed') {
+        return;
+      }
 
       const indicator = innerRef.current;
-      if (!indicator) {return;}
+      if (!indicator) {
+        return;
+      }
 
       const wrapper = indicator.parentElement;
-      if (!wrapper) {return;}
+      if (!wrapper) {
+        return;
+      }
 
       const tabContainer = wrapper.querySelector('.tale-tabs__list-inner') ?? wrapper;
 
@@ -251,7 +300,11 @@ export const Indicator = React.forwardRef<HTMLSpanElement, IndicatorProps>(
 
       // Watch for data-selected changes on any child tab
       const mutationObserver = new MutationObserver(update);
-      mutationObserver.observe(tabContainer, { attributes: true, attributeFilter: ['data-selected'], subtree: true });
+      mutationObserver.observe(tabContainer, {
+        attributes: true,
+        attributeFilter: ['data-selected'],
+        subtree: true,
+      });
 
       // Re-measure if tabs resize (e.g. font loading, container resize)
       const resizeObserver = new ResizeObserver(update);

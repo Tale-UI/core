@@ -1,0 +1,7 @@
+{
+  "slug": "tabs-with-icons",
+  "difficulty": "medium",
+  "prompt": "Show account settings tabs with leading icons for Account, Security, and Notifications.",
+  "reference": "import { Tabs } from '@tale-ui/react/tabs';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Bell, Lock, User } from 'lucide-react';\n\nexport function TabsWithIcons() {\n  return (\n    <Tabs.Root defaultSelectedKey=\"account\">\n      <Tabs.List>\n        <Tabs.Tab id=\"account\" icon={<Icon icon={User} size=\"sm\" />}>Account</Tabs.Tab>\n        <Tabs.Tab id=\"security\" icon={<Icon icon={Lock} size=\"sm\" />}>Security</Tabs.Tab>\n        <Tabs.Tab id=\"notifications\" icon={<Icon icon={Bell} size=\"sm\" />}>Notifications</Tabs.Tab>\n        <Tabs.Indicator />\n      </Tabs.List>\n      <Tabs.Panel id=\"account\">\n        <p>Manage profile details, email address, and account preferences.</p>\n      </Tabs.Panel>\n      <Tabs.Panel id=\"security\">\n        <p>Update passwords, passkeys, and two-factor authentication settings.</p>\n      </Tabs.Panel>\n      <Tabs.Panel id=\"notifications\">\n        <p>Choose when to receive email, push, and in-app notifications.</p>\n      </Tabs.Panel>\n    </Tabs.Root>\n  );\n}",
+  "tags": ["Tabs", "Icon"]
+}

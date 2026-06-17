@@ -1,5 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Bell, Settings, User } from 'lucide-react';
+import { Icon } from '@tale-ui/react/icon';
 import { Tabs } from '@tale-ui/react/tabs';
 
 type Args = {
@@ -40,7 +42,11 @@ type Story = StoryObj<Args>;
 
 export const Default: Story = {
   render: (args) => (
-    <Tabs.Root defaultSelectedKey="tab1" orientation={args.orientation} isDisabled={args.isDisabled}>
+    <Tabs.Root
+      defaultSelectedKey="tab1"
+      orientation={args.orientation}
+      isDisabled={args.isDisabled}
+    >
       <Tabs.List size={args.size} variant={args.variant}>
         <Tabs.Tab id="tab1">Account</Tabs.Tab>
         <Tabs.Tab id="tab2">Settings</Tabs.Tab>
@@ -151,6 +157,29 @@ export const SmallTabs: Story = {
   ),
 };
 
+export const WithIcons: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Tabs.Root defaultSelectedKey="account">
+      <Tabs.List>
+        <Tabs.Tab id="account" icon={<Icon icon={User} size="sm" />}>
+          Account
+        </Tabs.Tab>
+        <Tabs.Tab id="settings" icon={<Icon icon={Settings} size="sm" />}>
+          Settings
+        </Tabs.Tab>
+        <Tabs.Tab id="notifications" icon={<Icon icon={Bell} size="sm" />}>
+          Notifications
+        </Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel id="account">Account details.</Tabs.Panel>
+      <Tabs.Panel id="settings">App settings.</Tabs.Panel>
+      <Tabs.Panel id="notifications">Notification preferences.</Tabs.Panel>
+    </Tabs.Root>
+  ),
+};
+
 export const Controlled: Story = {
   parameters: {
     controls: { disable: true },
@@ -163,7 +192,10 @@ export const Controlled: Story = {
         <div className="story-tabs-status">
           Current tab: <strong>{selectedKey}</strong>
         </div>
-        <Tabs.Root selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(String(key))}>
+        <Tabs.Root
+          selectedKey={selectedKey}
+          onSelectionChange={(key) => setSelectedKey(String(key))}
+        >
           <Tabs.List>
             <Tabs.Tab id="tab1">First</Tabs.Tab>
             <Tabs.Tab id="tab2">Second</Tabs.Tab>
@@ -194,7 +226,6 @@ export const Controlled: Story = {
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
-
     const variants = ['underline', 'pills', 'enclosed'] as const;
     const sizes = ['sm', 'md'] as const;
 
@@ -204,8 +235,13 @@ export const AllVariations: Story = {
         {orientations.map((orientation) =>
           variants.map((variant) =>
             sizes.map((size) => (
-              <div key={`${orientation}-${variant}-${size}`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}>
-                <span className="story-label">{orientation} / {variant} / {size}</span>
+              <div
+                key={`${orientation}-${variant}-${size}`}
+                style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xs)' }}
+              >
+                <span className="story-label">
+                  {orientation} / {variant} / {size}
+                </span>
                 <Tabs.Root defaultSelectedKey="t1" orientation={orientation}>
                   {orientation === 'vertical' ? (
                     <div className="story-tabs-vertical">

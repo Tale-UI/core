@@ -22,14 +22,17 @@ const TYPE_DESCRIPTIONS = {
   TextInput: 'Single-line text field with label, description, and validation',
   Checkbox: 'Legacy checkbox input; prefer CheckboxField for new A2UI surfaces',
   CheckboxField: 'Preferred checkbox field with label, description, and validation error support',
-  Radio: 'Legacy radio group container; prefer RadioField with RadioFieldOption children for new A2UI surfaces',
+  Radio:
+    'Legacy radio group container; prefer RadioField with RadioFieldOption children for new A2UI surfaces',
   RadioField: 'Preferred radio group rendered with RadioFieldOption children',
   RadioOption: 'Legacy individual radio option; prefer RadioFieldOption for new A2UI surfaces',
-  RadioFieldOption: 'Preferred individual radio field option with description and validation error support',
+  RadioFieldOption:
+    'Preferred individual radio field option with description and validation error support',
   Select: 'Dropdown select with trigger, popover, and list box',
   SelectItem: 'Individual option within a Select',
   Switch: 'Legacy toggle switch; prefer SwitchField for new A2UI surfaces',
-  SwitchField: 'Preferred toggle switch field with label, description, and validation error support',
+  SwitchField:
+    'Preferred toggle switch field with label, description, and validation error support',
   Table: 'Data table with sorting and selection',
   TableHeader: 'Header row container within a Table',
   TableColumn: 'Column definition within a TableHeader',
@@ -163,7 +166,8 @@ const PROP_VALUES = {
   label: 'string',
   children: 'array of component IDs',
   content: 'string',
-  usageHint: '`display-l`, `display-m`, `display-s`, `heading-l`, `heading-m`, `heading-s`, `heading`, `title`, `label`, `body`, `body-s`, `caption`, `mono`',
+  usageHint:
+    '`display-l`, `display-m`, `display-s`, `heading-l`, `heading-m`, `heading-s`, `heading`, `title`, `label`, `body`, `body-s`, `caption`, `mono`',
   color: '`default`, `muted`, `accent`',
   variant: '`outlined`, `elevated`, `filled`',
   padding: '`sm`, `md`, `lg`',
@@ -229,7 +233,8 @@ const PROP_VALUES = {
   shouldFlip: 'boolean',
   delay: 'number (ms)',
   closeDelay: 'number (ms)',
-  formatOptions: 'object (Intl.NumberFormat options, e.g. `{ "style": "currency", "currency": "USD" }`)',
+  formatOptions:
+    'object (Intl.NumberFormat options, e.g. `{ "style": "currency", "currency": "USD" }`)',
   labelPosition: '`top`, `side`',
   validationBehavior: '`native`, `aria`',
   showTextWhileLoading: 'boolean',
@@ -269,6 +274,7 @@ const PROP_VALUE_OVERRIDES = {
   'Table.selectionMode': '`none`, `single`, `multiple`',
   'TabList.size': '`sm`, `md`',
   'TabList.variant': '`underline`, `pills`, `enclosed`',
+  'TabItem.icon': 'lucide icon name string',
   'ToggleButtonGroup.size': '`sm`, `md`, `lg`',
   'TagGroup.selectionMode': '`none`, `single`, `multiple`',
   'MenuPopover.placement': '`top`, `bottom`, `left`, `right`, `top-start`, `bottom-start`',
@@ -314,7 +320,8 @@ const PROP_VALUE_OVERRIDES = {
   'BreadcrumbLink.rel': 'string (e.g. `noopener`)',
   'Form.validationBehavior': '`native`, `aria`',
   'Button.showTextWhileLoading': 'boolean',
-  'NumberInput.formatOptions': 'object (Intl.NumberFormat options, e.g. `{ "style": "currency", "currency": "USD" }`)',
+  'NumberInput.formatOptions':
+    'object (Intl.NumberFormat options, e.g. `{ "style": "currency", "currency": "USD" }`)',
   'ToggleButtonGroup.defaultSelectedKeys': 'array of string IDs',
   'Checkbox.value': 'string (form submission value)',
   'CheckboxField.value': 'string (form submission value)',
@@ -341,9 +348,12 @@ const PROP_VALUE_OVERRIDES = {
   'SelectNative.size': '`sm`, `md`',
   'SelectNative.options': 'array of `{ "value": "...", "label": "..." }` objects',
   'PinInput.maxLength': 'number (required — determines number of input slots)',
-  'ColorArea.xChannel': '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
-  'ColorArea.yChannel': '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
-  'ColorSlider.channel': '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
+  'ColorArea.xChannel':
+    '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
+  'ColorArea.yChannel':
+    '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
+  'ColorSlider.channel':
+    '`hue`, `saturation`, `brightness`, `lightness`, `red`, `green`, `blue`, `alpha`',
   'Carousel.orientation': '`horizontal`, `vertical`',
   'Carousel.slidesPerView': 'number (default 1)',
   'Carousel.loop': 'boolean',
@@ -358,7 +368,8 @@ const PROP_VALUE_OVERRIDES = {
   'DotIcon.color': '`neutral`, `brand`, `error`, `warning`, `success`',
   'AppStoreButton.store': '`apple`, `google` (required)',
   'SocialButton.provider': '`google`, `github`, `apple`, `x`, `facebook` (required)',
-  'FileTrigger.acceptedFileTypes': 'array of MIME type strings (e.g. `["image/png", "image/jpeg"]`)',
+  'FileTrigger.acceptedFileTypes':
+    'array of MIME type strings (e.g. `["image/png", "image/jpeg"]`)',
   'FileTrigger.allowsMultiple': 'boolean',
   'NavigationMenuLink.href': 'URL string',
   'PreviewCard.delay': 'number (ms, default 400)',
@@ -370,33 +381,68 @@ const PROP_VALUE_OVERRIDES = {
   'Autocomplete.size': '`sm`, `md`, `lg`',
   'ColorWheel.outerRadius': 'number (outer radius in px, default 100)',
   'ColorWheel.innerRadius': 'number (inner radius in px, default 70)',
-  'ColorSwatchPicker.colors': 'array of hex color strings (e.g. `["#ff0000", "#00ff00", "#0000ff"]`)',
+  'ColorSwatchPicker.colors':
+    'array of hex color strings (e.g. `["#ff0000", "#00ff00", "#0000ff"]`)',
   'ColorSwatchPicker.selectionMode': '`single`, `multiple`',
 };
 
 /** Types that are sub-parts of compound components (not top-level types). */
 const SUB_PARTS = new Set([
-  'CardHeader', 'CardBody', 'CardFooter', 'ListItem', 'RadioOption', 'RadioFieldOption', 'SelectItem',
-  'AvatarImage', 'AvatarFallback',
-  'DisclosureTrigger', 'DisclosurePanel',
-  'AccordionItem', 'AccordionHeader', 'AccordionTrigger', 'AccordionPanel',
-  'MenuTrigger', 'MenuPopover', 'MenuItem', 'MenuSeparator',
-  'TooltipTrigger', 'TooltipPopup',
-  'PopoverTrigger', 'PopoverPopup',
-  'BreadcrumbItem', 'BreadcrumbLink',
-  'TableHeader', 'TableColumn', 'TableBody', 'TableRow', 'TableCell',
-  'TabList', 'TabItem', 'TabPanel',
-  'PaginationItem', 'PaginationPrevious', 'PaginationNext', 'PaginationEllipsis',
-  'TagList', 'Tag',
-  'FieldLabel', 'FieldDescription', 'FieldError',
+  'CardHeader',
+  'CardBody',
+  'CardFooter',
+  'ListItem',
+  'RadioOption',
+  'RadioFieldOption',
+  'SelectItem',
+  'AvatarImage',
+  'AvatarFallback',
+  'DisclosureTrigger',
+  'DisclosurePanel',
+  'AccordionItem',
+  'AccordionHeader',
+  'AccordionTrigger',
+  'AccordionPanel',
+  'MenuTrigger',
+  'MenuPopover',
+  'MenuItem',
+  'MenuSeparator',
+  'TooltipTrigger',
+  'TooltipPopup',
+  'PopoverTrigger',
+  'PopoverPopup',
+  'BreadcrumbItem',
+  'BreadcrumbLink',
+  'TableHeader',
+  'TableColumn',
+  'TableBody',
+  'TableRow',
+  'TableCell',
+  'TabList',
+  'TabItem',
+  'TabPanel',
+  'PaginationItem',
+  'PaginationPrevious',
+  'PaginationNext',
+  'PaginationEllipsis',
+  'TagList',
+  'Tag',
+  'FieldLabel',
+  'FieldDescription',
+  'FieldError',
   // Additional compound sub-parts
   'ComboboxItem',
-  'ContextMenuTrigger', 'ContextMenuPopup', 'ContextMenuItem', 'ContextMenuSeparator',
-  'NavigationMenuItem', 'NavigationMenuLink',
+  'ContextMenuTrigger',
+  'ContextMenuPopup',
+  'ContextMenuItem',
+  'ContextMenuSeparator',
+  'NavigationMenuItem',
+  'NavigationMenuLink',
   'CarouselItem',
   'GridListItem',
   'TreeItem',
-  'ToolbarButton', 'ToolbarSeparator',
+  'ToolbarButton',
+  'ToolbarSeparator',
   'AutocompleteItem',
 ]);
 
@@ -407,11 +453,17 @@ const SUB_PARTS = new Set([
  */
 function parseEnumValues(hint) {
   // Strings containing "(e.g." are non-exhaustive examples — skip them.
-  if (hint.includes('(e.g.')) {return null;}
-  const matches = [...hint.matchAll(/`([^`]+)`/g)].map(m => m[1]);
+  if (hint.includes('(e.g.')) {
+    return null;
+  }
+  const matches = [...hint.matchAll(/`([^`]+)`/g)].map((m) => m[1]);
   // Only return an array when every match looks like a plain token (no spaces, braces, etc.)
-  if (matches.length === 0) {return null;}
-  if (matches.some(v => /[\s{}()]/.test(v))) {return null;}
+  if (matches.length === 0) {
+    return null;
+  }
+  if (matches.some((v) => /[\s{}()]/.test(v))) {
+    return null;
+  }
   return matches;
 }
 
@@ -430,7 +482,9 @@ const PROP_ALLOWED_VALUES = (() => {
   // Global defaults (bare prop name)
   for (const [key, hint] of Object.entries(PROP_VALUES)) {
     const values = parseEnumValues(hint);
-    if (values) {out[key] = values;}
+    if (values) {
+      out[key] = values;
+    }
   }
   // Type-specific overrides ("TypeName.propName") always recorded — even when null
   // (null = explicitly free-form; blocks the global fallback for that type)
@@ -446,4 +500,10 @@ const PROP_ALLOWED_VALUES = (() => {
   return out;
 })();
 
-module.exports = { TYPE_DESCRIPTIONS, PROP_VALUES, PROP_VALUE_OVERRIDES, PROP_ALLOWED_VALUES, SUB_PARTS };
+module.exports = {
+  TYPE_DESCRIPTIONS,
+  PROP_VALUES,
+  PROP_VALUE_OVERRIDES,
+  PROP_ALLOWED_VALUES,
+  SUB_PARTS,
+};

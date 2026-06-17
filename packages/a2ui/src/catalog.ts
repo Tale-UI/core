@@ -131,20 +131,34 @@ function pressHandler(action: unknown, ctx: AdapterContext): (() => void) | unde
 /** Map A2UI usage hint to Tale UI Text variant + size. */
 function mapTextHint(hint?: string): { variant: string; size: string; as: string } {
   switch (hint) {
-    case 'display-l': return { variant: 'display', size: 'l', as: 'h1' };
-    case 'display-m': return { variant: 'display', size: 'm', as: 'h1' };
-    case 'display-s': return { variant: 'display', size: 's', as: 'h2' };
-    case 'heading-l': return { variant: 'heading', size: 'l', as: 'h2' };
-    case 'heading-m': return { variant: 'heading', size: 'm', as: 'h3' };
-    case 'heading-s': return { variant: 'heading', size: 's', as: 'h4' };
-    case 'heading': return { variant: 'heading', size: 'm', as: 'h3' };
-    case 'title': return { variant: 'title', size: 'm', as: 'h4' };
-    case 'label': return { variant: 'label', size: 'm', as: 'span' };
-    case 'body': return { variant: 'text', size: 'm', as: 'p' };
-    case 'body-s': return { variant: 'text', size: 's', as: 'p' };
-    case 'caption': return { variant: 'text', size: 'xs', as: 'span' };
-    case 'mono': return { variant: 'mono', size: 'm', as: 'span' };
-    default: return { variant: 'text', size: 'm', as: 'span' };
+    case 'display-l':
+      return { variant: 'display', size: 'l', as: 'h1' };
+    case 'display-m':
+      return { variant: 'display', size: 'm', as: 'h1' };
+    case 'display-s':
+      return { variant: 'display', size: 's', as: 'h2' };
+    case 'heading-l':
+      return { variant: 'heading', size: 'l', as: 'h2' };
+    case 'heading-m':
+      return { variant: 'heading', size: 'm', as: 'h3' };
+    case 'heading-s':
+      return { variant: 'heading', size: 's', as: 'h4' };
+    case 'heading':
+      return { variant: 'heading', size: 'm', as: 'h3' };
+    case 'title':
+      return { variant: 'title', size: 'm', as: 'h4' };
+    case 'label':
+      return { variant: 'label', size: 'm', as: 'span' };
+    case 'body':
+      return { variant: 'text', size: 'm', as: 'p' };
+    case 'body-s':
+      return { variant: 'text', size: 's', as: 'p' };
+    case 'caption':
+      return { variant: 'text', size: 'xs', as: 'span' };
+    case 'mono':
+      return { variant: 'mono', size: 'm', as: 'span' };
+    default:
+      return { variant: 'text', size: 'm', as: 'span' };
   }
 }
 
@@ -295,7 +309,8 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Text input' : undefined,
-        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
+        defaultValue:
+          (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.required as boolean | undefined,
@@ -304,12 +319,19 @@ export const taleUICatalog: Catalog = {
         onChange: props.binding
           ? (_v: string) => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) {handler();}
+              if (handler) {
+                handler();
+              }
             }
           : undefined,
-        children: h(React.Fragment, null,
+        children: h(
+          React.Fragment,
+          null,
           props.label ? h(TextField.Label, null, String(props.label)) : null,
-          h(TextField.Input, { type: props.type as string | undefined, placeholder: props.placeholder as string | undefined }),
+          h(TextField.Input, {
+            type: props.type as string | undefined,
+            placeholder: props.placeholder as string | undefined,
+          }),
           props.description ? h(TextField.Description, null, String(props.description)) : null,
           props.errorMessage ? h(TextField.ErrorMessage, null, String(props.errorMessage)) : null,
         ),
@@ -331,8 +353,12 @@ export const taleUICatalog: Catalog = {
         size: props.size as string | undefined,
         value: props.value as string | undefined,
         name: props.name as string | undefined,
-        onChange: props.action ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.() : undefined,
-        children: h(React.Fragment, null,
+        onChange: props.action
+          ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.()
+          : undefined,
+        children: h(
+          React.Fragment,
+          null,
           h(Checkbox.Indicator, null, h(Icon, { icon: Check, size: 'sm' })),
           (props.label as string) ?? ctx.children,
         ),
@@ -355,9 +381,15 @@ export const taleUICatalog: Catalog = {
         size: props.size as string | undefined,
         value: props.value as string | undefined,
         name: props.name as string | undefined,
-        onChange: props.action ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.() : undefined,
-        children: h(React.Fragment, null,
-          h(CheckboxField.Button, null,
+        onChange: props.action
+          ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.()
+          : undefined,
+        children: h(
+          React.Fragment,
+          null,
+          h(
+            CheckboxField.Button,
+            null,
             h(CheckboxField.Indicator, null, h(Icon, { icon: Check, size: 'sm' })),
             (props.label as string) ?? ctx.children,
           ),
@@ -374,7 +406,8 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Radio group' : undefined,
-        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
+        defaultValue:
+          (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.isRequired as boolean | undefined,
@@ -386,7 +419,9 @@ export const taleUICatalog: Catalog = {
         onChange: props.binding
           ? () => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) {handler();}
+              if (handler) {
+                handler();
+              }
             }
           : undefined,
         children: ctx.children,
@@ -400,7 +435,8 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Radio group' : undefined,
-        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
+        defaultValue:
+          (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.isRequired as boolean | undefined,
@@ -412,7 +448,9 @@ export const taleUICatalog: Catalog = {
         onChange: props.binding
           ? () => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) {handler();}
+              if (handler) {
+                handler();
+              }
             }
           : undefined,
         children: ctx.children,
@@ -426,7 +464,8 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Select' : undefined,
-        defaultSelectedKey: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
+        defaultSelectedKey:
+          (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.isRequired as boolean | undefined,
@@ -437,18 +476,17 @@ export const taleUICatalog: Catalog = {
         onSelectionChange: props.binding
           ? () => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) {handler();}
+              if (handler) {
+                handler();
+              }
             }
           : undefined,
-        children: h(React.Fragment, null,
+        children: h(
+          React.Fragment,
+          null,
           props.label ? h(Select.Label, null, String(props.label)) : null,
-          h(Select.Trigger, null,
-            h(Select.Value),
-            h(Select.Icon),
-          ),
-          h(Select.Popover, null,
-            h(Select.ListBox as React.ComponentType, null, ctx.children),
-          ),
+          h(Select.Trigger, null, h(Select.Value), h(Select.Icon)),
+          h(Select.Popover, null, h(Select.ListBox as React.ComponentType, null, ctx.children)),
         ),
       };
     },
@@ -467,11 +505,10 @@ export const taleUICatalog: Catalog = {
         size: props.size as string | undefined,
         value: props.value as string | undefined,
         name: props.name as string | undefined,
-        onChange: props.action ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.() : undefined,
-        children: h(React.Fragment, null,
-          h(Switch.Thumb),
-          (props.label as string) ?? ctx.children,
-        ),
+        onChange: props.action
+          ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.()
+          : undefined,
+        children: h(React.Fragment, null, h(Switch.Thumb), (props.label as string) ?? ctx.children),
       };
     },
   } as CatalogEntry,
@@ -489,9 +526,15 @@ export const taleUICatalog: Catalog = {
         isInvalid: props.isInvalid as boolean | undefined,
         value: props.value as string | undefined,
         name: props.name as string | undefined,
-        onChange: props.action ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.() : undefined,
-        children: h(React.Fragment, null,
-          h(SwitchField.Button, null,
+        onChange: props.action
+          ? (_isSelected: boolean) => pressHandler(props.action, ctx)?.()
+          : undefined,
+        children: h(
+          React.Fragment,
+          null,
+          h(
+            SwitchField.Button,
+            null,
             h(SwitchField.Thumb),
             (props.label as string) ?? ctx.children,
           ),
@@ -508,7 +551,9 @@ export const taleUICatalog: Catalog = {
       value: props.value as string,
       isDisabled: props.disabled as boolean | undefined,
       size: props.size as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         h(Radio.Indicator),
         (props.label as string) ?? ctx.children,
       ),
@@ -521,8 +566,12 @@ export const taleUICatalog: Catalog = {
       value: props.value as string,
       isDisabled: props.disabled as boolean | undefined,
       size: props.size as string | undefined,
-      children: h(React.Fragment, null,
-        h(RadioField.Button, null,
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          RadioField.Button,
+          null,
           h(RadioField.Indicator, null, h(RadioField.Dot)),
           (props.label as string) ?? ctx.children,
         ),
@@ -624,6 +673,9 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       id: props.id as string,
       isDisabled: props.isDisabled as boolean | undefined,
+      icon: props.icon
+        ? h(Icon, { icon: resolveIcon(props.icon as string), size: 'sm' })
+        : undefined,
       children: props.label ? String(props.label) : ctx.children,
     }),
   } as CatalogEntry,
@@ -650,15 +702,19 @@ export const taleUICatalog: Catalog = {
         isIndeterminate: props.indeterminate as boolean | undefined,
         labelPosition: props.labelPosition as string | undefined,
         'aria-label': (props.label as string) ?? 'Progress',
-        children: ctx.children ?? h(React.Fragment, null,
-          h(ProgressBar.Header, null,
-            props.label ? h(ProgressBar.Label, null, String(props.label)) : null,
-            !props.indeterminate && pct != null ? h(ProgressBar.Value, null, `${pct}%`) : null,
+        children:
+          ctx.children ??
+          h(
+            React.Fragment,
+            null,
+            h(
+              ProgressBar.Header,
+              null,
+              props.label ? h(ProgressBar.Label, null, String(props.label)) : null,
+              !props.indeterminate && pct != null ? h(ProgressBar.Value, null, `${pct}%`) : null,
+            ),
+            h(ProgressBar.Track, null, h(ProgressBar.Indicator, { value: val ?? 0, min, max })),
           ),
-          h(ProgressBar.Track, null,
-            h(ProgressBar.Indicator, { value: val ?? 0, min, max }),
-          ),
-        ),
       };
     },
   } as CatalogEntry,
@@ -682,7 +738,9 @@ export const taleUICatalog: Catalog = {
         ? (event: React.FormEvent) => {
             event.preventDefault();
             const handler = pressHandler(props.action, ctx);
-            if (handler) {handler();}
+            if (handler) {
+              handler();
+            }
           }
         : undefined,
       children: ctx.children,
@@ -742,7 +800,9 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       variant: props.variant as string | undefined,
       size: props.size as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.icon !== false ? h(Banner.Icon) : null,
         props.title ? h(Banner.Title, null, String(props.title)) : null,
         props.description ? h(Banner.Description, null, String(props.description)) : null,
@@ -757,7 +817,10 @@ export const taleUICatalog: Catalog = {
       defaultExpanded: props.defaultExpanded as boolean | undefined,
       isExpanded: props.isExpanded as boolean | undefined,
       onExpandedChange: props.onExpandedChange
-        ? (isExp: boolean) => { void isExp; pressHandler(props.onExpandedChange, ctx)?.(); }
+        ? (isExp: boolean) => {
+            void isExp;
+            pressHandler(props.onExpandedChange, ctx)?.();
+          }
         : undefined,
       children: ctx.children,
     }),
@@ -783,13 +846,16 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Text area' : undefined,
-        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
+        defaultValue:
+          (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.required as boolean | undefined,
         isInvalid: props.isInvalid as boolean | undefined,
         name: props.name as string | undefined,
-        children: h(React.Fragment, null,
+        children: h(
+          React.Fragment,
+          null,
           props.label ? h(TextArea.Label, null, String(props.label)) : null,
           h(TextArea.TextArea, { placeholder: props.placeholder as string | undefined }),
           props.description ? h(TextArea.Description, null, String(props.description)) : null,
@@ -804,7 +870,8 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Number input' : undefined,
-        defaultValue: (props.defaultValue as number | undefined) ?? (boundValue as number | undefined),
+        defaultValue:
+          (props.defaultValue as number | undefined) ?? (boundValue as number | undefined),
         minValue: props.minValue as number | undefined,
         maxValue: props.maxValue as number | undefined,
         step: props.step as number | undefined,
@@ -814,9 +881,13 @@ export const taleUICatalog: Catalog = {
         isInvalid: props.isInvalid as boolean | undefined,
         formatOptions: props.formatOptions as Intl.NumberFormatOptions | undefined,
         name: props.name as string | undefined,
-        children: h(React.Fragment, null,
+        children: h(
+          React.Fragment,
+          null,
           props.label ? h(NumberField.Label, null, String(props.label)) : null,
-          h(NumberField.Group, null,
+          h(
+            NumberField.Group,
+            null,
             h(NumberField.Decrement),
             h(NumberField.Input),
             h(NumberField.Increment),
@@ -833,9 +904,12 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Slider' : undefined,
-        defaultValue: props.defaultValue != null
-          ? [props.defaultValue as number]
-          : boundValue != null ? [boundValue as number] : undefined,
+        defaultValue:
+          props.defaultValue != null
+            ? [props.defaultValue as number]
+            : boundValue != null
+              ? [boundValue as number]
+              : undefined,
         minValue: props.minValue as number | undefined,
         maxValue: props.maxValue as number | undefined,
         step: props.step as number | undefined,
@@ -844,17 +918,16 @@ export const taleUICatalog: Catalog = {
         isRequired: props.isRequired as boolean | undefined,
         orientation: props.orientation as string | undefined,
         name: props.name as string | undefined,
-        children: h(React.Fragment, null,
-          h(Slider.Header, null,
+        children: h(
+          React.Fragment,
+          null,
+          h(
+            Slider.Header,
+            null,
             props.label ? h(Slider.Label, null, String(props.label)) : null,
             h(Slider.Output),
           ),
-          h(Slider.Control, null,
-            h(Slider.Track, null,
-              h(Slider.Indicator),
-              h(Slider.Thumb),
-            ),
-          ),
+          h(Slider.Control, null, h(Slider.Track, null, h(Slider.Indicator), h(Slider.Thumb))),
         ),
       };
     },
@@ -866,7 +939,8 @@ export const taleUICatalog: Catalog = {
       const boundValue = props.binding ? resolve(props.binding, ctx) : undefined;
       return {
         'aria-label': !props.label ? 'Search' : undefined,
-        defaultValue: (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
+        defaultValue:
+          (props.defaultValue as string | undefined) ?? (boundValue as string | undefined),
         isDisabled: props.disabled as boolean | undefined,
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.isRequired as boolean | undefined,
@@ -875,10 +949,14 @@ export const taleUICatalog: Catalog = {
         onSubmit: props.action
           ? () => {
               const handler = pressHandler(props.action, ctx);
-              if (handler) {handler();}
+              if (handler) {
+                handler();
+              }
             }
           : undefined,
-        children: h(React.Fragment, null,
+        children: h(
+          React.Fragment,
+          null,
           props.label ? h(SearchField.Label, null, String(props.label)) : null,
           h(SearchField.Input, { placeholder: props.placeholder as string | undefined }),
           h(SearchField.ClearButton, null, h(Icon, { icon: X, size: 'sm' })),
@@ -981,19 +1059,30 @@ export const taleUICatalog: Catalog = {
   Dialog: {
     component: Dialog.Root,
     adapter: (props, ctx) => ({
-      children: h(React.Fragment, null,
-        h(Dialog.Trigger, { className: 'tale-button tale-button--neutral' },
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          Dialog.Trigger,
+          { className: 'tale-button tale-button--neutral' },
           String(props.triggerLabel ?? props.title ?? 'Open'),
         ),
-        h(Dialog.Backdrop, null,
-          h(Dialog.Popup, {
-            modalProps: (props.isKeyboardDismissDisabled || props.isDismissable === false)
-              ? {
-                  isKeyboardDismissDisabled: props.isKeyboardDismissDisabled as boolean | undefined,
-                  isDismissable: props.isDismissable as boolean | undefined,
-                }
-              : undefined,
-          },
+        h(
+          Dialog.Backdrop,
+          null,
+          h(
+            Dialog.Popup,
+            {
+              modalProps:
+                props.isKeyboardDismissDisabled || props.isDismissable === false
+                  ? {
+                      isKeyboardDismissDisabled: props.isKeyboardDismissDisabled as
+                        | boolean
+                        | undefined,
+                      isDismissable: props.isDismissable as boolean | undefined,
+                    }
+                  : undefined,
+            },
             props.title ? h(Dialog.Title, null, String(props.title)) : null,
             props.description ? h(Dialog.Description, null, String(props.description)) : null,
             ctx.children,
@@ -1007,17 +1096,29 @@ export const taleUICatalog: Catalog = {
   AlertDialog: {
     component: AlertDialog.Root,
     adapter: (props, ctx) => ({
-      children: h(React.Fragment, null,
-        h(AlertDialog.Trigger, { className: 'tale-button tale-button--danger' },
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          AlertDialog.Trigger,
+          { className: 'tale-button tale-button--danger' },
           String(props.triggerLabel ?? props.title ?? 'Open'),
         ),
-        h(AlertDialog.Backdrop, null,
-          h(AlertDialog.Popup, {
-            isKeyboardDismissDisabled: props.isKeyboardDismissDisabled as boolean | undefined,
-          },
-            h(AlertDialog.Content, null,
+        h(
+          AlertDialog.Backdrop,
+          null,
+          h(
+            AlertDialog.Popup,
+            {
+              isKeyboardDismissDisabled: props.isKeyboardDismissDisabled as boolean | undefined,
+            },
+            h(
+              AlertDialog.Content,
+              null,
               props.title ? h(AlertDialog.Title, null, String(props.title)) : null,
-              props.description ? h(AlertDialog.Description, null, String(props.description)) : null,
+              props.description
+                ? h(AlertDialog.Description, null, String(props.description))
+                : null,
               ctx.children,
             ),
           ),
@@ -1030,12 +1131,18 @@ export const taleUICatalog: Catalog = {
     component: Drawer.Root,
     adapter: (props, ctx) => ({
       placement: props.placement as string | undefined,
-      children: h(React.Fragment, null,
-        h(Drawer.Trigger, { className: 'tale-button tale-button--neutral' },
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          Drawer.Trigger,
+          { className: 'tale-button tale-button--neutral' },
           String(props.triggerLabel ?? props.title ?? 'Open'),
         ),
         h(Drawer.Backdrop),
-        h(Drawer.Popup, null,
+        h(
+          Drawer.Popup,
+          null,
           props.title ? h(Drawer.Title, null, String(props.title)) : null,
           props.description ? h(Drawer.Description, null, String(props.description)) : null,
           ctx.children,
@@ -1068,7 +1175,9 @@ export const taleUICatalog: Catalog = {
       offset: props.offset as number | undefined,
       crossOffset: props.crossOffset as number | undefined,
       shouldFlip: props.shouldFlip as boolean | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         h(Tooltip.Arrow),
         ctx.children ?? String(props.content ?? ''),
       ),
@@ -1098,7 +1207,9 @@ export const taleUICatalog: Catalog = {
       crossOffset: props.crossOffset as number | undefined,
       shouldFlip: props.shouldFlip as boolean | undefined,
       isKeyboardDismissDisabled: props.isKeyboardDismissDisabled as boolean | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         h(Popover.Arrow),
         props.title ? h(Popover.Title, null, String(props.title)) : null,
         props.description ? h(Popover.Description, null, String(props.description)) : null,
@@ -1213,8 +1324,16 @@ export const taleUICatalog: Catalog = {
     component: EmptyState.Root,
     adapter: (props, ctx) => ({
       size: props.size as string | undefined,
-      children: h(React.Fragment, null,
-        props.icon ? h(EmptyState.Icon, null, h(Icon, { icon: resolveIcon(props.icon as string), size: 'lg' })) : null,
+      children: h(
+        React.Fragment,
+        null,
+        props.icon
+          ? h(
+              EmptyState.Icon,
+              null,
+              h(Icon, { icon: resolveIcon(props.icon as string), size: 'lg' }),
+            )
+          : null,
         props.title ? h(EmptyState.Title, null, String(props.title)) : null,
         props.description ? h(EmptyState.Description, null, String(props.description)) : null,
         ctx.children ? h(EmptyState.Actions, null, ctx.children) : null,
@@ -1231,16 +1350,22 @@ export const taleUICatalog: Catalog = {
       minValue: props.minValue as number | undefined,
       maxValue: props.maxValue as number | undefined,
       'aria-label': (props.label as string) ?? 'Meter',
-      children: h(React.Fragment, null,
-        h(Meter.Header, null,
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          Meter.Header,
+          null,
           props.label ? h(Meter.Label, null, String(props.label)) : null,
           h(Meter.Value),
         ),
-        h(Meter.Track, null,
+        h(
+          Meter.Track,
+          null,
           h(Meter.Indicator, {
-            value: resolve(props.value, ctx) as number ?? 0,
-            min: props.minValue as number ?? 0,
-            max: props.maxValue as number ?? 100,
+            value: (resolve(props.value, ctx) as number) ?? 0,
+            min: (props.minValue as number) ?? 0,
+            max: (props.maxValue as number) ?? 100,
           }),
         ),
       ),
@@ -1256,10 +1381,7 @@ export const taleUICatalog: Catalog = {
       isIndeterminate: props.isIndeterminate as boolean | undefined,
       'aria-label': (props.label as string) ?? 'Progress',
       size: props.size as string | undefined,
-      children: h(React.Fragment, null,
-        h(ProgressCircle.Track),
-        h(ProgressCircle.Value),
-      ),
+      children: h(React.Fragment, null, h(ProgressCircle.Track), h(ProgressCircle.Value)),
     }),
   } as CatalogEntry,
 
@@ -1347,16 +1469,20 @@ export const taleUICatalog: Catalog = {
       isRequired: props.required as boolean | undefined,
       isInvalid: props.isInvalid as boolean | undefined,
       name: props.name as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(Combobox.Label, null, String(props.label)) : null,
-        h(Combobox.InputGroup, null,
+        h(
+          Combobox.InputGroup,
+          null,
           h(Combobox.Input, { placeholder: props.placeholder as string | undefined }),
           h(Combobox.Trigger),
         ),
-        h(Combobox.Popover, null,
-          h(Combobox.ListBox as React.ComponentType, null, ctx.children),
-        ),
-        props.description ? h('p', { className: 'tale-combobox__description' }, String(props.description)) : null,
+        h(Combobox.Popover, null, h(Combobox.ListBox as React.ComponentType, null, ctx.children)),
+        props.description
+          ? h('p', { className: 'tale-combobox__description' }, String(props.description))
+          : null,
       ),
     }),
   } as CatalogEntry,
@@ -1393,7 +1519,9 @@ export const taleUICatalog: Catalog = {
       return {
         maxLength: len,
         disabled: props.disabled as boolean | undefined,
-        children: h(PinInput.Group, null,
+        children: h(
+          PinInput.Group,
+          null,
           ...Array.from({ length: len }, (_, i) => h(PinInput.Slot, { key: i, index: i })),
         ),
       };
@@ -1402,26 +1530,29 @@ export const taleUICatalog: Catalog = {
 
   /* ── Date & Time ────────────────────────────────────────────────────── */
 
-   
   Calendar: {
     component: Calendar.Root,
     adapter: (props) => ({
       'aria-label': (props.label as string) ?? 'Calendar',
       isDisabled: props.disabled as boolean | undefined,
       isReadOnly: props.readOnly as boolean | undefined,
-      children: h(React.Fragment, null,
-        h(Calendar.Header, null,
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          Calendar.Header,
+          null,
           h(Calendar.PreviousButton),
           h(Calendar.Heading),
           h(Calendar.NextButton),
         ),
-        h(Calendar.Grid, null,
-          h(Calendar.GridHeader as React.ComponentType<any>, null,
-            ((day: unknown) => h(Calendar.GridHeaderCell, { key: String(day) }, String(day))) as any,
-          ),
-          h(Calendar.GridBody as React.ComponentType<any>, null,
-            ((date: unknown) => h(Calendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any,
-          ),
+        h(
+          Calendar.Grid,
+          null,
+          h(Calendar.GridHeader as React.ComponentType<any>, null, ((day: unknown) =>
+            h(Calendar.GridHeaderCell, { key: String(day) }, String(day))) as any),
+          h(Calendar.GridBody as React.ComponentType<any>, null, ((date: unknown) =>
+            h(Calendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any),
         ),
       ),
     }),
@@ -1433,19 +1564,23 @@ export const taleUICatalog: Catalog = {
       'aria-label': (props.label as string) ?? 'Calendar',
       isDisabled: props.disabled as boolean | undefined,
       isReadOnly: props.readOnly as boolean | undefined,
-      children: h(React.Fragment, null,
-        h(RangeCalendar.Header, null,
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          RangeCalendar.Header,
+          null,
           h(RangeCalendar.PreviousButton),
           h(RangeCalendar.Heading),
           h(RangeCalendar.NextButton),
         ),
-        h(RangeCalendar.Grid, null,
-          h(RangeCalendar.GridHeader as React.ComponentType<any>, null,
-            ((day: unknown) => h(RangeCalendar.GridHeaderCell, { key: String(day) }, String(day))) as any,
-          ),
-          h(RangeCalendar.GridBody as React.ComponentType<any>, null,
-            ((date: unknown) => h(RangeCalendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any,
-          ),
+        h(
+          RangeCalendar.Grid,
+          null,
+          h(RangeCalendar.GridHeader as React.ComponentType<any>, null, ((day: unknown) =>
+            h(RangeCalendar.GridHeaderCell, { key: String(day) }, String(day))) as any),
+          h(RangeCalendar.GridBody as React.ComponentType<any>, null, ((date: unknown) =>
+            h(RangeCalendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any),
         ),
       ),
     }),
@@ -1460,11 +1595,15 @@ export const taleUICatalog: Catalog = {
       isRequired: props.required as boolean | undefined,
       isInvalid: props.isInvalid as boolean | undefined,
       name: props.name as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(DateField.Label, null, String(props.label)) : null,
-        h(DateField.DateInput as React.ComponentType<any>, null,
-          ((seg: any) => h(DateField.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
-        ),
+        h(DateField.DateInput as React.ComponentType<any>, null, ((seg: any) =>
+          h(DateField.Segment as React.ComponentType<any>, {
+            key: seg.type,
+            segment: seg,
+          })) as any),
         props.description ? h(DateField.Description, null, String(props.description)) : null,
         props.errorMessage ? h(DateField.ErrorMessage, null, String(props.errorMessage)) : null,
       ),
@@ -1480,29 +1619,46 @@ export const taleUICatalog: Catalog = {
       isRequired: props.required as boolean | undefined,
       isInvalid: props.isInvalid as boolean | undefined,
       name: props.name as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(DatePicker.Label, null, String(props.label)) : null,
-        h(DatePicker.Group, null,
-          h(DatePicker.DateInput as React.ComponentType<any>, null,
-            ((seg: any) => h(DatePicker.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
-          ),
+        h(
+          DatePicker.Group,
+          null,
+          h(DatePicker.DateInput as React.ComponentType<any>, null, ((seg: any) =>
+            h(DatePicker.Segment as React.ComponentType<any>, {
+              key: seg.type,
+              segment: seg,
+            })) as any),
           h(DatePicker.Trigger),
         ),
-        h(DatePicker.Popover, null,
-          h(DatePicker.Dialog, null,
-            h(Calendar.Root, null,
-              h(Calendar.Header, null,
+        h(
+          DatePicker.Popover,
+          null,
+          h(
+            DatePicker.Dialog,
+            null,
+            h(
+              Calendar.Root,
+              null,
+              h(
+                Calendar.Header,
+                null,
                 h(Calendar.PreviousButton),
                 h(Calendar.Heading),
                 h(Calendar.NextButton),
               ),
-              h(Calendar.Grid, null,
-                h(Calendar.GridHeader as React.ComponentType<any>, null,
-                  ((day: unknown) => h(Calendar.GridHeaderCell, { key: String(day) }, String(day))) as any,
-                ),
-                h(Calendar.GridBody as React.ComponentType<any>, null,
-                  ((date: unknown) => h(Calendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any,
-                ),
+              h(
+                Calendar.Grid,
+                null,
+                h(Calendar.GridHeader as React.ComponentType<any>, null, ((day: unknown) =>
+                  h(Calendar.GridHeaderCell, { key: String(day) }, String(day))) as any),
+                h(Calendar.GridBody as React.ComponentType<any>, null, ((date: unknown) =>
+                  h(Calendar.Cell as React.ComponentType<any>, {
+                    key: String(date),
+                    date,
+                  })) as any),
               ),
             ),
           ),
@@ -1522,39 +1678,60 @@ export const taleUICatalog: Catalog = {
       isRequired: props.required as boolean | undefined,
       isInvalid: props.isInvalid as boolean | undefined,
       name: props.name as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(DateRangePicker.Label, null, String(props.label)) : null,
-        h(DateRangePicker.Group, null,
-          h(DateRangePicker.StartDate as React.ComponentType<any>, null,
-            ((seg: any) => h(DateRangePicker.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
-          ),
+        h(
+          DateRangePicker.Group,
+          null,
+          h(DateRangePicker.StartDate as React.ComponentType<any>, null, ((seg: any) =>
+            h(DateRangePicker.Segment as React.ComponentType<any>, {
+              key: seg.type,
+              segment: seg,
+            })) as any),
           h('span', { 'aria-hidden': true }, '–'),
-          h(DateRangePicker.EndDate as React.ComponentType<any>, null,
-            ((seg: any) => h(DateRangePicker.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
-          ),
+          h(DateRangePicker.EndDate as React.ComponentType<any>, null, ((seg: any) =>
+            h(DateRangePicker.Segment as React.ComponentType<any>, {
+              key: seg.type,
+              segment: seg,
+            })) as any),
           h(DateRangePicker.Trigger),
         ),
-        h(DateRangePicker.Popover, null,
-          h(DateRangePicker.Dialog, null,
-            h(RangeCalendar.Root, null,
-              h(RangeCalendar.Header, null,
+        h(
+          DateRangePicker.Popover,
+          null,
+          h(
+            DateRangePicker.Dialog,
+            null,
+            h(
+              RangeCalendar.Root,
+              null,
+              h(
+                RangeCalendar.Header,
+                null,
                 h(RangeCalendar.PreviousButton),
                 h(RangeCalendar.Heading),
                 h(RangeCalendar.NextButton),
               ),
-              h(RangeCalendar.Grid, null,
-                h(RangeCalendar.GridHeader as React.ComponentType<any>, null,
-                  ((day: unknown) => h(RangeCalendar.GridHeaderCell, { key: String(day) }, String(day))) as any,
-                ),
-                h(RangeCalendar.GridBody as React.ComponentType<any>, null,
-                  ((date: unknown) => h(RangeCalendar.Cell as React.ComponentType<any>, { key: String(date), date })) as any,
-                ),
+              h(
+                RangeCalendar.Grid,
+                null,
+                h(RangeCalendar.GridHeader as React.ComponentType<any>, null, ((day: unknown) =>
+                  h(RangeCalendar.GridHeaderCell, { key: String(day) }, String(day))) as any),
+                h(RangeCalendar.GridBody as React.ComponentType<any>, null, ((date: unknown) =>
+                  h(RangeCalendar.Cell as React.ComponentType<any>, {
+                    key: String(date),
+                    date,
+                  })) as any),
               ),
             ),
           ),
         ),
         props.description ? h(DateRangePicker.Description, null, String(props.description)) : null,
-        props.errorMessage ? h(DateRangePicker.ErrorMessage, null, String(props.errorMessage)) : null,
+        props.errorMessage
+          ? h(DateRangePicker.ErrorMessage, null, String(props.errorMessage))
+          : null,
       ),
     }),
   } as CatalogEntry,
@@ -1568,11 +1745,15 @@ export const taleUICatalog: Catalog = {
       isRequired: props.required as boolean | undefined,
       isInvalid: props.isInvalid as boolean | undefined,
       name: props.name as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(TimeField.Label, null, String(props.label)) : null,
-        h(TimeField.DateInput as React.ComponentType<any>, null,
-          ((seg: any) => h(TimeField.Segment as React.ComponentType<any>, { key: seg.type, segment: seg })) as any,
-        ),
+        h(TimeField.DateInput as React.ComponentType<any>, null, ((seg: any) =>
+          h(TimeField.Segment as React.ComponentType<any>, {
+            key: seg.type,
+            segment: seg,
+          })) as any),
         props.description ? h(TimeField.Description, null, String(props.description)) : null,
         props.errorMessage ? h(TimeField.ErrorMessage, null, String(props.errorMessage)) : null,
       ),
@@ -1590,7 +1771,9 @@ export const taleUICatalog: Catalog = {
       isRequired: props.required as boolean | undefined,
       isInvalid: props.isInvalid as boolean | undefined,
       name: props.name as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(ColorField.Label, null, String(props.label)) : null,
         h(ColorField.Input, { placeholder: props.placeholder as string | undefined }),
         props.description ? h(ColorField.Description, null, String(props.description)) : null,
@@ -1613,12 +1796,12 @@ export const taleUICatalog: Catalog = {
     component: ColorSlider.Root,
     adapter: (props) => ({
       channel: (props.channel as string) ?? 'hue',
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(ColorSlider.Label, null, String(props.label)) : null,
         h(ColorSlider.Output),
-        h(ColorSlider.Track, null,
-          h(ColorSlider.Thumb),
-        ),
+        h(ColorSlider.Track, null, h(ColorSlider.Thumb)),
       ),
     }),
   } as CatalogEntry,
@@ -1630,14 +1813,24 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       delay: props.delay as number | undefined,
       closeDelay: props.closeDelay as number | undefined,
-      children: h(React.Fragment, null,
-        h(PreviewCard.Trigger as React.ComponentType<any>, null, (props.label as string) ?? 'Preview'),
-        h(PreviewCard.Popup as React.ComponentType<any>, {
-          placement: (props.placement as string) ?? 'bottom',
-          offset: 8,
-        },
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          PreviewCard.Trigger as React.ComponentType<any>,
+          null,
+          (props.label as string) ?? 'Preview',
+        ),
+        h(
+          PreviewCard.Popup as React.ComponentType<any>,
+          {
+            placement: (props.placement as string) ?? 'bottom',
+            offset: 8,
+          },
           h(PreviewCard.Arrow as React.ComponentType, null),
-          h(PreviewCard.Content as React.ComponentType<any>, { 'aria-label': (props.title as string) ?? 'Preview' },
+          h(
+            PreviewCard.Content as React.ComponentType<any>,
+            { 'aria-label': (props.title as string) ?? 'Preview' },
             props.title ? h('strong', null, String(props.title)) : null,
             ctx.children,
           ),
@@ -1716,7 +1909,9 @@ export const taleUICatalog: Catalog = {
       autoplay: props.autoplay as boolean | undefined,
       slidesPerView: props.slidesPerView as number | undefined,
       orientation: props.orientation as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         h(Carousel.Content, null, ctx.children),
         h(Carousel.PreviousTrigger),
         h(Carousel.NextTrigger),
@@ -1734,13 +1929,11 @@ export const taleUICatalog: Catalog = {
   ScrollArea: {
     component: ScrollArea.Root,
     adapter: (_props, ctx) => ({
-      children: h(React.Fragment, null,
-        h(ScrollArea.Viewport, null,
-          h(ScrollArea.Content, null, ctx.children),
-        ),
-        h(ScrollArea.Scrollbar, { orientation: 'vertical' },
-          h(ScrollArea.Thumb),
-        ),
+      children: h(
+        React.Fragment,
+        null,
+        h(ScrollArea.Viewport, null, h(ScrollArea.Content, null, ctx.children)),
+        h(ScrollArea.Scrollbar, { orientation: 'vertical' }, h(ScrollArea.Thumb)),
         h(ScrollArea.Corner),
       ),
     }),
@@ -1803,7 +1996,9 @@ export const taleUICatalog: Catalog = {
     adapter: (props, ctx) => ({
       id: props.id as string,
       textValue: (props.textValue as string) ?? (props.label as string) ?? (props.id as string),
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         h(Tree.ItemContent, null, props.label ? String(props.label) : null),
         ctx.children,
       ),
@@ -1851,7 +2046,9 @@ export const taleUICatalog: Catalog = {
   Fieldset: {
     component: Fieldset.Root,
     adapter: (props, ctx) => ({
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(Fieldset.Legend, null, String(props.label)) : null,
         ctx.children,
       ),
@@ -1893,7 +2090,9 @@ export const taleUICatalog: Catalog = {
   FileUpload: {
     component: FileUpload.Root,
     adapter: (_props, ctx) => ({
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         h(FileUpload.DropZone, {}),
         ctx.children ? h(FileUpload.List, null, ctx.children) : null,
       ),
@@ -1911,9 +2110,13 @@ export const taleUICatalog: Catalog = {
       isRequired: props.required as boolean | undefined,
       isInvalid: props.isInvalid as boolean | undefined,
       name: props.name as string | undefined,
-      children: h(React.Fragment, null,
+      children: h(
+        React.Fragment,
+        null,
         props.label ? h(PaymentInput.Label, null, String(props.label)) : null,
-        h(PaymentInput.Group, null,
+        h(
+          PaymentInput.Group,
+          null,
           h(PaymentInput.Input, { placeholder: props.placeholder as string | undefined }),
           h(PaymentInput.CardIcon),
         ),
@@ -1926,10 +2129,16 @@ export const taleUICatalog: Catalog = {
   Autocomplete: {
     component: Autocomplete.Root,
     adapter: (props, ctx) => ({
-      children: h(React.Fragment, null,
-        h(Autocomplete.SearchField as React.ComponentType<any>, null,
+      children: h(
+        React.Fragment,
+        null,
+        h(
+          Autocomplete.SearchField as React.ComponentType<any>,
+          null,
           props.label ? h('label' as any, null, String(props.label)) : null,
-          h(Autocomplete.Input as React.ComponentType<any>, { placeholder: props.placeholder as string | undefined }),
+          h(Autocomplete.Input as React.ComponentType<any>, {
+            placeholder: props.placeholder as string | undefined,
+          }),
         ),
         h(Autocomplete.ListBox as React.ComponentType, null, ctx.children),
       ),
@@ -1954,10 +2163,7 @@ export const taleUICatalog: Catalog = {
       'aria-label': (props.label as string) ?? 'Color wheel',
       outerRadius: (props.outerRadius as number) ?? 100,
       innerRadius: (props.innerRadius as number) ?? 70,
-      children: h(React.Fragment, null,
-        h(ColorWheel.Track),
-        h(ColorWheel.Thumb),
-      ),
+      children: h(React.Fragment, null, h(ColorWheel.Track), h(ColorWheel.Thumb)),
     }),
   } as CatalogEntry,
 
@@ -1983,7 +2189,9 @@ export const taleUICatalog: Catalog = {
           ? colors.map((entry, i) => {
               const color = typeof entry === 'string' ? entry : (entry as { color: string }).color;
               const secondaryColor =
-                typeof entry === 'string' ? undefined : (entry as { secondaryColor?: string }).secondaryColor;
+                typeof entry === 'string'
+                  ? undefined
+                  : (entry as { secondaryColor?: string }).secondaryColor;
               return h(
                 ColorSwatchPicker.Item as React.ComponentType<any>,
                 { key: i, color },

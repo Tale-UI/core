@@ -1,6 +1,8 @@
 import { screen } from '@tale-ui/monorepo-tests/test-utils';
 import { expect } from 'chai';
 import { beforeAll } from 'vitest';
+import { Settings } from 'lucide-react';
+import { Icon } from '@tale-ui/react/icon';
 import { Tabs } from '@tale-ui/react/tabs';
 import { createRenderer } from '#test-utils';
 
@@ -92,6 +94,28 @@ describe('<Tabs />', () => {
       await user.click(screen.getByText('Tab B'));
       expect(screen.getAllByRole('tab')[1]).to.have.attribute('data-selected');
       expect(screen.getByRole('tabpanel')).to.have.text('Panel B');
+    });
+
+    it('renders an optional leading icon', async () => {
+      await render(
+        <Tabs.Root defaultSelectedKey="settings">
+          <Tabs.List>
+            <Tabs.Tab
+              id="settings"
+              icon={<Icon icon={Settings} size="sm" data-testid="settings-icon" />}
+            >
+              Settings
+            </Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel id="settings">Settings panel</Tabs.Panel>
+        </Tabs.Root>,
+      );
+
+      const tab = screen.getByRole('tab', { name: 'Settings' });
+      const iconWrapper = tab.querySelector('.tale-tabs__tab-icon');
+      expect(iconWrapper).to.exist;
+      expect(iconWrapper).to.have.attribute('aria-hidden', 'true');
+      expect(screen.getByTestId('settings-icon')).to.have.class('tale-icon--sm');
     });
   });
 

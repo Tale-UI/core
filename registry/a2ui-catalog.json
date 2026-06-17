@@ -1307,6 +1307,11 @@
           "allowedValues": null
         },
         {
+          "name": "icon",
+          "hint": "lucide icon name string",
+          "allowedValues": null
+        },
+        {
           "name": "label",
           "hint": "string",
           "allowedValues": null
