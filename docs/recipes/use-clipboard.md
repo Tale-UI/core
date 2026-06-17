@@ -22,7 +22,7 @@ interface UseClipboardReturn {
 export function useClipboard(options: UseClipboardOptions = {}): UseClipboardReturn {
   const { timeout = 2000 } = options;
   const [copied, setCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const copy = useCallback(
     async (text: string) => {
@@ -42,7 +42,10 @@ export function useClipboard(options: UseClipboardOptions = {}): UseClipboardRet
           document.body.removeChild(textarea);
         }
         setCopied(true);
-        timerRef.current = setTimeout(() => setCopied(false), timeout);
+        timerRef.current = setTimeout(() => {
+          setCopied(false);
+          timerRef.current = null;
+        }, timeout);
       } catch {
         setCopied(false);
       }

@@ -19,14 +19,14 @@ import { MoreHorizontal, Pencil, Copy, FolderOpen, Share2, Trash2 } from 'lucide
 
 export function AdvancedIconDropdown({ itemId }: { itemId: string }) {
   return (
-    <Menu.Root onAction={(key) => { console.log(itemId, key); }}>
+    <Menu.Root>
       <Menu.Trigger>
         <IconButton aria-label="Item actions" variant="ghost" size="sm">
           <Icon icon={MoreHorizontal} size="sm" />
         </IconButton>
       </Menu.Trigger>
       <Menu.Popover placement="bottom end" offset={4}>
-        <Menu.MenuList>
+        <Menu.MenuList onAction={(key) => { console.log(itemId, key); }}>
           <Menu.Item id="edit">
             <Icon icon={Pencil} size="sm" />
             Edit
@@ -45,7 +45,7 @@ export function AdvancedIconDropdown({ itemId }: { itemId: string }) {
               Move to
             </Menu.Item>
             <Menu.Popover>
-              <Menu.MenuList>
+              <Menu.MenuList onAction={(key) => { console.log(itemId, key); }}>
                 <Menu.Item id="move-inbox">Inbox</Menu.Item>
                 <Menu.Item id="move-archive">Archive</Menu.Item>
                 <Menu.Item id="move-trash">Trash</Menu.Item>
@@ -88,14 +88,14 @@ import { MoreHorizontal, Pencil, Copy, Share2, Trash2 } from 'lucide-react';
 
 function PreviewDropdown() {
   return (
-    <Menu.Root onAction={(key) => { console.log('demo-1', key); }}>
+    <Menu.Root>
       <Menu.Trigger>
         <IconButton aria-label="Item actions" variant="ghost" size="sm">
           <Icon icon={MoreHorizontal} size="sm" />
         </IconButton>
       </Menu.Trigger>
       <Menu.Popover placement="bottom end" offset={4}>
-        <Menu.MenuList>
+        <Menu.MenuList onAction={(key) => { console.log('demo-1', key); }}>
           <Menu.Item id="edit">
             <Icon icon={Pencil} size="sm" />
             Edit

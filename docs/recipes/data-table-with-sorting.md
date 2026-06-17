@@ -19,6 +19,7 @@ import { Menu } from '@tale-ui/react/menu';
 import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
 import { Pagination } from '@tale-ui/react/pagination';
+import type { SortDescriptor } from '@tale-ui/react/table';
 import { MoreHorizontal } from 'lucide-react';
 import { useState } from 'react';
 
@@ -29,7 +30,10 @@ const data = [
 ];
 
 function UserTable() {
-  const [sortDescriptor, setSortDescriptor] = useState({ column: 'name', direction: 'ascending' });
+  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    column: 'name',
+    direction: 'ascending',
+  });
 
   const sorted = [...data].sort((a, b) => {
     const key = sortDescriptor.column as keyof typeof a;

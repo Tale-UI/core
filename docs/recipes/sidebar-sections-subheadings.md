@@ -21,7 +21,19 @@ export function SectionsSubheadingsLayout({ children }: { children: React.ReactN
           <a href="/" style={{ fontWeight: 700, fontSize: 'var(--label-l-font-size)', textDecoration: 'none', color: 'var(--neutral-90)' }}>
             Acme
           </a>
-          <Sidebar.MobileTrigger />
+          <Sidebar.MobileTrigger logo={<span>Acme</span>}>
+            <Sidebar.NavList aria-label="Workspace">
+              <Sidebar.NavItem href="/" icon={Home} current>Dashboard</Sidebar.NavItem>
+              <Sidebar.NavItem href="/projects" icon={FolderKanban}>Projects</Sidebar.NavItem>
+              <Sidebar.NavItem href="/analytics" icon={BarChart2}>Analytics</Sidebar.NavItem>
+            </Sidebar.NavList>
+            <Sidebar.Divider />
+            <Sidebar.NavList aria-label="Account">
+              <Sidebar.NavItem href="/settings" icon={Settings}>Settings</Sidebar.NavItem>
+              <Sidebar.NavItem href="/billing" icon={CreditCard}>Billing</Sidebar.NavItem>
+              <Sidebar.NavItem href="/help" icon={HelpCircle}>Help & Support</Sidebar.NavItem>
+            </Sidebar.NavList>
+          </Sidebar.MobileTrigger>
         </Sidebar.Header>
 
         {/* Workspace section */}

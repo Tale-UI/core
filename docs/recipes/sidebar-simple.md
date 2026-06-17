@@ -28,7 +28,20 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           <a href="/" style={{ fontWeight: 700, fontSize: 'var(--label-l-font-size)', textDecoration: 'none', color: 'var(--neutral-90)' }}>
             Acme
           </a>
-          <Sidebar.MobileTrigger />
+          <Sidebar.MobileTrigger logo={<span>Acme</span>}>
+            <Sidebar.NavList>
+              {navItems.map((item) => (
+                <Sidebar.NavItem
+                  key={item.href}
+                  href={item.href}
+                  icon={item.icon}
+                  current={item.current}
+                >
+                  {item.label}
+                </Sidebar.NavItem>
+              ))}
+            </Sidebar.NavList>
+          </Sidebar.MobileTrigger>
         </Sidebar.Header>
 
         <Sidebar.NavList>
@@ -63,6 +76,6 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
 - `Sidebar.Root` renders a `<aside>` with `role="navigation"` and the `tale-sidebar` BEM class.
 - `Sidebar.NavItem` applies `aria-current="page"` when `current` is `true` and renders the icon + label automatically.
-- `Sidebar.MobileTrigger` renders a hamburger button that opens a modal drawer on screens ≤ 768 px. On wider screens it is hidden.
+- `Sidebar.MobileTrigger` renders a hamburger button that opens a modal drawer containing the children you pass to it.
 - `Sidebar.AccountCard` renders the user's avatar (image → initials → placeholder fallback), name, email, and a chevron trigger for an account menu.
 - To highlight the active item, pass `current={pathname === item.href}` using your router's current path.

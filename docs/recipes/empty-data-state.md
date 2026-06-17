@@ -7,6 +7,7 @@ Using `EmptyState` as a fallback when tables, lists, or search results have no d
 ```tsx
 import { Table } from '@tale-ui/react/table';
 import { EmptyState } from '@tale-ui/react/empty-state';
+import { Icon } from '@tale-ui/react/icon';
 import { Inbox } from 'lucide-react';
 
 interface Row {
@@ -19,7 +20,9 @@ export function DataTable({ rows }: { rows: Row[] }) {
   if (rows.length === 0) {
     return (
       <EmptyState.Root size="md">
-        <EmptyState.Icon icon={Inbox} />
+        <EmptyState.Icon>
+          <Icon icon={Inbox} size="lg" />
+        </EmptyState.Icon>
         <EmptyState.Title>No results found</EmptyState.Title>
         <EmptyState.Description>
           Try adjusting your search or filters.
@@ -52,13 +55,16 @@ export function DataTable({ rows }: { rows: Row[] }) {
 ```tsx
 import { List } from '@tale-ui/react/list';
 import { EmptyState } from '@tale-ui/react/empty-state';
+import { Icon } from '@tale-ui/react/icon';
 import { FileQuestion } from 'lucide-react';
 
 export function ItemList({ items }: { items: string[] }) {
   if (items.length === 0) {
     return (
       <EmptyState.Root size="sm">
-        <EmptyState.Icon icon={FileQuestion} />
+        <EmptyState.Icon>
+          <Icon icon={FileQuestion} size="lg" />
+        </EmptyState.Icon>
         <EmptyState.Title>Nothing here yet</EmptyState.Title>
       </EmptyState.Root>
     );
@@ -79,7 +85,7 @@ export function ItemList({ items }: { items: string[] }) {
 - Check data length before rendering the data component.
 - `EmptyState` has three sizes: `sm`, `md`, `lg` — use `sm` for inline contexts, `md` for page sections.
 - Always provide a `Title`; `Description` and `Icon` are optional but recommended.
-- Pass a Lucide icon component reference to `EmptyState.Icon` (e.g., `icon={Inbox}`, not `icon={<Inbox />}`).
+- Wrap the visual icon in `EmptyState.Icon`, then render the Tale UI `Icon` component inside it.
 
 ## Preview
 

@@ -71,7 +71,14 @@ export function AppHeader() {
           </Menu.Popover>
         </Menu.Root>
 
-        <HeaderNav.MobileTrigger />
+        <HeaderNav.MobileTrigger>
+          <nav style={{ display: 'grid', gap: 'var(--space-2xs)', padding: 'var(--space-m)' }}>
+            <HeaderNav.NavButton href="/" current>Dashboard</HeaderNav.NavButton>
+            <HeaderNav.NavButton href="/projects">Projects</HeaderNav.NavButton>
+            <HeaderNav.NavButton href="/analytics">Analytics</HeaderNav.NavButton>
+            <HeaderNav.NavButton href="/team">Team</HeaderNav.NavButton>
+          </nav>
+        </HeaderNav.MobileTrigger>
       </HeaderNav.Actions>
     </HeaderNav.Root>
   );

@@ -33,7 +33,7 @@ const navItems = [
 
 function SidebarNav() {
   return (
-    <NavigationMenu.Root orientation="vertical">
+    <NavigationMenu.Root>
       <NavigationMenu.List>
         {navItems.map((item) => (
           <NavigationMenu.Item key={item.href}>
@@ -75,7 +75,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
               </IconButton>
             </Drawer.Trigger>
             <Drawer.Backdrop />
-            <Drawer.Popup side="left" style={{ width: 280, padding: 'var(--space-s)' }}>
+            <Drawer.Popup style={{ width: 280, minHeight: '100vh', padding: 'var(--space-s)' }}>
               <Drawer.Title>Navigation</Drawer.Title>
               <SidebarNav />
             </Drawer.Popup>
@@ -142,3 +142,4 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 - For a collapsible sidebar (icon-only mode), toggle the sidebar width between `240px` and `64px` and conditionally hide link labels.
 - Adjust the `768px` breakpoint to match your design requirements.
 - `Drawer.Root` uses `open`/`onOpenChange` (not `isOpen`) — it's a custom component.
+- `NavigationMenu.Root` has no `orientation` prop; make the sidebar presentation vertical with your wrapper CSS.

@@ -37,12 +37,7 @@ export function IntegrationDropdown() {
   const activeIntegration = integrations.find((i) => i.id === active);
 
   return (
-    <Menu.Root
-      onAction={(key) => {
-        if (key === 'manage' || key === 'add') { return; }
-        setActive(String(key));
-      }}
-    >
+    <Menu.Root>
       <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
         {activeIntegration ? (
           <>
@@ -53,7 +48,12 @@ export function IntegrationDropdown() {
         {' ▾'}
       </Menu.Trigger>
       <Menu.Popover placement="bottom start" offset={4} style={{ minWidth: 240 }}>
-        <Menu.MenuList>
+        <Menu.MenuList
+          onAction={(key) => {
+            if (key === 'manage' || key === 'add') { return; }
+            setActive(String(key));
+          }}
+        >
           <Menu.Group>
             <Menu.Header>Connected</Menu.Header>
             {integrations.filter((i) => i.connected).map((i) => (
@@ -99,7 +99,7 @@ export function IntegrationDropdown() {
 
 ## Notes
 
-- The `onAction` guard at the top ignores `'manage'` and `'add'` — these trigger navigation, which you would handle separately (e.g., `router.push('/integrations')`).
+- The `Menu.MenuList onAction` guard ignores `'manage'` and `'add'` — these trigger navigation, which you would handle separately (e.g., `router.push('/integrations')`).
 - `CheckCircle2` icon with `marginInlineStart: 'auto'` provides a right-aligned selection indicator inside the menu item.
 - Keep integration logos at 16 × 16 px with `aria-hidden="true"` — the integration name is the accessible label; the logo is decorative.
 - For a larger picker (more than 8–10 integrations), replace the `Menu` with a `Dialog` that contains a full `GridList` with search.

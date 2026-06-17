@@ -23,7 +23,7 @@ export function AvatarDropdown({ user }: { user: User }) {
   const initials = user.name.split(' ').map((n) => n[0]).join('').slice(0, 2);
 
   return (
-    <Menu.Root onAction={(key) => { console.log('account action:', key); }}>
+    <Menu.Root>
       <Menu.Trigger>
         <button type="button" aria-label={`Account menu for ${user.name}`} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, borderRadius: '50%' }}>
           <Avatar.Root size="md">
@@ -40,7 +40,7 @@ export function AvatarDropdown({ user }: { user: User }) {
           <div style={{ fontWeight: 600, fontSize: 'var(--label-s-font-size)' }}>{user.name}</div>
           <div style={{ color: 'var(--neutral-50)', fontSize: 'var(--text-xs-font-size)' }}>{user.email}</div>
         </div>
-        <Menu.MenuList>
+        <Menu.MenuList onAction={(key) => { console.log('account action:', key); }}>
           <Menu.Item id="profile">My profile</Menu.Item>
           <Menu.Item id="settings">Settings</Menu.Item>
           <Menu.Item id="notifications">Notifications</Menu.Item>

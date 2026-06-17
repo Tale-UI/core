@@ -14,9 +14,48 @@ export interface AuthorFixState {
   component?: string;
 }
 
+function getInitialTab(): ActiveTab {
+  if (typeof window === 'undefined') {
+    return 'prompt';
+  }
+  const tab = new URLSearchParams(window.location.search).get('tab');
+  return tab === 'components' || tab === 'recipes' ? tab : 'prompt';
+}
+
+function getInitialRecipeSlug(): string | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+  return new URLSearchParams(window.location.search).get('recipe') ?? undefined;
+}
+
 export function App() {
-  const [tab, setTab] = React.useState<ActiveTab>('prompt');
+  const [tab, setTab] = React.useState<ActiveTab>(getInitialTab);
+  const [initialRecipeSlug] = React.useState<string | undefined>(getInitialRecipeSlug);
   const [authorFix, setAuthorFix] = React.useState<AuthorFixState>({ open: false });
+
+  const handleTabChange = (key: React.Key) => {
+    const nextTab = key as ActiveTab;
+    setTab(nextTab);
+
+    const url = new URL(window.location.href);
+    if (nextTab === 'prompt') {
+      url.searchParams.delete('tab');
+    } else {
+      url.searchParams.set('tab', nextTab);
+    }
+    if (nextTab !== 'recipes') {
+      url.searchParams.delete('recipe');
+    }
+    window.history.replaceState(null, '', url);
+  };
+
+  const handleRecipeSelect = (slug: string) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('tab', 'recipes');
+    url.searchParams.set('recipe', slug);
+    window.history.replaceState(null, '', url);
+  };
 
   return (
     <div className="studio-root">
@@ -25,7 +64,7 @@ export function App() {
         <div className="studio-topbar-tabs">
           <Tabs.Root
             selectedKey={tab}
-            onSelectionChange={k => setTab(k as ActiveTab)}
+            onSelectionChange={handleTabChange}
           >
             <Tabs.List>
               <Tabs.Tab id="prompt">Prompt Studio</Tabs.Tab>
@@ -48,7 +87,9 @@ export function App() {
       {tab === 'components' && (
         <ComponentBrowser onAuthorFix={component => setAuthorFix({ open: true, component })} />
       )}
-      {tab === 'recipes' && <RecipeBrowser />}
+      {tab === 'recipes' && (
+        <RecipeBrowser initialRecipeSlug={initialRecipeSlug} onRecipeSelect={handleRecipeSelect} />
+      )}
 
       <AuthorFixDrawer
         isOpen={authorFix.open}

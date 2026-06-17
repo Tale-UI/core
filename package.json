@@ -22,10 +22,13 @@
     "storybook:build": "pnpm -C playground/storybook build",
     "studio:dev": "pnpm -C apps/mcp-studio dev",
     "studio:build": "pnpm -C apps/mcp-studio build",
+    "recipe:dev": "pnpm -C apps/recipe-studio dev",
+    "recipe:build": "pnpm -C apps/recipe-studio build",
+    "recipes:validate": "node tools/validate-recipes.mjs",
     "dashboard:dev": "pnpm -C apps/tooling-dashboard dev",
     "dashboard:build": "pnpm -C apps/tooling-dashboard build",
-    "open:dev-urls": "node -e \"const { exec } = require('node:child_process'); const urls = ['http://localhost:5176', 'http://localhost:5175', 'http://localhost:5174', 'http://localhost:5173']; const openCmd = process.platform === 'win32' ? 'start \\\"\\\" ' : process.platform === 'darwin' ? 'open ' : 'xdg-open '; for (const url of urls) exec(openCmd + url);\"",
-    "dev:all": "pnpm open:dev-urls && concurrently -k -n dashboard,studio,storybook,scale,playground \"pnpm dashboard:dev -- --port 5176 --strictPort\" \"pnpm studio:dev -- --port 5175 --strictPort\" \"pnpm storybook\" \"pnpm scale:dev -- --port 5174 --strictPort\" \"pnpm playground:dev -- --port 5173 --strictPort\"",
+    "open:dev-urls": "node -e \"const { exec } = require('node:child_process'); const urls = ['http://localhost:5176', 'http://localhost:5177', 'http://localhost:5175', 'http://localhost:5174', 'http://localhost:5173']; const openCmd = process.platform === 'win32' ? 'start \\\"\\\" ' : process.platform === 'darwin' ? 'open ' : 'xdg-open '; for (const url of urls) exec(openCmd + url);\"",
+    "dev:all": "pnpm open:dev-urls && concurrently -k -n dashboard,recipes,studio,storybook,scale,playground \"pnpm dashboard:dev -- --port 5176 --strictPort\" \"pnpm recipe:dev -- --port 5177 --strictPort\" \"pnpm studio:dev -- --port 5175 --strictPort\" \"pnpm storybook\" \"pnpm scale:dev -- --port 5174 --strictPort\" \"pnpm playground:dev -- --port 5173 --strictPort\"",
     "eslint": "pnpm -r --if-present lint && eslint . --cache --report-unused-disable-directives --max-warnings 0",
     "eslint:ci": "pnpm -r --if-present lint && eslint . --report-unused-disable-directives --max-warnings 0",
     "lint:css": "stylelint \"packages/css/src/**/*.css\" --config .stylelintrc.json",
@@ -90,7 +93,7 @@
     "golden:harden": "node tools/eval-golden-harden.mjs",
     "validate:imports": "node tools/validate-imports.mjs",
     "generate-docs": "pnpm registry:generate && pnpm pitfalls:generate && pnpm snippet:generate && pnpm cursorrules:generate && pnpm eval-context:generate && pnpm a2ui:generate-docs && pnpm a2ui:generate-catalog",
-    "generate-docs:check": "pnpm registry:check && pnpm pitfalls:check && pnpm snippet:check && pnpm cursorrules:check && pnpm eval-context:check && pnpm a2ui:check-docs && pnpm a2ui:check-catalog && pnpm a2ui:audit-docs && pnpm a2ui:validate-examples",
+    "generate-docs:check": "pnpm registry:check && pnpm pitfalls:check && pnpm snippet:check && pnpm cursorrules:check && pnpm eval-context:check && pnpm a2ui:check-docs && pnpm a2ui:check-catalog && pnpm a2ui:audit-docs && pnpm a2ui:validate-examples && pnpm recipes:validate",
     "a2ui:generate-docs": "node tools/generate-a2ui-catalog-docs.js",
     "a2ui:check-docs": "node tools/generate-a2ui-catalog-docs.js --check",
     "a2ui:validate-examples": "node tools/validate-a2ui-examples.js",
@@ -105,6 +108,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
+    "docs/recipes/**/*.md": "pnpm recipes:validate",
     "packages/css/src/**/*.css": "stylelint --config .stylelintrc.json"
   },
   "devDependencies": {

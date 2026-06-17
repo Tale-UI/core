@@ -1205,6 +1205,10 @@ const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape
 export default function ComponentAudit() {
   return (
     <div className="audit">
+      <div className="audit__floating-mode-toggle">
+        <span className="audit__floating-mode-label">Dark mode</span>
+        <InertColorModeToggle />
+      </div>
       {/* TOC */}
       <nav className="audit__sidebar">
         <div className="audit__sidebar-header">

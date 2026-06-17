@@ -19,14 +19,14 @@ import { MoreHorizontal } from 'lucide-react';
 
 export function IconDropdown({ itemId }: { itemId: string }) {
   return (
-    <Menu.Root onAction={(key) => { console.log(itemId, key); }}>
+    <Menu.Root>
       <Menu.Trigger>
         <IconButton aria-label="Row actions" variant="ghost" size="sm">
           <Icon icon={MoreHorizontal} size="sm" />
         </IconButton>
       </Menu.Trigger>
       <Menu.Popover placement="bottom end" offset={4}>
-        <Menu.MenuList>
+        <Menu.MenuList onAction={(key) => { console.log(itemId, key); }}>
           <Menu.Item id="edit">Edit</Menu.Item>
           <Menu.Item id="duplicate">Duplicate</Menu.Item>
           <Menu.Separator />

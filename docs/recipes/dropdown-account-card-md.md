@@ -37,7 +37,7 @@ export function AccountCardMD({ user }: { user: UserProfile }) {
   const initials = user.name.split(' ').map((n) => n[0]).join('').slice(0, 2);
 
   return (
-    <Menu.Root onAction={(key) => { console.log('account:', key); }}>
+    <Menu.Root>
       <Menu.Trigger>
         <button
           type="button"
@@ -88,7 +88,7 @@ export function AccountCardMD({ user }: { user: UserProfile }) {
             <div style={{ fontSize: 'var(--text-xs-font-size)', color: 'var(--neutral-40)', marginTop: 2 }}>{user.role}</div>
           </div>
         </div>
-        <Menu.MenuList>
+        <Menu.MenuList onAction={(key) => { console.log('account:', key); }}>
           <Menu.Item id="profile">
             <Icon icon={User} size="sm" />
             My profile

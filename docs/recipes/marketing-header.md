@@ -72,7 +72,21 @@ export function MarketingHeader() {
           Get started
         </Button>
 
-        <HeaderNav.MobileTrigger />
+        <HeaderNav.MobileTrigger>
+          <nav style={{ display: 'grid', gap: 'var(--space-2xs)', padding: 'var(--space-m)' }}>
+            <HeaderNav.NavButton href="/features">Features</HeaderNav.NavButton>
+            <HeaderNav.NavButton href="/solutions/engineering">Engineering</HeaderNav.NavButton>
+            <HeaderNav.NavButton href="/solutions/design">Design</HeaderNav.NavButton>
+            <HeaderNav.NavButton href="/pricing">Pricing</HeaderNav.NavButton>
+            <HeaderNav.NavButton href="/blog">Blog</HeaderNav.NavButton>
+            <Button variant="ghost" size="sm" onPress={() => { window.location.href = '/login'; }}>
+              Log in
+            </Button>
+            <Button variant="primary" size="sm" onPress={() => { window.location.href = '/signup'; }}>
+              Get started
+            </Button>
+          </nav>
+        </HeaderNav.MobileTrigger>
       </HeaderNav.Actions>
     </HeaderNav.Root>
   );

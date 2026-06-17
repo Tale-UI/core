@@ -26,18 +26,18 @@ const bottomItems = [
   { href: '/help', label: 'Help', icon: HelpCircle, current: false },
 ];
 
-function NavButton({ href, label, icon, current }: { href: string; label: string; icon: React.ComponentType; current: boolean }) {
+function NavButton({ href, label, icon, current }: { href: string; label: string; icon: React.FC<{ className?: string }>; current: boolean }) {
   return (
-    <Tooltip.Root placement="right">
+    <Tooltip.Root>
       <Tooltip.Trigger>
         <Sidebar.NavButton
           href={href}
           icon={icon}
-          aria-label={label}
+          label={label}
           current={current}
         />
       </Tooltip.Trigger>
-      <Tooltip.Popup>
+      <Tooltip.Popup placement="right" offset={8}>
         <Tooltip.Title>{label}</Tooltip.Title>
       </Tooltip.Popup>
     </Tooltip.Root>
@@ -47,10 +47,18 @@ function NavButton({ href, label, icon, current }: { href: string; label: string
 export function SlimLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
-      <Sidebar.Root variant="slim">
+      <Sidebar.Root style={{ width: 72, flexShrink: 0 }}>
         <Sidebar.Header>
           <img src="/logo-mark.svg" alt="Acme" width={28} height={28} />
-          <Sidebar.MobileTrigger />
+          <Sidebar.MobileTrigger logo={<img src="/logo-mark.svg" alt="Acme" width={28} height={28} />}>
+            <Sidebar.NavList>
+              {[...topItems, ...bottomItems].map((item) => (
+                <Sidebar.NavItem key={item.href} href={item.href} icon={item.icon} current={item.current}>
+                  {item.label}
+                </Sidebar.NavItem>
+              ))}
+            </Sidebar.NavList>
+          </Sidebar.MobileTrigger>
         </Sidebar.Header>
 
         <Sidebar.NavList style={{ flex: 1 }}>
@@ -68,9 +76,9 @@ export function SlimLayout({ children }: { children: React.ReactNode }) {
         </Sidebar.NavList>
 
         <Sidebar.AccountCard
-          compact
           avatarSrc="/avatars/alex.jpg"
           name="Alex Chen"
+          email="alex@acme.com"
         />
       </Sidebar.Root>
 
@@ -84,8 +92,8 @@ export function SlimLayout({ children }: { children: React.ReactNode }) {
 
 ## Notes
 
-- `Sidebar.Root variant="slim"` constrains the width to 64 px and removes text labels from NavItems.
+- A slim rail is just layout: constrain `Sidebar.Root` with CSS or inline `style`, then use `Sidebar.NavButton` for icon-only links.
 - Every `Sidebar.NavButton` must have an `aria-label` and a paired `Tooltip` — icon-only controls without labels fail WCAG 2.1 SC 4.1.2.
 - `Sidebar.Divider` renders a `<hr>` that visually separates the top navigation from the bottom utility links.
-- `Sidebar.AccountCard compact` shows only the avatar (no name/email text) at the slim width.
+- Use CSS to adapt `Sidebar.AccountCard` at slim widths; the component still requires `name` and `email` for accessible account context.
 - On mobile (≤ 768 px) `Sidebar.MobileTrigger` opens a full-width drawer that renders the items with labels.

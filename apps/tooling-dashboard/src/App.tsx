@@ -295,6 +295,7 @@ export function App() {
               <Link href={appUrls.get('vite-playground') ?? 'http://localhost:5173/'}>
                 Vite Playground
               </Link>
+              <Link href={appUrls.get('recipe-studio') ?? 'http://localhost:5177/'}>Recipe Studio</Link>
               <Link href={appUrls.get('mcp-studio') ?? 'http://localhost:5175/'}>MCP Studio</Link>
               <Button
                 variant="primary"

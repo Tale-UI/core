@@ -23,7 +23,7 @@ export function AccountCardXS({ user }: { user: User }) {
   const initials = user.name.split(' ').map((n) => n[0]).join('').slice(0, 2);
 
   return (
-    <Menu.Root onAction={(key) => { console.log('account:', key); }}>
+    <Menu.Root>
       <Menu.Trigger>
         <button
           type="button"
@@ -52,7 +52,7 @@ export function AccountCardXS({ user }: { user: User }) {
         </button>
       </Menu.Trigger>
       <Menu.Popover placement="top start" offset={4} style={{ minWidth: 200 }}>
-        <Menu.MenuList>
+        <Menu.MenuList onAction={(key) => { console.log('account:', key); }}>
           <Menu.Item id="profile">Profile</Menu.Item>
           <Menu.Item id="settings">Settings</Menu.Item>
           <Menu.Separator />

@@ -22,6 +22,10 @@ export function LoadingSection() {
 import { useState } from 'react';
 import { Button } from '@tale-ui/react/button';
 
+async function submitForm() {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+}
+
 export function SubmitButton() {
   const [pending, setPending] = useState(false);
 

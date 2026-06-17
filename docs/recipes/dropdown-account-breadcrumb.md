@@ -36,7 +36,7 @@ export function BreadcrumbAccountDropdown({ page }: { page: string }) {
     <Breadcrumbs.Root>
       <Breadcrumbs.Item>
         {/* Workspace switcher as first breadcrumb item */}
-        <Menu.Root onAction={(key) => { setActiveWorkspace(String(key)); }}>
+        <Menu.Root>
           <Menu.Trigger>
             <button
               type="button"
@@ -54,7 +54,7 @@ export function BreadcrumbAccountDropdown({ page }: { page: string }) {
             </button>
           </Menu.Trigger>
           <Menu.Popover placement="bottom start" offset={8} style={{ minWidth: 220 }}>
-            <Menu.MenuList>
+            <Menu.MenuList onAction={(key) => { setActiveWorkspace(String(key)); }}>
               <Menu.Header>Workspaces</Menu.Header>
               {workspaces.map((workspace) => (
                 <Menu.Item key={workspace.id} id={workspace.id}>

@@ -28,7 +28,12 @@ function extractTsx(markdown: string): string | null {
   );
 }
 
-export function RecipeBrowser() {
+interface RecipeBrowserProps {
+  initialRecipeSlug?: string;
+  onRecipeSelect?: (slug: string) => void;
+}
+
+export function RecipeBrowser({ initialRecipeSlug, onRecipeSelect }: RecipeBrowserProps) {
   const [recipes, setRecipes] = React.useState<RecipeSummary[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -53,8 +58,9 @@ export function RecipeBrowser() {
     return map;
   }, [recipes]);
 
-  const handleSelect = async (slug: string) => {
+  const handleSelect = React.useCallback(async (slug: string) => {
     setSelected(slug);
+    onRecipeSelect?.(slug);
     setContent(null);
     setContentLoading(true);
     try {
@@ -65,7 +71,12 @@ export function RecipeBrowser() {
     } finally {
       setContentLoading(false);
     }
-  };
+  }, [onRecipeSelect]);
+
+  React.useEffect(() => {
+    if (!initialRecipeSlug || selected !== null) {return;}
+    void handleSelect(initialRecipeSlug);
+  }, [handleSelect, initialRecipeSlug, selected]);
 
   const html = React.useMemo(() => content ? marked.parse(content) as string : null, [content]);
   const tsxCode = React.useMemo(() => content ? extractTsx(content) : null, [content]);

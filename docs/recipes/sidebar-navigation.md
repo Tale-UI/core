@@ -9,7 +9,7 @@ A responsive sidebar that collapses into a mobile drawer on small screens.
 - `IconButton` from `@tale-ui/react/icon-button`
 - `Icon` from `@tale-ui/react/icon`
 - `Separator` from `@tale-ui/react/separator`
-- `Menu2`, `Home`, `Settings`, `Users`, `FileText` from `lucide-react`
+- `Menu`, `Home`, `Settings`, `Users`, `FileText` from `lucide-react`
 
 ## Code
 
@@ -19,7 +19,7 @@ import { Drawer } from '@tale-ui/react/drawer';
 import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
 import { Separator } from '@tale-ui/react/separator';
-import { Menu2, Home, Settings, Users, FileText } from 'lucide-react';
+import { Menu, Home, Settings, Users, FileText } from 'lucide-react';
 import { useState } from 'react';
 
 const navItems = [
@@ -31,7 +31,7 @@ const navItems = [
 
 function NavContent() {
   return (
-    <NavigationMenu.Root orientation="vertical">
+    <NavigationMenu.Root>
       <NavigationMenu.List>
         {navItems.map((item) => (
           <NavigationMenu.Item key={item.href}>
@@ -62,11 +62,11 @@ function AppLayout({ children }: { children: React.ReactNode }) {
       <Drawer.Root open={drawerOpen} onOpenChange={setDrawerOpen}>
         <Drawer.Trigger className="sidebar-mobile-trigger">
           <IconButton aria-label="Open menu" variant="ghost">
-            <Icon icon={Menu2} />
+            <Icon icon={Menu} />
           </IconButton>
         </Drawer.Trigger>
         <Drawer.Backdrop />
-        <Drawer.Popup side="left" style={{ width: 280, padding: 'var(--space-s)' }}>
+        <Drawer.Popup style={{ width: 280, minHeight: '100vh', padding: 'var(--space-s)' }}>
           <Drawer.Title>Navigation</Drawer.Title>
           <NavContent />
         </Drawer.Popup>
@@ -97,3 +97,4 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 - Use `aria-current="page"` on the active link (React Aria handles this automatically when `href` matches).
 - Adjust the `768px` breakpoint to match your design requirements.
 - `Drawer.Root` uses `open`/`onOpenChange` (not `isOpen`) — it's a custom component.
+- `NavigationMenu.Root` has no `orientation` prop; make the sidebar presentation vertical with your wrapper CSS.

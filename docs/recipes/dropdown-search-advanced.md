@@ -54,7 +54,7 @@ export function AdvancedSearchDropdown({ onAssign }: { onAssign: (id: string) =>
   const groups = groupBy(filtered, 'team');
 
   return (
-    <Menu.Root onAction={(key) => { onAssign(String(key)); }}>
+    <Menu.Root>
       <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
         Assign to ▾
       </Menu.Trigger>
@@ -71,7 +71,7 @@ export function AdvancedSearchDropdown({ onAssign }: { onAssign: (id: string) =>
               <Spinner size="sm" />
             </div>
           )}
-          <Menu.MenuList>
+          <Menu.MenuList onAction={(key) => { onAssign(String(key)); }}>
             {Object.keys(groups).length > 0 ? (
               Object.entries(groups).map(([team, teamMembers]) => (
                 <Menu.Group key={team}>

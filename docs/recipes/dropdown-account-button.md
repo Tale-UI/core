@@ -27,7 +27,7 @@ export function AccountButton({ user }: { user: User }) {
   const initials = user.name.split(' ').map((n) => n[0]).join('').slice(0, 2);
 
   return (
-    <Menu.Root onAction={(key) => { console.log('account:', key); }}>
+    <Menu.Root>
       <Menu.Trigger>
         <button
           type="button"
@@ -63,7 +63,7 @@ export function AccountButton({ user }: { user: User }) {
         </button>
       </Menu.Trigger>
       <Menu.Popover placement="top start" offset={4}>
-        <Menu.MenuList>
+        <Menu.MenuList onAction={(key) => { console.log('account:', key); }}>
           <Menu.Item id="profile">My profile</Menu.Item>
           <Menu.Item id="settings">Account settings</Menu.Item>
           <Menu.Item id="plan">Upgrade plan</Menu.Item>

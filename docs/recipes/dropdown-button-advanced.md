@@ -19,12 +19,12 @@ import { Copy, Pencil, FolderOpen, Trash2, Share2, ExternalLink, Star } from 'lu
 
 export function AdvancedButtonDropdown() {
   return (
-    <Menu.Root onAction={(key) => { console.log('action:', key); }}>
+    <Menu.Root>
       <Menu.Trigger className="tale-button tale-button--neutral tale-button--md">
         More options ▾
       </Menu.Trigger>
       <Menu.Popover placement="bottom start" offset={4}>
-        <Menu.MenuList>
+        <Menu.MenuList onAction={(key) => { console.log('action:', key); }}>
           <Menu.Group>
             <Menu.Header>Edit</Menu.Header>
             <Menu.Item id="rename">

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" class="tale-ui" data-color-mode="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html { font-size: 62.5%; }
+      body { font-size: 1.6rem; margin: 0; padding: 1.6rem; }
+      #preview-error {
+        display: none;
+        color: #e53;
+        font-family: monospace;
+        font-size: 1.3rem;
+        white-space: pre-wrap;
+        padding: 1.6rem;
+        background: #fff0f0;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="preview-error"></div>
+    <script type="module" src="/src/preview/preview.tsx"></script>
+  </body>
+</html>

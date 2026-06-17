@@ -12,15 +12,26 @@
       "tags": ["tools", "status"]
     },
     {
+      "id": "recipe-studio",
+      "label": "Recipe Studio",
+      "category": "Tools",
+      "description": "Dedicated browser for docs/recipes with markdown inspection and live TSX previews.",
+      "url": "http://localhost:5177/",
+      "command": "pnpm recipe:dev -- --port 5177 --strictPort",
+      "port": 5177,
+      "sourcePath": "apps/recipe-studio",
+      "tags": ["recipes", "preview", "docs"]
+    },
+    {
       "id": "vite-playground",
       "label": "Vite Playground",
       "category": "Playgrounds",
-      "description": "Component demos, A2UI renderer demos, A2UI Chat, recipes, and performance experiments.",
+      "description": "Component demos, A2UI renderer demos, A2UI Chat, and performance experiments.",
       "url": "http://localhost:5173/",
       "command": "pnpm playground:dev -- --port 5173 --strictPort",
       "port": 5173,
       "sourcePath": "playground/vite-app",
-      "tags": ["components", "a2ui", "recipes"]
+      "tags": ["components", "a2ui"]
     },
     {
       "id": "mcp-studio",
@@ -66,6 +77,11 @@
           "description": "Run this dashboard on port 5176."
         },
         {
+          "label": "Recipe Studio",
+          "command": "pnpm recipe:dev -- --port 5177 --strictPort",
+          "description": "Run the recipe browser and preview surface."
+        },
+        {
           "label": "Vite Playground",
           "command": "pnpm playground:dev -- --port 5173 --strictPort",
           "description": "Run the main playground with A2UI Chat."
@@ -99,6 +115,16 @@
           "label": "Studio build",
           "command": "pnpm studio:build",
           "description": "Build MCP Studio."
+        },
+        {
+          "label": "Recipe Studio build",
+          "command": "pnpm recipe:build",
+          "description": "Build Recipe Studio."
+        },
+        {
+          "label": "Recipe validation",
+          "command": "pnpm recipes:validate",
+          "description": "Validate docs/recipes TSX examples against the generated-code validator."
         },
         {
           "label": "Dashboard build",
