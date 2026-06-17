@@ -24,46 +24,33 @@ type User = {
 };
 
 export function AccountButton({ user }: { user: User }) {
-  const initials = user.name.split(' ').map((n) => n[0]).join('').slice(0, 2);
+  const initials = user.name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2);
 
   return (
     <Menu.Root>
-      <Menu.Trigger>
-        <button
-          type="button"
-          aria-label="Account menu"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--space-xs)',
-            width: '100%',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 'var(--space-xs)',
-            borderRadius: 'var(--radius-m)',
-            textAlign: 'left',
-          }}
-        >
-          <Avatar.Root size="sm">
-            {user.avatarSrc ? (
-              <Avatar.Image src={user.avatarSrc} alt={user.name} />
-            ) : null}
-            <Avatar.Fallback>{initials}</Avatar.Fallback>
-          </Avatar.Root>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 600, fontSize: 'var(--label-s-font-size)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {user.name}
-            </div>
-            <div style={{ fontSize: 'var(--text-xs-font-size)', color: 'var(--neutral-50)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {user.email}
-            </div>
-          </div>
-          <Icon icon={ChevronsUpDown} size="sm" style={{ color: 'var(--neutral-40)', flexShrink: 0 }} />
-        </button>
+      <Menu.Trigger
+        aria-label="Account menu"
+        className="tale-button tale-button--neutral tale-button--md"
+        style={{ width: '100%', justifyContent: 'space-between' }}
+      >
+        <Avatar.Root size="sm">
+          {user.avatarSrc ? <Avatar.Image src={user.avatarSrc} alt={user.name} /> : null}
+          <Avatar.Fallback>{initials}</Avatar.Fallback>
+        </Avatar.Root>
+        {user.name}
+        <Icon icon={ChevronsUpDown} size="sm" />
       </Menu.Trigger>
       <Menu.Popover placement="top start" offset={4}>
-        <Menu.MenuList onAction={(key) => { console.log('account:', key); }}>
+        <Menu.MenuList
+          onAction={(key) => {
+            console.log('account:', key);
+          }}
+        >
+          <Menu.Header>{user.email}</Menu.Header>
           <Menu.Item id="profile">My profile</Menu.Item>
           <Menu.Item id="settings">Account settings</Menu.Item>
           <Menu.Item id="plan">Upgrade plan</Menu.Item>
@@ -79,9 +66,9 @@ export function AccountButton({ user }: { user: User }) {
 ## Notes
 
 - `placement="top start"` opens the menu upward — when this component is at the bottom of a sidebar, an upward popover stays within the viewport.
-- `width: 100%` on the inner button allows `AccountButton` to span the full sidebar width; the parent layout controls the outer width.
-- Text truncation (`overflow: hidden; text-overflow: ellipsis`) on name and email prevents overflow for long values — always apply these when rendering user content in constrained widths.
-- This component pairs directly with `Sidebar.AccountCard` — swap one for the other depending on whether you need the built-in card styling or a fully custom button.
+- `width: 100%` on `Menu.Trigger` allows `AccountButton` to span the full sidebar width; the parent layout controls the outer width.
+- Use `Menu.Header` for supporting account context instead of custom text wrappers.
+- This component pairs directly with `Sidebar.AccountCard` — swap one for the other when you need the built-in sidebar account card.
 
 ## Preview
 

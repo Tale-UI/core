@@ -18,7 +18,11 @@ export function ButtonDropdown() {
         Actions ▾
       </Menu.Trigger>
       <Menu.Popover placement="bottom start" offset={4}>
-        <Menu.MenuList onAction={(key) => { console.log('selected', key); }}>
+        <Menu.MenuList
+          onAction={(key) => {
+            console.log('selected', key);
+          }}
+        >
           <Menu.Item id="duplicate">Duplicate</Menu.Item>
           <Menu.Item id="rename">Rename</Menu.Item>
           <Menu.Item id="move">Move to folder</Menu.Item>

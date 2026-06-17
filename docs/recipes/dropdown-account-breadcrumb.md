@@ -37,24 +37,23 @@ export function BreadcrumbAccountDropdown({ page }: { page: string }) {
       <Breadcrumbs.Item>
         {/* Workspace switcher as first breadcrumb item */}
         <Menu.Root>
-          <Menu.Trigger>
-            <button
-              type="button"
-              aria-label="Switch workspace"
-              style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3xs)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-            >
-              <Avatar.Root size="xs">
-                {active.avatarSrc ? (
-                  <Avatar.Image src={active.avatarSrc} alt={active.name} />
-                ) : null}
-                <Avatar.Fallback>{active.name[0]}</Avatar.Fallback>
-              </Avatar.Root>
-              <span style={{ fontWeight: 500 }}>{active.name}</span>
-              <Icon icon={ChevronDown} size="sm" />
-            </button>
+          <Menu.Trigger
+            aria-label="Switch workspace"
+            className="tale-button tale-button--ghost tale-button--sm"
+          >
+            <Avatar.Root size="xs">
+              {active.avatarSrc ? <Avatar.Image src={active.avatarSrc} alt={active.name} /> : null}
+              <Avatar.Fallback>{active.name[0]}</Avatar.Fallback>
+            </Avatar.Root>
+            {active.name}
+            <Icon icon={ChevronDown} size="sm" />
           </Menu.Trigger>
           <Menu.Popover placement="bottom start" offset={8} style={{ minWidth: 220 }}>
-            <Menu.MenuList onAction={(key) => { setActiveWorkspace(String(key)); }}>
+            <Menu.MenuList
+              onAction={(key) => {
+                setActiveWorkspace(String(key));
+              }}
+            >
               <Menu.Header>Workspaces</Menu.Header>
               {workspaces.map((workspace) => (
                 <Menu.Item key={workspace.id} id={workspace.id}>
@@ -66,7 +65,7 @@ export function BreadcrumbAccountDropdown({ page }: { page: string }) {
                   </Avatar.Root>
                   {workspace.name}
                   {workspace.id === activeWorkspace ? (
-                    <Icon icon={Check} size="sm" style={{ marginInlineStart: 'auto', color: 'var(--color-60)' }} />
+                    <Icon icon={Check} size="sm" style={{ marginInlineStart: 'auto' }} />
                   ) : null}
                 </Menu.Item>
               ))}
@@ -80,7 +79,7 @@ export function BreadcrumbAccountDropdown({ page }: { page: string }) {
       </Breadcrumbs.Item>
 
       <Breadcrumbs.Item>
-        <span aria-current="page">{page}</span>
+        <Breadcrumbs.Link aria-current="page">{page}</Breadcrumbs.Link>
       </Breadcrumbs.Item>
     </Breadcrumbs.Root>
   );

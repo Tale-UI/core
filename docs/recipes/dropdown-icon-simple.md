@@ -5,7 +5,6 @@ A compact dropdown triggered by a three-dot (ellipsis) icon button. Common for r
 ## Components Used
 
 - `Menu` from `@tale-ui/react/menu`
-- `IconButton` from `@tale-ui/react/icon-button`
 - `Icon` from `@tale-ui/react/icon`
 - `MoreHorizontal` from `lucide-react`
 
@@ -13,20 +12,24 @@ A compact dropdown triggered by a three-dot (ellipsis) icon button. Common for r
 
 ```tsx
 import { Menu } from '@tale-ui/react/menu';
-import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
 import { MoreHorizontal } from 'lucide-react';
 
 export function IconDropdown({ itemId }: { itemId: string }) {
   return (
     <Menu.Root>
-      <Menu.Trigger>
-        <IconButton aria-label="Row actions" variant="ghost" size="sm">
-          <Icon icon={MoreHorizontal} size="sm" />
-        </IconButton>
+      <Menu.Trigger
+        aria-label="Row actions"
+        className="tale-icon-button tale-button tale-button--ghost tale-icon-button--sm"
+      >
+        <Icon icon={MoreHorizontal} size="sm" />
       </Menu.Trigger>
       <Menu.Popover placement="bottom end" offset={4}>
-        <Menu.MenuList onAction={(key) => { console.log(itemId, key); }}>
+        <Menu.MenuList
+          onAction={(key) => {
+            console.log(itemId, key);
+          }}
+        >
           <Menu.Item id="edit">Edit</Menu.Item>
           <Menu.Item id="duplicate">Duplicate</Menu.Item>
           <Menu.Separator />
@@ -40,8 +43,8 @@ export function IconDropdown({ itemId }: { itemId: string }) {
 
 ## Notes
 
-- **Do not nest `<IconButton>` inside `Menu.Trigger` as JSX** — `Menu.Trigger` clones its child to inject ARIA and event props. Nesting a Tale UI `<IconButton>` here is allowed because `IconButton` forwards refs and spreads unknown props.
-- `aria-label="Row actions"` is required on the `IconButton` — icon-only controls must have an accessible name.
+- **Do not nest `<IconButton>` inside `Menu.Trigger` as JSX** — `Menu.Trigger` renders its own button. Apply the Tale UI icon-button classes directly to the trigger.
+- `aria-label="Row actions"` is required on the `Menu.Trigger` — icon-only controls must have an accessible name.
 - `placement="bottom end"` aligns the popover's right edge with the trigger's right edge — ideal for table row actions near the right side of the viewport.
 - `MoreVertical` (vertical dots) is an alternative icon; use whichever is consistent with your design language.
 

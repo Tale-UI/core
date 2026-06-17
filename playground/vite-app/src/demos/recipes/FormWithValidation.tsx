@@ -5,13 +5,25 @@ import { Select } from '@tale-ui/react/select';
 import { Checkbox } from '@tale-ui/react/checkbox';
 import { Button } from '@tale-ui/react/button';
 import { Icon } from '@tale-ui/react/icon';
+import { Column } from '@tale-ui/react/column';
+import { Row } from '@tale-ui/react/row';
+import { Text } from '@tale-ui/react/text';
 import { Check } from 'lucide-react';
 
 export default function FormWithValidation() {
   return (
-    <div style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}>
-      <h1>Form with Validation</h1>
-      <Form onSubmit={(entry) => { entry.preventDefault(); }}>
+    <Column
+      gap="m"
+      style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}
+    >
+      <Text as="h1" variant="heading" size="l">
+        Form with Validation
+      </Text>
+      <Form
+        onSubmit={(entry) => {
+          entry.preventDefault();
+        }}
+      >
         <Fieldset.Root>
           <Fieldset.Legend>Personal Information</Fieldset.Legend>
 
@@ -46,15 +58,21 @@ export default function FormWithValidation() {
         </Fieldset.Root>
 
         <Checkbox.Root value="terms" isRequired>
-          <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+          <Checkbox.Indicator>
+            <Icon icon={Check} size="sm" />
+          </Checkbox.Indicator>
           I agree to the terms of service
         </Checkbox.Root>
 
-        <div style={{ display: 'flex', gap: 'var(--space-xs)', marginTop: 'var(--space-s)' }}>
-          <Button type="submit" variant="primary">Sign Up</Button>
-          <Button type="reset" variant="ghost">Reset</Button>
-        </div>
+        <Row gap="xs" style={{ marginTop: 'var(--space-s)' }}>
+          <Button type="submit" variant="primary">
+            Sign Up
+          </Button>
+          <Button type="reset" variant="ghost">
+            Reset
+          </Button>
+        </Row>
       </Form>
-    </div>
+    </Column>
   );
 }

@@ -67,8 +67,118 @@ function coalesceNamedImports(code) {
   return lines.filter((_, index) => !removeLines.has(index)).join('\n');
 }
 
+const DISALLOWED_STYLE_PROPS = new Set([
+  'background',
+  'backgroundColor',
+  'border',
+  'borderBottom',
+  'borderColor',
+  'borderLeft',
+  'borderRadius',
+  'borderRight',
+  'borderTop',
+  'boxShadow',
+  'color',
+  'cursor',
+  'fontSize',
+  'fontStyle',
+  'fontWeight',
+  'letterSpacing',
+  'lineHeight',
+  'opacity',
+  'textAlign',
+  'textDecoration',
+  'textTransform',
+]);
+
+const UTILITY_CLASS_PATTERN =
+  /^(?:text|font|w|h|min-w|min-h|max-w|max-h|flex|grid|gap|items|justify|content|p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml|bg|border|rounded|shadow|opacity|overflow|whitespace|truncate)-/;
+
+function lineForIndex(code, index) {
+  return code.slice(0, index).split('\n').length;
+}
+
+function validateRecipeStyling(markdown, code) {
+  const errors = [];
+
+  for (const match of markdown.matchAll(/```([a-zA-Z0-9_-]+)\n/g)) {
+    const lang = match[1].toLowerCase();
+    if (['css', 'scss', 'sass', 'less'].includes(lang)) {
+      errors.push(
+        `Recipe includes a fenced ${lang} block; use Tale UI components and recipe TSX only instead of bespoke CSS.`,
+      );
+    }
+  }
+
+  for (const match of code.matchAll(/className\s*=\s*["']([^"']*)["']/g)) {
+    const classes = match[1].split(/\s+/).filter(Boolean);
+    const invalid = classes.filter((className) => {
+      if (UTILITY_CLASS_PATTERN.test(className) || className.startsWith('text--')) {
+        return true;
+      }
+      return !className.startsWith('tale-');
+    });
+
+    if (invalid.length > 0) {
+      errors.push(
+        `Line ${lineForIndex(code, match.index)} uses bespoke className value(s): ${invalid.join(', ')}.`,
+      );
+    }
+  }
+
+  for (const match of code.matchAll(/className\s*=\s*\{(?!\s*["'`])/g)) {
+    errors.push(
+      `Line ${lineForIndex(code, match.index)} uses a dynamic className; keep recipe snippets on Tale UI classes only.`,
+    );
+  }
+
+  for (const match of code.matchAll(/\b(?:childrenClassName|svgClassName)\s*=\s*["'][^"']+["']/g)) {
+    errors.push(
+      `Line ${lineForIndex(code, match.index)} uses ${match[0].split('=')[0]}; avoid recipe-specific styling hooks.`,
+    );
+  }
+
+  for (const match of code.matchAll(
+    /<(?:Menu|Tooltip|Drawer)\.Trigger>\s*<(?:Button|IconButton|button)\b/g,
+  )) {
+    errors.push(
+      `Line ${lineForIndex(code, match.index)} nests a button inside a trigger; style the trigger directly with Tale UI classes.`,
+    );
+  }
+
+  for (const match of code.matchAll(/style\s*=\s*\{\{([\s\S]*?)\}\}/g)) {
+    const body = match[1];
+    const disallowed = [];
+
+    for (const propMatch of body.matchAll(/([A-Za-z_$][\w$]*)\s*:/g)) {
+      const propName = propMatch[1];
+      if (DISALLOWED_STYLE_PROPS.has(propName)) {
+        disallowed.push(propName);
+      }
+    }
+
+    if (/display\s*:\s*['"]flex['"]/.test(body)) {
+      disallowed.push('display:flex');
+    }
+
+    if (disallowed.length > 0) {
+      errors.push(
+        `Line ${lineForIndex(code, match.index)} uses bespoke inline style prop(s): ${[...new Set(disallowed)].join(', ')}.`,
+      );
+    }
+  }
+
+  for (const match of code.matchAll(/<(h[1-6]|p)\b/g)) {
+    errors.push(
+      `Line ${lineForIndex(code, match.index)} uses a bare <${match[1]}>; use the Text component for visible text.`,
+    );
+  }
+
+  return errors;
+}
+
 export function extractRecipeCode(markdown) {
-  const blocks = [...markdown.matchAll(/```tsx\n([\s\S]*?)```/g)].map(match => match[1]);
+  const blocks = [...markdown.matchAll(/```tsx\n([\s\S]*?)```/g)].map((match) => match[1]);
   if (blocks.length === 0) {
     return null;
   }
@@ -109,15 +219,27 @@ function validateRecipe(file) {
     return {
       file,
       valid: false,
-      errors: [`Found ${result.blockCount} TSX block(s), but no function declaration to expose as Example.`],
+      errors: [
+        `Found ${result.blockCount} TSX block(s), but no function declaration to expose as Example.`,
+      ],
     };
   }
 
-  const child = spawnSync(
-    process.execPath,
-    [VALIDATOR, '--json', '--code', result.code],
-    { cwd: ROOT, encoding: 'utf8', maxBuffer: 1024 * 1024 * 10 },
-  );
+  const stylingErrors = validateRecipeStyling(markdown, result.code);
+  if (stylingErrors.length > 0) {
+    return {
+      file,
+      valid: false,
+      blockCount: result.blockCount,
+      errors: stylingErrors,
+    };
+  }
+
+  const child = spawnSync(process.execPath, [VALIDATOR, '--json', '--code', result.code], {
+    cwd: ROOT,
+    encoding: 'utf8',
+    maxBuffer: 1024 * 1024 * 10,
+  });
 
   if (child.status === 0) {
     return { file, valid: true, blockCount: result.blockCount, errors: [] };
@@ -130,8 +252,8 @@ function validateRecipe(file) {
       valid: false,
       blockCount: result.blockCount,
       errors: [
-        ...(parsed.registryErrors ?? []).map(error => `[registry] ${error.message}`),
-        ...(parsed.typescriptErrors ?? []).map(error => {
+        ...(parsed.registryErrors ?? []).map((error) => `[registry] ${error.message}`),
+        ...(parsed.typescriptErrors ?? []).map((error) => {
           const loc = error.line > 0 ? `:${error.line}` : '';
           return `[tsc${loc}] ${error.message}`;
         }),
@@ -148,11 +270,11 @@ function validateRecipe(file) {
 }
 
 const recipeFiles = readdirSync(RECIPES_DIR)
-  .filter(file => file.endsWith('.md') && file !== 'index.md')
+  .filter((file) => file.endsWith('.md') && file !== 'index.md')
   .sort((a, b) => a.localeCompare(b));
 
 const results = recipeFiles.map(validateRecipe);
-const failures = results.filter(result => !result.valid);
+const failures = results.filter((result) => !result.valid);
 
 for (const result of results) {
   if (result.valid) {

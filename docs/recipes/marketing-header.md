@@ -8,6 +8,7 @@ A marketing site header with a logo, nav links (some with dropdown mega-menus), 
 - `Menu` from `@tale-ui/react/menu`
 - `Button` from `@tale-ui/react/button`
 - `Icon` from `@tale-ui/react/icon`
+- `Column` from `@tale-ui/react/column`
 - `ChevronDown` from `lucide-react`
 
 ## Code
@@ -17,6 +18,7 @@ import { HeaderNav } from '@tale-ui/react/header-nav';
 import { Menu } from '@tale-ui/react/menu';
 import { Button } from '@tale-ui/react/button';
 import { Icon } from '@tale-ui/react/icon';
+import { Column } from '@tale-ui/react/column';
 import { ChevronDown } from 'lucide-react';
 
 export function MarketingHeader() {
@@ -32,15 +34,9 @@ export function MarketingHeader() {
 
         {/* Dropdown: Solutions */}
         <Menu.Root>
-          <Menu.Trigger>
-            <button
-              type="button"
-              className="tale-header-nav__nav-button"
-              style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3xs)', background: 'none', border: 'none', cursor: 'pointer' }}
-            >
-              Solutions
-              <Icon icon={ChevronDown} size="sm" />
-            </button>
+          <Menu.Trigger className="tale-button tale-button--ghost tale-button--sm">
+            Solutions
+            <Icon icon={ChevronDown} size="sm" />
           </Menu.Trigger>
           <Menu.Popover placement="bottom" offset={8}>
             <Menu.MenuList>
@@ -65,27 +61,51 @@ export function MarketingHeader() {
       </HeaderNav.Secondary>
 
       <HeaderNav.Actions>
-        <Button variant="ghost" size="sm" onPress={() => { window.location.href = '/login'; }}>
+        <Button
+          variant="ghost"
+          size="sm"
+          onPress={() => {
+            window.location.href = '/login';
+          }}
+        >
           Log in
         </Button>
-        <Button variant="primary" size="sm" onPress={() => { window.location.href = '/signup'; }}>
+        <Button
+          variant="primary"
+          size="sm"
+          onPress={() => {
+            window.location.href = '/signup';
+          }}
+        >
           Get started
         </Button>
 
         <HeaderNav.MobileTrigger>
-          <nav style={{ display: 'grid', gap: 'var(--space-2xs)', padding: 'var(--space-m)' }}>
+          <Column gap="2xs">
             <HeaderNav.NavButton href="/features">Features</HeaderNav.NavButton>
             <HeaderNav.NavButton href="/solutions/engineering">Engineering</HeaderNav.NavButton>
             <HeaderNav.NavButton href="/solutions/design">Design</HeaderNav.NavButton>
             <HeaderNav.NavButton href="/pricing">Pricing</HeaderNav.NavButton>
             <HeaderNav.NavButton href="/blog">Blog</HeaderNav.NavButton>
-            <Button variant="ghost" size="sm" onPress={() => { window.location.href = '/login'; }}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onPress={() => {
+                window.location.href = '/login';
+              }}
+            >
               Log in
             </Button>
-            <Button variant="primary" size="sm" onPress={() => { window.location.href = '/signup'; }}>
+            <Button
+              variant="primary"
+              size="sm"
+              onPress={() => {
+                window.location.href = '/signup';
+              }}
+            >
               Get started
             </Button>
-          </nav>
+          </Column>
         </HeaderNav.MobileTrigger>
       </HeaderNav.Actions>
     </HeaderNav.Root>

@@ -5,12 +5,16 @@ A single-tier sidebar with logo, navigation items, and an account card at the bo
 ## Components Used
 
 - `Sidebar` from `@tale-ui/react/sidebar`
+- `Row` from `@tale-ui/react/row`
+- `Text` from `@tale-ui/react/text`
 - `Home`, `FileText`, `Users`, `Settings` from `lucide-react`
 
 ## Code
 
 ```tsx
 import { Sidebar } from '@tale-ui/react/sidebar';
+import { Row } from '@tale-ui/react/row';
+import { Text } from '@tale-ui/react/text';
 import { Home, FileText, Users, Settings } from 'lucide-react';
 
 const navItems = [
@@ -22,13 +26,19 @@ const navItems = [
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <Row align="stretch" style={{ minHeight: '100vh', gap: 0 }}>
       <Sidebar.Root>
         <Sidebar.Header>
-          <a href="/" style={{ fontWeight: 700, fontSize: 'var(--label-l-font-size)', textDecoration: 'none', color: 'var(--neutral-90)' }}>
+          <Text variant="label" size="l">
             Acme
-          </a>
-          <Sidebar.MobileTrigger logo={<span>Acme</span>}>
+          </Text>
+          <Sidebar.MobileTrigger
+            logo={
+              <Text variant="label" size="l">
+                Acme
+              </Text>
+            }
+          >
             <Sidebar.NavList>
               {navItems.map((item) => (
                 <Sidebar.NavItem
@@ -57,17 +67,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           ))}
         </Sidebar.NavList>
 
-        <Sidebar.AccountCard
-          name="Alex Chen"
-          email="alex@acme.com"
-          avatarSrc="/avatars/alex.jpg"
-        />
+        <Sidebar.AccountCard name="Alex Chen" email="alex@acme.com" avatarSrc="/avatars/alex.jpg" />
       </Sidebar.Root>
 
-      <main style={{ flex: 1, padding: 'var(--space-l)' }}>
-        {children}
-      </main>
-    </div>
+      <main style={{ flex: 1, padding: 'var(--space-l)' }}>{children}</main>
+    </Row>
   );
 }
 ```

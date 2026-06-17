@@ -11,6 +11,7 @@ A complete form with text fields, select dropdown, checkbox, and validation erro
 - `Checkbox` from `@tale-ui/react/checkbox`
 - `Button` from `@tale-ui/react/button`
 - `Icon` from `@tale-ui/react/icon`
+- `Row` from `@tale-ui/react/row`
 - `Check` from `lucide-react`
 
 ## Code
@@ -23,11 +24,16 @@ import { Select } from '@tale-ui/react/select';
 import { Checkbox } from '@tale-ui/react/checkbox';
 import { Button } from '@tale-ui/react/button';
 import { Icon } from '@tale-ui/react/icon';
+import { Row } from '@tale-ui/react/row';
 import { Check } from 'lucide-react';
 
 function SignUpForm() {
   return (
-    <Form onSubmit={(e) => { e.preventDefault(); /* handle submit */ }}>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault(); /* handle submit */
+      }}
+    >
       <Fieldset.Root>
         <Fieldset.Legend>Personal Information</Fieldset.Legend>
 
@@ -59,14 +65,20 @@ function SignUpForm() {
       </Fieldset.Root>
 
       <Checkbox.Root value="terms" isRequired>
-        <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+        <Checkbox.Indicator>
+          <Icon icon={Check} size="sm" />
+        </Checkbox.Indicator>
         I agree to the terms of service
       </Checkbox.Root>
 
-      <div style={{ display: 'flex', gap: 'var(--space-xs)', marginTop: 'var(--space-s)' }}>
-        <Button type="submit" variant="primary">Sign Up</Button>
-        <Button type="reset" variant="ghost">Reset</Button>
-      </div>
+      <Row gap="xs" style={{ marginTop: 'var(--space-s)' }}>
+        <Button type="submit" variant="primary">
+          Sign Up
+        </Button>
+        <Button type="reset" variant="ghost">
+          Reset
+        </Button>
+      </Row>
     </Form>
   );
 }

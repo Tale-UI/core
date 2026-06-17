@@ -6,12 +6,13 @@ Spinner, ProgressBar, and Button pending state for loading UIs.
 
 ```tsx
 import { Spinner } from '@tale-ui/react/spinner';
+import { Row } from '@tale-ui/react/row';
 
 export function LoadingSection() {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+    <Row justify="center" style={{ padding: 'var(--space-l)' }}>
       <Spinner size="md" aria-label="Loading content" />
-    </div>
+    </Row>
   );
 }
 ```

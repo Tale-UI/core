@@ -20,39 +20,31 @@ import { ChevronsUpDown } from 'lucide-react';
 type User = { name: string; email: string; avatarSrc?: string };
 
 export function AccountCardXS({ user }: { user: User }) {
-  const initials = user.name.split(' ').map((n) => n[0]).join('').slice(0, 2);
+  const initials = user.name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2);
 
   return (
     <Menu.Root>
-      <Menu.Trigger>
-        <button
-          type="button"
-          aria-label={`Account: ${user.name}`}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--space-2xs)',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 'var(--space-3xs) var(--space-2xs)',
-            borderRadius: 'var(--radius-s)',
-          }}
-        >
-          <Avatar.Root size="xs">
-            {user.avatarSrc ? <Avatar.Image src={user.avatarSrc} alt={user.name} /> : null}
-            <Avatar.Fallback>{initials}</Avatar.Fallback>
-          </Avatar.Root>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 600, fontSize: 'var(--label-xs-font-size)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {user.name}
-            </div>
-          </div>
-          <Icon icon={ChevronsUpDown} size="sm" style={{ color: 'var(--neutral-40)', flexShrink: 0 }} />
-        </button>
+      <Menu.Trigger
+        aria-label={`Account: ${user.name}`}
+        className="tale-button tale-button--neutral tale-button--sm"
+      >
+        <Avatar.Root size="xs">
+          {user.avatarSrc ? <Avatar.Image src={user.avatarSrc} alt={user.name} /> : null}
+          <Avatar.Fallback>{initials}</Avatar.Fallback>
+        </Avatar.Root>
+        {user.name}
+        <Icon icon={ChevronsUpDown} size="sm" />
       </Menu.Trigger>
       <Menu.Popover placement="top start" offset={4} style={{ minWidth: 200 }}>
-        <Menu.MenuList onAction={(key) => { console.log('account:', key); }}>
+        <Menu.MenuList
+          onAction={(key) => {
+            console.log('account:', key);
+          }}
+        >
           <Menu.Item id="profile">Profile</Menu.Item>
           <Menu.Item id="settings">Settings</Menu.Item>
           <Menu.Separator />
@@ -68,7 +60,7 @@ export function AccountCardXS({ user }: { user: User }) {
 
 - XS cards show only the user's name (no email) because the 24 px avatar leaves very little horizontal space.
 - `Avatar.Root size="xs"` renders a 24 × 24 px circle. Use `size="sm"` (32 px) if you have space — it improves legibility on high-DPI screens.
-- `padding: var(--space-3xs) var(--space-2xs)` gives just enough touch target on mobile while staying visually compact. Ensure the total height is at least 44 px for touch targets — verify with the axe tool.
+- `Menu.Trigger` uses the Tale UI small button size to stay compact while preserving the built-in focus and interaction styling.
 - Compare with [Account Card SM](dropdown-account-card-sm.md) and [Account Card MD](dropdown-account-card-md.md) for progressively larger variants.
 
 ## Preview

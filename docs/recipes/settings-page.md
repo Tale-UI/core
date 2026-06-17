@@ -12,6 +12,8 @@ A grouped settings form with switches, radio groups, text fields, and save/cance
 - `Button` from `@tale-ui/react/button`
 - `Separator` from `@tale-ui/react/separator`
 - `Form` from `@tale-ui/react/form`
+- `Row` from `@tale-ui/react/row`
+- `Text` from `@tale-ui/react/text`
 
 ## Code
 
@@ -24,11 +26,19 @@ import { TextField } from '@tale-ui/react/text-field';
 import { Select } from '@tale-ui/react/select';
 import { Button } from '@tale-ui/react/button';
 import { Separator } from '@tale-ui/react/separator';
+import { Row } from '@tale-ui/react/row';
+import { Text } from '@tale-ui/react/text';
 
 function SettingsPage() {
   return (
-    <Form onSubmit={(e) => { e.preventDefault(); /* save settings */ }}>
-      <h2>Settings</h2>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault(); /* save settings */
+      }}
+    >
+      <Text as="h2" variant="heading" size="m">
+        Settings
+      </Text>
 
       <Fieldset.Root>
         <Fieldset.Legend>Notifications</Fieldset.Legend>
@@ -55,9 +65,18 @@ function SettingsPage() {
         <Fieldset.Legend>Appearance</Fieldset.Legend>
 
         <Radio.Group defaultValue="system">
-          <Radio.Root value="light"><Radio.Indicator />Light</Radio.Root>
-          <Radio.Root value="dark"><Radio.Indicator />Dark</Radio.Root>
-          <Radio.Root value="system"><Radio.Indicator />System</Radio.Root>
+          <Radio.Root value="light">
+            <Radio.Indicator />
+            Light
+          </Radio.Root>
+          <Radio.Root value="dark">
+            <Radio.Indicator />
+            Dark
+          </Radio.Root>
+          <Radio.Root value="system">
+            <Radio.Indicator />
+            System
+          </Radio.Root>
         </Radio.Group>
 
         <Select.Root defaultValue="comfortable" placeholder="Select density">
@@ -91,10 +110,14 @@ function SettingsPage() {
 
       <Separator />
 
-      <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end' }}>
-        <Button type="reset" variant="ghost">Cancel</Button>
-        <Button type="submit" variant="primary">Save Changes</Button>
-      </div>
+      <Row gap="xs" justify="end">
+        <Button type="reset" variant="ghost">
+          Cancel
+        </Button>
+        <Button type="submit" variant="primary">
+          Save Changes
+        </Button>
+      </Row>
     </Form>
   );
 }

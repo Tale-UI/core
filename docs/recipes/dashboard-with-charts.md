@@ -8,6 +8,7 @@ A multi-chart dashboard layout combining bar, line, and pie charts.
 - `LineChart` from `@tale-ui/charts/line-chart`
 - `PieChart` from `@tale-ui/charts/pie-chart`
 - `ChartContainer` from `@tale-ui/charts`
+- `Text` from `@tale-ui/react/text`
 
 ## Code
 
@@ -16,6 +17,7 @@ import { BarChart } from '@tale-ui/charts/bar-chart';
 import { LineChart } from '@tale-ui/charts/line-chart';
 import { PieChart } from '@tale-ui/charts/pie-chart';
 import { ChartContainer } from '@tale-ui/charts';
+import { Text } from '@tale-ui/react/text';
 import '@tale-ui/charts/styles';
 
 const monthlyData = [
@@ -39,7 +41,9 @@ function Dashboard() {
     <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 'var(--space-l)' }}>
       {/* Revenue trend */}
       <div>
-        <h3>Revenue Trend</h3>
+        <Text as="h3" variant="heading" size="s">
+          Revenue Trend
+        </Text>
         <ChartContainer height={300}>
           <LineChart.Root data={monthlyData}>
             <LineChart.Grid />
@@ -55,7 +59,9 @@ function Dashboard() {
 
       {/* Channel breakdown */}
       <div>
-        <h3>Traffic Sources</h3>
+        <Text as="h3" variant="heading" size="s">
+          Traffic Sources
+        </Text>
         <ChartContainer height={300}>
           <PieChart.Root>
             <PieChart.Pie data={channelData} dataKey="value" nameKey="name" />
@@ -67,7 +73,9 @@ function Dashboard() {
 
       {/* Monthly comparison */}
       <div style={{ gridColumn: '1 / -1' }}>
-        <h3>Monthly Comparison</h3>
+        <Text as="h3" variant="heading" size="s">
+          Monthly Comparison
+        </Text>
         <ChartContainer height={300}>
           <BarChart.Root data={monthlyData}>
             <BarChart.Grid />

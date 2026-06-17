@@ -39,6 +39,7 @@ export function useResizeObserver({ ref, box, onResize }: UseResizeObserverOptio
 
 ```tsx
 import { useRef, useState } from 'react';
+import { Text } from '@tale-ui/react/text';
 
 function ResponsiveComponent() {
   const ref = useRef<HTMLDivElement>(null);
@@ -73,7 +74,10 @@ export function Example() {
   useResizeObserver({
     ref,
     onResize(entry) {
-      setSize({ width: Math.round(entry.contentRect.width), height: Math.round(entry.contentRect.height) });
+      setSize({
+        width: Math.round(entry.contentRect.width),
+        height: Math.round(entry.contentRect.height),
+      });
     },
   });
 
@@ -82,16 +86,16 @@ export function Example() {
       ref={ref}
       style={{
         padding: 'var(--space-l)',
-        border: '1px dashed var(--neutral-30)',
-        borderRadius: 'var(--radius-m)',
         resize: 'both',
         overflow: 'auto',
         minWidth: 160,
         minHeight: 80,
       }}
     >
-      <div style={{ fontSize: 'var(--text-s-font-size)', color: 'var(--neutral-50)' }}>Resize me ↘</div>
-      <div style={{ fontWeight: 600 }}>{size.width} × {size.height}px</div>
+      <Text color="muted">Resize me ↘</Text>
+      <Text variant="label">
+        {size.width} × {size.height}px
+      </Text>
     </div>
   );
 }

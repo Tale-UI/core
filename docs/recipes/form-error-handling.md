@@ -53,7 +53,9 @@ export function ValidatedForm() {
         <TextField.ErrorMessage>{errors.email}</TextField.ErrorMessage>
       </TextField.Root>
 
-      <Button type="submit" variant="primary">Submit</Button>
+      <Button type="submit" variant="primary">
+        Submit
+      </Button>
     </Form>
   );
 }

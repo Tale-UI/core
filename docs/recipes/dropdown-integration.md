@@ -7,7 +7,7 @@ A dropdown for selecting or managing a connected integration — such as a third
 - `Menu` from `@tale-ui/react/menu`
 - `Icon` from `@tale-ui/react/icon`
 - `Badge` from `@tale-ui/react/badge`
-- `CheckCircle2`, `Circle`, `Plus`, `Settings` from `lucide-react`
+- `CheckCircle2`, `Plus`, `Settings` from `lucide-react`
 
 ## Code
 
@@ -15,7 +15,7 @@ A dropdown for selecting or managing a connected integration — such as a third
 import { Menu } from '@tale-ui/react/menu';
 import { Icon } from '@tale-ui/react/icon';
 import { Badge } from '@tale-ui/react/badge';
-import { CheckCircle2, Circle, Plus, Settings } from 'lucide-react';
+import { CheckCircle2, Plus, Settings } from 'lucide-react';
 import { useState } from 'react';
 
 type Integration = {
@@ -44,40 +44,50 @@ export function IntegrationDropdown() {
             <img src={activeIntegration.logoSrc} alt="" width={16} height={16} aria-hidden="true" />
             {activeIntegration.name}
           </>
-        ) : 'Select integration'}
+        ) : (
+          'Select integration'
+        )}
         {' ▾'}
       </Menu.Trigger>
       <Menu.Popover placement="bottom start" offset={4} style={{ minWidth: 240 }}>
         <Menu.MenuList
           onAction={(key) => {
-            if (key === 'manage' || key === 'add') { return; }
+            if (key === 'manage' || key === 'add') {
+              return;
+            }
             setActive(String(key));
           }}
         >
           <Menu.Group>
             <Menu.Header>Connected</Menu.Header>
-            {integrations.filter((i) => i.connected).map((i) => (
-              <Menu.Item key={i.id} id={i.id}>
-                <img src={i.logoSrc} alt="" width={16} height={16} aria-hidden="true" />
-                {i.name}
-                {active === i.id ? (
-                  <Icon icon={CheckCircle2} size="sm" style={{ marginInlineStart: 'auto', color: 'var(--color-60)' }} />
-                ) : null}
-              </Menu.Item>
-            ))}
+            {integrations
+              .filter((i) => i.connected)
+              .map((i) => (
+                <Menu.Item key={i.id} id={i.id}>
+                  <img src={i.logoSrc} alt="" width={16} height={16} aria-hidden="true" />
+                  {i.name}
+                  {active === i.id ? (
+                    <Icon icon={CheckCircle2} size="sm" style={{ marginInlineStart: 'auto' }} />
+                  ) : null}
+                </Menu.Item>
+              ))}
           </Menu.Group>
 
           <Menu.Separator />
 
           <Menu.Group>
             <Menu.Header>Available</Menu.Header>
-            {integrations.filter((i) => !i.connected).map((i) => (
-              <Menu.Item key={i.id} id={i.id}>
-                <img src={i.logoSrc} alt="" width={16} height={16} aria-hidden="true" />
-                {i.name}
-                <Badge variant="neutral" size="sm" style={{ marginInlineStart: 'auto' }}>Connect</Badge>
-              </Menu.Item>
-            ))}
+            {integrations
+              .filter((i) => !i.connected)
+              .map((i) => (
+                <Menu.Item key={i.id} id={i.id}>
+                  <img src={i.logoSrc} alt="" width={16} height={16} aria-hidden="true" />
+                  {i.name}
+                  <Badge variant="neutral" size="sm" style={{ marginInlineStart: 'auto' }}>
+                    Connect
+                  </Badge>
+                </Menu.Item>
+              ))}
           </Menu.Group>
 
           <Menu.Separator />

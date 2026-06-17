@@ -5,7 +5,6 @@ An ellipsis-triggered dropdown with grouped items, icons, and a submenu. Suitabl
 ## Components Used
 
 - `Menu` from `@tale-ui/react/menu`
-- `IconButton` from `@tale-ui/react/icon-button`
 - `Icon` from `@tale-ui/react/icon`
 - `MoreHorizontal`, `Pencil`, `Copy`, `FolderOpen`, `Share2`, `Trash2`, `ChevronRight` from `lucide-react`
 
@@ -13,20 +12,24 @@ An ellipsis-triggered dropdown with grouped items, icons, and a submenu. Suitabl
 
 ```tsx
 import { Menu } from '@tale-ui/react/menu';
-import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
 import { MoreHorizontal, Pencil, Copy, FolderOpen, Share2, Trash2 } from 'lucide-react';
 
 export function AdvancedIconDropdown({ itemId }: { itemId: string }) {
   return (
     <Menu.Root>
-      <Menu.Trigger>
-        <IconButton aria-label="Item actions" variant="ghost" size="sm">
-          <Icon icon={MoreHorizontal} size="sm" />
-        </IconButton>
+      <Menu.Trigger
+        aria-label="Item actions"
+        className="tale-icon-button tale-button tale-button--ghost tale-icon-button--sm"
+      >
+        <Icon icon={MoreHorizontal} size="sm" />
       </Menu.Trigger>
       <Menu.Popover placement="bottom end" offset={4}>
-        <Menu.MenuList onAction={(key) => { console.log(itemId, key); }}>
+        <Menu.MenuList
+          onAction={(key) => {
+            console.log(itemId, key);
+          }}
+        >
           <Menu.Item id="edit">
             <Icon icon={Pencil} size="sm" />
             Edit
@@ -45,7 +48,11 @@ export function AdvancedIconDropdown({ itemId }: { itemId: string }) {
               Move to
             </Menu.Item>
             <Menu.Popover>
-              <Menu.MenuList onAction={(key) => { console.log(itemId, key); }}>
+              <Menu.MenuList
+                onAction={(key) => {
+                  console.log(itemId, key);
+                }}
+              >
                 <Menu.Item id="move-inbox">Inbox</Menu.Item>
                 <Menu.Item id="move-archive">Archive</Menu.Item>
                 <Menu.Item id="move-trash">Trash</Menu.Item>
@@ -82,20 +89,24 @@ export function AdvancedIconDropdown({ itemId }: { itemId: string }) {
 
 ```tsx
 import { Menu } from '@tale-ui/react/menu';
-import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
 import { MoreHorizontal, Pencil, Copy, Share2, Trash2 } from 'lucide-react';
 
 function PreviewDropdown() {
   return (
     <Menu.Root>
-      <Menu.Trigger>
-        <IconButton aria-label="Item actions" variant="ghost" size="sm">
-          <Icon icon={MoreHorizontal} size="sm" />
-        </IconButton>
+      <Menu.Trigger
+        aria-label="Item actions"
+        className="tale-icon-button tale-button tale-button--ghost tale-icon-button--sm"
+      >
+        <Icon icon={MoreHorizontal} size="sm" />
       </Menu.Trigger>
       <Menu.Popover placement="bottom end" offset={4}>
-        <Menu.MenuList onAction={(key) => { console.log('demo-1', key); }}>
+        <Menu.MenuList
+          onAction={(key) => {
+            console.log('demo-1', key);
+          }}
+        >
           <Menu.Item id="edit">
             <Icon icon={Pencil} size="sm" />
             Edit

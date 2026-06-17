@@ -5,14 +5,14 @@ A permanent icon-only sidebar with tooltips. Use when screen real estate is tigh
 ## Components Used
 
 - `Sidebar` from `@tale-ui/react/sidebar`
-- `Tooltip` from `@tale-ui/react/tooltip`
+- `Row` from `@tale-ui/react/row`
 - `Home`, `FileText`, `Users`, `Settings`, `HelpCircle` from `lucide-react`
 
 ## Code
 
 ```tsx
 import { Sidebar } from '@tale-ui/react/sidebar';
-import { Tooltip } from '@tale-ui/react/tooltip';
+import { Row } from '@tale-ui/react/row';
 import { Home, FileText, Users, Settings, HelpCircle } from 'lucide-react';
 
 const topItems = [
@@ -26,34 +26,39 @@ const bottomItems = [
   { href: '/help', label: 'Help', icon: HelpCircle, current: false },
 ];
 
-function NavButton({ href, label, icon, current }: { href: string; label: string; icon: React.FC<{ className?: string }>; current: boolean }) {
+function NavButton({
+  href,
+  label,
+  icon,
+  current,
+}: {
+  href: string;
+  label: string;
+  icon: React.FC<{ className?: string }>;
+  current: boolean;
+}) {
   return (
-    <Tooltip.Root>
-      <Tooltip.Trigger>
-        <Sidebar.NavButton
-          href={href}
-          icon={icon}
-          label={label}
-          current={current}
-        />
-      </Tooltip.Trigger>
-      <Tooltip.Popup placement="right" offset={8}>
-        <Tooltip.Title>{label}</Tooltip.Title>
-      </Tooltip.Popup>
-    </Tooltip.Root>
+    <Sidebar.NavButton href={href} icon={icon} label={label} current={current} title={label} />
   );
 }
 
 export function SlimLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <Row align="stretch" style={{ minHeight: '100vh', gap: 0 }}>
       <Sidebar.Root style={{ width: 72, flexShrink: 0 }}>
         <Sidebar.Header>
           <img src="/logo-mark.svg" alt="Acme" width={28} height={28} />
-          <Sidebar.MobileTrigger logo={<img src="/logo-mark.svg" alt="Acme" width={28} height={28} />}>
+          <Sidebar.MobileTrigger
+            logo={<img src="/logo-mark.svg" alt="Acme" width={28} height={28} />}
+          >
             <Sidebar.NavList>
               {[...topItems, ...bottomItems].map((item) => (
-                <Sidebar.NavItem key={item.href} href={item.href} icon={item.icon} current={item.current}>
+                <Sidebar.NavItem
+                  key={item.href}
+                  href={item.href}
+                  icon={item.icon}
+                  current={item.current}
+                >
                   {item.label}
                 </Sidebar.NavItem>
               ))}
@@ -75,17 +80,11 @@ export function SlimLayout({ children }: { children: React.ReactNode }) {
           ))}
         </Sidebar.NavList>
 
-        <Sidebar.AccountCard
-          avatarSrc="/avatars/alex.jpg"
-          name="Alex Chen"
-          email="alex@acme.com"
-        />
+        <Sidebar.AccountCard avatarSrc="/avatars/alex.jpg" name="Alex Chen" email="alex@acme.com" />
       </Sidebar.Root>
 
-      <main style={{ flex: 1, padding: 'var(--space-l)' }}>
-        {children}
-      </main>
-    </div>
+      <main style={{ flex: 1, padding: 'var(--space-l)' }}>{children}</main>
+    </Row>
   );
 }
 ```
@@ -93,7 +92,7 @@ export function SlimLayout({ children }: { children: React.ReactNode }) {
 ## Notes
 
 - A slim rail is just layout: constrain `Sidebar.Root` with CSS or inline `style`, then use `Sidebar.NavButton` for icon-only links.
-- Every `Sidebar.NavButton` must have an `aria-label` and a paired `Tooltip` — icon-only controls without labels fail WCAG 2.1 SC 4.1.2.
+- Every `Sidebar.NavButton` must have an accessible `label`; add `title` when you also want a browser tooltip.
 - `Sidebar.Divider` renders a `<hr>` that visually separates the top navigation from the bottom utility links.
 - Use CSS to adapt `Sidebar.AccountCard` at slim widths; the component still requires `name` and `email` for accessible account context.
 - On mobile (≤ 768 px) `Sidebar.MobileTrigger` opens a full-width drawer that renders the items with labels.

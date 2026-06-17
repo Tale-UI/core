@@ -4,7 +4,7 @@ A horizontal navigation bar with logo, links, and right-aligned action buttons.
 
 ## Components Used
 
-- `NavigationMenu` from `@tale-ui/react/navigation-menu`
+- `HeaderNav` from `@tale-ui/react/header-nav`
 - `Button` from `@tale-ui/react/button`
 - `IconButton` from `@tale-ui/react/icon-button`
 - `Icon` from `@tale-ui/react/icon`
@@ -14,7 +14,7 @@ A horizontal navigation bar with logo, links, and right-aligned action buttons.
 ## Code
 
 ```tsx
-import { NavigationMenu } from '@tale-ui/react/navigation-menu';
+import { HeaderNav } from '@tale-ui/react/header-nav';
 import { Button } from '@tale-ui/react/button';
 import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
@@ -23,29 +23,18 @@ import { Bell, Search } from 'lucide-react';
 
 function AppHeader() {
   return (
-    <header style={{ display: 'flex', alignItems: 'center', padding: 'var(--space-xs) var(--space-m)', borderBottom: '1px solid var(--neutral-16)' }}>
-      {/* Logo */}
-      <a href="/" style={{ fontWeight: 700, fontSize: 'var(--label-l-font-size)', marginRight: 'var(--space-m)', textDecoration: 'none', color: 'var(--neutral-90)' }}>
-        Acme
-      </a>
+    <HeaderNav.Root>
+      <HeaderNav.Logo href="/">Acme</HeaderNav.Logo>
 
       {/* Navigation links */}
-      <NavigationMenu.Root>
-        <NavigationMenu.List>
-          <NavigationMenu.Item>
-            <NavigationMenu.Link href="/products">Products</NavigationMenu.Link>
-          </NavigationMenu.Item>
-          <NavigationMenu.Item>
-            <NavigationMenu.Link href="/pricing">Pricing</NavigationMenu.Link>
-          </NavigationMenu.Item>
-          <NavigationMenu.Item>
-            <NavigationMenu.Link href="/docs">Docs</NavigationMenu.Link>
-          </NavigationMenu.Item>
-        </NavigationMenu.List>
-      </NavigationMenu.Root>
+      <HeaderNav.Secondary>
+        <HeaderNav.NavButton href="/products">Products</HeaderNav.NavButton>
+        <HeaderNav.NavButton href="/pricing">Pricing</HeaderNav.NavButton>
+        <HeaderNav.NavButton href="/docs">Docs</HeaderNav.NavButton>
+      </HeaderNav.Secondary>
 
       {/* Right-aligned actions */}
-      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-2xs)' }}>
+      <HeaderNav.Actions>
         <IconButton aria-label="Search" variant="ghost" size="sm">
           <Icon icon={Search} size="sm" />
         </IconButton>
@@ -53,17 +42,19 @@ function AppHeader() {
           <Icon icon={Bell} size="sm" />
         </IconButton>
         <Separator orientation="vertical" style={{ height: '2rem' }} />
-        <Button variant="primary" size="sm">Sign in</Button>
-      </div>
-    </header>
+        <Button variant="primary" size="sm">
+          Sign in
+        </Button>
+      </HeaderNav.Actions>
+    </HeaderNav.Root>
   );
 }
 ```
 
 ## Customization Points
 
-- Replace the logo `<a>` with your brand component or image.
-- Add dropdown menus using `NavigationMenu.Trigger` and `NavigationMenu.Popup` for nested navigation.
+- Replace the logo text with your brand component or image.
+- Add dropdown menus beside `HeaderNav.NavButton` links when nested navigation is needed.
 - Use `aria-current="page"` on the active link (React Aria handles this automatically when `href` matches).
-- For a sticky header, add `position: sticky; top: 0; z-index: 10; background: var(--neutral-5)` to the `<header>`.
+- For a sticky header, add `position: sticky; top: 0; z-index: 10` to `HeaderNav.Root`.
 - Combine with the [Sidebar Navigation](sidebar-navigation.md) recipe for a sidebar + header layout.

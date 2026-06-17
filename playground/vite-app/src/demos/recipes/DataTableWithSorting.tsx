@@ -3,6 +3,8 @@ import { Table } from '@tale-ui/react/table';
 import { Menu } from '@tale-ui/react/menu';
 import { Pagination } from '@tale-ui/react/pagination';
 import { Icon } from '@tale-ui/react/icon';
+import { Column } from '@tale-ui/react/column';
+import { Text } from '@tale-ui/react/text';
 import { MoreHorizontal } from 'lucide-react';
 import type { SortDescriptor } from 'react-aria-components';
 
@@ -27,18 +29,29 @@ export default function DataTableWithSorting() {
   });
 
   return (
-    <div style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}>
-      <h1>Data Table with Sorting</h1>
+    <Column
+      gap="m"
+      style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}
+    >
+      <Text as="h1" variant="heading" size="l">
+        Data Table with Sorting
+      </Text>
       <Table.Root
         aria-label="Users"
         sortDescriptor={sortDescriptor}
         onSortChange={setSortDescriptor}
       >
         <Table.Header>
-          <Table.Column id="name" isRowHeader allowsSorting>Name</Table.Column>
-          <Table.Column id="email" allowsSorting>Email</Table.Column>
+          <Table.Column id="name" isRowHeader allowsSorting>
+            Name
+          </Table.Column>
+          <Table.Column id="email" allowsSorting>
+            Email
+          </Table.Column>
           <Table.Column id="role">Role</Table.Column>
-          <Table.Column id="actions" width={48}>Actions</Table.Column>
+          <Table.Column id="actions" width={48}>
+            Actions
+          </Table.Column>
         </Table.Header>
         <Table.Body>
           {sorted.map((user) => (
@@ -48,7 +61,10 @@ export default function DataTableWithSorting() {
               <Table.Cell>{user.role}</Table.Cell>
               <Table.Cell>
                 <Menu.Root>
-                  <Menu.Trigger className="tale-button tale-button--ghost tale-button--sm">
+                  <Menu.Trigger
+                    aria-label="Actions"
+                    className="tale-icon-button tale-button tale-button--ghost tale-icon-button--sm"
+                  >
                     <Icon icon={MoreHorizontal} size="sm" />
                   </Menu.Trigger>
                   <Menu.Popover>
@@ -64,13 +80,13 @@ export default function DataTableWithSorting() {
         </Table.Body>
       </Table.Root>
 
-      <Pagination.Root aria-label="Table pagination" style={{ marginTop: 'var(--space-s)' }}>
+      <Pagination.Root aria-label="Table pagination">
         <Pagination.PreviousTrigger disabled />
         <Pagination.Item page={1} current />
         <Pagination.Item page={2} />
         <Pagination.Item page={3} />
         <Pagination.NextTrigger />
       </Pagination.Root>
-    </div>
+    </Column>
   );
 }

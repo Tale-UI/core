@@ -6,7 +6,6 @@ A data table with sortable columns, row action menus, and pagination.
 
 - `Table` from `@tale-ui/react/table`
 - `Menu` from `@tale-ui/react/menu`
-- `IconButton` from `@tale-ui/react/icon-button`
 - `Icon` from `@tale-ui/react/icon`
 - `Pagination` from `@tale-ui/react/pagination`
 - `MoreHorizontal` from `lucide-react`
@@ -16,7 +15,6 @@ A data table with sortable columns, row action menus, and pagination.
 ```tsx
 import { Table } from '@tale-ui/react/table';
 import { Menu } from '@tale-ui/react/menu';
-import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
 import { Pagination } from '@tale-ui/react/pagination';
 import type { SortDescriptor } from '@tale-ui/react/table';
@@ -49,10 +47,16 @@ function UserTable() {
         onSortChange={setSortDescriptor}
       >
         <Table.Header>
-          <Table.Column id="name" allowsSorting>Name</Table.Column>
-          <Table.Column id="email" allowsSorting>Email</Table.Column>
+          <Table.Column id="name" allowsSorting>
+            Name
+          </Table.Column>
+          <Table.Column id="email" allowsSorting>
+            Email
+          </Table.Column>
           <Table.Column id="role">Role</Table.Column>
-          <Table.Column id="actions" width={48}>Actions</Table.Column>
+          <Table.Column id="actions" width={48}>
+            Actions
+          </Table.Column>
         </Table.Header>
         <Table.Body>
           {sorted.map((user) => (
@@ -62,10 +66,11 @@ function UserTable() {
               <Table.Cell>{user.role}</Table.Cell>
               <Table.Cell>
                 <Menu.Root>
-                  <Menu.Trigger>
-                    <IconButton aria-label="Actions" variant="ghost" size="sm">
-                      <Icon icon={MoreHorizontal} />
-                    </IconButton>
+                  <Menu.Trigger
+                    aria-label="Actions"
+                    className="tale-icon-button tale-button tale-button--ghost tale-icon-button--sm"
+                  >
+                    <Icon icon={MoreHorizontal} />
                   </Menu.Trigger>
                   <Menu.Popover>
                     <Menu.MenuList>

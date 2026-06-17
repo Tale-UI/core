@@ -15,7 +15,7 @@ import { Search } from 'lucide-react';
 
 <IconButton aria-label="Search">
   <Icon icon={Search} />
-</IconButton>
+</IconButton>;
 ```
 
 ## Examples
@@ -60,16 +60,16 @@ When pending, the icon is hidden and replaced by a Spinner. The button remains f
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'primary' \| 'neutral' \| 'ghost' \| 'danger' \| 'inverse'` | `'ghost'` | Visual variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
-| `isDisabled` | `boolean` | `false` | Disables the button |
-| `disabled` | `boolean` | — | Alias for `isDisabled` |
-| `isPending` | `boolean` | — | Shows a loading spinner and prevents interaction while remaining focusable |
-| `pending` | `boolean` | — | Alias for `isPending` |
-| `aria-label` | `string` | — | Required accessible label |
-| `className` | `string` | — | Additional class name |
+| Prop         | Type                                                         | Default   | Description                                                                |
+| ------------ | ------------------------------------------------------------ | --------- | -------------------------------------------------------------------------- |
+| `variant`    | `'primary' \| 'neutral' \| 'ghost' \| 'danger' \| 'inverse'` | `'ghost'` | Visual variant                                                             |
+| `size`       | `'sm' \| 'md' \| 'lg'`                                       | `'md'`    | Size variant                                                               |
+| `isDisabled` | `boolean`                                                    | `false`   | Disables the button                                                        |
+| `disabled`   | `boolean`                                                    | —         | Alias for `isDisabled`                                                     |
+| `isPending`  | `boolean`                                                    | —         | Shows a loading spinner and prevents interaction while remaining focusable |
+| `pending`    | `boolean`                                                    | —         | Alias for `isPending`                                                      |
+| `aria-label` | `string`                                                     | —         | Required accessible label                                                  |
+| `className`  | `string`                                                     | —         | Additional class name                                                      |
 
 All other props are forwarded to the underlying `<button>` element (via React Aria Button).
 
@@ -85,15 +85,17 @@ Variant styles (`.tale-button--primary`, etc.) are inherited from the Button com
 ## Pitfalls
 
 <!-- pitfall: icon-button-aria-label-required -->
+
 - **aria-label is required** — without visible text the button is inaccessible. Omitting it causes a screen reader to announce nothing useful.
   - anti-pattern: `<IconButton variant="danger"><Icon icon={Trash} /></IconButton>`
   - fix: `<IconButton variant="danger" aria-label="Delete item"><Icon icon={Trash} /></IconButton>`
   - complete example:
+
     ```tsx
     import { IconButton } from '@tale-ui/react/icon-button';
     import { Icon } from '@tale-ui/react/icon';
     import { Search } from 'lucide-react';
-    
+
     export function Example() {
       return (
         <>
@@ -109,10 +111,13 @@ Variant styles (`.tale-button--primary`, etc.) are inherited from the Button com
     ```
 
 <!-- pitfall: icon-button-no-nested-in-trigger -->
+
 - **Do not nest `<IconButton>` inside a trigger component** — triggers render their own `<button>` element; nesting an `IconButton` creates a `<button>` inside a `<button>`, which is invalid HTML.
   - anti-pattern: `<Tooltip.Trigger><IconButton aria-label="Info"><Icon icon={Info} /></IconButton></Tooltip.Trigger>`
-  - fix: `<Tooltip.Trigger aria-label="Info" className="tale-icon-button tale-icon-button--md"><Icon icon={Info} /></Tooltip.Trigger>`
+  - fix: `<Tooltip.Trigger aria-label="Info" className="tale-icon-button tale-button tale-button--ghost tale-icon-button--md"><Icon icon={Info} /></Tooltip.Trigger>`
+
 <!-- pitfall: use-iconbutton-for-icononly-actions -->
+
 - **Use `<IconButton>` for icon-only actions, not `<Button>` or a native `<button>`** — when a prompt asks for an "icon button", render the `IconButton` component itself and include an `<Icon>` child for the glyph. Do not substitute `Button` with an icon, and do not omit the `Icon` child.
   - anti-pattern: `import { Button } from '@tale-ui/react/button'; import { Trash } from 'lucide-react'; export function DeleteButton() { return <Button variant="danger" aria-label="Delete item"><Trash /></Button>; }`
   - fix: `import { IconButton } from '@tale-ui/react/icon-button'; import { Icon } from '@tale-ui/react/icon'; import { Trash } from 'lucide-react'; export function DeleteButton() { return <IconButton variant="danger" aria-label="Delete item"><Icon icon={Trash} /></IconButton>; }`

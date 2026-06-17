@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Combobox } from '@tale-ui/react/combobox';
+import { Column } from '@tale-ui/react/column';
+import { Text } from '@tale-ui/react/text';
 
 const searchItems = [
   { id: 'button', label: 'Button' },
@@ -22,8 +24,13 @@ export default function SearchWithAutocomplete() {
   );
 
   return (
-    <div style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}>
-      <h1>Search with Autocomplete</h1>
+    <Column
+      gap="m"
+      style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}
+    >
+      <Text as="h1" variant="heading" size="l">
+        Search with Autocomplete
+      </Text>
       <Combobox.Root inputValue={query} onInputChange={setQuery} menuTrigger="focus">
         <Combobox.Label>Search components</Combobox.Label>
         <Combobox.InputGroup>
@@ -44,6 +51,6 @@ export default function SearchWithAutocomplete() {
           </Combobox.ListBox>
         </Combobox.Popover>
       </Combobox.Root>
-    </div>
+    </Column>
   );
 }

@@ -27,7 +27,7 @@ const allItems = [
 export function SearchDropdown() {
   const [query, setQuery] = useState('');
   const filtered = allItems.filter((item) =>
-    item.label.toLowerCase().includes(query.toLowerCase())
+    item.label.toLowerCase().includes(query.toLowerCase()),
   );
 
   return (
@@ -44,12 +44,14 @@ export function SearchDropdown() {
         <Menu.MenuList>
           {filtered.length > 0 ? (
             filtered.map((item) => (
-              <Menu.Item key={item.id} id={item.id}>{item.label}</Menu.Item>
+              <Menu.Item key={item.id} id={item.id}>
+                {item.label}
+              </Menu.Item>
             ))
           ) : (
-            <div style={{ padding: 'var(--space-s)', color: 'var(--neutral-50)', fontSize: 'var(--text-s-font-size)' }}>
+            <Menu.Item id="empty" isDisabled>
               No results
-            </div>
+            </Menu.Item>
           )}
         </Menu.MenuList>
       </Menu.Popover>
@@ -61,6 +63,6 @@ export function SearchDropdown() {
 ## Notes
 
 - `autoFocus` on `SearchField.Input` moves keyboard focus into the search box as soon as the popover opens, so users can start typing immediately.
-- The empty state `<div>` is a plain element — not a `Menu.Item` — so it cannot be selected. Wrap it in a `role="presentation"` container if your linter complains about non-item children in the list area.
+- The empty state is a disabled `Menu.Item`, so it inherits menu spacing without becoming selectable.
 - For server-side filtering, replace the local `filter` with a debounced API call and show a `Spinner` while loading.
 - `Combobox` is the correct component when the search and selection are a single control. Use this pattern only when you want the trigger to be a `<button>` and the list to be a `<menu>` (action semantics rather than combobox semantics).

@@ -4658,12 +4658,12 @@
       ],
       "parts": null,
       "examples": [
-        "import { IconButton } from '@tale-ui/react/icon-button';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Search } from 'lucide-react';\n\n<IconButton aria-label=\"Search\">\n  <Icon icon={Search} />\n</IconButton>",
+        "import { IconButton } from '@tale-ui/react/icon-button';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Search } from 'lucide-react';\n\n<IconButton aria-label=\"Search\">\n  <Icon icon={Search} />\n</IconButton>;",
         "import { Plus, Settings, Search, Trash2, Download } from 'lucide-react';\n\n<IconButton variant=\"primary\" aria-label=\"Add\"><Icon icon={Plus} /></IconButton>\n<IconButton variant=\"neutral\" aria-label=\"Settings\"><Icon icon={Settings} /></IconButton>\n<IconButton variant=\"ghost\" aria-label=\"Search\"><Icon icon={Search} /></IconButton>\n<IconButton variant=\"danger\" aria-label=\"Delete\"><Icon icon={Trash2} /></IconButton>\n<IconButton variant=\"inverse\" aria-label=\"Download\"><Icon icon={Download} /></IconButton>",
         "<IconButton variant=\"neutral\" size=\"sm\" aria-label=\"Small\"><Icon icon={Heart} /></IconButton>\n<IconButton variant=\"neutral\" size=\"md\" aria-label=\"Medium\"><Icon icon={Heart} /></IconButton>\n<IconButton variant=\"neutral\" size=\"lg\" aria-label=\"Large\"><Icon icon={Heart} /></IconButton>",
         "<IconButton variant=\"ghost\" isDisabled aria-label=\"Search\">\n  <Icon icon={Search} />\n</IconButton>",
         "<IconButton variant=\"ghost\" isPending aria-label=\"Search\">\n  <Icon icon={Search} />\n</IconButton>",
-        "import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Search } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <>\n          <IconButton variant=\"ghost\" aria-label=\"Search\">\n            <Icon icon={Search} />\n          </IconButton>\n          <IconButton variant=\"ghost\" aria-label=\"Loading\" isPending>\n            <Icon icon={Search} />\n          </IconButton>\n        </>\n      );\n    }"
+        "import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Search } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <>\n          <IconButton variant=\"ghost\" aria-label=\"Search\">\n            <Icon icon={Search} />\n          </IconButton>\n          <IconButton variant=\"ghost\" aria-label=\"Loading\" isPending>\n            <Icon icon={Search} />\n          </IconButton>\n        </>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-button",
@@ -4677,7 +4677,7 @@
         {
           "id": "icon-button-aria-label-required",
           "summary": "aria-label is required",
-          "detail": "without visible text the button is inaccessible. Omitting it causes a screen reader to announce nothing useful.\n    ```tsx\n    import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Search } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <>\n          <IconButton variant=\"ghost\" aria-label=\"Search\">\n            <Icon icon={Search} />\n          </IconButton>\n          <IconButton variant=\"ghost\" aria-label=\"Loading\" isPending>\n            <Icon icon={Search} />\n          </IconButton>\n        </>\n      );\n    }\n    ```",
+          "detail": "without visible text the button is inaccessible. Omitting it causes a screen reader to announce nothing useful.\n\n    ```tsx\n    import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Search } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <>\n          <IconButton variant=\"ghost\" aria-label=\"Search\">\n            <Icon icon={Search} />\n          </IconButton>\n          <IconButton variant=\"ghost\" aria-label=\"Loading\" isPending>\n            <Icon icon={Search} />\n          </IconButton>\n        </>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<IconButton variant=\"danger\"><Icon icon={Trash} /></IconButton>"
           ],
@@ -4694,7 +4694,7 @@
             "<Tooltip.Trigger><IconButton aria-label=\"Info\"><Icon icon={Info} /></IconButton></Tooltip.Trigger>"
           ],
           "fixes": [
-            "<Tooltip.Trigger aria-label=\"Info\" className=\"tale-icon-button tale-icon-button--md\"><Icon icon={Info} /></Tooltip.Trigger>"
+            "<Tooltip.Trigger aria-label=\"Info\" className=\"tale-icon-button tale-button tale-button--ghost tale-icon-button--md\"><Icon icon={Info} /></Tooltip.Trigger>"
           ]
         },
         {

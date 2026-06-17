@@ -24,7 +24,11 @@ export function AdvancedButtonDropdown() {
         More options ▾
       </Menu.Trigger>
       <Menu.Popover placement="bottom start" offset={4}>
-        <Menu.MenuList onAction={(key) => { console.log('action:', key); }}>
+        <Menu.MenuList
+          onAction={(key) => {
+            console.log('action:', key);
+          }}
+        >
           <Menu.Group>
             <Menu.Header>Edit</Menu.Header>
             <Menu.Item id="rename">
@@ -60,7 +64,9 @@ export function AdvancedButtonDropdown() {
           <Menu.Item id="favorite">
             <Icon icon={Star} size="sm" />
             Add to favourites
-            <Badge variant="neutral" size="sm" style={{ marginInlineStart: 'auto' }}>New</Badge>
+            <Badge variant="neutral" size="sm" style={{ marginInlineStart: 'auto' }}>
+              New
+            </Badge>
           </Menu.Item>
 
           <Menu.Separator />

@@ -14,6 +14,7 @@ Integrating React Hook Form with Tale UI compound parts using `Controller`. This
 - `Switch` from `@tale-ui/react/switch`
 - `Button` from `@tale-ui/react/button`
 - `Icon` from `@tale-ui/react/icon`
+- `Row` from `@tale-ui/react/row`
 - `Check` from `lucide-react`
 - `Controller`, `useForm` from `react-hook-form`
 
@@ -28,6 +29,7 @@ import { Checkbox } from '@tale-ui/react/checkbox';
 import { Switch } from '@tale-ui/react/switch';
 import { Button } from '@tale-ui/react/button';
 import { Icon } from '@tale-ui/react/icon';
+import { Row } from '@tale-ui/react/row';
 import { Check } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -131,10 +133,7 @@ function SignUpForm() {
         name="newsletter"
         control={control}
         render={({ field }) => (
-          <Switch.Root
-            isSelected={field.value}
-            onChange={field.onChange}
-          >
+          <Switch.Root isSelected={field.value} onChange={field.onChange}>
             Subscribe to newsletter
           </Switch.Root>
         )}
@@ -152,18 +151,22 @@ function SignUpForm() {
             isInvalid={fieldState.invalid}
             isRequired
           >
-            <Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>
+            <Checkbox.Indicator>
+              <Icon icon={Check} size="sm" />
+            </Checkbox.Indicator>
             I agree to the terms of service
           </Checkbox.Root>
         )}
       />
 
-      <div style={{ display: 'flex', gap: 'var(--space-xs)', marginTop: 'var(--space-s)' }}>
+      <Row gap="xs" style={{ marginTop: 'var(--space-s)' }}>
         <Button type="submit" variant="primary" isDisabled={formState.isSubmitting}>
           {formState.isSubmitting ? 'Submitting…' : 'Sign Up'}
         </Button>
-        <Button type="reset" variant="ghost">Reset</Button>
-      </div>
+        <Button type="reset" variant="ghost">
+          Reset
+        </Button>
+      </Row>
     </Form>
   );
 }

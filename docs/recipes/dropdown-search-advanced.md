@@ -8,6 +8,9 @@ A searchable dropdown with grouped results, item metadata, and an async-ready lo
 - `SearchField` from `@tale-ui/react/search-field`
 - `Avatar` from `@tale-ui/react/avatar`
 - `Spinner` from `@tale-ui/react/spinner`
+- `Column` from `@tale-ui/react/column`
+- `Row` from `@tale-ui/react/row`
+- `Text` from `@tale-ui/react/text`
 
 ## Code
 
@@ -16,6 +19,9 @@ import { Menu } from '@tale-ui/react/menu';
 import { SearchField } from '@tale-ui/react/search-field';
 import { Avatar } from '@tale-ui/react/avatar';
 import { Spinner } from '@tale-ui/react/spinner';
+import { Column } from '@tale-ui/react/column';
+import { Row } from '@tale-ui/react/row';
+import { Text } from '@tale-ui/react/text';
 import { useState, useDeferredValue } from 'react';
 
 type TeamMember = {
@@ -27,7 +33,13 @@ type TeamMember = {
 };
 
 const members: TeamMember[] = [
-  { id: '1', name: 'Alex Chen', email: 'alex@acme.com', team: 'Engineering', avatarSrc: '/avatars/alex.jpg' },
+  {
+    id: '1',
+    name: 'Alex Chen',
+    email: 'alex@acme.com',
+    team: 'Engineering',
+    avatarSrc: '/avatars/alex.jpg',
+  },
   { id: '2', name: 'Sam Rivera', email: 'sam@acme.com', team: 'Design' },
   { id: '3', name: 'Jordan Lee', email: 'jordan@acme.com', team: 'Engineering' },
   { id: '4', name: 'Taylor Kim', email: 'taylor@acme.com', team: 'Marketing' },
@@ -49,7 +61,7 @@ export function AdvancedSearchDropdown({ onAssign }: { onAssign: (id: string) =>
   const filtered = members.filter(
     (m) =>
       m.name.toLowerCase().includes(deferredQuery.toLowerCase()) ||
-      m.email.toLowerCase().includes(deferredQuery.toLowerCase())
+      m.email.toLowerCase().includes(deferredQuery.toLowerCase()),
   );
   const groups = groupBy(filtered, 'team');
 
@@ -59,19 +71,23 @@ export function AdvancedSearchDropdown({ onAssign }: { onAssign: (id: string) =>
         Assign to ▾
       </Menu.Trigger>
       <Menu.Popover placement="bottom start" offset={4} style={{ width: 300 }}>
-        <div style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--neutral-16)' }}>
+        <div style={{ padding: 'var(--space-xs)' }}>
           <SearchField.Root aria-label="Search team members" value={query} onChange={setQuery}>
             <SearchField.Input placeholder="Search by name or email…" autoFocus />
           </SearchField.Root>
         </div>
 
-        <div style={{ maxHeight: 320, overflowY: 'auto', opacity: isStale ? 0.6 : 1 }}>
+        <div style={{ maxHeight: 320, overflowY: 'auto' }}>
           {isStale && (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--space-xs)' }}>
+            <Row justify="center" style={{ padding: 'var(--space-xs)' }}>
               <Spinner size="sm" />
-            </div>
+            </Row>
           )}
-          <Menu.MenuList onAction={(key) => { onAssign(String(key)); }}>
+          <Menu.MenuList
+            onAction={(key) => {
+              onAssign(String(key));
+            }}
+          >
             {Object.keys(groups).length > 0 ? (
               Object.entries(groups).map(([team, teamMembers]) => (
                 <Menu.Group key={team}>
@@ -83,23 +99,28 @@ export function AdvancedSearchDropdown({ onAssign }: { onAssign: (id: string) =>
                           <Avatar.Image src={member.avatarSrc} alt={member.name} />
                         ) : null}
                         <Avatar.Fallback>
-                          {member.name.split(' ').map((n) => n[0]).join('')}
+                          {member.name
+                            .split(' ')
+                            .map((n) => n[0])
+                            .join('')}
                         </Avatar.Fallback>
                       </Avatar.Root>
-                      <div>
-                        <div style={{ fontWeight: 500 }}>{member.name}</div>
-                        <div style={{ fontSize: 'var(--text-xs-font-size)', color: 'var(--neutral-50)' }}>
+                      <Column gap="4xs">
+                        <Text variant="label" size="s">
+                          {member.name}
+                        </Text>
+                        <Text variant="text" size="xs" color="muted">
                           {member.email}
-                        </div>
-                      </div>
+                        </Text>
+                      </Column>
                     </Menu.Item>
                   ))}
                 </Menu.Group>
               ))
             ) : (
-              <div style={{ padding: 'var(--space-s)', color: 'var(--neutral-50)', fontSize: 'var(--text-s-font-size)', textAlign: 'center' }}>
+              <Menu.Item id="empty" isDisabled>
                 No team members found
-              </div>
+              </Menu.Item>
             )}
           </Menu.MenuList>
         </div>

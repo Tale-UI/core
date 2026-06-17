@@ -24,9 +24,7 @@ export function DataTable({ rows }: { rows: Row[] }) {
           <Icon icon={Inbox} size="lg" />
         </EmptyState.Icon>
         <EmptyState.Title>No results found</EmptyState.Title>
-        <EmptyState.Description>
-          Try adjusting your search or filters.
-        </EmptyState.Description>
+        <EmptyState.Description>Try adjusting your search or filters.</EmptyState.Description>
       </EmptyState.Root>
     );
   }
@@ -38,7 +36,7 @@ export function DataTable({ rows }: { rows: Row[] }) {
         <Table.Column>Status</Table.Column>
       </Table.Header>
       <Table.Body>
-        {rows.map(row => (
+        {rows.map((row) => (
           <Table.Row key={row.id}>
             <Table.Cell>{row.name}</Table.Cell>
             <Table.Cell>{row.status}</Table.Cell>
@@ -90,6 +88,9 @@ export function ItemList({ items }: { items: string[] }) {
 ## Preview
 
 ```tsx
+import { Column } from '@tale-ui/react/column';
+import { Text } from '@tale-ui/react/text';
+
 export function Example() {
   const sampleRows = [
     { id: '1', name: 'Project Alpha', status: 'Active' },
@@ -97,20 +98,20 @@ export function Example() {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)', padding: 'var(--space-l)' }}>
-      <div>
-        <p style={{ marginBottom: 'var(--space-s)', fontWeight: 600 }}>Table with data</p>
+    <Column gap="xl" style={{ padding: 'var(--space-l)' }}>
+      <Column gap="s">
+        <Text variant="label">Table with data</Text>
         <DataTable rows={sampleRows} />
-      </div>
-      <div>
-        <p style={{ marginBottom: 'var(--space-s)', fontWeight: 600 }}>Table — empty state</p>
+      </Column>
+      <Column gap="s">
+        <Text variant="label">Table — empty state</Text>
         <DataTable rows={[]} />
-      </div>
-      <div>
-        <p style={{ marginBottom: 'var(--space-s)', fontWeight: 600 }}>List — empty state</p>
+      </Column>
+      <Column gap="s">
+        <Text variant="label">List — empty state</Text>
         <ItemList items={[]} />
-      </div>
-    </div>
+      </Column>
+    </Column>
   );
 }
 ```

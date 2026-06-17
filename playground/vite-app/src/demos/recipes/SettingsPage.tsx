@@ -6,12 +6,24 @@ import { Switch } from '@tale-ui/react/switch';
 import { Radio } from '@tale-ui/react/radio';
 import { Separator } from '@tale-ui/react/separator';
 import { Button } from '@tale-ui/react/button';
+import { Column } from '@tale-ui/react/column';
+import { Row } from '@tale-ui/react/row';
+import { Text } from '@tale-ui/react/text';
 
 export default function SettingsPage() {
   return (
-    <div style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}>
-      <h1>Settings Page</h1>
-      <Form onSubmit={(entry) => { entry.preventDefault(); }}>
+    <Column
+      gap="m"
+      style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}
+    >
+      <Text as="h1" variant="heading" size="l">
+        Settings Page
+      </Text>
+      <Form
+        onSubmit={(entry) => {
+          entry.preventDefault();
+        }}
+      >
         <Fieldset.Root>
           <Fieldset.Legend>Notifications</Fieldset.Legend>
 
@@ -37,9 +49,18 @@ export default function SettingsPage() {
           <Fieldset.Legend>Appearance</Fieldset.Legend>
 
           <Radio.Group defaultValue="system" label="Theme">
-            <Radio.Root value="light"><Radio.Indicator />Light</Radio.Root>
-            <Radio.Root value="dark"><Radio.Indicator />Dark</Radio.Root>
-            <Radio.Root value="system"><Radio.Indicator />System</Radio.Root>
+            <Radio.Root value="light">
+              <Radio.Indicator />
+              Light
+            </Radio.Root>
+            <Radio.Root value="dark">
+              <Radio.Indicator />
+              Dark
+            </Radio.Root>
+            <Radio.Root value="system">
+              <Radio.Indicator />
+              System
+            </Radio.Root>
           </Radio.Group>
 
           <Select.Root defaultValue="comfortable" placeholder="Select density">
@@ -76,11 +97,15 @@ export default function SettingsPage() {
 
         <Separator />
 
-        <div style={{ display: 'flex', gap: 'var(--space-xs)', justifyContent: 'flex-end' }}>
-          <Button type="reset" variant="ghost">Cancel</Button>
-          <Button type="submit" variant="primary">Save Changes</Button>
-        </div>
+        <Row gap="xs" justify="end">
+          <Button type="reset" variant="ghost">
+            Cancel
+          </Button>
+          <Button type="submit" variant="primary">
+            Save Changes
+          </Button>
+        </Row>
       </Form>
-    </div>
+    </Column>
   );
 }

@@ -10,6 +10,7 @@ A horizontal application header built with `HeaderNav` primitives. Includes a lo
 - `IconButton` from `@tale-ui/react/icon-button`
 - `Icon` from `@tale-ui/react/icon`
 - `SearchField` from `@tale-ui/react/search-field`
+- `Column` from `@tale-ui/react/column`
 - `Bell`, `ChevronDown` from `lucide-react`
 
 ## Code
@@ -21,6 +22,7 @@ import { Avatar } from '@tale-ui/react/avatar';
 import { IconButton } from '@tale-ui/react/icon-button';
 import { Icon } from '@tale-ui/react/icon';
 import { SearchField } from '@tale-ui/react/search-field';
+import { Column } from '@tale-ui/react/column';
 import { Bell, ChevronDown } from 'lucide-react';
 
 export function AppHeader() {
@@ -31,7 +33,9 @@ export function AppHeader() {
       </HeaderNav.Logo>
 
       <HeaderNav.Secondary>
-        <HeaderNav.NavButton href="/" current>Dashboard</HeaderNav.NavButton>
+        <HeaderNav.NavButton href="/" current>
+          Dashboard
+        </HeaderNav.NavButton>
         <HeaderNav.NavButton href="/projects">Projects</HeaderNav.NavButton>
         <HeaderNav.NavButton href="/analytics">Analytics</HeaderNav.NavButton>
         <HeaderNav.NavButton href="/team">Team</HeaderNav.NavButton>
@@ -48,18 +52,15 @@ export function AppHeader() {
 
         {/* Account dropdown */}
         <Menu.Root>
-          <Menu.Trigger>
-            <button
-              type="button"
-              className="tale-header-nav__account-trigger"
-              style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2xs)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-            >
-              <Avatar.Root size="sm">
-                <Avatar.Image src="/avatars/alex.jpg" alt="Alex Chen" />
-                <Avatar.Fallback>AC</Avatar.Fallback>
-              </Avatar.Root>
-              <Icon icon={ChevronDown} size="sm" />
-            </button>
+          <Menu.Trigger
+            aria-label="Account menu"
+            className="tale-button tale-button--ghost tale-button--sm"
+          >
+            <Avatar.Root size="sm">
+              <Avatar.Image src="/avatars/alex.jpg" alt="Alex Chen" />
+              <Avatar.Fallback>AC</Avatar.Fallback>
+            </Avatar.Root>
+            <Icon icon={ChevronDown} size="sm" />
           </Menu.Trigger>
           <Menu.Popover placement="bottom end" offset={8}>
             <Menu.MenuList>
@@ -72,12 +73,14 @@ export function AppHeader() {
         </Menu.Root>
 
         <HeaderNav.MobileTrigger>
-          <nav style={{ display: 'grid', gap: 'var(--space-2xs)', padding: 'var(--space-m)' }}>
-            <HeaderNav.NavButton href="/" current>Dashboard</HeaderNav.NavButton>
+          <Column gap="2xs">
+            <HeaderNav.NavButton href="/" current>
+              Dashboard
+            </HeaderNav.NavButton>
             <HeaderNav.NavButton href="/projects">Projects</HeaderNav.NavButton>
             <HeaderNav.NavButton href="/analytics">Analytics</HeaderNav.NavButton>
             <HeaderNav.NavButton href="/team">Team</HeaderNav.NavButton>
-          </nav>
+          </Column>
         </HeaderNav.MobileTrigger>
       </HeaderNav.Actions>
     </HeaderNav.Root>
