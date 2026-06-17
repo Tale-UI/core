@@ -1,9 +1,20 @@
 import * as React from 'react';
 import { Link as AriaLink } from 'react-aria-components';
-import type { LinkProps as AriaLinkProps } from 'react-aria-components';
+import type {
+  LinkProps as AriaLinkProps,
+  LinkRenderProps as AriaLinkRenderProps,
+} from 'react-aria-components';
 import { cx } from '../_cx';
 
+type AriaLinkChildrenRenderProps = AriaLinkRenderProps & {
+  defaultChildren: React.ReactNode | undefined;
+};
+
 export interface LinkProps extends Omit<AriaLinkProps, 'className'> {
+  /** Optional leading icon. Prefer `<Icon icon={LucideIcon} size="sm" />` from `@tale-ui/react/icon`. */
+  iconLeading?: React.ReactNode | undefined;
+  /** Optional trailing icon. External links and links with `target="_blank"` should use lucide `ExternalLink`. */
+  iconTrailing?: React.ReactNode | undefined;
   className?: string | undefined;
 }
 
@@ -13,17 +24,51 @@ export interface LinkProps extends Omit<AriaLinkProps, 'className'> {
  * @example
  * ```tsx
  * import { Link } from '@tale-ui/react/link';
+ * import { Icon } from '@tale-ui/react/icon';
+ * import { ExternalLink } from 'lucide-react';
  *
  * <Link href="/about">About us</Link>
+ * <Link
+ *   href="https://example.com"
+ *   target="_blank"
+ *   rel="noopener noreferrer"
+ *   iconTrailing={<Icon icon={ExternalLink} size="sm" />}
+ * >
+ *   Visit Example
+ * </Link>
  * ```
  */
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ className, ...props }, ref) => (
-    <AriaLink
-      ref={ref}
-      className={cx('tale-link', className)}
-      {...props}
-    />
-  ),
+  ({ className, iconLeading, iconTrailing, children, ...props }, ref) => {
+    const renderContent = (renderedChildren: React.ReactNode) => (
+      <React.Fragment>
+        {iconLeading != null && (
+          <span className="tale-link__icon" aria-hidden="true">
+            {iconLeading}
+          </span>
+        )}
+        {renderedChildren}
+        {iconTrailing != null && (
+          <span className="tale-link__icon" aria-hidden="true">
+            {iconTrailing}
+          </span>
+        )}
+      </React.Fragment>
+    );
+    const linkChildren =
+      typeof children === 'function'
+        ? (values: AriaLinkChildrenRenderProps) => renderContent(children(values))
+        : renderContent(children);
+
+    return (
+      <AriaLink
+        ref={ref}
+        className={cx('tale-link', className)}
+        {...props}
+      >
+        {linkChildren}
+      </AriaLink>
+    );
+  },
 );
 Link.displayName = 'Link';

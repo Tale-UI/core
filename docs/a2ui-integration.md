@@ -178,7 +178,7 @@ and `Switch` remain available for compatibility with existing payloads.
 | `Badge` | `Badge` | `tone`, `size`, `type`, `label` |
 | `Icon` | `Icon` | `name`, `size`, `label` |
 | `Separator` | `Separator` | `orientation` |
-| `Link` | `Link` | `href`, `target`, `rel`, `download`, `label` |
+| `Link` | `Link` | `href`, `target`, `rel`, `download`, `iconLeading`, `iconTrailing`, `label` |
 | `Button` | `Button` | `variant`, `size`, `disabled`, `isPending`, `showTextWhileLoading`, `action`, `label` |
 | `TextInput` | `TextField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `action`, `type`, `placeholder`, `description`, `errorMessage` |
 | `Checkbox` | `Checkbox.Root` | `binding`, `label`, `defaultSelected`, `disabled`, `readOnly`, `isIndeterminate`, `isRequired`, `size`, `value`, `name`, `action` |

@@ -327,6 +327,12 @@ export const taleUICatalog: Catalog = {
       target: props.target as string | undefined,
       rel: props.rel as string | undefined,
       download: props.download as string | boolean | undefined,
+      iconLeading: props.iconLeading
+        ? h(Icon, { icon: resolveIcon(props.iconLeading as string), size: 'sm' })
+        : undefined,
+      iconTrailing: props.iconTrailing
+        ? h(Icon, { icon: resolveIcon(props.iconTrailing as string), size: 'sm' })
+        : undefined,
       children: props.label ?? ctx.children,
     }),
   } as CatalogEntry,

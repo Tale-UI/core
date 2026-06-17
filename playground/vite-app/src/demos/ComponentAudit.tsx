@@ -90,6 +90,8 @@ import {
   ChevronRight,
   ChevronDown,
   ArrowRight,
+  BookOpen,
+  ExternalLink,
   Check,
   Minus as MinusLucide,
   X as XLucide,
@@ -3291,7 +3293,7 @@ export default function ComponentAudit() {
           </Breadcrumbs.Root>
         </Section>
 
-        <Section id="link" title="Link" classes={['tale-link']}>
+        <Section id="link" title="Link" classes={['tale-link', 'tale-link__icon']}>
           <SubHeading>Default</SubHeading>
           <Row>
             <Link href="#">Default link</Link>
@@ -3299,9 +3301,23 @@ export default function ComponentAudit() {
               Disabled link
             </Link>
           </Row>
+          <SubHeading>With Icons</SubHeading>
+          <Row>
+            <Link href="/docs" iconLeading={<Icon icon={BookOpen} size="sm" />}>
+              Documentation
+            </Link>
+            <Link href="/changelog" iconTrailing={<Icon icon={ArrowRight} size="sm" />}>
+              View changelog
+            </Link>
+          </Row>
           <SubHeading>External</SubHeading>
           <Row>
-            <Link href="https://example.com" target="_blank">
+            <Link
+              href="https://example.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              iconTrailing={<Icon icon={ExternalLink} size="sm" />}
+            >
               Opens in new tab
             </Link>
           </Row>

@@ -2106,7 +2106,9 @@
             "Link": {
               "label": "Opens in new tab",
               "href": "https://example.com",
-              "target": "_blank"
+              "target": "_blank",
+              "rel": "noopener noreferrer",
+              "iconTrailing": "external-link"
             }
           }
         },
@@ -2117,7 +2119,8 @@
               "label": "rel noopener",
               "href": "https://example.com",
               "target": "_blank",
-              "rel": "noopener noreferrer"
+              "rel": "noopener noreferrer",
+              "iconTrailing": "external-link"
             }
           }
         },

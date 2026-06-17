@@ -2,6 +2,6 @@
   "slug": "styled-link",
   "difficulty": "simple",
   "prompt": "Create a link to \"https://example.com\" that opens in a new tab with the text \"Visit Example\".",
-  "reference": "import { Link } from '@tale-ui/react/link';\n\nexport function StyledLink() {\n  return (\n    <Link href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">\n      Visit Example\n    </Link>\n  );\n}\n",
-  "tags": ["Link"]
+  "reference": "import { Link } from '@tale-ui/react/link';\nimport { Icon } from '@tale-ui/react/icon';\nimport { ExternalLink } from 'lucide-react';\n\nexport function StyledLink() {\n  return (\n    <Link\n      href=\"https://example.com\"\n      target=\"_blank\"\n      rel=\"noopener noreferrer\"\n      iconTrailing={<Icon icon={ExternalLink} size=\"sm\" />}\n    >\n      Visit Example\n    </Link>\n  );\n}\n",
+  "tags": ["Link", "Icon"]
 }

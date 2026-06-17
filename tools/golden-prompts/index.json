@@ -201,6 +201,10 @@
       "difficulty": "medium"
     },
     {
+      "slug": "link-icons",
+      "difficulty": "simple"
+    },
+    {
       "slug": "multi-select-frameworks",
       "difficulty": "medium"
     },

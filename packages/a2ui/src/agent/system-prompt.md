@@ -73,6 +73,8 @@ All container components accept a `children` array of child component IDs. This 
 |  | `target` | `_blank`, `_self` |
 |  | `rel` | string (e.g. `noopener noreferrer`) |
 |  | `download` | string or boolean (triggers file download; string sets the filename) |
+|  | `iconLeading` | lucide icon name string |
+|  | `iconTrailing` | lucide icon name string; use external-link for external links and links that open in a new tab |
 |  | `label` | string |
 | **TagGroup** | `label` | string |
 |  | `selectionMode` | `none`, `single`, `multiple` |

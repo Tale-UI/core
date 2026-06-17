@@ -347,6 +347,9 @@ const PROP_VALUE_OVERRIDES = {
   'PopoverPopup.isKeyboardDismissDisabled': 'boolean (prevent Escape key from closing)',
   'Link.rel': 'string (e.g. `noopener noreferrer`)',
   'Link.download': 'string or boolean (triggers file download; string sets the filename)',
+  'Link.iconLeading': 'lucide icon name string',
+  'Link.iconTrailing':
+    'lucide icon name string; use external-link for external links and links that open in a new tab',
   'Tabs.isDisabled': 'boolean',
   'TabItem.isDisabled': 'boolean',
   'PaginationItem.isDisabled': 'boolean',

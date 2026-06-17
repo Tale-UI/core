@@ -12,26 +12,40 @@
 /* ─── Base ─────────────────────────────────────────────────────────────────── */
 
 .tale-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  outline: none;
+  cursor: pointer;
+}
+
+.tale-link:not(.tale-button) {
   color: var(--color-70);
   font-family: var(--text-font-family);
   font-size: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;
-  outline: none;
   border-radius: var(--radius-xs);
-  cursor: pointer;
   transition: color 0.15s ease;
+}
+
+.tale-link__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: currentcolor;
 }
 
 /* ─── Hovered ──────────────────────────────────────────────────────────────── */
 
-.tale-link[data-hovered] {
+.tale-link:not(.tale-button)[data-hovered] {
   color: var(--color-100);
 }
 
 /* ─── Pressed ──────────────────────────────────────────────────────────────── */
 
-.tale-link[data-pressed] {
+.tale-link:not(.tale-button)[data-pressed] {
   color: var(--color-90);
 }
 
@@ -44,7 +58,7 @@
 
 /* ─── Current ──────────────────────────────────────────────────────────────── */
 
-.tale-link[data-current] {
+.tale-link:not(.tale-button)[data-current] {
   color: var(--neutral-90);
   font-weight: 600;
   text-decoration: none;

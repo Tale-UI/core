@@ -216,7 +216,7 @@ For new checkbox/radio/switch UI, use `CheckboxField`, `RadioField` inside `Radi
 - [KeyValuePairs] columns accepts only 1, 2, 3, or 4
 - [KeyValuePairs] Place Term before Details inside each Item
 - [KeyValuePairs] Use GroupTitle plus GroupList for grouped pairs
-- [Link] There is no isExternal prop — use target and rel directly
+- [Link] There is no isExternal prop — use target, rel, and iconTrailing directly
 - [List] variant accepts 'plain' or 'divided' only
 - [Menu] Menu.MenuList is required between Menu.Popover and Menu.Item
 - [Menu] Menu.Separator goes inside Menu.MenuList, not as a sibling

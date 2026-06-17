@@ -704,7 +704,9 @@
             "Link": {
               "label": "Example link →",
               "href": "https://a2ui.org",
-              "target": "_blank"
+              "target": "_blank",
+              "rel": "noopener noreferrer",
+              "iconTrailing": "external-link"
             }
           }
         },

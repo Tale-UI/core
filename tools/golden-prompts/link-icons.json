@@ -1,0 +1,7 @@
+{
+  "slug": "link-icons",
+  "difficulty": "simple",
+  "prompt": "Show two links: a Dashboard link with a leading home icon, and an external Documentation link that opens in a new tab with the required trailing external-link icon.",
+  "reference": "import { Column } from '@tale-ui/react/column';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Link } from '@tale-ui/react/link';\nimport { ExternalLink, Home } from 'lucide-react';\n\nexport function LinksWithIcons() {\n  return (\n    <Column gap=\"xs\">\n      <Link href=\"/dashboard\" iconLeading={<Icon icon={Home} size=\"sm\" />}>\n        Dashboard\n      </Link>\n      <Link\n        href=\"https://example.com/docs\"\n        target=\"_blank\"\n        rel=\"noopener noreferrer\"\n        iconTrailing={<Icon icon={ExternalLink} size=\"sm\" />}\n      >\n        Documentation\n      </Link>\n    </Column>\n  );\n}\n",
+  "tags": ["Column", "Icon", "Link"]
+}

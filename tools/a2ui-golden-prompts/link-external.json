@@ -1,0 +1,33 @@
+{
+  "slug": "link-external",
+  "difficulty": "simple",
+  "prompt": "Show a Link to https://example.com that opens in a new tab with the label 'Visit Example'. Use rel='noopener noreferrer' and the required trailing external-link icon.",
+  "reference": {
+    "messages": [
+      {
+        "type": "beginRendering",
+        "surfaceId": "external-link",
+        "rootComponentId": "external-link"
+      },
+      {
+        "type": "surfaceUpdate",
+        "surfaceId": "external-link",
+        "components": [
+          {
+            "id": "external-link",
+            "component": {
+              "Link": {
+                "href": "https://example.com",
+                "target": "_blank",
+                "rel": "noopener noreferrer",
+                "label": "Visit Example",
+                "iconTrailing": "external-link"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "tags": ["Link"]
+}

@@ -5552,23 +5552,28 @@
       "examples": [
         "<Link href=\"#\">Click here</Link>",
         "<Link href=\"#\" isDisabled>Click here</Link>",
-        "<Link href=\"https://example.com\" target=\"_blank\">Open in new tab</Link>",
-        "import { Link } from '@tale-ui/react/link';\n    \n    export function VisitExample() {\n      return (\n        <Link href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Visit Example</Link>\n      );\n    }"
+        "import { Link } from '@tale-ui/react/link';\nimport { Icon } from '@tale-ui/react/icon';\nimport { ExternalLink } from 'lucide-react';\n\n<Link\n  href=\"https://example.com\"\n  target=\"_blank\"\n  rel=\"noopener noreferrer\"\n  iconTrailing={<Icon icon={ExternalLink} size=\"sm\" />}\n>\n  Open in new tab\n</Link>",
+        "import { Link } from '@tale-ui/react/link';\nimport { Icon } from '@tale-ui/react/icon';\nimport { Home } from 'lucide-react';\n\n<Link href=\"/dashboard\" iconLeading={<Icon icon={Home} size=\"sm\" />}>\n  Dashboard\n</Link>",
+        "import { Link } from '@tale-ui/react/link';\nimport { Icon } from '@tale-ui/react/icon';\nimport { ArrowRight } from 'lucide-react';\n\n<Link href=\"/docs\" iconTrailing={<Icon icon={ArrowRight} size=\"sm\" />}>\n  Read the docs\n</Link>",
+        "import { Link } from '@tale-ui/react/link';\n    import { Icon } from '@tale-ui/react/icon';\n    import { ExternalLink } from 'lucide-react';\n    \n    export function VisitExample() {\n      return (\n        <Link\n          href=\"https://example.com\"\n          target=\"_blank\"\n          rel=\"noopener noreferrer\"\n          iconTrailing={<Icon icon={ExternalLink} size=\"sm\" />}\n        >\n          Visit Example\n        </Link>\n      );\n    }"
       ],
       "cssClasses": [
-        "tale-link"
+        "tale-button",
+        "tale-link",
+        "tale-link__icon"
       ],
       "pitfalls": [
         {
           "id": "link-no-isexternal-prop",
-          "summary": "There is no isExternal prop — use target and rel directly",
-          "detail": "To open in a new tab, pass `target=\"_blank\" rel=\"noopener noreferrer\"` directly on `<Link>`. Never use a bare `<a>` tag for navigation — always use `<Link>` from `@tale-ui/react/link`.\n  - complete example for new-tab link:\n\n    ```tsx\n    import { Link } from '@tale-ui/react/link';\n    \n    export function VisitExample() {\n      return (\n        <Link href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Visit Example</Link>\n      );\n    }\n    ```",
+          "summary": "There is no isExternal prop — use target, rel, and iconTrailing directly",
+          "detail": "To open in a new tab, pass `target=\"_blank\" rel=\"noopener noreferrer\"` directly on `<Link>` and add a trailing lucide `ExternalLink` icon via `iconTrailing`. Never use a bare `<a>` tag for navigation — always use `<Link>` from `@tale-ui/react/link`.\n  - complete example for new-tab link:\n\n    ```tsx\n    import { Link } from '@tale-ui/react/link';\n    import { Icon } from '@tale-ui/react/icon';\n    import { ExternalLink } from 'lucide-react';\n    \n    export function VisitExample() {\n      return (\n        <Link\n          href=\"https://example.com\"\n          target=\"_blank\"\n          rel=\"noopener noreferrer\"\n          iconTrailing={<Icon icon={ExternalLink} size=\"sm\" />}\n        >\n          Visit Example\n        </Link>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<a href=\"https://example.com\" target=\"_blank\">Visit Example</a>",
-            "<Link href=\"https://example.com\" isExternal>"
+            "<Link href=\"https://example.com\" isExternal>",
+            "<Link href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Visit Example</Link>"
           ],
           "fixes": [
-            "<Link href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Visit Example</Link>"
+            "<Link href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\" iconTrailing={<Icon icon={ExternalLink} size=\"sm\" />}>Visit Example</Link>"
           ]
         }
       ],
