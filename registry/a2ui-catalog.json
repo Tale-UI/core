@@ -257,6 +257,85 @@
       "description": "Individual item within a List"
     },
     {
+      "name": "KeyValuePairs",
+      "category": "Display",
+      "component": "KeyValuePairs.Root",
+      "props": [
+        {
+          "name": "label",
+          "hint": "string",
+          "allowedValues": null
+        },
+        {
+          "name": "columns",
+          "hint": "`1`, `2`, `3`, `4`",
+          "allowedValues": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        {
+          "name": "minColumnWidth",
+          "hint": "number",
+          "allowedValues": null
+        },
+        {
+          "name": "variant",
+          "hint": "`plain`, `divided`",
+          "allowedValues": [
+            "plain",
+            "divided"
+          ]
+        },
+        {
+          "name": "density",
+          "hint": "`compact`, `default`, `spacious`",
+          "allowedValues": [
+            "compact",
+            "default",
+            "spacious"
+          ]
+        }
+      ],
+      "isSubPart": false,
+      "description": "Semantic key-value metadata display using description-list markup"
+    },
+    {
+      "name": "KeyValuePair",
+      "category": "Display",
+      "component": "KeyValuePairs.Item",
+      "props": [
+        {
+          "name": "label",
+          "hint": "string",
+          "allowedValues": null
+        },
+        {
+          "name": "value",
+          "hint": "number or `{ \"path\": \"...\" }` binding",
+          "allowedValues": null
+        }
+      ],
+      "isSubPart": true,
+      "description": "Individual label and value item within KeyValuePairs"
+    },
+    {
+      "name": "KeyValuePairGroup",
+      "category": "Display",
+      "component": "KeyValuePairs.Group",
+      "props": [
+        {
+          "name": "title",
+          "hint": "string",
+          "allowedValues": null
+        }
+      ],
+      "isSubPart": true,
+      "description": "Grouped set of key-value pairs within KeyValuePairs"
+    },
+    {
       "name": "Badge",
       "category": "Display",
       "component": "Badge",
@@ -6145,7 +6224,7 @@
       ]
     },
     "full-showcase": {
-      "description": "Full showcase — all 141 A2UI types, all prop variations (AllVariations pattern)",
+      "description": "Full showcase — all 149 A2UI types, all prop variations (AllVariations pattern)",
       "messages": [
         {
           "type": "beginRendering",
@@ -6173,6 +6252,7 @@
                     "sec-lnk",
                     "sec-img",
                     "sec-lst",
+                    "sec-kvp",
                     "sec-avt",
                     "sec-bnr",
                     "sec-spn",
@@ -6265,7 +6345,7 @@
               "id": "subtitle",
               "component": {
                 "Text": {
-                  "content": "All 135 catalog types — every meaningful prop variation shown side-by-side",
+                  "content": "All 149 catalog types — every meaningful prop variation shown side-by-side",
                   "usageHint": "body",
                   "color": "muted"
                 }
@@ -8737,6 +8817,122 @@
               "component": {
                 "ListItem": {
                   "content": "Item three"
+                }
+              }
+            },
+            {
+              "id": "sec-kvp",
+              "component": {
+                "Card": {
+                  "variant": "outlined",
+                  "children": [
+                    "sec-kvp-h",
+                    "sec-kvp-b"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "sec-kvp-h",
+              "component": {
+                "CardHeader": {
+                  "children": [
+                    "sec-kvp-title"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "sec-kvp-title",
+              "component": {
+                "Text": {
+                  "content": "10. KeyValuePairs — metadata display",
+                  "usageHint": "heading-m"
+                }
+              }
+            },
+            {
+              "id": "sec-kvp-b",
+              "component": {
+                "CardBody": {
+                  "children": [
+                    "kvp-root"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "kvp-root",
+              "component": {
+                "KeyValuePairs": {
+                  "label": "Service metadata",
+                  "columns": 2,
+                  "minColumnWidth": 180,
+                  "variant": "divided",
+                  "density": "default",
+                  "children": [
+                    "kvp-status",
+                    "kvp-region",
+                    "kvp-owner",
+                    "kvp-network"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "kvp-status",
+              "component": {
+                "KeyValuePair": {
+                  "label": "Status",
+                  "value": "Active"
+                }
+              }
+            },
+            {
+              "id": "kvp-region",
+              "component": {
+                "KeyValuePair": {
+                  "label": "Region",
+                  "value": "us-east-1"
+                }
+              }
+            },
+            {
+              "id": "kvp-owner",
+              "component": {
+                "KeyValuePair": {
+                  "label": "Owner",
+                  "value": "Platform Team"
+                }
+              }
+            },
+            {
+              "id": "kvp-network",
+              "component": {
+                "KeyValuePairGroup": {
+                  "title": "Network",
+                  "children": [
+                    "kvp-vpc",
+                    "kvp-subnet"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "kvp-vpc",
+              "component": {
+                "KeyValuePair": {
+                  "label": "VPC",
+                  "value": "vpc-1234"
+                }
+              }
+            },
+            {
+              "id": "kvp-subnet",
+              "component": {
+                "KeyValuePair": {
+                  "label": "Subnet",
+                  "value": "subnet-5678"
                 }
               }
             },

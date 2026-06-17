@@ -197,6 +197,10 @@
       "difficulty": "simple"
     },
     {
+      "slug": "key-value-pairs-resource-summary",
+      "difficulty": "medium"
+    },
+    {
       "slug": "multi-select-frameworks",
       "difficulty": "medium"
     },

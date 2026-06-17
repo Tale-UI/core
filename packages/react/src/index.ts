@@ -59,6 +59,7 @@ export * from './input';
 export * from './input-group';
 export * from './input-tags';
 export * from './iphone-mockup';
+export * from './key-value-pairs';
 export * from './link';
 export * from './list';
 export * from './menu';

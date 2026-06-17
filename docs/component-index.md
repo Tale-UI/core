@@ -110,7 +110,7 @@ For detailed usage, see the per-component docs in [docs/components/](components/
 | Meter          | Gauge showing a known-range value such as storage used, battery level, or capacity | `@tale-ui/react/meter`           | Root, Header, Label, Value, Track, Indicator         |
 | Spinner        | Indeterminate loading indicator                                                    | `@tale-ui/react/spinner`         | --                                                   |
 
-## Display (15)
+## Display (16)
 
 | Component    | Description                                                                                           | Import                         | Parts                                                                                                                                               |
 | ------------ | ----------------------------------------------------------------------------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -121,6 +121,7 @@ For detailed usage, see the per-component docs in [docs/components/](components/
 | FeaturedIcon | Icon with a colored background shape (circle or square); used for feature highlights and empty states | `@tale-ui/react/featured-icon` | --                                                                                                                                                  |
 | GridList     | Selectable grid of items                                                                              | `@tale-ui/react/grid-list`     | Root, Item                                                                                                                                          |
 | Image        | Styled image wrapper with radius and fit props                                                        | `@tale-ui/react/image`         | --                                                                                                                                                  |
+| KeyValuePairs | Semantic description-list display for labels and corresponding values                                  | `@tale-ui/react/key-value-pairs` | Root, Item, Term, Details, Info, Group, GroupTitle, GroupList                                                                                       |
 | List         | Simple non-interactive list with optional dividers                                                    | `@tale-ui/react/list`          | Root, Item                                                                                                                                          |
 | QRCode       | QR code generator with size variants and decorative scan overlay                                      | `@tale-ui/react/qr-code`       | Root, Scan                                                                                                                                          |
 | RatingBadge  | Pill badge with star icon and numeric rating                                                          | `@tale-ui/react/rating-badge`  | --                                                                                                                                                  |

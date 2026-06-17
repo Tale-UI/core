@@ -65,6 +65,7 @@
     "./input": "./src/input.css",
     "./input-group": "./src/input-group.css",
     "./input-tags": "./src/input-tags.css",
+    "./key-value-pairs": "./src/key-value-pairs.css",
     "./link": "./src/link.css",
     "./list": "./src/list.css",
     "./menu": "./src/menu.css",

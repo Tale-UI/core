@@ -85,6 +85,7 @@
     "./input-group": "./src/input-group/index.ts",
     "./input-tags": "./src/input-tags/index.ts",
     "./multi-select": "./src/multi-select/index.ts",
+    "./key-value-pairs": "./src/key-value-pairs/index.ts",
     "./link": "./src/link/index.ts",
     "./list": "./src/list/index.ts",
     "./menu": "./src/menu/index.ts",

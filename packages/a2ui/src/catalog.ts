@@ -16,6 +16,7 @@ import { Row } from '@tale-ui/react/row';
 import { Column } from '@tale-ui/react/column';
 import { Card } from '@tale-ui/react/card';
 import { Image } from '@tale-ui/react/image';
+import { KeyValuePairs } from '@tale-ui/react/key-value-pairs';
 import { List } from '@tale-ui/react/list';
 import { Button } from '@tale-ui/react/button';
 import { TextField } from '@tale-ui/react/text-field';
@@ -162,6 +163,18 @@ function mapTextHint(hint?: string): { variant: string; size: string; as: string
   }
 }
 
+function normalizeKeyValuePairsColumns(value: unknown): 1 | 2 | 3 | 4 {
+  const numeric = typeof value === 'number' && Number.isFinite(value) ? Math.trunc(value) : 1;
+  if (numeric <= 1) {return 1;}
+  if (numeric === 2) {return 2;}
+  if (numeric === 3) {return 3;}
+  return 4;
+}
+
+function normalizeKeyValuePairsMinColumnWidth(value: unknown): number {
+  return typeof value === 'number' && Number.isFinite(value) && value > 0 ? value : 150;
+}
+
 /* ─── Standard Catalog ────────────────────────────────────────────────────── */
 
 /**
@@ -243,6 +256,38 @@ export const taleUICatalog: Catalog = {
     component: List.Item,
     adapter: (props, ctx) => ({
       children: props.content ?? ctx.children,
+    }),
+  } as CatalogEntry,
+
+  KeyValuePairs: {
+    component: KeyValuePairs.Root,
+    adapter: (props, ctx) => ({
+      'aria-label': (props.label as string) ?? 'Key-value pairs',
+      columns: normalizeKeyValuePairsColumns(props.columns),
+      minColumnWidth: normalizeKeyValuePairsMinColumnWidth(props.minColumnWidth),
+      variant: props.variant as string | undefined,
+      density: props.density as string | undefined,
+      children: ctx.children,
+    }),
+  } as CatalogEntry,
+
+  KeyValuePair: {
+    component: KeyValuePairs.Item,
+    adapter: (props, ctx) => ({
+      children: [
+        h(KeyValuePairs.Term, { key: 'term' }, props.label != null ? String(props.label) : ''),
+        h(KeyValuePairs.Details, { key: 'details' }, props.value != null ? String(props.value) : ctx.children),
+      ],
+    }),
+  } as CatalogEntry,
+
+  KeyValuePairGroup: {
+    component: KeyValuePairs.Group,
+    adapter: (props, ctx) => ({
+      children: [
+        h(KeyValuePairs.GroupTitle, { key: 'title' }, props.title != null ? String(props.title) : ''),
+        h(KeyValuePairs.GroupList, { key: 'list' }, ctx.children),
+      ],
     }),
   } as CatalogEntry,
 

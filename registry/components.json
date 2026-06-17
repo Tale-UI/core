@@ -5396,6 +5396,150 @@
       "crossPitfallRefs": null
     },
     {
+      "name": "KeyValuePairs",
+      "slug": "key-value-pairs",
+      "import": "@tale-ui/react/key-value-pairs",
+      "category": "Display",
+      "description": "Semantic description-list display for labels and corresponding values",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "columns",
+          "type": "Columns",
+          "required": false,
+          "description": "Maximum number of columns. @default 1",
+          "default": null
+        },
+        {
+          "name": "minColumnWidth",
+          "type": "number",
+          "required": false,
+          "description": "Desired minimum column width in pixels. @default 150",
+          "default": null
+        },
+        {
+          "name": "variant",
+          "type": "Variant",
+          "required": false,
+          "description": "Visual style. `divided` adds separators between visual rows. @default 'plain'",
+          "default": "'plain'",
+          "allowedValues": [
+            "plain",
+            "divided"
+          ]
+        },
+        {
+          "name": "density",
+          "type": "Density",
+          "required": false,
+          "description": "Vertical spacing density. @default 'default'",
+          "default": "'default'",
+          "allowedValues": [
+            "compact",
+            "default",
+            "spacious"
+          ]
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Item",
+        "Term",
+        "Details",
+        "Info",
+        "Group",
+        "GroupTitle",
+        "GroupList"
+      ],
+      "examples": [
+        "<KeyValuePairs.Root aria-label=\"Service metadata\">\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>Status</KeyValuePairs.Term>\n    <KeyValuePairs.Details>Active</KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>Owner</KeyValuePairs.Term>\n    <KeyValuePairs.Details>Platform Team</KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n</KeyValuePairs.Root>",
+        "<KeyValuePairs.Root aria-label=\"Deployment summary\" variant=\"divided\">\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>Environment</KeyValuePairs.Term>\n    <KeyValuePairs.Details>Production</KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>Version</KeyValuePairs.Term>\n    <KeyValuePairs.Details>2026.06.17</KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>Last deployment</KeyValuePairs.Term>\n    <KeyValuePairs.Details>June 17, 2026</KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n</KeyValuePairs.Root>",
+        "<KeyValuePairs.Root\n  aria-label=\"API service summary\"\n  columns={3}\n  minColumnWidth={180}\n  variant=\"divided\"\n>\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>Status</KeyValuePairs.Term>\n    <KeyValuePairs.Details><Badge variant=\"success\">Active</Badge></KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>Region</KeyValuePairs.Term>\n    <KeyValuePairs.Details>us-east-1</KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>Owner</KeyValuePairs.Term>\n    <KeyValuePairs.Details>Platform Team</KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n</KeyValuePairs.Root>",
+        "<KeyValuePairs.Root aria-label=\"Infrastructure summary\" columns={2}>\n  <KeyValuePairs.Group>\n    <KeyValuePairs.GroupTitle>Network</KeyValuePairs.GroupTitle>\n    <KeyValuePairs.GroupList>\n      <KeyValuePairs.Item>\n        <KeyValuePairs.Term>VPC</KeyValuePairs.Term>\n        <KeyValuePairs.Details>vpc-1234</KeyValuePairs.Details>\n      </KeyValuePairs.Item>\n      <KeyValuePairs.Item>\n        <KeyValuePairs.Term>Subnet</KeyValuePairs.Term>\n        <KeyValuePairs.Details>subnet-5678</KeyValuePairs.Details>\n      </KeyValuePairs.Item>\n    </KeyValuePairs.GroupList>\n  </KeyValuePairs.Group>\n  <KeyValuePairs.Group>\n    <KeyValuePairs.GroupTitle>Runtime</KeyValuePairs.GroupTitle>\n    <KeyValuePairs.GroupList>\n      <KeyValuePairs.Item>\n        <KeyValuePairs.Term>Language</KeyValuePairs.Term>\n        <KeyValuePairs.Details>Node.js</KeyValuePairs.Details>\n      </KeyValuePairs.Item>\n      <KeyValuePairs.Item>\n        <KeyValuePairs.Term>Instances</KeyValuePairs.Term>\n        <KeyValuePairs.Details>4</KeyValuePairs.Details>\n      </KeyValuePairs.Item>\n    </KeyValuePairs.GroupList>\n  </KeyValuePairs.Group>\n</KeyValuePairs.Root>",
+        "<KeyValuePairs.Root aria-label=\"Service metadata\">\n  <KeyValuePairs.Item>\n    <KeyValuePairs.Term>\n      Region\n      <KeyValuePairs.Info>\n        <Tooltip.Root>\n          <Tooltip.Trigger className=\"tale-button tale-button--ghost tale-button--sm\">?</Tooltip.Trigger>\n          <Tooltip.Popup>Primary deployment region.</Tooltip.Popup>\n        </Tooltip.Root>\n      </KeyValuePairs.Info>\n    </KeyValuePairs.Term>\n    <KeyValuePairs.Details>us-east-1</KeyValuePairs.Details>\n  </KeyValuePairs.Item>\n</KeyValuePairs.Root>"
+      ],
+      "cssClasses": [
+        "tale-key-value-pairs",
+        "tale-key-value-pairs--compact",
+        "tale-key-value-pairs--divided",
+        "tale-key-value-pairs--spacious",
+        "tale-key-value-pairs__details",
+        "tale-key-value-pairs__group",
+        "tale-key-value-pairs__group-details",
+        "tale-key-value-pairs__group-list",
+        "tale-key-value-pairs__group-title",
+        "tale-key-value-pairs__info",
+        "tale-key-value-pairs__item",
+        "tale-key-value-pairs__term"
+      ],
+      "pitfalls": [
+        {
+          "id": "key-value-pairs-root-required",
+          "summary": "Use KeyValuePairs.Root, not <KeyValuePairs> directly",
+          "detail": "`KeyValuePairs` is a namespace object.",
+          "antiPatterns": [
+            "<KeyValuePairs><KeyValuePairs.Item>...</KeyValuePairs.Item></KeyValuePairs>"
+          ],
+          "fixes": [
+            "<KeyValuePairs.Root><KeyValuePairs.Item>...</KeyValuePairs.Item></KeyValuePairs.Root>"
+          ]
+        },
+        {
+          "id": "key-value-pairs-standard-aria-props",
+          "summary": "Use standard React aria-label and aria-labelledby props",
+          "detail": "Cloudscape-style `ariaLabel` and `ariaLabelledby` are not supported.",
+          "antiPatterns": [
+            "<KeyValuePairs.Root ariaLabel=\"Service metadata\">"
+          ],
+          "fixes": [
+            "<KeyValuePairs.Root aria-label=\"Service metadata\">"
+          ]
+        },
+        {
+          "id": "key-value-pairs-column-range",
+          "summary": "columns accepts only 1, 2, 3, or 4",
+          "detail": "larger values are clamped at runtime for JavaScript consumers but will fail TypeScript.",
+          "antiPatterns": [
+            "<KeyValuePairs.Root columns={6}>"
+          ],
+          "fixes": [
+            "<KeyValuePairs.Root columns={4}>"
+          ]
+        },
+        {
+          "id": "key-value-pairs-term-before-details",
+          "summary": "Place Term before Details inside each Item",
+          "detail": "this preserves the native description-list relationship and reading order.",
+          "antiPatterns": [
+            "<KeyValuePairs.Item><KeyValuePairs.Details>Active</KeyValuePairs.Details><KeyValuePairs.Term>Status</KeyValuePairs.Term></KeyValuePairs.Item>"
+          ],
+          "fixes": [
+            "<KeyValuePairs.Item><KeyValuePairs.Term>Status</KeyValuePairs.Term><KeyValuePairs.Details>Active</KeyValuePairs.Details></KeyValuePairs.Item>"
+          ]
+        },
+        {
+          "id": "key-value-pairs-group-list-required",
+          "summary": "Use GroupTitle plus GroupList for grouped pairs",
+          "detail": "do not put nested `Item` children directly inside `Group`.",
+          "antiPatterns": [
+            "<KeyValuePairs.Group><KeyValuePairs.Item>...</KeyValuePairs.Item></KeyValuePairs.Group>"
+          ],
+          "fixes": [
+            "<KeyValuePairs.Group><KeyValuePairs.GroupTitle>Network</KeyValuePairs.GroupTitle><KeyValuePairs.GroupList><KeyValuePairs.Item>...</KeyValuePairs.Item></KeyValuePairs.GroupList></KeyValuePairs.Group>"
+          ]
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
       "name": "Link",
       "slug": "link",
       "import": "@tale-ui/react/link",

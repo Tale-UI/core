@@ -61,6 +61,7 @@ import { Spinner } from '@tale-ui/react/spinner';
 import { Avatar } from '@tale-ui/react/avatar';
 import { EmptyState } from '@tale-ui/react/empty-state';
 import { Image } from '@tale-ui/react/image';
+import { KeyValuePairs } from '@tale-ui/react/key-value-pairs';
 import { List } from '@tale-ui/react/list';
 
 // Form Structure
@@ -388,6 +389,7 @@ const TOC = [
       { id: 'empty-state', label: 'EmptyState' },
       { id: 'featured-icon', label: 'FeaturedIcon' },
       { id: 'grid-list', label: 'GridList' },
+      { id: 'key-value-pairs', label: 'KeyValuePairs' },
       { id: 'rating-badge', label: 'RatingBadge' },
       { id: 'rating-stars', label: 'RatingStars' },
       { id: 'table', label: 'Table' },
@@ -4834,6 +4836,91 @@ export default function ComponentAudit() {
             <List.Item>Spacious two</List.Item>
             <List.Item>Spacious three</List.Item>
           </List.Root>
+        </Section>
+
+        <Section
+          id="key-value-pairs"
+          title="KeyValuePairs"
+          classes={[
+            'tale-key-value-pairs',
+            'tale-key-value-pairs--divided',
+            'tale-key-value-pairs--compact',
+            'tale-key-value-pairs--spacious',
+            'tale-key-value-pairs__item',
+            'tale-key-value-pairs__term',
+            'tale-key-value-pairs__details',
+            'tale-key-value-pairs__info',
+            'tale-key-value-pairs__group',
+            'tale-key-value-pairs__group-title',
+            'tale-key-value-pairs__group-details',
+            'tale-key-value-pairs__group-list',
+          ]}
+        >
+          <SubHeading>Plain</SubHeading>
+          <KeyValuePairs.Root aria-label="Service metadata" style={{ maxWidth: '28rem' }}>
+            <KeyValuePairs.Item>
+              <KeyValuePairs.Term>Status</KeyValuePairs.Term>
+              <KeyValuePairs.Details><Badge variant="success">Active</Badge></KeyValuePairs.Details>
+            </KeyValuePairs.Item>
+            <KeyValuePairs.Item>
+              <KeyValuePairs.Term>Owner</KeyValuePairs.Term>
+              <KeyValuePairs.Details>Platform Team</KeyValuePairs.Details>
+            </KeyValuePairs.Item>
+          </KeyValuePairs.Root>
+          <SubHeading>Divided responsive columns</SubHeading>
+          <KeyValuePairs.Root
+            aria-label="Production API metadata"
+            columns={3}
+            minColumnWidth={180}
+            variant="divided"
+            density="compact"
+            style={{ maxWidth: '44rem' }}
+          >
+            <KeyValuePairs.Item>
+              <KeyValuePairs.Term>
+                Region
+                <KeyValuePairs.Info>primary</KeyValuePairs.Info>
+              </KeyValuePairs.Term>
+              <KeyValuePairs.Details>us-east-1</KeyValuePairs.Details>
+            </KeyValuePairs.Item>
+            <KeyValuePairs.Item>
+              <KeyValuePairs.Term>Endpoint</KeyValuePairs.Term>
+              <KeyValuePairs.Details><Link href="https://api.example.com">api.example.com</Link></KeyValuePairs.Details>
+            </KeyValuePairs.Item>
+            <KeyValuePairs.Item>
+              <KeyValuePairs.Term>Last deployment</KeyValuePairs.Term>
+              <KeyValuePairs.Details>June 17, 2026</KeyValuePairs.Details>
+            </KeyValuePairs.Item>
+          </KeyValuePairs.Root>
+          <SubHeading>Grouped</SubHeading>
+          <KeyValuePairs.Root aria-label="Infrastructure summary" columns={2} density="spacious" style={{ maxWidth: '44rem' }}>
+            <KeyValuePairs.Group>
+              <KeyValuePairs.GroupTitle>Network</KeyValuePairs.GroupTitle>
+              <KeyValuePairs.GroupList>
+                <KeyValuePairs.Item>
+                  <KeyValuePairs.Term>VPC</KeyValuePairs.Term>
+                  <KeyValuePairs.Details>vpc-1234</KeyValuePairs.Details>
+                </KeyValuePairs.Item>
+                <KeyValuePairs.Item>
+                  <KeyValuePairs.Term>Subnet</KeyValuePairs.Term>
+                  <KeyValuePairs.Details>subnet-5678</KeyValuePairs.Details>
+                </KeyValuePairs.Item>
+              </KeyValuePairs.GroupList>
+            </KeyValuePairs.Group>
+            <KeyValuePairs.Group>
+              <KeyValuePairs.GroupTitle>Runtime</KeyValuePairs.GroupTitle>
+              <KeyValuePairs.GroupList>
+                <KeyValuePairs.Item>
+                  <KeyValuePairs.Term>Language</KeyValuePairs.Term>
+                  <KeyValuePairs.Details>Node.js</KeyValuePairs.Details>
+                </KeyValuePairs.Item>
+                <KeyValuePairs.Item>
+                  <KeyValuePairs.Term>Instances</KeyValuePairs.Term>
+                  <KeyValuePairs.Details>4</KeyValuePairs.Details>
+                </KeyValuePairs.Item>
+              </KeyValuePairs.GroupList>
+            </KeyValuePairs.Group>
+          </KeyValuePairs.Root>
         </Section>
 
         <Section

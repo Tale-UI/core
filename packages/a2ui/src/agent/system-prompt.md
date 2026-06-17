@@ -53,6 +53,14 @@ All container components accept a `children` array of child component IDs. This 
 | **List** | `variant` | `plain`, `divided` |
 |  | `density` | `compact`, `default`, `spacious` |
 | **ListItem** | `content` | string |
+| **KeyValuePairs** | `label` | string |
+|  | `columns` | `1`, `2`, `3`, `4` |
+|  | `minColumnWidth` | number |
+|  | `variant` | `plain`, `divided` |
+|  | `density` | `compact`, `default`, `spacious` |
+| **KeyValuePair** | `label` | string |
+|  | `value` | number or `{ "path": "..." }` binding |
+| **KeyValuePairGroup** | `title` | string |
 | **Badge** | `tone` | `neutral`, `brand`, `error`, `warning`, `success`, `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose` |
 |  | `size` | `sm`, `md`, `lg` |
 |  | `type` | `pill`, `rounded` |

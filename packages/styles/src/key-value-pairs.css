@@ -1,0 +1,130 @@
+/*
+ * KeyValuePairs — @tale-ui/react
+ *
+ * Styled with @tale-ui/core design tokens.
+ * Custom component (not React Aria). Semantic description-list display.
+ *
+ * Variants:   (default / plain)          no dividers
+ *             .tale-key-value-pairs--divided
+ *                                           row dividers after the first visual row
+ *
+ * Density:    .tale-key-value-pairs--compact   compact vertical spacing
+ *             (default)                        default vertical spacing
+ *             .tale-key-value-pairs--spacious  spacious vertical spacing
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.tale-key-value-pairs {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--tale-key-value-pairs-columns, 1), minmax(0, 1fr));
+  column-gap: var(--space-xl);
+  row-gap: var(--space-xs);
+  font-family: var(--text-font-family);
+}
+
+.tale-key-value-pairs--compact {
+  row-gap: var(--space-xs);
+}
+
+.tale-key-value-pairs--spacious {
+  row-gap: var(--space-l);
+}
+
+/* ─── Items ────────────────────────────────────────────────────────────────── */
+
+.tale-key-value-pairs__item,
+.tale-key-value-pairs__group {
+  min-width: 0;
+}
+
+.tale-key-value-pairs__term {
+  color: var(--neutral-60);
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: var(--label-line-height);
+}
+
+.tale-key-value-pairs__details {
+  margin: 0;
+  color: var(--neutral-90);
+  font-size: var(--text-m-font-size);
+  line-height: var(--text-line-height);
+}
+
+.tale-key-value-pairs__info {
+  display: inline-flex;
+  margin-inline-start: var(--space-2xs);
+  padding-inline-start: var(--space-2xs);
+  border-inline-start: 1px solid var(--neutral-22);
+  vertical-align: middle;
+}
+
+/* ─── Groups ───────────────────────────────────────────────────────────────── */
+
+.tale-key-value-pairs__group-title {
+  margin: 0 0 var(--space-s);
+  color: var(--neutral-90);
+  font-size: var(--title-s-font-size);
+  font-weight: var(--title-font-weight);
+  line-height: var(--title-line-height);
+}
+
+.tale-key-value-pairs__group-details {
+  margin: 0;
+}
+
+.tale-key-value-pairs__group-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.tale-key-value-pairs--compact .tale-key-value-pairs__group-list {
+  gap: var(--space-xs);
+}
+
+.tale-key-value-pairs--spacious .tale-key-value-pairs__group-list {
+  gap: var(--space-m);
+}
+
+/* ─── Divided variant ──────────────────────────────────────────────────────── */
+
+.tale-key-value-pairs--divided > .tale-key-value-pairs__item,
+.tale-key-value-pairs--divided > .tale-key-value-pairs__group {
+  border-top: 1px solid var(--neutral-18);
+  padding-top: var(--space-xs);
+}
+
+.tale-key-value-pairs--divided[data-columns='1'] > :nth-child(-n + 1),
+.tale-key-value-pairs--divided[data-columns='2'] > :nth-child(-n + 2),
+.tale-key-value-pairs--divided[data-columns='3'] > :nth-child(-n + 3),
+.tale-key-value-pairs--divided[data-columns='4'] > :nth-child(-n + 4) {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.tale-key-value-pairs--divided.tale-key-value-pairs--compact > .tale-key-value-pairs__item,
+.tale-key-value-pairs--divided.tale-key-value-pairs--compact > .tale-key-value-pairs__group {
+  padding-top: var(--space-2xs);
+}
+
+.tale-key-value-pairs--divided.tale-key-value-pairs--spacious > .tale-key-value-pairs__item,
+.tale-key-value-pairs--divided.tale-key-value-pairs--spacious > .tale-key-value-pairs__group {
+  padding-top: var(--space-s);
+}
+
+.tale-key-value-pairs--divided.tale-key-value-pairs--compact[data-columns='1'] > :nth-child(-n + 1),
+.tale-key-value-pairs--divided.tale-key-value-pairs--compact[data-columns='2'] > :nth-child(-n + 2),
+.tale-key-value-pairs--divided.tale-key-value-pairs--compact[data-columns='3'] > :nth-child(-n + 3),
+.tale-key-value-pairs--divided.tale-key-value-pairs--compact[data-columns='4'] > :nth-child(-n + 4),
+.tale-key-value-pairs--divided.tale-key-value-pairs--spacious[data-columns='1'] > :nth-child(-n + 1),
+.tale-key-value-pairs--divided.tale-key-value-pairs--spacious[data-columns='2'] > :nth-child(-n + 2),
+.tale-key-value-pairs--divided.tale-key-value-pairs--spacious[data-columns='3'] > :nth-child(-n + 3),
+.tale-key-value-pairs--divided.tale-key-value-pairs--spacious[data-columns='4'] > :nth-child(-n + 4) {
+  padding-top: 0;
+}
