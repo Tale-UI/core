@@ -252,6 +252,10 @@ export function App() {
   const providers = React.useMemo(() => status?.providers ?? [], [status]);
   const models = React.useMemo(() => status?.models ?? [], [status]);
   const commandGroups = React.useMemo(() => manifest?.commandGroups ?? [], [manifest]);
+  const appUrls = React.useMemo(
+    () => new Map(applications.map((app) => [app.id, app.url])),
+    [applications],
+  );
   const commandCount = commandGroups.reduce((count, group) => count + group.commands.length, 0);
   const runningCount = status?.applications.filter((app) => app.running).length ?? 0;
   const availableProviderCount = providers.filter((provider) => provider.available).length;
@@ -288,8 +292,10 @@ export function App() {
 
           <nav className="td-actions" aria-label="Primary tooling links">
             <Row gap="xs" align="center" justify="end" wrap>
-              <Link href="http://localhost:5173/">Vite Playground</Link>
-              <Link href="http://localhost:5175/">MCP Studio</Link>
+              <Link href={appUrls.get('vite-playground') ?? 'http://localhost:5173/'}>
+                Vite Playground
+              </Link>
+              <Link href={appUrls.get('mcp-studio') ?? 'http://localhost:5175/'}>MCP Studio</Link>
               <Button
                 variant="primary"
                 size="sm"

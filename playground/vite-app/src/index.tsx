@@ -41,9 +41,12 @@ export function App() {
             Tale UI playground
           </Link>
           <nav className="pg-header-nav">
-            <Link className="pg-header-link" to="/scale">
+            <a className="pg-header-link" href="http://localhost:5174/">
               Theme Playground
-            </Link>
+            </a>
+            <a className="pg-header-link" href="http://localhost:5175/">
+              MCP Studio
+            </a>
             <a className="pg-header-link" href="http://localhost:5176/">
               Tooling Dashboard
             </a>

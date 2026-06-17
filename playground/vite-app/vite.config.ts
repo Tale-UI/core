@@ -35,6 +35,8 @@ export default defineConfig(() => {
       },
     },
     server: {
+      port: 5173,
+      strictPort: true,
       fs: {
         // Allow serving Tale UI source from the monorepo root.
         allow: [path.resolve(__dirname, '..', '..')],

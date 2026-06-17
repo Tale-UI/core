@@ -6,7 +6,7 @@
       "category": "Tools",
       "description": "Operational index for Tale UI local tools, supporting apps, provider status, and common commands.",
       "url": "http://localhost:5176/",
-      "command": "pnpm dashboard:dev",
+      "command": "pnpm dashboard:dev -- --port 5176 --strictPort",
       "port": 5176,
       "sourcePath": "apps/tooling-dashboard",
       "tags": ["tools", "status"]
@@ -17,7 +17,7 @@
       "category": "Playgrounds",
       "description": "Component demos, A2UI renderer demos, A2UI Chat, recipes, and performance experiments.",
       "url": "http://localhost:5173/",
-      "command": "pnpm playground:dev -- --port 5173",
+      "command": "pnpm playground:dev -- --port 5173 --strictPort",
       "port": 5173,
       "sourcePath": "playground/vite-app",
       "tags": ["components", "a2ui", "recipes"]
@@ -28,7 +28,7 @@
       "category": "Tools",
       "description": "Prompt-to-TSX maintainer tool backed by local Claude, Codex, Ollama, and Straico provider routing.",
       "url": "http://localhost:5175/",
-      "command": "pnpm studio:dev",
+      "command": "pnpm studio:dev -- --port 5175 --strictPort",
       "port": 5175,
       "sourcePath": "apps/mcp-studio",
       "tags": ["mcp", "providers", "preview"]
@@ -50,7 +50,7 @@
       "category": "Playgrounds",
       "description": "Color-scale and token playground for testing theme changes.",
       "url": "http://localhost:5174/",
-      "command": "pnpm scale:dev -- --port 5174",
+      "command": "pnpm scale:dev -- --port 5174 --strictPort",
       "port": 5174,
       "sourcePath": "playground/scale",
       "tags": ["tokens", "theme"]
@@ -62,17 +62,17 @@
       "commands": [
         {
           "label": "Tooling Dashboard",
-          "command": "pnpm dashboard:dev",
+          "command": "pnpm dashboard:dev -- --port 5176 --strictPort",
           "description": "Run this dashboard on port 5176."
         },
         {
           "label": "Vite Playground",
-          "command": "pnpm playground:dev -- --port 5173",
+          "command": "pnpm playground:dev -- --port 5173 --strictPort",
           "description": "Run the main playground with A2UI Chat."
         },
         {
           "label": "MCP Studio",
-          "command": "pnpm studio:dev",
+          "command": "pnpm studio:dev -- --port 5175 --strictPort",
           "description": "Run provider-backed prompt-to-TSX Studio."
         },
         {

@@ -37,6 +37,13 @@ body {
   flex: 1;
 }
 
+.studio-topbar-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  white-space: nowrap;
+}
+
 .studio-panes {
   display: flex;
   flex: 1;
