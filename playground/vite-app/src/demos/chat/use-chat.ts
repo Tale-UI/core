@@ -7,9 +7,9 @@
 
 import * as React from 'react';
 import type { A2UIMessage, A2UIAction } from '@tale-ui/a2ui/types';
-import type { Provider, ChatMessage as APIChatMessage } from './types';
-import { streamCompletion } from './stream-provider';
+import type { ChatMessage as APIChatMessage } from './types';
 import { parseA2UIResponse } from './parse-a2ui-response';
+import { apiA2UIChat, type StudioProvider } from './studio-api';
 
 export interface ChatEntry {
   id: string;
@@ -22,9 +22,9 @@ export interface ChatEntry {
 }
 
 interface UseChatOptions {
-  apiKey: string;
   model?: string;
-  provider: Provider;
+  provider: StudioProvider;
+  straicoApiKey: string;
   onA2UIMessages: (msgs: A2UIMessage[]) => void;
 }
 
@@ -41,7 +41,12 @@ function genId(): string {
   return `msg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOptions): UseChatReturn {
+export function useChat({
+  model,
+  provider,
+  straicoApiKey,
+  onA2UIMessages,
+}: UseChatOptions): UseChatReturn {
   const [entries, setEntries] = React.useState<ChatEntry[]>([]);
   const [isStreaming, setIsStreaming] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -55,10 +60,16 @@ export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOpti
   providerRef.current = provider;
   const modelRef = React.useRef(model);
   modelRef.current = model;
+  const straicoApiKeyRef = React.useRef(straicoApiKey);
+  straicoApiKeyRef.current = straicoApiKey;
 
   const sendMessage = React.useCallback(
     (text: string) => {
-      if (!apiKey || isStreaming) {return;}
+      if (!modelRef.current || isStreaming) {return;}
+      if (providerRef.current === 'straico' && !straicoApiKeyRef.current.trim()) {
+        setError('Enter a Straico API key before generating with Straico.');
+        return;
+      }
 
       const userEntry: ChatEntry = {
         id: genId(),
@@ -88,26 +99,19 @@ export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOpti
       const abort = new AbortController();
       abortRef.current = abort;
 
-      streamCompletion(providerRef.current, {
-        apiKey,
-        model: modelRef.current,
+      void apiA2UIChat({
         messages: history,
+        provider: providerRef.current,
+        model: modelRef.current,
+        straicoApiKey:
+          providerRef.current === 'straico' ? straicoApiKeyRef.current.trim() : undefined,
         signal: abort.signal,
-        onChunk: (chunk) => {
-          setEntries((prev) => {
-            const updated = [...prev];
-            const last = updated[updated.length - 1];
-            if (last && last.role === 'assistant') {
-              updated[updated.length - 1] = { ...last, content: last.content + chunk };
-            }
-            return updated;
-          });
-        },
-        onComplete: (fullText, meta) => {
+      })
+        .then(({ text: fullText, truncated }) => {
           setIsStreaming(false);
           abortRef.current = null;
 
-          const result = parseA2UIResponse(fullText, { truncated: meta.truncated });
+          const result = parseA2UIResponse(fullText, { truncated });
           console.log('[A2UI Chat] Parse result:', result.errors ? 'ERRORS' : 'OK', result.messages?.length ?? 0, 'messages');
           if (result.messages) {
             for (const msg of result.messages) {
@@ -121,6 +125,7 @@ export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOpti
             if (last && last.role === 'assistant') {
               updated[updated.length - 1] = {
                 ...last,
+                content: fullText,
                 a2uiMessages: result.messages,
                 error: result.errors,
               };
@@ -131,15 +136,15 @@ export function useChat({ apiKey, model, provider, onA2UIMessages }: UseChatOpti
           if (result.messages) {
             onA2UIMessagesRef.current(result.messages);
           }
-        },
-        onError: (err) => {
+        })
+        .catch((err: unknown) => {
+          if (err instanceof Error && err.name === 'AbortError') {return;}
           setIsStreaming(false);
           abortRef.current = null;
-          setError(err.message);
-        },
-      });
+          setError(err instanceof Error ? err.message : String(err));
+        });
     },
-    [apiKey, isStreaming],
+    [isStreaming],
   );
 
   const sendAction = React.useCallback(

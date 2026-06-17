@@ -6563,6 +6563,8 @@
         "import { Popover } from '@tale-ui/react/popover';\n    import { Icon } from '@tale-ui/react/icon';\n    import { HelpCircle } from 'lucide-react';\n\n    export function FeatureHelpPopover() {\n      return (\n        <Popover.Root>\n          <Popover.Trigger\n            className=\"tale-button tale-button--neutral tale-button--md\"\n            aria-label=\"Show help\"\n          >\n            <Icon icon={HelpCircle} size=\"sm\" />\n          </Popover.Trigger>\n          <Popover.Popup placement=\"bottom\" offset={8}>\n            <Popover.Description>\n              This feature automatically saves your changes so you can leave and come back later.\n            </Popover.Description>\n          </Popover.Popup>\n        </Popover.Root>\n      );\n    }"
       ],
       "cssClasses": [
+        "tale-button",
+        "tale-popover__arrow",
         "tale-popover__close",
         "tale-popover__description",
         "tale-popover__popup",
@@ -7656,6 +7658,13 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "defaultSelectedKey",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
@@ -7680,6 +7689,7 @@
         "<Select.Root placeholder=\"Select...\">\n  <Select.Label>Available options</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">\n        Apple\n      </Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\" isDisabled>\n        Banana (sold out)\n      </Select.Item>\n      <Select.Item id=\"cherry\" textValue=\"Cherry\">\n        Cherry\n      </Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
         "<Select.Root size=\"sm\" placeholder=\"Small select\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>\n\n<Select.Root size=\"md\" placeholder=\"Medium select (default)\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>\n\n<Select.Root size=\"lg\" placeholder=\"Large select\">\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">Apple</Select.Item>\n      <Select.Item id=\"banana\" textValue=\"Banana\">Banana</Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
         "<Select.Root isDisabled placeholder=\"Cannot select...\">\n  <Select.Label>Disabled select</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"apple\" textValue=\"Apple\">\n        Apple\n      </Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
+        "<Select.Root defaultSelectedKey=\"enterprise\" placeholder=\"Select a plan...\">\n  <Select.Label>Plan</Select.Label>\n  <Select.Trigger>\n    <Select.Value />\n    <Select.Icon />\n  </Select.Trigger>\n  <Select.Popover>\n    <Select.ListBox>\n      <Select.Item id=\"basic\" textValue=\"Basic\">Basic</Select.Item>\n      <Select.Item id=\"enterprise\" textValue=\"Enterprise compliance plan with dedicated support\">\n        Enterprise compliance plan with dedicated support\n      </Select.Item>\n    </Select.ListBox>\n  </Select.Popover>\n</Select.Root>",
         "import { Select } from '@tale-ui/react/select';\n\n    export function Example() {\n      return (\n        <Select.Root placeholder=\"Select...\">\n          <Select.Label>Fruit</Select.Label>\n          <Select.Trigger>\n            <Select.Value />\n            <Select.Icon />\n          </Select.Trigger>\n          <Select.Popover>\n            <Select.ListBox>\n              <Select.Item id=\"apple\">Apple</Select.Item>\n              <Select.Item id=\"banana\">Banana</Select.Item>\n            </Select.ListBox>\n          </Select.Popover>\n        </Select.Root>\n      );\n    }"
       ],
       "cssClasses": [

@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { studioApiPlugin } from '../../apps/mcp-studio/vite-plugin-studio-api';
 
 // https://vite.dev/config/
 export default defineConfig(() => {
@@ -11,7 +12,7 @@ export default defineConfig(() => {
 
   return {
     base: baseUrl,
-    plugins: [react()],
+    plugins: [react(), studioApiPlugin()],
     build: {
       sourcemap: true,
       outDir: resolvedOutDir,
