@@ -22,16 +22,56 @@ const sectionTokens = [
   { token: '--section-space-xl', min: '6.10rem', max: '22.37rem' },
 ] as const;
 
+const spacingGuidance = [
+  {
+    range: '4xs / 3xs',
+    token: '--space-3xs',
+    use: 'Micro gaps inside compact controls, badges, metadata rows, icon/text pairs, and tiny inline padding.',
+  },
+  {
+    range: '2xs',
+    token: '--space-2xs',
+    use: 'Tight spacing between closely related labels, values, chips, or small inline controls.',
+  },
+  {
+    range: 'xs',
+    token: '--space-xs',
+    use: 'Action rows, heading-to-content separation inside dense panels, code-block padding, and compact card content.',
+  },
+  {
+    range: 's',
+    token: '--space-s',
+    use: 'Standard card or panel padding, related item groups, form field stacks, and medium-density grids.',
+  },
+  {
+    range: 'm',
+    token: '--space-m',
+    use: 'Larger component groups, relaxed content stacks, mobile page gutters, and intentionally roomy panels.',
+  },
+  {
+    range: 'l / xl / 2xl',
+    token: '--space-l',
+    use: 'Page-level rhythm, desktop page gutters, major layout grids, section separation, and large editorial gaps.',
+  },
+] as const;
+
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '960px', margin: '0 auto', color: 'var(--neutral-80)' },
   sectionTitle: { marginBottom: 'var(--space-xs)', marginTop: 'var(--space-2xl)' },
   description: { color: 'var(--neutral-60)', marginBottom: 'var(--space-l)' },
-  row: { display: 'flex', alignItems: 'center', gap: 'var(--space-m)', marginBottom: 'var(--space-2xs)', minHeight: '32px' },
-  bar: { background: 'var(--color-60)', borderRadius: 'var(--radius-s)', flexShrink: 0 },
+  row: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-2xs) var(--space-m)', marginBottom: 'var(--space-2xs)', minHeight: '32px' },
+  bar: { background: 'var(--color-60)', borderRadius: 'var(--radius-s)', flexShrink: 0, maxWidth: '100%' },
   tokenLabel: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-70)', minWidth: '100px', flexShrink: 0 },
   range: { fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' },
   note: { fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', fontStyle: 'italic', marginLeft: 'var(--space-xs)' },
   divider: { border: 'none', borderTop: '1px solid var(--neutral-16)', margin: 'var(--space-2xl) 0' },
+  guidanceGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 'var(--space-s)', marginBottom: 'var(--space-xl)' },
+  guidanceCard: { border: '1px solid var(--neutral-18)', borderRadius: 'var(--radius-m)', background: 'var(--neutral-10)', padding: 'var(--space-s)' },
+  guidanceSample: { display: 'flex', alignItems: 'center', marginTop: 'var(--space-s)', padding: 'var(--space-xs)', borderRadius: 'var(--radius-s)', background: 'var(--neutral-5)' },
+  sampleBox: { width: '2rem', height: '2rem', flex: '0 0 2rem', borderRadius: 'var(--radius-s)', background: 'var(--color-20)', border: '1px solid var(--color-30)' },
+  sampleToken: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', marginLeft: 'auto', whiteSpace: 'nowrap' },
+  utilityGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 'var(--space-xs)' },
+  utilityItem: { display: 'flex', justifyContent: 'space-between', gap: 'var(--space-xs)', padding: '4px 8px', background: 'var(--neutral-16)', borderRadius: 'var(--radius-s)' },
 };
 
 export function SpacingPage() {
@@ -44,6 +84,27 @@ export function SpacingPage() {
         <code style={{ fontFamily: 'monospace' }}>clamp()</code>. Gap utility classes (<code style={{ fontFamily: 'monospace' }}>.gap--*</code>) are available for tokens up to <code style={{ fontFamily: 'monospace' }}>--space-2xl</code>.
       </p>
 
+      <h3 className="text--title-s" style={{ margin: '0 0 var(--space-s)' }}>Usage guidance</h3>
+      <div style={s.guidanceGrid}>
+        {spacingGuidance.map((entry) => (
+          <div key={entry.range} style={s.guidanceCard}>
+            <p className="text--label-s" style={{ color: 'var(--neutral-90)', marginBottom: 'var(--space-2xs)' }}>
+              {entry.range}
+            </p>
+            <p className="text--body-s" style={{ color: 'var(--neutral-60)', margin: 0 }}>
+              {entry.use}
+            </p>
+            <div style={{ ...s.guidanceSample, gap: `var(${entry.token})` }}>
+              <div style={s.sampleBox} />
+              <div style={s.sampleBox} />
+              <code style={s.sampleToken}>
+                {entry.token}
+              </code>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {spaceTokens.map((entry) => (
         <div key={entry.token} style={s.row}>
           <span style={s.tokenLabel}>{entry.token}</span>
@@ -55,15 +116,15 @@ export function SpacingPage() {
 
       <div style={{ background: 'var(--neutral-12)', borderRadius: 'var(--radius-l)', padding: 'var(--space-m)', marginTop: 'var(--space-l)' }}>
         <p className="text--label-s" style={{ color: 'var(--neutral-70)', marginBottom: 'var(--space-xs)' }}>Gap utility class availability</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-xs)' }}>
+        <div style={s.utilityGrid}>
           {['4xs', '3xs', '2xs', 'xs', 's', 'm', 'l', 'xl', '2xl'].map((size) => (
-            <div key={size} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'var(--neutral-16)', borderRadius: 'var(--radius-s)' }}>
+            <div key={size} style={s.utilityItem}>
               <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)' }}>.gap--{size}</code>
               <span style={{ fontSize: 'var(--text-xs)', color: 'var(--success-60)' }}>✓</span>
             </div>
           ))}
           {['3xl', '4xl'].map((size) => (
-            <div key={size} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'var(--neutral-16)', borderRadius: 'var(--radius-s)', opacity: 0.6 }}>
+            <div key={size} style={{ ...s.utilityItem, opacity: 0.6 }}>
               <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' }}>.gap--{size}</code>
               <span style={{ fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' }}>token only</span>
             </div>
@@ -77,12 +138,12 @@ export function SpacingPage() {
       <h2 className="text--heading-s" style={s.sectionTitle}>Section Spacing</h2>
       <p className="text--body-m" style={s.description}>
         5 larger-scale tokens for vertical page rhythm. Used by the{' '}
-        <code style={{ fontFamily: 'monospace' }}>.padding--*</code> utility classes (xs through xl).
+        <code style={{ fontFamily: 'monospace' }}>.padding--*</code> utility classes (xs through xl). Use section spacing for vertical padding on full page sections or bands; keep card padding, form stacks, and compact dashboards on the general <code style={{ fontFamily: 'monospace' }}>--space-*</code> scale.
       </p>
 
       {sectionTokens.map(({ token, min, max }) => (
         <div key={token} style={{ marginBottom: 'var(--space-m)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-m)', marginBottom: '6px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-2xs) var(--space-m)', marginBottom: '6px' }}>
             <span style={s.tokenLabel}>{token}</span>
             <span style={s.range}>{min} → {max}</span>
           </div>

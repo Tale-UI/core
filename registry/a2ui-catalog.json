@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-06-14",
+  "generatedAt": "2026-06-16",
   "types": [
     {
       "name": "Text",
@@ -299,11 +299,10 @@
         },
         {
           "name": "type",
-          "hint": "`pill`, `rounded`, `modern`",
+          "hint": "`pill`, `rounded`",
           "allowedValues": [
             "pill",
-            "rounded",
-            "modern"
+            "rounded"
           ]
         },
         {
@@ -7637,8 +7636,7 @@
                   "spacing": "xs",
                   "children": [
                     "bdg-ty-pill",
-                    "bdg-ty-rounded",
-                    "bdg-ty-modern"
+                    "bdg-ty-rounded"
                   ]
                 }
               }
@@ -7661,17 +7659,6 @@
                   "label": "rounded",
                   "tone": "brand",
                   "type": "rounded",
-                  "size": "md"
-                }
-              }
-            },
-            {
-              "id": "bdg-ty-modern",
-              "component": {
-                "Badge": {
-                  "label": "modern",
-                  "tone": "brand",
-                  "type": "modern",
                   "size": "md"
                 }
               }

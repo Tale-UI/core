@@ -4608,8 +4608,13 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Types</SubHeading>
           <Row>
-            <Badge type="pill">Pill</Badge>
-            <Badge type="rounded">Rounded</Badge>
+            <Badge variant="neutral" type="pill">Neutral Pill</Badge>
+            <Badge variant="neutral" type="rounded">Neutral Rounded</Badge>
+            <Badge variant="brand" type="pill">Brand Pill</Badge>
+            <Badge variant="brand" type="rounded">Brand Rounded</Badge>
+          </Row>
+          <SubHeading>Deprecated type</SubHeading>
+          <Row>
             <Badge type="modern">Modern</Badge>
           </Row>
         </Section>

@@ -26,6 +26,12 @@ export type RouteEntry =
       to: string;
     }
   | {
+      type: 'external';
+      href: string;
+      label: string;
+      showInNav?: boolean;
+    }
+  | {
       type: 'header';
       label: string;
     };
@@ -39,6 +45,12 @@ export const routes: RouteEntry[] = [
     path: '/scale',
     label: 'Theme playground',
     element: <ScaleDemo />,
+    showInNav: true,
+  },
+  {
+    type: 'external',
+    href: 'http://localhost:5176/',
+    label: 'Tooling dashboard',
     showInNav: true,
   },
   { type: 'header', label: 'Components' },

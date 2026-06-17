@@ -24,11 +24,60 @@ const typeClasses = [
   { category: 'Mono',     sizes: ['mono-l', 'mono-m', 'mono-s', 'mono-xs'] },
 ] as const;
 
+const hierarchyGuidance = [
+  {
+    context: 'Application page title',
+    className: 'text--heading-l',
+    text: 'Tale UI Tooling',
+    note: 'Top-level title for dashboards and operational apps.',
+  },
+  {
+    context: 'Section title',
+    className: 'text--title-l',
+    text: 'Applications',
+    note: 'Major content area within a page.',
+  },
+  {
+    context: 'Card title',
+    className: 'text--title-s',
+    text: 'MCP Studio',
+    note: 'Nested panel or card heading.',
+  },
+  {
+    context: 'Item label',
+    className: 'text--label-s',
+    text: 'Provider status',
+    note: 'Rows, metadata names, navigation, and compact labels.',
+  },
+  {
+    context: 'Supporting copy',
+    className: 'text--body-s',
+    text: 'Prompt-to-TSX maintainer tool backed by local providers.',
+    note: 'Descriptions and helper text in dense layouts.',
+  },
+  {
+    context: 'Command or path',
+    className: 'text--mono-s',
+    text: 'pnpm studio:dev',
+    note: 'Commands, paths, IDs, and route values.',
+  },
+] as const;
+
 const s: Record<string, React.CSSProperties> = {
   page: { padding: 'var(--space-2xl)', maxWidth: '960px', margin: '0 auto', color: 'var(--neutral-80)' },
   sectionTitle: { marginBottom: 'var(--space-xs)', marginTop: 'var(--space-2xl)' },
   description: { color: 'var(--neutral-60)', marginBottom: 'var(--space-l)' },
   divider: { border: 'none', borderTop: '1px solid var(--neutral-16)', margin: 'var(--space-xl) 0' },
+  hierarchyPanel: { border: '1px solid var(--neutral-18)', borderRadius: 'var(--radius-l)', background: 'var(--neutral-10)', padding: 'var(--space-l)', marginBottom: 'var(--space-xl)' },
+  hierarchyRow: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 'var(--space-xs) var(--space-m)', alignItems: 'baseline', padding: 'var(--space-xs) 0', borderBottom: '1px solid var(--neutral-16)' },
+  codeLabel: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)' },
+  sampleRow: { display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: 'var(--space-2xs) var(--space-m)', marginBottom: 'var(--space-xs)', borderBottom: '1px solid var(--neutral-14)', paddingBottom: 'var(--space-2xs)' },
+  sampleRowCenter: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-2xs) var(--space-m)', marginBottom: 'var(--space-xs)', borderBottom: '1px solid var(--neutral-14)', paddingBottom: 'var(--space-2xs)' },
+  sampleLabel: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '120px', flex: '0 0 auto' },
+  sampleLabelWide: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '140px', flex: '0 0 auto' },
+  sampleLabelXWide: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '180px', flex: '0 0 auto' },
+  sampleText: { flex: '1 1 16rem', minWidth: 0, maxWidth: '100%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
+  wrappingSample: { flex: '1 1 16rem', minWidth: 0, maxWidth: '280px', overflow: 'hidden' },
 };
 
 const sampleText = 'The quick brown fox jumps over the lazy dog';
@@ -36,7 +85,7 @@ const sampleLong = 'Typography is the art of arranging type to make written lang
 
 export function TypographyPage() {
   return (
-    <div style={s.page}>
+    <div className="sb-unstyled" style={s.page}>
       {/* Type Scale */}
       <h2 className="text--heading-s" style={s.sectionTitle}>Font Size Scale</h2>
       <p className="text--body-m" style={s.description}>
@@ -47,31 +96,61 @@ export function TypographyPage() {
       {fontSizeTokens.map(({ token }) => (
         <div
           key={token}
-          style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            gap: 'var(--space-m)',
-            marginBottom: 'var(--space-xs)',
-            borderBottom: '1px solid var(--neutral-14)',
-            paddingBottom: 'var(--space-2xs)',
-          }}
+          style={s.sampleRow}
         >
-          <span
-            style={{
-              fontFamily: 'monospace',
-              fontSize: 'var(--text-xs)',
-              color: 'var(--neutral-50)',
-              minWidth: '120px',
-              flexShrink: 0,
-            }}
-          >
+          <span style={s.sampleLabel}>
             {token}
           </span>
-          <span style={{ fontSize: `var(${token})`, color: 'var(--neutral-80)', lineHeight: 1.3, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+          <span style={{ ...s.sampleText, fontSize: `var(${token})`, color: 'var(--neutral-80)', lineHeight: 1.3 }}>
             {sampleText}
           </span>
         </div>
       ))}
+
+      <hr style={s.divider} />
+
+      {/* Hierarchy Guidance */}
+      <h2 className="text--heading-s" style={s.sectionTitle}>Hierarchy Guidance</h2>
+      <p className="text--body-m" style={s.description}>
+        Type should usually get smaller as content becomes more nested. Reserve display styles for heroes and prominent editorial leads; use tighter heading, title, label, body, and mono roles for apps, dashboards, and repeated operational layouts.
+      </p>
+
+      <div style={s.hierarchyPanel}>
+        {hierarchyGuidance.map((entry, index) => (
+          <div
+            key={entry.context}
+            style={{
+              ...s.hierarchyRow,
+              paddingLeft: `calc(var(--space-3xs) * ${Math.min(index, 4)})`,
+              borderBottom: index === hierarchyGuidance.length - 1 ? 'none' : s.hierarchyRow.borderBottom,
+            }}
+          >
+            <div>
+              <p className="text--label-xs" style={{ margin: '0 0 var(--space-4xs)', color: 'var(--neutral-60)', textTransform: 'uppercase' }}>
+                {entry.context}
+              </p>
+              <code style={s.codeLabel}>.{entry.className}</code>
+            </div>
+            <div>
+              <p className={entry.className} style={{ margin: 0 }}>
+                {entry.text}
+              </p>
+              <p className="text--body-xs" style={{ margin: 'var(--space-4xs) 0 0', color: 'var(--neutral-60)' }}>
+                {entry.note}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ background: 'var(--neutral-12)', borderRadius: 'var(--radius-l)', padding: 'var(--space-m)', marginBottom: 'var(--space-xl)' }}>
+        <p className="text--label-s" style={{ margin: '0 0 var(--space-xs)', color: 'var(--neutral-80)' }}>
+          Operational UI pattern
+        </p>
+        <p className="text--body-s" style={{ margin: 0, color: 'var(--neutral-60)' }}>
+          A practical dashboard stack is <code style={{ fontFamily: 'monospace' }}>heading-l</code> page title, <code style={{ fontFamily: 'monospace' }}>title-l</code> section titles, <code style={{ fontFamily: 'monospace' }}>title-s</code> card titles, <code style={{ fontFamily: 'monospace' }}>label-s/m</code> item labels, <code style={{ fontFamily: 'monospace' }}>text-s/xs</code> supporting copy, and <code style={{ fontFamily: 'monospace' }}>mono-s/xs</code> commands or paths.
+        </p>
+      </div>
 
       <hr style={s.divider} />
 
@@ -88,11 +167,11 @@ export function TypographyPage() {
             {category}
           </p>
           {sizes.map((size) => (
-            <div key={size} style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-m)', marginBottom: 'var(--space-xs)', borderBottom: '1px solid var(--neutral-14)', paddingBottom: 'var(--space-2xs)' }}>
-              <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '140px', flexShrink: 0 }}>
+            <div key={size} style={s.sampleRow}>
+              <code style={s.sampleLabelWide}>
                 .text--{size}
               </code>
-              <span className={`text--${size}`}>{sampleText}</span>
+              <span className={`text--${size}`} style={s.sampleText}>{sampleText}</span>
             </div>
           ))}
         </div>
@@ -112,7 +191,7 @@ export function TypographyPage() {
           <p className="text--label-xs" style={{ color: 'var(--neutral-50)', marginBottom: 'var(--space-xs)' }}>
             .text--{cls} + .text--expressive
           </p>
-          <span className={`text--${cls} text--expressive`}>{sampleText}</span>
+          <span className={`text--${cls} text--expressive`} style={{ ...s.sampleText, display: 'block' }}>{sampleText}</span>
         </div>
       ))}
 
@@ -140,18 +219,18 @@ export function TypographyPage() {
         No responsive variants. Use <code style={{ fontFamily: 'monospace' }}>.text--bold</code> for semantic bold.
       </p>
       {[100, 200, 300, 400, 500, 600, 700, 800, 900].map((w) => (
-        <div key={w} style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-m)', marginBottom: 'var(--space-xs)', borderBottom: '1px solid var(--neutral-14)', paddingBottom: 'var(--space-2xs)' }}>
-          <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '120px', flexShrink: 0 }}>
+        <div key={w} style={s.sampleRow}>
+          <code style={s.sampleLabel}>
             .text--{w}
           </code>
-          <span className={`text--body-m text--${w}`}>{sampleText}</span>
+          <span className={`text--body-m text--${w}`} style={s.sampleText}>{sampleText}</span>
         </div>
       ))}
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-m)', marginBottom: 'var(--space-xs)' }}>
-        <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '120px', flexShrink: 0 }}>
+      <div style={{ ...s.sampleRow, borderBottom: 'none' }}>
+        <code style={s.sampleLabel}>
           .text--bold
         </code>
-        <span className="text--body-m text--bold">{sampleText}</span>
+        <span className="text--body-m text--bold" style={s.sampleText}>{sampleText}</span>
       </div>
 
       <hr style={s.divider} />
@@ -164,27 +243,27 @@ export function TypographyPage() {
 
       <h3 className="text--title-m" style={{ marginBottom: 'var(--space-m)' }}>Transform</h3>
       {(['uppercase', 'lowercase', 'capitalize'] as const).map((cls) => (
-        <div key={cls} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-m)', marginBottom: 'var(--space-xs)', borderBottom: '1px solid var(--neutral-14)', paddingBottom: 'var(--space-2xs)' }}>
-          <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '140px', flexShrink: 0 }}>.text--{cls}</code>
-          <span className={`text--body-m text--${cls}`}>{sampleText}</span>
+        <div key={cls} style={s.sampleRowCenter}>
+          <code style={s.sampleLabelWide}>.text--{cls}</code>
+          <span className={`text--body-m text--${cls}`} style={s.sampleText}>{sampleText}</span>
         </div>
       ))}
 
       <hr style={s.divider} />
       <h3 className="text--title-m" style={{ marginBottom: 'var(--space-m)' }}>Decoration</h3>
       {(['underline', 'line-through', 'overline', 'underline-wavy', 'underline-dotted', 'underline-dashed', 'decoration-none'] as const).map((cls) => (
-        <div key={cls} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-m)', marginBottom: 'var(--space-xs)', borderBottom: '1px solid var(--neutral-14)', paddingBottom: 'var(--space-2xs)' }}>
-          <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '180px', flexShrink: 0 }}>.text--{cls}</code>
-          <span className={`text--body-m text--${cls}`}>{sampleText}</span>
+        <div key={cls} style={s.sampleRowCenter}>
+          <code style={s.sampleLabelXWide}>.text--{cls}</code>
+          <span className={`text--body-m text--${cls}`} style={s.sampleText}>{sampleText}</span>
         </div>
       ))}
 
       <hr style={s.divider} />
       <h3 className="text--title-m" style={{ marginBottom: 'var(--space-m)' }}>Wrapping</h3>
       {(['pretty', 'balance', 'nowrap'] as const).map((cls) => (
-        <div key={cls} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-m)', marginBottom: 'var(--space-xs)', borderBottom: '1px solid var(--neutral-14)', paddingBottom: 'var(--space-2xs)' }}>
-          <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '140px', flexShrink: 0 }}>.text--{cls}</code>
-          <span className={`text--body-m text--${cls}`} style={{ maxWidth: '280px', overflow: 'hidden' }}>{sampleLong}</span>
+        <div key={cls} style={s.sampleRowCenter}>
+          <code style={s.sampleLabelWide}>.text--{cls}</code>
+          <span className={`text--body-m text--${cls}`} style={s.wrappingSample}>{sampleLong}</span>
         </div>
       ))}
     </div>

@@ -7,14 +7,18 @@ export async function apiPlanUi(prompt: string): Promise<string> {
     body: JSON.stringify({ prompt }),
   });
   const data = await res.json();
-  if (!res.ok) {throw new Error(data.error ?? 'plan_ui failed');}
+  if (!res.ok) {
+    throw new Error(data.error ?? 'plan_ui failed');
+  }
   return data.text as string;
 }
 
 export async function apiGetComponent(name: string): Promise<unknown> {
   const res = await fetch(`/api/mcp/get_component?name=${encodeURIComponent(name)}`);
   const data = await res.json();
-  if (data.isError) {throw new Error(data.text);}
+  if (data.isError) {
+    throw new Error(data.text);
+  }
   return JSON.parse(data.text as string);
 }
 
@@ -33,7 +37,9 @@ export async function apiListRecipes(): Promise<RecipeSummary[]> {
 export async function apiGetRecipe(slug: string): Promise<string> {
   const res = await fetch(`/api/mcp/get_recipe?slug=${encodeURIComponent(slug)}`);
   const data = await res.json();
-  if (data.isError) {throw new Error(data.text);}
+  if (data.isError) {
+    throw new Error(data.text);
+  }
   return data.text as string;
 }
 
@@ -45,13 +51,60 @@ export interface GoldenPrompt {
 
 export async function apiGoldenPrompts(): Promise<GoldenPrompt[]> {
   const res = await fetch('/api/golden-prompts');
-  if (!res.ok) {return [];}
+  if (!res.ok) {
+    return [];
+  }
   return res.json() as Promise<GoldenPrompt[]>;
+}
+
+export type StudioProvider = 'claude' | 'codex' | 'ollama' | 'straico';
+
+export interface StudioProviderStatus {
+  id: StudioProvider;
+  label: string;
+  available: boolean;
+  detail: string;
+  requiresApiKey?: boolean;
+}
+
+export interface StudioModel {
+  provider: StudioProvider;
+  id: string;
+  label: string;
+  value: string;
+  source: string;
+}
+
+export interface StudioModelsResponse {
+  providers: StudioProviderStatus[];
+  models: StudioModel[];
+  errors: Partial<Record<StudioProvider, string>>;
+}
+
+export async function apiModels(
+  opts: { straicoApiKey?: string } = {},
+): Promise<StudioModelsResponse> {
+  const hasStraicoKey = Boolean(opts.straicoApiKey?.trim());
+  const res = await fetch('/api/models', {
+    method: hasStraicoKey ? 'POST' : 'GET',
+    headers: hasStraicoKey ? { 'Content-Type': 'application/json' } : undefined,
+    body: hasStraicoKey ? JSON.stringify({ straicoApiKey: opts.straicoApiKey }) : undefined,
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error ?? 'models failed');
+  }
+  return data as StudioModelsResponse;
 }
 
 export async function apiGenerate(
   prompt: string,
-  opts: { model?: string; maxTurns?: number } = {},
+  opts: {
+    provider?: StudioProvider;
+    model?: string;
+    maxTurns?: number;
+    straicoApiKey?: string;
+  } = {},
 ): Promise<string> {
   const res = await fetch('/api/generate', {
     method: 'POST',
@@ -59,7 +112,9 @@ export async function apiGenerate(
     body: JSON.stringify({ prompt, ...opts }),
   });
   const data = await res.json();
-  if (!res.ok) {throw new Error(data.error ?? 'generate failed');}
+  if (!res.ok) {
+    throw new Error(data.error ?? 'generate failed');
+  }
   return data.text as string;
 }
 

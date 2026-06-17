@@ -63,6 +63,7 @@ For new checkbox/radio/switch UI, use `CheckboxField`, `RadioField` inside `Radi
 - [BackgroundPattern] pattern prop uses singular form — 'circle' not 'circles'
 - [Badge] 'danger' is NOT a valid variant
 - [Badge] No color prop
+- [Badge] type="modern" is deprecated
 - [Badge] Use Badge for any prompt that asks for a badge, status label, or status indicator
 - [BadgeGroup] Always use BadgeGroup.Root
 - [BadgeGroup] addonText is the primary distinguishing feature

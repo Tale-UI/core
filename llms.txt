@@ -187,6 +187,12 @@ Full token table: `packages/css/docs/ai-reference.md` § 1.6
 9. **NEVER use `--brand-*` in component or UI CSS** — always use `--color-*` so dark mode inversion works
 10. **NO responsive variants for:** `opacity--`, `aspect--`, `object-fit--`, `line-clamp--`, `radius--`, `shadow--`, `border`, `divider`, `padding--`, `z--`, `width--`, `height--`, `relative`, `sticky`
 
+### Spacing and typography guidance
+
+**Spacing:** use `4xs/3xs/2xs` for micro/metadata gaps, `xs` for compact groups and action rows, `s` for card/panel padding and form stacks, `m` for roomy component groups, and `l/xl/2xl` only for page-level rhythm or large editorial gaps. `3xl/4xl` are custom-CSS-only spacing tokens with no gap utility class. Use `--section-space-*` only for vertical padding on full page sections or bands.
+
+**Typography:** type should get smaller as content becomes more nested. Reserve `display-*` for heroes and prominent editorial leads. For apps and dashboards use `heading-l` for the page title, `title-l` for section titles, `title-s` for card titles, `label-s/m` for item labels, `text-s/xs` for supporting copy, and `mono-s/xs` for commands, paths, IDs, and route values.
+
 ### Responsive Breakpoints
 
 | Suffix | Max-width | Use |
@@ -201,6 +207,7 @@ Pattern: `.{block}--{breakpoint}-{modifier}` (e.g. `.gap--m-s`, `.grid--l-2`, `.
 ### Entry Point
 
 `packages/css/src/index.css` — imports all modules in order:
+
 1. Tokens (variables defined first)
 2. Foundations (typography classes)
 3. Layout (gap, grid, flex, centering)

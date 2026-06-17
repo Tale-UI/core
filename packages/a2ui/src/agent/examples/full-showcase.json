@@ -1495,8 +1495,7 @@
               "spacing": "xs",
               "children": [
                 "bdg-ty-pill",
-                "bdg-ty-rounded",
-                "bdg-ty-modern"
+                "bdg-ty-rounded"
               ]
             }
           }
@@ -1519,17 +1518,6 @@
               "label": "rounded",
               "tone": "brand",
               "type": "rounded",
-              "size": "md"
-            }
-          }
-        },
-        {
-          "id": "bdg-ty-modern",
-          "component": {
-            "Badge": {
-              "label": "modern",
-              "tone": "brand",
-              "type": "modern",
               "size": "md"
             }
           }

@@ -1,0 +1,131 @@
+{
+  "applications": [
+    {
+      "id": "tooling-dashboard",
+      "label": "Tooling Dashboard",
+      "category": "Tools",
+      "description": "Operational index for Tale UI local tools, supporting apps, provider status, and common commands.",
+      "url": "http://localhost:5176/",
+      "command": "pnpm dashboard:dev",
+      "port": 5176,
+      "sourcePath": "apps/tooling-dashboard",
+      "tags": ["tools", "status"]
+    },
+    {
+      "id": "vite-playground",
+      "label": "Vite Playground",
+      "category": "Playgrounds",
+      "description": "Component demos, A2UI renderer demos, A2UI Chat, recipes, and performance experiments.",
+      "url": "http://localhost:5173/",
+      "command": "pnpm playground:dev -- --port 5173",
+      "port": 5173,
+      "sourcePath": "playground/vite-app",
+      "tags": ["components", "a2ui", "recipes"]
+    },
+    {
+      "id": "mcp-studio",
+      "label": "MCP Studio",
+      "category": "Tools",
+      "description": "Prompt-to-TSX maintainer tool backed by local Claude, Codex, Ollama, and Straico provider routing.",
+      "url": "http://localhost:5175/",
+      "command": "pnpm studio:dev",
+      "port": 5175,
+      "sourcePath": "apps/mcp-studio",
+      "tags": ["mcp", "providers", "preview"]
+    },
+    {
+      "id": "storybook",
+      "label": "Storybook",
+      "category": "Component Workbench",
+      "description": "Interactive component stories and visual review surface.",
+      "url": "http://localhost:6006/",
+      "command": "pnpm storybook",
+      "port": 6006,
+      "sourcePath": "playground/storybook",
+      "tags": ["components", "visual"]
+    },
+    {
+      "id": "scale-playground",
+      "label": "Theme Playground",
+      "category": "Playgrounds",
+      "description": "Color-scale and token playground for testing theme changes.",
+      "url": "http://localhost:5174/",
+      "command": "pnpm scale:dev -- --port 5174",
+      "port": 5174,
+      "sourcePath": "playground/scale",
+      "tags": ["tokens", "theme"]
+    }
+  ],
+  "commandGroups": [
+    {
+      "label": "Development",
+      "commands": [
+        {
+          "label": "Tooling Dashboard",
+          "command": "pnpm dashboard:dev",
+          "description": "Run this dashboard on port 5176."
+        },
+        {
+          "label": "Vite Playground",
+          "command": "pnpm playground:dev -- --port 5173",
+          "description": "Run the main playground with A2UI Chat."
+        },
+        {
+          "label": "MCP Studio",
+          "command": "pnpm studio:dev",
+          "description": "Run provider-backed prompt-to-TSX Studio."
+        },
+        {
+          "label": "Storybook",
+          "command": "pnpm storybook",
+          "description": "Run component stories."
+        }
+      ]
+    },
+    {
+      "label": "Verification",
+      "commands": [
+        {
+          "label": "TypeScript",
+          "command": "pnpm typescript",
+          "description": "Type-check the workspace."
+        },
+        {
+          "label": "ESLint",
+          "command": "pnpm eslint",
+          "description": "Run workspace linting."
+        },
+        {
+          "label": "Studio build",
+          "command": "pnpm studio:build",
+          "description": "Build MCP Studio."
+        },
+        {
+          "label": "Dashboard build",
+          "command": "pnpm dashboard:build",
+          "description": "Build the tooling dashboard."
+        }
+      ]
+    },
+    {
+      "label": "A2UI",
+      "commands": [
+        {
+          "label": "Generate docs",
+          "command": "pnpm a2ui:generate-docs && pnpm a2ui:generate-catalog",
+          "description": "Regenerate A2UI docs and catalog artifacts."
+        },
+        {
+          "label": "Validate examples",
+          "command": "pnpm a2ui:validate-examples",
+          "description": "Validate A2UI examples against the catalog."
+        },
+        {
+          "label": "Golden eval",
+          "command": "pnpm a2ui:golden:eval",
+          "description": "Run A2UI golden prompts against a provider."
+        }
+      ]
+    }
+  ]
+}

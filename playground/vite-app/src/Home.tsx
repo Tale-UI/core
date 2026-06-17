@@ -21,6 +21,16 @@ function Nav() {
           );
         }
 
+        if (entry.type === 'external' && entry.showInNav) {
+          return (
+            <li key={entry.href}>
+              <a className="pg-nav__link" href={entry.href}>
+                {entry.label}
+              </a>
+            </li>
+          );
+        }
+
         if (entry.type === 'route' && entry.showInNav) {
           return (
             <li key={entry.path}>
