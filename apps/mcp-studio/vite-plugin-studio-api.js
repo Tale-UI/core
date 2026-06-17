@@ -16,6 +16,7 @@
  *   GET  /api/models
  *   POST /api/models                   { straicoApiKey? }
  *   POST /api/generate                 { prompt, provider?, model?, maxTurns?, straicoApiKey? }
+ *   POST /api/a2ui/chat                { messages, provider?, model?, maxTurns?, straicoApiKey? }
  *   POST /api/write-pitfall            { component, slug, summary, detail, antiPattern, fix, completeExample }
  *   GET  /api/shape-audit              (streams output via SSE)
  */
@@ -40,9 +41,51 @@ const TOOLS = join(ROOT, 'tools');
 const DOCS_COMPONENTS = join(ROOT, 'docs', 'components');
 const SNIPPET_PATH = join(ROOT, 'docs', 'consumer-claude-md-snippet.md');
 const GOLDEN_PROMPTS_DIR = join(TOOLS, 'golden-prompts');
+const A2UI_SYSTEM_PROMPT_PATH = join(ROOT, 'packages', 'a2ui', 'src', 'agent', 'system-prompt.md');
+const A2UI_RESPONSE_INSTRUCTIONS = [
+    '',
+    '## Response Format',
+    '',
+    'You MUST respond with a JSON array of A2UI messages. Do not include markdown fences, explanatory text, or anything else around the JSON. Your entire response must be a valid JSON array.',
+    '',
+    'Each response should start with a beginRendering message, followed by one or more surfaceUpdate messages, and optionally dataModelUpdate messages.',
+    '',
+    'Use surfaceId "main" for all surfaces.',
+    '',
+    '**dataModelUpdate format.** If you include dataModelUpdate messages, each MUST have `surfaceId`, `path` (string), and `value`:',
+    '',
+    '```json',
+    '{ "type": "dataModelUpdate", "surfaceId": "main", "path": "fieldName", "value": "fieldValue" }',
+    '```',
+    '',
+    'Alternatively, use a `data` object to set multiple values at once:',
+    '',
+    '```json',
+    '{ "type": "dataModelUpdate", "surfaceId": "main", "data": { "field1": "value1", "field2": "value2" } }',
+    '```',
+    '',
+    'Do NOT omit both `path` and `data` — one of them is required.',
+    '',
+    '**CRITICAL: Component format.** Each component in the surfaceUpdate components array MUST use this exact structure:',
+    '',
+    '```json',
+    '{ "id": "myId", "component": { "TypeName": { ...props, "children": ["childId1", "childId2"] } } }',
+    '```',
+    '',
+    'Do NOT use `"type"`, `"props"`, or top-level `"children"` fields. The component type name and all its props, including children IDs, go INSIDE the `"component"` object.',
+    '',
+    'When the user asks you to modify the current UI, send a complete new set of messages that replaces the current surface.',
+    '',
+    'When a user action is dispatched back to you, prefixed with [Action], respond with updated A2UI messages if the UI should change, or a brief JSON array with a Text component acknowledging the action.',
+    '',
+    '**CRITICAL: Response size limits.** Keep responses under 80 component nodes per surfaceUpdate. If the user asks for a very large UI, build a focused representative UI, close the JSON array properly, and add a final Text component explaining that more sections are available on request.',
+    '',
+    'NEVER sacrifice valid JSON for completeness. A working UI with fewer components is always better than a truncated response.',
+].join('\n');
 // Lazy-loaded ESM modules (Node can't statically import .mjs from .ts)
 let coreModule = null;
 let providersModule = null;
+let a2uiSystemPrompt = null;
 async function getCore() {
     if (!coreModule) {
         coreModule = await import(join(TOOLS, 'mcp-core.mjs'));
@@ -70,6 +113,36 @@ function readBody(req) {
         req.on('end', () => resolve(data));
         req.on('error', reject);
     });
+}
+function getA2UISystemPrompt() {
+    if (!a2uiSystemPrompt) {
+        a2uiSystemPrompt = readFileSync(A2UI_SYSTEM_PROMPT_PATH, 'utf8') + A2UI_RESPONSE_INSTRUCTIONS;
+    }
+    return a2uiSystemPrompt;
+}
+function normalizeA2UIChatMessages(rawMessages) {
+    if (!Array.isArray(rawMessages)) {
+        return [];
+    }
+    return rawMessages.flatMap((message) => {
+        if (!message || typeof message !== 'object') {
+            return [];
+        }
+        const record = message;
+        if (record.role !== 'user' && record.role !== 'assistant') {
+            return [];
+        }
+        if (typeof record.content !== 'string' || !record.content.trim()) {
+            return [];
+        }
+        return [{ role: record.role, content: record.content }];
+    });
+}
+function buildA2UIChatPrompt(messages) {
+    const transcript = messages
+        .map((message) => `${message.role === 'user' ? 'User' : 'Assistant'}:\n${message.content}`)
+        .join('\n\n');
+    return `Conversation so far:\n\n${transcript}\n\nRespond to the latest user message with only the A2UI JSON array.`;
 }
 function buildPitfallBlock(fields) {
     const lines = [
@@ -224,6 +297,30 @@ export function studioApiPlugin() {
                                 straicoApiKey: body.straicoApiKey ?? '',
                             });
                             return json(res, 200, { text: extractCode(result) });
+                        }
+                        catch (err) {
+                            const message = err instanceof Error ? err.message : String(err);
+                            return json(res, 500, { error: message });
+                        }
+                    }
+                    // ── POST /api/a2ui/chat ─────────────────────────────────────────────
+                    if (req.method === 'POST' && url.pathname === '/api/a2ui/chat') {
+                        const body = JSON.parse(await readBody(req));
+                        const messages = normalizeA2UIChatMessages(body.messages);
+                        if (messages.length === 0) {
+                            return json(res, 400, { error: 'messages required' });
+                        }
+                        try {
+                            const providers = await getProviders();
+                            const provider = body.provider ?? 'claude';
+                            const result = await providers.callProvider(buildA2UIChatPrompt(messages), {
+                                provider,
+                                model: body.model ?? (provider === 'claude' ? 'sonnet' : undefined),
+                                systemPrompt: getA2UISystemPrompt(),
+                                maxTurns: body.maxTurns ?? 10,
+                                straicoApiKey: body.straicoApiKey ?? '',
+                            });
+                            return json(res, 200, { text: result, truncated: false });
                         }
                         catch (err) {
                             const message = err instanceof Error ? err.message : String(err);

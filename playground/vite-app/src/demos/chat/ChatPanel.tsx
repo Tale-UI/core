@@ -12,13 +12,19 @@ import { Text } from '@tale-ui/react/text';
 import { Row } from '@tale-ui/react/row';
 import { Column } from '@tale-ui/react/column';
 import { Card } from '@tale-ui/react/card';
-import { Combobox } from '@tale-ui/react/combobox';
 import { TextField } from '@tale-ui/react/text-field';
-import { SelectNative } from '@tale-ui/react/select-native';
+import { Select } from '@tale-ui/react/select';
 import { Banner } from '@tale-ui/react/banner';
 import { Separator } from '@tale-ui/react/separator';
-import type { Provider } from './types';
+import type { StudioModel, StudioProvider, StudioProviderStatus } from './studio-api';
 import type { ChatEntry } from './use-chat';
+
+const providerLabels: Record<StudioProvider, string> = {
+  claude: 'Claude',
+  codex: 'OpenAI (Codex)',
+  ollama: 'Ollama',
+  straico: 'Straico',
+};
 
 /* ─── Chat Message ────────────────────────────────────────────────────────── */
 
@@ -118,12 +124,18 @@ export interface ChatPanelProps {
   error: string | null;
   onSend: (text: string) => void;
   onClear: () => void;
-  provider: Provider;
-  onProviderChange: (provider: Provider) => void;
-  apiKey: string;
-  onApiKeyChange: (key: string) => void;
-  ollamaModel: string;
-  onOllamaModelChange: (model: string) => void;
+  providers: StudioProviderStatus[];
+  providerModels: StudioModel[];
+  provider: StudioProvider;
+  onProviderChange: (provider: StudioProvider) => void;
+  modelValue: string;
+  selectedModel: StudioModel | null;
+  onModelChange: (model: string) => void;
+  modelLoading: boolean;
+  modelError: string | null;
+  straicoApiKey: string;
+  onStraicoApiKeyChange: (key: string) => void;
+  onRefreshModels: () => void;
 }
 
 export function ChatPanel({
@@ -132,14 +144,25 @@ export function ChatPanel({
   error,
   onSend,
   onClear,
+  providers,
+  providerModels,
   provider,
   onProviderChange,
-  apiKey,
-  onApiKeyChange,
-  ollamaModel,
-  onOllamaModelChange,
+  modelValue,
+  selectedModel,
+  onModelChange,
+  modelLoading,
+  modelError,
+  straicoApiKey,
+  onStraicoApiKeyChange,
+  onRefreshModels,
 }: ChatPanelProps) {
   const scrollRef = React.useRef<HTMLDivElement>(null);
+  const inputDisabled =
+    isStreaming ||
+    modelLoading ||
+    !selectedModel ||
+    (provider === 'straico' && !straicoApiKey.trim());
 
   React.useEffect(() => {
     if (scrollRef.current) {
@@ -157,59 +180,83 @@ export function ChatPanel({
         </Button>
       </Row>
 
-      {/* Provider + API Key / Model */}
-      <Row gap="3xs">
-        <SelectNative
-          aria-label="Provider"
-          value={provider}
-          onChange={(entry) => onProviderChange(entry.target.value as Provider)}
-          size="sm"
-        >
-          <option value="anthropic">Anthropic</option>
-          <option value="openai">OpenAI</option>
-          <option value="straico">Straico</option>
-          <option value="ollama">Ollama</option>
-        </SelectNative>
-        {provider === 'ollama' ? (
-          <div style={{ flex: 1 }}>
-            <Combobox.Root
-              aria-label="Ollama model"
-              inputValue={ollamaModel}
-              onInputChange={onOllamaModelChange}
-              allowsCustomValue
+      {/* Provider + model */}
+      <Column gap="3xs">
+        <Row gap="3xs" align="end">
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <Select.Root
+              selectedKey={provider}
+              onSelectionChange={(key) => {
+                if (key != null) {
+                  onProviderChange(String(key) as StudioProvider);
+                }
+              }}
+              isDisabled={isStreaming}
             >
-              <Combobox.InputGroup>
-                <Combobox.Input
-                  placeholder="e.g. llama3.2, qwen2.5-coder"
-                  style={{ fontFamily: 'var(--mono-font-family)', fontSize: 'var(--text-xs-font-size)' }}
-                />
-                <Combobox.Trigger />
-              </Combobox.InputGroup>
-              <Combobox.Popover>
-                <Combobox.ListBox>
-                  <Combobox.Item id="qwen3-coder-next" textValue="qwen3-coder-next">qwen3-coder-next</Combobox.Item>
-                  <Combobox.Item id="qwen2.5-coder" textValue="qwen2.5-coder">qwen2.5-coder</Combobox.Item>
-                  <Combobox.Item id="llama3.2" textValue="llama3.2">llama3.2</Combobox.Item>
-                  <Combobox.Item id="llama3.1" textValue="llama3.1">llama3.1</Combobox.Item>
-                  <Combobox.Item id="mistral" textValue="mistral">mistral</Combobox.Item>
-                  <Combobox.Item id="deepseek-r1" textValue="deepseek-r1">deepseek-r1</Combobox.Item>
-                  <Combobox.Item id="gemma3" textValue="gemma3">gemma3</Combobox.Item>
-                </Combobox.ListBox>
-              </Combobox.Popover>
-            </Combobox.Root>
+              <Select.Label>Provider</Select.Label>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Icon />
+              </Select.Trigger>
+              <Select.Popover>
+                <Select.ListBox>
+                  {providers.map((providerStatus) => (
+                    <Select.Item key={providerStatus.id} id={providerStatus.id}>
+                      {providerLabels[providerStatus.id]} - {providerStatus.detail}
+                    </Select.Item>
+                  ))}
+                </Select.ListBox>
+              </Select.Popover>
+            </Select.Root>
           </div>
-        ) : (
-          <input
-            className="tale-input"
-            type="password"
-            value={apiKey}
-            onChange={(entry) => onApiKeyChange(entry.target.value)}
-            placeholder={provider === 'anthropic' ? 'sk-ant-...' : provider === 'straico' ? 'straico-key-...' : 'sk-...'}
-            aria-label="API key"
-            style={{ flex: 1, fontFamily: 'var(--mono-font-family)', fontSize: 'var(--text-xs-font-size)' }}
-          />
+          <Button
+            variant="neutral"
+            size="sm"
+            onPress={onRefreshModels}
+            isDisabled={isStreaming || modelLoading}
+          >
+            {modelLoading ? <Spinner size="sm" /> : null}
+            {provider === 'straico' ? 'Load' : 'Refresh'}
+          </Button>
+        </Row>
+
+        {provider === 'straico' && (
+          <TextField.Root value={straicoApiKey} onChange={onStraicoApiKeyChange}>
+            <TextField.Label>Straico API key</TextField.Label>
+            <TextField.Input
+              placeholder="sk-..."
+              type="password"
+              style={{ fontFamily: 'var(--mono-font-family)', fontSize: 'var(--text-xs-font-size)' }}
+            />
+          </TextField.Root>
         )}
-      </Row>
+
+        <Select.Root
+          selectedKey={modelValue || null}
+          placeholder={modelLoading ? 'Loading models...' : 'Select a model...'}
+          onSelectionChange={(key) => {
+            if (key != null) {
+              onModelChange(String(key));
+            }
+          }}
+          isDisabled={isStreaming || modelLoading || providerModels.length === 0}
+        >
+          <Select.Label>Model</Select.Label>
+          <Select.Trigger>
+            <Select.Value />
+            <Select.Icon />
+          </Select.Trigger>
+          <Select.Popover>
+            <Select.ListBox>
+              {providerModels.map((model) => (
+                <Select.Item key={model.value} id={model.value}>
+                  {model.label}
+                </Select.Item>
+              ))}
+            </Select.ListBox>
+          </Select.Popover>
+        </Select.Root>
+      </Column>
 
       <Separator />
 
@@ -254,8 +301,14 @@ export function ChatPanel({
         </Banner.Root>
       )}
 
+      {modelError && (
+        <Banner.Root variant="warning" size="sm">
+          <Banner.Description>{modelError}</Banner.Description>
+        </Banner.Root>
+      )}
+
       {/* Input */}
-      <ChatInput onSend={onSend} disabled={isStreaming || (provider !== 'ollama' && !apiKey) || (provider === 'ollama' && !ollamaModel)} />
+      <ChatInput onSend={onSend} disabled={inputDisabled} />
     </Column>
   );
 }

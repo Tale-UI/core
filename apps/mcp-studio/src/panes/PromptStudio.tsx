@@ -18,8 +18,11 @@ import { PlanResult } from './PlanResult';
 import { PreviewPane } from './PreviewPane';
 
 const STRAICO_API_KEY_STORAGE_KEY = 'tale-ui:mcp-studio:straico-api-key';
+const PROVIDER_STORAGE_KEY = 'tale-ui:mcp-studio:provider';
+const MODEL_STORAGE_KEY = 'tale-ui:mcp-studio:model';
 const DEFAULT_PROVIDER_VALUE: StudioProvider = 'claude';
 const DEFAULT_MODEL_VALUE = 'claude:sonnet';
+const PROVIDER_VALUES = ['claude', 'codex', 'ollama', 'straico'] as const;
 
 const providerLabels: Record<StudioProvider, string> = {
   claude: 'Claude',
@@ -28,12 +31,41 @@ const providerLabels: Record<StudioProvider, string> = {
   straico: 'Straico',
 };
 
-function readStoredStraicoApiKey(): string {
+function isStudioProvider(value: string | null): value is StudioProvider {
+  return PROVIDER_VALUES.includes(value as StudioProvider);
+}
+
+function readStoredString(storageKey: string): string {
   try {
-    return window.localStorage.getItem(STRAICO_API_KEY_STORAGE_KEY) ?? '';
+    return window.localStorage.getItem(storageKey) ?? '';
   } catch {
     return '';
   }
+}
+
+function writeStoredString(storageKey: string, value: string): void {
+  try {
+    if (value) {
+      window.localStorage.setItem(storageKey, value);
+    } else {
+      window.localStorage.removeItem(storageKey);
+    }
+  } catch {
+    /* localStorage may be unavailable in private contexts */
+  }
+}
+
+function readStoredStraicoApiKey(): string {
+  return readStoredString(STRAICO_API_KEY_STORAGE_KEY);
+}
+
+function readStoredProvider(): StudioProvider {
+  const value = readStoredString(PROVIDER_STORAGE_KEY);
+  return isStudioProvider(value) ? value : DEFAULT_PROVIDER_VALUE;
+}
+
+function readStoredModel(): string {
+  return readStoredString(MODEL_STORAGE_KEY) || DEFAULT_MODEL_VALUE;
 }
 
 function formatModelErrors(errors: Partial<Record<StudioProvider, string>>): string | null {
@@ -55,8 +87,8 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
   const [goldens, setGoldens] = React.useState<GoldenPrompt[]>([]);
   const [providers, setProviders] = React.useState<StudioProviderStatus[]>([]);
   const [models, setModels] = React.useState<StudioModel[]>([]);
-  const [providerValue, setProviderValue] = React.useState<StudioProvider>(DEFAULT_PROVIDER_VALUE);
-  const [modelValue, setModelValue] = React.useState(DEFAULT_MODEL_VALUE);
+  const [providerValue, setProviderValue] = React.useState<StudioProvider>(readStoredProvider);
+  const [modelValue, setModelValue] = React.useState(readStoredModel);
   const [modelLoading, setModelLoading] = React.useState(false);
   const [modelError, setModelError] = React.useState<string | null>(null);
   const [straicoApiKey, setStraicoApiKey] = React.useState(readStoredStraicoApiKey);
@@ -121,16 +153,16 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
   }, [loadModels]);
 
   React.useEffect(() => {
-    try {
-      if (straicoApiKey.trim()) {
-        window.localStorage.setItem(STRAICO_API_KEY_STORAGE_KEY, straicoApiKey);
-      } else {
-        window.localStorage.removeItem(STRAICO_API_KEY_STORAGE_KEY);
-      }
-    } catch {
-      /* localStorage may be unavailable in private contexts */
-    }
+    writeStoredString(STRAICO_API_KEY_STORAGE_KEY, straicoApiKey.trim() ? straicoApiKey : '');
   }, [straicoApiKey]);
+
+  React.useEffect(() => {
+    writeStoredString(PROVIDER_STORAGE_KEY, providerValue);
+  }, [providerValue]);
+
+  React.useEffect(() => {
+    writeStoredString(MODEL_STORAGE_KEY, modelValue);
+  }, [modelValue]);
 
   const providerModels = React.useMemo(
     () => models.filter((model) => model.provider === providerValue),
