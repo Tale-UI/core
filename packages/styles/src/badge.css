@@ -14,9 +14,9 @@
  *             .tale-badge--md  (default)
  *             .tale-badge--lg
  *
- * Types:      (default / pill)   full border-radius
+ * Types:      (default / pill)   full border-radius for color variants
  *             .tale-badge--rounded   medium border-radius
- *             .tale-badge--modern    neutral shadow outline style
+ *             .tale-badge--modern    deprecated alias for neutral shadow outline style
  */
 
 .tale-badge {
@@ -52,12 +52,6 @@
 
 /* ─── Variants ───────────────────────────────────────────────────────────── */
 
-.tale-badge--neutral {
-  background-color: var(--neutral-10);
-  color: var(--neutral-70);
-  border-color: var(--neutral-22);
-}
-
 /* Color variant — uses --color-* tokens, switched via .color-* theme classes */
 .tale-badge--color {
   background-color: color-mix(in srgb, var(--color-60) 15%, var(--neutral-5));
@@ -71,12 +65,16 @@
   border-radius: var(--radius-s);
 }
 
-/* ─── Type: modern ──────────────────────────────────────────────────────── */
+/* ─── Neutral variant + deprecated modern type ──────────────────────────── */
 
+.tale-badge--neutral,
 .tale-badge--modern {
-  border-radius: var(--radius-s);
   background-color: var(--neutral-5);
   border-color: var(--neutral-18);
   color: var(--neutral-70);
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.tale-badge--modern {
+  border-radius: var(--radius-s);
 }

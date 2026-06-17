@@ -319,15 +319,15 @@ const parseHash = () => {
   }
 };
 
-function ScaleApp() {
+function ScaleApp({ syncUrlHash = true } = {}) {
   const initial = useMemo(
     () =>
-      parseHash() ?? {
+      (syncUrlHash ? parseHash() : null) ?? {
         namedColor: DEFAULT_NAMED_COLOR,
         neutralColor: DEFAULT_NEUTRAL_COLOR,
         mode: DEFAULT_MODE,
       },
-    [],
+    [syncUrlHash],
   );
 
   // Independent named + neutral state
@@ -536,6 +536,11 @@ function ScaleApp() {
 
   // Debounced URL hash update (5-part format)
   useEffect(() => {
+    if (!syncUrlHash) {
+      hashUpdateTimeout.clear();
+      return undefined;
+    }
+
     const curvaturePart = curvature !== 1 || namedAsNeutral ? `/${curvature.toFixed(2)}` : '';
     const namedAsNeutralPart = namedAsNeutral ? '/named-neutral' : '';
     const nextHash = `#${encodeURIComponent(namedColor)}/${encodeURIComponent(neutralColor)}/${mode}${curvaturePart}${namedAsNeutralPart}`;
@@ -564,7 +569,7 @@ function ScaleApp() {
     return () => {
       hashUpdateTimeout.clear();
     };
-  }, [namedColor, neutralColor, mode, curvature, namedAsNeutral, hashUpdateTimeout]);
+  }, [namedColor, neutralColor, mode, curvature, namedAsNeutral, syncUrlHash, hashUpdateTimeout]);
 
   const resetToDefaults = () => {
     setNamedColor(DEFAULT_NAMED_COLOR);
@@ -574,11 +579,13 @@ function ScaleApp() {
     setWhiteAnchor(false);
     setNamedAsNeutral(false);
     setCurvature(1);
-    try {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
-      latestHashRef.current = '';
-    } catch {
-      /* ignore */
+    if (syncUrlHash) {
+      try {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        latestHashRef.current = '';
+      } catch {
+        /* ignore */
+      }
     }
   };
 

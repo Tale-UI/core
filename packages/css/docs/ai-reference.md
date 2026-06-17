@@ -151,6 +151,21 @@ All spacing uses fluid `clamp()` scaling between 480px and 1600px viewport width
 
 NOTE: `--space-3xl` and `--space-4xl` exist as tokens but have **no gap utility class**. Gap classes stop at `2xl`. Use these tokens directly in custom component CSS.
 
+**Spacing usage guidance**
+
+| Token range | Use for |
+|---|---|
+| `--space-4xs` / `--space-3xs` | Micro gaps inside compact controls, badges, metadata rows, icon/text pairs, and tiny inline padding. |
+| `--space-2xs` | Tight gaps between closely related labels, values, chips, or small inline controls. |
+| `--space-xs` | Action rows, heading-to-content separation inside dense panels, code-block padding, and compact card content. |
+| `--space-s` | Standard card/panel padding, related item groups, form field stacks, and medium-density grids. |
+| `--space-m` | Larger component groups, relaxed content stacks, mobile page gutters, and intentionally roomy panels. |
+| `--space-l` / `--space-xl` | Page-level rhythm, desktop page gutters, major layout grids, and space between sections. |
+| `--space-2xl` | Large editorial or marketing gaps; largest available gap utility size. |
+| `--space-3xl` / `--space-4xl` | Extra-large custom CSS only; no gap utility class exists for these tokens. |
+
+Rule of thumb: smaller tokens describe tighter relationships inside a component; larger tokens describe distance between larger groups or page regions. Use section spacing only for vertical padding on full page sections or bands, never for card padding or compact dashboards.
+
 **Section spacing — `--section-space-*`** (larger scale for vertical page rhythm)
 
 | Token | ~Min (480px) | ~Max (1600px) |
@@ -194,8 +209,25 @@ Used by `.padding--*` utility classes.
 | body-xs | — | `--text-xs` | — |
 | mono-l | — | `--text-l` | — |
 | mono-m | — | `--text-m` | — |
-| mono-s | — | `--text-xs` | — |
-| mono-xs | — | `--text-2xs` | — |
+| mono-s | — | `--text-s` | — |
+| mono-xs | — | `--text-xs` | — |
+
+**Typography usage guidance**
+
+Use type roles by hierarchy and context. Visual size should usually get smaller as content becomes more nested; keep HTML semantics separate from visual role when needed.
+
+| Context | Recommended role |
+|---|---|
+| Marketing hero or highly prominent page lead | `display-l` / `display-m` |
+| Product/page title in an application or dashboard | `heading-l` |
+| Top-level content section heading | `title-l` or `heading-s` when more emphasis is needed |
+| Panel, card, or grouped list title | `title-m` / `title-s` |
+| Nested card title, table row name, item label | `label-m` / `label-s` |
+| Body copy | `text-m` |
+| Secondary descriptions, helper text, dense card copy | `text-s` / `text-xs` |
+| Paths, commands, IDs, route values, and code | `mono-s` / `mono-xs` |
+
+Avoid `display-*` inside cards, tables, sidebars, popovers, or dense operational views. For dashboards and tools, prefer `heading-l` page title, `title-l` section titles, `title-s` card titles, `label-s/m` item labels, and `text-s/xs` supporting copy.
 
 **Other typography tokens**
 
@@ -394,6 +426,8 @@ Covers: ProgressBar, Meter (track, indicator, label, value).
 
 - `h1` → display-m, `h2` → display-s, `h3` → heading-l, `h4` → heading-m, `h5` → title-l, `h6` → title-m
 - `body` → body-m
+
+Element defaults are editorial defaults, not a requirement for every product UI. For dense tools and dashboards, use `Text` or explicit classes to keep the visual hierarchy restrained while preserving semantic HTML, for example `<Text as="h2" variant="title" size="l">`.
 
 **Text utility classes** (foundations/_text-utilities.css)
 
@@ -996,12 +1030,12 @@ Utility classes for applying mode to any element (not just html):
 
 **Typography hierarchy example**
 ```html
-<h1 class="text--display-l">Hero Heading</h1>
-<h2 class="text--heading-l">Section Title</h2>
-<h3 class="text--title-m">Card Title</h3>
+<h1 class="text--heading-l">Application Title</h1>
+<h2 class="text--title-l">Section Title</h2>
+<h3 class="text--title-s">Card Title</h3>
 <p class="text--body-m">Body paragraph text</p>
 <span class="text--label-s text--uppercase">Category Label</span>
-<code class="text--mono-m">code snippet</code>
+<code class="text--mono-s">code snippet</code>
 ```
 
 ---

@@ -8,7 +8,7 @@ type Args = {
     | 'teal' | 'cyan' | 'sky' | 'indigo' | 'violet' | 'purple' | 'fuchsia'
     | 'pink' | 'rose';
   size: 'sm' | 'md' | 'lg';
-  type: 'pill' | 'rounded' | 'modern';
+  type: 'pill' | 'rounded';
 };
 
 const meta: Meta<Args> = {
@@ -25,7 +25,7 @@ const meta: Meta<Args> = {
     },
     type: {
       control: 'select',
-      options: ['pill', 'rounded', 'modern'],
+      options: ['pill', 'rounded'],
     },
   },
   args: {
@@ -104,11 +104,19 @@ export const AllTypes: Story = {
   render() {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-        <Badge type="pill">Pill</Badge>
-        <Badge type="rounded">Rounded</Badge>
-        <Badge type="modern">Modern</Badge>
+        <Badge variant="neutral" type="pill">Neutral Pill</Badge>
+        <Badge variant="neutral" type="rounded">Neutral Rounded</Badge>
+        <Badge variant="brand" type="pill">Brand Pill</Badge>
+        <Badge variant="brand" type="rounded">Brand Rounded</Badge>
       </div>
     );
+  },
+};
+
+export const DeprecatedModernType: StoryObj = {
+  parameters: { controls: { disable: true } },
+  render() {
+    return <Badge type="modern">Modern (deprecated)</Badge>;
   },
 };
 
@@ -117,7 +125,7 @@ export const AllVariations: Story = {
   render() {
     const variants = ['neutral', 'brand', 'error', 'warning', 'success', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] as const;
     const sizes = ['sm', 'md', 'lg'] as const;
-    const types = ['pill', 'rounded', 'modern'] as const;
+    const types = ['pill', 'rounded'] as const;
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2.4rem' }}>
         {types.map((t) => (

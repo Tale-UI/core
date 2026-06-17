@@ -119,25 +119,61 @@ Full token reference: [packages/css/docs/design-tokens.md](../packages/css/docs/
 
 ---
 
+## Spacing
+
+Use spacing by relationship and hierarchy:
+
+| Token range | Typical use |
+|-------------|-------------|
+| `--space-4xs` / `--space-3xs` | Micro gaps inside compact controls, badges, metadata rows, icon/text pairs, and very small inline padding |
+| `--space-2xs` | Tight label/value, chip, and compact inline-control gaps |
+| `--space-xs` | Action rows, heading-to-content gaps inside dense panels, code-block padding, compact card content |
+| `--space-s` | Standard card/panel padding, related item groups, form field stacks, medium-density grids |
+| `--space-m` | Larger component groups, relaxed content stacks, mobile page gutters, roomy panels |
+| `--space-l` / `--space-xl` | Page-level rhythm, desktop page gutters, major grids, section separation |
+| `--space-2xl` | Large editorial or marketing gaps; largest gap utility size |
+| `--space-3xl` / `--space-4xl` | Extra-large custom CSS only; no gap utility class exists |
+
+Use `--section-space-*` only for vertical padding on full-width page sections or bands. Do not use section spacing for card padding, form stacks, or compact dashboards.
+
+---
+
 ## Typography
 
 ### 6 type roles
 
-| Role | Font family | Weights | Sizes |
-|------|------------|---------|-------|
-| **Display** | Inter | 600 | `--display-l-font-size` (4.1rem) · `m` (3.8rem) · `s` (3.4rem) |
-| **Heading** | Inter | 600 | `--heading-l-font-size` (3.0rem) · `m` (2.73rem) · `s` (2.46rem) |
-| **Title** | Inter | 600 | `--title-l-font-size` (2.41rem) · `m` (2.19rem) · `s` (2.11rem) |
-| **Label** | Inter | 500 | `--label-l-font-size` (1.92rem) · `m` (1.60rem) · `s` (1.33rem) · `xs` (1.23rem) |
-| **Body** | Inter | 400 | `--text-l-font-size` (1.92rem) · `m` (1.60rem) · `s` (1.33rem) · `xs` (1.23rem) |
-| **Mono** | Roboto Mono | 400 | `--mono-l-font-size` (1.92rem) · `m` (1.60rem) · `s` (1.23rem) |
+| Role | Font family | Weights | Sizes | Use |
+|------|------------|---------|-------|-----|
+| **Display** | Inter | 600 | `--display-l-font-size` (4.1rem) · `m` (3.8rem) · `s` (3.4rem) | Marketing heroes, highly prominent page leads |
+| **Heading** | Inter | 600 | `--heading-l-font-size` (3.0rem) · `m` (2.73rem) · `s` (2.46rem) | Page titles, prominent section headings |
+| **Title** | Inter | 600 | `--title-l-font-size` (2.41rem) · `m` (2.19rem) · `s` (2.11rem) | Section, panel, card, and grouped-list titles |
+| **Label** | Inter | 500 | `--label-l-font-size` (1.92rem) · `m` (1.60rem) · `s` (1.33rem) · `xs` (1.23rem) | UI labels, item names, navigation |
+| **Body** | Inter | 400 | `--text-l-font-size` (1.92rem) · `m` (1.60rem) · `s` (1.33rem) · `xs` (1.23rem) | Body copy, descriptions, helper text |
+| **Mono** | Roboto Mono | 400 | `--mono-l-font-size` (1.92rem) · `m` (1.60rem) · `s` (1.33rem) · `xs` (1.23rem) | Code, commands, paths, IDs, route values |
 
 Additional font: **Playfair Display** (serif) is available via `--expressive-font-family`.
+
+### Hierarchy guidance
+
+Type size should usually get smaller as content becomes more nested. Keep semantic HTML separate from visual style: for example, a dense dashboard can render `<Text as="h2" variant="title" size="l">` instead of using a visually oversized `h2` default.
+
+For dashboards and operational tools, a practical hierarchy is:
+
+- Page title: `heading-l`
+- Top-level section title: `title-l`
+- Panel or card title: `title-m` / `title-s`
+- Nested item names: `label-m` / `label-s`
+- Supporting copy: `text-s` / `text-xs`
+- Commands, paths, IDs, and route values: `mono-s` / `mono-xs`
+
+Reserve `display-*` for heroes, editorial pages, or intentionally prominent first-screen content. Avoid it inside cards, tables, sidebars, popovers, and dense repeated layouts.
 
 ### CSS classes
 
 ```html
-<h1 class="text--display-m">Display medium</h1>
+<h1 class="text--heading-l">Application title</h1>
+<h2 class="text--title-l">Section title</h2>
+<h3 class="text--title-s">Card title</h3>
 <p class="text--body-m">Body text</p>
 <code class="text--mono-s">code</code>
 ```

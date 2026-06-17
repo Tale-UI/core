@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Tabs } from '@tale-ui/react/tabs';
 import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';
+import { Link } from '@tale-ui/react/link';
 import { PromptStudio } from './panes/PromptStudio';
 import { ComponentBrowser } from './panes/ComponentBrowser';
 import { RecipeBrowser } from './panes/RecipeBrowser';
@@ -33,6 +34,11 @@ export function App() {
             </Tabs.List>
           </Tabs.Root>
         </div>
+        <nav className="studio-topbar-links" aria-label="Dev app links">
+          <Link href="http://localhost:5173/">Vite Playground</Link>
+          <Link href="http://localhost:5174/">Theme Playground</Link>
+          <Link href="http://localhost:5176/">Dashboard</Link>
+        </nav>
         <ColorModeToggle />
       </div>
 

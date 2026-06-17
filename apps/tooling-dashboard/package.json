@@ -1,0 +1,26 @@
+{
+  "name": "@tale-ui/tooling-dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@tale-ui/react": "workspace:*",
+    "@tale-ui/react-styles": "workspace:*",
+    "@tale-ui/utils": "workspace:*",
+    "lucide-react": "^1.6.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.13",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.4",
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
+  }
+}

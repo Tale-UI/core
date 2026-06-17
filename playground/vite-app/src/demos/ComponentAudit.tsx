@@ -2169,10 +2169,10 @@ export default function ComponentAudit() {
             'tale-select__trigger--lg',
             'tale-select__value',
             'tale-select__icon',
-            'tale-select__popup',
-            'tale-select__list',
+            'tale-select__popover',
+            'tale-select__listbox',
             'tale-select__item',
-            'tale-select__group-label',
+            'tale-select__header',
             'tale-select__separator',
           ]}
         >
@@ -2217,6 +2217,34 @@ export default function ComponentAudit() {
                 </Select.ListBox>
               </Select.Popover>
             </Select.Root>
+          </Row>
+          <SubHeading>Long Selected Value</SubHeading>
+          <Row>
+            <div style={{ width: '22rem' }}>
+              <Select.Root
+                defaultSelectedKey="enterprise-plan"
+                placeholder="Select a plan…"
+              >
+                <Select.Label>Plan</Select.Label>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Icon />
+                </Select.Trigger>
+                <Select.Popover offset={4}>
+                  <Select.ListBox>
+                    <Select.Item id="basic-plan" textValue="Basic">
+                      Basic
+                    </Select.Item>
+                    <Select.Item
+                      id="enterprise-plan"
+                      textValue="Enterprise compliance plan with dedicated support"
+                    >
+                      Enterprise compliance plan with dedicated support
+                    </Select.Item>
+                  </Select.ListBox>
+                </Select.Popover>
+              </Select.Root>
+            </div>
           </Row>
           <SubHeading>Disabled</SubHeading>
           <Row>
@@ -4608,8 +4636,13 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Types</SubHeading>
           <Row>
-            <Badge type="pill">Pill</Badge>
-            <Badge type="rounded">Rounded</Badge>
+            <Badge variant="neutral" type="pill">Neutral Pill</Badge>
+            <Badge variant="neutral" type="rounded">Neutral Rounded</Badge>
+            <Badge variant="brand" type="pill">Brand Pill</Badge>
+            <Badge variant="brand" type="rounded">Brand Rounded</Badge>
+          </Row>
+          <SubHeading>Deprecated type</SubHeading>
+          <Row>
             <Badge type="modern">Modern</Badge>
           </Row>
         </Section>

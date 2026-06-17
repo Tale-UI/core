@@ -112,6 +112,8 @@ ${deprecatedSection}
 - **No \`JSX.Element\` return types or \`React.FC\`** — plain functions with no return type: \`export function MyComponent() { ... }\`
 - **Token suffixes:** CSS tokens use \`-s\`/\`-m\`/\`-l\`; component \`size\` props use \`-sm\`/\`-md\`/\`-lg\`
 - **Max gap:** \`Row\`/\`Column\` \`gap\` max is \`'2xl'\` — \`'3xl'\`/\`'4xl'\` do not exist
+- **Spacing scale:** use \`4xs/3xs/2xs\` for micro/metadata gaps, \`xs\` for compact groups and action rows, \`s\` for card/form stacks, \`m\` for roomy component groups, and \`l/xl/2xl\` only for page-level rhythm or large editorial gaps.
+- **Typography hierarchy:** type should get smaller as content nests. For apps/dashboards use \`heading-l\` page title, \`title-l\` section title, \`title-s\` card title, \`label-s/m\` item labels, \`text-s/xs\` supporting copy, and \`mono-s/xs\` for commands/paths. Reserve \`display-*\` for heroes.
 - **Layout:** Use \`<Row>\` (horizontal flex) and \`<Column>\` (vertical flex) — import each separately; \`Column\` is NOT re-exported from \`@tale-ui/react/row\`
 - **Triggers:** Never nest \`<Button>\`/\`<IconButton>\` inside overlay triggers — triggers render their own \`<button>\`. Style with \`className="tale-button tale-button--primary tale-button--md"\`
 - **Imports:** Use per-component import paths — \`import { Button } from '@tale-ui/react/button'\`, not barrel imports

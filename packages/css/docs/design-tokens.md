@@ -7,6 +7,23 @@ All spacing uses fluid `clamp()` scaling between `--min-screen-width` (480px) an
 - **General:** `--space-4xs` through `--space-4xl` (11 steps)
 - **Section:** `--section-space-xs` through `--section-space-xl` (5 steps, larger scale)
 
+### Spacing usage guidance
+
+Use the spacing scale by relationship and hierarchy, not by visual guesswork. Smaller tokens should describe tighter relationships inside a component; larger tokens should describe distance between larger groups or page regions.
+
+| Token range | Typical use |
+|-------------|-------------|
+| `--space-4xs` / `--space-3xs` | Micro gaps inside compact controls, badges, metadata rows, icon/text pairs, and very small inline padding. |
+| `--space-2xs` | Tight gaps between closely related labels, values, chips, or small inline controls. |
+| `--space-xs` | Default gap for action rows, heading-to-content separation inside dense panels, code-block padding, and compact card content. |
+| `--space-s` | Standard card/panel padding, related item groups, form field stacks, and medium-density grids. |
+| `--space-m` | Larger component groups, relaxed content stacks, mobile page gutters, and intentionally roomy panels. |
+| `--space-l` / `--space-xl` | Page-level rhythm, desktop page gutters, major layout grids, and space between sections. |
+| `--space-2xl` | Large editorial or marketing gaps; also the largest available gap utility size. |
+| `--space-3xl` / `--space-4xl` | Extra-large custom CSS only. Use for immersive heroes or highly open layouts; no gap utility class exists for these tokens. |
+
+Use section spacing (`--section-space-*`) only for vertical padding on full page sections or bands. Do not use section spacing for card padding, control spacing, or compact dashboard layouts.
+
 ## Typography
 
 Six typography categories, each with font-family, size, weight, line-height, and letter-spacing tokens:
@@ -21,6 +38,23 @@ Six typography categories, each with font-family, size, weight, line-height, and
 | `mono` | l, m, s, xs | Code, technical content |
 
 Fonts: **Inter** (display + body), **Playfair Display** (expressive), **Roboto Mono** (code).
+
+### Typography usage guidance
+
+Type size should generally get smaller as content becomes more nested. Choose the visual role from the content hierarchy, then keep the HTML element semantic with `as` or a matching class when needed.
+
+| Context | Recommended role |
+|---------|------------------|
+| Marketing hero or highly prominent page lead | `display-l` / `display-m` |
+| Product/page title in an application or dashboard | `heading-l` |
+| Top-level content section heading | `title-l` or `heading-s` when more emphasis is needed |
+| Panel, card, or grouped list title | `title-m` / `title-s` |
+| Nested card title, table row name, item label | `label-m` / `label-s` |
+| Body copy | `text-m` |
+| Secondary descriptions, helper text, dense card copy | `text-s` / `text-xs` |
+| Paths, commands, IDs, route values, and code | `mono-s` / `mono-xs` |
+
+Avoid using `display-*` inside cards, tables, sidebars, popovers, or dense operational views. For dashboards and tools, a typical hierarchy is `heading-l` page title, `title-l` section titles, `title-s` card titles, `label-s/m` item labels, and `text-s/xs` supporting copy.
 
 ## Color System
 

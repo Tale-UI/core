@@ -1,5 +1,9 @@
 import ScaleApp from '@tale-ui/playground-scale';
 
-export default function ScaleDemo() {
-  return <ScaleApp />;
+export type ScaleDemoProps = {
+  syncUrlHash?: boolean;
+};
+
+export default function ScaleDemo({ syncUrlHash = true }: ScaleDemoProps) {
+  return <ScaleApp syncUrlHash={syncUrlHash} />;
 }

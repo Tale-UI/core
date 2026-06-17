@@ -12,7 +12,7 @@ type BadgeType = 'pill' | 'rounded' | 'modern';
 export interface BadgeProps extends Omit<React.ComponentPropsWithoutRef<'span'>, 'className'> {
   variant?: Variant | undefined;
   size?: Size | undefined;
-  /** Visual type. `'pill'` (default) uses full border-radius, `'rounded'` uses medium radius, `'modern'` uses neutral shadow styling. */
+  /** Shape type. Neutral and color variants support `'pill'` and `'rounded'`. `'modern'` is deprecated; use `variant="neutral"` for the neutral shadow treatment. */
   type?: BadgeType | undefined;
   className?: string | undefined;
 }

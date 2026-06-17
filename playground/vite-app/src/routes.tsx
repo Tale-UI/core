@@ -1,6 +1,5 @@
 import type * as React from 'react';
 import ComponentAudit from './demos/ComponentAudit';
-import ScaleDemo from './demos/ScaleDemo';
 import FormWithValidation from './demos/recipes/FormWithValidation';
 import DataTableWithSorting from './demos/recipes/DataTableWithSorting';
 import SearchWithAutocomplete from './demos/recipes/SearchWithAutocomplete';
@@ -26,6 +25,12 @@ export type RouteEntry =
       to: string;
     }
   | {
+      type: 'external';
+      href: string;
+      label: string;
+      showInNav?: boolean;
+    }
+  | {
       type: 'header';
       label: string;
     };
@@ -35,10 +40,21 @@ export const defaultRoute = '/perf/contained-triggers';
 export const routes: RouteEntry[] = [
   { type: 'header', label: 'Tools' },
   {
-    type: 'route',
-    path: '/scale',
+    type: 'external',
+    href: 'http://localhost:5174/',
     label: 'Theme playground',
-    element: <ScaleDemo />,
+    showInNav: true,
+  },
+  {
+    type: 'external',
+    href: 'http://localhost:5175/',
+    label: 'MCP Studio',
+    showInNav: true,
+  },
+  {
+    type: 'external',
+    href: 'http://localhost:5176/',
+    label: 'Tooling dashboard',
     showInNav: true,
   },
   { type: 'header', label: 'Components' },

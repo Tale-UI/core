@@ -250,13 +250,55 @@ const MODULE_MAP: Record<string, Record<string, unknown>> = {
   '@tale-ui/charts': ChartsPkg as unknown as Record<string, unknown>,
 };
 
+const proxyCache = new WeakMap<object, Record<string, unknown>>();
+
+function createMissingComponent(name: string) {
+  function MissingComponent() {
+    throw new Error(
+      `Unknown component export: ${name}. Check the generated code for an invented import or subcomponent.`,
+    );
+  }
+  MissingComponent.displayName = `Missing(${name})`;
+  return MissingComponent;
+}
+
+function proxifyExports(pkg: Record<string, unknown>, label: string): Record<string, unknown> {
+  const cached = proxyCache.get(pkg);
+  if (cached) {
+    return cached;
+  }
+
+  const proxy = new Proxy(pkg, {
+    get(target, prop, receiver) {
+      if (typeof prop !== 'string') {
+        return Reflect.get(target, prop, receiver);
+      }
+      if (prop in target) {
+        const value = Reflect.get(target, prop, receiver);
+        if (value && typeof value === 'object') {
+          return proxifyExports(value as Record<string, unknown>, `${label}.${prop}`);
+        }
+        return value;
+      }
+      return createMissingComponent(`${label}.${prop}`);
+    },
+  });
+
+  proxyCache.set(pkg, proxy);
+  return proxy;
+}
+
+const PROXIED_MODULE_MAP: Record<string, Record<string, unknown>> = Object.fromEntries(
+  Object.entries(MODULE_MAP).map(([path, pkg]) => [path, proxifyExports(pkg, path)]),
+);
+
 // Flatten Tale UI packages + lucide-react into a single scope bag (used for the const destructuring in new Function).
 // Exclude 'react' — it's in MODULE_MAP for requireShim but its namespace keys (including 'default')
 // are reserved words that would break the destructure statement.
 const SCOPE: Record<string, unknown> = Object.entries(MODULE_MAP)
   .filter(([key]) => key !== 'react')
   .reduce(
-    (acc, [, pkg]) => Object.assign(acc, pkg),
+    (acc, [key]) => Object.assign(acc, PROXIED_MODULE_MAP[key]),
     {} as Record<string, unknown>,
   );
 
@@ -271,7 +313,7 @@ function kebabToPascal(s: string): string {
 // that don't export themselves by name, also exposes the whole package as the namespace
 // (e.g. TextField: TextFieldPkg) so _textField.TextField.Root works.
 function requireShim(path: string): Record<string, unknown> {
-  const pkg = MODULE_MAP[path] ?? SCOPE;
+  const pkg = PROXIED_MODULE_MAP[path] ?? SCOPE;
   const segment = (path.split('/').pop() ?? '');
   const componentName = kebabToPascal(segment);
   // Only add the namespace alias when the package doesn't already export under that name
@@ -332,7 +374,7 @@ function renderCode(compiledJs: string) {
     `);
     factory(React, SCOPE, requireShim, modExports);
 
-    const ExampleComponent = modExports.Example as React.FC | null;
+    const ExampleComponent = (modExports.Example ?? modExports.default) as React.FC | null;
     if (!ExampleComponent) {
       showError('No `Example` function exported. Make sure your code has:\nexport function Example() { ... }');
       return;

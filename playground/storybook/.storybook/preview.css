@@ -10,10 +10,10 @@ body {
    The design system sets heading/text color via --display-color / --text-color which
    depend on a neutral theme class. In the Storybook docs iframe no theme class is
    present, so we provide concrete fallbacks scoped to the docs container. */
-.sbdocs :not([data-scale-app], [data-scale-app] *):is(h1, h2, h3, h4, h5, h6) {
+.sbdocs :not([data-scale-app], [data-scale-app] *, .sb-unstyled, .sb-unstyled *):is(h1, h2, h3, h4, h5, h6) {
   color: var(--display-color, var(--neutral-90, #1a1a1a));
 }
-.sbdocs :not([data-scale-app], [data-scale-app] *):is(p, span, li, td, th) {
+.sbdocs :not([data-scale-app], [data-scale-app] *, .sb-unstyled, .sb-unstyled *):is(p, span, li, td, th) {
   color: var(--text-color, var(--neutral-80, #333));
 }
 

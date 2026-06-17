@@ -205,6 +205,28 @@ Accepts all React Aria `Select` props plus an optional `className`. See the `@ex
 </Select.Root>
 ```
 
+### Long Selected Values
+
+The closed trigger keeps a fixed height. Long selected values are truncated with an ellipsis instead of wrapping and resizing the field.
+
+```tsx
+<Select.Root defaultSelectedKey="enterprise" placeholder="Select a plan...">
+  <Select.Label>Plan</Select.Label>
+  <Select.Trigger>
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Popover>
+    <Select.ListBox>
+      <Select.Item id="basic" textValue="Basic">Basic</Select.Item>
+      <Select.Item id="enterprise" textValue="Enterprise compliance plan with dedicated support">
+        Enterprise compliance plan with dedicated support
+      </Select.Item>
+    </Select.ListBox>
+  </Select.Popover>
+</Select.Root>
+```
+
 ## CSS Classes
 
 - `.tale-select` -- Base (root)

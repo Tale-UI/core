@@ -166,6 +166,37 @@ export const AllSizes: Story = {
   ),
 };
 
+export const LongSelectedValue: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => (
+    <div style={{ width: '22rem' }}>
+      <Select.Root
+        defaultSelectedKey="enterprise"
+        placeholder="Select a plan…"
+      >
+        <Select.Label>Plan</Select.Label>
+        <Select.Trigger>
+          <Select.Value />
+          <Select.Icon />
+        </Select.Trigger>
+        <Select.Popover>
+          <Select.ListBox>
+            <Select.Item id="basic" textValue="Basic">Basic</Select.Item>
+            <Select.Item
+              id="enterprise"
+              textValue="Enterprise compliance plan with dedicated support"
+            >
+              Enterprise compliance plan with dedicated support
+            </Select.Item>
+          </Select.ListBox>
+        </Select.Popover>
+      </Select.Root>
+    </div>
+  ),
+};
+
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {

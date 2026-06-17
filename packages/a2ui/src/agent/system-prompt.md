@@ -55,7 +55,7 @@ All container components accept a `children` array of child component IDs. This 
 | **ListItem** | `content` | string |
 | **Badge** | `tone` | `neutral`, `brand`, `error`, `warning`, `success`, `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose` |
 |  | `size` | `sm`, `md`, `lg` |
-|  | `type` | `pill`, `rounded`, `modern` |
+|  | `type` | `pill`, `rounded` |
 |  | `label` | string |
 | **Icon** | `name` | lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`) |
 |  | `size` | `sm`, `md`, `lg` |

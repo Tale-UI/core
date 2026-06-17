@@ -248,6 +248,7 @@ const PROP_VALUES = {
  */
 const PROP_VALUE_OVERRIDES = {
   'Button.variant': '`primary`, `neutral`, `ghost`, `danger`',
+  'Badge.type': '`pill`, `rounded`',
   'Banner.variant': '`info`, `success`, `warning`, `error`',
   'Banner.size': '`sm`, `md`',
   'Spinner.variant': '`circle`, `line`, `dots`',
