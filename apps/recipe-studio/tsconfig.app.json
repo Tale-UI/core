@@ -15,7 +15,8 @@
       "@tale-ui/charts": ["../../packages/charts/src/index.ts"],
       "@tale-ui/charts/*": ["../../packages/charts/src/*"],
       "@tale-ui/utils": ["../../packages/utils/src/index.ts"],
-      "@tale-ui/utils/*": ["../../packages/utils/src/*"]
+      "@tale-ui/utils/*": ["../../packages/utils/src/*"],
+      "@tale-ui/mcp-studio/*": ["../mcp-studio/*"]
     },
     "moduleResolution": "bundler",
     "resolveJsonModule": true,

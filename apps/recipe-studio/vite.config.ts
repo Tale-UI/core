@@ -27,6 +27,10 @@ export default defineConfig({
         find: '@tale-ui/core',
         replacement: path.resolve(__dirname, '..', '..', 'packages', 'css', 'src', 'index.css'),
       },
+      {
+        find: '@tale-ui/mcp-studio',
+        replacement: path.resolve(__dirname, '..', 'mcp-studio'),
+      },
     ],
   },
   server: {

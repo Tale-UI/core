@@ -1,1 +1,1 @@
-import '../../../mcp-studio/src/preview/preview';
+import '@tale-ui/mcp-studio/src/preview/preview';

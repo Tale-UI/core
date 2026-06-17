@@ -6,6 +6,10 @@
     "module": "ESNext",
     "types": ["node"],
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@tale-ui/mcp-studio/*": ["../../apps/mcp-studio/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

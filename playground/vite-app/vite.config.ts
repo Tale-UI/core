@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { studioApiPlugin } from '../../apps/mcp-studio/vite-plugin-studio-api';
+import { studioApiPlugin } from '@tale-ui/mcp-studio/vite-plugin-studio-api';
 
 // https://vite.dev/config/
 export default defineConfig(() => {
@@ -26,12 +26,47 @@ export default defineConfig(() => {
         '@tale-ui/react-styles': path.resolve(__dirname, '..', '..', 'packages', 'styles', 'src'),
         // Point @tale-ui/core to source so CSS @import resolves without needing a dist build
         '@tale-ui/core': path.resolve(__dirname, '..', '..', 'packages', 'css', 'src', 'index.css'),
-        '@tale-ui/a2ui/renderer': path.resolve(__dirname, '..', '..', 'packages', 'a2ui', 'src', 'renderer', 'index.ts'),
-        '@tale-ui/a2ui/catalog': path.resolve(__dirname, '..', '..', 'packages', 'a2ui', 'src', 'catalog.ts'),
-        '@tale-ui/a2ui/validation': path.resolve(__dirname, '..', '..', 'packages', 'a2ui', 'src', 'validation', 'validate.ts'),
-        '@tale-ui/a2ui/types': path.resolve(__dirname, '..', '..', 'packages', 'a2ui', 'src', 'types.ts'),
+        '@tale-ui/a2ui/renderer': path.resolve(
+          __dirname,
+          '..',
+          '..',
+          'packages',
+          'a2ui',
+          'src',
+          'renderer',
+          'index.ts',
+        ),
+        '@tale-ui/a2ui/catalog': path.resolve(
+          __dirname,
+          '..',
+          '..',
+          'packages',
+          'a2ui',
+          'src',
+          'catalog.ts',
+        ),
+        '@tale-ui/a2ui/validation': path.resolve(
+          __dirname,
+          '..',
+          '..',
+          'packages',
+          'a2ui',
+          'src',
+          'validation',
+          'validate.ts',
+        ),
+        '@tale-ui/a2ui/types': path.resolve(
+          __dirname,
+          '..',
+          '..',
+          'packages',
+          'a2ui',
+          'src',
+          'types.ts',
+        ),
         '@tale-ui/a2ui/src': path.resolve(__dirname, '..', '..', 'packages', 'a2ui', 'src'),
         '@tale-ui/a2ui': path.resolve(__dirname, '..', '..', 'packages', 'a2ui', 'src', 'index.ts'),
+        '@tale-ui/mcp-studio': path.resolve(__dirname, '..', '..', 'apps', 'mcp-studio'),
         ...(isProfiling ? { 'react-dom/client': 'react-dom/profiling' } : {}),
       },
     },

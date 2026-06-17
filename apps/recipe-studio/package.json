@@ -8,6 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@tale-ui/mcp-studio": "workspace:*",
     "lucide-react": "^1.6.0",
     "marked": "^15.0.12",
     "react": "19.2.4",

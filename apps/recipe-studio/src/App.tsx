@@ -61,7 +61,7 @@ function updateRecipeUrl(slug: string) {
 }
 
 function extractTsx(markdown: string): string | null {
-  const blocks = [...markdown.matchAll(/```tsx\n([\s\S]*?)```/g)].map(match => match[1]);
+  const blocks = [...markdown.matchAll(/```tsx\n([\s\S]*?)```/g)].map((match) => match[1]);
   if (blocks.length === 0) {
     return null;
   }
@@ -78,11 +78,9 @@ function extractTsx(markdown: string): string | null {
     return null;
   }
   const target = functions[functions.length - 1];
-  return (
-    `${code.slice(0, target.index!)
-    }export function Example${
-    code.slice(target.index! + target[0].length)}`
-  );
+  return `${code.slice(0, target.index!)}export function Example${code.slice(
+    target.index! + target[0].length,
+  )}`;
 }
 
 function RecipeList({
@@ -111,7 +109,9 @@ function RecipeList({
         recipe.category,
         recipe.path,
         ...recipe.components,
-      ].join(' ').toLowerCase();
+      ]
+        .join(' ')
+        .toLowerCase();
       return searchable.includes(q);
     });
   }, [query, recipes]);
@@ -142,14 +142,22 @@ function RecipeList({
                     <button
                       key={recipe.slug}
                       type="button"
-                      className={selected ? 'recipe-list-item recipe-list-item--selected' : 'recipe-list-item'}
+                      className={
+                        selected
+                          ? 'recipe-list-item recipe-list-item--selected'
+                          : 'recipe-list-item'
+                      }
                       onClick={() => onSelect(recipe.slug)}
                     >
                       <span className="recipe-list-item__main">
                         <span className="recipe-list-item__title">{recipe.title}</span>
                         <span className="recipe-list-item__summary">{recipe.summary}</span>
                       </span>
-                      <Badge variant={recipe.previewable ? 'success' : 'warning'} size="sm" type="rounded">
+                      <Badge
+                        variant={recipe.previewable ? 'success' : 'warning'}
+                        size="sm"
+                        type="rounded"
+                      >
                         {recipe.tsxBlockCount} TSX
                       </Badge>
                     </button>
@@ -174,13 +182,7 @@ function RecipeList({
   );
 }
 
-function RecipeHeader({
-  recipe,
-  onRefresh,
-}: {
-  recipe: RecipeSummary;
-  onRefresh: () => void;
-}) {
+function RecipeHeader({ recipe, onRefresh }: { recipe: RecipeSummary; onRefresh: () => void }) {
   return (
     <header className="recipe-detail-header">
       <div className="recipe-detail-header__main">
@@ -280,8 +282,8 @@ export function App() {
     try {
       const nextRecipes = await apiListRecipes();
       setRecipes(nextRecipes);
-      setSelectedSlug(current => {
-        if (current && nextRecipes.some(recipe => recipe.slug === current)) {
+      setSelectedSlug((current) => {
+        if (current && nextRecipes.some((recipe) => recipe.slug === current)) {
           return current;
         }
         return nextRecipes[0]?.slug ?? null;
@@ -322,6 +324,29 @@ export function App() {
 
   const docsHtml = React.useMemo(() => marked.parse(markdown) as string, [markdown]);
   const tsxCode = React.useMemo(() => extractTsx(markdown), [markdown]);
+
+  let previewPanelContent: React.ReactNode;
+  if (loadingRecipe) {
+    previewPanelContent = (
+      <div className="recipe-loading">
+        <Spinner size="md" />
+      </div>
+    );
+  } else if (tsxCode) {
+    previewPanelContent = <PreviewPane code={tsxCode} />;
+  } else {
+    previewPanelContent = (
+      <EmptyState.Root>
+        <EmptyState.Icon>
+          <Icon icon={Code2Icon} size="lg" />
+        </EmptyState.Icon>
+        <EmptyState.Title>No renderable TSX</EmptyState.Title>
+        <EmptyState.Description>
+          Add a fenced tsx block to this recipe to enable preview.
+        </EmptyState.Description>
+      </EmptyState.Root>
+    );
+  }
 
   return (
     <div className="recipe-root">
@@ -369,7 +394,7 @@ export function App() {
             <Spinner size="md" />
           </div>
         ) : (
-          <>
+          <React.Fragment>
             <RecipeList
               recipes={recipes}
               selectedSlug={selectedSlug}
@@ -380,13 +405,16 @@ export function App() {
 
             <section className="recipe-detail" aria-label="Recipe detail">
               {selectedRecipe ? (
-                <>
-                  <RecipeHeader recipe={selectedRecipe} onRefresh={() => void loadSelectedRecipe()} />
+                <React.Fragment>
+                  <RecipeHeader
+                    recipe={selectedRecipe}
+                    onRefresh={() => void loadSelectedRecipe()}
+                  />
                   <RecipeMetadata recipe={selectedRecipe} />
 
                   <Tabs.Root
                     selectedKey={view}
-                    onSelectionChange={key => setView(key as RecipeView)}
+                    onSelectionChange={(key) => setView(key as RecipeView)}
                     className="recipe-tabs"
                   >
                     <Tabs.List>
@@ -406,29 +434,14 @@ export function App() {
                     </Tabs.List>
 
                     <Tabs.Panel id="preview" className="recipe-tab-panel">
-                      {loadingRecipe ? (
-                        <div className="recipe-loading">
-                          <Spinner size="md" />
-                        </div>
-                      ) : tsxCode ? (
-                        <PreviewPane code={tsxCode} />
-                      ) : (
-                        <EmptyState.Root>
-                          <EmptyState.Icon>
-                            <Icon icon={Code2Icon} size="lg" />
-                          </EmptyState.Icon>
-                          <EmptyState.Title>No renderable TSX</EmptyState.Title>
-                          <EmptyState.Description>
-                            Add a fenced tsx block to this recipe to enable preview.
-                          </EmptyState.Description>
-                        </EmptyState.Root>
-                      )}
+                      {previewPanelContent}
                     </Tabs.Panel>
 
                     <Tabs.Panel id="docs" className="recipe-tab-panel recipe-docs-panel">
                       <article
                         className="recipe-markdown"
                         // Markdown is loaded from local repository files.
+                        // eslint-disable-next-line react/no-danger
                         dangerouslySetInnerHTML={{ __html: docsHtml }}
                       />
                     </Tabs.Panel>
@@ -443,7 +456,7 @@ export function App() {
                       )}
                     </Tabs.Panel>
                   </Tabs.Root>
-                </>
+                </React.Fragment>
               ) : (
                 <EmptyState.Root>
                   <EmptyState.Icon>
@@ -456,7 +469,7 @@ export function App() {
                 </EmptyState.Root>
               )}
             </section>
-          </>
+          </React.Fragment>
         )}
       </main>
     </div>

@@ -264,6 +264,9 @@ importers:
 
   apps/recipe-studio:
     dependencies:
+      '@tale-ui/mcp-studio':
+        specifier: workspace:*
+        version: link:../mcp-studio
       lucide-react:
         specifier: ^1.6.0
         version: 1.7.0(react@19.2.4)
@@ -758,6 +761,9 @@ importers:
       '@tale-ui/charts':
         specifier: workspace:*
         version: link:../../packages/charts/build
+      '@tale-ui/mcp-studio':
+        specifier: workspace:*
+        version: link:../../apps/mcp-studio
       '@tale-ui/playground-scale':
         specifier: workspace:*
         version: link:../scale
