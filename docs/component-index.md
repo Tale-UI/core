@@ -1,6 +1,6 @@
 # Component Index
 
-Quick-reference table for all 112 `@tale-ui/react` components plus 6 `@tale-ui/charts` components.
+Quick-reference table for all 115 `@tale-ui/react` components plus 6 `@tale-ui/charts` components.
 For detailed usage, see the per-component docs in [docs/components/](components/index.md).
 
 ## Form Controls (27)
@@ -110,7 +110,7 @@ For detailed usage, see the per-component docs in [docs/components/](components/
 | Meter          | Gauge showing a known-range value such as storage used, battery level, or capacity | `@tale-ui/react/meter`           | Root, Header, Label, Value, Track, Indicator         |
 | Spinner        | Indeterminate loading indicator                                                    | `@tale-ui/react/spinner`         | --                                                   |
 
-## Display (16)
+## Display (17)
 
 | Component    | Description                                                                                           | Import                         | Parts                                                                                                                                               |
 | ------------ | ----------------------------------------------------------------------------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -123,6 +123,7 @@ For detailed usage, see the per-component docs in [docs/components/](components/
 | Image        | Styled image wrapper with radius and fit props                                                        | `@tale-ui/react/image`         | --                                                                                                                                                  |
 | KeyValuePairs | Semantic description-list display for labels and corresponding values                                  | `@tale-ui/react/key-value-pairs` | Root, Item, Term, Details, Info, Group, GroupTitle, GroupList                                                                                       |
 | List         | Simple non-interactive list with optional dividers                                                    | `@tale-ui/react/list`          | Root, Item                                                                                                                                          |
+| ListBox      | Standalone selectable listbox                                                                         | `@tale-ui/react/list-box`      | Root, Item, Section, Header, Text, SelectionIndicator, LoadMoreItem, Collection                                                                      |
 | QRCode       | QR code generator with size variants and decorative scan overlay                                      | `@tale-ui/react/qr-code`       | Root, Scan                                                                                                                                          |
 | RatingBadge  | Pill badge with star icon and numeric rating                                                          | `@tale-ui/react/rating-badge`  | --                                                                                                                                                  |
 | RatingStars  | Read-only star rating display                                                                         | `@tale-ui/react/rating-stars`  | --                                                                                                                                                  |
@@ -155,7 +156,7 @@ For detailed usage, see the per-component docs in [docs/components/](components/
 | --------- | ------------------------------------------------------------------- | --------------------- | ----- |
 | Text      | Polymorphic typography wrapper with variant, size, and colour props | `@tale-ui/react/text` | --    |
 
-## Utility (7)
+## Utility (8)
 
 | Component       | Description                                                                                               | Import                             | Parts |
 | --------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----- |
@@ -166,6 +167,7 @@ For detailed usage, see the per-component docs in [docs/components/](components/
 | Icon            | Lucide-react icon wrapper with BEM sizing                                                                 | `@tale-ui/react/icon`              | --    |
 | IconButton      | Square button for icon-only use                                                                           | `@tale-ui/react/icon-button`       | --    |
 | mergeProps      | Smart React props merging utility                                                                         | `@tale-ui/react/merge-props`       | --    |
+| Virtualizer     | Virtualized collection utilities                                                                          | `@tale-ui/react/virtualizer`       | --    |
 
 ## Marketing (9)
 

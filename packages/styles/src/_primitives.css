@@ -360,6 +360,7 @@
 .tale-select__item,
 .tale-combobox__item,
 .tale-autocomplete__item,
+.tale-list-box__item,
 .tale-menu__item,
 .tale-menu__checkbox-item,
 .tale-menu__radio-item,
@@ -387,6 +388,7 @@
 .tale-select__item[data-focused],
 .tale-combobox__item[data-focused],
 .tale-autocomplete__item[data-focused],
+.tale-list-box__item[data-focused],
 .tale-menu__item[data-focused],
 .tale-menu__checkbox-item[data-focused],
 .tale-menu__radio-item[data-focused],
@@ -401,6 +403,7 @@
 .tale-select__item[data-disabled],
 .tale-combobox__item[data-disabled],
 .tale-autocomplete__item[data-disabled],
+.tale-list-box__item[data-disabled],
 .tale-menu__item[data-disabled],
 .tale-menu__checkbox-item[data-disabled],
 .tale-menu__radio-item[data-disabled],
@@ -454,6 +457,7 @@
 .tale-select__header,
 .tale-combobox__header,
 .tale-autocomplete__header,
+.tale-list-box__header,
 .tale-menu__header {
   padding: var(--space-4xs) var(--space-2xs);
   color: var(--group-label-color);

@@ -68,6 +68,7 @@
     "./key-value-pairs": "./src/key-value-pairs.css",
     "./link": "./src/link.css",
     "./list": "./src/list.css",
+    "./list-box": "./src/list-box.css",
     "./menu": "./src/menu.css",
     "./meter": "./src/meter.css",
     "./multi-select": "./src/multi-select.css",

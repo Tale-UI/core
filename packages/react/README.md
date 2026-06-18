@@ -120,7 +120,7 @@ Banner · Meter · Progress Bar · Progress Circle · Spinner
 
 ### Display
 
-Avatar (with Group, Count, Indicator, and LabelGroup) · Badge · Dot Icon · Empty State · Featured Icon · Grid List · Image · Key Value Pairs · List · QR Code · Rating Badge · Rating Stars · Table · Tag Group · Tree · Video Player
+Avatar (with Group, Count, Indicator, and LabelGroup) · Badge · Dot Icon · Empty State · Featured Icon · Grid List · Image · Key Value Pairs · List · List Box · QR Code · Rating Badge · Rating Stars · Table · Tag Group · Tree · Video Player
 
 ### Form Structure
 
@@ -140,7 +140,7 @@ Text
 
 ### Utilities
 
-Color Mode Toggle · Container · CSP Provider · I18n Provider · Icon · IconButton · `mergeProps`
+Color Mode Toggle · Container · CSP Provider · I18n Provider · Icon · IconButton · `mergeProps` · Virtualizer
 
 ## Styling
 

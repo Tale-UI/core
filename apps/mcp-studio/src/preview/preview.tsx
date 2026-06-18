@@ -95,6 +95,7 @@ import * as InputTagsPkg from '@tale-ui/react/input-tags';
 import * as IPhoneMockupPkg from '@tale-ui/react/iphone-mockup';
 import * as LinkPkg from '@tale-ui/react/link';
 import * as ListPkg from '@tale-ui/react/list';
+import * as ListBoxPkg from '@tale-ui/react/list-box';
 import * as MenubarPkg from '@tale-ui/react/menubar';
 import * as MultiSelectPkg from '@tale-ui/react/multi-select';
 import * as NavigationMenuPkg from '@tale-ui/react/navigation-menu';
@@ -119,6 +120,7 @@ import * as TimeFieldPkg from '@tale-ui/react/time-field';
 import * as ToolbarPkg from '@tale-ui/react/toolbar';
 import * as TreePkg from '@tale-ui/react/tree';
 import * as VideoPlayerPkg from '@tale-ui/react/video-player';
+import * as VirtualizerPkg from '@tale-ui/react/virtualizer';
 import * as AppStoreButtonPkg from '@tale-ui/react/app-store-button';
 import * as AreaChartPkg from '@tale-ui/charts/area-chart';
 import * as BarChartPkg from '@tale-ui/charts/bar-chart';
@@ -214,6 +216,7 @@ const MODULE_MAP: Record<string, Record<string, unknown>> = {
   '@tale-ui/react/iphone-mockup': IPhoneMockupPkg as Record<string, unknown>,
   '@tale-ui/react/link': LinkPkg as Record<string, unknown>,
   '@tale-ui/react/list': ListPkg as Record<string, unknown>,
+  '@tale-ui/react/list-box': ListBoxPkg as Record<string, unknown>,
   '@tale-ui/react/menubar': MenubarPkg as Record<string, unknown>,
   '@tale-ui/react/multi-select': MultiSelectPkg as Record<string, unknown>,
   '@tale-ui/react/navigation-menu': NavigationMenuPkg as Record<string, unknown>,
@@ -238,6 +241,7 @@ const MODULE_MAP: Record<string, Record<string, unknown>> = {
   '@tale-ui/react/toolbar': ToolbarPkg as Record<string, unknown>,
   '@tale-ui/react/tree': TreePkg as Record<string, unknown>,
   '@tale-ui/react/video-player': VideoPlayerPkg as Record<string, unknown>,
+  '@tale-ui/react/virtualizer': VirtualizerPkg as Record<string, unknown>,
   '@tale-ui/react/app-store-button': AppStoreButtonPkg as Record<string, unknown>,
   '@tale-ui/charts/area-chart': AreaChartPkg as Record<string, unknown>,
   '@tale-ui/charts/bar-chart': BarChartPkg as Record<string, unknown>,

@@ -54,7 +54,7 @@ const SKIP_DIRS = new Set([
 // Components that don't have a .styled.tsx file (re-exports, providers, utilities)
 const NO_STYLED_FILE = new Set([
   'checkbox-group', 'radio-group', 'toggle-group', 'social-button-group',
-  'container', 'csp-provider', 'merge-props',
+  'container', 'csp-provider', 'merge-props', 'virtualizer',
 ]);
 
 // Re-export components where @example lives in the source package, not in their own dir
@@ -65,15 +65,15 @@ const REEXPORT_SKIP_EXAMPLE = new Set([
 // Components that don't need CSS files
 const NO_CSS = new Set([
   'checkbox-group', 'radio-group', 'toggle-group', 'social-button-group',
-  'container', 'csp-provider', 'i18n-provider', 'merge-props',
+  'container', 'csp-provider', 'i18n-provider', 'merge-props', 'virtualizer',
   'context-menu', 'menubar',
 ]);
 
 // Components that don't need storybook stories
-const NO_STORY = new Set(['csp-provider', 'i18n-provider', 'merge-props']);
+const NO_STORY = new Set(['csp-provider', 'i18n-provider', 'merge-props', 'virtualizer']);
 
 // Components that don't need ComponentAudit entries
-const NO_AUDIT_ENTRY = new Set(['csp-provider', 'i18n-provider', 'merge-props']);
+const NO_AUDIT_ENTRY = new Set(['csp-provider', 'i18n-provider', 'merge-props', 'virtualizer']);
 
 // ─── Helper functions ────────────────────────────────────────────────────────
 

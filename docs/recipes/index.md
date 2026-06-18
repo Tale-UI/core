@@ -62,6 +62,12 @@ Copy-paste multi-component patterns for common real-world scenarios. Each recipe
 | [Dropdown — With Search (Simple)](dropdown-search-simple.md)     | Menu, SearchField                  | Dropdown with inline search field for filtering items      |
 | [Dropdown — With Search (Advanced)](dropdown-search-advanced.md) | Menu, SearchField, Avatar, Spinner | Searchable dropdown with grouped results and async support |
 
+## Pickers
+
+| Recipe | Components Used | Description |
+| ------ | --------------- | ----------- |
+| [Emoji Picker](emoji-picker.md) | Popover, SearchField, ListBox, Virtualizer, Text | Searchable virtualized emoji picker |
+
 ## Dropdowns — Account
 
 | Recipe                                                             | Components Used                 | Description                                                  |

@@ -63,6 +63,7 @@ import { EmptyState } from '@tale-ui/react/empty-state';
 import { Image } from '@tale-ui/react/image';
 import { KeyValuePairs } from '@tale-ui/react/key-value-pairs';
 import { List } from '@tale-ui/react/list';
+import { ListBox } from '@tale-ui/react/list-box';
 
 // Form Structure
 import { Field } from '@tale-ui/react/field';
@@ -399,6 +400,7 @@ const TOC = [
       { id: 'tree', label: 'Tree' },
       { id: 'image', label: 'Image' },
       { id: 'list', label: 'List' },
+      { id: 'list-box', label: 'ListBox' },
       { id: 'qr-code', label: 'QRCode' },
       { id: 'video-player', label: 'VideoPlayer' },
     ],
@@ -4856,6 +4858,63 @@ export default function ComponentAudit() {
             <List.Item>Spacious two</List.Item>
             <List.Item>Spacious three</List.Item>
           </List.Root>
+        </Section>
+
+        <Section
+          id="list-box"
+          title="ListBox"
+          classes={[
+            'tale-list-box',
+            'tale-list-box__item',
+            'tale-list-box__section',
+            'tale-list-box__header',
+            'tale-list-box__text',
+            'tale-list-box__selection-indicator',
+            'tale-list-box__load-more-item',
+          ]}
+        >
+          <SubHeading>Single select</SubHeading>
+          <ListBox.Root aria-label="Project status" selectionMode="single" className="audit__demo-medium">
+            <ListBox.Item id="todo" textValue="To do">
+              To do
+            </ListBox.Item>
+            <ListBox.Item id="doing" textValue="In progress">
+              In progress
+            </ListBox.Item>
+            <ListBox.Item id="done" textValue="Done">
+              Done
+            </ListBox.Item>
+          </ListBox.Root>
+          <SubHeading>With Sections</SubHeading>
+          <ListBox.Root aria-label="Foods" selectionMode="single" className="audit__demo-medium">
+            <ListBox.Section id="fruit">
+              <ListBox.Header>Fruit</ListBox.Header>
+              <ListBox.Item id="apple" textValue="Apple">
+                Apple
+              </ListBox.Item>
+              <ListBox.Item id="banana" textValue="Banana">
+                Banana
+              </ListBox.Item>
+            </ListBox.Section>
+            <ListBox.Section id="vegetables">
+              <ListBox.Header>Vegetables</ListBox.Header>
+              <ListBox.Item id="carrot" textValue="Carrot">
+                Carrot
+              </ListBox.Item>
+              <ListBox.Item id="broccoli" textValue="Broccoli">
+                Broccoli
+              </ListBox.Item>
+            </ListBox.Section>
+          </ListBox.Root>
+          <SubHeading>Multiple select</SubHeading>
+          <ListBox.Root aria-label="Channels" selectionMode="multiple" className="audit__demo-medium">
+            {['Email', 'SMS', 'Push'].map((item) => (
+              <ListBox.Item key={item} id={item.toLowerCase()} textValue={item}>
+                {item}
+                <ListBox.SelectionIndicator />
+              </ListBox.Item>
+            ))}
+          </ListBox.Root>
         </Section>
 
         <Section

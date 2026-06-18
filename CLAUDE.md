@@ -261,7 +261,7 @@ Status of required artifacts for all 112 components. When adding or updating a c
 
 **Non-trivial components requiring tests:** Drawer (custom state/swipe), Meter (percentage calc), ProgressBar (percentage calc + indeterminate), ColorModeToggle (localStorage/OS preference), Tabs (MutationObserver/ResizeObserver indicator), KeyValuePairs (ResizeObserver column calculation)
 
-**Total:** 113 components | **Fully complete:** 113 | **Missing artifacts:** 0
+**Total:** 115 components | **Fully complete:** 115 | **Missing artifacts:** 0
 
 ### Form Controls
 
@@ -286,6 +286,7 @@ Status of required artifacts for all 112 components. When adding or updating a c
 | Select            | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
 | Combobox          | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
 | Autocomplete      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
+| ListBox           | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable     |
 | NumberField       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
 | Slider            | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
 | SearchField       | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable     |
@@ -440,6 +441,7 @@ Status of required artifacts for all 112 components. When adding or updating a c
 | Icon            | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 | IconButton      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 | mergeProps      | n/a    | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | n/a   | n/a   | n/a  | stable |
+| Virtualizer     | n/a    | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | n/a   | n/a   | n/a  | stable |
 
 ## Charts Package Artifact Audit (`@tale-ui/charts`)
 

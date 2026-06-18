@@ -107,6 +107,7 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 | [EmptyState](empty-state.md) | Placeholder for empty content areas |
 | [FeaturedIcon](featured-icon.md) | Themed background wrapper for icons |
 | [GridList](grid-list.md) | Selectable grid of items |
+| [ListBox](list-box.md) | Standalone selectable listbox |
 | [RatingBadge](rating-badge.md) | Pill badge with star icon and numeric rating |
 | [RatingStars](rating-stars.md) | Read-only star rating display |
 | [Table](table.md) | Data table with sorting |
@@ -147,3 +148,4 @@ Per-component documentation for `@tale-ui/react`. Each page covers imports, part
 | [Icon](icon.md) | Lucide-react icon wrapper with BEM sizing |
 | [IconButton](icon-button.md) | Square button for icon-only use |
 | [mergeProps](merge-props.md) | Smart React props merging utility |
+| [Virtualizer](virtualizer.md) | Virtualized collection utilities |

@@ -5649,6 +5649,110 @@
       "crossPitfallRefs": null
     },
     {
+      "name": "ListBox",
+      "slug": "list-box",
+      "import": "@tale-ui/react/list-box",
+      "category": "Display",
+      "description": "Standalone selectable listbox",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "selectionMode",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "items",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "layout",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Item",
+        "Section",
+        "Header",
+        "Text",
+        "SelectionIndicator",
+        "LoadMoreItem",
+        "Collection"
+      ],
+      "examples": [
+        "import { ListBox } from '@tale-ui/react/list-box';\n\nexport function StatusListBox() {\n  return (\n    <ListBox.Root aria-label=\"Project status\" selectionMode=\"single\">\n      <ListBox.Item id=\"todo\" textValue=\"To do\">\n        To do\n      </ListBox.Item>\n      <ListBox.Item id=\"doing\" textValue=\"In progress\">\n        In progress\n      </ListBox.Item>\n      <ListBox.Item id=\"done\" textValue=\"Done\">\n        Done\n      </ListBox.Item>\n    </ListBox.Root>\n  );\n}",
+        "import { ListBox } from '@tale-ui/react/list-box';\n\nexport function SectionedListBox() {\n  return (\n    <ListBox.Root aria-label=\"Foods\" selectionMode=\"single\">\n      <ListBox.Section id=\"fruit\">\n        <ListBox.Header>Fruit</ListBox.Header>\n        <ListBox.Item id=\"apple\" textValue=\"Apple\">\n          Apple\n        </ListBox.Item>\n        <ListBox.Item id=\"banana\" textValue=\"Banana\">\n          Banana\n        </ListBox.Item>\n      </ListBox.Section>\n      <ListBox.Section id=\"vegetables\">\n        <ListBox.Header>Vegetables</ListBox.Header>\n        <ListBox.Item id=\"carrot\" textValue=\"Carrot\">\n          Carrot\n        </ListBox.Item>\n        <ListBox.Item id=\"broccoli\" textValue=\"Broccoli\">\n          Broccoli\n        </ListBox.Item>\n      </ListBox.Section>\n    </ListBox.Root>\n  );\n}",
+        "import { ListBox } from '@tale-ui/react/list-box';\n\nexport function MultipleListBox() {\n  return (\n    <ListBox.Root aria-label=\"Notification channels\" selectionMode=\"multiple\">\n      <ListBox.Item id=\"email\" textValue=\"Email\">\n        Email\n        <ListBox.SelectionIndicator />\n      </ListBox.Item>\n      <ListBox.Item id=\"sms\" textValue=\"SMS\">\n        SMS\n        <ListBox.SelectionIndicator />\n      </ListBox.Item>\n      <ListBox.Item id=\"push\" textValue=\"Push\">\n        Push\n        <ListBox.SelectionIndicator />\n      </ListBox.Item>\n    </ListBox.Root>\n  );\n}",
+        "import { ListBox } from '@tale-ui/react/list-box';\nimport { GridLayout, Size, Virtualizer } from '@tale-ui/react/virtualizer';\n\nconst reactions = [\n  { id: 'smile', emoji: '😀', label: 'Smile' },\n  { id: 'laugh', emoji: '😄', label: 'Laugh' },\n  { id: 'heart', emoji: '😍', label: 'Heart eyes' },\n  { id: 'party', emoji: '🥳', label: 'Party' },\n];\n\nexport function VirtualizedReactionGrid() {\n  return (\n    <Virtualizer\n      layout={GridLayout}\n      layoutOptions={{\n        minItemSize: new Size(44, 44),\n        maxItemSize: new Size(44, 44),\n        minSpace: new Size(4, 4),\n        preserveAspectRatio: true,\n      }}\n    >\n      <ListBox.Root aria-label=\"Reactions\" items={reactions} layout=\"grid\" selectionMode=\"single\">\n        {(item) => (\n          <ListBox.Item id={item.id} textValue={item.label}>\n            {item.emoji}\n          </ListBox.Item>\n        )}\n      </ListBox.Root>\n    </Virtualizer>\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-list-box",
+        "tale-list-box__item",
+        "tale-list-box__load-more-item",
+        "tale-list-box__section",
+        "tale-list-box__selection-indicator",
+        "tale-list-box__text"
+      ],
+      "pitfalls": [
+        {
+          "id": "list-box-use-section-header",
+          "summary": "Use ListBox.Section and ListBox.Header for grouped options",
+          "detail": "- place headers inside sections instead of rendering loose labels among items.",
+          "antiPatterns": [
+            "<ListBox.Root><div>Fruit</div><ListBox.Item id=\"apple\">Apple</ListBox.Item></ListBox.Root>"
+          ],
+          "fixes": [
+            "<ListBox.Section id=\"fruit\"><ListBox.Header>Fruit</ListBox.Header><ListBox.Item id=\"apple\" textValue=\"Apple\">Apple</ListBox.Item></ListBox.Section>"
+          ]
+        },
+        {
+          "id": "list-box-text-value",
+          "summary": "Provide textValue when item children are not plain text",
+          "detail": "- icons, emoji, and custom markup need a text value for typeahead and accessibility.",
+          "antiPatterns": [
+            "<ListBox.Item id=\"party\">🥳</ListBox.Item>"
+          ],
+          "fixes": [
+            "<ListBox.Item id=\"party\" textValue=\"Party face\">🥳</ListBox.Item>"
+          ]
+        },
+        {
+          "id": "list-box-label-required",
+          "summary": "Label standalone list boxes",
+          "detail": "- use `aria-label` or a visible label relationship so assistive technology can identify the collection.",
+          "antiPatterns": [
+            "<ListBox.Root><ListBox.Item id=\"one\">One</ListBox.Item></ListBox.Root>"
+          ],
+          "fixes": [
+            "<ListBox.Root aria-label=\"Options\"><ListBox.Item id=\"one\" textValue=\"One\">One</ListBox.Item></ListBox.Root>"
+          ]
+        },
+        {
+          "id": "list-box-standalone-only",
+          "summary": "Use parent component listboxes inside parent components",
+          "detail": "- keep `Select.ListBox`, `Combobox.ListBox`, and `Autocomplete.ListBox` inside those APIs. Use standalone `ListBox` only for independent selectable collections."
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
       "name": "Menu",
       "slug": "menu",
       "import": "@tale-ui/react/menu",
@@ -10175,6 +10279,46 @@
           "fixes": [
             "<div style={{ width: '64rem', maxWidth: '100%' }}><VideoPlayer.Root src=\"/demo.mp4\" size=\"md\" thumbnailUrl=\"/thumb.jpg\" thumbnailAlt=\"Product demo\" /></div>"
           ]
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
+      "name": "Virtualizer",
+      "slug": "virtualizer",
+      "import": "@tale-ui/react/virtualizer",
+      "category": "Utility",
+      "description": "Virtualized collection utilities",
+      "kind": "simple",
+      "status": "stable",
+      "props": [],
+      "parts": null,
+      "examples": [
+        "import { ListBox } from '@tale-ui/react/list-box';\nimport { ListLayout, Size, Virtualizer } from '@tale-ui/react/virtualizer';\n\nconst options = [\n  { id: 'alpha', label: 'Alpha' },\n  { id: 'beta', label: 'Beta' },\n  { id: 'gamma', label: 'Gamma' },\n];\n\nexport function VirtualizedOptions() {\n  return (\n    <Virtualizer\n      layout={ListLayout}\n      layoutOptions={{ rowHeight: 36, padding: 4 }}\n    >\n      <ListBox.Root aria-label=\"Options\" items={options} selectionMode=\"single\">\n        {(item) => (\n          <ListBox.Item id={item.id} textValue={item.label}>\n            {item.label}\n          </ListBox.Item>\n        )}\n      </ListBox.Root>\n    </Virtualizer>\n  );\n}",
+        "import { ListBox } from '@tale-ui/react/list-box';\nimport { GridLayout, Size, Virtualizer } from '@tale-ui/react/virtualizer';\n\nconst swatches = [\n  { id: 'red', label: 'Red' },\n  { id: 'green', label: 'Green' },\n  { id: 'blue', label: 'Blue' },\n  { id: 'purple', label: 'Purple' },\n];\n\nexport function VirtualizedGridOptions() {\n  return (\n    <Virtualizer\n      layout={GridLayout}\n      layoutOptions={{\n        minItemSize: new Size(44, 44),\n        maxItemSize: new Size(44, 44),\n        minSpace: new Size(4, 4),\n        preserveAspectRatio: true,\n      }}\n    >\n      <ListBox.Root aria-label=\"Swatches\" items={swatches} layout=\"grid\" selectionMode=\"single\">\n        {(item) => (\n          <ListBox.Item id={item.id} textValue={item.label}>\n            {item.label}\n          </ListBox.Item>\n        )}\n      </ListBox.Root>\n    </Virtualizer>\n  );\n}"
+      ],
+      "cssClasses": null,
+      "pitfalls": [
+        {
+          "id": "virtualizer-import-path",
+          "summary": "Import virtualizer utilities from Tale UI",
+          "detail": "- use `@tale-ui/react/virtualizer` so generated code validates against the Tale UI registry.",
+          "antiPatterns": [
+            "import { Virtualizer, GridLayout } from 'react-aria-components';"
+          ],
+          "fixes": [
+            "import { Virtualizer, GridLayout } from '@tale-ui/react/virtualizer';"
+          ]
+        },
+        {
+          "id": "virtualizer-stable-item-size",
+          "summary": "Keep item dimensions stable",
+          "detail": "- virtualized layouts depend on predictable item measurement. For grid collections, set compatible `minItemSize`, `maxItemSize`, and `minSpace` values."
+        },
+        {
+          "id": "virtualizer-long-collections",
+          "summary": "Use virtualization for long collections",
+          "detail": "- small static lists are simpler with `ListBox.Root` alone."
         }
       ],
       "crossPitfallRefs": null

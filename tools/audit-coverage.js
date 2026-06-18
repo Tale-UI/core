@@ -33,11 +33,7 @@ const isCheck = process.argv.includes('--check');
  * Components excluded from visual coverage audits.
  * These are provider wrappers or utilities with no renderable output.
  */
-/**
- * Components excluded from visual coverage audits.
- * These are provider wrappers or utilities with no renderable output.
- */
-const VISUAL_AUDIT_EXCLUDED = new Set(['CSPProvider', 'I18nProvider', 'mergeProps']);
+const VISUAL_AUDIT_EXCLUDED = new Set(['CSPProvider', 'I18nProvider', 'mergeProps', 'Virtualizer']);
 
 /**
  * A2UI compatibility aliases that remain renderable but should not be promoted

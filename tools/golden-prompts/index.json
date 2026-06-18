@@ -205,6 +205,10 @@
       "difficulty": "simple"
     },
     {
+      "slug": "list-box-basic",
+      "difficulty": "simple"
+    },
+    {
       "slug": "multi-select-frameworks",
       "difficulty": "medium"
     },

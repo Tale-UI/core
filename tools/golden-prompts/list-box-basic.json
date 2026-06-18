@@ -1,0 +1,7 @@
+{
+  "slug": "list-box-basic",
+  "difficulty": "simple",
+  "prompt": "Show a standalone selectable list of project statuses using ListBox.",
+  "reference": "import { ListBox } from '@tale-ui/react/list-box';\n\nexport function ProjectStatusListBox() {\n  return (\n    <ListBox.Root aria-label=\"Project status\" selectionMode=\"single\">\n      <ListBox.Item id=\"todo\" textValue=\"To do\">To do</ListBox.Item>\n      <ListBox.Item id=\"doing\" textValue=\"In progress\">In progress</ListBox.Item>\n      <ListBox.Item id=\"done\" textValue=\"Done\">Done</ListBox.Item>\n    </ListBox.Root>\n  );\n}",
+  "tags": ["ListBox"]
+}
