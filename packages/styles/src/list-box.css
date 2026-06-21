@@ -19,9 +19,16 @@
   overflow: auto;
 }
 
+.tale-list-box--frameless {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
 .tale-list-box[data-layout='grid'] {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(4.4rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(2.4rem, 1fr));
   align-items: stretch;
 }
 
@@ -45,6 +52,15 @@
   height: 1.6rem;
   margin-inline-start: auto;
   color: currentcolor;
+}
+
+.tale-list-box__item--emoji {
+  justify-content: center;
+  width: 2.4rem;
+  min-height: 2.4rem;
+  padding: 0;
+  font-size: 1.8rem;
+  line-height: 1;
 }
 
 .tale-list-box__selection-indicator::before {

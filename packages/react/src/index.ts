@@ -33,6 +33,7 @@ export * from './disclosure';
 export * from './dot-icon';
 export * from './color-mode-toggle';
 export * from './combobox';
+export * from './command-palette';
 export * from './credit-card';
 export * from './container';
 export * from './context-menu';

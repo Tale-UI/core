@@ -37,6 +37,7 @@ import { Tooltip } from '@tale-ui/react/tooltip';
 // Navigation
 import { Menu } from '@tale-ui/react/menu';
 import { ContextMenu } from '@tale-ui/react/context-menu';
+import { CommandPalette } from '@tale-ui/react/command-palette';
 import { NavigationMenu } from '@tale-ui/react/navigation-menu';
 import { Menubar } from '@tale-ui/react/menubar';
 
@@ -347,6 +348,7 @@ const TOC = [
     items: [
       { id: 'menu', label: 'Menu' },
       { id: 'context-menu', label: 'ContextMenu' },
+      { id: 'command-palette', label: 'CommandPalette' },
       { id: 'navigation-menu', label: 'NavigationMenu' },
       { id: 'menubar', label: 'Menubar' },
       { id: 'breadcrumbs', label: 'Breadcrumbs' },
@@ -3175,6 +3177,71 @@ export default function ComponentAudit() {
         </Section>
 
         <Section
+          id="command-palette"
+          title="CommandPalette"
+          classes={[
+            'tale-command-palette',
+            'tale-command-palette__trigger',
+            'tale-command-palette__backdrop',
+            'tale-command-palette__popup',
+            'tale-command-palette__dialog',
+            'tale-command-palette__title',
+            'tale-command-palette__content',
+            'tale-command-palette__search-field',
+            'tale-command-palette__input',
+            'tale-command-palette__listbox',
+            'tale-command-palette__section-header',
+            'tale-command-palette__item',
+            'tale-command-palette__shortcut',
+            'tale-command-palette__footer',
+          ]}
+        >
+          <SubHeading>Default</SubHeading>
+          <Row>
+            <CommandPalette.Root>
+              <CommandPalette.Trigger>Open command palette</CommandPalette.Trigger>
+              <CommandPalette.Backdrop>
+                <CommandPalette.Popup>
+                  <CommandPalette.Title>Command Palette</CommandPalette.Title>
+                  <CommandPalette.Close aria-label="Close command palette" />
+                  <CommandPalette.Content>
+                    <CommandPalette.SearchField>
+                      <CommandPalette.Input placeholder="Search commands..." />
+                      <CommandPalette.ClearButton aria-label="Clear search" />
+                    </CommandPalette.SearchField>
+                    <CommandPalette.ListBox aria-label="Commands">
+                      <CommandPalette.Section>
+                        <CommandPalette.SectionHeader>Navigation</CommandPalette.SectionHeader>
+                        <CommandPalette.Item id="dashboard" textValue="Dashboard">
+                          <CommandPalette.ItemContent>
+                            <CommandPalette.ItemTitle>Dashboard</CommandPalette.ItemTitle>
+                            <CommandPalette.ItemDescription>
+                              Open the workspace overview.
+                            </CommandPalette.ItemDescription>
+                          </CommandPalette.ItemContent>
+                          <CommandPalette.ItemMeta>
+                            <CommandPalette.Shortcut keys={['Mod', '1']} />
+                          </CommandPalette.ItemMeta>
+                        </CommandPalette.Item>
+                        <CommandPalette.Item id="settings" textValue="Settings">
+                          <CommandPalette.ItemContent>
+                            <CommandPalette.ItemTitle>Settings</CommandPalette.ItemTitle>
+                            <CommandPalette.ItemDescription>
+                              Manage workspace preferences.
+                            </CommandPalette.ItemDescription>
+                          </CommandPalette.ItemContent>
+                        </CommandPalette.Item>
+                      </CommandPalette.Section>
+                    </CommandPalette.ListBox>
+                    <CommandPalette.Footer>Press Esc to close.</CommandPalette.Footer>
+                  </CommandPalette.Content>
+                </CommandPalette.Popup>
+              </CommandPalette.Backdrop>
+            </CommandPalette.Root>
+          </Row>
+        </Section>
+
+        <Section
           id="navigation-menu"
           title="NavigationMenu"
           classes={[
@@ -4874,7 +4941,11 @@ export default function ComponentAudit() {
           ]}
         >
           <SubHeading>Single select</SubHeading>
-          <ListBox.Root aria-label="Project status" selectionMode="single" className="audit__demo-medium">
+          <ListBox.Root
+            aria-label="Project status"
+            selectionMode="single"
+            className="audit__demo-medium"
+          >
             <ListBox.Item id="todo" textValue="To do">
               To do
             </ListBox.Item>
@@ -4907,7 +4978,11 @@ export default function ComponentAudit() {
             </ListBox.Section>
           </ListBox.Root>
           <SubHeading>Multiple select</SubHeading>
-          <ListBox.Root aria-label="Channels" selectionMode="multiple" className="audit__demo-medium">
+          <ListBox.Root
+            aria-label="Channels"
+            selectionMode="multiple"
+            className="audit__demo-medium"
+          >
             {['Email', 'SMS', 'Push'].map((item) => (
               <ListBox.Item key={item} id={item.toLowerCase()} textValue={item}>
                 {item}
@@ -4939,7 +5014,9 @@ export default function ComponentAudit() {
           <KeyValuePairs.Root aria-label="Service metadata" style={{ maxWidth: '28rem' }}>
             <KeyValuePairs.Item>
               <KeyValuePairs.Term>Status</KeyValuePairs.Term>
-              <KeyValuePairs.Details><Badge variant="success">Active</Badge></KeyValuePairs.Details>
+              <KeyValuePairs.Details>
+                <Badge variant="success">Active</Badge>
+              </KeyValuePairs.Details>
             </KeyValuePairs.Item>
             <KeyValuePairs.Item>
               <KeyValuePairs.Term>Owner</KeyValuePairs.Term>
@@ -4964,7 +5041,9 @@ export default function ComponentAudit() {
             </KeyValuePairs.Item>
             <KeyValuePairs.Item>
               <KeyValuePairs.Term>Endpoint</KeyValuePairs.Term>
-              <KeyValuePairs.Details><Link href="https://api.example.com">api.example.com</Link></KeyValuePairs.Details>
+              <KeyValuePairs.Details>
+                <Link href="https://api.example.com">api.example.com</Link>
+              </KeyValuePairs.Details>
             </KeyValuePairs.Item>
             <KeyValuePairs.Item>
               <KeyValuePairs.Term>Last deployment</KeyValuePairs.Term>
@@ -4972,7 +5051,12 @@ export default function ComponentAudit() {
             </KeyValuePairs.Item>
           </KeyValuePairs.Root>
           <SubHeading>Grouped</SubHeading>
-          <KeyValuePairs.Root aria-label="Infrastructure summary" columns={2} density="spacious" style={{ maxWidth: '44rem' }}>
+          <KeyValuePairs.Root
+            aria-label="Infrastructure summary"
+            columns={2}
+            density="spacious"
+            style={{ maxWidth: '44rem' }}
+          >
             <KeyValuePairs.Group>
               <KeyValuePairs.GroupTitle>Network</KeyValuePairs.GroupTitle>
               <KeyValuePairs.GroupList>
@@ -5243,13 +5327,28 @@ export default function ComponentAudit() {
         <Section
           id="search-field"
           title="SearchField"
-          classes={['tale-search-field', 'tale-search-field__input', 'tale-search-field__clear']}
+          classes={[
+            'tale-search-field',
+            'tale-search-field--inline',
+            'tale-search-field__input',
+            'tale-search-field__clear',
+          ]}
         >
           <SubHeading>Default</SubHeading>
           <div className="audit__demo-narrow display--flex flex--col gap--2xs">
             <SearchField.Root>
               <SearchField.Label>Search</SearchField.Label>
               <SearchField.Input placeholder="Search…" />
+              <SearchField.ClearButton>
+                <Icon icon={XLucide} size="sm" />
+              </SearchField.ClearButton>
+            </SearchField.Root>
+          </div>
+          <SubHeading>Inline</SubHeading>
+          <div className="audit__demo-narrow">
+            <SearchField.Root variant="inline" defaultValue="Keyboard">
+              <SearchField.Label>Search docs</SearchField.Label>
+              <SearchField.Input placeholder="Search..." />
               <SearchField.ClearButton>
                 <Icon icon={XLucide} size="sm" />
               </SearchField.ClearButton>

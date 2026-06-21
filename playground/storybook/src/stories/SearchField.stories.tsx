@@ -59,6 +59,15 @@ export const WithClearButton: Story = {
   ),
 };
 
+export const Inline: Story = {
+  render: (args) => (
+    <SearchField.Root variant="inline" {...args}>
+      <SearchField.Label>Search documentation</SearchField.Label>
+      <SearchField.Input placeholder={args.placeholder} />
+    </SearchField.Root>
+  ),
+};
+
 export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
@@ -75,6 +84,14 @@ export const AllVariations: Story = {
           <div className="story-heading">With clear button</div>
           <SearchField.Root defaultValue="React">
             <SearchField.Label>Search</SearchField.Label>
+            <SearchField.Input placeholder="Search..." />
+            <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
+          </SearchField.Root>
+        </div>
+        <div style={{ width: 240 }}>
+          <div className="story-heading">Inline</div>
+          <SearchField.Root variant="inline" defaultValue="Keyboard">
+            <SearchField.Label>Search documentation</SearchField.Label>
             <SearchField.Input placeholder="Search..." />
             <SearchField.ClearButton><Icon icon={X} size="sm" /></SearchField.ClearButton>
           </SearchField.Root>

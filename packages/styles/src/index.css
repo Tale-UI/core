@@ -67,6 +67,7 @@
 @import './breadcrumbs.css';
 @import './link.css';
 @import './menu.css';
+@import './command-palette.css';
 @import './navigation-menu.css';
 @import './pagination.css';
 @import './pagination-dot.css';

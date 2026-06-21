@@ -37,7 +37,8 @@ export function SearchDropdown() {
       </Menu.Trigger>
       <Menu.Popover placement="bottom start" offset={4}>
         <div style={{ padding: 'var(--space-xs)' }}>
-          <SearchField.Root aria-label="Search fruit" value={query} onChange={setQuery}>
+          <SearchField.Root variant="inline" value={query} onChange={setQuery}>
+            <SearchField.Label>Search fruit</SearchField.Label>
             <SearchField.Input placeholder="Search…" autoFocus />
           </SearchField.Root>
         </div>
@@ -63,6 +64,7 @@ export function SearchDropdown() {
 ## Notes
 
 - `autoFocus` on `SearchField.Input` moves keyboard focus into the search box as soon as the popover opens, so users can start typing immediately.
+- Use `SearchField.Root variant="inline"` when search sits inside a menu, popover, or other container surface.
 - The empty state is a disabled `Menu.Item`, so it inherits menu spacing without becoming selectable.
 - For server-side filtering, replace the local `filter` with a debounced API call and show a `Spinner` while loading.
 - `Combobox` is the correct component when the search and selection are a single control. Use this pattern only when you want the trigger to be a `<button>` and the list to be a `<menu>` (action semantics rather than combobox semantics).

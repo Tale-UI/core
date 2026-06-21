@@ -3,9 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      window.addEventListener('message', function (event) {
+        if (event.data && event.data.type === 'color-mode') {
+          document.documentElement.setAttribute('data-color-mode', event.data.mode);
+        }
+      });
+    </script>
     <style>
-      html { font-size: 62.5%; }
-      body { font-size: 1.6rem; margin: 0; padding: 1.6rem; }
+      html {
+        font-size: 62.5%;
+      }
+      body {
+        font-size: 1.6rem;
+        margin: 0;
+        padding: 1.6rem;
+      }
       #preview-error {
         display: none;
         color: #e53;

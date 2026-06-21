@@ -996,6 +996,7 @@ export const taleUICatalog: Catalog = {
         isReadOnly: props.readOnly as boolean | undefined,
         isRequired: props.isRequired as boolean | undefined,
         isInvalid: props.isInvalid as boolean | undefined,
+        variant: props.variant as 'default' | 'inline' | undefined,
         name: props.name as string | undefined,
         onSubmit: props.action
           ? () => {

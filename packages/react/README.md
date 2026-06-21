@@ -108,7 +108,7 @@ Alert Dialog · Dialog · Drawer · Popover · Preview Card · Tooltip
 
 ### Navigation
 
-Breadcrumbs · Context Menu · Header Nav · Link · Menu · Menubar · Navigation Menu · Pagination · Pagination Dot · Pagination Line · Sidebar
+Breadcrumbs · Command Palette · Context Menu · Header Nav · Link · Menu · Menubar · Navigation Menu · Pagination · Pagination Dot · Pagination Line · Sidebar
 
 ### Layout
 

@@ -3,6 +3,11 @@ export interface PreviewMessage {
   code: string;
 }
 
+export interface PreviewColorModeMessage {
+  type: 'color-mode';
+  mode: 'light' | 'dark';
+}
+
 export interface PreviewError {
   type: 'error';
   message: string;
@@ -12,7 +17,7 @@ export interface PreviewReady {
   type: 'ready';
 }
 
-export type PreviewInbound = PreviewMessage;
+export type PreviewInbound = PreviewMessage | PreviewColorModeMessage;
 export type PreviewOutbound = PreviewError | PreviewReady;
 
 export function sendToPreview(iframe: HTMLIFrameElement, msg: PreviewInbound) {

@@ -18,6 +18,15 @@ import { cx } from '../_cx';
 
 export interface RootProps extends Omit<AriaSearchFieldProps, 'className'> {
   className?: string | undefined;
+  /**
+   * Visual treatment for the search field.
+   *
+   * `inline` removes the input border/background treatment and visually hides
+   * the label while keeping it available to assistive technology.
+   *
+   * @default 'default'
+   */
+  variant?: 'default' | 'inline' | undefined;
 }
 
 /**
@@ -40,10 +49,15 @@ export interface RootProps extends Omit<AriaSearchFieldProps, 'className'> {
  * ```
  */
 export const Root = React.forwardRef<HTMLDivElement, RootProps>(
-  ({ className, ...props }, ref) => (
+  ({ className, variant = 'default', ...props }, ref) => (
     <AriaSearchField
       ref={ref}
-      className={cx('tale-search-field', className)}
+      className={cx(
+        variant === 'default'
+          ? 'tale-search-field'
+          : `tale-search-field tale-search-field--${variant}`,
+        className,
+      )}
       {...props}
     />
   ),

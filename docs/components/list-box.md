@@ -140,7 +140,9 @@ export function VirtualizedReactionGrid() {
 ## CSS Classes
 
 - `.tale-list-box` -- Root listbox container
+- `.tale-list-box--frameless` -- Removes the root surface background, border color, and shadow
 - `.tale-list-box__item` -- Individual option
+- `.tale-list-box__item--emoji` -- Square centered item presentation for emoji grids
 - `.tale-list-box__section` -- Section wrapper
 - `.tale-list-box__header` -- Section header
 - `.tale-list-box__text` -- Text slot inside an item
@@ -166,4 +168,3 @@ export function VirtualizedReactionGrid() {
 
 <!-- pitfall: list-box-standalone-only -->
 - **Use parent component listboxes inside parent components** -- keep `Select.ListBox`, `Combobox.ListBox`, and `Autocomplete.ListBox` inside those APIs. Use standalone `ListBox` only for independent selectable collections.
-

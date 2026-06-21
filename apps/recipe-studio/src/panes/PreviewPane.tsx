@@ -8,9 +8,10 @@ import { sendToPreview, onPreviewMessage } from '../lib/preview-host';
 
 interface PreviewPaneProps {
   code: string;
+  colorMode: 'light' | 'dark';
 }
 
-export function PreviewPane({ code }: PreviewPaneProps) {
+export function PreviewPane({ code, colorMode }: PreviewPaneProps) {
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
   const [iframeReady, setIframeReady] = React.useState(false);
   const [transpileError, setTranspileError] = React.useState<string | null>(null);
@@ -18,7 +19,7 @@ export function PreviewPane({ code }: PreviewPaneProps) {
   const [showCode, setShowCode] = React.useState(false);
 
   React.useEffect(() => {
-    return onPreviewMessage(msg => {
+    return onPreviewMessage((msg) => {
       if (msg.type === 'ready') {
         setIframeReady(true);
       } else if (msg.type === 'error') {
@@ -47,6 +48,13 @@ export function PreviewPane({ code }: PreviewPaneProps) {
     void renderCode(code);
   }, [code, iframeReady, renderCode]);
 
+  React.useEffect(() => {
+    if (!iframeReady || !iframeRef.current) {
+      return;
+    }
+    sendToPreview(iframeRef.current, { type: 'color-mode', mode: colorMode });
+  }, [colorMode, iframeReady]);
+
   return (
     <div className="recipe-preview">
       <div className="recipe-preview__toolbar">
@@ -54,7 +62,7 @@ export function PreviewPane({ code }: PreviewPaneProps) {
           <Icon icon={RefreshCwIcon} size="sm" />
           Refresh
         </Button>
-        <Button variant="ghost" size="sm" onPress={() => setShowCode(value => !value)}>
+        <Button variant="ghost" size="sm" onPress={() => setShowCode((value) => !value)}>
           <Icon icon={Code2Icon} size="sm" />
           {showCode ? 'Show preview' : 'Show TSX'}
         </Button>
@@ -81,11 +89,7 @@ export function PreviewPane({ code }: PreviewPaneProps) {
         />
       )}
 
-      {previewError && (
-        <div className="recipe-preview__runtime-error">
-          {previewError}
-        </div>
-      )}
+      {previewError && <div className="recipe-preview__runtime-error">{previewError}</div>}
     </div>
   );
 }

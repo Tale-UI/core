@@ -20,7 +20,9 @@ import {
   ExternalLinkIcon,
   FileTextIcon,
   MonitorIcon,
+  MoonIcon,
   RefreshCwIcon,
+  SunIcon,
   XCircleIcon,
   XIcon,
 } from 'lucide-react';
@@ -28,6 +30,18 @@ import { apiGetRecipe, apiListRecipes, type RecipeSummary } from './lib/api';
 import { PreviewPane } from './panes/PreviewPane';
 
 type RecipeView = 'preview' | 'docs' | 'tsx';
+type ColorMode = 'light' | 'dark';
+
+const COLOR_MODE_STORAGE_KEY = 'tale-recipe-studio-color-mode';
+
+function getInitialColorMode(): ColorMode {
+  const stored = window.localStorage.getItem(COLOR_MODE_STORAGE_KEY);
+  if (stored === 'light' || stored === 'dark') {
+    return stored;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
 
 function getInitialRecipeSlug(): string | null {
   return new URLSearchParams(window.location.search).get('recipe');
@@ -267,6 +281,7 @@ export function App() {
   const [query, setQuery] = React.useState('');
   const [markdown, setMarkdown] = React.useState('');
   const [view, setView] = React.useState<RecipeView>('preview');
+  const [colorMode, setColorMode] = React.useState<ColorMode>(getInitialColorMode);
   const [loadingRecipes, setLoadingRecipes] = React.useState(true);
   const [loadingRecipe, setLoadingRecipe] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -319,6 +334,11 @@ export function App() {
   }, [loadRecipes]);
 
   React.useEffect(() => {
+    document.documentElement.setAttribute('data-color-mode', colorMode);
+    window.localStorage.setItem(COLOR_MODE_STORAGE_KEY, colorMode);
+  }, [colorMode]);
+
+  React.useEffect(() => {
     void loadSelectedRecipe();
   }, [loadSelectedRecipe]);
 
@@ -333,7 +353,7 @@ export function App() {
       </div>
     );
   } else if (tsxCode) {
-    previewPanelContent = <PreviewPane code={tsxCode} />;
+    previewPanelContent = <PreviewPane code={tsxCode} colorMode={colorMode} />;
   } else {
     previewPanelContent = (
       <EmptyState.Root>
@@ -364,13 +384,24 @@ export function App() {
             </Text>
           </Column>
         </div>
-        <nav className="recipe-topbar__links" aria-label="Recipe app links">
-          <Link href="http://localhost:5176/">Dashboard</Link>
-          <Link href="http://localhost:5175/?tab=recipes">
-            MCP Studio
-            <Icon icon={ExternalLinkIcon} size="sm" />
-          </Link>
-        </nav>
+        <div className="recipe-topbar__actions">
+          <Button
+            variant="neutral"
+            size="sm"
+            aria-label={`Switch to ${colorMode === 'dark' ? 'light' : 'dark'} mode`}
+            onPress={() => setColorMode((mode) => (mode === 'dark' ? 'light' : 'dark'))}
+          >
+            <Icon icon={colorMode === 'dark' ? SunIcon : MoonIcon} size="sm" />
+            {colorMode === 'dark' ? 'Light' : 'Dark'}
+          </Button>
+          <nav className="recipe-topbar__links" aria-label="Recipe app links">
+            <Link href="http://localhost:5176/">Dashboard</Link>
+            <Link href="http://localhost:5175/?tab=recipes">
+              MCP Studio
+              <Icon icon={ExternalLinkIcon} size="sm" />
+            </Link>
+          </nav>
+        </div>
       </header>
 
       <main className="recipe-main">

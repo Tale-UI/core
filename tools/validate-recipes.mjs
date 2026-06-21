@@ -94,6 +94,8 @@ const DISALLOWED_STYLE_PROPS = new Set([
 const UTILITY_CLASS_PATTERN =
   /^(?:text|font|w|h|min-w|min-h|max-w|max-h|flex|grid|gap|items|justify|content|p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml|bg|border|rounded|shadow|opacity|overflow|whitespace|truncate)-/;
 
+const ALLOWED_DESIGN_SYSTEM_CLASSES = new Set(['dark', 'light']);
+
 function lineForIndex(code, index) {
   return code.slice(0, index).split('\n').length;
 }
@@ -113,6 +115,9 @@ function validateRecipeStyling(markdown, code) {
   for (const match of code.matchAll(/className\s*=\s*["']([^"']*)["']/g)) {
     const classes = match[1].split(/\s+/).filter(Boolean);
     const invalid = classes.filter((className) => {
+      if (ALLOWED_DESIGN_SYSTEM_CLASSES.has(className)) {
+        return false;
+      }
       if (UTILITY_CLASS_PATTERN.test(className) || className.startsWith('text--')) {
         return true;
       }

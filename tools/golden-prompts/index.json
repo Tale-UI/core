@@ -93,6 +93,18 @@
       "difficulty": "medium"
     },
     {
+      "slug": "command-palette-async",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "command-palette-basic",
+      "difficulty": "complex"
+    },
+    {
+      "slug": "command-palette-hook",
+      "difficulty": "complex"
+    },
+    {
       "slug": "context-menu-actions",
       "difficulty": "complex"
     },
@@ -306,6 +318,10 @@
     },
     {
       "slug": "search-field",
+      "difficulty": "medium"
+    },
+    {
+      "slug": "search-field-inline",
       "difficulty": "medium"
     },
     {

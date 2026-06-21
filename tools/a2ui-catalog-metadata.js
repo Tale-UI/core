@@ -291,6 +291,7 @@ const PROP_VALUE_OVERRIDES = {
   'PopoverPopup.placement': '`top`, `bottom`, `left`, `right`',
   'Drawer.placement': '`left`, `right`',
   'TextInput.type': '`text`, `email`, `password`, `url`, `tel`',
+  'SearchInput.variant': '`default`, `inline`',
   'RadioOption.size': '`sm`, `md`',
   'RadioFieldOption.size': '`sm`, `md`',
   'Radio.size': '`sm`, `md`',

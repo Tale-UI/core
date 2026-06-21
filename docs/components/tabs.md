@@ -91,6 +91,8 @@ import { Bell, Settings, User } from 'lucide-react';
 
 ### Vertical
 
+Vertical tabs left-align tab labels and icons by default.
+
 ```tsx
 <Tabs.Root defaultSelectedKey="tab1" orientation="vertical">
   <div style={{ display: 'flex', gap: 'var(--space-m)' }}>

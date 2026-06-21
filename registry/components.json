@@ -2668,6 +2668,170 @@
       ]
     },
     {
+      "name": "CommandPalette",
+      "slug": "command-palette",
+      "import": "@tale-ui/react/command-palette",
+      "category": "Navigation",
+      "description": "Searchable command surface for app actions, navigation, and grouped workflows",
+      "kind": "compound",
+      "status": "stable",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": "false"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "description": null,
+          "default": "'md'",
+          "allowedValues": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "closeOnSelect",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": "true"
+        },
+        {
+          "name": "isDismissable",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isOpen",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        }
+      ],
+      "parts": [
+        "Root",
+        "Trigger",
+        "Backdrop",
+        "Popup",
+        "Title",
+        "Description",
+        "Close",
+        "Content",
+        "SearchField",
+        "Input",
+        "ClearButton",
+        "ListBox",
+        "Section",
+        "SectionHeader",
+        "Item",
+        "Separator",
+        "LoadMoreItem",
+        "Collection",
+        "ItemIcon",
+        "ItemContent",
+        "ItemTitle",
+        "ItemDescription",
+        "ItemMeta",
+        "Shortcut",
+        "Empty",
+        "Footer",
+        "Chips",
+        "Chip",
+        "ChipRemove"
+      ],
+      "examples": [
+        "import { CommandPalette } from '@tale-ui/react/command-palette';\n\nexport function AppCommandPalette() {\n  return (\n    <CommandPalette.Root>\n      <CommandPalette.Trigger>Open command palette</CommandPalette.Trigger>\n      <CommandPalette.Backdrop>\n        <CommandPalette.Popup aria-label=\"Command palette\">\n          <CommandPalette.Close aria-label=\"Close command palette\" />\n          <CommandPalette.Content>\n            <CommandPalette.SearchField>\n              <CommandPalette.Input placeholder=\"Search commands...\" />\n              <CommandPalette.ClearButton aria-label=\"Clear search\" />\n            </CommandPalette.SearchField>\n            <CommandPalette.ListBox aria-label=\"Commands\">\n              <CommandPalette.Section>\n                <CommandPalette.SectionHeader>Workspace</CommandPalette.SectionHeader>\n                <CommandPalette.Item id=\"new-file\" textValue=\"New file\">\n                  <CommandPalette.ItemContent>\n                    <CommandPalette.ItemTitle>New file</CommandPalette.ItemTitle>\n                    <CommandPalette.ItemDescription>\n                      Create a workspace file.\n                    </CommandPalette.ItemDescription>\n                  </CommandPalette.ItemContent>\n                  <CommandPalette.ItemMeta>\n                    <CommandPalette.Shortcut keys={['Mod', 'N']} />\n                  </CommandPalette.ItemMeta>\n                </CommandPalette.Item>\n                <CommandPalette.Item id=\"open-settings\" textValue=\"Open settings\">\n                  <CommandPalette.ItemContent>\n                    <CommandPalette.ItemTitle>Open settings</CommandPalette.ItemTitle>\n                    <CommandPalette.ItemDescription>\n                      Change account and workspace settings.\n                    </CommandPalette.ItemDescription>\n                  </CommandPalette.ItemContent>\n                </CommandPalette.Item>\n              </CommandPalette.Section>\n            </CommandPalette.ListBox>\n          </CommandPalette.Content>\n        </CommandPalette.Popup>\n      </CommandPalette.Backdrop>\n    </CommandPalette.Root>\n  );\n}",
+        "import * as React from 'react';\nimport {\n  CommandPalette,\n  useCommandPalette,\n  useCommandPaletteShortcut,\n  type CommandPaletteCommand,\n} from '@tale-ui/react/command-palette';\n\nconst commands: CommandPaletteCommand[] = [\n  {\n    id: 'dashboard',\n    title: 'Open dashboard',\n    subtitle: 'Go to the main overview',\n    group: 'Navigation',\n    keywords: ['home', 'overview'],\n    shortcut: ['Mod', 'D'],\n  },\n  {\n    id: 'invite',\n    title: 'Invite member',\n    subtitle: 'Add a teammate to this workspace',\n    group: 'People',\n    shortcut: ['Mod', 'I'],\n  },\n];\n\nexport function WorkspaceCommandPalette() {\n  const [open, setOpen] = React.useState(false);\n  const palette = useCommandPalette({\n    commands,\n    close: () => setOpen(false),\n    onAction(command) {\n      console.log('Run command:', command.id);\n    },\n  });\n\n  useCommandPaletteShortcut({ open, setOpen, shortcut: 'mod+k' });\n\n  return (\n    <CommandPalette.Root open={open} onOpenChange={setOpen}>\n      <CommandPalette.Trigger>Open command palette</CommandPalette.Trigger>\n      <CommandPalette.Backdrop>\n        <CommandPalette.Popup aria-label=\"Command palette\">\n          <CommandPalette.Close aria-label=\"Close command palette\" />\n          <CommandPalette.Content inputValue={palette.query} onInputChange={palette.setQuery}>\n            <CommandPalette.SearchField>\n              <CommandPalette.Input placeholder=\"Search workspace...\" />\n              <CommandPalette.ClearButton aria-label=\"Clear search\" />\n            </CommandPalette.SearchField>\n            <CommandPalette.ListBox aria-label=\"Workspace commands\">\n              {palette.groupedCommands.map((group) => (\n                <CommandPalette.Section key={group.id}>\n                  {group.title ? (\n                    <CommandPalette.SectionHeader>{group.title}</CommandPalette.SectionHeader>\n                  ) : null}\n                  {group.commands.map((command) => (\n                    <CommandPalette.Item\n                      key={command.id}\n                      command={command}\n                      onAction={() => void palette.runCommand(command)}\n                    >\n                      <CommandPalette.ItemContent>\n                        <CommandPalette.ItemTitle>{command.title}</CommandPalette.ItemTitle>\n                        {command.subtitle ? (\n                          <CommandPalette.ItemDescription>\n                            {command.subtitle}\n                          </CommandPalette.ItemDescription>\n                        ) : null}\n                      </CommandPalette.ItemContent>\n                      {command.shortcut ? (\n                        <CommandPalette.ItemMeta>\n                          <CommandPalette.Shortcut keys={command.shortcut} />\n                        </CommandPalette.ItemMeta>\n                      ) : null}\n                    </CommandPalette.Item>\n                  ))}\n                </CommandPalette.Section>\n              ))}\n            </CommandPalette.ListBox>\n            <CommandPalette.Footer>Press Esc to close.</CommandPalette.Footer>\n          </CommandPalette.Content>\n        </CommandPalette.Popup>\n      </CommandPalette.Backdrop>\n    </CommandPalette.Root>\n  );\n}"
+      ],
+      "cssClasses": [
+        "tale-command-palette",
+        "tale-command-palette--lg",
+        "tale-command-palette--sm",
+        "tale-command-palette__backdrop--transparent",
+        "tale-command-palette__chip",
+        "tale-command-palette__chip-remove",
+        "tale-command-palette__chips",
+        "tale-command-palette__clear",
+        "tale-command-palette__close",
+        "tale-command-palette__content",
+        "tale-command-palette__description",
+        "tale-command-palette__dialog",
+        "tale-command-palette__empty",
+        "tale-command-palette__footer",
+        "tale-command-palette__input",
+        "tale-command-palette__item",
+        "tale-command-palette__item-content",
+        "tale-command-palette__item-description",
+        "tale-command-palette__item-icon",
+        "tale-command-palette__item-meta",
+        "tale-command-palette__item-title",
+        "tale-command-palette__listbox",
+        "tale-command-palette__listbox--lg",
+        "tale-command-palette__load-more-item",
+        "tale-command-palette__popup",
+        "tale-command-palette__popup--translucent",
+        "tale-command-palette__search-field",
+        "tale-command-palette__search-field--inline",
+        "tale-command-palette__section",
+        "tale-command-palette__shortcut",
+        "tale-command-palette__shortcut-key",
+        "tale-command-palette__title",
+        "tale-command-palette__trigger"
+      ],
+      "pitfalls": [
+        {
+          "id": "command-palette-content-required",
+          "summary": "Wrap popup content correctly",
+          "detail": "`Backdrop` wraps `Popup`, and `Content` wraps `SearchField` and `ListBox`.",
+          "antiPatterns": [
+            "<CommandPalette.Backdrop /><CommandPalette.Popup><CommandPalette.SearchField /><CommandPalette.ListBox /></CommandPalette.Popup>"
+          ],
+          "fixes": [
+            "<CommandPalette.Backdrop><CommandPalette.Popup><CommandPalette.Content><CommandPalette.SearchField /><CommandPalette.ListBox /></CommandPalette.Content></CommandPalette.Popup></CommandPalette.Backdrop>"
+          ]
+        },
+        {
+          "id": "command-palette-accessible-labels",
+          "summary": "Keep dialog, search, and listbox labels accessible",
+          "detail": "use `Title`, visible text, or explicit `aria-label` values when labels are not visible."
+        },
+        {
+          "id": "command-palette-shortcut-listener",
+          "summary": "Use useCommandPaletteShortcut with controlled open state",
+          "detail": "pass the same `open` and `setOpen` values used by `CommandPalette.Root`."
+        },
+        {
+          "id": "command-palette-command-action",
+          "summary": "Do not run the same command twice",
+          "detail": "when using `command`, either let `CommandPalette.Item` call the command action or pass `onAction={() => void palette.runCommand(command)}`; do not also call it from a nested button."
+        }
+      ],
+      "crossPitfallRefs": null
+    },
+    {
       "name": "Container",
       "slug": "container",
       "import": "@tale-ui/react/container",
@@ -5704,7 +5868,9 @@
       ],
       "cssClasses": [
         "tale-list-box",
+        "tale-list-box--frameless",
         "tale-list-box__item",
+        "tale-list-box__item--emoji",
         "tale-list-box__load-more-item",
         "tale-list-box__section",
         "tale-list-box__selection-indicator",
@@ -6826,7 +6992,10 @@
         "tale-popover__arrow",
         "tale-popover__close",
         "tale-popover__description",
+        "tale-popover__empty",
         "tale-popover__popup",
+        "tale-popover__popup--frameless",
+        "tale-popover__search-container",
         "tale-popover__title"
       ],
       "pitfalls": [
@@ -7769,6 +7938,17 @@
       "status": "stable",
       "props": [
         {
+          "name": "variant",
+          "type": "'default' | 'inline'",
+          "required": false,
+          "description": "Visual treatment for the search field. `inline` removes the input border/background treatment and visually hides the label while keeping it available to assistive technology. @default 'default'",
+          "default": "'default'",
+          "allowedValues": [
+            "default",
+            "inline"
+          ]
+        },
+        {
           "name": "defaultValue",
           "type": "string",
           "required": false,
@@ -7788,12 +7968,15 @@
         "<SearchField.Root>\n  <SearchField.Input placeholder=\"Search...\" />\n</SearchField.Root>",
         "<SearchField.Root>\n  <SearchField.Label>Search</SearchField.Label>\n  <SearchField.Input placeholder=\"Search...\" />\n</SearchField.Root>",
         "import { Icon } from '@tale-ui/react/icon';\nimport { X } from 'lucide-react';\n\n<SearchField.Root defaultValue=\"React\">\n  <SearchField.Label>Search</SearchField.Label>\n  <SearchField.Input placeholder=\"Search...\" />\n  <SearchField.ClearButton><Icon icon={X} size=\"sm\" /></SearchField.ClearButton>\n</SearchField.Root>",
+        "<SearchField.Root variant=\"inline\">\n  <SearchField.Label>Search documentation</SearchField.Label>\n  <SearchField.Input placeholder=\"Search...\" />\n</SearchField.Root>",
         "import { SearchField } from '@tale-ui/react/search-field';\n    import { Icon } from '@tale-ui/react/icon';\n    import { X } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <SearchField.Root>\n          <SearchField.Label>Search</SearchField.Label>\n          <SearchField.Input placeholder=\"Search...\" />\n          <SearchField.ClearButton><Icon icon={X} size=\"sm\" /></SearchField.ClearButton>\n          <SearchField.Description>Search by name or keyword.</SearchField.Description>\n          // For validation errors, use isInvalid on Root:\n          // <SearchField.ErrorMessage>No results found.</SearchField.ErrorMessage>\n        </SearchField.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-search-field",
+        "tale-search-field--inline",
         "tale-search-field__clear",
-        "tale-search-field__input"
+        "tale-search-field__input",
+        "tale-search-field__label"
       ],
       "pitfalls": [
         {

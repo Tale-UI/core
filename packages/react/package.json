@@ -55,6 +55,7 @@
     "./color-swatch-picker": "./src/color-swatch-picker/index.ts",
     "./color-wheel": "./src/color-wheel/index.ts",
     "./combobox": "./src/combobox/index.ts",
+    "./command-palette": "./src/command-palette/index.ts",
     "./container": "./src/container/index.ts",
     "./context-menu": "./src/context-menu/index.ts",
     "./csp-provider": "./src/csp-provider/index.ts",

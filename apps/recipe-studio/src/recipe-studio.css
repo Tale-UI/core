@@ -40,6 +40,7 @@ body {
 }
 
 .recipe-brand,
+.recipe-topbar__actions,
 .recipe-topbar__links,
 .recipe-detail-header,
 .recipe-detail-header__actions,
@@ -50,6 +51,13 @@ body {
 
 .recipe-brand {
   min-width: 0;
+  gap: var(--space-s);
+}
+
+.recipe-topbar__actions {
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: var(--space-s);
 }
 
@@ -381,6 +389,10 @@ body {
   }
 
   .recipe-topbar__links {
+    justify-content: flex-start;
+  }
+
+  .recipe-topbar__actions {
     justify-content: flex-start;
   }
 

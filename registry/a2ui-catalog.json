@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-06-17",
+  "generatedAt": "2026-06-20",
   "types": [
     {
       "name": "Text",
@@ -1929,6 +1929,14 @@
           "name": "isInvalid",
           "hint": "boolean",
           "allowedValues": null
+        },
+        {
+          "name": "variant",
+          "hint": "`default`, `inline`",
+          "allowedValues": [
+            "default",
+            "inline"
+          ]
         },
         {
           "name": "name",

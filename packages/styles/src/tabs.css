@@ -83,6 +83,11 @@
   gap: var(--space-3xs);
 }
 
+.tale-tabs[data-orientation='vertical'] .tale-tabs__tab {
+  justify-content: flex-start;
+  text-align: left;
+}
+
 .tale-tabs__tab-icon {
   display: inline-flex;
   align-items: center;
@@ -180,13 +185,17 @@
 }
 
 .tale-tabs__tab--pills {
+  border: 1px solid transparent;
   border-radius: var(--radius-s);
   z-index: 1;
 }
 
 .tale-tabs__tab--pills[data-selected] {
+  border-color: var(--neutral-14);
+  background-color: var(--neutral-5);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
   color: var(--neutral-90);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .tale-tabs__tab--pills:hover:not([data-disabled], [data-selected]) {

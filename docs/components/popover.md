@@ -73,6 +73,9 @@ import { Popover } from '@tale-ui/react/popover';
 ## CSS Classes
 
 - `.tale-popover__popup` — Popover content container
+- `.tale-popover__popup--frameless` — Uses a neutral-10 surface and removes the border color
+- `.tale-popover__search-container` — Rounded neutral-10 wrapper for search controls inside popovers
+- `.tale-popover__empty` — Inline padding for empty-state text inside popovers
 - `.tale-popover__arrow` — Arrow element
 - `.tale-popover__title` — Title heading
 - `.tale-popover__description` — Description paragraph

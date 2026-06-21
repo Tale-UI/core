@@ -4,7 +4,8 @@ import { beforeAll } from 'vitest';
 import { Settings } from 'lucide-react';
 import { Icon } from '@tale-ui/react/icon';
 import { Tabs } from '@tale-ui/react/tabs';
-import { createRenderer } from '#test-utils';
+import '../styles.css';
+import { createRenderer, isJSDOM } from '#test-utils';
 
 // jsdom lacks ResizeObserver — provide a no-op stub
 beforeAll(() => {
@@ -116,6 +117,28 @@ describe('<Tabs />', () => {
       expect(iconWrapper).to.exist;
       expect(iconWrapper).to.have.attribute('aria-hidden', 'true');
       expect(screen.getByTestId('settings-icon')).to.have.class('tale-icon--sm');
+    });
+
+    it.skipIf(isJSDOM)('left-aligns vertical tab content', async () => {
+      await render(
+        <Tabs.Root defaultSelectedKey="general" orientation="vertical">
+          <Tabs.List variant="pills">
+            <Tabs.Tab id="general" icon={<Icon icon={Settings} size="sm" />}>
+              General
+            </Tabs.Tab>
+            <Tabs.Tab id="security">Security</Tabs.Tab>
+            <Tabs.Indicator />
+          </Tabs.List>
+          <Tabs.Panel id="general">General settings.</Tabs.Panel>
+          <Tabs.Panel id="security">Security settings.</Tabs.Panel>
+        </Tabs.Root>,
+      );
+
+      const tab = screen.getByRole('tab', { name: 'General' });
+      const style = getComputedStyle(tab);
+
+      expect(style.justifyContent).to.equal('flex-start');
+      expect(style.textAlign).to.equal('left');
     });
   });
 

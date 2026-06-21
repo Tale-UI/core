@@ -42,7 +42,8 @@ export function AppHeader() {
       </HeaderNav.Secondary>
 
       <HeaderNav.Actions>
-        <SearchField.Root aria-label="Search" style={{ width: 220 }}>
+        <SearchField.Root variant="inline" style={{ width: 220 }}>
+          <SearchField.Label>Search</SearchField.Label>
           <SearchField.Input placeholder="Search…" />
         </SearchField.Root>
 

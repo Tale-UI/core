@@ -72,7 +72,8 @@ export function AdvancedSearchDropdown({ onAssign }: { onAssign: (id: string) =>
       </Menu.Trigger>
       <Menu.Popover placement="bottom start" offset={4} style={{ width: 300 }}>
         <div style={{ padding: 'var(--space-xs)' }}>
-          <SearchField.Root aria-label="Search team members" value={query} onChange={setQuery}>
+          <SearchField.Root variant="inline" value={query} onChange={setQuery}>
+            <SearchField.Label>Search team members</SearchField.Label>
             <SearchField.Input placeholder="Search by name or email…" autoFocus />
           </SearchField.Root>
         </div>

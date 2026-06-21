@@ -33,9 +33,40 @@
   color: var(--neutral-20);
 }
 
+.tale-popover__popup--frameless {
+  padding: var(--space-2xs);
+  width: calc((2.4rem * 7) + (0.4rem * 6) + (var(--space-2xs) * 2));
+  max-width: calc(100vw - var(--space-m));
+  background-color: var(--neutral-5);
+  border-color: transparent;
+  box-shadow: var(--popup-shadow);
+  color: inherit;
+  outline: 1px solid var(--neutral-14);
+}
+
 .tale-popover__arrow svg {
   fill: var(--neutral-90);
   stroke: var(--neutral-100);
+}
+
+/* ─── Search Container ─────────────────────────────────────────────────────── */
+
+.tale-popover__search-container {
+  padding-inline: var(--space-2xs);
+  margin-bottom: var(--space-4xs);
+  background-color: var(--neutral-12);
+  border-radius: var(--field-radius);
+}
+
+.tale-popover__empty {
+  padding-inline: var(--space-2xs);
+  padding-block: var(--space-2xs);
+  color: var(--text-color);
+  font-family: var(--text-font-family);
+  font-size: var(--text-s-font-size);
+  font-weight: var(--text-font-weight);
+  line-height: var(--text-line-height);
+  letter-spacing: var(--text-letter-spacing);
 }
 
 /* ─── Title ────────────────────────────────────────────────────────────────── */

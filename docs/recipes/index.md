@@ -40,6 +40,18 @@ Copy-paste multi-component patterns for common real-world scenarios. Each recipe
 | [Marketing Header](marketing-header.md)           | HeaderNav, Menu, Button, Icon                    | Marketing site header with nav dropdowns and CTA buttons     |
 | [Header Navigation](header-navigation.md)         | HeaderNav, Button, IconButton, Separator         | Horizontal nav bar with logo and actions                     |
 
+## Navigation — Command Palette
+
+| Recipe                                                                          | Components Used                                  | Description                                                    |
+| ------------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------------- |
+| [Command Palette - Basic](command-palette-basic.md)                             | CommandPalette                                   | Global command palette with grouped application actions        |
+| [Command Palette - Dashboard](command-palette-dashboard.md)                     | CommandPalette, hooks                            | Controlled dashboard command palette with shortcuts            |
+| [Command Palette - Async Results](command-palette-async.md)                     | CommandPalette, hooks                            | Palette that combines local commands and remote results        |
+| [Command Palette - Visual Discovery](command-palette-visual-discovery.md)       | CommandPalette, Tabs, Button, Row, Card, Badge   | Visual browsing palette with vertical tabs and dynamic content |
+| [Command Palette - Rich Results](command-palette-rich-results.md)               | CommandPalette, Avatar, Badge, Button, Icon, Row | Mixed people, docs, and actions with rich item slots           |
+| [Command Palette - Forced Dark](command-palette-forced-dark.md)                 | CommandPalette, Badge, Icon                      | Palette scoped to dark mode on otherwise light surfaces        |
+| [Command Palette - Translucent Surface](command-palette-translucent-surface.md) | CommandPalette, Badge, Card, Icon, Text          | Neutral translucent palette with background blur               |
+
 ## Dropdowns — Button Trigger
 
 | Recipe                                                      | Components Used   | Description                                           |
@@ -64,8 +76,8 @@ Copy-paste multi-component patterns for common real-world scenarios. Each recipe
 
 ## Pickers
 
-| Recipe | Components Used | Description |
-| ------ | --------------- | ----------- |
+| Recipe                          | Components Used                                  | Description                         |
+| ------------------------------- | ------------------------------------------------ | ----------------------------------- |
 | [Emoji Picker](emoji-picker.md) | Popover, SearchField, ListBox, Virtualizer, Text | Searchable virtualized emoji picker |
 
 ## Dropdowns — Account

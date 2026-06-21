@@ -17,7 +17,12 @@ A search input field with built-in clear button support.
 
 ## Props
 
-Accepts all React Aria `SearchField` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+Accepts all React Aria `SearchField` props plus:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | Additional class name for the root element. |
+| `variant` | `'default' \| 'inline'` | `'default'` | Use `inline` for a borderless search field with a visually hidden label. |
 
 ## Basic Usage
 
@@ -51,9 +56,19 @@ import { X } from 'lucide-react';
 </SearchField.Root>
 ```
 
+### Inline
+
+```tsx
+<SearchField.Root variant="inline">
+  <SearchField.Label>Search documentation</SearchField.Label>
+  <SearchField.Input placeholder="Search..." />
+</SearchField.Root>
+```
+
 ## CSS Classes
 
 - `.tale-search-field` — Root
+- `.tale-search-field--inline` — Inline variant
 - `.tale-search-field__input` — Text input
 - `.tale-search-field__label` — Label
 - `.tale-search-field__description` — Description text
@@ -99,6 +114,7 @@ import { X } from 'lucide-react';
 ## Notes
 
 - `ClearButton` clears the field value on press; pass custom children for the button content.
-- The clear button is absolutely positioned inside the input (overlays the right side). The input has `padding-inline-end` reserved for it.
+- The clear button is absolutely positioned inside the input (overlays the right side). The default input has `padding-inline-end` reserved for it; the `inline` variant removes horizontal input padding.
 - The clear button automatically hides when the field is empty (via `data-empty` on the Root: `.tale-search-field[data-empty] .tale-search-field__clear { display: none }`).
+- Use `variant="inline"` when a search field is embedded in container surfaces such as menus, popovers, headers, and picker panels.
 - Supports `isDisabled` prop on the Root.

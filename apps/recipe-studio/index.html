@@ -3,6 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      const storedMode = window.localStorage.getItem('tale-recipe-studio-color-mode');
+      const mode =
+        storedMode === 'dark' || storedMode === 'light'
+          ? storedMode
+          : window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+      document.documentElement.setAttribute('data-color-mode', mode);
+    </script>
     <title>Tale UI Recipe Studio</title>
   </head>
   <body>

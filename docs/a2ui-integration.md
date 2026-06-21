@@ -217,7 +217,7 @@ and `Switch` remain available for compatibility with existing payloads.
 | `TextAreaInput` | `TextArea.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `required`, `isInvalid`, `name`, `placeholder`, `description` |
 | `NumberInput` | `NumberField.Root` | `binding`, `label`, `defaultValue`, `minValue`, `maxValue`, `step`, `disabled`, `readOnly`, `required`, `isInvalid`, `formatOptions`, `name`, `description` |
 | `SliderInput` | `Slider.Root` | `binding`, `label`, `defaultValue`, `minValue`, `maxValue`, `step`, `disabled`, `readOnly`, `isRequired`, `orientation`, `name` |
-| `SearchInput` | `SearchField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `name`, `action`, `placeholder` |
+| `SearchInput` | `SearchField.Root` | `binding`, `label`, `defaultValue`, `disabled`, `readOnly`, `isRequired`, `isInvalid`, `variant`, `name`, `action`, `placeholder` |
 | `Accordion` | `Accordion.Root` | `allowsMultipleExpanded`, `defaultExpandedKeys`, `expandedKeys`, `isDisabled`, `onExpandedChange` |
 | `AccordionItem` | `Accordion.Item` | `id`, `isDisabled`, `defaultExpanded` |
 | `AccordionHeader` | `Accordion.Header` | -- |

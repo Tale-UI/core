@@ -40,6 +40,7 @@
     "./color-swatch-picker": "./src/color-swatch-picker.css",
     "./color-wheel": "./src/color-wheel.css",
     "./combobox": "./src/combobox.css",
+    "./command-palette": "./src/command-palette.css",
     "./date-field": "./src/date-field.css",
     "./date-picker": "./src/date-picker.css",
     "./date-range-picker": "./src/date-range-picker.css",

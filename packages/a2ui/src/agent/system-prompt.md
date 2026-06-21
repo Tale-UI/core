@@ -335,6 +335,7 @@ All container components accept a `children` array of child component IDs. This 
 |  | `readOnly` | boolean |
 |  | `isRequired` | boolean |
 |  | `isInvalid` | boolean |
+|  | `variant` | `default`, `inline` |
 |  | `name` | lucide icon name (e.g. `search`, `user`, `settings`, `heart`, `check`, `x`, `plus`, `edit`, `trash`, `mail`, `bell`, `home`, `menu`) |
 |  | `action` | `{ "name": "...", "context": { ... } }` |
 |  | `placeholder` | string |

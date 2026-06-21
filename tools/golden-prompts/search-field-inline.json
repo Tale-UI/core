@@ -1,0 +1,7 @@
+{
+  "slug": "search-field-inline",
+  "difficulty": "medium",
+  "prompt": "Create an inline search field for a popover or menu container. It should have an invisible accessible label that says 'Search docs', no border or outline, no horizontal input padding, placeholder text 'Search docs...', a default value of 'Keyboard', and a clear button with an X icon.",
+  "reference": "import { SearchField } from '@tale-ui/react/search-field';\nimport { Icon } from '@tale-ui/react/icon';\nimport { X } from 'lucide-react';\n\nexport function InlineSearchFieldExample() {\n  return (\n    <SearchField.Root variant=\"inline\" defaultValue=\"Keyboard\">\n      <SearchField.Label>Search docs</SearchField.Label>\n      <SearchField.Input placeholder=\"Search docs...\" />\n      <SearchField.ClearButton>\n        <Icon icon={X} size=\"sm\" />\n      </SearchField.ClearButton>\n    </SearchField.Root>\n  );\n}",
+  "tags": ["SearchField", "Icon"]
+}

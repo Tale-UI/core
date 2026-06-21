@@ -99,6 +99,7 @@
 .tale-input,
 .tale-select__trigger,
 .tale-combobox__input,
+.tale-command-palette__input,
 .tale-autocomplete__input,
 .tale-search-field__input,
 .tale-text-field__input,
@@ -124,6 +125,8 @@
 .tale-select__trigger[data-open],
 .tale-combobox__input:focus,
 .tale-combobox__input[data-open],
+.tale-command-palette__input:focus,
+.tale-command-palette__input[data-focused],
 .tale-autocomplete__input:focus,
 .tale-search-field__input:focus,
 .tale-search-field__input[data-focused],
@@ -140,6 +143,7 @@
 /* Placeholder (select uses .tale-select__value[data-placeholder] instead) */
 .tale-input::placeholder,
 .tale-combobox__input::placeholder,
+.tale-command-palette__input::placeholder,
 .tale-autocomplete__input::placeholder,
 .tale-search-field__input::placeholder,
 .tale-text-field__input::placeholder,
@@ -359,6 +363,7 @@
 
 .tale-select__item,
 .tale-combobox__item,
+.tale-command-palette__item,
 .tale-autocomplete__item,
 .tale-list-box__item,
 .tale-menu__item,
@@ -387,6 +392,7 @@
 /* Focused (keyboard highlight) */
 .tale-select__item[data-focused],
 .tale-combobox__item[data-focused],
+.tale-command-palette__item[data-focused],
 .tale-autocomplete__item[data-focused],
 .tale-list-box__item[data-focused],
 .tale-menu__item[data-focused],
@@ -402,6 +408,7 @@
 /* Disabled */
 .tale-select__item[data-disabled],
 .tale-combobox__item[data-disabled],
+.tale-command-palette__item[data-disabled],
 .tale-autocomplete__item[data-disabled],
 .tale-list-box__item[data-disabled],
 .tale-menu__item[data-disabled],
@@ -422,6 +429,7 @@
 /* Small — tighter padding and smaller font for compact menus / dropdowns */
 .tale-select__listbox--sm,
 .tale-combobox__listbox--sm,
+.tale-command-palette__listbox--sm,
 .tale-autocomplete__listbox--sm,
 .tale-multi-select__listbox--sm,
 .tale-menu__popup--sm,
@@ -437,6 +445,7 @@
 .tale-menu__popup--sm .tale-menu__header,
 .tale-select__listbox--sm .tale-select__header,
 .tale-combobox__listbox--sm .tale-combobox__header,
+.tale-command-palette__listbox--sm .tale-command-palette__section-header,
 .tale-autocomplete__listbox--sm .tale-autocomplete__header {
   padding: var(--space-4xs) var(--space-2xs);
 }
@@ -446,6 +455,7 @@
 .tale-context-menu__list--sm .tale-context-menu__separator,
 .tale-select__listbox--sm .tale-select__separator,
 .tale-combobox__listbox--sm .tale-combobox__separator,
+.tale-command-palette__listbox--sm .tale-command-palette__separator,
 .tale-autocomplete__listbox--sm .tale-autocomplete__separator {
   margin: 2px 0;
 }
@@ -456,10 +466,11 @@
 
 .tale-select__header,
 .tale-combobox__header,
+.tale-command-palette__section-header,
 .tale-autocomplete__header,
 .tale-list-box__header,
 .tale-menu__header {
-  padding: var(--space-4xs) var(--space-2xs);
+  padding: var(--space-4xs) var(--space-2xs) 0 var(--space-2xs);
   color: var(--group-label-color);
   font-family: var(--label-font-family);
   font-size: var(--group-label-font-size);
@@ -476,6 +487,7 @@
 /* Separator */
 .tale-select__separator,
 .tale-combobox__separator,
+.tale-command-palette__separator,
 .tale-autocomplete__separator,
 .tale-menu__separator,
 .tale-context-menu__separator {
@@ -975,6 +987,18 @@
   border: none;
 }
 
+.tale-command-palette__title.tale-command-palette__title {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  border: none;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    16. COLOR PICKER THUMB
    ══════════════════════════════════════════════════════════════════════════ */
@@ -1019,7 +1043,8 @@
 /* Modal title */
 .tale-alert-dialog__title,
 .tale-dialog__title,
-.tale-drawer__title {
+.tale-drawer__title,
+.tale-command-palette__title {
   margin: 0;
   padding-right: var(--space-m);
   color: var(--modal-title-color);
@@ -1032,7 +1057,8 @@
 /* Modal description */
 .tale-alert-dialog__description,
 .tale-dialog__description,
-.tale-drawer__description {
+.tale-drawer__description,
+.tale-command-palette__description {
   margin: 0;
   color: var(--modal-description-color);
   font-family: var(--text-font-family);
@@ -1042,7 +1068,8 @@
 
 /* Modal backdrop — alert-dialog + dialog only (drawer uses different values) */
 .tale-alert-dialog__backdrop,
-.tale-dialog__backdrop {
+.tale-dialog__backdrop,
+.tale-command-palette__backdrop {
   position: fixed;
   inset: 0;
   background-color: var(--modal-backdrop-bg);
@@ -1053,21 +1080,25 @@
 .tale-alert-dialog__backdrop[data-entering],
 .tale-alert-dialog__backdrop[data-exiting],
 .tale-dialog__backdrop[data-entering],
-.tale-dialog__backdrop[data-exiting] {
+.tale-dialog__backdrop[data-exiting],
+.tale-command-palette__backdrop[data-entering],
+.tale-command-palette__backdrop[data-exiting] {
   opacity: 0;
 }
 
 /* Modal / Popover close button — position only (button base from .tale-icon-button + .tale-button--ghost).
    Double-class specificity (0,2,0) ensures position: absolute wins over .tale-button's position: relative. */
 .tale-dialog__close.tale-button,
-.tale-popover__close.tale-button {
+.tale-popover__close.tale-button,
+.tale-command-palette__close.tale-button {
   position: absolute;
   color: var(--neutral-60);
   min-height: auto;
 }
 
 .tale-dialog__close svg,
-.tale-popover__close svg {
+.tale-popover__close svg,
+.tale-command-palette__close svg {
   stroke-width: 2;
 }
 

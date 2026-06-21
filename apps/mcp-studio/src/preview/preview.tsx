@@ -74,6 +74,7 @@ import * as ColorSliderPkg from '@tale-ui/react/color-slider';
 import * as ColorSwatchPkg from '@tale-ui/react/color-swatch';
 import * as ColorSwatchPickerPkg from '@tale-ui/react/color-swatch-picker';
 import * as ColorWheelPkg from '@tale-ui/react/color-wheel';
+import * as CommandPalettePkg from '@tale-ui/react/command-palette';
 import * as ContextMenuPkg from '@tale-ui/react/context-menu';
 import * as CreditCardPkg from '@tale-ui/react/credit-card';
 import * as DateFieldPkg from '@tale-ui/react/date-field';
@@ -195,6 +196,7 @@ const MODULE_MAP: Record<string, Record<string, unknown>> = {
   '@tale-ui/react/color-swatch': ColorSwatchPkg as Record<string, unknown>,
   '@tale-ui/react/color-swatch-picker': ColorSwatchPickerPkg as Record<string, unknown>,
   '@tale-ui/react/color-wheel': ColorWheelPkg as Record<string, unknown>,
+  '@tale-ui/react/command-palette': CommandPalettePkg as Record<string, unknown>,
   '@tale-ui/react/context-menu': ContextMenuPkg as Record<string, unknown>,
   '@tale-ui/react/credit-card': CreditCardPkg as Record<string, unknown>,
   '@tale-ui/react/date-field': DateFieldPkg as Record<string, unknown>,

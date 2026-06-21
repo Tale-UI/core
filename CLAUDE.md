@@ -16,24 +16,24 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 
 ## Documentation
 
-| File                                                               | What it covers                                                                                    |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
-| [docs/workspace-structure.md](docs/workspace-structure.md)         | Directory layout, conventions, and workspace CLI commands                                         |
-| [docs/managing-packages.md](docs/managing-packages.md)             | Creating new packages and importing external projects                                             |
-| [docs/package-dependencies.md](docs/package-dependencies.md)       | Cross-package `workspace:*` dependencies                                                          |
-| [docs/consuming-design-system.md](docs/consuming-design-system.md) | Installing @tale-ui/core in external projects                                                     |
-| [docs/react-setup.md](docs/react-setup.md)                         | Setting up a React app with Tale UI                                                               |
-| [docs/design-philosophy.md](docs/design-philosophy.md)             | Why React Aria, why BEM, why CSS-first, colour token system, dark mode                            |
-| [docs/authoring-components.md](docs/authoring-components.md)       | Contributor guide: adding new `@tale-ui/react` components                                         |
-| [docs/react-aria-deviations.md](docs/react-aria-deviations.md)     | Every difference between Tale UI and vanilla React Aria Components                                |
+| File                                                                             | What it covers                                                                                    |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [docs/workspace-structure.md](docs/workspace-structure.md)                       | Directory layout, conventions, and workspace CLI commands                                         |
+| [docs/managing-packages.md](docs/managing-packages.md)                           | Creating new packages and importing external projects                                             |
+| [docs/package-dependencies.md](docs/package-dependencies.md)                     | Cross-package `workspace:*` dependencies                                                          |
+| [docs/consuming-design-system.md](docs/consuming-design-system.md)               | Installing @tale-ui/core in external projects                                                     |
+| [docs/react-setup.md](docs/react-setup.md)                                       | Setting up a React app with Tale UI                                                               |
+| [docs/design-philosophy.md](docs/design-philosophy.md)                           | Why React Aria, why BEM, why CSS-first, colour token system, dark mode                            |
+| [docs/authoring-components.md](docs/authoring-components.md)                     | Contributor guide: adding new `@tale-ui/react` components                                         |
+| [docs/react-aria-deviations.md](docs/react-aria-deviations.md)                   | Every difference between Tale UI and vanilla React Aria Components                                |
 | [docs/upstream/react-aria-components.md](docs/upstream/react-aria-components.md) | Maintainer log for how Tale UI adopts, defers, or rejects upstream React Aria Components releases |
-| [docs/component-index.md](docs/component-index.md)                 | All 112 React components plus 6 chart components at a glance: description, import path, sub-parts |
-| [registry/components.json](registry/components.json)               | Machine-readable component registry: props, parts, examples, CSS classes                          |
-| [docs/components/](docs/components/index.md)                       | Per-component usage guide: imports, parts, examples, CSS classes                                  |
-| [docs/recipes/](docs/recipes/index.md)                             | Copy-paste multi-component patterns (forms, tables, navigation, search, settings)                 |
-| [docs/a2ui-integration.md](docs/a2ui-integration.md)               | A2UI protocol integration: setup, catalog, renderer, validation                                   |
-| [tools/README.md](tools/README.md)                                 | Monorepo tooling: audit scripts, build scripts, release process                                   |
-| [tools/prompts/self-critique.md](tools/prompts/self-critique.md)   | Second-pass validation prompt for AI-generated Tale UI code                                       |
+| [docs/component-index.md](docs/component-index.md)                               | All 112 React components plus 6 chart components at a glance: description, import path, sub-parts |
+| [registry/components.json](registry/components.json)                             | Machine-readable component registry: props, parts, examples, CSS classes                          |
+| [docs/components/](docs/components/index.md)                                     | Per-component usage guide: imports, parts, examples, CSS classes                                  |
+| [docs/recipes/](docs/recipes/index.md)                                           | Copy-paste multi-component patterns (forms, tables, navigation, search, settings)                 |
+| [docs/a2ui-integration.md](docs/a2ui-integration.md)                             | A2UI protocol integration: setup, catalog, renderer, validation                                   |
+| [tools/README.md](tools/README.md)                                               | Monorepo tooling: audit scripts, build scripts, release process                                   |
+| [tools/prompts/self-critique.md](tools/prompts/self-critique.md)                 | Second-pass validation prompt for AI-generated Tale UI code                                       |
 
 ## MCP Server
 
@@ -253,7 +253,7 @@ Format:
 
 ## Component Artifact Audit
 
-Status of required artifacts for all 112 components. When adding or updating a component, update the relevant row below.
+Status of required artifacts for all 116 components. When adding or updating a component, update the relevant row below.
 
 **Legend:** styled = `{Component}.styled.tsx` | index = `index.ts` | test = `{Component}.test.tsx` (non-trivial logic only) | css = `{component}.css` in styles/src | prim = `_primitives.css` entry (if shared declarations apply) | doc = `docs/components/{name}.md` | snip = consumer-claude-md-snippet.md | rdme = react/README.md | idx = `docs/component-index.md` entry | story = Storybook story | audit = ComponentAudit.tsx entry | a2ui = A2UI catalog adapter in `packages/a2ui/src/catalog.ts` | status = `@status` JSDoc tag in `{Component}.styled.tsx` (`stable` \| `experimental` \| `deprecated`)
 
@@ -261,7 +261,7 @@ Status of required artifacts for all 112 components. When adding or updating a c
 
 **Non-trivial components requiring tests:** Drawer (custom state/swipe), Meter (percentage calc), ProgressBar (percentage calc + indeterminate), ColorModeToggle (localStorage/OS preference), Tabs (MutationObserver/ResizeObserver indicator), KeyValuePairs (ResizeObserver column calculation)
 
-**Total:** 115 components | **Fully complete:** 115 | **Missing artifacts:** 0
+**Total:** 116 components | **Fully complete:** 116 | **Missing artifacts:** 0
 
 ### Form Controls
 
@@ -336,6 +336,7 @@ Status of required artifacts for all 112 components. When adding or updating a c
 | -------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
 | Menu           | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 | ContextMenu    | ✓      | ✓     | n/a  | n/a | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| CommandPalette | ✓      | ✓     | ✓    | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
 | NavigationMenu | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 | Menubar        | ✓      | ✓     | n/a  | n/a | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
 | Breadcrumbs    | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
@@ -373,24 +374,24 @@ Status of required artifacts for all 112 components. When adding or updating a c
 
 ### Display
 
-| Component    | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
-| ------------ | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
-| Avatar       | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| Badge        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| DotIcon      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| EmptyState   | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| FeaturedIcon | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| GridList     | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| Image        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Component     | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
+| ------------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
+| Avatar        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Badge         | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| DotIcon       | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| EmptyState    | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| FeaturedIcon  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| GridList      | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Image         | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 | KeyValuePairs | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| List         | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| QRCode       | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
-| RatingBadge  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| RatingStars  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| Table        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| TagGroup     | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| Tree         | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| VideoPlayer  | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| List          | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| QRCode        | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
+| RatingBadge   | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| RatingStars   | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Table         | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| TagGroup      | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Tree          | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| VideoPlayer   | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | n/a  | stable |
 
 ### Marketing
 
