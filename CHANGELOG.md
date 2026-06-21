@@ -2,6 +2,19 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## react-v1.3.52 — 2026-06-21
+
+### Added
+
+- **CommandPalette**, **KeyValuePairs**, ListBox exports, and virtualizer exports for React consumers.
+- Icon slot support for `Link` and `Tabs`.
+
+### Changed
+
+- Link styling now underlines text links by default while preserving icon-only presentation.
+- Recipe studio and MCP studio workflows gained recipe context, deep links, shared package wiring, and theme toggle support.
+- `@tale-ui/a2ui`, `@tale-ui/charts`, `@tale-ui/utils`, docs, and playground package metadata were aligned for the coordinated release.
+
 ## react-v1.3.15 — 2026-03-19
 
 ### Added

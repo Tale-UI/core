@@ -22,10 +22,7 @@ const options = [
 
 export function VirtualizedOptions() {
   return (
-    <Virtualizer
-      layout={ListLayout}
-      layoutOptions={{ rowHeight: 36, padding: 4 }}
-    >
+    <Virtualizer layout={ListLayout} layoutOptions={{ rowHeight: 36, padding: 4 }}>
       <ListBox.Root aria-label="Options" items={options} selectionMode="single">
         {(item) => (
           <ListBox.Item id={item.id} textValue={item.label}>
@@ -79,13 +76,15 @@ export function VirtualizedGridOptions() {
 ## Pitfalls
 
 <!-- pitfall: virtualizer-import-path -->
+
 - **Import virtualizer utilities from Tale UI** -- use `@tale-ui/react/virtualizer` so generated code validates against the Tale UI registry.
   - anti-pattern: `import { Virtualizer, GridLayout } from 'react-aria-components';`
   - fix: `import { Virtualizer, GridLayout } from '@tale-ui/react/virtualizer';`
 
 <!-- pitfall: virtualizer-stable-item-size -->
+
 - **Keep item dimensions stable** -- virtualized layouts depend on predictable item measurement. For grid collections, set compatible `minItemSize`, `maxItemSize`, and `minSpace` values.
 
 <!-- pitfall: virtualizer-long-collections -->
-- **Use virtualization for long collections** -- small static lists are simpler with `ListBox.Root` alone.
 
+- **Use virtualization for long collections** -- small static lists are simpler with `ListBox.Root` alone.

@@ -2,6 +2,20 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.52 — 2026-06-21
+
+### Added
+
+- **CommandPalette**: Added command palette component support and docs for command-driven workflows.
+- **ListBox / Virtualizer**: Added exports and documentation for listbox and virtualized collection usage.
+- **KeyValuePairs**: Added display component for compact label/value metadata.
+- **Link / Tabs**: Added icon slot support for links and tab triggers.
+
+### Changed
+
+- **Link**: Underlines text links by default unless icon-only presentation is used.
+- **Recipes / Studio**: Updated recipe context handling, deep links, and theme toggle support across studio demos.
+
 ## v1.3.50 — 2026-05-25
 
 ### Added

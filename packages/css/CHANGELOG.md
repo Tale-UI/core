@@ -2,6 +2,12 @@
 
 All notable changes to the CSS design system are documented in this file.
 
+## v1.1.20 — 2026-06-21
+
+### Changed
+
+- Version aligned with the coordinated workspace release and regenerated package metadata. No design-token API changes.
+
 ## v1.1.17 — 2026-04-08
 
 ### Added

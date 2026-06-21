@@ -2,6 +2,19 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.52 — 2026-06-21
+
+### Added
+
+- **CommandPalette**: Added styles for the command palette component.
+- **KeyValuePairs**: Added styles for compact key/value metadata displays.
+- **Tabs / Link**: Added icon-aware styles for tab triggers and links.
+
+### Changed
+
+- **Link**: Updated default link decoration rules so text links are underlined while icon-only links remain visually clean.
+- **Popover / Button**: Refined component styling used by studio and recipe workflows.
+
 ## v1.3.50 — 2026-05-25
 
 ### Added

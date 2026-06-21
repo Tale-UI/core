@@ -1,6 +1,6 @@
 {
   "name": "@tale-ui/charts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Recharts-based chart components themed with @tale-ui/core design tokens.",
   "type": "module",
   "exports": {

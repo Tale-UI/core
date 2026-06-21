@@ -9,5 +9,6 @@ build
 build-tests
 node_modules
 pnpm-lock.yaml
+registry/*.json
 routeTree.gen.ts
 /packages/css/**
