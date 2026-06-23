@@ -216,7 +216,6 @@ export function TranslucentSurfaceCommandPalette() {
           aria-label="Search launch workspace"
           modalProps={{ className: 'tale-command-palette__popup--translucent' }}
         >
-          <CommandPalette.Close aria-label="Close command palette" />
           <CommandPalette.Content>
             <CommandPalette.SearchField>
               <CommandPalette.Input placeholder="Search launch actions, reports, or reviewers..." />

@@ -18,7 +18,7 @@ A keyboard-friendly command surface for application actions, navigation shortcut
 | `CommandPalette.Content`         | Autocomplete provider around search and results.                                                             |
 | `CommandPalette.SearchField`     | Search field wrapper. Defaults to the `inline` variant.                                                      |
 | `CommandPalette.Input`           | Search input. Defaults to `autoFocus`.                                                                       |
-| `CommandPalette.ClearButton`     | Clears the search field.                                                                                     |
+| `CommandPalette.ClearButton`     | Small ghost button that clears the search field.                                                             |
 | `CommandPalette.Chips`           | Optional active filter chip container.                                                                       |
 | `CommandPalette.Chip`            | Filter chip.                                                                                                 |
 | `CommandPalette.ChipRemove`      | Removes a filter chip.                                                                                       |

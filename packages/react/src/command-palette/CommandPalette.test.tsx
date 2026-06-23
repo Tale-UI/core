@@ -298,6 +298,9 @@ describe('<CommandPalette />', () => {
     expect(screen.getByRole('searchbox').classList.contains('tale-command-palette__input')).toBe(
       true,
     );
+    expect(screen.getByText('Clear').classList.contains('tale-command-palette__clear')).toBe(true);
+    expect(screen.getByText('Clear').classList.contains('tale-button--ghost')).toBe(true);
+    expect(screen.getByText('Clear').classList.contains('tale-button--sm')).toBe(true);
     expect(
       screen
         .getByRole('searchbox')

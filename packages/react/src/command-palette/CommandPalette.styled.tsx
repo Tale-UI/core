@@ -348,8 +348,15 @@ export type ClearButtonProps = Omit<AriaButtonProps, 'className'> & {
 
 export const ClearButton = React.forwardRef<HTMLButtonElement, ClearButtonProps>(
   ({ className, children, ...props }, ref) => (
-    <AriaButton ref={ref} className={cx('tale-command-palette__clear', className)} {...props}>
-      {children ?? <Icon icon={X} size="sm" />}
+    <AriaButton
+      ref={ref}
+      className={cx(
+        'tale-button tale-button--ghost tale-button--sm tale-command-palette__clear',
+        className,
+      )}
+      {...props}
+    >
+      {children ?? 'Clear'}
     </AriaButton>
   ),
 );

@@ -121,7 +121,9 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
   padding: var(--space-s) var(--space-s) var(--space-xs);
   border-bottom: 1px solid var(--neutral-18);
   background-color: var(--neutral-10);
@@ -157,9 +159,10 @@
 
 .tale-command-palette__input {
   display: block;
+  flex: 1 1 auto;
+  min-width: 0;
   width: 100%;
   padding-inline-start: var(--space-4xs);
-  padding-inline-end: 3.6rem;
   line-height: 1.5;
   transition:
     border-color 0.15s ease,
@@ -172,39 +175,7 @@
 }
 
 .tale-command-palette__clear {
-  position: absolute;
-  right: calc(var(--space-s) + var(--space-4xs));
-  bottom: calc(var(--space-xs) + 0.6rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-full);
-  background: transparent;
-  color: var(--neutral-50);
-  cursor: pointer;
-  outline: none;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
-}
-
-.tale-command-palette__clear[data-hovered] {
-  background-color: var(--neutral-14);
-  color: var(--neutral-80);
-}
-
-.tale-command-palette__clear[data-pressed] {
-  background-color: var(--neutral-18);
-}
-
-.tale-command-palette__clear[data-focus-visible] {
-  box-shadow:
-    0 0 0 2px var(--neutral-100),
-    0 0 0 4px var(--focus-ring-color);
+  flex: 0 0 auto;
 }
 
 .tale-command-palette__search-field[data-empty] .tale-command-palette__clear {
