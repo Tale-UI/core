@@ -2,6 +2,13 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## react-v1.3.53 — 2026-06-26
+
+### Changed
+
+- **Button / React styles**: Updated neutral button styling to use translucent `--neutral-90` color mixes for base, hover, and active background and border states, improving separation from ghost buttons across light and dark modes.
+- `@tale-ui/react`, `@tale-ui/react-styles`, and `@tale-ui/utils` package metadata were aligned for the coordinated release.
+
 ## react-v1.3.52 — 2026-06-21
 
 ### Added

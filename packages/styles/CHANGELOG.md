@@ -2,6 +2,12 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.53 — 2026-06-26
+
+### Changed
+
+- **Button**: Updated the neutral button variant to use translucent `--neutral-90` color mixes for base, hover, and active background and border states, making neutral buttons and overlay triggers visually distinct from ghost buttons while preserving dark-mode inversion.
+
 ## v1.3.52 — 2026-06-21
 
 ### Added

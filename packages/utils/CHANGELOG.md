@@ -2,6 +2,12 @@
 
 All notable changes to the utility library are documented in this file.
 
+## v1.3.53 — 2026-06-26
+
+### Changed
+
+- Version aligned with the coordinated React package release. No utility API changes.
+
 ## v1.3.52 — 2026-06-21
 
 ### Changed

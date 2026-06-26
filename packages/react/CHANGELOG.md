@@ -2,6 +2,12 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.53 — 2026-06-26
+
+### Changed
+
+- **Button styling**: Version aligned with `@tale-ui/react-styles` for the neutral button visual update. No React component API changes.
+
 ## v1.3.52 — 2026-06-21
 
 ### Added
