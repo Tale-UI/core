@@ -1,6 +1,15 @@
 # Emoji Picker
 
-A searchable virtualized emoji picker built from Tale UI primitives. Production apps can show the full emoji set by passing their own emoji data, for example from `emojibase-data`, normalized into the `EmojiItem` shape shown below.
+A searchable virtualized emoji picker built from Tale UI primitives.
+
+The inline emoji array in this recipe is intentionally small sample data so the
+example stays readable and deterministic in documentation validation. It is not
+intended to match the complete emoji catalogue users expect from product pickers
+like Messenger, Slack, or the macOS emoji picker.
+
+For production use, replace the sample array with your application emoji data,
+for example from `emojibase-data`, normalized into the `EmojiItem` shape shown
+below.
 
 ## Components Used
 
@@ -30,6 +39,8 @@ type EmojiItem = {
 
 type EmojiSeed = readonly [id: string, emoji: string, label: string, keywords?: readonly string[]];
 
+// Sample data only. Production apps should replace this with a complete
+// dataset normalized into EmojiItem[].
 const emojiGroups: Array<{ group: string; items: EmojiSeed[] }> = [
   {
     group: 'Smileys',
@@ -265,9 +276,54 @@ export function EmojiPickerExample() {
 }
 ```
 
+## Full Emoji Data
+
+The picker does not require Tale UI to ship or own the emoji catalogue. Treat the
+`emojis` array as an application input and source it from the dataset that fits
+your product, locale, bundle budget, and custom emoji requirements.
+
+One common option is `emojibase-data`. Install it in the consuming app:
+
+`pnpm add emojibase-data`
+
+Then normalize the data before passing it to the picker:
+
+```ts
+import emojiData from 'emojibase-data/en/data.json';
+import messages from 'emojibase-data/en/messages.json';
+
+type EmojibaseEmoji = {
+  emoji: string;
+  group?: number;
+  hexcode: string;
+  label: string;
+  tags?: string[];
+};
+
+const groupLabels = new Map(
+  messages.groups.map((group) => [group.order, group.message]),
+);
+
+export const fullEmojiData: EmojiItem[] = (emojiData as EmojibaseEmoji[]).map(
+  (item) => ({
+    id: item.hexcode,
+    emoji: item.emoji,
+    label: item.label,
+    group: groupLabels.get(item.group ?? -1) ?? 'Emoji',
+    keywords: item.tags,
+  }),
+);
+```
+
+Use `fullEmojiData` wherever the recipe uses the sample `emojis` constant. For
+localized search, import a different locale from `emojibase-data/{locale}` and
+normalize the same way.
+
 ## Customization Points
 
-- Replace the inline `emojis` array with your application data source.
+- Replace the inline `emojis` array with a complete application data source.
 - Normalize external emoji datasets into `{ id, emoji, label, group, keywords }`.
+- Decide whether to include skin tone variants as separate items, hide them
+  behind a tone picker, or store a preferred tone in application state.
 - Tune `GridLayout` sizing for larger or denser emoji cells.
 - Store recent or frequently used emoji in application state and render them as a separate section.
