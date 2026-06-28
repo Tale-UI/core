@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import * as React from 'react';
 import { NumberField } from '@tale-ui/react/number-field';
 
 type Args = {
@@ -7,6 +8,11 @@ type Args = {
   maxValue?: number;
   step?: number;
   isDisabled?: boolean;
+};
+
+type NumberFieldStyle = React.CSSProperties & {
+  '--tale-number-field-width'?: string;
+  '--tale-number-field-group-width'?: string;
 };
 
 const meta: Meta<Args> = {
@@ -136,6 +142,32 @@ export const WithFormat: Story = {
       </NumberField.Group>
     </NumberField.Root>
   ),
+};
+
+export const CustomControlWidth: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => {
+    const fieldStyle: NumberFieldStyle = {
+      '--tale-number-field-width': '32rem',
+      '--tale-number-field-group-width': '14rem',
+    };
+
+    return (
+      <NumberField.Root defaultValue={920} style={fieldStyle}>
+        <NumberField.Label>Default panel width (px)</NumberField.Label>
+        <NumberField.Group>
+          <NumberField.Decrement />
+          <NumberField.Input />
+          <NumberField.Increment />
+        </NumberField.Group>
+        <NumberField.Description>
+          Width applied to newly opened panels.
+        </NumberField.Description>
+      </NumberField.Root>
+    );
+  },
 };
 
 export const AllVariations: Story = {

@@ -249,6 +249,10 @@
       "difficulty": "complex"
     },
     {
+      "slug": "number-field-custom-control-width",
+      "difficulty": "medium"
+    },
+    {
       "slug": "number-field-quantity",
       "difficulty": "medium"
     },

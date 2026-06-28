@@ -166,6 +166,16 @@ import { TextEditor } from '@tale-ui/react/text-editor';
 import { Sidebar } from '@tale-ui/react/sidebar';
 import { HeaderNav } from '@tale-ui/react/header-nav';
 
+type NumberFieldSizingStyle = React.CSSProperties & {
+  '--tale-number-field-width'?: string;
+  '--tale-number-field-group-width'?: string;
+};
+
+const numberFieldCustomControlStyle: NumberFieldSizingStyle = {
+  '--tale-number-field-width': '32rem',
+  '--tale-number-field-group-width': '14rem',
+};
+
 // ---------------------------------------------------------------------------
 // Layout helpers
 // ---------------------------------------------------------------------------
@@ -2528,6 +2538,20 @@ export default function ComponentAudit() {
                 <NumberField.Input />
                 <NumberField.Increment />
               </NumberField.Group>
+            </NumberField.Root>
+          </Row>
+          <SubHeading>Custom Control Width</SubHeading>
+          <Row>
+            <NumberField.Root defaultValue={920} style={numberFieldCustomControlStyle}>
+              <NumberField.Label>Default panel width (px)</NumberField.Label>
+              <NumberField.Group>
+                <NumberField.Decrement />
+                <NumberField.Input />
+                <NumberField.Increment />
+              </NumberField.Group>
+              <NumberField.Description>
+                Width applied to newly opened panels.
+              </NumberField.Description>
             </NumberField.Root>
           </Row>
           <SubHeading>Disabled</SubHeading>

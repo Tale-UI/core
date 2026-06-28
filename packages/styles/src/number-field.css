@@ -22,7 +22,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-3xs);
-  width: fit-content;
+  width: var(--tale-number-field-width, fit-content);
 }
 
 /* ─── Group — wraps input + stepper buttons ───────────────────────────────── */
@@ -30,7 +30,7 @@
 .tale-number-field__group {
   display: inline-flex;
   align-items: stretch;
-  width: 100%;
+  width: var(--tale-number-field-group-width, 100%);
   max-width: 100%;
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);

@@ -41,6 +41,12 @@ export const Root = React.forwardRef<
 ));
 Root.displayName = 'NumberField.Root';
 
+/**
+ * Groups the input and stepper buttons. Set
+ * `--tale-number-field-group-width` on `NumberField.Root`, this part, or an
+ * ancestor to size the visible control separately from the root's
+ * `--tale-number-field-width` text measure.
+ */
 export const Group = React.forwardRef<
   HTMLDivElement,
   Omit<AriaGroupProps, 'className'> & { className?: string }

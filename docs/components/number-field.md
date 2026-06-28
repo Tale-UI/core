@@ -108,6 +108,34 @@ Render props and data attributes now include read-only state (`isReadOnly`).
 </NumberField.Root>
 ```
 
+### Custom Control Width
+
+Set `--tale-number-field-group-width` on the root, group, or an ancestor to
+resize only the visible input/stepper group. Use
+`--tale-number-field-width` when the label, description, or error text should
+keep a different text measure.
+
+```tsx
+<NumberField.Root className="panel-width-field" defaultValue={920}>
+  <NumberField.Label>Default panel width (px)</NumberField.Label>
+  <NumberField.Group>
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+  <NumberField.Description>
+    Width applied to newly opened panels.
+  </NumberField.Description>
+</NumberField.Root>
+```
+
+```css
+.panel-width-field {
+  --tale-number-field-width: 32rem;
+  --tale-number-field-group-width: 14rem;
+}
+```
+
 ## CSS Classes
 
 - `.tale-number-field` — Root container
@@ -118,6 +146,13 @@ Render props and data attributes now include read-only state (`isReadOnly`).
 - `.tale-number-field__decrement` — Decrement button
 - `.tale-number-field__description` — Help text
 - `.tale-number-field__error` — Error message
+
+## CSS Variables
+
+| Variable                          | Default | Description                                                                                                |
+| --------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| `--tale-number-field-width`       | `fit-content` | Width of the root field wrapper, including label, description, and error text.                       |
+| `--tale-number-field-group-width` | `100%`  | Width of the input + stepper group. Set on the root or group to size the control separately from help text. |
 
 ## Pitfalls
 
