@@ -85,7 +85,7 @@
   .tale-drawer__popup {
     left: 50%;
     right: auto;
-    width: min(900px, calc(100vw - (2 * var(--space-xl))));
+    width: min(56.25rem, calc(100vw - (2 * var(--space-xl))));
     transform: translateX(-50%) translateY(0);
     max-height: calc(100vh - (2 * var(--space-xl)));
     border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;

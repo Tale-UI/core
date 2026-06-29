@@ -62,8 +62,8 @@
 }
 
 .tale-social-button--sm .tale-social-button__icon svg {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 }
 
 .tale-social-button--md {
@@ -72,8 +72,8 @@
 }
 
 .tale-social-button--md .tale-social-button__icon svg {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* ─── Provider hover accents ─────────────────────────────────────────────── */

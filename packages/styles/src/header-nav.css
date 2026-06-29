@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  height: 64px;
+  height: 4rem;
   padding: 0 var(--space-m);
   background: var(--neutral-100);
   border-bottom: 1px solid var(--neutral-90);
@@ -97,8 +97,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 6px;
   border: none;
   background: transparent;
@@ -148,8 +148,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 6px;
   border: none;
   background: transparent;

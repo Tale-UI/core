@@ -200,7 +200,7 @@
 
 .tale-input-tags--lg .tale-input-tags__group {
   min-height: 2.75rem;
-  padding: var(--space-2xs) var(--space-s);
+  padding: var(--space-2xs) var(--space-xs);
 }
 
 .tale-input-tags--lg .tale-input-tags__input {

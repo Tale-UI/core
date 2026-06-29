@@ -212,7 +212,7 @@
 .tale-text-editor__toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px;
+  gap: 0.125rem;
   align-items: center;
 }
 
@@ -220,22 +220,22 @@
   position: relative;
   background: var(--neutral-100);
   border-radius: var(--radius-m);
-  padding: 4px;
+  padding: 0.25rem;
   box-shadow: var(--shadow-l);
   border: 1px solid var(--neutral-90);
 }
 
 .tale-text-editor__toolbar--advanced {
   flex-wrap: wrap;
-  gap: 2px;
+  gap: 0.125rem;
 }
 
 /* ─── Separator ────────────────────────────────────────────────────────────── */
 
 .tale-text-editor__separator {
   width: 1px;
-  height: 20px;
-  background: var(--neutral-88);
+  height: 1.25rem;
+  background: var(--neutral-30);
   margin: 0 var(--space-4xs);
   border-radius: 2px;
   flex-shrink: 0;
@@ -248,12 +248,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-s);
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-xs);
   border: none;
   background: transparent;
-  color: var(--neutral-40);
+  color: var(--neutral-60);
   cursor: pointer;
   flex-shrink: 0;
   transition:
@@ -263,12 +263,21 @@
 }
 
 .tale-text-editor__btn:hover {
-  background-color: var(--neutral-96);
-  color: var(--neutral-20);
+  background-color: color-mix(in srgb, var(--neutral-90) 7%, transparent);
+  color: var(--neutral-90);
+}
+
+.tale-text-editor__btn:active {
+  background-color: color-mix(in srgb, var(--neutral-90) 20%, transparent);
 }
 
 .tale-text-editor__btn--active {
   background-color: var(--neutral-94);
+  color: var(--neutral-10);
+}
+
+.tale-text-editor__btn--active:hover {
+  background-color: var(--neutral-80);
   color: var(--neutral-10);
 }
 
@@ -292,7 +301,7 @@
   border-radius: var(--radius-m);
   box-shadow: var(--shadow-m);
   padding: var(--space-xs);
-  min-width: 172px;
+  min-width: 10.75rem;
   z-index: 100;
 }
 
@@ -303,13 +312,13 @@
 .tale-text-editor__color-swatches {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 4px;
+  gap: 0.25rem;
   margin-bottom: var(--space-xs);
 }
 
 .tale-text-editor__color-swatch {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   cursor: pointer;
   border: none;
@@ -363,9 +372,9 @@
 
 .tale-text-editor__select {
   box-sizing: border-box;
-  height: 32px;
+  height: 2rem;
   padding: 0 var(--space-3xs);
-  border: 1px solid var(--neutral-86);
+  border: 1px solid var(--neutral-30);
   border-radius: var(--radius-s);
   background-color: transparent;
   color: var(--neutral-60);
@@ -380,7 +389,7 @@
 
 .tale-text-editor__select:hover {
   border-color: var(--neutral-70);
-  color: var(--neutral-20);
+  color: var(--neutral-90);
 }
 
 .tale-text-editor__select:focus-visible {
@@ -398,8 +407,8 @@
 .tale-text-editor__bubble-menu {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 4px;
+  gap: 0.125rem;
+  padding: 0.25rem;
   background: var(--neutral-10);
   border: 1px solid var(--neutral-20);
   border-radius: var(--radius-m);

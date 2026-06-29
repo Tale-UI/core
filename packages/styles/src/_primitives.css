@@ -43,9 +43,9 @@
   /* Field controls (Groups 1, 2, 8, 9) */
   --field-min-height: 2.25rem;
   --field-padding-block: var(--space-3xs);
-  --field-padding-inline: var(--space-xs);
+  --field-padding-inline: var(--space-2xs);
   --field-border-color: var(--neutral-26);
-  --field-radius: var(--radius-m);
+  --field-radius: var(--radius-s);
   --field-bg: var(--neutral-5);
   --field-color: var(--neutral-90);
   --field-font-family: var(--text-font-family);
@@ -62,12 +62,12 @@
   /* Dropdown popups & items (Groups 3, 4, 5) */
   --popup-bg: var(--neutral-10);
   --popup-border-color: var(--neutral-20);
-  --popup-radius: var(--radius-l);
+  --popup-radius: var(--radius-m);
   --popup-shadow: var(--shadow-m);
   --item-padding-block: var(--space-4xs);
   --item-padding-inline: var(--space-2xs);
   --item-gap: var(--space-2xs);
-  --item-radius: var(--radius-m);
+  --item-radius: var(--radius-s);
   --item-color: var(--neutral-80);
   --item-font-size: var(--text-s-font-size);
   --item-focus-bg: var(--neutral-14);
