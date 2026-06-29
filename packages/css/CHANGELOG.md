@@ -2,6 +2,17 @@
 
 All notable changes to the CSS design system are documented in this file.
 
+## v1.3.54 - 2026-06-30
+
+### Changed
+
+- **Rem base**: Standardized `@tale-ui/core` on the browser-default root (`html { font-size: 100%; }`, normally `1rem = 16px`) while recalibrating tokens to preserve existing rendered Tale UI dimensions.
+- **Package alignment**: Aligned `@tale-ui/core` with the coordinated public package version shared by `@tale-ui/react`, `@tale-ui/react-styles`, and `@tale-ui/utils`.
+
+### Migration
+
+- Remove any old Tale-specific 10px-root workaround from consuming apps. Tale UI now shares the standard rem contract used by Tailwind, shadcn/ui, Bootstrap, and browser-default CSS.
+
 ## v1.1.20 — 2026-06-21
 
 ### Changed

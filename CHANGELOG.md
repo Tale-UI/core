@@ -2,6 +2,18 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## v1.3.54 — 2026-06-30
+
+### Changed
+
+- **Public packages**: Aligned `@tale-ui/core`, `@tale-ui/utils`, `@tale-ui/react`, and `@tale-ui/react-styles` at version `1.3.54`.
+- **Rem base**: Standardized Tale UI on the browser-default root (`html { font-size: 100%; }`, normally `1rem = 16px`) while preserving rendered component dimensions.
+- **Component styles**: Tightened scalable control, icon, and fixed layout sizing across HeaderNav, Sidebar, TextEditor, FileUpload, SocialButton, and VideoPlayer.
+
+### Migration
+
+- Consumers should remove any old Tale-specific 10px-root override. Tale UI now shares the standard rem contract used by common rem-based frameworks.
+
 ## react-v1.3.53 — 2026-06-26
 
 ### Changed

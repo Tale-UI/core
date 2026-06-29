@@ -2,6 +2,14 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.54 — 2026-06-30
+
+### Changed
+
+- **Rem base**: Recalibrated component styles for the browser-standard `1rem = 16px` root while preserving existing rendered sizes.
+- **Fixed layout sizing**: Converted suspicious fixed control and icon dimensions in HeaderNav, Sidebar, TextEditor, FileUpload, SocialButton, and VideoPlayer toward scalable rem-based geometry.
+- **Release alignment**: Aligned `@tale-ui/react-styles` with `@tale-ui/core`, `@tale-ui/react`, and `@tale-ui/utils`.
+
 ## v1.3.53 — 2026-06-26
 
 ### Changed
