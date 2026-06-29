@@ -50,7 +50,7 @@ export const BelowPlacement: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem', width: '36rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '22.5rem' }}>
       <InputTags.Root size="sm" label="Small" placeholder="Add tag…" />
       <InputTags.Root size="md" label="Medium" placeholder="Add tag…" />
       <InputTags.Root size="lg" label="Large" placeholder="Add tag…" />

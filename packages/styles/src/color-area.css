@@ -15,8 +15,8 @@
 /* ─── Root ─────────────────────────────────────────────────────────────────── */
 
 .tale-color-area {
-  width: 12rem;
-  height: 12rem;
+  width: 7.5rem;
+  height: 7.5rem;
   border-radius: var(--space-4xs);
   flex-shrink: 0;
 }

@@ -114,7 +114,7 @@ export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
         <div style={{ flex: '1 1 300px' }}>
           <p className="story-label">Vertical scroll</p>
           <ScrollArea.Root style={{ width: 300, height: 200, border: '1px solid var(--neutral-20)' }}>

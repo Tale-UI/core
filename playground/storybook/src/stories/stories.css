@@ -15,20 +15,20 @@
   font-weight: 600;
   font-size: var(--label-s-font-size);
   color: var(--neutral-60);
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Vertical stack of sections with generous gap */
 .story-sections {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.25rem;
 }
 
 /* Horizontal wrap of side-by-side cards/panels */
 .story-cards {
   display: flex;
-  gap: 1.6rem;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .story-inner {
-  width: 34rem;
+  width: 21.25rem;
   max-width: 100%;
 }
 
@@ -104,7 +104,7 @@
   width: 300px;
   height: 200px;
   border: 1px solid var(--neutral-20);
-  border-radius: 0.6rem;
+  border-radius: 0.375rem;
 }
 
 .story-context-trigger {
@@ -129,7 +129,7 @@
   justify-content: center;
   background: var(--neutral-14);
   color: var(--neutral-50);
-  border-radius: 0.4rem 0.4rem 0 0;
+  border-radius: 0.25rem 0.25rem 0 0;
   font-family: var(--label-font-family);
   font-size: var(--label-s-font-size);
 }

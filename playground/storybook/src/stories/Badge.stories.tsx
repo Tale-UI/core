@@ -49,7 +49,7 @@ export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
         <Badge variant="neutral">Neutral</Badge>
         <Badge variant="brand">Brand</Badge>
         <Badge variant="error">Error</Badge>
@@ -64,7 +64,7 @@ export const NamedColors: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
         <Badge variant="red">Red</Badge>
         <Badge variant="orange">Orange</Badge>
         <Badge variant="amber">Amber</Badge>
@@ -90,7 +90,7 @@ export const AllSizes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
         <Badge size="sm">Small</Badge>
         <Badge size="md">Medium</Badge>
         <Badge size="lg">Large</Badge>
@@ -103,7 +103,7 @@ export const AllTypes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
         <Badge variant="neutral" type="pill">Neutral Pill</Badge>
         <Badge variant="neutral" type="rounded">Neutral Rounded</Badge>
         <Badge variant="brand" type="pill">Brand Pill</Badge>
@@ -127,11 +127,11 @@ export const AllVariations: Story = {
     const sizes = ['sm', 'md', 'lg'] as const;
     const types = ['pill', 'rounded'] as const;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2.4rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {types.map((t) => (
           <div key={t}>
             <div className="story-heading">Type: {t}</div>
-            <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.4rem 0.8rem', alignItems: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.25rem 0.5rem', alignItems: 'center' }}>
               <div />
               {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
               {variants.map((v) => (

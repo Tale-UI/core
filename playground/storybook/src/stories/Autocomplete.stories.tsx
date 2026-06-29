@@ -122,9 +122,9 @@ export const AllVariations: Story = {
   render: function AllVariationsAutocomplete() {
     const { contains } = useFilter({ sensitivity: 'base' });
     return (
-      <div style={{ display: 'flex', gap: '1.6rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
         <div>
-          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Default</div>
+          <div className="story-label" style={{ marginBottom: '0.25rem' }}>Default</div>
           <div style={panelStyle}>
             <Autocomplete.Root filter={contains}>
               <div style={searchStyle}>
@@ -141,7 +141,7 @@ export const AllVariations: Story = {
           </div>
         </div>
         <div>
-          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Disabled</div>
+          <div className="story-label" style={{ marginBottom: '0.25rem' }}>Disabled</div>
           <div style={panelStyle}>
             <Autocomplete.Root filter={contains}>
               <div style={searchStyle}>
@@ -158,7 +158,7 @@ export const AllVariations: Story = {
           </div>
         </div>
         <div>
-          <div className="story-label" style={{ marginBottom: '0.4rem' }}>With sections</div>
+          <div className="story-label" style={{ marginBottom: '0.25rem' }}>With sections</div>
           <div style={panelStyle}>
             <Autocomplete.Root filter={contains}>
               <div style={searchStyle}>

@@ -109,7 +109,7 @@ export const AllVariations: Story = {
       { label: 'Disabled on', props: { isDisabled: true, defaultSelected: true } },
     ] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.8rem 1.6rem', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.5rem 1rem', alignItems: 'center' }}>
         {states.map((state) => (
           <div key={state.label} style={{ display: 'contents' }}>
             <div className="story-label">{state.label}</div>

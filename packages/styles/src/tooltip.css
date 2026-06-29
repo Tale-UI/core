@@ -30,7 +30,7 @@
   line-height: 1.4;
   padding: var(--space-4xs) var(--space-3xs);
   border-radius: var(--radius-m);
-  max-width: 24rem;
+  max-width: 15rem;
   overflow-wrap: anywhere;
   box-shadow: var(--shadow-s);
   transition: opacity 0.1s ease, transform 0.1s ease;
@@ -67,8 +67,8 @@
    OverlayArrow positions the container; we just rotate the SVG. */
 .tale-tooltip__arrow svg {
   display: block;
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.5rem;
+  height: 0.5rem;
   fill: var(--neutral-80);
 }
 

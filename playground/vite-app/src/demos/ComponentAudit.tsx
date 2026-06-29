@@ -172,8 +172,8 @@ type NumberFieldSizingStyle = React.CSSProperties & {
 };
 
 const numberFieldCustomControlStyle: NumberFieldSizingStyle = {
-  '--tale-number-field-width': '32rem',
-  '--tale-number-field-group-width': '14rem',
+  '--tale-number-field-width': '20rem',
+  '--tale-number-field-group-width': '8.75rem',
 };
 
 // ---------------------------------------------------------------------------
@@ -2244,7 +2244,7 @@ export default function ComponentAudit() {
           </Row>
           <SubHeading>Long Selected Value</SubHeading>
           <Row>
-            <div style={{ width: '22rem' }}>
+            <div style={{ width: '13.75rem' }}>
               <Select.Root defaultSelectedKey="enterprise-plan" placeholder="Select a plan…">
                 <Select.Label>Plan</Select.Label>
                 <Select.Trigger>
@@ -3496,7 +3496,7 @@ export default function ComponentAudit() {
           <SubHeading>Framed</SubHeading>
           <div
             style={{
-              padding: '1rem',
+              padding: '0.625rem',
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               borderRadius: 8,
               display: 'inline-block',
@@ -3507,7 +3507,7 @@ export default function ComponentAudit() {
           <SubHeading>Framed + Large</SubHeading>
           <div
             style={{
-              padding: '1rem',
+              padding: '0.625rem',
               background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
               borderRadius: 8,
               display: 'inline-block',
@@ -3533,7 +3533,7 @@ export default function ComponentAudit() {
           <SubHeading>Framed</SubHeading>
           <div
             style={{
-              padding: '1rem',
+              padding: '0.625rem',
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               borderRadius: 8,
               display: 'inline-block',
@@ -3545,7 +3545,7 @@ export default function ComponentAudit() {
           <SubHeading>Framed + Large</SubHeading>
           <div
             style={{
-              padding: '1rem',
+              padding: '0.625rem',
               background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
               borderRadius: 8,
               display: 'inline-block',
@@ -4111,7 +4111,7 @@ export default function ComponentAudit() {
           ]}
         >
           <SubHeading>Outlined (default)</SubHeading>
-          <Card.Root variant="outlined" style={{ maxWidth: '32rem' }}>
+          <Card.Root variant="outlined" style={{ maxWidth: '20rem' }}>
             <Card.Header>Card title</Card.Header>
             <Card.Body>Card body content goes here.</Card.Body>
             <Card.Footer>
@@ -4124,12 +4124,12 @@ export default function ComponentAudit() {
             </Card.Footer>
           </Card.Root>
           <SubHeading>Elevated</SubHeading>
-          <Card.Root variant="elevated" style={{ maxWidth: '32rem' }}>
+          <Card.Root variant="elevated" style={{ maxWidth: '20rem' }}>
             <Card.Header>Elevated card</Card.Header>
             <Card.Body>Content with shadow.</Card.Body>
           </Card.Root>
           <SubHeading>Filled</SubHeading>
-          <Card.Root variant="filled" style={{ maxWidth: '32rem' }}>
+          <Card.Root variant="filled" style={{ maxWidth: '20rem' }}>
             <Card.Header>Filled card</Card.Header>
             <Card.Body>Background fill variant.</Card.Body>
           </Card.Root>
@@ -4137,7 +4137,7 @@ export default function ComponentAudit() {
 
         <Section id="column" title="Column" classes={['tale-column']}>
           <SubHeading>Default</SubHeading>
-          <Column gap="s" style={{ maxWidth: '32rem' }}>
+          <Column gap="s" style={{ maxWidth: '20rem' }}>
             <span>First child</span>
             <span>Second child</span>
             <span>Third child</span>
@@ -4156,12 +4156,12 @@ export default function ComponentAudit() {
             <Button variant="primary">Save</Button>
           </LayoutRow>
           <SubHeading>Wrapped</SubHeading>
-          <LayoutRow gap="xs" wrap style={{ maxWidth: '20rem' }}>
+          <LayoutRow gap="xs" wrap style={{ maxWidth: '12.5rem' }}>
             {['One', 'Two', 'Three', 'Four', 'Five', 'Six'].map((t) => (
               <span
                 key={t}
                 style={{
-                  padding: '0.4rem 0.8rem',
+                  padding: '0.25rem 0.5rem',
                   background: 'var(--neutral-10)',
                   borderRadius: 'var(--radius-s)',
                 }}
@@ -4875,7 +4875,7 @@ export default function ComponentAudit() {
             height={200}
           />
           <SubHeading>Radius variants</SubHeading>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
             <Image
               src="https://picsum.photos/seed/taleui/120/120"
               alt="none"
@@ -4926,25 +4926,25 @@ export default function ComponentAudit() {
           ]}
         >
           <SubHeading>Plain</SubHeading>
-          <List.Root style={{ maxWidth: '24rem' }}>
+          <List.Root style={{ maxWidth: '15rem' }}>
             <List.Item>First item</List.Item>
             <List.Item>Second item</List.Item>
             <List.Item>Third item</List.Item>
           </List.Root>
           <SubHeading>Divided</SubHeading>
-          <List.Root variant="divided" style={{ maxWidth: '24rem' }}>
+          <List.Root variant="divided" style={{ maxWidth: '15rem' }}>
             <List.Item>Apple</List.Item>
             <List.Item>Banana</List.Item>
             <List.Item>Cherry</List.Item>
           </List.Root>
           <SubHeading>Compact</SubHeading>
-          <List.Root variant="divided" density="compact" style={{ maxWidth: '24rem' }}>
+          <List.Root variant="divided" density="compact" style={{ maxWidth: '15rem' }}>
             <List.Item>Compact one</List.Item>
             <List.Item>Compact two</List.Item>
             <List.Item>Compact three</List.Item>
           </List.Root>
           <SubHeading>Spacious</SubHeading>
-          <List.Root variant="divided" density="spacious" style={{ maxWidth: '24rem' }}>
+          <List.Root variant="divided" density="spacious" style={{ maxWidth: '15rem' }}>
             <List.Item>Spacious one</List.Item>
             <List.Item>Spacious two</List.Item>
             <List.Item>Spacious three</List.Item>
@@ -5035,7 +5035,7 @@ export default function ComponentAudit() {
           ]}
         >
           <SubHeading>Plain</SubHeading>
-          <KeyValuePairs.Root aria-label="Service metadata" style={{ maxWidth: '28rem' }}>
+          <KeyValuePairs.Root aria-label="Service metadata" style={{ maxWidth: '17.5rem' }}>
             <KeyValuePairs.Item>
               <KeyValuePairs.Term>Status</KeyValuePairs.Term>
               <KeyValuePairs.Details>
@@ -5054,7 +5054,7 @@ export default function ComponentAudit() {
             minColumnWidth={180}
             variant="divided"
             density="compact"
-            style={{ maxWidth: '44rem' }}
+            style={{ maxWidth: '27.5rem' }}
           >
             <KeyValuePairs.Item>
               <KeyValuePairs.Term>
@@ -5079,7 +5079,7 @@ export default function ComponentAudit() {
             aria-label="Infrastructure summary"
             columns={2}
             density="spacious"
-            style={{ maxWidth: '44rem' }}
+            style={{ maxWidth: '27.5rem' }}
           >
             <KeyValuePairs.Group>
               <KeyValuePairs.GroupTitle>Network</KeyValuePairs.GroupTitle>
@@ -5131,7 +5131,7 @@ export default function ComponentAudit() {
             <div>
               <p
                 style={{
-                  marginBottom: '0.4rem',
+                  marginBottom: '0.25rem',
                   fontSize: 'var(--label-s-font-size)',
                   color: 'var(--neutral-60)',
                 }}
@@ -5143,7 +5143,7 @@ export default function ComponentAudit() {
             <div>
               <p
                 style={{
-                  marginBottom: '0.4rem',
+                  marginBottom: '0.25rem',
                   fontSize: 'var(--label-s-font-size)',
                   color: 'var(--neutral-60)',
                 }}
@@ -5193,7 +5193,7 @@ export default function ComponentAudit() {
               <div key={size}>
                 <p
                   style={{
-                    marginBottom: '0.4rem',
+                    marginBottom: '0.25rem',
                     fontSize: 'var(--label-s-font-size)',
                     color: 'var(--neutral-60)',
                   }}
@@ -6324,9 +6324,9 @@ export default function ComponentAudit() {
         >
           <SubHeading>Default</SubHeading>
           <div style={{ width: '100%' }}>
-            <p style={{ margin: '1rem 0' }}>Content above</p>
+            <p style={{ margin: '0.625rem 0' }}>Content above</p>
             <SectionDivider />
-            <p style={{ margin: '1rem 0' }}>Content below</p>
+            <p style={{ margin: '0.625rem 0' }}>Content below</p>
           </div>
         </Section>
 
@@ -6339,12 +6339,12 @@ export default function ComponentAudit() {
           <Row>
             {(['circle', 'square', 'grid'] as const).map((p) => (
               <div key={p} style={{ textAlign: 'center' }}>
-                <p style={{ margin: '0 0 0.5rem' }}>{p}</p>
+                <p style={{ margin: '0 0 0.3125rem' }}>{p}</p>
                 <BackgroundPattern pattern={p} size="md" />
               </div>
             ))}
             <div style={{ textAlign: 'center' }}>
-              <p style={{ margin: '0 0 0.5rem' }}>grid-check</p>
+              <p style={{ margin: '0 0 0.3125rem' }}>grid-check</p>
               <BackgroundPattern pattern="grid-check" size="md" />
             </div>
           </Row>
@@ -6361,16 +6361,16 @@ export default function ComponentAudit() {
           <Row>
             {(['box', 'cloud', 'documents', 'credit-card'] as const).map((t) => (
               <div key={t} style={{ textAlign: 'center' }}>
-                <p style={{ margin: '0 0 0.5rem' }}>{t}</p>
+                <p style={{ margin: '0 0 0.3125rem' }}>{t}</p>
                 <Illustration type={t} size="md" />
               </div>
             ))}
           </Row>
           <SubHeading>Sizes (box)</SubHeading>
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.625rem' }}>
             {(['sm', 'md', 'lg'] as const).map((s) => (
               <div key={s} style={{ textAlign: 'center' }}>
-                <p style={{ margin: '0 0 0.5rem' }}>{s}</p>
+                <p style={{ margin: '0 0 0.3125rem' }}>{s}</p>
                 <Illustration type="box" size={s} />
               </div>
             ))}
@@ -6419,7 +6419,7 @@ export default function ComponentAudit() {
           ]}
         >
           <SubHeading>Normal variants</SubHeading>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
             {(
               [
                 'brand-dark',
@@ -6434,7 +6434,7 @@ export default function ComponentAudit() {
             ))}
           </div>
           <SubHeading>Strip variants</SubHeading>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
             {(['transparent-strip', 'gray-strip', 'gradient-strip', 'salmon-strip'] as const).map(
               (t) => (
                 <CreditCard.Root key={t} type={t} width={200} />
@@ -6442,7 +6442,7 @@ export default function ComponentAudit() {
             )}
           </div>
           <SubHeading>Vertical strip variants</SubHeading>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
             {(
               ['gray-strip-vertical', 'gradient-strip-vertical', 'salmon-strip-vertical'] as const
             ).map((t) => (
@@ -6680,7 +6680,7 @@ export default function ComponentAudit() {
           classes={['tale-text', 'tale-text--muted', 'tale-text--accent']}
         >
           <SubHeading>Variants</SubHeading>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <Text variant="display" size="m" as="div">
               display-m
             </Text>
@@ -6701,7 +6701,7 @@ export default function ComponentAudit() {
             </Text>
           </div>
           <SubHeading>Sizes (text variant)</SubHeading>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <Text variant="text" size="l">
               text-l
             </Text>
@@ -6716,7 +6716,7 @@ export default function ComponentAudit() {
             </Text>
           </div>
           <SubHeading>Colours</SubHeading>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <Text color="default">Default colour</Text>
             <Text color="muted">Muted colour</Text>
             <Text color="accent">Accent colour</Text>

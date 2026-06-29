@@ -25,8 +25,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 4rem;
-  height: 4.8rem;
+  width: 2.5rem;
+  height: 3rem;
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
   background-color: var(--neutral-5);
@@ -61,7 +61,7 @@
   content: '';
   display: block;
   width: 1px;
-  height: 1.6rem;
+  height: 1rem;
   background-color: var(--neutral-90);
   animation: tale-pin-input-blink 1s step-end infinite;
 }

@@ -1,5 +1,5 @@
 html {
-  font-size: 62.5%; /* 1rem = 10px — required by @tale-ui/core */
+  font-size: 100%; /* Standard browser rem base used by @tale-ui/core */
   height: 100%;
 }
 

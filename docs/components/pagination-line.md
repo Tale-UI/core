@@ -56,7 +56,7 @@ function Carousel() {
 ```tsx
 <div style={{ position: 'relative', width: '100%' }}>
   <img src="/hero.jpg" alt="Hero" style={{ width: '100%' }} />
-  <div style={{ position: 'absolute', bottom: '1rem', left: '50%', transform: 'translateX(-50%)', width: '80%' }}>
+  <div style={{ position: 'absolute', bottom: '0.625rem', left: '50%', transform: 'translateX(-50%)', width: '80%' }}>
     <PaginationLine page={page} total={5} onPageChange={setPage} framed style={{ width: '100%' }} />
   </div>
 </div>
@@ -73,7 +73,7 @@ function Carousel() {
 | Class | Applied to | Description |
 |-------|-----------|-------------|
 | `tale-pagination-line` | Root `<nav>` | Flex row wrapper for line indicators |
-| `tale-pagination-line--lg` | Root when `size="lg"` | Increases line height to 0.4rem |
+| `tale-pagination-line--lg` | Root when `size="lg"` | Increases line height to 0.25rem |
 | `tale-pagination-line--framed` | Root when `framed` | Adds frosted-glass background frame |
 | `tale-pagination__line` | Each line `<button>` | Line indicator button (from `pagination.css`) |
 | `tale-pagination__line--current` | Current line | Highlights the active indicator with brand color |

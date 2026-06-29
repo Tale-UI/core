@@ -67,7 +67,7 @@ function ComponentChip({ name, onAuthorFix }: { name: string; onAuthorFix: (n: s
       <Popover.Trigger className="component-chip">
         {name}
       </Popover.Trigger>
-      <Popover.Popup style={{ maxWidth: '40rem', maxHeight: '50vh', overflowY: 'auto' }}>
+      <Popover.Popup style={{ maxWidth: '25rem', maxHeight: '50vh', overflowY: 'auto' }}>
         <div style={{ padding: 'var(--space-m)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-s)' }}>
             <strong>{name}</strong>

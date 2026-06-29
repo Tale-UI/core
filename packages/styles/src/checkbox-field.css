@@ -8,8 +8,8 @@
  * CheckboxButton (label) additionally exposes:
  *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
  *
- * Sizes:  .tale-checkbox-field--sm  (1.4rem indicator)
- *         (default / md)            (1.8rem indicator)
+ * Sizes:  .tale-checkbox-field--sm  (0.875rem indicator)
+ *         (default / md)            (1.125rem indicator)
  *
  * Usage:
  *   <CheckboxField.Root className="tale-checkbox-field">
@@ -33,12 +33,12 @@
 /* Indent description and error to align with the label text */
 .tale-checkbox-field__description,
 .tale-checkbox-field__error {
-  margin-left: calc(1.8rem + var(--space-3xs));
+  margin-left: calc(1.125rem + var(--space-3xs));
 }
 
 .tale-checkbox-field--sm .tale-checkbox-field__description,
 .tale-checkbox-field--sm .tale-checkbox-field__error {
-  margin-left: calc(1.4rem + var(--space-3xs));
+  margin-left: calc(0.875rem + var(--space-3xs));
 }
 
 /* ─── Button — the clickable label row ────────────────────────────────────── */
@@ -58,8 +58,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.125rem;
+  height: 1.125rem;
   border-radius: var(--radius-xs);
   border: 1.5px solid var(--neutral-40);
   background-color: var(--neutral-10);
@@ -126,8 +126,8 @@
 /* ─── Indicator icon/checkmark ────────────────────────────────────────────── */
 
 .tale-checkbox-field__indicator svg {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 0.75rem;
+  height: 0.75rem;
   color: var(--color-60-fg);
   stroke-width: 4;
   display: block;
@@ -142,11 +142,11 @@
 /* ─── Size: sm ───────────────────────────────────────────────────────────── */
 
 .tale-checkbox-field--sm .tale-checkbox-field__indicator {
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 0.875rem;
+  height: 0.875rem;
 }
 
 .tale-checkbox-field--sm .tale-checkbox-field__indicator svg {
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 0.5625rem;
+  height: 0.5625rem;
 }

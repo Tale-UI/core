@@ -1,25 +1,25 @@
 import * as React from 'react';
 
 const spaceTokens = [
-  { token: '--space-4xs', min: '0.49rem', max: '0.52rem' },
-  { token: '--space-3xs', min: '0.66rem', max: '0.70rem' },
-  { token: '--space-2xs', min: '0.82rem', max: '0.99rem' },
-  { token: '--space-xs',  min: '1.02rem', max: '1.40rem' },
-  { token: '--space-s',   min: '1.28rem', max: '1.98rem' },
-  { token: '--space-m',   min: '1.60rem', max: '2.80rem' },
-  { token: '--space-l',   min: '2.00rem', max: '3.96rem' },
-  { token: '--space-xl',  min: '2.50rem', max: '5.60rem' },
-  { token: '--space-2xl', min: '3.13rem', max: '7.92rem' },
-  { token: '--space-3xl', min: '3.91rem', max: '11.19rem', note: 'No gap utility' },
-  { token: '--space-4xl', min: '4.88rem', max: '15.83rem', note: 'No gap utility' },
+  { token: '--space-4xs', min: '0.30625rem', max: '0.325rem' },
+  { token: '--space-3xs', min: '0.4125rem', max: '0.4375rem' },
+  { token: '--space-2xs', min: '0.5125rem', max: '0.61875rem' },
+  { token: '--space-xs',  min: '0.6375rem', max: '0.875rem' },
+  { token: '--space-s',   min: '0.8rem', max: '1.2375rem' },
+  { token: '--space-m',   min: '1rem', max: '1.75rem' },
+  { token: '--space-l',   min: '1.25rem', max: '2.475rem' },
+  { token: '--space-xl',  min: '1.5625rem', max: '3.5rem' },
+  { token: '--space-2xl', min: '1.95625rem', max: '4.95rem' },
+  { token: '--space-3xl', min: '2.44375rem', max: '6.99375rem', note: 'No gap utility' },
+  { token: '--space-4xl', min: '3.05rem', max: '9.89375rem', note: 'No gap utility' },
 ] as const;
 
 const sectionTokens = [
-  { token: '--section-space-xs', min: '2.00rem', max: '3.96rem' },
-  { token: '--section-space-s',  min: '3.13rem', max: '7.92rem' },
-  { token: '--section-space-m',  min: '3.91rem', max: '11.19rem' },
-  { token: '--section-space-l',  min: '4.88rem', max: '15.83rem' },
-  { token: '--section-space-xl', min: '6.10rem', max: '22.37rem' },
+  { token: '--section-space-xs', min: '1.25rem', max: '2.475rem' },
+  { token: '--section-space-s',  min: '1.95625rem', max: '4.95rem' },
+  { token: '--section-space-m',  min: '2.44375rem', max: '6.99375rem' },
+  { token: '--section-space-l',  min: '3.05rem', max: '9.89375rem' },
+  { token: '--section-space-xl', min: '3.8125rem', max: '13.98125rem' },
 ] as const;
 
 const spacingGuidance = [
@@ -68,7 +68,7 @@ const s: Record<string, React.CSSProperties> = {
   guidanceGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 'var(--space-s)', marginBottom: 'var(--space-xl)' },
   guidanceCard: { border: '1px solid var(--neutral-18)', borderRadius: 'var(--radius-m)', background: 'var(--neutral-10)', padding: 'var(--space-s)' },
   guidanceSample: { display: 'flex', alignItems: 'center', marginTop: 'var(--space-s)', padding: 'var(--space-xs)', borderRadius: 'var(--radius-s)', background: 'var(--neutral-5)' },
-  sampleBox: { width: '2rem', height: '2rem', flex: '0 0 2rem', borderRadius: 'var(--radius-s)', background: 'var(--color-20)', border: '1px solid var(--color-30)' },
+  sampleBox: { width: '1.25rem', height: '1.25rem', flex: '0 0 1.25rem', borderRadius: 'var(--radius-s)', background: 'var(--color-20)', border: '1px solid var(--color-30)' },
   sampleToken: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', marginLeft: 'auto', whiteSpace: 'nowrap' },
   utilityGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: 'var(--space-xs)' },
   utilityItem: { display: 'flex', justifyContent: 'space-between', gap: 'var(--space-xs)', padding: '4px 8px', background: 'var(--neutral-16)', borderRadius: 'var(--radius-s)' },

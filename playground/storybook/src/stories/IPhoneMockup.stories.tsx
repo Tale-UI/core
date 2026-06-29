@@ -38,7 +38,7 @@ export const Scaled: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-end' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-end' }}>
         <div style={{ textAlign: 'center' }}>
           <p className="story-label">200 px</p>
           <IphoneMockup image={PLACEHOLDER} width={200} height={408} />
@@ -60,7 +60,7 @@ export const DarkModeImage: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '3rem' }}>
+      <div style={{ display: 'flex', gap: '1.875rem' }}>
         <div style={{ textAlign: 'center' }}>
           <p className="story-label">Light mode</p>
           <IphoneMockup image={PLACEHOLDER} imageDark={PLACEHOLDER_DARK} theme="light" width={200} height={408} />

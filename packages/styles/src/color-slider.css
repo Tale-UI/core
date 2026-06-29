@@ -24,7 +24,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: var(--space-xs);
   row-gap: var(--space-xs);
-  width: 12rem;
+  width: 7.5rem;
 }
 
 /* Label styles are shared in _primitives.css */
@@ -47,7 +47,7 @@
 .tale-color-slider__track {
   grid-column: 1 / -1;
   grid-row: 2;
-  height: 1.5rem;
+  height: 0.9375rem;
   border-radius: var(--space-4xs);
 }
 

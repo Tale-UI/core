@@ -355,7 +355,7 @@ export function PromptStudio({ onAuthorFix }: PromptStudioProps) {
             <TextArea.Label className="sr-only">UI prompt</TextArea.Label>
             <TextArea.TextArea
               placeholder="Describe the UI you want to build…"
-              style={{ minHeight: '14rem', fontFamily: 'inherit' }}
+              style={{ minHeight: '8.75rem', fontFamily: 'inherit' }}
             />
           </TextArea.Root>
 

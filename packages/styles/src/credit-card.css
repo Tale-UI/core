@@ -30,7 +30,7 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: 0.625rem;
   padding: var(--space-s);
   transform-origin: top left;
 }
@@ -164,7 +164,7 @@
   position: absolute;
   inset-block: 0;
   left: 0;
-  right: 5.5rem; /* ~88px: matches Tailwind right-22 at 4px base */
+  right: 3.4375rem; /* ~88px: matches Tailwind right-22 at 4px base */
   z-index: 0;
   background-color: var(--neutral-86);
 }
@@ -174,16 +174,16 @@
 .tale-credit-card__gradient-diffusor {
   pointer-events: none;
   position: absolute;
-  top: -1rem;
-  left: -1rem;
+  top: -0.625rem;
+  left: -0.625rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   filter: blur(24px);
 }
 
 .tale-credit-card__blob {
-  width: 5rem;
-  height: 5rem;
+  width: 3.125rem;
+  height: 3.125rem;
   mix-blend-mode: normal;
 }
 
@@ -223,7 +223,7 @@
 }
 
 .tale-credit-card__company {
-  font-size: var(--label-m-font-size, 0.875rem);
+  font-size: var(--label-m-font-size, 0.54688rem);
   font-weight: 600;
   line-height: normal;
 }
@@ -256,7 +256,7 @@
 
 .tale-credit-card__holder {
   margin: 0;
-  font-size: var(--label-xs-font-size, 0.75rem);
+  font-size: var(--label-xs-font-size, 0.46875rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -268,7 +268,7 @@
   margin: 0;
   margin-left: auto;
   text-align: right;
-  font-size: var(--label-xs-font-size, 0.75rem);
+  font-size: var(--label-xs-font-size, 0.46875rem);
   font-weight: 600;
   letter-spacing: 0.6px;
   font-variant-numeric: tabular-nums;
@@ -277,7 +277,7 @@
 }
 
 .tale-credit-card__number {
-  font-size: var(--label-m-font-size, 0.875rem);
+  font-size: var(--label-m-font-size, 0.54688rem);
   font-weight: 600;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
@@ -295,12 +295,12 @@
 
 .tale-credit-card__logo-wrap {
   display: flex;
-  height: 2rem;
-  width: 2.875rem;
+  height: 1.25rem;
+  width: 1.79688rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 0.25rem;
+  border-radius: 0.15625rem;
   background-color: rgba(255, 255, 255, 0.1);
 }
 

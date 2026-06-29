@@ -129,7 +129,7 @@
   display: flex;
   flex-direction: column;
   padding: var(--space-3xs);
-  min-width: 18rem;
+  min-width: 11.25rem;
 }
 
 .tale-navigation-menu__popup .tale-navigation-menu__link,

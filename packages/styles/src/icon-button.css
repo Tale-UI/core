@@ -26,6 +26,6 @@
 
 /* Small IconButton → shrink child icons to sm size */
 .tale-icon-button--sm .tale-icon {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1rem;
+  height: 1rem;
 }

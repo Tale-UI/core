@@ -44,7 +44,7 @@ export const Default: Story = {
 export const AllVariants: Story = {
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
         <Banner.Root variant="info">
           <Banner.Title>Info</Banner.Title>
           <Banner.Description>Informational message.</Banner.Description>
@@ -101,7 +101,7 @@ export const AllVariations: Story = {
     return (
       <div className="story-sections">
         {sizes.map((size) => (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <div className="story-label">Size: {size}</div>
             {variants.map((v) => (
               <Banner.Root key={`${v}-${size}`} variant={v} size={size}>

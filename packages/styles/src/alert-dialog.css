@@ -34,7 +34,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 101;
-  width: min(90vw, 44rem);
+  width: min(90vw, 27.5rem);
   background-color: var(--neutral-10);
   border: 1px solid var(--neutral-20);
   border-radius: var(--radius-xl);
@@ -50,7 +50,7 @@
 .tale-alert-dialog__popup[data-entering],
 .tale-alert-dialog__popup[data-exiting] {
   opacity: 0;
-  transform: translate(-50%, calc(-50% - 0.8rem));
+  transform: translate(-50%, calc(-50% - 0.5rem));
 }
 
 /* ─── Content (Dialog body) ───────────────────────────────────────────────── */

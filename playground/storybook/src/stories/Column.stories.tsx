@@ -26,7 +26,7 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render(args) {
     return (
-      <Column gap={args.gap} align={args.align} justify={args.justify} style={{ maxWidth: '32rem' }}>
+      <Column gap={args.gap} align={args.align} justify={args.justify} style={{ maxWidth: '20rem' }}>
         <Text variant="heading" size="m" as="h2">Settings</Text>
         <Text color="muted">Configure your preferences below.</Text>
         <Button variant="primary">Save changes</Button>

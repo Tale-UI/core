@@ -19,6 +19,7 @@
     "color-hex-length": null,
     "property-no-vendor-prefix": null,
     "color-function-alias-notation": null,
-    "property-no-deprecated": null
+    "property-no-deprecated": null,
+    "number-max-precision": 5
   }
 }

@@ -51,6 +51,6 @@
 
 /* ─── Sizes ──────────────────────────────────────────────────────────────── */
 
-.tale-rating-stars--sm { gap: 0.2rem; }
+.tale-rating-stars--sm { gap: 0.125rem; }
 .tale-rating-stars--md { gap: var(--space-4xs); }
 .tale-rating-stars--lg { gap: var(--space-3xs); }

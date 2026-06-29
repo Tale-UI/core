@@ -32,8 +32,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 101;
-  width: min(90vw, 48rem);
-  max-height: min(90vh, 64rem);
+  width: min(90vw, 30rem);
+  max-height: min(90vh, 40rem);
   overflow-y: auto;
   background-color: var(--neutral-10);
   border: 1px solid var(--neutral-20);
@@ -50,7 +50,7 @@
 .tale-dialog__popup[data-entering],
 .tale-dialog__popup[data-exiting] {
   opacity: 0;
-  transform: translate(-50%, calc(-50% - 0.8rem));
+  transform: translate(-50%, calc(-50% - 0.5rem));
 }
 
 /* ─── Close button (position only — base styles in _primitives.css) ──────── */

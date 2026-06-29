@@ -27,7 +27,7 @@ If you're adding a new test prefer a new component instead of editing existing f
 
 `pnpm test:regressions:dev` will build all fixtures and render an overview page that lists all fixtures.
 This can be used to debug individual fixtures.
-By default, a devtools-like view is shown that can be disabled by appending `#no-dev` to the URL, for example `http://localhost:5173/docs-components-checkbox-group-demos-hero-tailwind/index.tsx#no-dev` or forced by appending `#dev` to the URL, for example `http://localhost:5173/docs-components-checkbox-group-demos-hero-tailwind/index.tsx#dev`.
+By default, a devtools-like view is shown that can be disabled by appending `#no-dev` to the URL, for example `http://localhost:6174/docs-components-checkbox-group-demos-hero-tailwind/index.tsx#no-dev` or forced by appending `#dev` to the URL, for example `http://localhost:6174/docs-components-checkbox-group-demos-hero-tailwind/index.tsx#dev`.
 
 ### Automatic
 
@@ -43,7 +43,7 @@ A fixture can be loaded with `await renderFixture(fixturePath)`, for example `re
 
 ## Commands
 
-For development run `pnpm test:regressions:dev`.
+For development run `pnpm test:regressions:dev`. The regression server uses port 6174 by default; set `TALE_UI_REGRESSION_PORT` when running `test:regressions:run` and `test:regressions:server` manually if you need a different port.
 
 | command                        | description                                                                                                           |
 | :----------------------------- | :-------------------------------------------------------------------------------------------------------------------- |

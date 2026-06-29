@@ -40,7 +40,7 @@ export const AllColors: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <DotIcon color="neutral" />
         <DotIcon color="brand" />
         <DotIcon color="error" />
@@ -57,7 +57,7 @@ export const AllVariations: Story = {
     const colors = ['neutral', 'brand', 'error', 'warning', 'success'] as const;
     const sizes = ['sm', 'md', 'lg'] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '1.2rem', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '0.75rem', alignItems: 'center' }}>
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {colors.map((c) => (

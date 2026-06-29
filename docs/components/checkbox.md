@@ -169,8 +169,8 @@ import { Check, Minus } from 'lucide-react';
 ## CSS Classes
 
 - `.tale-checkbox` -- Base (root label)
-- `.tale-checkbox--sm` -- Small size (1.4rem indicator)
-- `.tale-checkbox--lg` -- Large size (2.2rem indicator)
+- `.tale-checkbox--sm` -- Small size (0.875rem indicator)
+- `.tale-checkbox--lg` -- Large size (1.375rem indicator)
 - `.tale-checkbox__indicator` -- The visual indicator box
 
 ## Pitfalls

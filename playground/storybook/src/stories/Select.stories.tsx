@@ -145,7 +145,7 @@ export const AllSizes: Story = {
     controls: { disable: true },
   },
   render: (args) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <Select.Root key={size} size={size} isDisabled={args.isDisabled} placeholder={`Size: ${size}`}>
           <Select.Label>{size.toUpperCase()}</Select.Label>
@@ -171,7 +171,7 @@ export const LongSelectedValue: Story = {
     controls: { disable: true },
   },
   render: () => (
-    <div style={{ width: '22rem' }}>
+    <div style={{ width: '13.75rem' }}>
       <Select.Root
         defaultSelectedKey="enterprise"
         placeholder="Select a plan…"
@@ -205,7 +205,7 @@ export const AllVariations: Story = {
       <div className="story-sections">
         <div>
           <div className="story-heading">Sizes</div>
-          <div style={{ display: 'flex', gap: '1.2rem' }}>
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
             {sizes.map((size) => (
               <Select.Root key={size} size={size} placeholder={`Size: ${size}`}>
                 <Select.Label>{size}</Select.Label>

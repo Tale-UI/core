@@ -84,7 +84,7 @@ export function RecipeBrowser({ initialRecipeSlug, onRecipeSelect }: RecipeBrows
   return (
     <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
       {/* Left: recipe list */}
-      <div style={{ display: 'flex', flexDirection: 'column', width: '28rem', flexShrink: 0, borderRight: '1px solid var(--neutral-20)', overflowY: 'auto' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', width: '17.5rem', flexShrink: 0, borderRight: '1px solid var(--neutral-20)', overflowY: 'auto' }}>
         {loading && (
           <div style={{ padding: 'var(--space-l)', display: 'flex', justifyContent: 'center' }}>
             <Spinner size="md" />

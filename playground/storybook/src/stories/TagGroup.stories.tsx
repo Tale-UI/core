@@ -111,7 +111,7 @@ export const AllVariations: Story = {
     };
 
     return (
-      <div className="story-cards" style={{ gap: '2rem' }}>
+      <div className="story-cards" style={{ gap: '1.25rem' }}>
         <div style={{ flex: '1 1 200px' }}>
           <p className="story-label">Default</p>
           <TagGroup.Root>

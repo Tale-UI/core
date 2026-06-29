@@ -38,12 +38,12 @@
             overflow-y: auto;
             background: var(--neutral-14);
             border-right: 1px solid var(--neutral-24);
-            padding: 2rem 0;
+            padding: 1.25rem 0;
             scrollbar-width: thin;
         }
         .doc-sidebar a {
             display: block;
-            padding: 0.5rem var(--space-s);
+            padding: 0.3125rem var(--space-s);
             color: var(--neutral-70);
             text-decoration: none;
             font-size: var(--text-s);
@@ -64,18 +64,18 @@
             font-weight: 600;
             color: var(--neutral-90);
             padding: var(--space-xs) var(--space-s) var(--space-4xs);
-            font-size: 1.1rem;
+            font-size: 0.6875rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
         }
 
         /* Main content */
         .doc-main {
-            padding: 3rem 4rem 6rem;
+            padding: 1.875rem 2.5rem 3.75rem;
             max-width: 1200px;
         }
         @media (max-width: 768px) {
-            .doc-main { padding: 2rem 1.6rem 4rem; }
+            .doc-main { padding: 1.25rem 1rem 2.5rem; }
         }
 
         /* Header bar */
@@ -83,7 +83,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1.2rem 2rem;
+            padding: 0.75rem 1.25rem;
             background: var(--neutral-14);
             border-bottom: 1px solid var(--neutral-24);
             position: sticky;
@@ -91,28 +91,28 @@
             z-index: 100;
         }
         .doc-header h1 {
-            font-size: 1.8rem;
+            font-size: 1.125rem;
             margin: 0;
         }
 
         /* Section styling */
         .doc-section {
-            margin-bottom: 5rem;
-            scroll-margin-top: 5rem;
+            margin-bottom: 3.125rem;
+            scroll-margin-top: 3.125rem;
         }
         .doc-section > h2 {
-            font-size: 2.6rem;
-            margin: 0 0 0.6rem;
-            padding-bottom: 0.8rem;
+            font-size: 1.625rem;
+            margin: 0 0 0.375rem;
+            padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--neutral-24);
         }
         .doc-section > h3 {
-            font-size: 1.9rem;
-            margin: 3rem 0 1rem;
+            font-size: 1.1875rem;
+            margin: 1.875rem 0 0.625rem;
         }
         .doc-section > p.section-desc {
             color: var(--neutral-60);
-            margin: 0 0 2.5rem;
+            margin: 0 0 1.5625rem;
             font-size: var(--text-m);
         }
 
@@ -121,8 +121,8 @@
             background: var(--neutral-5);
             border: 1px solid var(--neutral-20);
             border-radius: var(--radius-l);
-            padding: 2rem;
-            margin-bottom: 2rem;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
         }
 
         /* Code blocks */
@@ -148,7 +148,7 @@
             transform: translateX(-50%);
             background: var(--neutral-80);
             color: var(--neutral-10);
-            font-size: 1.1rem;
+            font-size: 0.6875rem;
             padding: 0.25em 0.6em;
             border-radius: var(--radius-xs);
             white-space: nowrap;
@@ -178,11 +178,11 @@
             cursor: default;
         }
         .swatch-label {
-            font-size: 0.95rem;
+            font-size: 0.59375rem;
             font-family: var(--mono-font);
             color: var(--neutral-5);
             text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-            padding: 0.3rem;
+            padding: 0.1875rem;
             opacity: 0;
             transition: opacity 0.15s;
             text-align: center;
@@ -192,10 +192,10 @@
         .swatch-strip .swatch:nth-child(7)::before {
             content: '';
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            width: 0.6rem;
-            height: 0.6rem;
+            top: 0.3125rem;
+            right: 0.3125rem;
+            width: 0.375rem;
+            height: 0.375rem;
             border-radius: 50%;
             background: white;
             opacity: 0.8;
@@ -204,7 +204,7 @@
         .swatch-row-label {
             font-weight: 600;
             font-size: var(--text-s);
-            min-width: 8rem;
+            min-width: 5rem;
             display: flex;
             align-items: center;
             text-transform: capitalize;
@@ -218,7 +218,7 @@
             margin-bottom: var(--space-3xs);
         }
         .space-bar-label {
-            width: 15rem;
+            width: 9.375rem;
             flex-shrink: 0;
             font-family: var(--mono-font);
             font-size: var(--text-xs);
@@ -232,7 +232,7 @@
             white-space: nowrap;
         }
         .space-bar-fill {
-            height: 2.4rem;
+            height: 1.5rem;
             background: var(--color-50);
             border-radius: var(--radius-xs);
             transition: width 0.3s;
@@ -248,7 +248,7 @@
             font-size: var(--text-xs);
             font-family: var(--mono-font);
             color: var(--color-70);
-            min-height: 4rem;
+            min-height: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -256,22 +256,22 @@
 
         /* Radius demo boxes */
         .radius-demo {
-            width: 8rem;
-            height: 8rem;
+            width: 5rem;
+            height: 5rem;
             background: var(--color-20);
             border: 2px solid var(--color-50);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 0.6875rem;
             font-family: var(--mono-font);
             color: var(--color-80);
         }
 
         /* Shadow demo cards */
         .shadow-demo {
-            width: 16rem;
-            height: 10rem;
+            width: 10rem;
+            height: 6.25rem;
             background: var(--neutral-5);
             border-radius: var(--radius-m);
             display: flex;
@@ -285,14 +285,14 @@
         /* Centering demos */
         .center-demo-box {
             width: 100%;
-            height: 12rem;
+            height: 7.5rem;
             background: var(--neutral-5);
             border: 1px dashed var(--neutral-30);
             border-radius: var(--radius-m);
         }
         .center-demo-child {
-            width: 6rem;
-            height: 4rem;
+            width: 3.75rem;
+            height: 2.5rem;
             background: var(--color-20);
             border: 1px solid var(--color-40);
             border-radius: var(--radius-s);
@@ -337,8 +337,8 @@
             -webkit-appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23aaa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 1rem center;
-            padding-right: 3rem;
+            background-position: right 0.625rem center;
+            padding-right: 1.875rem;
         }
         .theme-picker:hover { background: var(--neutral-70); }
         .theme-picker option { background: var(--neutral-80); color: var(--neutral-10); }
@@ -348,22 +348,22 @@
             width: 100%;
             border-collapse: collapse;
             font-size: var(--text-s);
-            margin-bottom: 2rem;
+            margin-bottom: 1.25rem;
         }
         .util-table th,
         .util-table td {
             text-align: left;
-            padding: 0.7rem 1rem;
+            padding: 0.4375rem 0.625rem;
             border-bottom: 1px solid var(--neutral-20);
         }
         .util-table th {
             background: var(--neutral-14);
             font-weight: 600;
             position: sticky;
-            top: 4.4rem;
+            top: 2.75rem;
             z-index: 5;
         }
-        .util-table code { font-size: 1.15rem; }
+        .util-table code { font-size: 0.71875rem; }
 
         /* Neutral family swatches */
         .neutral-strip {
@@ -374,17 +374,17 @@
         }
         .neutral-swatch {
             flex: 1;
-            height: 3.6rem;
+            height: 2.25rem;
             min-width: 0;
             position: relative;
         }
         .neutral-strip .neutral-swatch:nth-child(10)::before {
             content: '';
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            width: 0.6rem;
-            height: 0.6rem;
+            top: 0.3125rem;
+            right: 0.3125rem;
+            width: 0.375rem;
+            height: 0.375rem;
             border-radius: 50%;
             background: white;
             opacity: 0.8;
@@ -399,14 +399,14 @@
             padding: var(--space-4xs) var(--space-xs);
             margin-bottom: var(--space-4xs);
             font-family: var(--mono-font);
-            font-size: 1.1rem;
+            font-size: 0.6875rem;
             color: var(--color-70);
         }
 
         /* Opacity demo */
         .opacity-chip {
-            width: 6rem;
-            height: 4rem;
+            width: 3.75rem;
+            height: 2.5rem;
             background: var(--color-60);
             border-radius: var(--radius-s);
             display: flex;
@@ -414,7 +414,7 @@
             justify-content: center;
             color: var(--neutral-5);
             font-family: var(--mono-font);
-            font-size: 1.1rem;
+            font-size: 0.6875rem;
         }
 
         /* Line clamp demo */
@@ -423,7 +423,7 @@
             border: 1px solid var(--neutral-20);
             border-radius: var(--radius-s);
             padding: var(--space-xs);
-            max-width: 28rem;
+            max-width: 17.5rem;
         }
 
         /* Aspect ratio demo */
@@ -435,9 +435,9 @@
             align-items: center;
             justify-content: center;
             font-family: var(--mono-font);
-            font-size: 1.1rem;
+            font-size: 0.6875rem;
             color: var(--color-70);
-            width: 14rem;
+            width: 8.75rem;
         }
 
         /* Section padding demo */
@@ -463,13 +463,13 @@
             border-radius: var(--radius-s);
             text-align: center;
             font-family: var(--mono-font);
-            font-size: 1.1rem;
+            font-size: 0.6875rem;
         }
 
         /* Dark mode demo */
         .mode-demo {
             border-radius: var(--radius-l);
-            padding: 2rem;
+            padding: 1.25rem;
             border: 1px solid var(--neutral-24);
         }
     </style>
@@ -570,24 +570,24 @@
                 <h3>Responsive scaling</h3>
                 <p style="color:var(--neutral-60);font-size:var(--text-s);margin-bottom:var(--space-xs)">Resize the window to see these bars scale fluidly between their min and max values. The <code>.responsive</code> class is applied to the containers below.</p>
                 <div class="demo-box responsive">
-                    <div class="space-bar"><span class="space-bar-label">--space-4xs</span><div class="space-bar-fill" style="width: var(--space-4xs)"></div><span class="space-bar-range">0.52 → 0.49rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-3xs</span><div class="space-bar-fill" style="width: var(--space-3xs)"></div><span class="space-bar-range">0.66 → 0.70rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-2xs</span><div class="space-bar-fill" style="width: var(--space-2xs)"></div><span class="space-bar-range">0.82 → 0.99rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-xs</span><div class="space-bar-fill" style="width: var(--space-xs)"></div><span class="space-bar-range">1.02 → 1.40rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-s</span><div class="space-bar-fill" style="width: var(--space-s)"></div><span class="space-bar-range">1.28 → 1.98rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-m</span><div class="space-bar-fill" style="width: var(--space-m)"></div><span class="space-bar-range">1.60 → 2.80rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-l</span><div class="space-bar-fill" style="width: var(--space-l)"></div><span class="space-bar-range">2.00 → 3.96rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-xl</span><div class="space-bar-fill" style="width: var(--space-xl)"></div><span class="space-bar-range">2.50 → 5.60rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-2xl</span><div class="space-bar-fill" style="width: var(--space-2xl)"></div><span class="space-bar-range">3.13 → 7.92rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-3xl</span><div class="space-bar-fill" style="width: var(--space-3xl)"></div><span class="space-bar-range">3.91 → 11.19rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--space-4xl</span><div class="space-bar-fill" style="width: var(--space-4xl)"></div><span class="space-bar-range">4.88 → 15.83rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-4xs</span><div class="space-bar-fill" style="width: var(--space-4xs)"></div><span class="space-bar-range">0.52 → 0.30625rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-3xs</span><div class="space-bar-fill" style="width: var(--space-3xs)"></div><span class="space-bar-range">0.66 → 0.4375rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-2xs</span><div class="space-bar-fill" style="width: var(--space-2xs)"></div><span class="space-bar-range">0.82 → 0.61875rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-xs</span><div class="space-bar-fill" style="width: var(--space-xs)"></div><span class="space-bar-range">1.02 → 0.875rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-s</span><div class="space-bar-fill" style="width: var(--space-s)"></div><span class="space-bar-range">1.28 → 1.2375rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-m</span><div class="space-bar-fill" style="width: var(--space-m)"></div><span class="space-bar-range">1.60 → 1.75rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-l</span><div class="space-bar-fill" style="width: var(--space-l)"></div><span class="space-bar-range">2.00 → 2.475rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-xl</span><div class="space-bar-fill" style="width: var(--space-xl)"></div><span class="space-bar-range">2.50 → 3.5rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-2xl</span><div class="space-bar-fill" style="width: var(--space-2xl)"></div><span class="space-bar-range">3.13 → 4.95rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-3xl</span><div class="space-bar-fill" style="width: var(--space-3xl)"></div><span class="space-bar-range">3.91 → 6.99375rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--space-4xl</span><div class="space-bar-fill" style="width: var(--space-4xl)"></div><span class="space-bar-range">4.88 → 9.89375rem</span></div>
                 </div>
                 <div class="demo-box responsive" style="margin-top:var(--space-xs)">
-                    <div class="space-bar"><span class="space-bar-label">--section-space-xs</span><div class="space-bar-fill" style="width: var(--section-space-xs); background: var(--color-40)"></div><span class="space-bar-range">2.00 → 3.96rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--section-space-s</span><div class="space-bar-fill" style="width: var(--section-space-s); background: var(--color-40)"></div><span class="space-bar-range">3.13 → 7.92rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--section-space-m</span><div class="space-bar-fill" style="width: var(--section-space-m); background: var(--color-40)"></div><span class="space-bar-range">3.91 → 11.19rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--section-space-l</span><div class="space-bar-fill" style="width: var(--section-space-l); background: var(--color-40)"></div><span class="space-bar-range">4.88 → 15.83rem</span></div>
-                    <div class="space-bar"><span class="space-bar-label">--section-space-xl</span><div class="space-bar-fill" style="width: var(--section-space-xl); background: var(--color-40)"></div><span class="space-bar-range">6.10 → 22.37rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--section-space-xs</span><div class="space-bar-fill" style="width: var(--section-space-xs); background: var(--color-40)"></div><span class="space-bar-range">2.00 → 2.475rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--section-space-s</span><div class="space-bar-fill" style="width: var(--section-space-s); background: var(--color-40)"></div><span class="space-bar-range">3.13 → 4.95rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--section-space-m</span><div class="space-bar-fill" style="width: var(--section-space-m); background: var(--color-40)"></div><span class="space-bar-range">3.91 → 6.99375rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--section-space-l</span><div class="space-bar-fill" style="width: var(--section-space-l); background: var(--color-40)"></div><span class="space-bar-range">4.88 → 9.89375rem</span></div>
+                    <div class="space-bar"><span class="space-bar-label">--section-space-xl</span><div class="space-bar-fill" style="width: var(--section-space-xl); background: var(--color-40)"></div><span class="space-bar-range">6.10 → 13.98125rem</span></div>
                 </div>
             </section>
 
@@ -599,36 +599,36 @@
                 <p class="section-desc">12 type sizes from <code>--text-xs</code> to <code>--text-8xl</code>. Static by default — add <code>.responsive</code> to any element or ancestor to enable fluid scaling.</p>
 
                 <div class="demo-box">
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-xs)">--text-xs</span> <code>1.23rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-s)">--text-s</span> <code>1.33rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-m)">--text-m</span> <code>1.60rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-l)">--text-l</span> <code>1.92rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-xl)">--text-xl</span> <code>2.19rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-2xl)">--text-2xl</span> <code>2.46rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-3xl)">--text-3xl</span> <code>2.73rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-4xl)">--text-4xl</span> <code>3.0rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-5xl)">--text-5xl</span> <code>3.4rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-6xl)">--text-6xl</span> <code>3.8rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-7xl)">--text-7xl</span> <code>4.1rem</code></div>
-                    <div style="margin-bottom:0"><span style="font-size:var(--text-8xl)">--text-8xl</span> <code>4.5rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-xs)">--text-xs</span> <code>0.76875rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-s)">--text-s</span> <code>0.83125rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-m)">--text-m</span> <code>1rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-l)">--text-l</span> <code>1.2rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-xl)">--text-xl</span> <code>1.36875rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-2xl)">--text-2xl</span> <code>1.5375rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-3xl)">--text-3xl</span> <code>1.70625rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-4xl)">--text-4xl</span> <code>1.875rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-5xl)">--text-5xl</span> <code>2.125rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-6xl)">--text-6xl</span> <code>2.375rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-7xl)">--text-7xl</span> <code>2.5625rem</code></div>
+                    <div style="margin-bottom:0"><span style="font-size:var(--text-8xl)">--text-8xl</span> <code>2.8125rem</code></div>
                 </div>
                 <p style="color:var(--neutral-60);font-size:var(--text-s);margin-top:var(--space-xs)">Add <code>.responsive</code> to enable fluid scaling: <code>&lt;body class="responsive"&gt;</code></p>
 
                 <h3>Responsive scaling</h3>
                 <p style="color:var(--neutral-60);font-size:var(--text-s);margin-bottom:var(--space-xs)">Resize the window to see these sizes scale fluidly between their min and max values. The <code>.responsive</code> class is applied to the container below.</p>
                 <div class="demo-box responsive">
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-xs)">--text-xs</span> <code>1.23 → 1.11rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-s)">--text-s</span> <code>1.31 → 1.33rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-m)">--text-m</span> <code>1.40 → 1.60rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-l)">--text-l</span> <code>1.49 → 1.92rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-xl)">--text-xl</span> <code>1.59 → 2.19rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-2xl)">--text-2xl</span> <code>1.70 → 2.46rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-3xl)">--text-3xl</span> <code>1.81 → 2.73rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-4xl)">--text-4xl</span> <code>2.43 → 3.0rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-5xl)">--text-5xl</span> <code>2.59 → 3.4rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-6xl)">--text-6xl</span> <code>2.75 → 3.8rem</code></div>
-                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-7xl)">--text-7xl</span> <code>2.94 → 4.1rem</code></div>
-                    <div style="margin-bottom:0"><span style="font-size:var(--text-8xl)">--text-8xl</span> <code>3.14 → 4.5rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-xs)">--text-xs</span> <code>1.23 → 0.69375rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-s)">--text-s</span> <code>1.31 → 0.83125rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-m)">--text-m</span> <code>1.40 → 1rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-l)">--text-l</span> <code>1.49 → 1.2rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-xl)">--text-xl</span> <code>1.59 → 1.36875rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-2xl)">--text-2xl</span> <code>1.70 → 1.5375rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-3xl)">--text-3xl</span> <code>1.81 → 1.70625rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-4xl)">--text-4xl</span> <code>2.43 → 1.875rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-5xl)">--text-5xl</span> <code>2.59 → 2.125rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-6xl)">--text-6xl</span> <code>2.75 → 2.375rem</code></div>
+                    <div style="margin-bottom:var(--space-xs)"><span style="font-size:var(--text-7xl)">--text-7xl</span> <code>2.94 → 2.5625rem</code></div>
+                    <div style="margin-bottom:0"><span style="font-size:var(--text-8xl)">--text-8xl</span> <code>3.14 → 2.8125rem</code></div>
                 </div>
             </section>
 
@@ -664,7 +664,7 @@
                         <div style="text-align:center;margin-top:var(--space-4xs)"><code>.radius--2xl</code></div>
                     </div>
                     <div>
-                        <div class="radius-demo radius--full" style="width:8rem;height:8rem">full</div>
+                        <div class="radius-demo radius--full" style="width:5rem;height:5rem">full</div>
                         <div style="text-align:center;margin-top:var(--space-4xs)"><code>.radius--full</code></div>
                     </div>
                 </div>
@@ -1042,13 +1042,13 @@
                     <div class="flex--row gap--xs" style="margin-bottom:var(--space-s)"><div class="grid-cell">A</div><div class="grid-cell">B</div><div class="grid-cell">C</div></div>
 
                     <div style="margin-bottom:var(--space-4xs)"><code>.flex--col</code></div>
-                    <div class="flex--col gap--xs" style="margin-bottom:var(--space-s);max-width:20rem"><div class="grid-cell">A</div><div class="grid-cell">B</div><div class="grid-cell">C</div></div>
+                    <div class="flex--col gap--xs" style="margin-bottom:var(--space-s);max-width:12.5rem"><div class="grid-cell">A</div><div class="grid-cell">B</div><div class="grid-cell">C</div></div>
 
                     <div style="margin-bottom:var(--space-4xs)"><code>.flex--row-reverse</code></div>
                     <div class="flex--row-reverse gap--xs" style="margin-bottom:var(--space-s)"><div class="grid-cell">A</div><div class="grid-cell">B</div><div class="grid-cell">C</div></div>
 
                     <div style="margin-bottom:var(--space-4xs)"><code>.flex--col-reverse</code></div>
-                    <div class="flex--col-reverse gap--xs" style="margin-bottom:var(--space-s);max-width:20rem"><div class="grid-cell">A</div><div class="grid-cell">B</div><div class="grid-cell">C</div></div>
+                    <div class="flex--col-reverse gap--xs" style="margin-bottom:var(--space-s);max-width:12.5rem"><div class="grid-cell">A</div><div class="grid-cell">B</div><div class="grid-cell">C</div></div>
 
                     <div style="margin-bottom:var(--space-4xs)"><code>.flex--wrap</code></div>
                     <div class="flex--row flex--wrap gap--xs" style="margin-bottom:var(--space-s)"><div class="grid-cell" style="width:30%">A</div><div class="grid-cell" style="width:30%">B</div><div class="grid-cell" style="width:30%">C</div><div class="grid-cell" style="width:30%">D</div></div>
@@ -1067,7 +1067,7 @@
                 <p class="section-desc">Flex-based centering utilities for quick alignment.</p>
 
                 <div class="demo-box">
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--space-s)">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:var(--space-s)">
                         <div>
                             <div style="margin-bottom:var(--space-4xs)"><code>.center--all</code></div>
                             <div class="center-demo-box center--all"><div class="center-demo-child">all</div></div>
@@ -1229,19 +1229,19 @@
                         <div style="text-align:center;margin-top:var(--space-4xs)"><code>.aspect--2-1</code></div>
                     </div>
                     <div>
-                        <div class="aspect-demo-box aspect--2-3" style="width:8rem">2:3</div>
+                        <div class="aspect-demo-box aspect--2-3" style="width:5rem">2:3</div>
                         <div style="text-align:center;margin-top:var(--space-4xs)"><code>.aspect--2-3</code></div>
                     </div>
                     <div>
-                        <div class="aspect-demo-box aspect--1-2" style="width:8rem">1:2</div>
+                        <div class="aspect-demo-box aspect--1-2" style="width:5rem">1:2</div>
                         <div style="text-align:center;margin-top:var(--space-4xs)"><code>.aspect--1-2</code></div>
                     </div>
                     <div>
-                        <div class="aspect-demo-box aspect--3-4" style="width:8rem">3:4</div>
+                        <div class="aspect-demo-box aspect--3-4" style="width:5rem">3:4</div>
                         <div style="text-align:center;margin-top:var(--space-4xs)"><code>.aspect--3-4</code></div>
                     </div>
                     <div>
-                        <div class="aspect-demo-box aspect--9-16" style="width:6rem">9:16</div>
+                        <div class="aspect-demo-box aspect--9-16" style="width:3.75rem">9:16</div>
                         <div style="text-align:center;margin-top:var(--space-4xs)"><code>.aspect--9-16</code></div>
                     </div>
                 </div>
@@ -1431,7 +1431,7 @@
 
                 <h3>Neutral Tone Family Switching</h3>
                 <p class="section-desc">Apply <code>.neutral-{family}</code> to change the neutral palette globally or per-section.</p>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:var(--space-xs);margin-top:var(--space-xs)">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(8.75rem,1fr));gap:var(--space-xs);margin-top:var(--space-xs)">
                     <div class="neutral-warm" style="background:var(--neutral-18);padding:var(--space-s);border-radius:var(--radius-m);color:var(--neutral-80)"><strong>Warm</strong> (default)<br><code>.neutral-warm</code></div>
                     <div class="neutral-cool" style="background:var(--neutral-18);padding:var(--space-s);border-radius:var(--radius-m);color:var(--neutral-80)"><strong>Cool</strong><br><code>.neutral-cool</code></div>
                     <div class="neutral-slate" style="background:var(--neutral-18);padding:var(--space-s);border-radius:var(--radius-m);color:var(--neutral-80)"><strong>Slate</strong><br><code>.neutral-slate</code></div>
@@ -1533,7 +1533,7 @@
 
             colors.forEach(color => {
                 const row = document.createElement('div');
-                row.style.cssText = 'display:flex;align-items:center;gap:var(--space-xs);margin-bottom:0.6rem';
+                row.style.cssText = 'display:flex;align-items:center;gap:var(--space-xs);margin-bottom:0.375rem';
                 row.innerHTML = `<span class="swatch-row-label">${color}</span>
                     <div class="swatch-strip" style="flex:1">
                         ${shades.map(s => `<div class="swatch" style="background:var(--${color}-${s})"><span class="swatch-label">${s}</span></div>`).join('')}
@@ -1545,7 +1545,7 @@
             const semanticContainer = document.getElementById('semantic-colors-container');
             ['error','warning','success'].forEach(color => {
                 const row = document.createElement('div');
-                row.style.cssText = 'display:flex;align-items:center;gap:var(--space-xs);margin-bottom:0.6rem';
+                row.style.cssText = 'display:flex;align-items:center;gap:var(--space-xs);margin-bottom:0.375rem';
                 row.innerHTML = `<span class="swatch-row-label">${color}</span>
                     <div class="swatch-strip" style="flex:1">
                         ${shades.map(s => `<div class="swatch" style="background:var(--${color}-${s})"><span class="swatch-label">${s}</span></div>`).join('')}
@@ -1560,7 +1560,7 @@
 
             neutralFamilies.forEach(family => {
                 const row = document.createElement('div');
-                row.style.cssText = 'display:flex;align-items:center;gap:var(--space-xs);margin-bottom:0.6rem';
+                row.style.cssText = 'display:flex;align-items:center;gap:var(--space-xs);margin-bottom:0.375rem';
                 row.innerHTML = `<span class="swatch-row-label">${family}</span>
                     <div class="neutral-strip" style="flex:1">
                         ${neutralShades.map(s => `<div class="neutral-swatch" style="background:var(--neutral-${family}-${s})" title="${family}-${s}"></div>`).join('')}

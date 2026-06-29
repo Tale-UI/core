@@ -126,7 +126,7 @@ export const AllVariations: Story = {
         {sizes.map((size) => (
           <div key={size}>
             <div className="story-heading">Size: {size}</div>
-            <div style={{ display: 'flex', gap: '2rem' }}>
+            <div style={{ display: 'flex', gap: '1.25rem' }}>
               <Radio.Group label="Default" size={size}>
                 <Radio.Root value="a"><Radio.Indicator />Option A</Radio.Root>
                 <Radio.Root value="b"><Radio.Indicator />Option B</Radio.Root>

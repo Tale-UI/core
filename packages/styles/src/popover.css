@@ -27,7 +27,7 @@
 .tale-popover__popup {
   position: relative;
   padding: var(--space-xs);
-  max-width: 32rem;
+  max-width: 20rem;
   background-color: var(--neutral-90);
   border-color: var(--neutral-100);
   color: var(--neutral-20);
@@ -35,7 +35,7 @@
 
 .tale-popover__popup--frameless {
   padding: var(--space-2xs);
-  width: calc((2.4rem * 7) + (0.4rem * 6) + (var(--space-2xs) * 2));
+  width: calc((1.5rem * 7) + (0.25rem * 6) + (var(--space-2xs) * 2));
   max-width: calc(100vw - var(--space-m));
   background-color: var(--neutral-5);
   border-color: transparent;

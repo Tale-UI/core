@@ -92,7 +92,7 @@ export function PreviewPane({ code }: PreviewPaneProps) {
       )}
 
       {previewError && (
-        <div className="preview-error" style={{ flexShrink: 0, maxHeight: '20rem', overflow: 'auto' }}>
+        <div className="preview-error" style={{ flexShrink: 0, maxHeight: '12.5rem', overflow: 'auto' }}>
           {previewError}
         </div>
       )}

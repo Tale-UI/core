@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 8rem;
+  min-height: 5rem;
   padding: var(--space-s);
   font-family: var(--text-font-family);
   font-size: var(--text-m-font-size);

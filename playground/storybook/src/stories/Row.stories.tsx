@@ -61,7 +61,7 @@ export const SpaceBetween: Story = {
 export const Wrapped: Story = {
   render() {
     return (
-      <Row gap="xs" wrap style={{ maxWidth: '32rem' }}>
+      <Row gap="xs" wrap style={{ maxWidth: '20rem' }}>
         {Array.from({ length: 8 }, (_, i) => (
           <Badge key={i} variant="brand">Tag {i + 1}</Badge>
         ))}

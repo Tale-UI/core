@@ -51,14 +51,14 @@
 
 .tale-number-field__input {
   box-sizing: border-box;
-  /* flex-basis 6rem keeps the default visual (Root sized to fit-content
-     resolves to ~12.4rem with two 3.2rem steppers + 6rem input). When
+  /* flex-basis 3.75rem keeps the default visual (Root sized to fit-content
+     resolves to ~7.75rem with two 2rem steppers + 3.75rem input). When
      the Root is given an explicit larger width, the input grows to
      fill the remaining space inside the Group instead of clipping
-     wide values like "1280" against a hardcoded 6rem cap. */
-  flex: 1 1 6rem;
+     wide values like "1280" against a hardcoded 3.75rem cap. */
+  flex: 1 1 3.75rem;
   min-width: 0;
-  min-height: 3.6rem;
+  min-height: 2.25rem;
   padding: var(--space-3xs) var(--space-xs);
   border: none;
   background-color: transparent;
@@ -77,8 +77,8 @@
 
 .tale-number-field__decrement,
 .tale-number-field__increment {
-  width: 3.2rem;
-  min-height: 3.6rem;
+  width: 2rem;
+  min-height: 2.25rem;
   border-radius: 0;
   background-color: var(--neutral-10);
   color: var(--neutral-70);

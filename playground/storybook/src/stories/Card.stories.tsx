@@ -23,7 +23,7 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render(args) {
     return (
-      <Card.Root variant={args.variant} padding={args.padding} style={{ maxWidth: '36rem' }}>
+      <Card.Root variant={args.variant} padding={args.padding} style={{ maxWidth: '22.5rem' }}>
         <Card.Header>Card title</Card.Header>
         <Card.Body>This is the card body content. It can contain any elements.</Card.Body>
         <Card.Footer>
@@ -40,9 +40,9 @@ export const AllVariants: Story = {
   render() {
     const variants = ['outlined', 'elevated', 'filled'] as const;
     return (
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
         {variants.map((v) => (
-          <Card.Root key={v} variant={v} style={{ maxWidth: '24rem' }}>
+          <Card.Root key={v} variant={v} style={{ maxWidth: '15rem' }}>
             <Card.Header>{v}</Card.Header>
             <Card.Body>Card content with the {v} variant.</Card.Body>
           </Card.Root>
@@ -57,9 +57,9 @@ export const AllPaddings: Story = {
   render() {
     const paddings = ['sm', 'md', 'lg'] as const;
     return (
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
         {paddings.map((p) => (
-          <Card.Root key={p} padding={p} style={{ maxWidth: '24rem' }}>
+          <Card.Root key={p} padding={p} style={{ maxWidth: '15rem' }}>
             <Card.Header>Padding: {p}</Card.Header>
             <Card.Body>Card with {p} padding.</Card.Body>
           </Card.Root>

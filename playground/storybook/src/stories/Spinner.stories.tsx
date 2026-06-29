@@ -39,7 +39,7 @@ export const Default: Story = {
 export const Variants: Story = {
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '2.4rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
         <Spinner variant="circle" />
         <Spinner variant="dots" />
         <div style={{ width: 200 }}>
@@ -53,7 +53,7 @@ export const Variants: Story = {
 export const Sizes: Story = {
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '2.4rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
         <Spinner size="sm" />
         <Spinner size="md" />
         <Spinner size="lg" />
@@ -65,7 +65,7 @@ export const Sizes: Story = {
 export const DotsSizes: Story = {
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '2.4rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
         <Spinner variant="dots" size="sm" />
         <Spinner variant="dots" size="md" />
         <Spinner variant="dots" size="lg" />
@@ -80,7 +80,7 @@ export const AllVariations: Story = {
     const variants = ['circle', 'dots', 'line'] as const;
     const sizes = ['sm', 'md', 'lg'] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, 1fr)', gap: '1.6rem', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, 1fr)', gap: '1rem', alignItems: 'center' }}>
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {variants.map((v) => (

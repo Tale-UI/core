@@ -84,7 +84,7 @@
 }
 
 .tale-multi-select__trigger-inner--lg {
-  min-height: 4.4rem;
+  min-height: 2.75rem;
   padding: var(--space-2xs) var(--space-s);
   font-size: var(--text-l-font-size);
 }
@@ -150,7 +150,7 @@
 @keyframes multi-select-in {
   from {
     opacity: 0;
-    transform: translateY(-0.4rem);
+    transform: translateY(-0.25rem);
   }
 
   to {
@@ -167,7 +167,7 @@
 
   to {
     opacity: 0;
-    transform: translateY(-0.4rem);
+    transform: translateY(-0.25rem);
   }
 }
 
@@ -221,18 +221,18 @@
 /* ─── Listbox ────────────────────────────────────────────────────────────── */
 
 .tale-multi-select__listbox {
-  max-height: 28rem;
+  max-height: 17.5rem;
   overflow-y: auto;
   padding: var(--space-3xs) 0;
   outline: none;
 }
 
 .tale-multi-select__popup--sm .tale-multi-select__listbox {
-  max-height: 24rem;
+  max-height: 15rem;
 }
 
 .tale-multi-select__popup--lg .tale-multi-select__listbox {
-  max-height: 34rem;
+  max-height: 21.25rem;
 }
 
 /* ─── List item ─────────────────────────────────────────────────────────── */
@@ -274,8 +274,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1rem;
+  height: 1rem;
   border: 1.5px solid var(--neutral-30);
   border-radius: var(--radius-s);
   background-color: transparent;

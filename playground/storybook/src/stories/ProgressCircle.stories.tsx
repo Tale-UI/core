@@ -50,7 +50,7 @@ export const AllSizes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'end', gap: '1.6rem' }}>
+      <div style={{ display: 'flex', alignItems: 'end', gap: '1rem' }}>
         <ProgressCircle.Root value={60} size="sm"><ProgressCircle.Track /></ProgressCircle.Root>
         <ProgressCircle.Root value={60} size="md"><ProgressCircle.Track /></ProgressCircle.Root>
         <ProgressCircle.Root value={60} size="lg"><ProgressCircle.Track /></ProgressCircle.Root>
@@ -88,7 +88,7 @@ export const AllVariations: Story = {
     const sizes = ['sm', 'md', 'lg'] as const;
     const values = [0, 25, 50, 75, 100, undefined] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${values.length}, auto)`, gap: '1.6rem', alignItems: 'end' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${values.length}, auto)`, gap: '1rem', alignItems: 'end' }}>
         <div />
         {values.map((v) => <div key={String(v)} className="story-label" style={{ textAlign: 'center' }}>{v == null ? 'indeterminate' : `${v}%`}</div>)}
         {sizes.map((s) => (

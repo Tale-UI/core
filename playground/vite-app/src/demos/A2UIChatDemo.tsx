@@ -31,7 +31,7 @@ class A2UIErrorBoundary extends React.Component<
   render() {
     if (this.state.error) {
       return React.createElement('pre', {
-        style: { color: 'var(--error-70)', background: 'var(--error-10)', padding: '1rem', borderRadius: '8px', fontSize: '12px', whiteSpace: 'pre-wrap' },
+        style: { color: 'var(--error-70)', background: 'var(--error-10)', padding: '0.625rem', borderRadius: '8px', fontSize: '12px', whiteSpace: 'pre-wrap' },
       }, `Render error: ${this.state.error.message}\n\n${this.state.error.stack}`);
     }
     return this.props.children;

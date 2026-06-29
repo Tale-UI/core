@@ -109,7 +109,7 @@ export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
         <div style={{ flex: '1 1 280px' }}>
           <p className="story-label">Default</p>
           <DateRangePickerExample />

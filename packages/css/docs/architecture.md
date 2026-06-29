@@ -6,7 +6,7 @@
 src/
 ├── index.css              # Entry point — imports all modules in order
 ├── tokens/                # CSS custom properties (design tokens)
-│   ├── _base.css          # HTML reset (62.5%), screen constraints, --background
+│   ├── _base.css          # HTML reset (100%), screen constraints, --background
 │   ├── _spacing.css       # --space-4xs..4xl, --section-space-xs..xl (fluid clamp)
 │   ├── _typography.css    # --text-xs..8xl, font system tokens
 │   ├── _colors.css        # Brand, 16 color families × 11 shades, semantic (error/warning/success)

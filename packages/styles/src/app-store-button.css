@@ -40,13 +40,13 @@
 /* ─── Sizes ─────────────────────────────────────────────────────────────── */
 
 .tale-app-store-button--sm {
-  height: 3.2rem;
+  height: 2rem;
 }
 
 .tale-app-store-button--md {
-  height: 4rem;
+  height: 2.5rem;
 }
 
 .tale-app-store-button--lg {
-  height: 5.2rem;
+  height: 3.25rem;
 }

@@ -65,10 +65,10 @@ export const AllNormalVariants: Story = {
   render() {
     const types: CreditCardType[] = ['brand-dark', 'brand-light', 'gray-dark', 'gray-light', 'transparent', 'transparent-gradient'];
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.9375rem' }}>
         {types.map((t) => (
           <div key={t}>
-            <p className="story-label" style={{ marginBottom: '0.5rem' }}>{t}</p>
+            <p className="story-label" style={{ marginBottom: '0.3125rem' }}>{t}</p>
             <CreditCard.Root type={t} />
           </div>
         ))}
@@ -83,10 +83,10 @@ export const AllStripVariants: Story = {
   render() {
     const types: CreditCardType[] = ['transparent-strip', 'gray-strip', 'gradient-strip', 'salmon-strip'];
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.9375rem' }}>
         {types.map((t) => (
           <div key={t}>
-            <p className="story-label" style={{ marginBottom: '0.5rem' }}>{t}</p>
+            <p className="story-label" style={{ marginBottom: '0.3125rem' }}>{t}</p>
             <CreditCard.Root type={t} />
           </div>
         ))}
@@ -101,10 +101,10 @@ export const AllVerticalStripVariants: Story = {
   render() {
     const types: CreditCardType[] = ['gray-strip-vertical', 'gradient-strip-vertical', 'salmon-strip-vertical'];
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.9375rem' }}>
         {types.map((t) => (
           <div key={t}>
-            <p className="story-label" style={{ marginBottom: '0.5rem' }}>{t}</p>
+            <p className="story-label" style={{ marginBottom: '0.3125rem' }}>{t}</p>
             <CreditCard.Root type={t} />
           </div>
         ))}
@@ -118,7 +118,7 @@ export const ScaledWidth: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-end' }}>
+      <div style={{ display: 'flex', gap: '0.9375rem', alignItems: 'flex-end' }}>
         <div>
           <p className="story-label">200 px</p>
           <CreditCard.Root width={200} />

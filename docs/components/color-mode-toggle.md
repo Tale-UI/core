@@ -56,7 +56,7 @@ The component does not include positioning styles. Place it where you need it:
 
 ```tsx
 // Fixed top-right corner
-<ColorModeToggle style={{ position: 'fixed', top: '1.6rem', right: '1.6rem', zIndex: 1000 }} />
+<ColorModeToggle style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000 }} />
 
 // Inside a header
 <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

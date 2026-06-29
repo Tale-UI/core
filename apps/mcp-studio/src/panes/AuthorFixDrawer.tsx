@@ -134,7 +134,7 @@ export function AuthorFixDrawer({ isOpen, defaultComponent, onClose }: AuthorFix
   return (
     <Drawer.Root open={isOpen} onOpenChange={open => { if (!open) {onClose();} }}>
       <Drawer.Backdrop />
-      <Drawer.Popup style={{ width: '44rem', display: 'flex', flexDirection: 'column' }}>
+      <Drawer.Popup style={{ width: '27.5rem', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: 'var(--space-m)', borderBottom: '1px solid var(--neutral-20)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Drawer.Title>Author pitfall fix</Drawer.Title>
           <Drawer.Close className="tale-button tale-button--ghost tale-button--sm">✕</Drawer.Close>
@@ -217,7 +217,7 @@ export function AuthorFixDrawer({ isOpen, defaultComponent, onClose }: AuthorFix
               <TextArea.Label>Complete example (TSX, optional)</TextArea.Label>
               <TextArea.TextArea
                 placeholder={'export function Example() {\n  return …;\n}'}
-                style={{ fontFamily: 'monospace', minHeight: '16rem' }}
+                style={{ fontFamily: 'monospace', minHeight: '10rem' }}
               />
               <TextArea.Description>Full export function — validated with Sucrase before saving.</TextArea.Description>
             </TextArea.Root>

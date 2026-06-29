@@ -41,7 +41,7 @@ function AppHeader() {
         <IconButton aria-label="Notifications" variant="ghost" size="sm">
           <Icon icon={Bell} size="sm" />
         </IconButton>
-        <Separator orientation="vertical" style={{ height: '2rem' }} />
+        <Separator orientation="vertical" style={{ height: '1.25rem' }} />
         <Button variant="primary" size="sm">
           Sign in
         </Button>

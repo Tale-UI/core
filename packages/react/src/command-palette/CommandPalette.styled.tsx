@@ -647,12 +647,12 @@ export const Chip = React.forwardRef<HTMLSpanElement, ChipProps>(({ className, .
 Chip.displayName = 'CommandPalette.Chip';
 
 export const ChipRemove = React.forwardRef<HTMLButtonElement, ChipRemoveProps>(
-  ({ className, children, type = 'button', ...props }, ref) => (
+  ({ className, children, ...props }, ref) => (
     <button
       ref={ref}
-      type={type}
-      className={cx('tale-command-palette__chip-remove', className)}
       {...props}
+      type="button"
+      className={cx('tale-command-palette__chip-remove', className)}
     >
       {children ?? <Icon icon={X} size="sm" />}
     </button>

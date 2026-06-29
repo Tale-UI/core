@@ -14,7 +14,7 @@ export default function FormWithValidation() {
   return (
     <Column
       gap="m"
-      style={{ maxWidth: '48rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}
+      style={{ maxWidth: '30rem', margin: '0 auto', padding: 'var(--space-l) var(--space-m)' }}
     >
       <Text as="h1" variant="heading" size="l">
         Form with Validation

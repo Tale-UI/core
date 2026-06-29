@@ -127,7 +127,7 @@ function LaunchCommand({ command }: { command: (typeof commands)[number] }) {
 export function TranslucentSurfaceCommandPalette() {
   return (
     <CommandPalette.Root defaultOpen size="lg">
-      <div style={{ minHeight: '56rem', padding: 'var(--space-l)' }}>
+      <div style={{ minHeight: '35rem', padding: 'var(--space-l)' }}>
         <Column gap="m">
           <Row align="center" justify="between" wrap>
             <Column gap="3xs">
@@ -148,7 +148,7 @@ export function TranslucentSurfaceCommandPalette() {
             style={{
               display: 'grid',
               gap: 'var(--space-s)',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
             }}
           >
             {metrics.map((metric) => (
@@ -160,7 +160,7 @@ export function TranslucentSurfaceCommandPalette() {
             style={{
               display: 'grid',
               gap: 'var(--space-s)',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
             }}
           >
             <Card.Root variant="outlined" padding="lg">

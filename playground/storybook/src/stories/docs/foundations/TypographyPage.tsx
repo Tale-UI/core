@@ -76,8 +76,8 @@ const s: Record<string, React.CSSProperties> = {
   sampleLabel: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '120px', flex: '0 0 auto' },
   sampleLabelWide: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '140px', flex: '0 0 auto' },
   sampleLabelXWide: { fontFamily: 'monospace', fontSize: 'var(--text-xs)', color: 'var(--neutral-50)', minWidth: '180px', flex: '0 0 auto' },
-  sampleText: { flex: '1 1 16rem', minWidth: 0, maxWidth: '100%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
-  wrappingSample: { flex: '1 1 16rem', minWidth: 0, maxWidth: '280px', overflow: 'hidden' },
+  sampleText: { flex: '1 1 10rem', minWidth: 0, maxWidth: '100%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
+  wrappingSample: { flex: '1 1 10rem', minWidth: 0, maxWidth: '280px', overflow: 'hidden' },
 };
 
 const sampleText = 'The quick brown fox jumps over the lazy dog';

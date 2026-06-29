@@ -9,7 +9,7 @@ describe('<Slider />', () => {
 
   it.skipIf(isJSDOM)('keeps a vertical header sized to its contents', async () => {
     await render(
-      <div style={{ width: '20rem' }}>
+      <div style={{ width: '12.5rem' }}>
         <Slider.Root defaultValue={53} orientation="vertical" data-testid="slider">
           <Slider.Header data-testid="header">
             <Slider.Label data-testid="label">Level</Slider.Label>

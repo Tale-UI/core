@@ -1,7 +1,8 @@
 import { chromium, expect, Page, Browser } from '@playwright/test';
 import { describe, it, beforeAll, afterAll } from 'vitest';
 
-const BASE_URL = 'http://localhost:5173';
+const TEST_PORT = process.env.TALE_UI_E2E_PORT ?? '6173';
+const BASE_URL = `http://127.0.0.1:${TEST_PORT}`;
 
 function delay(duration: number): Promise<void> {
   return new Promise<void>((resolve) => {

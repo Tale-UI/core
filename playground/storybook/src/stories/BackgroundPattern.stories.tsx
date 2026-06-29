@@ -30,7 +30,7 @@ export const AllPatterns: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.25rem' }}>
         <div>
           <p className="story-label">circle (lg)</p>
           <BackgroundPattern pattern="circle" size="lg" />
@@ -56,7 +56,7 @@ export const AllSizes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.25rem', alignItems: 'flex-start' }}>
         <div>
           <p className="story-label">sm</p>
           <BackgroundPattern pattern="grid" size="sm" />
@@ -78,7 +78,7 @@ export const CustomColor: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
         <div>
           <p className="story-label">default (--neutral-20)</p>
           <BackgroundPattern pattern="circle" size="md" />
@@ -96,13 +96,13 @@ export const AsBackground: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ position: 'relative', width: '400px', height: '300px', overflow: 'hidden', borderRadius: '1rem', border: '1px solid var(--neutral-20)' }}>
+      <div style={{ position: 'relative', width: '400px', height: '300px', overflow: 'hidden', borderRadius: '0.625rem', border: '1px solid var(--neutral-20)' }}>
         <BackgroundPattern
           pattern="grid"
           size="lg"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
         />
-        <div style={{ position: 'relative', zIndex: 1, padding: '2rem' }}>
+        <div style={{ position: 'relative', zIndex: 1, padding: '1.25rem' }}>
           <h3 style={{ margin: 0 }}>Content on top</h3>
           <p>The grid pattern sits behind this text.</p>
         </div>

@@ -63,7 +63,7 @@
 
 .tale-text-editor__content .ProseMirror {
   box-sizing: border-box;
-  min-height: 12rem;
+  min-height: 7.5rem;
   width: 100%;
   border-radius: var(--field-radius);
   background-color: var(--field-bg);

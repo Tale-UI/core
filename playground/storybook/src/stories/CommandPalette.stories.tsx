@@ -87,7 +87,7 @@ function CommandRows({
   palette: ReturnType<typeof useCommandPalette<CommandPaletteCommand>>;
 }) {
   return (
-    <>
+    <React.Fragment>
       {palette.groupedCommands.map((group) => (
         <CommandPalette.Section key={group.id}>
           {group.title ? (
@@ -119,7 +119,7 @@ function CommandRows({
           ))}
         </CommandPalette.Section>
       ))}
-    </>
+    </React.Fragment>
   );
 }
 

@@ -22,10 +22,10 @@
 /* ─── Root — field wrapper (column flex: button, description, error) ──────── */
 
 .tale-switch-field {
-  --tale-switch-field-track-width: 4rem;
-  --tale-switch-field-track-height: 2.2rem;
-  --tale-switch-field-thumb-size: 1.4rem;
-  --tale-switch-field-thumb-offset: 0.4rem;
+  --tale-switch-field-track-width: 2.5rem;
+  --tale-switch-field-track-height: 1.375rem;
+  --tale-switch-field-thumb-size: 0.875rem;
+  --tale-switch-field-thumb-offset: 0.25rem;
 
   display: flex;
   flex-direction: column;

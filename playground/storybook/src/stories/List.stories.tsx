@@ -22,7 +22,7 @@ type Story = StoryObj<Args>;
 export const Default: Story = {
   render(args) {
     return (
-      <List.Root variant={args.variant} density={args.density} style={{ minWidth: '24rem' }}>
+      <List.Root variant={args.variant} density={args.density} style={{ minWidth: '15rem' }}>
         <List.Item>First item</List.Item>
         <List.Item>Second item</List.Item>
         <List.Item>Third item</List.Item>
@@ -34,7 +34,7 @@ export const Default: Story = {
 export const Divided: Story = {
   render() {
     return (
-      <List.Root variant="divided" style={{ minWidth: '24rem' }}>
+      <List.Root variant="divided" style={{ minWidth: '15rem' }}>
         <List.Item>Apple</List.Item>
         <List.Item>Banana</List.Item>
         <List.Item>Cherry</List.Item>
@@ -49,11 +49,11 @@ export const AllDensities: Story = {
   render() {
     const densities = ['compact', 'default', 'spacious'] as const;
     return (
-      <div style={{ display: 'flex', gap: '4rem' }}>
+      <div style={{ display: 'flex', gap: '2.5rem' }}>
         {densities.map((d) => (
           <div key={d}>
             <div className="story-heading">{d}</div>
-            <List.Root variant="divided" density={d} style={{ minWidth: '20rem' }}>
+            <List.Root variant="divided" density={d} style={{ minWidth: '12.5rem' }}>
               <List.Item>Item one</List.Item>
               <List.Item>Item two</List.Item>
               <List.Item>Item three</List.Item>
@@ -70,11 +70,11 @@ export const AllVariations: Story = {
   render() {
     const variants = ['plain', 'divided'] as const;
     return (
-      <div style={{ display: 'flex', gap: '4rem' }}>
+      <div style={{ display: 'flex', gap: '2.5rem' }}>
         {variants.map((v) => (
           <div key={v}>
             <div className="story-heading">{v}</div>
-            <List.Root variant={v} style={{ minWidth: '20rem' }}>
+            <List.Root variant={v} style={{ minWidth: '12.5rem' }}>
               <List.Item>Item one</List.Item>
               <List.Item>Item two</List.Item>
               <List.Item>Item three</List.Item>

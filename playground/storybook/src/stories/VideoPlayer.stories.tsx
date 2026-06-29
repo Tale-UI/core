@@ -39,10 +39,10 @@ export const AllSizes: Story = {
   name: 'All Sizes',
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem', width: '100%', maxWidth: 640 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', maxWidth: 640 }}>
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <div key={size}>
-          <p style={{ fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)', marginBottom: '0.4rem' }}>
+          <p style={{ fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)', marginBottom: '0.25rem' }}>
             {size}
           </p>
           <VideoPlayer.Root

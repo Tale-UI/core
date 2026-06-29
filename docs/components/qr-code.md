@@ -40,7 +40,7 @@ import { QRCode } from '@tale-ui/react/qr-code';
 ### Both Sizes
 
 ```tsx
-<div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+<div style={{ display: 'flex', gap: '0.625rem', alignItems: 'flex-start' }}>
   <QRCode.Root value="https://example.com" size="md" />
   <QRCode.Root value="https://example.com" size="lg" />
 </div>

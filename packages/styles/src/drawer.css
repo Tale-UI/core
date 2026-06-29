@@ -102,8 +102,8 @@
 /* ─── Handle bar ───────────────────────────────────────────────────────────── */
 
 .tale-drawer__handle {
-  width: 4rem;
-  height: 0.4rem;
+  width: 2.5rem;
+  height: 0.25rem;
   border-radius: var(--radius-full);
   background-color: var(--neutral-30);
   align-self: center;

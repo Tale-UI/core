@@ -99,9 +99,9 @@ export const AllVariations: Story = {
       { label: 'Disabled + Pressed', props: { isDisabled: true, defaultSelected: true } },
     ] as const;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
         {/* Individual buttons */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3, auto)', gap: '0.5rem 0.75rem', alignItems: 'center' }}>
           <div />
           {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
           {states.map((state) => (
@@ -115,7 +115,7 @@ export const AllVariations: Story = {
         </div>
 
         {/* Grouped buttons */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.5rem 0.75rem', alignItems: 'center' }}>
           {sizes.map((s) => (
             <React.Fragment>
               <div key={`group-label-${s}`} className="story-label">Group ({s})</div>

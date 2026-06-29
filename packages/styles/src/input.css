@@ -67,7 +67,7 @@
 }
 
 .tale-input--lg {
-  min-height: 4.4rem;
+  min-height: 2.75rem;
   padding: var(--space-2xs) var(--space-s);
   font-size: var(--text-l-font-size);
 }

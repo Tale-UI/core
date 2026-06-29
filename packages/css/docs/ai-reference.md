@@ -4,7 +4,7 @@ This document enumerates every valid class name, token, and value in the design 
 Read this before generating any code that uses this design system.
 Source of truth: the CSS files in `src/`. This reference is derived directly from them.
 
-> **Framework coexistence:** This design system sets `html { font-size: 62.5% }` (1rem = 10px). This conflicts with Tailwind CSS, shadcn/ui, and other frameworks that assume 1rem = 16px. See [framework-integration.md](framework-integration.md) for the workaround and token mapping guide.
+> **Framework coexistence:** This design system uses the browser-standard root size (`html { font-size: 100%; }`, normally `1rem = 16px`) so rem-based frameworks such as Tailwind CSS, shadcn/ui, and Bootstrap can share the same root contract. See [framework-integration.md](framework-integration.md) for import-order and token mapping guidance.
 
 > **Distribution:** Use `dist/style.css` (pre-bundled, single file) for build-tool environments. Use `src/index.css` for native browser `@import` or PostCSS with `postcss-import`.
 
@@ -137,17 +137,17 @@ All spacing uses fluid `clamp()` scaling between 480px and 1600px viewport width
 
 | Token | ~Min (480px) | ~Max (1600px) |
 |---|---|---|
-| `--space-4xs` | 0.49rem | 0.52rem |
-| `--space-3xs` | 0.66rem | 0.70rem |
-| `--space-2xs` | 0.82rem | 0.99rem |
-| `--space-xs` | 1.02rem | 1.40rem |
-| `--space-s` | 1.28rem | 1.98rem |
-| `--space-m` | 1.60rem | 2.80rem |
-| `--space-l` | 2.00rem | 3.96rem |
-| `--space-xl` | 2.50rem | 5.60rem |
-| `--space-2xl` | 3.13rem | 7.92rem |
-| `--space-3xl` | 3.91rem | 11.19rem |
-| `--space-4xl` | 4.88rem | 15.83rem |
+| `--space-4xs` | 0.30625rem | 0.325rem |
+| `--space-3xs` | 0.4125rem | 0.4375rem |
+| `--space-2xs` | 0.5125rem | 0.61875rem |
+| `--space-xs` | 0.6375rem | 0.875rem |
+| `--space-s` | 0.8rem | 1.2375rem |
+| `--space-m` | 1rem | 1.75rem |
+| `--space-l` | 1.25rem | 2.475rem |
+| `--space-xl` | 1.5625rem | 3.5rem |
+| `--space-2xl` | 1.95625rem | 4.95rem |
+| `--space-3xl` | 2.44375rem | 6.99375rem |
+| `--space-4xl` | 3.05rem | 9.89375rem |
 
 NOTE: `--space-3xl` and `--space-4xl` exist as tokens but have **no gap utility class**. Gap classes stop at `2xl`. Use these tokens directly in custom component CSS.
 
@@ -170,11 +170,11 @@ Rule of thumb: smaller tokens describe tighter relationships inside a component;
 
 | Token | ~Min (480px) | ~Max (1600px) |
 |---|---|---|
-| `--section-space-xs` | 2.00rem | 3.96rem |
-| `--section-space-s` | 3.13rem | 7.92rem |
-| `--section-space-m` | 3.91rem | 11.19rem |
-| `--section-space-l` | 4.88rem | 15.83rem |
-| `--section-space-xl` | 6.10rem | 22.37rem |
+| `--section-space-xs` | 1.25rem | 2.475rem |
+| `--section-space-s` | 1.95625rem | 4.95rem |
+| `--section-space-m` | 2.44375rem | 6.99375rem |
+| `--section-space-l` | 3.05rem | 9.89375rem |
+| `--section-space-xl` | 3.8125rem | 13.98125rem |
 
 Used by `.padding--*` utility classes.
 
@@ -302,7 +302,7 @@ Each family has the same 27 shade values listed above.
 
 **Radius tokens**
 
-`--radius-none` (0) · `--radius-xs` (0.5rem) · `--radius-s` (0.75rem) · `--radius-m` (1rem) · `--radius-l` (1.5rem) · `--radius-xl` (2rem) · `--radius-2xl` (3rem) · `--radius-full` (9999px)
+`--radius-none` (0) · `--radius-xs` (0.3125rem) · `--radius-s` (0.46875rem) · `--radius-m` (0.625rem) · `--radius-l` (0.9375rem) · `--radius-xl` (1.25rem) · `--radius-2xl` (1.875rem) · `--radius-full` (9999px)
 
 **Shadow tokens**
 
@@ -324,7 +324,7 @@ Covers: Input, Select trigger, Combobox, Autocomplete, SearchField, TextField, D
 
 | Token | Default |
 |---|---|
-| `--field-min-height` | `3.6rem` |
+| `--field-min-height` | `2.25rem` |
 | `--field-padding-block` | `var(--space-3xs)` |
 | `--field-padding-inline` | `var(--space-xs)` |
 | `--field-border-color` | `var(--neutral-26)` |
@@ -382,7 +382,7 @@ Covers: ProgressBar, Meter (track, indicator, label, value).
 
 | Token | Default |
 |---|---|
-| `--progress-track-height` | `0.8rem` |
+| `--progress-track-height` | `0.5rem` |
 | `--progress-track-bg` | `var(--neutral-24)` |
 | `--progress-track-radius` | `var(--radius-full)` |
 | `--progress-indicator-bg` | `var(--neutral-24-fg)` |
@@ -401,7 +401,7 @@ Covers: ProgressBar, Meter (track, indicator, label, value).
   --popup-radius: var(--radius-s);
 
   /* Tighter progress bars */
-  --progress-track-height: 0.4rem;
+  --progress-track-height: 0.25rem;
 }
 ```
 

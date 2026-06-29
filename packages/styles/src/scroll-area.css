@@ -43,14 +43,14 @@
   display: flex;
   touch-action: none;
   user-select: none;
-  padding: 0.15rem;
+  padding: 0.09375rem;
   background-color: transparent;
   transition: background-color 0.15s ease;
 }
 
 .tale-scroll-area__scrollbar[data-orientation="vertical"] {
   flex-direction: column;
-  width: 0.65rem;
+  width: 0.40625rem;
   position: absolute;
   top: 0;
   right: 0;
@@ -59,7 +59,7 @@
 
 .tale-scroll-area__scrollbar[data-orientation="horizontal"] {
   flex-direction: row;
-  height: 0.65rem;
+  height: 0.40625rem;
   position: absolute;
   left: 0;
   right: 0;

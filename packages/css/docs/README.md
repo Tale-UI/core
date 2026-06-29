@@ -197,12 +197,12 @@ Fluid font sizes:
 | Token | Value |
 |---|---|
 | `--radius-none` | 0 |
-| `--radius-xs` | 0.25rem |
-| `--radius-s` | 0.375rem |
-| `--radius-m` | 0.5rem |
-| `--radius-l` | 1rem |
+| `--radius-xs` | 0.3125rem |
+| `--radius-s` | 0.46875rem |
+| `--radius-m` | 0.625rem |
+| `--radius-l` | 0.9375rem |
 | `--radius-xl` | 1.25rem |
-| `--radius-2xl` | 1.5rem |
+| `--radius-2xl` | 1.875rem |
 | `--radius-full` | 9999px |
 
 ### Shadows (`--shadow-*`)

@@ -285,11 +285,11 @@ Apply with a class: `<body class="neutral-cool">`.
 
 ---
 
-## The 62.5% Reset
+## Standard Rem Base
 
-`@tale-ui/core` sets `html { font-size: 62.5% }` so that `1rem = 10px`. This makes token values human-readable (`1.6rem = 16px`, `2.8rem = 28px`) and simplifies design-to-code translation.
+`@tale-ui/core` uses `html { font-size: 100% }`, matching the browser-standard root size. In a default browser this means `1rem = 16px`, so Tale UI can coexist with Tailwind, shadcn/ui, Bootstrap, and other rem-based frameworks without a root-size workaround.
 
-**Impact:** If your app also uses Tailwind, shadcn/ui, or Bootstrap (which assume `1rem = 16px`), add `html { font-size: 100%; }` after the Tale UI import. See [framework-integration.md](packages/css/docs/framework-integration.md).
+If an application changes the root font size for accessibility or product reasons, Tale UI scales with the rest of the page. See [framework-integration.md](packages/css/docs/framework-integration.md).
 
 ---
 
@@ -298,7 +298,7 @@ Apply with a class: `<body class="neutral-cool">`.
 Spacing tokens use CSS `clamp()` for fluid responsive scaling between 480px and 1600px viewport widths:
 
 ```css
---space-m: clamp(1.6rem, calc(1.07vw + 1.09rem), 2.8rem);
+--space-m: clamp(1rem, calc(1.07vw + 0.68125rem), 1.75rem);
 ```
 
 This provides smooth scaling without media queries in component CSS. Components use spacing tokens and get responsive behaviour automatically.

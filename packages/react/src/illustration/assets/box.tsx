@@ -15,7 +15,7 @@ export const sm = ({
     ...otherProps
 }: Omit<IllustrationProps, "size">) => {
     return (
-        <div {...otherProps} className={cx("tale-illustration", className)} style={{ height: '7.875rem', width: '9.5rem' }}>
+        <div {...otherProps} className={cx("tale-illustration", className)} style={{ height: '4.92188rem', width: '5.9375rem' }}>
             <svg viewBox="0 0 152 126" fill="none" className={cx("tale-illustration__svg", svgClassName)} style={{ width: "100%", height: "100%" }}>
                 <circle cx="76" cy="60" r="52" style={{ fill: 'var(--neutral-5)' }} />
                 <circle cx="21" cy="27" r="5" style={{ fill: 'var(--neutral-5)' }} />

@@ -217,7 +217,7 @@
 
 .tale-video-player__time {
   flex-shrink: 0;
-  font-size: var(--label-xs-font-size, 0.75rem);
+  font-size: var(--label-xs-font-size, 0.46875rem);
   font-weight: 600;
   color: #fff;
   pointer-events: none;
@@ -274,7 +274,7 @@
   position: absolute;
   bottom: calc(100% + var(--space-xs));
   transform: translateX(-50%);
-  font-size: var(--label-xs-font-size, 0.75rem);
+  font-size: var(--label-xs-font-size, 0.46875rem);
   font-weight: 600;
   color: #fff;
   pointer-events: none;
@@ -293,7 +293,7 @@
 }
 
 .tale-video-player__speed-label {
-  font-size: var(--label-xs-font-size, 0.75rem);
+  font-size: var(--label-xs-font-size, 0.46875rem);
   font-weight: 600;
 }
 

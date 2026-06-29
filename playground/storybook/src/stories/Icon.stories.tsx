@@ -84,7 +84,7 @@ export const IconGallery: Story = {
       ].map((IconComp, i) => (
         <div key={i} className="story-col" style={{ alignItems: 'center', width: '60px' }}>
           <Icon icon={IconComp} />
-          <span style={{ fontSize: '0.9rem', color: 'var(--neutral-50)' }}>
+          <span style={{ fontSize: '0.5625rem', color: 'var(--neutral-50)' }}>
             {IconComp.displayName}
           </span>
         </div>
@@ -151,7 +151,7 @@ export const AllVariations: Story = {
     const sizes = ['sm', 'md', 'lg', 'xl'] as const;
     const icons = [Heart, Star, Bell, Settings, Search, AlertCircle, CheckCircle, Info] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '1.2rem', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.75rem', alignItems: 'center' }}>
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {icons.map((IconComp, i) => (

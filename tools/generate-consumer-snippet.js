@@ -75,7 +75,7 @@ Before generating or modifying component code, you MUST:
 
 0. **Plan before generating JSX.** The Tale UI MCP tools are registered as deferred tools — you MUST call \`ToolSearch\` with \`"mcp__tale-ui__plan_ui"\` to load the schema before you can invoke them. Then call \`mcp__tale-ui__plan_ui\` with the UI description. It returns which components to use, a matching recipe if one exists, and key pitfalls — so you choose the right components before writing a single line of JSX. Skip this step only if you are making a trivial single-component change.
 
-1. **Read the setup guide** in \`node_modules/@tale-ui/react/README.md\` — it contains critical configuration (font-size base, style imports, dark mode, theme overrides) that will produce broken output if skipped.
+1. **Read the setup guide** in \`node_modules/@tale-ui/react/README.md\` — it contains critical configuration (rem base, style imports, dark mode, theme overrides) that will produce broken output if skipped.
 
 2. **Check the JSDoc \`@example\` on each component's .d.ts export** before using it. Every component's Root export includes a \`@example\` block showing the correct import path, sub-parts, and composition pattern. Read the \`.d.ts\` file for each component you intend to use:
 
@@ -178,7 +178,7 @@ ${deprecatedSection}
      --modal-backdrop-bg: var(--scrim-strong);
 
      /* Retheme all progress bars and meters */
-     --progress-track-height: 0.4rem;
+     --progress-track-height: 0.25rem;
      --progress-indicator-bg: var(--color-60);
    }
    \`\`\`

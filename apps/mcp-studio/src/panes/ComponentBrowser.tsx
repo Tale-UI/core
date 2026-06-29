@@ -64,7 +64,7 @@ export function ComponentBrowser({ onAuthorFix }: ComponentBrowserProps) {
   return (
     <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
       {/* Left: list */}
-      <div style={{ display: 'flex', flexDirection: 'column', width: '28rem', flexShrink: 0, borderRight: '1px solid var(--neutral-20)', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', width: '17.5rem', flexShrink: 0, borderRight: '1px solid var(--neutral-20)', overflow: 'hidden' }}>
         <div style={{ padding: 'var(--space-s) var(--space-m)', borderBottom: '1px solid var(--neutral-20)', flexShrink: 0 }}>
           <TextField.Root value={search} onChange={setSearch} aria-label="Search components">
             <TextField.Input placeholder="Search…" />

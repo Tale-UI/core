@@ -141,12 +141,12 @@ export const AllVariations: Story = {
       { label: 'Read-only', props: { isReadOnly: true } },
     ] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, 200px)`, gap: '0.8rem 1.2rem', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, 200px)`, gap: '0.5rem 0.75rem', alignItems: 'start' }}>
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {states.map((state) => (
           <React.Fragment>
-            <div key={`label-${state.label}`} className="story-label" style={{ paddingTop: '0.4rem' }}>{state.label}</div>
+            <div key={`label-${state.label}`} className="story-label" style={{ paddingTop: '0.25rem' }}>{state.label}</div>
             {sizes.map((s) => (
               <Input.Root key={`${state.label}-${s}`} {...state.props}>
                 <Input.Label>{state.label}</Input.Label>

@@ -225,7 +225,7 @@ export const AllVariations: Story = {
       { label: 'Disabled + Indeterminate', props: { isDisabled: true, isIndeterminate: true } },
     ] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.8rem 1.6rem', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${sizes.length}, auto)`, gap: '0.5rem 1rem', alignItems: 'center' }}>
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         {states.map((state) => (

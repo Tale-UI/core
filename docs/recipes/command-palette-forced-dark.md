@@ -88,7 +88,7 @@ function DarkCommandItem({ command }: { command: (typeof commands)[number] }) {
 
 export function ForcedDarkCommandPalette() {
   return (
-    <div className="dark" style={{ minHeight: '56rem', padding: 'var(--space-m)' }}>
+    <div className="dark" style={{ minHeight: '35rem', padding: 'var(--space-m)' }}>
       <CommandPalette.Root defaultOpen size="lg">
         <CommandPalette.Trigger className="tale-button tale-button--neutral tale-button--md">
           <Icon icon={MoonIcon} size="sm" />

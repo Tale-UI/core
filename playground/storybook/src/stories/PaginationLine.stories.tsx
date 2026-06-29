@@ -58,7 +58,7 @@ export const AllSizes: Story = {
   render() {
     const [page, setPage] = React.useState(2);
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: 240 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9375rem', width: 240 }}>
         <PaginationLine page={page} total={5} size="md" onPageChange={setPage} style={{ width: '100%' }} />
         <PaginationLine page={page} total={5} size="lg" onPageChange={setPage} style={{ width: '100%' }} />
       </div>
@@ -73,7 +73,7 @@ export const Framed: Story = {
     return (
       <div
         style={{
-          padding: '2rem',
+          padding: '1.25rem',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           borderRadius: 12,
           width: 280,
@@ -92,7 +92,7 @@ export const FramedLarge: Story = {
     return (
       <div
         style={{
-          padding: '2rem',
+          padding: '1.25rem',
           background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
           borderRadius: 12,
           width: 280,

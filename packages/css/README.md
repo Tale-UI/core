@@ -31,7 +31,7 @@ npm install @tale-ui/core
 <link rel="stylesheet" href="node_modules/@tale-ui/core/dist/style.css">
 ```
 
-> **Framework note:** This design system sets `html { font-size: 62.5% }` (1rem = 10px). If using Tailwind, shadcn/ui, or Bootstrap, add `html { font-size: 100%; }` after the import.
+> **Framework note:** This design system uses the browser-standard rem base (`html { font-size: 100%; }`, normally `1rem = 16px`) so it can coexist with Tailwind, shadcn/ui, Bootstrap, and other rem-based frameworks without a root-size workaround.
 
 ## Quick Start
 

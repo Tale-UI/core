@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4xs);
-  max-height: 28rem;
+  max-height: 17.5rem;
   padding: var(--space-4xs);
   background-color: var(--popup-bg);
   border: 1px solid var(--popup-border-color);
@@ -28,7 +28,7 @@
 
 .tale-list-box[data-layout='grid'] {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(2.4rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(1.5rem, 1fr));
   align-items: stretch;
 }
 
@@ -48,25 +48,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1rem;
+  height: 1rem;
   margin-inline-start: auto;
   color: currentcolor;
 }
 
 .tale-list-box__item--emoji {
   justify-content: center;
-  width: 2.4rem;
-  min-height: 2.4rem;
+  width: 1.5rem;
+  min-height: 1.5rem;
   padding: 0;
-  font-size: 1.8rem;
+  font-size: 1.125rem;
   line-height: 1;
 }
 
 .tale-list-box__selection-indicator::before {
   content: '';
-  width: 0.7rem;
-  height: 0.7rem;
+  width: 0.4375rem;
+  height: 0.4375rem;
   border-radius: var(--radius-full);
   background-color: currentcolor;
   opacity: 0;

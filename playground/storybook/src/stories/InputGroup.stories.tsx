@@ -99,7 +99,7 @@ export const CurrencyPrefix: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: 280 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem', width: 280 }}>
         {(['$', '€', '£', '¥'] as const).map((symbol) => (
           <InputGroup.Root key={symbol}>
             <InputGroup.Addon position="leading">{symbol}</InputGroup.Addon>

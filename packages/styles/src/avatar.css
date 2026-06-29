@@ -6,12 +6,12 @@
  *   Image:    [data-entering] (for lazy load transition)
  *   Fallback: (shown when image fails or while loading)
  *
- * Sizes:  .tale-avatar--xs   (1.6rem)
- *         .tale-avatar--sm   (2.4rem)
- *         .tale-avatar--md   (3.6rem, default)
- *         .tale-avatar--lg   (5.6rem)
- *         .tale-avatar--xl   (8rem)
- *         .tale-avatar--2xl  (12rem)
+ * Sizes:  .tale-avatar--xs   (1rem)
+ *         .tale-avatar--sm   (1.5rem)
+ *         .tale-avatar--md   (2.25rem, default)
+ *         .tale-avatar--lg   (3.5rem)
+ *         .tale-avatar--xl   (5rem)
+ *         .tale-avatar--2xl  (7.5rem)
  *
  * Usage:
  *   <Avatar.Root className="tale-avatar tale-avatar--md">
@@ -33,8 +33,8 @@
   flex-shrink: 0;
 
   /* Default size: md */
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 /* ─── Image ────────────────────────────────────────────────────────────────── */
@@ -76,27 +76,27 @@
 /* ─── Size modifiers ──────────────────────────────────────────────────────── */
 
 .tale-avatar--xs {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .tale-avatar--xs .tale-avatar__fallback {
-  font-size: 0.7rem;
+  font-size: 0.4375rem;
   letter-spacing: 0;
 }
 
 .tale-avatar--sm {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .tale-avatar--sm .tale-avatar__fallback {
-  font-size: var(--label-xs-font-size, 1rem);
+  font-size: var(--label-xs-font-size, 0.625rem);
 }
 
 .tale-avatar--md {
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 .tale-avatar--lg {
@@ -109,8 +109,8 @@
 }
 
 .tale-avatar--xl {
-  width: 8rem;
-  height: 8rem;
+  width: 5rem;
+  height: 5rem;
 }
 
 .tale-avatar--xl .tale-avatar__fallback {
@@ -118,12 +118,12 @@
 }
 
 .tale-avatar--2xl {
-  width: 12rem;
-  height: 12rem;
+  width: 7.5rem;
+  height: 7.5rem;
 }
 
 .tale-avatar--2xl .tale-avatar__fallback {
-  font-size: var(--label-xl-font-size, 2.4rem);
+  font-size: var(--label-xl-font-size, 1.5rem);
 }
 
 /* ─── Group — overlapping avatar stack ────────────────────────────────────── */
@@ -134,7 +134,7 @@
 }
 
 .tale-avatar-group > :not(:first-child) {
-  margin-inline-start: -0.8rem;
+  margin-inline-start: -0.5rem;
 }
 
 .tale-avatar-group > .tale-avatar,
@@ -160,25 +160,25 @@
   flex-shrink: 0;
 
   /* Default size: md */
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 .tale-avatar-count--xs {
-  width: 1.6rem;
-  height: 1.6rem;
-  font-size: 0.7rem;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.4375rem;
 }
 
 .tale-avatar-count--sm {
-  width: 2.4rem;
-  height: 2.4rem;
-  font-size: var(--label-xs-font-size, 1rem);
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: var(--label-xs-font-size, 0.625rem);
 }
 
 .tale-avatar-count--md {
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 .tale-avatar-count--lg {
@@ -188,15 +188,15 @@
 }
 
 .tale-avatar-count--xl {
-  width: 8rem;
-  height: 8rem;
+  width: 5rem;
+  height: 5rem;
   font-size: var(--label-l-font-size);
 }
 
 .tale-avatar-count--2xl {
-  width: 12rem;
-  height: 12rem;
-  font-size: var(--label-xl-font-size, 2.4rem);
+  width: 7.5rem;
+  height: 7.5rem;
+  font-size: var(--label-xl-font-size, 1.5rem);
 }
 
 /* ─── Indicator — badge positioned at avatar corner ────────────────────────── */
@@ -304,8 +304,8 @@
   flex-shrink: 0;
   transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
   /* Default size: md */
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 .tale-avatar-add-button:hover:not(:disabled) {
@@ -330,18 +330,18 @@
 }
 
 .tale-avatar-add-button--xs {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .tale-avatar-add-button--sm {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .tale-avatar-add-button--md {
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 /* ─── CompanyIcon — small company logo badge at avatar corner ───────────── */
@@ -362,33 +362,33 @@
 }
 
 .tale-avatar-company-icon--xs .tale-avatar-company-icon__badge {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
 .tale-avatar-company-icon--sm .tale-avatar-company-icon__badge {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 0.75rem;
+  height: 0.75rem;
 }
 
 .tale-avatar-company-icon--md .tale-avatar-company-icon__badge {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .tale-avatar-company-icon--lg .tale-avatar-company-icon__badge {
-  width: 2rem;
-  height: 2rem;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .tale-avatar-company-icon--xl .tale-avatar-company-icon__badge {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .tale-avatar-company-icon--2xl .tale-avatar-company-icon__badge {
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 /* ─── VerifiedTick — SVG seal badge with checkmark ───────────────────────── */
@@ -397,48 +397,48 @@
   display: inline-block;
   flex-shrink: 0;
   /* Default size: md */
-  width: 2rem;
-  height: 2rem;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .tale-avatar-verified-tick--xs {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 0.75rem;
+  height: 0.75rem;
 }
 
 .tale-avatar-verified-tick--sm {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .tale-avatar-verified-tick--md {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.tale-avatar-verified-tick--lg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.tale-avatar-verified-tick--xl {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.tale-avatar-verified-tick--2xl {
   width: 2rem;
   height: 2rem;
 }
 
-.tale-avatar-verified-tick--lg {
-  width: 2.4rem;
-  height: 2.4rem;
-}
-
-.tale-avatar-verified-tick--xl {
-  width: 2.8rem;
-  height: 2.8rem;
-}
-
-.tale-avatar-verified-tick--2xl {
-  width: 3.2rem;
-  height: 3.2rem;
-}
-
 .tale-avatar-verified-tick--3xl {
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 .tale-avatar-verified-tick--4xl {
-  width: 4rem;
-  height: 4rem;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 /* ─── ProfilePhoto — enhanced display avatar with ring + badge slot ──────── */

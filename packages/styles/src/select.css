@@ -35,7 +35,7 @@
   justify-content: space-between;
   gap: var(--space-xs);
   height: var(--field-min-height);
-  min-width: 16rem;
+  min-width: 10rem;
   cursor: pointer;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -59,7 +59,7 @@
 }
 
 .tale-select__trigger--lg {
-  height: 4.4rem;
+  height: 2.75rem;
   padding: var(--space-2xs) var(--field-padding-inline);
 }
 
@@ -85,8 +85,8 @@
 
 .tale-select__popover {
   padding: var(--space-4xs);
-  min-width: var(--anchor-width, 16rem);
-  max-height: 28rem;
+  min-width: var(--anchor-width, 10rem);
+  max-height: 17.5rem;
   overflow-y: auto;
   overflow-x: hidden;
 }

@@ -19,7 +19,7 @@ A fixture can be loaded with `await renderFixture(fixturePath)`, for example `re
 
 ## Commands
 
-For development `pnpm test:e2e:dev` and `pnpm test:e2e:run --watch` in separate terminals is recommended.
+For development `pnpm test:e2e:dev` and `pnpm test:e2e:run --watch` in separate terminals is recommended. The e2e server uses port 6173 by default; set `TALE_UI_E2E_PORT` when running `test:e2e:run` and `test:e2e:server` manually if you need a different port.
 
 | command                | description                                                                                   |
 | :--------------------- | :-------------------------------------------------------------------------------------------- |

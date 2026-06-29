@@ -281,10 +281,9 @@ document.documentElement.setAttribute('data-color-mode', prefersDark ? 'dark' : 
           <InlineCode>playground/vite-app/</InlineCode> for a working example.
         </p>
         <p className="text--body-m" style={s.body}>
-          <strong>Tailwind coexistence</strong> — Tale sets{' '}
-          <InlineCode>html {'{ font-size: 62.5% }'}</InlineCode> so that 1rem = 10px. If your app
-          also uses Tailwind or Bootstrap, add{' '}
-          <InlineCode>html {'{ font-size: 100%; }'}</InlineCode> after the Tale import.
+          <strong>Tailwind coexistence</strong> — Tale uses the browser-standard rem base{' '}
+          <InlineCode>html {'{ font-size: 100%; }'}</InlineCode>, so Tailwind, Bootstrap, and other
+          rem-based frameworks can share the same root sizing contract.
         </p>
       </div>
 

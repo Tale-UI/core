@@ -39,7 +39,7 @@ export const Sizes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <SelectNative size="sm">
           <option>Small</option>
         </SelectNative>
@@ -67,7 +67,7 @@ export const AllVariations: Story = {
   render() {
     const sizes = ['sm', 'md'] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(2, auto)', gap: '0.8rem 1.2rem', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(2, auto)', gap: '0.5rem 0.75rem', alignItems: 'center' }}>
         <div />
         {sizes.map((s) => <div key={s} className="story-label">{s}</div>)}
         <div className="story-label">Default</div>

@@ -13,7 +13,7 @@
 /* ─── Base (sun) ──────────────────────────────────────────────────────────── */
 
 .tale-color-mode-toggle {
-  --size: 2.5rem;
+  --size: 1.5625rem;
   --ray-size: calc(var(--size) * -0.4);
   --offset-orthogonal: calc(var(--size) * 0.65);
   --offset-diagonal: calc(var(--size) * 0.45);

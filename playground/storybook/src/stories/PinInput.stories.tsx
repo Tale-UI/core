@@ -114,7 +114,7 @@ export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.6rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div>
           <div className="story-heading">4-digit</div>
           <PinInput.Root maxLength={4}>

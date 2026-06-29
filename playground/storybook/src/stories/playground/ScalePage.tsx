@@ -11,10 +11,10 @@ export function ScalePage() {
     const html = document.documentElement;
     const body = document.body;
 
-    // html { font-size: 62.5% } — required by @tale-ui/core (1rem = 10px)
+    // html { font-size: 100% } — standard browser rem base used by @tale-ui/core
     const prevFontSize = html.style.fontSize;
     const prevHeight = html.style.height;
-    html.style.fontSize = '62.5%';
+    html.style.fontSize = '100%';
     html.style.height = '100%';
 
     // body styles matching the standalone Scale app

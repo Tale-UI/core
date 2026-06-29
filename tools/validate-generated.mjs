@@ -19,7 +19,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
+import { execFileSync, execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -57,8 +57,11 @@ if (codeArgIdx !== -1 && filteredArgs[codeArgIdx + 1]) {
     sourceLabel = filteredArgs[0];
   }
 } else {
-  console.error('Usage: node tools/validate-generated.mjs <file.tsx|golden.json> [--json] [--code "..."]');
-  process.exit(1);
+  execFileSync(process.execPath, [resolve(__dirname, 'validate-golden-prompts.mjs')], {
+    cwd: ROOT,
+    stdio: 'inherit',
+  });
+  process.exit(0);
 }
 
 // ─── Load registry ──────────────────────────────────────────────────────────

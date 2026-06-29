@@ -41,8 +41,8 @@ describe('<NumberField />', () => {
           {`
             @layer number-field-test {
               .number-field-test-layered-width {
-                --tale-number-field-width: 32rem;
-                --tale-number-field-group-width: 14rem;
+                --tale-number-field-width: 20rem;
+                --tale-number-field-group-width: 8.75rem;
               }
             }
           `}
@@ -70,8 +70,8 @@ describe('<NumberField />', () => {
     const group = screen.getByTestId('group');
     const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
 
-    expect(Math.abs(group.getBoundingClientRect().width - (14 * rootFontSize + 2))).toBeLessThanOrEqual(1);
-    expect(Math.abs(root.getBoundingClientRect().width - 32 * rootFontSize)).toBeLessThanOrEqual(1);
+    expect(Math.abs(group.getBoundingClientRect().width - (8.75 * rootFontSize + 2))).toBeLessThanOrEqual(1);
+    expect(Math.abs(root.getBoundingClientRect().width - 20 * rootFontSize)).toBeLessThanOrEqual(1);
     expect(root.getBoundingClientRect().width).toBeGreaterThan(group.getBoundingClientRect().width);
   });
 });

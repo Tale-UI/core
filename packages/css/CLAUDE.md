@@ -49,4 +49,4 @@ src/
 | [docs/design-tokens.md](docs/design-tokens.md) | Spacing, typography, color system, neutral system, effects, dark mode |
 | [docs/building-components.md](docs/building-components.md) | Component patterns, BEM usage, import methods, required fonts |
 | [docs/ai-reference.md](docs/ai-reference.md) | Complete class/token enumeration, valid shade numbers, responsive coverage matrix |
-| [docs/framework-integration.md](docs/framework-integration.md) | Tailwind, shadcn/ui, Next.js, Vite, PostCSS setup — including the `62.5%` font-size issue |
+| [docs/framework-integration.md](docs/framework-integration.md) | Tailwind, shadcn/ui, Next.js, Vite, PostCSS setup, import order, and token mapping |

@@ -149,7 +149,7 @@ export const AllVariations: Story = {
         {sizes.map((size) => (
           <div key={size}>
             <div className="story-heading">Size: {size}</div>
-            <div style={{ display: 'flex', gap: '2rem' }}>
+            <div style={{ display: 'flex', gap: '1.25rem' }}>
               <CheckboxGroup label="Default" size={size}>
                 <Checkbox.Root value="a"><Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>Apple</Checkbox.Root>
                 <Checkbox.Root value="b"><Checkbox.Indicator><Icon icon={Check} size="sm" /></Checkbox.Indicator>Banana</Checkbox.Root>

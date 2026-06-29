@@ -14,7 +14,7 @@ describe('<FileUpload />', () => {
 
   it.skipIf(isJSDOM)('keeps the default light-surface layout readable', async () => {
     await render(
-      <div style={{ width: '30rem' }}>
+      <div style={{ width: '18.75rem' }}>
         <FileUpload.Root>
           <FileUpload.DropZone hint="Any file type accepted" />
           <FileUpload.List>

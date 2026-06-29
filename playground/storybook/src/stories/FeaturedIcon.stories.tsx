@@ -58,7 +58,7 @@ export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <FeaturedIcon variant="brand"><Icon icon={Star} /></FeaturedIcon>
         <FeaturedIcon variant="error"><Icon icon={AlertCircle} /></FeaturedIcon>
         <FeaturedIcon variant="warning"><Icon icon={AlertTriangle} /></FeaturedIcon>
@@ -73,7 +73,7 @@ export const Shapes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <FeaturedIcon variant="brand" shape="circle"><Icon icon={Star} /></FeaturedIcon>
         <FeaturedIcon variant="brand" shape="square"><Icon icon={Star} /></FeaturedIcon>
       </div>
@@ -85,7 +85,7 @@ export const AllThemes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.6rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <FeaturedIcon variant="brand" theme="light"><Icon icon={Star} /></FeaturedIcon>
         <FeaturedIcon variant="brand" theme="gradient"><Icon icon={Star} /></FeaturedIcon>
         <FeaturedIcon variant="brand" theme="dark"><Icon icon={Star} /></FeaturedIcon>
@@ -103,7 +103,7 @@ export const ThemeVariantGrid: Story = {
     const themes = ['light', 'gradient', 'dark', 'outline', 'modern', 'modern-neue'] as const;
     const variants = ['brand', 'error', 'warning', 'success', 'neutral'] as const;
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${themes.length}, auto)`, gap: '1.2rem', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${themes.length}, auto)`, gap: '0.75rem', alignItems: 'center' }}>
         {variants.map((v) =>
           themes.map((t) => (
             <FeaturedIcon key={`${v}-${t}`} variant={v} theme={t}>
@@ -124,14 +124,14 @@ export const AllVariations: Story = {
     const sizes = ['sm', 'md', 'lg', 'xl'] as const;
     const shapes = ['circle', 'square'] as const;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2.4rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {shapes.map((shape) => (
           <div key={shape}>
-            <div className="story-label" style={{ marginBottom: '1.2rem' }}>Shape: {shape}</div>
+            <div className="story-label" style={{ marginBottom: '0.75rem' }}>Shape: {shape}</div>
             {sizes.map((size) => (
-              <div key={size} style={{ marginBottom: '1.6rem' }}>
+              <div key={size} style={{ marginBottom: '1rem' }}>
                 <div className="story-heading">Size: {size}</div>
-                <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${themes.length}, auto)`, gap: '0.8rem', alignItems: 'center' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: `auto repeat(${themes.length}, auto)`, gap: '0.5rem', alignItems: 'center' }}>
                   <div />
                   {themes.map((t) => <div key={t} className="story-label" style={{ textAlign: 'center' }}>{t}</div>)}
                   {variants.map((v) => (

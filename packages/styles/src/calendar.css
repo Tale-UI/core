@@ -135,8 +135,8 @@
     calc(100% - var(--space-3xs)) 50%;
   background-repeat: no-repeat;
   background-size:
-    0.4rem 0.4rem,
-    0.4rem 0.4rem;
+    0.25rem 0.25rem,
+    0.25rem 0.25rem;
   color: var(--neutral-20);
   font-family: var(--text-font-family);
   font-size: var(--text-s-font-size);
@@ -151,11 +151,11 @@
 }
 
 .tale-calendar__month-picker {
-  width: 6.4rem;
+  width: 4rem;
 }
 
 .tale-calendar__year-picker {
-  width: 7rem;
+  width: 4.375rem;
 }
 
 .tale-calendar__month-picker:hover:not(:disabled),

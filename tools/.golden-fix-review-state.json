@@ -43,7 +43,7 @@
       },
       "_callCached": false,
       "_checkCached": false,
-      "code": "import { VideoPlayer } from '@tale-ui/react/video-player';\n\nexport function MediumVideoPlayer() {\n  return (\n    <div style={{ maxWidth: '100%', width: '48rem' }}>\n      <VideoPlayer.Root\n        src=\"/video/demo.mp4\"\n        size=\"md\"\n        thumbnailUrl=\"/images/video-thumbnail.jpg\"\n        thumbnailAlt=\"Video thumbnail\"\n      />\n    </div>\n  );\n}",
+      "code": "import { VideoPlayer } from '@tale-ui/react/video-player';\n\nexport function MediumVideoPlayer() {\n  return (\n    <div style={{ maxWidth: '100%', width: '30rem' }}>\n      <VideoPlayer.Root\n        src=\"/video/demo.mp4\"\n        size=\"md\"\n        thumbnailUrl=\"/images/video-thumbnail.jpg\"\n        thumbnailAlt=\"Video thumbnail\"\n      />\n    </div>\n  );\n}",
       "prompt": "Show a medium-sized video player with a thumbnail image."
     }
   ],

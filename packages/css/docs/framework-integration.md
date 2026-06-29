@@ -21,21 +21,17 @@ pnpm --filter @tale-ui/core build
 
 ---
 
-## Known Issue: `html { font-size: 62.5% }`
+## Rem Base
 
-**What it does:** `src/tokens/_base.css` sets `html { font-size: 62.5% }` so that `1rem = 10px`, making spacing math convenient. All `clamp()` values in the spacing tokens are calibrated to this base.
+`@tale-ui/core` uses the browser-standard root size:
 
-**The conflict:** Tailwind CSS, shadcn/ui, Bootstrap, and virtually every other framework assume `1rem = 16px`. Importing this design system will shrink all their rem-based values by ~38%.
-
-**Workaround — restore the standard font size after importing:**
 ```css
-/* In your global CSS, after the design system import: */
 html { font-size: 100%; }
 ```
 
-> **Effect:** Spacing tokens (`--space-*`, `--section-space-*`) will render ~60% smaller than designed, because their `rem` values were calculated for a 10px base. Override specific tokens in `:root` if needed.
+In a default browser this means `1rem = 16px`. Tale UI token values are calibrated for that root, so spacing, typography, component sizing, Tailwind CSS, shadcn/ui, Bootstrap, and other rem-based frameworks can share one root contract.
 
-**Future plan:** Convert all spacing token values from `rem` to `px` — this removes the base-font-size dependency entirely and makes the design system truly framework-agnostic. This is a breaking change deferred to v2.0.
+Do not add a Tale-specific `html` font-size override after importing the design system. If your app changes the root size for accessibility or product reasons, Tale UI will scale with the rest of the page.
 
 ---
 
@@ -108,8 +104,6 @@ These are approximate mappings — adjust shade values to match your design inte
 **`app/globals.css`:**
 ```css
 @import '@tale-ui/core';
-/* optionally: */
-html { font-size: 100%; }  /* if using Tailwind/shadcn alongside */
 ```
 
 **`app/layout.tsx`:**

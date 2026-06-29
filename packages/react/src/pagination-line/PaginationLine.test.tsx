@@ -12,7 +12,7 @@ describe('<PaginationLine />', () => {
       <div
         data-testid="frame"
         style={{
-          padding: '1rem',
+          padding: '0.625rem',
           borderRadius: '8px',
           display: 'inline-block',
           width: '240px',

@@ -84,7 +84,7 @@ export const AllVariations: Story = {
   render() {
     const sizes = ['sm', 'md', 'lg'] as const;
     return (
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
         {sizes.map((size) => (
           <EmptyState.Root key={size} size={size}>
             <EmptyState.Title>No items ({size})</EmptyState.Title>

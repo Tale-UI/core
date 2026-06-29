@@ -98,6 +98,6 @@ Also accepts all standard `<div>` HTML attributes except `children`.
 - Custom component — not built on a React Aria primitive.
 - Uses `role="status"` with `aria-label` for accessibility.
 - The circle variant renders an inline SVG with CSS animations.
-- The line variant stretches to fill its container width (max 20rem).
+- The line variant stretches to fill its container width (max 12.5rem).
 - The dots variant renders three pulsing dots with staggered animation.
 - All animations are pure CSS — no JavaScript animation runtime.

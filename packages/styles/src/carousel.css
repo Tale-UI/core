@@ -42,8 +42,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border: 1px solid var(--neutral-22);
   border-radius: var(--radius-full);
   background-color: var(--neutral-5);
@@ -79,8 +79,8 @@
 }
 
 .tale-carousel__indicator {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: var(--radius-full);
   background-color: var(--neutral-30);
   border: none;

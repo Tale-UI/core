@@ -39,7 +39,7 @@ function ServicePairs(args: Args) {
       minColumnWidth={args.minColumnWidth}
       variant={args.variant}
       density={args.density}
-      style={{ width: '42rem' }}
+      style={{ width: '26.25rem' }}
     >
       <KeyValuePairs.Item>
         <KeyValuePairs.Term>Status</KeyValuePairs.Term>
@@ -78,7 +78,7 @@ export const ResponsiveColumns: Story = {
 export const Grouped: Story = {
   render() {
     return (
-      <KeyValuePairs.Root aria-label="Infrastructure summary" columns={2} minColumnWidth={220} style={{ width: '42rem' }}>
+      <KeyValuePairs.Root aria-label="Infrastructure summary" columns={2} minColumnWidth={220} style={{ width: '26.25rem' }}>
         <KeyValuePairs.Group>
           <KeyValuePairs.GroupTitle>Network</KeyValuePairs.GroupTitle>
           <KeyValuePairs.GroupList>
@@ -113,7 +113,7 @@ export const Grouped: Story = {
 export const WithInfo: Story = {
   render() {
     return (
-      <KeyValuePairs.Root aria-label="Service metadata" style={{ width: '28rem' }}>
+      <KeyValuePairs.Root aria-label="Service metadata" style={{ width: '17.5rem' }}>
         <KeyValuePairs.Item>
           <KeyValuePairs.Term>
             Region

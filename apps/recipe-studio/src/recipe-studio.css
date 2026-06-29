@@ -1,5 +1,5 @@
 html {
-  font-size: 62.5%;
+  font-size: 100%;
   height: 100%;
   overflow: hidden;
 }
@@ -29,7 +29,7 @@ body {
 }
 
 .recipe-topbar {
-  min-height: 6.4rem;
+  min-height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,8 +62,8 @@ body {
 }
 
 .recipe-brand__icon {
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.25rem;
+  height: 2.25rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -84,7 +84,7 @@ body {
   min-height: 0;
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(28rem, 36rem) minmax(0, 1fr);
+  grid-template-columns: minmax(17.5rem, 22.5rem) minmax(0, 1fr);
   gap: var(--recipe-panel-gap);
   overflow: hidden;
   padding: var(--recipe-panel-gap);
@@ -147,7 +147,7 @@ body {
 .recipe-list-item {
   box-sizing: border-box;
   width: 100%;
-  min-height: 7.6rem;
+  min-height: 4.75rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: var(--space-s);
@@ -295,7 +295,7 @@ body {
 
 .recipe-preview__runtime-error {
   flex: 0 0 auto;
-  max-height: 18rem;
+  max-height: 11.25rem;
   overflow: auto;
   border-top: 1px solid var(--red-20);
   background: var(--red-5);
@@ -315,7 +315,7 @@ body {
 }
 
 .recipe-markdown {
-  max-width: 92rem;
+  max-width: 57.5rem;
   color: var(--neutral-80);
   font-size: var(--text-s-font-size);
   line-height: 1.6;
@@ -372,7 +372,7 @@ body {
 }
 
 .recipe-loading {
-  min-height: 20rem;
+  min-height: 12.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -398,7 +398,7 @@ body {
 
   .recipe-main {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(0, 42rem) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 26.25rem) minmax(0, 1fr);
     overflow: hidden;
   }
 

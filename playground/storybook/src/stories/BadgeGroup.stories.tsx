@@ -52,7 +52,7 @@ export const AllColors: Story = {
   render() {
     const colors = ['brand', 'success', 'warning', 'error', 'gray'] as const;
     return (
-      <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '0.46875rem', flexWrap: 'wrap' }}>
         {colors.map((c) => (
           <BadgeGroup.Root key={c} color={c} addonText="New">
             {c}
@@ -69,9 +69,9 @@ export const AllVariants: Story = {
     const colors = ['brand', 'success', 'warning', 'error', 'gray'] as const;
     const themes = ['light', 'modern'] as const;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
         {themes.map((theme) => (
-          <div key={theme} style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <div key={theme} style={{ display: 'flex', gap: '0.46875rem', flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="story-label">{theme}</span>
             {colors.map((c) => (
               <BadgeGroup.Root key={c} color={c} theme={theme} addonText="New">

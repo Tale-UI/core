@@ -41,7 +41,7 @@
 
 :root {
   /* Field controls (Groups 1, 2, 8, 9) */
-  --field-min-height: 3.6rem;
+  --field-min-height: 2.25rem;
   --field-padding-block: var(--space-3xs);
   --field-padding-inline: var(--space-xs);
   --field-border-color: var(--neutral-26);
@@ -84,7 +84,7 @@
   --modal-actions-gap: var(--space-xs);
 
   /* Progress / Meter (Group 18) */
-  --progress-track-height: 0.8rem;
+  --progress-track-height: 0.5rem;
   --progress-track-bg: var(--neutral-24);
   --progress-track-radius: var(--radius-full);
   --progress-indicator-bg: var(--neutral-24-fg);
@@ -164,8 +164,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.125rem;
+  height: 1.125rem;
   font-size: var(--text-l-font-size);
   line-height: 1;
   color: var(--neutral-60);
@@ -507,8 +507,8 @@
 .tale-menu__arrow svg,
 .tale-popover__arrow svg {
   display: block;
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.5rem;
+  height: 0.5rem;
   fill: var(--neutral-10);
   stroke: var(--neutral-20);
   stroke-width: 1;
@@ -713,7 +713,7 @@
 .tale-date-range-picker__segment,
 .tale-time-field__segment {
   display: inline;
-  padding: 0.1rem 0.15rem;
+  padding: 0.0625rem 0.09375rem;
   border-radius: var(--radius-xs);
   font-variant-numeric: tabular-nums;
   text-align: end;
@@ -747,7 +747,7 @@
 .tale-date-picker__segment[data-type='literal'],
 .tale-date-range-picker__segment[data-type='literal'],
 .tale-time-field__segment[data-type='literal'] {
-  padding: 0 0.05rem;
+  padding: 0 0.03125rem;
   color: var(--neutral-50);
 }
 
@@ -767,8 +767,8 @@
 /* Override tale-button--ghost defaults for field-integrated triggers */
 .tale-date-picker__trigger,
 .tale-date-range-picker__trigger {
-  min-height: 3.6rem;
-  width: 3.6rem;
+  min-height: 2.25rem;
+  width: 2.25rem;
   border: 1px solid var(--neutral-26);
   border-left: none;
   border-radius: 0 var(--radius-m) var(--radius-m) 0;
@@ -794,7 +794,7 @@
 /* Inside group — collapse outer border, keep only left separator */
 .tale-date-picker__group .tale-date-picker__trigger,
 .tale-date-range-picker__group .tale-date-range-picker__trigger {
-  min-height: calc(3.6rem - 2px);
+  min-height: calc(2.25rem - 2px);
   border-top: none;
   border-right: none;
   border-bottom: none;
@@ -1006,8 +1006,8 @@
 .tale-color-area__thumb,
 .tale-color-slider__thumb,
 .tale-color-wheel__thumb {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 0.78125rem;
+  height: 0.78125rem;
   border-radius: 50%;
   border: 2px solid var(--neutral-100);
   box-shadow:
@@ -1186,14 +1186,14 @@
 .tale-toggle-button.tale-toggle-button--md {
   font-size: var(--label-m-font-size);
   padding: var(--space-2xs) var(--space-xs);
-  min-height: 3.6rem;
+  min-height: 2.25rem;
 }
 
 .tale-button.tale-button--lg,
 .tale-toggle-button.tale-toggle-button--lg {
   font-size: var(--label-m-font-size);
   padding: var(--space-2xs) var(--space-s);
-  min-height: 4.4rem;
+  min-height: 2.75rem;
   gap: var(--space-2xs);
 }
 
@@ -1281,8 +1281,8 @@
 .tale-color-area__thumb,
 .tale-color-slider__thumb,
 .tale-color-wheel__thumb {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 0.78125rem;
+  height: 0.78125rem;
   border: 2px solid white;
   border-radius: var(--radius-full);
   box-shadow:
@@ -1309,7 +1309,7 @@
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* Reset structural properties on semantic HTML elements placed directly inside
-   Tale UI components. Prevents consumer global styles (e.g. `section { padding: 1rem }`)
+   Tale UI components. Prevents consumer global styles (e.g. `section { padding: 0.625rem }`)
    from breaking component layout. :where() keeps specificity at zero.
    :not(.tale-ui) excludes <html class="tale-ui"> so the reset doesn't apply page-wide. */
 :where([class*='tale-']:not(.tale-ui))

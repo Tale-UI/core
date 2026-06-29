@@ -1,5 +1,5 @@
 :root {
-    --scale: 0.125rem;
+    --scale: 0.07813rem;
     --radius-none: 0;
     --radius-xs: calc(4 * var(--scale));
     --radius-s: calc(6 * var(--scale));

@@ -31,10 +31,10 @@ export const AllTypes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
         {(['box', 'cloud', 'documents', 'credit-card'] as const).map((t) => (
           <div key={t} style={{ textAlign: 'center' }}>
-            <p className="story-label" style={{ marginBottom: '0.5rem' }}>{t}</p>
+            <p className="story-label" style={{ marginBottom: '0.3125rem' }}>{t}</p>
             <Illustration type={t} size="md" />
           </div>
         ))}
@@ -47,10 +47,10 @@ export const AllSizes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
         {(['sm', 'md', 'lg'] as const).map((s) => (
           <div key={s} style={{ textAlign: 'center' }}>
-            <p className="story-label" style={{ marginBottom: '0.5rem' }}>{s}</p>
+            <p className="story-label" style={{ marginBottom: '0.3125rem' }}>{s}</p>
             <Illustration type="box" size={s} />
           </div>
         ))}
@@ -69,10 +69,10 @@ export const WithChildren: Story = {
       { type: 'credit-card' as const, icon: <CreditCard style={{ width: 32, height: 32, color: 'var(--color-60)' }} /> },
     ];
     return (
-      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
         {items.map(({ type, icon }) => (
           <div key={type} style={{ textAlign: 'center' }}>
-            <p className="story-label" style={{ marginBottom: '0.5rem' }}>{type}</p>
+            <p className="story-label" style={{ marginBottom: '0.3125rem' }}>{type}</p>
             <Illustration type={type} size="md">
               {icon}
             </Illustration>

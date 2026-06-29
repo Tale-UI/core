@@ -40,7 +40,7 @@ export const HalfStars: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <RatingStars value={0.5} />
         <RatingStars value={1.5} />
         <RatingStars value={2.5} />
@@ -55,7 +55,7 @@ export const Sizes: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <RatingStars value={4} size="sm" />
         <RatingStars value={4} size="md" />
         <RatingStars value={4} size="lg" />
@@ -88,7 +88,7 @@ export const BadgeSizes: StoryObj<BadgeArgs> = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
         <RatingBadge value={4.5} size="sm" />
         <RatingBadge value={4.5} size="md" />
         <RatingBadge value={4.5} size="lg" />
@@ -106,7 +106,7 @@ export const AllVariations: Story = {
       <div className="story-sections">
         <div>
           <div className="story-heading">RatingStars</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(5, auto)', gap: '1rem', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(5, auto)', gap: '0.625rem', alignItems: 'center' }}>
             <div />
             {values.map((v) => <div key={v} className="story-label">{v}</div>)}
             {sizes.map((s) => (
@@ -119,7 +119,7 @@ export const AllVariations: Story = {
         </div>
         <div>
           <div className="story-heading">RatingBadge</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             {sizes.map((s) => <RatingBadge key={s} value={4.5} size={s} />)}
           </div>
         </div>

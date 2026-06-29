@@ -1982,7 +1982,7 @@
         "<ColorModeToggle />",
         "// Always start in dark mode on first visit\n<ColorModeToggle defaultMode=\"dark\" />\n\n// Always start in light mode on first visit\n<ColorModeToggle defaultMode=\"light\" />",
         "// Use a different localStorage key (useful if multiple apps share the same origin)\n<ColorModeToggle storageKey=\"my-app-color-mode\" />",
-        "// Fixed top-right corner\n<ColorModeToggle style={{ position: 'fixed', top: '1.6rem', right: '1.6rem', zIndex: 1000 }} />\n\n// Inside a header\n<header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n  <h1>My App</h1>\n  <ColorModeToggle />\n</header>",
+        "// Fixed top-right corner\n<ColorModeToggle style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000 }} />\n\n// Inside a header\n<header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n  <h1>My App</h1>\n  <ColorModeToggle />\n</header>",
         "import { ColorModeToggle } from '@tale-ui/react/color-mode-toggle';\n    export function Example() {\n      return <ColorModeToggle />;\n    }"
       ],
       "cssClasses": [
@@ -6723,7 +6723,7 @@
         "import { PaginationDot } from '@tale-ui/react/pagination-dot';\n\nfunction Carousel() {\n  const [page, setPage] = React.useState(1);\n\n  return (\n    <>\n      {/* ...slide content... */}\n      <PaginationDot page={page} total={5} onPageChange={setPage} />\n    </>\n  );\n}",
         "<PaginationDot page={2} total={5} onPageChange={setPage} />",
         "<PaginationDot page={1} total={4} size=\"lg\" onPageChange={setPage} />",
-        "<div style={{ position: 'relative' }}>\n  <img src=\"/hero.jpg\" alt=\"Hero\" />\n  <div style={{ position: 'absolute', bottom: '1rem', left: '50%', transform: 'translateX(-50%)' }}>\n    <PaginationDot page={page} total={5} onPageChange={setPage} framed />\n  </div>\n</div>",
+        "<div style={{ position: 'relative' }}>\n  <img src=\"/hero.jpg\" alt=\"Hero\" />\n  <div style={{ position: 'absolute', bottom: '0.625rem', left: '50%', transform: 'translateX(-50%)' }}>\n    <PaginationDot page={page} total={5} onPageChange={setPage} framed />\n  </div>\n</div>",
         "<PaginationDot page={3} total={6} />"
       ],
       "cssClasses": [
@@ -6790,7 +6790,7 @@
         "import { PaginationLine } from '@tale-ui/react/pagination-line';\n\nfunction Carousel() {\n  const [page, setPage] = React.useState(1);\n\n  return (\n    <>\n      {/* ...slide content... */}\n      <PaginationLine page={page} total={5} onPageChange={setPage} />\n    </>\n  );\n}",
         "<PaginationLine page={2} total={5} onPageChange={setPage} />",
         "<PaginationLine page={1} total={4} size=\"lg\" onPageChange={setPage} />",
-        "<div style={{ position: 'relative', width: '100%' }}>\n  <img src=\"/hero.jpg\" alt=\"Hero\" style={{ width: '100%' }} />\n  <div style={{ position: 'absolute', bottom: '1rem', left: '50%', transform: 'translateX(-50%)', width: '80%' }}>\n    <PaginationLine page={page} total={5} onPageChange={setPage} framed style={{ width: '100%' }} />\n  </div>\n</div>",
+        "<div style={{ position: 'relative', width: '100%' }}>\n  <img src=\"/hero.jpg\" alt=\"Hero\" style={{ width: '100%' }} />\n  <div style={{ position: 'absolute', bottom: '0.625rem', left: '50%', transform: 'translateX(-50%)', width: '80%' }}>\n    <PaginationLine page={page} total={5} onPageChange={setPage} framed style={{ width: '100%' }} />\n  </div>\n</div>",
         "<PaginationLine page={3} total={6} />"
       ],
       "cssClasses": [
@@ -7333,7 +7333,7 @@
       ],
       "examples": [
         "import { QRCode } from '@tale-ui/react/qr-code';\n\n<QRCode.Root value=\"https://example.com\" size=\"md\" />",
-        "<div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>\n  <QRCode.Root value=\"https://example.com\" size=\"md\" />\n  <QRCode.Root value=\"https://example.com\" size=\"lg\" />\n</div>",
+        "<div style={{ display: 'flex', gap: '0.625rem', alignItems: 'flex-start' }}>\n  <QRCode.Root value=\"https://example.com\" size=\"md\" />\n  <QRCode.Root value=\"https://example.com\" size=\"lg\" />\n</div>",
         "<div style={{ position: 'relative', display: 'inline-flex' }}>\n  <QRCode.Root value=\"https://example.com\" size=\"lg\" />\n  <QRCode.Scan />\n</div>",
         "<QRCode.Root\n  value=\"https://example.com\"\n  size=\"lg\"\n  options={{\n    dotsOptions: { color: '#7c3aed', type: 'rounded' },\n    backgroundOptions: { color: '#f3f0ff' },\n  }}\n/>"
       ],
@@ -10418,7 +10418,7 @@
         "import { VideoPlayer } from '@tale-ui/react/video-player';\n\n<VideoPlayer.Root src=\"/intro.mp4\" size=\"md\" />",
         "<VideoPlayer.Root\n  src=\"/demo.mp4\"\n  thumbnailUrl=\"/thumb.jpg\"\n  thumbnailAlt=\"Product demo\"\n  size=\"lg\"\n/>",
         "import { VideoPlayer } from '@tale-ui/react/video-player';\nimport type { VideoPlayerRef } from '@tale-ui/react/video-player';\nimport { useRef } from 'react';\n\nfunction Example() {\n  const playerRef = useRef<VideoPlayerRef>(null);\n\n  return (\n    <>\n      <VideoPlayer.Root ref={playerRef} src=\"/clip.mp4\" size=\"md\" />\n      <button onClick={() => playerRef.current?.play()}>Play</button>\n      <button onClick={() => playerRef.current?.pause()}>Pause</button>\n    </>\n  );\n}",
-        "<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"sm\" />\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"md\" />\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"lg\" />\n</div>"
+        "<div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"sm\" />\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"md\" />\n  <VideoPlayer.Root src=\"/clip.mp4\" size=\"lg\" />\n</div>"
       ],
       "cssClasses": [
         "tale-video-player",
@@ -10458,10 +10458,10 @@
           "summary": "VideoPlayer.Root does NOT accept a style prop — wrap it in a layout element to control width or maxWidth",
           "detail": "`VideoPlayer.Root` only supports its documented component props plus `className`; passing inline layout styles directly to it causes a TypeScript error because `style` is not part of `VideoPlayerProps`.",
           "antiPatterns": [
-            "<VideoPlayer.Root src=\"/demo.mp4\" size=\"md\" thumbnailUrl=\"/thumb.jpg\" thumbnailAlt=\"Product demo\" style={{ width: '64rem', maxWidth: '100%' }} />"
+            "<VideoPlayer.Root src=\"/demo.mp4\" size=\"md\" thumbnailUrl=\"/thumb.jpg\" thumbnailAlt=\"Product demo\" style={{ width: '40rem', maxWidth: '100%' }} />"
           ],
           "fixes": [
-            "<div style={{ width: '64rem', maxWidth: '100%' }}><VideoPlayer.Root src=\"/demo.mp4\" size=\"md\" thumbnailUrl=\"/thumb.jpg\" thumbnailAlt=\"Product demo\" /></div>"
+            "<div style={{ width: '40rem', maxWidth: '100%' }}><VideoPlayer.Root src=\"/demo.mp4\" size=\"md\" thumbnailUrl=\"/thumb.jpg\" thumbnailAlt=\"Product demo\" /></div>"
           ]
         }
       ],

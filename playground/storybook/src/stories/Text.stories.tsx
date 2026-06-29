@@ -34,7 +34,7 @@ export const AllVariants: Story = {
   render() {
     const variants = ['display', 'heading', 'title', 'label', 'text', 'mono'] as const;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
         {variants.map((v) => (
           <Text key={v} variant={v} size="m">{v} — The quick brown fox</Text>
         ))}
@@ -48,7 +48,7 @@ export const AllSizes: Story = {
   render() {
     const sizes = ['xs', 's', 'm', 'l'] as const;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         {sizes.map((s) => (
           <Text key={s} variant="text" size={s}>Size {s} — The quick brown fox</Text>
         ))}
@@ -61,7 +61,7 @@ export const Colors: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <Text color="default">Default colour</Text>
         <Text color="muted">Muted colour</Text>
         <Text color="accent">Accent colour</Text>
@@ -76,11 +76,11 @@ export const AllVariations: Story = {
     const variants = ['display', 'heading', 'title', 'label', 'text', 'mono'] as const;
     const sizes = ['xs', 's', 'm', 'l'] as const;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2.4rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {variants.map((v) => (
           <div key={v}>
             <div className="story-heading">{v}</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
               {sizes.map((s) => (
                 <Text key={s} variant={v} size={s}>{v}-{s}</Text>
               ))}

@@ -55,7 +55,7 @@ export const AllSizes: Story = {
   render() {
     const [page, setPage] = React.useState(2);
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9375rem', alignItems: 'center' }}>
         <PaginationDot page={page} total={5} size="md" onPageChange={setPage} />
         <PaginationDot page={page} total={5} size="lg" onPageChange={setPage} />
       </div>
@@ -70,7 +70,7 @@ export const Framed: Story = {
     return (
       <div
         style={{
-          padding: '2rem',
+          padding: '1.25rem',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           borderRadius: 12,
         }}
@@ -88,7 +88,7 @@ export const FramedLarge: Story = {
     return (
       <div
         style={{
-          padding: '2rem',
+          padding: '1.25rem',
           background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
           borderRadius: 12,
         }}

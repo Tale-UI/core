@@ -32,7 +32,7 @@ type Story = StoryObj<typeof TagSelect.Root>;
 function TagSelectDemo(args: Partial<React.ComponentProps<typeof TagSelect.Root>>) {
   const [selected, setSelected] = React.useState<Set<Key>>(new Set(['alice', 'bob']));
   return (
-    <div style={{ width: '32rem' }}>
+    <div style={{ width: '20rem' }}>
       <TagSelect.Root
         label="Team members"
         placeholder="Search members…"
@@ -60,7 +60,7 @@ export const Empty: Story = {
   render: (args) => {
     const [selected, setSelected] = React.useState<Set<Key>>(new Set());
     return (
-      <div style={{ width: '32rem' }}>
+      <div style={{ width: '20rem' }}>
         <TagSelect.Root
           label="Team members"
           placeholder="Search members…"
@@ -83,7 +83,7 @@ export const Empty: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', width: '32rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '20rem' }}>
       <TagSelectDemo size="sm" label="Small" />
       <TagSelectDemo size="md" label="Medium" />
       <TagSelectDemo size="lg" label="Large" />

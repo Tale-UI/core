@@ -6,6 +6,11 @@ body {
   background-color: var(--background);
 }
 
+body.sb-show-main.sb-main-centered #storybook-root,
+body.sb-show-main.sb-main-padded {
+  padding: 0.625rem;
+}
+
 /* Docs pages: ensure headings and text are visible.
    The design system sets heading/text color via --display-color / --text-color which
    depend on a neutral theme class. In the Storybook docs iframe no theme class is

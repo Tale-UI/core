@@ -32,12 +32,12 @@ export const BothSizes: Story = {
   name: 'Both Sizes',
   parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', gap: '1.6rem', alignItems: 'flex-start' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+    <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
         <QRCode.Root value="https://tale-ui.com" size="md" />
         <span style={{ fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>md</span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
         <QRCode.Root value="https://tale-ui.com" size="lg" />
         <span style={{ fontSize: 'var(--label-s-font-size)', color: 'var(--neutral-60)' }}>lg</span>
       </div>

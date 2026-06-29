@@ -91,7 +91,7 @@ const [selected, setSelected] = useState(false);
 ## CSS Classes
 
 - `.tale-checkbox-field` -- Base (root field wrapper)
-- `.tale-checkbox-field--sm` -- Small size (1.4rem indicator)
+- `.tale-checkbox-field--sm` -- Small size (0.875rem indicator)
 - `.tale-checkbox-field__button` -- The clickable label row
 - `.tale-checkbox-field__indicator` -- The visual indicator box
 - `.tale-checkbox-field__description` -- Help text below the checkbox

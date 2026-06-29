@@ -172,8 +172,8 @@ function AppLogo({ app }: { app: (typeof apps)[number] }) {
         display: 'grid',
         placeItems: 'center',
         width: '100%',
-        maxWidth: '6.4rem',
-        minHeight: '5.6rem',
+        maxWidth: '4rem',
+        minHeight: '3.5rem',
         justifySelf: 'center',
         padding: 0,
       }}
@@ -193,7 +193,7 @@ function CategoryRow({ category }: { category: (typeof categories)[number] }) {
       style={{
         display: 'grid',
         gridTemplateColumns: 'minmax(0, 1fr) auto',
-        minHeight: '3.8rem',
+        minHeight: '2.375rem',
       }}
     >
       <CommandPalette.ItemTitle>{category.label}</CommandPalette.ItemTitle>
@@ -211,7 +211,7 @@ function ScreenCard({ screen }: { screen: (typeof screens)[number] }) {
         display: 'grid',
         alignContent: 'start',
         minWidth: 0,
-        minHeight: '10rem',
+        minHeight: '6.25rem',
         padding: 'var(--space-2xs)',
       }}
     >
@@ -246,8 +246,8 @@ function ElementPills() {
         display: 'grid',
         width: '100%',
         boxSizing: 'border-box',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
-        gap: '0.8rem',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(6.25rem, 1fr))',
+        gap: '0.5rem',
       }}
     >
       {elements.map((element) => (
@@ -255,7 +255,7 @@ function ElementPills() {
           key={element.id}
           id={`element-${element.id}`}
           textValue={element.label}
-          style={{ minHeight: '3.6rem', paddingInline: 'var(--space-s)' }}
+          style={{ minHeight: '2.25rem', paddingInline: 'var(--space-s)' }}
         >
           <CommandPalette.ItemTitle
             style={{ overflow: 'visible', textOverflow: 'clip', whiteSpace: 'normal' }}
@@ -273,7 +273,7 @@ function FlowRows() {
   return (
     <CommandPalette.ListBox
       aria-label="Flows"
-      style={{ display: 'grid', width: '100%', boxSizing: 'border-box', gap: '0.6rem' }}
+      style={{ display: 'grid', width: '100%', boxSizing: 'border-box', gap: '0.375rem' }}
     >
       {flows.map((flow) => (
         <CommandPalette.Item key={flow.id} id={`flow-${flow.id}`} textValue={flow.label}>
@@ -335,7 +335,7 @@ export function VisualDiscoveryCommandPalette() {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'minmax(14rem, 18rem) minmax(0, 1fr)',
+                  gridTemplateColumns: 'minmax(8.75rem, 11.25rem) minmax(0, 1fr)',
                   gap: 'var(--space-s)',
                   minHeight: 0,
                   width: '100%',
@@ -373,7 +373,7 @@ export function VisualDiscoveryCommandPalette() {
                           display: 'grid',
                           width: '100%',
                           boxSizing: 'border-box',
-                          gridTemplateColumns: 'repeat(auto-fit, minmax(5.6rem, 1fr))',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(3.5rem, 1fr))',
                           gap: 'var(--space-xs)',
                         }}
                       >
@@ -390,7 +390,7 @@ export function VisualDiscoveryCommandPalette() {
                             display: 'grid',
                             width: '100%',
                             boxSizing: 'border-box',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(6.25rem, 1fr))',
                             gap: 'var(--space-xs)',
                           }}
                         >
@@ -410,8 +410,8 @@ export function VisualDiscoveryCommandPalette() {
                         display: 'grid',
                         width: '100%',
                         boxSizing: 'border-box',
-                        gap: '0.2rem',
-                        maxHeight: '48rem',
+                        gap: '0.125rem',
+                        maxHeight: '30rem',
                         overflowY: 'auto',
                       }}
                     >
@@ -429,7 +429,7 @@ export function VisualDiscoveryCommandPalette() {
                         display: 'grid',
                         width: '100%',
                         boxSizing: 'border-box',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(6.25rem, 1fr))',
                         gap: 'var(--space-xs)',
                       }}
                     >

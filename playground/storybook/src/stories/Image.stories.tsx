@@ -41,11 +41,11 @@ export const AllRadii: Story = {
   render() {
     const radii = ['none', 'sm', 'md', 'lg', 'full'] as const;
     return (
-      <div style={{ display: 'flex', gap: '1.6rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
         {radii.map((r) => (
           <div key={r} style={{ textAlign: 'center' }}>
             <Image src={PLACEHOLDER} alt={`Radius ${r}`} radius={r} width={160} height={160} style={{ objectFit: 'cover' }} />
-            <div className="story-label" style={{ marginTop: '0.4rem' }}>{r}</div>
+            <div className="story-label" style={{ marginTop: '0.25rem' }}>{r}</div>
           </div>
         ))}
       </div>

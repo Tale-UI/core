@@ -174,7 +174,7 @@ export const AllVariations: Story = {
     return (
       <div className="story-cards">
         <div style={{ width: 260 }}>
-          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Default</div>
+          <div className="story-label" style={{ marginBottom: '0.25rem' }}>Default</div>
           <Combobox.Root>
             <Combobox.Label>Fruit</Combobox.Label>
             <Combobox.InputGroup>
@@ -190,7 +190,7 @@ export const AllVariations: Story = {
           </Combobox.Root>
         </div>
         <div style={{ width: 260 }}>
-          <div className="story-label" style={{ marginBottom: '0.4rem' }}>Disabled</div>
+          <div className="story-label" style={{ marginBottom: '0.25rem' }}>Disabled</div>
           <Combobox.Root isDisabled>
             <Combobox.Label>Fruit</Combobox.Label>
             <Combobox.InputGroup>
@@ -205,7 +205,7 @@ export const AllVariations: Story = {
           </Combobox.Root>
         </div>
         <div style={{ width: 260 }}>
-          <div className="story-label" style={{ marginBottom: '0.4rem' }}>With sections</div>
+          <div className="story-label" style={{ marginBottom: '0.25rem' }}>With sections</div>
           <Combobox.Root>
             <Combobox.Label>Food</Combobox.Label>
             <Combobox.InputGroup>
@@ -227,7 +227,7 @@ export const AllVariations: Story = {
           </Combobox.Root>
         </div>
         <div style={{ width: 260 }}>
-          <div className="story-label" style={{ marginBottom: '0.4rem' }}>With chips</div>
+          <div className="story-label" style={{ marginBottom: '0.25rem' }}>With chips</div>
           <Combobox.Root>
             <Combobox.Label>Frameworks</Combobox.Label>
             <Combobox.Chips>

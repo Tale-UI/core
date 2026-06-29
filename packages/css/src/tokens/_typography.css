@@ -1,16 +1,16 @@
 :root {
-    --text-xs: 1.23rem;
-    --text-s: 1.33rem;
-    --text-m: 1.60rem;
-    --text-l: 1.92rem;
-    --text-xl: 2.19rem;
-    --text-2xl: 2.46rem;
-    --text-3xl: 2.73rem;
-    --text-4xl: 3.0rem;
-    --text-5xl: 3.4rem;
-    --text-6xl: 3.8rem;
-    --text-7xl: 4.1rem;
-    --text-8xl: 4.5rem;
+    --text-xs: 0.76875rem;
+    --text-s: 0.83125rem;
+    --text-m: 1rem;
+    --text-l: 1.2rem;
+    --text-xl: 1.36875rem;
+    --text-2xl: 1.5375rem;
+    --text-3xl: 1.70625rem;
+    --text-4xl: 1.875rem;
+    --text-5xl: 2.125rem;
+    --text-6xl: 2.375rem;
+    --text-7xl: 2.5625rem;
+    --text-8xl: 2.8125rem;
     --display-color: var(--neutral-90);
     --text-color: var(--neutral-90);
     --mono-color: var(--neutral-90);
@@ -67,16 +67,16 @@
 }
 
 .responsive {
-    --text-xs: clamp(1.23rem, calc(-0.11vw + 1.28rem), 1.11rem);
-    --text-s: clamp(1.31rem, calc(0.02vw + 1.3rem), 1.33rem);
-    --text-m: clamp(1.4rem, calc(0.18vw + 1.31rem), 1.6rem);
-    --text-l: clamp(1.49rem, calc(0.38vw + 1.31rem), 1.92rem);
-    --text-xl: clamp(1.59rem, calc(0.64vw + 1.17rem), 2.19rem);
-    --text-2xl: clamp(1.70rem, calc(0.89vw + 1.04rem), 2.46rem);
-    --text-3xl: clamp(1.81rem, calc(1.15vw + 0.89rem), 2.73rem);
-    --text-4xl: clamp(2.43rem, calc(1.40vw + 0.76rem), 3.0rem);
-    --text-5xl: clamp(2.59rem, calc(2.05vw + 0.12rem), 3.4rem);
-    --text-6xl: clamp(2.75rem, calc(2.70vw - 0.52rem), 3.8rem);
-    --text-7xl: clamp(2.94rem, calc(3.35vw - 1.26rem), 4.1rem);
-    --text-8xl: clamp(3.14rem, calc(4.00vw - 1.90rem), 4.5rem);
+    --text-xs: clamp(0.76875rem, calc(-0.11vw + 0.8rem), 0.69375rem);
+    --text-s: clamp(0.81875rem, calc(0.02vw + 0.8125rem), 0.83125rem);
+    --text-m: clamp(0.875rem, calc(0.18vw + 0.81875rem), 1rem);
+    --text-l: clamp(0.93125rem, calc(0.38vw + 0.81875rem), 1.2rem);
+    --text-xl: clamp(0.99375rem, calc(0.64vw + 0.73125rem), 1.36875rem);
+    --text-2xl: clamp(1.0625rem, calc(0.89vw + 0.65rem), 1.5375rem);
+    --text-3xl: clamp(1.13125rem, calc(1.15vw + 0.55625rem), 1.70625rem);
+    --text-4xl: clamp(1.51875rem, calc(1.40vw + 0.475rem), 1.875rem);
+    --text-5xl: clamp(1.61875rem, calc(2.05vw + 0.075rem), 2.125rem);
+    --text-6xl: clamp(1.71875rem, calc(2.70vw - 0.325rem), 2.375rem);
+    --text-7xl: clamp(1.8375rem, calc(3.35vw - 0.7875rem), 2.5625rem);
+    --text-8xl: clamp(1.9625rem, calc(4.00vw - 1.1875rem), 2.8125rem);
 }

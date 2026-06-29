@@ -41,7 +41,7 @@
 .tale-payment-input__input {
   display: block;
   width: 100%;
-  padding-inline-end: 4rem;
+  padding-inline-end: 2.5rem;
   letter-spacing: 0.08em;
   line-height: 1.5;
   transition:
@@ -82,8 +82,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--neutral-50);
   pointer-events: none;
   flex-shrink: 0;

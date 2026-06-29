@@ -421,7 +421,7 @@ Render multiple independent surfaces in the same app:
 
 ```tsx
 <A2UIProvider catalog={taleUICatalog} onAction={handleAction}>
-  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
     <A2UISurface surfaceId="left-panel" fallback={<Spinner />} />
     <A2UISurface surfaceId="right-panel" fallback={<Spinner />} />
   </div>

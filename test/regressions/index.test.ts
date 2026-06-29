@@ -3,7 +3,8 @@ import * as fs from 'node:fs/promises';
 import { chromium, Locator } from '@playwright/test';
 import { describe, it } from 'vitest';
 
-const baseUrl = 'http://localhost:5173';
+const TEST_PORT = process.env.TALE_UI_REGRESSION_PORT ?? '6174';
+const baseUrl = `http://127.0.0.1:${TEST_PORT}`;
 const screenshotDir = path.resolve(__dirname, './screenshots/chrome');
 
 const browser = await chromium.launch({

@@ -34,7 +34,7 @@ type Story = StoryObj<typeof MultiSelect.Root>;
 function MultiSelectDemo(args: Partial<React.ComponentProps<typeof MultiSelect.Root>>) {
   const [selected, setSelected] = React.useState<Selection>(new Set(['react', 'vue']));
   return (
-    <div style={{ width: '32rem' }}>
+    <div style={{ width: '20rem' }}>
       <MultiSelect.Root
         label="Frameworks"
         placeholder="Select frameworks"
@@ -72,7 +72,7 @@ export const NoFooter: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', width: '32rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '20rem' }}>
       <MultiSelectDemo size="sm" label="Small" />
       <MultiSelectDemo size="md" label="Medium" />
       <MultiSelectDemo size="lg" label="Large" />

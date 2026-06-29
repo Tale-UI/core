@@ -56,7 +56,7 @@ function Carousel() {
 ```tsx
 <div style={{ position: 'relative' }}>
   <img src="/hero.jpg" alt="Hero" />
-  <div style={{ position: 'absolute', bottom: '1rem', left: '50%', transform: 'translateX(-50%)' }}>
+  <div style={{ position: 'absolute', bottom: '0.625rem', left: '50%', transform: 'translateX(-50%)' }}>
     <PaginationDot page={page} total={5} onPageChange={setPage} framed />
   </div>
 </div>
@@ -73,7 +73,7 @@ function Carousel() {
 | Class | Applied to | Description |
 |-------|-----------|-------------|
 | `tale-pagination-dot` | Root `<nav>` | Flex row wrapper for dot indicators |
-| `tale-pagination-dot--lg` | Root when `size="lg"` | Enlarges each dot to 1rem × 1rem |
+| `tale-pagination-dot--lg` | Root when `size="lg"` | Enlarges each dot to 0.625rem × 0.625rem |
 | `tale-pagination-dot--framed` | Root when `framed` | Adds frosted-glass background frame |
 | `tale-pagination__dot` | Each dot `<button>` | Dot indicator button (from `pagination.css`) |
 | `tale-pagination__dot--current` | Current dot | Highlights the active indicator with brand color |

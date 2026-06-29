@@ -33,13 +33,13 @@
 .tale-badge-group--md {
   font-size: var(--text-xs-font-size);
   font-weight: 500;
-  line-height: 1.8rem;
+  line-height: 1.125rem;
 }
 
 .tale-badge-group--lg {
   font-size: var(--text-s-font-size);
   font-weight: 500;
-  line-height: 2rem;
+  line-height: 1.25rem;
 }
 
 /* ─── Theme: light ───────────────────────────────────────────────────────── */
@@ -136,8 +136,8 @@
 /* Dot indicator in modern theme */
 .tale-badge-group--modern .tale-badge-group__dot {
   display: inline-block;
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: var(--radius-full);
   flex-shrink: 0;
   outline: 3px solid transparent;

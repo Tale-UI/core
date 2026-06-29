@@ -15,10 +15,10 @@
 /* ─── Root — pill-shaped track ────────────────────────────────────────────── */
 
 .tale-switch {
-  --tale-switch-track-width: 4rem;
-  --tale-switch-track-height: 2.2rem;
-  --tale-switch-thumb-size: 1.4rem;
-  --tale-switch-thumb-offset: 0.4rem;
+  --tale-switch-track-width: 2.5rem;
+  --tale-switch-track-height: 1.375rem;
+  --tale-switch-thumb-size: 0.875rem;
+  --tale-switch-thumb-offset: 0.25rem;
 
   position: relative;
   display: inline-flex;

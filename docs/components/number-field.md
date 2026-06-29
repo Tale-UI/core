@@ -131,8 +131,8 @@ keep a different text measure.
 
 ```css
 .panel-width-field {
-  --tale-number-field-width: 32rem;
-  --tale-number-field-group-width: 14rem;
+  --tale-number-field-width: 20rem;
+  --tale-number-field-group-width: 8.75rem;
 }
 ```
 

@@ -26,10 +26,6 @@ This creates or updates your `CLAUDE.md` with instructions that tell the agent h
 
 ```css
 /* app root CSS */
-html {
-  font-size: 62.5%; /* Required — design tokens assume 1rem = 10px */
-}
-
 body {
   background-color: var(--neutral-5); /* Required — base page background */
 }
@@ -51,7 +47,7 @@ export default function App() {
 
 ## Critical Setup Details
 
-**Base font size** — The design system requires `html { font-size: 62.5%; }` so that `1rem = 10px`. Without this, all spacing and sizing will be wrong.
+**Rem base** — The design system uses the browser-standard root size (`html { font-size: 100%; }`, normally `1rem = 16px`). Do not add a Tale-specific root font-size override.
 
 **Page background** — Set `body { background-color: var(--neutral-5); }`. This is the standard base surface colour and inverts automatically in dark mode.
 

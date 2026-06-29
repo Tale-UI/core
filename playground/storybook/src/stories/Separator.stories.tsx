@@ -69,12 +69,12 @@ export const AllVariations: Story = {
   parameters: { controls: { disable: true } },
   render() {
     return (
-      <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', width: 300 }}>
+      <div style={{ display: 'flex', gap: '1.875rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: 300 }}>
           <div className="story-label">Horizontal</div>
           <Separator orientation="horizontal" />
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
           <div className="story-label">Vertical</div>
           <div style={{ height: 100, display: 'flex', alignItems: 'center' }}>
             <Separator orientation="vertical" />

@@ -180,7 +180,7 @@ export const ColorSwatchStory: Story = {
         color={args.color as string}
         shape={args.shape as 'square' | 'circle'}
         secondaryColor={(args.enableSecondary as boolean) ? (args.secondaryColor as string) : undefined}
-        style={{ width: '4rem', height: '4rem' }}
+        style={{ width: '2.5rem', height: '2.5rem' }}
       />
     );
   },
