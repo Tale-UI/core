@@ -60,6 +60,7 @@ test-results/
 
 # Analysis (local research notes)
 /analysis/
+/.agentic-loop/
 /plans/
 /research/
 
