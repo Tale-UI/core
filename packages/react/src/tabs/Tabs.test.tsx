@@ -119,6 +119,45 @@ describe('<Tabs />', () => {
       expect(screen.getByTestId('settings-icon')).to.have.class('tale-icon--sm');
     });
 
+    it.skipIf(isJSDOM)('lets the indicator draw the selected pill surface', async () => {
+      await render(
+        <Tabs.Root defaultSelectedKey="overview">
+          <Tabs.List variant="pills">
+            <Tabs.Tab id="overview">Overview</Tabs.Tab>
+            <Tabs.Tab id="features">Features</Tabs.Tab>
+            <Tabs.Indicator />
+          </Tabs.List>
+          <Tabs.Panel id="overview">Overview panel</Tabs.Panel>
+          <Tabs.Panel id="features">Features panel</Tabs.Panel>
+        </Tabs.Root>,
+      );
+
+      const selectedTab = screen.getByRole('tab', { name: 'Overview' });
+      const style = getComputedStyle(selectedTab);
+
+      expect(style.backgroundColor).to.match(/^(rgba\(0, 0, 0, 0\)|transparent)$/);
+      expect(style.boxShadow).to.equal('none');
+    });
+
+    it.skipIf(isJSDOM)('keeps a selected pill fallback when no indicator is rendered', async () => {
+      await render(
+        <Tabs.Root defaultSelectedKey="overview">
+          <Tabs.List variant="pills">
+            <Tabs.Tab id="overview">Overview</Tabs.Tab>
+            <Tabs.Tab id="features">Features</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel id="overview">Overview panel</Tabs.Panel>
+          <Tabs.Panel id="features">Features panel</Tabs.Panel>
+        </Tabs.Root>,
+      );
+
+      const selectedTab = screen.getByRole('tab', { name: 'Overview' });
+      const style = getComputedStyle(selectedTab);
+
+      expect(style.backgroundColor).not.to.match(/^(rgba\(0, 0, 0, 0\)|transparent)$/);
+      expect(style.boxShadow).not.to.equal('none');
+    });
+
     it.skipIf(isJSDOM)('left-aligns vertical tab content', async () => {
       await render(
         <Tabs.Root defaultSelectedKey="general" orientation="vertical">

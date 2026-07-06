@@ -198,6 +198,12 @@
   text-decoration: none;
 }
 
+.tale-tabs__list--pills:has(.tale-tabs__indicator) .tale-tabs__tab--pills[data-selected] {
+  border-color: transparent;
+  background-color: transparent;
+  box-shadow: none;
+}
+
 .tale-tabs__tab--pills:hover:not([data-disabled], [data-selected]) {
   background-color: transparent;
 }
