@@ -278,6 +278,27 @@
           "required": false,
           "description": null,
           "default": null
+        },
+        {
+          "name": "inputValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onInputChange",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "defaultInputValue",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
@@ -318,9 +339,9 @@
           "completeExample": "import { Autocomplete } from '@tale-ui/react/autocomplete';\n\nexport function Example() {\n  return (\n    <Autocomplete.Root>\n      <Autocomplete.SearchField>\n        <Autocomplete.Input placeholder=\"Search...\" />\n      </Autocomplete.SearchField>\n      <Autocomplete.ListBox>\n        <Autocomplete.Item id=\"apple\">Apple</Autocomplete.Item>\n        <Autocomplete.Item id=\"banana\">Banana</Autocomplete.Item>\n      </Autocomplete.ListBox>\n    </Autocomplete.Root>\n  );\n}"
         },
         {
-          "id": "autocomplete-no-controlled-props",
-          "summary": "No controlled state props on Autocomplete.Root",
-          "detail": "filter state is derived from the `filter` function and the input value managed internally."
+          "id": "autocomplete-no-selection-open-props",
+          "summary": "No selection or open-state props on Autocomplete.Root",
+          "detail": "controlled input props like `inputValue` and `onInputChange` are supported, but Autocomplete is not a Combobox and does not expose `selectedKey`, `isOpen`, or `onOpenChange`."
         },
         {
           "id": "use-autocomplete-for-any-prompt",
@@ -2825,7 +2846,7 @@
         },
         {
           "id": "command-palette-command-action",
-          "summary": "Do not run the same command twice",
+          "summary": "Use one command action handler",
           "detail": "when using `command`, either let `CommandPalette.Item` call the command action or pass `onAction={() => void palette.runCommand(command)}`; do not also call it from a nested button."
         }
       ],
@@ -5912,8 +5933,8 @@
         },
         {
           "id": "list-box-standalone-only",
-          "summary": "Use parent component listboxes inside parent components",
-          "detail": "- keep `Select.ListBox`, `Combobox.ListBox`, and `Autocomplete.ListBox` inside those APIs. Use standalone `ListBox` only for independent selectable collections."
+          "summary": "Use standalone ListBox only for independent collections",
+          "detail": "- keep `Select.ListBox`, `Combobox.ListBox`, and `Autocomplete.ListBox` inside those APIs."
         }
       ],
       "crossPitfallRefs": null
@@ -5941,6 +5962,13 @@
         {
           "name": "isDisabled",
           "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onAction",
+          "type": "function",
           "required": false,
           "description": null,
           "default": null

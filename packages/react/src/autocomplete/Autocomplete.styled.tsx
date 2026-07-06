@@ -32,7 +32,8 @@ export type RootProps<T extends object = object> = AriaAutocompleteProps<T> & {
 };
 
 /**
- * A search field with a live-filtered list of suggestions.
+ * A search field with a live-filtered list of suggestions. Use `inputValue`
+ * and `onInputChange` for controlled filtering, including substring completion.
  *
  * @example
  * ```tsx

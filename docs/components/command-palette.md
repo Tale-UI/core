@@ -257,16 +257,20 @@ export function WorkspaceCommandPalette() {
   - fix: `<CommandPalette.Backdrop><CommandPalette.Popup><CommandPalette.Content><CommandPalette.SearchField /><CommandPalette.ListBox /></CommandPalette.Content></CommandPalette.Popup></CommandPalette.Backdrop>`
 
 <!-- pitfall: command-palette-accessible-labels -->
+<!-- prose-only -->
+<!-- multi-idea-ok -->
 
 - **Keep dialog, search, and listbox labels accessible** - use `Title`, visible text, or explicit `aria-label` values when labels are not visible.
 
 <!-- pitfall: command-palette-shortcut-listener -->
+<!-- prose-only -->
 
 - **Use `useCommandPaletteShortcut` with controlled open state** - pass the same `open` and `setOpen` values used by `CommandPalette.Root`.
 
 <!-- pitfall: command-palette-command-action -->
+<!-- prose-only -->
 
-- **Do not run the same command twice** - when using `command`, either let `CommandPalette.Item` call the command action or pass `onAction={() => void palette.runCommand(command)}`; do not also call it from a nested button.
+- **Use one command action handler** - when using `command`, either let `CommandPalette.Item` call the command action or pass `onAction={() => void palette.runCommand(command)}`; do not also call it from a nested button.
 
 ## Notes
 

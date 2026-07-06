@@ -22,6 +22,12 @@ A compound inline autocomplete component with a search field and filterable list
 
 Accepts all React Aria `Autocomplete` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
 
+`Autocomplete.Root` supports controlled input filtering through `inputValue`,
+`defaultInputValue`, and `onInputChange`. Use these when the filtered text is only
+a substring of the visible field value, such as mention or token completion. Tale UI
+does not add `Autocomplete.Label`, `Autocomplete.Popover`, `Autocomplete.Trigger`,
+or `Autocomplete.Value` parts.
+
 ## Basic Usage
 
 ```tsx
@@ -113,9 +119,9 @@ function ProduceSearch() {
     }
     ```
 
-<!-- pitfall: autocomplete-no-controlled-props -->
+<!-- pitfall: autocomplete-no-selection-open-props -->
 <!-- prose-only -->
-- **No controlled state props on `Autocomplete.Root`** — filter state is derived from the `filter` function and the input value managed internally.
+- **No selection or open-state props on `Autocomplete.Root`** — controlled input props like `inputValue` and `onInputChange` are supported, but Autocomplete is not a Combobox and does not expose `selectedKey`, `isOpen`, or `onOpenChange`.
 <!-- pitfall: use-autocomplete-for-any-prompt -->
 - **Use `<Autocomplete>` for any prompt that asks for an autocomplete, inline search, or a filtered list of options** — when the request is to search/filter items such as fruits, countries, commands, or members, render `Autocomplete.Root` with `useFilter`, `Autocomplete.SearchField`, `Autocomplete.Input`, and `Autocomplete.ListBox` instead of leaving the file empty or substituting `SearchField` or `Combobox`.
   - anti-pattern: `// empty file`
@@ -158,5 +164,6 @@ function ProduceSearch() {
 
 - Unlike Combobox, Autocomplete renders the list inline (no popover). It is suited for command palettes, sidebar filters, and embedded search panels.
 - You must provide a `filter` function to `Autocomplete.Root`. Use `useFilter` from `@tale-ui/react/autocomplete` for locale-aware filtering.
+- Use `inputValue` and `onInputChange` on `Autocomplete.Root` when the filter string is controlled externally.
 - Each `Autocomplete.Item` needs both `id` and `textValue` for filtering and accessibility.
 - `Autocomplete.SearchField` requires an `aria-label` when no visible label is present.

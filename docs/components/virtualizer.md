@@ -82,9 +82,11 @@ export function VirtualizedGridOptions() {
   - fix: `import { Virtualizer, GridLayout } from '@tale-ui/react/virtualizer';`
 
 <!-- pitfall: virtualizer-stable-item-size -->
+<!-- prose-only -->
 
 - **Keep item dimensions stable** -- virtualized layouts depend on predictable item measurement. For grid collections, set compatible `minItemSize`, `maxItemSize`, and `minSpace` values.
 
 <!-- pitfall: virtualizer-long-collections -->
+<!-- prose-only -->
 
 - **Use virtualization for long collections** -- small static lists are simpler with `ListBox.Root` alone.

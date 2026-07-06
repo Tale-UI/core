@@ -152,6 +152,7 @@ export function VirtualizedReactionGrid() {
 ## Pitfalls
 
 <!-- pitfall: list-box-use-section-header -->
+<!-- multi-idea-ok -->
 - **Use `ListBox.Section` and `ListBox.Header` for grouped options** -- place headers inside sections instead of rendering loose labels among items.
   - anti-pattern: `<ListBox.Root><div>Fruit</div><ListBox.Item id="apple">Apple</ListBox.Item></ListBox.Root>`
   - fix: `<ListBox.Section id="fruit"><ListBox.Header>Fruit</ListBox.Header><ListBox.Item id="apple" textValue="Apple">Apple</ListBox.Item></ListBox.Section>`
@@ -167,4 +168,5 @@ export function VirtualizedReactionGrid() {
   - fix: `<ListBox.Root aria-label="Options"><ListBox.Item id="one" textValue="One">One</ListBox.Item></ListBox.Root>`
 
 <!-- pitfall: list-box-standalone-only -->
-- **Use parent component listboxes inside parent components** -- keep `Select.ListBox`, `Combobox.ListBox`, and `Autocomplete.ListBox` inside those APIs. Use standalone `ListBox` only for independent selectable collections.
+<!-- prose-only -->
+- **Use standalone ListBox only for independent collections** -- keep `Select.ListBox`, `Combobox.ListBox`, and `Autocomplete.ListBox` inside those APIs.

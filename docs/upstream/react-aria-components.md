@@ -16,16 +16,17 @@ Current behavioral differences belong in [react-aria-deviations.md](../react-ari
 
 ## Current Target
 
-Tale UI currently targets `react-aria-components ^1.18.0`.
+Tale UI currently targets `react-aria-components ^1.19.0`.
 
-Resolved workspace stack after the 1.18 adoption:
+Resolved workspace stack after the 1.19 adoption:
 
 | Package                 | Version |
 | ----------------------- | ------- |
-| `react-aria-components` | 1.18.0  |
-| `react-aria`            | 3.49.0  |
-| `react-stately`         | 3.47.0  |
+| `react-aria-components` | 1.19.0  |
+| `react-aria`            | 3.50.0  |
+| `react-stately`         | 3.48.0  |
 | `@internationalized/date` | 3.12.2 |
+| `@react-types/shared`   | 3.36.0  |
 
 ## How To Use This Log
 
@@ -97,6 +98,86 @@ Tale UI target after review: `react-aria-components ^X.Y.Z`
 ```
 
 ## Release Entries
+
+## react-aria-components v1.19.0
+
+Reviewed: 2026-07-06
+Upstream notes: https://react-aria.adobe.com/releases/v1-19-0
+Tale UI target after review: `react-aria-components ^1.19.0`
+
+### Maintainer Summary
+
+| Area | Upstream change | Tale UI action |
+| --- | --- | --- |
+| New component | No new `react-aria-components` exports or component parts were added in this release. | Not applicable. |
+| New/changed feature | React Aria Components now resolves with `react-aria` 3.50.0, `react-stately` 3.48.0, and `@react-types/shared` 3.36.0. Menu collection `onAction` now receives key and value. CalendarYearPicker includes the `maxValue` year. Autocomplete has CJK IME virtual-focus and inline-completion documentation updates. `DragTypes.has()` accepts multiple types. General focus/test-environment fixes landed. | Adopted the dependency stack, documented the Menu callback shape and Autocomplete controlled-input guidance, and kept existing Calendar/Autocomplete wrappers passing RAC behavior through. |
+| New/changed feature | Release notes describe `keyboardNavigationBehavior` for GridList and Tree, and `getTargetRect` for Popover. | Deferred because the installed npm package for `react-aria-components@1.19.0` and its resolved `react-aria@3.50.0` type/dist files do not expose those prop names. Tale UI should not document examples that do not type-check against the published package. |
+| Deprecated feature | No new upstream deprecations were listed for React Aria Components 1.19.0. | No deprecation checkpoint was required. Existing Tale UI deprecations from 1.18.0 remain unchanged. |
+| Breaking change | `@react-aria/optimize-locales-plugin` moved to a new major version for `unplugin@2` and Node 26 compatibility, with a webpack 4 compatibility warning. | Not applicable: Tale UI does not depend on or configure `@react-aria/optimize-locales-plugin`. |
+
+### Adopted
+
+| Upstream change | Tale UI response | Artifacts |
+| --- | --- | --- |
+| `react-aria-components` 1.19.0 package stack | Updated every direct workspace `react-aria-components` range to `^1.19.0`. The lockfile now resolves `react-aria-components` 1.19.0, `react-aria` 3.50.0, `react-stately` 3.48.0, `@internationalized/date` 3.12.2, and `@react-types/shared` 3.36.0. | `packages/react/package.json`, `docs/package.json`, `apps/*/package.json`, `playground/*/package.json`, `pnpm-lock.yaml` |
+| Menu collection `onAction` receives both key and value | `Menu.MenuList` already passes React Aria menu props through. Documented the 1.19 callback shape and clarified the difference between collection-level and item-level callbacks. | `docs/components/menu.md` |
+| CalendarYearPicker includes `maxValue` year in the selectable range | Existing `Calendar.YearPicker` and `RangeCalendar.YearPicker` wrappers use RAC `CalendarYearPicker`, so the fix is adopted through the dependency update with no Tale UI wrapper change. | Dependency update, this log |
+| Autocomplete CJK IME virtual focus fix | Existing Autocomplete wrapper uses RAC `Autocomplete`, `SearchField`, `Input`, and `ListBox`, so the bug fix is adopted through the dependency update. | Dependency update, this log |
+| General focus and test-environment crash fixes | Adopted through the resolved `react-aria` 3.50.0 dependency; no Tale UI API or CSS change required. | Dependency update, this log |
+
+### Documented Only
+
+| Upstream change | Tale UI response | Rationale |
+| --- | --- | --- |
+| Autocomplete inline-completion documentation | Updated Tale UI Autocomplete guidance to state that `inputValue`, `defaultInputValue`, and `onInputChange` are valid controlled input props, and narrowed the old controlled-state pitfall to selection/open-state props only. | The Tale UI wrapper already passes these props through. Full popover-positioned mention completion remains deferred until RAC publishes the `getTargetRect` prop in package types/dist. |
+
+### Deprecated Upstream
+
+| Upstream deprecation | Tale UI response | Compatibility stance |
+| --- | --- | --- |
+| None in React Aria Components 1.19.0 | No API migration required. | Existing 1.18 deprecations for `Checkbox`, `Radio`, and `Switch` remain documented and exported for compatibility. |
+
+### Deferred
+
+| Upstream change | Reason | Follow-up |
+| --- | --- | --- |
+| GridList `keyboardNavigationBehavior` | The 1.19 release notes and docs describe the prop, but the installed `react-aria-components@1.19.0` / `react-aria@3.50.0` package files do not expose `keyboardNavigationBehavior` in type or dist output. | Re-check on the next RAC patch/minor and document or adopt once the published package exposes the prop. |
+| Tree `keyboardNavigationBehavior` | Same published-package mismatch as GridList. | Re-check on the next RAC patch/minor and document or adopt once the published package exposes the prop. |
+| Popover `getTargetRect` | The release notes and docs describe the prop for inline completions, but the installed `react-aria-components@1.19.0` / `react-aria@3.50.0` package files do not expose `getTargetRect` in type or dist output. | Re-check on the next RAC patch/minor before adding Tale UI inline-completion examples or guidance that relies on this prop. |
+
+### Not Applicable
+
+| Upstream change | Reason |
+| --- | --- |
+| `@react-aria/optimize-locales-plugin` major version, tree-shaking, and Node 26 compatibility changes | Tale UI does not depend on or configure this plugin. |
+| `tailwindcss-react-aria-components` `not-*` variants | Tale UI does not depend on this Tailwind plugin. |
+| `DragTypes.has()` accepting multiple MIME types and wildcards | Tale UI does not expose drag-and-drop helper APIs directly; existing component props continue to accept React Aria drag-and-drop hooks supplied by consumers. |
+
+### Verification
+
+Baseline before the dependency bump:
+
+- `pnpm test:jsdom --no-watch`: passed, 37 files passed and 7 skipped.
+- `pnpm typescript`: passed.
+
+Post-upgrade verification:
+
+- `pnpm typescript`: passed after the dependency update.
+- `pnpm test:jsdom --no-watch`: passed, 37 files passed and 7 skipped.
+- `pnpm test:chromium --no-watch`: passed, 44 files passed.
+- `pnpm eslint`: passed.
+- `pnpm stylelint`: passed.
+- `pnpm lint:css`: passed.
+- `pnpm generate-docs`: passed.
+- `pnpm generate-docs:check`: passed.
+- `pnpm audit:components`: passed with 32 warning-only findings across 11 components.
+- `pnpm audit:bem`: passed.
+- `pnpm audit:coverage:check`: passed.
+- `pnpm audit:snippet-kinds`: passed.
+- `pnpm pitfalls:audit`: passed after correcting pre-existing pitfall-shape metadata in CommandPalette, KeyValuePairs, ListBox, and Virtualizer docs.
+- `pnpm golden:validate`: passed, 138 of 138 prompts.
+- `pnpm a2ui:golden:validate`: passed, 42 of 42 prompts.
+- `pnpm test:visual`: initially reported 11 small field-control snapshot diffs from the RAC dependency update; inspected as intended intrinsic width/text-rendering changes, updated the 11 affected baselines, and reran successfully with 47 of 47 tests passing.
 
 ## react-aria-components v1.18.0
 

@@ -11,7 +11,7 @@ A dropdown menu triggered by a button, with items, groups, headers, and separato
 | `Menu.Root` | Manages open/close state. Accepts `isDisabled`. |
 | `Menu.Trigger` | Button that opens the menu. Style with `className="tale-button tale-button--{variant} tale-button--{size}"`. |
 | `Menu.Popover` | Positioned popover container. Accepts `placement` and `offset`. |
-| `Menu.MenuList` | The menu list (`role="menu"`). |
+| `Menu.MenuList` | The menu list (`role="menu"`). Accepts collection-level `onAction`. |
 | `Menu.Item` | A menu item. Accepts `id`, `isDisabled`, `onAction`. |
 | `Menu.Group` | Groups items under a section (MenuSection). |
 | `Menu.Header` | Section header label inside a `Group`. |
@@ -25,6 +25,13 @@ A dropdown menu triggered by a button, with items, groups, headers, and separato
 ## Props
 
 Accepts all React Aria `MenuTrigger` props plus an optional `className`. See the `@example` JSDoc on the component export for usage.
+
+`Menu.MenuList` accepts React Aria menu props. In React Aria 1.19, its
+collection-level `onAction` callback receives both the item key and the item
+value: `onAction={(key, value) => { ... }}`. For static menu items, set `value`
+on the item when the callback needs more than the key. Item-level `onAction`
+callbacks on `Menu.Item`, `Menu.CheckboxItem`, `Menu.RadioItem`, and `Menu.LinkItem`
+remain zero-argument callbacks.
 
 ## Basic Usage
 
@@ -216,7 +223,7 @@ import { Menu } from '@tale-ui/react/menu';
 
 - Each `Menu.Item` requires a unique `id` prop. Add `textValue` for accessibility (screen reader announcements and keyboard type-ahead).
 - Use `isDisabled` on individual items or on `Menu.Root` to disable the entire menu.
-- Use `onAction` on `Menu.Item` to handle item selection.
+- Use `onAction` on `Menu.MenuList` to handle all item actions from one place, or use item-level `onAction` for local callbacks.
 - **Do not nest `<Button>` inside `<Menu.Trigger>`.** `Menu.Trigger` is a React Aria `Button` — nesting another `<Button>` creates invalid `<button><button>` HTML. Instead, apply button styling via `className="tale-button tale-button--{variant} tale-button--{size}"` directly on `Menu.Trigger`.
 - Add `aria-label` to `Menu.MenuList` to describe the menu's purpose to screen readers.
 - Menu automatically provides `role="menu"` and each Item gets `role="menuitem"`.

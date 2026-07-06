@@ -48,7 +48,7 @@ For new checkbox/radio/switch UI, use `CheckboxField`, `RadioField` inside `Radi
 - [AlertDialog] AlertDialog.Trigger requires the base tale-button class
 - [AppStoreButton] store accepts 'apple' or 'google' only
 - [Autocomplete] No phantom sub-parts: no Autocomplete.Label, Autocomplete.Popover, Autocomplete.Trigger, or Autocomplete.Value
-- [Autocomplete] No controlled state props on Autocomplete.Root
+- [Autocomplete] No selection or open-state props on Autocomplete.Root
 - [Autocomplete] Use <Autocomplete> for any prompt that asks for an autocomplete, inline search, or a filtered list of options
 - [Avatar] Avatar.Indicator must wrap OUTSIDE Avatar.Root
 - [Avatar] Avatar.Group propagates size to children
@@ -124,7 +124,7 @@ For new checkbox/radio/switch UI, use `CheckboxField`, `RadioField` inside `Radi
 - [CommandPalette] Wrap popup content correctly
 - [CommandPalette] Keep dialog, search, and listbox labels accessible
 - [CommandPalette] Use useCommandPaletteShortcut with controlled open state
-- [CommandPalette] Do not run the same command twice
+- [CommandPalette] Use one command action handler
 - [ContextMenu] No controlled state props on ContextMenu.Root
 - [ContextMenu] No rightClick prop on ContextMenu.Trigger
 - [ContextMenu] Use ContextMenu.Popup, not ContextMenu.Popover
@@ -225,7 +225,7 @@ For new checkbox/radio/switch UI, use `CheckboxField`, `RadioField` inside `Radi
 - [ListBox] Use ListBox.Section and ListBox.Header for grouped options
 - [ListBox] Provide textValue when item children are not plain text
 - [ListBox] Label standalone list boxes
-- [ListBox] Use parent component listboxes inside parent components
+- [ListBox] Use standalone ListBox only for independent collections
 - [Menu] Menu.MenuList is required between Menu.Popover and Menu.Item
 - [Menu] Menu.Separator goes inside Menu.MenuList, not as a sibling
 - [Menu] Menu.Root does not accept onAction or open

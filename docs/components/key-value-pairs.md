@@ -196,6 +196,7 @@ Accepts all standard `<span>` HTML attributes including `className`.
   - fix: `<KeyValuePairs.Root><KeyValuePairs.Item>...</KeyValuePairs.Item></KeyValuePairs.Root>`
 
 <!-- pitfall: key-value-pairs-standard-aria-props -->
+<!-- multi-idea-ok -->
 - **Use standard React `aria-label` and `aria-labelledby` props** — Cloudscape-style `ariaLabel` and `ariaLabelledby` are not supported.
   - anti-pattern: `<KeyValuePairs.Root ariaLabel="Service metadata">`
   - fix: `<KeyValuePairs.Root aria-label="Service metadata">`

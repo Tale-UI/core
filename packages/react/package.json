@@ -175,7 +175,7 @@
     "@tale-ui/core": "workspace:*",
     "@tale-ui/react-styles": "workspace:*",
     "@tale-ui/utils": "workspace:*",
-    "react-aria-components": "^1.18.0",
+    "react-aria-components": "^1.19.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

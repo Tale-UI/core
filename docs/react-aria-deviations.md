@@ -2,7 +2,7 @@
 
 Tale UI wraps React Aria Components (RAC) but adds, changes, or replaces behaviour in several places. This document is the single reference for every deviation a consumer or agent needs to know about.
 
-Tale UI currently targets **react-aria-components ^1.18.0**.
+Tale UI currently targets **react-aria-components ^1.19.0**.
 
 Each deviation below includes the rationale for the Tale UI choice. When a deviation exists because React Aria Components deprecated an upstream primitive, the deprecation version is called out explicitly.
 
