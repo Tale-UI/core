@@ -2,6 +2,15 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## v1.3.55 — 2026-07-06
+
+### Changed
+
+- **Public packages**: Aligned `@tale-ui/core`, `@tale-ui/utils`, `@tale-ui/react`, and `@tale-ui/react-styles` at version `1.3.55`.
+- **React Aria Components**: Upgraded the React package stack to `react-aria-components` `^1.19.0` and refreshed upstream adoption notes, generated docs, and registry metadata.
+- **Tabs**: Updated pill tab styling so indicators own the selected surface, with fallback selected styling preserved when no indicator is rendered.
+- **Field controls**: Aligned CheckboxField, RadioField, and SwitchField description/error text with their labels and refreshed visual baselines.
+
 ## v1.3.54 — 2026-06-30
 
 ### Changed

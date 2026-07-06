@@ -2,6 +2,17 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.55 — 2026-07-06
+
+### Fixed
+
+- **Tabs**: Let pill tab indicators draw the selected surface while preserving selected fallback styling when no indicator is rendered.
+- **Field controls**: Aligned CheckboxField, RadioField, and SwitchField description and error text with their control labels.
+
+### Changed
+
+- **Release alignment**: Aligned `@tale-ui/react-styles` with `@tale-ui/core`, `@tale-ui/react`, and `@tale-ui/utils`.
+
 ## v1.3.54 — 2026-06-30
 
 ### Changed

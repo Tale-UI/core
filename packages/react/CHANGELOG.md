@@ -2,6 +2,19 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.55 — 2026-07-06
+
+### Changed
+
+- **React Aria Components**: Upgraded the React wrapper dependency stack to `react-aria-components` `^1.19.0`, with matching generated docs and registry metadata.
+- **Autocomplete**: Clarified controlled input guidance for `inputValue` and `onInputChange` after the upstream inline-completion documentation update.
+- **Tabs**: Added regression coverage for pill tabs with indicators so the indicator owns the selected surface while indicatorless pill tabs keep their fallback selected styling.
+- **Package alignment**: Aligned `@tale-ui/react` with `@tale-ui/core`, `@tale-ui/react-styles`, and `@tale-ui/utils` for the coordinated public package release.
+
+### Notes
+
+- No Tale UI React component API changes.
+
 ## v1.3.54 — 2026-06-30
 
 ### Changed
