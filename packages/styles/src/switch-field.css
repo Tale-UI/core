@@ -35,7 +35,7 @@
 /* Indent description and error to align with the label text */
 .tale-switch-field__description,
 .tale-switch-field__error {
-  margin-left: calc(var(--tale-switch-field-track-width) + var(--space-3xs));
+  margin-left: calc(var(--tale-switch-field-track-width) + var(--space-xs));
 }
 
 /* ─── Button — the clickable label row carrying the pill-shaped track ─────── */
@@ -46,7 +46,7 @@
   align-items: center;
   gap: var(--space-3xs);
   min-height: var(--tale-switch-field-track-height);
-  padding-inline-start: calc(var(--tale-switch-field-track-width) + var(--space-3xs));
+  padding-inline-start: calc(var(--tale-switch-field-track-width) + var(--space-xs));
   color: var(--neutral-80);
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);

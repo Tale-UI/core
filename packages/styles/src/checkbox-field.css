@@ -33,7 +33,7 @@
 /* Indent description and error to align with the label text */
 .tale-checkbox-field__description,
 .tale-checkbox-field__error {
-  margin-left: calc(1.125rem + var(--space-3xs));
+  margin-left: calc(1.2rem + var(--space-3xs));
 }
 
 .tale-checkbox-field--sm .tale-checkbox-field__description,
