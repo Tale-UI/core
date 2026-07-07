@@ -62,7 +62,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: var(--space-xs) var(--space-m);
+  padding: var(--space-xs) var(--space-m) var(--space-xs) var(--space-xs);
   background-color: transparent;
   border: none;
   color: var(--neutral-90);
@@ -107,7 +107,7 @@
   min-width: 0;
   overflow: hidden;
   height: var(--disclosure-panel-height);
-  padding: 0 var(--space-m);
+  padding-inline: var(--space-xs);
 }
 
 .tale-accordion__panel::after {

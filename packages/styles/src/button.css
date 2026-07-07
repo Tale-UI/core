@@ -126,17 +126,14 @@
 .tale-button--neutral {
   background-color: color-mix(in srgb, var(--neutral-90) 8%, transparent);
   color: var(--neutral-90);
-  border-color: color-mix(in srgb, var(--neutral-90) 16%, transparent);
 }
 
 .tale-button--neutral:hover:not([data-disabled], [data-pending]) {
   background-color: color-mix(in srgb, var(--neutral-90) 12%, transparent);
-  border-color: color-mix(in srgb, var(--neutral-90) 22%, transparent);
 }
 
 .tale-button--neutral:active:not([data-disabled], [data-pending]) {
   background-color: color-mix(in srgb, var(--neutral-90) 16%, transparent);
-  border-color: color-mix(in srgb, var(--neutral-90) 28%, transparent);
 }
 
 /* ─── Ghost variant — transparent, border only ────────────────────────────── */
