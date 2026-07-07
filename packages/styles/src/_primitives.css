@@ -64,6 +64,9 @@
   --popup-border-color: var(--neutral-20);
   --popup-radius: var(--radius-m);
   --popup-shadow: var(--shadow-m);
+  --popup-transition-duration: 0.15s;
+  --popup-transition-easing: ease;
+  --popup-enter-scale: 0.97;
   --item-padding-block: var(--space-4xs);
   --item-padding-inline: var(--space-2xs);
   --item-gap: var(--space-2xs);
@@ -335,9 +338,17 @@
   box-shadow: var(--popup-shadow);
   outline: none;
   overflow: hidden;
+}
+
+.tale-select__popover,
+.tale-combobox__popover,
+.tale-autocomplete__popover,
+.tale-menu__popover,
+.tale-context-menu,
+.tale-popover__popup {
   transition:
-    opacity 0.15s ease,
-    transform 0.15s ease;
+    opacity var(--popup-transition-duration) var(--popup-transition-easing),
+    transform var(--popup-transition-duration) var(--popup-transition-easing);
 }
 
 /* Enter/leave animation */
@@ -347,14 +358,14 @@
 .tale-combobox__popover[data-exiting],
 .tale-autocomplete__popover[data-entering],
 .tale-autocomplete__popover[data-exiting],
-.tale-menu__popup[data-entering],
-.tale-menu__popup[data-exiting],
+.tale-menu__popover[data-entering],
+.tale-menu__popover[data-exiting],
 .tale-context-menu[data-entering],
 .tale-context-menu[data-exiting],
 .tale-popover__popup[data-entering],
 .tale-popover__popup[data-exiting] {
   opacity: 0;
-  transform: scale(0.97);
+  transform: scale(var(--popup-enter-scale));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

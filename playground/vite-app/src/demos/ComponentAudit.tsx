@@ -259,7 +259,7 @@ function InertColorModeToggle({ disabled }: { disabled?: boolean }) {
 // TOC data
 // ---------------------------------------------------------------------------
 
-// TOC — order matches the content sections below
+// TOC source — grouping matches the content sections below.
 const COLOR_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
 const NEUTRAL_SHADES = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] as const;
 
@@ -459,6 +459,10 @@ const TOC = [
     ],
   },
 ];
+
+const TOC_ITEMS = TOC.flatMap(({ items }) => items).sort((a, b) =>
+  a.label.localeCompare(b.label),
+);
 
 // ---------------------------------------------------------------------------
 // Calendar section (react-aria-components)
@@ -1234,27 +1238,22 @@ export default function ComponentAudit() {
         <div className="audit__sidebar-header">
           <span className="audit__sidebar-title">Component Audit</span>
         </div>
-        {TOC.map(({ category, items }) => (
-          <div key={category}>
-            <div className="audit__toc-category">{category}</div>
-            {items.map(({ id, label }) => {
-              const meta = getComponentAuditMeta(id);
-              const isDeprecated = meta?.status === 'deprecated';
+        {TOC_ITEMS.map(({ id, label }) => {
+          const meta = getComponentAuditMeta(id);
+          const isDeprecated = meta?.status === 'deprecated';
 
-              return (
-                <a
-                  key={id}
-                  href={`#${id}`}
-                  className={`audit__toc-link${isDeprecated ? ' audit__toc-link--deprecated' : ''}`}
-                  aria-label={isDeprecated ? `${label}, deprecated` : label}
-                >
-                  <span>{label}</span>
-                  {isDeprecated && <span className="audit__toc-status">Deprecated</span>}
-                </a>
-              );
-            })}
-          </div>
-        ))}
+          return (
+            <a
+              key={id}
+              href={`#${id}`}
+              className={`audit__toc-link${isDeprecated ? ' audit__toc-link--deprecated' : ''}`}
+              aria-label={isDeprecated ? `${label}, deprecated` : label}
+            >
+              <span>{label}</span>
+              {isDeprecated && <span className="audit__toc-status">Deprecated</span>}
+            </a>
+          );
+        })}
       </nav>
 
       {/* Content */}

@@ -26,7 +26,7 @@
 
 .tale-popover__popup {
   position: relative;
-  padding: var(--space-xs);
+  padding: var(--space-2xs);
   max-width: 20rem;
   background-color: var(--neutral-90);
   border-color: var(--neutral-100);
@@ -94,8 +94,8 @@
 /* ─── Close button (position only — base styles in _primitives.css) ──────── */
 
 .tale-popover__close.tale-button {
-  top: var(--space-3xs);
-  right: var(--space-3xs);
+  top: 0;
+  right: 0;
   color: var(--neutral-20);
 }
 

@@ -316,7 +316,7 @@ Each family has the same 27 shade values listed above.
 
 ### 1.6 Category Tokens
 
-Category tokens sit between the semantic tokens and the component grouped selectors. They let consumers retheme entire component families by overriding a single CSS custom property on `:root`. All 43 tokens are defined in `packages/styles/src/_primitives.css`.
+Category tokens sit between the semantic tokens and the component grouped selectors. They let consumers retheme entire component families by overriding a single CSS custom property on `:root`. All 46 tokens are defined in `packages/styles/src/_primitives.css`.
 
 **Field controls** — `--field-*` (Groups 1, 2, 8, 9 in `_primitives.css`)
 
@@ -350,18 +350,21 @@ Covers: Select, Combobox, Autocomplete, Menu, ContextMenu, Popover popups and al
 |---|---|
 | `--popup-bg` | `var(--neutral-10)` |
 | `--popup-border-color` | `var(--neutral-20)` |
-| `--popup-radius` | `var(--radius-l)` |
+| `--popup-radius` | `var(--radius-m)` |
 | `--popup-shadow` | `var(--shadow-m)` |
-| `--item-padding-block` | `var(--space-2xs)` |
-| `--item-padding-inline` | `var(--space-xs)` |
+| `--popup-transition-duration` | `0.15s` |
+| `--popup-transition-easing` | `ease` |
+| `--popup-enter-scale` | `0.97` |
+| `--item-padding-block` | `var(--space-4xs)` |
+| `--item-padding-inline` | `var(--space-2xs)` |
 | `--item-gap` | `var(--space-2xs)` |
-| `--item-radius` | `var(--radius-m)` |
+| `--item-radius` | `var(--radius-s)` |
 | `--item-color` | `var(--neutral-80)` |
-| `--item-font-size` | `var(--text-m-font-size)` |
+| `--item-font-size` | `var(--text-s-font-size)` |
 | `--item-focus-bg` | `var(--neutral-14)` |
 | `--item-focus-color` | `var(--neutral-90)` |
 | `--group-label-color` | `var(--neutral-50)` |
-| `--group-label-font-size` | `var(--label-s-font-size)` |
+| `--group-label-font-size` | `var(--label-xs-font-size)` |
 
 **Modals** — `--modal-*` (Group 17)
 
