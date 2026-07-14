@@ -25,6 +25,7 @@ import BackgroundSelector from './components/background-selector';
 import ContrastPivotSelector from './components/contrast-pivot-selector';
 import CssOutput from './components/css-output';
 import ComponentPreview from './components/component-preview';
+import { DEFAULT_THEME_ID, THEMES, getThemeById, getThemeIdForColors } from './themes';
 
 const { useEffect, useMemo, useRef, useState } = React;
 
@@ -91,6 +92,92 @@ const ToolbarRow = styled.div`
   @media (max-width: 480px) {
     margin-bottom: var(--space-m);
   }
+`;
+
+const ThemeSection = styled.section`
+  margin-bottom: var(--space-xl);
+
+  @media (max-width: 720px) {
+    margin-bottom: var(--space-l);
+  }
+`;
+
+const ThemeSectionHeader = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-s);
+  margin-bottom: var(--space-s);
+`;
+
+const ThemeSectionTitle = styled.h2`
+  margin: 0;
+  font-size: var(--title-s-font-size);
+  font-weight: var(--title-font-weight);
+  line-height: var(--title-line-height);
+`;
+
+const ThemeSectionHint = styled.span`
+  color: var(--neutral-60);
+  font-size: var(--text-xs-font-size);
+`;
+
+const ThemeGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-xs);
+`;
+
+const ThemeCard = styled.button`
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  width: 100%;
+  padding: var(--space-xs);
+  border: 1px solid var(--neutral-24);
+  border-radius: var(--radius-m);
+  background: var(--neutral-10);
+  color: var(--text-color);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &[data-selected] {
+    border-color: var(--color-60);
+    box-shadow: 0 0 0 1px var(--color-60);
+  }
+
+  &:hover {
+    background: var(--neutral-14);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-60);
+    outline-offset: 2px;
+  }
+`;
+
+const ThemeSwatches = styled.span`
+  display: grid;
+  grid-template-columns: repeat(2, 1.5rem);
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--neutral-24);
+  border-radius: var(--radius-s);
+`;
+
+const ThemeSwatch = styled.span`
+  width: 1.5rem;
+  height: 2rem;
+`;
+
+const ThemeName = styled.span`
+  overflow: hidden;
+  font-size: var(--label-s-font-size);
+  font-weight: var(--label-font-weight);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const ColorsSection = styled.div`
@@ -247,8 +334,9 @@ const getNamedForegroundToken = (palette, shade, bgIsLight) => {
     : 'var(--color-100)';
 };
 
-const DEFAULT_NAMED_COLOR = '025768';
-const DEFAULT_NEUTRAL_COLOR = '79716b';
+const defaultTheme = getThemeById(DEFAULT_THEME_ID);
+const DEFAULT_NAMED_COLOR = defaultTheme?.brandColor ?? '025768';
+const DEFAULT_NEUTRAL_COLOR = defaultTheme?.neutralColor ?? '79716b';
 const DEFAULT_MODE = 'named';
 const DEFAULT_BG = 'light';
 
@@ -345,6 +433,10 @@ function ScaleApp({ syncUrlHash = true } = {}) {
   const [whiteAnchor, setWhiteAnchor] = useState(false);
   const [namedAsNeutral, setNamedAsNeutral] = useState(initial.namedAsNeutral ?? false);
   const [curvature, setCurvature] = useState(initial.curvature ?? 1);
+  const selectedThemeId = useMemo(
+    () => (namedAsNeutral || whiteAnchor ? null : getThemeIdForColors(namedColor, neutralColor)),
+    [namedAsNeutral, namedColor, neutralColor, whiteAnchor],
+  );
 
   // Active-mode aliases — the rest of the UI (controls, ColorsRow, CssOutput) operates on these
   const useNamedBase = mode === 'named' || (mode === 'neutral' && namedAsNeutral);
@@ -633,20 +725,42 @@ function ScaleApp({ syncUrlHash = true } = {}) {
     setNamedAsNeutral(selected);
   };
 
+  const applyTheme = (themeId) => {
+    const theme = getThemeById(themeId);
+    if (!theme) {
+      return;
+    }
+
+    setNamedColor(theme.brandColor);
+    setNeutralColor(theme.neutralColor);
+    setSwitchPoint(null);
+    setWhiteAnchor(false);
+    setNamedAsNeutral(false);
+  };
+
   // Listen for external requests from the playground header
   useEffect(() => {
     const onRandomize = () => handleRandomizeBoth();
     const onSetBg = (event) => setBgColor(event.detail);
     const onReset = () => resetToDefaults();
+    const onApplyTheme = (event) => applyTheme(event.detail);
     window.addEventListener('scale:randomize-both', onRandomize);
     window.addEventListener('scale:set-bg', onSetBg);
     window.addEventListener('scale:reset', onReset);
+    window.addEventListener('scale:apply-theme', onApplyTheme);
     return () => {
       window.removeEventListener('scale:randomize-both', onRandomize);
       window.removeEventListener('scale:set-bg', onSetBg);
       window.removeEventListener('scale:reset', onReset);
+      window.removeEventListener('scale:apply-theme', onApplyTheme);
     };
   });
+
+  useEffect(() => {
+    const themeId = selectedThemeId ?? 'custom';
+    document.documentElement.dataset.playgroundTheme = themeId;
+    window.dispatchEvent(new CustomEvent('scale:theme-change', { detail: selectedThemeId }));
+  }, [selectedThemeId]);
 
   return (
     <MainWrapper className="tale-ui">
@@ -660,6 +774,31 @@ function ScaleApp({ syncUrlHash = true } = {}) {
         </HeaderLeft>
         <BackgroundSelector setBgColor={setBgColor} bgColor={bgColor} />
       </HeaderRow>
+
+      <ThemeSection aria-labelledby="theme-presets-heading">
+        <ThemeSectionHeader>
+          <ThemeSectionTitle id="theme-presets-heading">Named themes</ThemeSectionTitle>
+          <ThemeSectionHint>Brand + neutral scales generated from paired anchors</ThemeSectionHint>
+        </ThemeSectionHeader>
+        <ThemeGrid>
+          {THEMES.map((theme) => (
+            <ThemeCard
+              key={theme.id}
+              type="button"
+              data-selected={selectedThemeId === theme.id ? '' : undefined}
+              aria-pressed={selectedThemeId === theme.id}
+              title={theme.description}
+              onClick={() => applyTheme(theme.id)}
+            >
+              <ThemeSwatches aria-hidden="true">
+                <ThemeSwatch style={{ backgroundColor: theme.brandPalette[6]?.hex }} />
+                <ThemeSwatch style={{ backgroundColor: theme.neutralPalette[14]?.hex }} />
+              </ThemeSwatches>
+              <ThemeName>{theme.name}</ThemeName>
+            </ThemeCard>
+          ))}
+        </ThemeGrid>
+      </ThemeSection>
 
       <ToolbarRow>
         <ToggleButtonGroup

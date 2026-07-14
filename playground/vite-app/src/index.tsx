@@ -4,6 +4,7 @@ import { BrowserRouter, Link, Navigate, Route, Routes, useLocation } from 'react
 import { Home } from './Home';
 import { routes } from './routes';
 import ScaleDemo from './demos/ScaleDemo';
+import { ThemeDrawer } from './ThemeDrawer';
 import '@tale-ui/react-styles/index.css';
 import './index.css';
 
@@ -50,6 +51,7 @@ export function App() {
             <a className="pg-header-link" href="http://localhost:5176/">
               Tooling Dashboard
             </a>
+            <ThemeDrawer />
             <button
               type="button"
               className="pg-header-btn"

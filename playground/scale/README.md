@@ -11,6 +11,13 @@ pnpm scale:build    # production build
 
 ## Features
 
+### Named themes
+
+Choose from a shared suite of named themes, each defined by a paired brand and neutral shade-60
+anchor. The playground generates both complete scales with the same OKLCH palette algorithm used
+by the manual colour controls. The Tale UI Playground exposes this catalog in a Tale UI Drawer, so
+each theme can be applied directly to its component demos.
+
 ### Base colour input
 
 Enter a hex value or use the visual colour picker (`react-colorful`) to set the base colour. The base is treated as the **shade-60** anchor — the entire palette is interpolated from it.

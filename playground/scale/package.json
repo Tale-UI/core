@@ -4,6 +4,20 @@
   "private": true,
   "main": "src/App.jsx",
   "types": "src/App.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/App.d.ts",
+      "default": "./src/App.jsx"
+    },
+    "./App": {
+      "types": "./src/App.d.ts",
+      "default": "./src/App.jsx"
+    },
+    "./themes": {
+      "types": "./src/themes.d.ts",
+      "default": "./src/themes.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
