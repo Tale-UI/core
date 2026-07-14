@@ -2,14 +2,18 @@
 
 `import { Menubar } from '@tale-ui/react/menubar';`
 
-A horizontal menu bar that wraps multiple `Menu` instances (e.g., File, Edit, View).
+A horizontal composition wrapper for multiple `Menu.Root` instances (e.g., File, Edit, View).
+
+`Menubar` does not implement menu popup behavior itself. Each `Menubar.Item`
+is expected to contain one full `Menu.Root` composition from
+`@tale-ui/react/menu`.
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `Menubar.Root` | The `<div role="menubar">` container. |
-| `Menubar.Item` | Wrapper for each menu inside the bar. |
+| Part           | Description                                 |
+| -------------- | ------------------------------------------- |
+| `Menubar.Root` | The `<div role="menubar">` container.       |
+| `Menubar.Item` | Wrapper for one `Menu.Root` inside the bar. |
 
 ## Props
 
@@ -64,7 +68,7 @@ import { Menu } from '@tale-ui/react/menu';
       </Menu.Popover>
     </Menu.Root>
   </Menubar.Item>
-</Menubar.Root>
+</Menubar.Root>;
 ```
 
 ## CSS Classes
@@ -75,7 +79,7 @@ import { Menu } from '@tale-ui/react/menu';
 ## Notes
 
 - **Each `Menu.Root` must be wrapped in `<Menubar.Item>`.** The trigger styling (`padding`, `hover`, `focus`) comes from `.tale-menubar__item .tale-menu__trigger` — without the wrapper, triggers will be unstyled.
-- Menubar itself has only two parts (`Root` and `Item`). Each `Item` wraps a full `Menu` compound component.
+- Menubar itself has only two parts (`Root` and `Item`). Each `Item` wraps a full `Menu.Root` compound component.
 - See the [Menu documentation](./menu.md) for details on `Menu.Root`, `Menu.Trigger`, `Menu.Popover`, `Menu.MenuList`, etc.
 - The root renders with `role="menubar"` for accessibility.
 

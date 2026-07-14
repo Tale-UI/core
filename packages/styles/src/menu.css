@@ -2,6 +2,9 @@
  * Menu / ContextMenu / Menubar — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
+ * ContextMenu uses React Aria menu primitives directly for cursor-positioned
+ * opening, and intentionally shares the same popup/item primitives as Menu.
+ * Menubar is only a composition wrapper for Menu.Root instances.
  * React Aria Menu exposes:
  *   Trigger: [data-open]
  *   Popup:   [data-entering] [data-exiting] [data-placement]
@@ -159,7 +162,9 @@
   font-weight: var(--label-font-weight);
   cursor: pointer;
   outline: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .tale-menubar__item .tale-menu__trigger:hover {
@@ -168,9 +173,10 @@
 }
 
 .tale-menubar__item .tale-menu__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
-
 
 /* ─── DotsButton ─────────────────────────────────────────────────────────── */
 
@@ -187,7 +193,9 @@
   color: var(--neutral-50);
   cursor: pointer;
   outline: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .tale-menu__dots-button[data-hovered],
@@ -197,7 +205,9 @@
 }
 
 .tale-menu__dots-button[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-5), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-5),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-menu__dots-button-icon {

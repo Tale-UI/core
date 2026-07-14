@@ -9,8 +9,8 @@
  * Groups:
  *    1. Field control       — Input, Select trigger, Combobox input, Autocomplete input, SearchField input, TextField input, DateField input, TimeField input, PaymentInput input
  *    2. Field label         — Input, Select, Combobox, TextField, TextArea, SearchField, DateField, DatePicker, DateRangePicker, TimeField, NumberField, PaymentInput
- *    3. Dropdown popup      — Select, Combobox, Autocomplete, Menu, Popover
- *    4. Dropdown item       — Select, Combobox, Autocomplete, Menu (all item variants)
+ *    3. Dropdown popup      — Select, Combobox, Autocomplete, Menu, ContextMenu, Popover
+ *    4. Dropdown item       — Select, Combobox, Autocomplete, Menu, ContextMenu (all item variants)
  *    5. Group label         — Select, Combobox, Autocomplete, Menu
  *    6. Misc                — Separator, Popup arrow, Item indicator
  *    7. Disclosure panel    — Disclosure, Accordion (animation + typography)

@@ -33,6 +33,9 @@ interface ContextMenuState {
 
 /**
  * A menu that appears on right-click (context menu event).
+ * ContextMenu intentionally uses React Aria menu primitives directly instead
+ * of composing Menu.Root, because it opens from a cursor-positioned virtual trigger.
+ * Its popup and item classes are grouped with Menu in the shared CSS primitives.
  *
  * @example
  * ```tsx
@@ -130,7 +133,9 @@ export const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
     // Virtual trigger element positioned at cursor
     const triggerRef = React.useRef<HTMLSpanElement>(null);
 
-    if (!isOpen) {return null;}
+    if (!isOpen) {
+      return null;
+    }
 
     return (
       <React.Fragment>
@@ -149,7 +154,11 @@ export const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
           ref={ref}
           triggerRef={triggerRef}
           isOpen={isOpen}
-          onOpenChange={(open) => { if (!open) {close();} }}
+          onOpenChange={(open) => {
+            if (!open) {
+              close();
+            }
+          }}
           placement="bottom start"
           className={cx('tale-context-menu', className)}
           {...props}

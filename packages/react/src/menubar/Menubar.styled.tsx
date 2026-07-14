@@ -6,7 +6,9 @@ export interface RootProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * A horizontal menu bar containing multiple dropdown menus.
+ * A horizontal menu bar containing multiple Menu.Root instances.
+ * Menubar only provides the menubar container and item wrappers; compose
+ * @tale-ui/react/menu inside each Menubar.Item for the actual menu behavior.
  *
  * @example
  * ```tsx
@@ -28,11 +30,9 @@ export interface RootProps extends React.HTMLAttributes<HTMLDivElement> {
  * </Menubar.Root>
  * ```
  */
-export const Root = React.forwardRef<HTMLDivElement, RootProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} role="menubar" className={cx('tale-menubar', className)} {...props} />
-  ),
-);
+export const Root = React.forwardRef<HTMLDivElement, RootProps>(({ className, ...props }, ref) => (
+  <div ref={ref} role="menubar" className={cx('tale-menubar', className)} {...props} />
+));
 Root.displayName = 'Menubar.Root';
 
 export interface ItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -40,12 +40,10 @@ export interface ItemProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Wraps a Menu.Root inside the menubar, applying the menubar item styling
- * to the trigger button via CSS.
+ * Wraps one Menu.Root inside the menubar, applying menubar item styling to
+ * that menu's trigger button via CSS.
  */
-export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cx('tale-menubar__item', className)} {...props} />
-  ),
-);
+export const Item = React.forwardRef<HTMLDivElement, ItemProps>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cx('tale-menubar__item', className)} {...props} />
+));
 Item.displayName = 'Menubar.Item';
