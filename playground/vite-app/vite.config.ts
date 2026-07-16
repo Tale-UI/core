@@ -23,6 +23,7 @@ export default defineConfig(() => {
         '@tale-ui/react': path.resolve(__dirname, '..', '..', 'packages', 'react', 'src'),
         '@tale-ui/charts': path.resolve(__dirname, '..', '..', 'packages', 'charts', 'src'),
         '@tale-ui/utils': path.resolve(__dirname, '..', '..', 'packages', 'utils', 'src'),
+        '@tale-ui/themes': path.resolve(__dirname, '..', '..', 'packages', 'themes', 'src'),
         '@tale-ui/react-styles': path.resolve(__dirname, '..', '..', 'packages', 'styles', 'src'),
         // Point @tale-ui/core to source so CSS @import resolves without needing a dist build
         '@tale-ui/core': path.resolve(__dirname, '..', '..', 'packages', 'css', 'src', 'index.css'),

@@ -16,6 +16,8 @@
       "@tale-ui/charts/*": ["../../packages/charts/src/*"],
       "@tale-ui/utils": ["../../packages/utils/src/index.ts"],
       "@tale-ui/utils/*": ["../../packages/utils/src/*"],
+      "@tale-ui/themes": ["../../packages/themes/src/index.ts"],
+      "@tale-ui/themes/*": ["../../packages/themes/src/*"],
       "@tale-ui/a2ui": ["../../packages/a2ui/src/index.ts"],
       "@tale-ui/a2ui/types": ["../../packages/a2ui/src/types.ts"],
       "@tale-ui/a2ui/catalog": ["../../packages/a2ui/src/catalog.ts"],
@@ -42,7 +44,8 @@
   },
   "references": [
     { "path": "../../packages/utils/tsconfig.build.json" },
-    { "path": "../../packages/react/tsconfig.build.json" }
+    { "path": "../../packages/react/tsconfig.build.json" },
+    { "path": "../../packages/themes/tsconfig.build.json" }
   ],
   "include": ["src", "../../packages/a2ui/src", "../../packages/charts/src"]
 }
