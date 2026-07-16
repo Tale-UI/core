@@ -14,8 +14,10 @@ if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z-.]+)?(?:\+[0-9A-Za-z-.]+)?$/.test(version)) {
 }
 
 const packageJsonPaths = [
+  'packages/css/package.json',
   'packages/react/package.json',
   'packages/styles/package.json',
+  'packages/themes/package.json',
   'packages/utils/package.json',
 ];
 
@@ -27,4 +29,4 @@ for (const relativePath of packageJsonPaths) {
   await fs.writeFile(absolutePath, `${JSON.stringify(packageJson, null, 2)}\n`, 'utf8');
 }
 
-console.log(`Synchronized package versions to ${version}`);
+console.log(`Synchronized 5 public package versions to ${version}`);

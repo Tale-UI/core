@@ -13,6 +13,7 @@ import {
 } from '../src/themes.js';
 
 const outputPath = fileURLToPath(new URL('../src/themes.css', import.meta.url));
+const packageJsonPath = fileURLToPath(new URL('../package.json', import.meta.url));
 const isCheck = process.argv.includes('--check');
 
 const getHex = (palette: readonly ThemeColor[], shade: number): string => {
@@ -87,8 +88,8 @@ const getDarkModeBlock = (entry: ThemeEntry) => {
   return `@media (prefers-color-scheme: dark) {\n  :where(html:not([data-color-mode="light"]))${themeSelector},\n  :where(html:not([data-color-mode="light"])) ${themeSelector} {\n${declarations}\n  }\n}\n\nhtml[data-color-mode="dark"]${themeSelector},\nhtml[data-color-mode="dark"] ${themeSelector},\n.dark${themeSelector},\n.dark ${themeSelector} {\n${declarations}\n}\n\n.light${themeSelector},\n.light ${themeSelector} {\n${getForegroundDeclarations(theme, 'light')}\n}`;
 };
 
-const rawContent = `/*
- * @tale-ui/themes v0.1.0
+const getRawContent = (version: string) => `/*
+ * @tale-ui/themes v${version}
  * Generated from src/themes.ts. Run \`pnpm generate\` after changing theme definitions.
  * Import this stylesheet after @tale-ui/core or @tale-ui/react-styles.
  */
@@ -100,7 +101,8 @@ ${THEME_ENTRIES.map(getDarkModeBlock).join('\n\n')}
 `;
 
 const main = async () => {
-  const content = await format(rawContent, {
+  const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf8')) as { version: string };
+  const content = await format(getRawContent(packageJson.version), {
     parser: 'css',
     printWidth: 100,
     singleQuote: true,

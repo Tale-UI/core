@@ -2,6 +2,22 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v1.3.56 — 2026-07-16
+
+### Added
+
+- **Card.Button**: Added interactive, hover, pressed, focus-visible, selected, and disabled styles
+  for button-backed cards.
+
+### Changed
+
+- **Disclosure and Accordion**: Refined disclosure panel layout and aligned accordion trigger
+  presentation with the updated disclosure foundation.
+- **Popover and Menu**: Refined shared popup/item tokens and menu composition styles.
+- **Button**: Simplified neutral-button overrides so shared variant tokens remain authoritative.
+- **Release alignment**: Aligned `@tale-ui/react-styles` with `@tale-ui/core`, `@tale-ui/utils`,
+  `@tale-ui/react`, and `@tale-ui/themes`.
+
 ## v1.3.55 — 2026-07-06
 
 ### Fixed

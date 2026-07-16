@@ -2,6 +2,22 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v1.3.56 — 2026-07-16
+
+### Added
+
+- **Card.Button**: Added an accessible React Aria-backed interactive Card variant with press,
+  keyboard, disabled, focus, and selected-state support for composable selection surfaces.
+
+### Changed
+
+- **Menu composition**: Clarified ContextMenu and Menubar composition contracts and synchronized
+  their generated component guidance.
+- **Docs and evaluation guidance**: Added Card.Button stories, component audit coverage, API docs,
+  registry metadata, and a selectable-card golden prompt.
+- **Package alignment**: Aligned `@tale-ui/react` with `@tale-ui/core`, `@tale-ui/utils`,
+  `@tale-ui/react-styles`, and `@tale-ui/themes` for the coordinated public release.
+
 ## v1.3.55 — 2026-07-06
 
 ### Changed

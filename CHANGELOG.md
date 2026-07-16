@@ -2,6 +2,27 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## v1.3.56 — 2026-07-16
+
+### Added
+
+- **Themes package**: Added the publishable `@tale-ui/themes` package with eight standard themes,
+  seven Bento-derived monochrome themes, typed metadata, generated CSS, and browser application
+  helpers.
+- **Card.Button**: Added an accessible interactive Card variant for composable selection tiles,
+  including tests, stories, documentation, registry metadata, and golden guidance.
+
+### Changed
+
+- **Theme playgrounds**: Replaced custom theme tiles with `Card.Button`, added standard and
+  monochrome theme collections, and exposed them through the Tale UI Playground Drawer.
+- **Menus and component styles**: Clarified menu composition and refined Disclosure, Accordion,
+  Popover, Menu, Button, and Card styling.
+- **Public packages**: Aligned `@tale-ui/core`, `@tale-ui/utils`, `@tale-ui/react`,
+  `@tale-ui/react-styles`, and `@tale-ui/themes` at version `1.3.56`.
+- **Release automation**: Added Themes to the lockstep version helper, coordinated React publish
+  track, package validation, and version-bump skill.
+
 ## v1.3.55 — 2026-07-06
 
 ### Changed

@@ -94,8 +94,8 @@ pnpm lint:css                # lint CSS design system
 Publishing is automated via [.github/workflows/publish.yml](.github/workflows/publish.yml).
 
 - **CSS design system:** Tag with `css-v*.*.*` (e.g. `css-v1.2.0`) or use `pnpm release:css`
-- **React packages:** Tag with `react-v*.*.*` (e.g. `react-v0.2.0`)
-- **Themes:** Tag with `themes-v*.*.*` (e.g. `themes-v0.1.0`)
+- **React release set:** Tag with `react-v*.*.*` to publish `@tale-ui/utils`, `@tale-ui/react`, `@tale-ui/react-styles`, and `@tale-ui/themes` at the coordinated version
+- **Themes-only exception:** Tag with `themes-v*.*.*` only for an explicitly requested package-only release
 - **Manual dispatch:** Run the workflow from GitHub Actions with scope (`css`, `react`, or `themes`) and version
 
 Requires repository secret `NPM_TOKEN` with publish permissions for the `@tale-ui` npm scope.

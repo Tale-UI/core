@@ -2,6 +2,20 @@
 
 All notable changes to the CSS design system are documented in this file.
 
+## v1.3.56 - 2026-07-16
+
+### Changed
+
+- **Package alignment**: Aligned `@tale-ui/core` with `@tale-ui/utils`, `@tale-ui/react`,
+  `@tale-ui/react-styles`, and the new `@tale-ui/themes` package.
+- **Token guidance**: Updated AI reference guidance for the shared popover and menu token
+  refinements used by component styles.
+- **Registry refresh**: Refreshed generated registry metadata for the `1.3.56` public release.
+
+### Notes
+
+- No design-token API changes.
+
 ## v1.3.55 - 2026-07-06
 
 ### Changed

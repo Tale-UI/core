@@ -13,6 +13,7 @@
     "release:css:major": "node tools/release-css.js --type major",
     "release:css:dry-run": "node tools/release-css.js --type patch --dry-run",
     "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
+    "release:sync-versions": "node scripts/release/sync-package-versions.mjs",
     "release:build": "lerna run --concurrency 8 --no-private build --skip-nx-cache",
     "playground:dev": "pnpm -C playground/vite-app dev",
     "playground:build": "pnpm -C playground/vite-app build",
