@@ -1,5 +1,5 @@
 // This file has been automatically migrated to valid ESM format by Storybook.
-import { fileURLToPath } from "node:url";
+import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
 import path, { dirname } from 'node:path';
 import type { StorybookConfig } from '@storybook/react-vite';
@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
   stories: ['../src/stories/**/*.mdx', '../src/stories/**/*.stories.@(ts|tsx)'],
-  addons: [getAbsolutePath("@storybook/addon-docs"), getAbsolutePath("@storybook/addon-a11y")],
+  addons: [getAbsolutePath('@storybook/addon-docs'), getAbsolutePath('@storybook/addon-a11y')],
   managerHead: (head) => {
     const cssDir = path.resolve(__dirname, '../../../packages/css/src');
     const files = [
@@ -66,7 +66,7 @@ button[data-testid="context-menu"][data-testid="context-menu"]:focus-visible {
 }`;
     return `${head}<style id="tale-ui-tokens">${css}${overrides}</style>`;
   },
-  framework: { name: getAbsolutePath("@storybook/react-vite"), options: {} },
+  framework: { name: getAbsolutePath('@storybook/react-vite'), options: {} },
   typescript: { reactDocgen: false },
   async viteFinal(config) {
     const baseUrl = process.env.STORYBOOK_BASE ?? '/';
@@ -84,6 +84,7 @@ button[data-testid="context-menu"][data-testid="context-menu"]:focus-visible {
       '@tale-ui/react',
       '@tale-ui/charts',
       '@tale-ui/utils',
+      '@tale-ui/themes',
       '@tale-ui/react-styles',
       '@tale-ui/core',
       '@tale-ui/playground-scale',
@@ -99,11 +100,21 @@ button[data-testid="context-menu"][data-testid="context-menu"]:focus-visible {
 
     config.resolve.alias = [
       ...filteredAliases,
-      { find: '@tale-ui/react', replacement: path.resolve(__dirname, '../../../packages/react/src') },
-      { find: '@tale-ui/charts', replacement: path.resolve(__dirname, '../../../packages/charts/src') },
+      {
+        find: '@tale-ui/react',
+        replacement: path.resolve(__dirname, '../../../packages/react/src'),
+      },
+      {
+        find: '@tale-ui/charts',
+        replacement: path.resolve(__dirname, '../../../packages/charts/src'),
+      },
       {
         find: /^@tale-ui\/utils\/(.+)$/u,
         replacement: path.resolve(__dirname, '../../../packages/utils/src/$1'),
+      },
+      {
+        find: '@tale-ui/themes',
+        replacement: path.resolve(__dirname, '../../../packages/themes/src'),
       },
       {
         find: '@tale-ui/react-styles',
@@ -155,10 +166,7 @@ function stripUseClientDirectives() {
         return null;
       }
 
-      const next = code.replace(
-        /^(\s*(?:['"]use strict['"];?\s*)*)['"]use client['"];?\s*/u,
-        '$1',
-      );
+      const next = code.replace(/^(\s*(?:['"]use strict['"];?\s*)*)['"]use client['"];?\s*/u, '$1');
 
       if (next === code) {
         return null;
