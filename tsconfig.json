@@ -13,6 +13,9 @@
       "path": "packages/charts/tsconfig.json"
     },
     {
+      "path": "packages/themes/tsconfig.json"
+    },
+    {
       "path": "scripts/tsconfig.json"
     },
     {

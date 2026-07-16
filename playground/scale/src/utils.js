@@ -10,9 +10,9 @@ export const NEUTRAL_SHADES = [
   5, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 40, 50, 60, 70, 80, 82, 84, 86, 88, 90, 92, 94, 96,
   98, 100,
 ];
-const NAMED_NEUTRAL_DARK_L_RATIO = 0.08;
-const NAMED_NEUTRAL_DARK_C_RATIO = 0.25;
-const NAMED_NEUTRAL_FALLBACK_COLOR = '#008661';
+const MONOCHROME_DARK_L_RATIO = 0.08;
+const MONOCHROME_DARK_C_RATIO = 0.25;
+const MONOCHROME_FALLBACK_COLOR = '#008661';
 
 export const isValidHex = (color) => {
   if (!color || typeof color !== 'string') {
@@ -217,12 +217,12 @@ export const generatePalette = (
   });
 };
 
-export const generateNamedNeutralPalette = (baseHex, { whiteAnchor = false } = {}) => {
+export const generateMonochromePalette = (baseHex, { whiteAnchor = false } = {}) => {
   const tonePalette = generatePalette(baseHex, 'neutral', { shades: NEUTRAL_SHADES });
   const chromaPalette = generatePalette(baseHex, 'named', {
     shades: NEUTRAL_SHADES,
-    darkLRatio: NAMED_NEUTRAL_DARK_L_RATIO,
-    darkCRatio: NAMED_NEUTRAL_DARK_C_RATIO,
+    darkLRatio: MONOCHROME_DARK_L_RATIO,
+    darkCRatio: MONOCHROME_DARK_C_RATIO,
     useTypeB: false,
     useNeutralTintSteps: true,
   });
@@ -272,14 +272,14 @@ export const getContrastRatio = (hex1, hex2) => {
  * eliminate rounding/gamut-clamping discrepancies.
  *
  * Named: moderate-to-high chroma, medium-dark lightness.
- * Named-neutral: named chroma expanded to neutral steps, with shade-60 AA vs shade-5
+ * Monochrome: named chroma expanded to neutral steps, with shade-60 AA vs shade-5
  * and shade-100.
  * Neutral: very low chroma (reads as gray), mid lightness.
  */
 export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
   const isNeutral = mode === 'neutral';
-  const isNamedNeutral = mode === 'named-neutral';
-  const maxAttempts = isNamedNeutral ? 2000 : 200;
+  const isMonochrome = mode === 'monochrome';
+  const maxAttempts = isMonochrome ? 2000 : 200;
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const h = Math.random() * 360;
@@ -307,10 +307,10 @@ export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
       ) {
         return candidateHex;
       }
-    } else if (isNamedNeutral) {
+    } else if (isMonochrome) {
       const l = 0.52 + Math.random() * 0.08; // 0.52–0.60
       const candidateHex = oklchToHex(l, c, h);
-      const palette = generateNamedNeutralPalette(candidateHex, { whiteAnchor });
+      const palette = generateMonochromePalette(candidateHex, { whiteAnchor });
       if (!palette.length) {
         continue;
       }
@@ -380,8 +380,8 @@ export const randomBaseColor = (mode, { whiteAnchor = false } = {}) => {
     return '#79716b';
   }
 
-  if (isNamedNeutral) {
-    return NAMED_NEUTRAL_FALLBACK_COLOR;
+  if (isMonochrome) {
+    return MONOCHROME_FALLBACK_COLOR;
   }
 
   return '#dc2626';

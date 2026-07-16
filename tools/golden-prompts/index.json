@@ -45,6 +45,10 @@
       "difficulty": "medium"
     },
     {
+      "slug": "card-button-selectable",
+      "difficulty": "medium"
+    },
+    {
       "slug": "card-with-content",
       "difficulty": "medium"
     },

@@ -32,14 +32,17 @@ That's it. Components automatically apply their BEM base class (`tale-button`). 
 @tale-ui/react           Styled React components (BEM class names applied automatically)
       ↑
 @tale-ui/utils           Shared hooks & helpers (pulled automatically)
+
+@tale-ui/themes          Optional standard and monochrome theme presets
 ```
 
-| Package | What it provides |
-|---------|-----------------|
-| `@tale-ui/core` | Design tokens (`--color-*`, `--neutral-*`, `--space-*`, `--text-*`), utility classes (`.gap--m`, `.grid--3`), dark mode, typography foundations |
-| `@tale-ui/react-styles` | Opinionated CSS for every `@tale-ui/react` component — built entirely on `@tale-ui/core` tokens |
-| `@tale-ui/react` | Accessible React components that automatically apply BEM class names. Accepts `variant` and `size` props where applicable. Override via `className`. |
-| `@tale-ui/utils` | Internal utilities (colour generation, React hooks, DOM helpers) |
+| Package                 | What it provides                                                                                                                                     |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@tale-ui/core`         | Design tokens (`--color-*`, `--neutral-*`, `--space-*`, `--text-*`), utility classes (`.gap--m`, `.grid--3`), dark mode, typography foundations      |
+| `@tale-ui/react-styles` | Opinionated CSS for every `@tale-ui/react` component — built entirely on `@tale-ui/core` tokens                                                      |
+| `@tale-ui/react`        | Accessible React components that automatically apply BEM class names. Accepts `variant` and `size` props where applicable. Override via `className`. |
+| `@tale-ui/themes`       | Optional standard and monochrome theme CSS, data attributes, and typed metadata                                                                      |
+| `@tale-ui/utils`        | Internal utilities (colour generation, React hooks, DOM helpers)                                                                                     |
 
 ---
 
@@ -50,7 +53,7 @@ Components render with the correct BEM class names automatically. You still need
 ### All-in-one (recommended)
 
 ```ts
-import '@tale-ui/react-styles';          // tokens + all component CSS
+import '@tale-ui/react-styles'; // tokens + all component CSS
 ```
 
 This single import loads `@tale-ui/core` (tokens, foundations, themes) followed by every component stylesheet.
@@ -58,9 +61,9 @@ This single import loads `@tale-ui/core` (tokens, foundations, themes) followed 
 ### Per-component
 
 ```ts
-import '@tale-ui/core';                  // tokens — must import separately
-import '@tale-ui/react-styles/button';   // just the button CSS
-import '@tale-ui/react-styles/dialog';   // just the dialog CSS
+import '@tale-ui/core'; // tokens — must import separately
+import '@tale-ui/react-styles/button'; // just the button CSS
+import '@tale-ui/react-styles/dialog'; // just the dialog CSS
 ```
 
 When importing individual components you **must** also import `@tale-ui/core` yourself, because per-component exports do not re-import it.
@@ -77,11 +80,11 @@ Each family spans 11 shades: **5 · 10 · 20 · 30 · 40 · 50 · 60 · 70 · 80
 
 ### Token rules
 
-| Token layer | Purpose | Dark-mode behaviour |
-|-------------|---------|---------------------|
-| `--color-*` | All UI styling (buttons, borders, focus rings, etc.) | **Auto-inverts** |
-| `--brand-*` | Palette definitions only (`:root` overrides, `.color-{name}` classes) | **Never inverts** |
-| `--neutral-*` | Backgrounds, text, borders | **Auto-inverts** |
+| Token layer   | Purpose                                                               | Dark-mode behaviour |
+| ------------- | --------------------------------------------------------------------- | ------------------- |
+| `--color-*`   | All UI styling (buttons, borders, focus rings, etc.)                  | **Auto-inverts**    |
+| `--brand-*`   | Palette definitions only (`:root` overrides, `.color-{name}` classes) | **Never inverts**   |
+| `--neutral-*` | Backgrounds, text, borders                                            | **Auto-inverts**    |
 
 **Critical rule:** Never use `--brand-*` in component or UI CSS. Always use `--color-*` — it inverts automatically in dark mode.
 
@@ -91,8 +94,8 @@ Override `--brand-5` through `--brand-100` at `:root` in your app CSS (imported 
 
 ```css
 :root {
-  --brand-5:   #fbf5f9;
-  --brand-60:  #7e4271;
+  --brand-5: #fbf5f9;
+  --brand-60: #7e4271;
   --brand-100: #36162f;
 }
 ```
@@ -123,16 +126,16 @@ Full token reference: [packages/css/docs/design-tokens.md](../packages/css/docs/
 
 Use spacing by relationship and hierarchy:
 
-| Token range | Typical use |
-|-------------|-------------|
+| Token range                   | Typical use                                                                                               |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------- |
 | `--space-4xs` / `--space-3xs` | Micro gaps inside compact controls, badges, metadata rows, icon/text pairs, and very small inline padding |
-| `--space-2xs` | Tight label/value, chip, and compact inline-control gaps |
-| `--space-xs` | Action rows, heading-to-content gaps inside dense panels, code-block padding, compact card content |
-| `--space-s` | Standard card/panel padding, related item groups, form field stacks, medium-density grids |
-| `--space-m` | Larger component groups, relaxed content stacks, mobile page gutters, roomy panels |
-| `--space-l` / `--space-xl` | Page-level rhythm, desktop page gutters, major grids, section separation |
-| `--space-2xl` | Large editorial or marketing gaps; largest gap utility size |
-| `--space-3xl` / `--space-4xl` | Extra-large custom CSS only; no gap utility class exists |
+| `--space-2xs`                 | Tight label/value, chip, and compact inline-control gaps                                                  |
+| `--space-xs`                  | Action rows, heading-to-content gaps inside dense panels, code-block padding, compact card content        |
+| `--space-s`                   | Standard card/panel padding, related item groups, form field stacks, medium-density grids                 |
+| `--space-m`                   | Larger component groups, relaxed content stacks, mobile page gutters, roomy panels                        |
+| `--space-l` / `--space-xl`    | Page-level rhythm, desktop page gutters, major grids, section separation                                  |
+| `--space-2xl`                 | Large editorial or marketing gaps; largest gap utility size                                               |
+| `--space-3xl` / `--space-4xl` | Extra-large custom CSS only; no gap utility class exists                                                  |
 
 Use `--section-space-*` only for vertical padding on full-width page sections or bands. Do not use section spacing for card padding, form stacks, or compact dashboards.
 
@@ -142,14 +145,14 @@ Use `--section-space-*` only for vertical padding on full-width page sections or
 
 ### 6 type roles
 
-| Role | Font family | Weights | Sizes | Use |
-|------|------------|---------|-------|-----|
-| **Display** | Inter | 600 | `--display-l-font-size` (2.5625rem) · `m` (2.375rem) · `s` (2.125rem) | Marketing heroes, highly prominent page leads |
-| **Heading** | Inter | 600 | `--heading-l-font-size` (1.875rem) · `m` (1.70625rem) · `s` (1.5375rem) | Page titles, prominent section headings |
-| **Title** | Inter | 600 | `--title-l-font-size` (1.50625rem) · `m` (1.36875rem) · `s` (1.31875rem) | Section, panel, card, and grouped-list titles |
-| **Label** | Inter | 500 | `--label-l-font-size` (1.2rem) · `m` (1rem) · `s` (0.83125rem) · `xs` (0.76875rem) | UI labels, item names, navigation |
-| **Body** | Inter | 400 | `--text-l-font-size` (1.2rem) · `m` (1rem) · `s` (0.83125rem) · `xs` (0.76875rem) | Body copy, descriptions, helper text |
-| **Mono** | Roboto Mono | 400 | `--mono-l-font-size` (1.2rem) · `m` (1rem) · `s` (0.83125rem) · `xs` (0.76875rem) | Code, commands, paths, IDs, route values |
+| Role        | Font family | Weights | Sizes                                                                              | Use                                           |
+| ----------- | ----------- | ------- | ---------------------------------------------------------------------------------- | --------------------------------------------- |
+| **Display** | Inter       | 600     | `--display-l-font-size` (2.5625rem) · `m` (2.375rem) · `s` (2.125rem)              | Marketing heroes, highly prominent page leads |
+| **Heading** | Inter       | 600     | `--heading-l-font-size` (1.875rem) · `m` (1.70625rem) · `s` (1.5375rem)            | Page titles, prominent section headings       |
+| **Title**   | Inter       | 600     | `--title-l-font-size` (1.50625rem) · `m` (1.36875rem) · `s` (1.31875rem)           | Section, panel, card, and grouped-list titles |
+| **Label**   | Inter       | 500     | `--label-l-font-size` (1.2rem) · `m` (1rem) · `s` (0.83125rem) · `xs` (0.76875rem) | UI labels, item names, navigation             |
+| **Body**    | Inter       | 400     | `--text-l-font-size` (1.2rem) · `m` (1rem) · `s` (0.83125rem) · `xs` (0.76875rem)  | Body copy, descriptions, helper text          |
+| **Mono**    | Roboto Mono | 400     | `--mono-l-font-size` (1.2rem) · `m` (1rem) · `s` (0.83125rem) · `xs` (0.76875rem)  | Code, commands, paths, IDs, route values      |
 
 Additional font: **Playfair Display** (serif) is available via `--expressive-font-family`.
 
@@ -188,13 +191,13 @@ The design system uses the browser-standard root size, `html { font-size: 100%; 
 
 ### Three-layer system
 
-| Priority | Trigger | Selector |
-|----------|---------|----------|
-| 1 (lowest) | Default | `html:not([data-color-mode="dark"])` — light mode when no attribute is set |
-| 2 | OS preference | `@media (prefers-color-scheme: dark)` + `html:not([data-color-mode="light"])` — auto-dark unless explicitly overridden to light |
-| 3 (highest) | Explicit attribute | `html[data-color-mode="dark"]` — always dark regardless of OS |
+| Priority    | Trigger            | Selector                                                                                                                        |
+| ----------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1 (lowest)  | Default            | `html:not([data-color-mode="dark"])` — light mode when no attribute is set                                                      |
+| 2           | OS preference      | `@media (prefers-color-scheme: dark)` + `html:not([data-color-mode="light"])` — auto-dark unless explicitly overridden to light |
+| 3 (highest) | Explicit attribute | `html[data-color-mode="dark"]` — always dark regardless of OS                                                                   |
 
-> **Common mistake:** Do not toggle dark mode by *removing* the `data-color-mode` attribute. Removing the attribute does not mean "light mode" — it means "no explicit preference", which falls back to OS preference via `prefers-color-scheme`. If the user's OS is set to dark mode, removing the attribute keeps the page dark. Always set the attribute to either `"dark"` or `"light"` explicitly.
+> **Common mistake:** Do not toggle dark mode by _removing_ the `data-color-mode` attribute. Removing the attribute does not mean "light mode" — it means "no explicit preference", which falls back to OS preference via `prefers-color-scheme`. If the user's OS is set to dark mode, removing the attribute keeps the page dark. Always set the attribute to either `"dark"` or `"light"` explicitly.
 
 ### What happens in dark mode
 
@@ -211,9 +214,10 @@ Add this script in `<head>` before any CSS to avoid a flash of wrong theme. It r
 
 ```html
 <script>
-  (function() {
-    var mode = localStorage.getItem('color-mode')
-      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  (function () {
+    var mode =
+      localStorage.getItem('color-mode') ||
+      (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-color-mode', mode);
   })();
 </script>
@@ -256,6 +260,7 @@ function useDarkMode() {
 All components are imported from `@tale-ui/react/{name}`. BEM base classes are applied automatically — you only need extra `className` when overriding specific modifiers not exposed as props.
 
 Components that accept variant/size props apply the BEM modifier class for you:
+
 ```tsx
 <Button variant="primary" size="sm">Save</Button>  // → class="tale-button tale-button--primary tale-button--sm"
 <Input size="lg" />                                 // → class="tale-input tale-input--lg"
@@ -264,118 +269,118 @@ Components that accept variant/size props apply the BEM modifier class for you:
 
 ### Form Controls
 
-| Component | Import path | Key classes |
-|-----------|------------|-------------|
-| Button | `@tale-ui/react/button` | `.tale-button`, `--primary`, `--neutral`, `--ghost`, `--danger`, `--sm`, `--md`, `--lg` |
-| IconButton | `@tale-ui/react/icon-button` | `.tale-icon-button`, `--sm`, `--md`, `--lg` |
-| Input | `@tale-ui/react/input` | `.tale-input`, `--sm`, `--lg` |
-| TextField | `@tale-ui/react/text-field` | `.tale-text-field` |
-| TextArea | `@tale-ui/react/text-area` | `.tale-text-area` |
-| Checkbox | `@tale-ui/react/checkbox` | `.tale-checkbox` |
-| Checkbox Group | `@tale-ui/react/checkbox-group` | — |
-| Radio | `@tale-ui/react/radio` | `.tale-radio` |
-| Radio Group | `@tale-ui/react/radio-group` | — |
-| Switch | `@tale-ui/react/switch` | `.tale-switch` |
-| Toggle Button | `@tale-ui/react/toggle-button` | `.tale-toggle-button`, `--sm`, `--md`, `--lg` |
-| Toggle Button Group | `@tale-ui/react/toggle-button` | `.tale-toggle-button-group` |
-| Select | `@tale-ui/react/select` | `.tale-select__trigger`, `__popup`, `__item` |
-| Combobox | `@tale-ui/react/combobox` | `.tale-combobox__input`, `__popup`, `__item` |
-| Autocomplete | `@tale-ui/react/autocomplete` | `.tale-autocomplete__input`, `__popup`, `__item` |
-| Number Field | `@tale-ui/react/number-field` | `.tale-number-field` |
-| Slider | `@tale-ui/react/slider` | `.tale-slider` |
-| Search Field | `@tale-ui/react/search-field` | `.tale-search-field` |
+| Component           | Import path                     | Key classes                                                                             |
+| ------------------- | ------------------------------- | --------------------------------------------------------------------------------------- |
+| Button              | `@tale-ui/react/button`         | `.tale-button`, `--primary`, `--neutral`, `--ghost`, `--danger`, `--sm`, `--md`, `--lg` |
+| IconButton          | `@tale-ui/react/icon-button`    | `.tale-icon-button`, `--sm`, `--md`, `--lg`                                             |
+| Input               | `@tale-ui/react/input`          | `.tale-input`, `--sm`, `--lg`                                                           |
+| TextField           | `@tale-ui/react/text-field`     | `.tale-text-field`                                                                      |
+| TextArea            | `@tale-ui/react/text-area`      | `.tale-text-area`                                                                       |
+| Checkbox            | `@tale-ui/react/checkbox`       | `.tale-checkbox`                                                                        |
+| Checkbox Group      | `@tale-ui/react/checkbox-group` | —                                                                                       |
+| Radio               | `@tale-ui/react/radio`          | `.tale-radio`                                                                           |
+| Radio Group         | `@tale-ui/react/radio-group`    | —                                                                                       |
+| Switch              | `@tale-ui/react/switch`         | `.tale-switch`                                                                          |
+| Toggle Button       | `@tale-ui/react/toggle-button`  | `.tale-toggle-button`, `--sm`, `--md`, `--lg`                                           |
+| Toggle Button Group | `@tale-ui/react/toggle-button`  | `.tale-toggle-button-group`                                                             |
+| Select              | `@tale-ui/react/select`         | `.tale-select__trigger`, `__popup`, `__item`                                            |
+| Combobox            | `@tale-ui/react/combobox`       | `.tale-combobox__input`, `__popup`, `__item`                                            |
+| Autocomplete        | `@tale-ui/react/autocomplete`   | `.tale-autocomplete__input`, `__popup`, `__item`                                        |
+| Number Field        | `@tale-ui/react/number-field`   | `.tale-number-field`                                                                    |
+| Slider              | `@tale-ui/react/slider`         | `.tale-slider`                                                                          |
+| Search Field        | `@tale-ui/react/search-field`   | `.tale-search-field`                                                                    |
 
 ### Date & Time
 
-| Component | Import path | Key classes |
-|-----------|------------|-------------|
-| Calendar | `@tale-ui/react/calendar` | `.tale-calendar` |
-| Range Calendar | `@tale-ui/react/range-calendar` | `.tale-range-calendar` |
-| Date Field | `@tale-ui/react/date-field` | `.tale-date-field` |
-| Date Picker | `@tale-ui/react/date-picker` | `.tale-date-picker` |
+| Component         | Import path                        | Key classes               |
+| ----------------- | ---------------------------------- | ------------------------- |
+| Calendar          | `@tale-ui/react/calendar`          | `.tale-calendar`          |
+| Range Calendar    | `@tale-ui/react/range-calendar`    | `.tale-range-calendar`    |
+| Date Field        | `@tale-ui/react/date-field`        | `.tale-date-field`        |
+| Date Picker       | `@tale-ui/react/date-picker`       | `.tale-date-picker`       |
 | Date Range Picker | `@tale-ui/react/date-range-picker` | `.tale-date-range-picker` |
-| Time Field | `@tale-ui/react/time-field` | `.tale-time-field` |
+| Time Field        | `@tale-ui/react/time-field`        | `.tale-time-field`        |
 
 ### Color
 
-| Component | Import path | Key classes |
-|-----------|------------|-------------|
-| Color Area | `@tale-ui/react/color-area` | `.tale-color-area` |
-| Color Slider | `@tale-ui/react/color-slider` | `.tale-color-slider` |
-| Color Wheel | `@tale-ui/react/color-wheel` | `.tale-color-wheel` |
-| Color Swatch | `@tale-ui/react/color-swatch` | `.tale-color-swatch` |
+| Component           | Import path                          | Key classes                 |
+| ------------------- | ------------------------------------ | --------------------------- |
+| Color Area          | `@tale-ui/react/color-area`          | `.tale-color-area`          |
+| Color Slider        | `@tale-ui/react/color-slider`        | `.tale-color-slider`        |
+| Color Wheel         | `@tale-ui/react/color-wheel`         | `.tale-color-wheel`         |
+| Color Swatch        | `@tale-ui/react/color-swatch`        | `.tale-color-swatch`        |
 | Color Swatch Picker | `@tale-ui/react/color-swatch-picker` | `.tale-color-swatch-picker` |
-| Color Field | `@tale-ui/react/color-field` | `.tale-color-field` |
-| Color Picker | `@tale-ui/react/color-picker` | — (headless state provider) |
+| Color Field         | `@tale-ui/react/color-field`         | `.tale-color-field`         |
+| Color Picker        | `@tale-ui/react/color-picker`        | — (headless state provider) |
 
 ### Layout
 
-| Component | Import path |
-|-----------|------------|
-| Accordion | `@tale-ui/react/accordion` |
-| Disclosure | `@tale-ui/react/disclosure` |
-| Tabs | `@tale-ui/react/tabs` |
+| Component   | Import path                  |
+| ----------- | ---------------------------- |
+| Accordion   | `@tale-ui/react/accordion`   |
+| Disclosure  | `@tale-ui/react/disclosure`  |
+| Tabs        | `@tale-ui/react/tabs`        |
 | Scroll Area | `@tale-ui/react/scroll-area` |
-| Separator | `@tale-ui/react/separator` |
+| Separator   | `@tale-ui/react/separator`   |
 
 ### Overlay
 
-| Component | Import path |
-|-----------|------------|
-| Dialog | `@tale-ui/react/dialog` |
+| Component    | Import path                   |
+| ------------ | ----------------------------- |
+| Dialog       | `@tale-ui/react/dialog`       |
 | Alert Dialog | `@tale-ui/react/alert-dialog` |
-| Popover | `@tale-ui/react/popover` |
-| Drawer | `@tale-ui/react/drawer` |
-| Tooltip | `@tale-ui/react/tooltip` |
+| Popover      | `@tale-ui/react/popover`      |
+| Drawer       | `@tale-ui/react/drawer`       |
+| Tooltip      | `@tale-ui/react/tooltip`      |
 | Preview Card | `@tale-ui/react/preview-card` |
 
 ### Navigation
 
-| Component | Import path |
-|-----------|------------|
-| Menu | `@tale-ui/react/menu` |
-| Context Menu | `@tale-ui/react/context-menu` |
-| Menubar | `@tale-ui/react/menubar` |
+| Component       | Import path                      |
+| --------------- | -------------------------------- |
+| Menu            | `@tale-ui/react/menu`            |
+| Context Menu    | `@tale-ui/react/context-menu`    |
+| Menubar         | `@tale-ui/react/menubar`         |
 | Navigation Menu | `@tale-ui/react/navigation-menu` |
-| Toolbar | `@tale-ui/react/toolbar` |
-| Breadcrumbs | `@tale-ui/react/breadcrumbs` |
-| Link | `@tale-ui/react/link` |
+| Toolbar         | `@tale-ui/react/toolbar`         |
+| Breadcrumbs     | `@tale-ui/react/breadcrumbs`     |
+| Link            | `@tale-ui/react/link`            |
 
 ### Feedback & Display
 
-| Component | Import path |
-|-----------|------------|
+| Component   | Import path                   |
+| ----------- | ----------------------------- |
 | ProgressBar | `@tale-ui/react/progress-bar` |
-| Meter | `@tale-ui/react/meter` |
-| Avatar | `@tale-ui/react/avatar` |
-| GridList | `@tale-ui/react/grid-list` |
-| Table | `@tale-ui/react/table` |
-| Tree | `@tale-ui/react/tree` |
-| TagGroup | `@tale-ui/react/tag-group` |
+| Meter       | `@tale-ui/react/meter`        |
+| Avatar      | `@tale-ui/react/avatar`       |
+| GridList    | `@tale-ui/react/grid-list`    |
+| Table       | `@tale-ui/react/table`        |
+| Tree        | `@tale-ui/react/tree`         |
+| TagGroup    | `@tale-ui/react/tag-group`    |
 
 ### Interaction
 
-| Component | Import path |
-|-----------|------------|
-| DropZone | `@tale-ui/react/drop-zone` |
+| Component   | Import path                   |
+| ----------- | ----------------------------- |
+| DropZone    | `@tale-ui/react/drop-zone`    |
 | FileTrigger | `@tale-ui/react/file-trigger` |
 
 ### Form Structure
 
-| Component | Import path |
-|-----------|------------|
-| Field | `@tale-ui/react/field` |
-| Fieldset | `@tale-ui/react/fieldset` |
-| Form | `@tale-ui/react/form` |
+| Component | Import path               |
+| --------- | ------------------------- |
+| Field     | `@tale-ui/react/field`    |
+| Fieldset  | `@tale-ui/react/fieldset` |
+| Form      | `@tale-ui/react/form`     |
 
 ### Utilities
 
-| Export | Import path | Purpose |
-|--------|------------|---------|
-| Container | `@tale-ui/react/container` | Sets `--color-*` vars for a named/random palette |
-| CSP Provider | `@tale-ui/react/csp-provider` | Content Security Policy nonce injection |
+| Export       | Import path                    | Purpose                                                     |
+| ------------ | ------------------------------ | ----------------------------------------------------------- |
+| Container    | `@tale-ui/react/container`     | Sets `--color-*` vars for a named/random palette            |
+| CSP Provider | `@tale-ui/react/csp-provider`  | Content Security Policy nonce injection                     |
 | I18nProvider | `@tale-ui/react/i18n-provider` | Locale and text direction (wraps React Aria's I18nProvider) |
-| `mergeProps` | `@tale-ui/react/merge-props` | Merge multiple prop objects |
+| `mergeProps` | `@tale-ui/react/merge-props`   | Merge multiple prop objects                                 |
 
 | Icon | `@tale-ui/react/icon` | Renders a Lucide icon with Tale UI sizing |
 | ColorModeToggle | `@tale-ui/react/color-mode-toggle` | Light/dark mode toggle with persistence |
@@ -386,20 +391,20 @@ Components that accept variant/size props apply the BEM modifier class for you:
 
 Components expose state via data attributes. Use these in CSS selectors:
 
-| Attribute | Meaning |
-|-----------|---------|
-| `data-disabled` | Component is disabled |
-| `data-open` | Popup / disclosure is open |
-| `data-closed` | Popup / disclosure is closed |
-| `data-checked` | Checkbox, radio, or switch is checked |
-| `data-unchecked` | Checkbox, radio, or switch is unchecked |
-| `data-selected` | Item is selected (select, combobox) |
-| `data-highlighted` | Item has keyboard/pointer highlight |
-| `data-focus-visible` | Keyboard focus is visible |
-| `data-side="top\|bottom\|left\|right"` | Popup placement side |
-| `data-starting-style` | Enter animation start |
-| `data-ending-style` | Exit animation start |
-| `data-popup-open` | Trigger element while its popup is open |
+| Attribute                              | Meaning                                 |
+| -------------------------------------- | --------------------------------------- |
+| `data-disabled`                        | Component is disabled                   |
+| `data-open`                            | Popup / disclosure is open              |
+| `data-closed`                          | Popup / disclosure is closed            |
+| `data-checked`                         | Checkbox, radio, or switch is checked   |
+| `data-unchecked`                       | Checkbox, radio, or switch is unchecked |
+| `data-selected`                        | Item is selected (select, combobox)     |
+| `data-highlighted`                     | Item has keyboard/pointer highlight     |
+| `data-focus-visible`                   | Keyboard focus is visible               |
+| `data-side="top\|bottom\|left\|right"` | Popup placement side                    |
+| `data-starting-style`                  | Enter animation start                   |
+| `data-ending-style`                    | Exit animation start                    |
+| `data-popup-open`                      | Trigger element while its popup is open |
 
 ---
 
@@ -418,7 +423,7 @@ import { Input } from '@tale-ui/react/input';
   <Input.Label>Email address</Input.Label>
   <Input.Input placeholder="you@example.com" />
   <Input.Description>We'll never share your email.</Input.Description>
-</Input.Root>
+</Input.Root>;
 ```
 
 React Aria automatically links the label to the input via `aria-labelledby` and the description via `aria-describedby`.
@@ -436,18 +441,18 @@ import { Field } from '@tale-ui/react/field';
     <input className="tale-input" type="password" />
   </Field.Control>
   <Field.Description>Must be at least 8 characters.</Field.Description>
-</Field.Root>
+</Field.Root>;
 ```
 
 > **Note:** `Field.Error` requires a React Aria validation context to render. For error messages, use a validatable component like `Input.Root` with `isInvalid` (see Pattern A) instead of `Field.Root`.
 
 ### When to use which
 
-| Situation | Use |
-|-----------|-----|
-| Using a Tale UI form control (Input, Select, etc.) | Pattern A — use the component's built-in `.Label`, `.Description` parts |
-| Wrapping a plain `<input>`, `<textarea>`, or custom control | Pattern B — wrap with `Field.Root` |
-| Grouping related controls (checkboxes, radios) | Use CheckboxGroup/RadioGroup with a `label` prop |
+| Situation                                                   | Use                                                                     |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Using a Tale UI form control (Input, Select, etc.)          | Pattern A — use the component's built-in `.Label`, `.Description` parts |
+| Wrapping a plain `<input>`, `<textarea>`, or custom control | Pattern B — wrap with `Field.Root`                                      |
+| Grouping related controls (checkboxes, radios)              | Use CheckboxGroup/RadioGroup with a `label` prop                        |
 
 ### Example: Login form
 
@@ -459,7 +464,11 @@ import { Form } from '@tale-ui/react/form';
 
 function LoginForm() {
   return (
-    <Form onSubmit={(e) => { e.preventDefault(); /* handle login */ }}>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault(); /* handle login */
+      }}
+    >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
         <Input.Root>
           <Input.Label>Email</Input.Label>
@@ -476,7 +485,9 @@ function LoginForm() {
           Remember me
         </Checkbox.Root>
 
-        <Button type="submit" variant="primary">Sign in</Button>
+        <Button type="submit" variant="primary">
+          Sign in
+        </Button>
       </div>
     </Form>
   );
@@ -492,10 +503,15 @@ function LoginForm() {
 ```tsx
 import { Form } from '@tale-ui/react/form';
 
-<Form validationBehavior="native" onSubmit={(e) => { e.preventDefault(); }}>
+<Form
+  validationBehavior="native"
+  onSubmit={(e) => {
+    e.preventDefault();
+  }}
+>
   <input className="tale-input" name="fullName" required />
   <Button type="submit">Submit</Button>
-</Form>
+</Form>;
 ```
 
 Tale UI integrates with native HTML validation. React Aria handles displaying validation messages and setting `aria-invalid`.
@@ -518,7 +534,7 @@ import { Input } from '@tale-ui/react/input';
       <Input.Input name="city" />
     </Input.Root>
   </div>
-</Fieldset.Root>
+</Fieldset.Root>;
 ```
 
 Fieldset automatically links its legend to the fieldset via `aria-labelledby`. The `disabled` prop propagates to all children.
@@ -540,7 +556,7 @@ import { Field } from '@tale-ui/react/field';
     <Checkbox.Indicator />
     SMS
   </Checkbox.Root>
-</CheckboxGroup>
+</CheckboxGroup>;
 ```
 
 ---
@@ -585,7 +601,7 @@ import { I18nProvider } from '@tale-ui/react/i18n-provider';
 
 <I18nProvider locale="ar-AE">
   <App />
-</I18nProvider>
+</I18nProvider>;
 ```
 
 Sets locale for RTL/LTR text direction and number/date formatting. Wraps React Aria's I18nProvider. Use the `useLocale()` hook to read the current locale.
@@ -597,7 +613,7 @@ import { CSPProvider } from '@tale-ui/react/csp-provider';
 
 <CSPProvider nonce="server-generated-nonce">
   <App />
-</CSPProvider>
+</CSPProvider>;
 ```
 
 Injects a nonce into inline `<style>` elements for Content Security Policy compliance. Only needed if your CSP forbids inline styles.
@@ -610,7 +626,7 @@ import { Container } from '@tale-ui/react/container';
 <Container color="red">
   {/* All --color-* tokens inside resolve to the red palette */}
   <Button variant="primary">Red Button</Button>
-</Container>
+</Container>;
 ```
 
 Equivalent to adding a `.color-red` class. Pass `color="random"` for a random palette.

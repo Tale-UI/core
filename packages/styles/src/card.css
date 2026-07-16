@@ -2,7 +2,9 @@
  * Card — @tale-ui/react
  *
  * Styled with @tale-ui/core design tokens.
- * Custom component (not React Aria). Presentational only.
+ * Root is presentational. Button uses React Aria Button and exposes:
+ * [data-disabled] [data-pending] [data-pressed] [data-hovered]
+ * [data-focus-visible], plus Tale UI's [data-selected].
  *
  * Variants:   .tale-card--outlined  (default — border)
  *             .tale-card--elevated  (shadow)
@@ -19,6 +21,38 @@
   border-radius: var(--radius-l);
   font-family: var(--text-font-family);
   overflow: hidden;
+}
+
+/* ─── Interactive button surface ───────────────────────────────────────────── */
+
+.tale-card--button {
+  appearance: none;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  user-select: none;
+}
+
+.tale-card--button[data-focus-visible] {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+.tale-card--button[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.tale-card--button[data-pending] {
+  opacity: 0.7;
+  cursor: progress;
 }
 
 /* ─── Padding ───────────────────────────────────────────────────────────────── */
@@ -49,6 +83,48 @@
 
 .tale-card--filled {
   background-color: var(--neutral-10);
+}
+
+/* ─── Interactive states ───────────────────────────────────────────────────── */
+
+.tale-card--button.tale-card--outlined[data-hovered]:not([data-disabled], [data-pending]) {
+  background-color: var(--neutral-10);
+  border-color: var(--neutral-30);
+}
+
+.tale-card--button.tale-card--elevated[data-hovered]:not([data-disabled], [data-pending]) {
+  background-color: var(--neutral-10);
+  box-shadow: var(--shadow-l);
+}
+
+.tale-card--button.tale-card--filled[data-hovered]:not([data-disabled], [data-pending]) {
+  background-color: var(--neutral-14);
+}
+
+.tale-card--button.tale-card--outlined[data-pressed]:not([data-disabled], [data-pending]),
+.tale-card--button.tale-card--filled[data-pressed]:not([data-disabled], [data-pending]) {
+  background-color: var(--neutral-18);
+  border-color: var(--neutral-40);
+}
+
+.tale-card--button.tale-card--elevated[data-pressed]:not([data-disabled], [data-pending]) {
+  background-color: var(--neutral-14);
+  box-shadow: var(--shadow-s);
+}
+
+.tale-card--button.tale-card--outlined[data-selected] {
+  border-color: var(--color-60);
+  box-shadow: inset 0 0 0 1px var(--color-60);
+}
+
+.tale-card--button.tale-card--elevated[data-selected] {
+  box-shadow:
+    var(--shadow-m),
+    inset 0 0 0 2px var(--color-60);
+}
+
+.tale-card--button.tale-card--filled[data-selected] {
+  box-shadow: inset 0 0 0 2px var(--color-60);
 }
 
 /* ─── Header ────────────────────────────────────────────────────────────────── */

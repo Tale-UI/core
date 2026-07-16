@@ -1,0 +1,55 @@
+{
+  "name": "@tale-ui/themes",
+  "version": "0.1.0",
+  "description": "Optional standard and monochrome themes for Tale UI.",
+  "keywords": [
+    "tale-ui",
+    "themes",
+    "design-tokens",
+    "css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tale-UI/core.git",
+    "directory": "packages/themes"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./themes.css": {
+      "types": "./src/themes.css.d.ts",
+      "default": "./src/themes.css"
+    },
+    "./css": {
+      "types": "./src/themes.css.d.ts",
+      "default": "./src/themes.css"
+    }
+  },
+  "scripts": {
+    "generate": "tsx scripts/generate-themes-css.ts",
+    "generate:check": "tsx scripts/generate-themes-css.ts --check",
+    "prebuild": "pnpm generate:check && rimraf --glob build build-tests \"*.tsbuildinfo\"",
+    "build": "node ../../tools/build-package.mjs && node scripts/finalize-build.mjs",
+    "test": "cross-env VITEST_ENV=jsdom vitest run --config vitest.config.mts",
+    "test:package": "pnpm build && publint run ./build --pack pnpm && attw --pack ./build --exclude-entrypoints themes.css --exclude-entrypoints css",
+    "typescript": "tsc -b tsconfig.json"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.28.6",
+    "@tale-ui/core": "workspace:*",
+    "@tale-ui/utils": "workspace:*",
+    "culori": "^4.0.2"
+  },
+  "devDependencies": {
+    "@tale-ui/monorepo-tests": "workspace:*",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "directory": "build"
+  }
+}

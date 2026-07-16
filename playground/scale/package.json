@@ -12,10 +12,6 @@
     "./App": {
       "types": "./src/App.d.ts",
       "default": "./src/App.jsx"
-    },
-    "./themes": {
-      "types": "./src/themes.d.ts",
-      "default": "./src/themes.js"
     }
   },
   "scripts": {
@@ -26,6 +22,7 @@
   "dependencies": {
     "@tale-ui/react": "workspace:*",
     "@tale-ui/react-styles": "workspace:*",
+    "@tale-ui/themes": "workspace:*",
     "color": "^5.0.3",
     "culori": "^4.0.2",
     "lucide-react": "^1.6.0",

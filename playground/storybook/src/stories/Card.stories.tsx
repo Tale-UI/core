@@ -1,6 +1,8 @@
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Card } from '@tale-ui/react/card';
 import { Button } from '@tale-ui/react/button';
+import { Text } from '@tale-ui/react/text';
 
 type Args = {
   variant: 'outlined' | 'elevated' | 'filled';
@@ -20,6 +22,40 @@ const meta: Meta<Args> = {
 export default meta;
 type Story = StoryObj<Args>;
 
+function InteractiveCards() {
+  const themes = [
+    { id: 'harbour', name: 'Harbour', description: 'Deep teal and warm stone.' },
+    { id: 'violet', name: 'Violet Dusk', description: 'Soft violet and balanced slate.' },
+    { id: 'fern', name: 'Fern', description: 'Leaf green and botanical grey.' },
+  ];
+  const [selectedTheme, setSelectedTheme] = React.useState(themes[0].id);
+
+  return (
+    <div
+      role="group"
+      aria-label="Theme actions"
+      style={{ display: 'flex', gap: 'var(--space-s)', alignItems: 'stretch' }}
+    >
+      {themes.map((theme) => (
+        <Card.Button
+          key={theme.id}
+          padding="sm"
+          isSelected={selectedTheme === theme.id}
+          onPress={() => setSelectedTheme(theme.id)}
+          style={{ width: '12rem' }}
+        >
+          <Text as="span" variant="label" size="m">
+            {theme.name}
+          </Text>
+          <Text as="span" variant="text" size="s" color="muted">
+            {theme.description}
+          </Text>
+        </Card.Button>
+      ))}
+    </div>
+  );
+}
+
 export const Default: Story = {
   render(args) {
     return (
@@ -27,8 +63,12 @@ export const Default: Story = {
         <Card.Header>Card title</Card.Header>
         <Card.Body>This is the card body content. It can contain any elements.</Card.Body>
         <Card.Footer>
-          <Button variant="ghost" size="sm">Cancel</Button>
-          <Button variant="primary" size="sm">Confirm</Button>
+          <Button variant="ghost" size="sm">
+            Cancel
+          </Button>
+          <Button variant="primary" size="sm">
+            Confirm
+          </Button>
         </Card.Footer>
       </Card.Root>
     );
@@ -67,4 +107,9 @@ export const AllPaddings: Story = {
       </div>
     );
   },
+};
+
+export const Interactive: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => <InteractiveCards />,
 };

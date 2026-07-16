@@ -5,6 +5,7 @@ on:
     tags:
       - 'css-v*.*.*'
       - 'react-v*.*.*'
+      - 'themes-v*.*.*'
   workflow_dispatch:
     inputs:
       scope:
@@ -14,6 +15,7 @@ on:
         options:
           - css
           - react
+          - themes
       version:
         description: 'Version without prefix (e.g. 1.2.3)'
         required: true
@@ -54,6 +56,9 @@ jobs:
             elif [[ "$TAG" == react-v* ]]; then
               echo "scope=react" >> "$GITHUB_OUTPUT"
               echo "version=${TAG#react-v}" >> "$GITHUB_OUTPUT"
+            elif [[ "$TAG" == themes-v* ]]; then
+              echo "scope=themes" >> "$GITHUB_OUTPUT"
+              echo "version=${TAG#themes-v}" >> "$GITHUB_OUTPUT"
             else
               echo "Unknown tag prefix: $TAG"
               exit 1
@@ -241,6 +246,61 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: "react-v${{ needs.resolve.outputs.version }}"
+          name: 'react-v${{ needs.resolve.outputs.version }}'
           body: |
             Published @tale-ui/react, @tale-ui/react-styles, and @tale-ui/utils v${{ needs.resolve.outputs.version }} to npm.
+
+  publish-themes:
+    needs: resolve
+    if: needs.resolve.outputs.scope == 'themes'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify version matches package.json
+        shell: bash
+        run: |
+          EXPECTED="${{ needs.resolve.outputs.version }}"
+          ACTUAL=$(node -p "require('./packages/themes/package.json').version")
+          echo "Expected: $EXPECTED"
+          echo "Actual:   $ACTUAL"
+          if [ "$EXPECTED" != "$ACTUAL" ]; then
+            echo "Version mismatch between tag and packages/themes/package.json"
+            exit 1
+          fi
+
+      - name: Build and validate @tale-ui/themes
+        run: pnpm --filter @tale-ui/themes test:package
+
+      - name: Publish @tale-ui/themes
+        if: needs.resolve.outputs.dry_run != 'true'
+        run: pnpm --filter @tale-ui/themes publish --access public --no-git-checks --provenance --tag ${{ needs.resolve.outputs.dist_tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Dry run notice
+        if: needs.resolve.outputs.dry_run == 'true'
+        run: echo "Dry run — skipped npm publish for @tale-ui/themes@${{ needs.resolve.outputs.version }}"
+
+      - name: Create GitHub release
+        if: needs.resolve.outputs.dry_run != 'true' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: 'themes-v${{ needs.resolve.outputs.version }}'
+          body: |
+            Published @tale-ui/themes v${{ needs.resolve.outputs.version }} to npm.

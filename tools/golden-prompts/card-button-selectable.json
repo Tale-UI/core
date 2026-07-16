@@ -1,0 +1,7 @@
+{
+  "slug": "card-button-selectable",
+  "difficulty": "medium",
+  "prompt": "Create two interactive theme cards labeled 'Harbour' and 'Fern'. Use Card.Button for each whole-card action, track the selected theme in React state, and show the active card with isSelected. Add a short muted description inside each card.",
+  "reference": "import * as React from 'react';\nimport { Card } from '@tale-ui/react/card';\nimport { Row } from '@tale-ui/react/row';\nimport { Text } from '@tale-ui/react/text';\n\nexport function SelectableThemeCards() {\n  const [selectedTheme, setSelectedTheme] = React.useState('harbour');\n\n  return (\n    <Row role=\"group\" aria-label=\"Theme actions\" gap=\"s\">\n      <Card.Button\n        padding=\"sm\"\n        isSelected={selectedTheme === 'harbour'}\n        onPress={() => setSelectedTheme('harbour')}\n      >\n        <Text as=\"span\" variant=\"label\" size=\"m\">Harbour</Text>\n        <Text as=\"span\" variant=\"text\" size=\"s\" color=\"muted\">\n          Deep teal with a warm stone neutral.\n        </Text>\n      </Card.Button>\n      <Card.Button\n        padding=\"sm\"\n        isSelected={selectedTheme === 'fern'}\n        onPress={() => setSelectedTheme('fern')}\n      >\n        <Text as=\"span\" variant=\"label\" size=\"m\">Fern</Text>\n        <Text as=\"span\" variant=\"text\" size=\"s\" color=\"muted\">\n          Leaf green with a botanical neutral.\n        </Text>\n      </Card.Button>\n    </Row>\n  );\n}",
+  "tags": ["Card", "Row", "Text"]
+}

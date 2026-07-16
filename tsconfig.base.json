@@ -22,6 +22,8 @@
       "@tale-ui/charts": ["./packages/charts/src"],
       "@tale-ui/charts/styles": ["./packages/charts/src/chart.css"],
       "@tale-ui/charts/*": ["./packages/charts/src/*"],
+      "@tale-ui/themes": ["./packages/themes/src"],
+      "@tale-ui/themes/*": ["./packages/themes/src/*"],
       "@tale-ui/a2ui": ["./packages/a2ui/src"],
       "@tale-ui/a2ui/*": ["./packages/a2ui/src/*"],
       "docs/*": ["./docs/*"]

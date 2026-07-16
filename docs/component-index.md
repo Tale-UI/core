@@ -91,7 +91,7 @@ For detailed usage, see the per-component docs in [docs/components/](components/
 | Component  | Description                                                                  | Import                       | Parts                                                                    |
 | ---------- | ---------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------ |
 | Accordion  | Collapsible content sections                                                 | `@tale-ui/react/accordion`   | Root, Item, Header, Trigger, Panel                                       |
-| Card       | Surface container with header, body, and footer sections                     | `@tale-ui/react/card`        | Root, Header, Body, Footer                                               |
+| Card       | Presentational and interactive card surfaces                                 | `@tale-ui/react/card`        | Root, Button, Header, Body, Footer                                       |
 | Carousel   | Slide carousel with navigation                                               | `@tale-ui/react/carousel`    | Root, Content, Item, PreviousTrigger, NextTrigger, Indicators, Indicator |
 | Column     | Vertical flex-column layout with gap, align, and justify props               | `@tale-ui/react/column`      | --                                                                       |
 | Disclosure | Single collapsible section                                                   | `@tale-ui/react/disclosure`  | Root, Trigger, Panel                                                     |

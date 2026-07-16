@@ -6,12 +6,13 @@ import { routes } from './routes';
 import ScaleDemo from './demos/ScaleDemo';
 import { ThemeDrawer } from './ThemeDrawer';
 import '@tale-ui/react-styles/index.css';
+import '@tale-ui/themes/themes.css';
 import './index.css';
 
 const baseUrl = import.meta.env.BASE_URL;
 const routerBase = baseUrl === '/' ? '' : baseUrl.replace(/\/$/, '');
 const scaleHashPattern =
-  /^#[0-9a-fA-F]{6}\/[0-9a-fA-F]{6}\/(?:named|neutral)(?:\/[^/]+)?(?:\/named-neutral)?$/;
+  /^#[0-9a-fA-F]{6}\/[0-9a-fA-F]{6}\/(?:named|neutral)(?:\/[^/]+)?(?:\/(?:monochrome|named-neutral))?$/;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

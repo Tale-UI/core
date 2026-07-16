@@ -1333,7 +1333,7 @@
       "slug": "card",
       "import": "@tale-ui/react/card",
       "category": "Layout",
-      "description": "Surface container with header, body, and footer sections",
+      "description": "Presentational and interactive card surfaces",
       "kind": "compound",
       "status": "stable",
       "props": [
@@ -1360,27 +1360,59 @@
             "md",
             "lg"
           ]
+        },
+        {
+          "name": "isSelected",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "onPress",
+          "type": "function",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
+        },
+        {
+          "name": "isPending",
+          "type": "boolean",
+          "required": false,
+          "description": null,
+          "default": null
         }
       ],
       "parts": [
         "Root",
+        "Button",
         "Header",
         "Body",
         "Footer"
       ],
       "examples": [
-        "<Card.Root>\n  <Card.Header>\n    <Text variant=\"title\" size=\"m\">Card Title</Text>\n  </Card.Header>\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">Card content goes here.</Text>\n  </Card.Body>\n</Card.Root>",
-        "<Card.Root variant=\"outlined\">\n  <Card.Header>\n    <Text variant=\"title\" size=\"m\">Project Settings</Text>\n  </Card.Header>\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">Configure your project preferences.</Text>\n  </Card.Body>\n  <Card.Footer>\n    <Row gap=\"s\" justify=\"end\">\n      <Button>Cancel</Button>\n      <Button variant=\"primary\">Save</Button>\n    </Row>\n  </Card.Footer>\n</Card.Root>",
+        "<Card.Root>\n  <Card.Header>\n    <Text variant=\"title\" size=\"m\">\n      Card Title\n    </Text>\n  </Card.Header>\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">\n      Card content goes here.\n    </Text>\n  </Card.Body>\n</Card.Root>",
+        "import { Card } from '@tale-ui/react/card';\nimport { Text } from '@tale-ui/react/text';\n\n<Card.Button variant=\"outlined\" padding=\"sm\" onPress={() => openProject('atlas')}>\n  <Text as=\"span\" variant=\"label\" size=\"m\">\n    Atlas project\n  </Text>\n  <Text as=\"span\" variant=\"text\" size=\"s\" color=\"muted\">\n    Open project details\n  </Text>\n</Card.Button>;",
+        "import * as React from 'react';\nimport { Card } from '@tale-ui/react/card';\nimport { Text } from '@tale-ui/react/text';\n\nexport function ThemeCard() {\n  const [selected, setSelected] = React.useState(false);\n\n  return (\n    <Card.Button isSelected={selected} onPress={() => setSelected((value) => !value)}>\n      <Text as=\"span\" variant=\"label\" size=\"m\">\n        Harbour theme\n      </Text>\n    </Card.Button>\n  );\n}",
+        "<Card.Root variant=\"outlined\">\n  <Card.Header>\n    <Text variant=\"title\" size=\"m\">\n      Project Settings\n    </Text>\n  </Card.Header>\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">\n      Configure your project preferences.\n    </Text>\n  </Card.Body>\n  <Card.Footer>\n    <Row gap=\"s\" justify=\"end\">\n      <Button>Cancel</Button>\n      <Button variant=\"primary\">Save</Button>\n    </Row>\n  </Card.Footer>\n</Card.Root>",
         "<Card.Root variant=\"elevated\">\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">\n      An elevated card with a shadow for visual depth.\n    </Text>\n  </Card.Body>\n</Card.Root>",
         "<Card.Root variant=\"filled\">\n  <Card.Body>\n    <Text variant=\"text\" size=\"m\">\n      A filled card with a subtle background color.\n    </Text>\n  </Card.Body>\n</Card.Root>",
         "<Card.Root padding=\"sm\">\n  <Card.Body><Text>Small padding</Text></Card.Body>\n</Card.Root>\n\n<Card.Root padding=\"md\">\n  <Card.Body><Text>Medium padding (default)</Text></Card.Body>\n</Card.Root>\n\n<Card.Root padding=\"lg\">\n  <Card.Body><Text>Large padding</Text></Card.Body>\n</Card.Root>",
-        "<Card.Root variant=\"outlined\" padding=\"md\">\n  <Card.Header>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"title\" size=\"m\">Team Members</Text>\n      <Badge variant=\"brand\">3 active</Badge>\n    </Row>\n  </Card.Header>\n  <Card.Body>\n    <Column gap=\"s\">\n      <Text variant=\"text\" size=\"m\">Alice Johnson</Text>\n      <Text variant=\"text\" size=\"m\">Bob Smith</Text>\n      <Text variant=\"text\" size=\"m\">Carol Lee</Text>\n    </Column>\n  </Card.Body>\n  <Card.Footer>\n    <Button variant=\"ghost\" size=\"sm\">View all</Button>\n  </Card.Footer>\n</Card.Root>",
-        "import { Card } from '@tale-ui/react/card';\n    \n    export function Example() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>Title</Card.Header>\n          <Card.Body>Content goes here.</Card.Body>\n          <Card.Footer>Footer actions</Card.Footer>\n        </Card.Root>\n      );\n    }",
-        "import { Card } from '@tale-ui/react/card';\n    import { Row } from '@tale-ui/react/row';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    import { Badge } from '@tale-ui/react/badge';\n\n    export function StatCards() {\n      return (\n        <Row gap=\"m\">\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Revenue</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">$48,200</Text>\n                <Badge variant=\"success\">+12%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Users</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">12,340</Text>\n                <Badge variant=\"success\">+8%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Orders</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">1,893</Text>\n                <Badge variant=\"error\">-3%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n        </Row>\n      );\n    }",
-        "import { Card } from '@tale-ui/react/card';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Badge } from '@tale-ui/react/badge';\n    import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Button } from '@tale-ui/react/button';\n    import { Pencil } from 'lucide-react';\n    \n    export function UserProfileCard() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>\n            <Image src=\"/profile.jpg\" alt=\"Sarah Chen\" radius=\"full\" width={80} height={80} />\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Text variant=\"heading\">Sarah Chen</Text>\n              <Text color=\"muted\">Senior Engineer</Text>\n              <Row gap=\"s\">\n                <Badge variant=\"neutral\">React</Badge>\n                <Badge variant=\"neutral\">TypeScript</Badge>\n              </Row>\n            </Column>\n          </Card.Body>\n          <Card.Footer>\n            <Row gap=\"s\">\n              <IconButton variant=\"ghost\" aria-label=\"Edit profile\">\n                <Icon icon={Pencil} />\n              </IconButton>\n              <Button variant=\"primary\">Message</Button>\n            </Row>\n          </Card.Footer>\n        </Card.Root>\n      );\n    }"
+        "<Card.Root variant=\"outlined\" padding=\"md\">\n  <Card.Header>\n    <Row justify=\"between\" align=\"center\">\n      <Text variant=\"title\" size=\"m\">\n        Team Members\n      </Text>\n      <Badge variant=\"brand\">3 active</Badge>\n    </Row>\n  </Card.Header>\n  <Card.Body>\n    <Column gap=\"s\">\n      <Text variant=\"text\" size=\"m\">\n        Alice Johnson\n      </Text>\n      <Text variant=\"text\" size=\"m\">\n        Bob Smith\n      </Text>\n      <Text variant=\"text\" size=\"m\">\n        Carol Lee\n      </Text>\n    </Column>\n  </Card.Body>\n  <Card.Footer>\n    <Button variant=\"ghost\" size=\"sm\">\n      View all\n    </Button>\n  </Card.Footer>\n</Card.Root>",
+        "import { Card } from '@tale-ui/react/card';\n\n    export function Example() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>Title</Card.Header>\n          <Card.Body>Content goes here.</Card.Body>\n          <Card.Footer>Footer actions</Card.Footer>\n        </Card.Root>\n      );\n    }",
+        "import { Card } from '@tale-ui/react/card';\n    import { Row } from '@tale-ui/react/row';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    import { Badge } from '@tale-ui/react/badge';\n\n    export function StatCards() {\n      return (\n        <Row gap=\"m\">\n          <Card.Root>\n            <Card.Header>\n              <Text color=\"muted\">Revenue</Text>\n            </Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">$48,200</Text>\n                <Badge variant=\"success\">+12%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header>\n              <Text color=\"muted\">Users</Text>\n            </Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">12,340</Text>\n                <Badge variant=\"success\">+8%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header>\n              <Text color=\"muted\">Orders</Text>\n            </Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">1,893</Text>\n                <Badge variant=\"error\">-3%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n        </Row>\n      );\n    }",
+        "import { Card } from '@tale-ui/react/card';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Badge } from '@tale-ui/react/badge';\n    import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Button } from '@tale-ui/react/button';\n    import { Pencil } from 'lucide-react';\n\n    export function UserProfileCard() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>\n            <Image src=\"/profile.jpg\" alt=\"Sarah Chen\" radius=\"full\" width={80} height={80} />\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Text variant=\"heading\">Sarah Chen</Text>\n              <Text color=\"muted\">Senior Engineer</Text>\n              <Row gap=\"s\">\n                <Badge variant=\"neutral\">React</Badge>\n                <Badge variant=\"neutral\">TypeScript</Badge>\n              </Row>\n            </Column>\n          </Card.Body>\n          <Card.Footer>\n            <Row gap=\"s\">\n              <IconButton variant=\"ghost\" aria-label=\"Edit profile\">\n                <Icon icon={Pencil} />\n              </IconButton>\n              <Button variant=\"primary\">Message</Button>\n            </Row>\n          </Card.Footer>\n        </Card.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-card",
+        "tale-card--button",
         "tale-card--elevated",
         "tale-card--filled",
         "tale-card--lg",
@@ -1393,9 +1425,64 @@
       ],
       "pitfalls": [
         {
+          "id": "card-button-not-inside-root",
+          "summary": "Card.Button is an alternative root, not a child of Card.Root",
+          "detail": "nesting the button adds an unnecessary interactive region inside a presentational card.",
+          "antiPatterns": [
+            "<Card.Root><Card.Button>Open</Card.Button></Card.Root>"
+          ],
+          "fixes": [
+            "<Card.Button>Open</Card.Button>"
+          ]
+        },
+        {
+          "id": "card-button-no-interactive-children",
+          "summary": "Do not place interactive descendants inside Card.Button",
+          "detail": "nested buttons, links, inputs, and controls create invalid or ambiguous interaction semantics. Use `Card.Root` when a card contains its own actions.",
+          "antiPatterns": [
+            "<Card.Button><Button>Save</Button></Card.Button>"
+          ],
+          "fixes": [
+            "<Card.Root><Card.Body>Content</Card.Body><Card.Footer><Button>Save</Button></Card.Footer></Card.Root>"
+          ]
+        },
+        {
+          "id": "card-button-phrasing-content",
+          "summary": "Compose Card.Button with phrasing content, not the div-based Card.Header, Card.Body, or Card.Footer parts",
+          "detail": "native buttons accept text-level content, while the structured Card sections are intended for `Card.Root`.",
+          "antiPatterns": [
+            "<Card.Button><Card.Body>Open project</Card.Body></Card.Button>"
+          ],
+          "fixes": [
+            "<Card.Button><Text as=\"span\">Open project</Text></Card.Button>"
+          ]
+        },
+        {
+          "id": "card-button-press-not-click",
+          "summary": "Use onPress, not onClick, for Card.Button actions",
+          "detail": "`onPress` provides consistent mouse, touch, and keyboard behavior through React Aria.",
+          "antiPatterns": [
+            "<Card.Button onClick={openProject}>Open project</Card.Button>"
+          ],
+          "fixes": [
+            "<Card.Button onPress={openProject}>Open project</Card.Button>"
+          ]
+        },
+        {
+          "id": "card-button-selected-controlled",
+          "summary": "isSelected is controlled and represents a pressed/active action state",
+          "detail": "update it in response to `onPress`; for form-style mutually exclusive choices, use `RadioField` instead.",
+          "antiPatterns": [
+            "<Card.Button isSelected>Theme</Card.Button>"
+          ],
+          "fixes": [
+            "<Card.Button isSelected={selected} onPress={() => setSelected(!selected)}>Theme</Card.Button>"
+          ]
+        },
+        {
           "id": "card-no-elevated-boolean",
           "summary": "No elevated boolean prop",
-          "detail": "use `variant=\"elevated\"`; there is also no `variant=\"raised\"`.\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    \n    export function Example() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>Title</Card.Header>\n          <Card.Body>Content goes here.</Card.Body>\n          <Card.Footer>Footer actions</Card.Footer>\n        </Card.Root>\n      );\n    }\n    ```",
+          "detail": "use `variant=\"elevated\"`; there is also no `variant=\"raised\"`.\n\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n\n    export function Example() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>Title</Card.Header>\n          <Card.Body>Content goes here.</Card.Body>\n          <Card.Footer>Footer actions</Card.Footer>\n        </Card.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Card.Root elevated>"
           ],
@@ -1444,19 +1531,19 @@
         {
           "id": "use-card-row-column-text",
           "summary": "Use Card + Row + Column + Text + Badge for any prompt that asks for stat cards, metric cards, or KPI cards",
-          "detail": "when the request is to display a row of cards each showing a label, a large value, and a trend badge, render `Card.Root` for each card with `Card.Header`/`Card.Body`, wrap card body content in `<Column gap=\"s\">`, and use `<Row gap=\"m\">` to lay the cards out horizontally instead of leaving the file empty.\n\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    import { Row } from '@tale-ui/react/row';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    import { Badge } from '@tale-ui/react/badge';\n\n    export function StatCards() {\n      return (\n        <Row gap=\"m\">\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Revenue</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">$48,200</Text>\n                <Badge variant=\"success\">+12%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Users</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">12,340</Text>\n                <Badge variant=\"success\">+8%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header><Text color=\"muted\">Orders</Text></Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">1,893</Text>\n                <Badge variant=\"error\">-3%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n        </Row>\n      );\n    }\n    ```",
+          "detail": "when the request is to display a row of cards each showing a label, a large value, and a trend badge, render `Card.Root` for each card with `Card.Header`/`Card.Body`, wrap card body content in `<Column gap=\"s\">`, and use `<Row gap=\"m\">` to lay the cards out horizontally instead of leaving the file empty.\n\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    import { Row } from '@tale-ui/react/row';\n    import { Column } from '@tale-ui/react/column';\n    import { Text } from '@tale-ui/react/text';\n    import { Badge } from '@tale-ui/react/badge';\n\n    export function StatCards() {\n      return (\n        <Row gap=\"m\">\n          <Card.Root>\n            <Card.Header>\n              <Text color=\"muted\">Revenue</Text>\n            </Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">$48,200</Text>\n                <Badge variant=\"success\">+12%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header>\n              <Text color=\"muted\">Users</Text>\n            </Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">12,340</Text>\n                <Badge variant=\"success\">+8%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n          <Card.Root>\n            <Card.Header>\n              <Text color=\"muted\">Orders</Text>\n            </Card.Header>\n            <Card.Body>\n              <Column gap=\"s\">\n                <Text variant=\"display\">1,893</Text>\n                <Badge variant=\"error\">-3%</Badge>\n              </Column>\n            </Card.Body>\n          </Card.Root>\n        </Row>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file"
           ],
           "fixes": [
             "import { Card } from '@tale-ui/react/card'; import { Row } from '@tale-ui/react/row'; import { Column } from '@tale-ui/react/column'; import { Text } from '@tale-ui/react/text'; import { Badge } from '@tale-ui/react/badge'; export function StatCards() { return <Row gap=\"m\"><Card.Root><Card.Header><Text color=\"muted\">Revenue</Text></Card.Header><Card.Body><Column gap=\"s\"><Text variant=\"display\">$48,200</Text><Badge variant=\"success\">+12%</Badge></Column></Card.Body></Card.Root></Row>; }"
           ],
-          "completeExample": "import { Card } from '@tale-ui/react/card';\nimport { Row } from '@tale-ui/react/row';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\nimport { Badge } from '@tale-ui/react/badge';\n\nexport function StatCards() {\n  return (\n    <Row gap=\"m\">\n      <Card.Root>\n        <Card.Header><Text color=\"muted\">Revenue</Text></Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">$48,200</Text>\n            <Badge variant=\"success\">+12%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n      <Card.Root>\n        <Card.Header><Text color=\"muted\">Users</Text></Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">12,340</Text>\n            <Badge variant=\"success\">+8%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n      <Card.Root>\n        <Card.Header><Text color=\"muted\">Orders</Text></Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">1,893</Text>\n            <Badge variant=\"error\">-3%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n    </Row>\n  );\n}"
+          "completeExample": "import { Card } from '@tale-ui/react/card';\nimport { Row } from '@tale-ui/react/row';\nimport { Column } from '@tale-ui/react/column';\nimport { Text } from '@tale-ui/react/text';\nimport { Badge } from '@tale-ui/react/badge';\n\nexport function StatCards() {\n  return (\n    <Row gap=\"m\">\n      <Card.Root>\n        <Card.Header>\n          <Text color=\"muted\">Revenue</Text>\n        </Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">$48,200</Text>\n            <Badge variant=\"success\">+12%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n      <Card.Root>\n        <Card.Header>\n          <Text color=\"muted\">Users</Text>\n        </Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">12,340</Text>\n            <Badge variant=\"success\">+8%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n      <Card.Root>\n        <Card.Header>\n          <Text color=\"muted\">Orders</Text>\n        </Card.Header>\n        <Card.Body>\n          <Column gap=\"s\">\n            <Text variant=\"display\">1,893</Text>\n            <Badge variant=\"error\">-3%</Badge>\n          </Column>\n        </Card.Body>\n      </Card.Root>\n    </Row>\n  );\n}"
         },
         {
           "id": "use-card-image-text-column",
           "summary": "Use Card + Image + Text + Column + Row + Badge + IconButton + Icon + Button for any prompt that asks for a profile card, user card, or contact card",
-          "detail": "when the request is to display a user's profile photo, name, role/title, skill badges, and action buttons inside a card, render `Card.Root` with `Card.Header`, `Card.Body`, and `Card.Footer`; place `<Image>` in `Card.Header`, wrap body content in `<Column gap=\"s\">` inside `Card.Body`, and wrap footer actions in `<Row gap=\"s\">` inside `Card.Footer`. Use `variant=\"elevated\"` when the prompt requests an elevated card style.\n\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Badge } from '@tale-ui/react/badge';\n    import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Button } from '@tale-ui/react/button';\n    import { Pencil } from 'lucide-react';\n    \n    export function UserProfileCard() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>\n            <Image src=\"/profile.jpg\" alt=\"Sarah Chen\" radius=\"full\" width={80} height={80} />\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Text variant=\"heading\">Sarah Chen</Text>\n              <Text color=\"muted\">Senior Engineer</Text>\n              <Row gap=\"s\">\n                <Badge variant=\"neutral\">React</Badge>\n                <Badge variant=\"neutral\">TypeScript</Badge>\n              </Row>\n            </Column>\n          </Card.Body>\n          <Card.Footer>\n            <Row gap=\"s\">\n              <IconButton variant=\"ghost\" aria-label=\"Edit profile\">\n                <Icon icon={Pencil} />\n              </IconButton>\n              <Button variant=\"primary\">Message</Button>\n            </Row>\n          </Card.Footer>\n        </Card.Root>\n      );\n    }\n    ```",
+          "detail": "when the request is to display a user's profile photo, name, role/title, skill badges, and action buttons inside a card, render `Card.Root` with `Card.Header`, `Card.Body`, and `Card.Footer`; place `<Image>` in `Card.Header`, wrap body content in `<Column gap=\"s\">` inside `Card.Body`, and wrap footer actions in `<Row gap=\"s\">` inside `Card.Footer`. Use `variant=\"elevated\"` when the prompt requests an elevated card style.\n\n    ```tsx\n    import { Card } from '@tale-ui/react/card';\n    import { Image } from '@tale-ui/react/image';\n    import { Text } from '@tale-ui/react/text';\n    import { Column } from '@tale-ui/react/column';\n    import { Row } from '@tale-ui/react/row';\n    import { Badge } from '@tale-ui/react/badge';\n    import { IconButton } from '@tale-ui/react/icon-button';\n    import { Icon } from '@tale-ui/react/icon';\n    import { Button } from '@tale-ui/react/button';\n    import { Pencil } from 'lucide-react';\n\n    export function UserProfileCard() {\n      return (\n        <Card.Root variant=\"elevated\">\n          <Card.Header>\n            <Image src=\"/profile.jpg\" alt=\"Sarah Chen\" radius=\"full\" width={80} height={80} />\n          </Card.Header>\n          <Card.Body>\n            <Column gap=\"s\">\n              <Text variant=\"heading\">Sarah Chen</Text>\n              <Text color=\"muted\">Senior Engineer</Text>\n              <Row gap=\"s\">\n                <Badge variant=\"neutral\">React</Badge>\n                <Badge variant=\"neutral\">TypeScript</Badge>\n              </Row>\n            </Column>\n          </Card.Body>\n          <Card.Footer>\n            <Row gap=\"s\">\n              <IconButton variant=\"ghost\" aria-label=\"Edit profile\">\n                <Icon icon={Pencil} />\n              </IconButton>\n              <Button variant=\"primary\">Message</Button>\n            </Row>\n          </Card.Footer>\n        </Card.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "// empty file"
           ],

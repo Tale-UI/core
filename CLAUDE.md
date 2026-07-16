@@ -9,6 +9,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [packages/css](packages/css/CLAUDE.md)       | `@tale-ui/core`         | Modular token-based CSS design system                                                            |
 | [packages/react](packages/react/)            | `@tale-ui/react`        | Styled React components — BEM class names applied automatically (built on React Aria Components) |
 | [packages/styles](packages/styles/)          | `@tale-ui/react-styles` | CSS per component (uses @tale-ui/core tokens)                                                    |
+| [packages/themes](packages/themes/CLAUDE.md) | `@tale-ui/themes`       | Optional standard and monochrome theme presets                                                   |
 | [packages/utils](packages/utils/)            | `@tale-ui/utils`        | Shared utilities                                                                                 |
 | [packages/charts](packages/charts/CLAUDE.md) | `@tale-ui/charts`       | Recharts-based chart components themed with design tokens                                        |
 | [packages/a2ui](packages/a2ui/)              | `@tale-ui/a2ui`         | A2UI protocol renderer — maps agent messages to Tale UI components                               |
@@ -352,7 +353,7 @@ Status of required artifacts for all 116 components. When adding or updating a c
 | Component  | styled | index | test | css | prim | doc | snip | rdme | idx | story | audit | a2ui | status |
 | ---------- | ------ | ----- | ---- | --- | ---- | --- | ---- | ---- | --- | ----- | ----- | ---- | ------ |
 | Accordion  | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
-| Card       | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
+| Card       | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 | Carousel   | ✓      | ✓     | ✓    | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 | Column     | ✓      | ✓     | n/a  | ✓   | n/a  | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |
 | Disclosure | ✓      | ✓     | n/a  | ✓   | ✓    | ✓   | ✓    | ✓    | ✓   | ✓     | ✓     | ✓    | stable |

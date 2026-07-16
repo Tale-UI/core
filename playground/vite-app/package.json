@@ -12,6 +12,7 @@
     "@tale-ui/charts": "workspace:*",
     "@tale-ui/mcp-studio": "workspace:*",
     "@tale-ui/playground-scale": "workspace:*",
+    "@tale-ui/themes": "workspace:*",
     "lucide-react": "^1.6.0",
     "motion": "^12.38.0",
     "qr-code-styling": "^1.9.2",

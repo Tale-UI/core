@@ -2,13 +2,25 @@ import './App.css';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Button } from '@tale-ui/react/button';
+import { Card } from '@tale-ui/react/card';
 import { ToggleButton, ToggleButtonGroup } from '@tale-ui/react/toggle-button';
+import {
+  DEFAULT_STANDARD_THEME_ID,
+  MONOCHROME_THEMES,
+  MONOCHROME_THEME_ATTRIBUTE,
+  STANDARD_THEMES,
+  THEME_ATTRIBUTE,
+  getMonochromeThemeById,
+  getMonochromeThemeIdForColor,
+  getStandardThemeById,
+  getStandardThemeIdForColors,
+} from '@tale-ui/themes';
 import { useTimeout } from '@tale-ui/utils/useTimeout';
 import {
   isValidHex,
   numberToHex,
   generatePalette,
-  generateNamedNeutralPalette,
+  generateMonochromePalette,
   randomBaseColor,
   getContrastRatio,
   generateCssOutput,
@@ -25,7 +37,6 @@ import BackgroundSelector from './components/background-selector';
 import ContrastPivotSelector from './components/contrast-pivot-selector';
 import CssOutput from './components/css-output';
 import ComponentPreview from './components/component-preview';
-import { DEFAULT_THEME_ID, THEMES, getThemeById, getThemeIdForColors } from './themes';
 
 const { useEffect, useMemo, useRef, useState } = React;
 
@@ -128,34 +139,12 @@ const ThemeGrid = styled.div`
   gap: var(--space-xs);
 `;
 
-const ThemeCard = styled.button`
-  appearance: none;
+const ThemeCard = styled(Card.Button)`
+  flex-direction: row;
   display: flex;
   align-items: center;
   gap: var(--space-xs);
   width: 100%;
-  padding: var(--space-xs);
-  border: 1px solid var(--neutral-24);
-  border-radius: var(--radius-m);
-  background: var(--neutral-10);
-  color: var(--text-color);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-
-  &[data-selected] {
-    border-color: var(--color-60);
-    box-shadow: 0 0 0 1px var(--color-60);
-  }
-
-  &:hover {
-    background: var(--neutral-14);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-60);
-    outline-offset: 2px;
-  }
 `;
 
 const ThemeSwatches = styled.span`
@@ -334,9 +323,9 @@ const getNamedForegroundToken = (palette, shade, bgIsLight) => {
     : 'var(--color-100)';
 };
 
-const defaultTheme = getThemeById(DEFAULT_THEME_ID);
-const DEFAULT_NAMED_COLOR = defaultTheme?.brandColor ?? '025768';
-const DEFAULT_NEUTRAL_COLOR = defaultTheme?.neutralColor ?? '79716b';
+const defaultTheme = getStandardThemeById(DEFAULT_STANDARD_THEME_ID);
+const DEFAULT_NAMED_COLOR = defaultTheme?.brandColor.replace(/^#/, '') ?? '025768';
+const DEFAULT_NEUTRAL_COLOR = defaultTheme?.neutralColor.replace(/^#/, '') ?? '79716b';
 const DEFAULT_MODE = 'named';
 const DEFAULT_BG = 'light';
 
@@ -351,7 +340,7 @@ const parseHash = () => {
       return null;
     }
     const parts = hash.slice(1).split('/');
-    // 4/5-part: namedHex/neutralHex/mode/curvature[/named-neutral]
+    // 4/5-part: namedHex/neutralHex/mode/curvature[/monochrome]
     if (
       (parts.length === 4 || parts.length === 5) &&
       isValidHex(parts[0]) &&
@@ -364,7 +353,7 @@ const parseHash = () => {
         neutralColor: parts[1],
         mode: parts[2],
         curvature: Number.isFinite(c) ? c : 1,
-        namedAsNeutral: parts[4] === 'named-neutral',
+        isMonochrome: parts[4] === 'monochrome' || parts[4] === 'named-neutral',
       };
     }
     // 3-part: namedHex/neutralHex/mode
@@ -431,15 +420,20 @@ function ScaleApp({ syncUrlHash = true } = {}) {
   });
   const [switchPoint, setSwitchPoint] = useState(null); // null = auto
   const [whiteAnchor, setWhiteAnchor] = useState(false);
-  const [namedAsNeutral, setNamedAsNeutral] = useState(initial.namedAsNeutral ?? false);
+  const [isMonochrome, setIsMonochrome] = useState(initial.isMonochrome ?? false);
   const [curvature, setCurvature] = useState(initial.curvature ?? 1);
-  const selectedThemeId = useMemo(
-    () => (namedAsNeutral || whiteAnchor ? null : getThemeIdForColors(namedColor, neutralColor)),
-    [namedAsNeutral, namedColor, neutralColor, whiteAnchor],
+  const selectedStandardThemeId = useMemo(
+    () =>
+      isMonochrome || whiteAnchor ? null : getStandardThemeIdForColors(namedColor, neutralColor),
+    [isMonochrome, namedColor, neutralColor, whiteAnchor],
+  );
+  const selectedMonochromeThemeId = useMemo(
+    () => (isMonochrome && !whiteAnchor ? getMonochromeThemeIdForColor(namedColor) : null),
+    [isMonochrome, namedColor, whiteAnchor],
   );
 
   // Active-mode aliases — the rest of the UI (controls, ColorsRow, CssOutput) operates on these
-  const useNamedBase = mode === 'named' || (mode === 'neutral' && namedAsNeutral);
+  const useNamedBase = mode === 'named' || (mode === 'neutral' && isMonochrome);
   const mainColor = useNamedBase ? namedColor : neutralColor;
   const setMainColor = useNamedBase ? setNamedColor : setNeutralColor;
 
@@ -453,24 +447,24 @@ function ScaleApp({ syncUrlHash = true } = {}) {
       return [];
     }
 
-    if (namedAsNeutral) {
-      return generateNamedNeutralPalette(hex, { whiteAnchor }).filter(({ shade }) =>
+    if (isMonochrome) {
+      return generateMonochromePalette(hex, { whiteAnchor }).filter(({ shade }) =>
         NAMED_SHADES.includes(shade),
       );
     }
 
     return generatePalette(hex, 'named', {});
-  }, [namedAsNeutral, namedColor, whiteAnchor]);
+  }, [isMonochrome, namedColor, whiteAnchor]);
 
   const neutralPalette = useMemo(() => {
-    if (namedAsNeutral) {
+    if (isMonochrome) {
       const hex = numberToHex(namedColor);
-      return isValidHex(hex) ? generateNamedNeutralPalette(hex, { whiteAnchor }) : [];
+      return isValidHex(hex) ? generateMonochromePalette(hex, { whiteAnchor }) : [];
     }
 
     const hex = numberToHex(neutralColor);
     return isValidHex(hex) ? generatePalette(hex, 'neutral', { whiteAnchor }) : [];
-  }, [namedAsNeutral, namedColor, neutralColor, whiteAnchor]);
+  }, [isMonochrome, namedColor, neutralColor, whiteAnchor]);
 
   // Active palette for the existing controls/display
   const palette = mode === 'named' ? namedPalette : neutralPalette;
@@ -633,9 +627,9 @@ function ScaleApp({ syncUrlHash = true } = {}) {
       return undefined;
     }
 
-    const curvaturePart = curvature !== 1 || namedAsNeutral ? `/${curvature.toFixed(2)}` : '';
-    const namedAsNeutralPart = namedAsNeutral ? '/named-neutral' : '';
-    const nextHash = `#${encodeURIComponent(namedColor)}/${encodeURIComponent(neutralColor)}/${mode}${curvaturePart}${namedAsNeutralPart}`;
+    const curvaturePart = curvature !== 1 || isMonochrome ? `/${curvature.toFixed(2)}` : '';
+    const monochromePart = isMonochrome ? '/monochrome' : '';
+    const nextHash = `#${encodeURIComponent(namedColor)}/${encodeURIComponent(neutralColor)}/${mode}${curvaturePart}${monochromePart}`;
 
     hashUpdateTimeout.clear();
     hashUpdateTimeout.start(120, () => {
@@ -661,7 +655,7 @@ function ScaleApp({ syncUrlHash = true } = {}) {
     return () => {
       hashUpdateTimeout.clear();
     };
-  }, [namedColor, neutralColor, mode, curvature, namedAsNeutral, syncUrlHash, hashUpdateTimeout]);
+  }, [namedColor, neutralColor, mode, curvature, isMonochrome, syncUrlHash, hashUpdateTimeout]);
 
   const resetToDefaults = () => {
     setNamedColor(DEFAULT_NAMED_COLOR);
@@ -669,7 +663,7 @@ function ScaleApp({ syncUrlHash = true } = {}) {
     setMode(DEFAULT_MODE);
     setSwitchPoint(null);
     setWhiteAnchor(false);
-    setNamedAsNeutral(false);
+    setIsMonochrome(false);
     setCurvature(1);
     if (syncUrlHash) {
       try {
@@ -691,7 +685,7 @@ function ScaleApp({ syncUrlHash = true } = {}) {
   };
 
   const handleRandomize = () => {
-    const randomMode = mode === 'neutral' && namedAsNeutral ? 'named-neutral' : mode;
+    const randomMode = mode === 'neutral' && isMonochrome ? 'monochrome' : mode;
     setSwitchPoint(null);
     setMainColor(randomBaseColor(randomMode, { whiteAnchor }).replace('#', ''));
   };
@@ -699,7 +693,7 @@ function ScaleApp({ syncUrlHash = true } = {}) {
   const handleRandomizeBoth = () => {
     setSwitchPoint(null);
     setNamedColor(
-      randomBaseColor(namedAsNeutral ? 'named-neutral' : 'named', {
+      randomBaseColor(isMonochrome ? 'monochrome' : 'named', {
         whiteAnchor,
       }).replace('#', ''),
     );
@@ -716,26 +710,41 @@ function ScaleApp({ syncUrlHash = true } = {}) {
     setMode(selected);
     if (selected !== 'neutral') {
       setWhiteAnchor(false);
-      setNamedAsNeutral(false);
+      setIsMonochrome(false);
     }
   };
 
-  const handleNamedAsNeutralChange = (selected) => {
+  const handleMonochromeChange = (selected) => {
     setSwitchPoint(null);
-    setNamedAsNeutral(selected);
+    setIsMonochrome(selected);
   };
 
-  const applyTheme = (themeId) => {
-    const theme = getThemeById(themeId);
+  const applyStandardThemePreset = (themeId) => {
+    const theme = getStandardThemeById(themeId);
     if (!theme) {
       return;
     }
 
-    setNamedColor(theme.brandColor);
-    setNeutralColor(theme.neutralColor);
+    setNamedColor(theme.brandColor.replace(/^#/, ''));
+    setNeutralColor(theme.neutralColor.replace(/^#/, ''));
     setSwitchPoint(null);
     setWhiteAnchor(false);
-    setNamedAsNeutral(false);
+    setIsMonochrome(false);
+  };
+
+  const applyMonochromeThemePreset = (themeId) => {
+    const theme = getMonochromeThemeById(themeId);
+    if (!theme) {
+      return;
+    }
+
+    const color = theme.color.replace(/^#/, '');
+    setNamedColor(color);
+    setNeutralColor(color);
+    setMode('neutral');
+    setSwitchPoint(null);
+    setWhiteAnchor(false);
+    setIsMonochrome(true);
   };
 
   // Listen for external requests from the playground header
@@ -743,24 +752,42 @@ function ScaleApp({ syncUrlHash = true } = {}) {
     const onRandomize = () => handleRandomizeBoth();
     const onSetBg = (event) => setBgColor(event.detail);
     const onReset = () => resetToDefaults();
-    const onApplyTheme = (event) => applyTheme(event.detail);
+    const onApplyStandardTheme = (event) => applyStandardThemePreset(event.detail);
+    const onApplyMonochromeTheme = (event) => applyMonochromeThemePreset(event.detail);
     window.addEventListener('scale:randomize-both', onRandomize);
     window.addEventListener('scale:set-bg', onSetBg);
     window.addEventListener('scale:reset', onReset);
-    window.addEventListener('scale:apply-theme', onApplyTheme);
+    window.addEventListener('scale:apply-standard-theme', onApplyStandardTheme);
+    window.addEventListener('scale:apply-monochrome-theme', onApplyMonochromeTheme);
     return () => {
       window.removeEventListener('scale:randomize-both', onRandomize);
       window.removeEventListener('scale:set-bg', onSetBg);
       window.removeEventListener('scale:reset', onReset);
-      window.removeEventListener('scale:apply-theme', onApplyTheme);
+      window.removeEventListener('scale:apply-standard-theme', onApplyStandardTheme);
+      window.removeEventListener('scale:apply-monochrome-theme', onApplyMonochromeTheme);
     };
   });
 
   useEffect(() => {
-    const themeId = selectedThemeId ?? 'custom';
+    const themeId = selectedStandardThemeId ?? selectedMonochromeThemeId ?? 'custom';
     document.documentElement.dataset.playgroundTheme = themeId;
-    window.dispatchEvent(new CustomEvent('scale:theme-change', { detail: selectedThemeId }));
-  }, [selectedThemeId]);
+    if (selectedStandardThemeId) {
+      document.documentElement.setAttribute(THEME_ATTRIBUTE, selectedStandardThemeId);
+      document.documentElement.removeAttribute(MONOCHROME_THEME_ATTRIBUTE);
+    } else if (selectedMonochromeThemeId) {
+      document.documentElement.removeAttribute(THEME_ATTRIBUTE);
+      document.documentElement.setAttribute(MONOCHROME_THEME_ATTRIBUTE, selectedMonochromeThemeId);
+    } else {
+      document.documentElement.removeAttribute(THEME_ATTRIBUTE);
+      document.documentElement.removeAttribute(MONOCHROME_THEME_ATTRIBUTE);
+    }
+    window.dispatchEvent(
+      new CustomEvent('scale:standard-theme-change', { detail: selectedStandardThemeId }),
+    );
+    window.dispatchEvent(
+      new CustomEvent('scale:monochrome-theme-change', { detail: selectedMonochromeThemeId }),
+    );
+  }, [selectedMonochromeThemeId, selectedStandardThemeId]);
 
   return (
     <MainWrapper className="tale-ui">
@@ -777,18 +804,45 @@ function ScaleApp({ syncUrlHash = true } = {}) {
 
       <ThemeSection aria-labelledby="theme-presets-heading">
         <ThemeSectionHeader>
-          <ThemeSectionTitle id="theme-presets-heading">Named themes</ThemeSectionTitle>
-          <ThemeSectionHint>Brand + neutral scales generated from paired anchors</ThemeSectionHint>
+          <ThemeSectionTitle id="theme-presets-heading">Standard themes</ThemeSectionTitle>
+          <ThemeSectionHint>Distinct brand + neutral scales from paired anchors</ThemeSectionHint>
         </ThemeSectionHeader>
-        <ThemeGrid>
-          {THEMES.map((theme) => (
+        <ThemeGrid role="group" aria-label="Standard themes">
+          {STANDARD_THEMES.map((theme) => (
             <ThemeCard
               key={theme.id}
-              type="button"
-              data-selected={selectedThemeId === theme.id ? '' : undefined}
-              aria-pressed={selectedThemeId === theme.id}
+              variant="outlined"
+              padding="sm"
+              isSelected={selectedStandardThemeId === theme.id}
               title={theme.description}
-              onClick={() => applyTheme(theme.id)}
+              onPress={() => applyStandardThemePreset(theme.id)}
+            >
+              <ThemeSwatches aria-hidden="true">
+                <ThemeSwatch style={{ backgroundColor: theme.brandPalette[6]?.hex }} />
+                <ThemeSwatch style={{ backgroundColor: theme.neutralPalette[14]?.hex }} />
+              </ThemeSwatches>
+              <ThemeName>{theme.name}</ThemeName>
+            </ThemeCard>
+          ))}
+        </ThemeGrid>
+      </ThemeSection>
+
+      <ThemeSection aria-labelledby="monochrome-theme-presets-heading">
+        <ThemeSectionHeader>
+          <ThemeSectionTitle id="monochrome-theme-presets-heading">
+            Monochrome themes
+          </ThemeSectionTitle>
+          <ThemeSectionHint>Shared brand + neutral scales from one colour anchor</ThemeSectionHint>
+        </ThemeSectionHeader>
+        <ThemeGrid role="group" aria-label="Monochrome themes">
+          {MONOCHROME_THEMES.map((theme) => (
+            <ThemeCard
+              key={theme.id}
+              variant="outlined"
+              padding="sm"
+              isSelected={selectedMonochromeThemeId === theme.id}
+              title={theme.description}
+              onPress={() => applyMonochromeThemePreset(theme.id)}
             >
               <ThemeSwatches aria-hidden="true">
                 <ThemeSwatch style={{ backgroundColor: theme.brandPalette[6]?.hex }} />
@@ -845,11 +899,11 @@ function ScaleApp({ syncUrlHash = true } = {}) {
             </ToggleButton>
             <ToggleButton
               size="sm"
-              isSelected={namedAsNeutral}
-              onChange={handleNamedAsNeutralChange}
-              title="Use the named colour as a 27-step neutral palette"
+              isSelected={isMonochrome}
+              onChange={handleMonochromeChange}
+              title="Derive the brand and neutral scales from the named colour"
             >
-              Named as Neutral
+              Monochrome theme
             </ToggleButton>
           </React.Fragment>
         )}

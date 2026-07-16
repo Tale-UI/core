@@ -11,12 +11,18 @@ pnpm scale:build    # production build
 
 ## Features
 
-### Named themes
+### Standard themes
 
-Choose from a shared suite of named themes, each defined by a paired brand and neutral shade-60
+Choose from a shared suite of standard themes, each defined by a distinct brand and neutral shade-60
 anchor. The playground generates both complete scales with the same OKLCH palette algorithm used
 by the manual colour controls. The Tale UI Playground exposes this catalog in a Tale UI Drawer, so
 each theme can be applied directly to its component demos.
+
+### Monochrome themes
+
+Choose from the seven non-default themes originally shipped by Bento Browser: Antique, Forest,
+Mauve, Mountain Meadow, Rosewater, Teal, and Terracotta. Each uses one shade-60 colour anchor for
+both its brand and neutral scales.
 
 ### Base colour input
 
@@ -29,7 +35,9 @@ Enter a hex value or use the visual colour picker (`react-colorful`) to set the 
 | **Named** (11 shades)   | 5 · 10 · 20 · 30 · 40 · **60** · 70 · 80 · 90 · 100      | Accent/brand colour families (`--color-*`) |
 | **Neutral** (27 shades) | 5 · 10 · 12–30 (by 2s) · 40–70 (by 10s) · 80–100 (by 2s) | Neutral/gray families (`--neutral-*`)      |
 
-Neutral mode includes a **Named as Neutral** toggle. When enabled, the named tonal palette is expanded to the 27 neutral shade steps and exported as `--neutral-default-*` overrides. The expanded `named-neutral-60` shade remains the pivot point, so foreground contrast follows the same shade-60 split as regular neutral palettes.
+Neutral mode includes a **Monochrome theme** toggle. When enabled, one named colour drives both the
+brand scale and the expanded 27-step neutral scale. The generated neutral shade-60 remains the pivot
+point, so foreground contrast follows the same shade-60 split as regular neutral palettes.
 
 ### Contrast pivot selector
 
@@ -49,7 +57,8 @@ Generates a random base colour that passes WCAG contrast validation against its 
 
 ### Shareable URLs
 
-The current named colour, neutral colour, mode, curvature, and named-as-neutral setting are persisted in the URL hash so palettes can be bookmarked and shared.
+The current named colour, neutral colour, mode, curvature, and monochrome setting are persisted in
+the URL hash so palettes can be bookmarked and shared. Legacy `named-neutral` URLs remain supported.
 
 ## How the palette algorithm works
 
@@ -64,6 +73,9 @@ The current named colour, neutral colour, mode, curvature, and named-as-neutral 
 ## Relationship to `@tale-ui/utils/color`
 
 This playground's `src/utils.js` contains the reference implementation of `generatePalette`, `randomBaseColor`, and the WCAG contrast helpers. The production copies in `packages/utils/src/color.ts` are TypeScript ports of the same algorithms. Changes to the palette logic should be validated here first, then ported to the utils package.
+
+The standard and monochrome theme catalogs are owned and distributed by `@tale-ui/themes`; the
+playground imports that package rather than maintaining separate preset lists.
 
 ## Tech stack
 

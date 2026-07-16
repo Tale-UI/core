@@ -460,9 +460,7 @@ const TOC = [
   },
 ];
 
-const TOC_ITEMS = TOC.flatMap(({ items }) => items).sort((a, b) =>
-  a.label.localeCompare(b.label),
-);
+const TOC_ITEMS = TOC.flatMap(({ items }) => items).sort((a, b) => a.label.localeCompare(b.label));
 
 // ---------------------------------------------------------------------------
 // Calendar section (react-aria-components)
@@ -1220,6 +1218,45 @@ function ControlledTabsDemo() {
         <Tabs.Panel id="tab-settings">Settings content.</Tabs.Panel>
       </Tabs.Root>
       <span className="audit__controlled-tab-label">Selected: {String(selected)}</span>
+    </div>
+  );
+}
+
+function CardButtonAuditDemo() {
+  const [selected, setSelected] = React.useState('harbour');
+  const themes = [
+    { id: 'harbour', name: 'Harbour' },
+    { id: 'violet', name: 'Violet Dusk' },
+    { id: 'fern', name: 'Fern' },
+  ];
+
+  return (
+    <div
+      role="group"
+      aria-label="Theme actions"
+      style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-xs)' }}
+    >
+      {themes.map((theme) => (
+        <Card.Button
+          key={theme.id}
+          padding="sm"
+          isSelected={selected === theme.id}
+          onPress={() => setSelected(theme.id)}
+          style={{ width: '10rem' }}
+        >
+          <Text as="span" variant="label" size="m">
+            {theme.name}
+          </Text>
+          <Text as="span" variant="text" size="s" color="muted">
+            Apply theme
+          </Text>
+        </Card.Button>
+      ))}
+      <Card.Button padding="sm" isDisabled style={{ width: '10rem' }}>
+        <Text as="span" variant="label" size="m">
+          Unavailable
+        </Text>
+      </Card.Button>
     </div>
   );
 }
@@ -4098,6 +4135,7 @@ export default function ComponentAudit() {
           title="Card"
           classes={[
             'tale-card',
+            'tale-card--button',
             'tale-card--outlined',
             'tale-card--elevated',
             'tale-card--filled',
@@ -4132,6 +4170,8 @@ export default function ComponentAudit() {
             <Card.Header>Filled card</Card.Header>
             <Card.Body>Background fill variant.</Card.Body>
           </Card.Root>
+          <SubHeading>Interactive, selected, and disabled</SubHeading>
+          <CardButtonAuditDemo />
         </Section>
 
         <Section id="column" title="Column" classes={['tale-column']}>

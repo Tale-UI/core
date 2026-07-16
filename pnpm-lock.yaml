@@ -596,6 +596,32 @@ importers:
         specifier: workspace:*
         version: link:../css
 
+  packages/themes:
+    dependencies:
+      '@babel/runtime':
+        specifier: ^7.28.6
+        version: 7.28.6
+      '@tale-ui/core':
+        specifier: workspace:*
+        version: link:../css
+      '@tale-ui/utils':
+        specifier: workspace:*
+        version: link:../utils/build
+      culori:
+        specifier: ^4.0.2
+        version: 4.0.2
+    devDependencies:
+      '@tale-ui/monorepo-tests':
+        specifier: workspace:*
+        version: link:../../test
+      prettier:
+        specifier: 3.8.1
+        version: 3.8.1
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+    publishDirectory: build
+
   packages/utils:
     dependencies:
       '@babel/runtime':
@@ -657,6 +683,9 @@ importers:
       '@tale-ui/react-styles':
         specifier: workspace:*
         version: link:../../packages/styles
+      '@tale-ui/themes':
+        specifier: workspace:*
+        version: link:../../packages/themes/build
       color:
         specifier: ^5.0.3
         version: 5.0.3
@@ -767,6 +796,9 @@ importers:
       '@tale-ui/playground-scale':
         specifier: workspace:*
         version: link:../scale
+      '@tale-ui/themes':
+        specifier: workspace:*
+        version: link:../../packages/themes/build
       lucide-react:
         specifier: ^1.6.0
         version: 1.6.0(react@19.2.4)

@@ -48,6 +48,8 @@ Tale UI wraps [React Aria Components](https://react-spectrum.adobe.com/react-ari
 @tale-ui/react           ← React components (thin wrappers)
       ↑
 @tale-ui/utils           ← Shared hooks & helpers
+
+@tale-ui/themes          ← Optional standard and monochrome themes
 ```
 
 ### `@tale-ui/core` — Design tokens (framework-agnostic)
@@ -77,6 +79,12 @@ Components live in a separate package from both tokens and styles. This means:
 ### `@tale-ui/utils` — Shared utilities
 
 Internal helpers (colour generation, React hooks, DOM utilities) are isolated so they can be reused across packages without circular dependencies.
+
+### `@tale-ui/themes` — Optional themes
+
+Standard themes pair distinct brand and neutral colours. Monochrome themes derive both palettes from
+one named colour. Both are distributed separately from the foundational token layer so consumers can
+opt into stable generated CSS without adding presets to every Tale UI build.
 
 **Why not a single package?** Separation enables:
 
@@ -123,8 +131,13 @@ Tale UI uses [BEM](https://getbem.com/) (Block Element Modifier) for component c
 React Aria Components expose ephemeral state (disabled, pressed, focused, open) as data attributes on DOM elements. Tale UI styles these with CSS attribute selectors:
 
 ```css
-.tale-button[data-disabled] { opacity: 0.45; pointer-events: none; }
-.tale-button[data-focus-visible] { box-shadow: 0 0 0 4px var(--color-60); }
+.tale-button[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.tale-button[data-focus-visible] {
+  box-shadow: 0 0 0 4px var(--color-60);
+}
 ```
 
 **Benefits:**
@@ -176,7 +189,7 @@ Every shade has a paired foreground token for automatic contrast:
 ```css
 .badge {
   background: var(--color-60);
-  color: var(--color-60-fg);    /* resolves to the correct contrasting colour */
+  color: var(--color-60-fg); /* resolves to the correct contrasting colour */
 }
 ```
 
@@ -198,11 +211,11 @@ This design means **dark mode is automatic**. Any component using `--color-*` an
 
 ### Three-layer priority system
 
-| Priority | Trigger | CSS Selector |
-|----------|---------|--------------|
-| 1 (lowest) | Default | `html:not([data-color-mode="dark"])` — light mode when no attribute set |
-| 2 | OS preference | `@media (prefers-color-scheme: dark)` + `html:not([data-color-mode="light"])` |
-| 3 (highest) | Explicit attribute | `html[data-color-mode="dark"]` — always dark regardless of OS |
+| Priority    | Trigger            | CSS Selector                                                                  |
+| ----------- | ------------------ | ----------------------------------------------------------------------------- |
+| 1 (lowest)  | Default            | `html:not([data-color-mode="dark"])` — light mode when no attribute set       |
+| 2           | OS preference      | `@media (prefers-color-scheme: dark)` + `html:not([data-color-mode="light"])` |
+| 3 (highest) | Explicit attribute | `html[data-color-mode="dark"]` — always dark regardless of OS                 |
 
 ### What happens in dark mode
 
@@ -214,29 +227,33 @@ This design means **dark mode is automatic**. Any component using `--color-*` an
 ### Setting it up
 
 **Option A — OS preference only:**
+
 ```html
 <script>
   document.documentElement.setAttribute(
     'data-color-mode',
-    matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
   );
 </script>
 ```
 
 **Option B — with a toggle:**
+
 ```js
 const saved = localStorage.getItem('color-mode');
 const mode = saved ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 document.documentElement.setAttribute('data-color-mode', mode);
 
 function toggleColorMode() {
-  const next = document.documentElement.getAttribute('data-color-mode') === 'dark' ? 'light' : 'dark';
+  const next =
+    document.documentElement.getAttribute('data-color-mode') === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-color-mode', next);
   localStorage.setItem('color-mode', next);
 }
 ```
 
 **Option C — scoped dark section:**
+
 ```html
 <div class="dark">
   <!-- everything inside uses dark-mode tokens -->
@@ -257,8 +274,8 @@ Override `--brand-*` at `:root` in your app CSS (after the design system import)
 
 ```css
 :root {
-  --brand-5:   #fbf5f9;
-  --brand-60:  #7e4271;
+  --brand-5: #fbf5f9;
+  --brand-60: #7e4271;
   --brand-100: #36162f;
 }
 ```
