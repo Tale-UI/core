@@ -1,6 +1,34 @@
-# Changelog — @tale-ui/core
+# Changelog — @tale-ui/css
 
 All notable changes to the CSS design system are documented in this file.
+
+## v2.0.0 - 2026-07-24
+
+### Changed
+
+- **Package rename**: Renamed the CSS design-system package from `@tale-ui/core` to
+  `@tale-ui/css`.
+- **Canonical tokens**: CSS token modules are now generated from `@tale-ui/tokens`.
+- **Repository**: Updated package metadata for the renamed `Tale-UI/tale-ui` repository.
+
+### Migration
+
+- Replace `@tale-ui/core` dependencies and CSS imports with `@tale-ui/css`.
+- No CSS class or custom-property names changed in this release.
+
+## v1.3.57 - 2026-07-24
+
+### Changed
+
+- **Final release**: Published the final `@tale-ui/core` package before the CSS design system
+  moves to `@tale-ui/css`.
+- **Migration guidance**: Consumers should replace `@tale-ui/core` dependencies and imports with
+  `@tale-ui/css`.
+
+### Notes
+
+- This release contains no design-token or CSS API changes.
+- `@tale-ui/core` is deprecated after this release and receives no compatibility wrapper.
 
 ## v1.3.56 - 2026-07-16
 

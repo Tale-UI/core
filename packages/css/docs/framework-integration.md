@@ -1,6 +1,6 @@
 # Framework Integration Guide
 
-Guide for using `@tale-ui/core` alongside popular CSS frameworks and build tools.
+Guide for using `@tale-ui/css` alongside popular CSS frameworks and build tools.
 
 ---
 
@@ -16,14 +16,14 @@ Guide for using `@tale-ui/core` alongside popular CSS frameworks and build tools
 ```bash
 pnpm build         # from monorepo root
 # or:
-pnpm --filter @tale-ui/core build
+pnpm --filter @tale-ui/css build
 ```
 
 ---
 
 ## Rem Base
 
-`@tale-ui/core` uses the browser-standard root size:
+`@tale-ui/css` uses the browser-standard root size:
 
 ```css
 html { font-size: 100%; }
@@ -41,7 +41,7 @@ Do not add a Tale-specific `html` font-size override after importing the design 
 
 ```css
 /* globals.css */
-@import '@tale-ui/core';   /* resolves to dist/style.css */
+@import '@tale-ui/css';   /* resolves to dist/style.css */
 @import 'tailwindcss';
 ```
 
@@ -103,7 +103,7 @@ These are approximate mappings — adjust shade values to match your design inte
 
 **`app/globals.css`:**
 ```css
-@import '@tale-ui/core';
+@import '@tale-ui/css';
 ```
 
 **`app/layout.tsx`:**
@@ -111,12 +111,12 @@ These are approximate mappings — adjust shade values to match your design inte
 import './globals.css'
 ```
 
-> **Turbopack note:** The `file:` dependency path and pnpm symlinks (`pnpm link --global`) may fail with Turbopack on Windows. If `@tale-ui/core` fails to resolve, copy `dist/style.css` directly into your project and import from the local path.
+> **Turbopack note:** The `file:` dependency path and pnpm symlinks (`pnpm link --global`) may fail with Turbopack on Windows. If `@tale-ui/css` fails to resolve, copy `dist/style.css` directly into your project and import from the local path.
 
 **Workaround for Turbopack on Windows:**
 ```bash
 # Copy the built file into your project
-cp node_modules/@tale-ui/core/dist/style.css src/styles/core.css
+cp node_modules/@tale-ui/css/dist/style.css src/styles/core.css
 ```
 Then import: `@import './core.css'` — and re-copy whenever the design system updates.
 
@@ -128,9 +128,9 @@ Works out of the box with either `src/index.css` or `dist/style.css`:
 
 ```js
 // main.js / main.ts
-import '@tale-ui/core'           // → dist/style.css via exports field
+import '@tale-ui/css'           // → dist/style.css via exports field
 // or:
-import '@tale-ui/core/src'       // → src/index.css (Vite resolves @import natively)
+import '@tale-ui/css/src'       // → src/index.css (Vite resolves @import natively)
 ```
 
 ---
@@ -151,7 +151,7 @@ module.exports = {
 
 Import in your CSS entry point:
 ```css
-@import '@tale-ui/core/src';
+@import '@tale-ui/css/src';
 ```
 
 Without `postcss-import`, use `dist/style.css` which has all `@import` statements already resolved.

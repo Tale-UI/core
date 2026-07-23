@@ -2,10 +2,10 @@
  * @tale-ui/react-styles
  *
  * Opinionated CSS for @tale-ui/react components.
- * Built on @tale-ui/core design tokens (--neutral-*, --color-*, --space-*, --text-*).
+ * Built on @tale-ui/css design tokens (--neutral-*, --color-*, --space-*, --text-*).
  *
  * Import order:
- *   1. @tale-ui/core  — tokens, foundations, layout utilities, dark-mode support
+ *   1. @tale-ui/css  — tokens, foundations, layout utilities, dark-mode support
  *   2. Component CSS  — tale-ui specific component styles
  *
  * Usage:
@@ -13,7 +13,7 @@
  *   @import '@tale-ui/react-styles/button';  // individual component
  */
 
-@import '@tale-ui/core';
+@import '@tale-ui/css';
 @import './_primitives.css';
 
 /* ─── Form controls ─────────────────────────────────────────────────────────── */

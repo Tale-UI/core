@@ -1,7 +1,7 @@
 /*
  * ColorPicker — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * ColorPicker is a context provider and does not render its own DOM element.
  * Styling is applied to its child color controls (ColorArea, ColorSlider, etc.).
  *

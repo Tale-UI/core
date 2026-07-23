@@ -91,7 +91,7 @@ const getDarkModeBlock = (entry: ThemeEntry) => {
 const getRawContent = (version: string) => `/*
  * @tale-ui/themes v${version}
  * Generated from src/themes.ts. Run \`pnpm generate\` after changing theme definitions.
- * Import this stylesheet after @tale-ui/core or @tale-ui/react-styles.
+ * Import this stylesheet after @tale-ui/css or @tale-ui/react-styles.
  */
 
 ${THEME_ENTRIES.map(getThemeBlock).join('\n\n')}

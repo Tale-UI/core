@@ -1,7 +1,7 @@
 /*
  * Card — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Root is presentational. Button uses React Aria Button and exposes:
  * [data-disabled] [data-pending] [data-pressed] [data-hovered]
  * [data-focus-visible], plus Tale UI's [data-selected].

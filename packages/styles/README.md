@@ -1,6 +1,6 @@
 # @tale-ui/react-styles
 
-CSS rules for `@tale-ui/react` components. Built entirely on `@tale-ui/core` design tokens (`--neutral-*`, `--color-*`, `--space-*`, `--text-*`).
+CSS rules for `@tale-ui/react` components. Built entirely on `@tale-ui/css` design tokens (`--neutral-*`, `--color-*`, `--space-*`, `--text-*`).
 
 `@tale-ui/react` components apply BEM class names automatically (e.g. `tale-button`, `tale-select__popup`). This package provides the CSS rules for those classes.
 
@@ -10,20 +10,20 @@ CSS rules for `@tale-ui/react` components. Built entirely on `@tale-ui/core` des
 pnpm add @tale-ui/react-styles
 ```
 
-This automatically pulls in `@tale-ui/core` (the design-token layer).
+This automatically pulls in `@tale-ui/css` (the design-token layer).
 
 ## Usage
 
 ### All components (recommended)
 
 ```ts
-import '@tale-ui/react-styles';          // tokens + every component stylesheet
+import '@tale-ui/react-styles'; // tokens + every component stylesheet
 ```
 
 ### Per-component (tree-shakeable CSS)
 
 ```ts
-import '@tale-ui/core';                  // tokens — required when using per-component imports
+import '@tale-ui/css'; // tokens — required when using per-component imports
 import '@tale-ui/react-styles/button';
 import '@tale-ui/react-styles/dialog';
 ```
@@ -35,7 +35,7 @@ import '@tale-ui/react-styles/dialog';
 ## Architecture
 
 ```
-@tale-ui/core          (tokens, foundations, layout, themes)
+@tale-ui/css          (tokens, foundations, layout, themes)
       ↓
 _primitives.css        (shared declarations for field controls, popups, items, etc.)
       ↓
@@ -66,6 +66,7 @@ Each file contains only the styles that differ from the shared primitives. For e
 ```
 
 Examples:
+
 ```css
 .tale-button                          /* root */
 .tale-button--primary                 /* variant */

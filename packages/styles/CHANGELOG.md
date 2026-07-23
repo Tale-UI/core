@@ -2,6 +2,17 @@
 
 All notable changes to the component styles package are documented in this file.
 
+## v2.0.0 — 2026-07-24
+
+### Changed
+
+- Replaced the `@tale-ui/core` dependency and stylesheet import with `@tale-ui/css`.
+- Updated package metadata for the renamed `Tale-UI/tale-ui` repository.
+
+### Notes
+
+- No component selectors or CSS custom-property names changed.
+
 ## v1.3.56 — 2026-07-16
 
 ### Added

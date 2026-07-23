@@ -6,9 +6,10 @@ Unified monorepo for the Tale UI design system and React component library.
 
 | Package                                     | Description                                                                                            | npm                                                                                                               |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| [`@tale-ui/core`](packages/css/)            | Modular token-based CSS design system                                                                  | [![npm](https://img.shields.io/npm/v/@tale-ui/core)](https://www.npmjs.com/package/@tale-ui/core)                 |
+| [`@tale-ui/tokens`](packages/tokens/)       | Canonical design tokens and native token objects                                                       | [![npm](https://img.shields.io/npm/v/@tale-ui/tokens)](https://www.npmjs.com/package/@tale-ui/tokens)             |
+| [`@tale-ui/css`](packages/css/)             | CSS foundations and utilities generated from the shared tokens                                         | [![npm](https://img.shields.io/npm/v/@tale-ui/css)](https://www.npmjs.com/package/@tale-ui/css)                   |
 | [`@tale-ui/react`](packages/react/)         | Styled React components built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/) | [![npm](https://img.shields.io/npm/v/@tale-ui/react)](https://www.npmjs.com/package/@tale-ui/react)               |
-| [`@tale-ui/react-styles`](packages/styles/) | Component CSS using @tale-ui/core design tokens                                                        | [![npm](https://img.shields.io/npm/v/@tale-ui/react-styles)](https://www.npmjs.com/package/@tale-ui/react-styles) |
+| [`@tale-ui/react-styles`](packages/styles/) | Component CSS using @tale-ui/css design tokens                                                         | [![npm](https://img.shields.io/npm/v/@tale-ui/react-styles)](https://www.npmjs.com/package/@tale-ui/react-styles) |
 | [`@tale-ui/themes`](packages/themes/)       | Optional standard and monochrome theme suites                                                          | [![npm](https://img.shields.io/npm/v/@tale-ui/themes)](https://www.npmjs.com/package/@tale-ui/themes)             |
 | [`@tale-ui/utils`](packages/utils/)         | Shared utilities                                                                                       | [![npm](https://img.shields.io/npm/v/@tale-ui/utils)](https://www.npmjs.com/package/@tale-ui/utils)               |
 
@@ -16,7 +17,10 @@ Unified monorepo for the Tale UI design system and React component library.
 
 ```bash
 # CSS design system only
-npm install @tale-ui/core
+npm install @tale-ui/css
+
+# Platform-neutral and React Native tokens
+npm install @tale-ui/tokens
 
 # React components + styles
 npm install @tale-ui/react @tale-ui/react-styles
@@ -32,7 +36,7 @@ npm install @tale-ui/themes
 ### CSS Design System
 
 ```css
-@import '@tale-ui/core';
+@import '@tale-ui/css';
 ```
 
 ### React Components
@@ -81,6 +85,7 @@ pnpm start                   # install + launch playground
 pnpm playground:dev          # run vite playground
 pnpm storybook               # run storybook
 pnpm build                   # build all packages
+pnpm tokens:check            # verify generated CSS/native token artifacts
 pnpm build:css               # build CSS design system only
 pnpm test:jsdom              # unit tests (jsdom)
 pnpm test:chromium           # unit tests (browser)
@@ -93,10 +98,14 @@ pnpm lint:css                # lint CSS design system
 
 Publishing is automated via [.github/workflows/publish.yml](.github/workflows/publish.yml).
 
-- **CSS design system:** Tag with `css-v*.*.*` (e.g. `css-v1.2.0`) or use `pnpm release:css`
+- **Coordinated release:** Tag with `release-v*.*.*` to publish Tokens, CSS, React, Styles,
+  Themes, and Utils together
+- **Tokens:** Tag with `tokens-v*.*.*`
+- **CSS design system:** Tag with `css-v*.*.*` (e.g. `css-v2.0.1`) or use `pnpm release:css`
 - **React release set:** Tag with `react-v*.*.*` to publish `@tale-ui/utils`, `@tale-ui/react`, `@tale-ui/react-styles`, and `@tale-ui/themes` at the coordinated version
 - **Themes-only exception:** Tag with `themes-v*.*.*` only for an explicitly requested package-only release
-- **Manual dispatch:** Run the workflow from GitHub Actions with scope (`css`, `react`, or `themes`) and version
+- **Manual dispatch:** Run the workflow from GitHub Actions with scope (`all`, `tokens`, `css`,
+  `react`, or `themes`) and version
 
 Requires repository secret `NPM_TOKEN` with publish permissions for the `@tale-ui` npm scope.
 

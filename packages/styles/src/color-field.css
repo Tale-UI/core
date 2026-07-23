@@ -1,7 +1,7 @@
 /*
  * ColorField — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria ColorField exposes:
  *   Root:  [data-disabled] [data-invalid]
  *   Input: [data-disabled] [data-focused] [data-focus-visible] [data-invalid]

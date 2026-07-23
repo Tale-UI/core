@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1.0",
-  "taleUiVersion": "1.3.56",
+  "taleUiVersion": "2.0.0",
   "components": [
     {
       "name": "Accordion",
@@ -692,7 +692,7 @@
         "<Badge variant=\"neutral\" type=\"pill\">Neutral Pill</Badge>\n<Badge variant=\"neutral\" type=\"rounded\">Neutral Rounded</Badge>\n<Badge variant=\"brand\" type=\"pill\">Brand Pill</Badge>\n<Badge variant=\"brand\" type=\"rounded\">Brand Rounded</Badge>",
         "<Badge variant=\"error\" size=\"sm\">Failed</Badge>\n<Badge variant=\"success\" size=\"lg\">Approved</Badge>\n<Badge variant=\"brand\" type=\"rounded\">Rounded Brand</Badge>\n<Badge variant=\"neutral\">Neutral</Badge>",
         "<Badge type=\"modern\">Modern (deprecated)</Badge>",
-        "import { Badge } from '@tale-ui/react/badge';\n    \n    export function Example() {\n      return (\n        <>\n          <Badge variant=\"success\">Active</Badge>\n          <Badge variant=\"error\" size=\"sm\">Failed</Badge>\n        </>\n      );\n    }"
+        "import { Badge } from '@tale-ui/react/badge';\n\n    export function Example() {\n      return (\n        <>\n          <Badge variant=\"success\">Active</Badge>\n          <Badge variant=\"error\" size=\"sm\">\n            Failed\n          </Badge>\n        </>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-badge",
@@ -708,14 +708,14 @@
         {
           "id": "badge-no-danger-variant",
           "summary": "'danger' is NOT a valid variant",
-          "detail": "use `variant=\"error\"` instead.\n    ```tsx\n    import { Badge } from '@tale-ui/react/badge';\n    \n    export function Example() {\n      return (\n        <>\n          <Badge variant=\"success\">Active</Badge>\n          <Badge variant=\"error\" size=\"sm\">Failed</Badge>\n        </>\n      );\n    }\n    ```",
+          "detail": "use `variant=\"error\"` instead.\n\n    ```tsx\n    import { Badge } from '@tale-ui/react/badge';\n\n    export function Example() {\n      return (\n        <>\n          <Badge variant=\"success\">Active</Badge>\n          <Badge variant=\"error\" size=\"sm\">\n            Failed\n          </Badge>\n        </>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Badge variant=\"danger\">Failed</Badge>"
           ],
           "fixes": [
             "<Badge variant=\"error\">Failed</Badge>"
           ],
-          "completeExample": "import { Badge } from '@tale-ui/react/badge';\n\nexport function Example() {\n  return (\n    <>\n      <Badge variant=\"success\">Active</Badge>\n      <Badge variant=\"error\" size=\"sm\">Failed</Badge>\n    </>\n  );\n}"
+          "completeExample": "import { Badge } from '@tale-ui/react/badge';\n\nexport function Example() {\n  return (\n    <>\n      <Badge variant=\"success\">Active</Badge>\n      <Badge variant=\"error\" size=\"sm\">\n        Failed\n      </Badge>\n    </>\n  );\n}"
         },
         {
           "id": "badge-no-color-prop",
@@ -923,13 +923,13 @@
         "Close"
       ],
       "examples": [
-        "<Banner.Root variant=\"info\">\n  <Banner.Icon><Icon icon={InfoIcon} size=\"sm\" /></Banner.Icon>\n  <Banner.Title>Heads up</Banner.Title>\n  <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n</Banner.Root>",
+        "<Banner.Root variant=\"info\">\n  <Banner.Icon>\n    <Icon icon={InfoIcon} size=\"sm\" />\n  </Banner.Icon>\n  <Banner.Title>Heads up</Banner.Title>\n  <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n</Banner.Root>",
         "<Banner.Root variant=\"info\">\n  <Banner.Title>Info</Banner.Title>\n  <Banner.Description>Informational message.</Banner.Description>\n</Banner.Root>\n\n<Banner.Root variant=\"success\">\n  <Banner.Title>Success</Banner.Title>\n  <Banner.Description>Operation completed.</Banner.Description>\n</Banner.Root>\n\n<Banner.Root variant=\"warning\">\n  <Banner.Title>Warning</Banner.Title>\n  <Banner.Description>Please review before continuing.</Banner.Description>\n</Banner.Root>\n\n<Banner.Root variant=\"error\">\n  <Banner.Title>Error</Banner.Title>\n  <Banner.Description>Something went wrong.</Banner.Description>\n</Banner.Root>",
-        "<Banner.Root variant=\"warning\">\n  <Banner.Title>Update available</Banner.Title>\n  <Banner.Description>A new version is ready to install.</Banner.Description>\n  <Banner.Actions>\n    <Button variant=\"ghost\" size=\"sm\">Later</Button>\n    <Button variant=\"primary\" size=\"sm\">Update now</Button>\n  </Banner.Actions>\n</Banner.Root>",
+        "<Banner.Root variant=\"warning\">\n  <Banner.Title>Update available</Banner.Title>\n  <Banner.Description>A new version is ready to install.</Banner.Description>\n  <Banner.Actions>\n    <Button variant=\"ghost\" size=\"sm\">\n      Later\n    </Button>\n    <Button variant=\"primary\" size=\"sm\">\n      Update now\n    </Button>\n  </Banner.Actions>\n</Banner.Root>",
         "<Banner.Root variant=\"info\">\n  <Banner.Title>Tip</Banner.Title>\n  <Banner.Description>You can customise your dashboard.</Banner.Description>\n  <Banner.Close onClick={() => setVisible(false)} />\n</Banner.Root>",
         "<Banner.Root variant=\"success\" size=\"sm\">\n  <Banner.Title>Saved</Banner.Title>\n  <Banner.Description>Changes saved successfully.</Banner.Description>\n</Banner.Root>",
-        "import { Banner } from '@tale-ui/react/banner';\n    import { Icon } from '@tale-ui/react/icon';\n    import { InfoIcon } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <Banner.Root variant=\"info\">\n          <Banner.Icon><Icon icon={InfoIcon} size=\"sm\" /></Banner.Icon>\n          <Banner.Title>Heads up</Banner.Title>\n          <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n        </Banner.Root>\n      );\n    }",
-        "import { Banner } from '@tale-ui/react/banner';\n    import { Button } from '@tale-ui/react/button';\n    \n    export function UpdateAvailableBanner() {\n      return (\n        <Banner.Root variant=\"warning\">\n          <Banner.Title>Update available</Banner.Title>\n          <Banner.Description>A new version is ready to install.</Banner.Description>\n          <Banner.Actions>\n            <Button variant=\"ghost\">Later</Button>\n            <Button variant=\"primary\">Update now</Button>\n          </Banner.Actions>\n        </Banner.Root>\n      );\n    }"
+        "import { Banner } from '@tale-ui/react/banner';\n    import { Icon } from '@tale-ui/react/icon';\n    import { InfoIcon } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <Banner.Root variant=\"info\">\n          <Banner.Icon>\n            <Icon icon={InfoIcon} size=\"sm\" />\n          </Banner.Icon>\n          <Banner.Title>Heads up</Banner.Title>\n          <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n        </Banner.Root>\n      );\n    }",
+        "import { Banner } from '@tale-ui/react/banner';\n    import { Button } from '@tale-ui/react/button';\n\n    export function UpdateAvailableBanner() {\n      return (\n        <Banner.Root variant=\"warning\">\n          <Banner.Title>Update available</Banner.Title>\n          <Banner.Description>A new version is ready to install.</Banner.Description>\n          <Banner.Actions>\n            <Button variant=\"ghost\">Later</Button>\n            <Button variant=\"primary\">Update now</Button>\n          </Banner.Actions>\n        </Banner.Root>\n      );\n    }"
       ],
       "cssClasses": [
         "tale-banner",
@@ -949,14 +949,14 @@
         {
           "id": "banner-always-use-root",
           "summary": "Always use <Banner.Root>, never bare <Banner>",
-          "detail": "`Banner` is a namespace component; calling `<Banner>` directly renders nothing.\n    ```tsx\n    import { Banner } from '@tale-ui/react/banner';\n    import { Icon } from '@tale-ui/react/icon';\n    import { InfoIcon } from 'lucide-react';\n    \n    export function Example() {\n      return (\n        <Banner.Root variant=\"info\">\n          <Banner.Icon><Icon icon={InfoIcon} size=\"sm\" /></Banner.Icon>\n          <Banner.Title>Heads up</Banner.Title>\n          <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n        </Banner.Root>\n      );\n    }\n    ```",
+          "detail": "`Banner` is a namespace component; calling `<Banner>` directly renders nothing.\n\n    ```tsx\n    import { Banner } from '@tale-ui/react/banner';\n    import { Icon } from '@tale-ui/react/icon';\n    import { InfoIcon } from 'lucide-react';\n\n    export function Example() {\n      return (\n        <Banner.Root variant=\"info\">\n          <Banner.Icon>\n            <Icon icon={InfoIcon} size=\"sm\" />\n          </Banner.Icon>\n          <Banner.Title>Heads up</Banner.Title>\n          <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n        </Banner.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Banner variant=\"info\">Alert</Banner>"
           ],
           "fixes": [
             "<Banner.Root variant=\"info\"><Banner.Title>Alert</Banner.Title></Banner.Root>"
           ],
-          "completeExample": "import { Banner } from '@tale-ui/react/banner';\nimport { Icon } from '@tale-ui/react/icon';\nimport { InfoIcon } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <Banner.Root variant=\"info\">\n      <Banner.Icon><Icon icon={InfoIcon} size=\"sm\" /></Banner.Icon>\n      <Banner.Title>Heads up</Banner.Title>\n      <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n    </Banner.Root>\n  );\n}"
+          "completeExample": "import { Banner } from '@tale-ui/react/banner';\nimport { Icon } from '@tale-ui/react/icon';\nimport { InfoIcon } from 'lucide-react';\n\nexport function Example() {\n  return (\n    <Banner.Root variant=\"info\">\n      <Banner.Icon>\n        <Icon icon={InfoIcon} size=\"sm\" />\n      </Banner.Icon>\n      <Banner.Title>Heads up</Banner.Title>\n      <Banner.Description>Your trial expires in 3 days.</Banner.Description>\n    </Banner.Root>\n  );\n}"
         },
         {
           "id": "banner-no-brand-or-neutral-variant",
@@ -983,7 +983,7 @@
         {
           "id": "banner-actions-for-buttons",
           "summary": "Use Banner.Actions to add action buttons inside a Banner — never place Button children directly inside Banner.Root",
-          "detail": "Banner.Root exposes a Banner.Actions sub-part for placing interactive buttons alongside the title and description. Wrap Button components inside Banner.Actions; do not add them as raw children of Banner.Root. Use this for any prompt that asks for a banner with one or more action buttons such as 'Later' (ghost) and 'Update now' (primary).\n    ```tsx\n    import { Banner } from '@tale-ui/react/banner';\n    import { Button } from '@tale-ui/react/button';\n    \n    export function UpdateAvailableBanner() {\n      return (\n        <Banner.Root variant=\"warning\">\n          <Banner.Title>Update available</Banner.Title>\n          <Banner.Description>A new version is ready to install.</Banner.Description>\n          <Banner.Actions>\n            <Button variant=\"ghost\">Later</Button>\n            <Button variant=\"primary\">Update now</Button>\n          </Banner.Actions>\n        </Banner.Root>\n      );\n    }\n    ```",
+          "detail": "Banner.Root exposes a Banner.Actions sub-part for placing interactive buttons alongside the title and description. Wrap Button components inside Banner.Actions; do not add them as raw children of Banner.Root. Use this for any prompt that asks for a banner with one or more action buttons such as 'Later' (ghost) and 'Update now' (primary).\n\n    ```tsx\n    import { Banner } from '@tale-ui/react/banner';\n    import { Button } from '@tale-ui/react/button';\n\n    export function UpdateAvailableBanner() {\n      return (\n        <Banner.Root variant=\"warning\">\n          <Banner.Title>Update available</Banner.Title>\n          <Banner.Description>A new version is ready to install.</Banner.Description>\n          <Banner.Actions>\n            <Button variant=\"ghost\">Later</Button>\n            <Button variant=\"primary\">Update now</Button>\n          </Banner.Actions>\n        </Banner.Root>\n      );\n    }\n    ```",
           "antiPatterns": [
             "<Banner.Root variant=\"warning\"><Banner.Title>Update available</Banner.Title><Button variant=\"ghost\">Later</Button><Button variant=\"primary\">Update now</Button></Banner.Root>",
             "<Banner.Root variant=\"warning\"><Banner.Description>A new version is ready to install.</Banner.Description><Button variant=\"primary\">Update now</Button></Banner.Root>"

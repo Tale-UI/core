@@ -1,7 +1,7 @@
 /*
  * SearchField — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria SearchField exposes:
  *   Root: [data-disabled] [data-invalid] [data-empty]
  *   Input: [data-focused] [data-disabled] [data-invalid]
@@ -88,7 +88,8 @@
   box-shadow: none;
 }
 
-.tale-search-field--inline .tale-search-field__input:hover:not(:focus, [data-disabled], [data-invalid]) {
+.tale-search-field--inline
+  .tale-search-field__input:hover:not(:focus, [data-disabled], [data-invalid]) {
   border-color: transparent;
 }
 
@@ -129,7 +130,9 @@
   font-size: var(--text-m-font-size);
   cursor: pointer;
   outline: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
   flex-shrink: 0;
 }
 
@@ -143,7 +146,9 @@
 }
 
 .tale-search-field__clear[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-search-field__clear[data-disabled] {

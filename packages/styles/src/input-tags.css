@@ -1,7 +1,7 @@
 /*
  * InputTags — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Group exposes:
  *   [data-focus-within] [data-focus-visible-within] [data-disabled] [data-invalid]
  * React Aria Tag exposes:
@@ -110,7 +110,9 @@
 }
 
 .tale-input-tags__tag[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-input-tags__tag[data-disabled] {
@@ -118,9 +120,9 @@
 }
 
 /* Remove button auto-rendered by React Aria when onRemove is set on TagGroup */
-.tale-input-tags__tag [slot="remove"],
-.tale-input-tags__tag button[aria-label*="remove" i],
-.tale-input-tags__tag button[aria-label*="Remove" i] {
+.tale-input-tags__tag [slot='remove'],
+.tale-input-tags__tag button[aria-label*='remove' i],
+.tale-input-tags__tag button[aria-label*='Remove' i] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -137,9 +139,9 @@
   font-size: 0.6875rem;
 }
 
-.tale-input-tags__tag [slot="remove"]:hover,
-.tale-input-tags__tag button[aria-label*="remove" i]:hover,
-.tale-input-tags__tag button[aria-label*="Remove" i]:hover {
+.tale-input-tags__tag [slot='remove']:hover,
+.tale-input-tags__tag button[aria-label*='remove' i]:hover,
+.tale-input-tags__tag button[aria-label*='Remove' i]:hover {
   background-color: var(--neutral-22);
   color: var(--neutral-80);
 }

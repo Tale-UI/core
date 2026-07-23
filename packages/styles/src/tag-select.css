@@ -1,7 +1,7 @@
 /*
  * TagSelect — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Group exposes:     [data-focus-within] [data-disabled] [data-invalid]
  * React Aria Popover exposes:   [data-entering] [data-exiting] [data-placement]
  * React Aria ListBoxItem exposes: [data-hovered] [data-focused] [data-focus-visible] [data-disabled]

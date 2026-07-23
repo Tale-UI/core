@@ -104,11 +104,13 @@ export type RootProps<T extends object = {}> = Omit<AriaSelectProps<T>, 'classNa
 
 export const Root: <T extends object = {}>(
   props: RootProps<T> & React.RefAttributes<HTMLDivElement>,
-) => React.ReactElement | null = React.forwardRef(
-  ({ className, ...props }: RootProps, ref) => (
-    <AriaSelect ref={ref as React.Ref<HTMLDivElement>} className={cx('tale-my-select', className)} {...props} />
-  ),
-) as any;
+) => React.ReactElement | null = React.forwardRef(({ className, ...props }: RootProps, ref) => (
+  <AriaSelect
+    ref={ref as React.Ref<HTMLDivElement>}
+    className={cx('tale-my-select', className)}
+    {...props}
+  />
+)) as any;
 (Root as any).displayName = 'MySelect.Root';
 
 /* ─── Trigger ──────────────────────────────────────────────────────────────── */
@@ -135,13 +137,13 @@ Popover.displayName = 'MySelect.Popover';
 
 /* ─── Item ─────────────────────────────────────────────────────────────────── */
 
-export type ItemProps<T = object> = Omit<AriaListBoxItemProps<T>, 'className'> & { className?: string };
+export type ItemProps<T = object> = Omit<AriaListBoxItemProps<T>, 'className'> & {
+  className?: string;
+};
 
-export const Item = React.forwardRef<HTMLDivElement, ItemProps>(
-  ({ className, ...props }, ref) => (
-    <AriaListBoxItem ref={ref} className={cx('tale-my-select__item', className)} {...props} />
-  ),
-);
+export const Item = React.forwardRef<HTMLDivElement, ItemProps>(({ className, ...props }, ref) => (
+  <AriaListBoxItem ref={ref} className={cx('tale-my-select__item', className)} {...props} />
+));
 Item.displayName = 'MySelect.Item';
 
 // ... additional parts (Label, ListBox, etc.) follow the same pattern
@@ -174,17 +176,17 @@ export type {
 Located at `packages/react/src/_cx.ts`, `cx()` merges a BEM base class with an optional consumer className:
 
 ```ts
-cx('tale-button tale-button--primary', 'my-custom')
+cx('tale-button tale-button--primary', 'my-custom');
 // → 'tale-button tale-button--primary my-custom'
 
-cx('tale-button tale-button--primary', undefined)
+cx('tale-button tale-button--primary', undefined);
 // → 'tale-button tale-button--primary'
 ```
 
 It also supports function-based classNames (used by React Aria's render props):
 
 ```ts
-cx('tale-button', (state) => state.isHovered ? 'hovered' : '')
+cx('tale-button', (state) => (state.isHovered ? 'hovered' : ''));
 // → function that returns 'tale-button hovered' or 'tale-button'
 ```
 
@@ -219,7 +221,7 @@ Create `packages/styles/src/{component}.css` with a header comment documenting t
 /*
  * MyComponent — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria exposes: [data-disabled] [data-pressed] [data-hovered] [data-focus-visible]
  *
  * Variants:   .tale-my-component--primary  (default)
@@ -238,7 +240,9 @@ Create `packages/styles/src/{component}.css` with a header comment documenting t
   font-family: var(--label-font-family);
   font-size: var(--label-m-font-size);
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 /* ─── Variants ─────────────────────────────────────────────────────────────── */
@@ -267,7 +271,9 @@ Create `packages/styles/src/{component}.css` with a header comment documenting t
 }
 
 .tale-my-component:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--color-60);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--color-60);
 }
 ```
 
@@ -395,7 +401,11 @@ describe('<MyComponent />', () => {
   });
 
   it('applies variant and size BEM modifiers', async () => {
-    await render(<MyComponent variant="neutral" size="sm">Label</MyComponent>);
+    await render(
+      <MyComponent variant="neutral" size="sm">
+        Label
+      </MyComponent>,
+    );
     const el = screen.getByRole('button');
     expect(el).to.have.class('tale-my-component--neutral');
     expect(el).to.have.class('tale-my-component--sm');
@@ -416,7 +426,11 @@ describe('<MyComponent />', () => {
 
   it('does not fire onPress when disabled', async () => {
     const handlePress = spy();
-    const { user } = await render(<MyComponent isDisabled onPress={handlePress}>Label</MyComponent>);
+    const { user } = await render(
+      <MyComponent isDisabled onPress={handlePress}>
+        Label
+      </MyComponent>,
+    );
     await user.click(screen.getByRole('button', { hidden: true }));
     expect(handlePress.callCount).to.equal(0);
   });

@@ -1,7 +1,7 @@
 /*
  * SwitchField — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria SwitchField exposes on the root (div):
  *   [data-selected]
  *   [data-disabled] [data-readonly] [data-required] [data-invalid]

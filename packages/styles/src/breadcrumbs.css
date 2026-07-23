@@ -1,7 +1,7 @@
 /*
  * Breadcrumbs — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Breadcrumbs exposes:
  *   Breadcrumb: [data-current] [data-disabled]
  *   Link: [data-hovered] [data-pressed] [data-focus-visible] [data-disabled] [data-current]
@@ -70,7 +70,9 @@
 }
 
 .tale-breadcrumbs__link[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-breadcrumbs__link[data-current] {

@@ -23,6 +23,10 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
+      - name: Verify generated tokens
+        run: pnpm tokens:check
+      - name: Test native token generation
+        run: pnpm test:tokens
       - name: Lint CSS
         run: pnpm lint:css
       - name: Audit BEM classes
@@ -44,7 +48,7 @@ jobs:
       - name: Validate golden prompts
         run: pnpm golden:validate
       - name: Build CSS
-        run: pnpm --filter @tale-ui/core build
+        run: pnpm --filter @tale-ui/css build
       - name: Verify dist is up-to-date
         shell: bash
         run: |

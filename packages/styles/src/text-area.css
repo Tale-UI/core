@@ -1,7 +1,7 @@
 /*
  * TextArea — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria TextField (used as root for TextArea) exposes:
  *   Root: [data-disabled] [data-invalid]
  *   TextArea: [data-focused] [data-disabled] [data-invalid]
@@ -79,5 +79,3 @@
 }
 
 /* Label styles are shared in _primitives.css */
-
-

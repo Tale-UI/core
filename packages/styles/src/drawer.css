@@ -1,7 +1,7 @@
 /*
  * Drawer — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Drawer is a custom overlay (no React Aria equivalent).
  *   Popup:    [data-entering] [data-exiting]
  *   Backdrop: [data-entering] [data-exiting]

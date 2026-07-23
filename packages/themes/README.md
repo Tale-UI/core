@@ -13,7 +13,7 @@ monochrome suite is sourced from Bento Browser's seven non-default workspace the
 pnpm add @tale-ui/themes
 ```
 
-`@tale-ui/core` is installed as a dependency. Import the theme stylesheet after Tale UI's base or
+`@tale-ui/css` is installed as a dependency. Import the theme stylesheet after Tale UI's base or
 component styles:
 
 ```ts

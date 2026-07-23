@@ -6,7 +6,7 @@
  * Variants:   .tale-badge--neutral  (default)
  *             .tale-badge--color    (brand / semantic / named — uses --color-* tokens)
  *
- * Colors are controlled via .color-* theme classes from @tale-ui/core
+ * Colors are controlled via .color-* theme classes from @tale-ui/css
  * which remap --brand-* → system palette tokens. The brand variant uses
  * --color-* directly (no .color-* class needed).
  *

@@ -28,7 +28,7 @@ A typical release goes like this:
 5. Create a new release page at `docs/src/app/(docs)/react/overview/releases/<version-slug>/page.mdx` (where `<version-slug>` uses hyphens, for example, `v1-1-0` for v1.1.0). Paste the generated changelog there, following the format of existing release pages (title, `<Subtitle>` with the date, `<Meta>` tag).
 6. Copy the changes made in point 3 to the new release page.
 7. Add a new entry to `docs/src/data/releases.ts` with the version, versionSlug, date, and highlights. Move the `latest: true` flag to the new release if appropriate.
-8. Run `pnpm release:sync-versions <version>` to align `@tale-ui/core`, `@tale-ui/utils`,
+8. Run `pnpm release:sync-versions <version>` to align `@tale-ui/css`, `@tale-ui/utils`,
    `@tale-ui/react`, `@tale-ui/react-styles`, and `@tale-ui/themes`. Do not use the legacy
    `pnpm release:version` command for the coordinated public release set.
 9. Open a PR with changes and wait for review and green CI.
@@ -44,7 +44,7 @@ A typical release goes like this:
    > - **--dry-run** Used for debugging. Or directly run `pnpm release:publish:dry-run`.
    > - **--dist-tag** Use to publish legacy or canary versions.
 
-5. This command invokes the [Publish](https://github.com/Tale-UI/core/actions/workflows/publish.yml) GitHub action. It'll log the url which can be opened to see the latest workflow run.
+5. This command invokes the [Publish](https://github.com/Tale-UI/tale-ui/actions/workflows/publish.yml) GitHub action. It'll log the url which can be opened to see the latest workflow run.
 6. The next screen shows "@username requested your review to deploy to npm-publish", click "Review deployments" and authorize your workflow run. **Never approve workflow runs you didn't initiaite.**
 
 ### Publish the documentation
@@ -62,5 +62,5 @@ Once deployed, it will be accessible at https://tale-ui.netlify.app/ for the `do
 
 ### GitHub release
 
-After the documentation deployment is done, review, and then publish the release that was created in draft mode during the release step [GitHub releases page](https://github.com/Tale-UI/core/releases)
+After the documentation deployment is done, review, and then publish the release that was created in draft mode during the release step [GitHub releases page](https://github.com/Tale-UI/tale-ui/releases)
 Make sure to check the **Set as a pre-release** checkbox if publishing an unstable version.

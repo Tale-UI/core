@@ -1,7 +1,7 @@
 /*
  * Tooltip — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Tooltip exposes:
  *   Popup:   [data-entering] [data-exiting] [data-placement]
  *   Trigger: (no specific data attributes)
@@ -33,7 +33,9 @@
   max-width: 15rem;
   overflow-wrap: anywhere;
   box-shadow: var(--shadow-s);
-  transition: opacity 0.1s ease, transform 0.1s ease;
+  transition:
+    opacity 0.1s ease,
+    transform 0.1s ease;
   pointer-events: none;
 }
 
@@ -72,14 +74,14 @@
   fill: var(--neutral-80);
 }
 
-[data-placement="bottom"] .tale-tooltip__arrow svg {
+[data-placement='bottom'] .tale-tooltip__arrow svg {
   transform: rotate(180deg);
 }
 
-[data-placement="left"] .tale-tooltip__arrow svg {
+[data-placement='left'] .tale-tooltip__arrow svg {
   transform: rotate(-90deg);
 }
 
-[data-placement="right"] .tale-tooltip__arrow svg {
+[data-placement='right'] .tale-tooltip__arrow svg {
   transform: rotate(90deg);
 }

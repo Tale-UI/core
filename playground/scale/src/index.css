@@ -1,5 +1,5 @@
 html {
-  font-size: 100%; /* Standard browser rem base used by @tale-ui/core */
+  font-size: 100%; /* Standard browser rem base used by @tale-ui/css */
   height: 100%;
 }
 
@@ -14,8 +14,8 @@ body {
   height: 100%;
 
   -webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "tnum";
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'tnum';
 }
 
 *,

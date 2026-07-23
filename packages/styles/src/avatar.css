@@ -1,7 +1,7 @@
 /*
  * Avatar — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Avatar is a simple HTML wrapper (no React Aria equivalent).
  *   Image:    [data-entering] (for lazy load transition)
  *   Fallback: (shown when image fails or while loading)
@@ -302,7 +302,10 @@
   cursor: pointer;
   padding: 0;
   flex-shrink: 0;
-  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background-color 0.15s ease;
   /* Default size: md */
   width: 2.25rem;
   height: 2.25rem;
@@ -449,7 +452,9 @@
 }
 
 .tale-avatar-profile-photo__inner {
-  box-shadow: 0 0 0 3px var(--neutral-10), 0 2px 8px 0 rgb(0 0 0 / 0.10);
+  box-shadow:
+    0 0 0 3px var(--neutral-10),
+    0 2px 8px 0 rgb(0 0 0 / 0.1);
 }
 
 .tale-avatar-profile-photo__badge {

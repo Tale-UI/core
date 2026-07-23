@@ -1,6 +1,6 @@
 # @tale-ui/charts
 
-Recharts-based chart components themed with `@tale-ui/core` design tokens.
+Recharts-based chart components themed with `@tale-ui/css` design tokens.
 
 ## Architecture
 

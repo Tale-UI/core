@@ -1,7 +1,7 @@
 /*
  * Sidebar — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * All layout / positioning left to the consumer (fixed, sticky, flex-child, etc.)
  *
  * Usage:
@@ -115,7 +115,9 @@
   font-weight: 600;
   color: var(--neutral-20);
   text-decoration: none;
-  transition: background 100ms, color 100ms;
+  transition:
+    background 100ms,
+    color 100ms;
   cursor: pointer;
   user-select: none;
   list-style: none;
@@ -226,7 +228,9 @@ details[open] > summary .tale-sidebar__nav-chevron {
   border-radius: 6px;
   color: var(--neutral-40);
   text-decoration: none;
-  transition: background 100ms, color 100ms;
+  transition:
+    background 100ms,
+    color 100ms;
   cursor: pointer;
 }
 
@@ -490,73 +494,73 @@ details[open] > summary .tale-sidebar__nav-chevron {
 
 /* ─── Dark mode ────────────────────────────────────────────────────────────── */
 
-[data-color-mode="dark"] .tale-sidebar {
+[data-color-mode='dark'] .tale-sidebar {
   background: var(--neutral-14);
   border-color: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-sidebar__search-input {
+[data-color-mode='dark'] .tale-sidebar__search-input {
   background: var(--neutral-16);
   box-shadow: 0 0 0 1px var(--neutral-22) inset;
   color: var(--neutral-96);
 }
 
-[data-color-mode="dark"] .tale-sidebar__nav-link:hover {
+[data-color-mode='dark'] .tale-sidebar__nav-link:hover {
   background: var(--neutral-20);
 }
 
-[data-color-mode="dark"] .tale-sidebar__nav-link--current {
+[data-color-mode='dark'] .tale-sidebar__nav-link--current {
   background: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-sidebar__nav-btn:hover {
+[data-color-mode='dark'] .tale-sidebar__nav-btn:hover {
   background: var(--neutral-20);
 }
 
-[data-color-mode="dark"] .tale-sidebar__nav-btn--current {
+[data-color-mode='dark'] .tale-sidebar__nav-btn--current {
   background: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-sidebar__account-card {
+[data-color-mode='dark'] .tale-sidebar__account-card {
   box-shadow: 0 0 0 1px var(--neutral-22) inset;
 }
 
-[data-color-mode="dark"] .tale-sidebar__account-avatar--placeholder {
+[data-color-mode='dark'] .tale-sidebar__account-avatar--placeholder {
   background: var(--color-20);
   color: var(--color-20-fg);
 }
 
-[data-color-mode="dark"] .tale-sidebar__account-trigger:hover {
+[data-color-mode='dark'] .tale-sidebar__account-trigger:hover {
   background: var(--neutral-20);
 }
 
-[data-color-mode="dark"] .tale-sidebar__account-menu {
+[data-color-mode='dark'] .tale-sidebar__account-menu {
   background: var(--neutral-16);
   border-color: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-sidebar__feature-card {
+[data-color-mode='dark'] .tale-sidebar__feature-card {
   background: var(--neutral-16);
   border-color: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-sidebar__feature-card-dismiss:hover {
+[data-color-mode='dark'] .tale-sidebar__feature-card-dismiss:hover {
   background: var(--neutral-20);
 }
 
-[data-color-mode="dark"] .tale-sidebar__mobile-header {
+[data-color-mode='dark'] .tale-sidebar__mobile-header {
   background: var(--neutral-14);
   border-color: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-sidebar__mobile-drawer {
+[data-color-mode='dark'] .tale-sidebar__mobile-drawer {
   background: var(--neutral-14);
 }
 
-[data-color-mode="dark"] .tale-sidebar__mobile-menu-btn:hover {
+[data-color-mode='dark'] .tale-sidebar__mobile-menu-btn:hover {
   background: var(--neutral-20);
 }
 
-[data-color-mode="dark"] .tale-sidebar__mobile-close-btn:hover {
+[data-color-mode='dark'] .tale-sidebar__mobile-close-btn:hover {
   background: var(--neutral-20);
 }

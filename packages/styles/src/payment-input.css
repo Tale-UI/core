@@ -1,7 +1,7 @@
 /*
  * PaymentInput — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria–based payment card input exposes:
  *   Root:  [data-disabled] [data-invalid]
  *   Input: [data-focused] [data-disabled] [data-invalid]

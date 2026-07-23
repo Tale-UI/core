@@ -1,7 +1,7 @@
 /*
  * AlertDialog — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Shares the same popup structure as Dialog.
  * AlertDialog is a Dialog variant that locks focus and requires explicit action.
  *
@@ -44,7 +44,9 @@
   flex-direction: column;
   gap: var(--space-xs);
   outline: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .tale-alert-dialog__popup[data-entering],
@@ -61,4 +63,3 @@
   gap: var(--space-xs);
   outline: none;
 }
-

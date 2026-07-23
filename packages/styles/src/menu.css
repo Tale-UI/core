@@ -1,7 +1,7 @@
 /*
  * Menu / ContextMenu / Menubar — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * ContextMenu uses React Aria menu primitives directly for cursor-positioned
  * opening, and intentionally shares the same popup/item primitives as Menu.
  * Menubar is only a composition wrapper for Menu.Root instances.

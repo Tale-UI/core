@@ -6,9 +6,10 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 
 | Path                                         | Package                 | Description                                                                                      |
 | -------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------ |
-| [packages/css](packages/css/CLAUDE.md)       | `@tale-ui/core`         | Modular token-based CSS design system                                                            |
+| [packages/tokens](packages/tokens/CLAUDE.md) | `@tale-ui/tokens`       | Canonical platform-neutral tokens; generates CSS and native objects                              |
+| [packages/css](packages/css/CLAUDE.md)       | `@tale-ui/css`          | CSS foundations, utilities, and themes generated from the shared tokens                          |
 | [packages/react](packages/react/)            | `@tale-ui/react`        | Styled React components — BEM class names applied automatically (built on React Aria Components) |
-| [packages/styles](packages/styles/)          | `@tale-ui/react-styles` | CSS per component (uses @tale-ui/core tokens)                                                    |
+| [packages/styles](packages/styles/)          | `@tale-ui/react-styles` | CSS per component (uses `@tale-ui/css` tokens)                                                   |
 | [packages/themes](packages/themes/CLAUDE.md) | `@tale-ui/themes`       | Optional standard and monochrome theme presets                                                   |
 | [packages/utils](packages/utils/)            | `@tale-ui/utils`        | Shared utilities                                                                                 |
 | [packages/charts](packages/charts/CLAUDE.md) | `@tale-ui/charts`       | Recharts-based chart components themed with design tokens                                        |
@@ -22,7 +23,7 @@ Unified monorepo managed with **pnpm workspaces**. This repository is the single
 | [docs/workspace-structure.md](docs/workspace-structure.md)                       | Directory layout, conventions, and workspace CLI commands                                         |
 | [docs/managing-packages.md](docs/managing-packages.md)                           | Creating new packages and importing external projects                                             |
 | [docs/package-dependencies.md](docs/package-dependencies.md)                     | Cross-package `workspace:*` dependencies                                                          |
-| [docs/consuming-design-system.md](docs/consuming-design-system.md)               | Installing @tale-ui/core in external projects                                                     |
+| [docs/consuming-design-system.md](docs/consuming-design-system.md)               | Installing @tale-ui/css in external projects                                                      |
 | [docs/react-setup.md](docs/react-setup.md)                                       | Setting up a React app with Tale UI                                                               |
 | [docs/design-philosophy.md](docs/design-philosophy.md)                           | Why React Aria, why BEM, why CSS-first, colour token system, dark mode                            |
 | [docs/authoring-components.md](docs/authoring-components.md)                     | Contributor guide: adding new `@tale-ui/react` components                                         |
@@ -42,9 +43,15 @@ An MCP server at `tools/mcp-server.mjs` exposes Tale UI's component registry and
 
 **Tools:** `list_components`, `get_component`, `search_components`, `list_recipes`, `get_recipe`, `search_docs`
 
-## CSS Design System (@tale-ui/core)
+## CSS Design System (@tale-ui/css)
 
 See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributor guide.
+
+## Design Tokens (@tale-ui/tokens)
+
+`packages/tokens/tokens.json` is the canonical token source. Never hand-edit
+`packages/css/src/tokens/*.css` or `packages/tokens/src/generated.ts`; run
+`pnpm tokens:generate` after editing the source.
 
 ## React Components (@tale-ui/react)
 
@@ -79,7 +86,7 @@ See [packages/css/CLAUDE.md](packages/css/CLAUDE.md) for the full CSS contributo
 
 ### Design Tokens
 
-All component styles use tokens from `@tale-ui/core`:
+All component styles use tokens from `@tale-ui/css`:
 
 - **Colors:** `--neutral-*` and `--color-*` (NEVER `--brand-*` in component CSS)
 - **Foreground:** `--color-*-fg` and `--neutral-*-fg` for auto-contrasting text on any shade background

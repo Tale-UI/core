@@ -2,10 +2,10 @@
  * Text — @tale-ui/react
  *
  * Polymorphic typography wrapper. Typography styling is provided by the
- * foundation `text--{variant}-{size}` utility classes from @tale-ui/core.
+ * foundation `text--{variant}-{size}` utility classes from @tale-ui/css.
  * This file only adds the component-level base class and colour modifiers.
  *
- * Variants:   text--display-{l|m|s}    (via @tale-ui/core)
+ * Variants:   text--display-{l|m|s}    (via @tale-ui/css)
  *             text--heading-{l|m|s}
  *             text--title-{l|m|s}
  *             text--label-{l|m|s|xs}

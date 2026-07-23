@@ -1,7 +1,7 @@
 /*
  * Switch — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Switch exposes on the label (Root):
  *   [data-selected] [data-disabled] [data-readonly] [data-required]
  *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
@@ -53,7 +53,9 @@
 }
 
 .tale-switch[data-focus-visible]::before {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Selected (on) state ─────────────────────────────────────────────────── */
@@ -99,7 +101,9 @@
   border-radius: 50%;
   background-color: var(--neutral-80);
   box-shadow: var(--shadow-s);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
   transform: translate(0, -50%);
   z-index: 1;
   flex-shrink: 0;

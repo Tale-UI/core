@@ -1,7 +1,7 @@
 /*
  * Slider — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Slider exposes:
  *   Root:      [data-disabled] [data-orientation]
  *   Thumb:     [data-dragging] [data-disabled] [data-focused] [data-focus-visible]
@@ -29,13 +29,13 @@
   touch-action: none;
 }
 
-.tale-slider[data-orientation="vertical"] {
+.tale-slider[data-orientation='vertical'] {
   align-items: flex-start;
   width: fit-content;
   max-width: 100%;
 }
 
-.tale-slider[data-orientation="vertical"] .tale-slider__header {
+.tale-slider[data-orientation='vertical'] .tale-slider__header {
   width: max-content;
   justify-content: flex-start;
   gap: var(--space-xs);
@@ -51,7 +51,7 @@
   cursor: pointer;
 }
 
-.tale-slider[data-orientation="vertical"] .tale-slider__control {
+.tale-slider[data-orientation='vertical'] .tale-slider__control {
   flex-direction: column;
   width: 1.25rem;
   height: 10rem;
@@ -71,7 +71,7 @@
   background-color: var(--neutral-22);
 }
 
-.tale-slider[data-orientation="vertical"] .tale-slider__track {
+.tale-slider[data-orientation='vertical'] .tale-slider__track {
   width: 0.25rem;
   height: 100%;
   flex: 1;
@@ -89,7 +89,7 @@
   transition: background-color 0.15s ease;
 }
 
-.tale-slider[data-orientation="vertical"] .tale-slider__indicator {
+.tale-slider[data-orientation='vertical'] .tale-slider__indicator {
   width: 100%;
   height: auto;
   bottom: 0;
@@ -112,22 +112,27 @@
   box-shadow: var(--shadow-s);
   outline: none;
   transform-origin: center center;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease, scale 0.1s ease;
+  transition:
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    scale 0.1s ease;
   cursor: grab;
 }
 
-.tale-slider:not([data-orientation="vertical"]) .tale-slider__thumb {
+.tale-slider:not([data-orientation='vertical']) .tale-slider__thumb {
   top: 50%;
   transform: translateY(-50%);
 }
 
-.tale-slider[data-orientation="vertical"] .tale-slider__thumb {
+.tale-slider[data-orientation='vertical'] .tale-slider__thumb {
   left: 50%;
   transform: translateX(-50%);
 }
 
 .tale-slider__thumb:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-slider__thumb[data-dragging] {

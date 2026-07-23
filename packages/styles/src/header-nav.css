@@ -1,7 +1,7 @@
 /*
  * HeaderNav — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Horizontal header navigation bar.
  *
  * Usage:
@@ -63,7 +63,9 @@
   font-weight: 600;
   color: var(--neutral-20);
   text-decoration: none;
-  transition: background 100ms, color 100ms;
+  transition:
+    background 100ms,
+    color 100ms;
   cursor: pointer;
 }
 
@@ -164,27 +166,27 @@
 
 /* ─── Dark mode ────────────────────────────────────────────────────────────── */
 
-[data-color-mode="dark"] .tale-header-nav {
+[data-color-mode='dark'] .tale-header-nav {
   background: var(--neutral-14);
   border-color: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-header-nav__nav-btn:hover {
+[data-color-mode='dark'] .tale-header-nav__nav-btn:hover {
   background: var(--neutral-20);
 }
 
-[data-color-mode="dark"] .tale-header-nav__nav-btn--current {
+[data-color-mode='dark'] .tale-header-nav__nav-btn--current {
   background: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-header-nav__mobile-trigger:hover {
+[data-color-mode='dark'] .tale-header-nav__mobile-trigger:hover {
   background: var(--neutral-20);
 }
 
-[data-color-mode="dark"] .tale-header-nav__mobile-drawer {
+[data-color-mode='dark'] .tale-header-nav__mobile-drawer {
   background: var(--neutral-14);
 }
 
-[data-color-mode="dark"] .tale-header-nav__mobile-close-btn:hover {
+[data-color-mode='dark'] .tale-header-nav__mobile-close-btn:hover {
   background: var(--neutral-20);
 }

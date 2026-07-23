@@ -1,4 +1,4 @@
-# @tale-ui/core
+# @tale-ui/css
 
 A modular, token-based CSS design system. Framework-agnostic, no build tools required for development.
 
@@ -6,6 +6,8 @@ A modular, token-based CSS design system. Framework-agnostic, no build tools req
 
 Before making any changes, read the [Critical Rules in ai-reference.md](docs/ai-reference.md#critical-rules). The most common errors:
 
+- **Token modules are generated** — edit `packages/tokens/tokens.json` and run
+  `pnpm tokens:generate`; never hand-edit `src/tokens/*.css`
 - **Utility classes use DOUBLE dash:** `.gap--m`, `.grid--3`, `.display--none`
 - **Theme classes use SINGLE dash:** `.color-red`, `.neutral-cool` (NOT `.color--red`)
 - **Only `.gap--*` and `.center--*`** use double-selector specificity (`.class.class`) — nothing else
@@ -18,7 +20,7 @@ Before making any changes, read the [Critical Rules in ai-reference.md](docs/ai-
 ```
 src/
 ├── index.css         # Entry point — tokens → foundations → layout → utilities → themes
-├── tokens/           # CSS custom properties (spacing, typography, colors, neutrals, effects)
+├── tokens/           # Generated CSS custom properties from @tale-ui/tokens
 ├── foundations/      # Typography classes and base element defaults
 ├── layout/           # Gap, grid, flex, centering (all with responsive variants)
 ├── utilities/        # Display, visual, position, sizing, border, spacing
@@ -34,6 +36,13 @@ src/
 5. Update [docs/ai-reference.md](docs/ai-reference.md) with the new class enumeration
 6. Update [docs/documentation.html](docs/documentation.html) with a visual example
 7. Run `pnpm build` to verify the concatenated output
+
+## Changing a Design Token
+
+1. Edit `packages/tokens/tokens.json`
+2. Run `pnpm tokens:generate`
+3. Update the token reference documentation when the public token set changes
+4. Run `pnpm tokens:check` and `pnpm --filter @tale-ui/css build`
 
 ## Build Constraints
 

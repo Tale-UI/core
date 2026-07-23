@@ -1,7 +1,7 @@
 /*
  * ScrollArea — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * ScrollArea is a custom component (no React Aria equivalent).
  * Scrollbar: orientation (horizontal/vertical)
  *
@@ -48,7 +48,7 @@
   transition: background-color 0.15s ease;
 }
 
-.tale-scroll-area__scrollbar[data-orientation="vertical"] {
+.tale-scroll-area__scrollbar[data-orientation='vertical'] {
   flex-direction: column;
   width: 0.40625rem;
   position: absolute;
@@ -57,7 +57,7 @@
   bottom: 0;
 }
 
-.tale-scroll-area__scrollbar[data-orientation="horizontal"] {
+.tale-scroll-area__scrollbar[data-orientation='horizontal'] {
   flex-direction: row;
   height: 0.40625rem;
   position: absolute;

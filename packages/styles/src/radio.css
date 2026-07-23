@@ -1,7 +1,7 @@
 /*
  * Radio — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Radio exposes on the label:
  *   [data-selected] [data-disabled] [data-readonly] [data-required] [data-invalid]
  *   [data-focused] [data-focus-visible] [data-hovered] [data-pressed]
@@ -53,13 +53,17 @@
   height: var(--tale-radio-dot-size);
   border-radius: 50%;
   background-color: var(--color-80);
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
   transform: scale(0);
   opacity: 0;
 }
 
 .tale-radio[data-focus-visible] .tale-radio__indicator {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Selected state ──────────────────────────────────────────────────────── */
@@ -114,7 +118,9 @@
   height: 0.5rem;
   border-radius: 50%;
   background-color: var(--color-60);
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
   transform: scale(0);
   opacity: 0;
 }

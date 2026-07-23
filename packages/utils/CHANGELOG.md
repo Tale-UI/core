@@ -2,6 +2,16 @@
 
 All notable changes to the utility library are documented in this file.
 
+## v2.0.0 — 2026-07-24
+
+### Changed
+
+- Aligned the package with the Tale UI 2.0 release and renamed repository.
+
+### Notes
+
+- No utility APIs changed.
+
 ## v1.3.56 — 2026-07-16
 
 ### Changed

@@ -86,7 +86,7 @@ button[data-testid="context-menu"][data-testid="context-menu"]:focus-visible {
       '@tale-ui/utils',
       '@tale-ui/themes',
       '@tale-ui/react-styles',
-      '@tale-ui/core',
+      '@tale-ui/css',
       '@tale-ui/playground-scale',
     ]);
 
@@ -121,7 +121,7 @@ button[data-testid="context-menu"][data-testid="context-menu"]:focus-visible {
         replacement: path.resolve(__dirname, '../../../packages/styles/src'),
       },
       {
-        find: '@tale-ui/core',
+        find: '@tale-ui/css',
         replacement: path.resolve(__dirname, '../../../packages/css/src/index.css'),
       },
       {
@@ -132,7 +132,7 @@ button[data-testid="context-menu"][data-testid="context-menu"]:focus-visible {
     config.build ??= {};
     config.build.chunkSizeWarningLimit = 1500;
     // Allow Vite's dev server to read files from the monorepo root so that
-    // CSS @import chains (e.g. @import '@tale-ui/core' inside packages/styles)
+    // CSS @import chains (e.g. @import '@tale-ui/css' inside packages/styles)
     // can resolve into packages/css/src without being blocked by fs restrictions.
     config.server ??= {};
     config.server.fs ??= {};

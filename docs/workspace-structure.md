@@ -18,11 +18,12 @@ This monorepo is managed with **pnpm workspaces**.
 ## Directory Layout
 
 ```
-core/
+tale-ui/
 ├── package.json           # Workspace root (private)
 ├── pnpm-workspace.yaml    # Declares packages/*, apps/*, tools/*, etc.
 ├── packages/
-│   ├── css/               # @tale-ui/core — CSS design tokens & utilities
+│   ├── tokens/            # @tale-ui/tokens — canonical web/native token source
+│   ├── css/               # @tale-ui/css — generated CSS tokens & utilities
 │   ├── react/             # @tale-ui/react — styled React components
 │   ├── styles/            # @tale-ui/react-styles — per-component CSS
 │   ├── themes/            # @tale-ui/themes — optional standard and monochrome themes
@@ -39,19 +40,21 @@ core/
 
 ## Packages
 
-| Package                 | Path               | Description                                              |
-| ----------------------- | ------------------ | -------------------------------------------------------- |
-| `@tale-ui/core`         | `packages/css/`    | CSS design tokens, foundations, layout utilities, themes |
-| `@tale-ui/react`        | `packages/react/`  | Styled React components (BEM class names auto-applied)   |
-| `@tale-ui/react-styles` | `packages/styles/` | Per-component CSS rules built on `@tale-ui/core` tokens  |
-| `@tale-ui/themes`       | `packages/themes/` | Optional standard and monochrome theme presets           |
-| `@tale-ui/utils`        | `packages/utils/`  | Shared hooks, colour utilities, DOM helpers              |
+| Package                 | Path               | Description                                            |
+| ----------------------- | ------------------ | ------------------------------------------------------ |
+| `@tale-ui/tokens`       | `packages/tokens/` | Canonical token source and generated native objects    |
+| `@tale-ui/css`          | `packages/css/`    | CSS tokens, foundations, layout utilities, themes      |
+| `@tale-ui/react`        | `packages/react/`  | Styled React components (BEM class names auto-applied) |
+| `@tale-ui/react-styles` | `packages/styles/` | Per-component CSS rules built on `@tale-ui/css` tokens |
+| `@tale-ui/themes`       | `packages/themes/` | Optional standard and monochrome theme presets         |
+| `@tale-ui/utils`        | `packages/utils/`  | Shared hooks, colour utilities, DOM helpers            |
 
 ## Workspace CLI Commands
 
 ```bash
 pnpm install                                         # Install all workspace deps
-pnpm --filter @tale-ui/core <cmd>                   # Run command in a specific package
+pnpm --filter @tale-ui/tokens <cmd>                  # Generate or validate shared tokens
+pnpm --filter @tale-ui/css <cmd>                     # Run command in a specific package
 pnpm --filter @tale-ui/react <cmd>                  # Run command in another package
 pnpm -r <cmd>                                        # Run command in all packages
 pnpm --filter @tale-ui/my-app add pkg               # Add a dep to a specific package

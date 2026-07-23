@@ -18,14 +18,14 @@ export default function App() {
 }
 ```
 
-That's it. Components automatically apply their BEM base class (`tale-button`). `@tale-ui/react-styles` pulls in `@tale-ui/core` (the design-token layer) automatically.
+That's it. Components automatically apply their BEM base class (`tale-button`). `@tale-ui/react-styles` pulls in `@tale-ui/css` (the design-token layer) automatically.
 
 ---
 
 ## Package Architecture
 
 ```
-@tale-ui/core            CSS design tokens, foundations, layout utilities, themes
+@tale-ui/css            CSS design tokens, foundations, layout utilities, themes
       ↑
 @tale-ui/react-styles    Component CSS (.tale-button, .tale-select__popup, …)
       ↑
@@ -38,8 +38,8 @@ That's it. Components automatically apply their BEM base class (`tale-button`). 
 
 | Package                 | What it provides                                                                                                                                     |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@tale-ui/core`         | Design tokens (`--color-*`, `--neutral-*`, `--space-*`, `--text-*`), utility classes (`.gap--m`, `.grid--3`), dark mode, typography foundations      |
-| `@tale-ui/react-styles` | Opinionated CSS for every `@tale-ui/react` component — built entirely on `@tale-ui/core` tokens                                                      |
+| `@tale-ui/css`          | Design tokens (`--color-*`, `--neutral-*`, `--space-*`, `--text-*`), utility classes (`.gap--m`, `.grid--3`), dark mode, typography foundations      |
+| `@tale-ui/react-styles` | Opinionated CSS for every `@tale-ui/react` component — built entirely on `@tale-ui/css` tokens                                                       |
 | `@tale-ui/react`        | Accessible React components that automatically apply BEM class names. Accepts `variant` and `size` props where applicable. Override via `className`. |
 | `@tale-ui/themes`       | Optional standard and monochrome theme CSS, data attributes, and typed metadata                                                                      |
 | `@tale-ui/utils`        | Internal utilities (colour generation, React hooks, DOM helpers)                                                                                     |
@@ -56,17 +56,17 @@ Components render with the correct BEM class names automatically. You still need
 import '@tale-ui/react-styles'; // tokens + all component CSS
 ```
 
-This single import loads `@tale-ui/core` (tokens, foundations, themes) followed by every component stylesheet.
+This single import loads `@tale-ui/css` (tokens, foundations, themes) followed by every component stylesheet.
 
 ### Per-component
 
 ```ts
-import '@tale-ui/core'; // tokens — must import separately
+import '@tale-ui/css'; // tokens — must import separately
 import '@tale-ui/react-styles/button'; // just the button CSS
 import '@tale-ui/react-styles/dialog'; // just the dialog CSS
 ```
 
-When importing individual components you **must** also import `@tale-ui/core` yourself, because per-component exports do not re-import it.
+When importing individual components you **must** also import `@tale-ui/css` yourself, because per-component exports do not re-import it.
 
 ---
 
@@ -657,7 +657,7 @@ Each story shows real usage with `variant`, `size`, and state props. Use the **F
 Components apply BEM class names automatically, but the CSS rules live in `@tale-ui/react-styles`. Add `import '@tale-ui/react-styles'` to your app entry file.
 
 **"CSS variables are undefined"**
-You imported a per-component style (e.g. `@tale-ui/react-styles/button`) without importing `@tale-ui/core` first. Either switch to the all-in-one import or add `import '@tale-ui/core'` before component imports.
+You imported a per-component style (e.g. `@tale-ui/react-styles/button`) without importing `@tale-ui/css` first. Either switch to the all-in-one import or add `import '@tale-ui/css'` before component imports.
 
 **"Dark mode doesn't work"**
 Ensure `data-color-mode` is set on the `<html>` element (not `<body>`). The CSS selectors target `html[data-color-mode="dark"]`.

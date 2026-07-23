@@ -1,7 +1,7 @@
 /*
  * Tree — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Tree exposes:
  *   Root: [data-empty] [data-focused] [data-focus-visible]
  *   Item: [data-expanded] [data-selected] [data-focused] [data-focus-visible]
@@ -27,7 +27,9 @@
 }
 
 .tale-tree[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
   border-radius: var(--space-4xs);
 }
 
@@ -48,7 +50,9 @@
 }
 
 .tale-tree__item[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
   border-radius: var(--space-4xs);
 }
 
@@ -58,11 +62,21 @@
 }
 
 /* Indentation via level — uses padding-inline-start */
-.tale-tree__item[data-level="1"] { padding-inline-start: var(--space-2xs); }
-.tale-tree__item[data-level="2"] { padding-inline-start: calc(var(--space-2xs) + 0.78125rem); }
-.tale-tree__item[data-level="3"] { padding-inline-start: calc(var(--space-2xs) + 1.5625rem); }
-.tale-tree__item[data-level="4"] { padding-inline-start: calc(var(--space-2xs) + 2.34375rem); }
-.tale-tree__item[data-level="5"] { padding-inline-start: calc(var(--space-2xs) + 3.125rem); }
+.tale-tree__item[data-level='1'] {
+  padding-inline-start: var(--space-2xs);
+}
+.tale-tree__item[data-level='2'] {
+  padding-inline-start: calc(var(--space-2xs) + 0.78125rem);
+}
+.tale-tree__item[data-level='3'] {
+  padding-inline-start: calc(var(--space-2xs) + 1.5625rem);
+}
+.tale-tree__item[data-level='4'] {
+  padding-inline-start: calc(var(--space-2xs) + 2.34375rem);
+}
+.tale-tree__item[data-level='5'] {
+  padding-inline-start: calc(var(--space-2xs) + 3.125rem);
+}
 
 /* ─── Item Content ─────────────────────────────────────────────────────────── */
 

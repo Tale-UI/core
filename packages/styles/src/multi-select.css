@@ -1,7 +1,7 @@
 /*
  * MultiSelect — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Popover exposes:  [data-entering] [data-exiting] [data-placement]
  * React Aria Button exposes:   [data-hovered] [data-pressed] [data-disabled] [data-focus-visible]
  * React Aria ListBoxItem exposes: [data-hovered] [data-selected] [data-focused] [data-focus-visible] [data-disabled]
@@ -336,7 +336,9 @@
 }
 
 .tale-multi-select__footer-btn:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Empty state ────────────────────────────────────────────────────────── */
@@ -382,7 +384,9 @@
 }
 
 .tale-multi-select__empty-clear:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
   border-radius: var(--radius-s);
 }
 

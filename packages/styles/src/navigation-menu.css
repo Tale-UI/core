@@ -1,7 +1,7 @@
 /*
  * NavigationMenu — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * NavigationMenu is a custom horizontal nav with hover-activated content panels.
  *
  * Usage:
@@ -57,7 +57,9 @@
   font-weight: var(--label-font-weight);
   cursor: pointer;
   outline: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .tale-navigation-menu__trigger:hover,
@@ -67,7 +69,9 @@
 }
 
 .tale-navigation-menu__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Icon ─────────────────────────────────────────────────────────────────── */
@@ -90,7 +94,9 @@
   font-weight: var(--label-font-weight);
   text-decoration: none;
   outline: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .tale-navigation-menu__link:hover {
@@ -99,7 +105,9 @@
 }
 
 .tale-navigation-menu__link:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Item ─────────────────────────────────────────────────────────────────── */
@@ -161,5 +169,7 @@
   left: 0;
   overflow: hidden;
   border-radius: var(--radius-l);
-  transition: width 0.3s ease, height 0.3s ease;
+  transition:
+    width 0.3s ease,
+    height 0.3s ease;
 }

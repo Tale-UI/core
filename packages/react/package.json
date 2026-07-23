@@ -1,8 +1,8 @@
 {
   "name": "@tale-ui/react",
-  "version": "1.3.56",
+  "version": "2.0.0",
   "author": "Tale UI",
-  "description": "Styled React component library built on React Aria Components, themed with @tale-ui/core design tokens.",
+  "description": "Styled React component library built on React Aria Components, themed with @tale-ui/css design tokens.",
   "keywords": [
     "react",
     "react-component",
@@ -12,14 +12,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tale-UI/core.git",
+    "url": "git+https://github.com/Tale-UI/tale-ui.git",
     "directory": "packages/react"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Tale-UI/core/issues"
+    "url": "https://github.com/Tale-UI/tale-ui/issues"
   },
-  "homepage": "https://github.com/Tale-UI/core",
+  "homepage": "https://github.com/Tale-UI/tale-ui",
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/tale-ui"
@@ -172,7 +172,7 @@
     "@babel/runtime": "^7.28.6",
     "@internationalized/date": "^3.12.2",
     "@modelcontextprotocol/sdk": "^1.28.0",
-    "@tale-ui/core": "workspace:*",
+    "@tale-ui/css": "workspace:*",
     "@tale-ui/react-styles": "workspace:*",
     "@tale-ui/utils": "workspace:*",
     "react-aria-components": "^1.19.0",

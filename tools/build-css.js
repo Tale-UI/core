@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build script: concatenates all @tale-ui/core source files
+ * Build script: concatenates all @tale-ui/css source files
  * into a single dist/style.css. No external dependencies required.
  *
  * Usage: node tools/build-css.js
@@ -10,9 +10,9 @@ const fs = require('fs');
 const path = require('path');
 
 const CSS_ROOT = path.join(__dirname, '..', 'packages', 'css');
-const SRC_DIR  = path.join(CSS_ROOT, 'src');
+const SRC_DIR = path.join(CSS_ROOT, 'src');
 const DIST_DIR = path.join(CSS_ROOT, 'dist');
-const INDEX    = path.join(SRC_DIR, 'index.css');
+const INDEX = path.join(SRC_DIR, 'index.css');
 
 // Parse @import paths from a CSS file (single-level, no recursion needed
 // since index.css is the only file with @import statements)
@@ -36,7 +36,7 @@ if (importPaths.length === 0) {
 }
 
 const timestamp = new Date().toISOString().split('T')[0];
-let output = `/* @tale-ui/core — Built ${timestamp} */\n`;
+let output = `/* @tale-ui/css — Built ${timestamp} */\n`;
 output += `/* Source: packages/css/src/index.css */\n\n`;
 
 for (const filePath of importPaths) {
@@ -45,7 +45,7 @@ for (const filePath of importPaths) {
   output += `/* ============================================\n`;
   output += `   ${rel}\n`;
   output += `   ============================================ */\n`;
-  output += `${content.trimEnd()  }\n\n`;
+  output += `${content.trimEnd()}\n\n`;
 }
 
 // Zero-dependency CSS minification.
@@ -81,7 +81,9 @@ const { gzipSync } = require('zlib');
 
 const kb = (output.length / 1024).toFixed(1);
 const gzipKb = (gzipSync(output).length / 1024).toFixed(1);
-console.log(`✓ Built dist/style.css (${kb} KB, ${gzipKb} KB gzipped, ${importPaths.length} modules)`);
+console.log(
+  `✓ Built dist/style.css (${kb} KB, ${gzipKb} KB gzipped, ${importPaths.length} modules)`,
+);
 
 const minKb = (minified.length / 1024).toFixed(1);
 const minGzipKb = (gzipSync(minified).length / 1024).toFixed(1);
