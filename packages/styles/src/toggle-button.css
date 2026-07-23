@@ -1,7 +1,7 @@
 /*
  * ToggleButton — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria ToggleButton exposes: [data-selected] [data-disabled] [data-pressed]
  * ToggleButtonGroup has no direct data attributes.
  *
@@ -43,7 +43,9 @@
 }
 
 .tale-toggle-button:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Hover ───────────────────────────────────────────────────────────────── */

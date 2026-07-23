@@ -4,7 +4,7 @@
   "description": "A2UI protocol renderer for Tale UI — maps A2UI agent messages to Tale UI React components.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tale-UI/core.git",
+    "url": "git+https://github.com/Tale-UI/tale-ui.git",
     "directory": "packages/a2ui"
   },
   "license": "MIT",

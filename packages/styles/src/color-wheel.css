@@ -1,7 +1,7 @@
 /*
  * ColorWheel — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria ColorWheel exposes:
  *   Root:  [data-disabled]
  *   Track: (circular hue ring rendered by RAC)
@@ -27,4 +27,3 @@
 }
 
 /* ─── Thumb ────────────────────────────────────────────────────────────────── */
-

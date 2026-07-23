@@ -1,7 +1,7 @@
 /*
  * Field — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Field provides label, description, and error message for a form control.
  * React Aria Field parts expose:
  *   [data-disabled] [data-invalid]

@@ -381,7 +381,7 @@ CSS classes:
 
 Base styling:
 
-- Use only `@tale-ui/core` tokens.
+- Use only `@tale-ui/css` tokens.
 - Use no `--brand-*` tokens.
 - Root:
   - `display: grid`

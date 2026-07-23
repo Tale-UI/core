@@ -1,7 +1,7 @@
 /*
  * ColorSwatchPicker — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria ColorSwatchPicker exposes:
  *   Root: (listbox container)
  *   Item: [data-selected] [data-focused] [data-focus-visible] [data-disabled] [data-hovered]

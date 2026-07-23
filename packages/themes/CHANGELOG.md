@@ -1,5 +1,16 @@
 # Changelog — @tale-ui/themes
 
+## v2.0.0 — 2026-07-24
+
+### Changed
+
+- Replaced the `@tale-ui/core` dependency with `@tale-ui/css`.
+- Updated generated import guidance and repository metadata.
+
+### Notes
+
+- No theme identifiers, palettes, or application APIs changed.
+
 ## v1.3.56 — 2026-07-16
 
 ### Added

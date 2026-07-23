@@ -1,7 +1,7 @@
 /*
  * Banner — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Custom component (not React Aria). Inline notification banners.
  *
  * Variants: info (default), success, warning, error
@@ -61,7 +61,7 @@
 }
 
 /* Variants (success, warning, error) are applied via .color-* theme classes
-   from @tale-ui/core which remap --brand-* → system palette tokens.
+   from @tale-ui/css which remap --brand-* → system palette tokens.
    The base --color-* tokens then resolve automatically. */
 
 /* ─── Icon ─────────────────────────────────────────────────────────────────── */

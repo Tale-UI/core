@@ -30,26 +30,26 @@ pnpm audit:snippet-kinds     # verify consumer snippet is correct
 
 **CI runs 17 automated checks** on every PR across 4 jobs:
 
-| Job              | Check                  | pnpm command                        | What it catches                                             |
-| ---------------- | ---------------------- | ----------------------------------- | ----------------------------------------------------------- |
-| check-css        | BEM classes            | `pnpm audit:bem`                    | `cx()` classes without matching CSS                         |
-| check-css        | Brand tokens           | `pnpm audit:brand`                  | `--brand-*` in component CSS (breaks dark mode)             |
-| check-css        | Doc props              | `pnpm audit:docs`                   | Props added to code but not documented                      |
-| check-css        | Component completeness | `pnpm audit:components`             | Missing artifacts (19-point check)                          |
-| check-css        | Registry freshness     | `pnpm registry:check`               | Registry out of sync with source                            |
-| check-css        | Cursor rules freshness | `pnpm cursorrules:check`            | .cursorrules out of sync with registry                      |
-| check-css        | Snippet consistency    | `pnpm audit:snippet-kinds`          | Consumer snippet namespace/simple lists wrong               |
-| check-css        | Golden prompts         | `pnpm golden:validate`              | Reference implementations broken by API changes             |
-| check-css        | CSS build              | `pnpm --filter @tale-ui/core build` | dist/style.css out of date                                  |
-| check-code       | TypeScript             | `pnpm typescript`                   | Type errors across all packages                             |
-| check-code       | ESLint                 | `pnpm eslint:ci`                    | JS/TS lint violations                                       |
-| check-code       | Unit tests             | `pnpm test:jsdom`                   | Test failures in jsdom environment                          |
-| check-a2ui       | A2UI catalog docs      | `pnpm a2ui:check-docs`              | Catalog tables in docs drift from catalog.ts                |
-| check-a2ui       | A2UI examples          | `pnpm a2ui:validate-examples`       | Few-shot examples reference stale types/icons               |
-| check-a2ui       | A2UI docs audit        | `pnpm a2ui:audit-docs`              | Counts and type lists in docs go stale                      |
-| check-a2ui       | A2UI golden prompts    | `pnpm a2ui:golden:validate`         | Reference A2UI JSON broken by catalog or prop value changes |
-| check-formatting | Markdown lint          | `pnpm markdownlint`                 | Broken markdown tables, missing blank lines                 |
-| check-formatting | Prettier               | `pnpm prettier`                     | Formatting drift                                            |
+| Job              | Check                  | pnpm command                       | What it catches                                             |
+| ---------------- | ---------------------- | ---------------------------------- | ----------------------------------------------------------- |
+| check-css        | BEM classes            | `pnpm audit:bem`                   | `cx()` classes without matching CSS                         |
+| check-css        | Brand tokens           | `pnpm audit:brand`                 | `--brand-*` in component CSS (breaks dark mode)             |
+| check-css        | Doc props              | `pnpm audit:docs`                  | Props added to code but not documented                      |
+| check-css        | Component completeness | `pnpm audit:components`            | Missing artifacts (19-point check)                          |
+| check-css        | Registry freshness     | `pnpm registry:check`              | Registry out of sync with source                            |
+| check-css        | Cursor rules freshness | `pnpm cursorrules:check`           | .cursorrules out of sync with registry                      |
+| check-css        | Snippet consistency    | `pnpm audit:snippet-kinds`         | Consumer snippet namespace/simple lists wrong               |
+| check-css        | Golden prompts         | `pnpm golden:validate`             | Reference implementations broken by API changes             |
+| check-css        | CSS build              | `pnpm --filter @tale-ui/css build` | dist/style.css out of date                                  |
+| check-code       | TypeScript             | `pnpm typescript`                  | Type errors across all packages                             |
+| check-code       | ESLint                 | `pnpm eslint:ci`                   | JS/TS lint violations                                       |
+| check-code       | Unit tests             | `pnpm test:jsdom`                  | Test failures in jsdom environment                          |
+| check-a2ui       | A2UI catalog docs      | `pnpm a2ui:check-docs`             | Catalog tables in docs drift from catalog.ts                |
+| check-a2ui       | A2UI examples          | `pnpm a2ui:validate-examples`      | Few-shot examples reference stale types/icons               |
+| check-a2ui       | A2UI docs audit        | `pnpm a2ui:audit-docs`             | Counts and type lists in docs go stale                      |
+| check-a2ui       | A2UI golden prompts    | `pnpm a2ui:golden:validate`        | Reference A2UI JSON broken by catalog or prop value changes |
+| check-formatting | Markdown lint          | `pnpm markdownlint`                | Broken markdown tables, missing blank lines                 |
+| check-formatting | Prettier               | `pnpm prettier`                    | Formatting drift                                            |
 
 ## Audit Tools
 
@@ -136,7 +136,7 @@ node tools/audit-coverage.js --json   # machine-readable JSON
 
 | Script              | pnpm command     | Purpose                                                              |
 | ------------------- | ---------------- | -------------------------------------------------------------------- |
-| `build-css.js`      | `pnpm build:css` | Concatenates `@tale-ui/core` CSS source into `dist/style.css`        |
+| `build-css.js`      | `pnpm build:css` | Concatenates `@tale-ui/css` CSS source into `dist/style.css`         |
 | `build-package.mjs` | _(internal)_     | Produces CJS + ESM bundles for `@tale-ui/react` and `@tale-ui/utils` |
 
 ### build-css.js
@@ -149,13 +149,13 @@ Used internally by `packages/react/package.json` and `packages/utils/package.jso
 
 ## Release Tools
 
-| Script           | pnpm command       | Purpose                                                    |
-| ---------------- | ------------------ | ---------------------------------------------------------- |
-| `release-css.js` | `pnpm release:css` | Version bump, git tag, and npm publish for `@tale-ui/core` |
+| Script           | pnpm command       | Purpose                                                   |
+| ---------------- | ------------------ | --------------------------------------------------------- |
+| `release-css.js` | `pnpm release:css` | Version bump, git tag, and npm publish for `@tale-ui/css` |
 
 ### release-css.js
 
-Bumps the version in `packages/css/package.json`, rebuilds `dist/style.css`, commits the changes, creates a git tag (`@tale-ui/core@{version}`), and publishes to npm. Aborts if the git working tree is dirty.
+Bumps the version in `packages/css/package.json`, rebuilds `dist/style.css`, commits the changes, creates a git tag (`@tale-ui/css@{version}`), and publishes to npm. Aborts if the git working tree is dirty.
 
 ```bash
 pnpm release:css:patch      # bump patch version

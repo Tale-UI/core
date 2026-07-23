@@ -24,7 +24,7 @@ export default defineConfig({
         replacement: path.resolve(__dirname, '..', '..', 'packages', 'styles', 'src'),
       },
       {
-        find: '@tale-ui/core',
+        find: '@tale-ui/css',
         replacement: path.resolve(__dirname, '..', '..', 'packages', 'css', 'src', 'index.css'),
       },
       {

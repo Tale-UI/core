@@ -1,7 +1,7 @@
 /*
  * PreviewCard — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * PreviewCard is a custom hover-card (similar to Popover).
  *   Popup: [data-entering] [data-exiting] [data-placement]
  *
@@ -28,7 +28,9 @@
   padding: var(--space-xs);
   max-width: 20rem;
   outline: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 .tale-preview-card__popup[data-entering],
@@ -53,15 +55,15 @@
   stroke-width: 1;
 }
 
-[data-placement="bottom"] > .tale-preview-card__arrow svg {
+[data-placement='bottom'] > .tale-preview-card__arrow svg {
   transform: rotate(180deg);
 }
 
-[data-placement="left"] > .tale-preview-card__arrow svg {
+[data-placement='left'] > .tale-preview-card__arrow svg {
   transform: rotate(-90deg);
 }
 
-[data-placement="right"] > .tale-preview-card__arrow svg {
+[data-placement='right'] > .tale-preview-card__arrow svg {
   transform: rotate(90deg);
 }
 

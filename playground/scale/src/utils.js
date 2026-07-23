@@ -466,7 +466,7 @@ export const generateCssOutput = (name, palette, { mode = 'named' } = {}) => {
     //
     //    Scoped to .tale-ui so overrides only apply inside the design system root.
     //    OS dark @media resets are paired with light-mode overrides to prevent
-    //    cascade-order conflicts when the consumer stylesheet loads after @tale-ui/core.
+    //    cascade-order conflicts when the consumer stylesheet loads after @tale-ui/css.
     const getHex = (shade) => palette.find((p) => p.shade === shade)?.hex;
     const s5Hex = getHex(5);
     const s100Hex = getHex(100);

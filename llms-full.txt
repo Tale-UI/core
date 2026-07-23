@@ -14,9 +14,9 @@ A modular, token-based design system with an accessible React component library.
 ## System Overview
 
 ```
-@tale-ui/core            CSS design tokens, foundations, layout utilities, themes (framework-agnostic)
+@tale-ui/css            CSS design tokens, foundations, layout utilities, themes (framework-agnostic)
       ↑
-@tale-ui/react-styles    Component CSS — BEM rules for every component (built on @tale-ui/core tokens)
+@tale-ui/react-styles    Component CSS — BEM rules for every component (built on @tale-ui/css tokens)
       ↑
 @tale-ui/react           Styled React components — BEM class names applied automatically (wraps React Aria Components)
       ↑
@@ -25,8 +25,8 @@ A modular, token-based design system with an accessible React component library.
 
 | Package | npm | Purpose |
 |---------|-----|---------|
-| `@tale-ui/core` | `packages/css/` | Design tokens (`--color-*`, `--neutral-*`, `--space-*`), utility classes (`.gap--m`, `.grid--3`), dark mode, typography |
-| `@tale-ui/react-styles` | `packages/styles/` | CSS rules for every `@tale-ui/react` component — built entirely on `@tale-ui/core` tokens |
+| `@tale-ui/css` | `packages/css/` | Design tokens (`--color-*`, `--neutral-*`, `--space-*`), utility classes (`.gap--m`, `.grid--3`), dark mode, typography |
+| `@tale-ui/react-styles` | `packages/styles/` | CSS rules for every `@tale-ui/react` component — built entirely on `@tale-ui/css` tokens |
 | `@tale-ui/react` | `packages/react/` | Accessible React components that auto-apply BEM class names. Accepts `variant`/`size` props. Override via `className`. |
 | `@tale-ui/utils` | `packages/utils/` | Internal utilities (colour generation, React hooks, DOM helpers) |
 
@@ -181,7 +181,7 @@ Full token table: see § 1.6 Category Tokens below.
 
 ---
 
-## CSS Design System (`@tale-ui/core`)
+## CSS Design System (`@tale-ui/css`)
 
 ### Critical Rules for Code Generation
 
@@ -219,7 +219,7 @@ Pattern: `.{block}--{breakpoint}-{modifier}` (e.g. `.gap--m-s`, `.grid--l-2`, `.
 ### Full AI Reference (single file)
 
 For agents that prefer everything in one read: `llms-full.txt` (~1,930 lines)
-GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/core/main/llms-full.txt
+GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/tale-ui/main/llms-full.txt
 
 ### Component Index
 
@@ -232,7 +232,7 @@ Copy-paste multi-component patterns: `docs/recipes/index.md`
 ### Full CSS Reference
 
 For the complete enumeration of every class, token, and value: `packages/css/docs/ai-reference.md`
-GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/ai-reference.md
+GitHub raw URL: https://raw.githubusercontent.com/Tale-UI/tale-ui/main/packages/css/docs/ai-reference.md
 
 ### Required fonts
 

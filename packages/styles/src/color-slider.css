@@ -1,7 +1,7 @@
 /*
  * ColorSlider — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria ColorSlider exposes:
  *   Root:  [data-disabled] [data-orientation]
  *   Track: (gradient rendered by RAC)
@@ -56,4 +56,3 @@
 .tale-color-slider__thumb {
   top: 50%;
 }
-

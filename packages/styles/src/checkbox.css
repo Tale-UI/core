@@ -1,7 +1,7 @@
 /*
  * Checkbox — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Checkbox exposes on the label (Root):
  *   [data-selected] [data-indeterminate]
  *   [data-disabled] [data-readonly] [data-required] [data-invalid]
@@ -51,7 +51,9 @@
 }
 
 .tale-checkbox[data-focus-visible] .tale-checkbox__indicator {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Checked state ───────────────────────────────────────────────────────── */
@@ -75,7 +77,8 @@
 
 /* ─── Hover (unchecked) ───────────────────────────────────────────────────── */
 
-.tale-checkbox[data-hovered]:not([data-disabled], [data-selected], [data-indeterminate]) .tale-checkbox__indicator {
+.tale-checkbox[data-hovered]:not([data-disabled], [data-selected], [data-indeterminate])
+  .tale-checkbox__indicator {
   border-color: var(--neutral-60);
   background-color: var(--neutral-14);
 }

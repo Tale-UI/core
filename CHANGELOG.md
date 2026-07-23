@@ -2,6 +2,25 @@
 
 All notable changes to the Tale UI monorepo are documented in this file.
 
+## v2.0.0 — 2026-07-24
+
+### Added
+
+- **Shared tokens**: Added `@tale-ui/tokens` as the canonical source for generated CSS custom
+  properties and typed light/dark native token objects.
+
+### Changed
+
+- **Breaking package rename**: Replaced `@tale-ui/core` with `@tale-ui/css`.
+- **Repository rename**: Renamed the GitHub repository from `Tale-UI/core` to `Tale-UI/tale-ui`.
+- **Release automation**: Added coordinated publishing for Tokens, CSS, React, Styles, Themes, and
+  Utils, followed by npm deprecation of `@tale-ui/core`.
+
+### Migration
+
+- Replace `@tale-ui/core` dependencies and imports with `@tale-ui/css`.
+- No CSS custom-property names, utilities, or component APIs changed.
+
 ## v1.3.56 — 2026-07-16
 
 ### Added

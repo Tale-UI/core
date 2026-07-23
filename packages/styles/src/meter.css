@@ -1,7 +1,7 @@
 /*
  * Meter — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * A Meter is a non-interactive progress-like component for displaying a scalar value
  * within a range (e.g., disk usage, battery level).
  *
@@ -14,4 +14,3 @@
  */
 
 /* ─── Root ─────────────────────────────────────────────────────────────────── */
-

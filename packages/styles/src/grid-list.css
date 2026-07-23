@@ -1,7 +1,7 @@
 /*
  * GridList — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria GridList exposes:
  *   Root: [data-empty] [data-focused] [data-focus-visible]
  *   Item: [data-selected] [data-focused] [data-focus-visible]
@@ -26,7 +26,9 @@
 }
 
 .tale-grid-list[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Item ─────────────────────────────────────────────────────────────────── */
@@ -55,7 +57,9 @@
 }
 
 .tale-grid-list__item[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-grid-list__item[data-disabled] {

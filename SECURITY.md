@@ -10,4 +10,4 @@ The versions of the project that are currently supported with security updates.
 
 ## Reporting a vulnerability
 
-You can report a vulnerability by opening a [GitHub Security Advisory](https://github.com/Tale-UI/core/security/advisories/new).
+You can report a vulnerability by opening a [GitHub Security Advisory](https://github.com/Tale-UI/tale-ui/security/advisories/new).

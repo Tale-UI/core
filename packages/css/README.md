@@ -1,9 +1,6 @@
-# @tale-ui/core
+# @tale-ui/css
 
-[![Publish design system](https://github.com/Tale-UI/core/actions/workflows/publish.yml/badge.svg)](https://github.com/Tale-UI/core/actions/workflows/publish.yml)
-
-> **Deprecated:** `@tale-ui/core` has moved to `@tale-ui/css`. Replace the package name in your
-> dependency manifest and CSS imports. Version `1.3.57` is the final release under this name.
+[![Publish design system](https://github.com/Tale-UI/tale-ui/actions/workflows/publish.yml/badge.svg)](https://github.com/Tale-UI/tale-ui/actions/workflows/publish.yml)
 
 The foundational CSS layer of the Tale UI Design System — design tokens, layout utilities, and theming primitives. Framework-agnostic, no build tools required.
 
@@ -21,17 +18,17 @@ The foundational CSS layer of the Tale UI Design System — design tokens, layou
 ## Installation
 
 ```bash
-npm install @tale-ui/core
+npm install @tale-ui/css
 ```
 
 **Bundler (Next.js, Vite, webpack):**
 ```css
-@import '@tale-ui/core';
+@import '@tale-ui/css';
 ```
 
 **Plain HTML:**
 ```html
-<link rel="stylesheet" href="node_modules/@tale-ui/core/dist/style.css">
+<link rel="stylesheet" href="node_modules/@tale-ui/css/dist/style.css">
 ```
 
 > **Framework note:** This design system uses the browser-standard rem base (`html { font-size: 100%; }`, normally `1rem = 16px`) so it can coexist with Tailwind, shadcn/ui, Bootstrap, and other rem-based frameworks without a root-size workaround.
@@ -45,7 +42,7 @@ npm install @tale-ui/core
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet" />
 
 <!-- Design System -->
-<link rel="stylesheet" href="node_modules/@tale-ui/core/dist/style.css" />
+<link rel="stylesheet" href="node_modules/@tale-ui/css/dist/style.css" />
 ```
 
 ### Dark Mode
@@ -80,10 +77,10 @@ npm install @tale-ui/core
 
 ## Documentation
 
-- **[AI Reference](https://github.com/Tale-UI/core/blob/main/packages/css/docs/ai-reference.md)** — Every valid class, token, and value
-- **[Framework Integration](https://github.com/Tale-UI/core/blob/main/packages/css/docs/framework-integration.md)** — Using alongside Tailwind, shadcn/ui, Next.js, Vite, etc.
-- **[Visual Docs](https://github.com/Tale-UI/core/blob/main/packages/css/docs/documentation.html)** — Interactive component demos
-- **[Contributor Guide](https://github.com/Tale-UI/core/blob/main/packages/css/CLAUDE.md)** — Architecture, conventions, and how to extend the system
+- **[AI Reference](https://github.com/Tale-UI/tale-ui/blob/main/packages/css/docs/ai-reference.md)** — Every valid class, token, and value
+- **[Framework Integration](https://github.com/Tale-UI/tale-ui/blob/main/packages/css/docs/framework-integration.md)** — Using alongside Tailwind, shadcn/ui, Next.js, Vite, etc.
+- **[Visual Docs](https://github.com/Tale-UI/tale-ui/blob/main/packages/css/docs/documentation.html)** — Interactive component demos
+- **[Contributor Guide](https://github.com/Tale-UI/tale-ui/blob/main/packages/css/CLAUDE.md)** — Architecture, conventions, and how to extend the system
 
 ## Project Structure
 

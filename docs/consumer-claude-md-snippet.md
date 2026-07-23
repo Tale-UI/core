@@ -61,7 +61,7 @@ Checkbox (use CheckboxField), Radio (use RadioField), Switch (use SwitchField).
 
 6. **Charts (separate package):** Install `@tale-ui/charts` and `recharts` separately. Import chart styles via `import '@tale-ui/charts/styles';`. Charts use the same compound parts pattern: `BarChart.Root`, `BarChart.Bar`, etc.
 
-8. **A2UI protocol support (optional):** If this project uses AI agents that render UI via the [A2UI protocol](https://a2ui.org/), install `@tale-ui/a2ui`. It maps A2UI agent messages to Tale UI components. See `node_modules/@tale-ui/a2ui/README.md` or the [integration guide](https://github.com/Tale-UI/core/blob/main/docs/a2ui-integration.md). Quick setup:
+8. **A2UI protocol support (optional):** If this project uses AI agents that render UI via the [A2UI protocol](https://a2ui.org/), install `@tale-ui/a2ui`. It maps A2UI agent messages to Tale UI components. See `node_modules/@tale-ui/a2ui/README.md` or the [integration guide](https://github.com/Tale-UI/tale-ui/blob/main/docs/a2ui-integration.md). Quick setup:
 
    ```tsx
    import { A2UIProvider, A2UISurface } from '@tale-ui/a2ui/renderer';

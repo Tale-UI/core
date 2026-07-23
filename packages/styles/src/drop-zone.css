@@ -1,7 +1,7 @@
 /*
  * DropZone — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria DropZone exposes:
  *   [data-drop-target] [data-focused] [data-focus-visible] [data-disabled]
  *
@@ -35,7 +35,9 @@
 /* ─── Focus ────────────────────────────────────────────────────────────────── */
 
 .tale-drop-zone[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 /* ─── Drop target — active drag-over ──────────────────────────────────────── */

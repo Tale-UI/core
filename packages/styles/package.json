@@ -1,10 +1,10 @@
 {
   "name": "@tale-ui/react-styles",
-  "version": "1.3.56",
-  "description": "CSS styles for @tale-ui/react components, built on @tale-ui/core design tokens.",
+  "version": "2.0.0",
+  "description": "CSS styles for @tale-ui/react components, built on @tale-ui/css design tokens.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tale-UI/core.git",
+    "url": "git+https://github.com/Tale-UI/tale-ui.git",
     "directory": "packages/styles"
   },
   "license": "MIT",
@@ -120,7 +120,7 @@
     "./video-player": "./src/video-player.css"
   },
   "dependencies": {
-    "@tale-ui/core": "workspace:*"
+    "@tale-ui/css": "workspace:*"
   },
   "sideEffects": [
     "**/*.css"

@@ -54,7 +54,7 @@ export function useTransitionStatus(
 
     const frame = AnimationFrame.request(() => {
       // Avoid `flushSync` here due to Firefox.
-      // See https://github.com/Tale-UI/core/pull/3424
+      // See https://github.com/Tale-UI/tale-ui/pull/3424
       setTransitionStatus(undefined);
     });
 

@@ -1,6 +1,8 @@
+/* This file is generated from @tale-ui/tokens/tokens.json. Do not edit directly. */
 html {
     font-size: 100%;
 }
+
 :root {
     --background: var(--neutral-5);
     --min-screen-width: 480px;

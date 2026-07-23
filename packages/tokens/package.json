@@ -1,0 +1,40 @@
+{
+  "name": "@tale-ui/tokens",
+  "version": "2.0.0",
+  "description": "Platform-neutral design tokens for Tale UI web and native libraries.",
+  "keywords": [
+    "tale-ui",
+    "design-system",
+    "design-tokens",
+    "react-native"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tale-UI/tale-ui.git",
+    "directory": "packages/tokens"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./native": "./src/native.ts"
+  },
+  "type": "commonjs",
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "generate:check": "node scripts/generate.mjs --check",
+    "prebuild": "pnpm generate:check && rimraf --glob build build-tests \"*.tsbuildinfo\"",
+    "build": "node ../../tools/build-package.mjs --minimal --copy tokens.json --copy tokens.schema.json",
+    "test": "node scripts/test-generated.mjs",
+    "test:package": "pnpm build && publint run ./build --pack pnpm && attw --pack ./build",
+    "typescript": "tsc -b tsconfig.json"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "directory": "build"
+  },
+  "devDependencies": {
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "@tale-ui/charts",
   "version": "0.1.5",
-  "description": "Recharts-based chart components themed with @tale-ui/core design tokens.",
+  "description": "Recharts-based chart components themed with @tale-ui/css design tokens.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.28.6",
-    "@tale-ui/core": "workspace:*"
+    "@tale-ui/css": "workspace:*"
   },
   "peerDependencies": {
     "react": "^17 || ^18 || ^19",
@@ -38,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tale-UI/core.git",
+    "url": "git+https://github.com/Tale-UI/tale-ui.git",
     "directory": "packages/charts"
   },
   "license": "MIT"

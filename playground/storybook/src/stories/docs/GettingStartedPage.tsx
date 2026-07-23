@@ -135,7 +135,9 @@ function InlineCode({ children }: { children: string }) {
 export function GettingStartedPage() {
   return (
     <div style={s.page}>
-      <h1 className="text--heading-m" style={s.pageTitle}>Getting Started</h1>
+      <h1 className="text--heading-m" style={s.pageTitle}>
+        Getting Started
+      </h1>
       <p className="text--body-m" style={s.intro}>
         Tale provides a token-based CSS design system and a React component library. Pick the
         integration that matches your stack.
@@ -145,29 +147,46 @@ export function GettingStartedPage() {
       <div style={s.section}>
         <div style={s.sectionHeader}>
           <div style={s.sectionBadge}>1</div>
-          <h2 className="text--title-l" style={s.sectionTitle}>CSS Framework</h2>
+          <h2 className="text--title-l" style={s.sectionTitle}>
+            CSS Framework
+          </h2>
         </div>
         <p className="text--body-m" style={s.body}>
-          Use <InlineCode>@tale-ui/core</InlineCode> with any web project — no framework required.
+          Use <InlineCode>@tale-ui/css</InlineCode> with any web project — no framework required.
           You get design tokens, utility classes, typography, color families, dark mode, and layout
           primitives that work in plain HTML, Vue, Angular, or any other stack.
         </p>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Install</h3>
-        <CodeBlock>{`npm install @tale-ui/core
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          Install
+        </h3>
+        <CodeBlock>{`npm install @tale-ui/css
 # or
-pnpm add @tale-ui/core`}</CodeBlock>
+pnpm add @tale-ui/css`}</CodeBlock>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Import</h3>
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          Import
+        </h3>
         <CodeBlock>{`/* In your CSS entry point */
-@import '@tale-ui/core';`}</CodeBlock>
+@import '@tale-ui/css';`}</CodeBlock>
 
         <p className="text--body-m" style={s.body}>
           Or link directly from <InlineCode>node_modules</InlineCode>:
         </p>
-        <CodeBlock>{`<link rel="stylesheet" href="node_modules/@tale-ui/core/dist/index.css">`}</CodeBlock>
+        <CodeBlock>{`<link rel="stylesheet" href="node_modules/@tale-ui/css/dist/index.css">`}</CodeBlock>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Use tokens and utilities</h3>
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          Use tokens and utilities
+        </h3>
         <CodeBlock>{`<!-- Design tokens as CSS variables -->
 <button style="
   background: var(--color-60);
@@ -188,8 +207,7 @@ pnpm add @tale-ui/core`}</CodeBlock>
 </html>`}</CodeBlock>
 
         <p className="text--body-m" style={s.body}>
-          Explore tokens and utilities in the{' '}
-          <strong>Foundations</strong> section of the sidebar.
+          Explore tokens and utilities in the <strong>Foundations</strong> section of the sidebar.
         </p>
       </div>
 
@@ -199,7 +217,9 @@ pnpm add @tale-ui/core`}</CodeBlock>
       <div style={s.section}>
         <div style={s.sectionHeader}>
           <div style={s.sectionBadge}>2</div>
-          <h2 className="text--title-l" style={s.sectionTitle}>React</h2>
+          <h2 className="text--title-l" style={s.sectionTitle}>
+            React
+          </h2>
         </div>
         <p className="text--body-m" style={s.body}>
           <InlineCode>@tale-ui/react</InlineCode> provides accessible, styled components with BEM
@@ -207,10 +227,20 @@ pnpm add @tale-ui/core`}</CodeBlock>
           top.
         </p>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Install</h3>
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          Install
+        </h3>
         <CodeBlock>{`pnpm add @tale-ui/react @tale-ui/react-styles`}</CodeBlock>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Quick start</h3>
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          Quick start
+        </h3>
         <CodeBlock>{`// App entry — import styles once
 import '@tale-ui/react-styles';
 
@@ -232,7 +262,12 @@ export default function App() {
           <InlineCode>tale-button</InlineCode>). The stylesheet handles the rest.
         </p>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Package architecture</h3>
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          Package architecture
+        </h3>
         <table style={s.table}>
           <thead>
             <tr>
@@ -242,32 +277,50 @@ export default function App() {
           </thead>
           <tbody>
             {[
-              ['@tale-ui/core', 'Design tokens, utility classes, dark mode, typography foundations'],
-              ['@tale-ui/react-styles', 'Opinionated CSS for every component — built on @tale-ui/core tokens'],
-              ['@tale-ui/react', 'Accessible React components with BEM class names auto-applied. Accepts variant and size props.'],
+              ['@tale-ui/css', 'Design tokens, utility classes, dark mode, typography foundations'],
+              [
+                '@tale-ui/react-styles',
+                'Opinionated CSS for every component — built on @tale-ui/css tokens',
+              ],
+              [
+                '@tale-ui/react',
+                'Accessible React components with BEM class names auto-applied. Accepts variant and size props.',
+              ],
             ].map(([pkg, desc]) => (
               <tr key={pkg}>
-                <td style={s.td}><InlineCode>{pkg}</InlineCode></td>
+                <td style={s.td}>
+                  <InlineCode>{pkg}</InlineCode>
+                </td>
                 <td style={s.td}>{desc}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>CSS import strategies</h3>
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          CSS import strategies
+        </h3>
         <p className="text--body-m" style={s.body}>
           <strong>All-in-one</strong> (recommended) — one import loads tokens + all component CSS:
         </p>
         <CodeBlock>{`import '@tale-ui/react-styles';`}</CodeBlock>
         <p className="text--body-m" style={s.body}>
           <strong>Per-component</strong> — import only what you use (you must also import{' '}
-          <InlineCode>@tale-ui/core</InlineCode> separately):
+          <InlineCode>@tale-ui/css</InlineCode> separately):
         </p>
-        <CodeBlock>{`import '@tale-ui/core';
+        <CodeBlock>{`import '@tale-ui/css';
 import '@tale-ui/react-styles/button';
 import '@tale-ui/react-styles/dialog';`}</CodeBlock>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Dark mode</h3>
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          Dark mode
+        </h3>
         <CodeBlock>{`// Set data-color-mode on <html> — tokens invert automatically
 document.documentElement.setAttribute('data-color-mode', 'dark');
 
@@ -275,7 +328,12 @@ document.documentElement.setAttribute('data-color-mode', 'dark');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 document.documentElement.setAttribute('data-color-mode', prefersDark ? 'dark' : 'light');`}</CodeBlock>
 
-        <h3 className="text--label-l" style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}>Framework notes</h3>
+        <h3
+          className="text--label-l"
+          style={{ marginBottom: 'var(--space-xs)', color: 'var(--neutral-70)' }}
+        >
+          Framework notes
+        </h3>
         <p className="text--body-m" style={s.body}>
           <strong>Vite</strong> — works out of the box. See{' '}
           <InlineCode>playground/vite-app/</InlineCode> for a working example.
@@ -292,8 +350,18 @@ document.documentElement.setAttribute('data-color-mode', prefersDark ? 'dark' : 
       {/* More platforms */}
       <div style={s.section}>
         <div style={s.sectionHeader}>
-          <div style={{ ...s.sectionBadge, background: 'var(--neutral-14)', color: 'var(--neutral-50)' }}>3</div>
-          <h2 className="text--title-l" style={s.sectionTitle}>More platforms coming</h2>
+          <div
+            style={{
+              ...s.sectionBadge,
+              background: 'var(--neutral-14)',
+              color: 'var(--neutral-50)',
+            }}
+          >
+            3
+          </div>
+          <h2 className="text--title-l" style={s.sectionTitle}>
+            More platforms coming
+          </h2>
         </div>
         <div style={s.comingSoonCard}>
           <p className="text--body-m" style={{ ...s.body, marginBottom: 'var(--space-s)' }}>
@@ -302,7 +370,9 @@ document.documentElement.setAttribute('data-color-mode', prefersDark ? 'dark' : 
           </p>
           <div style={s.platformList}>
             {['Vue', 'Svelte', 'Solid', 'Web Components'].map((p) => (
-              <span key={p} style={s.platformPill}>{p}</span>
+              <span key={p} style={s.platformPill}>
+                {p}
+              </span>
             ))}
           </div>
         </div>

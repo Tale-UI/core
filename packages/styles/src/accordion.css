@@ -1,7 +1,7 @@
 /*
  * Accordion — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Accordion (DisclosureGroup + Disclosure) exposes:
  *   Root:  [data-disabled]
  *   Item:  [data-disabled] [data-expanded]
@@ -53,7 +53,6 @@
   margin: 0;
 }
 
-
 /* ─── Trigger ──────────────────────────────────────────────────────────────── */
 
 .tale-accordion__trigger {
@@ -72,7 +71,9 @@
   text-align: left;
   cursor: pointer;
   outline: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
   gap: var(--space-xs);
 }
 
@@ -81,7 +82,9 @@
 }
 
 .tale-accordion__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-accordion__item[data-disabled] .tale-accordion__trigger {
@@ -115,5 +118,3 @@
   display: block;
   height: var(--space-xs);
 }
-
-

@@ -3,6 +3,8 @@
 /docs/next-env.d.ts
 /docs/.next
 /docs/export
+/docs/consumer-claude-md-snippet-full.md
+/docs/consumer-claude-md-snippet.md
 /docs/src/app/(private)/playground/
 /packages/react/**/*.min.*
 build

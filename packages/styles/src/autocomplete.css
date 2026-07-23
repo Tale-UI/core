@@ -1,7 +1,7 @@
 /*
  * Autocomplete — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Autocomplete wraps an Input with a listbox popup for suggestions.
  *
  * Usage:
@@ -24,7 +24,9 @@
 .tale-autocomplete__input {
   display: block;
   width: 100%;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .tale-autocomplete__input:hover {
@@ -63,4 +65,3 @@
   color: var(--color-60);
   font-weight: var(--label-font-weight);
 }
-

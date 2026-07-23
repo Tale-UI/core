@@ -2,6 +2,17 @@
 
 All notable changes to the React component library are documented in this file.
 
+## v2.0.0 — 2026-07-24
+
+### Changed
+
+- Replaced the `@tale-ui/core` dependency with `@tale-ui/css`.
+- Updated package metadata for the renamed `Tale-UI/tale-ui` repository.
+
+### Notes
+
+- No React component APIs changed.
+
 ## v1.3.56 — 2026-07-16
 
 ### Added

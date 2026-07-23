@@ -8,7 +8,7 @@ An accessible React component library built on React Aria Components, with BEM c
 npm install @tale-ui/react
 ```
 
-This single install pulls in `@tale-ui/react-styles` (component CSS) and `@tale-ui/core` (design tokens) automatically.
+This single install pulls in `@tale-ui/react-styles` (component CSS) and `@tale-ui/css` (design tokens) automatically.
 
 Peer dependencies: `react` and `react-dom` (^17, ^18, or ^19).
 
@@ -184,7 +184,7 @@ If the generated CSS includes foreground pivot overrides (`.tale-ui` selectors),
 For smaller bundles, import individual component styles instead of the all-in-one:
 
 ```ts
-import '@tale-ui/core'; // tokens — required when using per-component imports
+import '@tale-ui/css'; // tokens — required when using per-component imports
 import '@tale-ui/react-styles/button';
 import '@tale-ui/react-styles/dialog';
 ```
@@ -193,17 +193,17 @@ import '@tale-ui/react-styles/dialog';
 
 For the complete guides on typography, colour system, dark mode, component composition patterns, accessibility, and framework integration:
 
-- [React setup guide](https://raw.githubusercontent.com/Tale-UI/core/main/docs/react-setup.md) — full consumer walkthrough
-- [Design tokens reference](https://raw.githubusercontent.com/Tale-UI/core/main/packages/css/docs/ai-reference.md) — every CSS class, token, and valid value
-- [Design philosophy](https://raw.githubusercontent.com/Tale-UI/core/main/docs/design-philosophy.md) — architectural decisions
-- [Component authoring](https://raw.githubusercontent.com/Tale-UI/core/main/docs/authoring-components.md) — contributor guide
+- [React setup guide](https://raw.githubusercontent.com/Tale-UI/tale-ui/main/docs/react-setup.md) — full consumer walkthrough
+- [Design tokens reference](https://raw.githubusercontent.com/Tale-UI/tale-ui/main/packages/css/docs/ai-reference.md) — every CSS class, token, and valid value
+- [Design philosophy](https://raw.githubusercontent.com/Tale-UI/tale-ui/main/docs/design-philosophy.md) — architectural decisions
+- [Component authoring](https://raw.githubusercontent.com/Tale-UI/tale-ui/main/docs/authoring-components.md) — contributor guide
 
 ### Per-component documentation
 
 Each component has a detailed usage guide with imports, sub-parts, props, and examples. Fetch the doc for any component by name:
 
 ```
-https://raw.githubusercontent.com/Tale-UI/core/main/docs/components/{name}.md
+https://raw.githubusercontent.com/Tale-UI/tale-ui/main/docs/components/{name}.md
 ```
 
 For example: `button.md`, `dialog.md`, `select.md`, `checkbox.md`, `tabs.md`, `table.md`, `date-picker.md`.

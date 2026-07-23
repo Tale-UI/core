@@ -1,7 +1,7 @@
 /*
  * CheckboxField — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria CheckboxField exposes on the root (div):
  *   [data-selected] [data-indeterminate]
  *   [data-disabled] [data-readonly] [data-required] [data-invalid]

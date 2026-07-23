@@ -20,7 +20,7 @@ export default defineConfig(() => {
         '@tale-ui/utils': path.resolve(__dirname, '..', '..', 'packages', 'utils', 'src'),
         '@tale-ui/themes': path.resolve(__dirname, '..', '..', 'packages', 'themes', 'src'),
         '@tale-ui/react-styles': path.resolve(__dirname, '..', '..', 'packages', 'styles', 'src'),
-        '@tale-ui/core': path.resolve(__dirname, '..', '..', 'packages', 'css', 'src', 'index.css'),
+        '@tale-ui/css': path.resolve(__dirname, '..', '..', 'packages', 'css', 'src', 'index.css'),
       },
     },
     server: {

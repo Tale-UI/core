@@ -1,7 +1,7 @@
 /*
  * NumberField — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria NumberField exposes:
  *   Root:  [data-disabled] [data-invalid]
  *
@@ -35,7 +35,9 @@
   border: 1px solid var(--neutral-26);
   border-radius: var(--radius-m);
   overflow: hidden;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .tale-number-field__group:focus-within {

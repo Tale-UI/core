@@ -38,7 +38,7 @@ export function useAnimationsFinished(
 
       function done() {
         // Synchronously flush the unmounting of the component so that the browser doesn't
-        // paint: https://github.com/Tale-UI/core/issues/979
+        // paint: https://github.com/Tale-UI/tale-ui/issues/979
         ReactDOM.flushSync(fnToExecute);
       }
 

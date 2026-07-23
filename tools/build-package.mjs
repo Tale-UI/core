@@ -1,5 +1,5 @@
 #!/usr/bin/env node
- 
+
 /**
  * Build script for @tale-ui/react and @tale-ui/utils.
  * Produces CJS + ESM bundles, type declarations,
@@ -27,6 +27,7 @@ const { values } = parseArgs({
   options: {
     ignore: { type: 'string', multiple: true, default: [] },
     copy: { type: 'string', multiple: true, default: [] },
+    minimal: { type: 'boolean', default: false },
   },
   strict: false,
   allowPositionals: true,
@@ -34,6 +35,7 @@ const { values } = parseArgs({
 
 const extraIgnores = /** @type {string[]} */ (values.ignore ?? []);
 const extraCopy = /** @type {string[]} */ (values.copy ?? []);
+const minimalBuild = values.minimal ?? false;
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 const BASE_IGNORES = [
@@ -65,15 +67,23 @@ async function fileExists(p) {
 async function runBabel(outDir, envName) {
   const configFile = path.resolve(cwd, '../../babel.config.mjs');
   const cmd = [
-    'node', babelCmd,
-    '--config-file', configFile,
-    '--extensions', '.js,.ts,.tsx',
+    'node',
+    babelCmd,
+    '--config-file',
+    configFile,
+    '--extensions',
+    '.js,.ts,.tsx',
     srcDir,
-    '--out-dir', outDir,
-    '--ignore', babelIgnoreList(),
-    '--out-file-extension', '.js',
-    '--compact', 'auto',
-    '--env-name', envName,
+    '--out-dir',
+    outDir,
+    '--ignore',
+    babelIgnoreList(),
+    '--out-file-extension',
+    '.js',
+    '--compact',
+    'auto',
+    '--env-name',
+    envName,
   ];
   await execaCommand(cmd.join(' '), { cwd, stdio: 'inherit', shell: true });
 }
@@ -118,7 +128,10 @@ if (await fileExists(tsconfigBuild)) {
   // Build into a temp dir, then copy .d.ts files into build/ and build/esm/
   const tmpDir = path.join(buildDir, '__types_tmp');
   const tscBin = path.join(path.dirname(require.resolve('typescript/package.json')), 'bin', 'tsc');
-  await execaCommand(`node ${tscBin} -p ${tsconfigBuild} --emitDeclarationOnly --outDir ${tmpDir}`, { cwd, stdio: 'inherit' });
+  await execaCommand(
+    `node ${tscBin} -p ${tsconfigBuild} --emitDeclarationOnly --outDir ${tmpDir}`,
+    { cwd, stdio: 'inherit' },
+  );
 
   // Copy .d.ts files into CJS root and ESM dirs
   const dtsFiles = [];
@@ -175,9 +188,12 @@ if (buildPkg.exports) {
   const newExports = {};
   for (const [key, value] of Object.entries(buildPkg.exports)) {
     // CSS exports: value is a string ("./src/foo.css") or object ({ types, default })
-    const cssPath = typeof value === 'string' ? value
-      : (typeof value === 'object' && value !== null && typeof value.default === 'string') ? value.default
-      : null;
+    const cssPath =
+      typeof value === 'string'
+        ? value
+        : typeof value === 'object' && value !== null && typeof value.default === 'string'
+          ? value.default
+          : null;
     if (cssPath && cssPath.startsWith('./src/') && cssPath.endsWith('.css')) {
       const stripped = cssPath.replace(/^\.\/src\//, './');
       const srcFile = path.join(cwd, cssPath);
@@ -229,7 +245,11 @@ const filesToCopy = [
 
 let copied = 0;
 for (const { src, fallback } of filesToCopy) {
-  const source = (await fileExists(src)) ? src : (fallback && await fileExists(fallback)) ? fallback : null;
+  const source = (await fileExists(src))
+    ? src
+    : fallback && (await fileExists(fallback))
+      ? fallback
+      : null;
   if (source) {
     await fs.cp(source, path.join(buildDir, path.basename(source)));
     copied++;
@@ -245,27 +265,29 @@ if (await fileExists(binDir)) {
 
 // Copy full docs tree into build/docs/ (component guides, recipes, pitfalls, etc.)
 // Consumers reference docs/components/{name}.md; the MCP server uses docs/recipes/ etc.
-const docsDir = path.join(repoRoot, 'docs');
-if (await fileExists(docsDir)) {
-  await fs.cp(docsDir, path.join(buildDir, 'docs'), { recursive: true });
-  copied++;
-}
-
-// Copy registry data files (components.json, pitfalls.json, a2ui-catalog.json)
-// The MCP server reads these at runtime from __dirname/registry/ in consumer mode.
-const registryDir = path.join(repoRoot, 'registry');
-if (await fileExists(registryDir)) {
-  await fs.cp(registryDir, path.join(buildDir, 'registry'), { recursive: true });
-  copied++;
-}
-
-// Copy the MCP server and its core module — IS_MONOREPO detection inside
-// the scripts handles path differences at runtime.
-for (const file of ['mcp-server.mjs', 'mcp-core.mjs']) {
-  const src = path.join(repoRoot, 'tools', file);
-  if (await fileExists(src)) {
-    await fs.cp(src, path.join(buildDir, file));
+if (!minimalBuild) {
+  const docsDir = path.join(repoRoot, 'docs');
+  if (await fileExists(docsDir)) {
+    await fs.cp(docsDir, path.join(buildDir, 'docs'), { recursive: true });
     copied++;
+  }
+
+  // Copy registry data files (components.json, pitfalls.json, a2ui-catalog.json)
+  // The MCP server reads these at runtime from __dirname/registry/ in consumer mode.
+  const registryDir = path.join(repoRoot, 'registry');
+  if (await fileExists(registryDir)) {
+    await fs.cp(registryDir, path.join(buildDir, 'registry'), { recursive: true });
+    copied++;
+  }
+
+  // Copy the MCP server and its core module — IS_MONOREPO detection inside
+  // the scripts handles path differences at runtime.
+  for (const file of ['mcp-server.mjs', 'mcp-core.mjs']) {
+    const src = path.join(repoRoot, 'tools', file);
+    if (await fileExists(src)) {
+      await fs.cp(src, path.join(buildDir, file));
+      copied++;
+    }
   }
 }
 

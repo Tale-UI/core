@@ -1,7 +1,7 @@
 /*
  * Pagination — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Custom component (not React Aria). Uses native HTML + ARIA.
  *
  * Usage:
@@ -43,7 +43,10 @@
   font-weight: 500;
   line-height: 1;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
   user-select: none;
 }
 
@@ -58,7 +61,9 @@
 .tale-pagination__previous:focus-visible,
 .tale-pagination__next:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-pagination__item:disabled,
@@ -124,7 +129,9 @@
 
 .tale-pagination__dot:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-pagination__dot--current {
@@ -152,7 +159,9 @@
 
 .tale-pagination__line:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-pagination__line--current {

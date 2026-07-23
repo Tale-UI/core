@@ -433,7 +433,7 @@ importers:
       '@babel/runtime':
         specifier: ^7.28.6
         version: 7.28.6
-      '@tale-ui/core':
+      '@tale-ui/css':
         specifier: workspace:*
         version: link:../css
       react:
@@ -464,7 +464,7 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.28.0
         version: 1.28.0(zod@3.25.76)
-      '@tale-ui/core':
+      '@tale-ui/css':
         specifier: workspace:*
         version: link:../css
       '@tale-ui/react-styles':
@@ -592,7 +592,7 @@ importers:
 
   packages/styles:
     dependencies:
-      '@tale-ui/core':
+      '@tale-ui/css':
         specifier: workspace:*
         version: link:../css
 
@@ -601,7 +601,7 @@ importers:
       '@babel/runtime':
         specifier: ^7.28.6
         version: 7.28.6
-      '@tale-ui/core':
+      '@tale-ui/css':
         specifier: workspace:*
         version: link:../css
       '@tale-ui/utils':
@@ -614,6 +614,16 @@ importers:
       '@tale-ui/monorepo-tests':
         specifier: workspace:*
         version: link:../../test
+      prettier:
+        specifier: 3.8.1
+        version: 3.8.1
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+    publishDirectory: build
+
+  packages/tokens:
+    devDependencies:
       prettier:
         specifier: 3.8.1
         version: 3.8.1

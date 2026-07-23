@@ -1,7 +1,7 @@
 /*
  * Disclosure — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Disclosure exposes:
  *   Root:    [data-expanded] [data-disabled]
  *   Panel:   [data-entering] [data-exiting]
@@ -24,7 +24,7 @@
   width: 100%;
 }
 
-.tale-disclosure[data-align="end"] {
+.tale-disclosure[data-align='end'] {
   align-items: flex-end;
 }
 
@@ -61,20 +61,24 @@
   width: fit-content;
 }
 
-.tale-disclosure[data-align="end"] .tale-disclosure__trigger {
+.tale-disclosure[data-align='end'] .tale-disclosure__trigger {
   align-self: flex-end;
 }
 
-.tale-disclosure:not([data-disabled]) .tale-disclosure__trigger:hover:not([data-disabled], [data-pending]) {
+.tale-disclosure:not([data-disabled])
+  .tale-disclosure__trigger:hover:not([data-disabled], [data-pending]) {
   background-color: color-mix(in srgb, var(--neutral-90) 12%, transparent);
 }
 
-.tale-disclosure:not([data-disabled]) .tale-disclosure__trigger:active:not([data-disabled], [data-pending]) {
+.tale-disclosure:not([data-disabled])
+  .tale-disclosure__trigger:active:not([data-disabled], [data-pending]) {
   background-color: color-mix(in srgb, var(--neutral-90) 16%, transparent);
 }
 
 .tale-disclosure__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--neutral-100), 0 0 0 4px var(--focus-ring-color);
+  box-shadow:
+    0 0 0 2px var(--neutral-100),
+    0 0 0 4px var(--focus-ring-color);
 }
 
 .tale-disclosure[data-disabled] .tale-disclosure__trigger,

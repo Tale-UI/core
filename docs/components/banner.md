@@ -6,23 +6,23 @@ An inline notification banner with semantic colour variants for feedback message
 
 ## Parts
 
-| Part | Description |
-|------|-------------|
-| `Banner.Root` | Container (`<div>`). Accepts `variant` and `size` props. |
-| `Banner.Icon` | Wrapper for an icon. |
-| `Banner.Title` | Main heading text. |
-| `Banner.Description` | Supporting description text. |
-| `Banner.Actions` | Container for action buttons. |
-| `Banner.Close` | Dismiss button. Default `aria-label="Dismiss"` and X icon; pass children to override. |
+| Part                 | Description                                                                           |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| `Banner.Root`        | Container (`<div>`). Accepts `variant` and `size` props.                              |
+| `Banner.Icon`        | Wrapper for an icon.                                                                  |
+| `Banner.Title`       | Main heading text.                                                                    |
+| `Banner.Description` | Supporting description text.                                                          |
+| `Banner.Actions`     | Container for action buttons.                                                         |
+| `Banner.Close`       | Dismiss button. Default `aria-label="Dismiss"` and X icon; pass children to override. |
 
 ## Props
 
 ### Root
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
+| Prop    | Type                                          | Default  | Description             |
+| ------- | --------------------------------------------- | -------- | ----------------------- |
 | variant | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Semantic colour variant |
-| size | `'sm' \| 'md'` | `'md'` | Size variant |
+| size    | `'sm' \| 'md'`                                | `'md'`   | Size variant            |
 
 Also accepts all standard `<div>` HTML attributes.
 
@@ -30,7 +30,9 @@ Also accepts all standard `<div>` HTML attributes.
 
 ```tsx
 <Banner.Root variant="info">
-  <Banner.Icon><Icon icon={InfoIcon} size="sm" /></Banner.Icon>
+  <Banner.Icon>
+    <Icon icon={InfoIcon} size="sm" />
+  </Banner.Icon>
   <Banner.Title>Heads up</Banner.Title>
   <Banner.Description>Your trial expires in 3 days.</Banner.Description>
 </Banner.Root>
@@ -69,8 +71,12 @@ Also accepts all standard `<div>` HTML attributes.
   <Banner.Title>Update available</Banner.Title>
   <Banner.Description>A new version is ready to install.</Banner.Description>
   <Banner.Actions>
-    <Button variant="ghost" size="sm">Later</Button>
-    <Button variant="primary" size="sm">Update now</Button>
+    <Button variant="ghost" size="sm">
+      Later
+    </Button>
+    <Button variant="primary" size="sm">
+      Update now
+    </Button>
   </Banner.Actions>
 </Banner.Root>
 ```
@@ -98,7 +104,7 @@ Also accepts all standard `<div>` HTML attributes.
 
 - `.tale-banner` — Root container
 - `.tale-banner--info` — Info variant (uses `--neutral-*` tokens — dark background with light text)
-- `.color-success` / `.color-warning` / `.color-error` — Theme class from `@tale-ui/core` applied for non-info variants. Remaps `--color-*` tokens to the semantic palette. Applied automatically by the React component.
+- `.color-success` / `.color-warning` / `.color-error` — Theme class from `@tale-ui/css` applied for non-info variants. Remaps `--color-*` tokens to the semantic palette. Applied automatically by the React component.
 - `.tale-banner--sm` — Small size
 - `.tale-banner__icon` — Icon container
 - `.tale-banner__title` — Title text
@@ -109,19 +115,23 @@ Also accepts all standard `<div>` HTML attributes.
 ## Pitfalls
 
 <!-- pitfall: banner-always-use-root -->
+
 - **Always use `<Banner.Root>`, never bare `<Banner>`** — `Banner` is a namespace component; calling `<Banner>` directly renders nothing.
   - anti-pattern: `<Banner variant="info">Alert</Banner>`
   - fix: `<Banner.Root variant="info"><Banner.Title>Alert</Banner.Title></Banner.Root>`
   - complete example:
+
     ```tsx
     import { Banner } from '@tale-ui/react/banner';
     import { Icon } from '@tale-ui/react/icon';
     import { InfoIcon } from 'lucide-react';
-    
+
     export function Example() {
       return (
         <Banner.Root variant="info">
-          <Banner.Icon><Icon icon={InfoIcon} size="sm" /></Banner.Icon>
+          <Banner.Icon>
+            <Icon icon={InfoIcon} size="sm" />
+          </Banner.Icon>
           <Banner.Title>Heads up</Banner.Title>
           <Banner.Description>Your trial expires in 3 days.</Banner.Description>
         </Banner.Root>
@@ -130,25 +140,28 @@ Also accepts all standard `<div>` HTML attributes.
     ```
 
 <!-- pitfall: banner-no-brand-or-neutral-variant -->
+
 - **No `'brand'` or `'neutral'` variant** — valid values are `'info'` (default), `'success'`, `'warning'`, `'error'`.
   - anti-pattern: `<Banner.Root variant="brand">`
   - fix: `<Banner.Root variant="info">`
 
 <!-- pitfall: banner-use-title-and-description -->
 <!-- multi-idea-ok -->
+
 - **Pass content via `Banner.Title` and `Banner.Description`** — do NOT pass raw `<Text>` children directly to `Banner.Root`.
   - anti-pattern: `<Banner.Root><Text>Something went wrong.</Text></Banner.Root>`
   - fix: `<Banner.Root><Banner.Title>Something went wrong.</Banner.Title></Banner.Root>`
-<!-- pitfall: banner-actions-for-buttons -->
+  <!-- pitfall: banner-actions-for-buttons -->
 - **Use Banner.Actions to add action buttons inside a Banner — never place Button children directly inside Banner.Root** — Banner.Root exposes a Banner.Actions sub-part for placing interactive buttons alongside the title and description. Wrap Button components inside Banner.Actions; do not add them as raw children of Banner.Root. Use this for any prompt that asks for a banner with one or more action buttons such as 'Later' (ghost) and 'Update now' (primary).
   - anti-pattern: `<Banner.Root variant="warning"><Banner.Title>Update available</Banner.Title><Button variant="ghost">Later</Button><Button variant="primary">Update now</Button></Banner.Root>`
   - anti-pattern: `<Banner.Root variant="warning"><Banner.Description>A new version is ready to install.</Banner.Description><Button variant="primary">Update now</Button></Banner.Root>`
   - fix: `<Banner.Root variant="warning"><Banner.Title>Update available</Banner.Title><Banner.Description>A new version is ready to install.</Banner.Description><Banner.Actions><Button variant="ghost">Later</Button><Button variant="primary">Update now</Button></Banner.Actions></Banner.Root>`
   - complete example:
+
     ```tsx
     import { Banner } from '@tale-ui/react/banner';
     import { Button } from '@tale-ui/react/button';
-    
+
     export function UpdateAvailableBanner() {
       return (
         <Banner.Root variant="warning">

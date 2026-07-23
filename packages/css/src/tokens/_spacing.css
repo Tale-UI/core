@@ -1,3 +1,4 @@
+/* This file is generated from @tale-ui/tokens/tokens.json. Do not edit directly. */
 :root {
     --space-4xs: 0.325rem;
     --space-3xs: 0.4375rem;
@@ -10,7 +11,6 @@
     --space-2xl: 4.95rem;
     --space-3xl: 6.99375rem;
     --space-4xl: 9.89375rem;
-    /* Section Spacing (larger scale for vertical rhythm between page sections) */
     --section-space-xs: 2.475rem;
     --section-space-s: 4.95rem;
     --section-space-m: 6.99375rem;

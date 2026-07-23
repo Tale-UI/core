@@ -92,7 +92,10 @@ export default function ExampleNavigationMenu() {
         </NavigationMenu.Item>
 
         <NavigationMenu.Item>
-          <NavigationMenu.Link className={triggerClassName} href="https://github.com/Tale-UI/core">
+          <NavigationMenu.Link
+            className={triggerClassName}
+            href="https://github.com/Tale-UI/tale-ui"
+          >
             GitHub
           </NavigationMenu.Link>
         </NavigationMenu.Item>
@@ -116,8 +119,7 @@ const triggerClassName =
   'hover:bg-gray-100 active:bg-gray-100 ' +
   'focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-blue-800 focus-visible:relative';
 
-const sharedContentClassName =
-  'h-full w-[calc(100vw_-_40px)]';
+const sharedContentClassName = 'h-full w-[calc(100vw_-_40px)]';
 
 const productContentClassName = `${sharedContentClassName} min-[700px]:max-w-[675px] p-0`;
 
@@ -129,8 +131,7 @@ const submenuTriggerClassName =
   'hover:bg-gray-100 focus-visible:outline-2 ' +
   'focus-visible:-outline-offset-1 focus-visible:outline-blue-800';
 
-const submenuContentClassName =
-  'h-full translate-x-0 p-7 min-[700px]:p-8';
+const submenuContentClassName = 'h-full translate-x-0 p-7 min-[700px]:p-8';
 
 const linkCardClassName =
   'box-border block rounded-lg bg-transparent px-2 py-3 no-underline text-inherit ' +

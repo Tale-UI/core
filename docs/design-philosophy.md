@@ -6,9 +6,12 @@ This document explains the architectural decisions behind Tale UI. Understanding
 
 ## Core Principles
 
-1. **CSS-first** — All styling is pure CSS. No runtime style computation, no JavaScript-injected styles, no CSS-in-JS. Components render static class names; the browser handles the rest.
+1. **Platform-native rendering** — Web styling is pure CSS with no runtime style computation.
+   Native packages consume generated JavaScript token objects and use React Native's styling model.
 
-2. **Token-driven** — Every colour, spacing value, radius, shadow, and font size is a CSS custom property. Components never use hardcoded values. This makes theming, dark mode, and customisation possible without touching component code.
+2. **Token-driven** — Every colour, spacing value, radius, shadow, and font size starts in the
+   platform-neutral `@tale-ui/tokens` source. Web components consume generated CSS custom
+   properties; native components consume generated typed objects.
 
 3. **Zero runtime overhead** — Variant selection, dark mode, theming, and responsive layout all happen in CSS. React components are thin wrappers that apply class names — they add no styling logic at render time.
 
@@ -38,10 +41,12 @@ Tale UI wraps [React Aria Components](https://react-spectrum.adobe.com/react-ari
 
 ---
 
-## Why the 4-Package Split
+## Why the Package Split
 
 ```
-@tale-ui/core            ← Framework-agnostic CSS tokens
+@tale-ui/tokens         ← Canonical platform-neutral token source
+      ↓
+@tale-ui/css            ← Generated CSS tokens and web foundations
       ↑
 @tale-ui/react-styles    ← Component CSS (BEM rules)
       ↑
@@ -50,11 +55,20 @@ Tale UI wraps [React Aria Components](https://react-spectrum.adobe.com/react-ari
 @tale-ui/utils           ← Shared hooks & helpers
 
 @tale-ui/themes          ← Optional standard and monochrome themes
+
+@tale-ui/react-native    ← Native components (planned)
 ```
 
-### `@tale-ui/core` — Design tokens (framework-agnostic)
+### `@tale-ui/tokens` — Shared design decisions
 
-The token layer is pure CSS with no framework dependency. It works with React, Vue, Angular, or plain HTML. This means:
+The canonical JSON source generates the browser token modules and typed light/dark native token
+objects. Platform-specific expressions remain explicit instead of pretending CSS and native
+styling are identical.
+
+### `@tale-ui/css` — Web foundations
+
+The generated token layer and web utilities are pure CSS with no framework dependency. They work
+with React, Vue, Angular, or plain HTML. This means:
 
 - Design decisions (colours, spacing, typography) are defined once and shared everywhere
 - Teams using different frameworks can share the same visual language
@@ -66,7 +80,7 @@ CSS rules live in their own package, not inside React components. This means:
 
 - CSS can be imported per-component for tree-shaking (`import '@tale-ui/react-styles/button'`)
 - Styling is inspectable and overridable — consumers can see and extend the CSS directly
-- No React dependency for CSS — the styles package only depends on `@tale-ui/core`
+- No React dependency for CSS — the styles package only depends on `@tale-ui/css`
 
 ### `@tale-ui/react` — Styled components (thin React wrappers)
 
@@ -124,7 +138,7 @@ Tale UI uses [BEM](https://getbem.com/) (Block Element Modifier) for component c
 
 - **Semantic** — `.tale-button--primary` communicates intent. A string of utility classes (`bg-blue-600 text-white px-4 py-2 rounded-md`) does not.
 - **Encapsulated** — Component styling is defined once in CSS, not repeated in every template that uses the component.
-- **Already solved** — The design token system (`@tale-ui/core`) provides utility classes (`.gap--m`, `.grid--3`) for layout. BEM handles component-specific styling.
+- **Already solved** — The design token system (`@tale-ui/css`) provides utility classes (`.gap--m`, `.grid--3`) for layout. BEM handles component-specific styling.
 
 ### Why data attributes for state?
 
@@ -304,7 +318,7 @@ Apply with a class: `<body class="neutral-cool">`.
 
 ## Standard Rem Base
 
-`@tale-ui/core` uses `html { font-size: 100% }`, matching the browser-standard root size. In a default browser this means `1rem = 16px`, so Tale UI can coexist with Tailwind, shadcn/ui, Bootstrap, and other rem-based frameworks without a root-size workaround.
+`@tale-ui/css` uses `html { font-size: 100% }`, matching the browser-standard root size. In a default browser this means `1rem = 16px`, so Tale UI can coexist with Tailwind, shadcn/ui, Bootstrap, and other rem-based frameworks without a root-size workaround.
 
 If an application changes the root font size for accessibility or product reasons, Tale UI scales with the rest of the page. See [framework-integration.md](packages/css/docs/framework-integration.md).
 

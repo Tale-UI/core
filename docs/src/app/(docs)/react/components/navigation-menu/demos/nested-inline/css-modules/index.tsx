@@ -77,7 +77,7 @@ export default function ExampleNavigationMenu() {
         </NavigationMenu.Item>
 
         <NavigationMenu.Item>
-          <NavigationMenu.Link className={styles.Trigger} href="https://github.com/Tale-UI/core">
+          <NavigationMenu.Link className={styles.Trigger} href="https://github.com/Tale-UI/tale-ui">
             GitHub
           </NavigationMenu.Link>
         </NavigationMenu.Item>

@@ -3821,7 +3821,7 @@ export default function ComponentAudit() {
                   id: 'a',
                   title: 'What is Tale UI?',
                   content:
-                    'Tale UI is a styled component library providing accessible headless components with opinionated CSS via @tale-ui/core design tokens.',
+                    'Tale UI is a styled component library providing accessible headless components with opinionated CSS via @tale-ui/css design tokens.',
                 },
                 {
                   id: 'b',

@@ -1,7 +1,7 @@
 /*
  * Select — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Select exposes:
  *   Trigger: [data-open] [data-disabled]
  *   Popup:   [data-entering] [data-exiting] [data-placement]
@@ -37,7 +37,9 @@
   height: var(--field-min-height);
   min-width: 10rem;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .tale-select__trigger:hover {

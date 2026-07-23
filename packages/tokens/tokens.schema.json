@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tale-ui.com/schemas/tokens.schema.json",
+  "title": "Tale UI token source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formatVersion", "baseFontSize", "description", "files"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "formatVersion": {
+      "const": 1
+    },
+    "baseFontSize": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector", "declarations"],
+          "properties": {
+            "selector": {
+              "type": "string",
+              "minLength": 1
+            },
+            "declarations": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 /*
  * Table — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Table exposes:
  *   Row:    [data-selected] [data-focused] [data-focus-visible]
  *           [data-disabled] [data-hovered]

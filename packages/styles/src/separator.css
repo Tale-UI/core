@@ -1,7 +1,7 @@
 /*
  * Separator — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria Separator exposes: [data-orientation]
  *
  * Orientation modifier: .tale-separator--vertical
@@ -25,7 +25,7 @@
 /* ─── Vertical orientation ────────────────────────────────────────────────── */
 
 .tale-separator--vertical,
-.tale-separator[aria-orientation="vertical"] {
+.tale-separator[aria-orientation='vertical'] {
   width: 1px;
   height: auto;
   align-self: stretch;

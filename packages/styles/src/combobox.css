@@ -1,7 +1,7 @@
 /*
  * Combobox — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * React Aria ComboBox exposes:
  *   Input:  [data-focused] [data-open] (standard text input)
  *   Popup:  [data-entering] [data-exiting] [data-placement]
@@ -27,7 +27,9 @@
 .tale-combobox__input {
   display: block;
   width: 100%;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .tale-combobox__input:hover {
@@ -95,7 +97,9 @@
   color: var(--neutral-60);
   cursor: pointer;
   outline: none;
-  transition: background-color 0.1s ease, color 0.1s ease;
+  transition:
+    background-color 0.1s ease,
+    color 0.1s ease;
   padding: 0;
 }
 
@@ -103,7 +107,6 @@
   background-color: var(--neutral-26);
   color: var(--neutral-90);
 }
-
 
 /* Trigger arrow styles are shared in _primitives.css */
 

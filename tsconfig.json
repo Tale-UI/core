@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "packages/tokens/tsconfig.json"
+    },
+    {
       "path": "packages/react/tsconfig.json"
     },
     {

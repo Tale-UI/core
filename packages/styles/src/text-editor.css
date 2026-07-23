@@ -1,7 +1,7 @@
 /*
  * TextEditor — @tale-ui/react
  *
- * Styled with @tale-ui/core design tokens.
+ * Styled with @tale-ui/css design tokens.
  * Built on Tiptap v3. The ProseMirror editable area is injected by Tiptap
  * inside the .tale-text-editor__content wrapper.
  *
@@ -105,10 +105,18 @@
   color: var(--neutral-90);
 }
 
-.tale-text-editor__content .ProseMirror h1 { font-size: var(--label-xl-font-size); }
-.tale-text-editor__content .ProseMirror h2 { font-size: var(--label-l-font-size); }
-.tale-text-editor__content .ProseMirror h3 { font-size: var(--label-m-font-size); }
-.tale-text-editor__content .ProseMirror h4 { font-size: var(--label-s-font-size); }
+.tale-text-editor__content .ProseMirror h1 {
+  font-size: var(--label-xl-font-size);
+}
+.tale-text-editor__content .ProseMirror h2 {
+  font-size: var(--label-l-font-size);
+}
+.tale-text-editor__content .ProseMirror h3 {
+  font-size: var(--label-m-font-size);
+}
+.tale-text-editor__content .ProseMirror h4 {
+  font-size: var(--label-s-font-size);
+}
 
 .tale-text-editor__content .ProseMirror ul,
 .tale-text-editor__content .ProseMirror ol {
@@ -286,7 +294,7 @@
   outline-offset: 2px;
 }
 
-.tale-text-editor__btn[data-disabled="true"],
+.tale-text-editor__btn[data-disabled='true'],
 .tale-text-editor__btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
@@ -431,58 +439,58 @@
 
 /* ─── Dark mode ────────────────────────────────────────────────────────────── */
 
-[data-color-mode="dark"] .tale-text-editor__content .ProseMirror {
+[data-color-mode='dark'] .tale-text-editor__content .ProseMirror {
   background-color: var(--neutral-14);
   color: var(--neutral-90);
   box-shadow: 0 0 0 1px var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-text-editor__content .ProseMirror:focus {
+[data-color-mode='dark'] .tale-text-editor__content .ProseMirror:focus {
   box-shadow:
     0 0 0 1px var(--field-focus-border),
     var(--field-focus-glow);
 }
 
-[data-color-mode="dark"] .tale-text-editor__content .ProseMirror strong {
+[data-color-mode='dark'] .tale-text-editor__content .ProseMirror strong {
   color: var(--neutral-94);
 }
 
-[data-color-mode="dark"] .tale-text-editor__toolbar--floating {
+[data-color-mode='dark'] .tale-text-editor__toolbar--floating {
   background: var(--neutral-14);
   border-color: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-text-editor__separator {
+[data-color-mode='dark'] .tale-text-editor__separator {
   background: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-text-editor__btn:hover {
+[data-color-mode='dark'] .tale-text-editor__btn:hover {
   background-color: var(--neutral-18);
   color: var(--neutral-90);
 }
 
-[data-color-mode="dark"] .tale-text-editor__btn--active {
+[data-color-mode='dark'] .tale-text-editor__btn--active {
   background-color: var(--neutral-22);
   color: var(--neutral-96);
 }
 
-[data-color-mode="dark"] .tale-text-editor__color-popup {
+[data-color-mode='dark'] .tale-text-editor__color-popup {
   background: var(--neutral-14);
   border-color: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-text-editor__select {
+[data-color-mode='dark'] .tale-text-editor__select {
   background-color: transparent;
   color: var(--neutral-60);
   border-color: var(--neutral-22);
 }
 
-[data-color-mode="dark"] .tale-text-editor__select:hover {
+[data-color-mode='dark'] .tale-text-editor__select:hover {
   border-color: var(--neutral-40);
   color: var(--neutral-80);
 }
 
-[data-color-mode="dark"] .tale-text-editor[data-disabled] .tale-text-editor__content .ProseMirror {
+[data-color-mode='dark'] .tale-text-editor[data-disabled] .tale-text-editor__content .ProseMirror {
   background-color: var(--neutral-12);
   box-shadow: 0 0 0 1px var(--neutral-18);
 }
