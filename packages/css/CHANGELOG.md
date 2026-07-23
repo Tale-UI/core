@@ -2,6 +2,20 @@
 
 All notable changes to the CSS design system are documented in this file.
 
+## v1.3.57 - 2026-07-24
+
+### Changed
+
+- **Final release**: Published the final `@tale-ui/core` package before the CSS design system
+  moves to `@tale-ui/css`.
+- **Migration guidance**: Consumers should replace `@tale-ui/core` dependencies and imports with
+  `@tale-ui/css`.
+
+### Notes
+
+- This release contains no design-token or CSS API changes.
+- `@tale-ui/core` is deprecated after this release and receives no compatibility wrapper.
+
 ## v1.3.56 - 2026-07-16
 
 ### Changed
