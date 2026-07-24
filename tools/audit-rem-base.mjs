@@ -8,7 +8,7 @@
  */
 
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(new URL('..', import.meta.url).pathname);
@@ -16,7 +16,7 @@ const ROOT = path.resolve(new URL('..', import.meta.url).pathname);
 function gitFiles() {
   return execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8' })
     .split('\n')
-    .filter(Boolean);
+    .filter((file) => file && existsSync(path.join(ROOT, file)));
 }
 
 function readTracked(file) {
@@ -30,6 +30,7 @@ function lineNumber(text, index) {
 const skippedPrefixes = [
   '.github/',
   'analysis/',
+  'docs/archive/research/',
   'docs/src/',
   'plans/',
   'research/',
@@ -37,10 +38,7 @@ const skippedPrefixes = [
   'packages/css/dist/',
 ];
 
-const skippedFiles = new Set([
-  'packages/styles/CHANGELOG.md',
-  'tools/audit-rem-base.mjs',
-]);
+const skippedFiles = new Set(['packages/styles/CHANGELOG.md', 'tools/audit-rem-base.mjs']);
 
 function isSkipped(file) {
   return skippedFiles.has(file) || skippedPrefixes.some((prefix) => file.startsWith(prefix));
@@ -86,7 +84,11 @@ function expectExcludes(file, forbidden) {
   for (const value of forbidden) {
     const index = text.indexOf(value);
     if (index !== -1) {
-      errors.push({ file, line: lineNumber(text, index), message: `pre-migration value remains: ${value}` });
+      errors.push({
+        file,
+        line: lineNumber(text, index),
+        message: `pre-migration value remains: ${value}`,
+      });
     }
   }
 }
@@ -125,5 +127,7 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log('Rem base audit passed: standard-root contract and converted token values are in place.');
+console.log(
+  'Rem base audit passed: standard-root contract and converted token values are in place.',
+);
 console.log(`Reviewed exceptions skipped: ${[...skippedPrefixes, ...skippedFiles].join(', ')}`);

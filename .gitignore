@@ -29,17 +29,18 @@ tools/.generated-scratch/
 # Caches
 /.eslintcache
 .cache/
-.nx/cache
-.nx/workspace-data
+/.nx/
+.vite/
 
 # Testing
-/coverage
+coverage/
 /test/regressions/screenshots
 test-results/
+playwright-report/
 
 # Docs
 /docs/.env.local
-/docs/.next
+.next/
 /docs/export
 /docs/src/app/(private)/playground/*
 !/docs/src/app/(private)/playground/\[slug\]
@@ -54,9 +55,7 @@ test-results/
 
 # Storybook / Vite / Playground build outputs
 /playground/vite-app/src/demos/EvalReview.tsx
-/playground/storybook/storybook-static/
-/playground/vite-app/dist/
-/examples/*/dist/
+storybook-static/
 
 # Analysis (local research notes)
 /analysis/

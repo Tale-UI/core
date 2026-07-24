@@ -30,6 +30,7 @@ export default {
     '.github/PULL_REQUEST_TEMPLATE.md',
     'docs/public/**',
     'docs/export/**',
+    'docs/archive/research/**',
     '.agentic-loop/**',
     'analysis/**',
     'plans/**',

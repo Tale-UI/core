@@ -34,8 +34,8 @@
     "dev:all": "pnpm open:dev-urls && concurrently -k -n dashboard,recipes,studio,storybook,scale,playground \"pnpm dashboard:dev -- --port 5176 --strictPort\" \"pnpm recipe:dev -- --port 5177 --strictPort\" \"pnpm studio:dev -- --port 5175 --strictPort\" \"pnpm storybook\" \"pnpm scale:dev -- --port 5174 --strictPort\" \"pnpm playground:dev -- --port 5173 --strictPort\"",
     "eslint": "pnpm -r --if-present lint && eslint . --cache --report-unused-disable-directives --max-warnings 0",
     "eslint:ci": "pnpm -r --if-present lint && eslint . --report-unused-disable-directives --max-warnings 0",
-    "lint:css": "stylelint \"packages/css/src/**/*.css\" --config .stylelintrc.json",
-    "lint:css:fix": "stylelint \"packages/css/src/**/*.css\" --config .stylelintrc.json --fix",
+    "lint:css": "stylelint \"packages/css/src/**/*.css\"",
+    "lint:css:fix": "stylelint \"packages/css/src/**/*.css\" --fix",
     "stylelint": "git ls-files -z \"*.css\" | xargs -0 stylelint --reportInvalidScopeDisables --reportNeedlessDisables --ignore-path .gitignore --ignore-path .lintignore",
     "markdownlint": "markdownlint-cli2 \"**/*.{md,mdx}\"",
     "valelint": "pnpm dlx --package @vvago/vale vale sync && git ls-files | grep -E \"\\.(md|mdx)$\" | xargs pnpm dlx --package @vvago/vale vale --filter='.Level==\"error\"'",
@@ -114,7 +114,7 @@
   },
   "lint-staged": {
     "docs/recipes/**/*.md": "pnpm recipes:validate",
-    "packages/css/src/**/*.css": "stylelint --config .stylelintrc.json"
+    "packages/css/src/**/*.css": "stylelint"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.2",
