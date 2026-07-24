@@ -135,7 +135,6 @@
     "@tale-ui/monorepo-tests": "workspace:*",
     "@types/node": "22.18.13",
     "@types/react": "19.2.14",
-    "@types/yargs": "17.0.35",
     "@vitejs/plugin-react": "5.1.4",
     "@vitest/browser-playwright": "4.0.18",
     "@vitest/coverage-istanbul": "4.0.18",
