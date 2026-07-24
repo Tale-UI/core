@@ -263,12 +263,20 @@ if (await fileExists(binDir)) {
   copied++;
 }
 
-// Copy full docs tree into build/docs/ (component guides, recipes, pitfalls, etc.)
-// Consumers reference docs/components/{name}.md; the MCP server uses docs/recipes/ etc.
+// Copy current docs into build/docs/ (component guides, recipes, pitfalls, etc.).
+// Historical material under docs/archive is intentionally excluded from package
+// artifacts and the consumer-facing MCP documentation index.
 if (!minimalBuild) {
   const docsDir = path.join(repoRoot, 'docs');
   if (await fileExists(docsDir)) {
-    await fs.cp(docsDir, path.join(buildDir, 'docs'), { recursive: true });
+    const archiveDir = path.join(docsDir, 'archive');
+    await fs.cp(docsDir, path.join(buildDir, 'docs'), {
+      recursive: true,
+      filter(source) {
+        const relative = path.relative(archiveDir, source);
+        return relative.startsWith('..') || path.isAbsolute(relative);
+      },
+    });
     copied++;
   }
 

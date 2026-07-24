@@ -24,6 +24,7 @@ const A2UI_CATALOG_PATH = join(ROOT, 'registry/a2ui-catalog.json');
 const PITFALLS_PATH = join(ROOT, 'registry/pitfalls.json');
 const RECIPES_DIR = join(ROOT, 'docs/recipes');
 const DOCS_DIR = join(ROOT, 'docs');
+const DOCS_ARCHIVE_DIR = join(DOCS_DIR, 'archive');
 const STORIES_DIR = join(ROOT, 'playground/storybook/src/stories');
 
 // ─── Data loaders ────────────────────────────────────────────────────────────
@@ -56,12 +57,14 @@ export function loadRecipeIndex() {
 
 // ─── Docs index ──────────────────────────────────────────────────────────────
 
-function walkDir(dir, base = dir) {
+function walkDir(dir) {
   const entries = [];
   for (const item of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, item.name);
     if (item.isDirectory()) {
-      entries.push(...walkDir(full, base));
+      if (full !== DOCS_ARCHIVE_DIR) {
+        entries.push(...walkDir(full));
+      }
     } else if (item.name.endsWith('.md') && item.name !== 'index.md') {
       entries.push(full);
     }
